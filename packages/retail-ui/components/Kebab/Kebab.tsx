@@ -11,14 +11,32 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 import styles from './Kebab.less';
+import { PopupPosition } from '../Popup';
 
 export interface KebabProps {
   disabled?: boolean;
-  onClose?: () => void;
-  onOpen?: () => void;
-  size?: 'small' | 'large';
-  positions?: string[];
+  /**
+   * Функция вызываемая при закрытии выпадашки
+   * @default () => undefined
+   */
+  onClose: () => void;
+  /**
+   * Функция вызываемая при открытии выпадашки
+   * @default () => undefined
+   */
+  onOpen: () => void;
+  size: 'small' | 'medium' | 'large';
+  /**
+   * Список позиций доступных для расположения выпадашки
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использоваться первая из этого списка
+   * @default ['bottom left', 'bottom right', 'top left', 'top right']
+   */
+  positions: PopupPosition[];
   menuMaxHeight?: number | string;
+  /**
+   * Не показывать анимацию
+   */
+  disableAnimations: boolean;
 }
 
 export interface KebabState {
@@ -33,29 +51,30 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
-    size: 'small'
+    size: 'small',
+    disableAnimations: false,
   };
 
   public state = {
     opened: false,
     focusedByTab: false,
-    anchor: null
+    anchor: null,
   };
 
-  private _listener: {
+  private listener: {
     remove: () => void;
   } = {
-    remove: () => undefined
+    remove: () => undefined,
   };
 
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
-    this._listener = LayoutEvents.addListener(() => undefined);
+    this.listener = LayoutEvents.addListener(() => undefined);
     listenTabPresses();
   }
 
   public componentWillUnmount() {
-    this._listener.remove();
+    this.listener.remove();
   }
 
   public render(): JSX.Element {
@@ -67,8 +86,9 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         popupPinOffset={15}
         popupHasPin
         positions={positions}
-        onChangeMenuState={this._handleChangeMenuState}
+        onChangeMenuState={this.handleChangeMenuState}
         caption={this.renderCaption}
+        disableAnimations={this.props.disableAnimations}
       >
         {!disabled && this.props.children}
       </PopupMenu>
@@ -77,9 +97,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderCaption = (captionProps: PopupMenuCaptionProps) => {
     const { disabled } = this.props;
-    const handleCaptionKeyDown = (
-      event: React.KeyboardEvent<HTMLDivElement>
-    ) => {
+    const handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!disabled) {
         this.handleCaptionKeyDown(event, captionProps.openMenu);
       }
@@ -96,23 +114,23 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         tabIndex={disabled ? -1 : 0}
         onClick={handleCaptionClick}
         onKeyDown={handleCaptionKeyDown}
-        onFocus={this._handleFocus}
-        onBlur={this._handleBlur}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
         className={cn(
           styles.kebab,
           captionProps.opened && styles.opened,
           disabled && styles.disabled,
-          this.state.focusedByTab && styles.focused
+          this.state.focusedByTab && styles.focused,
         )}
       >
-        {this._renderIcon()}
+        {this.renderIcon()}
       </span>
     );
   };
 
   private handleCaptionKeyDown = (
     event: React.KeyboardEvent<HTMLDivElement>,
-    openMenu: PopupMenuCaptionProps['openMenu']
+    openMenu: PopupMenuCaptionProps['openMenu'],
   ) => {
     switch (event.key) {
       case 'Enter':
@@ -128,14 +146,11 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     }
   };
 
-  private _handleChangeMenuState = (
-    isOpened: boolean,
-    restoreFocus: boolean
-  ): void => {
+  private handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
     this.setState(
       {
         opened: isOpened,
-        focusedByTab: !isOpened && restoreFocus
+        focusedByTab: !isOpened && restoreFocus,
       },
       () => {
         if (this.props.disabled) {
@@ -143,19 +158,15 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         }
 
         if (this.state.opened) {
-          if (this.props.onOpen) {
-            this.props.onOpen();
-          }
+          this.props.onOpen();
         } else {
-          if (this.props.onClose) {
-            this.props.onClose();
-          }
+          this.props.onClose();
         }
-      }
+      },
     );
   };
 
-  private _handleFocus = () => {
+  private handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -168,18 +179,24 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     }
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this.setState({
-      focusedByTab: false
+      focusedByTab: false,
     });
   };
 
-  private _renderIcon() {
+  private renderIcon() {
     switch (this.props.size) {
       case 'small':
         return (
           <div className={styles.iconsmall}>
             <MenuKebabIcon size="14px" color="#757575" />
+          </div>
+        );
+      case 'medium':
+        return (
+          <div className={styles.iconmedium}>
+            <MenuKebabIcon size="18px" color="#757575" />
           </div>
         );
       case 'large':
@@ -212,7 +229,7 @@ Kebab.propTypes = {
   /**
    * Коллбек, вызывающийся перед открытием кебаба
    */
-  onOpen: PropTypes.func
+  onOpen: PropTypes.func,
 };
 
 const KEYCODE_TAB = 9;

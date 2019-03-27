@@ -1,38 +1,33 @@
 import * as React from 'react';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-import addClass from '../../lib/dom/addClass';
-import removeClass from '../../lib/dom/removeClass';
 
-export interface HideBodyVerticalScrollProps {
-  allowScrolling?: boolean;
-}
-
-export default class HideBodyVerticalScroll extends React.Component<
-  HideBodyVerticalScrollProps
-> {
+export default class HideBodyVerticalScroll extends React.Component {
+  public static hash = Math.random()
+    .toString(16)
+    .slice(2, 6);
   private disposeDocumentStyle: (() => void) | null = null;
-  private disposeBodyStyle: (() => void) | null = null;
   private initialScroll: number = 0;
+  private master: boolean = false;
 
   public componentDidMount() {
     const counter = VerticalScrollCounter.increment();
     if (counter === 1) {
-      this.initialScroll = document.documentElement
-        ? document.documentElement.scrollTop
-        : 0;
+      this.master = true;
+      this.initialScroll = document.documentElement ? document.documentElement.scrollTop : 0;
       this.updateScrollVisibility();
       window.addEventListener('resize', this.updateScrollVisibility);
     }
   }
 
   public componentDidUpdate() {
-    this.updateScrollVisibility();
+    if (this.master) {
+      this.updateScrollVisibility();
+    }
   }
 
   public componentWillUnmount() {
-    const { documentElement, body } = document;
-    this.restoreStyles(documentElement, body);
+    this.restoreStyles();
 
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
@@ -46,16 +41,20 @@ export default class HideBodyVerticalScroll extends React.Component<
   }
 
   private updateScrollVisibility = () => {
-    const { documentElement, body } = document;
+    const { documentElement } = document;
+
+    this.restoreStyles();
+
+    if (!documentElement) {
+      return;
+    }
+
     const { clientHeight, scrollHeight } = documentElement;
-
-    this.restoreStyles(documentElement, body);
-
     const shouldRestore = VerticalScrollCounter.get() === 0;
     const shouldHide = !shouldRestore && clientHeight < scrollHeight;
 
     if (shouldHide) {
-      this.makeSomeMagicWithScroll(documentElement, body);
+      this.makeSomeMagicWithScroll(documentElement);
     }
 
     if (shouldRestore) {
@@ -63,65 +62,28 @@ export default class HideBodyVerticalScroll extends React.Component<
     }
   };
 
-  private makeSomeMagicWithScroll = (
-    document: HTMLElement,
-    body: HTMLElement
-  ) => {
+  private makeSomeMagicWithScroll = (document: HTMLElement) => {
     const documentComputedStyle = getComputedStyle(document);
-    const bodyComputedStyle = getComputedStyle(body);
+    const scrollWidth = getScrollWidth();
+    const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
+    const documentStyle = generateDocumentStyle(documentMargin + scrollWidth);
 
-    if (this.props.allowScrolling) {
-      const documentMargin = parseFloat(
-        documentComputedStyle.marginRight || ''
-      );
-      const bodyMargin = parseFloat(bodyComputedStyle.marginRight || '');
-      const bodyPadding = parseFloat(bodyComputedStyle.paddingRight || '');
-      const scrollWidth = getScrollWidth();
-
-      const rightOffset = bodyMargin + bodyPadding + documentMargin;
-
-      const scrollTop = document.scrollTop;
-      const documentStyle = generateDocumentStyle(documentMargin);
-
-      this.disposeDocumentStyle = this.attachStyle(document, documentStyle);
-      const bodyStyle = generateBodyStyle(scrollWidth, rightOffset);
-      this.disposeBodyStyle = this.attachStyle(body, bodyStyle);
-      body.scrollTop = scrollTop;
-    } else {
-      const documentStyle = generateDocumentStyle(
-        parseFloat(documentComputedStyle.marginRight || '') + getScrollWidth()
-      );
-
-      this.disposeDocumentStyle = this.attachStyle(document, documentStyle);
-    }
+    this.disposeDocumentStyle = this.attachStyle(document, documentStyle);
   };
 
-  private attachStyle = (
-    element: HTMLElement,
-    style: { css: string; className: string }
-  ) => {
-    addClass(element, style.className);
+  private attachStyle = (element: HTMLElement, style: { css: string; className: string }) => {
+    element.classList.add(style.className);
     const removeStyleNode = attachStylesheet(style.css);
     return () => {
       removeStyleNode();
-      removeClass(element, style.className);
+      element.classList.remove(style.className);
     };
   };
 
-  private restoreStyles = (document: HTMLElement, body: HTMLElement) => {
-    // Must be before _disposeDocumentStyle
-    // as it would change after dispose
-    const scrollTop = body.scrollTop;
-
+  private restoreStyles = () => {
     if (this.disposeDocumentStyle) {
       this.disposeDocumentStyle();
       this.disposeDocumentStyle = null;
-    }
-
-    if (this.disposeBodyStyle) {
-      this.disposeBodyStyle();
-      this.disposeBodyStyle = null;
-      document.scrollTop = scrollTop;
     }
 
     // Forcing reflow for Firefix
@@ -146,11 +108,8 @@ class VerticalScrollCounter {
 }
 
 function generateClassName(className: string) {
-  const compName = HideBodyVerticalScroll.name;
-  const hash = Math.random()
-    .toString(16)
-    .slice(2, 6);
-  return `${compName}-${className}-${hash}`;
+  const { name, hash } = HideBodyVerticalScroll;
+  return `${name}-${className}-${hash}`;
 }
 
 function generateDocumentStyle(documentMargin: number) {
@@ -159,19 +118,6 @@ function generateDocumentStyle(documentMargin: number) {
 .${className} {
   overflow: hidden !important;
   margin-right: ${documentMargin}px !important;
-  height: 100%;
-}
-`;
-  return { className, css };
-}
-
-function generateBodyStyle(scrollWidth: number, rightOffset: number) {
-  const className = generateClassName('body');
-  const css = `\
-.${className} {
-  overflow-y: auto !important;
-  margin-right: -${scrollWidth}px !important;
-  padding-right: ${2 * scrollWidth + rightOffset}px !important;
   height: 100%;
 }
 `;

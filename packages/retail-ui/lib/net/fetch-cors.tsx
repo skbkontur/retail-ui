@@ -1,4 +1,7 @@
 interface ApiResponseType {
+  ok: boolean;
+  status: number;
+  statusText: string;
   text: () => Promise<string>;
   // tslint:disable-next-line:ban-types
   json: () => Promise<Object>;
@@ -6,10 +9,7 @@ interface ApiResponseType {
 
 type Result = Promise<ApiResponseType>;
 
-export default function fetch(
-  uri: string,
-  options: { method?: 'GET' | 'POST'; body?: string } = {}
-): Result {
+export default function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: string } = {}): Result {
   const method = options.method || 'GET';
   const xhr = createXHR();
 
@@ -19,8 +19,11 @@ export default function fetch(
 
     xhr.onload = () => {
       resolve({
+        ok: xhr.status >= 200 && xhr.status < 300,
+        status: xhr.status,
+        statusText: xhr.statusText,
         text: () => Promise.resolve(xhr.responseText),
-        json: () => Promise.resolve(JSON.parse(xhr.responseText))
+        json: () => Promise.resolve(JSON.parse(xhr.responseText)),
       });
     };
   });

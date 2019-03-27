@@ -9,6 +9,6 @@ props => (
     <Button icon={props.isSuccess ? <EmoticonHappyIcon /> : <EmoticonSadIcon />}>
       {props.message}
     </Button>
-    {(props.isHidden ? <EyeClosedIcon color="red" size="32px" /> : <EyeOpenedIcon color="red" size="32px" />)}
+    {props.isHidden ? <EyeClosedIcon color="red" size="32px" /> : <EyeOpenedIcon color="red" size="32px" />}
   </>
 );

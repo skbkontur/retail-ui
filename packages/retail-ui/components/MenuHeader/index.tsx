@@ -1,1 +1,1 @@
-export {default, MenuHeaderProps} from './MenuHeader';
+export { default, MenuHeaderProps } from './MenuHeader';

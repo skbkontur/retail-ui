@@ -23,10 +23,8 @@ function addHandleEvent() {
   events.addEventListener(
     document.body,
     isFF ? 'focus' : ('focusin' as 'focus'),
-    isFF
-      ? debounce(handleNativeFocus, 0, { leading: true, trailing: false })
-      : handleNativeFocus,
-    isFF
+    isFF ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
+    isFF,
   );
 }
 
@@ -53,8 +51,8 @@ function handleNativeFocus(event: UIEvent) {
   });
 }
 
-export function containsTargetOrRenderContainer(target: HTMLElement) {
-  return (element: HTMLElement) => {
+export function containsTargetOrRenderContainer(target: Element) {
+  return (element: Element) => {
     if (!element) {
       return false;
     }
@@ -69,32 +67,25 @@ export function containsTargetOrRenderContainer(target: HTMLElement) {
 /**
  * Searches RenderContainer placed in "rootNode" for "node"
  */
-function findRenderContainer(
-  node: Element,
-  rootNode: Element,
-  container?: Element
-): Element | null {
-  const currentNode = node.parentElement;
+function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
+  const currentNode = node.parentNode;
   if (
     !currentNode ||
+    node === rootNode ||
     currentNode === rootNode ||
     currentNode === document.body ||
     currentNode === document.documentElement ||
-    !(currentNode instanceof HTMLElement)
+    !(currentNode instanceof Element)
   ) {
     return container ? container : null;
   }
 
   const newContainerId = currentNode.getAttribute('data-rendered-container-id');
   if (newContainerId) {
-    const nextNode = document.querySelector(
-      `noscript[data-render-container-id="${newContainerId}"]`
-    );
+    const nextNode = document.querySelector(`[data-render-container-id~="${newContainerId}"]`);
 
     if (!nextNode) {
-      throw Error(
-        `Origin node for container with id ${newContainerId} was not found`
-      );
+      throw Error(`Origin node for container with id ${newContainerId} was not found`);
     }
 
     return findRenderContainer(nextNode, rootNode, nextNode);
@@ -103,13 +94,10 @@ function findRenderContainer(
   return findRenderContainer(currentNode, rootNode, container);
 }
 
-function listen(
-  elements: HTMLElement[] | (() => HTMLElement[]),
-  callback: (event: Event) => void
-) {
+function listen(elements: HTMLElement[] | (() => HTMLElement[]), callback: (event: Event) => void) {
   const handler = {
     elements,
-    callback
+    callback,
   };
   handlers.push(handler);
 
@@ -119,7 +107,7 @@ function listen(
       if (index > -1) {
         handlers.splice(index, 1);
       }
-    }
+    },
   };
 }
 

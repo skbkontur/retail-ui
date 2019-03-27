@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable flowtype/no-types-missing-file-annotation */
 /* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
@@ -8,13 +9,10 @@ import ComboBoxRenderer from './ComboBoxRenderer';
 import type { BaseProps, Info, Value } from './ComboBoxRenderer';
 
 type Props = BaseProps & {
-  info?: Info | ((v: Value) => Promise<Info>)
+  info?: Info | ((v: Value) => Promise<Info>),
 };
 
-export default class ComboBoxOld extends React.Component<
-  Props,
-  $FlowFixMeState
-> {
+export default class ComboBoxOld extends React.Component<Props, $FlowFixMeState> {
   static propTypes = {
     autoFocus: PropTypes.bool,
 
@@ -125,17 +123,17 @@ export default class ComboBoxOld extends React.Component<
 
     onMouseOver: PropTypes.func,
 
-    onOpen: PropTypes.func
+    onOpen: PropTypes.func,
   };
 
   static defaultProps = {
     menuAlign: 'left',
     placeholder: '',
-    width: 250
+    width: 250,
   };
 
   state = {
-    info: null
+    info: null,
   };
 
   renderer: ComboBoxRenderer;

@@ -8,13 +8,9 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
     {
         public IEnumerator GetEnumerator()
         {
-            if(!TeamCityEnvironment.IsExecutionViaTeamCity)
-            {
-                yield break;
-            }
             foreach(var versionPair in ProcessUtils.GetRetailAndReactVersions())
             {
-                yield return new TestFixtureData(versionPair[0], versionPair[1]);
+                yield return new TestFixtureData(versionPair.React, versionPair.RetailUI);
             }
         }
     }

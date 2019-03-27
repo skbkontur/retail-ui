@@ -21,6 +21,7 @@ interface MonthProps {
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
+  isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 export class Month extends React.Component<MonthProps> {
@@ -83,6 +84,7 @@ export class Month extends React.Component<MonthProps> {
         today={this.props.today}
         value={this.props.value}
         onDateClick={this.props.onDateClick}
+        isHoliday={this.props.isHoliday}
       />
     );
   }
@@ -121,9 +123,14 @@ interface MonthDayGridProps {
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
+  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
+  public static defaultProps = {
+    isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
+  };
+
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     if (!CDS.isEqual(nextProps.value, this.props.value)) {
       return true;
@@ -146,21 +153,25 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
         <div
           style={{
             width: this.props.offset * config.DAY_HEIGHT,
-            display: 'inline-block'
+            display: 'inline-block',
           }}
         />
-        {this.props.days.map(day => (
-          <DayCellView
-            date={day}
-            key={`${day.date}.${day.month}.${day.year}`}
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
-            today={this.props.today}
-            value={this.props.value}
-            isWeekend={day.isWeekend}
-            onClick={this._handleClick}
-          />
-        ))}
+        {this.props.days.map(day => {
+          const isWeekend = this.props.isHoliday(day);
+
+          return (
+            <DayCellView
+              date={day}
+              key={`${day.date}.${day.month}.${day.year}`}
+              minDate={this.props.minDate}
+              maxDate={this.props.maxDate}
+              today={this.props.today}
+              value={this.props.value}
+              isWeekend={isWeekend}
+              onClick={this._handleClick}
+            />
+          );
+        })}
       </div>
     );
   }

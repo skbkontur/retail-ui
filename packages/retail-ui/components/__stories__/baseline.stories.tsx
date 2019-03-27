@@ -5,6 +5,7 @@ import { storiesOf } from '@storybook/react';
 import Button from '../Button';
 import Link from '../Link';
 import Input from '../Input';
+import ComboBox from '../ComboBox';
 
 storiesOf('Baseline', module)
   .add('Button and text', () => (
@@ -42,12 +43,45 @@ storiesOf('Baseline', module)
       <Button children="Hello" /> Plain text
     </div>
   ))
-  .add('Input with button', () => <SimpleForm />);
+  .add('Input with button', () => <SimpleForm />)
+  .add('Text, Input, InputLikeText', () => (
+    <div>
+      <span>Text</span>
+      <Input size="small" value="Small Input" width={80} />
+      <Input size="medium" value="Medium Input" width={80} />
+      <ComboBox
+        placeholder="InputLikeText"
+        width={120}
+        drawArrow={false}
+        searchOnFocus={false}
+        getItems={() => Promise.resolve([])}
+      />
+    </div>
+  ))
+  .add('Text, Large Input', () => (
+    <div>
+      <span>Text</span>
+      <Input size="large" value="Large Input" width={120} />
+    </div>
+  ))
+  .add('Text, Buttons', () => (
+    <div>
+      <span>Text</span>
+      <Button size="small" children="Small" />
+      <Button size="medium" children="Medium" />
+    </div>
+  ))
+  .add('Text, Large Button', () => (
+    <div>
+      <span>Text</span>
+      <Button size="large" children="Large" />
+    </div>
+  ));
 
 class SimpleForm extends React.Component<any, any> {
   public state = {
     isFormSubmitted: false,
-    value: ''
+    value: '',
   };
 
   public render() {
@@ -59,15 +93,10 @@ class SimpleForm extends React.Component<any, any> {
             this.setState({ isFormSubmitted: true });
           }}
         >
-          <Input
-            id="test-input"
-            onChange={e => this.setState({ value: e.target.value })}
-          />
+          <Input id="test-input" onChange={e => this.setState({ value: e.target.value })} />
           <Button children="Click" type="submit" />
         </form>
-        {this.state.isFormSubmitted && (
-          <span id="test-input-value">{this.state.value}</span>
-        )}
+        {this.state.isFormSubmitted && <span id="test-input-value">{this.state.value}</span>}
       </div>
     );
   }

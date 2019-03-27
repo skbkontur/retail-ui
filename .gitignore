@@ -1,5 +1,5 @@
+.env
 .idea
-.vscode
 .DS_Store
 .npmrc
 *.code-workspace

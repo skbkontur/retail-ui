@@ -1,13 +1,17 @@
 // tslint:disable:jsx-no-lambda
 import { mount } from 'enzyme';
 import * as React from 'react';
-import Tooltip from '../Tooltip';
+import Button from '../../Button';
+import Tooltip, { TooltipProps } from '../Tooltip';
 
 describe('Tooltip', () => {
   const render = () => '';
 
   it('keeps child ref', () => {
-    const Comp = ({ refFn }: { refFn: (element: HTMLDivElement) => void }) => {
+    interface CompProps {
+      refFn: (element: HTMLDivElement) => void;
+    }
+    const Comp = ({ refFn }: CompProps) => {
       return (
         <Tooltip render={render}>
           <div ref={refFn} />
@@ -17,7 +21,7 @@ describe('Tooltip', () => {
     const refFn1 = jest.fn();
     const refFn2 = jest.fn();
 
-    const wrapper = mount(<Comp refFn={refFn1} />);
+    const wrapper = mount<CompProps>(<Comp refFn={refFn1} />);
     // Force rerender to make sure no additional ref calls happens when ref
     // didn't change.
     wrapper.update();
@@ -29,24 +33,6 @@ describe('Tooltip', () => {
 
     expect(refFn2.mock.calls.length).toBe(1);
     expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').instance());
-  });
-
-  it('calls onFocus/onBlur when trigger=focus', () => {
-    const onFocus = jest.fn();
-    const onBlur = jest.fn();
-    const wrapper = mount(
-      <Tooltip trigger="focus" render={render}>
-        <input onFocus={onFocus} onBlur={onBlur} />
-      </Tooltip>
-    );
-    const input = wrapper.find('input');
-
-    input.simulate('focus');
-    expect(wrapper.state('opened')).toBe(true);
-    expect(onFocus.mock.calls.length).toBe(1);
-
-    input.simulate('blur');
-    expect(onBlur.mock.calls.length).toBe(1);
   });
 
   it('does not show tooltip in render func returned false', () => {
@@ -62,7 +48,7 @@ describe('Tooltip', () => {
             bar
           </Tooltip>
         </div>
-      </div>
+      </div>,
     );
 
     expect(wrapper.find('#foo').find('.cross').length).toBe(1);
@@ -71,10 +57,10 @@ describe('Tooltip', () => {
 
   it('calls `onCloseClick` when click on the cross', () => {
     const onClose = jest.fn();
-    const wrapper = mount(
+    const wrapper = mount<TooltipProps>(
       <Tooltip trigger="opened" render={render} onCloseClick={onClose}>
         <div />
-      </Tooltip>
+      </Tooltip>,
     );
     wrapper.find('.cross').simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
@@ -85,10 +71,10 @@ describe('Tooltip', () => {
       return <div>i'm pure component!</div>;
     }
 
-    const wrapper = mount(
+    const wrapper = mount<TooltipProps>(
       <Tooltip trigger="opened" render={render}>
         <PureComponent />
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(wrapper.find(PureComponent).length).toBe(1);
@@ -101,12 +87,35 @@ describe('Tooltip', () => {
       }
     }
 
-    const wrapper = mount(
+    const wrapper = mount<Tooltip>(
       <Tooltip trigger="opened" render={render}>
         <StatefulComponent />
-      </Tooltip>
+      </Tooltip>,
     );
 
     expect(wrapper.find(StatefulComponent).length).toBe(1);
+  });
+
+  it('reset opened state by `tigger="closed"` prop', () => {
+    const Content = () => <div />;
+
+    const wrapper = mount<Tooltip>(
+      <Tooltip trigger="click" disableAnimations={true} render={() => <Content />}>
+        <Button>Click me</Button>
+      </Tooltip>,
+    );
+
+    expect(wrapper.find(Content).length).toBe(0);
+
+    wrapper.setState({ opened: true });
+    wrapper.update();
+    expect(wrapper.find(Content).length).toBe(1);
+
+    wrapper.setProps({ trigger: 'closed' });
+    wrapper.update();
+    expect(wrapper.find(Content).length).toBe(0);
+
+    wrapper.setProps({ trigger: 'hover' });
+    expect(wrapper.find(Content).length).toBe(0);
   });
 });

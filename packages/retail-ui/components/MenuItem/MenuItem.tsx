@@ -1,9 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
-import warning from 'warning';
-
-import Icon, { IconName } from '../Icon';
+import { isFunction } from '../../lib/utils';
 
 import styles from './MenuItem.less';
 
@@ -18,7 +16,7 @@ export interface MenuItemProps {
   alkoLink?: boolean;
   comment?: React.ReactNode;
   disabled?: boolean;
-  icon?: IconName | React.ReactElement<any>;
+  icon?: React.ReactElement<any>;
 
   /** @ignore */
   loose?: boolean;
@@ -60,37 +58,17 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     target: PropTypes.string,
 
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
   };
 
   public render() {
-    const {
-      alkoLink,
-      comment,
-      icon,
-      loose,
-      state,
-      children,
-      _enableIconPadding,
-      component,
-      ...rest
-    } = this.props;
+    const { alkoLink, comment, icon, loose, state, children, _enableIconPadding, component, ...rest } = this.props;
 
     const hover = state === 'hover' && !this.props.disabled;
 
     let iconElement = null;
     if (icon) {
-      if (process.env.NODE_ENV !== 'production') {
-        warning(
-          React.isValidElement(this.props.icon),
-          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
-        );
-      }
-      iconElement = (
-        <div className={styles.icon}>
-          {typeof icon === 'string' ? <Icon name={icon} /> : icon}
-        </div>
-      );
+      iconElement = <div className={styles.icon}>{icon}</div>;
     }
 
     const className = classNames({
@@ -100,11 +78,11 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
       [styles.link]: alkoLink,
-      [styles.withIcon]: Boolean(iconElement) || _enableIconPadding
+      [styles.withIcon]: Boolean(iconElement) || _enableIconPadding,
     });
 
     let content = children;
-    if (typeof children === 'function') {
+    if (isFunction(children)) {
       content = children(this.props.state);
     }
 
@@ -118,7 +96,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
           <div
             className={classNames({
               [styles.comment]: true,
-              [styles.commentHover]: hover
+              [styles.commentHover]: hover,
             })}
           >
             {comment}

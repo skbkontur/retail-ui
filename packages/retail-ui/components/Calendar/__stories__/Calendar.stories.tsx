@@ -8,12 +8,26 @@ import { Nullable } from '../../../typings/utility-types';
 
 storiesOf('Calendar', module)
   .add('simple', () => (
-    <Calendar
-      minDate={{ year: 2017, month: 10, date: 13 }}
-      maxDate={{ year: 2018, month: 3, date: 15 }}
-    />
+    <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
   ))
-  .add('CalendarWithButtons', () => <CalendarWithButtons />);
+  .add('CalendarWithButtons', () => <CalendarWithButtons />)
+  .add('Calendar with holidays', () => {
+    const holidays = new Array(10);
+    const today = new Date();
+
+    for (let index = 0; index < holidays.length; index++) {
+      const day = new Date(today.setDate(today.getDate() + 1 + index).valueOf());
+      const element = {
+        date: day.getDate(),
+        month: day.getMonth() + 1,
+        year: day.getFullYear(),
+      };
+
+      holidays[index] = element;
+    }
+
+    return <Calendar />;
+  });
 
 const initialDate = { year: 2018, month: 0, date: 1 };
 const datesToScroll = [
@@ -23,7 +37,7 @@ const datesToScroll = [
   { year: 2018, month: 0, date: 1 },
   { year: 2018, month: 1, date: 1 },
   { year: 2018, month: 2, date: 1 },
-  { year: 2018, month: 5, date: 1 }
+  { year: 2018, month: 5, date: 1 },
 ];
 
 class CalendarWithButtons extends React.Component {

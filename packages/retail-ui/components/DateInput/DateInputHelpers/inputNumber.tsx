@@ -21,23 +21,20 @@ export const inputNumber = (key: string) => {
   };
 };
 
-const updateDate = (
-  key: string,
-  state: DateInputState
-): Shape<DateInputState> => {
+const updateDate = (key: string, state: DateInputState): Shape<DateInputState> => {
   const { date, editingCharIndex } = state;
   if (editingCharIndex === 0) {
     if (key > '3') {
       return {
         date: '0' + key,
         selected: 1,
-        editingCharIndex: 0
+        editingCharIndex: 0,
       } as Shape<DateInputState>;
     }
     return {
       date: key,
       selected: 0,
-      editingCharIndex: 1
+      editingCharIndex: 1,
     } as Shape<DateInputState>;
   }
 
@@ -48,7 +45,7 @@ const updateDate = (
   return {
     date: d.toString().padStart(2, '0'),
     selected: 1,
-    editingCharIndex: 0
+    editingCharIndex: 0,
   } as Shape<DateInputState>;
 };
 
@@ -59,13 +56,13 @@ const updateMonth = (key: string, state: DateInputState) => {
       return {
         month: '0' + key,
         selected: 2,
-        editingCharIndex: 0
+        editingCharIndex: 0,
       } as Shape<DateInputState>;
     }
     return {
       month: key,
       selected: 1,
-      editingCharIndex: 1
+      editingCharIndex: 1,
     } as Shape<DateInputState>;
   }
   const m = Number(month) * 10 + Number(key);
@@ -75,7 +72,7 @@ const updateMonth = (key: string, state: DateInputState) => {
   return {
     month: m.toString().padStart(2, '0'),
     selected: 2,
-    editingCharIndex: 0
+    editingCharIndex: 0,
   } as Shape<DateInputState>;
 };
 
@@ -85,11 +82,11 @@ const updateYear = (key: string, state: DateInputState) => {
     return {
       year: key,
       selected: 2,
-      editingCharIndex: 1
+      editingCharIndex: 1,
     } as Shape<DateInputState>;
   }
   return {
     year: ((year || '') + key).slice(-4),
-    selected: 2
+    selected: 2,
   } as Shape<DateInputState>;
 };

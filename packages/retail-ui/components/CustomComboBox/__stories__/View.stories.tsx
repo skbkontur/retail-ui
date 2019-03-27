@@ -3,120 +3,122 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import View from '../ComboBoxView';
+import Gapped from '../../Gapped';
+import Modal from '../../Modal';
 
-storiesOf('ComboBoxV2 View', module).add('idle input', () => (
-    <View value={{ id: 1, name: 'hello' }} renderValue={renderValue} />
-  )).add('idle input with long value', () => (
-    <View
-      value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-      renderValue={renderValue}
-    />
-  )).add('idle input with long value and text', () => (
-    <div>
-      <View
-        value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-        renderValue={renderValue}
-      />{' '}
-      hello
-    </div>
-  )).add('idle medium input with long value and text', () => (
-    <div>
-      <View
-        size="medium"
-        value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-        renderValue={renderValue}
-      />{' '}
-      hello
-    </div>
-  )).add('idle large input with long value and text', () => (
-    <div>
-      <View
-        size="large"
-        value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
-        renderValue={renderValue}
-      />{' '}
-      hello
-    </div>
-  )).add('idle empty input and text', () => (
-    <div>
-      <View value={null} renderValue={renderValue} /> hello
-    </div>
-  )).add('idle medium empty input and text', () => (
-    <div>
-      <View size="medium" value={null} renderValue={renderValue} /> hello
-    </div>
-  )).add('idle large empty input and text', () => (
-    <div>
-      <View size="large" value={null} renderValue={renderValue} /> hello
-    </div>
-  )).add('active input', () => <View editing textValue="hello" />).add('with items', () => (
-    <View
-      editing
-      textValue="one"
-      opened
-      items={[
-        { id: 2, name: 'two' },
-        { id: 3, name: 'three' },
-        { id: 4, name: 'four' },
-        { id: 5, name: 'five' },
-        { id: 6, name: 'six' },
-        { id: 7, name: 'seven' },
-        { id: 8, name: 'eight' },
-        { id: 9, name: 'nine' },
-        { id: 10, name: 'ten' },
-        { id: 11, name: 'eleven' },
-        { id: 12, name: 'twelve' }
-      ]}
-      renderItem={renderValue}
-    />
-  )).add('with error', () => <View editing error textValue="error" />).add('loading', () => <View editing loading opened textValue="loading" />).add('loading with items', () => (
-    <View
-      editing
-      loading
-      opened
-      textValue="loading"
-      items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
-      renderItem={renderValue}
-    />
-  )).add('not found', () => (
-    <View
-      editing
-      items={[]}
-      opened
-      textValue="nothing"
-      renderNotFound={() => 'Не найдено'}
-    />
-  )).add('with total count', () => (
-    <View
-      editing
-      textValue="one"
-      opened
-      items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
-      renderItem={renderValue}
-      totalCount={221}
-      renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
-    />
-  )).add('idle with placeholder', () => <View placeholder="placeholder" />).add('idle with long placeholder', () => (
-    <View placeholder="looooooooooooooooooooooong placeholder" />
-  )).add('idle with long placeholder and text', () => (
-    <div>
+storiesOf('ComboBoxView', module)
+  .add('input like text', () => (
+    <Gapped vertical>
+      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} />
+      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="center" />
+      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="right" />
+      <View value={{ id: 1, name: 'hello' }} renderValue={complexRenderValue} />
+      <View value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} />
+      <div>
+        <View value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} /> hello
+      </div>
+      <div>
+        <View
+          size="medium"
+          value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
+          renderValue={complexRenderValue}
+        />{' '}
+        hello
+      </div>
+      <div>
+        <View
+          size="large"
+          value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
+          renderValue={complexRenderValue}
+        />{' '}
+        hello
+      </div>
+      <View placeholder="placeholder" disabled />
+      <View error textValue="error" />
+      <View drawArrow />
+      <View loading items={new Array(2)} />
+    </Gapped>
+  ))
+  .add('input like text with placeholder', () => (
+    <Gapped vertical>
+      <View placeholder="placeholder" />
       <View placeholder="looooooooooooooooooooooong placeholder" />
-      Hello
+      <div>
+        <View placeholder="looooooooooooooooooooooong placeholder" />
+        Hello
+      </div>
+    </Gapped>
+  ))
+  .add('opened', () => (
+    <table>
+      <tbody>
+        <tr>
+          <td style={{ paddingBottom: 60, paddingRight: 10 }}>
+            <View editing opened />
+          </td>
+          <td style={{ paddingBottom: 60 }}>
+            <View editing loading opened textValue="loading" />
+          </td>
+        </tr>
+        <tr>
+          <td style={{ paddingBottom: 120, paddingRight: 10 }}>
+            <View editing items={[]} opened textValue="nothing" renderNotFound={() => 'Не найдено'} />
+          </td>
+          <td style={{ paddingBottom: 120 }}>
+            <View
+              editing
+              textValue="one"
+              opened
+              items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
+              renderItem={complexRenderValue}
+              totalCount={221}
+              renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  ))
+  .add('with items', () => (
+    <div style={{ paddingBottom: 400 }}>
+      <View
+        editing
+        textValue="one"
+        opened
+        items={[
+          { id: 2, name: 'two' },
+          { id: 3, name: 'three' },
+          { id: 4, name: 'four' },
+          { id: 5, name: 'five' },
+          { id: 6, name: 'six' },
+          { id: 7, name: 'seven' },
+          { id: 8, name: 'eight' },
+          { id: 9, name: 'nine' },
+          { id: 10, name: 'ten' },
+          { id: 11, name: 'eleven' },
+          { id: 12, name: 'twelve' },
+        ]}
+        renderItem={complexRenderValue}
+      />
     </div>
-  )).add('idle large with long placeholder and text', () => (
-    <div>
-      <View size="large" placeholder="looooooooooooooooooooooong placeholder" />
-      Hello
-    </div>
-  )).add('active with placeholder', () => (
-    <View editing placeholder="placeholder" />
-  )).add('active with long placeholder', () => (
-    <View editing placeholder="looooooooooooooooooooooong placeholder" />
-  )).add('idle disabled', () => <View placeholder="placeholder" disabled />).add('active disabled', () => (
-    <View editing placeholder="placeholder" disabled />
+  ))
+  .add('in flex modal', () => (
+    <Modal width="250px">
+      <Modal.Body>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flexGrow: 2 }}>
+            <View value={'Hello world! '.repeat(5)} width="100%" />
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
   ));
 
-function renderValue({ id, name }: { id: React.ReactNode, name: React.ReactNode }) {
+function simpleRenderValue(value: { value: number; label: string }) {
+  return value.label;
+}
+
+function complexRenderValue({ id, name }: { id: React.ReactNode; name: React.ReactNode }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <span>{name}</span>

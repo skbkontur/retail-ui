@@ -21,27 +21,17 @@ export interface ItemProps {
 
 class Item extends React.Component<ItemProps> {
   public static propTypes = {
-    use: PropTypes.oneOf(['danger', 'pay'])
+    use: PropTypes.oneOf(['danger', 'pay']),
   };
 
   public static defaultProps = {
-    className: ''
+    className: '',
   };
 
   private getProps = createPropsGetter(Item.defaultProps);
 
   public render() {
-    const {
-      active,
-      children,
-      _onClick,
-      _onKeyDown,
-      iconOnly,
-      icon,
-      minWidth,
-      use,
-      ...rest
-    } = this.props;
+    const { active, children, _onClick, _onKeyDown, iconOnly, icon, minWidth, use, ...rest } = this.props;
 
     const className: string = this.getProps().className;
 
@@ -49,27 +39,25 @@ class Item extends React.Component<ItemProps> {
       [styles.item]: true,
       [styles.buttonActive]: active,
       [className]: true,
-      [styles.iconOnly]: iconOnly
     };
     if (use) {
       const useClassName = ('use-' + use) as keyof typeof styles;
       classes[styles[useClassName]] = true;
     }
 
+    const iconClasses = {
+      [styles.icon]: icon,
+      [styles.iconOnly]: iconOnly,
+    };
+
     return (
-      <div
-        {...rest}
-        className={cn(classes)}
-        onClick={_onClick}
-        onKeyDown={_onKeyDown}
-        style={{ minWidth }}
-      >
+      <div {...rest} className={cn(classes)} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
         {icon && (
-          <span className={styles.icon}>
+          <span className={cn(iconClasses)}>
             <CapIcon color="#666" name={icon} />
           </span>
         )}
-        {children}
+        {icon && iconOnly ? null : children}
       </div>
     );
   }

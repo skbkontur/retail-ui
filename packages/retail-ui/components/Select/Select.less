@@ -9,7 +9,7 @@
   .label {
     box-sizing: border-box;
     display: inline-block;
-    padding: 0 34px 0 9px;
+    padding: 0 28px 0 9px;
     max-width: 100%;
     width: 100%;
     position: relative;
@@ -30,6 +30,7 @@
 
   .placeholder {
     color: @slt-placeholder-color;
+    text-overflow: ellipsis;
 
     &.customUsePlaceholder {
       color: inherit;
@@ -38,12 +39,13 @@
   }
 
   .arrowWrap {
-    bottom: 0;
     position: absolute;
-    right: 10px;
     top: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0 10px;
 
-    &:before {
+    &::before {
       content: '';
       display: inline-block;
       height: 100%;

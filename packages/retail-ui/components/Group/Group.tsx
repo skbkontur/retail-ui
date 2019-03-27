@@ -8,6 +8,7 @@ import Corners from '../Button/Corners';
 import '../ensureOldIEClassName';
 import styles from './Group.less';
 import { Nullable } from '../../typings/utility-types';
+import Button from '../Button';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];
@@ -22,16 +23,16 @@ export interface GroupChildProps {
 
 /**
  * Главному *Input*, который должен занимать всю доступную ширину, нужно
- * передать свойство `mainInGroup` (*deprecated*) или ширину `100%`;
+ * передать свойство `mainInGroup`;
  */
 class Group extends React.Component<GroupProps> {
   public static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
 
   public render() {
     const style: React.CSSProperties = {
-      width: this.props.width
+      width: this.props.width,
     };
 
     let first: Nullable<React.ReactElement<any>> = null;
@@ -44,8 +45,10 @@ class Group extends React.Component<GroupProps> {
       }
     });
 
+    const rootCss = classNames(styles.root, { [styles.hasWidth]: this.props.width !== undefined });
+
     return (
-      <span className={styles.root} style={style}>
+      <span className={rootCss} style={style}>
         {React.Children.map(this.props.children, child => {
           if (!child || !React.isValidElement<GroupChildProps>(child)) {
             return null;
@@ -56,11 +59,11 @@ class Group extends React.Component<GroupProps> {
           const wrapCss = classNames({
             [styles.wrap]: true,
             [styles.fixed]: !childProps.mainInGroup,
-            [styles.stretch]: childProps.mainInGroup
+            [styles.stretch]: childProps.mainInGroup,
           });
           const itemCss = classNames({
             [styles.item]: true,
-            [styles.itemFirst]: child === first
+            [styles.itemFirst]: child === first,
           });
 
           let corners = 0;
@@ -75,7 +78,16 @@ class Group extends React.Component<GroupProps> {
             width = '100%';
           }
 
-          child = React.cloneElement(child, { corners, width });
+          const cloneProps = {
+            width,
+            corners,
+          };
+
+          if (child.type !== Button) {
+            delete cloneProps.corners;
+          }
+
+          child = React.cloneElement(child, cloneProps);
 
           return (
             <div className={wrapCss}>

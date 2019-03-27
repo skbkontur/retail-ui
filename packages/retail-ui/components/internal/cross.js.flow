@@ -1,0 +1,4 @@
+/* @flow */
+declare var CROSS: string;
+
+export default CROSS;

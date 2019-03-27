@@ -3,10 +3,9 @@ import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem/MenuItem';
 import { isProductionEnv } from '../internal/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
+import { PopupPosition } from '../Popup';
 
-export type TooltipMenuChildType = React.ReactElement<
-  MenuItemProps | {} | MenuHeaderProps
->;
+export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
 export interface TooltipMenuProps {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
@@ -21,8 +20,14 @@ export interface TooltipMenuProps {
    * придется в этой функции
    */
   caption: PopupMenuProps['caption'];
+  header?: React.ReactNode;
+  footer?: React.ReactNode;
   /**  Массив разрешенных положений меню относительно caption'а. */
-  positions?: string[];
+  positions?: PopupPosition[];
+  /**
+   * Не показывать анимацию
+   */
+  disableAnimations: boolean;
 }
 
 /**
@@ -34,6 +39,9 @@ export interface TooltipMenuProps {
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
 export default class TooltipMenu extends React.Component<TooltipMenuProps> {
+  public static defaultProps = {
+    disableAnimations: false,
+  };
   constructor(props: TooltipMenuProps) {
     super(props);
 
@@ -52,10 +60,13 @@ export default class TooltipMenu extends React.Component<TooltipMenuProps> {
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
         caption={this.props.caption}
+        header={this.props.header}
+        footer={this.props.footer}
         positions={this.props.positions}
         popupHasPin={true}
         popupMargin={10}
         popupPinOffset={15}
+        disableAnimations={this.props.disableAnimations}
       >
         {this.props.children}
       </PopupMenu>

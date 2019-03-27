@@ -4,7 +4,7 @@ import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import { formatDate } from './DatePickerHelpers';
 
-import styles = require('./Picker.less');
+import styles from './Picker.less';
 import { Nullable } from '../../typings/utility-types';
 import { isLess, isGreater } from '../Calendar/CalendarDateShape';
 
@@ -15,6 +15,7 @@ interface Props {
   onPick: (date: CalendarDateShape) => void;
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
+  isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 interface State {
@@ -27,7 +28,7 @@ const getTodayCalendarDate = () => {
   return {
     date: d.getDate(),
     month: d.getMonth(),
-    year: d.getFullYear()
+    year: d.getFullYear(),
   };
 };
 
@@ -39,7 +40,7 @@ export default class Picker extends React.Component<Props, State> {
     const today = getTodayCalendarDate();
     this.state = {
       date: this.getInitialDate(today),
-      today
+      today,
     };
   }
 
@@ -63,6 +64,7 @@ export default class Picker extends React.Component<Props, State> {
           onSelect={this.props.onPick}
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
+          isHoliday={this.props.isHoliday}
         />
         {this.props.enableTodayLink && this._renderTodayLink()}
       </div>
@@ -77,11 +79,7 @@ export default class Picker extends React.Component<Props, State> {
 
   private _renderTodayLink() {
     return (
-      <button
-        className={styles.todayWrapper}
-        onClick={this._handleSelectToday}
-        tabIndex={-1}
-      >
+      <button className={styles.todayWrapper} onClick={this._handleSelectToday} tabIndex={-1}>
         Сегодня {formatDate(this.state.today)}
       </button>
     );

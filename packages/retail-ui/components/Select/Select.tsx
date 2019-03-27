@@ -1,3 +1,4 @@
+import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
 import events from 'add-event-listener';
@@ -17,11 +18,12 @@ import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
 import Item from './Item';
+import { SelectLocale, SelectLocaleHelper } from './locale';
 
 import styles from './Select.less';
-import { IconName } from '../Icon';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { isFunction } from '../../lib/utils';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -29,6 +31,7 @@ export interface ButtonParams {
   onClick: () => void;
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
+  isPlaceholder: boolean;
 }
 
 const PASS_BUTTON_PROPS = {
@@ -40,27 +43,22 @@ const PASS_BUTTON_PROPS = {
 
   onMouseEnter: true,
   onMouseLeave: true,
-  onMouseOver: true
+  onMouseOver: true,
 };
 
 export interface SelectProps<TValue, TItem> {
   /** @ignore */
-  _icon?: IconName | React.ReactElement<any>;
+  _icon?: React.ReactElement<any>;
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
   /** @ignore */
-  diadocLinkIcon?: IconName | React.ReactElement<any>;
+  diadocLinkIcon?: React.ReactElement<any>;
   disablePortal?: boolean;
   disabled?: boolean;
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
-  items?: Array<
-    | [TValue, TItem]
-    | TItem
-    | React.ReactElement<any>
-    | (() => React.ReactElement<any>)
-  >;
+  items?: Array<[TValue, TItem] | TItem | React.ReactElement<any> | (() => React.ReactElement<any>)>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
@@ -81,6 +79,8 @@ export interface SelectProps<TValue, TItem> {
   warning?: boolean;
   use?: ButtonUse;
   size?: ButtonSize;
+  onFocus?: React.FocusEventHandler<HTMLElement>;
+  onBlur?: React.FocusEventHandler<HTMLElement>;
 }
 
 export interface SelectState<TValue> {
@@ -89,10 +89,12 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
 }
 
-class Select<TValue = {}, TItem = {}> extends React.Component<
-  SelectProps<TValue, TItem>,
-  SelectState<TValue>
-> {
+interface FocusableReactElement extends React.ReactElement<any> {
+  focus: (event?: any) => void;
+}
+
+@locale('Select', SelectLocaleHelper)
+class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static propTypes = {
     /**
      * Функция для сравнения `value` с элементом из `items`
@@ -173,31 +175,31 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
   };
 
   public static defaultProps = {
-    placeholder: 'ничего не выбрано',
     renderValue,
     renderItem,
     areValuesEqual,
     filterItem,
-    use: 'default'
+    use: 'default',
   };
 
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
-  public static static = (
-    element: React.ReactNode | (() => React.ReactNode)
-  ) => {
+  public static static = (element: React.ReactNode | (() => React.ReactNode)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
-      'Select.static(element) expects element to be a valid react element.'
+      'Select.static(element) expects element to be a valid react element.',
     );
     return element;
   };
 
-  private _menu: Nullable<Menu>;
+  private readonly locale!: SelectLocale;
+
+  private menu: Nullable<Menu>;
+  private buttonElement: FocusableReactElement | null = null;
 
   private getProps = createPropsGetter(Select.defaultProps);
 
@@ -205,69 +207,98 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     super(props);
     this.state = {
       opened: false,
-      value: props.defaultValue
+      value: props.defaultValue,
     };
   }
 
   public render() {
-    const label = this.renderLabel();
+    const { label, isPlaceholder } = this.renderLabel();
 
     const buttonParams: ButtonParams = {
       opened: this.state.opened,
       label,
-      onClick: this._toggle,
-      onKeyDown: this.handleKey
+      isPlaceholder,
+      onClick: this.toggle,
+      onKeyDown: this.handleKey,
     };
 
     const style = {
       width: this.props.width,
-      maxWidth: this.props.maxWidth || undefined
+      maxWidth: this.props.maxWidth || undefined,
     };
 
+    const button = this.getButton(buttonParams);
+
     return (
-      <RenderLayer
-        onClickOutside={this._close}
-        onFocusOutside={this._close}
-        active={this.state.opened}
-      >
+      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
         <span className={styles.root} style={style}>
-          {this.props._renderButton
-            ? this.props._renderButton(buttonParams)
-            : this.renderDefaultButton(buttonParams)}
+          {button}
           {!this.props.disabled && this.state.opened && this.renderMenu()}
         </span>
       </RenderLayer>
     );
   }
 
-  public open() {
-    this._open();
-  }
+  /**
+   * @public
+   */
+  public open = () => {
+    if (!this.state.opened) {
+      this.setState({ opened: true });
 
-  public close() {
-    this._close();
+      if (this.props.onOpen) {
+        this.props.onOpen();
+      }
+    }
+  };
+
+  /**
+   * @public
+   */
+  public close = () => {
+    if (this.state.opened) {
+      this.setState({ opened: false });
+
+      if (this.props.onClose) {
+        this.props.onClose();
+      }
+    }
+
+    events.removeEventListener(window, 'popstate', this.close);
+  };
+
+  /**
+   * @public
+   */
+  public focus() {
+    if (this.buttonElement && this.buttonElement.focus) {
+      this.buttonElement.focus();
+    }
   }
 
   private renderLabel() {
-    const value = this._getValue();
-    const item = this._getItemByValue(value);
+    const value = this.getValue();
+    const item = this.getItemByValue(value);
 
     if (item != null || value != null) {
-      return this.getProps().renderValue(value, item);
+      return {
+        label: this.getProps().renderValue(value, item),
+        isPlaceholder: false,
+      };
     }
 
-    const useIsCustom = this.props.use !== 'default';
-
-    return (
-      <span
-        className={classNames(
-          styles.placeholder,
-          useIsCustom && styles.customUsePlaceholder
-        )}
-      >
-        {this.props.placeholder}
-      </span>
-    );
+    return {
+      label: (
+        <span
+          className={classNames({
+            [styles.customUsePlaceholder]: this.props.use !== 'default',
+          })}
+        >
+          {this.props.placeholder || this.locale.placeholder}
+        </span>
+      ),
+      isPlaceholder: true,
+    };
   }
 
   private renderDefaultButton(params: ButtonParams) {
@@ -283,25 +314,27 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
       width: '100%',
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
-      active: params.opened
+      active: params.opened,
     };
 
     if (this.props._icon) {
       Object.assign(buttonProps, {
         _noPadding: false,
         _noRightPadding: true,
-        icon: this.props._icon
+        icon: this.props._icon,
       });
     }
 
     const labelProps = {
       className: classNames({
         [styles.label]: this.props.use !== 'link',
-        [styles.labelWithLeftIcon]: !!this.props._icon
+        [styles.labelWithLeftIcon]: !!this.props._icon,
+        [styles.placeholder]: params.isPlaceholder,
+        [styles.customUsePlaceholder]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
-        paddingRight: buttonProps.size === 'large' ? '41px' : '38px'
-      }
+        paddingRight: (buttonProps.size === 'large' ? 31 : 28) + (!!this.props._icon ? 10 : 0),
+      },
     };
 
     const useIsCustom = this.props.use !== 'default';
@@ -312,12 +345,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
           <span className={styles.labelText}>{params.label}</span>
         </span>
         <div className={styles.arrowWrap}>
-          <div
-            className={classNames(
-              styles.arrow,
-              useIsCustom && styles.customUseArrow
-            )}
-          />
+          <div className={classNames(styles.arrow, useIsCustom && styles.customUseArrow)} />
         </div>
       </Button>
     );
@@ -331,7 +359,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
       _buttonOpened: params.opened,
 
       onClick: params.onClick,
-      onKeyDown: params.onKeyDown
+      onKeyDown: params.onKeyDown,
     };
 
     return <Link {...linkProps}>{params.label}</Link>;
@@ -340,35 +368,30 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
       <div className={styles.search}>
-        <Input ref={this._focusInput} onChange={this.handleSearch} />
+        <Input ref={this.focusInput} onChange={this.handleSearch} />
       </div>
     ) : null;
 
-    const value = this._getValue();
+    const value = this.getValue();
 
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
         offsetY={-1}
-        ref={this._refMenuContainer}
+        ref={this.refMenuContainer}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
         <Menu
-          ref={this._refMenu}
+          ref={this.refMenu}
           width={this.props.menuWidth}
-          onItemClick={this._close}
+          onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
         >
           {search}
-          {this._mapItems(
-            (
-              iValue: TValue,
-              item: TItem | (() => React.ReactNode),
-              i: number,
-              comment: Nullable<React.ReactNode>
-            ) => {
-              if (typeof item === 'function') {
+          {this.mapItems(
+            (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
+              if (isFunction(item)) {
                 const element = item();
 
                 if (React.isValidElement(element)) {
@@ -385,18 +408,14 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
               return (
                 <MenuItem
                   key={i}
-                  state={
-                    this.getProps().areValuesEqual(iValue, value)
-                      ? 'selected'
-                      : null
-                  }
-                  onClick={this._select.bind(this, iValue)}
+                  state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
+                  onClick={this.select.bind(this, iValue)}
                   comment={comment}
                 >
                   {this.getProps().renderItem(iValue, item)}
                 </MenuItem>
               );
-            }
+            },
           )}
         </Menu>
       </DropdownContainer>
@@ -407,52 +426,30 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     return ReactDOM.findDOMNode(this);
   };
 
-  private _focusInput = (input: Input) => {
+  private focusInput = (input: Input) => {
     if (input) {
       input.focus();
     }
   };
 
-  private _refMenuContainer = (element: DropdownContainer) => {
-    events.removeEventListener(window, 'popstate', this._close);
+  private refMenuContainer = (element: DropdownContainer) => {
+    events.removeEventListener(window, 'popstate', this.close);
 
     if (element) {
-      events.addEventListener(window, 'popstate', this._close);
+      events.addEventListener(window, 'popstate', this.close);
     }
   };
 
-  private _refMenu = (menu: Menu) => {
-    this._menu = menu;
+  private refMenu = (menu: Menu) => {
+    this.menu = menu;
   };
 
-  private _toggle = () => {
+  private toggle = () => {
     if (this.state.opened) {
-      this._close();
+      this.close();
     } else {
-      this._open();
+      this.open();
     }
-  };
-
-  private _open = () => {
-    if (!this.state.opened) {
-      this.setState({ opened: true });
-
-      if (this.props.onOpen) {
-        this.props.onOpen();
-      }
-    }
-  };
-
-  private _close = () => {
-    if (this.state.opened) {
-      this.setState({ opened: false });
-
-      if (this.props.onClose) {
-        this.props.onClose();
-      }
-    }
-
-    events.removeEventListener(window, 'popstate', this._close);
   };
 
   private handleKey = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -460,25 +457,25 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     if (!this.state.opened) {
       if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
         event.preventDefault();
-        this._open();
+        this.open();
       }
     } else {
       if (key === 'Escape') {
-        this.setState({ opened: false }, this._focus);
+        this.setState({ opened: false }, this.focus);
       } else if (event.key === 'ArrowUp') {
         event.preventDefault();
-        if (this._menu) {
-          this._menu.up();
+        if (this.menu) {
+          this.menu.up();
         }
       } else if (event.key === 'ArrowDown') {
         event.preventDefault();
-        if (this._menu) {
-          this._menu.down();
+        if (this.menu) {
+          this.menu.down();
         }
       } else if (event.key === 'Enter') {
         event.preventDefault(); // To prevent form submission.
-        if (this._menu) {
-          this._menu.enter(event);
+        if (this.menu) {
+          this.menu.enter(event);
         }
       }
     }
@@ -488,53 +485,35 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     this.setState({ searchPattern: event.target.value });
   };
 
-  private _focus = () => {
-    const node = ReactDOM.findDOMNode(this);
-    if (node && node instanceof HTMLElement) {
-      node.focus();
-    }
-  };
-
-  private _select(value: TValue) {
+  private select(value: TValue) {
     this.setState(
       {
         opened: false,
-        value
+        value,
       },
       () => {
-        setTimeout(this._focus, 0);
-      }
+        setTimeout(this.focus, 0);
+      },
     );
 
-    if (
-      this.props.onChange &&
-      !this.getProps().areValuesEqual(this._getValue(), value)
-    ) {
+    if (this.props.onChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
       this.props.onChange({ target: { value } }, value);
     }
   }
 
-  private _getValue() {
+  private getValue() {
     if (this.props.value !== undefined) {
       return this.props.value;
     }
     return this.state.value;
   }
 
-  private _mapItems(
-    fn: (
-      value: TValue,
-      item: TItem,
-      index: number,
-      comment?: string
-    ) => React.ReactNode
-  ) {
+  private mapItems(fn: (value: TValue, item: TItem, index: number, comment?: string) => React.ReactNode) {
     const { items } = this.props;
     if (!items) {
       return [];
     }
-    const pattern =
-      this.state.searchPattern && this.state.searchPattern.toLowerCase();
+    const pattern = this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
     const result: React.ReactNodeArray = [];
     let index = 0;
@@ -550,7 +529,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     return result;
   }
 
-  private _getItemByValue(value?: Nullable<TValue>) {
+  private getItemByValue(value?: Nullable<TValue>) {
     if (value === null || value === undefined) {
       return null;
     }
@@ -566,6 +545,26 @@ class Select<TValue = {}, TItem = {}> extends React.Component<
     }
     return null;
   }
+
+  private buttonRef = (element: FocusableReactElement | null) => {
+    this.buttonElement = element;
+  };
+
+  private getButton = (buttonParams: ButtonParams) => {
+    const button = this.props._renderButton
+      ? this.props._renderButton(buttonParams)
+      : this.renderDefaultButton(buttonParams);
+
+    const buttonElement = React.Children.only(button);
+
+    return React.cloneElement(buttonElement, {
+      ref: (element: FocusableReactElement) => {
+        this.buttonRef(element);
+      },
+      onFocus: this.props.onFocus,
+      onBlur: this.props.onBlur,
+    });
+  };
 }
 
 function renderValue(value: any, item: any) {

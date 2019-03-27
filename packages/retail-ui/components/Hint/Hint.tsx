@@ -1,20 +1,23 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import Popup, { PopupPosition } from '../Popup';
+import Popup, { PopupPosition, PopupProps } from '../Popup';
 
-import styles = require('./HintBox.less');
+import styles from './HintBox.less';
 import { Nullable, TimeoutID } from '../../typings/utility-types';
+import { MouseEventType } from '../../typings/event-types';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
+const POPUP_MARGIN = 15;
+const PIN_OFFSET = 8;
 
 export interface HintProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
-  onMouseEnter?: React.MouseEventHandler<HTMLElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+  onMouseEnter?: (event: MouseEventType) => void;
+  onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
   pos:
     | 'top'
@@ -34,6 +37,8 @@ export interface HintProps {
     | 'right middle'
     | 'right bottom';
   text: React.ReactNode;
+  disableAnimations: boolean;
+  useWrapper: boolean;
 }
 
 export interface HintState {
@@ -52,7 +57,7 @@ const Positions: PopupPosition[] = [
   'left bottom',
   'right middle',
   'right top',
-  'right bottom'
+  'right bottom',
 ];
 
 class Hint extends React.Component<HintProps, HintState> {
@@ -60,21 +65,16 @@ class Hint extends React.Component<HintProps, HintState> {
     pos: 'top',
     manual: false,
     opened: false,
-    maxWidth: 200
+    maxWidth: 200,
+    disableAnimations: false,
+    useWrapper: true,
   };
 
   public state: HintState = {
-    opened: false
+    opened: this.props.manual ? !!this.props.opened : false,
   };
 
   private timer: Nullable<TimeoutID> = null;
-  private captionNode: Nullable<HTMLElement> = null;
-
-  public componentDidMount() {
-    this.setState({
-      opened: this.props.manual ? !!this.props.opened : false
-    });
-  }
 
   public componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
@@ -89,31 +89,38 @@ class Hint extends React.Component<HintProps, HintState> {
   public componentWillUnmount() {
     if (this.timer) {
       clearTimeout(this.timer);
+      this.timer = null;
     }
   }
 
   public render() {
+    if (this.props.text) {
+      return this.renderPopup(this.props.children, {
+        onMouseEnter: this.handleMouseEnter,
+        onMouseLeave: this.handleMouseLeave,
+        useWrapper: this.props.useWrapper,
+      });
+    }
+
+    return this.props.children;
+  }
+
+  private renderPopup(anchorElement: React.ReactNode | HTMLElement, popupProps: Partial<PopupProps> = {}) {
     return (
-      <span
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        className={classNames(styles.root)}
-        ref={this.captionRef}
+      <Popup
+        hasPin
+        margin={POPUP_MARGIN}
+        opened={this.state.opened}
+        anchorElement={anchorElement}
+        positions={this.getPositions()}
+        backgroundColor={HINT_BACKGROUND_COLOR}
+        borderColor={HINT_BORDER_COLOR}
+        disableAnimations={this.props.disableAnimations}
+        pinOffset={PIN_OFFSET}
+        {...popupProps}
       >
-        {this.props.children}
-        {this.captionNode && (
-          <Popup
-            hasPin
-            opened={this.state.opened}
-            anchorElement={this.captionNode}
-            positions={this.getPositions()}
-            backgroundColor={HINT_BACKGROUND_COLOR}
-            borderColor={HINT_BORDER_COLOR}
-          >
-            {this.renderContent()}
-          </Popup>
-        )}
-      </span>
+        {this.renderContent()}
+      </Popup>
     );
   }
 
@@ -121,7 +128,7 @@ class Hint extends React.Component<HintProps, HintState> {
     const { pos, maxWidth } = this.props;
     const className = classNames({
       [styles.content]: true,
-      [styles.contentCenter]: pos === 'top' || pos === 'bottom'
+      [styles.contentCenter]: pos === 'top' || pos === 'bottom',
     });
     return (
       <div className={className} style={{ maxWidth }}>
@@ -130,15 +137,11 @@ class Hint extends React.Component<HintProps, HintState> {
     );
   }
 
-  private captionRef = (element: Nullable<HTMLElement>) => {
-    this.captionNode = element;
-  };
-
   private getPositions = (): PopupPosition[] => {
     return Positions.filter(x => x.startsWith(this.props.pos));
   };
 
-  private handleMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
+  private handleMouseEnter = (e: MouseEventType) => {
     if (!this.props.manual && !this.timer) {
       this.timer = window.setTimeout(this.open, 400);
     }
@@ -148,7 +151,7 @@ class Hint extends React.Component<HintProps, HintState> {
     }
   };
 
-  private handleMouseLeave = (e: React.MouseEvent<HTMLSpanElement>) => {
+  private handleMouseLeave = (e: MouseEventType) => {
     if (!this.props.manual && this.timer) {
       clearTimeout(this.timer);
       this.timer = null;

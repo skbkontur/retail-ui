@@ -1,1 +1,1 @@
-export { default, PopupProps, PopupPosition } from './Popup';
+export { default, PopupProps, PopupPosition, PopupPositions } from './Popup';

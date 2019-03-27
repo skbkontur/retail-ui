@@ -9,9 +9,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign
-  ? require('./Radio.flat.less')
-  : require('./Radio.less');
+const styles = isFlatDesign ? require('./Radio.flat.less') : require('./Radio.less');
 
 export interface SyntheticRadioEvent<T> {
   target: {
@@ -77,11 +75,11 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     name: PropTypes.string,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
-    warning: PropTypes.bool
+    warning: PropTypes.bool,
   };
 
   public static defaultProps = {
-    focused: false
+    focused: false,
   };
 
   public static propTypes = {
@@ -100,7 +98,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
   };
 
   private _node: Nullable<HTMLInputElement> = null;
@@ -132,14 +130,11 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       [styles.focus]: this.props.focused,
       [styles.error]: error,
       [styles.warning]: warning,
-      [styles.disabled]: disabled
+      [styles.disabled]: disabled,
     });
 
     let value: string | number | undefined;
-    if (
-      typeof this.props.value === 'string' ||
-      typeof this.props.value === 'number'
-    ) {
+    if (typeof this.props.value === 'string' || typeof this.props.value === 'number') {
       value = this.props.value;
     }
 
@@ -166,14 +161,14 @@ class Radio<T> extends React.Component<RadioProps<T>> {
         if (this.props.onMouseLeave) {
           this.props.onMouseLeave(createSyntheticEvent(this.props));
         }
-      }
+      },
     };
 
     const labelProps = {
       className: styles.root,
       onMouseOver: this._handleMouseOver,
       onMouseEnter: this._handleMouseEnter,
-      onMouseLeave: this._handleMouseLeave
+      onMouseLeave: this._handleMouseLeave,
     };
 
     if (this._isInRadioGroup()) {
@@ -194,12 +189,18 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     );
   }
 
+  /**
+   * @public
+   */
   public focus() {
     if (this._node) {
       this._node.focus();
     }
   }
 
+  /**
+   * @public
+   */
   public blur() {
     if (this._node) {
       this._node.blur();
@@ -211,7 +212,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
   private renderLabel() {
     const labelClassNames = classNames({
       [styles.label]: true,
-      [styles.labelDisabled]: this.props.disabled
+      [styles.labelDisabled]: this.props.disabled,
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
@@ -253,22 +254,16 @@ class Radio<T> extends React.Component<RadioProps<T>> {
   };
 }
 
-function createSyntheticEvent<T>({
-  value,
-  id,
-  name,
-  checked,
-  disabled
-}: RadioProps<T>): SyntheticRadioEvent<T> {
+function createSyntheticEvent<T>({ value, id, name, checked, disabled }: RadioProps<T>): SyntheticRadioEvent<T> {
   const target = {
     value,
     id,
     name,
     checked,
-    disabled
+    disabled,
   };
   const syntheticEvent = {
-    target
+    target,
   };
   return syntheticEvent;
 }

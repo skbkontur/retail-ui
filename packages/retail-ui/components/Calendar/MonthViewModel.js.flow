@@ -1,0 +1,16 @@
+/* @flow */
+import type { DayCellViewModel } from './DayCellViewModel';
+
+declare export class MonthViewModel {
+  static create: (month: number, year: number) => MonthViewModel;
+
+  +daysCount: number;
+  +offset: number;
+  +month: number;
+  +year: number;
+  +height: number;
+  +days: DayCellViewModel[];
+
+  isLastInYear: boolean;
+  isFirstInYear: boolean;
+}

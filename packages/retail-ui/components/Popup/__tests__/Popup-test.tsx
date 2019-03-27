@@ -2,12 +2,9 @@ import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import Popup, { PopupProps, PopupState } from '../Popup';
 import toJson from 'enzyme-to-json';
+import { delay } from '../../../lib/utils';
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
-const openPopup = async (
-  wrapper: ReactWrapper<PopupProps, PopupState, Popup>
-) =>
+const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {
     wrapper.setProps({ opened: true }, async () => {
       await delay(100);
@@ -15,9 +12,7 @@ const openPopup = async (
     });
   });
 
-const closePopup = async (
-  wrapper: ReactWrapper<PopupProps, PopupState, Popup>
-) =>
+const closePopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {
     wrapper.setProps({ opened: false }, async () => {
       await delay(100);
@@ -25,9 +20,7 @@ const closePopup = async (
     });
   });
 
-const renderWrapper = (
-  props?: Partial<PopupProps>
-): ReactWrapper<PopupProps, PopupState, Popup> => {
+const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, PopupState, Popup> => {
   const anchor = document.createElement('button');
 
   anchor.id = 'test-id';
@@ -41,7 +34,7 @@ const renderWrapper = (
       {...props}
     >
       Test content
-    </Popup>
+    </Popup>,
   );
 };
 

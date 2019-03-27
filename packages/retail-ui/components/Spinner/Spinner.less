@@ -10,6 +10,10 @@
     text-align: center;
   }
 
+  .inner {
+    display: inline-block;
+  }
+
   .caption {
     color: rgb(128, 128, 128);
     font-size: 14px;
@@ -49,8 +53,7 @@
 
     :global {
       animation: rt_cloud_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        rt_cloud_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-        rt_color 6s ease-in-out infinite;
+        rt_cloud_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_color 6s ease-in-out infinite;
     }
   }
 
@@ -64,8 +67,8 @@
 
     :global {
       animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-        rt_rotate 2s linear infinite, rt_color 6s ease-in-out infinite;
+        rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite,
+        rt_color 6s ease-in-out infinite;
     }
 
     &.dimmed {
@@ -73,19 +76,24 @@
 
       :global {
         animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-          rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-          rt_rotate 2s linear infinite;
+          rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite;
       }
     }
+  }
+
+  .fallback {
+    display: inline-block;
+    position: relative;
   }
 }
 
 @keyframes rt_cloud_offset {
   0% {
-    stroke-dashoffset: 0+10;
+    stroke-dashoffset: 10;
   }
+
   100% {
-    stroke-dashoffset: 106+10;
+    stroke-dashoffset: 116;
   }
 }
 
@@ -93,9 +101,11 @@
   0% {
     stroke-dasharray: 10, 96;
   }
+
   50% {
     stroke-dasharray: 50, 56;
   }
+
   100% {
     stroke-dasharray: 10, 96;
   }
@@ -105,6 +115,7 @@
   0% {
     stroke-dashoffset: 0;
   }
+
   100% {
     stroke-dashoffset: -37;
   }
@@ -114,9 +125,11 @@
   0% {
     stroke-dasharray: 10, 27;
   }
+
   50% {
     stroke-dasharray: 30, 7;
   }
+
   100% {
     stroke-dasharray: 10, 27;
   }
@@ -127,12 +140,15 @@
   0% {
     stroke: @red;
   }
+
   40% {
     stroke: @yellow;
   }
+
   66% {
     stroke: @green;
   }
+
   80%,
   90% {
     stroke: @blue;

@@ -3,20 +3,20 @@ image: Visual Studio 2017
 configuration: Release
 
 install:
-- ps: |
-    nuget restore SeleniumTesting/SeleniumTesting.sln
+    - ps: |
+          nuget restore SeleniumTesting/SeleniumTesting.sln
 
 build:
-  project: SeleniumTesting/SeleniumTesting.sln
-  publish_nuget: true
-  verbosity: minimal
+    project: SeleniumTesting/SeleniumTesting.sln
+    publish_nuget: true
+    verbosity: minimal
 
 test: off
 
 deploy:
-  - provider: NuGet
-    api_key:
-      secure: e0pG29rRvbh02JD0CF0tctJoEX3v2Eref/EBplarjwmOZnwaaB+C6XvprPyoAZXU
-    skip_symbols: true
-    on:
-      branch: /^master$/
+    - provider: NuGet
+      api_key:
+          secure: e0pG29rRvbh02JD0CF0tctJoEX3v2Eref/EBplarjwmOZnwaaB+C6XvprPyoAZXU
+      skip_symbols: true
+      on:
+          branch: /^master$/

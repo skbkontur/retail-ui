@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import styles = require('./Center.less');
+import styles from './Center.less';
 import { Override } from '../../typings/utility-types';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
@@ -29,7 +29,7 @@ export interface CenterState {}
  */
 export default class Center extends React.Component<CenterProps, CenterState> {
   public static defaultProps = {
-    align: 'center'
+    align: 'center',
   };
 
   public render(): JSX.Element {

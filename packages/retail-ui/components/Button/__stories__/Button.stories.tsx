@@ -4,12 +4,14 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
-import { ButtonSize } from '../Button';
+import { ButtonSize, ButtonArrow } from '../Button';
+import SearchIcon from '@skbkontur/react-icons/Search';
 
 storiesOf('Button', module)
   .add('playground', () => {
     return <Button>Hello</Button>;
   })
+  .add('with width', () => <Button width="300px">Hello</Button>)
   .add('different use', () => (
     <Gapped>
       <Button>Default</Button>
@@ -42,24 +44,66 @@ storiesOf('Button', module)
   .add('with icon, fixed width and long text', () => {
     return (
       <Button icon={<OkIcon />} width="200px">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sunt ad
-        repudiandae ipsum quos! Dolores ipsam magnam maxime debitis praesentium
-        aperiam laudantium. Nulla laboriosam perferendis, maiores esse unde nam
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio sunt ad repudiandae ipsum quos! Dolores ipsam
+        magnam maxime debitis praesentium aperiam laudantium. Nulla laboriosam perferendis, maiores esse unde nam
         numquam!
       </Button>
     );
   })
-  .add('with arrow', () => {
-    return <Button arrow>Arrow!</Button>;
+  .add('arrow table', () => {
+    const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay'];
+    const directions: ButtonArrow[] = [true, 'left'];
+    return (
+      <table style={{ borderSpacing: 10 }}>
+        <thead>
+          <tr>
+            {directions.map((direction, index) => (
+              <React.Fragment key={index}>
+                {index === 0 && <th />}
+                <th>disabled {direction}</th>
+                <th>checked {direction}</th>
+                <th>medium {direction}</th>
+                <th>large {direction}</th>
+              </React.Fragment>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {uses.map((use, i) => (
+            <tr key={i}>
+              {directions.map((direction, directionIndex) => (
+                <React.Fragment key={directionIndex}>
+                  {directionIndex === 0 && <td>{use}</td>}
+                  <td>
+                    <Button arrow={direction} use={use} size="medium" disabled>
+                      Button {direction}
+                    </Button>
+                  </td>
+                  <td>
+                    <Button arrow={direction} use={use} size="medium" checked>
+                      Button {direction}
+                    </Button>
+                  </td>
+                  <td>
+                    <Button arrow={direction} use={use} size="medium">
+                      Button {direction}
+                    </Button>
+                  </td>
+                  <td>
+                    <Button arrow={direction} use={use} size="large">
+                      Button {direction}
+                    </Button>
+                  </td>
+                </React.Fragment>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
   })
   .add('table', () => {
-    const uses: ButtonUse[] = [
-      'default',
-      'primary',
-      'success',
-      'danger',
-      'pay'
-    ];
+    const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay'];
     const sizes: ButtonSize[] = ['small', 'medium', 'large'];
     return (
       <table style={{ borderSpacing: 10 }}>
@@ -131,4 +175,64 @@ storiesOf('Button', module)
         Error :(
       </Button>
     </Gapped>
-  ));
+  ))
+  .add('loading', () => {
+    const sizes: ButtonSize[] = ['small', 'medium', 'large'];
+
+    return (
+      <Gapped vertical>
+        <Gapped>
+          {sizes.map((size, key) => (
+            <Button key={key} size={size} loading>
+              {size}
+            </Button>
+          ))}
+        </Gapped>
+        <Gapped>
+          {sizes.map((size, key) => (
+            <Button key={key} size={size} arrow loading>
+              Arrow {size}
+            </Button>
+          ))}
+        </Gapped>
+        <Gapped>
+          {sizes.map((size, key) => (
+            <Button key={key} size={size} arrow="left" loading>
+              Arrow left {size}
+            </Button>
+          ))}
+        </Gapped>
+      </Gapped>
+    );
+  })
+  .add('text styles reset', () => {
+    return (
+      <div
+        style={{
+          fontWeight: 'bold',
+          fontStyle: 'italic',
+          fontVariant: 'small-caps slashed-zero',
+          fontStretch: 'expanded',
+          color: 'red',
+          lineHeight: '50px',
+          textAlign: 'right',
+          textShadow: '3px 3px 3px #333',
+          textTransform: 'uppercase',
+          letterSpacing: '5px',
+        }}
+      >
+        <Gapped>
+          <span>Inherited Styles</span>
+          <Button>
+            <SearchIcon />
+          </Button>
+          <Button>Button</Button>
+          <Button visuallyFocused>Focused</Button>
+          <Button active>Active</Button>
+          <Button checked>Checked</Button>
+          <Button disabled>Disabled</Button>
+          <Button use="link">Link</Button>
+        </Gapped>
+      </div>
+    );
+  });

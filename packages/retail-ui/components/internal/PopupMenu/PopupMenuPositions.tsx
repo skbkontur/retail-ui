@@ -1,6 +1,6 @@
+import { PopupPosition } from '../../Popup';
 
-
-const PopupMenuPositions: string[] = [
+const PopupMenuPositions: PopupPosition[] = [
   'top left',
   'top center',
   'top right',
@@ -12,7 +12,7 @@ const PopupMenuPositions: string[] = [
   'bottom right',
   'left top',
   'left middle',
-  'left bottom'
+  'left bottom',
 ];
 
 export default PopupMenuPositions;

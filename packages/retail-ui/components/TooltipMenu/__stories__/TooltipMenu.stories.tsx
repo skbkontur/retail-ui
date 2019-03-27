@@ -16,7 +16,7 @@ storiesOf('TooltipMenu', module)
         padding: 200,
         border: '1px solid #dfdede',
         overflow: 'hidden',
-        textAlign: 'center'
+        textAlign: 'center',
       }}
     >
       {story()}
@@ -32,10 +32,7 @@ storiesOf('TooltipMenu', module)
     </TooltipMenu>
   ))
   .add('Example with width of menu', () => (
-    <TooltipMenu
-      caption={<Button use="primary">Открыть меню</Button>}
-      menuWidth={300}
-    >
+    <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={300}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -44,10 +41,7 @@ storiesOf('TooltipMenu', module)
     </TooltipMenu>
   ))
   .add('Example with maximum height of menu', () => (
-    <TooltipMenu
-      caption={<Button use="primary">Открыть меню</Button>}
-      menuMaxHeight={150}
-    >
+    <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
       <MenuHeader>Заголовок меню</MenuHeader>
       <MenuSeparator />
       <MenuItem>Раз</MenuItem>
@@ -97,5 +91,12 @@ storiesOf('TooltipMenu', module)
       <MenuItem>Раз</MenuItem>
       <MenuItem>Два</MenuItem>
       <MenuItem>Три</MenuItem>
+    </TooltipMenu>
+  ))
+  .add('Menu without animations', () => (
+    <TooltipMenu disableAnimations caption={<Button use="primary">Нет анимации</Button>}>
+      <MenuHeader>Анимация не пройдет</MenuHeader>
+      <MenuSeparator />
+      <MenuItem>Я не верю в мультики</MenuItem>
     </TooltipMenu>
   ));

@@ -3,17 +3,19 @@
 Рекомендуемое
 
 ```jsx
+const BabyIcon = require('@skbkontur/react-icons/Baby').default;
+
 let pageStyle = {
   background: '#e6e6e6',
   height: 400,
   border: '1px solid #dedfdf',
-  overflow: 'hidden'
+  overflow: 'hidden',
 };
 
 let contentStyle = {
   background: 'white',
   padding: 15,
-  height: 280
+  height: 280,
 };
 
 <div style={pageStyle}>
@@ -23,19 +25,19 @@ let contentStyle = {
         <Logotype suffix="ui" withWidget />
       </TopBar.ItemStatic>
       <TopBar.Item>
-        <Icon name="Baby" color="#666" />
+        <BabyIcon color="#666" />
       </TopBar.Item>
       <TopBar.Item>
-        <Icon name="Baby" color="#666" />
+        <BabyIcon color="#666" />
       </TopBar.Item>
     </TopBar.Start>
     <TopBar.End>
       <TopBar.Item>
-        <Icon name="Baby" color="#666" />
+        <BabyIcon color="#666" />
       </TopBar.Item>
       <TopBar.User userName="Alexander The Great" />
       <TopBar.Divider />
-      <TopBar.Item onClick={() => alert('Logout!')}>Выйти</TopBar.Item>
+      <TopBar.Logout onClick={() => alert('Logout!')} />
     </TopBar.End>
   </TopBar>
   <Loader active caption="neverending...">
@@ -47,19 +49,21 @@ let contentStyle = {
 Старый вариант
 
 ```jsx
+const BabyIcon = require('@skbkontur/react-icons/Baby').default;
+
 let Item = TopBar.Item;
 
 let pageStyle = {
   background: '#e6e6e6',
   height: 400,
   border: '1px solid #dedfdf',
-  overflow: 'hidden'
+  overflow: 'hidden',
 };
 
 let contentStyle = {
   background: 'white',
   padding: 15,
-  height: 280
+  height: 280,
 };
 
 <div style={pageStyle}>
@@ -69,12 +73,40 @@ let contentStyle = {
     onLogout={() => alert('Logout!')}
     leftItems={[
       <Item>
-        <Icon name="Baby" color="#666" />
-      </Item>
+        <BabyIcon color="#666" />
+      </Item>,
     ]}
   />
   <Loader active caption="neverending...">
     <div style={contentStyle} />
   </Loader>
 </div>;
+```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface TopBarLocale {
+  logout?: string;
+  cabinetTitle?: string;
+  cabinetSettings?: string;
+  cabinetCertificates?: string;
+  cabinetServices?: string;
+}
+
+const ru_RU = {
+  cabinetTitle: 'Личный кабинет Контура',
+  cabinetSettings: 'Настройка входа в сервисы',
+  cabinetCertificates: 'Сертификаты',
+  cabinetServices: 'Оплата сервисов',
+  logout: 'Выйти',
+};
+
+const en_EN = {
+  cabinetTitle: 'Personal account Kontur',
+  cabinetSettings: 'Configure login services',
+  cabinetCertificates: 'Certificates',
+  cabinetServices: 'Payment for services',
+  logout: 'Logout',
+};
 ```

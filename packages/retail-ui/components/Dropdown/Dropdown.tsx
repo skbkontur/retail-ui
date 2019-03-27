@@ -8,7 +8,6 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import Select from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonUse, ButtonSize } from '../Button';
-import { IconName } from '../Icon';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -29,7 +28,7 @@ const PASS_PROPS = {
   onMouseOver: true,
 
   diadocLink: true,
-  diadocLinkIcon: true
+  diadocLinkIcon: true,
 };
 
 export interface DropdownProps {
@@ -40,7 +39,7 @@ export interface DropdownProps {
   /**
    * Иконка слева от текста кнопки
    */
-  icon?: IconName | React.ReactElement<any>;
+  icon?: React.ReactElement<any>;
   width?: React.CSSProperties['width'];
 
   /** @ignore */
@@ -157,7 +156,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
     /**
      * Вызывается при открытии меню.
      */
-    onOpen: PropTypes.func
+    onOpen: PropTypes.func,
   };
 
   private _select: Nullable<DropdownSelectType>;
@@ -177,12 +176,18 @@ export default class Dropdown extends React.Component<DropdownProps> {
     );
   }
 
+  /**
+   * @public
+   */
   public open() {
     if (this._select) {
       this._select.open();
     }
   }
 
+  /**
+   * @public
+   */
   public close() {
     if (this._select) {
       this._select.close();

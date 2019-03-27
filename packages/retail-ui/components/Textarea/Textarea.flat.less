@@ -1,101 +1,17 @@
 @import '../variables.less';
 @import '../variables.flat.less';
+@import './Textarea.common.less';
 
 :local {
-  .root {
-    position: relative;
-    display: inline-block;
-  }
+  .commonStyles();
 
   .textarea {
-    border: 1px solid @border-color-gray-light;
-    border-top-color: @border-color-gray-dark;
-    box-sizing: border-box;
-    font-family: inherit;
-    font-size: 14px;
-    line-height: 16px;
-    outline: none;
-    padding: 8px;
-    vertical-align: middle;
-    width: 100%;
-    max-width: 100%;
-    -webkit-appearance: none;
-    transition: height 0.2s ease-out;
-    background-clip: padding-box;
     background: @textarea-flat-bg;
     color: @textarea-flat-color;
-  }
 
-  .fake {
-    position: absolute;
-    height: 0;
-    width: 100%;
-    top: 0;
-    left: 0;
-    visibility: hidden;
-  }
-
-  .deprecated_oldSize {
-    padding: 6px 8px;
-  }
-
-  .textarea:focus {
-    border-color: @flat-border-color-focus;
-    box-shadow: 0 0 0 1px @flat-border-color-focus;
-    position: relative;
-    z-index: 2;
-  }
-
-  :global(.rt-ie8) {
-    .textarea:focus {
-      outline: 2px solid @border-color-focus;
+    &:focus {
+      border-color: @flat-border-color-focus;
+      box-shadow: 0 0 0 1px @flat-border-color-focus;
     }
-
-    .error,
-    .error:focus {
-      outline: 2px solid @border-color-error;
-    }
-  }
-
-  .textarea[disabled] {
-    background: @bg-disabled;
-    border-color: @border-color-gray-light;
-    color: @text-color-disabled;
-    box-shadow: none;
-  }
-
-  .textarea::placeholder,
-  .placeholder {
-    color: @placeholder-color;
-  }
-
-  .textarea:focus::placeholder {
-    color: @placeholder-color-light;
-  }
-
-  .placeholder {
-    position: absolute;
-    z-index: 3;
-    top: 9px;
-    right: 24px;
-    left: 9px;
-    line-height: 16px;
-    font-size: 14px;
-    color: #aaa;
-    overflow: hidden;
-    user-select: none;
-    -ms-user-select: none;
-  }
-
-  .error,
-  .error:focus {
-    border-color: @border-color-error;
-    box-shadow: 0 0 0 1px @border-color-error;
-  }
-
-  .warning,
-  .warning:focus {
-    border-color: @border-color-warning;
-    box-shadow: 0 0 0 1px @border-color-warning;
   }
 }

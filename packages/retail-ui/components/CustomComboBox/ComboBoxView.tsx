@@ -5,10 +5,14 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem';
+import { MenuItemState } from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
+import ArrowTriangleDown from '@skbkontur/react-icons/ArrowTriangleDown';
+import styles from './CustomComboBox.less';
+import ComboBoxMenu from './ComboBoxMenu';
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -22,7 +26,7 @@ interface ComboBoxViewProps<T> {
   loading?: boolean;
   menuAlign?: 'left' | 'right';
   opened?: boolean;
-  openButton?: boolean;
+  drawArrow?: boolean;
   placeholder?: string;
   size?: 'small' | 'medium' | 'large';
   textValue?: string;
@@ -33,41 +37,43 @@ interface ComboBoxViewProps<T> {
   maxLength?: number;
   maxMenuHeight?: number | string;
 
-  onChange?: (x0: T) => any;
+  onChange?: (item: T, e: React.SyntheticEvent) => void;
   onClickOutside?: () => void;
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
-  onInputChange?: (x0: React.ChangeEvent<HTMLInputElement>, x1: string) => void;
+  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
   onInputFocus?: () => void;
+  onInputClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
-  renderItem?: (item: T) => React.ReactNode;
+  renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
+  repeatRequest?: () => void;
+  requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
+  refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
 class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static defaultProps = {
     renderItem: (item: any) => item,
-    renderNotFound: () => 'Не найдено',
     renderValue: (item: any) => item,
+    repeatRequest: () => undefined,
+    requestStatus: ComboBoxRequestStatus.Unknown,
     onClickOutside: () => {
       /**/
     },
     onFocusOutside: () => {
       /**/
     },
-    onChange: (item: any) => {
-      /**/
-    },
     size: 'small',
-    width: 250 as string | number
+    width: 250 as string | number,
   };
 
   private input: Nullable<Input>;
@@ -82,11 +88,10 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const { input, props } = this;
     if (props.editing && !prevProps.editing && input) {
       input.focus();
-      input.setSelectionRange(0, (props.textValue || '').length);
     }
   }
 
-  public render(): JSX.Element {
+  public render() {
     const {
       items,
       loading,
@@ -96,18 +101,24 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
-      openButton,
       opened,
+      refMenu,
+      maxMenuHeight,
+      renderTotalCount,
+      renderItem,
+      renderNotFound,
+      repeatRequest,
+      requestStatus,
+      totalCount,
       size,
-      width
+      width,
     } = this.props;
 
     const input = this.renderInput();
-    const menu = this.renderMenu();
 
     const topOffsets = {
       spinner: 6,
-      arrow: 15
+      arrow: 15,
     };
     if (size === 'medium') {
       topOffsets.spinner += 4;
@@ -118,52 +129,16 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       topOffsets.arrow += 6;
     }
 
-    const spinner: React.ReactNode = (
-      <span
-        style={{
-          position: 'absolute',
-          top: topOffsets.spinner,
-          right: 5,
-          zIndex: 10
-        }}
-      >
-        <Spinner type="mini" caption="" dimmed />
-      </span>
-    );
-
-    const arrow: React.ReactNode = (
-      <span
-        style={{
-          border: '4px solid transparent',
-          borderBottomWidth: 0,
-          borderTopColor: '#aaa',
-          position: 'absolute',
-          right: 10,
-          top: topOffsets.arrow,
-          zIndex: 2,
-          pointerEvents: 'none'
-        }}
-      />
-    );
-
-    const spinnerIsShown = loading && items && !!items.length;
-    const arrowIsShown = !spinnerIsShown && openButton;
-
     return (
-      <RenderLayer
-        onClickOutside={onClickOutside}
-        onFocusOutside={onFocusOutside}
-        active={opened}
-      >
-        <label
-          style={{ width, display: 'inline-block', position: 'relative' }}
+      <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
+        <span
+          style={{ width }}
+          className={styles.root}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           onMouseOver={onMouseOver}
         >
           {input}
-          {spinnerIsShown && spinner}
-          {arrowIsShown && arrow}
           {opened && (
             <DropdownContainer
               align={menuAlign}
@@ -172,91 +147,26 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
               offsetY={1}
               disablePortal={this.props.disablePortal}
             >
-              {menu}
+              <ComboBoxMenu
+                items={items}
+                loading={loading}
+                maxMenuHeight={maxMenuHeight}
+                onChange={this.handleItemSelect}
+                opened={opened}
+                refMenu={refMenu}
+                renderTotalCount={renderTotalCount}
+                renderItem={renderItem!}
+                renderNotFound={renderNotFound}
+                repeatRequest={repeatRequest}
+                requestStatus={requestStatus}
+                totalCount={totalCount}
+              />
             </DropdownContainer>
           )}
-        </label>
+        </span>
       </RenderLayer>
     );
   }
-
-  private renderMenu(): React.ReactNode {
-    const {
-      opened,
-      items,
-      totalCount,
-      loading,
-      refMenu,
-      renderNotFound,
-      renderTotalCount,
-      maxMenuHeight
-    } = this.props;
-
-    if (!opened) {
-      return null;
-    }
-
-    if (loading && (!items || !items.length)) {
-      return (
-        <Menu ref={refMenu}>
-          <MenuItem disabled>
-            <div style={{ margin: '-2px 0 -1px' }}>
-              <Spinner type="mini" dimmed />
-            </div>
-          </MenuItem>
-        </Menu>
-      );
-    }
-
-    if ((items == null || items.length === 0) && renderNotFound) {
-      return (
-        <Menu ref={refMenu}>
-          <MenuItem disabled>{renderNotFound()}</MenuItem>
-        </Menu>
-      );
-    }
-
-    let total = null;
-    if (items && renderTotalCount && totalCount && items.length < totalCount) {
-      total = (
-        <MenuItem disabled>
-          <div style={{ fontSize: 12 }}>
-            {renderTotalCount(items.length, totalCount)}
-          </div>
-        </MenuItem>
-      );
-    }
-
-    return (
-      <Menu ref={refMenu} maxHeight={maxMenuHeight}>
-        {items && items.map(this.renderItem)}
-        {total}
-      </Menu>
-    );
-  }
-
-  private renderItem = (item: T, index: number): React.ReactNode => {
-    // NOTE this is undesireable feature, better
-    // to remove it from further versions
-    if (typeof item === 'function' || React.isValidElement(item)) {
-      // @ts-ignore
-      const element = typeof item === 'function' ? item() : item;
-      const props = Object.assign(
-        {
-          key: index,
-          onClick: () => this.props.onChange!(element.props)
-        },
-        element.props
-      );
-      return React.cloneElement(element, props);
-    }
-    return (
-      // tslint:disable-next-line:jsx-no-lambda
-      <MenuItem onClick={() => this.props.onChange!(item)} key={index}>
-        {this.props.renderItem!(item)}
-      </MenuItem>
-    );
-  };
 
   private renderInput(): React.ReactNode {
     const {
@@ -269,15 +179,18 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       onInputBlur,
       onInputChange,
       onInputFocus,
+      onInputClick,
       onInputKeyDown,
-      openButton,
       placeholder,
       renderValue,
       size,
       textValue,
       value,
-      warning
+      warning,
+      refInputLikeText,
     } = this.props;
+
+    const rightIcon = this.getRightIcon();
 
     if (editing) {
       return (
@@ -290,7 +203,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onBlur={onInputBlur}
           onChange={onInputChange}
           onFocus={onInputFocus}
-          rightIcon={openButton ? <span /> : null}
+          onClick={onInputClick}
+          rightIcon={rightIcon}
           value={textValue || ''}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
@@ -308,23 +222,55 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         borderless={borderless}
         error={error}
         onFocus={onFocus}
-        padRight={openButton}
+        rightIcon={rightIcon}
         disabled={disabled}
         warning={warning}
         placeholder={placeholder}
         size={size}
         width="100%"
+        ref={refInputLikeText}
       >
         {value ? renderValue!(value) : null}
       </InputLikeText>
     );
   }
 
+  private handleItemSelect = (item: T, event: React.SyntheticEvent) => {
+    event.persist();
+    if (this.props.onChange) {
+      this.props.onChange(item, event);
+    }
+  };
+
   private refInput = (input: Nullable<Input>) => {
     if (this.props.refInput) {
       this.props.refInput(input);
     }
     this.input = input;
+  };
+
+  private renderSpinner = () => (
+    <span className={styles.spinnerWrapper}>
+      <Spinner type="mini" caption="" dimmed />
+    </span>
+  );
+
+  private getRightIcon = () => {
+    const { loading, items, drawArrow } = this.props;
+
+    if (loading && items && !!items.length) {
+      return this.renderSpinner();
+    }
+
+    if (drawArrow) {
+      return (
+        <span className={styles.arrowWrapper}>
+          <ArrowTriangleDown />
+        </span>
+      );
+    }
+
+    return null;
   };
 }
 

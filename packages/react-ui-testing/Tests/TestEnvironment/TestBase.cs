@@ -1,12 +1,13 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 
 namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
-    [TestFixture("15.4.2", "0.11.0")]
-    [TestFixture("16.4.2", "0.20.2")]
+//    [TestFixture("15.4.2", "0.11.0")]
+//    [TestFixture("16.4.2", "0.20.2")]
+//    [TestFixture("16.4.2", "9.9.9")]
     [TestFixtureSource(typeof(RetailUIAndReactVersions))]
     public abstract class TestBase
     {

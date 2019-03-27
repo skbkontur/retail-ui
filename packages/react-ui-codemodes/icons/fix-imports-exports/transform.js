@@ -1,11 +1,7 @@
 module.exports = function(file, api) {
   const j = api.jscodeshift;
   const root = j(file.source);
-  const typesForReplace = [
-    "ImportDeclaration",
-    "ExportNamedDeclaration",
-    "ExportAllDeclaration"
-  ];
+  const typesForReplace = ['ImportDeclaration', 'ExportNamedDeclaration', 'ExportAllDeclaration'];
 
   root
     .find(j.Node, node => typesForReplace.indexOf(node.type) > -1)
@@ -16,7 +12,7 @@ module.exports = function(file, api) {
     })
     .replaceWith(path => {
       const node = path.node;
-      node.source.value = "react-ui-icons";
+      node.source.value = 'react-ui-icons';
       return node;
     });
 

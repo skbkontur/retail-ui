@@ -1,7 +1,36 @@
+// tslint:disable:jsx-no-lambda
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Popup from '../Popup';
+import Popup, { PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
+import Tooltip from '../../Tooltip';
+import ComboBox from '../../ComboBox';
+import Hint from '../../Hint';
+import Select from '../../Select';
+import RenderLayer from '../../RenderLayer';
+
+storiesOf('Popup', module)
+  .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
+  .add('All pin opened on small elements', () => <AllCases small padding={'70px 150px'} />)
+  .add('Positioning', () => <Positioning />)
+  .add('disableAnimations', () => (
+    <div>
+      <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
+      <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
+    </div>
+  ))
+  .add('Hint', () => (
+    <div style={{ padding: '100px' }}>
+      <FakeHint positions={['top center', 'right top', 'bottom center', 'left middle']} margin={20} />
+    </div>
+  ))
+  .add('Toast', () => (
+    <div style={{ padding: '100px' }}>
+      <Toast positions={['top center', 'right top', 'bottom center', 'left middle']} />
+    </div>
+  ))
+  .add('Small width', () => <MinWidth />)
+  .add('Hover behaviour', () => <HoverBehaviour />);
 
 const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
   <div style={{ padding }}>
@@ -105,14 +134,14 @@ const Positioning = () => (
 
 class MinWidth extends React.Component {
   public state: AlwaysOpenedState = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
@@ -121,17 +150,11 @@ class MinWidth extends React.Component {
       <div style={{ padding: '100px' }}>
         <span ref={el => (this.anchor = el)}>x</span>
         {this.state.anchor && (
-          <Popup
-            hasShadow
-            hasPin
-            opened
-            anchorElement={this.anchor}
-            positions={['bottom center']}
-          >
+          <Popup hasShadow hasPin opened anchorElement={this.anchor} positions={['bottom center']}>
             <div
               style={{
                 textAlign: 'center',
-                padding: '5px'
+                padding: '5px',
               }}
             >
               {'21:00'}
@@ -143,46 +166,9 @@ class MinWidth extends React.Component {
   }
 }
 
-storiesOf('Popup', module)
-  .add('All pin opened', () => (
-    <AllCases small={false} padding={'50px 100px'} />
-  ))
-  .add('All pin opened on small elements', () => (
-    <AllCases small padding={'70px 150px'} />
-  ))
-  .add('Positioning', () => <Positioning />)
-  .add('disableAnimations', () => (
-    <div>
-      <PopupWithPositions
-        disableAnimations={false}
-        placeholder={'disableAnimations: false'}
-      />
-      <PopupWithPositions
-        disableAnimations={true}
-        placeholder={'disableAnimations: true'}
-      />
-    </div>
-  ))
-  .add('Hint', () => (
-    <div style={{ padding: '100px' }}>
-      <Hint
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-        margin={20}
-      />
-    </div>
-  ))
-  .add('Toast', () => (
-    <div style={{ padding: '100px' }}>
-      <Toast
-        positions={['top center', 'right top', 'bottom center', 'left middle']}
-      />
-    </div>
-  ))
-  .add('Small width', () => <MinWidth />);
-
 interface AlwaysOpenedProps {
   small: boolean;
-  positions: string[];
+  positions: PopupPosition[];
 }
 
 interface AlwaysOpenedState {
@@ -191,14 +177,14 @@ interface AlwaysOpenedState {
 
 class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
   public state: AlwaysOpenedState = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
@@ -209,7 +195,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
       margin: '20px',
       border: '1px solid black',
       textAlign: 'center',
-      fontSize: '40px'
+      fontSize: '40px',
     };
 
     const style: React.CSSProperties = this.props.small
@@ -217,7 +203,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
           ...defaultStyle,
           width: '20',
           height: '20',
-          margin: '50'
+          margin: '50',
         }
       : defaultStyle;
 
@@ -228,14 +214,12 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
         </div>
         {this.state.anchor && (
           <Popup
+            opened
+            hasPin
+            hasShadow
             anchorElement={this.state.anchor}
-            popupOffset={0}
-            opened={true}
-            margin={10}
             positions={this.props.positions}
             backgroundColor={'#fff'}
-            hasShadow={true}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
           >
@@ -243,7 +227,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
               style={{
                 textAlign: 'center',
                 padding: '10px 20px',
-                fontSize: '20px'
+                fontSize: '20px',
               }}
             >
               Text
@@ -262,14 +246,14 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
 class PopupWithPositions extends Component<any, any> {
   public state = {
     opened: false,
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
@@ -283,28 +267,30 @@ class PopupWithPositions extends Component<any, any> {
             width: '34px',
             height: '34px',
             borderRadius: '17px',
-            background: 'grey'
+            background: 'grey',
           }}
         />
         {this.state.anchor && (
-          <Popup
-            onCloseRequest={this._clickHandler}
-            anchorElement={this.state.anchor}
-            popupOffset={0}
-            opened={this.state.opened}
-            margin={13}
-            positions={['bottom left', 'bottom right', 'top left', 'top right']}
-            backgroundColor={'#fff'}
-            hasShadow={true}
-            hasPin={true}
-            pinSize={10}
-            pinOffset={7}
-            disableAnimations={this.props.disableAnimations}
+          <RenderLayer
+            onClickOutside={this._clickHandler}
+            onFocusOutside={this._clickHandler}
+            active={this.state.opened}
           >
-            <div style={{ padding: '10px 20px', fontSize: '30px' }}>
-              {this.props.placeholder || 'Placeholder'}
-            </div>
-          </Popup>
+            <Popup
+              hasPin
+              hasShadow
+              anchorElement={this.state.anchor}
+              opened={this.state.opened}
+              margin={13}
+              positions={['bottom left', 'bottom right', 'top left', 'top right']}
+              backgroundColor={'#fff'}
+              pinSize={10}
+              pinOffset={7}
+              disableAnimations={this.props.disableAnimations}
+            >
+              <div style={{ padding: '10px 20px', fontSize: '30px' }}>{this.props.placeholder || 'Placeholder'}</div>
+            </Popup>
+          </RenderLayer>
         )}
       </div>
     );
@@ -324,37 +310,33 @@ class PopupWithPositions extends Component<any, any> {
   };
 }
 
-class Hint extends Component<any, any> {
+class FakeHint extends Component<any, any> {
   public state = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
   public render() {
     return (
       <div>
-        <div
-          ref={e => (this.anchor = e)}
-          style={{ width: '100px', height: '100px', border: '1px solid black' }}
-        >
+        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
           <Popup
+            hasPin
+            opened
             anchorElement={this.state.anchor}
-            opened={true}
             positions={this.props.positions}
             margin={this.props.margin}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
-            hasShadow={false}
-            hasPin={true}
             pinSize={10}
             pinOffset={7}
           >
@@ -368,34 +350,29 @@ class Hint extends Component<any, any> {
 
 class Toast extends Component<any, any> {
   public state = {
-    anchor: null
+    anchor: null,
   };
 
   private anchor: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor
+      anchor: this.anchor,
     });
   }
 
   public render() {
     return (
       <div>
-        <div
-          ref={e => (this.anchor = e)}
-          style={{ width: '100px', height: '100px', border: '1px solid black' }}
-        >
+        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
           <Popup
+            opened
             anchorElement={this.state.anchor}
-            opened={true}
             positions={this.props.positions}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
-            hasShadow={false}
-            hasPin={false}
             pinSize={10}
             pinOffset={7}
           >
@@ -403,6 +380,166 @@ class Toast extends Component<any, any> {
           </Popup>
         )}
       </div>
+    );
+  }
+}
+
+const renderPopupContent = () => {
+  return <span>Popup content</span>;
+};
+
+const COMBOBOX_ITEMS = [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }];
+const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => [i.value, i.label]);
+const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
+
+interface IDropdownValue {
+  value: number;
+  label: string;
+}
+interface HasDropdownState {
+  selected?: IDropdownValue;
+}
+
+interface HoverTestProps {
+  dropdownProps?: { disablePortal: boolean };
+  popupProps?: { useWrapper: boolean };
+  useText?: boolean;
+}
+class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
+  public state: HasDropdownState = {};
+
+  public render() {
+    const tooltipProps = this.props.popupProps || {};
+    const comboboxProps = this.props.dropdownProps || {};
+    return (
+      <Tooltip
+        pos={'top left'}
+        trigger={'hover'}
+        closeButton={false}
+        render={renderPopupContent}
+        disableAnimations
+        {...tooltipProps}
+      >
+        {this.props.useText ? (
+          'Sample text'
+        ) : (
+          <ComboBox
+            size={'large'}
+            getItems={getComboboxItems}
+            value={this.state.selected}
+            onChange={this.handleOnChange}
+            {...comboboxProps}
+          />
+        )}
+      </Tooltip>
+    );
+  }
+  private handleOnChange = (event: any, value: IDropdownValue) => {
+    this.setState({ selected: value });
+  };
+}
+
+class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
+  public state: HasDropdownState = {};
+
+  public render() {
+    const hintProps = this.props.popupProps || {};
+    const selectProps = this.props.dropdownProps || {};
+    return (
+      <Hint pos={'top left'} text={'Hint text'} disableAnimations {...hintProps}>
+        {this.props.useText ? (
+          'Sample text'
+        ) : (
+          <Select
+            size={'large'}
+            items={SELECT_ITEMS}
+            value={this.state.selected}
+            onChange={this.handleOnChange}
+            {...selectProps}
+          />
+        )}
+      </Hint>
+    );
+  }
+  private handleOnChange = (event: any, value: IDropdownValue) => {
+    this.setState({ selected: value });
+  };
+}
+
+const HOVER_CASES: HoverTestProps[] = [
+  {
+    dropdownProps: { disablePortal: true },
+    popupProps: { useWrapper: true },
+  },
+  {
+    dropdownProps: { disablePortal: true },
+    popupProps: { useWrapper: false },
+  },
+  {
+    dropdownProps: { disablePortal: false },
+    popupProps: { useWrapper: true },
+  },
+  {
+    dropdownProps: { disablePortal: false },
+    popupProps: { useWrapper: false },
+  },
+  {
+    useText: true,
+    popupProps: { useWrapper: true },
+  },
+  {
+    useText: true,
+    popupProps: { useWrapper: false },
+  },
+];
+
+const DescribeProps = (props: HoverTestProps) => {
+  return (
+    <span>
+      {props.useText ? 'Text' : 'Component'}
+      {props.popupProps && <br />}
+      {props.popupProps && `popupProps.useWrapper=${props.popupProps.useWrapper}`}
+      {props.dropdownProps && <br />}
+      {props.dropdownProps && `dropdownProps.disablePortal=${props.dropdownProps.disablePortal}`}
+    </span>
+  );
+};
+
+class HoverBehaviour extends Component<any, any> {
+  public render() {
+    return (
+      <table cellPadding={20}>
+        <thead>
+          <tr>
+            <td>Case</td>
+            <td>Tooltip</td>
+            <td>Hint</td>
+          </tr>
+        </thead>
+        <tbody>
+          {HOVER_CASES.map((props, index) => (
+            <tr key={index}>
+              <td>
+                <DescribeProps {...props} />
+              </td>
+              <td>
+                <TooltipWithCombobox
+                  useText={props.useText}
+                  popupProps={props.popupProps}
+                  dropdownProps={props.dropdownProps}
+                />
+              </td>
+              <td>
+                <HintWithSelect
+                  useText={props.useText}
+                  popupProps={props.popupProps}
+                  dropdownProps={props.dropdownProps}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     );
   }
 }

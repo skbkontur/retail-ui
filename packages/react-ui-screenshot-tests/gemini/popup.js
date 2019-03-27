@@ -1,37 +1,37 @@
 /* global gemini */
-var pathTo = require("./utils").pathTo;
+var renderStory = require('./utils').renderStory;
 
-gemini.suite("Popup All pin opened", suite => {
+gemini.suite('Popup All pin opened', suite => {
   suite
-    .setUrl(pathTo("Popup", "All pin opened"))
-    .setCaptureElements("#test-element")
-    .capture("plain");
+    .before(renderStory('Popup', 'All pin opened'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
 });
 
-gemini.suite("Popup All pin opened on small elements", suite => {
+gemini.suite('Popup All pin opened on small elements', suite => {
   suite
-    .setUrl(pathTo("Popup", "All pin opened on small elements"))
-    .setCaptureElements("#test-element")
-    .capture("plain");
+    .before(renderStory('Popup', 'All pin opened on small elements'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
 });
 
-gemini.suite("Popup Hint", suite => {
+gemini.suite('Popup Hint', suite => {
   suite
-    .setUrl(pathTo("Popup", "Hint"))
-    .setCaptureElements("#test-element")
-    .capture("plain");
+    .before(renderStory('Popup', 'Hint'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
 });
 
-gemini.suite("Popup Toast", suite => {
+gemini.suite('Popup Toast', suite => {
   suite
-    .setUrl(pathTo("Popup", "Toast"))
-    .setCaptureElements("#test-element")
-    .capture("plain");
+    .before(renderStory('Popup', 'Toast'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
 });
 
-gemini.suite("Popup Small width", suite => {
+gemini.suite('Popup Small width', suite => {
   suite
-    .setUrl(pathTo("Popup", "Small width"))
-    .setCaptureElements("#test-element")
-    .capture("plain");
+    .before(renderStory('Popup', 'Small width'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
 });

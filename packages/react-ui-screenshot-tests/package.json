@@ -1,20 +1,20 @@
 {
   "name": "react-ui-screenshot-tests",
-  "version": "1.0.0",
+  "version": "1.1.6",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
     "concurrently": "^3.6.0",
     "gemini": "^5.7.2",
-    "gemini-sauce": "^1.0.1",
+    "gemini-sauce": "^1.0.2",
+    "gemini-teamcity": "^2.1.5",
     "html-reporter": "^2.18.1",
     "wait-on": "^2.1.0"
   },
   "scripts": {
-    "run-storybook": "yarn workspace retail-ui run storybook:run-serve &",
-    "test": "yarn run-storybook && wait-on http-get://localhost:6660/ && gemini test --reporter vflat",
-    "test:gui": "yarn run-storybook && wait-on http-get://localhost:6660/ && gemini gui"
+    "test": "node gemini test --reporter vflat --config gemini.config.js",
+    "test:gui": "node gemini gui --config gemini.config.js"
   },
   "devDependencies": {
     "dotenv": "^6.0.0"

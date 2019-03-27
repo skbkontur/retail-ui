@@ -8,12 +8,9 @@ interface AutoresizableTextareaState {
   value: string | null;
 }
 
-class AutoresizableTextarea extends React.Component<
-  {},
-  AutoresizableTextareaState
-> {
+class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
   public state = {
-    value: ''
+    value: '',
   };
 
   public render() {
@@ -43,9 +40,73 @@ const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
 
 storiesOf('Textarea', module)
-  .add('Simple', () => <Textarea value="" />)
-  .add('Filled', () => <Textarea value={TEXT_SAMPLE} />)
-  .add('With error', () => <Textarea error value={TEXT_SAMPLE} />)
+  .add('Different states', () => {
+    const rowStyles = {
+      display: 'flex',
+      padding: 5,
+    };
+
+    const cellStyles = {
+      padding: 5,
+    };
+
+    const headingStyles = {
+      width: 120,
+      padding: 5,
+      textAlign: 'right' as 'right',
+    };
+
+    return (
+      <div>
+        <div style={rowStyles}>
+          <div style={headingStyles}>Plain</div>
+          <div id="TextareaPlain" style={cellStyles}>
+            <Textarea />
+          </div>
+          <div id="TextareaPlainFilled" style={cellStyles}>
+            <Textarea defaultValue={TEXT_SAMPLE} />
+          </div>
+        </div>
+        <div style={rowStyles}>
+          <div style={headingStyles}>Warning</div>
+          <div id="TextareaWarning" style={cellStyles}>
+            <Textarea warning />
+          </div>
+          <div id="TextareaWarningFilled" style={cellStyles}>
+            <Textarea warning defaultValue={TEXT_SAMPLE} />
+          </div>
+        </div>
+        <div style={rowStyles}>
+          <div style={headingStyles}>Error</div>
+          <div id="TextareaError" style={cellStyles}>
+            <Textarea error />
+          </div>
+          <div id="TextareaErrorFilled" style={cellStyles}>
+            <Textarea error defaultValue={TEXT_SAMPLE} />
+          </div>
+        </div>
+        <div style={rowStyles}>
+          <div style={headingStyles}>Disabled</div>
+          <div id="TextareaDisabled" style={cellStyles}>
+            <Textarea disabled />
+          </div>
+          <div id="TextareaDisabledFilled" style={cellStyles}>
+            <Textarea disabled defaultValue={TEXT_SAMPLE} />
+          </div>
+        </div>
+      </div>
+    );
+  })
+  .add('Textarea with placeholder', () => (
+    <div>
+      <div id="TextareaWithPlaceholder" style={{ padding: 5 }}>
+        <Textarea placeholder="Placeholder" />
+      </div>
+      <div id="TextareaWithLongPlaceholder" style={{ padding: 5 }}>
+        <Textarea placeholder="Placeholder placeholder placeholder placeholder placeholder..." />
+      </div>
+    </div>
+  ))
   .add('Textarea in inline-flex and text', () => (
     <div>
       <div style={{ display: 'inline-flex' }}>
@@ -55,12 +116,8 @@ storiesOf('Textarea', module)
     </div>
   ))
   .add('Autoresizable textarea', () => <AutoresizableTextarea />)
-  .add('Textarea with custom width', () => (
-    <Textarea width={400} value={TEXT_SAMPLE} />
-  ))
-  .add('Select all by prop', () => (
-    <Textarea defaultValue={TEXT_SAMPLE} selectAllOnFocus />
-  ))
+  .add('Textarea with custom width', () => <Textarea width={400} value={TEXT_SAMPLE} />)
+  .add('Select all by prop', () => <Textarea defaultValue={TEXT_SAMPLE} selectAllOnFocus />)
   .add('Select all by button', () => {
     let textarea: Textarea | null = null;
     const handleClick = () => {

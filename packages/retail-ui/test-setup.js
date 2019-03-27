@@ -3,11 +3,20 @@ import 'regenerator-runtime/runtime';
 import 'babel-polyfill';
 
 import { configure } from 'enzyme';
-
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
+import RenderContainer from './components/RenderContainer';
+import { ZIndexStorage } from './components/ZIndex';
 
 configure({ adapter: new Adapter() });
+
+jest.mock('react-focus-lock', () => props => <div>{props.children}</div>);
+jest.mock('lodash.debounce', () =>
+  jest.fn(fn => {
+    fn.cancel = jest.fn();
+    return fn;
+  }),
+);
 
 /**
  * Since React v15.5, there's a warning printed if you access `React.createClass` or `React.PropTypes`
@@ -24,3 +33,15 @@ configure({ adapter: new Adapter() });
 
 delete React.createClass;
 delete React.PropTypes;
+
+// In general, it's easier (and performance-wise faster) to patch class once,
+// than write "__mock__" implementation and call
+// ```jest.mock(...)``` in every test (including indirect ones)
+
+beforeAll(() => {
+  // Stable data-rendered-container-id / keys for every test
+  RenderContainer.getRootId = () => 1;
+
+  // Stable zIndex for every test
+  ZIndexStorage.incrementZIndex = () => 1000;
+});

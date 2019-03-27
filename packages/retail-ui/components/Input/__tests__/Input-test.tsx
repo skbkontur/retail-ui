@@ -3,12 +3,11 @@ import { mount } from 'enzyme';
 import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
 
-const render = (props: InputProps) =>
-  mount<Input>(React.createElement(Input, props));
+const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
 describe('<Input />', () => {
   it('renders', () => {
-    render({ value: 'Hello' });
+    expect(() => render({ value: 'Hello' })).not.toThrow();
   });
 
   it('renders with given value', () => {
@@ -67,17 +66,14 @@ describe('<Input />', () => {
       placeholder: 'somePlaceholder',
       title: 'someTitle',
 
-      onBlur: () => undefined,
       onCopy: () => undefined,
       onClick: () => undefined,
       onMouseUp: () => undefined,
       onMouseDown: () => undefined,
       onCut: () => undefined,
       onInput: () => undefined,
-      onKeyDown: () => undefined,
-      onKeyPress: () => undefined,
       onKeyUp: () => undefined,
-      onPaste: () => undefined
+      onPaste: () => undefined,
     };
     const inputProps = render({ ...props, value: 'hello' })
       .find('input')
@@ -85,9 +81,7 @@ describe('<Input />', () => {
 
     for (const prop in props) {
       if (props[prop as keyof typeof props]) {
-        expect(inputProps[prop as keyof typeof props]).toBe(
-          props[prop as keyof typeof props]
-        );
+        expect(inputProps[prop as keyof typeof props]).toBe(props[prop as keyof typeof props]);
       }
     }
   });
@@ -96,20 +90,20 @@ describe('<Input />', () => {
     const props: Partial<InputProps> = {
       onMouseEnter: () => undefined,
       onMouseOver: () => undefined,
-      onMouseLeave: () => undefined
+      onMouseLeave: () => undefined,
     };
     const inputProps: React.HTMLAttributes<HTMLLabelElement> = render({
       ...props,
-      value: 'hello'
+      value: 'hello',
     })
       .find('label')
       .props();
 
     // tslint:disable-next-line:forin
     for (const prop in props as React.HTMLAttributes<HTMLLabelElement>) {
-      expect(
-        inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]
-      ).toBe(props[prop as keyof React.HTMLAttributes<HTMLLabelElement>]);
+      expect(inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]).toBe(
+        props[prop as keyof React.HTMLAttributes<HTMLLabelElement>],
+      );
     }
   });
 
@@ -133,26 +127,6 @@ describe('<Input />', () => {
     const wrapper = render({ value: '', mask: '999' });
     expect(wrapper.find(MaskedInput)).toHaveLength(1);
   });
-
-  it('passes props to MaskedInput', () => {
-    const props: MaskedInput.Props = {
-      value: '123',
-      mask: '999',
-      maskChar: '*',
-      alwaysShowMask: true
-    };
-    const inputProps = render(props as Partial<InputProps>)
-      .find(MaskedInput)
-      .props();
-
-    // tslint:disable-next-line:forin
-    for (const prop in props) {
-      expect(inputProps[prop as keyof MaskedInput.Props]).toBe(
-        props[prop as keyof MaskedInput.Props]
-      );
-    }
-  });
-
   it('has focus method', () => {
     const wrapper = render({ value: '' });
     const instance = wrapper.instance() as Input;
@@ -179,9 +153,7 @@ describe('<Input />', () => {
 
     expect(document.activeElement).toBeInstanceOf(HTMLInputElement);
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(
-      value.length
-    );
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
 
   it('selectAllOnFocus prop works', () => {
@@ -191,8 +163,91 @@ describe('<Input />', () => {
     wrapper.find('input').simulate('focus');
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
-    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(
-      value.length
-    );
+    expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
+  });
+
+  it('MaskedInput props dont pass in HtmlNode', () => {
+    const wrapper = render({
+      value: 'foo',
+      selectAllOnFocus: true,
+      maskChar: '_',
+      alwaysShowMask: true,
+      mask: '',
+    });
+
+    const inputNodeAttrs = wrapper.find('input').props();
+
+    expect(Object.keys(inputNodeAttrs)).not.toContain('selectAllOnFocus');
+    expect(Object.keys(inputNodeAttrs)).not.toContain('maskChar');
+    expect(Object.keys(inputNodeAttrs)).not.toContain('alwaysShowMask');
+    expect(Object.keys(inputNodeAttrs)).not.toContain('mask');
+  });
+
+  it('call onUnexpectedInput if was passed', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+    const blinkMock = jest.fn();
+    const wrapper = render({});
+
+    wrapper.instance().blink = blinkMock;
+
+    // tslint:disable-next-line:no-string-literal
+    wrapper.instance()['handleUnexpectedInput']();
+
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+
+    wrapper.setProps({ onUnexpectedInput: unexpectedInputHandlerMock });
+
+    // tslint:disable-next-line:no-string-literal
+    wrapper.instance()['handleUnexpectedInput']();
+
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('call handleUnexpectedInput on keyDown', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+    const wrapper = render({
+      value: '',
+      onUnexpectedInput: unexpectedInputHandlerMock,
+    });
+    const pressBackspace = () => {
+      wrapper.find('input').simulate('keydown', {
+        key: 'Backspace',
+      });
+    };
+
+    pressBackspace();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+
+    wrapper.setProps({ value: '123' });
+
+    pressBackspace();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('call handleUnexpectedInput on maxLength  has been reached', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+    const wrapper = render({
+      value: '',
+      onUnexpectedInput: unexpectedInputHandlerMock,
+      maxLength: 3,
+    });
+    const typeSymbol = () => {
+      wrapper.find('input').simulate('keypress', {
+        key: 'A',
+      });
+    };
+
+    typeSymbol();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(0);
+
+    wrapper.setProps({ value: '123' });
+
+    typeSymbol();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 });

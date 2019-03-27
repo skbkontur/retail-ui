@@ -19,21 +19,12 @@ module.exports = function(hook: Hook, agent: Agent) {
   var subs = [
     hook.sub('renderer-attached', ({ id, renderer, helpers }) => {
       agent.setReactInternals(id, helpers);
-      helpers.walkTree(
-        agent.onMounted.bind(agent, id),
-        agent.addRoot.bind(agent, id)
-      );
+      helpers.walkTree(agent.onMounted.bind(agent, id), agent.addRoot.bind(agent, id));
     }),
-    hook.sub('root', ({ renderer, element }) =>
-      agent.addRoot(renderer, element)
-    ),
-    hook.sub('mount', ({ renderer, element, data }) =>
-      agent.onMounted(renderer, element, data)
-    ),
-    hook.sub('update', ({ renderer, element, data }) =>
-      agent.onUpdated(element, data)
-    ),
-    hook.sub('unmount', ({ renderer, element }) => agent.onUnmounted(element))
+    hook.sub('root', ({ renderer, element }) => agent.addRoot(renderer, element)),
+    hook.sub('mount', ({ renderer, element, data }) => agent.onMounted(renderer, element, data)),
+    hook.sub('update', ({ renderer, element, data }) => agent.onUpdated(element, data)),
+    hook.sub('unmount', ({ renderer, element }) => agent.onUnmounted(element)),
   ];
 
   var success = setupBackend(hook);

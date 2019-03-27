@@ -5,12 +5,23 @@ import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import styles from './Sticky.less';
+import classNames from 'classnames';
+import { isFunction } from '../../lib/utils';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
   offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
+
+  /**
+   *
+   * Если `false`, вызывает `Maximum update depth exceeded error` когда у потомка определены марджины.
+   * Если `true` - добавляет контейнеру `overflow: auto`, тем самым предотвращая схлопывание марджинов
+   * @default false
+   */
+  allowChildWithMargins?: boolean;
 }
 
 export interface StickyState {
@@ -36,11 +47,13 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
      */
     offset: PropTypes.number,
 
-    side: PropTypes.oneOf(['top', 'bottom']).isRequired
+    side: PropTypes.oneOf(['top', 'bottom']).isRequired,
+    allowChildWithMargins: PropTypes.bool,
   };
 
   public static defaultProps = {
-    offset: 0
+    offset: 0,
+    allowChildWithMargins: false,
   };
 
   public state: StickyState = {
@@ -50,7 +63,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     width: 'auto',
 
     stopped: false,
-    relativeTop: 0
+    relativeTop: 0,
   };
 
   private _wrapper: Nullable<HTMLElement>;
@@ -60,7 +73,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private _reflowing: boolean = false;
   private _lastInnerHeight: number = -1;
   private _layoutSubscription: { remove: Nullable<() => void> } = {
-    remove: null
+    remove: null,
   };
 
   private getProps = createPropsGetter(Sticky.defaultProps);
@@ -84,22 +97,20 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   public render() {
     let wrapperStyle: React.CSSProperties = {};
     let innerStyle: React.CSSProperties = {};
+
     if (this.state.fixed) {
       if (this.state.stopped) {
         innerStyle = {
-          position: 'relative',
-          top: this.state.relativeTop
+          top: this.state.relativeTop,
         };
       } else {
         wrapperStyle = {
-          height: this.state.height === -1 ? 'auto' : this.state.height
+          height: this.state.height === -1 ? 'auto' : this.state.height,
         };
 
         innerStyle = {
           left: this.state.left,
-          position: 'fixed',
           width: this.state.width,
-          zIndex: 100
         };
 
         if (this.props.side === 'top') {
@@ -111,13 +122,24 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     let children = this.props.children;
-    if (typeof children === 'function') {
+    if (isFunction(children)) {
       children = children(this.state.fixed);
+    }
+
+    if (this.props.allowChildWithMargins) {
+      innerStyle.overflow = 'auto';
     }
 
     return (
       <div style={wrapperStyle} ref={this._refWrapper}>
-        <div style={innerStyle} ref={this._refInner}>
+        <div
+          className={classNames({
+            [styles.innerFixed]: this.state.fixed,
+            [styles.innerStopped]: this.state.stopped,
+          })}
+          style={innerStyle}
+          ref={this._refInner}
+        >
           {children}
         </div>
       </div>
@@ -131,6 +153,10 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private _refInner = (ref: Nullable<HTMLElement>) => {
     this._inner = ref;
   };
+
+  private lesserThan(a: number, b: number) {
+    return b - a > 0.0001;
+  }
 
   private _reflow = () => {
     if (this._reflowing) {
@@ -170,27 +196,24 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     const wrapLeft = wrapRect.left;
     const wrapTop = wrapRect.top;
     const fixed =
+      // NOTE Fix safari issue when `wrapTop` is around -1e-13 in some cases
       this.props.side === 'top'
-        ? wrapTop < this.getProps().offset
-        : wrapRect.bottom > windowHeight - this.getProps().offset;
+        ? this.lesserThan(wrapTop, this.getProps().offset)
+        : this.lesserThan(windowHeight - this.getProps().offset, wrapRect.bottom);
 
     const wasFixed = this.state.fixed;
 
     if (fixed) {
-      const width = Math.floor(wrapRect.right - wrapRect.left);
+      const width = wrapRect.width;
       const inner = this._inner;
       let height = this.state.height;
       if (!inner) {
         return;
       }
-      if (
-        !wasFixed ||
-        this.state.width !== width ||
-        this._lastInnerHeight !== inner.offsetHeight
-      ) {
+      if (!wasFixed || this.state.width !== width || this._lastInnerHeight !== inner.offsetHeight) {
         yield {
           fixed: false,
-          height
+          height,
         };
         height = inner.offsetHeight;
       }
@@ -199,7 +222,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
         width,
         height,
         fixed: true,
-        left: wrapLeft
+        left: wrapLeft,
       };
 
       this._lastInnerHeight = inner.offsetHeight;
@@ -228,9 +251,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
   private _setStateIfChanged(state: StickyState, callback?: () => void) {
     for (const key in state) {
-      if (
-        this.state[key as keyof StickyState] !== state[key as keyof StickyState]
-      ) {
+      if (this.state[key as keyof StickyState] !== state[key as keyof StickyState]) {
         this.setState(state, callback);
         return;
       }

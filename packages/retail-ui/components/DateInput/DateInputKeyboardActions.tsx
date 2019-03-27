@@ -1,10 +1,6 @@
 // @ts-ignore noUnusedVar
 import * as React from 'react';
-import {
-  KeyboardActionExctracterBuilder,
-  isSeparator,
-  isModified
-} from '../internal/extractKeyboardAction';
+import { KeyboardActionExctracterBuilder, isSeparator, isModified } from '../internal/extractKeyboardAction';
 
 export const Actions = {
   Unknown: 0,
@@ -17,13 +13,13 @@ export const Actions = {
   ClearSelection: 31,
   Digit: 101,
   Separator: 103,
-  WrongInput: 201
+  WrongInput: 201,
 };
 
 const extractAction = new KeyboardActionExctracterBuilder()
   .add(Actions.MoveSelectionLeft, e => e.key === 'ArrowLeft')
   .add(Actions.MoveSelectionRight, e => e.key === 'ArrowRight')
-  .add(Actions.MoveSelectionRight, isSeparator)
+  .add(Actions.Separator, isSeparator)
   .add(Actions.Increment, e => e.key === 'ArrowUp')
   .add(Actions.Decrement, e => e.key === 'ArrowDown')
   .add(Actions.FullSelection, e => (e.ctrlKey || e.metaKey) && e.key === 'a')

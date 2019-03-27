@@ -24,7 +24,6 @@ function build() {
 
   generatePackageJson();
 
-  copyNpmRc();
   copyReadme();
 }
 
@@ -33,7 +32,7 @@ function transform(filename, code, opts) {
     filename,
     plugins: config.plugins,
     presets: config.presets,
-    sourceMaps: true
+    sourceMaps: true,
   });
   result.filename = filename;
   result.actual = code;
@@ -60,12 +59,9 @@ function compileLess(src, relative) {
 
     less
       .render(data, {
-        paths: [
-          path.resolve(process.cwd(), 'components'),
-          path.resolve(process.cwd(), 'web_modules')
-        ],
+        paths: [path.resolve(process.cwd(), 'components'), path.resolve(process.cwd(), 'web_modules')],
         relativeUrls: true,
-        filename: src
+        filename: src,
       })
       .then(output => {
         outputFileSync(dest, output.css);
@@ -96,7 +92,7 @@ function write(src, relative) {
 
   const data = compile(src, {
     sourceFileName: path.relative(dest + '/..', src),
-    sourceMapTarget: path.basename(relative)
+    sourceMapTarget: path.basename(relative),
   });
 
   outputFileSync(dest, data.code);
@@ -106,12 +102,7 @@ function write(src, relative) {
 }
 
 function logTransform(src, dest) {
-  clearConsole();
-  console.log();
-  console.log('Transformed:');
-  console.log('From: ' + path.relative(process.cwd(), src));
-  console.log('  To: ' + path.relative(process.cwd(), dest));
-  console.log();
+  console.log(`Transformed: ${path.relative(process.cwd(), src)} => ${path.relative(process.cwd(), dest)}`);
 }
 
 function shouldIgnore(loc) {
@@ -191,31 +182,46 @@ function handleExports(dirPath) {
         if (files.includes('index.d.ts')) {
           handleTsReexport(dir);
         }
+        if (files.includes('index.js.flow')) {
+          handleFlowReexport(dir);
+        }
       };
     }
 
-    function handleJsReexport(dir) {
+    function reexport(dir, ext, getSource) {
       const name = dir.split(path.sep).slice(-1)[0];
-      const source = `module.exports = require('./components/${name}');\n`;
-      const outPath = path.join(OutDir, name + '.js');
+      const source = getSource(name);
+      const outPath = path.join(OutDir, name + ext);
       outputFileSync(outPath, source);
+    }
+
+    function handleJsReexport(dir) {
+      reexport(dir, '.js', name => `module.exports = require('./components/${name}');\n`);
     }
 
     function handleTsReexport(dir) {
-      const name = dir.split(path.sep).slice(-1)[0];
-      const source = `\
+      reexport(
+        dir,
+        '.d.ts',
+        name => `\
 export * from './components/${name}';
 export { default } from './components/${name}';
-`;
-      const outPath = path.join(OutDir, name + '.d.ts');
-      outputFileSync(outPath, source);
+`,
+      );
+    }
+
+    function handleFlowReexport(dir) {
+      reexport(
+        dir,
+        '.js.flow',
+        name => `\
+/* @flow */
+export * from './components/${name}';
+export { default } from './components/${name}';
+`,
+      );
     }
   };
-}
-
-function copyNpmRc() {
-  const npmrc = fs.readFileSync(path.join(process.cwd(), '.npmrc.enc'));
-  outputFileSync(path.join(OutDir, '.npmrc.enc'), npmrc);
 }
 
 function generatePackageJson() {
@@ -225,27 +231,20 @@ function generatePackageJson() {
     version: packageJson.version,
     license: 'MIT',
     dependencies: Object.assign({}, packageJson.dependencies, {
-      'babel-runtime': '^6.26.0'
+      'babel-runtime': '^6.26.0',
     }),
-    homepage:
-      'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
+    homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
     repository: {
       type: 'git',
-      url: 'git@github.com:skbkontur/retail-ui.git'
+      url: 'git@github.com:skbkontur/retail-ui.git',
     },
     bugs: {
-      url: 'https://github.com/skbkontur/retail-ui/issues'
+      url: 'https://github.com/skbkontur/retail-ui/issues',
     },
-    peerDependencies: packageJson.peerDependencies
+    peerDependencies: packageJson.peerDependencies,
   };
   const source = JSON.stringify(result, null, 2);
   outputFileSync(path.join(OutDir, 'package.json'), source);
-}
-
-function clearConsole() {
-  process.stdout.write(
-    process.platform === 'win32' ? '\x1Bc' : '\x1B[2J\x1B[3J\x1B[H'
-  );
 }
 
 function copyReadme() {

@@ -1,4 +1,7 @@
 ```jsx
+const EditIcon = require('@skbkontur/react-icons/Edit').default;
+const TrashIcon = require('@skbkontur/react-icons/Trash').default;
+
 let style = {
   alignItems: 'center',
   background: 'white',
@@ -7,7 +10,7 @@ let style = {
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
-  width: 250
+  width: 250,
 };
 
 let Card = ({ name, post }) => (
@@ -18,10 +21,10 @@ let Card = ({ name, post }) => (
     </div>
 
     <Kebab size="large">
-      <MenuItem icon="edit" onClick={() => Toast.push('Nope')}>
+      <MenuItem icon={<EditIcon />} onClick={() => Toast.push('Nope')}>
         Редактировать
       </MenuItem>
-      <MenuItem icon="trash" onClick={() => Toast.push('Nope')}>
+      <MenuItem icon={<TrashIcon />} onClick={() => Toast.push('Nope')}>
         Удалить
       </MenuItem>
     </Kebab>

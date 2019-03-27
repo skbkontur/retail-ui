@@ -1,11 +1,9 @@
 import * as React from 'react';
 import * as events from 'add-event-listener';
 import classNames from 'classnames';
-import warning from 'warning';
 import Upgrades from '../../lib/Upgrades';
 
 import Corners from './Corners';
-import Icon, { IconName } from '../Icon';
 
 import '../ensureOldIEClassName';
 
@@ -13,9 +11,7 @@ const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 import CssStyles from './Button.less';
 
-const classes: typeof CssStyles = isFlatDesign
-  ? require('./Button.flat.less')
-  : require('./Button.less');
+const classes: typeof CssStyles = isFlatDesign ? require('./Button.flat.less') : require('./Button.less');
 
 const KEYCODE_TAB = 9;
 
@@ -35,13 +31,9 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 
-export type ButtonUse =
-  | 'default'
-  | 'primary'
-  | 'success'
-  | 'danger'
-  | 'pay'
-  | 'link';
+export type ButtonArrow = boolean | 'left';
+
+export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
 export interface ButtonProps {
   /** @ignore */
@@ -61,8 +53,10 @@ export interface ButtonProps {
 
   /**
    * Кнопка со стрелкой.
+   *
+   * `type ButtonArrow = boolean | "left"`
    */
-  arrow?: boolean | 'left';
+  arrow?: ButtonArrow;
 
   autoFocus?: boolean;
 
@@ -87,7 +81,7 @@ export interface ButtonProps {
   /**
    * Иконка слева от текста кнопки.
    */
-  icon?: IconName | React.ReactElement<any>;
+  icon?: React.ReactElement<any>;
 
   loading?: boolean;
 
@@ -141,11 +135,11 @@ class Button extends React.Component<ButtonProps, ButtonState> {
   public static defaultProps = {
     use: 'default',
     size: 'small',
-    type: 'button'
+    type: 'button',
   };
 
   public state = {
-    focusedByTab: false
+    focusedByTab: false,
   };
 
   private _node: HTMLButtonElement | null = null;
@@ -183,10 +177,8 @@ class Button extends React.Component<ButtonProps, ButtonState> {
 
     const SIZE_CLASSES = {
       small: classes.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classes.sizeMedium
-        : classes.DEPRECATED_sizeMedium,
-      large: classes.sizeLarge
+      medium: Upgrades.isSizeMedium16pxEnabled() ? classes.sizeMedium : classes.DEPRECATED_sizeMedium,
+      large: classes.sizeLarge,
     };
 
     const rootProps = {
@@ -196,8 +188,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: classNames({
         [classes.root]: true,
-        [(classes as { [name: string]: string })[this.props.use!] ||
-        classes.default]: true,
+        [(classes as { [name: string]: string })[this.props.use!] || classes.default]: true,
         [classes.active]: this.props.active,
         [classes.checked]: this.props.checked,
         [classes.disabled]: this.props.disabled || this.props.loading,
@@ -207,7 +198,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.buttonWithIcon]: !!this.props.icon,
         [SIZE_CLASSES[this.props.size!]]: true,
         [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused,
-        [classes.borderless]: this.props.borderless
+        [classes.borderless]: this.props.borderless,
       }),
       style: {
         borderRadius:
@@ -215,7 +206,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
           ` ${corners & Corners.TOP_RIGHT ? 0 : RADIUS}` +
           ` ${corners & Corners.BOTTOM_RIGHT ? 0 : RADIUS}` +
           ` ${corners & Corners.BOTTOM_LEFT ? 0 : RADIUS}`,
-        textAlign: this.props.align
+        textAlign: this.props.align,
       },
       disabled: this.props.disabled || this.props.loading,
       onClick: this.props.onClick,
@@ -225,19 +216,18 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       onMouseEnter: this.props.onMouseEnter,
       onMouseLeave: this.props.onMouseLeave,
       onMouseOver: this.props.onMouseOver,
-      tabIndex: this.props.disableFocus ? -1 : 0
+      tabIndex: this.props.disableFocus ? -1 : 0,
     };
 
     const wrapProps = {
-      className: this.props.arrow
-        ? classNames(
-            classes.wrap_arrow,
-            this.props.arrow === 'left' && classes.wrap_arrow_left
-          ) || ''
-        : classes.wrap,
+      className: classNames({
+        [classes.wrap]: true,
+        [classes.wrap_arrow]: this.props.arrow,
+        [classes.wrap_arrow_left]: this.props.arrow === 'left',
+      }),
       style: {
-        width: this.props.width
-      }
+        width: this.props.width,
+      },
     };
 
     let error = null;
@@ -252,23 +242,9 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       loading = <div className={classes.loading} />;
     }
 
-    let icon = null;
+    let icon = this.props.icon;
     if (this.props.icon) {
-      if (process.env.NODE_ENV !== 'production') {
-        warning(
-          React.isValidElement(this.props.icon),
-          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
-        );
-      }
-      icon = (
-        <span className={classes.icon}>
-          {typeof this.props.icon === 'string' ? (
-            <Icon name={this.props.icon} />
-          ) : (
-            this.props.icon
-          )}
-        </span>
-      );
+      icon = <span className={classes.icon}>{this.props.icon}</span>;
     }
 
     let arrow = null;
@@ -280,7 +256,7 @@ class Button extends React.Component<ButtonProps, ButtonState> {
             [classes.arrow_left || '']: this.props.arrow === 'left',
             [classes.arrow_loading || '']: this.props.loading,
             [classes.arrow_error || '']: this.props.error,
-            [classes.arrow_warning || '']: this.props.warning
+            [classes.arrow_warning || '']: this.props.warning,
           })}
         />
       );
@@ -294,11 +270,13 @@ class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.disabled]: this.props.disabled,
         [classes.buttonWithIcon]: !!this.props.icon,
         [SIZE_CLASSES[this.props.size!]]: true,
-        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused
+        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused,
       });
       Object.assign(wrapProps, {
-        className: classes.wrap,
-        style: { width: wrapProps.style.width }
+        className: classNames(classes.wrap, {
+          [classes.wrap_link]: this.props.use === 'link',
+        }),
+        style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
       loading = null;

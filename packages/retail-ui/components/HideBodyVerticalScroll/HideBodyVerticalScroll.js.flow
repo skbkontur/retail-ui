@@ -1,0 +1,7 @@
+/* @flow */
+
+declare class HideBodyVerticalScroll extends React$Component<{||}> {
+  static hash: string;
+}
+
+export default HideBodyVerticalScroll;

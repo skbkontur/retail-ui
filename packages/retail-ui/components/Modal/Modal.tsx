@@ -1,27 +1,25 @@
 import * as React from 'react';
 import * as events from 'add-event-listener';
 import * as ReactDOM from 'react-dom';
+import cn from 'classnames';
+import FocusLock from 'react-focus-lock';
+import { EventSubscription } from 'fbemitter';
+import throttle from 'lodash/throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
-import { EventSubscription } from 'fbemitter';
-
-import styles = require('./Modal.less');
 import { ModalContext, ModalContextProps } from './ModalContext';
-import { Footer, FooterProps } from './ModalFooter';
-import { Header, HeaderProps } from './ModalHeader';
+import { Footer, isFooter } from './ModalFooter';
+import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
 import Close from './ModalClose';
-import cn from 'classnames';
-import Upgrades from '../../lib/Upgrades';
-import FocusLock from 'react-focus-lock';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
-import throttle from 'lodash/throttle';
+import styles from './Modal.less';
 
 let mountedModalsCount = 0;
 
@@ -30,6 +28,11 @@ export interface ModalProps {
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
   disableClose?: boolean;
+
+  /**
+   * Выравнивание окна по верху страницы.
+   */
+  alignTop?: boolean;
 
   /**
    * Не закрывать окно при клике на фон.
@@ -55,6 +58,15 @@ export interface ModalState {
   clickTrapHeight?: React.CSSProperties['height'];
 }
 
+/** Вынесено в компонет исключительно для того, чтобы искать enzyme'ом в тесте */
+type ModalClickTrap = React.HTMLAttributes<HTMLDivElement> & {
+  innerRef: (element: HTMLDivElement | null) => void;
+};
+
+const ModalClickTrap: React.SFC<ModalClickTrap> = ({ innerRef, ...props }) => (
+  <div ref={node => innerRef(node)} {...props} />
+);
+
 /**
  * Модальное окно
  *
@@ -63,15 +75,20 @@ export interface ModalState {
  *
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
+ *
+ * Для отключения прилипания шапки и футера
+ * в соответствующий компонет нужно передать
+ * проп **sticky** со значением **false**
+ * (по-умолчанию прилипание включено)
  */
-class Modal extends React.Component<ModalProps, ModalState> {
-  public static Header: typeof Header;
-  public static Body: typeof Body;
-  public static Footer: typeof Footer;
+export default class Modal extends React.Component<ModalProps, ModalState> {
+  public static Header = Header;
+  public static Body = Body;
+  public static Footer = Footer;
 
   public state: ModalState = {
     stackPosition: 0,
-    horizontalScroll: false
+    horizontalScroll: false,
   };
 
   private stackSubscription: EventSubscription | null = null;
@@ -82,11 +99,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      events.addEventListener(
-        window,
-        'resize',
-        this.checkHorizontalScrollAppearance
-      );
+      events.addEventListener(window, 'resize', this.checkHorizontalScrollAppearance);
     }
 
     mountedModalsCount++;
@@ -100,11 +113,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      events.removeEventListener(
-        window,
-        'resize',
-        this.checkHorizontalScrollAppearance
-      );
+      events.removeEventListener(window, 'resize', this.checkHorizontalScrollAppearance);
       LayoutEvents.emit();
     }
 
@@ -142,12 +151,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
 
     const modalContextProps: ModalContextProps = {
       hasHeader,
-      horizontalScroll: this.state.horizontalScroll
+      horizontalScroll: this.state.horizontalScroll,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
         disableClose: this.props.disableClose,
-        requestClose: this.requestClose
+        requestClose: this.requestClose,
       };
     }
     if (!hasFooter) {
@@ -170,37 +179,30 @@ class Modal extends React.Component<ModalProps, ModalState> {
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
           {this.state.stackPosition === 0 && <div className={styles.bg} />}
-          <div
-            ref={this.refContainer}
-            className={cn(styles.container, {
-              [styles.mobile]: Upgrades.isAdaptiveStyles()
-            })}
-          >
-            <div
+          <div ref={this.refContainer} className={cn(styles.container, styles.mobile)}>
+            <ModalClickTrap
               className={styles.modalClickTrap}
               onClick={this.handleContainerClick}
-              ref={this.refClickTrap}
+              innerRef={this.refClickTrap}
               style={{
-                height: this.state.clickTrapHeight
+                height: this.state.clickTrapHeight,
               }}
             />
-            <div className={styles.centerContainer} style={containerStyle}>
+            <div
+              className={cn(styles.centerContainer, {
+                [styles.alignTop]: this.props.alignTop,
+              })}
+              style={containerStyle}
+            >
               <div className={styles.window} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
-                  <FocusLock
-                    disabled={this.isDisableFocusLock()}
-                    autoFocus={false}
-                  >
+                  <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
-                      <Close
-                        requestClose={this.requestClose}
-                        disableClose={this.props.disableClose}
-                      />
+                      <Close requestClose={this.requestClose} disableClose={this.props.disableClose} />
                     ) : null}
                     <ModalContext.Provider value={modalContextProps}>
                       <div>
-                        {' '}
-                        {/* <ModalContext.Provider can only receive a single child element. */}
+                        {/* React <= 15. ModalContext.Provider can only receive a single child element. */}
                         {this.props.children}
                       </div>
                     </ModalContext.Provider>
@@ -214,8 +216,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
     );
   }
 
-  // публичное, потому что используется в Modal.adapter.js
-  public requestClose = () => {
+  private requestClose = () => {
     if (this.props.disableClose) {
       return;
     }
@@ -276,7 +277,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
   private resizeClickTrap = (height?: number) => {
     if (this.clickTrapNode) {
       this.setState({
-        clickTrapHeight: height
+        clickTrapHeight: height,
       });
     }
   };
@@ -291,33 +292,7 @@ class Modal extends React.Component<ModalProps, ModalState> {
       const height = (event.target as Window).innerHeight;
       const containerHeight = this.containerNode.offsetHeight;
 
-      this.throtteledResizeClickTrap(
-        height > containerHeight ? height : undefined
-      );
+      this.throtteledResizeClickTrap(height > containerHeight ? height : undefined);
     }
   };
-}
-
-Modal.Header = Header;
-Modal.Body = Body;
-Modal.Footer = Footer;
-
-export default Modal;
-
-function isHeader(
-  child: React.ReactChild
-): child is React.ReactElement<HeaderProps> {
-  if (!React.isValidElement(child)) {
-    return false;
-  }
-  return child.type === Header;
-}
-
-function isFooter(
-  child: React.ReactChild
-): child is React.ReactElement<FooterProps> {
-  if (!React.isValidElement(child)) {
-    return false;
-  }
-  return child.type === Footer;
 }

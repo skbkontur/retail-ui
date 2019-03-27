@@ -1,9 +1,8 @@
-
 import * as React from 'react';
 
 export interface PreventProps {
   children?: React.ReactNode;
-};
+}
 
 class Prevent extends React.Component<PreventProps> {
   public render() {

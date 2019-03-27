@@ -31,11 +31,11 @@
     padding: @containerPadding;
     outline: none;
 
-    &:before {
+    &::before {
       content: '';
       display: inline-block;
       vertical-align: middle;
-      height: 80%; // to vertical align modal 40%/60% of screen height
+      height: 80%; /* to vertical align modal 40%/60% of screen height */
     }
 
     @media screen and (max-width: @modal-adaptive-threshold) {
@@ -43,7 +43,8 @@
         padding: 0;
 
         .centerContainer {
-          padding: 0;
+          margin: 0;
+          width: 100%;
         }
       }
     }
@@ -57,16 +58,23 @@
     vertical-align: middle;
     box-sizing: border-box;
     z-index: 10;
+
+    &.alignTop {
+      vertical-align: top;
+    }
   }
 
   .window {
     position: relative;
     white-space: normal;
+    margin: auto;
     background: @bg-default;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
 
   .close {
+    .reset-button();
+
     position: relative;
     float: right;
     margin: 2px 2px 0 0;
@@ -84,8 +92,8 @@
       cursor: default;
     }
 
-    &:after,
-    &:before {
+    &::after,
+    &::before {
       content: '';
       position: absolute;
       top: 30px;
@@ -95,18 +103,18 @@
       background: @modal-close-button-color;
     }
 
-    &:after {
+    &::after {
       transform: rotate(45deg);
     }
 
-    &:before {
+    &::before {
       transform: rotate(-45deg);
     }
 
-    &:focus:before,
-    &:focus:after,
-    &:hover:before,
-    &:hover:after {
+    &:focus::before,
+    &:focus::after,
+    &:hover::before,
+    &:hover::after {
       background: @modal-close-button-hover-color;
     }
 
@@ -144,8 +152,12 @@
     background: @modal-fixed-header-bg;
   }
 
-  .fixedHeader:after,
-  .fixedFooter:before {
+  .fixedHeader {
+    margin-bottom: 10px;
+  }
+
+  .fixedHeader::after,
+  .fixedFooter::before {
     content: '';
     position: absolute;
     height: 1px;
@@ -154,8 +166,8 @@
     z-index: -1;
   }
 
-  .fixedHeader:after {
-    bottom: 1px;
+  .fixedHeader::after {
+    bottom: 11px;
     box-shadow: @modal-fixed-header-shadow;
   }
 
@@ -187,9 +199,10 @@
 
   .fixedFooter {
     padding-top: 20px;
+    margin-top: 10px;
 
-    &:before {
-      top: 1px;
+    &::before {
+      top: 11px;
       box-shadow: @modal-fixed-footer-shadow;
     }
   }

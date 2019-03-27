@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import CurrencyInput from '../CurrencyInput';
+import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
 import Toggle from '../../Toggle';
@@ -17,14 +17,11 @@ interface CurrencyInputDemoState {
   digits: Nullable<number>;
 }
 
-class CurrencyInputDemo extends React.Component<
-  CurrencyInputDemoProps,
-  CurrencyInputDemoState
-> {
+class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, CurrencyInputDemoState> {
   public state: CurrencyInputDemoState = {
     value: null,
     signed: false,
-    digits: 2
+    digits: 2,
   };
 
   public render() {
@@ -84,15 +81,14 @@ class CurrencyInputDemo extends React.Component<
   private _handleDigits = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       value: null,
-      digits:
-        event.target.value === '15' ? null : parseInt(event.target.value, 10)
+      digits: event.target.value === '15' ? null : parseInt(event.target.value, 10),
     });
   };
 
   private _handleSigned = (value: boolean) => {
     this.setState({
       value: null,
-      signed: value
+      signed: value,
     });
   };
 
@@ -101,6 +97,84 @@ class CurrencyInputDemo extends React.Component<
   };
 }
 
+class Sample extends React.Component<
+  Partial<CurrencyInputProps>,
+  {
+    value?: number | null;
+  }
+> {
+  public state = {
+    value: this.props.value,
+  };
+
+  private currencyInputElement: CurrencyInput | null = null;
+
+  public render() {
+    return (
+      <div>
+        <CurrencyInput
+          {...this.props}
+          ref={this.currencyInputRef}
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+        <div style={{ margin: '15px 0' }}>
+          <button onClick={this.handleClickButton}>focus</button>
+        </div>
+      </div>
+    );
+  }
+
+  private handleChange = (_: any, value?: number | null) => {
+    this.setState({ value });
+  };
+
+  private currencyInputRef = (element: CurrencyInput | null) => {
+    this.currencyInputElement = element;
+  };
+
+  private handleClickButton = () => {
+    if (this.currencyInputElement) {
+      this.currencyInputElement.focus();
+    }
+  };
+}
+
 storiesOf('CurrencyInput', module)
   .add('Demo', () => <CurrencyInputDemo />)
-  .add('With borderless', () => <CurrencyInputDemo borderless={true} />);
+  .add('With borderless', () => <CurrencyInputDemo borderless={true} />)
+  .add('Sample', () => <Sample fractionDigits={0} />)
+  .add('Manual mount', () => {
+    class ManualMounting extends React.Component<
+      {},
+      {
+        mounted: boolean;
+      }
+    > {
+      public state = {
+        mounted: false,
+      };
+
+      public render() {
+        return (
+          <div>
+            <label>
+              Mounted <input type="checkbox" checked={this.state.mounted} onChange={this.handleChangeMounting} />
+            </label>
+            {this.state.mounted && (
+              <div>
+                <Sample autoFocus value={9909} />
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      private handleChangeMounting = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+          mounted: event.target.checked,
+        });
+      };
+    }
+    return <ManualMounting />;
+  });

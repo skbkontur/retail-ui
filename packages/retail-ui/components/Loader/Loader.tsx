@@ -5,14 +5,14 @@ import LayoutEvents from '../../lib/LayoutEvents';
 
 // Note SpinnerType нужен для генерации правильного .d.ts файла
 // @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
-import Spinner, { SpinnerType } from '../Spinner';
-import styles = require('./Loader.less');
+import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
+import styles from './Loader.less';
 import { Nullable } from '../../typings/utility-types';
 
 export interface LoaderProps {
   children?: React.ReactNode;
   active: boolean;
-  caption?: string;
+  caption?: SpinnerProps['caption'];
   className?: string;
   type?: 'mini' | 'normal' | 'big';
 }
@@ -27,7 +27,7 @@ export interface LoaderState {
  */
 class Loader extends React.Component<LoaderProps, LoaderState> {
   public static defaultProps = {
-    type: Spinner.Types.normal
+    type: Spinner.Types.normal,
   };
 
   public static propTypes = {
@@ -41,7 +41,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
      *
      * "Загрузка" - значение по-умолчанию
      */
-    caption: PropTypes.string,
+    caption: Spinner.propTypes.caption,
 
     /**
      * Класс для обертки
@@ -55,7 +55,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
      *
      * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(Spinner.Types))
+    type: PropTypes.oneOf(Object.keys(Spinner.Types)),
   };
 
   private containerNode: Nullable<HTMLDivElement>;
@@ -70,7 +70,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     this.spinnerNode = null;
 
     this.state = {
-      isStickySpinner: false
+      isStickySpinner: false,
     };
   }
 
@@ -92,7 +92,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
   public render() {
     const { active, type, caption, className } = this.props;
     const loaderClassName = classnames(styles.loader, className, {
-      [styles.active]: active
+      [styles.active]: active,
     });
 
     return (
@@ -109,14 +109,10 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     );
   }
 
-  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: string) {
+  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode) {
     return (
       <span
-        className={
-          this.state.isStickySpinner
-            ? styles.spinnerContainerSticky
-            : styles.spinnerContainerCenter
-        }
+        className={this.state.isStickySpinner ? styles.spinnerContainerSticky : styles.spinnerContainerCenter}
         style={this.state.spinnerStyle}
         ref={element => {
           this.spinnerNode = element;
@@ -138,7 +134,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
       bottom: containerBottom,
       left: containerLeft,
       height: containerHeight,
-      width: containerWidth
+      width: containerWidth,
     } = this.containerNode.getBoundingClientRect();
 
     const windowHeight = window.innerHeight;
@@ -149,7 +145,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     if (windowHeight >= containerHeight && windowWidth >= containerWidth) {
       this.setState({
         isStickySpinner: false,
-        spinnerStyle: {}
+        spinnerStyle: {},
       });
       return;
     }
@@ -158,7 +154,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
       top: 30,
       right: 0,
       bottom: 30,
-      left: 0
+      left: 0,
     };
 
     // ПО ВЕРТИКАЛИ
@@ -176,10 +172,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
-    if (
-      this.spinnerHeight &&
-      spinnerStyle.bottom >= windowHeight - this.spinnerHeight
-    ) {
+    if (this.spinnerHeight && spinnerStyle.bottom >= windowHeight - this.spinnerHeight) {
       delete spinnerStyle.top;
     }
 
@@ -198,7 +191,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.setState({
       isStickySpinner: true,
-      spinnerStyle
+      spinnerStyle,
     });
   };
 }

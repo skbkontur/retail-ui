@@ -1,7 +1,5 @@
 import classNames from 'classnames';
-import MaskedInput from 'react-input-mask';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
@@ -10,13 +8,15 @@ import Upgrades from '../../lib/Upgrades';
 import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
-import deprecationWarning from 'warning';
+import MaskedInput from '../internal/MaskedInput/MaskedInput';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const classes: typeof CssStyles = isFlatDesign
-  ? require('./Input.flat.less')
-  : require('./Input.less');
+const classes: typeof CssStyles = isFlatDesign ? require('./Input.flat.less') : require('./Input.less');
+
+const isDeleteKey = (key: string) => {
+  return key === 'Backspace' || key === 'Delete';
+};
 
 export type InputSize = 'small' | 'medium' | 'large';
 
@@ -24,13 +24,23 @@ export type InputAlign = 'left' | 'center' | 'right';
 
 export type InputType = 'password' | 'text';
 
+export type IconType = React.ReactNode | (() => React.ReactNode);
+
 export type InputProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
-    /** Иконка слева */
-    leftIcon?: React.ReactNode;
-    /** Иконка справа */
-    rightIcon?: React.ReactNode;
+    /**
+     * Иконка слева
+     * Если `ReactNode` применяются дефолтные стили для иконки
+     * Если `() => ReactNode` применяются только стили для позиционирование
+     */
+    leftIcon?: IconType;
+    /**
+     * Иконка справа
+     * Если `ReactNode` применяются дефолтные стили для иконки
+     * Если `() => ReactNode` применяются только стили для позиционирование
+     */
+    rightIcon?: IconType;
     /** Состояние ошибки */
     error?: boolean;
     /** Состояние предупреждения */
@@ -43,15 +53,17 @@ export type InputProps = Override<
     mask?: Nullable<string>;
     /** Символ маски */
     maskChar?: Nullable<string>;
+    /**
+     * Словарь символов-регулярок для задания маски
+     * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
+     */
+    formatChars?: Record<string, string>;
     /** Показывать символы маски */
     alwaysShowMask?: boolean;
     /** Размер */
     size?: InputSize;
     /** onChange */
-    onChange?: (
-      event: React.ChangeEvent<HTMLInputElement>,
-      value: string
-    ) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
     /** Вызывается на label */
     onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
     /** Вызывается на label */
@@ -62,9 +74,18 @@ export type InputProps = Override<
     type?: InputType;
     /** Значение */
     value?: string;
-    className?: undefined;
-    style?: undefined;
     capture?: boolean;
+
+    /**
+     * Префикс
+     * `ReactNode` перед значением, но после иконки
+     */
+    prefix?: React.ReactNode;
+    /**
+     * Суффикс
+     * `ReactNode` после значения, но перед правой иконкой
+     */
+    suffix?: React.ReactNode;
 
     /**
      * @deprecated
@@ -73,12 +94,24 @@ export type InputProps = Override<
     mainInGroup?: boolean;
     /** Выделять введенное значение при фокусе */
     selectAllOnFocus?: boolean;
+    /**
+     * Обработчик неправильного ввода.
+     * По-умолчанию, инпут вспыхивает синим.
+     * Если передан - вызывается переданный обработчик,
+     * в таком случае вспыхивание можно вызвать
+     * публичным методом инстанса `blink()`
+     */
+    onUnexpectedInput?: () => void;
   }
 >;
 
-export interface InputState {
-  polyfillPlaceholder: boolean;
+export interface InputVisibilityState {
   blinking: boolean;
+  focused: boolean;
+}
+
+export interface InputState extends InputVisibilityState {
+  polyfillPlaceholder: boolean;
 }
 
 /**
@@ -89,26 +122,18 @@ class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: {
     size: InputSize;
   } = {
-    size: 'small'
+    size: 'small',
   };
 
   public state: InputState = {
     polyfillPlaceholder: false,
-    blinking: false
+    blinking: false,
+    focused: false,
   };
 
   private blinkTimeout: number = 0;
 
   private input: HTMLInputElement | null = null;
-
-  constructor(props: InputProps) {
-    super(props);
-
-    deprecationWarning(
-      !Object.prototype.hasOwnProperty.call(props, 'mainInGroup'),
-      'Prop `mainInGroup` is deprecated. Please, use `width="100%"`'
-    );
-  }
 
   public componentDidMount() {
     if (polyfillPlaceholder) {
@@ -149,10 +174,7 @@ class Input extends React.Component<InputProps, InputState> {
    */
   public blink() {
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = window.setTimeout(
-        () => this.setState({ blinking: false }),
-        150
-      );
+      this.blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
@@ -171,11 +193,19 @@ class Input extends React.Component<InputProps, InputState> {
     this.input.setSelectionRange(start, end);
   }
 
+  public get isMaskVisible(): boolean {
+    const { mask, alwaysShowMask } = this.props;
+    const { focused } = this.state;
+    return Boolean(mask && (focused || alwaysShowMask));
+  }
+
   public render(): JSX.Element {
     const {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      onKeyDown,
+      onKeyPress,
       width,
       error,
       warning,
@@ -186,6 +216,8 @@ class Input extends React.Component<InputProps, InputState> {
       align,
       type,
       mask,
+      maskChar,
+      alwaysShowMask,
       style,
       className,
       size,
@@ -193,63 +225,73 @@ class Input extends React.Component<InputProps, InputState> {
       mainInGroup,
       selectAllOnFocus,
       disabled,
+      onUnexpectedInput,
+      prefix,
+      suffix,
+      formatChars,
       ...rest
     } = this.props;
 
-    const { blinking } = this.state;
+    const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: classNames({
-        [classes.root]: true,
+      className: classNames(classes.root, this.getSizeClassName(), {
         [classes.disabled]: disabled,
         [classes.error]: error,
         [classes.warning]: warning,
-        [classes.padLeft]: !!leftIcon,
-        [classes.padRight]: !!rightIcon,
-        [this.getSizeClassName()]: true
+        [classes.borderless]: borderless,
+        [classes.blink]: blinking,
+        [classes.focus]: focused,
       }),
       style: { width },
       onMouseEnter,
       onMouseLeave,
-      onMouseOver
+      onMouseOver,
     };
 
     const inputProps = {
       ...rest,
-      className: classNames({
-        [classes.input]: true,
-        [classes.borderless]: borderless,
-        [classes.blink]: blinking
-      }),
+      className: classNames(classes.input),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
+      onKeyDown: this.handleKeyDown,
+      onKeyPress: this.handleKeyPress,
+      onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !polyfillPlaceholder ? placeholder : undefined,
-      disabled
+      placeholder: !this.isMaskVisible && !polyfillPlaceholder ? placeholder : undefined,
+      disabled,
     };
 
     if (type === 'password') {
       inputProps.type = type;
     }
 
-    const input = !!mask
-      ? this.renderMaskedInput(inputProps, mask)
-      : React.createElement('input', inputProps);
+    const input = !!mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
     return (
       <label {...labelProps}>
-        {input}
-        {this.renderPlaceholder()}
-        {this.renderLeftIcon()}
-        {this.renderRightIcon()}
+        <span className={classes.sideContainer}>
+          {this.renderLeftIcon()}
+          {this.renderPrefix()}
+        </span>
+        <span className={classes.wrapper}>
+          {input}
+          {this.renderPlaceholder()}
+        </span>
+        <span className={classNames(classes.sideContainer, classes.rightContainer)}>
+          {this.renderSuffix()}
+          {this.renderRightIcon()}
+        </span>
       </label>
     );
   }
 
-  /** @api */
+  /**
+   * @public
+   */
   public selectAll = () => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
@@ -260,7 +302,7 @@ class Input extends React.Component<InputProps, InputState> {
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
       capture?: boolean;
     },
-    mask: string
+    mask: string,
   ) {
     return (
       <MaskedInput
@@ -268,6 +310,8 @@ class Input extends React.Component<InputProps, InputState> {
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
+        onUnexpectedInput={this.handleUnexpectedInput}
+        formatChars={this.props.formatChars}
       />
     );
   }
@@ -280,28 +324,24 @@ class Input extends React.Component<InputProps, InputState> {
     return this.renderIcon(this.props.rightIcon, classes.rightIcon);
   }
 
-  private renderIcon(icon: React.ReactNode, className: string) {
-    return icon ? (
-      <div className={className}>
-        <span className={classes.icon}>{icon}</span>
-      </div>
-    ) : null;
+  private renderIcon(icon: IconType, className: string) {
+    if (!icon) {
+      return null;
+    }
+
+    if (icon instanceof Function) {
+      return <span className={className}>{icon()}</span>;
+    }
+
+    return <span className={classNames(className, classes.useDefaultColor)}>{icon}</span>;
   }
 
   private renderPlaceholder() {
     let placeholder = null;
 
-    if (
-      this.state.polyfillPlaceholder &&
-      this.props.placeholder &&
-      !this.props.alwaysShowMask &&
-      !this.props.value
-    ) {
+    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
-        <div
-          className={classes.placeholder}
-          style={{ textAlign: this.props.align || 'inherit' }}
-        >
+        <div className={classes.placeholder} style={{ textAlign: this.props.align || 'inherit' }}>
           {this.props.placeholder}
         </div>
       );
@@ -313,20 +353,19 @@ class Input extends React.Component<InputProps, InputState> {
   private getSizeClassName() {
     const SIZE_CLASS_NAMES = {
       small: classes.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classes.sizeMedium
-        : classes.DEPRECATED_sizeMedium,
-      large: classes.sizeLarge
+      medium: Upgrades.isSizeMedium16pxEnabled() ? classes.sizeMedium : classes.DEPRECATED_sizeMedium,
+      large: classes.sizeLarge,
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
   }
 
-  private refInput = (ref: HTMLInputElement | null) => {
-    const elem = (ReactDOM.findDOMNode(this) as HTMLElement).querySelector(
-      'input'
-    );
-    this.input = this.props.mask ? elem : ref;
+  private refInput = (element: HTMLInputElement | MaskedInput | null) => {
+    if (element instanceof MaskedInput) {
+      this.input = element.input;
+    } else {
+      this.input = element;
+    }
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -343,6 +382,10 @@ class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({
+      focused: true,
+    });
+
     if (this.props.selectAllOnFocus) {
       this.selectAll();
     }
@@ -350,6 +393,62 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
+  };
+
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+    }
+
+    if (!event.currentTarget.value && isDeleteKey(event.key) && !event.repeat) {
+      this.handleUnexpectedInput();
+    }
+  };
+
+  private handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (this.props.onKeyPress) {
+      this.props.onKeyPress(event);
+    }
+
+    if (this.props.maxLength === event.currentTarget.value.length) {
+      this.handleUnexpectedInput();
+    }
+  };
+
+  private handleUnexpectedInput = () => {
+    if (this.props.onUnexpectedInput) {
+      this.props.onUnexpectedInput();
+    } else {
+      this.blink();
+    }
+  };
+
+  private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    this.setState({ focused: false });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+  };
+
+  private renderPrefix = () => {
+    const { prefix } = this.props;
+
+    if (!prefix) {
+      return null;
+    }
+
+    return <span className={classes.prefix}>{prefix}</span>;
+  };
+
+  private renderSuffix = () => {
+    const { suffix } = this.props;
+
+    if (!suffix) {
+      return null;
+    }
+
+    return <span className={classes.suffix}>{suffix}</span>;
   };
 }
 

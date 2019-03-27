@@ -21,6 +21,7 @@ namespace SKBKontur.SeleniumTesting.Tests.RadioTests
         [Test]
         public void TestPresence()
         {
+            IgnoreIfReactVersionSatisfies(">16.0.0", "в  react v16 поменялся механизм рендеринга, поэтому не корректно работает прокидывание data-tid в верстку");
             page.SimpleRadio.ExpectTo().BePresent();
         }
 

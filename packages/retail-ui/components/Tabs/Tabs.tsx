@@ -6,7 +6,7 @@ import * as PropTypes from 'prop-types';
 import Indicator from './Indicator';
 import Tab from './Tab';
 
-import styles = require('./Tabs.less');
+import styles from './Tabs.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface TabsProps {
@@ -57,13 +57,13 @@ class Tabs extends React.Component<TabsProps, TabsState> {
   public static propTypes = {};
   public static childContextTypes = {};
   public static defaultProps = {
-    vertical: false
+    vertical: false,
   };
 
   public static Tab = Tab;
 
   public state: TabsState = {
-    tabs: []
+    tabs: [],
   };
 
   private _tabUpdates = {
@@ -72,7 +72,7 @@ class Tabs extends React.Component<TabsProps, TabsState> {
       return () => {
         this._listeners.splice(index, 1);
       };
-    }
+    },
   };
 
   private getProps = createPropsGetter(Tabs.defaultProps);
@@ -86,7 +86,7 @@ class Tabs extends React.Component<TabsProps, TabsState> {
       removeTab: this._removeTab,
       shiftFocus: this._shiftFocus,
       switchTab: this._switchTab,
-      vertical: this.props.vertical
+      vertical: this.props.vertical,
     };
   }
 
@@ -95,10 +95,7 @@ class Tabs extends React.Component<TabsProps, TabsState> {
     const { vertical } = this.getProps<TabsProps, Tabs>();
 
     return (
-      <div
-        className={cn(styles.root, vertical && styles.vertical)}
-        style={{ width: this.props.width }}
-      >
+      <div className={cn(styles.root, vertical && styles.vertical)} style={{ width: this.props.width }}>
         {this.props.children}
         <Indicator
           className={this.props.indicatorClassName}
@@ -140,7 +137,7 @@ class Tabs extends React.Component<TabsProps, TabsState> {
 
   private _addTab = (id: string, getNode: () => any) => {
     this.setState(({ tabs }: TabsState) => ({
-      tabs: tabs.concat({ id, getNode })
+      tabs: tabs.concat({ id, getNode }),
     }));
   };
 
@@ -164,7 +161,7 @@ Tabs.propTypes = {
   value: string.isRequired,
   vertical: bool,
   width: oneOfType([string, number]),
-  onChange: func
+  onChange: func,
 };
 
 Tabs.childContextTypes = {
@@ -174,7 +171,7 @@ Tabs.childContextTypes = {
   removeTab: func.isRequired,
   shiftFocus: func.isRequired,
   switchTab: func.isRequired,
-  vertical: bool.isRequired
+  vertical: bool.isRequired,
 };
 
 export default Tabs;

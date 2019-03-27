@@ -1,116 +1,86 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import { Nullable } from '../../typings/utility-types';
+import { RenderInnerContainer as RenderContainerFallback } from './RenderContainerFallback';
+import { RenderInnerContainer as RenderContainerNative } from './RenderContainerNative';
+import { RenderContainerProps } from './RenderContainerTypes';
 
-let lastID = 0;
-function nextID() {
-  return ++lastID;
-}
-function setID(id: number) {
-  lastID = id;
-}
+let rootId = 0;
+const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
+const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
-const REACT_16 = !!ReactDOM.createPortal;
+export class RenderContainer extends React.Component<RenderContainerProps> {
+  private static getRootId = () => (rootId += 1);
+  private domContainer: Nullable<HTMLElement> = null;
 
-export default class RenderContainer extends React.Component<any> {
-  private _domContainer: HTMLElement;
+  private readonly rootId: number = RenderContainer.getRootId();
 
-  private _testID: number;
+  constructor(props: RenderContainerProps) {
+    super(props);
 
-  constructor(props: {}, context: {}) {
-    super(props, context);
-
-    this._domContainer = document.createElement('div');
-    this._hydrateId();
-
-    this._testID = nextID();
-    this._domContainer.setAttribute(
-      'data-rendered-container-id',
-      this._testID.toString()
-    );
-    this._domContainer.className = 'react-ui';
-
-    const { body } = document;
-    if (!body) {
-      throw Error('There is no "body" in "document"');
-    }
-    body.appendChild(this._domContainer);
-
-    // @ts-ignore
-    if (window.ReactTesting) {
-      // @ts-ignore
-      window.ReactTesting.addRenderContainer(this._testID, this);
+    if (props.children) {
+      this.mountContainer();
     }
   }
 
-  public render(): JSX.Element {
-    if (REACT_16) {
-      return [
-        ReactDOM.createPortal(this.props.children, this._domContainer),
-        <Portal key="portal-ref" rt_rootID={this._testID} />
-      ] as any; // FIXME: To support ts typings for react@15, render should return JSX.Element
+  public componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
+    if (!this.props.children && nextProps.children) {
+      this.mountContainer();
     }
-    return <Portal rt_rootID={this._testID} />;
-  }
-
-  public componentDidMount() {
-    if (!REACT_16) {
-      this._renderChild();
-    }
-  }
-
-  public componentDidUpdate() {
-    if (!REACT_16) {
-      this._renderChild();
+    if (this.props.children && !nextProps.children) {
+      this.unmountContainer();
     }
   }
 
   public componentWillUnmount() {
-    if (!REACT_16) {
-      ReactDOM.unmountComponentAtNode(this._domContainer);
-    }
-    if (this._domContainer.parentNode) {
-      this._domContainer.parentNode.removeChild(this._domContainer);
-    }
-
-    // @ts-ignore
-    if (window.ReactTesting) {
-      // @ts-ignore
-      window.ReactTesting.removeRenderContainer(this._testID);
-    }
+    this.destroyContainer();
   }
 
-  private _hydrateId() {
-    const nodes = document.querySelectorAll('[data-rendered-container-id]');
-    if (nodes.length === 0) {
-      return;
-    }
-    const lastNode = nodes[nodes.length - 1];
-    const containerId = +(
-      lastNode.getAttribute('data-rendered-container-id') || 0
-    );
-    setID(containerId);
-  }
-
-  private _renderChild() {
-    ReactDOM.unstable_renderSubtreeIntoContainer(
-      this,
-      <RootContainer rt_portalID={this._testID}>
-        {this.props.children}
-      </RootContainer>,
-      this._domContainer
-    );
-  }
-}
-
-class Portal extends React.Component<{ rt_rootID: number }> {
   public render() {
-    return <noscript data-render-container-id={this.props.rt_rootID} />;
+    return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
+  }
+
+  private createContainer() {
+    if (!document || !document.body) {
+      throw Error('There is no "body" in "document"');
+    }
+
+    if (!this.domContainer) {
+      const domContainer = document.createElement('div');
+      domContainer.setAttribute('class', 'react-ui');
+      domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
+      this.domContainer = domContainer;
+    }
+  }
+
+  private mountContainer() {
+    if (!this.domContainer) {
+      this.createContainer();
+    }
+    if (this.domContainer && this.domContainer.parentNode !== document.body) {
+      document.body.appendChild(this.domContainer);
+      if (window.ReactTesting) {
+        window.ReactTesting.addRenderContainer(this.rootId, this);
+      }
+    }
+  }
+
+  private destroyContainer() {
+    if (this.domContainer) {
+      this.unmountContainer();
+      this.domContainer = null;
+    }
+  }
+
+  private unmountContainer() {
+    if (this.domContainer && this.domContainer.parentNode) {
+      this.domContainer.parentNode.removeChild(this.domContainer);
+
+      if (window.ReactTesting) {
+        window.ReactTesting.removeRenderContainer(this.rootId);
+      }
+    }
   }
 }
 
-function RootContainer(props: {
-  children?: React.ReactNode;
-  rt_portalID: number;
-}) {
-  return React.Children.only(props.children);
-}
+export default RenderContainer;

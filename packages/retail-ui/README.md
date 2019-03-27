@@ -1,16 +1,13 @@
 # React UI
 
-[![Build Status](https://travis-ci.org/skbkontur/retail-ui.svg?branch=master)](https://travis-ci.org/skbkontur/retail-ui)
+[![Build Status](https://tc.skbkontur.ru/app/rest/builds/buildType:Common_RetailUi_RunAll/statusIcon)](https://tc.skbkontur.ru/project.html?projectId=Common_RetailUi&tab=projectOverview)
 
-- [Changelog](CHANGELOG.md)
-- [Roadmap](ROADMAP.md)
-
-### Варианты использование
+### Варианты использования
 
 - **@skbkontur/react-ui** - собранная версия библиотеки, подходит для [квик-старта](#Квик-старт)
 - **retail-ui** - исходники для самостоятельной сборки, для переопределения `.less`-переменных, [слоу-старт](#Слоу-старт)
 
-### Квик-старт
+### <a name="Квик-старт"></a>Квик-старт
 
 ```bash
 yarn add @skbkontur/react-ui
@@ -18,37 +15,31 @@ yarn add @skbkontur/react-ui
 
 И используем компонентики у себя в проекте:
 
-```js
-/* ... */
+```jsx static
 import Button from '@skbkontur/react-ui/Button';
 import Toast from '@skbkontur/react-ui/Toast';
 
 const MyApp = () => (
   <div>
-    Click this button{' '}
-    <Button onClick={() => Toast.push('Hey!')}>Click me</Button>
+    Click this button <Button onClick={() => Toast.push('Hey!')}>Click me</Button>
   </div>
 );
 ```
 
-Если ругается, что `regeneratorRuntime` не определен,
-то необходимо подключить `regenerator-runtime` или `babel-polyfill`,
-например в `index.html`
+Если ругается, что `regeneratorRuntime` не определен, то необходимо подключить `regenerator-runtime` или `@babel/polyfill`, например в `index.html`
 
-Квик-старт подойдёт, если вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`.
+Квик-старт подойдёт, если Вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`
 
-### Слоу-старт
+### <a name="Слоу-старт"></a>Слоу-старт
 
 ```bash
 yarn add retail-ui
 ```
 
-Необходимо в [конфиг webpack](https://webpack.js.org/configuration/) добавить следующие лоадеры:
+Необходимо установить как зависимости и добавить в [конфиг Вебпака](https://webpack.js.org/configuration/) следующие лоадеры:
 
-```javascript
-/* ... */
+```js static
 module: {
-  /* ... */
   rules: [
     {
       test: /\.jsx?$/,
@@ -57,45 +48,41 @@ module: {
           loader: 'babel-loader',
           options: {
             presets: ['env', 'react'],
-            plugins: [
-              'transform-object-rest-spread',
-              'transform-class-properties'
-            ]
-          }
-        }
+            plugins: ['proposal-object-rest-spread', 'proposal-class-properties'],
+          },
+        },
       ],
-      include: /retail-ui/
+      include: /retail-ui/,
     },
     {
       test: /\.less$/,
-      use: ['style-loader', 'css-loader', 'less-loader'],
-      include: /retail-ui/
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: { modules: 'global' },
+        },
+        'less-loader',
+      ],
     },
     {
       test: /\.(png|woff|woff2|eot)$/,
-      use: ['file-loader']
-    }
+      use: ['file-loader'],
+    },
   ];
-  /* ... */
 }
-/* ... */
 ```
 
 ### Хотим другой цвет кнопки!
 
-Тут придется юзать слоу-старт.
-В конфиге нужно указать
+Тут придется юзать слоу-старт. В конфиге нужно указать:
 
-```javascript
-/* ... */
+```js static
 resolve: {
-  /* ... */
   alias: {
     'react-ui-theme': path.join(__dirname, 'path-to-my-theme-variables.less')
   }
-  /* ... */
 }
-/* ... */
 ```
 
 Список переменных можно глянуть в `components/variables.less`

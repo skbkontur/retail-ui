@@ -1,14 +1,14 @@
 {
-  "lerna": "2.11.0",
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {
-    "publish": {
-      "conventionalCommits": true
+    "version": {
+      "githubRelease": true,
+      "conventionalCommits": true,
+      "message": "chore(release): publish",
+      "ignoreChanges": ["packages/react-ui-testing/TestPages/**"]
     }
   }
 }

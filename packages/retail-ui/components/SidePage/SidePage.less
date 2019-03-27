@@ -1,7 +1,6 @@
 @import '../variables.less';
 
-@show-transtion: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
-  opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+@show-transtion: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
 @hide-transition: opacity 0.15s ease-out;
 
 :local {
@@ -57,42 +56,53 @@
   }
 
   .header {
+    position: relative;
     width: 100%;
     font-size: 22px;
-    padding: 33px 0 30px 0;
+    padding: 25px 0;
+    line-height: 30px;
 
     &.fixed {
       font-size: 18px;
       background: @bg-default;
-      border-bottom: @border-color-gray-light solid 1px;
-      padding: 13px 0 13px 0;
+      box-shadow: 0 1px @border-color-gray-light;
+      padding: 13px 0;
+      line-height: 24px;
     }
   }
 
   .title {
-    padding-right: 70px;
+    padding-right: 85px;
     padding-left: 30px;
 
     &.fixed {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      line-height: 24px;
     }
   }
 
   .close {
+    position: absolute;
+    right: 30px;
+    width: 24px;
     color: @side_page-close-button-color;
-    float: right;
     text-align: center;
     text-decoration: none;
-    padding: 0 35px 0 30px;
-    font-size: 30px;
-    line-height: 0.7;
 
     &:hover {
       color: @side_page-close-button-hover-color;
     }
+
+    &.fixed {
+      line-height: 24px;
+    }
+  }
+
+  .closeIcon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
   }
 
   .body {

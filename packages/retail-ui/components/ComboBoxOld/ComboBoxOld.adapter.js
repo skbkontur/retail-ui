@@ -1,4 +1,4 @@
-
+// @flow
 
 import isActiveElement from '../Menu/isActiveElement';
 import * as React from 'react';
@@ -22,10 +22,7 @@ const ComboBoxAdapter = {
 
   search({ renderer }, searchString: string) {
     renderer._handleValueClick();
-    renderer._handleInputChange(
-      { target: { value: searchString } },
-      searchString
-    );
+    renderer._handleInputChange({ target: { value: searchString } }, searchString);
   },
 
   getResult({ renderer }) {
@@ -40,7 +37,7 @@ const ComboBoxAdapter = {
         return val;
       })
     );
-  }
+  },
 };
 // eslint-disable-next-line flowtype/no-weak-types
 (ComboBoxOld: Object).__ADAPTER__ = ComboBoxAdapter;

@@ -16,12 +16,12 @@
     width: 100%;
     z-index: inherit;
 
-    &.active:after {
+    &.active::after {
       background: @loader-bg;
       content: ' ';
       filter: 'alpha(opacity = (@{loader-opacity} * 100 + ))';
       opacity: @loader-opacity;
-      z-index: 25;
+      z-index: 500;
       .fillContainerPosition;
     }
   }
@@ -30,14 +30,14 @@
     display: block;
     margin: auto;
     text-align: center;
-    z-index: 26;
+    z-index: 501;
   }
 
   .spinnerContainerCenter {
     .spinnerContainer;
     .fillContainerPosition;
 
-    &:before {
+    &::before {
       content: ' ';
       display: inline-block;
       height: 100%;
@@ -48,9 +48,10 @@
 
   .spinnerContainerSticky {
     .spinnerContainer;
+
     position: fixed;
 
-    &:before {
+    &::before {
       content: ' ';
       display: inline-block;
       height: 100%;

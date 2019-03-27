@@ -1,9 +1,9 @@
 /* global gemini */
-var pathTo = require("./utils").pathTo;
+var renderStory = require('./utils').renderStory;
 
-gemini.suite("Icon", suite => {
+gemini.suite('Icon', suite => {
   suite
-    .setUrl(pathTo("Icon", "All icons"))
-    .setCaptureElements("#test-element")
-    .capture("idle");
+    .before(renderStory('Icon', 'All icons'))
+    .setCaptureElements('#test-element')
+    .capture('idle');
 });

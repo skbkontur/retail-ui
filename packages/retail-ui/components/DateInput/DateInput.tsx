@@ -20,7 +20,7 @@ import {
   inputNumber,
   moveSelectionBy,
   setSelection,
-  tryParseDateString
+  tryParseDateString,
 } from './DateInputHelpers';
 import { DatePart } from './DatePart';
 import { MaskedValue } from './MaskedValue';
@@ -31,21 +31,21 @@ import { Nullable } from '../../typings/utility-types';
 import styles from './DateInput.less';
 
 export const DateInputConfig = {
-  polyfillInput: !isIE && !isEdge
+  polyfillInput: !isIE && !isEdge,
 };
 
 export const DateParts = {
   Date: 0,
   Month: 1,
   Year: 2,
-  All: 3
+  All: 3,
 };
 
 const DatePartRanges: { [key: number]: [number, number] } = {
   [DateParts.Date]: [0, 2],
   [DateParts.Month]: [3, 5],
   [DateParts.Year]: [6, 10],
-  [DateParts.All]: [0, 10]
+  [DateParts.All]: [0, 10],
 };
 
 export interface DateInputState {
@@ -57,6 +57,7 @@ export interface DateInputState {
   minDate: Nullable<CalendarDateShape>;
   maxDate: Nullable<CalendarDateShape>;
   notify: boolean;
+  dateWasChanged: boolean;
 }
 
 export interface DateInputProps {
@@ -75,21 +76,21 @@ export interface DateInputProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
-export type DateInputSetStateCallBack = ((
+export type DateInputSetStateCallBack = (
   prevState: Readonly<DateInputState>,
-  props?: DateInputProps
-) => DateInputState | Pick<DateInputState, keyof DateInputState> | null);
+  props?: DateInputProps,
+) => DateInputState | Pick<DateInputState, keyof DateInputState> | null;
 
 class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static defaultProps = {
     size: 'small',
-    width: 125
+    width: 125,
   };
 
-  private _input: Input | null = null;
-  private _inputlikeText: InputLikeText | null = null;
-  private _divInnerNode: HTMLElement | null = null;
-  private _isFocused: boolean = false;
+  private input: Input | null = null;
+  private inputlikeText: InputLikeText | null = null;
+  private divInnerNode: HTMLElement | null = null;
+  private isFocused: boolean = false;
 
   constructor(props: DateInputProps) {
     super(props);
@@ -99,7 +100,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       ...parseValue(props.value),
       minDate: tryGetCalendarDateShape(props.minDate),
       maxDate: tryGetCalendarDateShape(props.maxDate),
-      notify: false
+      notify: false,
+      dateWasChanged: false,
     };
   }
 
@@ -115,16 +117,18 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   }
 
-  public componentDidUpdate(
-    prevProps: DateInputProps,
-    prevState: DateInputState
-  ) {
+  public componentDidUpdate(prevProps: DateInputProps, prevState: DateInputState) {
     if (
       prevState.date !== this.state.date ||
       prevState.month !== this.state.month ||
       prevState.year !== this.state.year
     ) {
+      this.setState({ dateWasChanged: true });
       this.emitChange();
+    }
+
+    if (prevState.selected !== this.state.selected) {
+      this.setState({ dateWasChanged: false });
     }
 
     if (this.state.selected === DateParts.All) {
@@ -142,13 +146,13 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
    * @public
    */
   public blur() {
-    if (this._inputlikeText) {
-      this._inputlikeText.blur();
+    if (this.inputlikeText) {
+      this.inputlikeText.blur();
     }
-    if (this._input) {
-      this._input.blur();
+    if (this.input) {
+      this.input.blur();
     }
-    this._isFocused = false;
+    this.isFocused = false;
   }
 
   /**
@@ -156,13 +160,13 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
    */
   public focus() {
     if (!this.props.disabled) {
-      if (this._inputlikeText) {
-        this._inputlikeText.focus();
+      if (this.inputlikeText) {
+        this.inputlikeText.focus();
       }
-      if (this._input) {
-        this._input.focus();
+      if (this.input) {
+        this.input.focus();
       }
-      this._isFocused = true;
+      this.isFocused = true;
     }
   }
 
@@ -171,42 +175,25 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
    */
   public blink() {
     if (!this.props.disabled) {
-      if (this._inputlikeText) {
-        this._inputlikeText.blink();
+      if (this.inputlikeText) {
+        this.inputlikeText.blink();
       }
-      if (this._input) {
-        this._input.blink();
+      if (this.input) {
+        this.input.blink();
       }
     }
   }
 
   public render() {
-    return (
-      <div
-        className={classNames(
-          styles.wrapper,
-          this.props.disabled && styles.disabled
-        )}
-        style={{ width: this.props.width }}
-      >
-        {DateInputConfig.polyfillInput
-          ? /**
-             * Internet Explorer looses focus on element, if its containing node
-             * would be selected with selectNodeContents
-             *
-             * Rendering input with mask
-             */
-            this.renderInputLikeText()
-          : this.renderInput()}
-        {this.props.withIcon && (
-          <span className={styles.icon}>
-            <span className={styles.iconInner}>
-              <CalendarIcon size={this._getIconSize()} />
-            </span>
-          </span>
-        )}
-      </div>
-    );
+    return DateInputConfig.polyfillInput
+      ? /**
+         * Internet Explorer looses focus on element, if its containing node
+         * would be selected with selectNodeContents
+         *
+         * Rendering input with mask
+         */
+        this.renderInputLikeText()
+      : this.renderInput();
   }
 
   private renderInput() {
@@ -214,8 +201,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     return (
       <Input
-        width="100%"
-        ref={el => (this._input = el)}
+        width={this.props.width}
+        ref={el => (this.input = el)}
         size={this.props.size}
         disabled={this.props.disabled}
         error={this.props.error}
@@ -227,6 +214,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
         onDoubleClick={this.handleDoubleClick}
         onPaste={this.handlePaste}
         value={isMaskHidden ? '' : this.getFormattedValue()}
+        rightIcon={this.renderIcon()}
       />
     );
   }
@@ -236,8 +224,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     const isMaskHidden = this.checkIfMaskHidden();
     return (
       <InputLikeText
-        width="100%"
-        ref={el => (this._inputlikeText = el)}
+        width={this.props.width}
+        ref={el => (this.inputlikeText = el)}
         size={this.props.size}
         disabled={this.props.disabled}
         error={this.props.error}
@@ -247,39 +235,26 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
         onPaste={this.handlePaste}
+        rightIcon={this.renderIcon()}
       >
         {!isMaskHidden && (
           <div
-            ref={el => (this._divInnerNode = el)}
+            ref={el => (this.divInnerNode = el)}
             onDoubleClick={this.createSelectionHandler(DateParts.All)}
             className={styles.root}
           >
-            <DatePart
-              selected={selected === DateParts.Date}
-              onMouseDown={this.createSelectionHandler(DateParts.Date)}
-            >
+            <DatePart selected={selected === DateParts.Date} onMouseDown={this.createSelectionHandler(DateParts.Date)}>
               <MaskedValue value={date} length={2} />
             </DatePart>
-            <span
-              className={classNames(styles.delimiter, month && styles.filled)}
-            >
-              .
-            </span>
+            <span className={classNames(styles.delimiter, month && styles.filled)}>.</span>
             <DatePart
               selected={selected === DateParts.Month}
               onMouseDown={this.createSelectionHandler(DateParts.Month)}
             >
               <MaskedValue value={month} length={2} />
             </DatePart>
-            <span
-              className={classNames(styles.delimiter, year && styles.filled)}
-            >
-              .
-            </span>
-            <DatePart
-              selected={selected === DateParts.Year}
-              onMouseDown={this.createSelectionHandler(DateParts.Year)}
-            >
+            <span className={classNames(styles.delimiter, year && styles.filled)}>.</span>
+            <DatePart selected={selected === DateParts.Year} onMouseDown={this.createSelectionHandler(DateParts.Year)}>
               <MaskedValue value={year} length={4} />
             </DatePart>
           </div>
@@ -288,7 +263,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     );
   }
 
-  private _getIconSize = () => {
+  private getIconSize = () => {
     if (this.props.size === 'large') {
       return '16px';
     }
@@ -299,11 +274,14 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDown = (event: React.MouseEvent<HTMLInputElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
     event.preventDefault();
     this.selectDatePart(DateParts.Date);
 
     // Firefix prevents focus if mousedown prevented
-    if (!this._isFocused) {
+    if (!this.isFocused) {
       this.focus();
     }
   };
@@ -311,13 +289,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   private handleInputClick = (event: React.MouseEvent<HTMLInputElement>) => {
     const { start, end } = getInputSelection(event.target);
     const blockToSelect =
-      start !== end
-        ? DateParts.All
-        : start < 3
-          ? DateParts.Date
-          : start < 6
-            ? DateParts.Month
-            : DateParts.Year;
+      start !== end ? DateParts.All : start < 3 ? DateParts.Date : start < 6 ? DateParts.Month : DateParts.Year;
     this.selectDatePart(blockToSelect);
   };
 
@@ -326,7 +298,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
-    this._isFocused = true;
+    this.isFocused = true;
 
     this.selectDatePart(DateParts.Date);
     if (this.props.onFocus) {
@@ -335,7 +307,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLElement>) => {
-    this._isFocused = false;
+    this.isFocused = false;
 
     // event have to be persisted
     // as props.onBlur would be called in async way
@@ -355,7 +327,7 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
         if (this.props.onBlur) {
           this.props.onBlur(event);
         }
-      }
+      },
     );
   };
 
@@ -405,6 +377,10 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.selectDatePart(DateParts.All);
     }
 
+    if (action === Actions.Separator) {
+      this.handleSeparatorKey();
+    }
+
     if (action === Actions.WrongInput) {
       this.blink();
     }
@@ -418,13 +394,19 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
+  private handleSeparatorKey() {
+    if (this.state.dateWasChanged) {
+      this.moveSelection(1);
+    }
+  }
+
   private getFormattedValue() {
     const { date, month, year } = this.state;
     return dateToMask(date, month, year);
   }
 
   private selectDatePartInInput() {
-    if (DateInputConfig.polyfillInput || !this._isFocused) {
+    if (DateInputConfig.polyfillInput || !this.isFocused) {
       return;
     }
 
@@ -435,16 +417,13 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
 
     const [start, end] = DatePartRanges[selected];
-    if (this._input) {
-      this._input.setSelectionRange(start, end);
+    if (this.input) {
+      this.input.setSelectionRange(start, end);
     }
   }
 
   private checkIfMaskHidden() {
-    return (
-      ![this.state.date, this.state.month, this.state.year].some(Boolean) &&
-      this.state.selected == null
-    );
+    return ![this.state.date, this.state.month, this.state.year].some(Boolean) && this.state.selected == null;
   }
 
   private deriveStateFromValue(value: Nullable<string>) {
@@ -479,8 +458,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
       event.preventDefault();
       event.stopPropagation();
 
-      if (this._inputlikeText) {
-        this._inputlikeText.focus();
+      if (this.inputlikeText) {
+        this.inputlikeText.focus();
       }
 
       this.selectDatePart(index);
@@ -508,12 +487,12 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   private selectAll() {
-    if (this._isFocused) {
-      if (this._input) {
-        this._input.setSelectionRange(0, 10);
+    if (this.isFocused) {
+      if (this.input) {
+        this.input.setSelectionRange(0, 10);
       }
-      if (this._divInnerNode) {
-        selectNodeContents(this._divInnerNode);
+      if (this.divInnerNode) {
+        selectNodeContents(this.divInnerNode);
       }
     }
   }
@@ -522,13 +501,24 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.blink();
     this.setState({ notify: false });
   }
+
+  private renderIcon = () => {
+    const iconStyles = classNames({
+      [styles.icon]: true,
+      [styles.disabled]: this.props.disabled,
+    });
+
+    if (this.props.withIcon) {
+      return () => (
+        <span className={iconStyles}>
+          <CalendarIcon size={this.getIconSize()} />
+        </span>
+      );
+    }
+  };
 }
 
-function dateToMask(
-  date: string | null,
-  month: string | null,
-  year: string | null
-) {
+function dateToMask(date: string | null, month: string | null, year: string | null) {
   const date_ = date ? date.padEnd(2, maskChar) : maskChar.repeat(2);
   const month_ = month ? month.padEnd(2, maskChar) : maskChar.repeat(2);
   const year_ = year ? year.padEnd(4, maskChar) : maskChar.repeat(4);
@@ -542,7 +532,7 @@ function getInputSelection(input: EventTarget) {
   return {
     start: input.selectionStart!,
     end: input.selectionEnd!,
-    direction: input.selectionDirection!
+    direction: input.selectionDirection!,
   };
 }
 

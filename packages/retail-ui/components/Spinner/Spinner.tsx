@@ -2,19 +2,21 @@ import classnames from 'classnames';
 import * as React from 'react';
 
 import * as PropTypes from 'prop-types';
+import { locale } from '../LocaleProvider/decorators';
+import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
+import { sizeMaps, svgAnimateSupport, types } from './settings';
 
 import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
-import { types, sizeMaps, svgAnimateSupport } from './settings';
 
 export const SpinnerConfig = {
-  hasSvgAnimationSupport: svgAnimateSupport()
+  hasSvgAnimationSupport: svgAnimateSupport(),
 };
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
 export interface SpinnerProps {
-  caption?: string;
+  caption?: React.ReactNode;
   dimmed?: boolean;
   type?: SpinnerType;
 }
@@ -22,6 +24,8 @@ export interface SpinnerProps {
 /**
  * DRAFT - инлайн-лоадер
  */
+
+@locale('Spinner', SpinnerLocaleHelper)
 class Spinner extends React.Component<SpinnerProps> {
   public static propTypes = {
     /**
@@ -29,7 +33,7 @@ class Spinner extends React.Component<SpinnerProps> {
      *
      * 'Загрузка' - значение по-умолчанию
      */
-    caption: PropTypes.string,
+    caption: PropTypes.node,
 
     dimmed: PropTypes.bool,
 
@@ -40,27 +44,27 @@ class Spinner extends React.Component<SpinnerProps> {
      *
      * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(types))
+    type: PropTypes.oneOf(Object.keys(types)),
   };
 
   public static defaultProps = {
     type: types.normal,
-    caption: 'Загрузка'
   };
 
   public static Types: typeof types;
 
+  private readonly locale!: SpinnerLocale;
+
   public render() {
-    const { type, caption, dimmed } = this.props;
+    const { type, caption = this.locale.loading, dimmed } = this.props;
     const verifiedType = sizeMaps[type!] ? type! : Spinner.defaultProps.type;
 
     return (
       <div className={styles.spinner}>
-        {SpinnerConfig.hasSvgAnimationSupport &&
-          this._renderSpinner(verifiedType)}
-        {!SpinnerConfig.hasSvgAnimationSupport && (
-          <SpinnerFallback type={verifiedType} dimmed={dimmed} />
-        )}
+        <span className={styles.inner}>
+          {SpinnerConfig.hasSvgAnimationSupport && this._renderSpinner(verifiedType)}
+          {!SpinnerConfig.hasSvgAnimationSupport && <SpinnerFallback type={verifiedType} dimmed={dimmed} />}
+        </span>
         {caption && this._renderCaption(verifiedType, caption)}
       </div>
     );
@@ -79,22 +83,9 @@ class Spinner extends React.Component<SpinnerProps> {
       9.19661922 L32.0297086,9.1495774 Z`;
 
     return (
-      <svg
-        className={styles.cloud}
-        width={params.width}
-        height={params.height}
-        viewBox={params.viewBox}
-      >
-        <path
-          className={styles.bg}
-          strokeWidth={params.strokeWidth}
-          d={svgPath}
-        />
-        <path
-          className={styles.path}
-          strokeWidth={params.strokeWidth}
-          d={svgPath}
-        />
+      <svg className={styles.cloud} width={params.width} height={params.height} viewBox={params.viewBox}>
+        <path className={styles.bg} strokeWidth={params.strokeWidth} d={svgPath} />
+        <path className={styles.path} strokeWidth={params.strokeWidth} d={svgPath} />
       </svg>
     );
   };
@@ -104,20 +95,11 @@ class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <svg
-        className={classnames(
-          styles.circle,
-          this.props.dimmed && styles.dimmed
-        )}
+        className={classnames(styles.circle, this.props.dimmed && styles.dimmed)}
         width={params.width}
         height={params.height}
       >
-        <circle
-          cx="8"
-          cy="8"
-          r="6"
-          className={styles.path}
-          strokeWidth={params.strokeWidth}
-        />
+        <circle cx="8" cy="8" r="6" className={styles.path} strokeWidth={params.strokeWidth} />
       </svg>
     );
   };
@@ -130,10 +112,10 @@ class Spinner extends React.Component<SpinnerProps> {
     return this._renderCloud(type);
   };
 
-  private _renderCaption = (type: SpinnerType, caption: string) => {
+  private _renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
     const spanClassName = classnames({
       [styles.captionRight]: type === types.mini,
-      [styles.captionBottom]: type !== types.mini
+      [styles.captionBottom]: type !== types.mini,
     });
 
     return <span className={spanClassName}>{caption}</span>;

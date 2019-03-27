@@ -4,9 +4,12 @@ import events from 'add-event-listener';
 import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 
 import stopPropagation from '../../lib/events/stopPropagation';
+import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
+import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';
 import styles from './Logotype.less';
+import classnames from 'classnames';
 
 const createCloud = (color: string) => (
   <svg width="24" height="17" viewBox="0 0 24 17" className={styles.cloud}>
@@ -17,121 +20,136 @@ const createCloud = (color: string) => (
   </svg>
 );
 
-export interface LogotypeProps {
-  color?: string;
-  component?: React.ComponentType<any> | string;
-  href?: string;
-  suffix?: string;
-  textColor?: string;
-  withWidget?: boolean;
+interface LogotypePropLocale {
+  suffix: string;
+  prefix: string;
 }
 
+export interface LogotypeProps {
+  /**
+   * Цвет логотипа в rgb, rgba, hex
+   */
+  color: string;
+  component: React.ComponentType<any> | string;
+  /**
+   * Адрес ссылки
+   */
+  href: string;
+  /**
+   * Суффикс сервиса
+   */
+  suffix?: string;
+  /**
+   * Цвет логотипа Контура в rgb, rgba, hex
+   */
+  textColor: string;
+  /**
+   * Наличие виджета с продуктами
+   */
+  withWidget?: boolean;
+  /**
+   * Словарь текстовых констант
+   * @default { prefix: 'к', suffix: 'нтур' }
+   */
+  locale?: LogotypePropLocale;
+}
+
+@locale('Logotype', LogotypeLocaleHelper)
 class Logotype extends React.Component<LogotypeProps> {
   public static propTypes = {
-    /**
-     * Цвет логотипа в rgb, rgba, hex
-     */
     color: PropTypes.string,
-
-    /**
-     * Адрес ссылки
-     */
     href: PropTypes.string,
-
-    /**
-     * Суффикс сервиса
-     */
     suffix: PropTypes.string,
-
-    /**
-     * Цвет логотипа Контура в rgb, rgba, hex
-     */
     textColor: PropTypes.string,
-
-    /**
-     * Наличие виджета с продуктами
-     */
-    withWidget: PropTypes.bool
+    withWidget: PropTypes.bool,
+    locale: PropTypes.shape({
+      prefix: PropTypes.string,
+      suffix: PropTypes.string,
+    }),
   };
 
   public static defaultProps = {
     color: '#D92932',
     textColor: '#000',
     component: 'a',
-    href: '/'
+    href: '/',
   };
 
-  private _logoWrapper: Nullable<HTMLElement> = null;
+  private readonly locale!: LogotypeLocale;
+
+  private logoWrapper: Nullable<HTMLElement> = null;
+  private isWidgetInited: boolean = false;
 
   public componentDidMount() {
     if (this.props.withWidget) {
-      ProductWidget.init();
+      this.initWidget();
+    }
+  }
+
+  public componentDidUpdate() {
+    if (this.props.withWidget) {
+      this.initWidget();
     }
   }
 
   public render(): JSX.Element {
     const {
-      color = Logotype.defaultProps.color,
-      textColor = Logotype.defaultProps.textColor,
-      component: Component = Logotype.defaultProps.component,
+      color,
+      textColor,
+      component: Component,
       suffix,
-      href = Logotype.defaultProps.href,
-      withWidget
+      href,
+      withWidget,
+      locale: propLocale = this.locale,
     } = this.props;
+    const dropdownClassName = classnames(styles.dropdown, {
+      [styles.inline]: !withWidget,
+    });
 
-    if (withWidget) {
-      return (
-        <div id="spwDropdown" className={styles.dropdown}>
-          <span ref={this._refLogoWrapper} className={styles.widgetWrapper}>
-            <Component href={href} tabIndex="-1" className={styles.root}>
-              <span style={{ color: textColor }}>к</span>
-              <span style={{ color }}>{createCloud(color)}</span>
-              <span style={{ color: textColor }}>
-                нтур
-                {suffix && '.'}
-              </span>
-              {suffix && <span style={{ color }}>{suffix}</span>}
-            </Component>
-            <span className={styles.divider} />
-          </span>
+    return (
+      <div id="spwDropdown" className={dropdownClassName}>
+        <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
+          <Component href={href} tabIndex="-1" className={styles.root}>
+            <span style={{ color: textColor }}>{propLocale.prefix}</span>
+            <span style={{ color }}>{createCloud(color)}</span>
+            <span style={{ color: textColor }}>
+              {propLocale.suffix}
+              {suffix && '.'}
+            </span>
+            {suffix && <span style={{ color }}>{suffix}</span>}
+          </Component>
+          {withWidget && <span className={styles.divider} />}
+        </span>
+        {withWidget && (
           <button className={styles.button}>
             <ArrowChevronDownIcon color="#aaa" size={20} />
           </button>
-        </div>
-      );
-    }
-
-    return (
-      <Component href={href} tabIndex="-1" className={styles.root}>
-        <span style={{ color: textColor }}>к</span>
-        <span style={{ color }}>{createCloud(color)}</span>
-        <span style={{ color: textColor }}>
-          нтур
-          {suffix && '.'}
-        </span>
-        {suffix && <span style={{ color }}>{suffix}</span>}
-      </Component>
+        )}
+      </div>
     );
   }
 
-  private _refLogoWrapper = (el: Nullable<HTMLElement>) => {
-    if (this._logoWrapper) {
-      events.removeEventListener(
-        this._logoWrapper,
-        'click',
-        this._handleNativeLogoClick
-      );
+  private refLogoWrapper = (el: Nullable<HTMLElement>) => {
+    if (this.logoWrapper) {
+      events.removeEventListener(this.logoWrapper, 'click', this.handleNativeLogoClick);
     }
 
     if (el) {
-      events.addEventListener(el, 'click', this._handleNativeLogoClick);
+      events.addEventListener(el, 'click', this.handleNativeLogoClick);
     }
 
-    this._logoWrapper = el;
+    this.logoWrapper = el;
   };
 
-  private _handleNativeLogoClick = (event: Event) => {
+  private handleNativeLogoClick = (event: Event) => {
     stopPropagation(event);
+  };
+
+  private initWidget = () => {
+    if (!this.isWidgetInited) {
+      ProductWidget.init();
+      this.isWidgetInited = true;
+    }
   };
 }
 

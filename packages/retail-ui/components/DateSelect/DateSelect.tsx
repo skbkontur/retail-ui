@@ -25,7 +25,7 @@ export const MONTHS = [
   'Сентябрь',
   'Октябрь',
   'Ноябрь',
-  'Декабрь'
+  'Декабрь',
 ];
 
 const itemHeight = 24;
@@ -56,10 +56,7 @@ export interface DateSelectState {
   nodeTop: number;
 }
 
-export default class DateSelect extends React.Component<
-  DateSelectProps,
-  DateSelectState
-> {
+export default class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static propTypes = {
     disabled: PropTypes.bool,
 
@@ -73,14 +70,14 @@ export default class DateSelect extends React.Component<
 
     minValue: PropTypes.number,
 
-    maxValue: PropTypes.number
+    maxValue: PropTypes.number,
   };
 
   public static defaultProps = {
     type: 'year',
     minMonth: 0,
     maxMonth: 11,
-    width: 'auto'
+    width: 'auto',
   };
 
   public state = {
@@ -91,7 +88,7 @@ export default class DateSelect extends React.Component<
     pos: 0,
     top: 0,
     topCapped: false,
-    nodeTop: Infinity
+    nodeTop: Infinity,
   };
 
   private _node: HTMLElement | null = null;
@@ -129,6 +126,9 @@ export default class DateSelect extends React.Component<
     window.removeEventListener('keydown', this.handleKey);
   }
 
+  /**
+   * @public
+   */
   public open = () => {
     if (this.props.disabled) {
       return;
@@ -141,10 +141,13 @@ export default class DateSelect extends React.Component<
     this.setPosition(0);
     this.setState({
       opened: true,
-      current: 0
+      current: 0,
     });
   };
 
+  /**
+   * @public
+   */
   public close = () => {
     if (!this.state.opened) {
       return;
@@ -158,10 +161,10 @@ export default class DateSelect extends React.Component<
     const rootProps = {
       className: classNames({
         [styles.root]: true,
-        [styles.disabled]: disabled
+        [styles.disabled]: disabled,
       }),
       style: { width },
-      ref: this._ref
+      ref: this._ref,
     };
     return (
       <span {...rootProps}>
@@ -170,7 +173,7 @@ export default class DateSelect extends React.Component<
           <div
             className={classNames({
               [styles.arrow]: true,
-              [styles.arrowDisabled]: disabled
+              [styles.arrowDisabled]: disabled,
             })}
           >
             <ArrowTriangleUpDownIcon size={12} />
@@ -195,8 +198,8 @@ export default class DateSelect extends React.Component<
     }
     this._timeout = setTimeout(() =>
       this.setState({
-        nodeTop: node.getBoundingClientRect().top
-      })
+        nodeTop: node.getBoundingClientRect().top,
+      }),
     );
   };
 
@@ -230,11 +233,11 @@ export default class DateSelect extends React.Component<
         [styles.menuItem]: true,
         [styles.menuItemActive]: i === this.state.current,
         [styles.menuItemSelected]: i === 0,
-        [styles.menuItemDisabled]: this.disableItems(i)
+        [styles.menuItemDisabled]: this.disableItems(i),
       });
       const clickHandler = {
         onMouseDown: preventDefault,
-        onClick: this.handleItemClick(i)
+        onClick: this.handleItemClick(i),
       };
       items.push(
         <div
@@ -247,7 +250,7 @@ export default class DateSelect extends React.Component<
           {...clickHandler}
         >
           {this.getItem(i)}
-        </div>
+        </div>,
       );
     }
     const style: {
@@ -258,18 +261,18 @@ export default class DateSelect extends React.Component<
     } = {
       top: top - 5,
       left: 0,
-      right: 0
+      right: 0,
     };
 
     const shiftStyle: React.CSSProperties = {
       position: 'relative',
-      top: -shift
+      top: -shift,
     };
 
     const holderClass = classNames({
       [styles.menuHolder]: true,
       [styles.isTopCapped]: this.state.topCapped,
-      [styles.isBotCapped]: this.state.botCapped
+      [styles.isBotCapped]: this.state.botCapped,
     });
 
     let dropdownOffset = -itemHeight;
@@ -279,17 +282,9 @@ export default class DateSelect extends React.Component<
     }
 
     return (
-      <RenderLayer
-        onClickOutside={this.close}
-        onFocusOutside={this.close}
-        active
-      >
+      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active>
         <div>
-          <DropdownContainer
-            getParent={this.getAnchor}
-            offsetY={dropdownOffset}
-            offsetX={-10}
-          >
+          <DropdownContainer getParent={this.getAnchor} offsetY={dropdownOffset} offsetX={-10}>
             <div className={holderClass} style={style}>
               {!this.state.topCapped && (
                 <div
@@ -336,22 +331,14 @@ export default class DateSelect extends React.Component<
   private handleLongClickUp = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
     this.longClickTimer = window.setTimeout(() => {
-      this.setPositionRepeatTimer = window.setInterval(
-        () => this.setPosition(this.state.pos - itemHeight),
-        100
-      );
+      this.setPositionRepeatTimer = window.setInterval(() => this.setPosition(this.state.pos - itemHeight), 100);
     }, 200);
   };
 
-  private handleLongClickDown = (
-    event: React.MouseEvent | React.TouchEvent
-  ) => {
+  private handleLongClickDown = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
     this.longClickTimer = window.setTimeout(() => {
-      this.setPositionRepeatTimer = window.setInterval(
-        () => this.setPosition(this.state.pos + itemHeight),
-        100
-      );
+      this.setPositionRepeatTimer = window.setInterval(() => this.setPosition(this.state.pos + itemHeight), 100);
     }, 200);
   };
 
@@ -438,10 +425,7 @@ export default class DateSelect extends React.Component<
     if (this.props.type === 'month') {
       return -this.props.value * itemHeight;
     } else if (this.props.type === 'year') {
-      return (
-        ((this.props.minValue || defaultMinYear) - this.props.value) *
-        itemHeight
-      );
+      return ((this.props.minValue || defaultMinYear) - this.props.value) * itemHeight;
     }
     return -Infinity; // Be defensive.
   }
@@ -450,10 +434,7 @@ export default class DateSelect extends React.Component<
     if (this.props.type === 'month') {
       return (visibleYearsCount - this.props.value) * itemHeight;
     } else if (this.props.type === 'year') {
-      return (
-        ((this.props.maxValue || defaultMaxYear) - this.props.value) *
-        itemHeight
-      );
+      return ((this.props.maxValue || defaultMaxYear) - this.props.value) * itemHeight;
     }
     return Infinity; // Be defensive.
   }

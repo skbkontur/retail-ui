@@ -3,45 +3,33 @@ import * as React from 'react';
 
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
-import { InputSize } from '../../Input';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
+import { InputVisibilityState, IconType } from '../../Input/Input';
+import { InputProps } from '../../Input';
+
+import styles from './InputLikeText.less';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign
-  ? require('../../Input/Input.flat.less')
-  : require('../../Input/Input.less');
+const inputStyles = isFlatDesign ? require('../../Input/Input.flat.less') : require('../../Input/Input.less');
 
-export interface InputLikeTextProps {
-  align?: 'left' | 'center' | 'right';
-  borderless?: boolean;
+export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;
-  error?: boolean;
-  padRight?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
-  size?: InputSize;
-  width?: string | number;
-  placeholder?: string;
   innerRef?: (el: HTMLElement | null) => void;
-  // eslint-disable-next-line flowtype/no-weak-types
-  [key: string]: any;
+  onFocus?: React.FocusEventHandler<HTMLElement>;
+  onBlur?: React.FocusEventHandler<HTMLElement>;
 }
 
-interface State {
-  blinking: boolean;
-}
+interface InputLikeTextState extends InputVisibilityState {}
 
-export default class InputLikeText extends React.Component<
-  InputLikeTextProps,
-  State
-> {
+export default class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static defaultProps = {
-    size: 'small'
+    size: 'small',
   };
 
   public state = {
-    blinking: false
+    blinking: false,
+    focused: false,
   };
 
   private _node: HTMLElement | null = null;
@@ -70,10 +58,7 @@ export default class InputLikeText extends React.Component<
    */
   public blink() {
     this.setState({ blinking: true }, () => {
-      this._blinkTimeout = window.setTimeout(
-        () => this.setState({ blinking: false }),
-        150
-      );
+      this._blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
@@ -85,7 +70,6 @@ export default class InputLikeText extends React.Component<
 
   public render() {
     const {
-      className: cn,
       innerRef,
       tabIndex,
       placeholder,
@@ -95,58 +79,48 @@ export default class InputLikeText extends React.Component<
       children,
       error,
       warning,
-      padRight,
+      onChange,
+
+      prefix,
+      suffix,
+      leftIcon,
+      rightIcon,
+
       ...rest
     } = this.props;
 
-    const className = classNames({
-      [styles.root]: true,
-      [styles.padRight]: padRight,
-      [styles.borderless]: borderless,
-      [styles.error]: error,
-      [styles.warning]: warning,
-      [styles.disabled]: this.props.disabled,
-      [this._getSizeClassName()]: true
+    const className = classNames(inputStyles.root, this._getSizeClassName(), {
+      [inputStyles.disabled]: this.props.disabled,
+      [inputStyles.error]: error,
+      [inputStyles.warning]: warning,
+      [inputStyles.borderless]: borderless,
+      [inputStyles.blink]: this.state.blinking,
+      [inputStyles.focus]: this.state.focused,
     });
 
     return (
-      <label className={className} style={{ width, textAlign: align }}>
-        <span
-          {...rest}
-          tabIndex={this.props.disabled ? undefined : 0}
-          className={classNames({
-            [styles.input]: true,
-            [styles.blink]: this.state.blinking,
-            [styles.borderless]: borderless
-          })}
-          style={{
-            position: 'relative'
-          }}
-          ref={this._ref}
-        >
-          <span
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 1,
-              paddingLeft: 'inherit',
-              paddingRight: 'inherit',
-              minHeight: 20 / 14 + 'em'
-            }}
-          >
-            <span
-              style={{
-                display: 'inline-block',
-                width: '100%',
-                overflow: 'hidden'
-              }}
-            >
-              {children}
-            </span>
-          </span>
+      <span
+        {...rest}
+        className={className}
+        style={{ width, textAlign: align }}
+        tabIndex={this.props.disabled ? undefined : 0}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        ref={this._ref}
+      >
+        <span className={inputStyles.sideContainer}>
+          {this.renderLeftIcon()}
+          {prefix && <span className={inputStyles.prefix}>{prefix}</span>}
         </span>
-        {this.renderPlaceholder()}
-      </label>
+        <span className={inputStyles.wrapper}>
+          <span className={classNames(inputStyles.input, styles.input)}>{children}</span>
+          {this.renderPlaceholder()}
+        </span>
+        <span className={classNames(inputStyles.sideContainer, inputStyles.rightContainer)}>
+          {suffix && <span className={inputStyles.suffix}>{suffix}</span>}
+          {this.renderRightIcon()}
+        </span>
+      </span>
     );
   }
 
@@ -161,20 +135,53 @@ export default class InputLikeText extends React.Component<
     const { children, placeholder } = this.props;
 
     if (!children && placeholder) {
-      return <span className={styles.placeholder}>{placeholder}</span>;
+      return <span className={inputStyles.placeholder}>{placeholder}</span>;
     }
     return null;
   }
 
   private _getSizeClassName() {
     const SIZE_CLASS_NAMES = {
-      small: styles.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? styles.sizeMedium
-        : styles.DEPRECATED_sizeMedium,
-      large: styles.sizeLarge
+      small: inputStyles.sizeSmall,
+      medium: Upgrades.isSizeMedium16pxEnabled() ? inputStyles.sizeMedium : inputStyles.DEPRECATED_sizeMedium,
+      large: inputStyles.sizeLarge,
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
+  }
+
+  private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
+    this.setState({ focused: true });
+
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
+  };
+  private handleBlur = (event: React.FocusEvent<HTMLElement>) => {
+    this.setState({ focused: false });
+
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+  };
+
+  private renderLeftIcon() {
+    return this.renderIcon(this.props.leftIcon, inputStyles.leftIcon);
+  }
+
+  private renderRightIcon() {
+    return this.renderIcon(this.props.rightIcon, inputStyles.rightIcon);
+  }
+
+  private renderIcon(icon: IconType, className: string) {
+    if (!icon) {
+      return null;
+    }
+
+    if (icon instanceof Function) {
+      return <span className={className}>{icon()}</span>;
+    }
+
+    return <span className={classNames(className, inputStyles.useDefaultColor)}>{icon}</span>;
   }
 }

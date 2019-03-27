@@ -1,3 +1,4 @@
+// @flow
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -13,6 +14,7 @@ import RenderLayer from '../RenderLayer';
 import Center from '../Center';
 
 import styles from './DatePicker.less';
+import { isIE } from '../ensureOldIEClassName';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -30,7 +32,7 @@ const INPUT_PASS_PROPS = {
 
   onMouseEnter: true,
   onMouseLeave: true,
-  onMouseOver: true
+  onMouseOver: true,
 };
 
 class DatePickerOld extends React.Component {
@@ -89,7 +91,7 @@ class DatePickerOld extends React.Component {
      * можно получить содержимое инпута
      * (например, для валидации снаружи)
      */
-    onUnexpectedInput: PropTypes.func
+    onUnexpectedInput: PropTypes.func,
   };
 
   static defaultProps = {
@@ -97,7 +99,7 @@ class DatePickerOld extends React.Component {
     maxYear: 2100,
     width: 120,
     withMask: true,
-    onUnexpectedInput: () => null
+    onUnexpectedInput: () => null,
   };
 
   input;
@@ -107,12 +109,11 @@ class DatePickerOld extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    const textValue =
-      typeof props.value === 'string' ? props.value : formatDate(props.value);
+    const textValue = typeof props.value === 'string' ? props.value : formatDate(props.value);
 
     this.state = {
       opened: false,
-      textValue
+      textValue,
     };
   }
 
@@ -120,7 +121,6 @@ class DatePickerOld extends React.Component {
    * @public
    */
   blur() {
-    this.input.blur();
     this.handleBlur();
   }
 
@@ -128,49 +128,36 @@ class DatePickerOld extends React.Component {
    * @public
    */
   focus() {
-    this.input.focus();
+    this.input.selectAll();
     this.handleFocus();
   }
 
   render() {
     const { opened } = this.state;
-    const { value, menuAlign } = this.props;
+    const { value, menuAlign, width } = this.props;
 
     const date = isDate(value) ? value : null;
     let picker = null;
     if (opened) {
       picker = (
-        <DropdownContainer
-          getParent={() => findDOMNode(this)}
-          offsetY={2}
-          align={menuAlign}
-        >
-          <Picker
-            value={date}
-            minYear={this.props.minYear}
-            maxYear={this.props.maxYear}
-            onPick={this.handlePick}
-          />
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={menuAlign}>
+          <Picker value={date} minYear={this.props.minYear} maxYear={this.props.maxYear} onPick={this.handlePick} />
         </DropdownContainer>
       );
     }
 
     const className = classNames({
       [styles.root]: true,
-      [this.props.className || '']: true
+      [this.props.className || '']: true,
     });
     const iconSize = this.props.size === 'large' ? 16 : 14;
     const openClassName = classNames({
       [styles.openButton]: true,
-      [styles.openButtonDisabled]: this.props.disabled
+      [styles.openButtonDisabled]: this.props.disabled,
     });
     return (
-      <RenderLayer
-        onClickOutside={this.handleBlur}
-        onFocusOutside={this.handleBlur}
-        active={opened}
-      >
-        <label className={className} style={{ width: this.props.width }}>
+      <RenderLayer active={opened}>
+        <label className={className} style={{ width }}>
           <DateInput
             {...filterProps(this.props, INPUT_PASS_PROPS)}
             getInputRef={this.getInputRef}
@@ -179,12 +166,10 @@ class DatePickerOld extends React.Component {
             onFocus={this.handleFocus}
             onChange={this.handleChange}
             onSubmit={this._handleSubmit}
+            onBlur={this.handleBlur}
           />
           {picker}
-          <Center
-            className={openClassName}
-            onMouseDown={e => e.preventDefault()}
-          >
+          <Center className={openClassName} onMouseDown={e => e.preventDefault()}>
             <CalendarIcon size={iconSize} />
           </Center>
         </label>
@@ -195,8 +180,7 @@ class DatePickerOld extends React.Component {
   componentWillReceiveProps({ value: newValue }) {
     const { value: oldValue } = this.props;
     if (newValue && +newValue !== +oldValue) {
-      const textValue =
-        typeof newValue === 'string' ? newValue : formatDate(newValue);
+      const textValue = typeof newValue === 'string' ? newValue : formatDate(newValue);
 
       this.setState({ textValue });
     }
@@ -245,16 +229,15 @@ class DatePickerOld extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
+    this.input.blur();
   };
 
   _handleSubmit = () => {
     const value = this.state.textValue;
     const date = parseDate(value);
-    const newDate =
-      date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
+    const newDate = date === null ? getDateValue(value, this.props.onUnexpectedInput) : date;
 
-    const textValue =
-      typeof newDate === 'string' ? newDate : formatDate(newDate);
+    const textValue = typeof newDate === 'string' ? newDate : formatDate(newDate);
 
     this.setState({ textValue });
 
@@ -272,7 +255,12 @@ class DatePickerOld extends React.Component {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-    this.blur();
+    if (isIE) {
+      // NOTE In IE can't blur input with mask https://github.com/sanniassin/react-input-mask/issues/73
+      setTimeout(() => this.input.blur());
+    } else {
+      this.input.blur();
+    }
   };
 
   handlePickerClose = () => {

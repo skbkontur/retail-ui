@@ -22,11 +22,14 @@
     &:active .box {
       background: @chb-flat-active-bg;
     }
-  }
 
-  .disabled {
-    color: @text-color-disabled;
-    cursor: default;
+    &:hover .box.boxIndeterminate {
+      background-color: darken(@chb-flat-checked-bg, 5%);
+    }
+
+    &:active .box.boxIndeterminate {
+      background-color: darken(@chb-flat-checked-bg, 15%);
+    }
   }
 
   .input {
@@ -50,6 +53,10 @@
     color: @text-color-default;
     line-height: 20px;
     font-size: 14px;
+  }
+
+  .box.boxIndeterminate {
+    background: @chb-flat-checked-bg;
   }
 
   .checked .box {
@@ -115,7 +122,7 @@
   }
 
   .disabled .box {
-    background: @bg-disabled !important; // to overide hover and active
+    background: @bg-disabled !important; /* to overide hover and active */
     color: @text-color-disabled;
     border-color: transparent;
   }
@@ -128,5 +135,26 @@
 
   .caption {
     padding-left: 26px;
+  }
+
+  .indeterminate {
+    position: absolute;
+    display: inline-block;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background: #fff;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .disabled {
+    color: @text-color-disabled;
+    cursor: default;
+
+    .indeterminate {
+      background: @text-color-disabled;
+    }
   }
 }

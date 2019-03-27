@@ -1,3 +1,11 @@
+Управление с клавиатуры работает в двух вариантах:
+
+- **useGlobalListener === true** слушатель keydown событий на document, если на стринице несколько компонентов Paging,
+  обработчик будет срабатывать на каждом
+- **useGlobalListener === false** обработка нажатия клавиш будет работать только когда компонент в фокусе.
+
+Навигационные подсказки появляются когда доступно управлнеие с клавиатуры и `withoutNavigationHint != true`
+
 ```js
 class Paginator3000 extends React.Component {
   constructor() {
@@ -7,13 +15,7 @@ class Paginator3000 extends React.Component {
   }
 
   render() {
-    return (
-      <Paging
-        activePage={this.state.active}
-        onPageChange={this._handlePageChange}
-        pagesCount={12}
-      />
-    );
+    return <Paging activePage={this.state.active} onPageChange={this._handlePageChange} pagesCount={12} />;
   }
 
   _handlePageChange(pageNumber) {
@@ -22,4 +24,20 @@ class Paginator3000 extends React.Component {
 }
 
 <Paginator3000 />;
+```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface PagingLocale {
+  forward?: string;
+}
+
+const ru_RU = {
+  forward: 'Дальше',
+};
+
+const en_EN = {
+  forward: 'Forward',
+};
 ```

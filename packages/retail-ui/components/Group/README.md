@@ -1,5 +1,6 @@
 ```jsx
-const { default: Icon } = require('../Icon');
+const { default: UndoIcon } = require('@skbkontur/react-icons/Undo');
+const { default: FunctionIcon } = require('@skbkontur/react-icons/Function');
 const { default: Button } = require('../Button');
 const { default: Input } = require('../Input');
 
@@ -10,20 +11,16 @@ let icon = null;
 if (!state.auto) {
   auto = (
     <Button onClick={e => setState({ auto: true })}>
-      <Icon name="Undo" />
+      <UndoIcon />
     </Button>
   );
 } else {
-  icon = <Icon name="Function" />;
+  icon = <FunctionIcon />;
 }
 
 <Group width={300}>
   {auto}
-  <Input
-    mainInGroup
-    leftIcon={icon}
-    onChange={e => setState({ auto: false })}
-  />
+  <Input mainInGroup leftIcon={icon} onChange={e => setState({ auto: false })} />
   <Button>Hey</Button>
   <Button>Ma</Button>
 </Group>;

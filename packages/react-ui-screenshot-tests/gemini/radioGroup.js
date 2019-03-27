@@ -1,14 +1,13 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var renderStory = require('./utils').renderStory;
 
 const BUTTON_SELECTOR = '[class^="Button-root"]';
 const RADIO_SELECTOR = '[class^="Radio-root"]';
 
 gemini.suite('RadioGroup', suite => {
   suite
-    .setUrl(pathTo('RadioGroup', 'playground'))
-    .setUrl(pathTo('RadioGroup', 'vertical'))
+    .before(renderStory('RadioGroup', 'vertical'))
     .setCaptureElements('#RadioGroup-wrap')
     .capture('plain')
     .capture('hovered', (actions, find) => {
@@ -30,7 +29,7 @@ gemini.suite('RadioGroup', suite => {
 
 gemini.suite('RadioGroup inline', suite => {
   suite
-    .setUrl(pathTo('RadioGroup', 'inline'))
+    .before(renderStory('RadioGroup', 'inline'))
     .setCaptureElements('#RadioGroup-wrap')
     .capture('RadioGroup inline');
 });

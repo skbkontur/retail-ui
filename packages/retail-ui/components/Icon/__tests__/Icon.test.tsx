@@ -12,7 +12,7 @@ test('Icon has right color', () => {
     wrapper
       .find('.root')
       .first()
-      .prop('style')
+      .prop('style'),
   ).toMatchObject({ color: 'red' });
 });
 
@@ -22,6 +22,6 @@ test('Icon has right size', () => {
     wrapper
       .find('.root')
       .first()
-      .prop('style')
+      .prop('style'),
   ).toMatchObject({ fontSize: '18px' });
 });

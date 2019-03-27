@@ -47,14 +47,13 @@
 
   .root:active .radio {
     background: #e1e1e1;
-    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2),
-      inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
   }
 
-  .input:focus + .radio:after,
-  .focus:after,
-  .warning:after,
-  .error:after {
+  .input:focus + .radio::after,
+  .focus::after,
+  .warning::after,
+  .error::after {
     content: ' ';
     position: absolute;
     left: -2px;
@@ -67,16 +66,16 @@
     box-sizing: border-box;
   }
 
-  .input:focus + .radio:after,
-  .focus:after {
+  .input:focus + .radio::after,
+  .focus::after {
     border-color: @border-color-focus;
   }
 
-  .warning:after {
+  .warning::after {
     border-color: @border-color-warning;
   }
 
-  .error:after {
+  .error::after {
     border-color: @border-color-error;
   }
 
@@ -84,7 +83,7 @@
     position: relative;
   }
 
-  .checked:before {
+  .checked::before {
     content: ' ';
     position: absolute;
     top: 0;
@@ -99,11 +98,11 @@
   }
 
   .disabled {
-    background: #f2f2f2 !important; // to overide hover and active
+    background: #f2f2f2 !important; /* to overide hover and active */
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) !important;
   }
 
-  .disabled.checked:before {
+  .disabled.checked::before {
     background: #808080;
   }
 

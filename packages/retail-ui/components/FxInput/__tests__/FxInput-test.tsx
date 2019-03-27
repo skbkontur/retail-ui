@@ -6,8 +6,8 @@ const render = (
   props: FxInputProps = {
     onChange: () => {
       /**/
-    }
-  }
+    },
+  },
 ) => mount<FxInput, FxInputProps>(<FxInput {...props} />);
 
 describe('FxInput', () => {
@@ -15,12 +15,16 @@ describe('FxInput', () => {
     render();
   });
 
-  it('programmatically set focus', () => {
+  it('programmatically set focus and blur', () => {
     const wrapper = render();
     const input = wrapper.find('input');
 
     wrapper.instance().focus();
 
-    expect(input.html() === document.activeElement.innerHTML);
+    expect(document.activeElement).toBe(input.instance());
+
+    wrapper.instance().blur();
+
+    expect(document.activeElement).toBe(document.body);
   });
 });

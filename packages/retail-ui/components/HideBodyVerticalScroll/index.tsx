@@ -1,1 +1,1 @@
-export {default, HideBodyVerticalScrollProps} from './HideBodyVerticalScroll';
+export { default } from './HideBodyVerticalScroll';

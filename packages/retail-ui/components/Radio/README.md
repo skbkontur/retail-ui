@@ -1,14 +1,14 @@
 ```js
-const { default: Gapped } = require("../Gapped");
+const { default: Gapped } = require('../Gapped');
 
 <Gapped gap={20}>
-  <Radio />
-  <Radio disabled />
-  <Radio disabled checked />
-  <Radio checked />
-  <Radio focused />
-  <Radio focused checked />
-  <Radio error />
-  <Radio warning />
+  <Radio value="value" />
+  <Radio value="value" disabled />
+  <Radio value="value" disabled checked />
+  <Radio value="value" checked />
+  <Radio value="value" focused />
+  <Radio value="value" focused checked />
+  <Radio value="value" error />
+  <Radio value="value" warning />
 </Gapped>;
 ```

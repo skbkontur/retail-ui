@@ -18,14 +18,8 @@
 
     &:active .box {
       background: #e1e1e1;
-      box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2),
-        inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+      box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     }
-  }
-
-  .disabled {
-    color: @text-color-disabled;
-    cursor: default;
   }
 
   .input {
@@ -99,7 +93,7 @@
   }
 
   .disabled .box {
-    background: @bg-disabled !important; // to overide hover and active
+    background: @bg-disabled !important; /* to overide hover and active */
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) !important;
     color: @text-color-disabled;
   }
@@ -112,5 +106,26 @@
 
   .caption {
     padding-left: 26px;
+  }
+
+  .indeterminate {
+    position: absolute;
+    display: inline-block;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background: @text-color-default;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .disabled {
+    color: @text-color-disabled;
+    cursor: default;
+
+    .indeterminate {
+      background: @text-color-disabled;
+    }
   }
 }

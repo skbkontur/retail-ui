@@ -7,6 +7,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         private const string Script = "var link = arguments[0];" +
                                       "var hasIcon = link.firstChild &&" +
                                       "              link.firstChild.firstChild &&" +
+                                      "              link.firstChild.firstChild.getAttribute &&" +
                                       "              link.firstChild.firstChild.getAttribute('data-comp-name') === 'Icon';" +
                                       "" +
                                       "if (!hasIcon) {" +

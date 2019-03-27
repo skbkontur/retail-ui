@@ -10,10 +10,10 @@ import ModalStack from '../ModalStack';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
-import SidePageBody from './SidePageBody';
+import { SidePageBodyWithContext, SidePageBodyProps } from './SidePageBody';
 import SidePageContainer from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
-import SidePageFooter from './SidePageFooter';
+import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 
@@ -85,16 +85,15 @@ interface ZIndexPropsType {
  */
 class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Header = SidePageHeader;
-  public static Body = SidePageBody;
-  public static Footer = SidePageFooter;
+  public static Body: (props: SidePageBodyProps) => JSX.Element = SidePageBodyWithContext;
+  public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
   public static Container = SidePageContainer;
+
+  public state: SidePageState = {};
+
   private stackSubscription: EventSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
-
-  constructor(props: SidePageProps) {
-    super(props);
-    this.state = {};
-  }
+  private footer: SidePageFooter | null = null;
 
   public componentDidMount() {
     events.addEventListener(window, 'keydown', this.handleKeyDown);
@@ -108,6 +107,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
     ModalStack.remove(this);
   }
+
+  /**
+   * Обновляет разметку компонента.
+   * @public
+   */
+  public updateLayout = (): void => {
+    if (this.footer) {
+      this.footer.update();
+    }
+  };
 
   public render(): JSX.Element {
     const { disableAnimations } = this.props;
@@ -124,7 +133,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
             exit={false}
             timeout={{
               enter: TRANSITION_TIMEOUT,
-              exit: TRANSITION_TIMEOUT
+              exit: TRANSITION_TIMEOUT,
             }}
           >
             {this.renderContainer()}
@@ -139,39 +148,33 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     return {
       delta: 1000,
       classes: classNames(styles.root, {
-        [styles.leftSide]: fromLeft
+        [styles.leftSide]: fromLeft,
       }),
-      style: blockBackground ? { width: '100%' } : undefined
+      style: blockBackground ? { width: '100%' } : undefined,
     };
   }
 
   private renderContainer(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
-    const sidePageWidth = this.getWidth();
 
     return (
-      <ZIndex
-        delta={delta}
-        className={classes}
-        onScroll={LayoutEvents.emit}
-        style={style}
-      >
+      <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
-            className={classNames(
-              styles.container,
-              this.state.hasShadow && styles.shadow
-            )}
+            className={classNames(styles.container, this.state.hasShadow && styles.shadow)}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={styles.layout}>
+            <div ref={_ => (this.layoutRef = _)}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
-                  width: sidePageWidth
+                  getWidth: this.getWidth,
+                  updateLayout: this.updateLayout,
+                  footerRef: this.footerRef,
                 }}
               >
-                {this.props.children}
+                {/* React <= 15. SidePageContext.Provider can only receive a single child element. */}
+                <div className={styles.layout}>{this.props.children}</div>
               </SidePageContext.Provider>
             </div>
           </div>
@@ -180,40 +183,30 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private getWidth() {
+  private getWidth = () => {
     if (!this.layoutRef) {
       return 'auto';
     }
     return this.layoutRef.getBoundingClientRect().width;
-  }
+  };
 
   private renderShadow(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
     const { blockBackground } = this.props;
 
     return (
-      <ZIndex
-        delta={delta}
-        className={classes}
-        onScroll={LayoutEvents.emit}
-        style={style}
-      >
-        <HideBodyVerticalScroll allowScrolling={!blockBackground} />
-        {blockBackground && (
-          <div
-            className={classNames(
-              styles.background,
-              this.state.hasBackground && styles.gray
-            )}
-          />
-        )}
+      <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
+        {blockBackground && [
+          <HideBodyVerticalScroll key="hbvs" />,
+          <div key="overlay" className={classNames(styles.background, this.state.hasBackground && styles.gray)} />,
+        ]}
       </ZIndex>
     );
   }
 
   private getSidebarStyle(): React.CSSProperties {
     const sidePageStyle: React.CSSProperties = {
-      width: this.props.width || (this.props.blockBackground ? 800 : 500)
+      width: this.props.width || (this.props.blockBackground ? 800 : 500),
     };
 
     if (this.state.hasMargin) {
@@ -230,17 +223,9 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   private getTransitionNames(): Record<string, string> {
     const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
     const transitionEnter =
-      styles[
-        ('transition-enter-' + direction) as
-          | 'transition-enter-left'
-          | 'transition-enter-right'
-      ];
+      styles[('transition-enter-' + direction) as 'transition-enter-left' | 'transition-enter-right'];
     const transitionAppear =
-      styles[
-        ('transition-appear-' + direction) as
-          | 'transition-appear-left'
-          | 'transition-appear-right'
-      ];
+      styles[('transition-appear-' + direction) as 'transition-appear-left' | 'transition-appear-right'];
 
     return {
       enter: transitionEnter,
@@ -248,7 +233,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
       exit: styles['transition-leave'],
       exitActive: styles['transition-leave-active'],
       appear: transitionAppear,
-      appearActive: styles['transition-appear-active']
+      appearActive: styles['transition-appear-active'],
     };
   }
 
@@ -257,18 +242,15 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     const currentSidePagePosition = sidePages.indexOf(this);
     const isSidePageOnStackTop = stack[0] instanceof SidePage;
 
-    const hasMargin =
-      sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
-    const hasShadow =
-      sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
-    const hasBackground =
-      currentSidePagePosition === sidePages.length - 1 && isSidePageOnStackTop;
+    const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
+    const hasShadow = sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
+    const hasBackground = currentSidePagePosition === sidePages.length - 1 && isSidePageOnStackTop;
 
     this.setState({
       stackPosition: stack.indexOf(this),
       hasMargin,
       hasShadow,
-      hasBackground
+      hasBackground,
     });
   };
 
@@ -295,6 +277,10 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.props.onClose) {
       this.props.onClose();
     }
+  };
+
+  private footerRef = (ref: SidePageFooter | null) => {
+    this.footer = ref;
   };
 }
 

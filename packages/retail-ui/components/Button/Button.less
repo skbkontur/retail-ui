@@ -1,20 +1,21 @@
 @import '../variables.less';
 @import (reference) '../Link/Link.less';
+@import './Button.common.less';
 
 :local {
-  @focus-shadow: 0 0 0 1px @border-color-focus,
-    inset 0 0 0 1px @border-color-gray-lighter;
+  .commonStyles();
+
+  @focus-shadow: 0 0 0 1px @border-color-focus, inset 0 0 0 1px @border-color-gray-lighter;
 
   .wrap {
-    box-sizing: border-box;
-    display: inline-block;
     padding: 1px;
+
+    &_link {
+      padding: 0;
+    }
   }
 
   .wrap_arrow {
-    box-sizing: border-box;
-    display: inline-block;
-    padding: 1px;
     margin-right: 10px;
   }
 
@@ -23,87 +24,20 @@
     margin-left: 10px;
   }
 
-  :global(.rt-ie9),
-  :global(.rt-ie8) {
-    .wrap_arrow {
-      margin-right: 0;
-    }
-  }
-
-  .root {
-    border: 0;
-    color: @text-color-default;
-    cursor: pointer;
-    display: inline-block;
-    font-family: inherit;
-    font-size: 14px;
-    margin: 0; // Need for Safari.
-    outline: 0;
-    overflow: visible; // On IE it's hidden by default.
-    position: relative;
-    width: 100%;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-clip: border-box;
-
-    &::-moz-focus-inner {
-      border: 0;
-      padding: 0;
-    }
-
-    &:active {
-      padding-top: 1px;
-      vertical-align: -1px;
-    }
-
-    &:after {
-      content: '';
-      display: inline-block;
-      vertical-align: baseline;
-      width: 0;
-    }
-
-    .warning,
-    .error {
-      border-radius: inherit;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-
-    &:not(.link) .warning {
-      box-shadow: 0 0 0 2px @border-color-warning;
-
-      :global(.rt-ie8) & {
-        outline: 2px solid @border-color-warning;
-      }
-    }
-
-    &:not(.link) .error {
-      box-shadow: 0 0 0 2px @border-color-error;
-
-      :global(.rt-ie8) & {
-        outline: 2px solid @border-color-error;
-      }
-    }
-  }
-
-  .caption {
-    position: relative;
-    white-space: nowrap;
-    display: inline-block;
-    width: 100%;
-  }
-
-  .icon {
-    display: inline-block;
-    padding-right: 7px;
-  }
-
-  .buttonSizeMixin(@className, @length, @top, @right, @shift, @transform, @arrow_loading, @arrow_loading_top, @arrow_loading_height) {
+  .buttonSizeMixin(
+  @className,
+  @length,
+  @top,
+  @right,
+  @left,
+  @shift,
+  @transform,
+  @arrow_loading,
+  @arrow_loading_top,
+  @arrow_left_loading_top,
+  @arrow_left_loading_left,
+  @arrow_loading_height
+) {
     .@{className} {
       .arrow {
         position: absolute;
@@ -118,14 +52,14 @@
       }
 
       .arrow_left {
-        left: -8.5px;
-        transform: rotate(233deg) skewX(25deg) skewY(10deg);
+        left: @left;
+        transform: rotate(232deg) skewX(25deg) skewY(8deg);
       }
 
       .arrow.arrow_loading {
         overflow: hidden;
 
-        &:before {
+        &::before {
           background: @arrow_loading;
           content: '';
           height: @arrow_loading_height;
@@ -135,59 +69,60 @@
           top: @arrow_loading_top;
           left: -207px;
           right: -72px;
-          transform: rotate(-44.3deg) skewX(0deg) skewY(0deg);
+          transform: rotate(-47deg) skewX(0deg) skewY(0deg);
 
           :global {
             animation: btn_loading_arrow 1s linear infinite;
           }
         }
       }
-    }
 
-    :global(.rt-ie9),
-    :global(.rt-ie8) {
-      .@{className} {
-        .arrow {
-          height: 0;
-          width: 0;
+      .arrow_left.arrow_loading {
+        &::before {
+          :global {
+            animation: btn_loading_arrow 1s linear infinite;
+            animation-direction: reverse;
+            left: @arrow_left_loading_left;
+            top: @arrow_left_loading_top;
+          }
         }
       }
     }
   }
 
   .buttonColorMixin(
-    @className,
-    @hoverColorStart,
-    @hoverColorEnd,
-    @hoverShadow,
-    @hoverShadowArrow,
-    @activeColor,
-    @activeShadow,
-    @activeShadowArrow,
-    @colorStart,
-    @colorEnd,
-    @shadow,
-    @shadowArrow,
-    @bg,
-    @color,
-    @border: @bg
-  ) {
+  @className,
+  @hoverColorStart,
+  @hoverColorEnd,
+  @hoverShadow,
+  @hoverShadowArrow,
+  @hoverShadowArrowLeft,
+  @activeColor,
+  @activeShadow,
+  @activeShadowArrow,
+  @activeShadowArrowLeft,
+  @colorStart,
+  @colorEnd,
+  @shadow,
+  @shadowArrow,
+  @shadowArrowLeft,
+  @bg,
+  @color,
+  @border: @bg
+) {
     .@{className} {
       background-image: linear-gradient(@colorStart, @colorEnd);
       color: @color;
       box-shadow: @shadow;
 
       .arrow {
-        background-image: linear-gradient(
-          to bottom right,
-          @colorStart,
-          @colorEnd
-        );
+        background-image: linear-gradient(to bottom right, @colorStart, @colorEnd);
         box-shadow: @shadowArrow;
       }
 
       .arrow_left {
         background-image: linear-gradient(to top left, @colorStart, @colorEnd);
+        box-shadow: @shadowArrowLeft;
       }
 
       .arrow.arrow_warning {
@@ -203,20 +138,13 @@
         box-shadow: @hoverShadow;
 
         .arrow {
-          background-image: linear-gradient(
-            to bottom right,
-            @hoverColorStart,
-            @hoverColorEnd
-          );
+          background-image: linear-gradient(to bottom right, @hoverColorStart, @hoverColorEnd);
           box-shadow: @hoverShadowArrow;
         }
 
         .arrow_left {
-          background-image: linear-gradient(
-            to top left,
-            @hoverColorStart,
-            @hoverColorEnd
-          );
+          background-image: linear-gradient(to top left, @hoverColorStart, @hoverColorEnd);
+          box-shadow: @hoverShadowArrowLeft;
         }
 
         .arrow.arrow_warning {
@@ -238,8 +166,7 @@
         }
 
         .arrow.arrow_warning {
-          box-shadow: inset -1px 1px 0 0 #fff,
-            2px -2px 0 0 @border-color-warning;
+          box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
         }
 
         .arrow.arrow_error {
@@ -258,6 +185,10 @@
         box-shadow: @activeShadowArrow;
       }
 
+      .arrow_left {
+        box-shadow: @activeShadowArrowLeft;
+      }
+
       .arrow.arrow_warning {
         box-shadow: 2px -2px 0 0 @border-color-warning;
       }
@@ -266,130 +197,90 @@
         box-shadow: 2px -2px 0 0 @border-color-error;
       }
     }
-
-    :global(.rt-ie8),
-    :global(.rt-ie9) {
-      .@{className},
-      .@{className}:hover,
-      .@{className}:active {
-        background: @bg;
-        box-shadow: none;
-        outline: 1px solid @border;
-      }
-
-      .@{className}.focus {
-        box-shadow: none;
-
-        &:before {
-          border: 1px solid #fff;
-          bottom: 0;
-          content: '';
-          left: 0;
-          outline: 2px solid @border-color-focus;
-          position: absolute;
-          right: 0;
-          top: 0;
-        }
-      }
-
-      .@{className}.disabled {
-        background: @bg-disabled;
-        box-shadow: none;
-        outline: 1px solid @border-color-gray-light;
-      }
-    }
   }
 
   .sizeSmall {
     &:not(.link) {
-      height: 32px;
+      height: @control-height-small - 2;
     }
-
-    line-height: 32px;
-    padding: 0 15px;
   }
   .buttonSizeMixin(
     sizeSmall,
     16.8px,
     7.5px,
     -7.5px,
+    -9.6px,
     -7.7px,
     rotate(53deg) skewX(24deg) skewY(10deg),
-    linear-gradient(
-      -56deg,
-      transparent 47.5%,
-      #ccc 0,
-      #ccc 73.5%,
-      transparent 0
-    ),
+    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0),
     7px,
+    7px,
+    -207px,
     441%
   );
+
   .sizeMedium {
     &:not(.link) {
-      height: 38px;
+      height: @control-height-medium - 2;
     }
-
-    font-size: 16px;
-    line-height: 38px;
-    padding: 0 15px;
-  }
-  .DEPRECATED_sizeMedium:not(.link) {
-    &:not(.link) {
-      height: 38px;
-    }
-
-    font-size: 14px;
-    line-height: 38px;
-    padding: 0 15px;
   }
   .buttonSizeMixin(
     sizeMedium,
     20.2px,
-    8.9px,
-    -9.3px,
+    9px,
+    -10.2px,
+    -9.6px,
     -9.5px,
     rotate(53deg) skewX(24deg) skewY(8deg),
-    linear-gradient(
-      -56deg,
-      transparent 46.9%,
-      #ccc 0,
-      #ccc 69.5%,
-      transparent 0
-    ),
-    0px,
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -208px,
     441%
   );
+
+  .DEPRECATED_sizeMedium {
+    font-size: 14px;
+
+    &:not(.link) {
+      height: @control-height-medium - 2;
+    }
+  }
+  .buttonSizeMixin(
+    DEPRECATED_sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
+    -9.6px,
+    -9.5px,
+    rotate(53deg) skewX(24deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -208px,
+    441%
+  );
+
   .sizeLarge {
     &:not(.link) {
-      height: 42px;
+      height: @control-height-large - 2;
     }
-
-    font-size: 16px;
-    line-height: 42px;
-    padding: 0 20px;
   }
   .buttonSizeMixin(
     sizeLarge,
     21.7px,
     10.2px,
-    -10px,
+    -10.8px,
+    -10.6px,
     -10.2px,
     rotate(53deg) skewX(25deg) skewY(10deg),
-    linear-gradient(
-      -56deg,
-      transparent 48.2%,
-      #ccc 0,
-      #ccc 63.4%,
-      transparent 0
-    ),
+    linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
     -32px,
+    -36px,
+    -198px,
     700%
   );
-  .buttonWithIcon {
-    padding-right: 15px;
-    padding-left: 15px;
-  }
+
   // Use Default
   .buttonColorMixin(
     default,
@@ -397,13 +288,16 @@
     @btn-default-hover-bg-end,
     @btn-default-hover-shadow,
     @btn-default-hover-shadow-arrow,
+    @btn-default-hover-shadow-arrow-left,
     @btn-default-active-bg,
     @btn-default-active-shadow,
     @btn-default-active-shadow-arrow,
+    @btn-default-active-shadow-arrow-left,
     @btn-default-bg-start,
     @btn-default-bg-end,
     @btn-default-shadow,
     @btn-default-shadow-arrow,
+    @btn-default-shadow-arrow-left,
     @btn-default-bg,
     none,
     @border-color-gray-dark
@@ -415,17 +309,19 @@
     @btn-primary-hover-bg-end,
     @btn-primary-hover-shadow,
     @btn-primary-hover-shadow-arrow,
+    @btn-primary-hover-shadow-arrow-left,
     @btn-primary-active-bg,
     @btn-primary-active-shadow,
     @btn-primary-active-shadow-arrow,
+    @btn-primary-active-shadow-arrow-left,
     @btn-primary-bg-start,
     @btn-primary-bg-end,
     @btn-primary-shadow,
     @btn-primary-shadow-arrow,
+    @btn-primary-shadow-arrow-left,
     @btn-primary-bg,
     #fff
   );
-
   // Use Success
   .buttonColorMixin(
     success,
@@ -433,17 +329,19 @@
     @btn-success-hover-bg-end,
     @btn-success-hover-shadow,
     @btn-success-hover-shadow-arrow,
+    @btn-success-hover-shadow-arrow-left,
     @btn-success-active-bg,
     @btn-success-active-shadow,
     @btn-success-active-shadow-arrow,
+    @btn-success-active-shadow-arrow-left,
     @btn-success-bg-start,
     @btn-success-bg-end,
     @btn-success-shadow,
     @btn-success-shadow-arrow,
+    @btn-success-shadow-arrow-left,
     @btn-success-bg,
     #fff
   );
-
   // Use Danger
   .buttonColorMixin(
     danger,
@@ -451,17 +349,19 @@
     @btn-danger-hover-bg-end,
     @btn-danger-hover-shadow,
     @btn-danger-hover-shadow-arrow,
+    @btn-danger-hover-shadow-arrow-left,
     @btn-danger-active-bg,
     @btn-danger-active-shadow,
     @btn-danger-active-shadow-arrow,
+    @btn-danger-active-shadow-arrow-left,
     @btn-danger-bg-start,
     @btn-danger-bg-end,
     @btn-danger-shadow,
     @btn-danger-shadow-arrow,
+    @btn-danger-shadow-arrow-left,
     @btn-danger-bg,
     #fff
   );
-
   // Use Pay
   .buttonColorMixin(
     pay,
@@ -469,180 +369,89 @@
     @btn-pay-hover-bg-end,
     @btn-pay-hover-shadow,
     @btn-pay-hover-shadow-arrow,
+    @btn-pay-hover-shadow-arrow-left,
     @btn-pay-active-bg,
     @btn-pay-active-shadow,
     @btn-pay-active-shadow-arrow,
+    @btn-pay-active-shadow-arrow-left,
     @btn-pay-bg-start,
     @btn-pay-bg-end,
     @btn-pay-shadow,
     @btn-pay-shadow-arrow,
+    @btn-pay-shadow-arrow-left,
     @btn-pay-bg,
     none
   );
 
-  // Use Link
-  .root.link {
-    display: inline;
-    padding: 0;
-    margin: 0;
-    background: none;
-    border: none;
-    box-shadow: none;
-    line-height: inherit;
-
-    .caption {
-      display: inline;
-    }
-    &:active {
-      vertical-align: 0;
-    }
-    &.disabled {
-      box-shadow: none;
-      background: none;
-    }
-    .icon {
-      padding-right: @linkIconPadding;
-    }
-
-    .warning,
-    .error {
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-    }
-
-    .error {
-      background: @error-secondary;
-    }
-  }
-  .linkMixin(
-    link,
-    @link-color,
-    @link-hover-color,
-    @link-hover-color,
-    @link-active-color
-  );
   // End Use
   .root.checked {
     background: @btn-checked-bg;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6),
-      inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
     color: #fff;
-    padding-top: 1px;
+
     .arrow {
       background: @btn-checked-bg;
       box-shadow: @btn-shadow-checked-arrow;
     }
+
+    .arrow_left {
+      box-shadow: @btn-shadow-checked-arrow-left;
+    }
+
     .arrow.arrow_error {
-      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
-        2px -2px 0 0 @border-color-error;
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-error;
     }
+
     .arrow.arrow_warning {
-      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3),
-        2px -2px 0 0 @border-color-warning;
+      box-shadow: inset 0 4px 2px -3px rgba(0, 0, 0, 0.3), 2px -2px 0 0 @border-color-warning;
     }
+
     &:hover {
       background: @btn-checked-bg;
     }
+
     &.focus {
       box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
       position: relative;
       z-index: 2;
+
       .arrow {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-focus;
       }
+
       .arrow.arrow_warning {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
       }
+
       .arrow.arrow_error {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
       }
     }
   }
+
   .root.disabled {
-    background: @bg-disabled;
     box-shadow: 0 0 0 1px @border-color-gray-light;
-    color: #808080;
-    cursor: default;
+
     .arrow {
       background: @bg-disabled;
       box-shadow: 1px -1px 0 0 @border-color-gray-light;
     }
+
     .arrow.arrow_warning {
       box-shadow: 2px -2px 0 0 @border-color-warning;
     }
+
     .arrow.arrow_error {
       box-shadow: 2px -2px 0 0 @border-color-error;
     }
-    &:active {
-      padding-top: 0;
-      vertical-align: 0;
-    }
-  }
-  .loading {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: inherit;
-    overflow: hidden;
-  }
-  .loading:before {
-    content: '';
-    height: 100%;
-    position: absolute;
-    opacity: 0.2;
-    background: linear-gradient(
-      -110deg,
-      #ccc 30%,
-      transparent 0,
-      transparent 60%,
-      #ccc 0
-    );
-    background-size: 30px 100%;
-    top: 0;
-    left: 0;
-    right: -30px;
-    :global {
-      animation: btn_loading 1s linear infinite;
-    }
-    transform: rotateY(180deg) skewX(0deg) skewY(0deg);
   }
 
-  .narrow {
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-  .noPadding {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .noRightPadding {
-    padding-right: 0;
-  }
   .borderless {
     box-shadow: none;
+
     &:hover,
     &:active {
       box-shadow: none;
     }
-  }
-}
-@keyframes btn_loading {
-  0% {
-    transform: translateX(0) rotateY(180deg);
-  }
-  100% {
-    transform: translateX(-30px) rotateY(180deg);
-  }
-}
-@keyframes btn_loading_arrow {
-  0% {
-    transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
-  }
-  100% {
-    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg)
-      skewY(0deg);
   }
 }

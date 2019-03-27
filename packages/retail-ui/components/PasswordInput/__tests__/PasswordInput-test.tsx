@@ -70,11 +70,4 @@ describe('PasswordInput', () => {
 
     expect(component.find(`.${styles.capsLockDetector}`)).toHaveLength(0);
   });
-
-  it('should set capsLockEnabled className for root component', () => {
-    const component = setup({ detectCapsLock: true });
-    component.setState({ capsLockEnabled: true });
-
-    expect(component.find(`.${styles.capsLockEnabled}`)).toHaveLength(1);
-  });
 });

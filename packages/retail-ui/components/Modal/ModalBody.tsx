@@ -1,8 +1,8 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { ModalContext } from './ModalContext';
 
-import styles = require('./Modal.less');
-import classNames from 'classnames';
+import styles from './Modal.less';
 
 export class Body extends React.Component {
   public render(): JSX.Element {
@@ -13,7 +13,7 @@ export class Body extends React.Component {
             className={classNames(
               styles.body,
               !hasHeader && styles.bodyWithoutHeader,
-              additionalPadding && styles.bodyAddPadding
+              additionalPadding && styles.bodyAddPadding,
             )}
           >
             {this.props.children}

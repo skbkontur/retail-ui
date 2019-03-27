@@ -1,53 +1,53 @@
 export const defaultItemsList = [
   {
     text: 'First',
-    action: 'First'
+    action: 'First',
   },
   {
     text: 'Second',
-    action: 'Second'
+    action: 'Second',
   },
   {
     text: 'Uno',
-    action: 'Uno'
-  }
+    action: 'Uno',
+  },
 ];
 
 export const manyItemsList = [
   {
     text: 'Edit',
-    action: 'Edit'
+    action: 'Edit',
   },
   {
     text: 'Remove',
-    action: 'Remove'
+    action: 'Remove',
   },
   {
     text: 'Communicate',
-    action: 'Communicate'
+    action: 'Communicate',
   },
   {
     text: 'Grade',
-    action: 'Grade'
+    action: 'Grade',
   },
   {
     text: 'Dispatch',
-    action: 'Dispatch'
+    action: 'Dispatch',
   },
   {
     text: 'Disable',
-    action: 'Disable'
+    action: 'Disable',
   },
   {
     text: 'Rate',
-    action: 'Rate'
+    action: 'Rate',
   },
   {
     text: 'Collaborate',
-    action: 'Collaborate'
+    action: 'Collaborate',
   },
   {
     text: 'Contribute',
-    action: 'Contribute'
-  }
+    action: 'Contribute',
+  },
 ];

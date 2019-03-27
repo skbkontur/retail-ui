@@ -1,10 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
-import warning from 'warning';
 import events from 'add-event-listener';
 
-import Icon, { IconName } from '../Icon';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 
@@ -14,7 +12,7 @@ const useClasses = {
   default: styles.useDefault,
   success: styles.useSuccess,
   danger: styles.useDanger,
-  grayed: styles.useGrayed
+  grayed: styles.useGrayed,
 };
 
 const KEYCODE_TAB = 9;
@@ -39,14 +37,12 @@ export type LinkProps = Override<
     /** href */
     href?: string;
     /** Иконка */
-    icon?: IconName | React.ReactElement<any>;
+    icon?: React.ReactElement<any>;
     /** Тип */
     use?: 'default' | 'success' | 'danger' | 'grayed';
     _button?: boolean;
     _buttonOpened?: boolean;
     tabIndex?: number;
-    className?: undefined;
-    style?: undefined;
     /** onClick */
     onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
   }
@@ -71,16 +67,16 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed'])
+    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
   public static defaultProps = {
     href: 'javascript:',
-    use: 'default'
+    use: 'default',
   };
 
   public state = {
-    focusedByTab: false
+    focusedByTab: false,
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -97,22 +93,15 @@ class Link extends React.Component<LinkProps, LinkState> {
       use,
       _button,
       _buttonOpened,
+      className,
+      style,
+
       ...rest
     } = this.getProps<LinkProps, Link>();
 
     let iconElement = null;
     if (icon) {
-      if (process.env.NODE_ENV !== 'production') {
-        warning(
-          React.isValidElement(this.props.icon),
-          'Passing string to "icon" prop is deprecated. Please use icons from "@skbkontur/react-icons"'
-        );
-      }
-      iconElement = (
-        <span className={styles.icon}>
-          {typeof icon === 'string' ? <Icon name={icon} /> : icon}
-        </span>
-      );
+      iconElement = <span className={styles.icon}>{icon}</span>;
     }
 
     let arrow = null;
@@ -126,13 +115,13 @@ class Link extends React.Component<LinkProps, LinkState> {
         [styles.button]: _button,
         [styles.buttonOpened]: _buttonOpened,
         [styles.focus]: !disabled && this.state.focusedByTab,
-        [useClasses[use as keyof typeof useClasses]]: !!use
+        [useClasses[use as keyof typeof useClasses]]: !!use,
       }),
       href,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      tabIndex: this.props.tabIndex
+      tabIndex: this.props.tabIndex,
     };
     if (disabled) {
       props.tabIndex = -1;

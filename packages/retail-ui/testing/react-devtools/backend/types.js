@@ -11,13 +11,7 @@
 'use strict';
 
 export type DataType = {
-  nodeType:
-    | 'Native'
-    | 'Wrapper'
-    | 'NativeWrapper'
-    | 'Composite'
-    | 'Text'
-    | 'Empty',
+  nodeType: 'Native' | 'Wrapper' | 'NativeWrapper' | 'Composite' | 'Text' | 'Empty',
   type: ?(string | AnyFn),
   key: ?string,
   ref: ?(string | AnyFn),
@@ -32,14 +26,14 @@ export type DataType = {
     setInState: ?(path: Array<string>, value: any) => void,
     setInContext: ?(path: Array<string>, value: any) => void,
     // setState: ?(newState: any) => void,
-    forceUpdate: ?() => void
+    forceUpdate: ?() => void,
   },
-  publicInstance: ?Object
+  publicInstance: ?Object,
 };
 
 // This type is entirely opaque to the backend.
 export type OpaqueNodeHandle = {
-  _rootNodeID: string
+  _rootNodeID: string,
 };
 export type NativeType = {};
 export type RendererID = string;
@@ -53,10 +47,10 @@ export type ReactRenderer = {
     mountComponent: AnyFn,
     performUpdateIfNecessary: AnyFn,
     receiveComponent: AnyFn,
-    unmountComponent: AnyFn
+    unmountComponent: AnyFn,
   },
   Component?: {
-    Mixin: Object
+    Mixin: Object,
   },
   Mount: {
     // React Native
@@ -69,12 +63,12 @@ export type ReactRenderer = {
     getID: (node: DOMNode) => string,
     getNode: (id: string) => ?DOMNode,
     _instancesByReactRootID: Object,
-    _renderNewRootComponent: AnyFn
+    _renderNewRootComponent: AnyFn,
   },
   ComponentTree: {
     getNodeFromInstance: (component: OpaqueNodeHandle) => ?NativeType,
-    getClosestInstanceFromNode: (component: NativeType) => ?OpaqueNodeHandle
-  }
+    getClosestInstanceFromNode: (component: NativeType) => ?OpaqueNodeHandle,
+  },
 };
 
 export type Helpers = {
@@ -82,9 +76,9 @@ export type Helpers = {
   getReactElementFromNative?: ?(component: NativeType) => ?OpaqueNodeHandle,
   walkTree: (
     visit: (component: OpaqueNodeHandle, data: DataType) => void,
-    visitRoot: (element: OpaqueNodeHandle) => void
+    visitRoot: (element: OpaqueNodeHandle) => void,
   ) => void,
-  cleanup: () => void
+  cleanup: () => void,
 };
 
 export type Handler = (data: any) => void;
@@ -98,5 +92,5 @@ export type Hook = {
   sub: (evt: string, handler: Handler) => () => void,
   on: (evt: string, handler: Handler) => void,
   off: (evt: string, handler: Handler) => void,
-  reactDevtoolsAgent?: ?Object
+  reactDevtoolsAgent?: ?Object,
 };

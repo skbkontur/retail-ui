@@ -2,32 +2,15 @@
 
 @font-face {
   font-family: kontur-mask-char;
-  src: url('mask-char-font/font.eot'); // For IE11 in IE8 mode.
+  src: url('mask-char-font/font.eot'); /* For IE11 in IE8 mode. */
   src: url('mask-char-font/font.eot?#iefix') format('embedded-opentype'),
-    url('mask-char-font/font.woff2') format('woff2'),
-    url('mask-char-font/font.woff') format('woff');
+    url('mask-char-font/font.woff2') format('woff2'), url('mask-char-font/font.woff') format('woff');
 }
 
 :local {
-  .wrapper,
   .root {
-    font-family: kontur-mask-char, Segoe UI, Helevetica Neue;
-  }
-
-  .wrapper {
-    display: inline-block;
-    position: relative;
-  }
-
-  .root {
+    font-family: kontur-mask-char, Segoe UI, Helevetica Neue, sans-serif;
     cursor: text;
-  }
-
-  .disabled {
-    background: @bg-disabled;
-    border-color: @border-color-gray-light;
-    color: @text-color-disabled;
-    pointer-events: none;
   }
 
   .mask {
@@ -43,25 +26,10 @@
   }
 
   .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 40px;
-    cursor: pointer;
-    user-select: none;
-    pointer-events: none;
-    z-index: 2;
     color: @date_input-icon-color;
-    line-height: 1;
-  }
 
-  .iconInner {
-    position: absolute;
-    right: 10px;
-    top: 0;
-    bottom: 0;
-    height: 20px;
-    margin: auto;
+    &.disabled {
+      color: @text-color-disabled;
+    }
   }
 }

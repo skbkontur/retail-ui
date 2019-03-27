@@ -50,7 +50,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
     this.state = {
       notification: null,
       action: null,
-      id: 0
+      id: 0,
     };
   }
 
@@ -66,6 +66,14 @@ class Toast extends React.Component<ToastProps, ToastState> {
     );
   }
 
+  /**
+   * Показывает тост с `notification` в качестве сообщения.
+   *
+   * `action` опциональный параметр формата `{ label: string, handler: function }` добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
+   * @public
+   * @param notification
+   * @param action
+   */
   public push(notification: string, action?: Action) {
     if (this.state.notification) {
       this.close();
@@ -73,12 +81,12 @@ class Toast extends React.Component<ToastProps, ToastState> {
 
     safelyCall(this.props.onPush, notification, action);
 
-    this.setState(
-      ({ id }) => ({ notification, action, id: id + 1 }),
-      this._setTimer
-    );
+    this.setState(({ id }) => ({ notification, action, id: id + 1 }), this._setTimer);
   }
 
+  /**
+   * @public
+   */
   public close = () => {
     safelyCall(this.props.onClose, this.state.notification, this.state.action);
     this.setState({ notification: null, action: null });
@@ -96,7 +104,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
       onMouseLeave: this._setTimer,
       onClose: this.close,
       children: notification,
-      action
+      action,
     };
 
     return (
@@ -105,7 +113,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
         classNames="slide-and-fade"
         timeout={{
           enter: 200,
-          exit: 150
+          exit: 150,
         }}
       >
         <ToastView ref={this._refToast} {...toastProps} />
@@ -135,7 +143,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
 
 export default Toast;
 
-function safelyCall(fn: Nullable<((a?: any) => any)>, ...args: any[]) {
+function safelyCall(fn: Nullable<(a?: any) => any>, ...args: any[]) {
   if (fn) {
     fn(...args);
   }

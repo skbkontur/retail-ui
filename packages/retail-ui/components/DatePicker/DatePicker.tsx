@@ -12,7 +12,7 @@ import { formatDate, parseDateString } from './DatePickerHelpers';
 import { CalendarDateShape } from '../Calendar';
 import { tryGetValidDateShape, isValidDate } from './DateShape';
 
-import styles = require('./DatePicker.less');
+import styles from './DatePicker.less';
 import { Nullable } from '../../typings/utility-types';
 
 const INPUT_PASS_PROPS = {
@@ -21,7 +21,7 @@ const INPUT_PASS_PROPS = {
   warning: true,
   error: true,
   size: true,
-  onKeyDown: true
+  onKeyDown: true,
 };
 
 export interface DatePickerProps<T> {
@@ -29,13 +29,13 @@ export interface DatePickerProps<T> {
   disabled?: boolean;
   enableTodayLink?: boolean;
   error?: boolean;
-  minDate?: T;
-  maxDate?: T;
+  minDate: T;
+  maxDate: T;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
-  value: T | null;
+  value?: T | null;
   warning?: boolean;
-  width?: number | string;
+  width: number | string;
   onBlur?: () => void;
   onChange: (e: { target: { value: T } }, v: T) => void;
   onFocus?: () => void;
@@ -43,17 +43,25 @@ export interface DatePickerProps<T> {
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
   onMouseOver?: (e: React.MouseEvent<any>) => void;
+
+  /**
+   * Функция для определения праздничных дней
+   * @default (_day, isWeekend) => isWeekend
+   * @param {T} day - строка в формате `dd.mm.yyyy`
+   * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
+   * @returns {boolean} `true` для выходного или `false` для рабочего дня
+   */
+  isHoliday: (day: T, isWeekend: boolean) => boolean;
 }
 
 export interface DatePickerState {
   opened: boolean;
 }
 
+type DatePickerValue = string;
+
 // eslint-disable-next-line flowtype/no-weak-types
-class DatePicker extends React.Component<
-  DatePickerProps<string>,
-  DatePickerState
-> {
+class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static propTypes = {
     autoFocus: PropTypes.bool,
 
@@ -69,14 +77,14 @@ class DatePicker extends React.Component<
     /**
      * Максимальная дата в календаре.
      */
-    maxDate: PropTypes.string,
+    maxDate: PropTypes.string.isRequired,
 
-    menuAlign: PropTypes.oneOf(['left', 'right']),
+    menuAlign: PropTypes.oneOf(['left', 'right'] as Array<'left' | 'right'>),
 
     /**
      * Минимальная дата в календаре.
      */
-    minDate: PropTypes.string,
+    minDate: PropTypes.string.isRequired,
 
     /**
      * Строка формата `dd.mm.yyyy`
@@ -85,7 +93,7 @@ class DatePicker extends React.Component<
 
     warning: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 
     onBlur: PropTypes.func,
 
@@ -99,13 +107,16 @@ class DatePicker extends React.Component<
 
     onMouseLeave: PropTypes.func,
 
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
+
+    isHoliday: PropTypes.func.isRequired,
   };
 
   public static defaultProps = {
     width: 120,
     minDate: '01.01.1900',
-    maxDate: '31.12.2099'
+    maxDate: '31.12.2099',
+    isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
   };
 
   public static validate = (value: Nullable<string>) => {
@@ -116,16 +127,20 @@ class DatePicker extends React.Component<
     return isValidDate(parseDateString(value));
   };
 
+  public state: DatePickerState = {
+    opened: false,
+  };
+
   private input: DateInput | null = null;
 
-  private _focused: boolean = false;
+  private focused: boolean = false;
 
-  constructor(props: DatePickerProps<string>) {
-    super(props);
-
-    this.state = {
-      opened: false
-    };
+  public componentWillReceiveProps(nextProps: DatePickerProps<DatePickerValue>) {
+    const { disabled } = nextProps;
+    const { opened } = this.state;
+    if (disabled && opened) {
+      this.close();
+    }
   }
 
   /**
@@ -135,19 +150,26 @@ class DatePicker extends React.Component<
     if (this.input) {
       this.input.blur();
     }
-    this._handleBlur();
+    this.handleBlur();
   }
 
   /**
    * @public
    */
   public focus() {
+    if (this.props.disabled) {
+      return;
+    }
     if (this.input) {
       this.input.focus();
     }
-    this._handleFocus();
+    this.handleFocus();
   }
 
+  /**
+   * Закрывает выпадашку выбора дня
+   * @public
+   */
   public close() {
     this.setState({ opened: false });
   }
@@ -163,12 +185,13 @@ class DatePicker extends React.Component<
           align={this.props.menuAlign}
         >
           <Picker
-            value={this._getDate()}
-            minDate={this._getMinDate()}
-            maxDate={this._getMaxDate()}
-            onPick={this._handlePick}
-            onSelect={this._handleSelect}
+            value={this.getDate()}
+            minDate={this.getMinDate()}
+            maxDate={this.getMaxDate()}
+            onPick={this.handlePick}
+            onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
+            isHoliday={this.isHoliday}
           />
         </DropdownContainer>
       );
@@ -184,14 +207,14 @@ class DatePicker extends React.Component<
       >
         <DateInput
           {...filterProps(this.props, INPUT_PASS_PROPS)}
-          ref={this._getInputRef}
+          ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
           withIcon
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
-          onBlur={this._handleBlur}
-          onFocus={this._handleFocus}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
           onChange={this.props.onChange}
         />
         {picker}
@@ -199,44 +222,41 @@ class DatePicker extends React.Component<
     );
   }
 
-  private _getInputRef = (ref: DateInput | null) => {
+  private getInputRef = (ref: DateInput | null) => {
     this.input = ref;
   };
 
-  private _getDate() {
+  private getDate() {
     const { value } = this.props;
     let date = value ? tryGetValidDateShape(parseDateString(value)) : null;
     if (date) {
-      const minDate = this._getMinDate();
-      const maxDate = this._getMaxDate();
-      if (
-        (minDate && isLess(date, minDate)) ||
-        (maxDate && isGreater(date, maxDate))
-      ) {
+      const minDate = this.getMinDate();
+      const maxDate = this.getMaxDate();
+      if ((minDate && isLess(date, minDate)) || (maxDate && isGreater(date, maxDate))) {
         date = null;
       }
     }
     return date;
   }
 
-  private _getMinDate = () => {
+  private getMinDate = () => {
     const { minDate } = this.props;
     const date = minDate && tryGetValidDateShape(parseDateString(minDate));
     return date || undefined;
   };
 
-  private _getMaxDate = () => {
+  private getMaxDate = () => {
     const { maxDate } = this.props;
     const date = maxDate && tryGetValidDateShape(parseDateString(maxDate));
     return date || undefined;
   };
 
-  private _handleFocus = () => {
-    if (this._focused) {
+  private handleFocus = () => {
+    if (this.focused) {
       return;
     }
 
-    this._focused = true;
+    this.focused = true;
 
     this.setState({ opened: true });
 
@@ -245,12 +265,12 @@ class DatePicker extends React.Component<
     }
   };
 
-  private _handleBlur = () => {
-    if (!this._focused) {
+  private handleBlur = () => {
+    if (!this.focused) {
       return;
     }
 
-    this._focused = false;
+    this.focused = false;
     this.close();
 
     if (this.props.onBlur) {
@@ -258,16 +278,21 @@ class DatePicker extends React.Component<
     }
   };
 
-  private _handlePick = (dateShape: CalendarDateShape) => {
-    this._handleSelect(dateShape);
+  private handlePick = (dateShape: CalendarDateShape) => {
+    this.handleSelect(dateShape);
     this.blur();
   };
 
-  private _handleSelect = (dateShape: CalendarDateShape) => {
+  private handleSelect = (dateShape: CalendarDateShape) => {
     const date = formatDate(dateShape);
     if (this.props.onChange) {
       this.props.onChange({ target: { value: date } }, date);
     }
+  };
+
+  private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
+    const dateString = formatDate({ date, month, year });
+    return this.props.isHoliday(dateString, isWeekend);
   };
 }
 

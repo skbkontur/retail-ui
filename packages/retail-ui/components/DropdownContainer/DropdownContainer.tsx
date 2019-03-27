@@ -8,9 +8,18 @@ import ZIndex from '../ZIndex';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
+type DOMNode = Element | Text | null;
+
+export interface DropdownContainerPosition {
+  top: Nullable<number>;
+  bottom: Nullable<number>;
+  left: Nullable<number>;
+  right: Nullable<number>;
+}
+
 export interface DropdownContainerProps {
   align?: 'left' | 'right';
-  getParent: () => null | Element | Text;
+  getParent: () => DOMNode;
   children?: React.ReactNode;
   disablePortal?: boolean;
   offsetY?: number;
@@ -18,42 +27,33 @@ export interface DropdownContainerProps {
 }
 
 export interface DropdownContainerState {
-  position: Nullable<{
-    top: Nullable<number>;
-    bottom: Nullable<number>;
-    left: Nullable<number>;
-    right: Nullable<number>;
-    minWidth: Nullable<number>;
-  }>;
+  position: Nullable<DropdownContainerPosition>;
+  minWidth: number;
   hasStaticRoot?: boolean;
 }
 
-export default class DropdownContainer extends React.Component<
-  DropdownContainerProps,
-  DropdownContainerState
-> {
+export default class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
   public static defaultProps = {
     align: 'left',
     disablePortal: false,
     offsetX: 0,
-    offsetY: -1
+    offsetY: -1,
   };
 
   public state: DropdownContainerState = {
     position: null,
-    hasStaticRoot: true
+    minWidth: 0,
+    hasStaticRoot: true,
   };
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
-  private _dom: Nullable<HTMLElement>;
-  private _layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
+  private dom: DOMNode = null;
+  private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
 
   public componentDidMount() {
-    if (!this.props.disablePortal) {
-      this._position();
-      this._layoutSub = LayoutEvents.addListener(this._position);
-    }
+    this.position();
+    this.layoutSub = LayoutEvents.addListener(this.position);
   }
 
   public componentWillMount() {
@@ -66,8 +66,8 @@ export default class DropdownContainer extends React.Component<
   }
 
   public componentWillUnmount() {
-    if (!this.props.disablePortal && this._layoutSub) {
-      this._layoutSub.remove();
+    if (this.layoutSub) {
+      this.layoutSub.remove();
     }
   }
 
@@ -75,53 +75,41 @@ export default class DropdownContainer extends React.Component<
     let style: React.CSSProperties = {
       position: 'absolute',
       top: '0',
-      left: undefined,
-      right: undefined
     };
     if (this.state.position) {
-      const { top, bottom, left, right, minWidth } = this.state.position;
+      const { top, bottom, left, right } = this.state.position;
       style = {
         ...style,
-        top: top || undefined,
-        bottom: bottom || undefined,
-        left: left || undefined,
-        right: right || undefined,
-        minWidth: minWidth || undefined
-      };
-    }
-    if (this.props.disablePortal) {
-      style = {
-        ...style,
-        ...{
-          top: undefined,
-          bottom: undefined,
-          minWidth: '100%'
-        }
+        top: top !== null ? top : undefined,
+        bottom: bottom !== null ? bottom : undefined,
+        left: left !== null ? left : undefined,
+        right: right !== null ? right : undefined,
+        minWidth: this.state.minWidth,
       };
     }
 
     const content = (
-      <ZIndex delta={1000} ref={this._ref} style={style}>
+      <ZIndex delta={1000} ref={this.ref} style={style}>
         {this.props.children}
       </ZIndex>
     );
 
-    return this.props.disablePortal ? (
-      content
-    ) : (
-      <RenderContainer>{content}</RenderContainer>
-    );
+    return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
 
-  private _ref = (e: ZIndex | null) => {
-    this._dom = e && (findDOMNode(e) as HTMLElement);
+  private ref = (e: ZIndex | null) => {
+    this.dom = e && findDOMNode(e);
   };
 
-  private _position = () => {
-    const target = this.props.getParent() as Nullable<Element>;
-    const dom = this._dom;
+  private isElement = (node: DOMNode): node is Element => {
+    return node instanceof Element;
+  };
 
-    if (target && dom) {
+  private position = () => {
+    const target = this.props.getParent();
+    const dom = this.dom;
+
+    if (this.isElement(target) && dom) {
       const targetRect = target.getBoundingClientRect();
       const docEl = document.documentElement;
 
@@ -137,8 +125,7 @@ export default class DropdownContainer extends React.Component<
 
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
-        right =
-          docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
+        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
       } else {
         left = targetRect.left + scrollX + this.getProps().offsetX;
       }
@@ -149,18 +136,13 @@ export default class DropdownContainer extends React.Component<
 
       const distanceToBottom = docEl.clientHeight - targetRect.bottom;
       const distanceToTop = targetRect.top;
-      const dropdownHeight = this._getHeight();
+      const dropdownHeight = this.getHeight();
 
       if (distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight) {
         top = null;
 
         if (this.state.hasStaticRoot) {
-          bottom =
-            distanceToBottom -
-            scrollY +
-            offsetY +
-            targetRect.bottom -
-            targetRect.top;
+          bottom = distanceToBottom - scrollY + offsetY + targetRect.bottom - targetRect.top;
         } else {
           let bodyScrollHeight = 0;
           if (document.body) {
@@ -183,21 +165,52 @@ export default class DropdownContainer extends React.Component<
         left,
         right,
         bottom,
-        minWidth: targetRect.right - targetRect.left
       };
-      this.setState({ position });
+
+      this.setState({
+        minWidth: this.getMinWidth(),
+        position: this.props.disablePortal ? this.convertToRelativePosition(position) : position,
+      });
     }
   };
 
-  private _getHeight = () => {
-    if (!this._dom) {
+  private getHeight = () => {
+    if (!this.isElement(this.dom)) {
       return 0;
     }
-    const child = this._dom.children.item(0);
+    const child = this.dom.children.item(0);
     if (!child) {
       return 0;
     }
-    const rect = child.getBoundingClientRect();
-    return rect.height ? rect.height : rect.bottom - rect.top;
+    return child.getBoundingClientRect().height;
+  };
+
+  private getMinWidth = () => {
+    const target = this.props.getParent();
+    if (!this.isElement(target)) {
+      return 0;
+    }
+    return target.getBoundingClientRect().width;
+  };
+
+  private convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
+    const target = this.props.getParent();
+    const { offsetX = 0, offsetY = 0 } = this.props;
+    const { top, bottom, left, right } = position;
+    if (this.isElement(target)) {
+      const targetHeight = target.getBoundingClientRect().height;
+      return {
+        top: top !== null ? targetHeight + offsetY : null,
+        bottom: bottom !== null ? targetHeight + offsetY : null,
+        left: left !== null ? offsetX : null,
+        right: right !== null ? offsetX : null,
+      };
+    }
+    return {
+      top: offsetY,
+      bottom: null,
+      left: offsetX,
+      right: null,
+    };
   };
 }

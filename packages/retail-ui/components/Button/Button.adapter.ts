@@ -10,7 +10,7 @@ const ButtonAdapter = {
 
   isDisabled(inst: Button) {
     return !!inst.props.disabled;
-  }
+  },
 };
 
 (Button as any).__ADAPTER__ = ButtonAdapter;

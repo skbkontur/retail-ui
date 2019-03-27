@@ -2,7 +2,7 @@
 
 :local {
   .root {
-    display: block !important; // https://github.com/skbkontur/retail-ui/issues/22
+    display: block !important; /* https://github.com/skbkontur/retail-ui/issues/22 */
     box-sizing: border-box;
     font-size: 14px;
     position: absolute;
@@ -48,5 +48,10 @@
   .pinInner {
     border: 8px solid @tooltip-bg;
     position: absolute;
+  }
+
+  .tooltipContent {
+    position: relative;
+    padding: 15px 20px;
   }
 }

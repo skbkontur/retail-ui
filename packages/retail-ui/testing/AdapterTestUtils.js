@@ -16,10 +16,7 @@ let nextID = 0;
 // eslint-disable-next-line
 /* type MountFunc = (element: React.Element<*>) => any; */
 
-export function testAdapter(
-  testName /* string */,
-  fn /* (mount: MountFunc) => void | Promise<void> */
-) {
+export function testAdapter(testName /* string */, fn /* (mount: MountFunc) => void | Promise<void> */) {
   it(testName, () => {
     let mounted = [];
     function mount_(element) {
@@ -27,9 +24,9 @@ export function testAdapter(
       const wrapper = mount(
         <Wrap>
           {React.cloneElement(element, {
-            'data-tid-auto': tid
+            'data-tid-auto': tid,
           })}
-        </Wrap>
+        </Wrap>,
       );
       const adapter = Lookup.getAdapter(Lookup.findOne(tid));
       adapter.setProps = wrapper.setProps.bind(wrapper);

@@ -9,9 +9,9 @@ const TextareaAdapter = {
   setValue(inst: Textarea, value: string) {
     // tslint:disable-next-line:no-string-literal
     inst['handleChange']({
-      target: { value }
+      target: { value },
     } as React.ChangeEvent<HTMLTextAreaElement>);
-  }
+  },
 };
 
 Textarea.__ADAPTER__ = TextareaAdapter;

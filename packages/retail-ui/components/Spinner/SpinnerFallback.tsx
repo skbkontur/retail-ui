@@ -10,22 +10,22 @@ import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
 import { SpinnerType } from '.';
 
+import styles from './Spinner.less';
+
 export interface SpinnerFallbackProps {
   type: SpinnerType;
   dimmed?: boolean;
 }
 
-export default class SpinnerFallback extends React.Component<
-  SpinnerFallbackProps
-> {
+export default class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
   public static propTypes = {
     type: PropTypes.oneOf(Object.keys(types)),
 
-    dimmed: PropTypes.bool
+    dimmed: PropTypes.bool,
   };
 
   public state = {
-    frame: 0
+    frame: 0,
   };
 
   private _mounted = false;
@@ -34,14 +34,14 @@ export default class SpinnerFallback extends React.Component<
     [types.mini]: 180,
     [types.normal]: 60,
     [types.big]: 60,
-    dimmed: 60
+    dimmed: 60,
   };
 
   private _imageUrls = {
     [types.mini]: fallbackImage_mini,
     [types.normal]: fallbackImage_normal,
     [types.big]: fallbackImage_big,
-    dimmed: fallbackImage_mini_dimmed
+    dimmed: fallbackImage_mini_dimmed,
   };
 
   public componentDidMount() {
@@ -61,14 +61,12 @@ export default class SpinnerFallback extends React.Component<
     const cssSet: React.CSSProperties = {
       backgroundPosition: `0 -${frame * size.height}px`,
       backgroundImage: `url('${this._imageUrls[this.getSpriteSettingsKey()]}')`,
-      display: 'inline-block',
       height: size.height,
-      position: 'relative',
       top: type === 'mini' ? 2 : 0,
-      width: size.width
+      width: size.width,
     };
 
-    return <span style={cssSet} />;
+    return <span className={styles.fallback} style={cssSet} />;
   }
 
   private animate = () => {
@@ -85,7 +83,5 @@ export default class SpinnerFallback extends React.Component<
   };
 
   private getSpriteSettingsKey = () =>
-    this.props.type === types.mini && this.props.dimmed
-      ? 'dimmed'
-      : this.props.type;
+    this.props.type === types.mini && this.props.dimmed ? 'dimmed' : this.props.type;
 }

@@ -1,17 +1,19 @@
 /* global gemini */
 
-var pathTo = require('./utils').pathTo;
+var renderStory = require('./utils').renderStory;
 
-gemini.suite('TopBar Old', suite => {
-  suite
-    .setUrl(pathTo('TopBar', 'TopBar Old'))
-    .setCaptureElements('#test-element')
-    .capture('TopBar Old');
-});
+gemini.suite('TopBar', () => {
+  gemini.suite('TopBar Old', suite => {
+    suite
+      .before(renderStory('TopBar', 'TopBar Old'))
+      .setCaptureElements('#test-element')
+      .capture('TopBar Old');
+  });
 
-gemini.suite('TopBar New', suite => {
-  suite
-    .setUrl(pathTo('TopBar', 'TopBar New'))
-    .setCaptureElements('#test-element')
-    .capture('TopBar New');
+  gemini.suite('TopBar New', suite => {
+    suite
+      .before(renderStory('TopBar', 'TopBar New'))
+      .setCaptureElements('#test-element')
+      .capture('TopBar New');
+  });
 });

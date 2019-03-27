@@ -38,22 +38,14 @@ export const Animation = () => {
     cancel();
   }
 
-  function animate(
-    amount: number,
-    onDelta: (x0: number) => void,
-    onEnd: () => void = noop
-  ) {
+  function animate(amount: number, onDelta: (x0: number) => void, onEnd: () => void = noop) {
     target += amount;
     deltaHandler = onDelta;
     animationEndHandler = onEnd;
 
     const animateInternal = () => {
       animating = true;
-      const [nextPosition, nextVelocity] = stepper(
-        currentPosition,
-        currentVelocity,
-        target
-      );
+      const [nextPosition, nextVelocity] = stepper(currentPosition, currentVelocity, target);
       const delta = nextPosition - currentPosition;
 
       deltaHandler(delta);
@@ -79,6 +71,6 @@ export const Animation = () => {
     animate,
     inProgress,
     cancel,
-    finish
+    finish,
   };
 };

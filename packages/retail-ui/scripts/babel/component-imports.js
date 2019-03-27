@@ -27,14 +27,12 @@ module.exports = function(babel) {
         var imports = [];
         node.specifiers.forEach(function(specifier) {
           if (specifier.type !== 'ImportSpecifier') {
-            throw new Error(
-              'Default and namespace imports from `ui` are not supported'
-            );
+            throw new Error('Default and namespace imports from `ui` are not supported');
           }
 
           var imp = t.importDeclaration(
             [t.importDefaultSpecifier(specifier.local)],
-            stringLiteral('ui/' + specifier.imported.name)
+            stringLiteral('ui/' + specifier.imported.name),
           );
           imports.push(imp);
         });
@@ -44,8 +42,8 @@ module.exports = function(babel) {
         } else {
           path.replaceWithMultiple(imports);
         }
-      }
-    }
+      },
+    },
   };
 
   if (babel5) {

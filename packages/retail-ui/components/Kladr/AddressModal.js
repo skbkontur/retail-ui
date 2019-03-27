@@ -1,4 +1,4 @@
-
+// @flow
 /* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
 
@@ -18,21 +18,21 @@ type Props = {
   address: Address,
   title: string,
   onChange: (value: { address: Address }) => void,
-  onClose: () => void
+  onClose: () => void,
 };
 
 type State = {
   address: Address,
-  invalidField: ?string
+  invalidField: ?string,
 };
 
 type Info = {
   searchText: string,
-  address: Address
+  address: Address,
 };
 type SourceResult = {
   values: Array<PlaceDescription>,
-  infos: Array<Info>
+  infos: Array<Info>,
 };
 type SourceFunction = (searchText: string) => Promise<SourceResult>;
 type HandlerFunction = (e: any, value: PlaceDescription, info?: Info) => void;
@@ -42,10 +42,10 @@ type FieldProps = {
   renderItem: Function,
   renderValue: Function,
   valueToString: (value: PlaceDescription) => string,
-  recover: Function
+  recover: Function,
 };
 type SimpleFieldProps = {
-  onChange: (event: mixed, value: string) => void
+  onChange: (event: mixed, value: string) => void,
 };
 
 const PLACES = {
@@ -54,7 +54,7 @@ const PLACES = {
   '2': 'district',
   '4': 'city',
   '8': 'settlement',
-  '16': 'street'
+  '16': 'street',
 };
 
 export default class AddressModal extends React.Component<Props, State> {
@@ -74,61 +74,39 @@ export default class AddressModal extends React.Component<Props, State> {
 
     this.state = {
       address: props.address || {},
-      invalidField: null
+      invalidField: null,
     };
 
     this._regionProps = this.createFieldProps('region', [], 'Region');
-    this._districtProps = this.createFieldProps(
-      'district',
-      ['region'],
-      'District'
-    );
-    this._cityProps = this.createFieldProps(
-      'city',
-      ['region', 'district'],
-      'City'
-    );
-    this._settlementProps = this.createFieldProps(
-      'settlement',
-      ['region', 'district', 'city'],
-      'Settlement'
-    );
-    this._streetProps = this.createFieldProps(
-      'street',
-      ['region', 'district', 'city', 'settlement'],
-      'Street'
-    );
+    this._districtProps = this.createFieldProps('district', ['region'], 'District');
+    this._cityProps = this.createFieldProps('city', ['region', 'district'], 'City');
+    this._settlementProps = this.createFieldProps('settlement', ['region', 'district', 'city'], 'Settlement');
+    this._streetProps = this.createFieldProps('street', ['region', 'district', 'city', 'settlement'], 'Street');
     this._houseProps = this.createSimpleFieldProps('house');
     this._buildingProps = this.createSimpleFieldProps('building');
     this._roomProps = this.createSimpleFieldProps('room');
   }
 
-  createFieldProps(
-    field: Place,
-    parents: Array<Place>,
-    level: string
-  ): FieldProps {
+  createFieldProps(field: Place, parents: Array<Place>, level: string): FieldProps {
     return {
       source: this.createSource(field, parents, level),
       onChange: this.createHandler(field),
       renderItem: this._renderItem.bind(this, field, parents),
       renderValue: renderValue.bind(null, field),
       valueToString: renderValue.bind(null, field),
-      recover
+      recover,
     };
   }
 
-  createSimpleFieldProps(
-    field: 'house' | 'room' | 'building'
-  ): SimpleFieldProps {
+  createSimpleFieldProps(field: 'house' | 'room' | 'building'): SimpleFieldProps {
     return {
       onChange: (event, value) => {
         const address: $Shape<Address> = {
           ...this.state.address,
-          [field]: value
+          [field]: value,
         };
         this.setState({ address });
-      }
+      },
     };
   }
 
@@ -173,9 +151,9 @@ export default class AddressModal extends React.Component<Props, State> {
       this.setState({
         address: {
           ...this.state.address, // Saving the `building` field.
-          ...result.address
+          ...result.address,
         },
-        invalidField
+        invalidField,
       });
     });
   }
@@ -192,7 +170,7 @@ export default class AddressModal extends React.Component<Props, State> {
 
       return search(searchText, `[${level}]`, parentCode).then(values => ({
         values: values.map(address => address[field]),
-        infos: values.map(address => ({ searchText, address }))
+        infos: values.map(address => ({ searchText, address })),
       }));
     };
   }
@@ -201,8 +179,8 @@ export default class AddressModal extends React.Component<Props, State> {
     this.setState({
       address: {
         ...this.state.address,
-        [key]: value
-      }
+        [key]: value,
+      },
     });
   }
 
@@ -301,44 +279,27 @@ export default class AddressModal extends React.Component<Props, State> {
         <div className={styles.row}>
           <div className={styles.label}>Дом</div>
           <div className={styles.field}>
-            <Input
-              value={this.state.address.house}
-              width={100}
-              {...this._houseProps}
-            />
+            <Input value={this.state.address.house} width={100} {...this._houseProps} />
           </div>
         </div>
         <div className={styles.row}>
           <div className={styles.label}>Корпус</div>
           <div className={styles.field}>
-            <Input
-              value={this.state.address.building || ''}
-              width={100}
-              {...this._buildingProps}
-            />
+            <Input value={this.state.address.building || ''} width={100} {...this._buildingProps} />
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.label}>Квартира / офис</div>
           <div className={styles.field}>
-            <Input
-              value={this.state.address.room}
-              width="100px"
-              {...this._roomProps}
-            />
+            <Input value={this.state.address.room} width="100px" {...this._roomProps} />
           </div>
         </div>
       </Gapped>
     );
   }
 
-  _renderItem(
-    field: Place,
-    parents: Array<Place>,
-    place: PlaceDescription,
-    info: Info
-  ) {
+  _renderItem(field: Place, parents: Array<Place>, place: PlaceDescription, info: Info) {
     const parentNames = [];
     for (let i = parents.length - 1; i >= 0; --i) {
       const parentField = parents[i];
@@ -358,9 +319,7 @@ export default class AddressModal extends React.Component<Props, State> {
     return (
       <div>
         {util.placeName(place, field)}
-        {parentNames.length > 0 && (
-          <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>
-        )}
+        {parentNames.length > 0 && <div className={styles.menuItemParents}>{parentNames.join(', ')}</div>}
       </div>
     );
   }
@@ -377,6 +336,6 @@ function renderValue(type: Place, place: ?PlaceDescription) {
 
 function recover(searchText) {
   return {
-    value: { name: searchText }
+    value: { name: searchText },
   };
 }

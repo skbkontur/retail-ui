@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
-import events from 'add-event-listener';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
 import '../ensureOldIEClassName';
@@ -10,9 +9,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign
-  ? require('./Checkbox.flat.less')
-  : require('./Checkbox.less');
+const styles = isFlatDesign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
 
 const KEYCODE_TAB = 9;
 
@@ -21,9 +18,10 @@ let tabPressed: boolean;
 
 function listenTabPresses() {
   if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
       tabPressed = event.keyCode === KEYCODE_TAB;
     });
+
     isListening = true;
   }
 }
@@ -44,15 +42,15 @@ export type CheckboxProps = Override<
     /** Вызывается на label */
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     /** onChange */
-    onChange?: (
-      event: React.ChangeEvent<HTMLInputElement>,
-      value: boolean
-    ) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: boolean) => void;
+    /** Состояние частичного выделения */
+    initialIndeterminate?: boolean;
   }
 >;
 
 export interface CheckboxState {
   focusedByTab: boolean;
+  indeterminate: boolean;
 }
 
 /**
@@ -67,26 +65,26 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     onChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func
+    onMouseOver: PropTypes.func,
   };
   public state = {
-    focusedByTab: false
+    focusedByTab: false,
+    indeterminate: this.props.initialIndeterminate || false,
   };
 
   private input: Nullable<HTMLInputElement>;
 
-  /** @api */
-  public focus() {
-    tabPressed = true;
-    if (this.input) {
-      this.input.focus();
-    }
-  }
+  public componentDidMount = () => {
+    listenTabPresses();
 
-  /** @api */
-  public blur() {
-    if (this.input) {
-      this.input.blur();
+    if (this.state.indeterminate && this.input) {
+      this.input.indeterminate = true;
+    }
+  };
+
+  public componentWillReceiveProps(nextProps: CheckboxProps) {
+    if (nextProps.checked !== this.props.checked) {
+      this.resetIndeterminate();
     }
   }
 
@@ -103,6 +101,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       style,
       className,
       type,
+      initialIndeterminate,
       ...rest
     } = this.props;
     const hasCaption = !!children;
@@ -114,7 +113,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       [styles.disabled]: this.props.disabled,
       [styles.error]: this.props.error,
       [styles.warning]: this.props.warning,
-      [styles.focus]: this.state.focusedByTab
+      [styles.focus]: this.state.focusedByTab,
     });
 
     const inputProps = {
@@ -124,7 +123,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onChange: this._handleChange,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      ref: this._inputRef
+      ref: this._inputRef,
     };
 
     let caption = null;
@@ -133,18 +132,21 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
 
     return (
-      <label
-        className={rootClass}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onMouseOver={onMouseOver}
-      >
+      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
-        <span className={styles.box}>
-          {this.props.checked && (
-            <div className={styles.ok}>
-              <OkIcon />
-            </div>
+        <span
+          className={classNames(styles.box, {
+            [styles.boxIndeterminate]: this.state.indeterminate,
+          })}
+        >
+          {this.state.indeterminate ? (
+            <span className={styles.indeterminate} />
+          ) : (
+            this.props.checked && (
+              <div className={styles.ok}>
+                <OkIcon />
+              </div>
+            )
           )}
         </span>
         {caption}
@@ -152,9 +154,50 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
   }
 
-  public componentDidMount() {
-    listenTabPresses();
+  /**
+   * @public
+   */
+  public focus() {
+    tabPressed = true;
+    if (this.input) {
+      this.input.focus();
+    }
   }
+
+  /**
+   * @public
+   */
+  public blur() {
+    if (this.input) {
+      this.input.blur();
+    }
+  }
+
+  /**
+   * Установить промежуточное значение
+   * @public
+   */
+  public setIndeterminate = () => {
+    this.setState({
+      indeterminate: true,
+    });
+    if (this.input) {
+      this.input.indeterminate = true;
+    }
+  };
+
+  /**
+   * Сбросить промежуточное значение
+   * @public
+   */
+  public resetIndeterminate = () => {
+    this.setState({
+      indeterminate: false,
+    });
+    if (this.input) {
+      this.input.indeterminate = false;
+    }
+  };
 
   private _handleFocus = (e: React.FocusEvent<any>) => {
     if (!this.props.disabled) {
@@ -182,6 +225,8 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     if (this.props.onChange) {
       this.props.onChange(event, checked);
     }
+
+    this.resetIndeterminate();
   };
 }
 

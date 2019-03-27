@@ -3,7 +3,7 @@
 .rules() {
   :local {
     button.root {
-      width: 100%;
+      min-width: 100%;
     }
 
     .root {
@@ -16,12 +16,11 @@
       outline: none;
       padding: 6px 18px 7px 8px;
       text-decoration: none;
-      white-space: nowrap;
     }
 
     .hover {
       background: @dropdown-menu-hover-bg;
-      color: @text-color-invert !important; // To override `a:hover`.
+      color: @text-color-invert !important; /* To override `a:hover`. */
     }
 
     .loose {
