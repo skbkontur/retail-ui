@@ -1,5 +1,5 @@
 /* tslint:disable:no-console */
-import { API, FileInfo } from 'jscodeshift/src/core';
+import { API, FileInfo, JSCodeshift } from 'jscodeshift/src/core';
 import * as path from 'path';
 import { parseLess } from './less-parser';
 import { DynamicRulesAggregator, IDynamicRulesetsMap, IRemovalInfo } from './dynamic-rules-aggregator';
@@ -13,6 +13,7 @@ const ROOT_PATH = process.cwd();
 const TO_SOURCE_OPTIONS: any = { quote: 'single' };
 const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
 let rulesToRemove: IRemovalInfo[] = [];
+let themeManagerImportPath: string;
 
 function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const j = api.jscodeshift;
@@ -20,6 +21,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
 
   const parsedLess = new Map<string, IDynamicRulesetsMap>();
   const stylesMap = new Map<Identifier, IDynamicRulesetsMap>();
+  const jsStylesPath = `${path.join(path.dirname(fileInfo.path), getComponentNameFromPath(fileInfo.path))}.styles.ts`;
 
   let importDeclarations = root.find(j.ImportDeclaration);
 
@@ -144,15 +146,6 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   if (tokenizedStylesMap.size > 0) {
     // as we have dynamic rules, we need to import css from 'emotion'
     emotionCssImportIdentifier = j.identifier('css');
-    if (emotionImportStatement) {
-      // already have classnames
-      emotionImportStatement.specifiers.unshift(j.importSpecifier(emotionCssImportIdentifier));
-    } else {
-      emotionImportStatement = j.importDeclaration(
-        [j.importSpecifier(emotionCssImportIdentifier)],
-        j.literal('emotion'),
-      );
-    }
   }
 
   // has no dynamic styles, skip
@@ -164,11 +157,11 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   importDeclarations = root.find(j.ImportDeclaration);
   importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
 
+  themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_MANAGER_PATH).replace(/\\/g, '/');
   const themeManagerIdentifier = j.identifier('ThemeManager');
   const themeTypeIdentifier = j.identifier('ITheme');
-  const themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_MANAGER_PATH).replace(/\\/g, '/');
   const themeManagerImportStatement = j.importDeclaration(
-    [j.importDefaultSpecifier(themeManagerIdentifier), j.importSpecifier(themeTypeIdentifier)],
+    [j.importDefaultSpecifier(themeManagerIdentifier)],
     j.literal(themeManagerImportPath),
   );
 
@@ -189,6 +182,12 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     const objectProperties: any[] = [];
     const dynamicStylesIdentifier = j.identifier(nameToDynamic(identifier.name));
     const themeArgumentIdentifier = j.identifier('t');
+    const jsStylesImportDeclaration = j.importDeclaration(
+      [j.importDefaultSpecifier(dynamicStylesIdentifier)],
+      j.literal(`./${getComponentNameFromPath(fileInfo.path)}.styles`),
+    );
+    importDeclarations = root.find(j.ImportDeclaration);
+    importDeclarations.at(importDeclarations.length - 1).insertAfter(jsStylesImportDeclaration);
 
     styles.forEach((ruleset, className) => {
       const templateLiteralQuasis: any[] = [];
@@ -353,14 +352,11 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       positionsToInsert = root.find(j.ImportDeclaration);
     }
 
-    // CAN WRITE TO FILE HERE!!! ))
-    // const some = j(dynamicStylesConst).toSource();
-    // fs.writeFileSync(..)
+    const dynamicsStylesSource = j(dynamicStylesConst);
+    fs.writeFileSync(jsStylesPath, dynamicsStylesSource.toSource(), { encoding: 'utf8' });
+    processJsStylesFile(j, jsStylesPath, fileInfo, identifier);
 
-    positionsToInsert
-      .at(positionsToInsert.length - 1)
-      .insertAfter(dynamicStylesConst)
-      .insertAfter(themeConst);
+    positionsToInsert.at(positionsToInsert.length - 1).insertAfter(themeConst);
   });
 
   stylesIdentifiers.forEach(styleIdentifier => {
@@ -555,9 +551,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
-
   // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
-
   fs.writeFileSync(
     `${path.join(path.dirname(fileInfo.path), path.basename(fileInfo.path))}.removals.txt`,
     rulesToRemove.map(r => `${r.filePath}@(${r.extra.index})[${r.rule}]`).join('\n'),
@@ -580,6 +574,43 @@ function isNotWithinDynamicStyles(nodePath: NodePath<any>, targets: any[]) {
 
 function nameToDynamic(name: string) {
   return `js${name.charAt(0).toUpperCase()}${name.substr(1)}`;
+}
+
+function processJsStylesFile(j: JSCodeshift, filePath: string, fileInfo: FileInfo, stylesIdentifier: Identifier) {
+  const componentName = getComponentNameFromPath(fileInfo.path);
+  const dynamicStylesSource = j(fs.readFileSync(filePath, { encoding: 'utf8' }));
+  const variableDeclaration = dynamicStylesSource.find(j.VariableDeclaration).at(0);
+  const exportDeclaration = j.exportDefaultDeclaration(j.identifier(nameToDynamic(stylesIdentifier.name)));
+
+  const themeTypeIdentifier = j.identifier('ITheme');
+  const themeManagerImportDeclaration = j.importDeclaration(
+    [j.importSpecifier(themeTypeIdentifier)],
+    j.literal(themeManagerImportPath),
+  );
+
+  const cssEmotionImportDeclaration = j.importDeclaration(
+    [j.importSpecifier(j.identifier('css'))],
+    j.literal('emotion'),
+  );
+  const lessImportDeclaration = j.importDeclaration(
+    [j.importDefaultSpecifier(stylesIdentifier)],
+    j.literal(`./${componentName}.less`),
+  );
+
+  variableDeclaration.insertBefore(cssEmotionImportDeclaration).insertAfter(exportDeclaration);
+
+  const importDeclarations = dynamicStylesSource.find(j.ImportDeclaration);
+  importDeclarations
+    .at(importDeclarations.length - 1)
+    .insertAfter(themeManagerImportDeclaration)
+    .insertAfter(lessImportDeclaration);
+
+  fs.writeFileSync(filePath, dynamicStylesSource.toSource(), { encoding: 'utf8' });
+}
+
+function getComponentNameFromPath(fileInfoPath: string) {
+  const splitPath = fileInfoPath.split('\\');
+  return splitPath[splitPath.length - 2];
 }
 
 module.exports = extractDynamicClasses;
