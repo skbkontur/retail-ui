@@ -115,6 +115,7 @@ gemini.suite('Tooltip', () => {
         actions.click(find('#Container-4 button'));
       });
   });
+
   gemini.suite('with Input and switchable content', suite => {
     suite
       .before(renderStory('Tooltip', 'Tooltip with Input and switchable content'))
@@ -127,6 +128,50 @@ gemini.suite('Tooltip', () => {
       })
       .capture('clear input', (actions, find) => {
         actions.sendKeys(find('input'), [gemini.BACK_SPACE, gemini.BACK_SPACE]);
+      });
+  });
+
+  gemini.suite('with dynamically changing triggers', suite => {
+    suite
+      .before(renderStory('Tooltip', 'dynamic triggers'))
+      .before((actions, find) => {
+        this.anchor = find('#anchor');
+      })
+      .setCaptureElements('#test-element')
+      .ignoreElements({ every: 'button' })
+
+      .capture('without trigger')
+
+      .capture('hover - mouseEnter', (actions, find) => {
+        actions.click(find('#hover'));
+        actions.mouseMove(this.anchor);
+      })
+      .capture('hover - mouseLeave', (actions, find) => {
+        actions.mouseMove(find('body', [0, 0]));
+      })
+
+      .capture('click - click anchor', (actions, find) => {
+        actions.click(find('#click'));
+        actions.click(this.anchor);
+      })
+      .capture('click - click outside', (actions, find) => {
+        actions.click(find('body'));
+      })
+
+      .capture('focus - focus', (actions, find) => {
+        actions.click(find('#focus'));
+        actions.focus(this.anchor);
+      })
+      .capture('focus - blur', (actions, find) => {
+        actions.focus(find('body'));
+      })
+
+      .capture('opened', (actions, find) => {
+        actions.click(find('#opened'));
+      })
+
+      .capture('closed', (actions, find) => {
+        actions.click(find('#closed'));
       });
   });
 });
