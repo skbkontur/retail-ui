@@ -11,6 +11,8 @@ import { Nullable } from '../../typings/utility-types';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
+const IS_MACOSX = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+const SCROLL_WIDTH = IS_MACOSX ? 0 : getScrollWidth();
 
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
@@ -82,7 +84,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     }
 
     const innerStyle = {
-      marginRight: -(PADDING_RIGHT + getScrollWidth()),
+      marginRight: -1 * (PADDING_RIGHT + SCROLL_WIDTH),
       maxHeight: this.props.maxHeight,
       paddingRight: PADDING_RIGHT,
     };
