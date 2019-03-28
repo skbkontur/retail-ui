@@ -14,6 +14,7 @@ const TO_SOURCE_OPTIONS: any = { quote: 'single' };
 const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
 let rulesToRemove: IRemovalInfo[] = [];
 let themeManagerImportPath: string;
+let componentName: string;
 
 function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const j = api.jscodeshift;
@@ -22,6 +23,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const parsedLess = new Map<string, IDynamicRulesetsMap>();
   const stylesMap = new Map<Identifier, IDynamicRulesetsMap>();
   const jsStylesPath = `${path.join(path.dirname(fileInfo.path), getComponentNameFromPath(fileInfo.path))}.styles.ts`;
+  componentName = getComponentNameFromPath(fileInfo.path);
 
   let importDeclarations = root.find(j.ImportDeclaration);
 
@@ -79,7 +81,9 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       }
     });
 
-  root.find(j.CallExpression, { callee: { name: 'require' } }).forEach(requireStatement => {
+  const requires = root.find(j.CallExpression, { callee: { name: 'require' } });
+
+  requires.forEach((requireStatement, index) => {
     if (requireStatement.parent.value && requireStatement.parent.value.type === 'ConditionalExpression') {
       if (requireStatement.parent.parent && requireStatement.parent.parent.parent) {
         const declaration = requireStatement.parent.parent.parent.value;
@@ -105,6 +109,19 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
           }
         }
+      }
+      if (requires && index === requires.length - 1) {
+        // remove conditional require statement
+        // add import statement instead
+        const { name } = requireStatement.parent.parent.value.id;
+        const imports = root.find(j.ImportDeclaration);
+        const stylesImportDeclaration = j.importDeclaration(
+          [j.importDefaultSpecifier(j.identifier(name))],
+          j.literal(`./${componentName}.less`),
+        );
+
+        requireStatement.parent.parentPath.prune();
+        imports.at(imports.length - 1).insertAfter(stylesImportDeclaration);
       }
     } else if (requireStatement.parent.value && requireStatement.parent.value.type === 'VariableDeclarator') {
       const declaration = requireStatement.parent.parent.value;
@@ -577,7 +594,6 @@ function nameToDynamic(name: string) {
 }
 
 function processJsStylesFile(j: JSCodeshift, filePath: string, fileInfo: FileInfo, stylesIdentifier: Identifier) {
-  const componentName = getComponentNameFromPath(fileInfo.path);
   const dynamicStylesSource = j(fs.readFileSync(filePath, { encoding: 'utf8' }));
   const variableDeclaration = dynamicStylesSource.find(j.VariableDeclaration).at(0);
   const exportDeclaration = j.exportDefaultDeclaration(j.identifier(nameToDynamic(stylesIdentifier.name)));
