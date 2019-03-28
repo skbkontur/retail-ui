@@ -568,14 +568,34 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
-  // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', '\n', result);
+  const lessFileDir = path.join(path.dirname(fileInfo.path), `./${componentName}.less`);
+  const rulesToRemoveArr = Array.from(new Set(rulesToRemove.map(r => `${dasherizeVariables(r.rule)}`)));
+
   fs.writeFileSync(
     `${path.join(path.dirname(fileInfo.path), path.basename(fileInfo.path))}.removals.txt`,
-    rulesToRemove.map(r => `${r.filePath}@(${r.extra.index})[${r.rule}]`).join('\n'),
+    rulesToRemoveArr.join('\n'),
     { encoding: 'utf8' },
   );
 
+  removeVariableRulesFromLessFile(lessFileDir, rulesToRemoveArr);
+
   return result;
+}
+
+function removeVariableRulesFromLessFile(lessFileDir: string, rulesToRemoveArr: string[]) {
+  let lessFileSource = fs.readFileSync(lessFileDir, {
+    encoding: 'utf8',
+  });
+
+  rulesToRemoveArr.forEach(rule => {
+    rule = rule.trim();
+    if (lessFileSource.includes(rule)) {
+      const ruleRegexp = new RegExp(rule, 'g');
+      lessFileSource = lessFileSource.replace(ruleRegexp, '');
+    }
+  });
+
+  fs.writeFileSync(lessFileDir, lessFileSource, { encoding: 'utf8' });
 }
 
 function isNotWithinDynamicStyles(nodePath: NodePath<any>, targets: any[]) {
@@ -627,6 +647,22 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, fileInfo: FileInf
 function getComponentNameFromPath(fileInfoPath: string) {
   const splitPath = fileInfoPath.split('\\');
   return splitPath[splitPath.length - 2];
+}
+
+function dasherizeVariables(str: string) {
+  const STRING_DASHERIZE_REGEXP = /[ _]/g;
+  const STRING_DECAMELIZE_REGEXP = /([a-z\d])([A-Z])/g;
+  const variables = str.match(/@[a-zA-Z]*/gm) || [];
+
+  variables.forEach(variable => {
+    const dasherizedVariable = variable
+      .replace(STRING_DECAMELIZE_REGEXP, '$1_$2')
+      .toLowerCase()
+      .replace(STRING_DASHERIZE_REGEXP, '-');
+    str = str.replace(variable, dasherizedVariable);
+  });
+
+  return str;
 }
 
 module.exports = extractDynamicClasses;
