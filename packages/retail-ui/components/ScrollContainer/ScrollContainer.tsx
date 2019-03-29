@@ -8,11 +8,12 @@ import getScrollWidth from '../../lib/dom/getScrollWidth';
 
 import styles from './ScrollContainer.less';
 import { Nullable } from '../../typings/utility-types';
+import { isChrome, isOpera, isSafari } from '../../lib/utils';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
-const IS_MACOSX = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-const SCROLL_WIDTH = IS_MACOSX ? 0 : getScrollWidth();
+const SCROLL_HIDDEN = isChrome() || isOpera() || isSafari();
+const SCROLL_WIDTH = SCROLL_HIDDEN ? 0 : getScrollWidth();
 
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
