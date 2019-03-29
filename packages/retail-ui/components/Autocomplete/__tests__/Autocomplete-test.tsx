@@ -138,6 +138,24 @@ describe('<Autocomplete />', () => {
     const [event] = onKeyDown.mock.calls[0];
     expect(event.key).toBe('a');
   });
+
+  it('handle concurrent source requests', async () => {
+    const items = Array.from({ length: 5 }).map((_, i) => String(i + 1));
+    const onChange = jest.fn();
+    const source = jest.fn(async (query: string) => {
+      const diff = items.length - Number(query);
+      await delay(Math.max(100, diff * 100));
+      return items.slice(0, diff);
+    });
+    const props = { value: '1', onChange, source };
+    const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
+    wrapper.find('input').simulate('change', { target: { value: '' } });
+    items.forEach((_, i) => {
+      wrapper.setProps({ value: String(i) });
+    });
+    await delay(500);
+    expect(wrapper.state('items')).toEqual(['1']);
+  });
 });
 
 interface UncontrolledAutocompleteState {
