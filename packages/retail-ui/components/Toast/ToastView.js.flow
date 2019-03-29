@@ -1,0 +1,16 @@
+/* @flow */
+
+export type ToastViewProps = {|
+  children?: string,
+  action?: ?{|
+    label: string,
+    handler: () => void,
+  |},
+  onClose?: () => void,
+  onMouseEnter?: () => void,
+  onMouseLeave?: () => void,
+|};
+
+declare class ToastView extends React$Component<ToastViewProps> {}
+
+export default ToastView;
