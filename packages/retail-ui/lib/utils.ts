@@ -29,22 +29,8 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
-export function isMac(): boolean {
-  return /mac/.test(platform);
-}
-
-export function isSafari(): boolean {
-  return /version\/(\d+).+?safari/.test(userAgent);
-}
-
-export function isFirefox(): boolean {
-  return /(?:firefox|fxios)\/(\d+)/.test(userAgent);
-}
-
-export function isChrome(): boolean {
-  return /google inc/.test(vendor) && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera();
-}
-
-export function isOpera(): boolean {
-  return /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
-}
+export const isMac = /mac/.test(platform);
+export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
+export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
+export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
+export const isChrome = /google inc/.test(vendor) && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
