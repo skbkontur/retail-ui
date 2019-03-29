@@ -1,10 +1,4 @@
-function isSafari(): boolean {
-  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-}
-
-function isFirefox(): boolean {
-  return /firefox/i.test(navigator.userAgent);
-}
+import { isSafari, isFirefox } from './utils';
 
 export const hasFocusOnButtonClick = !isSafari() && !isFirefox();
 export const hasFocusOnLinkClick = !isSafari();
