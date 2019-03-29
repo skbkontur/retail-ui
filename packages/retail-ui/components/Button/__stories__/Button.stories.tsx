@@ -299,13 +299,13 @@ const ButtonsTable = (props: {
   const { rows = [], cols = [], presetState = {}, children = 'Button' } = props;
   return (
     <table style={{ width: '100%', borderSpacing: 10, marginBottom: 20 }}>
-      <caption style={{ captionSide: 'bottom' }}>{stateToString(presetState)}</caption>
+      <caption style={{ captionSide: 'bottom' }}>{renderStateDesc(presetState)}</caption>
       <thead>
         <tr>
           <th />
           {cols.map((state, i) => (
             <th style={{ whiteSpace: 'nowrap' }} key={i}>
-              {stateToString(state)}
+              {renderStateDesc(state)}
             </th>
           ))}
         </tr>
@@ -313,7 +313,7 @@ const ButtonsTable = (props: {
       <tbody>
         {rows.map((rowState, rowIndex) => (
           <tr key={rowIndex}>
-            <td style={{ whiteSpace: 'nowrap' }}>{stateToString(rowState)}</td>
+            <td style={{ whiteSpace: 'nowrap' }}>{renderStateDesc(rowState)}</td>
             {cols.map((colState, colIndex) => (
               <td key={colIndex}>
                 <Button children={children} {...rowState} {...colState} {...presetState} />
@@ -326,7 +326,7 @@ const ButtonsTable = (props: {
   );
 };
 
-const stateToString = (state: ButtonState): string => {
+const renderStateDesc = (state: ButtonState): React.ReactNode => {
   return Object.keys(state)
     .map(key => {
       // @ts-ignore
@@ -336,11 +336,20 @@ const stateToString = (state: ButtonState): string => {
           return key + (value ? '' : ': false');
         case 'string':
           return `${key}: "${value}"`;
+        case 'object':
+          if (React.isValidElement(value)) {
+            return React.createElement('span', {}, [`${key}: `, value]);
+          }
+          return `${key}: ${JSON.stringify(value)}`;
         default:
           return `${key}: ${value}`;
       }
     })
-    .join(', ');
+    .map((node: React.ReactNode, index: number, nodes: React.ReactNode[]) => (
+      <span key={index}>
+        {node} {index + 1 < nodes.length ? ', ' : null}
+      </span>
+    ));
 };
 
 class StatesCombinator extends React.Component<
