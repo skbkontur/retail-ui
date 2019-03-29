@@ -1,0 +1,15 @@
+/* @flow */
+import type { Address } from '../models/Address';
+import type { FiasLocale } from '../types';
+
+type FiasSearchProps = {|
+  source: (query: string) => Promise<Address[]>,
+  address: Address,
+  onChange: (value: Address) => void,
+  limit?: number,
+  locale?: FiasLocale,
+|};
+
+declare export class FiasSearch extends React$Component<FiasSearchProps> {}
+
+export default FiasSearch;
