@@ -1,0 +1,26 @@
+/* @flow */
+import { SidePageFooter } from './SidePageFooter';
+
+export type SidePageContextType = {|
+  requestClose: () => void,
+  width: number | string,
+  updateLayout: () => void,
+  footerRef: (ref: SidePageFooter | null) => void,
+|};
+
+declare export var SidePageContext: {|
+  Provider: React$ComponentType<{|
+    value: SidePageContextType,
+    children: React$Node,
+  // eslint-disable-next-line flowtype/no-weak-types
+  |}, any>,
+  Consumer: React$ComponentType<{|
+    children: ((value: SidePageContextType) => React$Node) | [(value: SidePageContextType) => React$Node],
+    observedBits?: number | void,
+  // eslint-disable-next-line flowtype/no-weak-types
+  |}, any>,
+|};
+
+declare export var withContext: <P: {}>(BaseComponent: React$ComponentType<P & {|
+  context?: SidePageContextType | void,
+|}>) => (props: P) => React$Node;
