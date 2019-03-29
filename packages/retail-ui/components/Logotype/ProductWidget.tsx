@@ -10,7 +10,7 @@ export default {
 
       const script = document.createElement('script');
       script.src = 'https://widget-product.kontur.ru/widget/loader?' + 'product=&type=service';
-      document.getElementsByTagName('head')[0].appendChild(script);
+      setTimeout(() => document.getElementsByTagName('head')[0].appendChild(script));
     };
 
     if (window.jQuery) {

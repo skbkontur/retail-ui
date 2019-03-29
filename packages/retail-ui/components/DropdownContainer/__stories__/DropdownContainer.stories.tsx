@@ -17,8 +17,6 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public portals = [false, true];
   public rows = ['top', 'middle', 'bottom'];
   public cols = ['left', 'center', 'right'];
-  public LONG_ITEM = 'LongItemLongItemLongItemLongItemLong LongItem LongItemLongItemLongItemLongItemLongItemLongItem';
-  public SHORT_ITEM = 'ShortShortShort Short';
   public dropdowns: {
     [id: string]: DropdownWithToggle | null;
   } = {};
@@ -59,14 +57,14 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
 
   public render() {
     return (
-      <ScrollMaker>
+      <ScrollMaker xScroll={0} yScroll={0}>
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
             borderStyle: 'solid',
             borderColor: 'transparent',
-            borderWidth: '50px 150px 150px 50px',
+            borderWidth: '25px 100px 200px',
             height: '100%',
             boxSizing: 'border-box',
           }}
@@ -93,7 +91,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   );
 
   private renderDropdowns = () => {
-    const { rows, cols, aligns, portals, LONG_ITEM, SHORT_ITEM } = this;
+    const { rows, cols, aligns, portals } = this;
     const { long, shown } = this.state;
     return (
       <Grid rows={rows} cols={cols}>
@@ -110,7 +108,9 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
                     dropdownProps={{ align, disablePortal }}
                   >
                     <Menu>
-                      <MenuItem>{long ? LONG_ITEM : SHORT_ITEM}</MenuItem>
+                      <MenuItem>
+                        {`${row}/${col}/align-${align}/portal-${!disablePortal}; `.repeat(long ? 3 : 1)}
+                      </MenuItem>
                     </Menu>
                   </DropdownWithToggle>
                   &nbsp;
