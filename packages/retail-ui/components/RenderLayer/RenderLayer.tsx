@@ -10,6 +10,17 @@ export interface RenderLayerProps {
 }
 
 class RenderLayer extends React.Component<RenderLayerProps> {
+  public static propTypes = {
+    active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
+      const { active, onClickOutside, onFocusOutside } = props;
+      if (active && !(onClickOutside || onFocusOutside)) {
+        return new Error(
+          `[${componentName}]: using active ${componentName} without specifing either 'onClickOutside' or 'onFocusOutside' callback is incorrect.`,
+        );
+      }
+    },
+  };
+
   public static defaultProps = {
     active: true,
   };
