@@ -91,6 +91,7 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
   private menu: Nullable<Menu>;
 
   private focused: boolean = false;
+  private requestId: number = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
 
@@ -298,13 +299,14 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     }
 
     let promise;
+    const expectingId = (this.requestId += 1);
     if (typeof source === 'function') {
       promise = source(pattern);
     } else {
       promise = match(pattern, source);
     }
     promise.then(items => {
-      if (this.opened) {
+      if (this.opened && expectingId === this.requestId) {
         this.setState({
           items,
           selected: -1,
