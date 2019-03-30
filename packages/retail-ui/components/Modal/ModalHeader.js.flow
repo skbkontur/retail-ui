@@ -1,0 +1,10 @@
+/* @flow */
+
+export type HeaderProps = {|
+  close?: boolean,
+  sticky?: boolean,
+|};
+
+declare export function isHeader(child: React$Node): boolean;
+
+declare export class Header extends React$Component<HeaderProps> {}

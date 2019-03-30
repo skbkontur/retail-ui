@@ -181,7 +181,7 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
   public render() {
     const props = this.props;
     const content = this.renderContent();
-    const { popupProps, layerProps = {} } = this.getProps();
+    const { popupProps, layerProps = { active: false } } = this.getProps();
     const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 

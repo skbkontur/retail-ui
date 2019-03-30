@@ -130,6 +130,13 @@ gemini.suite('Input with mask', suite => {
     });
 });
 
+gemini.suite('Input with placeholder and mask', suite => {
+  suite
+    .before(renderStory('Input', 'Placeholder and Mask'))
+    .setCaptureElements('#test-element')
+    .capture('Plain');
+});
+
 gemini.suite('Input with prefix and suffix', () => {
   gemini.suite('Size small', suite => {
     suite

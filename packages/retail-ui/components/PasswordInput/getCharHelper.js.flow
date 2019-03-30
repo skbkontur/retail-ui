@@ -1,0 +1,4 @@
+/* @flow */
+declare function getCharHelper(e: SyntheticKeyboardEvent<HTMLElement>): string | null;
+
+export default getCharHelper;
