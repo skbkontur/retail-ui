@@ -28,6 +28,7 @@ function exec(commandLine, { detached = false, env = {} } = {}) {
     stdio: [0, 1, 2],
     env: {
       NODE_ENV: 'production',
+      enableReactTesting: true,
       ...process.env,
       ...env,
     },
