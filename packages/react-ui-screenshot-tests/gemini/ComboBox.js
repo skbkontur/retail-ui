@@ -121,12 +121,12 @@ gemini.suite('ComboBox', () => {
         .setCaptureElements('#test-element')
         .capture('initial value')
         .capture('reset value', (action, find) => {
-          const resetButton = find('[data-tid="ButtonWrapper"]:nth-child(3) [data-comp-name="Button"]');
+          const resetButton = find('[data-tid="resetBtn"]');
 
           action.click(resetButton);
         })
         .capture('set value', (action, find) => {
-          const setButton = find('[data-tid="ButtonWrapper"]:nth-child(2) [data-comp-name="Button"]');
+          const setButton = find('[data-tid="setValueBtn"]');
 
           action.click(setButton);
         });
