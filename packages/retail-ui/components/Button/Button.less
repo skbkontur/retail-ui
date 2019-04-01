@@ -106,7 +106,7 @@
     @btn-default-shadow,
     @btn-default-shadow-arrow,
     @btn-default-shadow-arrow-left,
-    none,
+    @btn-default-text-color,
     none
   );
   .buttonUseHoverMixin(
@@ -136,7 +136,7 @@
     @btn-primary-shadow,
     @btn-primary-shadow-arrow,
     @btn-primary-shadow-arrow-left,
-    #fff,
+    @btn-primary-text-color,
     none
   );
   .buttonUseHoverMixin(
@@ -166,7 +166,7 @@
     @btn-success-shadow,
     @btn-success-shadow-arrow,
     @btn-success-shadow-arrow-left,
-    #fff,
+    @btn-success-text-color,
     none
   );
   .buttonUseHoverMixin(
@@ -196,7 +196,7 @@
     @btn-danger-shadow,
     @btn-danger-shadow-arrow,
     @btn-danger-shadow-arrow-left,
-    #fff,
+    @btn-danger-text-color,
     none
   );
   .buttonUseHoverMixin(
@@ -226,7 +226,7 @@
     @btn-pay-shadow,
     @btn-pay-shadow-arrow,
     @btn-pay-shadow-arrow-left,
-    none,
+    @btn-pay-text-color,
     none
   );
   .buttonUseHoverMixin(
@@ -251,7 +251,8 @@
   .buttonFocusMixin(
     2px,
     none,
-    @border-color-focus
+    @border-color-focus,
+    @btn-focus-inset-shadow-color
   );
 
   @btn-checked-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
@@ -264,7 +265,9 @@
     2px,
     @bg-disabled,
     0 0 0 1px @border-color-gray-light,
-    1px -1px 0 0 @border-color-gray-light
+    1px -1px 0 0 @border-color-gray-light,
+    @btn-checked-text-color,
+    @btn-focus-inset-shadow-color
   );
 
   .borderless {
