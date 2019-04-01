@@ -15,13 +15,15 @@ export interface FooterProps {
 }
 
 export function isFooter(child: React.ReactChild): child is React.ReactElement<FooterProps> {
-  return React.isValidElement<FooterProps>(child) && child.type === Footer;
+  return React.isValidElement<FooterProps>(child) && child.type.hasOwnProperty('__MODAL_FOOTER__');
 }
 
 /**
  * Футер модального окна.
  */
 export class Footer extends React.Component<FooterProps> {
+  public static __MODAL_FOOTER__ = true;
+
   public static defaultProps = {
     sticky: true,
   };
