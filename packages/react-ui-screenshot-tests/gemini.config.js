@@ -68,7 +68,6 @@ const browsers = {
 
 const optionsFlat = {
   rootUrl: 'http://localhost:6061/',
-  screenshotsDir: './gemini/screensFlat',
 };
 
 module.exports = {
