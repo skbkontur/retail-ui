@@ -5,6 +5,10 @@ import { isFunction } from '../../lib/utils';
 
 import styles from './MenuItem.less';
 
+export const isMenuItem = (child: React.ReactChild): child is React.ReactElement<MenuItemProps> => {
+  return React.isValidElement<MenuItemProps>(child) ? child.type.hasOwnProperty('__MENU_ITEM__') : false;
+};
+
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
@@ -39,7 +43,6 @@ export interface MenuItemProps {
  */
 export default class MenuItem extends React.Component<MenuItemProps> {
   public static __MENU_ITEM__ = true;
-  public static __MENU_HEADER__ = false;
 
   public static propTypes = {
     alkoLink: PropTypes.bool,
