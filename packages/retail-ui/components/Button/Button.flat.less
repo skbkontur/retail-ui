@@ -102,13 +102,13 @@
   // Use Default
   .buttonUseColorsMixin(
     default,
-    #fff,
-    #fff,
-    #fff,
+    @btn-flat-default-bg,
+    @btn-flat-default-bg-arrow,
+    @btn-flat-default-bg-arrow,
     none,
     @btn-flat-default-shadow-arrow,
     @btn-flat-default-shadow-arrow,
-    none,
+    @btn-flat-default-text-color,
     @btn-flat-default-border
   );
   .buttonUseHoverMixin(
@@ -148,7 +148,7 @@
     none,
     @btn-flat-primary-shadow-arrow,
     @btn-flat-primary-shadow-arrow,
-    #fff,
+    @btn-flat-primary-text-color,
     @btn-flat-primary-border
   );
   .buttonUseHoverMixin(
@@ -178,7 +178,7 @@
     none,
     @btn-flat-success-shadow-arrow,
     @btn-flat-success-shadow-arrow,
-    #fff,
+    @btn-flat-success-text-color,
     @btn-flat-success-border
   );
   .buttonUseHoverMixin(
@@ -208,7 +208,7 @@
     none,
     @btn-flat-danger-shadow-arrow,
     @btn-flat-danger-shadow-arrow,
-    #fff,
+    @btn-flat-danger-text-color,
     @btn-flat-danger-border
   );
   .buttonUseHoverMixin(
@@ -238,7 +238,7 @@
     none,
     @btn-flat-pay-shadow-arrow,
     @btn-flat-pay-shadow-arrow,
-    none,
+    @btn-flat-pay-text-color,
     @btn-flat-pay-border
   );
   .buttonUseHoverMixin(
@@ -269,7 +269,8 @@
   .buttonFocusMixin(
     1px,
     @btn-flat-focus-border,
-    @flat-border-color-focus
+    @flat-border-color-focus,
+    @btn-flat-focus-inset-shadow-color
   );
 
   .buttonStateColorsMixin(
@@ -281,7 +282,9 @@
     1px,
     @btn-flat-disabled-bg,
     none,
-    0 0 0 1px @btn-flat-disabled-bg
+    0 0 0 1px @btn-flat-disabled-bg,
+    @btn-flat-checked-text-color,
+    @btn-flat-focus-inset-shadow-color
   );
 
   .borderless {

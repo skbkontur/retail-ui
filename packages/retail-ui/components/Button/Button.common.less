@@ -433,25 +433,26 @@
 .buttonFocusMixin(
 @shadowWidth,
 @border,
-@borderColor
+@borderColor,
+@focusInsetShadowColor
 ) {
   .root {
     &.focus {
-      box-shadow: inset 0 0 0 1px #fff, 0 0 0 @shadowWidth @borderColor;
+      box-shadow: inset 0 0 0 1px @focusInsetShadowColor, 0 0 0 @shadowWidth @borderColor;
       position: relative;
       z-index: 2;
       border: @border;
 
       .arrow {
-        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @borderColor;
+        box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @borderColor;
       }
 
       .arrow.arrow_warning {
-        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
+        box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @border-color-warning;
       }
 
       .arrow.arrow_error {
-        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
+        box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @border-color-error;
       }
     }
   }
@@ -466,12 +467,14 @@
 @focusShadowWidth,
 @disabledArrowBackground,
 @disabledShadow,
-@disabledArrowShadow
+@disabledArrowShadow,
+@checkedColor,
+@focusInsetShadowColor
 ) {
   .root.checked {
     background: @checkedBackground;
     box-shadow: @checkedBoxShadow;
-    color: #fff;
+    color: @checkedColor;
 
     .arrow {
       background: @checkedBackground;
@@ -497,20 +500,20 @@
     }
 
     &.focus {
-      box-shadow: inset 0 0 0 1px #fff, 0 0 0 @focusShadowWidth @border-color-focus;
+      box-shadow: inset 0 0 0 1px @focusInsetShadowColor, 0 0 0 @focusShadowWidth @border-color-focus;
       position: relative;
       z-index: 2;
 
       .arrow {
-        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-focus;
+        box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @border-color-focus;
       }
 
       .arrow.arrow_warning {
-        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-warning;
+        box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @border-color-warning;
       }
 
       .arrow.arrow_error {
-        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
+        box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @border-color-error;
       }
     }
   }
