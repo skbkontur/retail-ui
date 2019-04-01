@@ -74,3 +74,37 @@ gemini.suite('Button different states', suite => {
     .setCaptureElements('#test-element')
     .capture('plain');
 });
+
+gemini.suite('Button states', () => {
+  const paginatedScenario = (suite, pagesCount) => {
+    var paginatedSuite = suite
+      .before((actions, find) => {
+        this.nextPage = find('#next-page');
+      })
+      .ignoreElements('#paginator')
+      .setCaptureElements('#test-element');
+
+    for (var page = 1; page <= pagesCount; page++) {
+      paginatedSuite.capture('page - ' + page, (actions, find) => {
+        if (page > 1) {
+          actions.click(this.nextPage);
+        }
+      });
+    }
+  };
+
+  gemini.suite('different aligns', suite => {
+    suite
+      .before(renderStory('Button', 'different aligns'))
+      .setCaptureElements('#test-element')
+      .capture('plain');
+  });
+
+  gemini.suite('different visual states', suite => {
+    paginatedScenario(suite.before(renderStory('Button', 'different visual states')), 9);
+  });
+
+  gemini.suite('different content', suite => {
+    paginatedScenario(suite.before(renderStory('Button', 'different content')), 8);
+  });
+});
