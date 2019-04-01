@@ -102,28 +102,31 @@
   // Use Default
   .buttonUseColorsMixin(
     default,
+    #fff,
+    #fff,
+    #fff,
+    none,
+    @btn-flat-default-shadow-arrow,
+    @btn-flat-default-shadow-arrow,
+    none,
+    @btn-flat-default-border
+  );
+  .buttonUseHoverMixin(
+    default,
     @btn-flat-default-hover-bg,
     @btn-flat-default-hover-bg,
     @btn-flat-default-hover-bg,
     none,
     @btn-flat-default-hover-shadow-arrow,
     @btn-flat-default-hover-shadow-arrow,
-    @btn-flat-default-hover-border-color,
+    @btn-flat-default-hover-border-color
+  );
+  .buttonUseActiveMixin(
+    default,
     @btn-flat-default-active-bg,
     none,
     @btn-flat-default-active-shadow-arrow,
-    @btn-flat-default-active-shadow-arrow,
-    #fff,
-    #fff,
-    #fff,
-    none,
-    @btn-flat-default-shadow-arrow,
-    @btn-flat-default-shadow-arrow,
-    none,
-    @btn-flat-default-border,
-    @flat-border-color-focus,
-    @btn-flat-focus-border,
-    1px
+    @btn-flat-default-active-shadow-arrow
   );
 
   .root.default.checked {
@@ -139,17 +142,6 @@
   // Use Primary
   .buttonUseColorsMixin(
     primary,
-    @btn-flat-primary-hover-bg,
-    @btn-flat-primary-hover-bg,
-    @btn-flat-primary-hover-bg,
-    none,
-    @btn-flat-primary-hover-shadow-arrow,
-    @btn-flat-primary-hover-shadow-arrow,
-    @btn-flat-primary-hover-bg,
-    @btn-flat-primary-active-bg,
-    none,
-    @btn-flat-primary-active-shadow-arrow,
-    @btn-flat-primary-active-shadow-arrow,
     @btn-flat-primary-bg,
     @btn-flat-primary-bg,
     @btn-flat-primary-bg,
@@ -157,14 +149,39 @@
     @btn-flat-primary-shadow-arrow,
     @btn-flat-primary-shadow-arrow,
     #fff,
-    @btn-flat-primary-border,
-    @flat-border-color-focus,
-    @btn-flat-focus-border,
-    1px
+    @btn-flat-primary-border
+  );
+  .buttonUseHoverMixin(
+    primary,
+    @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg,
+    none,
+    @btn-flat-primary-hover-shadow-arrow,
+    @btn-flat-primary-hover-shadow-arrow,
+    @btn-flat-primary-hover-bg
+  );
+  .buttonUseActiveMixin(
+    primary,
+    @btn-flat-primary-active-bg,
+    none,
+    @btn-flat-primary-active-shadow-arrow,
+    @btn-flat-primary-active-shadow-arrow
   );
 
   // Use Success
   .buttonUseColorsMixin(
+    success,
+    @btn-flat-success-bg,
+    @btn-flat-success-bg,
+    @btn-flat-success-bg,
+    none,
+    @btn-flat-success-shadow-arrow,
+    @btn-flat-success-shadow-arrow,
+    #fff,
+    @btn-flat-success-border
+  );
+  .buttonUseHoverMixin(
     success,
     @btn-flat-success-hover-bg,
     @btn-flat-success-hover-bg,
@@ -172,26 +189,29 @@
     none,
     @btn-flat-success-hover-shadow-arrow,
     @btn-flat-success-hover-shadow-arrow,
-    @btn-flat-success-hover-bg,
+    @btn-flat-success-hover-bg
+  );
+  .buttonUseActiveMixin(
+    success,
     @btn-flat-success-active-bg,
     none,
     @btn-flat-success-active-shadow-arrow,
-    @btn-flat-success-active-shadow-arrow,
-    @btn-flat-success-bg,
-    @btn-flat-success-bg,
-    @btn-flat-success-bg,
-    none,
-    @btn-flat-success-shadow-arrow,
-    @btn-flat-success-shadow-arrow,
-    #fff,
-    @btn-flat-success-border,
-    @flat-border-color-focus,
-    @btn-flat-focus-border,
-    1px
+    @btn-flat-success-active-shadow-arrow
   );
 
   // Use Danger
   .buttonUseColorsMixin(
+    danger,
+    @btn-flat-danger-bg,
+    @btn-flat-danger-bg,
+    @btn-flat-danger-bg,
+    none,
+    @btn-flat-danger-shadow-arrow,
+    @btn-flat-danger-shadow-arrow,
+    #fff,
+    @btn-flat-danger-border
+  );
+  .buttonUseHoverMixin(
     danger,
     @btn-flat-danger-hover-bg,
     @btn-flat-danger-hover-bg,
@@ -199,26 +219,29 @@
     none,
     @btn-flat-danger-hover-shadow-arrow,
     @btn-flat-danger-hover-shadow-arrow,
-    @btn-flat-danger-hover-bg,
+    @btn-flat-danger-hover-bg
+  );
+  .buttonUseActiveMixin(
+    danger,
     @btn-flat-danger-active-bg,
     none,
     @btn-flat-danger-active-shadow-arrow,
-    @btn-flat-danger-active-shadow-arrow,
-    @btn-flat-danger-bg,
-    @btn-flat-danger-bg,
-    @btn-flat-danger-bg,
-    none,
-    @btn-flat-danger-shadow-arrow,
-    @btn-flat-danger-shadow-arrow,
-    #fff,
-    @btn-flat-danger-border,
-    @flat-border-color-focus,
-    @btn-flat-focus-border,
-    1px
+    @btn-flat-danger-active-shadow-arrow
   );
 
   // Use Pay
   .buttonUseColorsMixin(
+    pay,
+    @btn-flat-pay-bg,
+    @btn-flat-pay-bg,
+    @btn-flat-pay-bg,
+    none,
+    @btn-flat-pay-shadow-arrow,
+    @btn-flat-pay-shadow-arrow,
+    none,
+    @btn-flat-pay-border
+  );
+  .buttonUseHoverMixin(
     pay,
     @btn-flat-pay-hover-bg,
     @btn-flat-pay-hover-bg,
@@ -226,22 +249,14 @@
     none,
     @btn-flat-pay-hover-shadow-arrow,
     @btn-flat-pay-hover-shadow-arrow,
-    @btn-flat-pay-hover-bg,
+    @btn-flat-pay-hover-bg
+  );
+  .buttonUseActiveMixin(
+    pay,
     @btn-flat-pay-active-bg,
     none,
     @btn-flat-pay-active-shadow-arrow,
-    @btn-flat-pay-active-shadow-arrow,
-    @btn-flat-pay-bg,
-    @btn-flat-pay-bg,
-    @btn-flat-pay-bg,
-    none,
-    @btn-flat-pay-shadow-arrow,
-    @btn-flat-pay-shadow-arrow,
-    none,
-    @btn-flat-pay-border,
-    @flat-border-color-focus,
-    @btn-flat-focus-border,
-    1px
+    @btn-flat-pay-active-shadow-arrow
   );
 
   .root.link.linkError {
@@ -251,6 +266,12 @@
   }
 
   // End Use
+  .buttonFocusMixin(
+    1px,
+    @btn-flat-focus-border,
+    @flat-border-color-focus
+  );
+
   .buttonStateColorsMixin(
     @btn-flat-checked-bg,
     none,

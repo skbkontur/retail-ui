@@ -325,17 +325,6 @@
 
 .buttonUseColorsMixin(
 @className,
-@btnHoverBackground,
-@arrowHoverBackground,
-@arrowLeftHoverBackground,
-@hoverShadow,
-@hoverShadowArrow,
-@hoverShadowArrowLeft,
-@hoverBorderColor,
-@activeColor,
-@activeShadow,
-@activeShadowArrow,
-@activeShadowArrowLeft,
 @btnBackground,
 @arrowBackground,
 @arrowLeftBackground,
@@ -343,10 +332,7 @@
 @shadowArrow,
 @shadowArrowLeft,
 @color,
-@border,
-@focusBorderColor,
-@focusBorder,
-@focusShadowWidth
+@border
 ) {
   .@{className} {
     background: @btnBackground;
@@ -371,20 +357,33 @@
     .arrow.arrow_error {
       box-shadow: 2px -2px 0 0 @border-color-error;
     }
+  }
+}
 
+.buttonUseHoverMixin(
+@className,
+@background,
+@arrowBackground,
+@arrowLeftBackground,
+@shadow,
+@arrowShadow,
+@arrowLeftShadow,
+@borderColor
+) {
+  .@{className} {
     &:hover {
-      background: @btnHoverBackground;
-      box-shadow: @hoverShadow;
-      border-color: @hoverBorderColor;
+      background: @background;
+      box-shadow: @shadow;
+      border-color: @borderColor;
 
       .arrow {
-        background: @arrowHoverBackground;
-        box-shadow: @hoverShadowArrow;
+        background: @arrowBackground;
+        box-shadow: @arrowShadow;
       }
 
       .arrow_left {
-        background: @arrowLeftHoverBackground;
-        box-shadow: @hoverShadowArrowLeft;
+        background: @arrowLeftBackground;
+        box-shadow: @arrowLeftShadow;
       }
 
       .arrow.arrow_warning {
@@ -395,15 +394,56 @@
         box-shadow: 2px -2px 0 0 @border-color-error;
       }
     }
+  }
+}
 
-    &.focus {
-      box-shadow: inset 0 0 0 1px #fff, 0 0 0 @focusShadowWidth @focusBorderColor;
-      position: relative;
-      z-index: 2;
-      border: @focusBorder;
+.buttonUseActiveMixin(
+@className,
+@color,
+@shadow,
+@arrowShadow,
+@arrowLeftShadow
+) {
+  .@{className} {
+    &:active,
+    &.active {
+      background: @color;
+      box-shadow: @shadow;
 
       .arrow {
-        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @focusBorderColor;
+        background: @color;
+        box-shadow: @arrowShadow;
+      }
+
+      .arrow_left {
+        box-shadow: @arrowLeftShadow;
+      }
+
+      .arrow.arrow_warning {
+        box-shadow: 2px -2px 0 0 @border-color-warning;
+      }
+
+      .arrow.arrow_error {
+        box-shadow: 2px -2px 0 0 @border-color-error;
+      }
+    }
+  }
+}
+
+.buttonFocusMixin(
+@shadowWidth,
+@border,
+@borderColor
+) {
+  .root {
+    &.focus {
+      box-shadow: inset 0 0 0 1px #fff, 0 0 0 @shadowWidth @borderColor;
+      position: relative;
+      z-index: 2;
+      border: @border;
+
+      .arrow {
+        box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @borderColor;
       }
 
       .arrow.arrow_warning {
@@ -413,30 +453,6 @@
       .arrow.arrow_error {
         box-shadow: inset -1px 1px 0 0 #fff, 2px -2px 0 0 @border-color-error;
       }
-    }
-  }
-
-  .@{className}:active,
-  .@{className}.active {
-    background: @activeColor;
-    box-shadow: @activeShadow;
-    border: @border;
-
-    .arrow {
-      background: @activeColor;
-      box-shadow: @activeShadowArrow;
-    }
-
-    .arrow_left {
-      box-shadow: @activeShadowArrowLeft;
-    }
-
-    .arrow.arrow_warning {
-      box-shadow: 2px -2px 0 0 @border-color-warning;
-    }
-
-    .arrow.arrow_error {
-      box-shadow: 2px -2px 0 0 @border-color-error;
     }
   }
 }
