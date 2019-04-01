@@ -169,7 +169,8 @@ storiesOf('Tooltip', module)
   .add('Tooltip with trigger=click', () => <TooltipWithClickTrigger />)
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
   .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />)
-  .add('Tooltip with Input and switchable content', () => <TooltipWithInput />);
+  .add('Tooltip with Input and switchable content', () => <TooltipWithInput />)
+  .add('dynamic triggers', () => <DynamicTriggers />);
 
 class TooltipWithInput extends React.Component {
   public state = { show: false };
@@ -452,4 +453,41 @@ function MultipleTooltips() {
       </Tooltip>
     </div>
   );
+}
+
+interface DynamicTriggersState {
+  trigger?: TooltipTrigger;
+}
+
+class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
+  public state: DynamicTriggersState = {};
+
+  public render() {
+    const triggers: TooltipTrigger[] = ['hover', 'click', 'focus', 'opened', 'closed', 'hoverAnchor'];
+    return (
+      <div>
+        <div>
+          {triggers.map(trigger => (
+            <button
+              id={trigger}
+              key={trigger}
+              onClick={() => this.setTrigger(trigger)}
+              disabled={this.state.trigger === trigger}
+            >
+              {trigger}
+            </button>
+          ))}
+        </div>
+        <TestTooltip trigger={this.state.trigger} disableAnimations>
+          <button id="anchor">Anchor</button>
+        </TestTooltip>
+      </div>
+    );
+  }
+
+  private setTrigger = (trigger: TooltipTrigger) => {
+    this.setState({
+      trigger,
+    });
+  };
 }

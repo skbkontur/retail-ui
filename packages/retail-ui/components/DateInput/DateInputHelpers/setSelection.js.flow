@@ -1,0 +1,5 @@
+/* @flow */
+import type { DateInputState } from '../DateInput';
+
+declare export var setSelection: (index: number | null) => (state: $ReadOnly<DateInputState>) => DateInputState;
+declare export var moveSelectionBy: (step: number) => (state: DateInputState) => DateInputState;
