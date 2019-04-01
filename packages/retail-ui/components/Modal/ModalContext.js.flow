@@ -1,0 +1,26 @@
+/* @flow */
+
+export type CloseProps = {|
+  disableClose?: boolean,
+  requestClose: () => void,
+|};
+
+export type ModalContextProps = {|
+  additionalPadding?: boolean,
+  hasHeader?: boolean,
+  close?: CloseProps,
+  horizontalScroll?: boolean,
+|};
+
+declare export var ModalContext: {|
+  Provider: React$ComponentType<{|
+    value: ModalContextProps,
+    children: React$Node,
+  // eslint-disable-next-line flowtype/no-weak-types
+  |}, any>,
+  Consumer: React$ComponentType<{|
+    children: ((value: ModalContextProps) => React$Node) | [(value: ModalContextProps) => React$Node],
+    observedBits?: number | void,
+  // eslint-disable-next-line flowtype/no-weak-types
+  |}, any>,
+|};

@@ -10,6 +10,17 @@ export interface RenderLayerProps {
 }
 
 class RenderLayer extends React.Component<RenderLayerProps> {
+  public static propTypes = {
+    active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
+      const { active, onClickOutside, onFocusOutside } = props;
+      if (active && !(onClickOutside || onFocusOutside)) {
+        return new Error(
+          `[${componentName}]: using the component without either 'onClickOutside' or 'onFocusOutside' callback is pointless.`,
+        );
+      }
+    },
+  };
+
   public static defaultProps = {
     active: true,
   };
@@ -44,14 +55,9 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private attachListeners() {
-    if (this.props.onFocusOutside) {
-      this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
-      window.addEventListener('blur', this.handleFocusOutside);
-    }
-
-    if (this.props.onClickOutside) {
-      document.addEventListener('mousedown', this.handleNativeDocClick);
-    }
+    this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
+    window.addEventListener('blur', this.handleFocusOutside);
+    document.addEventListener('mousedown', this.handleNativeDocClick);
   }
 
   private detachListeners() {

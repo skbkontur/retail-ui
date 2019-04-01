@@ -8,9 +8,12 @@ import getScrollWidth from '../../lib/dom/getScrollWidth';
 
 import styles from './ScrollContainer.less';
 import { Nullable } from '../../typings/utility-types';
+import { isChrome, isOpera, isSafari } from '../../lib/utils';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
+const SCROLL_HIDDEN = isChrome || isOpera || isSafari;
+const SCROLL_WIDTH = SCROLL_HIDDEN ? 0 : getScrollWidth();
 
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
@@ -82,7 +85,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     }
 
     const innerStyle = {
-      marginRight: -(PADDING_RIGHT + getScrollWidth()),
+      marginRight: -1 * (PADDING_RIGHT + SCROLL_WIDTH),
       maxHeight: this.props.maxHeight,
       paddingRight: PADDING_RIGHT,
     };
