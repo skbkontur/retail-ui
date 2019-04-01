@@ -2,6 +2,8 @@
 
 const renderStory = require('./utils').renderStory;
 
+gemini.suite('Button', suite => {
+
 const testScenario = suite => {
   suite
     .capture('idle')
@@ -100,4 +102,5 @@ gemini.suite('Button states', () => {
   gemini.suite('different content', suite => {
     paginatedScenario(suite.before(renderStory('Button', 'different content')), 8);
   });
+});
 });
