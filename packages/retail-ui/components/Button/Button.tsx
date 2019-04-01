@@ -27,6 +27,10 @@ function listenTabPresses() {
   }
 }
 
+export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
+  return React.isValidElement<ButtonProps>(child) ? child.type.hasOwnProperty('__BUTTON__') : false;
+};
+
 export type ButtonSize = 'small' | 'medium' | 'large';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -127,6 +131,8 @@ export interface ButtonState {
 }
 
 class Button extends React.Component<ButtonProps, ButtonState> {
+  public static __BUTTON__ = true;
+
   public static TOP_LEFT = Corners.TOP_LEFT;
   public static TOP_RIGHT = Corners.TOP_RIGHT;
   public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;

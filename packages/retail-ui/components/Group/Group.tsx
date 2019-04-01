@@ -8,7 +8,7 @@ import Corners from '../Button/Corners';
 import '../ensureOldIEClassName';
 import styles from './Group.less';
 import { Nullable } from '../../typings/utility-types';
-import Button from '../Button';
+import { isButton } from '../Button';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];
@@ -83,7 +83,7 @@ class Group extends React.Component<GroupProps> {
             corners,
           };
 
-          if (child.type !== Button) {
+          if (!isButton(child)) {
             delete cloneProps.corners;
           }
 
