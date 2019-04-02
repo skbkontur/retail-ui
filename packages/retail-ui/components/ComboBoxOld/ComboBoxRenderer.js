@@ -14,6 +14,8 @@ import InputLikeText from '../internal/InputLikeText/InputLikeText';
 import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import type { MenuItemState } from '../MenuItem/MenuItem';
+import { isIE, isEdge } from '../ensureOldIEClassName';
+import { getClosestFocusableElement } from '../../lib/dom/getFocusableElements';
 
 import styles from './ComboBoxRenderer.less';
 
@@ -148,7 +150,11 @@ class ComboBoxRenderer extends React.Component<Props, State> {
 
   render() {
     return (
-      <RenderLayer onFocusOutside={this._handleBlur} onClickOutside={this._handleBlur} active={this.state.opened}>
+      <RenderLayer
+        onFocusOutside={this._handleBlur}
+        onClickOutside={this._handleClickOutside}
+        active={this.state.opened}
+      >
         <label className={styles.root} style={{ width: this.props.width }}>
           {this.state.isEditing ? this.renderInput() : this.renderValue()}
           {this.state.opened && this.renderMenu()}
@@ -417,6 +423,22 @@ class ComboBoxRenderer extends React.Component<Props, State> {
 
     /* Blur should occure only once */
     this._ignoreBlur = true;
+  };
+
+  _handleClickOutside = (e: Event) => {
+    if (isIE || isEdge) {
+      // workaround for the IE/Edge focus bug
+      // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14306303/
+      if (document.activeElement !== e.target) {
+        if (e.target instanceof HTMLElement) {
+          const closestFocusable = getClosestFocusableElement(e.target);
+          if (closestFocusable) {
+            closestFocusable.focus();
+          }
+        }
+      }
+    }
+    this._handleBlur();
   };
 
   _close = (endEdit?: boolean) => {
