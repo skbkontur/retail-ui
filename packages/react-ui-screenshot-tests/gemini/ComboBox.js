@@ -190,6 +190,9 @@ gemini.suite('ComboBox', () => {
         .capture('before')
         .capture('after Enter on Item', action => {
           action.sendKeys(gemini.ENTER);
+        })
+        .capture('after click back on the first field', (action, find) => {
+          action.click(find('[class^="Input-root"]'));
         });
     });
   });
