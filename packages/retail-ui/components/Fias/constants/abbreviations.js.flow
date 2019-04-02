@@ -1,0 +1,7 @@
+/* @flow */
+
+declare export var abbreviations: {
+  [key: string]: string,
+};
+
+export default abbreviations;

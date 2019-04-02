@@ -1,0 +1,12 @@
+/* @flow */
+
+export type RenderLayerProps = {|
+  children: React$Node,
+  onClickOutside?: (e: Event) => void,
+  onFocusOutside?: (e: Event) => void,
+  active?: boolean,
+|};
+
+declare class RenderLayer extends React$Component<RenderLayerProps> {}
+
+export default RenderLayer;

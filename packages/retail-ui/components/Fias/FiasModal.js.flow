@@ -1,0 +1,14 @@
+/* @flow */
+import type { FiasLocale } from './types';
+
+type FiasModalProps = {|
+  locale: FiasLocale,
+  /* eslint-disable flowtype/no-weak-types */
+  onClose?: () => any,
+  onSave?: () => any,
+  /* eslint-enable flowtype/no-weak-types */
+|};
+
+declare export class FiasModal extends React$Component<FiasModalProps> {}
+
+export default FiasModal;

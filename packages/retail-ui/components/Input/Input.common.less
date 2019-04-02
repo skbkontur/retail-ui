@@ -1,6 +1,6 @@
 @import '../variables.less';
 
-.commonStyles {
+.commonStyles() {
   .root {
     .reset-text();
 
@@ -233,5 +233,24 @@
   .prefix,
   .suffix {
     color: @placeholder-color;
+  }
+
+  :global(.rt-ie-any) {
+    .root {
+      &.focus {
+        outline: 1px solid @border-color-focus;
+        box-shadow: none;
+      }
+
+      &.warning {
+        outline: 1px solid @border-color-warning;
+        box-shadow: none;
+      }
+
+      &.error {
+        outline: 1px solid @border-color-error;
+        box-shadow: none;
+      }
+    }
   }
 }

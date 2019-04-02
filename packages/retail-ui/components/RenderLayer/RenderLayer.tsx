@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Events from 'add-event-listener';
 import { findDOMNode } from 'react-dom';
 import listenFocusOutside, { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
@@ -11,6 +10,17 @@ export interface RenderLayerProps {
 }
 
 class RenderLayer extends React.Component<RenderLayerProps> {
+  public static propTypes = {
+    active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
+      const { active, onClickOutside, onFocusOutside } = props;
+      if (active && !(onClickOutside || onFocusOutside)) {
+        return new Error(
+          `[${componentName}]: using the component without either 'onClickOutside' or 'onFocusOutside' callback is pointless.`,
+        );
+      }
+    },
+  };
+
   public static defaultProps = {
     active: true,
   };
@@ -46,10 +56,8 @@ class RenderLayer extends React.Component<RenderLayerProps> {
 
   private attachListeners() {
     this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
-
-    Events.addEventListener(window, 'blur', this.handleFocusOutside);
-
-    Events.addEventListener(document, 'mousedown', this.handleNativeDocClick);
+    window.addEventListener('blur', this.handleFocusOutside);
+    document.addEventListener('mousedown', this.handleNativeDocClick);
   }
 
   private detachListeners() {
@@ -58,9 +66,8 @@ class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    Events.removeEventListener(window, 'blur', this.handleFocusOutside);
-
-    Events.removeEventListener(document, 'mousedown', this.handleNativeDocClick);
+    window.removeEventListener('blur', this.handleFocusOutside);
+    document.removeEventListener('mousedown', this.handleNativeDocClick);
   }
 
   private getDomNode() {

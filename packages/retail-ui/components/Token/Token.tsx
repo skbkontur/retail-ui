@@ -44,7 +44,7 @@ export interface TokenProps {
   warning?: boolean;
 }
 
-const Token: React.SFC<TokenProps & TokenActions> = ({
+export const Token: React.SFC<TokenProps & TokenActions> = ({
   children,
   isActive,
   colors,

@@ -1,0 +1,6 @@
+/* @flow */
+declare export var tryParseDateString: (value: string) => {|
+  date: string,
+  month: string,
+  year: string,
+|} | null;

@@ -1,13 +1,14 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Tooltip, { TooltipTrigger, TooltipProps } from '../Tooltip';
+import Tooltip, { TooltipProps, TooltipTrigger } from '../Tooltip';
 import Button from '../../Button';
 import { PopupPosition, PopupPositions } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import Textarea from '../../Textarea';
 import Checkbox from '../../Checkbox';
 import Gapped from '../../Gapped';
+import Input from '../../Input';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -125,7 +126,7 @@ storiesOf('Tooltip', module)
       <Tooltip render={() => 'No disableAnimations prop'} trigger={'hover'}>
         <Button>Hover me (No disableAnimations prop)</Button>
       </Tooltip>
-      <Tooltip render={() => 'disableAnimations={false}'} trigger={'hover'} disableAnimations>
+      <Tooltip render={() => 'disableAnimations={false}'} trigger={'hover'} disableAnimations={false}>
         <Button>Hover me (disableAnimations: false)</Button>
       </Tooltip>
       <Tooltip render={() => 'disableAnimations={true}'} trigger={'hover'} disableAnimations>
@@ -166,7 +167,30 @@ storiesOf('Tooltip', module)
     <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} />
   ))
   .add('Tooltip with trigger=click', () => <TooltipWithClickTrigger />)
-  .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />);
+  .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
+  .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />)
+  .add('Tooltip with Input and switchable content', () => <TooltipWithInput />)
+  .add('dynamic triggers', () => <DynamicTriggers />);
+
+class TooltipWithInput extends React.Component {
+  public state = { show: false };
+  public render() {
+    return (
+      <div style={{ padding: '0 10px 70px' }}>
+        <Tooltip render={this.renderContent} pos="bottom right" trigger="click">
+          <Input onChange={(_, v) => this.setState({ show: Boolean(v) })} />
+        </Tooltip>
+      </div>
+    );
+  }
+
+  public renderContent = () => {
+    if (this.state.show) {
+      return <span>{'Content'}</span>;
+    }
+    return null;
+  };
+}
 
 interface MyCustomTooltipState {
   state: TooltipTrigger;
@@ -222,6 +246,9 @@ class ManualTooltip extends React.Component<TestTooltipProps, MyCustomTooltipSta
 }
 
 const SMALL_CONTENT = <span>Sample text</span>;
+function getSmallContent() {
+  return SMALL_CONTENT;
+}
 const LARGE_CONTENT = (
   <span>
     Sample text, sample text, sample text, sample text, sample text
@@ -370,19 +397,14 @@ const DynamicContentStory = (props: DynamicContentStoryProps) => {
   );
 };
 
-class DynamicAnchorTooltip extends React.Component<{}, {}> {
-  public render() {
-    return (
-      <div style={{ padding: 100 }}>
-        <Tooltip pos={'bottom left'} render={this.tooltipContentGetter} trigger={'hover'} useWrapper={false}>
-          <DynamicAnchor />
-        </Tooltip>
-      </div>
-    );
-  }
-  private tooltipContentGetter = () => {
-    return <span>Content</span>;
-  };
+function DynamicAnchorTooltip() {
+  return (
+    <div style={{ padding: 100 }}>
+      <Tooltip pos={'bottom left'} render={getSmallContent} trigger={'hover'} useWrapper={false}>
+        <DynamicAnchor />
+      </Tooltip>
+    </div>
+  );
 }
 
 class TooltipWithClickTrigger extends React.Component<{}, {}> {
@@ -414,5 +436,58 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
         <Checkbox checked={false}>Item 4</Checkbox>
       </Gapped>
     );
+  };
+}
+
+function MultipleTooltips() {
+  return (
+    <div style={{ padding: 150 }}>
+      <Tooltip pos={'top center'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+        <Tooltip pos={'right middle'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+          <Tooltip pos={'bottom center'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+            <Tooltip pos={'left middle'} trigger={'click'} useWrapper={false} render={getSmallContent}>
+              <span>Poor anchor</span>
+            </Tooltip>
+          </Tooltip>
+        </Tooltip>
+      </Tooltip>
+    </div>
+  );
+}
+
+interface DynamicTriggersState {
+  trigger?: TooltipTrigger;
+}
+
+class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
+  public state: DynamicTriggersState = {};
+
+  public render() {
+    const triggers: TooltipTrigger[] = ['hover', 'click', 'focus', 'opened', 'closed', 'hoverAnchor'];
+    return (
+      <div>
+        <div>
+          {triggers.map(trigger => (
+            <button
+              id={trigger}
+              key={trigger}
+              onClick={() => this.setTrigger(trigger)}
+              disabled={this.state.trigger === trigger}
+            >
+              {trigger}
+            </button>
+          ))}
+        </div>
+        <TestTooltip trigger={this.state.trigger} disableAnimations>
+          <button id="anchor">Anchor</button>
+        </TestTooltip>
+      </div>
+    );
+  }
+
+  private setTrigger = (trigger: TooltipTrigger) => {
+    this.setState({
+      trigger,
+    });
   };
 }

@@ -112,16 +112,18 @@ gemini.suite('Input with mask', suite => {
       action.click(input);
     })
     .capture('Editing', action => {
-      /** NOTE: ухищрения, чтоб не мигал в ie */
-      const sampleString = '912247';
-      sampleString.split('').forEach(char => {
-        action.wait(500);
-        action.sendKeys(input, char);
-      });
+      action.sendKeys(input, '9');
     })
     .capture('Blured', action => {
       action.sendKeys(input, gemini.TAB);
     });
+});
+
+gemini.suite('Input with placeholder and mask', suite => {
+  suite
+    .before(renderStory('Input', 'Placeholder and Mask'))
+    .setCaptureElements('#test-element')
+    .capture('Plain');
 });
 
 gemini.suite('Input with prefix and suffix', () => {
