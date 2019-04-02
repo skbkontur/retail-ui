@@ -11,10 +11,6 @@ export interface HeaderProps {
   sticky: boolean;
 }
 
-export function isHeader(child: React.ReactChild): child is React.ReactElement<HeaderProps> {
-  return React.isValidElement<HeaderProps>(child) && child.type.hasOwnProperty('__MODAL_HEADER__');
-}
-
 export class Header extends React.Component<HeaderProps> {
   public static __MODAL_HEADER__ = true;
 
@@ -52,4 +48,8 @@ export class Header extends React.Component<HeaderProps> {
       {this.props.children}
     </div>
   );
+}
+
+export function isHeader(child: React.ReactChild): child is React.ReactElement<HeaderProps> {
+  return React.isValidElement<HeaderProps>(child) && child.type.hasOwnProperty('__MODAL_HEADER__');
 }

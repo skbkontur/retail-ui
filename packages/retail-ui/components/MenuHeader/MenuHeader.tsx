@@ -5,10 +5,6 @@ import styles from './MenuHeader.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
-export const isMenuHeader = (child: React.ReactChild): child is React.ReactElement<MenuHeaderProps> => {
-  return React.isValidElement<MenuHeaderProps>(child) ? child.type.hasOwnProperty('__MENU_HEADER__') : false;
-};
-
 export interface MenuHeaderProps {
   children: React.ReactNode;
   _enableIconPadding?: Nullable<boolean>;
@@ -33,3 +29,7 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
     return <div className={classnames}>{this.props.children}</div>;
   }
 }
+
+export const isMenuHeader = (child: React.ReactChild): child is React.ReactElement<MenuHeaderProps> => {
+  return React.isValidElement<MenuHeaderProps>(child) ? child.type.hasOwnProperty('__MENU_HEADER__') : false;
+};
