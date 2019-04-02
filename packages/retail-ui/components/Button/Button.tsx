@@ -192,6 +192,8 @@ class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.active]: this.props.active,
         [classes.checked]: this.props.checked,
         [classes.disabled]: this.props.disabled || this.props.loading,
+        [classes.error]: this.props.error,
+        [classes.warning]: this.props.warning,
         [classes.narrow]: this.props.narrow,
         [classes.noPadding]: this.props._noPadding,
         [classes.noRightPadding]: this.props._noRightPadding,
