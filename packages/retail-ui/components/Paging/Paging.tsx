@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
 import cn from 'classnames';
-import events from 'add-event-listener';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
@@ -420,7 +419,7 @@ let tabPressed: boolean;
 
 function listenTabPresses() {
   if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
       tabPressed = event.keyCode === KEYCODE_TAB;
     });
     isListening = true;

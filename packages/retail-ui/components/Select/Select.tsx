@@ -1,7 +1,6 @@
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
-import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
@@ -264,7 +263,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
       }
     }
 
-    events.removeEventListener(window, 'popstate', this.close);
+    window.removeEventListener('popstate', this.close);
   };
 
   /**
@@ -433,10 +432,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   };
 
   private refMenuContainer = (element: DropdownContainer) => {
-    events.removeEventListener(window, 'popstate', this.close);
+    window.removeEventListener('popstate', this.close);
 
     if (element) {
-      events.addEventListener(window, 'popstate', this.close);
+      window.addEventListener('popstate', this.close);
     }
   };
 

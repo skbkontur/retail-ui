@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
-import events from 'add-event-listener';
 
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
@@ -22,7 +21,7 @@ let tabPressed: boolean;
 
 function listenTabPresses() {
   if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
       tabPressed = event.keyCode === KEYCODE_TAB;
     });
     isListening = true;

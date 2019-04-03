@@ -1,4 +1,3 @@
-import events from 'add-event-listener';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
@@ -20,8 +19,7 @@ function addHandleEvent() {
    * Mozilla Firefix
    *   ¯\_(ツ)_/¯
    */
-  events.addEventListener(
-    document.body,
+  document.body.addEventListener(
     isFF ? 'focus' : ('focusin' as 'focus'),
     isFF ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
     isFF,
@@ -31,7 +29,7 @@ function addHandleEvent() {
 if (document.readyState === 'complete') {
   addHandleEvent();
 } else {
-  events.addEventListener(window, 'load', addHandleEvent);
+  window.addEventListener('load', addHandleEvent);
 }
 
 function handleNativeFocus(event: UIEvent) {

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import Upgrades from '../../lib/Upgrades';
 
@@ -20,7 +19,7 @@ let tabPressed: boolean;
 
 function listenTabPresses() {
   if (!isListening) {
-    events.addEventListener(window, 'keydown', event => {
+    window.addEventListener('keydown', event => {
       tabPressed = event.keyCode === KEYCODE_TAB;
     });
     isListening = true;

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import cn from 'classnames';
-import events from 'add-event-listener';
 import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
 
 import Icon20 from '../Icon/20px';
@@ -239,7 +238,7 @@ let tabPressed: boolean;
 
 function listenTabPresses() {
   if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
+    window.addEventListener('keydown', (event: KeyboardEvent) => {
       tabPressed = event.keyCode === KEYCODE_TAB;
     });
     isListening = true;
