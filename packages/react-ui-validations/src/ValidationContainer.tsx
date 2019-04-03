@@ -2,10 +2,15 @@ import * as React from 'react';
 import { Nullable } from '../typings/Types';
 import ValidationContext from './ValidationContext';
 
+export interface ScrollOffset {
+  top?: number;
+  bottom?: number;
+}
+
 export interface ValidationContainerProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
-  scrollOffset?: number;
+  scrollOffset?: ScrollOffset;
 }
 
 export default class ValidationContainer extends React.Component<ValidationContainerProps> {
@@ -26,7 +31,7 @@ export default class ValidationContainer extends React.Component<ValidationConta
     return (
       <ValidationContext
         ref={this.refChildContext}
-        verticalOffset={this.props.scrollOffset || 50}
+        scrollOffset={this.props.scrollOffset}
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}
