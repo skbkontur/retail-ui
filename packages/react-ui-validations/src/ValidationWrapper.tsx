@@ -195,7 +195,7 @@ export default class ValidationWrapper extends React.Component<ValidationWrapper
     if (childDomElement != null && childDomElement instanceof HTMLElement) {
       await smoothScrollIntoView(
         childDomElement,
-        this.context.validationContext.getSettings().scroll.verticalOffset || 50,
+        this.context.validationContext.getSettings().scrollOffset
       );
       if (this.child != null && typeof this.child.focus === 'function') {
         this.child.focus();
