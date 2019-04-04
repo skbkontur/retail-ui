@@ -3,9 +3,7 @@
 var renderStory = require('./utils').renderStory;
 
 gemini.suite('Checkbox', suite => {
-  suite
-    .before(renderStory('Checkbox', 'plain'))
-    .setCaptureElements('#test-element')
+  suite.before(renderStory('Checkbox', 'plain')).setCaptureElements('#test-element');
 
   gemini.suite('Checkbox plain', suite => {
     suite
@@ -75,6 +73,4 @@ gemini.suite('Checkbox', suite => {
         actions.sendKeys(gemini.TAB);
       });
   });
-
-
 });
