@@ -8,6 +8,8 @@ import { PagingLocale, PagingLocaleHelper } from './locale';
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
 import { Nullable } from '../../typings/utility-types';
+import tabListener from '../../lib/events/tabListener';
+import { emptyHandler } from '../../lib/utils';
 
 import styles from './Paging.less';
 
@@ -84,8 +86,6 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
-    listenTabPresses();
-
     if (this.props.useGlobalListener) {
       this.addGlobalListener();
     }
@@ -165,7 +165,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         key={'forward'}
         active={false}
         className={classes}
-        onClick={disabled ? noop : this.goForward}
+        onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
         pageNumber={'forward' as 'forward'}
       >
@@ -271,9 +271,9 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
     process.nextTick(() => {
-      if (tabPressed) {
+      if (tabListener.isTabPressed) {
         this.setState({ focusedByTab: true });
-        tabPressed = false;
+        tabListener.isTabPressed = false;
       }
     });
   };
@@ -411,19 +411,3 @@ Paging.propTypes = {
    */
   onPageChange: func.isRequired,
 };
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    window.addEventListener('keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}
-
-const noop = () => undefined;

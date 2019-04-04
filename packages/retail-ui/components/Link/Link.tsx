@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
+import tabListener from '../../lib/events/tabListener';
 
 import styles from './Link.less';
 
@@ -13,20 +14,6 @@ const useClasses = {
   danger: styles.useDanger,
   grayed: styles.useGrayed,
 };
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    window.addEventListener('keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}
 
 export type LinkProps = Override<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -79,10 +66,6 @@ class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
-
-  public componentDidMount() {
-    listenTabPresses();
-  }
 
   public render(): JSX.Element {
     const {
@@ -140,9 +123,9 @@ class Link extends React.Component<LinkProps, LinkState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       process.nextTick(() => {
-        if (tabPressed) {
+        if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabPressed = false;
+          tabListener.isTabPressed = false;
         }
       });
     }
