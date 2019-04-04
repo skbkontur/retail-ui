@@ -55,6 +55,7 @@ export const defaultLocale: {
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
+  roomFillBefore: 'Заполните номер дома, чтобы выбрать квартиру',
   roomPlaceholder: '',
 
   postalcodeLabel: 'Индекс',

@@ -277,11 +277,12 @@ export class Address {
   };
 
   public isAllowedToFill = (field?: Fields): boolean => {
-    const { region, city, settlement, street, planningstructure } = this.fields;
+    const { region, city, settlement, street, planningstructure, house } = this.fields;
     if (
       (field === Fields.street && !(city || settlement || (region && region.isFederalCity))) ||
       (field === Fields.stead && !street) ||
-      (field === Fields.house && !street && !planningstructure)
+      (field === Fields.house && !street && !planningstructure) ||
+      (field === Fields.room && !house)
     ) {
       return false;
     }
@@ -328,10 +329,10 @@ export class Address {
 
   public getFiasId = (): FiasId => {
     if (!this.isEmpty) {
-      const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
+      const fields = Address.MAIN_FIELDS.slice().reverse();
       for (const field of fields) {
         const element = this.fields[field];
-        if (element && element.data) {
+        if (element && element.data && element.data.fiasId) {
           return element.data.fiasId;
         }
       }
