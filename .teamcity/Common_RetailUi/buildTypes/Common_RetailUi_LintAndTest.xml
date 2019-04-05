@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="8e2dcb76-2811-472d-846f-56f54e48e3dd" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Lint/Test retail-ui</name>
+  <description />
+  <settings>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_6377" name="Install" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="install" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6380" name="Lint" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace retail-ui lint" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_971" name="Test" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace retail-ui test" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Common_RetailUi_RetailUi" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:pull/*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="swabra" type="swabra">
+        <parameters>
+          <param name="swabra.enabled" value="swabra.before.build" />
+          <param name="swabra.strict" value="true" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_112" type="pullRequests">
+        <parameters>
+          <param name="authenticationType" value="token" />
+          <param name="filterAuthorRole" value="MEMBER" />
+          <param name="filterTargetBranch" value="refs/heads/master" />
+          <param name="providerType" value="github" />
+          <param name="secure:accessToken" value="credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_372" type="commit-status-publisher">
+        <parameters>
+          <param name="github_authentication_type" value="token" />
+          <param name="github_host" value="https://api.github.com" />
+          <param name="github_oauth_user" value="wKich" />
+          <param name="publisherId" value="githubStatusPublisher" />
+          <param name="secure:github_access_token" value="credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+
