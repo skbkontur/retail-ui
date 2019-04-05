@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" parent-id="Common" uuid="42c2fc68-41a4-429f-a1fc-496179b1418d" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Retail Ui</name>
+  <parameters>
+    <param name="teamcity.runner.commandline.stdstreams.encoding" value="UTF8" spec="text display='hidden' validationMode='any'" />
+  </parameters>
+  <project-extensions>
+    <extension id="PROJECT_EXT_161" type="IssueTracker">
+      <parameters>
+        <param name="authType" value="anonymous" />
+        <param name="name" value="skbkontur/retail-ui" />
+        <param name="pattern" value="#(\d+)" />
+        <param name="repository" value="https://github.com/skbkontur/retail-ui" />
+        <param name="secure:accessToken" value="" />
+        <param name="secure:password" value="" />
+        <param name="type" value="GithubIssues" />
+        <param name="username" value="" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_37" type="OAuthProvider">
+      <parameters>
+        <param name="clientId" value="ac69bdb75bcac9b85bc2" />
+        <param name="defaultTokenScope" value="public_repo,repo,repo:status,write:repo_hook" />
+        <param name="displayName" value="GitHub.com" />
+        <param name="gitHubUrl" value="https://github.com/" />
+        <param name="providerType" value="GitHub" />
+        <param name="secure:clientSecret" value="credentialsJSON:871d5d18-0142-4dfe-8479-f02f56356687" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_42" type="versionedSettings">
+      <parameters>
+        <param name="buildSettings" value="ALWAYS_USE_CURRENT" />
+        <param name="credentialsStorageType" value="credentialsJSON" />
+        <param name="enabled" value="true" />
+        <param name="rootId" value="Common_RetailUi_RetailUi" />
+        <param name="showChanges" value="false" />
+      </parameters>
+    </extension>
+  </project-extensions>
+  <cleanup>
+    <policy type="days" cleanup-level="EVERYTHING">
+      <parameters>
+        <param name="keepDays.count" value="30" />
+      </parameters>
+    </policy>
+  </cleanup>
+  <buildTypesOrder order="Common_RetailUi_RunAll,Common_RetailUi_LintAndTest,Common_RetailUi_LintTestReactUiValidations,Common_RetailUi_SeleniumTesting,Common_RetailUi_TestUi,Common_RetailUi_Build,Common_RetailUi_BuildReactUiValidations,Common_RetailUi_PublishRetailUi,Common_RetailUi_PublishReactUiValidations,Common_RetailUi_PublishReactUiTesting" />
+</project>
+

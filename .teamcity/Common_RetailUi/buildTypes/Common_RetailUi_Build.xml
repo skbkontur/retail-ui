@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="825570e0-fbda-48d9-b36a-a2a3a3853c7d" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Build retail-ui</name>
+  <description />
+  <settings>
+    <options>
+      <option name="artifactRules" value="packages\retail-ui\retail-ui-*.tgz&#xA;packages\retail-ui\skbkontur-react-ui-*.tgz" />
+    </options>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_6377" name="Install" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="install" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6380" name="Build" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace retail-ui build" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6427" name="Pack retail-ui" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace retail-ui pack --filename retail-ui-%build.counter%.tgz" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_986" name="Pack @skbkontur/react-ui" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace retail-ui --cwd ./build pack --filename skbkontur-react-ui-%build.counter%.tgz" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Common_RetailUi_RetailUi" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:pull/*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="swabra" type="swabra">
+        <parameters>
+          <param name="swabra.enabled" value="swabra.before.build" />
+          <param name="swabra.strict" value="true" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_112" type="pullRequests">
+        <parameters>
+          <param name="authenticationType" value="token" />
+          <param name="filterAuthorRole" value="MEMBER" />
+          <param name="filterTargetBranch" value="refs/heads/master" />
+          <param name="providerType" value="github" />
+          <param name="secure:accessToken" value="credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_372" type="commit-status-publisher">
+        <parameters>
+          <param name="github_authentication_type" value="token" />
+          <param name="github_host" value="https://api.github.com" />
+          <param name="github_oauth_user" value="wKich" />
+          <param name="publisherId" value="githubStatusPublisher" />
+          <param name="secure:github_access_token" value="credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+

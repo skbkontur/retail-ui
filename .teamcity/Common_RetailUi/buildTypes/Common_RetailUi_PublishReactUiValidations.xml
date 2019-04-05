@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="e584c183-c61f-440d-8977-d900990f0ab7" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Publish react-ui-validations</name>
+  <description />
+  <settings>
+    <options>
+      <option name="buildDefaultBranch" value="false" />
+    </options>
+    <parameters>
+      <param name="env.NPM_TOKEN" value="credentialsJSON:2cea5b86-4e77-4fb6-b21f-c8f564c39fa6" spec="password readOnly='true' display='hidden'" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_6510" name="Install" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="install" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_2829" name="Build" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace react-ui-validations build" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6533" name="Auth" type="jonnyzzz.npm">
+        <parameters>
+          <param name="npm_commands" value="config set &quot;//registry.npmjs.org/:_authToken&quot; &quot;%env.NPM_TOKEN%&quot;" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6511" name="Publish" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace react-ui-validations deploy" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6534" name="Clean" type="jonnyzzz.npm">
+        <parameters>
+          <param name="npm_commands" value="config delete &quot;//registry.npmjs.org/:_authToken&quot;" />
+          <param name="teamcity.step.mode" value="execute_always" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Common_RetailUi_ReactUiValidationsTags" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="ssh-agent-build-feature" type="ssh-agent-build-feature">
+        <parameters>
+          <param name="teamcitySshKey" value="GitHub" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+
