@@ -277,12 +277,9 @@ export class Address {
   };
 
   public isAllowedToFill = (field?: Fields): boolean => {
-    const { region, city, settlement, street, planningstructure } = this.fields;
-    if (
-      (field === Fields.street && !(city || settlement || (region && region.isFederalCity))) ||
-      (field === Fields.stead && !street) ||
-      (field === Fields.house && !street && !planningstructure)
-    ) {
+    const { region, city, settlement } = this.fields;
+    const hasCityOrSettlement = city || settlement || (region && region.isFederalCity);
+    if (!hasCityOrSettlement && (field === Fields.street || field === Fields.stead || field === Fields.house)) {
       return false;
     }
     return true;
