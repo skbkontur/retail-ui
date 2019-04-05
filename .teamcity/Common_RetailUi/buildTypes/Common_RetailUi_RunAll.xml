@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="ec1657d7-3deb-45cc-876a-5999e8f7c6e9" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Run All</name>
+  <description />
+  <settings>
+    <options>
+      <option name="allowExternalStatus" value="true" />
+      <option name="buildConfigurationType" value="COMPOSITE" />
+      <option name="showDependenciesChanges" value="true" />
+    </options>
+    <parameters />
+    <build-runners />
+    <vcs-settings>
+      <vcs-entry-ref root-id="Common_RetailUi_RetailUi" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="TRIGGER_800" type="schedulingTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:&lt;default&gt;" />
+          <param name="cronExpression_dm" value="*" />
+          <param name="cronExpression_dw" value="?" />
+          <param name="cronExpression_hour" value="*" />
+          <param name="cronExpression_min" value="0" />
+          <param name="cronExpression_month" value="*" />
+          <param name="cronExpression_sec" value="0" />
+          <param name="cronExpression_year" value="*" />
+          <param name="dayOfWeek" value="Sunday" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="hour" value="0" />
+          <param name="minute" value="0" />
+          <param name="promoteWatchedBuild" value="true" />
+          <param name="revisionRule" value="lastFinished" />
+          <param name="revisionRuleBuildBranch" value="&lt;default&gt;" />
+          <param name="schedulingPolicy" value="daily" />
+          <param name="timezone" value="SERVER" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="BUILD_EXT_448" type="pullRequests">
+        <parameters>
+          <param name="authenticationType" value="token" />
+          <param name="filterAuthorRole" value="MEMBER" />
+          <param name="filterTargetBranch" value="refs/heads/master" />
+          <param name="providerType" value="github" />
+          <param name="secure:accessToken" value="credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <dependencies>
+      <depend-on sourceBuildTypeId="Common_RetailUi_LintAndTest">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+      <depend-on sourceBuildTypeId="Common_RetailUi_SeleniumTesting">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+      <depend-on sourceBuildTypeId="Common_RetailUi_TestUi">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+      <depend-on sourceBuildTypeId="Common_RetailUi_Build">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+      <depend-on sourceBuildTypeId="Common_RetailUi_LintTestReactUiValidations">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+      <depend-on sourceBuildTypeId="Common_RetailUi_BuildReactUiValidations">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+    </dependencies>
+    <cleanup />
+  </settings>
+</build-type>
+

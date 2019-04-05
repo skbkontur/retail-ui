@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="65ac5fbd-c239-4358-b15f-11281c20b725" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Screenshot tests</name>
+  <description />
+  <settings>
+    <options>
+      <option name="artifactRules" value="packages/react-ui-screenshot-tests/html-report =&gt; html-report.zip" />
+      <option name="maximumNumberOfBuilds" value="1" />
+    </options>
+    <parameters>
+      <param name="env.SAUCE_ACCESS_KEY" value="credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa" spec="password readOnly='true' display='hidden'" />
+      <param name="env.SAUCE_USERNAME" value="credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153" spec="password display='hidden' readOnly='true'" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_6377" name="Install" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="install" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6382" name="Test UI" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace react-ui-screenshot-tests test" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Common_RetailUi_RetailUi" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:pull/*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="swabra" type="swabra">
+        <parameters>
+          <param name="swabra.enabled" value="swabra.before.build" />
+          <param name="swabra.processes" value="kill" />
+          <param name="swabra.strict" value="true" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_375" type="commit-status-publisher">
+        <parameters>
+          <param name="github_authentication_type" value="token" />
+          <param name="github_host" value="https://api.github.com" />
+          <param name="github_oauth_user" value="wKich" />
+          <param name="publisherId" value="githubStatusPublisher" />
+          <param name="secure:github_access_token" value="credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e" />
+        </parameters>
+      </extension>
+      <extension id="BUILD_EXT_376" type="pullRequests">
+        <parameters>
+          <param name="authenticationType" value="token" />
+          <param name="filterAuthorRole" value="MEMBER" />
+          <param name="filterTargetBranch" value="refs/heads/master" />
+          <param name="providerType" value="github" />
+          <param name="secure:accessToken" value="credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+

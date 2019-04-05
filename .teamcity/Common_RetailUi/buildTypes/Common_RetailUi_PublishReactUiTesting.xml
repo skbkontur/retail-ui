@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="b8bde607-63d4-47cf-9bc8-d2e15c986af2" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Publish react-ui-testing</name>
+  <description />
+  <settings>
+    <options>
+      <option name="artifactRules" value="packages/react-ui-testing/Output/*.nupkg" />
+      <option name="buildDefaultBranch" value="false" />
+    </options>
+    <parameters />
+    <build-runners>
+      <runner id="RUNNER_6430" name="Install" type="jb.nuget.installer">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.DEFAULT%" />
+          <param name="nuget.updatePackages.mode" value="sln" />
+          <param name="nuget.use.restore" value="restore" />
+          <param name="sln.path" value="packages/react-ui-testing/SeleniumTesting.sln" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6432" name="Build" type="dotnet.cli">
+        <parameters>
+          <param name="command" value="build" />
+          <param name="configuration" value="Release" />
+          <param name="dotNetCoverage.dotCover.home.path" value="%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%" />
+          <param name="paths" value="packages/react-ui-testing/SeleniumTesting/SeleniumTesting.csproj" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="versionSuffix" value="%teamcity.build.branch%" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6433" name="Publish" type="jb.nuget.publish">
+        <parameters>
+          <param name="nuget.path" value="%teamcity.tool.NuGet.CommandLine.4.9.2%" />
+          <param name="nuget.publish.files" value="packages/react-ui-testing/Output/*.nupkg" />
+          <param name="nuget.publish.source" value="https://api.nuget.org/v3/index.json" />
+          <param name="secure:nuget.api.key" value="credentialsJSON:53edc6c7-2259-4fcc-9ea2-5e869ab8ee43" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Common_RetailUi_ReactUiTestingTags" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <cleanup />
+  </settings>
+</build-type>
+
