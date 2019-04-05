@@ -443,6 +443,12 @@
       z-index: 2;
       border: @border;
 
+      &.error,
+      &.warning {
+        box-shadow: inset 0 0 0 1px @focusInsetShadowColor;
+        border-color: transparent;
+      }
+
       .arrow {
         box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @borderColor;
       }
@@ -503,6 +509,12 @@
       box-shadow: inset 0 0 0 1px @focusInsetShadowColor, 0 0 0 @focusShadowWidth @border-color-focus;
       position: relative;
       z-index: 2;
+
+      &.error,
+      &.warning {
+        box-shadow: inset 0 0 0 1px @focusInsetShadowColor;
+        border-color: transparent;
+      }
 
       .arrow {
         box-shadow: inset -1px 1px 0 0 @focusInsetShadowColor, 2px -2px 0 0 @border-color-focus;
