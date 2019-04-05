@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Nullable } from '../typings/Types';
 import ValidationContext from './ValidationContext';
+import * as PropTypes from 'prop-types';
 
 export interface ScrollOffset {
   top?: number;
@@ -14,7 +15,15 @@ export interface ValidationContainerProps {
 }
 
 export default class ValidationContainer extends React.Component<ValidationContainerProps> {
+  public static propTypes = {
+    scrollOffset: PropTypes.shape({
+      top: PropTypes.number,
+      bottom: PropTypes.number
+    })
+  };
+
   private childContext: ValidationContext | null = null;
+
   public async submit(withoutFocus: boolean = false): Promise<void> {
     if (this.childContext) {
       await this.childContext.validate(withoutFocus);

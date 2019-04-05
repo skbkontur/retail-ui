@@ -6,7 +6,6 @@ import Input from 'retail-ui/components/Input';
 import Modal from 'retail-ui/components/Modal';
 import { text, ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../src';
 import { Nullable } from '../typings/Types';
-import { ScrollOffset } from '../src/ValidationContainer';
 
 storiesOf('ModalWithSingleInput', module)
   .add('Example1', () => <ModalInputStory />)

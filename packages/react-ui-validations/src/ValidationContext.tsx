@@ -13,7 +13,6 @@ export interface IValidationContext {
   instanceProcessBlur(wrapper: ValidationWrapper): void;
   onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
   getSettings(): IValidationContextSettings;
-
   isAnyWrapperInChangingMode(): boolean;
 }
 
