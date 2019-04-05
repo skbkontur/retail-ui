@@ -2,7 +2,7 @@ let ieVerison: number | undefined;
 let isIE: boolean | undefined;
 let isEdge: boolean | undefined;
 
-if (window.document) {
+if (typeof(window) !== 'undefined' && window.document) {
   let classes = '';
 
   const div = document.createElement('div');
