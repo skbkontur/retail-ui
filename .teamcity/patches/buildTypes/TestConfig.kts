@@ -10,6 +10,7 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("TestConfig")) {
     vcs {
+        remove(RelativeId("HttpsGithubComSkbkonturRetailUiRefsHeadsMaster_2"))
         add(RelativeId("RetailUi"))
     }
 }
