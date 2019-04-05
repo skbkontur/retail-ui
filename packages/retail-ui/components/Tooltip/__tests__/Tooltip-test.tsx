@@ -1,8 +1,15 @@
 // tslint:disable:jsx-no-lambda
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import Button from '../../Button';
-import Tooltip, { TooltipProps } from '../Tooltip';
+import Tooltip, { TooltipProps, TooltipState } from '../Tooltip';
+
+function clickOutside() {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
+
+  document.body.dispatchEvent(event);
+}
 
 describe('Tooltip', () => {
   const render = () => '';
@@ -117,5 +124,41 @@ describe('Tooltip', () => {
 
     wrapper.setProps({ trigger: 'hover' });
     expect(wrapper.find(Content).length).toBe(0);
+  });
+
+  describe('calls onCloseRequest on clickOutside when tooltip is opened', () => {
+    const Content = () => <div />;
+    const onCloseRequest = jest.fn();
+    let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
+
+    beforeEach(() => {
+      onCloseRequest.mockClear();
+      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
+        <Tooltip disableAnimations={true} render={() => <Content />} onCloseRequest={onCloseRequest}>
+          <Button>Anchor</Button>
+        </Tooltip>,
+      );
+    });
+
+    it('with "click" trigger', () => {
+      wrapper.setProps({ trigger: 'click' });
+      wrapper.setState({ opened: true });
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(1);
+
+      clickOutside();
+
+      expect(onCloseRequest).toHaveBeenCalledTimes(1);
+    });
+
+    it('with "opened" trigger', () => {
+      wrapper.setProps({ trigger: 'opened' });
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(1);
+
+      clickOutside();
+
+      expect(onCloseRequest).toHaveBeenCalledTimes(1);
+    });
   });
 });
