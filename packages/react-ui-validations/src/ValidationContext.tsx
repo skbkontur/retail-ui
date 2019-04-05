@@ -13,13 +13,14 @@ export interface IValidationContext {
   instanceProcessBlur(wrapper: ValidationWrapper): void;
   onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
   getSettings(): IValidationContextSettings;
+
   isAnyWrapperInChangingMode(): boolean;
 }
 
 export interface ValidationContextProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: boolean) => void;
-  scrollOffset?: ScrollOffset;
+  scrollOffset?: number | ScrollOffset;
 }
 
 export default class ValidationContext extends React.Component<ValidationContextProps> {
@@ -35,10 +36,12 @@ export default class ValidationContext extends React.Component<ValidationContext
   }
 
   public getSettings(): IValidationContextSettings {
-    const scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
+    let scrollOffset: ScrollOffset = {};
 
-    if (typeof scrollOffset !== 'object') {
-      throw Error('scrollOffset должен быть типом object { top, bottom, ...}');
+    if (typeof this.props.scrollOffset === 'number') {
+      scrollOffset = { top: this.props.scrollOffset }
+    } else {
+      scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
     }
 
     const { top = 50, bottom = 0 } = scrollOffset;

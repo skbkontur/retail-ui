@@ -38,11 +38,8 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
   }
 
   public render() {
-    const scrollOffset: ScrollOffset = {
-      top: 115
-    };
     return (
-      <ValidationContainer scrollOffset={scrollOffset} ref={this.refContainer}>
+      <ValidationContainer scrollOffset={115} ref={this.refContainer}>
         <Modal>
           <Modal.Header>Заголовок</Modal.Header>
           <Modal.Body>
@@ -127,9 +124,6 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
   }
 
   public render() {
-    const scrollOffset: ScrollOffset = {
-      top: 115
-    };
     return (
       <ValidationContainer ref={this.refOuterContainer}>
         <div>
@@ -163,7 +157,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
         </div>
 
         <Modal>
-          <ValidationContainer scrollOffset={scrollOffset} ref={this.refContainer}>
+          <ValidationContainer scrollOffset={115} ref={this.refContainer}>
             <Modal.Header>Заголовок</Modal.Header>
             <Modal.Body>
               <div style={{ padding: 10 }}>

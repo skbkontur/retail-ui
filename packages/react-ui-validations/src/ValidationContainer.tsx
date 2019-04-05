@@ -10,7 +10,7 @@ export interface ScrollOffset {
 export interface ValidationContainerProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
-  scrollOffset?: ScrollOffset;
+  scrollOffset?: number | ScrollOffset;
 }
 
 export default class ValidationContainer extends React.Component<ValidationContainerProps> {
