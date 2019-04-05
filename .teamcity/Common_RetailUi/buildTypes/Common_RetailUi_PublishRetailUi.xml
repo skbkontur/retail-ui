@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="8ec31f9b-f82e-4f89-a09b-ea4dc5490709" xsi:noNamespaceSchemaLocation="http://www.jetbrains.com/teamcity/schemas/2018.1/project-config.xsd">
+  <name>Publish retail-ui</name>
+  <description />
+  <settings>
+    <options>
+      <option name="buildDefaultBranch" value="false" />
+    </options>
+    <parameters>
+      <param name="env.NPM_TOKEN" value="credentialsJSON:2cea5b86-4e77-4fb6-b21f-c8f564c39fa6" spec="password readOnly='true' display='hidden'" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_6510" name="Install" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="install" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6533" name="Auth" type="jonnyzzz.npm">
+        <parameters>
+          <param name="npm_commands" value="config set &quot;//registry.npmjs.org/:_authToken&quot; &quot;%env.NPM_TOKEN%&quot;" />
+          <param name="teamcity.step.mode" value="default" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6511" name="Publish" type="jonnyzzz.yarn">
+        <parameters>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="yarn_commands" value="workspace retail-ui publish" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_6534" name="Clean" type="jonnyzzz.npm">
+        <parameters>
+          <param name="npm_commands" value="config delete &quot;//registry.npmjs.org/:_authToken&quot;" />
+          <param name="teamcity.step.mode" value="execute_always" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Common_RetailUi_RetailUiTags" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter" value="+:*" />
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <build-extensions>
+      <extension id="ssh-agent-build-feature" type="ssh-agent-build-feature">
+        <parameters>
+          <param name="teamcitySshKey" value="GitHub" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <cleanup />
+  </settings>
+</build-type>
+
