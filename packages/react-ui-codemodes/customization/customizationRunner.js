@@ -13,19 +13,11 @@ Object.keys(directoryToFilesMap).forEach(dirname => {
     filesList.forEach(file => {
       const componentPath = path.resolve(COMPONENTS_DIR, `${dirname}/${file}`);
 
-      if (file.endsWith('.tsx')) {
-        processFile({
-          path: componentPath,
-          extension: 'tsx',
-          parser: 'tsx',
-        });
-      } else {
-        processFile({
-          path: componentPath,
-          extension: 'js',
-          parser: 'flow',
-        });
-      }
+      processFile({
+        path: componentPath,
+        extension: 'tsx',
+        parser: 'tsx',
+      });
     });
   }
 });
@@ -39,32 +31,21 @@ function processFile(props) {
 }
 
 function buildDirectoryToFilesMap() {
-  const componentsDirs = fs
-    .readdirSync(COMPONENTS_DIR)
-    .filter(
-      i =>
-        !i.endsWith('.map') &&
-        !i.endsWith('.flow') &&
-        !i.endsWith('.ts') &&
-        !i.endsWith('.less') &&
-        !i.endsWith('.js') &&
-        !i.startsWith('__'),
-    );
+  const componentsRootDirs = fs.readdirSync(COMPONENTS_DIR).filter(i => {
+    const entityPath = fs.statSync(path.join(COMPONENTS_DIR, i));
+    return !i.endsWith('__') && entityPath.isDirectory();
+  });
 
-  return componentsDirs.reduce((result, dir) => {
+  return componentsRootDirs.reduce((result, dir) => {
     const componentFiles = fs
       .readdirSync(path.join(COMPONENTS_DIR, dir))
-      .filter(i => !i.startsWith('index') && !i.includes('adapter') && (i.endsWith('.js') || i.endsWith('.tsx')));
+      .filter(i => !i.startsWith('index') && i.endsWith('.tsx'));
 
     result[dir] = [];
 
     componentFiles.forEach(i => {
       const fileSource = fs.readFileSync(path.join(COMPONENTS_DIR, dir, i), { encoding: 'utf8' });
 
-      if (i.endsWith('.js') && fileSource.includes('"use strict";')) {
-        // built file
-        return;
-      }
       if (fileSource.includes('.less') && result[dir]) {
         result[dir].push(i);
       }
