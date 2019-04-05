@@ -647,7 +647,7 @@ object TestConfig : BuildType({
         step {
             name = "hello"
             type = "jonnyzzz.node"
-            param("node_script_text", "console.log('Hello TC!')")
+            param("node_script_text", "console.log('Hello World!')")
             param("node_execution_mode", "script")
         }
     }
