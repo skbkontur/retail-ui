@@ -1,6 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -12,5 +14,15 @@ changeBuildType(RelativeId("TestConfig")) {
     vcs {
         remove(RelativeId("HttpsGithubComSkbkonturRetailUiRefsHeadsMaster_2"))
         add(RelativeId("RetailUi"))
+    }
+
+    triggers {
+        val trigger1 = find<VcsTrigger> {
+            vcs {
+            }
+        }
+        trigger1.apply {
+            enabled = false
+        }
     }
 }
