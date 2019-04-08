@@ -60,8 +60,13 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   }
 
   public componentDidUpdate(prevProps: ScrollContainerProps) {
-    if (this.inner && prevProps.preventWindowScroll && !this.props.preventWindowScroll) {
-      this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
+    if (this.inner) {
+      if (prevProps.preventWindowScroll && !this.props.preventWindowScroll) {
+        this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
+      }
+      if (!prevProps.preventWindowScroll && this.props.preventWindowScroll) {
+        this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
+      }
     }
     this.reflow();
   }
