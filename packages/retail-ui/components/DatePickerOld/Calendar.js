@@ -109,12 +109,22 @@ export default class Calendar extends React.Component<Props, State> {
     }
 
     return (
-      <div className={styles.root} tabIndex="0" onWheel={this.handleWheel}>
+      <div ref={this.refRoot} className={styles.root} tabIndex="0">
         {cells}
         {months}
       </div>
     );
   }
+
+  refRoot = element => {
+    if (!this.root && element) {
+      element.addEventListener('wheel', this.handleWheel, { passive: false });
+    }
+    if (this.root && !element) {
+      this.root.removeEventListener('wheel', this.handleWheel);
+    }
+    this.root = element;
+  };
 
   moveToDate(date: Date) {
     const newDate = new Date(0);
