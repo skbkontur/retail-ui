@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import events from 'add-event-listener';
 import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 
 import stopPropagation from '../../lib/events/stopPropagation';
@@ -131,11 +130,11 @@ class Logotype extends React.Component<LogotypeProps> {
 
   private refLogoWrapper = (el: Nullable<HTMLElement>) => {
     if (this.logoWrapper) {
-      events.removeEventListener(this.logoWrapper, 'click', this.handleNativeLogoClick);
+      this.logoWrapper.removeEventListener('click', this.handleNativeLogoClick);
     }
 
     if (el) {
-      events.addEventListener(el, 'click', this.handleNativeLogoClick);
+      el.addEventListener('click', this.handleNativeLogoClick);
     }
 
     this.logoWrapper = el;
