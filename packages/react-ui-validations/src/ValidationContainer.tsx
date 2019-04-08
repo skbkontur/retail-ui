@@ -2,14 +2,31 @@ import * as React from 'react';
 import { Nullable } from '../typings/Types';
 import ValidationContext from './ValidationContext';
 
+export interface ScrollOffset {
+  top?: number;
+  bottom?: number;
+}
+
 export interface ValidationContainerProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
-  scrollOffset?: number;
+  scrollOffset?: number | ScrollOffset;
 }
 
 export default class ValidationContainer extends React.Component<ValidationContainerProps> {
+  public static propTypes = {
+    scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
+      const { scrollOffset } = props;
+      if(typeof scrollOffset === 'number'){
+        return new Error(
+          `[${componentName}]: scrollOffset as a number type has been deprecated, now use object { top?: number; bottom?: number; }`,
+        );
+      }
+    }
+  };
+
   private childContext: ValidationContext | null = null;
+
   public async submit(withoutFocus: boolean = false): Promise<void> {
     if (this.childContext) {
       await this.childContext.validate(withoutFocus);
@@ -26,7 +43,7 @@ export default class ValidationContainer extends React.Component<ValidationConta
     return (
       <ValidationContext
         ref={this.refChildContext}
-        verticalOffset={this.props.scrollOffset || 50}
+        scrollOffset={this.props.scrollOffset}
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}

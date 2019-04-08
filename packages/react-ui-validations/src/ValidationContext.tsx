@@ -1,12 +1,10 @@
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import ValidationWrapper from './ValidationWrapper';
+import { ScrollOffset } from './ValidationContainer';
 
 export interface IValidationContextSettings {
-  scroll: {
-    horizontalOffset: number;
-    verticalOffset: number;
-  };
+  scrollOffset: ScrollOffset;
 }
 
 export interface IValidationContext {
@@ -21,8 +19,7 @@ export interface IValidationContext {
 export interface ValidationContextProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: boolean) => void;
-  horizontalOffset?: number;
-  verticalOffset?: number;
+  scrollOffset?: number | ScrollOffset;
 }
 
 export default class ValidationContext extends React.Component<ValidationContextProps> {
@@ -38,10 +35,19 @@ export default class ValidationContext extends React.Component<ValidationContext
   }
 
   public getSettings(): IValidationContextSettings {
+    let scrollOffset: ScrollOffset = {};
+
+    if (typeof this.props.scrollOffset === 'number') {
+      scrollOffset = { top: this.props.scrollOffset }
+    } else {
+      scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
+    }
+
+    const { top = 50, bottom = 0 } = scrollOffset;
     return {
-      scroll: {
-        horizontalOffset: this.props.horizontalOffset || 0,
-        verticalOffset: this.props.verticalOffset || 0,
+      scrollOffset: {
+        top,
+        bottom
       },
     };
   }
