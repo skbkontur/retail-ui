@@ -1,5 +1,4 @@
 import * as React from 'react';
-import shallow from 'fbjs/lib/shallowEqual';
 import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
@@ -126,7 +125,7 @@ export interface TooltipState {
   opened: boolean;
 }
 
-class Tooltip extends React.Component<TooltipProps, TooltipState> {
+class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
       const children = props[propName];
@@ -172,10 +171,6 @@ class Tooltip extends React.Component<TooltipProps, TooltipState> {
     if (posChanged || allowedChanged) {
       this.positions = null;
     }
-  }
-
-  public shouldComponentUpdate(nextProps: TooltipProps, nextState: TooltipState) {
-    return !shallow(nextProps, this.props) || !shallow(nextState, this.state);
   }
 
   public render() {

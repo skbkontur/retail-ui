@@ -2,26 +2,11 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Upgrades from '../../lib/Upgrades';
+import tabListener from '../../lib/events/tabListener';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
 const styles = isFlatDesign ? require('./Toggle.flat.less') : require('./Toggle.less');
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-const KEYCODE_TAB = 9;
-
-function listenTabPresses() {
-  const handler = (event: KeyboardEvent) => {
-    tabPressed = event.keyCode === KEYCODE_TAB;
-  };
-
-  if (!isListening) {
-    document.addEventListener('keydown', handler);
-    isListening = true;
-  }
-}
 
 export interface ToggleProps {
   checked?: boolean;
@@ -71,10 +56,8 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   public componentDidMount() {
-    listenTabPresses();
-
     if (this.props.autoFocus) {
-      tabPressed = true;
+      tabListener.isTabPressed = true;
       this.focus();
     }
   }
@@ -84,7 +67,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
    */
   public focus = () => {
     if (this.input) {
-      tabPressed = true;
+      tabListener.isTabPressed = true;
       this.input.focus();
     }
   };
@@ -160,9 +143,9 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
       this.props.onFocus(event);
     }
 
-    if (tabPressed) {
+    if (tabListener.isTabPressed) {
       this.setState({ focusByTab: true }, () => {
-        tabPressed = false;
+        tabListener.isTabPressed = false;
       });
     }
   };

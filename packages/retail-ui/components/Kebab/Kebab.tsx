@@ -1,11 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import cn from 'classnames';
-import events from 'add-event-listener';
 import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
 
 import Icon20 from '../Icon/20px';
 import LayoutEvents from '../../lib/LayoutEvents';
+import tabListener from '../../lib/events/tabListener';
 import PopupMenu from '../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
@@ -70,7 +70,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
     this.listener = LayoutEvents.addListener(() => undefined);
-    listenTabPresses();
   }
 
   public componentWillUnmount() {
@@ -171,9 +170,9 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       process.nextTick(() => {
-        if (tabPressed) {
+        if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabPressed = false;
+          tabListener.isTabPressed = false;
         }
       });
     }
@@ -231,17 +230,3 @@ Kebab.propTypes = {
    */
   onOpen: PropTypes.func,
 };
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}
