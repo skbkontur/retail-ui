@@ -39,7 +39,6 @@ export interface MenuItemProps {
  */
 export default class MenuItem extends React.Component<MenuItemProps> {
   public static __MENU_ITEM__ = true;
-  public static __MENU_HEADER__ = false;
 
   public static propTypes = {
     alkoLink: PropTypes.bool,
@@ -124,3 +123,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     return 'button';
   };
 }
+
+export const isMenuItem = (child: React.ReactChild): child is React.ReactElement<MenuItemProps> => {
+  return React.isValidElement<MenuItemProps>(child) ? child.type.hasOwnProperty('__MENU_ITEM__') : false;
+};

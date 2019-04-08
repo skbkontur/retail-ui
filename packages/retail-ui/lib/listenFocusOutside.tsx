@@ -25,10 +25,12 @@ function addHandleEvent() {
   );
 }
 
-if (document.readyState === 'complete') {
-  addHandleEvent();
-} else {
-  window.addEventListener('load', addHandleEvent);
+if (typeof(document) !== 'undefined') {
+  if (document.readyState === 'complete') {
+    addHandleEvent();
+  } else {
+    window.addEventListener('load', addHandleEvent);
+  }
 }
 
 function handleNativeFocus(event: UIEvent) {

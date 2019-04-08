@@ -2,6 +2,7 @@ import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
+import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import RenderContainer from '../RenderContainer';
 import ZIndex from '../ZIndex';
 import { Transition } from 'react-transition-group';
@@ -101,7 +102,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: PropTypes.oneOfType([PropTypes.instanceOf(HTMLElement), PropTypes.node]).isRequired,
+    anchorElement: PropTypes.oneOfType([safePropTypes.instanceOf(() => HTMLElement), PropTypes.node]).isRequired,
 
     /**
      * Фон попапа и пина

@@ -46,15 +46,16 @@ export const defaultLocale: {
 
   steadLabel: 'Земельный участок',
   steadNotFound: 'Не найдены участки по указанному выше расположению',
-  steadFillBefore: 'Заполните улицу, чтобы выбрать номер участка',
+  steadFillBefore: 'Заполните город или населенный пункт, чтобы выбрать номер участка',
   steadPlaceholder: '',
 
   houseLabel: 'Дом, сооружение',
   houseNotFound: 'Не найдены дома по указанному выше расположению',
-  houseFillBefore: 'Заполните улицу или иную территорию, чтобы выбрать номер дома',
+  houseFillBefore: 'Заполните город или населенный пункт, чтобы выбрать номер дома',
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
+  roomFillBefore: 'Заполните номер дома, чтобы выбрать квартиру',
   roomPlaceholder: '',
 
   postalcodeLabel: 'Индекс',
