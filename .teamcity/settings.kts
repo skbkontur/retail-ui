@@ -656,6 +656,15 @@ object TestConfig : BuildType({
         vcs {
         }
     }
+
+    failureConditions {
+        failOnText {
+            conditionType = BuildFailureOnText.ConditionType.CONTAINS
+            pattern = "Hello TC!"
+            failureMessage = "Settings from Master"
+            reverse = false
+        }
+    }
 })
 
 object TestUi : BuildType({
