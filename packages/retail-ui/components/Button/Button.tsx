@@ -121,7 +121,9 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-class Button extends React.Component<ButtonProps, ButtonState> {
+export default class Button extends React.Component<ButtonProps, ButtonState> {
+  public static __BUTTON__ = true;
+
   public static TOP_LEFT = Corners.TOP_LEFT;
   public static TOP_RIGHT = Corners.TOP_RIGHT;
   public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
@@ -325,4 +327,6 @@ class Button extends React.Component<ButtonProps, ButtonState> {
   };
 }
 
-export default Button;
+export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
+  return React.isValidElement<ButtonProps>(child) ? child.type.hasOwnProperty('__BUTTON__') : false;
+};
