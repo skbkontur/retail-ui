@@ -64,7 +64,7 @@ export interface ComboBoxOldProps<T> {
    *
    * `(foundCount: number, totalCount: number) => React$Element<*> | string`
    */
-  renderTotalCount?: () => any;
+  renderTotalCount?: (foundCount: number, totalCount: number) => any;
 
   renderValue?: (value: any, info: any) => any;
 
@@ -96,7 +96,7 @@ export interface ComboBoxOldProps<T> {
    *
    * `(value: string) => any`
    */
-  onInputChange?: () => any;
+  onInputChange?: (value: string) => any;
 
   /**
    * Позволяет обработать нажатия клавиш.
