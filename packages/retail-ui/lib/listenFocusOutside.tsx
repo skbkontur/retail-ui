@@ -2,7 +2,7 @@ import events from 'add-event-listener';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
-const isFF = Boolean(~navigator.userAgent.indexOf('Firefox'));
+const isFF = Boolean(typeof(navigator) !== 'undefined' && ~navigator.userAgent.indexOf('Firefox'));
 
 interface FocusOutsideEventHandler {
   elements: HTMLElement[] | (() => HTMLElement[]);
@@ -28,10 +28,12 @@ function addHandleEvent() {
   );
 }
 
-if (document.readyState === 'complete') {
-  addHandleEvent();
-} else {
-  events.addEventListener(window, 'load', addHandleEvent);
+if (typeof(document) !== 'undefined') {
+  if (document.readyState === 'complete') {
+    addHandleEvent();
+  } else {
+    events.addEventListener(window, 'load', addHandleEvent);
+  }
 }
 
 function handleNativeFocus(event: UIEvent) {

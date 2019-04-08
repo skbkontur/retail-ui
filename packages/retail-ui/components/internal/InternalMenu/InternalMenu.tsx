@@ -5,7 +5,8 @@ import ReactDOM from 'react-dom';
 import isActiveElement from './isActiveElement';
 import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
 
-import MenuItem, { MenuItemProps } from '../../MenuItem';
+import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
+import { isMenuHeader } from '../../MenuHeader';
 
 import styles from './InternalMenu.less';
 import { createPropsGetter } from '../createPropsGetter';
@@ -117,11 +118,8 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
             if (typeof child.type === 'string') {
               return child;
             }
-            const isMenuItem = child && (child.type as typeof MenuItem).__MENU_ITEM__;
 
-            const isMenuHeader = child && (child.type as typeof MenuItem).__MENU_HEADER__;
-
-            if (enableIconPadding && (isMenuItem || isMenuHeader)) {
+            if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
               child = React.cloneElement(child, {
                 _enableIconPadding: true,
               });

@@ -1,12 +1,6 @@
 import * as React from 'react';
-import MenuItem, { MenuItemProps } from '../../MenuItem';
+import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
 
 export default function isActiveElement(element: any): element is React.ComponentElement<MenuItemProps, MenuItem> {
-  return (
-    element &&
-    element.type &&
-    // FIXME: bad typings
-    element.type === MenuItem &&
-    !element.props.disabled
-  );
+  return isMenuItem(element) && !element.props.disabled;
 }

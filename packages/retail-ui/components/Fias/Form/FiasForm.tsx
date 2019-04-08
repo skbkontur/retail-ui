@@ -105,19 +105,12 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         case Fields.street:
         case Fields.stead:
         case Fields.house:
+        case Fields.room:
           return {
             ...fields,
             [field]: {
               meta: this.createAddressComboboxMeta(field),
               render: () => this.renderAddressComboBox(field),
-            },
-          };
-        case Fields.room:
-          return {
-            ...fields,
-            [field]: {
-              meta: this.createAddressInputMeta(Fields.room),
-              render: () => this.renderAddressInput(Fields.room),
             },
           };
         case ExtraFields.postalcode:
@@ -256,18 +249,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     }
   };
 
-  private renderAddressInput = (field: Fields, width: string | number = 130): React.ReactNode => {
-    const inputField = this.fields[field];
-    if (inputField && FiasForm.isInputMeta(inputField.meta)) {
-      const { address } = this.state;
-      const { props, createRef } = inputField.meta;
-      const commonProps = this.getCommonFieldProps(field);
-      const addressField = address.fields[field];
-      const value = addressField ? addressField.name : '';
-      return <Input {...commonProps} {...props} value={value} width={width} ref={createRef} />;
-    }
-  };
-
   private renderPostalCodeInput = (): React.ReactNode => {
     const inputField = this.fields[ExtraFields.postalcode];
     if (inputField && FiasForm.isInputMeta(inputField.meta)) {
@@ -288,20 +269,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         const comboboxField = this.fields[field];
         if (comboboxField) {
           comboboxField.meta.ref = ref;
-        }
-      },
-    };
-  };
-
-  private createAddressInputMeta = (field: Fields): InputMeta => {
-    return {
-      ref: null,
-      props: this.createAddressInputProps(field),
-      tooltip: () => this.getFieldTooltipContent(field),
-      createRef: (ref: Input | null) => {
-        const inputField = this.fields[field];
-        if (inputField) {
-          inputField.meta.ref = ref;
         }
       },
     };
@@ -412,21 +379,6 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       itemToValue,
       valueToString,
       renderNotFound,
-    };
-  }
-
-  private createAddressInputProps(field: Fields): InputProps {
-    return {
-      onChange: (e: React.ChangeEvent, value: string) => {
-        const { address } = this.state;
-        const fields = { ...address.fields };
-        if (value) {
-          fields[field] = new AddressElement(field, value);
-        } else {
-          delete fields[field];
-        }
-        this.handleAddressChange(Address.createFromAddress(address, { fields }));
-      },
     };
   }
 
