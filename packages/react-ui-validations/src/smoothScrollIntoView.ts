@@ -11,15 +11,14 @@ export default async function smoothScrollIntoView(element: HTMLElement, scrollO
 
   if (scrollableParent === document.body) {
     const html = document.documentElement || { clientHeight: 0, clientWidth: 0 };
-    const viewportHeight = (window.innerHeight || html.clientHeight) - bottomOffset;
-    const viewportWidth = (window.innerWidth || html.clientWidth);
+    const viewportHeight = window.innerHeight || html.clientHeight;
+    const viewportWidth = window.innerWidth || html.clientWidth;
 
-    const isElementInViewport = (
-      clientRects.top >= 0 &&
+    const isElementInViewport =
+      clientRects.top >= topOffset &&
       clientRects.left >= 0 &&
-      clientRects.bottom <= viewportHeight &&
-      clientRects.right <= viewportWidth
-    );
+      clientRects.bottom <= viewportHeight - bottomOffset &&
+      clientRects.right <= viewportWidth;
 
     if (isElementInViewport) {
       return;
