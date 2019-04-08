@@ -91,31 +91,31 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     nodeTop: Infinity,
   };
 
-  private _node: HTMLElement | null = null;
+  private root: HTMLElement | null = null;
 
-  private _listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
-  private _timeout: number | undefined;
+  private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
+  private timeout: number | undefined;
 
   private longClickTimer: number = 0;
   private setPositionRepeatTimer: number = 0;
   private yearStep: number = 3;
 
   public componentWillReceiveProps() {
-    this._setNodeTop();
+    this.setNodeTop();
   }
 
   public componentDidMount() {
-    this._listener = LayoutEvents.addListener(this._setNodeTop);
-    this._setNodeTop();
+    this.listener = LayoutEvents.addListener(this.setNodeTop);
+    this.setNodeTop();
     window.addEventListener('keydown', this.handleKey);
   }
 
   public componentWillUnmount() {
-    if (this._listener) {
-      this._listener.remove();
+    if (this.listener) {
+      this.listener.remove();
     }
-    if (this._timeout) {
-      clearTimeout(this._timeout);
+    if (this.timeout) {
+      clearTimeout(this.timeout);
     }
     if (this.longClickTimer) {
       clearTimeout(this.longClickTimer);
@@ -164,7 +164,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
         [styles.disabled]: disabled,
       }),
       style: { width },
-      ref: this._ref,
+      ref: this.refRoot,
     };
     return (
       <span {...rootProps}>
@@ -184,21 +184,21 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     );
   }
 
-  private _ref = (node: HTMLElement | null) => {
-    this._node = node;
+  private refRoot = (element: HTMLElement | null) => {
+    this.root = element;
   };
 
-  private _setNodeTop = () => {
-    const node = this._node;
-    if (!node) {
+  private setNodeTop = () => {
+    const root = this.root;
+    if (!root) {
       return;
     }
-    if (this._timeout) {
-      clearTimeout(this._timeout);
+    if (this.timeout) {
+      clearTimeout(this.timeout);
     }
-    this._timeout = setTimeout(() =>
+    this.timeout = setTimeout(() =>
       this.setState({
-        nodeTop: node.getBoundingClientRect().top,
+        nodeTop: root.getBoundingClientRect().top,
       }),
     );
   };
@@ -347,7 +347,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     clearTimeout(this.setPositionRepeatTimer);
   };
 
-  private getAnchor = () => this._node;
+  private getAnchor = () => this.root;
 
   private handleWheel = (event: React.WheelEvent<HTMLElement>) => {
     event.preventDefault();
