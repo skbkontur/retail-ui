@@ -189,7 +189,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const themeConst = j.variableDeclaration('const', [
     j.variableDeclarator(
       themeIdentifier,
-      j.callExpression(j.memberExpression(themeManagerIdentifier, j.identifier('getVariables')), []),
+      j.callExpression(j.memberExpression(themeManagerIdentifier, j.identifier('getTheme')), []),
     ),
   ]);
 

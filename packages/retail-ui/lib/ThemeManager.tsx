@@ -20,11 +20,11 @@ class ThemeManagerConstructor {
     this.defaultVariables = this.variables = this.constructVariablesObject();
   }
 
-  public getVariables(): VariablesObject {
+  public getTheme(): VariablesObject {
     return this.variables;
   }
 
-  public overrideVariables(overrideObject: Partial<VariablesObject>): VariablesObject {
+  public overrideTheme(overrideObject: Partial<VariablesObject>): VariablesObject {
     if (!overrideObject) {
       return this.variables;
     }
