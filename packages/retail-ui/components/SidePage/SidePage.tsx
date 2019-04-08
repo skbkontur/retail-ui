@@ -1,4 +1,3 @@
-import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
@@ -96,12 +95,12 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   private footer: SidePageFooter | null = null;
 
   public componentDidMount() {
-    events.addEventListener(window, 'keydown', this.handleKeyDown);
+    window.addEventListener('keydown', this.handleKeyDown);
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
-    events.removeEventListener(window, 'keydown', this.handleKeyDown);
+    window.removeEventListener('keydown', this.handleKeyDown);
     if (this.stackSubscription != null) {
       this.stackSubscription.remove();
     }
