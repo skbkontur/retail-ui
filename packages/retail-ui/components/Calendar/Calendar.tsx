@@ -51,6 +51,7 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private wheelEndTimeout: Nullable<number>;
+  private root: Nullable<HTMLElement>;
 
   private animation = Animation();
 
@@ -80,7 +81,7 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
   public render() {
     const positions = this.getMonthPositions();
     return (
-      <div className={styles.root} onWheel={this.handleWheel}>
+      <div ref={this.refRoot} className={styles.root}>
         <div style={wrapperStyle} className={styles.wrapper}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
@@ -196,6 +197,16 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   };
 
+  private refRoot = (element: HTMLElement | null) => {
+    if (!this.root && element) {
+      element.addEventListener('wheel', this.handleWheel, { passive: false });
+    }
+    if (this.root && !element) {
+      this.root.removeEventListener('wheel', this.handleWheel);
+    }
+    this.root = element;
+  };
+
   private renderMonth([top, month]: [number, MonthViewModel]) {
     return (
       <Month
@@ -227,7 +238,10 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     this.scrollToMonth(month, year);
   };
 
-  private handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+  private handleWheel = (event: Event) => {
+    if (!(event instanceof WheelEvent)) {
+      return;
+    }
     event.preventDefault();
     const { pixelY } = normalizeWheel(event);
 

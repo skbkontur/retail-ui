@@ -52,13 +52,17 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     scrollState: 'top',
   };
 
-  private inner: Nullable<HTMLDivElement>;
+  private inner: Nullable<HTMLElement>;
+  private scroll: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.reflow();
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: ScrollContainerProps) {
+    if (this.inner && prevProps.preventWindowScroll && !this.props.preventWindowScroll) {
+      this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
+    }
     this.reflow();
   }
 
@@ -76,10 +80,10 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       };
       scroll = (
         <div
+          ref={this.refScroll}
           className={scrollClass}
           style={scrollStyle}
           onMouseDown={this.handleScrollMouseDown}
-          onWheel={this.handleScrollWheel}
         />
       );
     }
@@ -90,18 +94,12 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       paddingRight: PADDING_RIGHT,
     };
 
-    const innerProps = {
-      ref: this.refInner,
-      className: styles.inner,
-      style: innerStyle,
-      onWheel: this.props.preventWindowScroll ? this.handleInnerScrollWheel : undefined,
-      onScroll: this.handleNativeScroll,
-    };
-
     return (
       <div className={styles.root} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
         {scroll}
-        <div {...innerProps}>{this.props.children}</div>
+        <div className={styles.inner} style={innerStyle} ref={this.refInner} onScroll={this.handleNativeScroll}>
+          {this.props.children}
+        </div>
       </div>
     );
   }
@@ -145,8 +143,24 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     this.inner.scrollTop = this.inner.scrollHeight - this.inner.offsetHeight;
   }
 
-  private refInner = (element: HTMLDivElement) => {
+  private refInner = (element: HTMLElement | null) => {
+    if (!this.inner && element && this.props.preventWindowScroll) {
+      element.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
+    }
+    if (this.inner && !element) {
+      this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
+    }
     this.inner = element;
+  };
+
+  private refScroll = (element: HTMLElement | null) => {
+    if (!this.scroll && element) {
+      element.addEventListener('wheel', this.handleScrollWheel, { passive: false });
+    }
+    if (this.scroll && !element) {
+      this.scroll.removeEventListener('wheel', this.handleScrollWheel);
+    }
+    this.scroll = element;
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -255,8 +269,8 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     event.preventDefault();
   };
 
-  private handleScrollWheel = (event: React.WheelEvent) => {
-    if (!this.inner) {
+  private handleScrollWheel = (event: Event) => {
+    if (!this.inner || !(event instanceof WheelEvent)) {
       return;
     }
 
@@ -271,8 +285,8 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     event.preventDefault();
   };
 
-  private handleInnerScrollWheel = (event: React.WheelEvent) => {
-    if (!this.inner) {
+  private handleInnerScrollWheel = (event: Event) => {
+    if (!this.inner || !(event instanceof WheelEvent)) {
       return;
     }
 

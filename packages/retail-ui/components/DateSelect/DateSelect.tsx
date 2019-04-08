@@ -92,6 +92,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
   };
 
   private root: HTMLElement | null = null;
+  private itemsContainer: HTMLElement | null = null;
 
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private timeout: number | undefined;
@@ -302,7 +303,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
                 </div>
               )}
               <div className={styles.itemsHolder} style={{ height }}>
-                <div style={shiftStyle} onWheel={this.handleWheel}>
+                <div ref={this.refItemsContainer} style={shiftStyle}>
                   {items}
                 </div>
               </div>
@@ -328,6 +329,16 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     );
   }
 
+  private refItemsContainer = (element: HTMLElement | null) => {
+    if (!this.itemsContainer && element) {
+      element.addEventListener('wheel', this.handleWheel, { passive: false });
+    }
+    if (this.itemsContainer && !element) {
+      this.itemsContainer.removeEventListener('wheel', this.handleWheel);
+    }
+    this.itemsContainer = element;
+  };
+
   private handleLongClickUp = (event: React.MouseEvent | React.TouchEvent) => {
     event.preventDefault();
     this.longClickTimer = window.setTimeout(() => {
@@ -349,7 +360,10 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
 
   private getAnchor = () => this.root;
 
-  private handleWheel = (event: React.WheelEvent<HTMLElement>) => {
+  private handleWheel = (event: Event) => {
+    if (!(event instanceof WheelEvent)) {
+      return;
+    }
     event.preventDefault();
     event.stopPropagation();
 
