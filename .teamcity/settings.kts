@@ -650,6 +650,12 @@ object TestConfig : BuildType({
             param("node_script_text", "console.log('Hello World!')")
             param("node_execution_mode", "script")
         }
+        powerShell {
+            name = "Tag"
+            scriptMode = script {
+                content = """Invoke-Expression "node publish-tag.js""""
+            }
+        }
     }
 
     triggers {
