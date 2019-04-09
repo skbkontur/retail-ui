@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classnames from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
 
 // Note SpinnerType нужен для генерации правильного .d.ts файла
@@ -8,6 +7,10 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
 import styles from './Loader.less';
 import { Nullable } from '../../typings/utility-types';
+
+import { cx as classnames } from 'emotion';
+import ThemeManager from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './Loader.styles';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -90,9 +93,11 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public render() {
+    const theme = ThemeManager.getTheme();
     const { active, type, caption, className } = this.props;
     const loaderClassName = classnames(styles.loader, className, {
       [styles.active]: active,
+      [jsStyles.active(theme)]: active,
     });
 
     return (

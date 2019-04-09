@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import (reference) '../variables.less';
 
 :local {
   .fillContainerPosition() {
@@ -17,10 +17,8 @@
     z-index: inherit;
 
     &.active::after {
-      background: @loader-bg;
       content: ' ';
       filter: 'alpha(opacity = (@{loader-opacity} * 100 + ))';
-      opacity: @loader-opacity;
       z-index: 500;
       .fillContainerPosition;
     }
@@ -48,7 +46,6 @@
 
   .spinnerContainerSticky {
     .spinnerContainer;
-
     position: fixed;
 
     &::before {
