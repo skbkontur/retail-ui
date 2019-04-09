@@ -1,19 +1,14 @@
-@import '../variables.less';
+@import (reference) '../variables.less';
 
 :local {
   .root {
     font-size: 22px;
     font-weight: 400;
     text-decoration: none;
-    color: @logo-color;
     position: relative;
     bottom: 2px;
     outline: none;
     user-select: none;
-
-    &:hover {
-      color: @logo-hover-color;
-    }
   }
 
   .cloud {
@@ -46,7 +41,6 @@
     height: 60%;
     margin: 0 0 0 10px;
     width: 1px;
-    background-color: @td-divider-bg;
   }
 
   .widgetWrapper {
