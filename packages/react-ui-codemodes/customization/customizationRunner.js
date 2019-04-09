@@ -4,6 +4,22 @@ const fs = require('fs');
 const JS_CODE_SHIFT_PATH = path.resolve(__dirname, '../../..', 'node_modules/jscodeshift/bin/jscodeshift.js');
 const COMPONENTS_DIR = path.resolve(__dirname, '../../', 'retail-ui/components');
 
+const TRANSFORMED_COMPONENTS = {
+  Autocomplete: true,
+  Combobox: true,
+  Fias: true,
+  Group: true,
+  Kebab: true,
+  Loader: true,
+  Logotype: true,
+  Menu: true,
+  Modal: true,
+  Select: true,
+  Spinner: true,
+  Sticky: true,
+  SidePage: true,
+  Popup: true,
+};
 const directoryToFilesMap = buildDirectoryToFilesMap();
 
 Object.keys(directoryToFilesMap).forEach(dirname => {
@@ -37,6 +53,14 @@ function buildDirectoryToFilesMap() {
   });
 
   return componentsRootDirs.reduce((result, dir) => {
+    // Stub for datePicker's components
+    if (dir.toLowerCase().includes('calendar') || dir.toLowerCase().includes('date')) {
+      return result;
+    }
+    // Skip transformed components
+    if (TRANSFORMED_COMPONENTS[dir]) {
+      return result;
+    }
     const componentFiles = fs
       .readdirSync(path.join(COMPONENTS_DIR, dir))
       .filter(i => !i.startsWith('index') && i.endsWith('.tsx'));
