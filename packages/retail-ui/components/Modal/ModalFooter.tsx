@@ -1,10 +1,13 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import Sticky from '../Sticky/Sticky';
 import { ModalContext } from './ModalContext';
 
 import styles from './Modal.less';
+
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Modal.styles';
 
 export interface FooterProps {
   /**
@@ -45,9 +48,11 @@ export class Footer extends React.Component<FooterProps> {
   }
 
   private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
-    const className = classNames(styles.footer, {
-      [styles.panel]: this.props.panel,
+    const theme = ThemeManager.getTheme();
+    const className = classNames(styles.footer, jsStyles.footer(theme), {
+      [styles.panel]: !!this.props.panel,
       [styles.fixedFooter]: fixed,
+      [jsStyles.fixedFooter(theme)]: fixed,
     });
 
     return <div className={className}>{this.props.children}</div>;

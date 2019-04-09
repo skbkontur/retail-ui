@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import cn from 'classnames';
 import FocusLock from 'react-focus-lock';
 import { EventSubscription } from 'fbemitter';
 import throttle from 'lodash/throttle';
@@ -19,6 +18,10 @@ import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
 import styles from './Modal.less';
+
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './Modal.styles';
 
 let mountedModalsCount = 0;
 
@@ -167,6 +170,8 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
+    const theme = ThemeManager.getTheme();
+
     if (this.props.width) {
       style.width = this.props.width;
     } else {
@@ -177,7 +182,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={styles.bg} />}
+          {this.state.stackPosition === 0 && <div className={cn(styles.bg, jsStyles.bg(theme))} />}
           <div ref={this.refContainer} className={cn(styles.container, styles.mobile)}>
             <ModalClickTrap
               className={styles.modalClickTrap}
@@ -189,11 +194,11 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
             />
             <div
               className={cn(styles.centerContainer, {
-                [styles.alignTop]: this.props.alignTop,
+                [styles.alignTop]: !!this.props.alignTop,
               })}
               style={containerStyle}
             >
-              <div className={styles.window} style={style}>
+              <div className={cn(styles.window, jsStyles.window(theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
