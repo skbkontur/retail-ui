@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import (reference) '../variables.less';
 
 @linkIconPadding: 3px;
 
@@ -22,14 +22,8 @@
     }
   }
 
-  .@{className}:hover,
-  .@{className}.focus {
-    text-decoration: @link-hover-text-decoration;
-  }
-
   .@{className}.disabled {
     box-shadow: none;
-    color: @link-disabled-color;
     cursor: default;
     text-decoration: none;
   }
