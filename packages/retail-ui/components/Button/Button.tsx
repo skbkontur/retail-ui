@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as events from 'add-event-listener';
 import classNames from 'classnames';
 import Upgrades from '../../lib/Upgrades';
+import tabListener from '../../lib/events/tabListener';
 
 import Corners from './Corners';
 
@@ -12,20 +12,6 @@ const isFlatDesign = Upgrades.isFlatDesignEnabled();
 import CssStyles from './Button.less';
 
 const classes: typeof CssStyles = isFlatDesign ? require('./Button.flat.less') : require('./Button.less');
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    events.addEventListener(window, 'keydown', event => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-    isListening = true;
-  }
-}
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
@@ -126,7 +112,9 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-class Button extends React.Component<ButtonProps, ButtonState> {
+export default class Button extends React.Component<ButtonProps, ButtonState> {
+  public static __BUTTON__ = true;
+
   public static TOP_LEFT = Corners.TOP_LEFT;
   public static TOP_RIGHT = Corners.TOP_RIGHT;
   public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
@@ -145,10 +133,8 @@ class Button extends React.Component<ButtonProps, ButtonState> {
   private _node: HTMLButtonElement | null = null;
 
   public componentDidMount() {
-    listenTabPresses();
-
     if (this.props.autoFocus) {
-      tabPressed = true;
+      tabListener.isTabPressed = true;
       this.focus();
     }
   }
@@ -305,9 +291,9 @@ class Button extends React.Component<ButtonProps, ButtonState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       process.nextTick(() => {
-        if (tabPressed) {
+        if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabPressed = false;
+          tabListener.isTabPressed = false;
         }
       });
       if (this.props.onFocus) {
@@ -330,4 +316,6 @@ class Button extends React.Component<ButtonProps, ButtonState> {
   };
 }
 
-export default Button;
+export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
+  return React.isValidElement<ButtonProps>(child) ? child.type.hasOwnProperty('__BUTTON__') : false;
+};

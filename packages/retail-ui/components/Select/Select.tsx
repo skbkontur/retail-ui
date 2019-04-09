@@ -1,7 +1,6 @@
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
-import events from 'add-event-listener';
 import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
@@ -196,6 +195,11 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     return element;
   };
 
+  public state: SelectState<TValue> = {
+    opened: false,
+    value: this.props.defaultValue,
+  };
+
   private readonly locale!: SelectLocale;
 
   private menu: Nullable<Menu>;
@@ -203,12 +207,13 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
   private getProps = createPropsGetter(Select.defaultProps);
 
-  constructor(props: SelectProps<TValue, TItem>) {
-    super(props);
-    this.state = {
-      opened: false,
-      value: props.defaultValue,
-    };
+  public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
+    if (!prevState.opened && this.state.opened) {
+      window.addEventListener('popstate', this.close);
+    }
+    if (prevState.opened && !this.state.opened) {
+      window.removeEventListener('popstate', this.close);
+    }
   }
 
   public render() {
@@ -263,8 +268,6 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         this.props.onClose();
       }
     }
-
-    events.removeEventListener(window, 'popstate', this.close);
   };
 
   /**
@@ -378,7 +381,6 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
         offsetY={-1}
-        ref={this.refMenuContainer}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
@@ -429,14 +431,6 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   private focusInput = (input: Input) => {
     if (input) {
       input.focus();
-    }
-  };
-
-  private refMenuContainer = (element: DropdownContainer) => {
-    events.removeEventListener(window, 'popstate', this.close);
-
-    if (element) {
-      events.addEventListener(window, 'popstate', this.close);
     }
   };
 

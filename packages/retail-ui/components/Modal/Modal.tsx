@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as events from 'add-event-listener';
 import * as ReactDOM from 'react-dom';
 import cn from 'classnames';
 import FocusLock from 'react-focus-lock';
@@ -99,11 +98,11 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      events.addEventListener(window, 'resize', this.checkHorizontalScrollAppearance);
+      window.addEventListener('resize', this.checkHorizontalScrollAppearance);
     }
 
     mountedModalsCount++;
-    events.addEventListener(window, 'keydown', this.handleKeyDown);
+    window.addEventListener('keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
     if (this.containerNode) {
@@ -113,11 +112,11 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      events.removeEventListener(window, 'resize', this.checkHorizontalScrollAppearance);
+      window.removeEventListener('resize', this.checkHorizontalScrollAppearance);
       LayoutEvents.emit();
     }
 
-    events.removeEventListener(window, 'keydown', this.handleKeyDown);
+    window.removeEventListener('keydown', this.handleKeyDown);
     if (this.stackSubscription != null) {
       this.stackSubscription.remove();
     }

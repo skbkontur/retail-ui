@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.46.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.45.0...retail-ui@0.46.0) (2019-04-08)
+
+
+### Bug Fixes
+
+* **Button:** compare elements reliable way ([0d7843e](https://github.com/skbkontur/retail-ui/commit/0d7843e)), closes [#1267](https://github.com/skbkontur/retail-ui/issues/1267)
+* preventDefault inside passive event listener ([055eb48](https://github.com/skbkontur/retail-ui/commit/055eb48)), closes [#1326](https://github.com/skbkontur/retail-ui/issues/1326)
+* safe components usage for SSR ([#1312](https://github.com/skbkontur/retail-ui/issues/1312)) ([0c8c91e](https://github.com/skbkontur/retail-ui/commit/0c8c91e))
+* **ComboBoxOld:** args types for renderTotalCount and onInputChange ([4ddd480](https://github.com/skbkontur/retail-ui/commit/4ddd480))
+* **Fias:** allow to fill stead and house without street ([9c728e5](https://github.com/skbkontur/retail-ui/commit/9c728e5)), closes [#1314](https://github.com/skbkontur/retail-ui/issues/1314)
+* **Menu,InternalMenu:** compare elements reliable way ([4c60cb4](https://github.com/skbkontur/retail-ui/commit/4c60cb4)), closes [#1267](https://github.com/skbkontur/retail-ui/issues/1267)
+* **Modal:** compare elements reliable way ([fdba164](https://github.com/skbkontur/retail-ui/commit/fdba164)), closes [#1267](https://github.com/skbkontur/retail-ui/issues/1267)
+
+
+### Features
+
+* **Fias:** add rooms search ([10843e1](https://github.com/skbkontur/retail-ui/commit/10843e1))
+
+
+
+
+
 # [0.45.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.3...retail-ui@0.45.0) (2019-04-01)
 
 
