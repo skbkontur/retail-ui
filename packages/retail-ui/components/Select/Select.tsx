@@ -1,7 +1,6 @@
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 
-import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -23,6 +22,10 @@ import styles from './Select.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
+
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Select.styles';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -327,12 +330,14 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         icon: this.props._icon,
       });
     }
+    const theme = ThemeManager.getTheme();
 
     const labelProps = {
       className: classNames({
         [styles.label]: this.props.use !== 'link',
         [styles.labelWithLeftIcon]: !!this.props._icon,
         [styles.placeholder]: params.isPlaceholder,
+        [jsStyles.placeholder(theme)]: params.isPlaceholder,
         [styles.customUsePlaceholder]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
@@ -348,7 +353,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           <span className={styles.labelText}>{params.label}</span>
         </span>
         <div className={styles.arrowWrap}>
-          <div className={classNames(styles.arrow, useIsCustom && styles.customUseArrow)} />
+          <div className={classNames(styles.arrow, jsStyles.arrow(theme), useIsCustom && styles.customUseArrow)} />
         </div>
       </Button>
     );
