@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import (reference) '../variables.less';
 
 @show-transtion: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
 @hide-transition: opacity 0.15s ease-out;
@@ -41,13 +41,8 @@
     position: relative;
     float: right;
     height: 100%;
-    background: @bg-default;
     white-space: normal;
     overflow-y: auto;
-
-    &.shadow {
-      box-shadow: @side_page-container-shadow;
-    }
   }
 
   .bodyContainer {
@@ -64,8 +59,6 @@
 
     &.fixed {
       font-size: 18px;
-      background: @bg-default;
-      box-shadow: 0 1px @border-color-gray-light;
       padding: 13px 0;
       line-height: 24px;
     }
@@ -86,13 +79,8 @@
     position: absolute;
     right: 30px;
     width: 24px;
-    color: @side_page-close-button-color;
     text-align: center;
     text-decoration: none;
-
-    &:hover {
-      color: @side_page-close-button-hover-color;
-    }
 
     &.fixed {
       line-height: 24px;
@@ -118,17 +106,9 @@
   .footerContent {
     padding: 20px 35px 20px 30px;
 
-    &.panel {
-      background: @side_page-footer-panel-bg;
-    }
-
     &.fixed {
-      background: @bg-default;
-      border-top: @border-color-gray-light solid 1px;
-
       &.panel {
         border-top: 0;
-        background: @side_page-footer-panel-bg;
       }
     }
   }
