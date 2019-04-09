@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -10,6 +9,10 @@ import { isMenuHeader } from '../MenuHeader/MenuHeader';
 
 import styles from './Menu.less';
 import { Nullable } from '../../typings/utility-types';
+
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './Menu.styles';
 
 interface MenuProps {
   children: React.ReactNode;
@@ -49,6 +52,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => typeof x === 'object' && x.props.icon,
     );
+    const theme = ThemeManager.getTheme();
 
     if (this.isEmpty()) {
       return null;
@@ -56,7 +60,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn(styles.root, this.props.hasShadow && styles.shadow)}
+        className={cn(styles.root, jsStyles.root(theme), this.props.hasShadow && jsStyles.shadow(theme))}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer
