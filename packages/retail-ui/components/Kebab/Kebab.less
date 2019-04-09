@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import (reference) '../variables.less';
 
 :local {
   .kebab {
@@ -22,10 +22,6 @@
 
     &.opened {
       cursor: default;
-    }
-
-    &.focused {
-      border-color: @border-color-focus;
     }
 
     &.disabled {
@@ -64,6 +60,5 @@
 
   .menu {
     overflow: hidden;
-    border-radius: @popup-border-radius;
   }
 }
