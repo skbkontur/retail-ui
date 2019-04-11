@@ -33,6 +33,10 @@ let rulesToRemove: IRemovalInfo[] = [];
 let themeManagerImportPath: string;
 
 function extractDynamicClasses(fileInfo: FileInfo, api: API) {
+  if (fileInfo.path.includes('__stories__')) {
+    return null;
+  }
+
   const j = api.jscodeshift;
   const root = j(fileInfo.source);
 
@@ -99,7 +103,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
 
   const requires = root.find(j.CallExpression, { callee: { name: 'require' } });
 
-  requires.forEach((requireStatement, index) => {
+  requires.forEach(requireStatement => {
     if (requireStatement.parent.value && requireStatement.parent.value.type === 'ConditionalExpression') {
       if (requireStatement.parent.parent && requireStatement.parent.parent.parent) {
         const declaration = requireStatement.parent.parent.parent.value;
@@ -154,24 +158,18 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     }
   });
 
-  if (!stylesMap.size) {
-    return root.toSource(TO_SOURCE_OPTIONS);
-  }
-
-  const tokenizedStylesMap: Map<Identifier, ITokenizedDynamicRulesMap> = new Map();
-
-  stylesMap.forEach((styles, identifier) => {
-    tokenizedStylesMap.set(identifier, tokenize(styles));
-  });
-
-  // has no dynamic styles, skip
-  if (!tokenizedStylesMap.size) {
-    return root.toSource(TO_SOURCE_OPTIONS);
-  }
-
   // add css/cx imports
   importDeclarations = root.find(j.ImportDeclaration);
   importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
+
+  if (!stylesMap.size || Array.from(stylesMap.values()).every(v => !v.size)) {
+    return emotionImportStatement ? root.toSource(TO_SOURCE_OPTIONS) : null;
+  }
+
+  const tokenizedStylesMap: Map<Identifier, ITokenizedDynamicRulesMap> = new Map();
+  stylesMap.forEach((styles, identifier) => {
+    tokenizedStylesMap.set(identifier, tokenize(styles));
+  });
 
   themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_MANAGER_PATH).replace(/\\/g, '/');
   const themeManagerIdentifier = j.identifier('ThemeManager');
@@ -359,8 +357,6 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     const dynamicStylesConst = j.variableDeclaration('const', [
       j.variableDeclarator(dynamicStylesIdentifier, objectExpression),
     ]);
-
-
 
     const dynamicsStylesSource = j(dynamicStylesConst);
     const jsStylesFullPath = path.resolve(path.dirname(fileInfo.path), `${jsStylesImportPath}.ts`);
