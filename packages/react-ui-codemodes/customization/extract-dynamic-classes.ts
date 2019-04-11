@@ -31,7 +31,6 @@ const TO_SOURCE_OPTIONS: any = {
 const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
 let rulesToRemove: IRemovalInfo[] = [];
 let themeManagerImportPath: string;
-let componentName: string;
 
 function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   const j = api.jscodeshift;
@@ -39,8 +38,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
 
   const parsedLess = new Map<string, IDynamicRulesetsMap>();
   const stylesMap = new Map<Identifier, IDynamicRulesetsMap>();
-  const jsStylesPath = `${path.join(path.dirname(fileInfo.path), getComponentNameFromPath(fileInfo.path))}.styles.ts`;
-  componentName = getComponentNameFromPath(fileInfo.path);
+  const stylesIdToFileMap = new Map<Identifier, string>();
 
   let importDeclarations = root.find(j.ImportDeclaration);
 
@@ -94,6 +92,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             rulesToRemove = rulesToRemove.concat(dynamicRulesAggregator.getRemovals());
           }
           stylesMap.set(specifier, parsedLess.get(lessFilePath)!);
+          stylesIdToFileMap.set(specifier, node.source.value as string);
         }
       }
     });
@@ -124,21 +123,9 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               rulesToRemove = rulesToRemove.concat(dynamicRulesAggregator.getRemovals());
             }
             stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
+            stylesIdToFileMap.set(styleNode, lessFile);
           }
         }
-      }
-      if (requires && index === requires.length - 1) {
-        // remove conditional require statement
-        // add import statement instead
-        const { name } = requireStatement.parent.parent.value.id;
-        const imports = root.find(j.ImportDeclaration);
-        const stylesImportDeclaration = j.importDeclaration(
-          [j.importDefaultSpecifier(j.identifier(name))],
-          j.literal(`./${componentName}.less`),
-        );
-
-        requireStatement.parent.parentPath.prune();
-        imports.at(imports.length - 1).insertAfter(stylesImportDeclaration);
       }
     } else if (requireStatement.parent.value && requireStatement.parent.value.type === 'VariableDeclarator') {
       const declaration = requireStatement.parent.parent.value;
@@ -161,6 +148,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
             rulesToRemove = rulesToRemove.concat(dynamicRulesAggregator.getRemovals());
           }
           stylesMap.set(styleNode, parsedLess.get(lessFilePath)!);
+          stylesIdToFileMap.set(styleNode, lessFile);
         }
       }
     }
@@ -210,9 +198,12 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     const objectProperties: any[] = [];
     const dynamicStylesIdentifier = j.identifier(nameToDynamic(identifier.name));
     const themeArgumentIdentifier = j.identifier('t');
+
+    const lessImportPath = stylesIdToFileMap.get(identifier)!;
+    const jsStylesImportPath = `./${getFileNameFromPath(lessImportPath)}.styles`;
     const jsStylesImportDeclaration = j.importDeclaration(
       [j.importDefaultSpecifier(dynamicStylesIdentifier)],
-      j.literal(`./${getComponentNameFromPath(fileInfo.path)}.styles`),
+      j.literal(jsStylesImportPath),
     );
     importDeclarations = root.find(j.ImportDeclaration);
     importDeclarations.at(importDeclarations.length - 1).insertAfter(jsStylesImportDeclaration);
@@ -369,23 +360,27 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
       j.variableDeclarator(dynamicStylesIdentifier, objectExpression),
     ]);
 
-    let positionsToInsert: any = root.find(
-      j.VariableDeclaration,
-      node =>
-        node.declarations &&
-        (node.declarations[0].id === themeIdentifier || stylesIdentifiers.includes(node.declarations[0].id)),
-    );
 
-    if (positionsToInsert.length === 0) {
-      positionsToInsert = root.find(j.ImportDeclaration);
-    }
 
     const dynamicsStylesSource = j(dynamicStylesConst);
-    fs.writeFileSync(jsStylesPath, dynamicsStylesSource.toSource(TO_SOURCE_OPTIONS), { encoding: 'utf8' });
-    processJsStylesFile(j, jsStylesPath, fileInfo, identifier);
+    const jsStylesFullPath = path.resolve(path.dirname(fileInfo.path), `${jsStylesImportPath}.ts`);
 
-    positionsToInsert.at(positionsToInsert.length - 1).insertAfter(themeConst);
+    fs.writeFileSync(jsStylesFullPath, dynamicsStylesSource.toSource(TO_SOURCE_OPTIONS), { encoding: 'utf8' });
+    processJsStylesFile(j, jsStylesFullPath, identifier, lessImportPath);
   });
+
+  let positionsToInsert: any = root.find(
+    j.VariableDeclaration,
+    node =>
+      node.declarations &&
+      (node.declarations[0].id === themeIdentifier || stylesIdentifiers.includes(node.declarations[0].id)),
+  );
+
+  if (positionsToInsert.length === 0) {
+    positionsToInsert = root.find(j.ImportDeclaration);
+  }
+
+  positionsToInsert.at(positionsToInsert.length - 1).insertAfter(themeConst);
 
   stylesIdentifiers.forEach(styleIdentifier => {
     const dynamicCounterpart = tokenizedStylesMap.get(styleIdentifier)!;
@@ -428,9 +423,9 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           }
 
           console.warn(
-            `Dynamic invocation encountered: ${styleIdentifier.name}[${j(
-              val.value.property,
-            ).toSource(TO_SOURCE_OPTIONS)}]. Consider revising.`,
+            `Dynamic invocation encountered: ${styleIdentifier.name}[${j(val.value.property).toSource(
+              TO_SOURCE_OPTIONS,
+            )}]. Consider revising.`,
           );
 
           const superDynamicStyles = j.memberExpression(
@@ -594,6 +589,31 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               }
               break;
             }
+            case 'VariableDeclarator': {
+              if (!emotionCxImportIdentifier) {
+                // we didn't import cx from emotion
+                emotionCxImportIdentifier = j.identifier('cx');
+                if (emotionImportStatement) {
+                  emotionImportStatement.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                } else {
+                  emotionImportStatement = j.importDeclaration(
+                    [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
+                    j.literal('emotion'),
+                  );
+                  importDeclarations = root.find(j.ImportDeclaration);
+                  importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
+                }
+              }
+              const cxExpression = j.callExpression(emotionCxImportIdentifier, [
+                val.value,
+                j.callExpression(
+                  j.memberExpression(j.identifier(nameToDynamic(styleIdentifier.name)), j.identifier(className)),
+                  [themeIdentifier],
+                ),
+              ]);
+              val.replace(cxExpression);
+              break;
+            }
             default: {
               throw new Error(
                 `New case for partial ruleset ${styleIdentifier.name}.${className}: ${
@@ -612,25 +632,21 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           val.replace(j.callExpression(memberExpression, [themeIdentifier]));
         }
       });
+
+    const lessFilePath = path.resolve(path.dirname(fileInfo.path), stylesIdToFileMap.get(styleIdentifier)!);
+    const rulesToRemoveArr = Array.from(new Set(rulesToRemove.map(r => `${dasherizeVariables(r.rule)}`)));
+    fs.writeFileSync(`${lessFilePath}.removals.txt`, rulesToRemoveArr.join('\n'), { encoding: 'utf8' });
+
+    removeVariableRulesFromLessFile(lessFilePath, rulesToRemoveArr);
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
-  const lessFileDir = path.join(path.dirname(fileInfo.path), `./${componentName}.less`);
-  const rulesToRemoveArr = Array.from(new Set(rulesToRemove.map(r => `${dasherizeVariables(r.rule)}`)));
-
-  fs.writeFileSync(
-    `${path.join(path.dirname(fileInfo.path), path.basename(fileInfo.path))}.removals.txt`,
-    rulesToRemoveArr.join('\n'),
-    { encoding: 'utf8' },
-  );
-
-  removeVariableRulesFromLessFile(lessFileDir, rulesToRemoveArr);
-
+  // console.log('[extract-dynamic-classes.ts]', 'extractDynamicClasses', result);
   return result;
 }
 
-function removeVariableRulesFromLessFile(lessFileDir: string, rulesToRemoveArr: string[]) {
-  let lessFileSource = fs.readFileSync(lessFileDir, {
+function removeVariableRulesFromLessFile(lessFilePath: string, rulesToRemoveArr: string[]) {
+  let lessFileSource = fs.readFileSync(lessFilePath, {
     encoding: 'utf8',
   });
 
@@ -642,7 +658,7 @@ function removeVariableRulesFromLessFile(lessFileDir: string, rulesToRemoveArr: 
     }
   });
 
-  fs.writeFileSync(lessFileDir, lessFileSource, { encoding: 'utf8' });
+  fs.writeFileSync(lessFilePath, lessFileSource, { encoding: 'utf8' });
 }
 
 function isNotWithinDynamicStyles(nodePath: NodePath<any>, targets: any[]) {
@@ -660,7 +676,7 @@ function nameToDynamic(name: string) {
   return `js${name.charAt(0).toUpperCase()}${name.substr(1)}`;
 }
 
-function processJsStylesFile(j: JSCodeshift, filePath: string, fileInfo: FileInfo, stylesIdentifier: Identifier) {
+function processJsStylesFile(j: JSCodeshift, filePath: string, stylesIdentifier: Identifier, lessImportPath: string) {
   const dynamicStylesSource = j(fs.readFileSync(filePath, { encoding: 'utf8' }));
   const variableDeclaration = dynamicStylesSource.find(j.VariableDeclaration).at(0);
   const exportDeclaration = j.exportDefaultDeclaration(j.identifier(nameToDynamic(stylesIdentifier.name)));
@@ -677,7 +693,7 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, fileInfo: FileInf
   );
   const lessImportDeclaration = j.importDeclaration(
     [j.importDefaultSpecifier(stylesIdentifier)],
-    j.literal(`./${componentName}.less`),
+    j.literal(lessImportPath),
   );
 
   variableDeclaration.insertBefore(cssEmotionImportDeclaration).insertAfter(exportDeclaration);
@@ -693,7 +709,7 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, fileInfo: FileInf
   fs.writeFileSync(filePath, dynamicStylesSource.toSource(TO_SOURCE_OPTIONS), { encoding: 'utf8' });
 }
 
-function getComponentNameFromPath(fileInfoPath: string) {
+function getFileNameFromPath(fileInfoPath: string) {
   return path.basename(fileInfoPath).replace(path.extname(fileInfoPath), '');
 }
 
