@@ -20,14 +20,14 @@ export interface ToastViewProps {
 class ToastView extends React.Component<ToastViewProps> {
   public static propTypes = {
     /**
-     * Adds action handling and close icon fot tost
+     * Adds action handling and close icon for toast
      */
     action: PropTypes.shape({
       label: PropTypes.string.isRequired,
       handler: PropTypes.func.isRequired,
     }),
     /**
-     * Tost content
+     * Toast content
      */
     children: PropTypes.string.isRequired,
     onClose: PropTypes.func,
