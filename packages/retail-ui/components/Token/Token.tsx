@@ -71,9 +71,15 @@ export const Token: React.SFC<TokenProps & TokenActions> = ({
     }
   }
 
-  const tokenClassName = colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
+  let tokenClassName = tokenColors.defaultIdle;
+  let activeTokenClassName = tokenColors.defaultActive;
+  if (colors) {
+    const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
+    tokenClassName = tokenColors[idleClassName];
 
-  const activeTokenClassName = colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
+    const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
+    activeTokenClassName = tokenColors[activeClassName];
+  }
 
   const tokenClassNames = cn(
     styles.token,
