@@ -4,13 +4,30 @@ import * as path from 'path';
 import { parseLess } from './less-parser';
 import { DynamicRulesAggregator, IDynamicRulesetsMap, IRemovalInfo } from './dynamic-rules-aggregator';
 import { ITokenizedDynamicRulesMap, tokenize } from './rules-tokenizer';
-import { Identifier, ImportDeclaration, StringLiteral } from 'ast-types/gen/nodes';
+import {
+  Identifier,
+  ImportDeclaration,
+  ImportDefaultSpecifier,
+  ImportSpecifier,
+  StringLiteral,
+} from 'ast-types/gen/nodes';
 import { NodePath } from 'ast-types';
 import * as fs from 'fs';
+import { Collection } from 'jscodeshift/src/Collection';
 
 let DRA_ID = 0;
 const ROOT_PATH = process.cwd();
-const TO_SOURCE_OPTIONS: any = { quote: 'single' };
+const TO_SOURCE_OPTIONS: any = {
+  quote: 'single',
+  useTab: false,
+  tabSize: 2,
+  wrapColumn: 120,
+  trailingComma: {
+    objects: true,
+    arrays: true,
+    parameters: true,
+  },
+};
 const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
 let rulesToRemove: IRemovalInfo[] = [];
 let themeManagerImportPath: string;
@@ -150,7 +167,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   });
 
   if (!stylesMap.size) {
-    return root.toSource();
+    return root.toSource(TO_SOURCE_OPTIONS);
   }
 
   const tokenizedStylesMap: Map<Identifier, ITokenizedDynamicRulesMap> = new Map();
@@ -159,14 +176,8 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     tokenizedStylesMap.set(identifier, tokenize(styles));
   });
 
-  let emotionCssImportIdentifier: Identifier | null = null;
-  if (tokenizedStylesMap.size > 0) {
-    // as we have dynamic rules, we need to import css from 'emotion'
-    emotionCssImportIdentifier = j.identifier('css');
-  }
-
   // has no dynamic styles, skip
-  if (!emotionImportStatement) {
+  if (!tokenizedStylesMap.size) {
     return root.toSource(TO_SOURCE_OPTIONS);
   }
 
@@ -341,7 +352,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           j.blockStatement([
             j.returnStatement(
               j.taggedTemplateExpression(
-                emotionCssImportIdentifier!,
+                j.identifier('css'),
                 j.templateLiteral(templateLiteralQuasis, templateLiteralExpressions),
               ),
             ),
@@ -370,7 +381,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     }
 
     const dynamicsStylesSource = j(dynamicStylesConst);
-    fs.writeFileSync(jsStylesPath, dynamicsStylesSource.toSource(), { encoding: 'utf8' });
+    fs.writeFileSync(jsStylesPath, dynamicsStylesSource.toSource(TO_SOURCE_OPTIONS), { encoding: 'utf8' });
     processJsStylesFile(j, jsStylesPath, fileInfo, identifier);
 
     positionsToInsert.at(positionsToInsert.length - 1).insertAfter(themeConst);
@@ -404,13 +415,22 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           if (!emotionCxImportIdentifier) {
             // we didn't import cx from emotion
             emotionCxImportIdentifier = j.identifier('cx');
-            emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+            if (emotionImportStatement) {
+              emotionImportStatement.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+            } else {
+              emotionImportStatement = j.importDeclaration(
+                [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
+                j.literal('emotion'),
+              );
+              importDeclarations = root.find(j.ImportDeclaration);
+              importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
+            }
           }
 
           console.warn(
             `Dynamic invocation encountered: ${styleIdentifier.name}[${j(
               val.value.property,
-            ).toSource()}]. Consider revising.`,
+            ).toSource(TO_SOURCE_OPTIONS)}]. Consider revising.`,
           );
 
           const superDynamicStyles = j.memberExpression(
@@ -470,7 +490,16 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
                 if (!emotionCxImportIdentifier) {
                   // we didn't import cx from emotion
                   emotionCxImportIdentifier = j.identifier('cx');
-                  emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                  if (emotionImportStatement) {
+                    emotionImportStatement.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                  } else {
+                    emotionImportStatement = j.importDeclaration(
+                      [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
+                      j.literal('emotion'),
+                    );
+                    importDeclarations = root.find(j.ImportDeclaration);
+                    importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
+                  }
                 }
 
                 const cxExpression = j.callExpression(emotionCxImportIdentifier, [
@@ -493,7 +522,16 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
               if (!emotionCxImportIdentifier) {
                 // we didn't import cx from emotion
                 emotionCxImportIdentifier = j.identifier('cx');
-                emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                if (emotionImportStatement) {
+                  emotionImportStatement.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                } else {
+                  emotionImportStatement = j.importDeclaration(
+                    [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
+                    j.literal('emotion'),
+                  );
+                  importDeclarations = root.find(j.ImportDeclaration);
+                  importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
+                }
               }
 
               const cxExpression = j.callExpression(emotionCxImportIdentifier, [
@@ -515,7 +553,16 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
                 if (!emotionCxImportIdentifier) {
                   // we didn't import cx from emotion
                   emotionCxImportIdentifier = j.identifier('cx');
-                  emotionImportStatement!.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                  if (emotionImportStatement) {
+                    emotionImportStatement.specifiers.push(j.importSpecifier(emotionCxImportIdentifier));
+                  } else {
+                    emotionImportStatement = j.importDeclaration(
+                      [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
+                      j.literal('emotion'),
+                    );
+                    importDeclarations = root.find(j.ImportDeclaration);
+                    importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
+                  }
                 }
 
                 const cxExpression = j.callExpression(emotionCxImportIdentifier, [
@@ -641,12 +688,13 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, fileInfo: FileInf
     .insertAfter(themeManagerImportDeclaration)
     .insertAfter(lessImportDeclaration);
 
-  fs.writeFileSync(filePath, dynamicStylesSource.toSource(), { encoding: 'utf8' });
+  removeUnusedImports(j, dynamicStylesSource);
+
+  fs.writeFileSync(filePath, dynamicStylesSource.toSource(TO_SOURCE_OPTIONS), { encoding: 'utf8' });
 }
 
 function getComponentNameFromPath(fileInfoPath: string) {
-  const splitPath = fileInfoPath.split('\\');
-  return splitPath[splitPath.length - 2];
+  return path.basename(fileInfoPath).replace(path.extname(fileInfoPath), '');
 }
 
 function dasherizeVariables(str: string) {
@@ -663,6 +711,78 @@ function dasherizeVariables(str: string) {
   });
 
   return str;
+}
+
+function removeUnusedImports(j: JSCodeshift, root: Collection<any>) {
+  const removeIfUnused = (
+    importSpecifier: NodePath<ImportSpecifier | ImportDefaultSpecifier>,
+    importDeclaration: NodePath<ImportDeclaration, ImportDeclaration>,
+  ) => {
+    const varName = importSpecifier.value.local
+      ? importSpecifier.value.local.name
+      : importSpecifier.value.imported.name;
+
+    const isUsedInScopes = () => {
+      return (
+        j(importDeclaration)
+          .closestScope()
+          .find(j.Identifier, { name: varName })
+          .filter(p => {
+            if (p.parent && p.parent.value === importSpecifier.value) {
+              return false;
+            }
+            if (p.parentPath.value.type === 'Property' && p.name === 'key') {
+              return false;
+            }
+            return p.name !== 'property';
+          })
+          .size() > 0
+      );
+    };
+
+    if (!isUsedInScopes()) {
+      j(importSpecifier).remove();
+      return true;
+    }
+    return false;
+  };
+
+  const removeUnusedDefaultImport = (importDeclaration: NodePath<ImportDeclaration, ImportDeclaration>) => {
+    return (
+      j(importDeclaration)
+        .find(j.ImportDefaultSpecifier)
+        .filter(s => removeIfUnused(s, importDeclaration))
+        .size() > 0
+    );
+  };
+
+  const removeUnusedNonDefaultImports = (importDeclaration: NodePath<ImportDeclaration, ImportDeclaration>) => {
+    return (
+      j(importDeclaration)
+        .find(j.ImportSpecifier)
+        .filter(s => removeIfUnused(s, importDeclaration))
+        .size() > 0
+    );
+  };
+
+  // Return True if something was transformed.
+  const processImportDeclaration = (importDeclaration: NodePath<ImportDeclaration, ImportDeclaration>) => {
+    // e.g. import 'styles.css'; // please Don't Touch these imports!
+    if (importDeclaration.value.specifiers.length === 0) {
+      return false;
+    }
+
+    const hadUnusedDefaultImport = removeUnusedDefaultImport(importDeclaration);
+    const hadUnusedNonDefaultImports = removeUnusedNonDefaultImports(importDeclaration);
+
+    if (importDeclaration.value.specifiers.length === 0) {
+      j(importDeclaration).remove();
+      return true;
+    }
+    return hadUnusedDefaultImport || hadUnusedNonDefaultImports;
+  };
+
+  root.find(j.ImportDeclaration).filter(processImportDeclaration);
 }
 
 module.exports = extractDynamicClasses;
