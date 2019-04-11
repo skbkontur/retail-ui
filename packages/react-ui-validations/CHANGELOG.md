@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.7.3...react-ui-validations@0.8.0) (2019-04-08)
+
+
+### Features
+
+* **ValidationContainer:** add top, bottom, scroll offset ([b43df32](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/b43df32))
+
+
+
+
+
 ## [0.7.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.7.2...react-ui-validations@0.7.3) (2019-04-01)
 
 **Note:** Version bump only for package react-ui-validations

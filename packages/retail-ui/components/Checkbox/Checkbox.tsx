@@ -5,24 +5,10 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 import { Nullable, Override } from '../../typings/utility-types';
+import tabListener from '../../lib/events/tabListener';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 const styles = isFlatDesign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
-
-const KEYCODE_TAB = 9;
-
-let isListening: boolean;
-let tabPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    window.addEventListener('keydown', (event: KeyboardEvent) => {
-      tabPressed = event.keyCode === KEYCODE_TAB;
-    });
-
-    isListening = true;
-  }
-}
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -73,8 +59,6 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   private input: Nullable<HTMLInputElement>;
 
   public componentDidMount = () => {
-    listenTabPresses();
-
     if (this.state.indeterminate && this.input) {
       this.input.indeterminate = true;
     }
@@ -156,7 +140,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
    * @public
    */
   public focus() {
-    tabPressed = true;
+    tabListener.isTabPressed = true;
     if (this.input) {
       this.input.focus();
     }
@@ -202,9 +186,9 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       process.nextTick(() => {
-        if (tabPressed) {
+        if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabPressed = false;
+          tabListener.isTabPressed = false;
         }
       });
     }

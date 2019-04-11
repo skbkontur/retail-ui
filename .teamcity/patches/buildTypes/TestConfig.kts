@@ -1,6 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnText
+import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnText
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
@@ -23,6 +25,17 @@ changeBuildType(RelativeId("TestConfig")) {
         }
         trigger1.apply {
             enabled = false
+        }
+    }
+
+    failureConditions {
+        add {
+            failOnText {
+                conditionType = BuildFailureOnText.ConditionType.CONTAINS
+                pattern = "Hello TC!"
+                failureMessage = "Settings from Master"
+                reverse = false
+            }
         }
     }
 }

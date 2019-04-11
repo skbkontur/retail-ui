@@ -1,4 +1,3 @@
-import events from 'add-event-listener';
 import { EventEmitter } from 'fbemitter';
 import { unstable_batchedUpdates } from 'react-dom';
 
@@ -11,13 +10,13 @@ function getEmitter() {
 }
 
 function listenBrowserEvents() {
-  events.addEventListener(window, 'scroll', emit);
-  events.addEventListener(window, 'resize', emit);
+  window.addEventListener('scroll', emit);
+  window.addEventListener('resize', emit);
 }
 
 function unlistenBrowserEvents() {
-  events.removeEventListener(window, 'scroll', emit);
-  events.removeEventListener(window, 'resize', emit);
+  window.removeEventListener('scroll', emit);
+  window.removeEventListener('resize', emit);
 }
 
 function addListener(callback: () => void) {
