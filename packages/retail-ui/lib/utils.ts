@@ -29,6 +29,10 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
+export function isFunctionalComponent(Component: string | React.ComponentClass | React.FunctionComponent) {
+  return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
+}
+
 export const isMac = /mac/.test(platform);
 export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
 export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
