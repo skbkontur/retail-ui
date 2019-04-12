@@ -33,8 +33,17 @@ class TopBarDropdown extends React.Component<TopBarDropdownProps> {
     );
   }
 
-  public open = () => this.dropdownMenu && this.dropdownMenu.open();
-  public close = () => this.dropdownMenu && this.dropdownMenu.close();
+  public open = (): void => {
+    if (this.dropdownMenu) {
+      this.dropdownMenu.open();
+    }
+  };
+
+  public close = (): void => {
+    if (this.dropdownMenu) {
+      this.dropdownMenu.close();
+    }
+  };
 
   private refDropdownMenu = (ref: Nullable<DropdownMenu>) => (this.dropdownMenu = ref);
 

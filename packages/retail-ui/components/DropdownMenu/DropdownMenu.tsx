@@ -69,8 +69,17 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
     );
   }
 
-  public open = () => this.popupMenu && this.popupMenu.open();
-  public close = () => this.popupMenu && this.popupMenu.close();
+  public open = (): void => {
+    if (this.popupMenu) {
+      this.popupMenu.open();
+    }
+  };
+
+  public close = (): void => {
+    if (this.popupMenu) {
+      this.popupMenu.close();
+    }
+  };
 
   private refPopupMenu = (ref: Nullable<PopupMenu>) => (this.popupMenu = ref);
 
