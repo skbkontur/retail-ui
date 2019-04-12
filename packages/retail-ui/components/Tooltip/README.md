@@ -129,3 +129,79 @@ let initialState = {
   ))}
 </div>;
 ```
+
+Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендерится в совершенно другом месте приложения
+
+```jsx
+const S = 60;
+const blockStyle = {
+  height: S - 5,
+  width: S - 5,
+  background: 'white',
+  boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
+};
+const containerStyle = {
+  width: S * 9,
+  height: S * 9,
+  position: 'relative',
+  border: '1px solid #dfdede',
+  background: `
+    repeating-linear-gradient(
+      45deg,
+      #fafafa,
+      #fafafa ${S / 4}px,
+      #dfdede ${S / 4}px,
+      #dfdede ${S / 2}px
+    )
+  `,
+};
+
+const blocks = [
+  { top: S, left: S * 2 },
+  { top: S, left: S * 4 },
+  { top: S, left: S * 6 },
+  { top: S * 2, left: S * 7 },
+  { top: S * 4, left: S * 7 },
+  { top: S * 6, left: S * 7 },
+  { top: S * 7, left: S * 6 },
+  { top: S * 7, left: S * 4 },
+  { top: S * 7, left: S * 2 },
+  { top: S * 6, left: S },
+  { top: S * 4, left: S },
+  { top: S * 2, left: S },
+];
+
+class AnchorTooltipExample extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      blocks,
+      anchor: null,
+    };
+  }
+
+  render() {
+    return (
+      <>
+        {this.state.anchor ? (
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
+        ) : null}
+        <div style={containerStyle}>
+          {this.state.blocks.map(({ top, left }, i) => (
+            <div key={i} style={{ top, left, display: 'inline-block', position: 'absolute' }}>
+              <div
+                style={blockStyle}
+                onMouseEnter={event => this.setState({ anchor: event.target })}
+                onMouseLeave={() => this.setState({ anchor: null })}
+              />
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+}
+
+<AnchorTooltipExample />;
+```
