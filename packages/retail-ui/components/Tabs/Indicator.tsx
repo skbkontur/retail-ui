@@ -3,25 +3,27 @@ import { findDOMNode } from 'react-dom';
 import cn from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
-import Tab, { TabIndicators } from './Tab';
+import { TabIndicators } from './Tab';
 
 import styles from './Indicator.less';
 import { Nullable } from '../../typings/utility-types';
+import { withContext } from 'retail-ui/lib/utils';
+import { TabsContext, TabsContextType } from './TabsContext';
 
 export interface IndicatorProps {
   className?: string;
-  getAnchorNode: () => Tab | null;
   tabUpdates: {
     on: (x0: () => void) => () => void;
   };
   vertical: boolean;
+  context?: TabsContextType;
 }
 
 export interface IndicatorState {
   styles: React.CSSProperties;
 }
 
-class Indicator extends React.Component<IndicatorProps, IndicatorState> {
+export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public state: IndicatorState = {
     styles: {},
   };
@@ -53,7 +55,8 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   public render() {
-    const node = this.props.getAnchorNode();
+    const { context } = this.props;
+    const node = context ? context.getTab(context.activeTab) : null;
     const indicators: TabIndicators = (node && node.getIndicators && node.getIndicators()) || {
       error: false,
       warning: false,
@@ -77,7 +80,8 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   private reflow = () => {
-    const node = this.props.getAnchorNode();
+    const { context } = this.props;
+    const node = context ? context.getTab(context.activeTab) : null;
     const underlyingNode = node && node.getUnderlyingNode();
     const nodeStyles = this.getStyles(underlyingNode);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
@@ -118,4 +122,6 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 }
 
-export default Indicator;
+export const IndicatorWithContext = withContext(TabsContext.Consumer)(Indicator);
+
+export default IndicatorWithContext;

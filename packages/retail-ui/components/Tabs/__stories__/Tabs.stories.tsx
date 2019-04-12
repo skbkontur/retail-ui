@@ -70,7 +70,7 @@ class TabsWithMyLink extends React.Component<any, any> {
   }
 }
 
-class UnexpectedUpdatedTab extends React.Component<any, any> {
+class UnexpectedUpdatedTab extends React.Component<{ id: string }, any> {
   public state = {
     updated: false,
   };
