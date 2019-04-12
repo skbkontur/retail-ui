@@ -1,11 +1,34 @@
 import { Nullable, Omit } from '../typings/Types';
+import { ScrollOffset } from './ValidationContainer';
 
-export default async function smoothScrollIntoView(element: HTMLElement, topOffset: number): Promise<void> {
+export default async function smoothScrollIntoView(element: HTMLElement, scrollOffset: ScrollOffset): Promise<void> {
   const scrollableParent = findScrollableParent(element);
   const parentRects = scrollableParent.getBoundingClientRect();
   const clientRects = element.getBoundingClientRect();
 
-  if (scrollableParent !== document.body) {
+  const topOffset = scrollOffset.top || 0;
+  const bottomOffset = scrollOffset.bottom || 0;
+
+  if (scrollableParent === document.body) {
+    const html = document.documentElement || { clientHeight: 0, clientWidth: 0 };
+    const viewportHeight = window.innerHeight || html.clientHeight;
+    const viewportWidth = window.innerWidth || html.clientWidth;
+
+    const isElementInViewport =
+      clientRects.top >= topOffset &&
+      clientRects.left >= 0 &&
+      clientRects.bottom <= viewportHeight - bottomOffset &&
+      clientRects.right <= viewportWidth;
+
+    if (isElementInViewport) {
+      return;
+    }
+
+    await scrollBy({
+      left: clientRects.left,
+      top: clientRects.top - topOffset,
+    });
+  } else {
     if (clientRects.top - topOffset + 50 > parentRects.top && clientRects.bottom < parentRects.bottom) {
       return;
     }
@@ -18,14 +41,6 @@ export default async function smoothScrollIntoView(element: HTMLElement, topOffs
     await scrollBy({
       left: parentRects.left,
       top: parentRects.top,
-    });
-  } else {
-    if (isElementInViewport(element)) {
-      return;
-    }
-    await scrollBy({
-      left: clientRects.left,
-      top: clientRects.top - topOffset,
     });
   }
 }
@@ -139,16 +154,5 @@ function scrollBy({ left, top }: { left: number; top: number }): Promise<void> {
     getDocumentBodyStrict(),
     Math.floor(left) + (window.scrollX || window.pageXOffset),
     Math.floor(top) + (window.scrollY || window.pageYOffset),
-  );
-}
-
-function isElementInViewport(element: HTMLElement): boolean {
-  const rect = element.getBoundingClientRect();
-  const html = document.documentElement || { clientHeight: 0, clientWidth: 0 };
-  return (
-    rect.top >= 0 &&
-    rect.left >= 0 &&
-    rect.bottom <= (window.innerHeight || html.clientHeight) &&
-    rect.right <= (window.innerWidth || html.clientWidth)
   );
 }
