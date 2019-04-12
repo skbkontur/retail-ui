@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import CROSS from '../internal/cross';
 import ZIndex from '../ZIndex/ZIndex';
 
-import styles from './Toast.less';
+import styles from './ToastView.less';
 import { Nullable } from '../../typings/utility-types';
 
 export interface ToastViewProps {
