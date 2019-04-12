@@ -2,13 +2,13 @@ import BabyIcon from '@skbkontur/react-icons/Baby';
 import { storiesOf } from '@storybook/react';
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
-import { Nullable } from "../../../typings/utility-types";
-import Button from "../../Button/Button";
+import { Nullable } from '../../../typings/utility-types';
+import Button from '../../Button/Button';
 import Logotype from '../../Logotype';
-import MenuItem from "../../MenuItem/MenuItem";
+import MenuItem from '../../MenuItem/MenuItem';
 
 import TopBar from '../TopBar';
-import TopBarDropdown from "../TopBarDropdown";
+import TopBarDropdown from '../TopBarDropdown';
 
 const Item = TopBar.Item;
 const Start = TopBar.Start;
@@ -30,25 +30,24 @@ class TopBarDropdownWithButton extends React.Component {
             </ItemStatic>
           </Start>
           <End>
-            <TopBarDropdown label="TabBar.Dropdown" ref={ref => this.ref = ref} >
+            <TopBarDropdown label="TabBar.Dropdown" ref={ref => (this.ref = ref)}>
               <MenuItem loose>MenuItem</MenuItem>
             </TopBarDropdown>
           </End>
         </TopBar>
-        <Button onClick={this.openAndClose} >Open And Close</Button>
+        <Button onClick={this.openAndClose}>Open And Close</Button>
       </div>
-    )
+    );
   }
 
   private openAndClose = () => {
     this.open();
     setTimeout(this.close, 2000);
-  }
+  };
 
   private open = () => this.ref && this.ref.open();
   private close = () => this.ref && this.ref.close();
 }
-
 
 storiesOf('TopBar', module)
   .add('TopBar Old', () => (
@@ -88,7 +87,4 @@ storiesOf('TopBar', module)
       </End>
     </TopBar>
   ))
-  .add('TopBar.Dropdown Controlled', () => (
-    <TopBarDropdownWithButton />
-  ))
-;
+  .add('TopBar.Dropdown Controlled', () => <TopBarDropdownWithButton />);

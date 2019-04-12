@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Nullable } from "../../typings/utility-types";
+import { Nullable } from '../../typings/utility-types';
 import ButtonItem from './ButtonItem';
 import { IconProps } from '../Icon/20px';
 import DropdownMenu from '../DropdownMenu';
