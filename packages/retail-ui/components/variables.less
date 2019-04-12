@@ -96,9 +96,11 @@
 @btn-checked-shadow-color-arrow: rgba(0, 0, 0, 0.3);
 
 // use default
-@btn-default-bg: #f9f9f9;
 @btn-default-bg-start: #fff;
 @btn-default-bg-end: #ebebeb;
+@btn-default-bg: linear-gradient(@btn-default-bg-start, @btn-default-bg-end);
+@btn-default-bg-arrow: linear-gradient(to bottom right, @btn-default-bg-start, @btn-default-bg-end);
+@btn-default-bg-arrow-left: linear-gradient(to top left, @btn-default-bg-start, @btn-default-bg-end);
 @btn-default-text-color: none;
 @btn-default-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
 @btn-default-shadow-arrow: 1.2px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.15);
@@ -559,6 +561,8 @@
 @value btnCheckedShadowColorArrow: @btn-checked-shadow-color-arrow;
 
 @value btnDefaultBg: @btn-default-bg;
+@value btnDefaultBgArrow: @btn-default-bg-arrow;
+@value btnDefaultBgArrowLeft: @btn-default-bg-arrow-left;
 
 @value btnDefaultBgStart: @btn-default-bg-start;
 
