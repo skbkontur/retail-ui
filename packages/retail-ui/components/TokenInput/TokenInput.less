@@ -2,31 +2,13 @@
 
 :local {
   .root {
-    .label.warning {
-      border: 1px solid @border-color-warning;
-      box-shadow: 0 0 0 1px @border-color-warning;
-    }
-
-    .label.error {
-      border: 1px solid @border-color-error;
-      box-shadow: 0 0 0 1px @border-color-error;
-    }
-
     .label {
-      background: @bg-default;
-      border: 1px solid @border-color-gray-light;
-      border-top-color: @border-color-gray-dark;
       box-sizing: border-box;
       cursor: text;
       padding: 4px;
       display: flex;
       flex-wrap: wrap;
       outline: none;
-    }
-
-    .labelFocused {
-      border: 1px solid @border-color-focus;
-      box-shadow: 0 0 0 1px @border-color-focus;
     }
 
     .input {
@@ -50,14 +32,6 @@
 
       &::-ms-clear {
         display: none;
-      }
-
-      &::placeholder {
-        color: @placeholder-color;
-      }
-
-      &:focus::placeholder {
-        color: @placeholder-color-light;
       }
     }
   }
