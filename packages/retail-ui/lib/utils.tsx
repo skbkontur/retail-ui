@@ -1,7 +1,16 @@
+import * as React from 'react';
+import { ConsumerProps } from 'create-react-context';
+
 // NOTE Some checks are used from https://github.com/arasatasaygin/is.js
 const platform = ((navigator && navigator.platform) || '').toLowerCase();
 const userAgent = ((navigator && navigator.userAgent) || '').toLowerCase();
 const vendor = ((navigator && navigator.vendor) || '').toLowerCase();
+
+export const isMac = /mac/.test(platform);
+export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
+export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
+export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
+export const isChrome = /google inc/.test(vendor) && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -33,8 +42,8 @@ export function isFunctionalComponent(Component: string | React.ComponentClass |
   return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
 }
 
-export const isMac = /mac/.test(platform);
-export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
-export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
-export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
-export const isChrome = /google inc/.test(vendor) && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
+export function withContext<C>(ContextConsumer: React.ComponentClass<ConsumerProps<C>>) {
+  return <P extends {}>(BaseComponent: React.ComponentType<P & { context?: C }>) => (props: P) => (
+    <ContextConsumer>{(context: C) => <BaseComponent {...props} context={context} />}</ContextConsumer>
+  );
+}
