@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
 import { Nullable } from '../../typings/utility-types';
-import { withContext } from '../../lib/utils';
+import { isFunctionalComponent, withContext } from '../../lib/utils';
 
 import styles from './Tab.less';
 import { TabsContextType, TabsContext } from './TabsContext';
@@ -227,7 +227,7 @@ export class Tab extends React.Component<TabProps, TabState> {
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
         tabIndex={disabled ? -1 : 0}
-        ref={this.refTabComponent}
+        ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
         href={href}
         style={style}
       >

@@ -38,6 +38,10 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
+export function isFunctionalComponent(Component: string | React.ComponentClass | React.FunctionComponent) {
+  return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
+}
+
 export function withContext<C>(ContextConsumer: React.ComponentClass<ConsumerProps<C>>) {
   return <P extends {}>(BaseComponent: React.ComponentType<P & { context?: C }>) => (props: P) => (
     <ContextConsumer>{(context: C) => <BaseComponent {...props} context={context} />}</ContextConsumer>
