@@ -12,7 +12,7 @@ in the project with id = 'ScreenshotTests', and delete the patch script.
 */
 create(RelativeId("ScreenshotTests"), BuildType({
     id("CandyEngineScreenshotTests")
-    name = "CandyEngine Screenshot tests"
+    name = "CandyEngine"
 
     artifactRules = """keforms.engine\Tests\Screenshots\Approvals\** => Screenshots.zip"""
 
