@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Nullable } from '../../typings/utility-types';
 import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { isProductionEnv } from '../internal/currentEnvironment';
 
@@ -35,6 +36,8 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
     disableAnimations: false,
   };
 
+  private popupMenu: Nullable<PopupMenu> = null;
+
   constructor(props: DropdownMenuProps) {
     super(props);
 
@@ -49,6 +52,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
     }
     return (
       <PopupMenu
+        ref={this.refPopupMenu}
         caption={this.props.caption}
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
@@ -64,6 +68,20 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
       </PopupMenu>
     );
   }
+
+  public open = (): void => {
+    if (this.popupMenu) {
+      this.popupMenu.open();
+    }
+  };
+
+  public close = (): void => {
+    if (this.popupMenu) {
+      this.popupMenu.close();
+    }
+  };
+
+  private refPopupMenu = (ref: Nullable<PopupMenu>) => (this.popupMenu = ref);
 
   private handleChangeMenuState = (menuVisible: boolean) => {
     if (menuVisible && this.props.onOpen) {

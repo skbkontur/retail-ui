@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import Popup, { PopupPosition, PopupProps } from '../Popup';
+import Popup, { PopupPosition } from '../Popup';
 
 import styles from './HintBox.less';
 import { Nullable, TimeoutID } from '../../typings/utility-types';
@@ -94,30 +94,20 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   public render() {
-    if (this.props.text) {
-      return this.renderPopup(this.props.children, {
-        onMouseEnter: this.handleMouseEnter,
-        onMouseLeave: this.handleMouseLeave,
-        useWrapper: this.props.useWrapper,
-      });
-    }
-
-    return this.props.children;
-  }
-
-  private renderPopup(anchorElement: React.ReactNode | HTMLElement, popupProps: Partial<PopupProps> = {}) {
     return (
       <Popup
         hasPin
         margin={POPUP_MARGIN}
         opened={this.state.opened}
-        anchorElement={anchorElement}
+        anchorElement={this.props.children}
         positions={this.getPositions()}
         backgroundColor={HINT_BACKGROUND_COLOR}
         borderColor={HINT_BORDER_COLOR}
         disableAnimations={this.props.disableAnimations}
         pinOffset={PIN_OFFSET}
-        {...popupProps}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+        useWrapper={this.props.useWrapper}
       >
         {this.renderContent()}
       </Popup>
@@ -125,6 +115,10 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   private renderContent() {
+    if (!this.props.text) {
+      return null;
+    }
+
     const { pos, maxWidth } = this.props;
     const className = classNames({
       [styles.content]: true,
