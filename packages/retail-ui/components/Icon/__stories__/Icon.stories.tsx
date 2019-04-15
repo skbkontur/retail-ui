@@ -13,6 +13,7 @@ const rootStyle: Partial<React.CSSProperties> = {
 const iconUpdates: IconName[][] = [
   ['Delta', 'UserAdd', 'Youtube2'],
   ['UserLock', 'Viber', 'Viber2', 'WhatsApp', 'WhatsApp2', 'Spinner'],
+  ['Mail3', 'Square'],
 ];
 
 interface TestIconProps {
