@@ -78,8 +78,7 @@ class Indicator extends React.Component<IndicatorProps, IndicatorState> {
 
   private reflow = () => {
     const node = this.props.getAnchorNode();
-    const underlyingNode = node && node.getUnderlyingNode();
-    const nodeStyles = this.getStyles(underlyingNode);
+    const nodeStyles = this.getStyles(node);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
       prop => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],
     );
