@@ -7,7 +7,7 @@ import { TabIndicators } from './Tab';
 
 import styles from './Indicator.less';
 import { Nullable } from '../../typings/utility-types';
-import { withContext } from 'retail-ui/lib/utils';
+import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
 
 export interface IndicatorProps {

@@ -1,6 +1,6 @@
 import createReactContext from 'create-react-context';
 import { Tab } from './Tab';
-import { emptyHandler } from 'retail-ui/lib/utils';
+import { emptyHandler } from '../../lib/utils';
 
 export interface TabsContextType {
   vertical: boolean;
