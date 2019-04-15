@@ -2,10 +2,12 @@
 
 [![Build Status](https://tc.skbkontur.ru/app/rest/builds/buildType:Common_RetailUi_RunAll/statusIcon)](https://tc.skbkontur.ru/project.html?projectId=Common_RetailUi&tab=projectOverview)
 
-### Варианты использования
+- [Варианты использования](#Варианты-использования)
+  - [Квик-старт](#Квик-старт) **@skbkontur/react-ui** собранная версия библиотеки
+  - [Слоу-старт](#Слоу-старт) **retail-ui** исходники для самостоятельной сборки, для переопределения `.less`-переменных
+- [FAQ](#FAQ)
 
-- **@skbkontur/react-ui** - собранная версия библиотеки, подходит для [квик-старта](#Квик-старт)
-- **retail-ui** - исходники для самостоятельной сборки, для переопределения `.less`-переменных, [слоу-старт](#Слоу-старт)
+## <a name="Варианты-использования"></a>Варианты использования
 
 ### <a name="Квик-старт"></a>Квик-старт
 
@@ -105,17 +107,23 @@ resolve: {
 /* ... */
 ```
 
+## <a name="FAQ"></a>FAQ
+
+### Сломались стили при использовании css-loader 2.x
+
+Во 2-й версии, `css-loader` изменились опции по умолчаниию и был отключена [опции `modules`](https://github.com/webpack-contrib/css-loader/releases/tag/v2.0.0). Чтобы исправить и вернуть предыдущее поведение, надо явно задать в опциях `modules: 'global'`
+
+### Как использовать retail-ui с storybook 5.x?
+
+В 5-й версии изменилось [API сторибука для кастомизации настроек webpack](https://github.com/storybooks/storybook/blob/v5.0.0/MIGRATION.md#webpack-config-simplifcation).
+Для упрощения работы `Storybook` с CRA был изменен конфиг webpack по умолчанию. Это порождает проблемы вида [storybooks/storybook#4891](https://github.com/storybooks/storybook/issues/4891).
+в конфигурации по умолчанию `css-loader` идет без опций, в то время как `retail-ui` требует указания опции `modules: global`.
+
+**Решение**: Полностью заменить `config.module.rules` конфигурацией из вашего webpack конфига. Или можно воспользоваться библиотекой [`webpack-merge`](https://github.com/survivejs/webpack-merge) для более умной замены правила `/\.css$/`
+
 ### Не могу прокинуть css-класс компонентам. Как кастомизировать?
 
 Никак.
-
-### Тестирование
-
-Тестирование происходит с использованием [jest](https://facebook.github.io/jest/) и
-[gemini](https://gemini-testing.github.io/).
-Для запуска тестов на gemini необходимо проставить переменные окружения
-`SAUCE_USERNAME` и `SAUCE_ACCESS_KEY`.<br />
-Для запуска только **jest** тестов можно выполнить `npm run unit-test`
 
 ### Помощь в развитии
 

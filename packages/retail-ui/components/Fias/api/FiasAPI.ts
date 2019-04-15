@@ -9,6 +9,7 @@ import {
   SearchOptions,
   SearchResponse,
   Stead,
+  Room,
   VerifyResponse,
   APIResult,
   FetchFn,
@@ -148,6 +149,8 @@ export class FiasAPI implements APIProvider {
             return this.searchHouse(query);
           case Fields.stead:
             return this.searchStead(query);
+          case Fields.room:
+            return this.searchRoom(query);
           default:
             return this.searchAddressObject({ ...query, levels: [field] });
         }
@@ -233,6 +236,23 @@ export class FiasAPI implements APIProvider {
           data.map((house: House) => {
             return {
               house,
+            };
+          }),
+        );
+      } else {
+        return APIResultFactory.fail<SearchResponse>(error && error.message);
+      }
+    });
+  };
+
+  private searchRoom = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
+    return this.send<Room[]>(`rooms?${FiasAPI.createQuery(query)}`).then(result => {
+      const { success, data, error } = result;
+      if (success && data) {
+        return APIResultFactory.success<SearchResponse>(
+          data.map((room: Room) => {
+            return {
+              room,
             };
           }),
         );

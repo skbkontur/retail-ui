@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import events from 'add-event-listener';
 
 export interface IgnoreLayerClickProps {
   children: React.ReactNode;
@@ -18,21 +17,22 @@ interface WrapperProps {
   children: React.ReactNode;
 }
 
+// NOTE Используется только в команде Контур.Бухгалтерия
 class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
-  private _element: Element | null = null;
+  private element: Element | null = null;
 
   public componentDidMount() {
-    const element = findDOMNode(this) as Element;
-    if (element) {
-      events.addEventListener(element, 'mousedown', this._handleMouseDown);
-      this._element = element;
+    const element = findDOMNode(this);
+    if (element && element instanceof Element) {
+      element.addEventListener('mousedown', this.handleMouseDown);
+      this.element = element;
     }
   }
 
   public componentWillUnmount() {
-    if (this._element) {
-      events.removeEventListener(this._element, 'mousedown', this._handleMouseDown);
-      this._element = null;
+    if (this.element) {
+      this.element.removeEventListener('mousedown', this.handleMouseDown);
+      this.element = null;
     }
   }
 
@@ -40,7 +40,7 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
     return React.Children.only(this.props.children);
   }
 
-  public _handleMouseDown = (event: MouseEvent) => {
+  private handleMouseDown = (event: Event) => {
     event.stopPropagation();
   };
 }

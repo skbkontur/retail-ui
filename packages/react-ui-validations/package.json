@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "0.7.3",
+  "version": "0.8.0",
   "description": "Validations for retail-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -36,8 +36,8 @@
     "src/*"
   ],
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
+    "react": ">=15 <=16",
+    "react-dom": ">=15 <=16",
     "retail-ui": "<1.0.0"
   },
   "dependencies": {
