@@ -6,6 +6,11 @@ import ZIndex from '../ZIndex/ZIndex';
 import styles from './ToastView.less';
 import { Nullable } from '../../typings/utility-types';
 
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './ToastView.styles';
+import { cx } from 'emotion';
+const theme = ThemeManager.getTheme();
+
 export interface ToastViewProps {
   children?: string;
   action?: Nullable<{
@@ -37,20 +42,20 @@ class ToastView extends React.Component<ToastViewProps> {
     const { children, action, onClose, ...rest } = this.props;
 
     const link = action ? (
-      <span className={styles.link} onClick={action.handler}>
+      <span className={cx(styles.link, jsStyles.link(theme))} onClick={action.handler}>
         {action.label}
       </span>
     ) : null;
 
     const close = action ? (
-      <span className={styles.close} onClick={onClose}>
+      <span className={cx(styles.close, jsStyles.close(theme))} onClick={onClose}>
         {CROSS}
       </span>
     ) : null;
 
     return (
       <ZIndex delta={1000} className={styles.wrapper}>
-        <div className={styles.root} {...rest}>
+        <div className={cx(styles.root, jsStyles.root(theme))} {...rest}>
           {children}
           {link}
           {close}
