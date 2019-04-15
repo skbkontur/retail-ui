@@ -3,8 +3,10 @@ import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
 import { Nullable } from '../../typings/utility-types';
+import { isFunctionalComponent, withContext } from '../../lib/utils';
 
 import styles from './Tab.less';
+import { TabsContextType, TabsContext } from './TabsContext';
 
 export interface TabIndicators {
   error: boolean;
@@ -23,12 +25,12 @@ export interface TabProps {
   /**
    * Component to use as a tab
    */
-  component: React.ComponentType<any> | string;
+  component?: React.ComponentType<any> | string;
 
   /**
    * Link href
    */
-  href: string;
+  href?: string;
 
   /**
    * Tab identifier
@@ -74,16 +76,8 @@ export interface TabProps {
    * Style property
    */
   style?: React.CSSProperties;
-}
 
-export interface TabContext {
-  activeTab: string;
-  addTab: (id: string, getNode: () => any) => void;
-  notifyUpdate: () => void;
-  removeTab: (id: string) => void;
-  shiftFocus: (fromTab: string, delta: number) => void;
-  switchTab: (id: string) => void;
-  vertical: boolean;
+  context?: TabsContextType;
 }
 
 export interface TabState {
@@ -129,33 +123,31 @@ function listenTabPresses() {
  *
  * Works only inside Tabs component, otherwise throws
  */
-class Tab extends React.Component<TabProps, TabState> {
+export class Tab extends React.Component<TabProps, TabState> {
   public static propTypes = {
     children: PropTypes.node,
     component: PropTypes.any,
     disabled: PropTypes.bool,
-    href: PropTypes.string,
+    href: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
-  };
-
-  public static contextTypes = {
-    activeTab: PropTypes.string.isRequired,
-    addTab: PropTypes.func.isRequired,
-    notifyUpdate: PropTypes.func.isRequired,
-    removeTab: PropTypes.func.isRequired,
-    switchTab: PropTypes.func.isRequired,
-    shiftFocus: PropTypes.func.isRequired,
-    vertical: PropTypes.bool.isRequired,
+    context: PropTypes.shape({
+      vertical: PropTypes.bool.isRequired,
+      activeTab: PropTypes.string.isRequired,
+      getTab: PropTypes.func.isRequired,
+      addTab: PropTypes.func.isRequired,
+      removeTab: PropTypes.func.isRequired,
+      notifyUpdate: PropTypes.func.isRequired,
+      switchTab: PropTypes.func.isRequired,
+      shiftFocus: PropTypes.func.isRequired,
+    }),
   };
 
   public static defaultProps = {
     component: 'a',
     href: 'javascript:',
   };
-
-  public context!: TabContext;
 
   public state: TabState = {
     focusedByKeyboard: false,
@@ -164,29 +156,59 @@ class Tab extends React.Component<TabProps, TabState> {
   private tabComponent: Nullable<React.ReactElement<Tab>> = null;
 
   public componentWillMount() {
-    invariant(typeof this.context.addTab === 'function', 'Tab should be placed inside Tabs component');
+    invariant(
+      this.props.context && typeof this.props.context.addTab === 'function',
+      'Tab should be placed inside Tabs component',
+    );
   }
 
   public componentDidMount() {
-    this.context.addTab(this.getId(), this.getTabInstance);
+    const id = this.getId();
+    if (this.props.context && typeof id === 'string') {
+      this.props.context.addTab(id, this.getTabInstance);
+    }
     listenTabPresses();
   }
 
   public componentDidUpdate() {
-    if (this.context.activeTab === this.props.id) {
-      this.context.notifyUpdate();
+    const { context } = this.props;
+    if (!context) {
+      return;
+    }
+    if (context.activeTab === this.props.id) {
+      context.notifyUpdate();
     }
   }
 
   public componentWillUnmount() {
-    this.context.removeTab(this.getId());
+    const id = this.getId();
+    if (this.props.context && typeof id === 'string') {
+      this.props.context.removeTab(id);
+    }
   }
 
   public render() {
-    const { children, disabled, error, warning, success, primary, component: Component, href, style } = this.props;
+    const {
+      context,
+      children,
+      disabled,
+      error,
+      warning,
+      success,
+      primary,
+      component: Component = Tab.defaultProps.component,
+      href,
+      style,
+    } = this.props;
 
-    const isActive = this.context.activeTab === this.getId();
-    const isVertical = this.context.vertical;
+    let isActive = false;
+    let isVertical = false;
+
+    const id = this.getId();
+    if (context && typeof id === 'string') {
+      isActive = context.activeTab === this.getId();
+      isVertical = context.vertical;
+    }
 
     return (
       <Component
@@ -205,7 +227,7 @@ class Tab extends React.Component<TabProps, TabState> {
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
         tabIndex={disabled ? -1 : 0}
-        ref={this.refTabComponent}
+        ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
         href={href}
         style={style}
       >
@@ -247,7 +269,9 @@ class Tab extends React.Component<TabProps, TabState> {
         return;
       }
     }
-    this.context.switchTab(id);
+    if (this.props.context && typeof id === 'string') {
+      this.props.context.switchTab(id);
+    }
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -261,16 +285,21 @@ class Tab extends React.Component<TabProps, TabState> {
         return;
       }
     }
+    const id = this.getId();
+    const { context } = this.props;
+    if (!(context && typeof id === 'string')) {
+      return;
+    }
     switch (event.keyCode) {
       case KEYCODE_ARROW_LEFT:
       case KEYCODE_ARROW_UP:
         event.preventDefault();
-        this.context.shiftFocus(this.getId(), -1);
+        context.shiftFocus(id, -1);
         return;
       case KEYCODE_ARROW_RIGHT:
       case KEYCODE_ARROW_DOWN:
         event.preventDefault();
-        this.context.shiftFocus(this.getId(), 1);
+        context.shiftFocus(id, 1);
         return;
       default:
         return;
@@ -300,5 +329,6 @@ class Tab extends React.Component<TabProps, TabState> {
     this.setState({ focusedByKeyboard: false });
   };
 }
+export const TabWithContext = withContext(TabsContext.Consumer)(Tab);
 
-export default Tab;
+export default TabWithContext;
