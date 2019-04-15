@@ -72,6 +72,10 @@ create(DslContext.projectId, BuildType({
                 artifactRules = """+:LocalSettings.zip!/**=>Candy.Web\"""
             }
         }
+        artifacts(RelativeId("Build")) {
+            buildRule = lastSuccessful("+:pull/*")
+            artifactRules = "retail-ui-*.tgz"
+        }
     }
 }))
 
