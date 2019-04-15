@@ -1,11 +1,15 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import Group from '../Group';
 import Button from '../Button';
 
 import styles from './Switcher.less';
 import { Nullable } from '../../typings/utility-types';
+
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Switcher.styles';
+const theme = ThemeManager.getTheme();
 
 export interface SwitcherProps {
   /**
@@ -54,7 +58,8 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   public render() {
     const listClassNames = classNames({
-      [styles.error]: this.props.error,
+      [styles.error]: !!this.props.error,
+      [jsStyles.error(theme)]: !!this.props.error,
     });
 
     const inputProps = {
