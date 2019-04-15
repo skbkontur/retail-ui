@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { SidePageContext, SidePageContextType, withContext } from './SidePageContext';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 import styles from './SidePage.less';
 import LayoutEvents from '../../lib/LayoutEvents';
+import { withContext } from '../../lib/utils';
 
 import { cx as classNames } from 'emotion';
 import ThemeManager from '../../lib/ThemeManager';
@@ -110,6 +111,6 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   }
 }
 
-export const SidePageFooterWithContext = withContext<SidePageFooterProps>(SidePageFooter);
+export const SidePageFooterWithContext = withContext(SidePageContext.Consumer)(SidePageFooter);
 
 export default SidePageFooterWithContext;
