@@ -236,21 +236,21 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return;
     }
 
-    if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
+    if (NavigationHelper.checkKeyPressed(event) && event.keyCode === 37) { // ArrowLeft
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
-    if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowRight') {
+    if (NavigationHelper.checkKeyPressed(event) && event.keyCode === 39) { // ArrowRight
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
 
     if (this.container && this.container === event.target) {
-      if (event.key === 'ArrowLeft') {
+      if (event.keyCode === 37) { // ArrowLeft
         this.setState({ focusedByTab: true }, this.moveFocusLeft);
         return;
       }
-      if (event.key === 'ArrowRight') {
+      if (event.keyCode === 39) { // ArrowRight
         this.setState({ focusedByTab: true }, this.moveFocusRight);
         return;
       }
