@@ -6,7 +6,6 @@ import { linkTo } from '@storybook/addon-links';
 import Tabs from '../Tabs';
 import Modal from '../../Modal';
 import Button from '../../Button';
-import { TabProps } from '../Tab';
 const { Tab } = Tabs;
 
 class UncTabs extends React.Component<any, any> {
@@ -45,14 +44,7 @@ class RouterTabs extends React.Component<any> {
   }
 }
 
-class MyLink extends React.Component<any> {
-  public render() {
-    return <a {...this.props} />;
-  }
-}
-
-const MyLinkTab = (props: TabProps) => <Tab component={MyLink} {...props} />;
-MyLinkTab.defaultProps = Tab.defaultProps;
+const MyLink = (props: React.InputHTMLAttributes<HTMLAnchorElement>) => <a {...props} />;
 
 class TabsWithMyLink extends React.Component<any, any> {
   public state = {
@@ -61,16 +53,30 @@ class TabsWithMyLink extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
-        <MyLinkTab id="fuji">🌋&nbsp;&nbsp;Fuji</MyLinkTab>
-        <MyLinkTab id="tahat">⛰&nbsp;&nbsp;Tahat</MyLinkTab>
-        <MyLinkTab id="alps">🗻&nbsp;&nbsp;Alps</MyLinkTab>
+      <Tabs
+        value={this.state.active}
+        onChange={(_, v) =>
+          this.setState({
+            active: v,
+          })
+        }
+        vertical={this.props.vertical}
+      >
+        <Tab id="fuji" component={props => <MyLink {...props} to="/1" />}>
+          🌋&nbsp;&nbsp;Fuji
+        </Tab>
+        <Tab id="tahat" component={props => <MyLink {...props} to="/2" />}>
+          ⛰&nbsp;&nbsp;Tahat
+        </Tab>
+        <Tab id="alps" component={props => <MyLink {...props} to="/3" />}>
+          🗻&nbsp;&nbsp;Alps
+        </Tab>
       </Tabs>
     );
   }
 }
 
-class UnexpectedUpdatedTab extends React.Component<any, any> {
+class UnexpectedUpdatedTab extends React.Component<{ id: string }, any> {
   public state = {
     updated: false,
   };

@@ -117,6 +117,9 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
     );
   }
 
+  public open = (): void => this.showMenu();
+  public close = (): void => this.hideMenu();
+
   private refInternalMenu = (element: Nullable<InternalMenu>) => (this.menu = element);
 
   private handleOpen = () => {

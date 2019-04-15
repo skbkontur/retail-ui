@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Nullable } from '../../typings/utility-types';
 import ButtonItem from './ButtonItem';
 import { IconProps } from '../Icon/20px';
 import DropdownMenu from '../DropdownMenu';
@@ -22,13 +23,29 @@ export interface TopBarDropdownProps {
 }
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
+  private dropdownMenu: Nullable<DropdownMenu> = null;
+
   public render() {
     return (
-      <DropdownMenu {...this.props} caption={this.renderButton}>
+      <DropdownMenu {...this.props} ref={this.refDropdownMenu} caption={this.renderButton}>
         {this.props.children}
       </DropdownMenu>
     );
   }
+
+  public open = (): void => {
+    if (this.dropdownMenu) {
+      this.dropdownMenu.open();
+    }
+  };
+
+  public close = (): void => {
+    if (this.dropdownMenu) {
+      this.dropdownMenu.close();
+    }
+  };
+
+  private refDropdownMenu = (ref: Nullable<DropdownMenu>) => (this.dropdownMenu = ref);
 
   private renderButton = (captionProps: PopupMenuCaptionProps) => {
     const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
