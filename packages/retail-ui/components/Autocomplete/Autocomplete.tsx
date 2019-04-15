@@ -9,6 +9,8 @@ import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { isIE, isEdge } from '../ensureOldIEClassName';
+import { getClosestFocusableElement } from '../../lib/dom/getFocusableElements';
 
 export interface AutocompleteProps extends InputProps {
   /** Функция отрисовки элемента меню */
@@ -141,7 +143,7 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
       ref: this.refInput,
     };
     return (
-      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleBlur}>
+      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
         <span style={{ display: 'inline-block' }}>
           <Input {...inputProps} />
           {this.renderMenu()}
@@ -220,6 +222,22 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     if (this.props.onBlur) {
       this.props.onBlur();
     }
+  };
+
+  private handleClickOutside = (e: Event) => {
+    if (isIE || isEdge) {
+      // workaround for the IE/Edge focus bug
+      // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14306303/
+      if (document.activeElement !== e.target) {
+        if (e.target instanceof HTMLElement) {
+          const closestFocusable = getClosestFocusableElement(e.target);
+          if (closestFocusable) {
+            closestFocusable.focus();
+          }
+        }
+      }
+    }
+    this.handleBlur();
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
