@@ -13,7 +13,6 @@ create(DslContext.projectId, GitVcsRoot({
     id("KeformsEngine")
     name = "keforms.engine"
     url = "git@git.skbkontur.ru:ke/keforms-engine.git"
-    branchSpec = "+:refs/heads/*"
     userNameStyle = GitVcsRoot.UserNameStyle.FULL
     agentGitPath = """C:\Program Files\Git\bin\git.exe"""
     authMethod = defaultPrivateKey {
