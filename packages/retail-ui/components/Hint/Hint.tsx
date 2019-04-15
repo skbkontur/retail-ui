@@ -121,6 +121,10 @@ class Hint extends React.Component<HintProps, HintState> {
   }
 
   private renderContent() {
+    if (!this.props.text) {
+      return null;
+    }
+
     const { pos, maxWidth } = this.props;
     const className = classNames({
       [styles.content]: true,
