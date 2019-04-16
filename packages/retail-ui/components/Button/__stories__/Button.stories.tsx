@@ -6,6 +6,7 @@ import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
 import { ButtonSize, ButtonArrow, ButtonProps } from '../Button';
 import SearchIcon from '@skbkontur/react-icons/Search';
+import Table from '../../internal/ComponentTable';
 
 storiesOf('Button', module)
   .add('playground', () => {
@@ -236,7 +237,9 @@ storiesOf('Button', module)
       </div>
     );
   })
-  .add('different aligns', () => <ButtonsTable rows={alignStates} cols={layoutStates} presetState={{ width: 200 }} />)
+  .add('different aligns', () => (
+    <Table component={Button} rows={alignStates} cols={layoutStates} presetState={{ width: 200, children: 'Button' }} />
+  ))
   .add('different visual states', () => (
     <StatesCombinator states={[...visualStates, ...sizeStates, ...arrowStates, ...useStates]} sizeX={7} sizeY={7} />
   ))
