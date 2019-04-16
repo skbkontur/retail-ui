@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
@@ -17,6 +16,10 @@ import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
 import LifeCycleProxy from '../internal/LifeCycleProxy';
+
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Popup.styles';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -319,6 +322,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       left: location.coordinates.left,
       maxWidth: props.maxWidth,
     };
+    const theme = ThemeManager.getTheme();
 
     // This need to correct handle order of lifecycle hooks with portal and react@15
     // For more details see issue #1257
@@ -340,19 +344,20 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               ref={this.refPopupElement}
               className={cn({
                 [styles.popup]: true,
-                [styles['popup-ignore-hover']]: props.ignoreHover,
-                [styles.shadow]: props.hasShadow,
+                [jsStyles.popup(theme)]: true,
+                [styles['popup-ignore-hover']]: !!props.ignoreHover,
+                [jsStyles.shadow(theme)]: props.hasShadow,
                 [styles['transition-enter']]: state === 'entering',
                 [styles['transition-enter-active']]: state === 'entered',
                 [styles['transition-exit']]: state === 'exiting',
-                [styles[('transition-enter-' + direction) as keyof typeof styles]]: true,
+                [cn(styles[('transition-enter-' + direction) as keyof typeof styles])]: true,
               })}
               style={rootStyle}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={styles.content}>
-                <div className={styles.contentInner} style={{ backgroundColor }}>
+              <div className={cn(styles.content, jsStyles.content(theme))}>
+                <div className={jsStyles.contentInner(theme)} style={{ backgroundColor }}>
                   {children}
                 </div>
               </div>

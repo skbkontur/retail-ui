@@ -1,5 +1,4 @@
 import * as React from 'react';
-import cn from 'classnames';
 import Link from '../Link';
 import {
   Fields,
@@ -18,9 +17,12 @@ import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
-import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
+
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './Fias.styles';
 
 export interface FiasProps {
   /**
@@ -213,12 +215,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public render() {
     const { showAddressText, label, icon, error, warning, feedback } = this.props;
     const { opened, address, locale } = this.state;
+    const theme = ThemeManager.getTheme();
 
     const linkText = label || (address.isEmpty ? locale.addressFill : locale.addressEdit);
 
     const validation =
       (error || warning) && feedback ? (
-        <span className={cn({ [styles.error]: error, [styles.warning]: warning })}>{feedback}</span>
+        <span className={cn({ [jsStyles.error(theme)]: !!error, [jsStyles.warning(theme)]: !!warning })}>
+          {feedback}
+        </span>
       ) : null;
 
     return (

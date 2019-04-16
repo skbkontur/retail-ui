@@ -9,6 +9,11 @@ import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Tooltip.styles';
+import { cx } from 'emotion';
+const theme = ThemeManager.getTheme();
+
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
 
@@ -208,7 +213,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <span className={styles.cross} onClick={this.handleCloseButtonClick}>
+      <span className={cx(styles.cross, jsStyles.cross(theme))} onClick={this.handleCloseButtonClick}>
         {CROSS}
       </span>
     );

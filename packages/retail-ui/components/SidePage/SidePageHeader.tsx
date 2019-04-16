@@ -1,10 +1,13 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import Sticky from '../Sticky';
 import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
 import { isFunction } from '../../lib/utils';
+
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './SidePage.styles';
 
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
@@ -61,10 +64,12 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
   }
 
   private renderHeader = (fixed: boolean = false) => {
+    const theme = ThemeManager.getTheme();
+
     return (
-      <div className={classNames(styles.header, { [styles.fixed]: fixed })}>
+      <div className={classNames(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(theme)]: fixed })}>
         {this.renderClose()}
-        <div className={classNames(styles.title, { [styles.fixed]: fixed })}>
+        <div className={classNames(styles.title, { [styles.fixed]: fixed, [jsStyles.fixed(theme)]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
@@ -72,6 +77,8 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
   };
 
   private renderClose = () => {
+    const theme = ThemeManager.getTheme();
+
     return (
       <Sticky side="top" offset={CLOSE_ELEMENT_OFFSET}>
         {fixed => (
@@ -79,7 +86,10 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
             {({ requestClose }) => (
               <a
                 href="javascript:"
-                className={classNames(styles.close, { [styles.fixed]: fixed })}
+                className={classNames(styles.close, jsStyles.close(theme), {
+                  [styles.fixed]: fixed,
+                  [jsStyles.fixed(theme)]: fixed,
+                })}
                 onClick={requestClose}
                 data-tid="SidePage-Close"
               >

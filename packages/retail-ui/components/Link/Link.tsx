@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
@@ -8,12 +7,25 @@ import tabListener from '../../lib/events/tabListener';
 
 import styles from './Link.less';
 
-const useClasses = {
-  default: styles.useDefault,
-  success: styles.useSuccess,
-  danger: styles.useDanger,
-  grayed: styles.useGrayed,
-};
+import { cx as classNames } from 'emotion';
+import ThemeManager, { ITheme } from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './Link.styles';
+
+interface UseClasses {
+  default: string;
+  success: string;
+  danger: string;
+  grayed: string;
+}
+
+function getUseClasses(theme: ITheme): UseClasses {
+  return {
+    default: classNames(styles.useDefault, jsStyles.useDefault(theme)),
+    success: classNames(styles.useSuccess, jsStyles.useSuccess(theme)),
+    danger: classNames(styles.useDanger, jsStyles.useDanger(theme)),
+    grayed: classNames(styles.useGrayed, jsStyles.useGrayed(theme)),
+  };
+}
 
 export type LinkProps = Override<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -68,18 +80,11 @@ class Link extends React.Component<LinkProps, LinkState> {
   private getProps = createPropsGetter(Link.defaultProps);
 
   public render(): JSX.Element {
-    const {
-      disabled,
-      href,
-      icon,
-      use,
-      _button,
-      _buttonOpened,
-      className,
-      style,
-
-      ...rest
-    } = this.getProps<LinkProps, Link>();
+    const { disabled, href, icon, use, _button, _buttonOpened, className, style, ...rest } = this.getProps<
+      LinkProps,
+      Link
+    >();
+    const theme = ThemeManager.getTheme();
 
     let iconElement = null;
     if (icon) {
@@ -93,11 +98,11 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     const props = {
       className: classNames({
-        [styles.disabled]: disabled,
-        [styles.button]: _button,
-        [styles.buttonOpened]: _buttonOpened,
-        [styles.focus]: !disabled && this.state.focusedByTab,
-        [useClasses[use as keyof typeof useClasses]]: !!use,
+        [jsStyles.disabled(theme)]: !!disabled,
+        [styles.button]: !!_button,
+        [styles.buttonOpened]: !!_buttonOpened,
+        [jsStyles.focus(theme)]: !disabled && this.state.focusedByTab,
+        [getUseClasses(theme)[use as keyof UseClasses]]: !!use,
       }),
       href,
       onClick: this._handleClick,

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import createReactContext from 'create-react-context';
 import { SidePageFooter } from './SidePageFooter';
 
@@ -15,11 +14,3 @@ export const SidePageContext = createReactContext<SidePageContextType>({
   updateLayout: () => undefined,
   footerRef: () => undefined,
 });
-
-export const withContext = <P extends {}>(
-  BaseComponent: React.ComponentType<P & { context?: SidePageContextType }>,
-) => (props: P) => (
-  <SidePageContext.Consumer>
-    {(context: SidePageContextType) => <BaseComponent {...props} context={context} />}
-  </SidePageContext.Consumer>
-);

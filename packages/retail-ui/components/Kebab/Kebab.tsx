@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import cn from 'classnames';
 import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
 
 import Icon20 from '../Icon/20px';
@@ -12,6 +11,10 @@ import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 import styles from './Kebab.less';
 import { PopupPosition } from '../Popup';
+
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './Kebab.styles';
 
 export interface KebabProps {
   disabled?: boolean;
@@ -95,6 +98,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   private renderCaption = (captionProps: PopupMenuCaptionProps) => {
+    const theme = ThemeManager.getTheme();
     const { disabled } = this.props;
     const handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!disabled) {
@@ -120,6 +124,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
           captionProps.opened && styles.opened,
           disabled && styles.disabled,
           this.state.focusedByTab && styles.focused,
+          this.state.focusedByTab && jsStyles.focused(theme),
         )}
       >
         {this.renderIcon()}

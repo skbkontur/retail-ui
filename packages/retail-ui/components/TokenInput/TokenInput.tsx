@@ -7,13 +7,17 @@ import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import LayoutEvents from '../../lib/LayoutEvents';
 import styles from './TokenInput.less';
-import cn from 'classnames';
 import Menu from '../Menu/Menu';
 import Token, { TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
+
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './TokenInput.styles';
+const theme = ThemeManager.getTheme();
 
 export enum TokenInputType {
   WithReference,
@@ -173,10 +177,10 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         <label
           ref={this.wrapperRef}
           style={{ width }}
-          className={cn(styles.label, {
-            [styles.labelFocused]: inFocus,
-            [styles.error]: error,
-            [styles.warning]: warning,
+          className={cn(styles.label, jsStyles.label(theme), {
+            [jsStyles.labelFocused(theme)]: !!inFocus,
+            [jsStyles.error(theme)]: !!error,
+            [jsStyles.warning(theme)]: !!warning,
           })}
           onMouseDown={this.handleWrapperMouseDown}
           onMouseUp={this.handleWrapperMouseUp}
@@ -190,7 +194,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
             autoComplete="off"
             spellCheck={false}
             disabled={disabled}
-            className={styles.input}
+            className={cn(styles.input, jsStyles.input(theme))}
             placeholder={selectedItems.length > 0 ? undefined : placeholder}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}

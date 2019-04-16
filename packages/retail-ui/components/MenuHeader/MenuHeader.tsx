@@ -1,9 +1,12 @@
 import * as React from 'react';
-import classNames from 'classnames';
 
 import styles from './MenuHeader.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './MenuHeader.styles';
 
 export interface MenuHeaderProps {
   children: React.ReactNode;
@@ -22,9 +25,10 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
   private getProps = createPropsGetter(MenuHeader.defaultProps);
 
   public render() {
+    const theme = ThemeManager.getTheme();
     const classnames: string = classNames({
       [styles.root]: true,
-      [styles.withLeftPadding]: this.getProps()._enableIconPadding,
+      [jsStyles.withLeftPadding(theme)]: this.getProps()._enableIconPadding,
     });
     return <div className={classnames}>{this.props.children}</div>;
   }

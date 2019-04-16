@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
 
@@ -17,6 +16,10 @@ import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 
 import styles from './SidePage.less';
+
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './SidePage.styles';
 
 export interface SidePageProps {
   /**
@@ -147,7 +150,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     return {
       delta: 1000,
       classes: classNames(styles.root, {
-        [styles.leftSide]: fromLeft,
+        [styles.leftSide]: !!fromLeft,
       }),
       style: blockBackground ? { width: '100%' } : undefined,
     };
@@ -155,12 +158,17 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderContainer(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
+    const theme = ThemeManager.getTheme();
 
     return (
       <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
-            className={classNames(styles.container, this.state.hasShadow && styles.shadow)}
+            className={classNames(
+              styles.container,
+              jsStyles.container(theme),
+              this.state.hasShadow && jsStyles.shadow(theme),
+            )}
             style={this.getSidebarStyle()}
           >
             <div ref={_ => (this.layoutRef = _)}>
@@ -221,10 +229,12 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private getTransitionNames(): Record<string, string> {
     const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
-    const transitionEnter =
-      styles[('transition-enter-' + direction) as 'transition-enter-left' | 'transition-enter-right'];
-    const transitionAppear =
-      styles[('transition-appear-' + direction) as 'transition-appear-left' | 'transition-appear-right'];
+    const transitionEnter = classNames(
+      styles[('transition-enter-' + direction) as 'transition-enter-left' | 'transition-enter-right'],
+    );
+    const transitionAppear = classNames(
+      styles[('transition-appear-' + direction) as 'transition-appear-left' | 'transition-appear-right'],
+    );
 
     return {
       enter: transitionEnter,

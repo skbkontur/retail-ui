@@ -8,7 +8,9 @@ import { Nullable } from '../../typings/utility-types';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';
 import styles from './Logotype.less';
-import classnames from 'classnames';
+import { cx as classnames } from 'emotion';
+import ThemeManager from '../../../retail-ui/lib/ThemeManager';
+import jsStyles from './Logotype.styles';
 
 const createCloud = (color: string) => (
   <svg width="24" height="17" viewBox="0 0 24 17" className={styles.cloud}>
@@ -104,11 +106,12 @@ class Logotype extends React.Component<LogotypeProps> {
     const dropdownClassName = classnames(styles.dropdown, {
       [styles.inline]: !withWidget,
     });
+    const theme = ThemeManager.getTheme();
 
     return (
       <div id="spwDropdown" className={dropdownClassName}>
         <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
-          <Component href={href} tabIndex="-1" className={styles.root}>
+          <Component href={href} tabIndex="-1" className={classnames(styles.root, jsStyles.root(theme))}>
             <span style={{ color: textColor }}>{propLocale.prefix}</span>
             <span style={{ color }}>{createCloud(color)}</span>
             <span style={{ color: textColor }}>
@@ -117,7 +120,7 @@ class Logotype extends React.Component<LogotypeProps> {
             </span>
             {suffix && <span style={{ color }}>{suffix}</span>}
           </Component>
-          {withWidget && <span className={styles.divider} />}
+          {withWidget && <span className={classnames(styles.divider, jsStyles.divider(theme))} />}
         </span>
         {withWidget && (
           <button className={styles.button}>

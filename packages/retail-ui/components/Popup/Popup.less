@@ -10,8 +10,6 @@
   .popup {
     position: absolute;
     min-width: 18px;
-    border-radius: @popup-border-radius;
-    border: @popup-border @popup-border-color;
 
     &-ignore-hover {
       pointer-events: none;
@@ -19,29 +17,7 @@
   }
 
   .content {
-    border-radius: @popup-border-radius;
     overflow: hidden;
-  }
-
-  .contentInner {
-    background: @bg-default;
-  }
-
-  :global(.rt-ie-any) {
-    .shadow {
-      box-shadow: @popup-box-shadow;
-    }
-  }
-
-  :global(.rt-ie8) {
-    .popup {
-      border: 1px solid @tooltip-border;
-    }
-  }
-
-  .shadow {
-    filter: @popup-drop-shadow;
-    -webkit-filter: @popup-drop-shadow;
   }
 
   .transition {

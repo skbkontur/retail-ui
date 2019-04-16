@@ -124,14 +124,14 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
           data-rendered-container-id="1"
         >
           <div
-            class="popup transition-enter-active transition-enter-bottom"
+            class="popup css-140yvgu transition-enter-active transition-enter-bottom"
             style="top: 10px; left: 0px; max-width: 500px; z-index: 1000;"
           >
             <div
-              class="content"
+              class="content css-r93459"
             >
               <div
-                class="contentInner"
+                class="css-fopoh2"
               >
                 Test content
               </div>
@@ -141,80 +141,104 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
       }
       rootId={1}
     >
-      <LifeCycleProxy
-        onDidUpdate={[Function]}
-        props={
-          Object {
-            "location": null,
-          }
-        }
-      >
-        <Transition
-          appear={true}
-          enter={true}
-          exit={true}
-          in={true}
-          mountOnEnter={true}
-          onEnter={[Function]}
-          onEntered={[Function]}
-          onEntering={[Function]}
-          onExit={[Function]}
-          onExited={[Function]}
-          onExiting={[Function]}
-          timeout={
-            Object {
-              "enter": 0,
-              "exit": 200,
-            }
-          }
-          unmountOnExit={true}
-        >
-          <ZIndex
-            className="popup transition-enter-top"
-            delta={1000}
-            key="dummy"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            render={true}
-            style={
-              Object {
-                "left": -9999,
-                "maxWidth": 500,
-                "top": -9999,
-              }
-            }
+      <Portal
+        containerInfo={
+          <div
+            class="react-ui"
+            data-rendered-container-id="1"
           >
             <div
-              className="popup transition-enter-top"
-              onMouseEnter={[Function]}
-              onMouseLeave={[Function]}
-              style={
-                Object {
-                  "left": -9999,
-                  "maxWidth": 500,
-                  "top": -9999,
-                  "zIndex": 1000,
-                }
-              }
+              class="popup css-140yvgu transition-enter-active transition-enter-bottom"
+              style="top: 10px; left: 0px; max-width: 500px; z-index: 1000;"
             >
               <div
-                className="content"
+                class="content css-r93459"
               >
                 <div
-                  className="contentInner"
-                  style={
-                    Object {
-                      "backgroundColor": undefined,
-                    }
-                  }
+                  class="css-fopoh2"
                 >
                   Test content
                 </div>
               </div>
             </div>
-          </ZIndex>
-        </Transition>
-      </LifeCycleProxy>
+          </div>
+        }
+      >
+        <LifeCycleProxy
+          onDidUpdate={[Function]}
+          props={
+            Object {
+              "location": null,
+            }
+          }
+        >
+          <Transition
+            appear={true}
+            enter={true}
+            exit={true}
+            in={true}
+            mountOnEnter={true}
+            onEnter={[Function]}
+            onEntered={[Function]}
+            onEntering={[Function]}
+            onExit={[Function]}
+            onExited={[Function]}
+            onExiting={[Function]}
+            timeout={
+              Object {
+                "enter": 0,
+                "exit": 200,
+              }
+            }
+            unmountOnExit={true}
+          >
+            <ZIndex
+              className="popup css-140yvgu transition-enter-top"
+              delta={1000}
+              key="dummy"
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              render={true}
+              style={
+                Object {
+                  "left": -9999,
+                  "maxWidth": 500,
+                  "top": -9999,
+                }
+              }
+            >
+              <div
+                className="popup css-140yvgu transition-enter-top"
+                onMouseEnter={[Function]}
+                onMouseLeave={[Function]}
+                style={
+                  Object {
+                    "left": -9999,
+                    "maxWidth": 500,
+                    "top": -9999,
+                    "zIndex": 1000,
+                  }
+                }
+              >
+                <div
+                  className="content css-r93459"
+                >
+                  <div
+                    className="css-fopoh2"
+                    style={
+                      Object {
+                        "backgroundColor": undefined,
+                      }
+                    }
+                  >
+                    Test content
+                  </div>
+                </div>
+              </div>
+            </ZIndex>
+          </Transition>
+        </LifeCycleProxy>
+      </Portal>
       <Portal
         key="portal-ref"
         rt_rootID={1}

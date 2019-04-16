@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
-import cn from 'classnames';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
@@ -12,6 +11,11 @@ import tabListener from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
 
 import styles from './Paging.less';
+
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Paging.styles';
+const theme = ThemeManager.getTheme();
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
@@ -146,7 +150,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
   private renderDots = (key: string) => {
     return (
-      <span key={key} className={styles.dots}>
+      <span key={key} className={cn(styles.dots, jsStyles.dots(theme))}>
         {'...'}
       </span>
     );
@@ -155,8 +159,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
     const classes = cn({
       [styles.forwardLink]: true,
+      [jsStyles.forwardLink(theme)]: true,
       [styles.focused]: focused,
+      [jsStyles.focused(theme)]: focused,
       [styles.disabled]: disabled,
+      [jsStyles.disabled(theme)]: disabled,
     });
     const { component: Component, strings: { forward = this.locale.forward } = {}, caption } = this.props;
 
@@ -180,8 +187,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
     const classes = cn({
       [styles.pageLink]: true,
+      [jsStyles.pageLink(theme)]: true,
       [styles.focused]: focused,
+      [jsStyles.focused(theme)]: focused,
       [styles.active]: active,
+      [jsStyles.active(theme)]: active,
     });
     const Component = this.props.component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -207,7 +217,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
     if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
-        <span className={styles.pageLinkHint}>
+        <span className={cn(styles.pageLinkHint, jsStyles.pageLinkHint(theme))}>
           <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
           <span className={canGoForward ? '' : styles.transparent}>{'→'}</span>
