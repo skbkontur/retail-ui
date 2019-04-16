@@ -138,6 +138,12 @@ export interface ComboBoxProps<T> {
   width?: string | number;
 
   maxMenuHeight?: number | string;
+
+  onMouseEnter?: (e: React.MouseEvent) => void;
+
+  onMouseOver?: (e: React.MouseEvent) => void;
+
+  onMouseLeave?: (e: React.MouseEvent) => void;
 }
 
 export interface ComboBoxItem {
