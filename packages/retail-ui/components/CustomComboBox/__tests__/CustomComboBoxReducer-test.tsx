@@ -6,12 +6,12 @@ interface ItemType {
   label: string;
 }
 
-type RenderItem = (item: ItemType) => React.ReactNode;
+type RenderValue = (item: ItemType) => React.ReactText;
 
-const createGetPropsMock = (renderItem: RenderItem) =>
+const createGetPropsMock = (renderValue: RenderValue) =>
   jest.fn(() => ({
     onUnexpectedInput: null,
-    renderItem,
+    renderValue,
   }));
 
 const testCase = [
@@ -23,7 +23,7 @@ const testCase = [
         label: 'One',
       },
     ],
-    renderItem: (item: ItemType) => item.label,
+    renderValue: (item: ItemType) => item.label,
     expectedDispatch: true,
   },
   {
@@ -38,7 +38,7 @@ const testCase = [
         label: 'Two',
       },
     ],
-    renderItem: (item: ItemType) => item.label,
+    renderValue: (item: ItemType) => item.label,
     expectedDispatch: false,
   },
   {
@@ -49,26 +49,15 @@ const testCase = [
         label: 'One',
       },
     ],
-    renderItem: (item: ItemType) => `${item.label} Plus`,
-    expectedDispatch: true,
-  },
-  {
-    inputValue: 'Two',
-    items: [
-      {
-        value: 2,
-        label: 'Two',
-      },
-    ],
-    renderItem: (item: ItemType) => <span>{item.label}</span>,
+    renderValue: (item: ItemType) => `${item.label} Plus`,
     expectedDispatch: true,
   },
 ];
 
 describe('Default combobox reducer', () => {
-  testCase.forEach(({ inputValue, items, renderItem, expectedDispatch }, index) => {
+  testCase.forEach(({ inputValue, items, renderValue, expectedDispatch }, index) => {
     it(`ValueChange after UnexpectedInput (test ${index + 1})`, () => {
-      const mockedGetProps = createGetPropsMock(renderItem);
+      const mockedGetProps = createGetPropsMock(renderValue);
       const mockedDispatch = jest.fn();
       const mockedGetState = jest.fn();
       const mockedGetInstance = jest.fn();
