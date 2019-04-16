@@ -106,11 +106,11 @@ export const Effect: EffectFactory = {
     }
   },
   UnexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
-    const { onUnexpectedInput, renderItem = ComboBoxView.defaultProps.renderItem } = getProps();
+    const { onUnexpectedInput, renderValue = ComboBoxView.defaultProps.renderValue } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
-      const renderedValue: React.ReactNode = renderItem(singleItem);
+      const renderedValue: React.ReactText = renderValue(singleItem);
       const valueContent = reactGetTextContent(renderedValue);
 
       if (valueContent === textValue) {
