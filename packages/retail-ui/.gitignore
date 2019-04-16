@@ -9,7 +9,6 @@ coverage/
 gemini-report
 /docs/dist/
 /build
-/styleguide
 /storybook-static
 *.less.d.ts
 *.less.flow
