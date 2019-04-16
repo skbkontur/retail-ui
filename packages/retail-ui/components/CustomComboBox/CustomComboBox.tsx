@@ -8,8 +8,7 @@ import { MenuItemState } from '../MenuItem';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { reducer, CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
-import { isIE, isEdge } from '../ensureOldIEClassName';
-import { getClosestFocusableElement } from '../../lib/dom/getFocusableElements';
+import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -330,18 +329,7 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
   };
 
   private handleClickOutside = (e: Event) => {
-    if (isIE || isEdge) {
-      // workaround for the IE/Edge focus bug
-      // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14306303/
-      if (document.activeElement !== e.target) {
-        if (e.target instanceof HTMLElement) {
-          const closestFocusable = getClosestFocusableElement(e.target);
-          if (closestFocusable) {
-            closestFocusable.focus();
-          }
-        }
-      }
-    }
+    fixClickFocusIE(e);
     this.handleBlur();
   };
 
