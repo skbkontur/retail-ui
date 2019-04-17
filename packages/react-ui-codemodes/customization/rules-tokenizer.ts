@@ -178,7 +178,7 @@ function tokenizeRules(ruleset: IDynamicRuleset): ITokenizedRuleset {
 }
 
 function tokenizeRule(rule: string): string[] {
-  return rule.split(/(:variable\([a-z0-9]+\))/i);
+  return rule.split(/(:variable\([a-z0-9]+\)|:functions\[[a-z0-9]+]\([a-z0-9:()#',%\s]+\))/i);
 }
 
 // we need cache, because we use string[] as the key for the map, so it has to have the same reference

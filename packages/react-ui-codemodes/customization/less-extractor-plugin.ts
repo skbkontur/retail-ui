@@ -6,8 +6,8 @@ export interface IExtractDynamicClassesPluginOptions {
 }
 
 interface IVisitor<T = ILessNode> {
-  run(node: T): T | void;
-  visit(node: T): T | void;
+  run(node: T): T;
+  visit(node: T): T;
 }
 
 interface PluginManagerInternal {
@@ -25,15 +25,16 @@ interface ILessNode {
   variable: boolean;
   parent?: ILessNode;
 
+  __CALL_TEMPLATE__?: { name: string; args: ILessNode[] };
   __DYNAMIC_VARIABLE_NAME__?: string;
   __DERIVED_VARIABLE_NAME__?: string;
   __RULE_TO_EXTRACT__: boolean;
   __RULESET_TO_EXTRACT__: boolean;
-}
 
-interface ILessRule extends ILessNode {
   toCSS(context: object): string;
 }
+
+interface ILessRule extends ILessNode {}
 
 interface ILessSelectorNode extends ILessRule {
   elements: ILessRule[];
@@ -62,10 +63,6 @@ export class ExtractDynamicRulesPlugin implements Less.Plugin {
   public setOptions(dynamicRulesMap: IDynamicRulesAggregator) {
     this._options.dynamicRulesAggregator = dynamicRulesMap;
   }
-
-  public printUsage() {
-    return '';
-  }
 }
 
 class EDRPreVisitor implements IVisitor {
@@ -79,6 +76,7 @@ class EDRPreVisitor implements IVisitor {
     this._less = less;
     this._visitor = new LessVisitor(this);
     this._patchVariableEval();
+    this._patchCallEval();
   }
 
   public run(root: ILessNode) {
@@ -89,11 +87,32 @@ class EDRPreVisitor implements IVisitor {
     return node;
   }
 
+  private _patchCallEval() {
+    const Call = this._less.tree.Call;
+    const originalCallEval = Call.prototype.eval;
+    const fToPatch = ['lighten', 'darken', 'contrast', 'red', 'green', 'blue', 'alpha'];
+    Call.prototype.eval = function patchedCall(context: any) {
+      const result: ILessNode = originalCallEval.call(this, context);
+
+      if (fToPatch.includes(this.name) && this.args) {
+        const evaluatedArguments = this.args.map((a: any) => a.eval(context));
+        if (evaluatedArguments.some((a: ILessNode) => a.__DYNAMIC_VARIABLE_NAME__ || a.__DERIVED_VARIABLE_NAME__)) {
+          result.__CALL_TEMPLATE__ = {
+            name: this.name,
+            args: evaluatedArguments,
+          };
+        }
+      }
+
+      return result;
+    };
+  }
+
   // NOTE: mark variables from variables.less for future patching
   private _patchVariableEval = () => {
     const Variable = this._less.tree.Variable;
-
     const originalVariableEval = Variable.prototype.eval;
+
     Variable.prototype.eval = function patchedEval(context: any) {
       const result: ILessNode = originalVariableEval.call(this, context);
       const frames = context.frames;
@@ -102,7 +121,10 @@ class EDRPreVisitor implements IVisitor {
       if (result.__DYNAMIC_VARIABLE_NAME__) {
         // console.log('[less-extractor-plugin.ts]', 'patchedEval from value', name);
         result.__DERIVED_VARIABLE_NAME__ = name;
-      } else if (Array.isArray(result.value) && result.value.some((v: any) => v.__DYNAMIC_VARIABLE_NAME__)) {
+      } else if (
+        Array.isArray(result.value) &&
+        (result.value as ILessNode[]).some(v => !!v.__DYNAMIC_VARIABLE_NAME__ || !!v.__CALL_TEMPLATE__)
+      ) {
         // console.log('[less-extractor-plugin.ts]', 'patchedEval from values array', name);
         result.__DERIVED_VARIABLE_NAME__ = name;
       } else {
@@ -133,7 +155,7 @@ class EDRVisitor implements IVisitor {
   private readonly _visitor: IVisitor;
   private _currentRuleset: ILessRuleset | null = null;
   private _currentRule: ILessRule | null = null;
-  private _extractingRules: IDynamicRules = {};
+  private _extractedRules: IDynamicRules = {};
 
   constructor(less: LessStatic, dynamicRulesAggregator: IDynamicRulesAggregator) {
     const LessVisitor = (less as any).visitors.Visitor;
@@ -151,11 +173,23 @@ class EDRVisitor implements IVisitor {
         // @ts-ignore
         this[visitName] = (node: ILessNode) => {
           if (this._currentRule) {
+            if (node.__CALL_TEMPLATE__) {
+              const args = node.__CALL_TEMPLATE__.args.map((a: ILessNode) => {
+                a = this._visitor.visit(a);
+                return `'${a.toCSS({ tabLevel: 0 })}'`;
+              });
+
+              const content = `:functions[${node.__CALL_TEMPLATE__.name}](${args.join(', ')})`;
+              return new QuotedNode('"', content, true, node._index, node._fileInfo);
+            }
+
             if (node.__DYNAMIC_VARIABLE_NAME__) {
               // console.count('USED DYNAMIC VAR');
               this._currentRule.__RULE_TO_EXTRACT__ = true;
               const content = camelize(node.__DYNAMIC_VARIABLE_NAME__);
-              return new QuotedNode('"', content, true, node._index, node._fileInfo);
+              const quotedNode = new QuotedNode('"', content, true, node._index, node._fileInfo);
+              quotedNode.__CALL_TEMPLATE__ = node.__CALL_TEMPLATE__;
+              return quotedNode;
             }
 
             if (node.__DERIVED_VARIABLE_NAME__) {
@@ -163,6 +197,7 @@ class EDRVisitor implements IVisitor {
               this._currentRule.__RULE_TO_EXTRACT__ = true;
             }
           }
+
           return node;
         };
       }
@@ -204,7 +239,7 @@ class EDRVisitor implements IVisitor {
     const ruleset = this._currentRuleset;
     const rule = this._currentRule;
     if (ruleset && rule && rule.__RULE_TO_EXTRACT__) {
-      this._extractingRules[rule.name] = extractRuleValue(rule.value as ILessRule);
+      this._extractedRules[rule.name] = extractRuleValue(rule.value as ILessRule);
       this._dra.markForRemoval(
         rule.fileInfo().filename,
         rule
@@ -220,7 +255,7 @@ class EDRVisitor implements IVisitor {
 
   public visitRulesetOut(node: ILessRuleset) {
     const ruleset = this._currentRuleset;
-    const rulesToExtract = this._extractingRules;
+    const rulesToExtract = this._extractedRules;
     const CommentNode = (this._less as any).tree.Comment;
     if (ruleset && Object.keys(rulesToExtract).length > 0) {
       const whole = ruleset.toCSS({ tabLevel: 0 });
@@ -235,8 +270,8 @@ class EDRVisitor implements IVisitor {
       // console.log("[less-extractor-plugin.ts]", "SELECTOR", fullSelector);
 
       const isPartial = !ruleset.rules.every(rule => rule instanceof CommentNode);
-      this._dra.addRuleset(fullSelector, { isPartial, rules: this._extractingRules });
-      this._extractingRules = {};
+      this._dra.addRuleset(fullSelector, { isPartial, rules: this._extractedRules });
+      this._extractedRules = {};
     }
 
     this._currentRuleset = null;

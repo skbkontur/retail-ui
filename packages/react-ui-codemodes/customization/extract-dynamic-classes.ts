@@ -20,8 +20,10 @@ const ROOT_PATH = process.cwd();
 const TO_SOURCE_OPTIONS: any = {
   quote: 'single',
   useTab: false,
-  tabSize: 2,
+  tabWidth: 2,
   wrapColumn: 120,
+  lineTerminator: '\n',
+  reuseWhitespace: false,
   trailingComma: {
     objects: true,
     arrays: true,
@@ -29,14 +31,17 @@ const TO_SOURCE_OPTIONS: any = {
   },
 };
 const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
+const COLOR_FUNCTIONS_PATH = path.join('..', 'retail-ui', 'lib', 'styles', 'ColorFunctions');
 let rulesToRemove: IRemovalInfo[] = [];
 let themeManagerImportPath: string;
+let colorFunctionsImportPath: string;
 
-function extractDynamicClasses(fileInfo: FileInfo, api: API) {
+function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
   if (fileInfo.path.includes('__stories__')) {
     return null;
   }
 
+  const doWrite = !options.dry;
   const j = api.jscodeshift;
   const root = j(fileInfo.source);
 
@@ -172,6 +177,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   });
 
   themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_MANAGER_PATH).replace(/\\/g, '/');
+  colorFunctionsImportPath = path.relative(path.dirname(fileInfo.path), COLOR_FUNCTIONS_PATH).replace(/\\/g, '/');
   const themeManagerIdentifier = j.identifier('ThemeManager');
   const themeTypeIdentifier = j.identifier('ITheme');
   const themeManagerImportStatement = j.importDeclaration(
@@ -219,7 +225,35 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
         quasi = quasi + `${'\n\t\t\t'}${ruleName}: `;
         const ruleParts = ruleset.rules[ruleName];
         ruleParts.forEach(value => {
-          if (value.startsWith(':variable')) {
+          if (value.startsWith(':functions')) {
+            templateLiteralQuasis.push(
+              j.templateElement(
+                {
+                  cooked: quasi,
+                  raw: quasi,
+                },
+                false,
+              ),
+            );
+
+            // @ts-ignore
+            const [whole, functionName, args] = value.match(/^:functions\[([a-z0-9]+)]\(([a-z0-9:()#',%\s]+)\)$/i)!;
+            const callColorExpression = j.callExpression(
+              j.memberExpression(j.identifier('cf'), j.identifier(functionName)),
+              args.split(',').map(a => {
+                const suspect = a.replace(/'/g, '').trim();
+                if (suspect.startsWith(':variable')) {
+                  const variableName = suspect.replace(':variable(', '').replace(')', '');
+                  return j.memberExpression(themeArgumentIdentifier, j.identifier(variableName));
+                }
+
+                return j.literal(suspect);
+              }),
+            );
+
+            templateLiteralExpressions.push(callColorExpression);
+            quasi = '';
+          } else if (value.startsWith(':variable')) {
             templateLiteralQuasis.push(
               j.templateElement(
                 {
@@ -293,7 +327,34 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
           quasi = quasi + `${'\n\t\t\t\t'}${ruleName}: `;
           const ruleParts = cascadeRulesObject[ruleName];
           ruleParts.forEach(value => {
-            if (value.startsWith(':variable')) {
+            if (value.startsWith(':functions')) {
+              templateLiteralQuasis.push(
+                j.templateElement(
+                  {
+                    cooked: quasi,
+                    raw: quasi,
+                  },
+                  false,
+                ),
+              );
+
+              // @ts-ignore
+              const [whole, functionName, args] = value.match(/^:functions\[([a-z0-9]+)]\(([a-z0-9:()#',%\s]+)\)$/i)!;
+              const callColorExpression = j.callExpression(
+                j.memberExpression(j.identifier('cf'), j.identifier(functionName)),
+                args.split(',').map(a => {
+                  const suspect = a.replace(/'/g, '').trim();
+                  if (suspect.startsWith(':variable')) {
+                    const variableName = suspect.replace(':variable(', '').replace(')', '');
+                    return j.memberExpression(themeArgumentIdentifier, j.identifier(variableName));
+                  }
+
+                  return j.literal(suspect);
+                }),
+              );
+              templateLiteralExpressions.push(callColorExpression);
+              quasi = '';
+            } else if (value.startsWith(':variable')) {
               templateLiteralQuasis.push(
                 j.templateElement(
                   {
@@ -361,6 +422,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
     const dynamicsStylesSource = j(dynamicStylesConst);
     const jsStylesFullPath = path.resolve(path.dirname(fileInfo.path), `${jsStylesImportPath}.ts`);
 
+    // NOTE: we always write as it's a separate file
     fs.writeFileSync(jsStylesFullPath, dynamicsStylesSource.toSource(TO_SOURCE_OPTIONS), { encoding: 'utf8' });
     processJsStylesFile(j, jsStylesFullPath, identifier, lessImportPath);
   });
@@ -631,9 +693,11 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
 
     const lessFilePath = path.resolve(path.dirname(fileInfo.path), stylesIdToFileMap.get(styleIdentifier)!);
     const rulesToRemoveArr = Array.from(new Set(rulesToRemove.map(r => `${dasherizeVariables(r.rule)}`)));
-    fs.writeFileSync(`${lessFilePath}.removals.txt`, rulesToRemoveArr.join('\n'), { encoding: 'utf8' });
+    if (doWrite) {
+      fs.writeFileSync(`${lessFilePath}.removals.txt`, rulesToRemoveArr.join('\n'), { encoding: 'utf8' });
+    }
 
-    removeVariableRulesFromLessFile(lessFilePath, rulesToRemoveArr);
+    removeVariableRulesFromLessFile(lessFilePath, rulesToRemoveArr, doWrite);
   });
 
   const result = root.toSource(TO_SOURCE_OPTIONS);
@@ -641,7 +705,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API) {
   return result;
 }
 
-function removeVariableRulesFromLessFile(lessFilePath: string, rulesToRemoveArr: string[]) {
+function removeVariableRulesFromLessFile(lessFilePath: string, rulesToRemoveArr: string[], doWrite: boolean) {
   let lessFileSource = fs.readFileSync(lessFilePath, {
     encoding: 'utf8',
   });
@@ -653,8 +717,9 @@ function removeVariableRulesFromLessFile(lessFilePath: string, rulesToRemoveArr:
       lessFileSource = lessFileSource.replace(ruleRegexp, '');
     }
   });
-
-  fs.writeFileSync(lessFilePath, lessFileSource, { encoding: 'utf8' });
+  if (doWrite) {
+    fs.writeFileSync(lessFilePath, lessFileSource, { encoding: 'utf8' });
+  }
 }
 
 function isNotWithinDynamicStyles(nodePath: NodePath<any>, targets: any[]) {
@@ -683,6 +748,12 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, stylesIdentifier:
     j.literal(themeManagerImportPath),
   );
 
+  const colorFunctionsIdentifier = j.identifier('cf');
+  const colorFunctionsImportDeclaration = j.importDeclaration(
+    [j.importDefaultSpecifier(colorFunctionsIdentifier)],
+    j.literal(colorFunctionsImportPath),
+  );
+
   const cssEmotionImportDeclaration = j.importDeclaration(
     [j.importSpecifier(j.identifier('css'))],
     j.literal('emotion'),
@@ -692,7 +763,10 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, stylesIdentifier:
     j.literal(lessImportPath),
   );
 
-  variableDeclaration.insertBefore(cssEmotionImportDeclaration).insertAfter(exportDeclaration);
+  variableDeclaration
+    .insertBefore(cssEmotionImportDeclaration)
+    .insertBefore(colorFunctionsImportDeclaration)
+    .insertAfter(exportDeclaration);
 
   const importDeclarations = dynamicStylesSource.find(j.ImportDeclaration);
   importDeclarations
