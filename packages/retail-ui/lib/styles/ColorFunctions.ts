@@ -68,9 +68,9 @@ const ColorFunctions = {
     }
 
     if (color.luma() < threshold) {
-      return light;
+      return light.alpha < 1 ? light.toRGBString() : light.toHEXString();
     } else {
-      return dark;
+      return dark.alpha < 1 ? dark.toRGBString() : dark.toHEXString();
     }
   },
   red(colorString: string) {
