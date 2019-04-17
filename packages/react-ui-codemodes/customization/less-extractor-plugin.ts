@@ -1,5 +1,5 @@
 /* tslint:disable:no-console */
-import { IDynamicRules, IDynamicRulesAggregator } from "./dynamic-rules-aggregator";
+import { IDynamicRules, IDynamicRulesAggregator } from './dynamic-rules-aggregator';
 
 export interface IExtractDynamicClassesPluginOptions {
   dynamicRulesAggregator: IDynamicRulesAggregator;
@@ -121,7 +121,10 @@ class EDRPreVisitor implements IVisitor {
       if (result.__DYNAMIC_VARIABLE_NAME__) {
         // console.log('[less-extractor-plugin.ts]', 'patchedEval from value', name);
         result.__DERIVED_VARIABLE_NAME__ = name;
-      } else if (Array.isArray(result.value) && result.value.some((v: any) => v.__DYNAMIC_VARIABLE_NAME__)) {
+      } else if (
+        Array.isArray(result.value) &&
+        (result.value as ILessNode[]).some(v => !!v.__DYNAMIC_VARIABLE_NAME__ || !!v.__CALL_TEMPLATE__)
+      ) {
         // console.log('[less-extractor-plugin.ts]', 'patchedEval from values array', name);
         result.__DERIVED_VARIABLE_NAME__ = name;
       } else {
@@ -171,13 +174,13 @@ class EDRVisitor implements IVisitor {
         this[visitName] = (node: ILessNode) => {
           if (this._currentRule) {
             if (node.__CALL_TEMPLATE__) {
-              const argz = node.__CALL_TEMPLATE__.args.map((a: ILessNode) => {
+              const args = node.__CALL_TEMPLATE__.args.map((a: ILessNode) => {
                 a = this._visitor.visit(a);
                 return `'${a.toCSS({ tabLevel: 0 })}'`;
               });
 
-              const content = `:functions[${node.__CALL_TEMPLATE__.name}](${argz.join(', ')})`;
-              return new QuotedNode('"', content, true, node._index, node._fileInfo)
+              const content = `:functions[${node.__CALL_TEMPLATE__.name}](${args.join(', ')})`;
+              return new QuotedNode('"', content, true, node._index, node._fileInfo);
             }
 
             if (node.__DYNAMIC_VARIABLE_NAME__) {
