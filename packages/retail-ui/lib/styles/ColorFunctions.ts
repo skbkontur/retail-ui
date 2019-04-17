@@ -50,7 +50,7 @@ function shiftColor(colorString: string, a: number | string, sign: SignType, met
   }
 }
 
-export const ColorFunctions = {
+const ColorFunctions = {
   lighten(colorString: string, amount: number | string, method?: MethodType) {
     return shiftColor(colorString, amount, '+', method);
   },
@@ -90,3 +90,5 @@ export const ColorFunctions = {
     return color.alpha;
   },
 };
+
+export default ColorFunctions;
