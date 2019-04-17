@@ -20,7 +20,7 @@ export class ColorFactory {
     return this.cache[input];
   }
 
-  private static cache: ColorFactoryCacheType = {};
+  private static cache: ColorFactoryCacheType = Object.create(null);
 
   private static instantiate(input: string) {
     input = input.toLowerCase();
