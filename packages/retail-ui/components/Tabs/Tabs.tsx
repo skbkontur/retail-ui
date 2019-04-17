@@ -95,8 +95,11 @@ class Tabs extends React.Component<TabsProps> {
             switchTab: this.switchTab,
           }}
         >
-          {children}
-          <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+          <div>
+            {/* React <= 15. TabsContext.Provider can only receive a single child element. */}
+            {children}
+            <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+          </div>
         </TabsContext.Provider>
       </div>
     );
