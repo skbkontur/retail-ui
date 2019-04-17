@@ -53,6 +53,7 @@ interface ComboBoxViewProps<T> {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
+  renderAddButton?: (query?: string) => React.ReactNode;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
@@ -115,6 +116,9 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     } = this.props;
 
     const input = this.renderInput();
+    const renderAddButton = this.props.renderAddButton
+      ? () => this.props.renderAddButton && this.props.renderAddButton(this.props.textValue)
+      : undefined;
 
     const topOffsets = {
       spinner: 6,
@@ -157,6 +161,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
                 renderTotalCount={renderTotalCount}
                 renderItem={renderItem!}
                 renderNotFound={renderNotFound}
+                renderAddButton={renderAddButton}
                 repeatRequest={repeatRequest}
                 requestStatus={requestStatus}
                 totalCount={totalCount}
