@@ -13,51 +13,50 @@ type IndexedVariablesObject = IndexedDefaultVariables & IndexedFlatVariables;
 
 class ThemeManagerConstructor {
   private isFlatDesign: boolean = Upgrades.isFlatDesignEnabled();
-  private variables: VariablesObject;
-  private defaultVariables: IndexedVariablesObject;
+  private theme: VariablesObject;
+  private defaultTheme: IndexedVariablesObject;
 
   constructor() {
-    this.defaultVariables = this.variables = this.constructVariablesObject();
+    this.defaultTheme = this.theme = this.constructThemeObject();
   }
 
   public getTheme(): VariablesObject {
-    return this.variables;
+    return this.theme;
   }
 
   public overrideTheme(overrideObject: Partial<VariablesObject>): VariablesObject {
     if (!overrideObject) {
-      return this.variables;
+      return this.theme;
     }
     for (const overrideVariable in overrideObject) {
-      if (overrideObject.hasOwnProperty(overrideVariable) && this.variables.hasOwnProperty(overrideVariable)) {
-        (this.variables as IndexedVariablesObject)[overrideVariable] = (overrideObject as IndexedVariablesObject)[
+      if (overrideObject.hasOwnProperty(overrideVariable) && this.theme.hasOwnProperty(overrideVariable)) {
+        (this.theme as IndexedVariablesObject)[overrideVariable] = (overrideObject as IndexedVariablesObject)[
           overrideVariable
         ];
       }
     }
-    return this.variables;
+    return this.theme;
   }
 
   // DO we need it?
   public resetVariablesToDefaultValues(): VariablesObject {
-    return (this.variables = this.defaultVariables as VariablesObject);
+    return (this.theme = this.defaultTheme as VariablesObject);
   }
 
-  private constructVariablesObject(): VariablesObject {
-    const bothThemesKeys = [...Object.keys(defaultThemeVariables), ...Object.keys(flatThemeVariables)] as Array<
-      keyof VariablesObject
-    >;
-    return bothThemesKeys.reduce(
-      (resultObj, currentKey) => {
-        if (this.isFlatDesign) {
-          (resultObj as IndexSignature)[currentKey] = (flatThemeVariables as IndexSignature)[currentKey];
-        } else {
-          (resultObj as IndexSignature)[currentKey] = (defaultThemeVariables as IndexSignature)[currentKey];
-        }
-        return resultObj;
-      },
-      {} as VariablesObject,
-    );
+  private constructThemeObject(): VariablesObject {
+    const themeObject = Object.assign({}, defaultThemeVariables) as VariablesObject;
+    if (this.isFlatDesign) {
+      this.overrideWithFlatVariables(themeObject);
+    }
+    return themeObject;
+  }
+
+  private overrideWithFlatVariables(themeObject: VariablesObject): void {
+    for (const key in flatThemeVariables) {
+      if (flatThemeVariables.hasOwnProperty(key)) {
+        (themeObject as IndexSignature)[key] = (flatThemeVariables as IndexSignature)[key];
+      }
+    }
   }
 }
 

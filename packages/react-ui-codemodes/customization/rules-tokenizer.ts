@@ -92,7 +92,7 @@ export function tokenize(rulesetsMap: IDynamicRulesetsMap): ITokenizedDynamicRul
         const className = targetToken.name;
         if (!tokenizedMap.has(className)) {
           tokenizedMap.set(className, {
-            isPartial: false,
+            isPartial: true,
             rules: {},
             cascade: new Map(),
           });
@@ -157,14 +157,13 @@ export function tokenize(rulesetsMap: IDynamicRulesetsMap): ITokenizedDynamicRul
         });
       }
     });
-
   });
 
   return tokenizedMap;
 }
 
 function getTargetToken(tokens: ITokenNode[]) {
-  return  Array.from(tokens)
+  return Array.from(tokens)
     .reverse()
     .find(t => t.type === 'class');
 }
