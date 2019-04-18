@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Table from './ComponentTable';
+import Table from './Table';
 import { ReactComponentLike } from 'prop-types';
 
 export interface StatesCombinatorProps<T> {
@@ -8,14 +8,15 @@ export interface StatesCombinatorProps<T> {
   sizeY: number;
   component: ReactComponentLike;
   presetState: Partial<T>;
+  children: React.ReactNode;
 }
 
-export default class<T extends {}> extends React.Component<
+export default class StatesCombinator<T extends {}> extends React.Component<
   StatesCombinatorProps<T>,
   {
     page: number;
   }
-> {
+  > {
   public static defaultProps = {
     states: [],
     sizeX: 0,
@@ -28,7 +29,7 @@ export default class<T extends {}> extends React.Component<
 
   public render() {
     const { page } = this.state;
-    const { states, sizeX, sizeY, component, presetState } = this.props;
+    const { states, sizeX, sizeY, component, presetState, children } = this.props;
     const cols = states.slice();
     const rows = states.slice();
     const pages = [];
@@ -60,6 +61,7 @@ export default class<T extends {}> extends React.Component<
               cols={cols.slice(pageOffsets.offsetX, pageOffsets.offsetX + sizeX)}
               presetState={presetState}
               component={component}
+              children={children}
             />
           )}
         </div>

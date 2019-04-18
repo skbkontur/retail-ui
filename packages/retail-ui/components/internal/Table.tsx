@@ -31,9 +31,10 @@ export interface TableProps<T extends {}> {
   cols?: Array<Partial<T>>;
   presetState: Partial<T>;
   component: ReactComponentLike;
+  children: React.ReactNode;
 }
 
-export default function<T extends {}>(props: TableProps<T>) {
+export default function Table<T extends {}>(props: TableProps<T>) {
   const { rows = [], cols = [], presetState, component: Component } = props;
   return (
     <table style={{ width: '100%', borderSpacing: 10, marginBottom: 20 }}>
@@ -54,7 +55,7 @@ export default function<T extends {}>(props: TableProps<T>) {
             <td style={{ whiteSpace: 'nowrap' }}>{renderStateDesc(rowState)}</td>
             {cols.map((colState, colIndex) => (
               <td key={colIndex}>
-                <Component {...rowState} {...colState} {...presetState} />
+                <Component children={props.children} {...rowState} {...colState} {...presetState} />
               </td>
             ))}
           </tr>
