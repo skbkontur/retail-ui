@@ -70,7 +70,7 @@ function contextify(fileInfo: FileInfo, api: API) {
 
   function patchClass(classDeclaration: ClassDeclaration | null, themeVariableName: string) {
     if (!classDeclaration) {
-      console.error(`variable ${themeVariableName} is declared outside class declaration`);
+      console.error(`${fileInfo.path}: variable ${themeVariableName} is declared outside class declaration`);
       return;
     }
 
