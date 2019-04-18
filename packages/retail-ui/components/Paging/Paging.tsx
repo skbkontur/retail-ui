@@ -228,6 +228,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     }
 
     const target = event.target;
+    const key = event.key;
+
+    const isArrowLeft = key === 'ArrowLeft' || key === 'Left';
+    const isArrowRight = key === 'ArrowRight' || key === 'Right';
 
     if (
       target instanceof Element &&
@@ -236,21 +240,21 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return;
     }
 
-    if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
+    if (NavigationHelper.checkKeyPressed(event) && isArrowLeft) {
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
-    if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowRight') {
+    if (NavigationHelper.checkKeyPressed(event) && isArrowRight) {
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
 
     if (this.container && this.container === event.target) {
-      if (event.key === 'ArrowLeft') {
+      if (isArrowLeft) {
         this.setState({ focusedByTab: true }, this.moveFocusLeft);
         return;
       }
-      if (event.key === 'ArrowRight') {
+      if (isArrowRight) {
         this.setState({ focusedByTab: true }, this.moveFocusRight);
         return;
       }

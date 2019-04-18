@@ -7,6 +7,8 @@ function createPlainSuite(suiteName, selector) {
   });
 }
 
+const longString = 'a'.repeat(100);
+
 // Small, medium and large inputs (plain, focused, typed)
 gemini.suite('Inputs with different sizes', parentSuite => {
   parentSuite.before(renderStory('Input', 'Inputs with different sizes')).setCaptureElements('#test-element');
@@ -20,6 +22,9 @@ gemini.suite('Inputs with different sizes', parentSuite => {
       })
       .capture('With typed text', (actions, find) => {
         actions.sendKeys(find('#small-input-wrapper input'), 'Test...');
+      })
+      .capture('With long typed text', (actions, find) => {
+        actions.sendKeys(find('#small-input-wrapper input'), longString);
       });
   });
 
@@ -32,6 +37,9 @@ gemini.suite('Inputs with different sizes', parentSuite => {
       })
       .capture('With typed text', (actions, find) => {
         actions.sendKeys(find('#medium-input-wrapper input'), 'Test...');
+      })
+      .capture('With long typed text', (actions, find) => {
+        actions.sendKeys(find('#medium-input-wrapper input'), longString);
       });
   });
 
@@ -44,6 +52,9 @@ gemini.suite('Inputs with different sizes', parentSuite => {
       })
       .capture('With typed text', (actions, find) => {
         actions.sendKeys(find('#large-input-wrapper input'), 'Test...');
+      })
+      .capture('With long typed text', (actions, find) => {
+        actions.sendKeys(find('#large-input-wrapper input'), longString);
       });
   });
 });
