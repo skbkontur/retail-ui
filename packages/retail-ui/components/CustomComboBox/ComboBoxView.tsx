@@ -116,9 +116,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     } = this.props;
 
     const input = this.renderInput();
-    const renderAddButton = this.props.renderAddButton
-      ? () => this.props.renderAddButton && this.props.renderAddButton(this.props.textValue)
-      : undefined;
 
     const topOffsets = {
       spinner: 6,
@@ -161,7 +158,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
                 renderTotalCount={renderTotalCount}
                 renderItem={renderItem!}
                 renderNotFound={renderNotFound}
-                renderAddButton={renderAddButton}
+                renderAddButton={this.renderAddButton}
                 repeatRequest={repeatRequest}
                 requestStatus={requestStatus}
                 totalCount={totalCount}
@@ -171,6 +168,10 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         </span>
       </RenderLayer>
     );
+  }
+
+  private renderAddButton(): React.ReactNode {
+    return this.props.renderAddButton && this.props.renderAddButton(this.props.textValue)
   }
 
   private renderInput(): React.ReactNode {
