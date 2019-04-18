@@ -1,7 +1,10 @@
 import createReactContext from 'create-react-context';
-import ThemeManager from '../../lib/ThemeManager';
+import ThemeManager, { ITheme } from "../../lib/ThemeManager";
 
-const ThemeContext = createReactContext({
+export interface IThemeContext {
+  theme: ITheme
+}
+const ThemeContext = createReactContext<IThemeContext>({
   theme: ThemeManager.getTheme(),
 });
 
