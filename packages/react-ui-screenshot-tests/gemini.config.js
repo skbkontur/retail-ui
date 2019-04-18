@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const Suite = require('gemini/lib/suite');
 const Browser = require('gemini/lib/browser/new-browser');
 
@@ -31,6 +33,15 @@ if (!isCI) {
 
 const RetryCount = isCI ? 2 : 0;
 
+const testDirectoryFiles = fs.readdirSync(path.join(__dirname, 'gemini'));
+const flatComponents = ['Button', 'Checkbox', 'Input', 'Radio', 'Textarea', 'Toggle', 'InputLikeText', 'Switcher'].map(
+  component => component.toLowerCase(),
+);
+
+const flatTestSuites = testDirectoryFiles
+  .map(filename => path.parse(filename).name.toLowerCase())
+  .filter(filename => flatComponents.includes(filename));
+
 const browsers = {
   chrome: {
     desiredCapabilities: {
@@ -55,10 +66,38 @@ const browsers = {
   },
 };
 
+const optionsFlat = {
+  rootUrl: 'http://localhost:6061/',
+};
+
 module.exports = {
   rootUrl: 'http://localhost:6060/',
   compositeImage: true,
-  browsers,
+  browsers: {
+    ...browsers,
+    chromeFlat: {
+      ...optionsFlat,
+      ...browsers.chrome,
+    },
+    firefoxFlat: {
+      ...optionsFlat,
+      ...browsers.firefox,
+    },
+    ie11Flat: {
+      ...optionsFlat,
+      ...browsers.ie11,
+    },
+  },
+  sets: {
+    default: {
+      files: './gemini/*.js',
+      browsers: Object.keys(browsers),
+    },
+    flat: {
+      files: flatTestSuites.map(suite => path.join('./gemini', `${suite}.js`)),
+      browsers: ['chromeFlat', 'firefoxFlat', 'ie11Flat'],
+    },
+  },
   system: {
     plugins: {
       teamcity: Boolean(process.env.TEAMCITY_VERSION),

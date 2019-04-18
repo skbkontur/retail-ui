@@ -6,7 +6,7 @@ gemini.suite('DateInput', () => {
       .before(renderStory('DateInput', 'simple'))
       .setCaptureElements('#test-element')
       .capture('idle')
-      .capture('focus', actions => actions.click("[class^='Input-input']"));
+      .capture('focus', actions => actions.click("[data-comp-name*='DateInput']"));
   });
 
   gemini.suite('disabled', suite => {
@@ -14,7 +14,7 @@ gemini.suite('DateInput', () => {
       .before(renderStory('DateInput', 'disabled'))
       .setCaptureElements('#test-element')
       .capture('idle')
-      .capture('focus', actions => actions.click("[class^='Input-input']"));
+      .capture('focus', actions => actions.click("[data-comp-name*='DateInput']"));
   });
 
   gemini.suite('with width', suite => {
@@ -22,6 +22,6 @@ gemini.suite('DateInput', () => {
       .before(renderStory('DateInput', 'with width'))
       .setCaptureElements('#test-element')
       .capture('idle')
-      .capture('focus', actions => actions.click("[class^='Input-input']"));
+      .capture('focus', actions => actions.click("[data-comp-name*='DateInput']"));
   });
 });

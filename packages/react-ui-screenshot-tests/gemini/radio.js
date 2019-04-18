@@ -8,3 +8,14 @@ gemini.suite('Radio', suite => {
     .setCaptureElements('#test-element')
     .capture('different states');
 });
+
+gemini.suite('Radio highlighted', suite => {
+  suite
+    .before(renderStory('Radio', 'Highlighted'))
+    .setCaptureElements('#test-element')
+    .capture('plain')
+    .capture('tabPress', (actions, find) => {
+      actions.click(find('body'), 0, [0, 0]);
+      actions.sendKeys(gemini.TAB);
+    });
+});
