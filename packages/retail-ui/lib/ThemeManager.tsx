@@ -20,7 +20,7 @@ class ThemeManagerConstructor {
     this.defaultTheme = this.theme = this.constructThemeObject();
   }
 
-  public getTheme(): VariablesObject {
+  public getTheme(): ITheme {
     return this.theme;
   }
 
