@@ -1,4 +1,3 @@
-@import (reference) '../variables.less';
 
 @containerHeight: 20px;
 @containerWidth: 34px;
@@ -10,9 +9,6 @@
 @transitionBG: @transition-delay ease-in;
 @transitionHandle: @transition-delay ease-in;
 
-@error-color: @toggle-bg-error;
-@warning-color: @toggle-bg-warning;
-
 :local {
   .handle {
     height: 18px;
@@ -23,7 +19,6 @@
     bottom: 1px;
     left: 1px;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
-    background-image: linear-gradient(-180deg, #fff, #ebebeb);
     transition: @transitionHandle;
   }
 
@@ -50,12 +45,6 @@
       display: inline-block;
     }
 
-    &:hover {
-      .handle {
-        background-image: linear-gradient(-180deg, #f1f1f1, #dedede);
-      }
-    }
-
     &:active {
       .handle {
         width: @handleActiveSize;
@@ -73,16 +62,7 @@
     width: 100%;
     height: 100%;
     border-radius: @containerHeight / 2;
-    border: 1px solid @toggle-border-color;
     overflow: hidden;
-
-    .isDisabled & {
-      background: @bg-disabled;
-    }
-
-    &.focused {
-      box-shadow: 0 0 0 1px @outline-color-focus, 0 0 0 3px @toggle-focus-shadow-color;
-    }
   }
 
   .activeBackground {
@@ -93,10 +73,6 @@
     width: 10px;
     background: inherit;
     transition: @transitionBG;
-
-    .isLoading & {
-      background: @toggle-bg-checked;
-    }
   }
 
   .input:focus {
@@ -105,36 +81,10 @@
 
   .input:checked {
     & ~ .container {
-      border-color: @toggle-bg-checked;
-      background: @toggle-bg-checked;
       transition: background 0s @transition-delay;
-
-      &.isLoading {
-        background: @toggle-border-color;
-        border-color: @toggle-border-color;
-      }
-
-      &.isWarning {
-        background: @warning-color;
-        border-color: @warning-color;
-
-        .activeBackground {
-          background: @warning-color;
-        }
-      }
-
-      &.isError {
-        background: @error-color;
-        border-color: @error-color;
-
-        .activeBackground {
-          background: @error-color;
-        }
-      }
 
       .activeBackground {
         width: 70%;
-        background: @toggle-bg-checked;
       }
     }
 
