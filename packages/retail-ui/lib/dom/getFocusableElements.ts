@@ -72,4 +72,19 @@ export const getNextFocusableElement = (
   return recursive ? getNextFocusableElement(current, parent.parentElement) : null;
 };
 
+/**
+ * Поиск ближайшего фокусируемого элемента среди переданного и его родителей
+ * @param {HTMLElement} current - Текущий элемент
+ * @return {HTMLElement|null} - Найденный элемент или null
+ *
+ */
+
+export const getClosestFocusableElement = (current: HTMLElement | null): HTMLElement | null => {
+  if (!current) {
+    return null;
+  }
+
+  return tabbable.isFocusable(current) ? current : getClosestFocusableElement(current.parentElement);
+};
+
 export default getFocusableElements;

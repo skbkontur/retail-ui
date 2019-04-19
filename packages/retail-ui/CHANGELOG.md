@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.46.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.1...retail-ui@0.46.2) (2019-04-17)
+
+
+### Bug Fixes
+
+* **Tabs:** context provider render children for reac@15 ([f0df170](https://github.com/skbkontur/retail-ui/commit/f0df170))
+
+
+
+
+
+## [0.46.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.0...retail-ui@0.46.1) (2019-04-16)
+
+
+### Bug Fixes
+
+* **Autocomplete:** restore lost focus in IE ([a232110](https://github.com/skbkontur/retail-ui/commit/a232110)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **ComboBox:** add missing callbacks ([fab3ff6](https://github.com/skbkontur/retail-ui/commit/fab3ff6))
+* **ComboBox:** restore lost focus to outer element on clickOutside in IE ([702f60c](https://github.com/skbkontur/retail-ui/commit/702f60c)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **ComboBoxOld:** restore lost focus in IE ([dff471b](https://github.com/skbkontur/retail-ui/commit/dff471b)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **Hint:** render popup even if no text provided ([cf4a473](https://github.com/skbkontur/retail-ui/commit/cf4a473))
+* **Tabs:** correct work with FunctionalComponents ([93163db](https://github.com/skbkontur/retail-ui/commit/93163db)), closes [#1337](https://github.com/skbkontur/retail-ui/issues/1337)
+* **Tabs:** error findDOMNode on unmounted active tab component ([90142cb](https://github.com/skbkontur/retail-ui/commit/90142cb))
+* **TopBarDropdown:** added methods open & close ([9e7ddcc](https://github.com/skbkontur/retail-ui/commit/9e7ddcc))
+
+
+
+
+
 # [0.46.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.45.0...retail-ui@0.46.0) (2019-04-08)
 
 
