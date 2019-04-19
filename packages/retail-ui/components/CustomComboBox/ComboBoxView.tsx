@@ -53,7 +53,7 @@ interface ComboBoxViewProps<T> {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
-  renderAddButton?: (query?: string) => React.ReactNode;
+  renderAddButton: (query?: string) => React.ReactNode;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
@@ -65,6 +65,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static defaultProps = {
     renderItem: (item: any) => item,
     renderValue: (item: any) => item,
+    renderAddButton: () => null,
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
     onClickOutside: () => {
@@ -170,9 +171,9 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     );
   }
 
-  private renderAddButton(): React.ReactNode {
-    return this.props.renderAddButton && this.props.renderAddButton(this.props.textValue)
-  }
+  private renderAddButton = (): React.ReactNode => {
+    return this.props.renderAddButton(this.props.textValue);
+  };
 
   private renderInput(): React.ReactNode {
     const {
@@ -257,7 +258,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
   private renderSpinner = () => (
     <span className={styles.spinnerWrapper}>
-      <Spinner type="mini" caption="" dimmed />
+      <Spinner type="mini" caption="" dimmed/>
     </span>
   );
 
@@ -271,7 +272,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     if (drawArrow) {
       return (
         <span className={styles.arrowWrapper}>
-          <ArrowTriangleDown />
+          <ArrowTriangleDown/>
         </span>
       );
     }
