@@ -121,11 +121,11 @@
     }
   }
 
-  .disabled .box {
-    background: @bg-disabled !important; /* to overide hover and active */
-    color: @text-color-disabled;
-    border-color: transparent;
-  }
+  //.disabled .box {
+  //  background: @bg-disabled !important; /* to overide hover and active */
+  //  color: @text-color-disabled;
+  //  border-color: transparent;
+  //}
 
   .ok {
     left: 1px;
@@ -135,6 +135,7 @@
 
   .caption {
     padding-left: 26px;
+    padding-right: 1px;
   }
 
   .indeterminate {
@@ -144,7 +145,7 @@
     left: 4px;
     width: 8px;
     height: 8px;
-    background: #fff;
+    // background: #fff;
     border-radius: 1px;
     overflow: hidden;
   }
@@ -153,8 +154,8 @@
     color: @text-color-disabled;
     cursor: default;
 
-    .indeterminate {
-      background: @text-color-disabled;
-    }
+    //.indeterminate {
+    //  background: @text-color-disabled;
+    //}
   }
 }

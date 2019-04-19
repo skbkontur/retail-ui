@@ -1,14 +1,16 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import '../ensureOldIEClassName';
-import Upgrades from '../../lib/Upgrades';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-const styles = isFlatDesign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import styles from './Checkbox.less';
+import jsStyles from './Checkbox.styles';
+
+const theme = ThemeManager.getTheme();
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -90,12 +92,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     const rootClass = classNames({
       [styles.root]: true,
+      [jsStyles.root(theme)]: true,
       [styles.withoutCaption]: !hasCaption,
-      [styles.checked || '']: this.props.checked,
-      [styles.disabled]: this.props.disabled,
-      [styles.error]: this.props.error,
-      [styles.warning]: this.props.warning,
-      [styles.focus]: this.state.focusedByTab,
+      [jsStyles.checked(theme) || '']: !!this.props.checked,
+      [styles.disabled]: !!this.props.disabled,
+      [jsStyles.error(theme)]: !!this.props.error,
+      [jsStyles.warning(theme)]: !!this.props.warning,
+      [jsStyles.focus(theme)]: true,
     });
 
     const inputProps = {
@@ -117,12 +120,12 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
         <span
-          className={classNames(styles.box, {
-            [styles.boxIndeterminate]: this.state.indeterminate,
+          className={classNames(styles.box, jsStyles.box(theme), {
+            [jsStyles.boxIndeterminate(theme)]: this.state.indeterminate,
           })}
         >
           {this.state.indeterminate ? (
-            <span className={styles.indeterminate} />
+            <span className={classNames(styles.indeterminate, jsStyles.indeterminate(theme))} />
           ) : (
             this.props.checked && (
               <div className={styles.ok}>

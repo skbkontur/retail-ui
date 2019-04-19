@@ -1,4 +1,3 @@
-@import (reference) '../variables.less';
 
 :local {
   .root {
@@ -10,15 +9,6 @@
 
     &.withoutCaption .box {
       position: relative;
-    }
-
-    &:hover .box {
-      background: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
-    }
-
-    &:active .box {
-      background: #e1e1e1;
-      box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
     }
   }
 
@@ -36,26 +26,11 @@
     display: inline-block;
     top: 2px;
     left: 0;
-    background: linear-gradient(#fdfdfd, #ededed);
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
     border-radius: 2px;
     width: 16px;
     height: 16px;
-    color: @text-color-default;
     line-height: 20px;
     font-size: 14px;
-  }
-
-  .focus .box {
-    box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
-  }
-
-  .warning .box {
-    box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-warning;
-  }
-
-  .error .box {
-    box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-error;
   }
 
   :global(.rt-ie8) {
@@ -68,18 +43,6 @@
       background-color: #f1f1f1;
       border: 1px solid #aeaeae;
     }
-
-    .focus .box {
-      outline: 1px solid @border-color-focus;
-    }
-
-    .warning .box {
-      outline: 1px solid @border-color-warning;
-    }
-
-    .error .box {
-      outline: 1px solid @border-color-error;
-    }
   }
 
   :global(.rt-ie9) {
@@ -90,12 +53,6 @@
     .root:hover .box {
       background-color: #f1f1f1;
     }
-  }
-
-  .disabled .box {
-    background: @bg-disabled !important; /* to overide hover and active */
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) !important;
-    color: @text-color-disabled;
   }
 
   .ok {
@@ -115,17 +72,11 @@
     left: 4px;
     width: 8px;
     height: 8px;
-    background: @text-color-default;
     border-radius: 1px;
     overflow: hidden;
   }
 
   .disabled {
-    color: @text-color-disabled;
     cursor: default;
-
-    .indeterminate {
-      background: @text-color-disabled;
-    }
   }
 }

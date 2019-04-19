@@ -50,11 +50,22 @@
 @btn-flat-pay-border: 1px solid transparent;
 
 // Checkbox
+@chb-flat-shadow: none;
 @chb-flat-border: @btn-flat-default-border;
+@chb-flat-border-color-focus: @flat-border-color-focus;
 @chb-flat-border-radius: 2px;
+@chb-flat-bg: none;
+@chb-flat-indeterminate-bg: #fff;
 @chb-flat-hover-bg: @btn-flat-default-hover-bg;
 @chb-flat-active-bg: @btn-flat-default-active-bg;
 @chb-flat-checked-bg: @flat-border-color-focus;
+@chb-flat-shadow-disabled: none;
+@chb-flat-shadow-active: none;
+@chb-flat-shadow-width: 1px;
+@chb-flat-checked-color: #fff;
+@chb-flat-box-indeterminate-bg: @chb-flat-checked-bg;
+@chb-flat-box-indeterminate-bg-hover: @chb-flat-checked-bg;
+@chb-flat-box-indeterminate-bg-active: @chb-flat-checked-bg;
 
 // Input DEPRECATED
 @chb-flat-input-bg: white;
@@ -64,15 +75,9 @@
 
 // Input
 @input-flat-bg: @chb-flat-input-bg;
-@input-flat-disabled-bg: @chb-flat-input-disabled-color;
-@input-flat-disabled-border-color: @chb-flat-input-disabled-color;
 @input-flat-icon-color: @chb-flat-input-icon-color;
 @input-flat-color: @chb-flat-input-color;
 @input-flat-disabled-color: @chb-flat-input-disabled-color;
-@input-flat-shadow: none;
-@input-flat-focus-shadow: 0 0 0 1px @flat-border-color-focus;;
-@input-flat-border-width: 1px;
-@input-flat-border-top-color: rgba(0, 0, 0, 0.15);
 
 // Toggle
 @toggle-flat-bg-checked: #3072c4;
@@ -89,7 +94,6 @@
 
 @import (optional) '~react-ui-theme-flat';
 @value outlineColorFocus: @flat-outline-color-focus;
-@value borderColorFocus: @flat-border-color-focus;
 @value blinkColor: @blink-color;
 @value btnCheckedBg: @btn-flat-checked-bg;
 @value btnCheckedTextColor: @btn-flat-checked-text-color;
@@ -128,21 +132,26 @@
 @value btnPayActiveBg: @btn-flat-pay-active-bg;
 @value btnPayDisabledBg: @btn-flat-pay-disabled-bg;
 @value btnPayBorder: @btn-flat-pay-border;
+@value chbShadow: @chb-flat-shadow;
 @value chbBorder: @chb-flat-border;
+@value chbBorderColorFocus: @chb-flat-border-color-focus;
 @value chbBorderRadius: @chb-flat-border-radius;
+@value chbBg: @chb-flat-bg;
+@value chbIndeterminateBg: @chb-flat-indeterminate-bg;
 @value chbHoverBg: @chb-flat-hover-bg;
 @value chbActiveBg: @chb-flat-active-bg;
 @value chbCheckedBg: @chb-flat-checked-bg;
+@value chbShadowDisabled: @chb-flat-shadow-disabled;
+@value chbShadowActive: @chb-flat-shadow-active;
+@value chbShadowWidth: @chb-flat-shadow-width;
+@value chbCheckedColor: @chb-flat-checked-color;
+@value chbBoxIndeterminateBg: @chb-flat-box-indeterminate-bg;
+@value chbBoxIndeterminateBgHover: @chb-flat-box-indeterminate-bg-hover;
+@value chbBoxIndeterminateBgActive: @chb-flat-box-indeterminate-bg-active;
 @value inputBg: @input-flat-bg;
 @value inputIconColor: @input-flat-icon-color;
 @value inputColor: @input-flat-color;
 @value inputDisabledColor: @input-flat-disabled-color;
-@value inputShadow: @input-flat-shadow;
-@value inputFocusShadow: @input-flat-focus-shadow;
-@value inputBorderWidth: @input-flat-border-width;
-@value inputBorderTopColor: @input-flat-border-top-color;
-@value inputDisabledBg: @input-flat-disabled-bg;
-@value inputDisabledBorderColor: @input-flat-disabled-border-color;
 @value toggleBgChecked: @toggle-flat-bg-checked;
 @value toggleBgWarning: @toggle-flat-bg-warning;
 @value toggleBgError: @toggle-flat-bg-error;
