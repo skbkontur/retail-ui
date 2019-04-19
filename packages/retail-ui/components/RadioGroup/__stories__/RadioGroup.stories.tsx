@@ -19,7 +19,7 @@ class Component extends React.Component<any, any> {
   public render() {
     return (
       <Gapped vertical>
-        <Button>Just button</Button>
+        <Button data-tid={'JustButton'}>Just button</Button>
         <div id="RadioGroup-wrap" style={{ padding: 10 }}>
           <RadioGroup
             ref={element => (this._radioGroup = element)}

@@ -38,7 +38,7 @@ interface ComboBoxViewProps<T> {
   maxMenuHeight?: number | string;
 
   onChange?: (item: T, e: React.SyntheticEvent) => void;
-  onClickOutside?: () => void;
+  onClickOutside?: (e: Event) => void;
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;

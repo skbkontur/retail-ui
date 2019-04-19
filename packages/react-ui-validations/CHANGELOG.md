@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.8.0...react-ui-validations@0.8.1) (2019-04-16)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
 # [0.8.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.7.3...react-ui-validations@0.8.0) (2019-04-08)
 
 

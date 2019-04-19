@@ -8,6 +8,7 @@ import { MenuItemState } from '../MenuItem';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { reducer, CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
+import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -226,7 +227,7 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
       maxMenuHeight: this.props.maxMenuHeight,
 
       onChange: this.handleChange,
-      onClickOutside: this.handleBlur,
+      onClickOutside: this.handleClickOutside,
       onFocus: this.handleFocus,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
@@ -325,6 +326,11 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
     }
     this.focused = true;
     this.dispatch({ type: 'Focus' });
+  };
+
+  private handleClickOutside = (e: Event) => {
+    fixClickFocusIE(e);
+    this.handleBlur();
   };
 
   private handleBlur = () => {
