@@ -64,9 +64,15 @@
 
 // Input
 @input-flat-bg: @chb-flat-input-bg;
+@input-flat-disabled-bg: @chb-flat-input-disabled-color;
+@input-flat-disabled-border-color: @chb-flat-input-disabled-color;
 @input-flat-icon-color: @chb-flat-input-icon-color;
 @input-flat-color: @chb-flat-input-color;
 @input-flat-disabled-color: @chb-flat-input-disabled-color;
+@input-flat-shadow: none;
+@input-flat-focus-shadow: 0 0 0 1px @flat-border-color-focus;;
+@input-flat-border-width: 1px;
+@input-flat-border-top-color: rgba(0, 0, 0, 0.15);
 
 // Toggle
 @toggle-flat-bg-checked: #3072c4;
@@ -83,6 +89,7 @@
 
 @import (optional) '~react-ui-theme-flat';
 @value outlineColorFocus: @flat-outline-color-focus;
+@value borderColorFocus: @flat-border-color-focus;
 @value blinkColor: @blink-color;
 @value btnCheckedBg: @btn-flat-checked-bg;
 @value btnCheckedTextColor: @btn-flat-checked-text-color;
@@ -130,6 +137,12 @@
 @value inputIconColor: @input-flat-icon-color;
 @value inputColor: @input-flat-color;
 @value inputDisabledColor: @input-flat-disabled-color;
+@value inputShadow: @input-flat-shadow;
+@value inputFocusShadow: @input-flat-focus-shadow;
+@value inputBorderWidth: @input-flat-border-width;
+@value inputBorderTopColor: @input-flat-border-top-color;
+@value inputDisabledBg: @input-flat-disabled-bg;
+@value inputDisabledBorderColor: @input-flat-disabled-border-color;
 @value toggleBgChecked: @toggle-flat-bg-checked;
 @value toggleBgWarning: @toggle-flat-bg-warning;
 @value toggleBgError: @toggle-flat-bg-error;

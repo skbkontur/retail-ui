@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
@@ -7,8 +6,12 @@ import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-const classes = isFlatDesign ? require('./Input.flat.less') : require('./Input.less');
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import classes from './Input.less';
+import jsClasses from './Input.styles';
+
+const theme = ThemeManager.getTheme();
 
 const isDeleteKey = (key: string) => {
   return key === 'Backspace' || key === 'Delete';
@@ -231,13 +234,17 @@ class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: classNames(classes.root, this.getSizeClassName(), {
-        [classes.disabled]: disabled,
-        [classes.error]: error,
-        [classes.warning]: warning,
-        [classes.borderless]: borderless,
-        [classes.blink]: blinking,
+      className: classNames(classes.root, jsClasses.root(theme), this.getSizeClassName(), {
+        [classes.disabled]: !!disabled,
+        [jsClasses.disabled(theme)]: !!disabled,
+        [classes.error]: !!error,
+        [jsClasses.error(theme)]: !!error,
+        [classes.warning]: !!warning,
+        [jsClasses.warning(theme)]: !!warning,
+        [classes.borderless]: !!borderless,
+        [jsClasses.blink(theme)]: !!blinking,
         [classes.focus]: focused,
+        [jsClasses.focus(theme)]: focused,
       }),
       style: { width },
       onMouseEnter,
@@ -247,7 +254,7 @@ class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: classNames(classes.input),
+      className: classNames(classes.input, jsClasses.input(theme)),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -329,7 +336,7 @@ class Input extends React.Component<InputProps, InputState> {
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={classNames(className, classes.useDefaultColor)}>{icon}</span>;
+    return <span className={classNames(className, jsClasses.useDefaultColor(theme))}>{icon}</span>;
   }
 
   private renderPlaceholder() {
@@ -337,7 +344,10 @@ class Input extends React.Component<InputProps, InputState> {
 
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
-        <div className={classes.placeholder} style={{ textAlign: this.props.align || 'inherit' }}>
+        <div
+          className={classNames(classes.placeholder, jsClasses.placeholder(theme))}
+          style={{ textAlign: this.props.align || 'inherit' }}
+        >
           {this.props.placeholder}
         </div>
       );
@@ -348,9 +358,11 @@ class Input extends React.Component<InputProps, InputState> {
 
   private getSizeClassName() {
     const SIZE_CLASS_NAMES = {
-      small: classes.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled() ? classes.sizeMedium : classes.DEPRECATED_sizeMedium,
-      large: classes.sizeLarge,
+      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(theme)),
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(theme))
+        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(theme)),
+      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(theme)),
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
@@ -434,7 +446,7 @@ class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return <span className={classes.prefix}>{prefix}</span>;
+    return <span className={jsClasses.prefix(theme)}>{prefix}</span>;
   };
 
   private renderSuffix = () => {
@@ -444,7 +456,7 @@ class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return <span className={classes.suffix}>{suffix}</span>;
+    return <span className={jsClasses.suffix(theme)}>{suffix}</span>;
   };
 }
 
