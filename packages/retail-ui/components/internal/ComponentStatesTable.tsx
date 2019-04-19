@@ -34,7 +34,7 @@ export interface TableProps<T extends {}> {
   children: React.ReactNode;
 }
 
-export default function Table<T extends {}>(props: TableProps<T>) {
+export default function ComponentStatesTable<T extends {}>(props: TableProps<T>) {
   const { rows = [], cols = [], presetState, component: Component } = props;
   return (
     <table style={{ width: '100%', borderSpacing: 10, marginBottom: 20 }}>

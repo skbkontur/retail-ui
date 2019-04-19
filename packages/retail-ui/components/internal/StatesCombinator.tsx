@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Table from './Table';
+import ComponentStatesTable from './ComponentStatesTable';
 import { ReactComponentLike } from 'prop-types';
 
 export interface StatesCombinatorProps<T> {
@@ -56,7 +56,7 @@ export default class StatesCombinator<T extends {}> extends React.Component<
         </div>
         <div>
           {pageOffsets && (
-            <Table
+            <ComponentStatesTable
               rows={rows.slice(pageOffsets.offsetY, pageOffsets.offsetY + sizeY)}
               cols={cols.slice(pageOffsets.offsetX, pageOffsets.offsetX + sizeX)}
               presetState={presetState}

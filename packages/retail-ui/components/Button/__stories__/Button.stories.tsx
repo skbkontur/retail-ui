@@ -6,7 +6,7 @@ import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
 import { ButtonSize, ButtonArrow, ButtonProps } from '../Button';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import Table from '../../internal/Table';
+import ComponentStatesTable from '../../internal/ComponentStatesTable';
 import StatesCombinator from '../../internal/StatesCombinator';
 
 storiesOf('Button', module)
@@ -239,13 +239,13 @@ storiesOf('Button', module)
     );
   })
   .add('different aligns', () => (
-    <Table component={Button} rows={alignStates} cols={layoutStates} presetState={{ width: 200, children: 'Button' }} children='Button' />
+    <ComponentStatesTable component={Button} rows={alignStates} cols={layoutStates} presetState={{ width: 200, children: 'Button' }} children='Button' />
   ))
   .add('different visual states', () => (
     <StatesCombinator states={[...visualStates, ...sizeStates, ...arrowStates, ...useStates]} sizeX={7} sizeY={7} presetState={{ children: 'Button' }} children='Button' component={Button} />
   ))
   .add('different content', () => (
-    <StatesCombinator states={[...contentStates, ...widthStates, ...layoutStates]} sizeX={3} sizeY={6} component={Button} presetState={{}} children='Button' style={{ display: 'inline-block' }} />
+    <StatesCombinator states={[...contentStates, ...widthStates, ...layoutStates]} sizeX={3} sizeY={6} component={Button} presetState={{}} children='Button' />
   ));
 
 type ButtonState = Partial<ButtonProps>;
