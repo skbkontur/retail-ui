@@ -315,6 +315,9 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
 
 // Toggle
+@toggle-bg: linear-gradient(-180deg, #fff, #ebebeb);
+@toggle-bg-disabled: none;
+@toggle-bg-hover: linear-gradient(-180deg, #f1f1f1, #dedede);
 @toggle-bg-checked: #3072c4;
 @toggle-bg-warning: @warning-main;
 @toggle-bg-error: @error-main;
@@ -661,6 +664,9 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @value menuShadow: @menu-shadow;
 @value btnShadowCheckedArrow: @btn-shadow-checked-arrow;
 @value btnShadowCheckedArrowLeft: @btn-shadow-checked-arrow-left;
+@value toggleBg: @toggle-bg;
+@value toggleBgDisabled: @toggle-bg-disabled;
+@value toggleBgHover: @toggle-bg-hover;
 @value toggleBgChecked: @toggle-bg-checked;
 @value toggleBgWarning: @toggle-bg-warning;
 @value toggleBgError: @toggle-bg-error;
@@ -685,7 +691,6 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @value inputFocusOutline: @input-focus-outline;
 @value inputBorderWidth: @input-border-width;
 @value inputBorderTopColor: @input-border-top-color;
-
 @value chbShadow: @chb-shadow;
 @value chbShadowDisabled: @chb-shadow-disabled;
 @value chbShadowActive: @chb-shadow-active;
@@ -698,5 +703,4 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @value chbBorderColorWarning: @chb-border-color-warning;
 @value chbBorderColorError: @chb-border-color-error;
 @value chbShadowWidth: @chb-shadow-width;
-
 @value specificityLevel: @specificity-level;
