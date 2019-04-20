@@ -1,47 +1,23 @@
-import { css, cx } from 'emotion';
+import { css } from 'emotion';
 import styles from './Checkbox.less';
 import { ITheme } from '../../lib/ThemeManager';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
-import Upgrade from '../../lib/Upgrades';
 
 const jsStyles = {
   root(t: ITheme) {
     return css`
-      &:hover {
-        .${styles.box} {
-          background: ${t.chbHoverBg};
-        }
-        .${cx(jsStyles.box(t), jsStyles.boxIndeterminate(t))} {
-          // hack with background.
-          // TODO remove after moving variables from .less to js Object
-          background: ${
-            Upgrade.isFlatDesignEnabled() ? ColorFunctions.darken(t.chbBoxIndeterminateBgHover, '5%') : t.chbHoverBg
-          };
-        }
+      &:hover .${styles.box} {
+        background: ${t.chbHoverBg};
       }
 
-      &:active {
-        .${styles.box} {
-          box-shadow: ${t.chbShadowActive};
-          background: ${t.chbActiveBg};
-        }
-        .${cx(jsStyles.box(t), jsStyles.boxIndeterminate(t))} {
-          // hack with background.
-          // TODO remove after moving variables from .less to js Object
-          background: ${
-            Upgrade.isFlatDesignEnabled() ? ColorFunctions.darken(t.chbBoxIndeterminateBgActive, '15%') : t.chbActiveBg
-          };
-        }
+      &:active .${styles.box} {
+        box-shadow: ${t.chbShadowActive};
+        background: ${t.chbActiveBg};
       }
 
       &.${styles.disabled} {
         color: ${t.textColorDisabled};
       }
-
-      // .${cx(jsStyles.checked(t), jsStyles.focus(t))} .${styles.box} {
-      //   border-color: ${t.chbBorderColorFocus};
-      //   box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus};
-      // }
     `;
   },
 
@@ -104,14 +80,12 @@ const jsStyles = {
         color: ${t.chbCheckedColor};
       }
             
-      &:hover {
-        .${styles.box} {
-          background: ${Upgrade.isFlatDesignEnabled() ? ColorFunctions.darken(t.chbCheckedBg, '5%') : t.chbCheckedBg};
+      &:hover .${styles.box} {
+          background: ${ColorFunctions.darken(t.chbCheckedBg, '5%')};
       }
       
-      &:active {
-        .${styles.box} {
-          background: ${Upgrade.isFlatDesignEnabled() ? ColorFunctions.darken(t.chbCheckedBg, '15%') : t.chbCheckedBg};
+      &:active .${styles.box} {
+          background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
         }
       }
     `;
@@ -133,6 +107,13 @@ const jsStyles = {
   boxIndeterminate(t: ITheme) {
     return css`
       background: ${t.chbBoxIndeterminateBg};
+
+      .${styles.root}:hover & {
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgHover, '5%')};
+      }
+      .${styles.root}:active & {
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgActive, '15%')};
+      }
     `;
   },
 };

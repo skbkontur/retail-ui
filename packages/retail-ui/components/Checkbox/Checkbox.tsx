@@ -73,6 +73,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   public render() {
+    const props = this.props;
     const {
       children,
       error,
@@ -81,24 +82,23 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onMouseLeave,
       onMouseOver,
       onChange,
-
       style,
       className,
       type,
       initialIndeterminate,
       ...rest
-    } = this.props;
+    } = props;
     const hasCaption = !!children;
 
     const rootClass = classNames({
       [styles.root]: true,
-      [jsStyles.root(theme)]: true,
       [styles.withoutCaption]: !hasCaption,
-      [jsStyles.checked(theme) || '']: !!this.props.checked,
-      [styles.disabled]: !!this.props.disabled,
-      [jsStyles.error(theme)]: !!this.props.error,
-      [jsStyles.warning(theme)]: !!this.props.warning,
-      [jsStyles.focus(theme)]: true,
+      [styles.disabled]: !!props.disabled,
+      [jsStyles.root(theme)]: true,
+      [jsStyles.checked(theme) || '']: !!props.checked,
+      [jsStyles.focus(theme)]: this.state.focusedByTab,
+      [jsStyles.warning(theme)]: !!props.warning,
+      [jsStyles.error(theme)]: !!props.error,
     });
 
     const inputProps = {
@@ -116,18 +116,16 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       caption = <div className={styles.caption}>{children}</div>;
     }
 
+    const isIndeterminate = this.state.indeterminate;
+    const boxClass = classNames(styles.box, jsStyles.box(theme), isIndeterminate && jsStyles.boxIndeterminate(theme));
     return (
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
-        <span
-          className={classNames(styles.box, jsStyles.box(theme), {
-            [jsStyles.boxIndeterminate(theme)]: this.state.indeterminate,
-          })}
-        >
-          {this.state.indeterminate ? (
+        <span className={boxClass}>
+          {isIndeterminate ? (
             <span className={classNames(styles.indeterminate, jsStyles.indeterminate(theme))} />
           ) : (
-            this.props.checked && (
+            props.checked && (
               <div className={styles.ok}>
                 <OkIcon />
               </div>

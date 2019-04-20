@@ -11,6 +11,10 @@ function buildCacheKey(name: string, ...args: any[]) {
 }
 
 function shiftColor(colorString: string, a: number | string, sign: SignType, method?: MethodType) {
+  if (!colorString) {
+    return '';
+  }
+
   if (colorString.toLowerCase() === 'transparent') {
     return 'transparent';
   }
@@ -58,14 +62,14 @@ function shiftColor(colorString: string, a: number | string, sign: SignType, met
 const ColorFunctions = {
   lighten(colorString: string, amount: number | string, method?: MethodType) {
     const key = buildCacheKey('lighten', colorString, amount, method);
-    if (!ColorFunctionsCache[key]) {
+    if (ColorFunctionsCache[key] === undefined) {
       ColorFunctionsCache[key] = shiftColor(colorString, amount, '+', method);
     }
     return ColorFunctionsCache[key]!;
   },
   darken(colorString: string, amount: number | string, method?: MethodType) {
     const key = buildCacheKey('darken', colorString, amount, method);
-    if (!ColorFunctionsCache[key]) {
+    if (ColorFunctionsCache[key] === undefined) {
       ColorFunctionsCache[key] = shiftColor(colorString, amount, '-', method);
     }
 
@@ -73,7 +77,10 @@ const ColorFunctions = {
   },
   contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43) {
     const key = buildCacheKey('contrast', colorString, darkString, lightString, threshold);
-    if (!ColorFunctionsCache[key]) {
+    if (!colorString) {
+      ColorFunctionsCache[key] = '';
+    }
+    if (ColorFunctionsCache[key] === undefined) {
       const color = ColorFactory.create(colorString);
       let dark = typeof darkString === 'undefined' ? ColorFactory.create('#000') : ColorFactory.create(darkString);
       let light = typeof lightString === 'undefined' ? ColorFactory.create('#fff') : ColorFactory.create(lightString);

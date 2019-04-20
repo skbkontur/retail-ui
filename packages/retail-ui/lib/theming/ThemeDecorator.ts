@@ -1,20 +1,16 @@
 import * as React from 'react';
 import { ThemeConsumer } from './ThemeProvider';
-import { ITheme } from '../../lib/ThemeManager';
+import { ITheme } from "../ThemeManager";
 
 type ComponentConstructorType = new (...args: any[]) => React.Component & { readonly theme: ITheme };
 
 export function injectTheme<T extends ComponentConstructorType>(Component: T) {
   Component.prototype._originalRender = Component.prototype.render;
   Component.prototype.render = function() {
-    return (
-      <ThemeConsumer>
-        {themeContext => {
-          this.theme = themeContext.theme;
-          return this._originalRender();
-        }}
-      </ThemeConsumer>
-    );
+    return React.createElement(ThemeConsumer, null, (theme: ITheme) => {
+      this.theme = theme;
+      return this._originalRender();
+    });
   };
   return Component;
 }
