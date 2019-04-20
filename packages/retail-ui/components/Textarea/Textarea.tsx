@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import * as React from 'react';
 
 import * as PropTypes from 'prop-types';
@@ -13,12 +12,12 @@ import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
 
 import Upgrades from '../../lib/Upgrades';
-import CssStyles from './Textarea.less';
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Textarea.styles';
+import styles from './Textarea.less';
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-const styles: typeof CssStyles = isFlatDesign ? require('./Textarea.flat.less') : require('./Textarea.less');
-
+const theme = ThemeManager.getTheme();
 const DEFAULT_WIDTH = 250;
 
 export type TextareaProps = Override<
@@ -193,8 +192,9 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaClassNames = classNames({
       [styles.textarea]: true,
-      [styles.error]: error,
-      [styles.warning]: warning,
+      [jsStyles.textarea(theme)]: true,
+      [jsStyles.error(theme)]: !!error,
+      [jsStyles.warning(theme)]: !!warning,
     });
 
     const textAreaStyle = {
