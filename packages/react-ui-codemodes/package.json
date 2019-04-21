@@ -12,6 +12,7 @@
     "shelljs": "^0.8.2"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "transform:default-props": "find ../retail-ui/components -iname '*.d.ts' -not -ipath '*node_modules*' -print0 | xargs -0 jscodeshift --verbose 0 --transform ./default-props/transform.js --dry"
   }
 }
