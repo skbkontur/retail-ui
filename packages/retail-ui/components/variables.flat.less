@@ -1,37 +1,48 @@
 // Common
 @flat-border-color-focus: #1d85d0;
+@flat-outline-color-focus: #fff;
 
 @blink-color: #cde4f8;
 
 // Button
 
 @btn-flat-checked-bg: #7e7e7e;
+@btn-flat-checked-text-color: #fff;
+@btn-flat-disabled-bg: #f4f4f4;
 
 @btn-flat-default-bg: none;
-@btn-flat-default-hover-bg: rgba(0, 0, 0, 0.06);
-@btn-flat-default-active-bg: rgba(0, 0, 0, 0.12);
-@btn-flat-default-disabled-bg: #f4f4f4;
+@btn-flat-default-bg-arrow: #fff;
+@btn-flat-default-text-color: none;
+@btn-flat-default-hover-bg: #f2f2f2;
+@btn-flat-default-hover-border-color: #D9D9D9;
+@btn-flat-default-active-bg: #E5E5E5;
+@btn-flat-default-active-border-color: #CCCCCC;
 @btn-flat-default-border: 1px solid rgba(0, 0, 0, 0.15);
+@btn-flat-default-shadow-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.15);
 
 @btn-flat-primary-bg: #1d85d0;
+@btn-flat-primary-text-color: #fff;
 @btn-flat-primary-hover-bg: #1b7dc3;
 @btn-flat-primary-active-bg: #1974b6;
 @btn-flat-primary-disabled-bg: #1d85d0;
 @btn-flat-primary-border: 1px solid transparent;
 
 @btn-flat-success-bg: #419d14;
+@btn-flat-success-text-color: #fff;
 @btn-flat-success-hover-bg: #3c9312;
 @btn-flat-success-active-bg: #398911;
 @btn-flat-success-disabled-bg: #419d14;
 @btn-flat-success-border: 1px solid transparent;
 
 @btn-flat-danger-bg: #d9472b;
+@btn-flat-danger-text-color: #fff;
 @btn-flat-danger-hover-bg: #cc4228;
 @btn-flat-danger-active-bg: #be3e25;
 @btn-flat-danger-disabled-bg: #d9472b;
 @btn-flat-danger-border: 1px solid transparent;
 
 @btn-flat-pay-bg: #ffca43;
+@btn-flat-pay-text-color: none;
 @btn-flat-pay-hover-bg: #f0be3f;
 @btn-flat-pay-active-bg: #e0b13a;
 @btn-flat-pay-disabled-bg: #ffca43;
@@ -44,10 +55,17 @@
 @chb-flat-active-bg: @btn-flat-default-active-bg;
 @chb-flat-checked-bg: @flat-border-color-focus;
 
-// Input
+// Input DEPRECATED
 @chb-flat-input-bg: white;
 @chb-flat-input-icon-color: #a9a9a9;
 @chb-flat-input-color: inherit;
+@chb-flat-input-disabled-color: rgba(0, 0, 0, 0.05);
+
+// Input
+@input-flat-bg: @chb-flat-input-bg;
+@input-flat-icon-color: @chb-flat-input-icon-color;
+@input-flat-color: @chb-flat-input-color;
+@input-flat-disabled-color: @chb-flat-input-disabled-color;
 
 // Toggle
 @toggle-flat-bg-checked: #3072c4;
@@ -60,5 +78,6 @@
 // TextArea
 @textarea-flat-bg: white;
 @textarea-flat-color: inherit;
+@textarea-flat-disabled-color: rgba(0, 0, 0, 0.05);
 
 @import (optional) '~react-ui-theme-flat';
