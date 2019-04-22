@@ -303,7 +303,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           delete newFields[addressField];
         }
       }
-      this.handleAddressChange(Address.createFromAddress(address, { fields: newFields }));
+      this.handleAddressChange(Address.createFromAddress(address, { fields: newFields }), this.validate);
     };
 
     const onInputChange = () => {
@@ -502,16 +502,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private handleAddressChange = (address: Address) => {
+  private handleAddressChange = (address: Address, callback?: () => void) => {
     this.setState(
       {
         address: Address.createFromAddress(address, {
           fields: Address.filterVisibleFields(address.fields, this.props.fieldsSettings),
         }),
       },
-      () => {
-        this.validate();
-      },
+      callback,
     );
   };
 
