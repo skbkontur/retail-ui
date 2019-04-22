@@ -19,12 +19,6 @@ const jsStyles = {
         &::placeholder {
           color: ${t.placeholderColorLight};
         }
-        &:-moz-placeholder {
-          color: ${t.placeholderColorLight};
-        }
-        &::-moz-placeholder {
-          color: ${t.placeholderColorLight};
-        }
       }
       &:disabled {
         color: ${t.textColorDisabled};
@@ -35,11 +29,13 @@ const jsStyles = {
       &::placeholder {
         color: ${t.placeholderColor};
       }
+
       &:-moz-placeholder {
-        color: ${t.placeholderColor};
+        color: inherit; // Need to be discussed
       }
+
       &::-moz-placeholder {
-        color: ${t.placeholderColor};
+        color: inherit;
       }
     `;
   },
