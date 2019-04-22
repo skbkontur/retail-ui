@@ -279,7 +279,7 @@ export class FiasAPI implements APIProvider {
       if (success && data) {
         return APIResultFactory.success<SearchResponse>(
           data.filter((address: AddressResponse) => {
-            const { name, code } = address.region as AddressObject;
+            const { name, code = '' } = address.region as AddressObject;
             return isStartsWithSearchText(name) || isStartsWithSearchText(code);
           }),
         );

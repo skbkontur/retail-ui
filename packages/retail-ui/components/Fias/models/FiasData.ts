@@ -47,7 +47,7 @@ export class FiasData {
   }
 
   public get code(): string {
-    return FiasData.isAddressObject(this.data) ? this.data.code : '';
+    return FiasData.isAddressObject(this.data) && this.data.code || '';
   }
 
   public get number(): string {

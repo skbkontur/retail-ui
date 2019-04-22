@@ -13,7 +13,7 @@ export interface FiasEntity {
 export interface AddressObject extends FiasEntity {
   name: string;
   abbreviation: string;
-  code: string;
+  code?: string;
 }
 
 export interface Stead extends FiasEntity {
