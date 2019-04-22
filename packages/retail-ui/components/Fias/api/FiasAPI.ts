@@ -75,7 +75,6 @@ export class FiasAPI implements APIProvider {
       .join(' ');
   };
 
-  private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
   private regionsPromise: Promise<APIResult<SearchResponse>> | null = null;
 
   constructor(private baseUrl: string = '', private version?: string, private fetchFn: FetchFn = xhrFetch) {}
@@ -85,25 +84,24 @@ export class FiasAPI implements APIProvider {
       directParent: false,
       search: false,
     };
-    const emptyResult = {
-      success: true,
-      data: [],
-    };
-    const promise = this.send<VerifyResponse>(`verify?${FiasAPI.createQuery(query)}`, {
+    return this.send<VerifyResponse[]>(`verify?${FiasAPI.createQuery(query)}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify([address]),
-    });
-    this.verifyPromise = promise;
-
-    return promise.then(result => {
-      if (promise !== this.verifyPromise) {
-        return emptyResult;
+    }).then(({ success, data, error }: APIResult<VerifyResponse[]>) => {
+      if (success && data) {
+        const { address: verifiedAddress = {}, isValid = false, invalidLevel }: VerifyResponse = data[0] || {};
+        return APIResultFactory.success<VerifyResponse>({
+          address: verifiedAddress,
+          isValid,
+          ...(invalidLevel ? { invalidLevel: invalidLevel.toLowerCase() as Fields } : {}),
+        });
+      } else {
+        return APIResultFactory.fail<VerifyResponse>(error && error.message);
       }
-      return result;
     });
   };
 

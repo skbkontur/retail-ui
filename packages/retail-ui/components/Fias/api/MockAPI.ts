@@ -14,7 +14,12 @@ const addresses: SearchResponse = require('./data.json');
 
 export class MockAPI implements APIProvider {
   public verify = async (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
-    return Promise.resolve(APIResultFactory.success([]));
+    return Promise.resolve(
+      APIResultFactory.success({
+        address: {},
+        isValid: true,
+      }),
+    );
   };
 
   public search = async ({

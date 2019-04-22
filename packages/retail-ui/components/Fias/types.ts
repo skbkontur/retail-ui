@@ -98,11 +98,11 @@ export type AddressResponse = { [key in Fields]?: FiasObject };
 
 export type SearchResponse = AddressResponse[];
 
-export type VerifyResponse = Array<{
+export interface VerifyResponse {
   address: AddressResponse;
   isValid: boolean;
-  invalidLevel?: string;
-}>;
+  invalidLevel?: Fields;
+}
 
 export type AddressErrors = { [key in Fields | ExtraFields]?: string };
 
