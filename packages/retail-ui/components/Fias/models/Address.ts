@@ -207,6 +207,11 @@ export class Address {
     return index > -1 ? Address.MAIN_FIELDS.slice(0, index) : [];
   };
 
+  public static getChildFields = (field: Fields) => {
+    const index = Address.MAIN_FIELDS.indexOf(field);
+    return index > -1 ? Address.MAIN_FIELDS.slice(index + 1) : [];
+  };
+
   public fields: AddressFields;
   public additionalFields: AdditionalFields;
   public errors: AddressErrors;
