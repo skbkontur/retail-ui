@@ -317,6 +317,9 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
 
 // Toggle
+@toggle-bg: linear-gradient(-180deg, #fff, #ebebeb);
+@toggle-bg-disabled: none;
+@toggle-bg-hover: linear-gradient(-180deg, #f1f1f1, #dedede);
 @toggle-bg-checked: #3072c4;
 @toggle-bg-warning: @warning-main;
 @toggle-bg-error: @error-main;
@@ -348,6 +351,12 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @chb-border-color-focus: @border-color-focus;
 @chb-border-color-warning: transparent;
 @chb-border-color-error: transparent;
+
+// Textarea
+@textarea-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
+@textarea-border-top-color: @border-color-gray-dark;
+@textarea-disabled-bg: @bg-disabled;
+@textarea-disabled-border-color: @border-color-gray-light;
 
 // Radio
 @radio-size: 16px;
@@ -445,495 +454,254 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @import (optional) '~react-ui-theme';
 
 @value brandLight: @brand_light;
-
 @value brand: @brand;
-
 @value brandDark: @brand_dark;
-
 @value brandXDark: @brand_x_dark;
-
 @value white: @white;
-
 @value grayXxLight: @gray_xx_light;
-
 @value grayXLight: @gray_x_light;
-
 @value grayLight: @gray_light;
-
 @value gray: @gray;
-
 @value grayDark: @gray_dark;
-
 @value black: @black;
-
 @value blueXxLight: @blue_xx_light;
-
 @value blueLight: @blue_light;
-
 @value blue: @blue;
-
 @value blueDark: @blue_dark;
-
 @value blueXDark: @blue_x_dark;
-
 @value greenXxLight: @green_xx_light;
-
 @value green: @green;
-
 @value greenDark: @green_dark;
-
 @value redXxLight: @red_xx_light;
-
 @value red: @red;
-
 @value redDark: @red_dark;
-
 @value yellowXxLight: @yellow_xx_light;
-
 @value yellow: @yellow;
-
 @value yellowDark: @yellow_dark;
-
 @value bgDefault: @bg-default;
-
 @value bgDisabled: @bg-disabled;
-
 @value bgActive: @bg-active;
-
 @value errorMain: @error-main;
-
 @value errorSecondary: @error-secondary;
-
 @value errorText: @error-text;
-
 @value warningMain: @warning-main;
-
 @value warningSecondary: @warning-secondary;
-
 @value warningText: @warning-text;
-
 @value borderColorFocus: @border-color-focus;
-
 @value borderColorFocusLight: @border-color-focus-light;
-
 @value borderColorGrayDark: @border-color-gray-dark;
-
 @value borderColorGrayLight: @border-color-gray-light;
-
 @value borderColorGrayLighter: @border-color-gray-lighter;
-
 @value borderColorError: @border-color-error;
-
 @value borderColorWarning: @border-color-warning;
-
 @value outlineColorFocus: @outline-color-focus;
-
 @value placeholderColor: @placeholder-color;
-
 @value placeholderColorLight: @placeholder-color-light;
-
 @value blinkColor: @blink-color;
-
 @value controlBorderWidth: @control-border-width;
-
 @value controlLineHeightSmall: @control-line-height-small;
-
 @value controlLineHeightMedium: @control-line-height-medium;
-
 @value controlLineHeightLarge: @control-line-height-large;
-
 @value controlPaddingYSmall: @control-padding-y-small;
-
 @value controlPaddingYMedium: @control-padding-y-medium;
-
 @value controlPaddingYLarge: @control-padding-y-large;
-
 @value controlHeightSmall: @control-height-small;
-
 @value controlHeightMedium: @control-height-medium;
-
 @value controlHeightLarge: @control-height-large;
-
 @value textColorDefault: @text-color-default;
-
 @value textColorInvert: @text-color-invert;
-
 @value textColorDisabled: @text-color-disabled;
-
 @value linkColor: @link-color;
-
 @value linkActiveColor: @link-active-color;
-
 @value linkHoverColor: @link-hover-color;
-
 @value linkDisabledColor: @link-disabled-color;
-
 @value linkHoverTextDecoration: @link-hover-text-decoration;
-
 @value dropdownMenuBorder: @dropdown-menu-border;
-
 @value dropdownMenuBg: @dropdown-menu-bg;
-
 @value dropdownMenuHoverBg: @dropdown-menu-hover-bg;
-
 @value dropdownMenuSelectedBg: @dropdown-menu-selected-bg;
-
 @value loaderBg: @loader-bg;
-
 @value loaderOpacity: @loader-opacity;
-
 @value btnCheckedBg: @btn-checked-bg;
-
 @value btnCheckedTextColor: @btn-checked-text-color;
-
 @value btnCheckedShadowColorArrow: @btn-checked-shadow-color-arrow;
-
 @value btnDefaultBg: @btn-default-bg;
 @value btnDefaultBgArrow: @btn-default-bg-arrow;
 @value btnDefaultBgArrowLeft: @btn-default-bg-arrow-left;
-
 @value btnDefaultBgStart: @btn-default-bg-start;
-
 @value btnDefaultBgEnd: @btn-default-bg-end;
-
 @value btnDefaultTextColor: @btn-default-text-color;
-
 @value btnDefaultShadow: @btn-default-shadow;
-
 @value btnDefaultShadowArrow: @btn-default-shadow-arrow;
-
 @value btnDefaultShadowArrowLeft: @btn-default-shadow-arrow-left;
-
 @value btnDefaultHoverBgStart: @btn-default-hover-bg-start;
-
 @value btnDefaultHoverBgEnd: @btn-default-hover-bg-end;
-
 @value btnDefaultHoverShadow: @btn-default-hover-shadow;
-
 @value btnDefaultHoverShadowArrow: @btn-default-hover-shadow-arrow;
-
 @value btnDefaultHoverShadowArrowLeft: @btn-default-hover-shadow-arrow-left;
-
 @value btnDefaultActiveBg: @btn-default-active-bg;
-
 @value btnDefaultActiveShadow: @btn-default-active-shadow;
-
 @value btnDefaultActiveShadowArrow: @btn-default-active-shadow-arrow;
-
 @value btnDefaultActiveShadowArrowLeft: @btn-default-active-shadow-arrow-left;
-
 @value btnSuccessBg: @btn-success-bg;
-
 @value btnSuccessBgStart: @btn-success-bg-start;
-
 @value btnSuccessBgEnd: @btn-success-bg-end;
-
 @value btnSuccessTextColor: @btn-success-text-color;
-
 @value btnSuccessShadow: @btn-success-shadow;
-
 @value btnSuccessShadowArrow: @btn-success-shadow-arrow;
-
 @value btnSuccessShadowArrowLeft: @btn-success-shadow-arrow-left;
-
 @value btnSuccessHoverBgStart: @btn-success-hover-bg-start;
-
 @value btnSuccessHoverBgEnd: @btn-success-hover-bg-end;
-
 @value btnSuccessHoverShadow: @btn-success-hover-shadow;
-
 @value btnSuccessHoverShadowArrow: @btn-success-hover-shadow-arrow;
-
 @value btnSuccessHoverShadowArrowLeft: @btn-success-hover-shadow-arrow-left;
-
 @value btnSuccessActiveBg: @btn-success-active-bg;
-
 @value btnSuccessActiveShadow: @btn-success-active-shadow;
-
 @value btnSuccessActiveShadowArrow: @btn-success-active-shadow-arrow;
-
 @value btnSuccessActiveShadowArrowLeft: @btn-success-active-shadow-arrow-left;
-
 @value btnPrimaryBg: @btn-primary-bg;
-
 @value btnPrimaryBgStart: @btn-primary-bg-start;
-
 @value btnPrimaryBgEnd: @btn-primary-bg-end;
-
 @value btnPrimaryTextColor: @btn-primary-text-color;
-
 @value btnPrimaryShadow: @btn-primary-shadow;
-
 @value btnPrimaryShadowArrow: @btn-primary-shadow-arrow;
-
 @value btnPrimaryShadowArrowLeft: @btn-primary-shadow-arrow-left;
-
 @value btnPrimaryHoverBgStart: @btn-primary-hover-bg-start;
-
 @value btnPrimaryHoverBgEnd: @btn-primary-hover-bg-end;
-
 @value btnPrimaryHoverShadow: @btn-primary-hover-shadow;
-
 @value btnPrimaryHoverShadowArrow: @btn-primary-hover-shadow-arrow;
-
 @value btnPrimaryHoverShadowArrowLeft: @btn-primary-hover-shadow-arrow-left;
-
 @value btnPrimaryActiveBg: @btn-primary-active-bg;
-
 @value btnPrimaryActiveShadow: @btn-primary-active-shadow;
-
 @value btnPrimaryActiveShadowArrow: @btn-primary-active-shadow-arrow;
-
 @value btnPrimaryActiveShadowArrowLeft: @btn-primary-active-shadow-arrow-left;
-
 @value btnDangerBg: @btn-danger-bg;
-
 @value btnDangerBgStart: @btn-danger-bg-start;
-
 @value btnDangerBgEnd: @btn-danger-bg-end;
-
 @value btnDangerTextColor: @btn-danger-text-color;
-
 @value btnDangerShadow: @btn-danger-shadow;
-
 @value btnDangerShadowArrow: @btn-danger-shadow-arrow;
-
 @value btnDangerShadowArrowLeft: @btn-danger-shadow-arrow-left;
-
 @value btnDangerHoverBgStart: @btn-danger-hover-bg-start;
-
 @value btnDangerHoverBgEnd: @btn-danger-hover-bg-end;
-
 @value btnDangerHoverShadow: @btn-danger-hover-shadow;
-
 @value btnDangerHoverShadowArrow: @btn-danger-hover-shadow-arrow;
-
 @value btnDangerHoverShadowArrowLeft: @btn-danger-hover-shadow-arrow-left;
-
 @value btnDangerActiveBg: @btn-danger-active-bg;
-
 @value btnDangerActiveShadow: @btn-danger-active-shadow;
-
 @value btnDangerActiveShadowArrow: @btn-danger-active-shadow-arrow;
-
 @value btnDangerActiveShadowArrowLeft: @btn-danger-active-shadow-arrow-left;
-
 @value btnPayBg: @btn-pay-bg;
-
 @value btnPayBgStart: @btn-pay-bg-start;
-
 @value btnPayBgEnd: @btn-pay-bg-end;
-
 @value btnPayTextColor: @btn-pay-text-color;
-
 @value btnPayShadow: @btn-pay-shadow;
-
 @value btnPayShadowArrow: @btn-pay-shadow-arrow;
-
 @value btnPayShadowArrowLeft: @btn-pay-shadow-arrow-left;
-
 @value btnPayHoverBgStart: @btn-pay-hover-bg-start;
-
 @value btnPayHoverBgEnd: @btn-pay-hover-bg-end;
-
 @value btnPayHoverShadow: @btn-pay-hover-shadow;
-
 @value btnPayHoverShadowArrow: @btn-pay-hover-shadow-arrow;
-
 @value btnPayHoverShadowArrowLeft: @btn-pay-hover-shadow-arrow-left;
-
 @value btnPayActiveBg: @btn-pay-active-bg;
-
 @value btnPayActiveShadow: @btn-pay-active-shadow;
-
 @value btnPayActiveShadowArrow: @btn-pay-active-shadow-arrow;
-
 @value btnPayActiveShadowArrowLeft: @btn-pay-active-shadow-arrow-left;
-
 @value sltPlaceholderColor: @slt-placeholder-color;
-
 @value tabColorFocus: @tab-color-focus;
-
 @value tabColorError: @tab-color-error;
-
 @value tabColorWarning: @tab-color-warning;
-
 @value tabColorSuccess: @tab-color-success;
-
 @value tabColorPrimary: @tab-color-primary;
-
 @value tabColorHover: @tab-color-hover;
-
 @value tabColorHoverError: @tab-color-hover-error;
-
 @value tabColorHoverWarning: @tab-color-hover-warning;
-
 @value tabColorHoverSuccess: @tab-color-hover-success;
-
 @value tabColorHoverPrimary: @tab-color-hover-primary;
-
 @value tooltipBg: @tooltip-bg;
-
 @value tooltipBorder: @tooltip-border;
-
 @value tooltipBorderRaduis: @tooltip-border-raduis;
-
 @value tooltipBoxShadow: @tooltip-box-shadow;
-
 @value tooltipCloseBtnColor: @tooltip-close-btn-color;
-
 @value tooltipCloseBtnHoverColor: @tooltip-close-btn-hover-color;
-
 @value modalBackBg: @modal-back-bg;
-
 @value modalBackOpacity: @modal-back-opacity;
-
 @value modalCloseButtonColor: @modal-close-button-color;
-
 @value modalCloseButtonDisabledColor: @modal-close-button-disabled-color;
-
 @value modalCloseButtonHoverColor: @modal-close-button-hover-color;
-
 @value modalFixedHeaderBg: @modal-fixed-header-bg;
-
 @value modalFixedHeaderShadow: @modal-fixed-header-shadow;
-
 @value modalFixedFooterShadow: @modal-fixed-footer-shadow;
-
 @value modalFooterBg: @modal-footer-bg;
-
 @value modalAdaptiveThreshold: @modal-adaptive-threshold;
-
 @value sidePageFooterPanelBg: @side_page-footer-panel-bg;
-
 @value sidePageCloseButtonColor: @side_page-close-button-color;
-
 @value sidePageCloseButtonHoverColor: @side_page-close-button-hover-color;
-
 @value sidePageContainerShadow: @side_page-container-shadow;
-
 @value dateInputIconColor: @date_input-icon-color;
-
 @value dateInputMaskColor: @date_input-mask-color;
-
 @value calendarCellBg: @calendar-cell-bg;
-
 @value calendarCellHoverBgColor: @calendar-cell-hover-bg-color;
-
 @value calendarCellHoverColor: @calendar-cell-hover-color;
-
 @value calendarCellActiveHoverColor: @calendar-cell-active-hover-color;
-
 @value calendarCellWeekendColor: @calendar-cell-weekend-color;
-
 @value calendarCellTodayBorder: @calendar-cell-today-border;
-
 @value calendarCellSelectedBgColor: @calendar-cell-selected-bg-color;
-
 @value calendarCellSelectedFontColor: @calendar-cell-selected-font-color;
-
 @value calendarMonthHeaderStickedBgColor: @calendar-month-header-sticked-bg-color;
-
 @value calendarMonthTitleBorderBottom: @calendar-month-title-border-bottom;
-
 @value dateSelectMenuBg: @date-select-menu-bg;
-
 @value dateSelectMenuItemBgActive: @date-select-menu-item-bg-active;
-
 @value dateSelectMenuItemBgSelected: @date-select-menu-item-bg-selected;
-
 @value dateSelectMenuItemBgDisabled: @date-select-menu-item-bg-disabled;
-
 @value dateSelectMenuItemFontActive: @date-select-menu-item-font-active;
-
 @value dateSelectMenuItemFontSelected: @date-select-menu-item-font-selected;
-
 @value dateSelectMenuItemFontDisabled: @date-select-menu-item-font-disabled;
-
 @value datePickerOpenBtnColor: @date_picker-open-btn-color;
-
 @value pickerBg: @picker-bg;
-
 @value pickerShadow: @picker-shadow;
-
 @value pickerTodayWrapperBgColor: @picker-today-wrapper-bg-color;
-
 @value pickerTodayWrapperBorderTop: @picker-today-wrapper-border-top;
-
 @value pickerTodayWrapperHoverBgColor: @picker-today-wrapper-hover-bg-color;
-
 @value pagingDotsColor: @paging-dots-color;
-
 @value pagingForwardLinkColor: @paging-forward-link-color;
-
 @value pagingForwardLinkDisabledColor: @paging-forward-link-disabled-color;
-
 @value pagingPageLinkActiveBg: @paging-page-link-active-bg;
-
 @value pagingPageLinkActiveColor: @paging-page-link-active-color;
-
 @value pagingPageLinkHoverBg: @paging-page-link-hover-bg;
-
 @value pagingPageLinkHintColor: @paging-page-link-hint-color;
-
 @value menuSeparatorBorderColor: @menu_separator-border-color;
-
 @value toastBg: @toast-bg;
-
 @value toastColor: @toast-color;
-
 @value toastLinkColor: @toast-link-color;
-
 @value toastCloseColor: @toast-close-color;
-
 @value toastCloseHoverColor: @toast-close-hover-color;
-
 @value tbBg: @tb-bg;
-
 @value tbShadow: @tb-shadow;
-
 @value tdDividerBg: @td-divider-bg;
-
 @value logoColor: @logo-color;
-
 @value logoHoverColor: @logo-hover-color;
-
 @value menuItemPaddingForIcon: @menu-item-padding-for-icon;
-
 @value menuBorder: @menu-border;
-
 @value menuShadow: @menu-shadow;
-
 @value btnShadowCheckedArrow: @btn-shadow-checked-arrow;
-
 @value btnShadowCheckedArrowLeft: @btn-shadow-checked-arrow-left;
-
+@value toggleBg: @toggle-bg;
+@value toggleBgDisabled: @toggle-bg-disabled;
+@value toggleBgHover: @toggle-bg-hover;
 @value toggleBgChecked: @toggle-bg-checked;
-
 @value toggleBgWarning: @toggle-bg-warning;
-
 @value toggleBgError: @toggle-bg-error;
-
 @value toggleBgActive: @toggle-bg-active;
-
 @value toggleFocusShadowColor: @toggle-focus-shadow-color;
-
 @value toggleBorderColor: @toggle-border-color;
-
 @value btnMenuArrowColor: @btn-menu-arrow-color;
-
 @value popupBorderRadius: @popup-border-radius;
-
 @value popupBorder: @popup-border;
-
 @value popupBorderColor: @popup-border-color;
-
 @value popupDropShadow: @popup-drop-shadow;
-
 @value popupBoxShadow: @popup-box-shadow;
-
 @value inputSidePadding: @input-side-padding;
-
 @value chbShadow: @chb-shadow;
 @value chbShadowDisabled: @chb-shadow-disabled;
 @value chbShadowActive: @chb-shadow-active;
@@ -946,6 +714,10 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @value chbBorderColorWarning: @chb-border-color-warning;
 @value chbBorderColorError: @chb-border-color-error;
 @value chbShadowWidth: @chb-shadow-width;
+@value textareaShadow: @textarea-shadow;
+@value textareaBorderTopColor: @textarea-border-top-color;
+@value textareaDisabledBg: @textarea-disabled-bg;
+@value textareaDisabledBorderColor: @textarea-disabled-border-color;
 
 @value radioSize: @radio-size;
 @value radioVerticalAlign: @radio-vertical-align;
@@ -961,5 +733,4 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @value radioCheckedBulletColor: @radio-checked-bullet-color;
 @value radioDisabledShadow: @radio-disabled-shadow;
 @value radioLabelDisplay: @radio-label-display;
-
 @value specificityLevel: @specificity-level;

@@ -96,6 +96,9 @@
 @input-flat-disabled-color: @chb-flat-input-disabled-color;
 
 // Toggle
+@toggle-flat-bg: #fff;
+@toggle-flat-bg-disabled: none;
+@toggle-flat-bg-hover: #f3f3f2;
 @toggle-flat-bg-checked: #3072c4;
 @toggle-flat-bg-warning: #f69c00;
 @toggle-flat-bg-error: #d70c17;
@@ -106,10 +109,16 @@
 // TextArea
 @textarea-flat-bg: white;
 @textarea-flat-color: inherit;
+@textarea-flat-shadow: none;
 @textarea-flat-disabled-color: rgba(0, 0, 0, 0.05);
+@textarea-flat-border-top-color: rgba(0, 0, 0, 0.15);
+@textarea-flat-disabled-bg: @textarea-flat-disabled-color;
+@textarea-flat-disabled-border-color: @textarea-flat-disabled-color;
 
 @import (optional) '~react-ui-theme-flat';
+
 @value outlineColorFocus: @flat-outline-color-focus;
+@value borderColorFocus: @flat-border-color-focus;
 @value blinkColor: @blink-color;
 @value btnCheckedBg: @btn-flat-checked-bg;
 @value btnCheckedTextColor: @btn-flat-checked-text-color;
@@ -168,6 +177,9 @@
 @value inputIconColor: @input-flat-icon-color;
 @value inputColor: @input-flat-color;
 @value inputDisabledColor: @input-flat-disabled-color;
+@value toggleBg: @toggle-flat-bg;
+@value toggleBgDisabled: @toggle-flat-bg-disabled;
+@value toggleBgHover: @toggle-flat-bg-hover;
 @value toggleBgChecked: @toggle-flat-bg-checked;
 @value toggleBgWarning: @toggle-flat-bg-warning;
 @value toggleBgError: @toggle-flat-bg-error;
@@ -176,7 +188,11 @@
 @value toggleBorderColor: @toggle-flat-border-color;
 @value textareaBg: @textarea-flat-bg;
 @value textareaColor: @textarea-flat-color;
+@value textareaShadow: @textarea-flat-shadow;
 @value textareaDisabledColor: @textarea-flat-disabled-color;
+@value textareaBorderTopColor: @textarea-flat-border-top-color;
+@value textareaDisabledBg: @textarea-flat-disabled-bg;
+@value textareaDisabledBorderColor: @textarea-flat-disabled-border-color;
 
 @value radioSize: @radio-flat-size;
 @value radioVerticalAlign: @radio-flat-vertical-align;

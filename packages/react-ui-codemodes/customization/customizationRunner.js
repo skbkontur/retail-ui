@@ -6,9 +6,11 @@ const COMPONENTS_DIR = path.resolve(__dirname, '../../', 'retail-ui/components')
 
 const TRANSFORMED_COMPONENTS = {
   Autocomplete: true,
+  Checkbox: true,
   Combobox: true,
   Fias: true,
   Group: true,
+  Input: true,
   Kebab: true,
   Link: true,
   Loader: true,
@@ -23,12 +25,15 @@ const TRANSFORMED_COMPONENTS = {
   Spinner: true,
   Sticky: true,
   SidePage: true,
+  Textarea: true,
   Toast: true,
+  Toggle: true,
   TokenInput: true,
   Tooltip: true,
   TopBar: true,
   Paging: true,
   Popup: true,
+  Radio: true,
   RadioGroup: true,
   Switcher: true,
 };
@@ -84,10 +89,6 @@ function buildDirectoryToFilesMap() {
 
       if (fileSource.includes('.less') && result[dir]) {
         result[dir].push(i);
-      }
-      // TODO temporary stub
-      if (fileSource.includes('.flat.less')) {
-        delete result[dir];
       }
     });
 

@@ -1,11 +1,13 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-const styles = isFlatDesign ? require('./Toggle.flat.less') : require('./Toggle.less');
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import styles from './Toggle.less';
+import jsStyles from './Toggle.styles';
+
+const theme = ThemeManager.getTheme();
 
 export interface ToggleProps {
   checked?: boolean;
@@ -76,17 +78,17 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
-    const containerClassNames = classNames(styles.container, {
-      [styles.isWarning]: !color && warning,
-      [styles.isError]: !color && error,
-      [styles.isLoading]: loading,
-      [styles.focused]: !disabled && this.state.focusByTab,
+    const containerClassNames = classNames(styles.container, jsStyles.container(theme), {
+      [jsStyles.isWarning(theme)]: !color && !!warning,
+      [jsStyles.isError(theme)]: !color && !!error,
+      [jsStyles.isLoading(theme)]: !!loading,
+      [jsStyles.focused(theme)]: !disabled && !!this.state.focusByTab,
     });
 
     return (
       <label
-        className={classNames(styles.wrapper, {
-          [styles.isDisabled]: disabled,
+        className={classNames(styles.wrapper, jsStyles.wrapper(theme), {
+          [styles.isDisabled]: !!disabled,
         })}
       >
         <input
@@ -110,9 +112,12 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
               : undefined
           }
         >
-          <div className={styles.activeBackground} style={checked && color ? { backgroundColor: color } : undefined} />
+          <div
+            className={classNames(styles.activeBackground, jsStyles.activeBackground(theme))}
+            style={checked && color ? { backgroundColor: color } : undefined}
+          />
         </div>
-        <div className={styles.handle} />
+        <div className={classNames(styles.handle, jsStyles.handle(theme))} />
       </label>
     );
   }
