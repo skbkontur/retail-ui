@@ -372,6 +372,16 @@ export class Address {
     return '';
   };
 
+  public getParent = (field: Fields): AddressElement | undefined => {
+    if (this.fields[field]) {
+      const parents = Address.getParentFields(field).filter(f => Boolean(this.fields[f]));
+      const closest = parents.pop();
+      if (closest) {
+        return this.fields[closest];
+      }
+    }
+  };
+
   public getFiasPostalCode = (): string => {
     if (!this.isEmpty) {
       const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
