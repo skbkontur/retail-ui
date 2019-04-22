@@ -367,6 +367,22 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @textarea-disabled-bg: @bg-disabled;
 @textarea-disabled-border-color: @border-color-gray-light;
 
+// Radio
+@radio-size: 16px;
+@radio-vertical-align: -2px;
+@radio-bg-image: linear-gradient(-180deg, #fff 0, #ebebeb 100%);
+@radio-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
+@radio-border: 0 none; // remove
+@radio-hover-bg: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
+@radio-hover-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2);
+@radio-active-bg: linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%);
+@radio-active-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+@radio-focus-shadow: none; // remove
+@radio-checked-bg-color: transparent; // remove
+@radio-checked-bullet-color: @text-color-default;
+@radio-disabled-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+@radio-label-display: inline-table;
+
 // specificity
 @specificity-level: 0;
 
@@ -713,4 +729,19 @@ inset 0 4px 5px -4px rgba(0, 0, 0, 0.05);
 @value textareaBorderTopColor: @textarea-border-top-color;
 @value textareaDisabledBg: @textarea-disabled-bg;
 @value textareaDisabledBorderColor: @textarea-disabled-border-color;
+
+@value radioSize: @radio-size;
+@value radioVerticalAlign: @radio-vertical-align;
+@value radioBgImage: @radio-bg-image;
+@value radioBoxShadow: @radio-box-shadow;
+@value radioBorder: @radio-border; // remove
+@value radioHoverBg: @radio-hover-bg;
+@value radioHoverShadow: @radio-hover-shadow;
+@value radioActiveBg: @radio-active-bg;
+@value radioActiveShadow: @radio-active-shadow;
+@value radioFocusShadow: @radio-focus-shadow; // remove
+@value radioCheckedBgColor: @radio-checked-bg-color; // remove
+@value radioCheckedBulletColor: @radio-checked-bullet-color;
+@value radioDisabledShadow: @radio-disabled-shadow;
+@value radioLabelDisplay: @radio-label-display;
 @value specificityLevel: @specificity-level;
