@@ -1,12 +1,12 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import '../ensureOldIEClassName';
-import Upgrades from '../../lib/Upgrades';
 import { Nullable, Override } from '../../typings/utility-types';
-
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-const styles = isFlatDesign ? require('./Radio.flat.less') : require('./Radio.less');
+import styles from './Radio.less';
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Radio.styles';
+const theme = ThemeManager.getTheme();
 
 export interface SyntheticRadioEvent<T> {
   target: {
@@ -123,11 +123,17 @@ class Radio<T> extends React.Component<RadioProps<T>> {
 
     let radioClassNames = classNames({
       [styles.radio]: true,
+      [jsStyles.radio(theme)]: true,
       [styles.checked]: this.props.checked,
+      [jsStyles.checked(theme)]: this.props.checked,
       [styles.focus]: this.props.focused,
+      [jsStyles.focus(theme)]: this.props.focused,
       [styles.error]: error,
+      [jsStyles.error(theme)]: error,
       [styles.warning]: warning,
+      [jsStyles.warning(theme)]: warning,
       [styles.disabled]: disabled,
+      [jsStyles.disabled(theme)]: disabled,
     });
 
     let value: string | number | undefined;
@@ -172,7 +178,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
       inputProps.name = this.context.name;
-      radioClassNames = classNames(radioClassNames, checked && styles.checked);
+      radioClassNames = classNames(radioClassNames, checked && classNames(styles.checked, jsStyles.checked(theme)));
     }
 
     return (
@@ -209,6 +215,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
   private renderLabel() {
     const labelClassNames = classNames({
       [styles.label]: true,
+      [jsStyles.label(theme)]: true,
       [styles.labelDisabled]: this.props.disabled,
     });
 
