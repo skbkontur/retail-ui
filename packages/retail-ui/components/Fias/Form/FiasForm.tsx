@@ -476,7 +476,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     const { address } = this.state;
     const { api, locale } = this.props;
 
-    this.verifyPromise = api.verify(address.convertForVerification()).then(result => {
+    this.verifyPromise = api.verify(address).then(result => {
       const { success, data } = result;
       if (success && data) {
         const verifiedFields = data.address;

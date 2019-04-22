@@ -1,5 +1,6 @@
 import { AddressElement } from './models/AddressElement';
 import { defaultLocale } from './constants/locale';
+import { Address } from './models/Address';
 
 export type FiasId = string;
 
@@ -127,7 +128,7 @@ export interface SearchOptions {
 export interface APIProvider {
   search: (options: SearchOptions) => Promise<APIResult<SearchResponse>>;
   searchCountry: (options: { prefix: string; limit?: number }) => Promise<APIResult<FiasCountry[]>>;
-  verify: (address: AddressValue) => Promise<APIResult<VerifyResponse>>;
+  verify: (address: Address) => Promise<APIResult<VerifyResponse>>;
 }
 
 export interface APIResult<Data> {

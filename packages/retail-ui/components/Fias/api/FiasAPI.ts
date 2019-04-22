@@ -1,6 +1,5 @@
 import {
   AddressObject,
-  AddressValue,
   APIProvider,
   FiasId,
   Fields,
@@ -20,6 +19,7 @@ import abbreviations from '../constants/abbreviations';
 import { Logger } from '../logger/Logger';
 import { APIResultFactory } from './APIResultFactory';
 import xhrFetch from '../../../lib/net/fetch-cors';
+import { Address } from '../models/Address';
 
 interface SearchQuery {
   [key: string]: string | number | boolean | FiasId | Fields[] | undefined;
@@ -79,7 +79,7 @@ export class FiasAPI implements APIProvider {
 
   constructor(private baseUrl: string = '', private version?: string, private fetchFn: FetchFn = xhrFetch) {}
 
-  public verify = (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
+  public verify = (address: Address): Promise<APIResult<VerifyResponse>> => {
     const query = {
       directParent: false,
       search: false,
@@ -90,7 +90,7 @@ export class FiasAPI implements APIProvider {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify([address]),
+      body: JSON.stringify([address.convertForVerification()]),
     }).then(({ success, data, error }: APIResult<VerifyResponse[]>) => {
       if (success && data) {
         const { address: verifiedAddress = {}, isValid = false, invalidLevel }: VerifyResponse = data[0] || {};
