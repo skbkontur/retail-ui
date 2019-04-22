@@ -212,6 +212,17 @@ export class Address {
     return index > -1 ? Address.MAIN_FIELDS.slice(index + 1) : [];
   };
 
+  public static removeFiasData = (address: Address, fields: Fields[] = Address.MAIN_FIELDS.slice()): Address => {
+    const addressFields = { ...address.fields };
+    for (const field of fields) {
+      const element = addressFields[field];
+      if (element) {
+        element.removeData();
+      }
+    }
+    return Address.createFromAddress(address, { fields: addressFields });
+  };
+
   public fields: AddressFields;
   public additionalFields: AdditionalFields;
   public errors: AddressErrors;

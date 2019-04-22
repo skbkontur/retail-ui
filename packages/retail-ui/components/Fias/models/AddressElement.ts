@@ -160,4 +160,8 @@ export class AddressElement {
       name: this.name,
     };
   }
+
+  public removeData = () => {
+    delete this.data;
+  };
 }
