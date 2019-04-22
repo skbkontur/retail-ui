@@ -2,6 +2,7 @@ import {
   AddressErrors,
   AddressFields,
   AdditionalFields,
+  VerifyResponse,
   AddressResponse,
   AddressValue,
   FiasId,
@@ -380,6 +381,34 @@ export class Address {
         return this.fields[closest];
       }
     }
+  };
+
+  public verifyConsistency = (): VerifyResponse => {
+    const fields = Address.MAIN_FIELDS.slice();
+    const verifiedFields: AddressFields = { ...this.fields };
+
+    for (const field of fields) {
+      const element = this.fields[field];
+      if (element) {
+        if (element.data) {
+          const { parentFiasId: expectedParentFiasId } = element.data;
+          const actualParentFiasId = this.getClosestParentFiasId(field);
+          if (!this.getParent(field) || actualParentFiasId === expectedParentFiasId) {
+            verifiedFields[field] = element;
+            continue;
+          }
+        }
+        return {
+          address: Address.fieldsToResponse(verifiedFields),
+          isValid: false,
+          invalidLevel: field,
+        };
+      }
+    }
+    return {
+      address: Address.fieldsToResponse(verifiedFields),
+      isValid: true,
+    };
   };
 
   public getFiasPostalCode = (): string => {
