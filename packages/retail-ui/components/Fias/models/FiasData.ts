@@ -66,6 +66,10 @@ export class FiasData {
     return (this.data && this.data.fiasId) || '';
   }
 
+  public get parentFiasId(): FiasId {
+    return (this.data && this.data.parentFiasId) || '';
+  }
+
   public get postalCode(): string {
     return (this.data && this.data.postalCode) || '';
   }
