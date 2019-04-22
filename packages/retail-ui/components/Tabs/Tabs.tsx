@@ -1,13 +1,13 @@
-import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
-
 import Indicator from './Indicator';
+
 import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
-
 import styles from './Tabs.less';
+
+import { cx as cn } from 'emotion';
 
 export interface TabsProps {
   /**
