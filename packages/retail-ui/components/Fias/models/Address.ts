@@ -77,11 +77,7 @@ export class Address {
     });
   };
 
-  public static createFromResponse = (
-    response: AddressResponse,
-    additionalFields?: AdditionalFields,
-    country?: FiasCountry,
-  ) => {
+  public static responseToFields = (response: AddressResponse): AddressFields => {
     const fields: AddressFields = {};
     if (response) {
       Address.MAIN_FIELDS.forEach(field => {
@@ -92,7 +88,28 @@ export class Address {
         }
       });
     }
-    return new Address({ fields, additionalFields, country });
+    return fields;
+  };
+
+  public static fieldsToResponse = (fields: AddressFields): AddressResponse => {
+    const response: AddressResponse = {};
+    if (fields) {
+      Address.MAIN_FIELDS.forEach(field => {
+        const element = fields[field];
+        if (element && element.data) {
+          response[field] = element.fiasData;
+        }
+      });
+    }
+    return response;
+  };
+
+  public static createFromResponse = (
+    response: AddressResponse,
+    additionalFields?: AdditionalFields,
+    country?: FiasCountry,
+  ) => {
+    return new Address({ fields: Address.responseToFields(response), additionalFields, country });
   };
 
   public static createFromAddressValue = (
