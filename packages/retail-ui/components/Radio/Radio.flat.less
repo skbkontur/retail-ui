@@ -12,13 +12,15 @@
     position: relative;
     border-radius: 50%;
     display: inline-block;
-    width: 18px;
-    height: 18px;
+    width: @radio-flat-size;
+    height: @radio-flat-size;
     box-sizing: border-box;
     margin-top: 2px;
     margin-bottom: 2px;
-    vertical-align: top;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    vertical-align: @radio-flat-vertical-align;
+    background-image: @radio-flat-bg-image;
+    box-shadow: @radio-flat-box-shadow;
+    border: @radio-flat-border;
 
     &::after {
       content: ' ';
@@ -35,19 +37,14 @@
     z-index: -1;
   }
 
-  :global(.rt-ie8) {
-    .radio {
-      background-color: #fdfdfd;
-      border: 1px solid #ededed;
-    }
-  }
-
   .root:hover .radio {
-    background: @chb-flat-hover-bg;
+    background: @radio-flat-hover-bg;
+    box-shadow: @radio-flat-hover-shadow;
   }
 
   .root:active .radio {
-    background: @chb-flat-active-bg;
+    background: @radio-flat-active-bg;
+    box-shadow: @radio-flat-active-shadow;
   }
 
   .input:focus + .radio::after,
@@ -64,7 +61,7 @@
     border-style: solid;
     border-radius: 50%;
     box-sizing: border-box;
-    box-shadow: inset 0 0 0 1px @flat-outline-color-focus;
+    box-shadow: @radio-flat-focus-shadow;
   }
 
   .input:focus + .radio::after,
@@ -82,7 +79,7 @@
 
   .root .radio.checked {
     position: relative;
-    background: @chb-flat-checked-bg;
+    background-color: @radio-flat-checked-bg-color;
   }
 
   .root .radio.checked::before {
@@ -95,13 +92,14 @@
     margin: auto;
     height: 8px;
     width: 8px;
-    background: #fff;
+    background: @radio-flat-checked-bullet-color;
     border-radius: 50%;
   }
 
   .disabled {
     background: #f2f2f2 !important; /* to overide hover and active */
     border-color: transparent;
+    box-shadow: @radio-flat-disabled-shadow !important;
   }
 
   .radio.disabled.checked::before {
@@ -109,7 +107,7 @@
   }
 
   .label {
-    display: inline-block;
+    display: @radio-flat-label-display;
     margin-left: 9px;
     white-space: normal;
     line-height: 20px;
