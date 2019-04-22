@@ -427,10 +427,10 @@ export class Address {
 
   public getFiasPostalCode = (): string => {
     if (!this.isEmpty) {
-      const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
+      const fields = Address.MAIN_FIELDS.slice().reverse();
       for (const field of fields) {
         const element = this.fields[field];
-        if (element && element.data) {
+        if (element && element.data && element.data.postalCode) {
           return element.data.postalCode;
         }
       }
