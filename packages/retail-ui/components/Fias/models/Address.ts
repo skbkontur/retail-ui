@@ -51,7 +51,6 @@ export class Address {
     Fields.settlement,
     Fields.planningstructure,
     Fields.street,
-    Fields.house,
   ];
 
   public static FULL_ADDRESS_SEARCH_FIELDS = [
@@ -143,33 +142,26 @@ export class Address {
     });
   };
 
-  public static verify = (address: Address, verifiedFields: AddressResponse, locale: FiasLocale): Address => {
+  public static validate = (address: Address, locale: FiasLocale): Address => {
     const { fields } = address;
     const errors: AddressErrors = {};
 
-    for (const field of Address.VERIFIABLE_FIELDS) {
-      const addressField = fields[field];
+    for (const field of Address.MAIN_FIELDS) {
+      const element = fields[field];
       let error = '';
 
-      if (addressField) {
-        if (field === Fields.house && !addressField.data) {
-          // force invalidate address
-          // if house wasn't chosen from the list
-          error = locale.addressSelectItemFromList;
+      if (element) {
+        if (!element.data) {
+          error = locale.addressNotVerified;
         }
+
         if (!address.isAllowedToFill(field)) {
           error = locale[`${field}FillBefore`];
         }
 
-        const fiasObject = verifiedFields[field];
-
-        if (Boolean(error) || !fiasObject) {
-          errors[field] = error || locale.addressNotVerified;
-          delete addressField.data;
+        if (Boolean(error)) {
+          errors[field] = error;
           break;
-        } else {
-          const fiasData = new FiasData(fiasObject);
-          fields[field] = new AddressElement(field, fiasData.name, fiasData);
         }
       }
     }
@@ -182,7 +174,29 @@ export class Address {
       }
     }
 
-    return Address.createFromAddress(address, { fields, errors });
+    return Address.createFromAddress(address, { errors });
+  };
+
+  public static verify = (address: Address, response: VerifyResponse): Address => {
+    if (address.isEmpty) {
+      return address;
+    }
+
+    const { address: addressResponse, invalidLevel } = response;
+    const verifiedAddress = Address.createFromAddress(address, {
+      fields: {
+        ...address.fields,
+        ...Address.responseToFields(addressResponse),
+      },
+    });
+
+    const invalidField = invalidLevel || verifiedAddress.verifyConsistency().invalidLevel;
+
+    if (invalidField) {
+      return Address.removeFiasData(verifiedAddress, [invalidField, ...Address.getChildFields(invalidField)]);
+    }
+
+    return verifiedAddress;
   };
 
   public static filterVisibleFields = (
