@@ -1,4 +1,4 @@
-import { EstateStatuses, FiasId, Fields, StructureStatuses } from '../types';
+import { EstateStatuses, FiasId, Fields, StructureStatuses, FiasObject } from '../types';
 import { abbreviations } from '../constants/abbreviations';
 import { FiasData } from './FiasData';
 
@@ -27,6 +27,12 @@ export class AddressElement {
       return false;
     }
     return AddressElement.FEDERAL_CITIES.indexOf(this.data.fiasId) > -1;
+  }
+
+  public get fiasData(): FiasObject | undefined {
+    if (this.data && this.data.data) {
+      return this.data.data;
+    }
   }
 
   public getText(withoutType: boolean = false): string {

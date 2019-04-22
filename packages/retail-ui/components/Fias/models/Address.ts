@@ -359,12 +359,12 @@ export class Address {
       if (!element) {
         return value;
       }
-      const { name, data } = element;
+      const { name, fiasData } = element;
       return {
         ...value,
         [field]: {
           name,
-          ...(data ? { data: data.data } : {}),
+          ...(fiasData ? { data: fiasData } : {}),
         },
       };
     }, {});
