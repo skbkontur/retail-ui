@@ -11,15 +11,9 @@
     position: relative;
     border-radius: 50%;
     display: inline-block;
-    width: @radio-size;
-    height: @radio-size;
     box-sizing: border-box;
     margin-top: 2px;
     margin-bottom: 2px;
-    vertical-align: @radio-vertical-align;
-    background-image: @radio-bg-image;
-    box-shadow: @radio-box-shadow;
-    border: @radio-border;
 
     &::after {
       content: ' ';
@@ -36,16 +30,6 @@
     z-index: -1;
   }
 
-  .root:hover .radio {
-    background: @radio-hover-bg;
-    box-shadow: @radio-hover-shadow;
-  }
-
-  .root:active .radio {
-    background: @radio-active-bg;
-    box-shadow: @radio-active-shadow;
-  }
-
   .input:focus + .radio::after,
   .focus::after,
   .warning::after,
@@ -60,25 +44,11 @@
     border-style: solid;
     border-radius: 50%;
     box-sizing: border-box;
-    box-shadow: @radio-focus-shadow;
-  }
-
-  .input:focus + .radio::after,
-  .focus::after {
-    border-color: @border-color-focus;
-  }
-
-  .warning::after {
-    border-color: @border-color-warning;
-  }
-
-  .error::after {
-    border-color: @border-color-error;
+    
   }
 
   .root .radio.checked {
     position: relative;
-    background-color: @radio-checked-bg-color;
   }
 
   .root .radio.checked::before {
@@ -91,22 +61,19 @@
     margin: auto;
     height: 8px;
     width: 8px;
-    background: @radio-checked-ring-color;
     border-radius: 50%;
   }
 
   .disabled {
     background: #f2f2f2 !important; /* to overide hover and active */
     border-color: transparent;
-    box-shadow: @radio-disabled-shadow !important;
   }
 
-  .radio.disabled.checked::before {
-    background: #808080;
+  .root .radio.disabled.checked::before {
+    background: #808080 !important;
   }
 
   .label {
-    display: @radio-label-display;
     margin-left: 9px;
     white-space: normal;
     line-height: 20px;
