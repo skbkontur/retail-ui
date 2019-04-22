@@ -134,7 +134,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   public componentDidMount() {
-    this.check();
+    this.validate();
   }
 
   public submit = async (): Promise<Address> => {
@@ -472,7 +472,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private check(): void {
+  private validate(): void {
     const { address } = this.state;
     const { api, locale } = this.props;
 
@@ -510,7 +510,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         }),
       },
       () => {
-        this.check();
+        this.validate();
       },
     );
   };
