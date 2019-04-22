@@ -1,12 +1,14 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
-import cn from 'classnames';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
-
 import styles from './Tab.less';
 import { TabsContextType, TabsContext } from './TabsContext';
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Tab.styles';
+const theme = ThemeManager.getTheme();
 
 export interface TabIndicators {
   error: boolean;
@@ -89,7 +91,6 @@ const KEYCODE_ARROW_LEFT = 37;
 const KEYCODE_ARROW_UP = 38;
 const KEYCODE_ARROW_RIGHT = 39;
 const KEYCODE_ARROW_DOWN = 40;
-
 let isListening: boolean;
 let focusKeyPressed: boolean;
 
@@ -214,13 +215,16 @@ export class Tab extends React.Component<TabProps, TabState> {
       <Component
         className={cn({
           [styles.root]: true,
-          [styles.vertical]: isVertical,
-          [styles.primary]: primary,
-          [styles.success]: success,
-          [styles.warning]: warning,
-          [styles.error]: error,
-          [styles.active]: isActive,
-          [styles.disabled]: disabled,
+          [jsStyles.root(theme)]: true,
+          [styles.vertical]: !!isVertical,
+          [jsStyles.vertical(theme)]: !!isVertical,
+          [jsStyles.primary(theme)]: !!primary,
+          [jsStyles.success(theme)]: !!success,
+          [jsStyles.warning(theme)]: !!warning,
+          [jsStyles.error(theme)]: !!error,
+          [styles.active]: !!isActive,
+          [styles.disabled]: !!disabled,
+          [jsStyles.disabled(theme)]: !!disabled,
         })}
         onBlur={this.handleBlur}
         onClick={this.switchTab}
@@ -232,7 +236,7 @@ export class Tab extends React.Component<TabProps, TabState> {
         style={style}
       >
         {children}
-        {this.state.focusedByKeyboard && <div className={styles.focus} />}
+        {this.state.focusedByKeyboard && <div className={cn(styles.focus, jsStyles.focus(theme))} />}
       </Component>
     );
   }
@@ -329,6 +333,6 @@ export class Tab extends React.Component<TabProps, TabState> {
     this.setState({ focusedByKeyboard: false });
   };
 }
-export const TabWithContext = withContext(TabsContext.Consumer)(Tab);
 
+export const TabWithContext = withContext(TabsContext.Consumer)(Tab);
 export default TabWithContext;

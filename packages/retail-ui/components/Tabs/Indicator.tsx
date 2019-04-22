@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import cn from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
 import { TabIndicators } from './Tab';
-
 import styles from './Indicator.less';
 import { Nullable } from '../../typings/utility-types';
 import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Indicator.styles';
+const theme = ThemeManager.getTheme();
 
 export interface IndicatorProps {
   className?: string;
@@ -68,10 +70,11 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
       <div
         className={cn(
           styles.root,
-          indicators.primary && styles.primary,
-          indicators.success && styles.success,
-          indicators.warning && styles.warning,
-          indicators.error && styles.error,
+          jsStyles.root(theme),
+          indicators.primary && jsStyles.primary(theme),
+          indicators.success && jsStyles.success(theme),
+          indicators.warning && jsStyles.warning(theme),
+          indicators.error && jsStyles.error(theme),
           this.props.className,
         )}
         style={this.state.styles}
@@ -122,5 +125,4 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
 }
 
 export const IndicatorWithContext = withContext(TabsContext.Consumer)(Indicator);
-
 export default IndicatorWithContext;
