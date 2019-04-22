@@ -1,4 +1,3 @@
-@import (reference) '../variables.less';
 
 :local {
   .token {
@@ -17,18 +16,18 @@
     word-break: break-word;
     user-select: none;
 
-    &.warning {
-      border: 1px solid @border-color-warning;
-      box-shadow: 0 0 0 1px @border-color-warning;
-    }
-
-    &.error {
-      border: 1px solid @border-color-error;
-      box-shadow: 0 0 0 1px @border-color-error;
-    }
-
     &:hover {
       cursor: pointer;
+    }
+
+    [data-name='RemoveIcon'] {
+      transition: none;
+      fill: currentColor;
+      opacity: 0.5;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 

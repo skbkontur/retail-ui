@@ -1,10 +1,13 @@
 import React from 'react';
-import cn from 'classnames';
 import warningOutput from 'warning';
 import styles from './Token.less';
-import tokenColors from './Colors.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import jsStyles from './Token.styles';
+import jsTokenColors from './Colors.styles';
+const theme = ThemeManager.getTheme();
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -21,7 +24,7 @@ const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'd-red': 'redActive',
 };
 
-export type TokenColorName = keyof typeof tokenColors;
+export type TokenColorName = keyof typeof jsTokenColors;
 
 export interface TokenColors {
   idle: TokenColorName;
@@ -71,25 +74,21 @@ export const Token: React.SFC<TokenProps & TokenActions> = ({
     }
   }
 
-  let tokenClassName = tokenColors.defaultIdle;
-  let activeTokenClassName = tokenColors.defaultActive;
+  let tokenClassName = jsTokenColors.defaultIdle(theme);
+  let activeTokenClassName = jsTokenColors.defaultActive(theme);
   if (colors) {
     const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
-    tokenClassName = tokenColors[idleClassName];
+    tokenClassName = jsTokenColors[idleClassName](theme);
 
     const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
-    activeTokenClassName = tokenColors[activeClassName];
+    activeTokenClassName = jsTokenColors[activeClassName](theme);
   }
 
-  const tokenClassNames = cn(
-    styles.token,
-    {
-      [activeTokenClassName]: isActive,
-      [styles.warning]: warning,
-      [styles.error]: error,
-    },
-    tokenClassName,
-  );
+  const tokenClassNames = cn(styles.token, tokenClassName, {
+    [activeTokenClassName]: !!isActive,
+    [jsStyles.warning(theme)]: !!warning,
+    [jsStyles.error(theme)]: !!error,
+  });
 
   return (
     <div
