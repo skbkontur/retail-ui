@@ -6,6 +6,8 @@ import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
 import { ButtonSize, ButtonArrow, ButtonProps } from '../Button';
 import SearchIcon from '@skbkontur/react-icons/Search';
+import ComponentStatesTable from '../../internal/ComponentStatesTable';
+import StatesCombinator from '../../internal/StatesCombinator';
 
 storiesOf('Button', module)
   .add('playground', () => {
@@ -236,12 +238,14 @@ storiesOf('Button', module)
       </div>
     );
   })
-  .add('different aligns', () => <ButtonsTable rows={alignStates} cols={layoutStates} presetState={{ width: 200 }} />)
+  .add('different aligns', () => (
+    <ComponentStatesTable component={Button} rows={alignStates} cols={layoutStates} presetState={{ width: 200, children: 'Button' }} children='Button' />
+  ))
   .add('different visual states', () => (
-    <StatesCombinator states={[...visualStates, ...sizeStates, ...arrowStates, ...useStates]} sizeX={7} sizeY={7} />
+    <StatesCombinator states={[...visualStates, ...sizeStates, ...arrowStates, ...useStates]} sizeX={7} sizeY={7} presetState={{ children: 'Button' }} children='Button' component={Button} />
   ))
   .add('different content', () => (
-    <StatesCombinator states={[...contentStates, ...widthStates, ...layoutStates]} sizeX={3} sizeY={6} />
+    <StatesCombinator states={[...contentStates, ...widthStates, ...layoutStates]} sizeX={3} sizeY={6} component={Button} presetState={{}} children='Button' />
   ));
 
 type ButtonState = Partial<ButtonProps>;
@@ -289,137 +293,3 @@ const alignStates: ButtonState[] = [
 ];
 
 const layoutStates: ButtonState[] = [{ use: 'default' }, { arrow: true }, { arrow: 'left' }, { use: 'link' }];
-
-const ButtonsTable = (props: {
-  rows?: ButtonState[];
-  cols?: ButtonState[];
-  presetState?: ButtonState;
-  children?: React.ReactNode;
-}) => {
-  const { rows = [], cols = [], presetState = {}, children = 'Button' } = props;
-  return (
-    <table style={{ width: '100%', borderSpacing: 10, marginBottom: 20 }}>
-      <caption style={{ captionSide: 'bottom' }}>{renderStateDesc(presetState)}</caption>
-      <thead>
-        <tr>
-          <th />
-          {cols.map((state, i) => (
-            <th style={{ whiteSpace: 'nowrap' }} key={i}>
-              {renderStateDesc(state)}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((rowState, rowIndex) => (
-          <tr key={rowIndex}>
-            <td style={{ whiteSpace: 'nowrap' }}>{renderStateDesc(rowState)}</td>
-            {cols.map((colState, colIndex) => (
-              <td key={colIndex}>
-                <Button children={children} {...rowState} {...colState} {...presetState} />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
-
-const renderStateDesc = (state: ButtonState): React.ReactNode => {
-  return Object.keys(state)
-    .map(key => {
-      // @ts-ignore
-      const value = state[key];
-      switch (typeof value) {
-        case 'boolean':
-          return key + (value ? '' : ': false');
-        case 'string':
-          return `${key}: "${value}"`;
-        case 'object':
-          if (React.isValidElement(value)) {
-            return React.createElement('span', {}, [`${key}: `, value]);
-          }
-          return `${key}: ${JSON.stringify(value)}`;
-        default:
-          return `${key}: ${value}`;
-      }
-    })
-    .map((node: React.ReactNode, index: number, nodes: React.ReactNode[]) => (
-      <span key={index}>
-        {node} {index + 1 < nodes.length ? ', ' : null}
-      </span>
-    ));
-};
-
-class StatesCombinator extends React.Component<
-  {
-    states: ButtonState[];
-    sizeX: number;
-    sizeY: number;
-  },
-  {
-    page: number;
-  }
-> {
-  public static defaultProps = {
-    states: [],
-    sizeX: 0,
-    sizeY: 0,
-  };
-
-  public state = {
-    page: 0,
-  };
-
-  public render() {
-    const { page } = this.state;
-    const { states, sizeX, sizeY } = this.props;
-    const cols = states.slice();
-    const rows = states.slice();
-    const pages = [];
-
-    for (let row = 0; row < rows.length; row += sizeY) {
-      for (let col = 0; col < cols.length; col += sizeX) {
-        pages.push({
-          offsetX: col,
-          offsetY: row,
-        });
-      }
-    }
-    const pageOffsets = pages[page];
-    return (
-      <div>
-        <div id="paginator">
-          <button disabled={page === 0} id="prev-page" onClick={this.prevPage}>
-            Prev
-          </button>{' '}
-          <small>{`${page + 1} / ${pages.length}`}</small>{' '}
-          <button disabled={page + 1 >= pages.length} id="next-page" onClick={this.nextPage}>
-            Next
-          </button>
-        </div>
-        <div>
-          {pageOffsets && (
-            <ButtonsTable
-              rows={rows.slice(pageOffsets.offsetY, pageOffsets.offsetY + sizeY)}
-              cols={cols.slice(pageOffsets.offsetX, pageOffsets.offsetX + sizeX)}
-            />
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  private prevPage = () => {
-    this.setState(({ page }) => ({
-      page: page - 1,
-    }));
-  };
-
-  private nextPage = () => {
-    this.setState(({ page }) => ({
-      page: page + 1,
-    }));
-  };
-}
