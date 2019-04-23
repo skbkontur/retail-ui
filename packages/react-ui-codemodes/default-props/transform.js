@@ -4,105 +4,75 @@ module.exports = function(file, api) {
   let skip = false;
 
   const getPropertiesFromTSType = typeNode => {
-    let properties = [];
-    return properties;
+    if (!typeNode) {
+      return [];
+    }
+
+    // @see https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#362-type-argument-lists
+    switch (typeNode.type) {
+      case 'TSTypeLiteral':
+        return typeNode.members;
+      case 'TSTypeAliasDeclaration':
+        return getPropertiesFromTSType(typeNode.typeAnnotation);
+      case 'TSInterfaceDeclaration':
+        return typeNode.body.body;
+      case 'TSTypeReference':
+        return getPropertiesFromTSType(resolveTSTypeReference(typeNode));
+      case 'TSIntersectionType':
+      case 'TSUnionType':
+      default:
+        report('unhandled TSType: ' + typeNode.type);
+        skip = true;
+        return [];
+    }
   };
 
   const resolveTSTypeReference = typeNode => {
+    const typeName = typeNode.typeName.name;
+
+    if (typeName === 'Override') {
+      return typeNode.typeParameters.params[1];
+    }
+
+    const typeIdentifiers = root.find(j.Identifier, { name: typeName }).paths();
+
+    if (!typeIdentifiers.length) {
+      report('type Identifier is not found for: ' + typeName);
+    }
+
+    for (const id of typeIdentifiers) {
+      if (id.parent && id.parent.node) {
+        return id.parent.node;
+      }
+    }
+
     return null;
   };
 
   root.find(j.ClassDeclaration).forEach(classPath => {
-    const defaultPropsNames = [];
-    const defaultProps = j(classPath)
+    let defaultProps = [];
+    j(classPath)
       .find(j.ClassProperty, {
         key: { name: 'defaultProps' },
       })
-      .nodes()[0];
-    let hasDefaultProps = false;
+      .nodes()
+      .forEach(classProperty => {
+        const { typeAnnotation } = classProperty.typeAnnotation;
+        defaultProps = getPropertiesFromTSType(typeAnnotation).map(prop => prop.key.name);
+      });
 
-    if (defaultProps) {
-      hasDefaultProps = true;
-      if (defaultProps.typeAnnotation) {
-        const { typeAnnotation } = defaultProps.typeAnnotation;
-        switch (typeAnnotation.type) {
-          case 'TSTypeLiteral':
-            typeAnnotation.members.forEach(member => defaultPropsNames.push(member.key.name));
-            break;
-          default:
-            report('unhandled defaultProps typeAnnotation type: ' + typeAnnotation.type);
-        }
-      }
-      if (!defaultPropsNames.length) {
-        report('defaultProps names are missed');
-        skip = true;
-      }
-    }
+    if (defaultProps.length) {
+      const { superTypeParameters } = classPath.node;
+      if (superTypeParameters) {
+        const [propsParam] = superTypeParameters.params;
 
-    if (defaultPropsNames.length) {
-      const superTypeParams = classPath.node.superTypeParameters;
-      if (superTypeParams && superTypeParams.params.length) {
-        const propsParam = superTypeParams.params[0];
-        // process all possible "Props" argument Types
-        // @see https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md#362-type-argument-lists
-        switch (propsParam.type) {
-          case 'TSTypeLiteral':
-            j(propsParam)
-              .find(j.TSPropertySignature)
-              .forEach(propertyPath => {
-                const { node } = propertyPath;
-                if (defaultPropsNames.includes(node.key.name) && !node.optional) {
-                  node.optional = true;
-                }
-              });
-            break;
-          case 'TSTypeReference':
-            const typeName = propsParam.typeName.name;
-            const typeIdentifiers = j(classPath)
-              .closestScope()
-              .find(j.Identifier, { name: typeName })
-              .paths();
-            let typeProperties = null;
-
-            if (!typeIdentifiers.length) {
-              report('type Identifier is not found for: ' + typeName);
-              skip = true;
+        getPropertiesFromTSType(propsParam).forEach(propertyNode => {
+          if (propertyNode) {
+            if (defaultProps.includes(propertyNode.key.name) && !propertyNode.optional) {
+              propertyNode.optional = true;
             }
-
-            for (const id of typeIdentifiers) {
-              if (id.parent && id.parent.node) {
-                if (id.parent.node.type == 'TSInterfaceDeclaration') {
-                  typeProperties = id.parent.node.body.body;
-                  break;
-                } else if (id.parent.node.type == 'TSTypeAliasDeclaration') {
-                  typeProperties = id.parent.node.typeAnnotation.members;
-                  break;
-                } else {
-                  report('unhandled TSTypeReference declaration: ' + id.parent.node.type);
-                  skip = true;
-                }
-              }
-            }
-
-            if (!typeProperties) {
-              report('type Identifier is not found for: ' + typeName);
-              skip = true;
-            } else {
-              typeProperties.forEach(node => {
-                if (defaultPropsNames.includes(node.key.name) && !node.optional) {
-                  node.optional = true;
-                }
-              });
-            }
-
-            break;
-          case 'TSIntersectionType':
-          case 'TSUnionType':
-          default:
-            report('unhandled type of superTypeParam: ' + propsParam.type);
-            skip = true;
-            break;
-        }
+          }
+        });
       }
     }
   });

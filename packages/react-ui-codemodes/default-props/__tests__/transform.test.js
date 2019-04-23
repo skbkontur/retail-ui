@@ -32,6 +32,7 @@ defineInlineTest(
     type Props = {
       prop: number
     };
+
     declare class C extends React.Component<Props> {
       public static defaultProps: {
         prop: number,
@@ -42,6 +43,7 @@ defineInlineTest(
     type Props = {
       prop?: number
     };
+
     declare class C extends React.Component<Props> {
       public static defaultProps: {
         prop: number,
@@ -58,6 +60,7 @@ defineInlineTest(
     interface Props {
       prop: number
     };
+
     declare class C extends React.Component<Props> {
       public static defaultProps: {
         prop: number,
@@ -68,6 +71,7 @@ defineInlineTest(
     interface Props {
       prop?: number
     };
+
     declare class C extends React.Component<Props> {
       public static defaultProps: {
         prop: number,
@@ -75,4 +79,32 @@ defineInlineTest(
     }
   `,
   'transforms TSTypeReference: TSInterface',
+);
+
+defineInlineTest(
+  transform,
+  {},
+  `
+    declare type Props = Override<AnotherProps, {
+      prop: number
+    }>;
+
+    declare class C extends React.Component<Props> {
+      public static defaultProps: {
+        prop: number,
+      }
+    }
+  `,
+  `
+    declare type Props = Override<AnotherProps, {
+      prop?: number
+    }>;
+
+    declare class C extends React.Component<Props> {
+      public static defaultProps: {
+        prop: number,
+      }
+    }
+  `,
+  'transforms TSTypeReference: Override',
 );
