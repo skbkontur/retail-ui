@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import warningOutput from 'warning';
 import styles from './Token.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
@@ -47,62 +47,72 @@ export interface TokenProps {
   warning?: boolean;
 }
 
-export const Token: React.SFC<TokenProps & TokenActions> = ({
-  children,
-  isActive,
-  colors,
-  error,
-  warning,
-  onClick = emptyHandler,
-  onRemove = emptyHandler,
-  onMouseEnter = emptyHandler,
-  onMouseLeave = emptyHandler,
-  onFocus = emptyHandler,
-  onBlur = emptyHandler,
-}) => {
-  if (process.env.NODE_ENV !== 'production' && colors) {
-    warningOutput(
-      !deprecatedColorNames[colors.idle],
-      `Color name '${colors.idle}' has been deprecated, use '${deprecatedColorNames[colors.idle]}' instead`,
-    );
+export default class Token extends Component<TokenProps & TokenActions> {
+  public static defaultProps = {
+    onClick: emptyHandler,
+    onRemove: emptyHandler,
+    onMouseEnter: emptyHandler,
+    onMouseLeave: emptyHandler,
+    onFocus: emptyHandler,
+    onBlur: emptyHandler,
+  };
 
-    if (colors.active) {
+  public render() {
+    const {
+      children,
+      isActive,
+      colors,
+      error,
+      warning,
+      onClick,
+      onRemove,
+      onMouseEnter,
+      onMouseLeave,
+      onFocus,
+      onBlur,
+    } = this.props;
+    if (process.env.NODE_ENV !== 'production' && colors) {
       warningOutput(
-        !deprecatedColorNames[colors.active],
-        `Color name '${colors.active}' has been deprecated, use '${deprecatedColorNames[colors.active]}' instead`,
+        !deprecatedColorNames[colors.idle],
+        `Color name '${colors.idle}' has been deprecated, use '${deprecatedColorNames[colors.idle]}' instead`,
       );
+
+      if (colors.active) {
+        warningOutput(
+          !deprecatedColorNames[colors.active],
+          `Color name '${colors.active}' has been deprecated, use '${deprecatedColorNames[colors.active]}' instead`,
+        );
+      }
     }
+
+    let tokenClassName = jsTokenColors.defaultIdle(theme);
+    let activeTokenClassName = jsTokenColors.defaultActive(theme);
+    if (colors) {
+      const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
+      tokenClassName = jsTokenColors[idleClassName](theme);
+
+      const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
+      activeTokenClassName = jsTokenColors[activeClassName](theme);
+    }
+
+    const tokenClassNames = cn(styles.token, tokenClassName, {
+      [activeTokenClassName]: !!isActive,
+      [jsStyles.warning(theme)]: !!warning,
+      [jsStyles.error(theme)]: !!error,
+    });
+
+    return (
+      <div
+        className={tokenClassNames}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      >
+        <span className={styles.text}>{children}</span>
+        <TokenRemoveIcon className={styles.removeIcon} onClick={onRemove} />
+      </div>
+    );
   }
-
-  let tokenClassName = jsTokenColors.defaultIdle(theme);
-  let activeTokenClassName = jsTokenColors.defaultActive(theme);
-  if (colors) {
-    const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
-    tokenClassName = jsTokenColors[idleClassName](theme);
-
-    const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
-    activeTokenClassName = jsTokenColors[activeClassName](theme);
-  }
-
-  const tokenClassNames = cn(styles.token, tokenClassName, {
-    [activeTokenClassName]: !!isActive,
-    [jsStyles.warning(theme)]: !!warning,
-    [jsStyles.error(theme)]: !!error,
-  });
-
-  return (
-    <div
-      className={tokenClassNames}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocus={onFocus}
-      onBlur={onBlur}
-    >
-      <span className={styles.text}>{children}</span>
-      <TokenRemoveIcon className={styles.removeIcon} onClick={onRemove} />
-    </div>
-  );
-};
-
-export default Token;
+}
