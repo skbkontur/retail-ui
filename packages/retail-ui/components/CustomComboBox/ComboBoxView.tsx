@@ -271,8 +271,8 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     if (drawArrow) {
       return (
-        <span className={styles.arrowWrapper} >
-          <ArrowTriangleDown/>
+        <span className={styles.arrowWrapper}>
+          <ArrowTriangleDown />
         </span>
       );
     }
