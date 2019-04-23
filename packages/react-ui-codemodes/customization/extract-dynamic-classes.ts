@@ -37,7 +37,7 @@ let themeManagerImportPath: string;
 let colorFunctionsImportPath: string;
 
 function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
-  if (fileInfo.path.includes('__stories__')) {
+  if (fileInfo.path.includes('__stories__') || fileInfo.path.includes('__tests__')) {
     return null;
   }
 
@@ -50,6 +50,19 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
   const stylesIdToFileMap = new Map<Identifier, string>();
 
   let importDeclarations = root.find(j.ImportDeclaration);
+
+  const hasJsStylesImport =
+    importDeclarations.filter(
+      n =>
+        !!n.value &&
+        !!n.value.source &&
+        typeof n.value.source.value === 'string' &&
+        n.value.source.value.endsWith('.styles'),
+    ).length > 0;
+
+  if (hasJsStylesImport) {
+    return null;
+  }
 
   // replace "classnames" imports with {classnames} from 'emotion'
   let emotionImportStatement: ImportDeclaration | null = null;
