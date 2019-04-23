@@ -10,7 +10,7 @@ gemini.suite('modal', suite => {
       actions.click(find('button'));
     })
     .capture('open second modal', (actions, find) => {
-      actions.click(find('[class^="Modal-body"] button'));
+      actions.click(find('[data-comp-name="Body"] button'));
     });
 });
 
@@ -65,7 +65,7 @@ gemini.suite('modal with variable height of content', suite => {
       actions.click(find('button'));
     })
     .capture('toggle content height', (actions, find) => {
-      actions.click(find('#modal-inner [class^="Toggle-wrapper"]')).wait(500);
+      actions.click(find('#modal-inner [data-comp-name="Toggle"]')).wait(500);
     });
 });
 

@@ -1,8 +1,8 @@
 /* global gemini */
 var renderStory = require('./utils').renderStory;
 
-var ROOT_SELECTOR = '[class^="Select-root"]';
-var MENU_ITEM_SELECTOR = '[class^="MenuItem-root"]';
+var ROOT_SELECTOR = '[data-comp-name^="Dropdown"]';
+var MENU_ITEM_SELECTOR = '[data-comp-name="MenuItem"]';
 
 gemini.suite('Dropdown', suite => {
   suite

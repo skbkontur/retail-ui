@@ -2,7 +2,7 @@
 const renderStory = require('./utils').renderStory;
 
 const ROOT_SELECTOR = '[class^="Select-root"]';
-const MENU_ITEM_SELECTOR = '[class^="MenuItem-root"]';
+const MENU_ITEM_SELECTOR = '[data-comp-name="MenuItem"]';
 
 const testScenario = suite => {
   suite
