@@ -1,16 +1,16 @@
-import cn from 'classnames';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
 import isActiveElement from './isActiveElement';
 import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
-
 import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
 import { isMenuHeader } from '../../MenuHeader';
-
 import styles from './InternalMenu.less';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
+import { cx as cn } from 'emotion';
+import ThemeManager from '../../../lib/ThemeManager';
+import jsStyles from './InternalMenu.styles';
+const theme = ThemeManager.getTheme();
 
 interface MenuProps {
   children?: React.ReactNode;
@@ -93,7 +93,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
 
     return (
       <div
-        className={cn(styles.root, this.props.hasShadow && styles.shadow)}
+        className={cn(styles.root, jsStyles.root(theme), this.props.hasShadow && styles.shadow)}
         style={{
           width: this.props.width,
           maxHeight: this.state.maxHeight,
