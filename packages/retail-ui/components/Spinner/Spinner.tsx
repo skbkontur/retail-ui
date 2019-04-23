@@ -1,13 +1,11 @@
-import classnames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
 import { locale } from '../LocaleProvider/decorators';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 import { sizeMaps, svgAnimateSupport, types } from './settings';
-
 import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
+import { cx as classnames } from 'emotion';
 
 export const SpinnerConfig = {
   hasSvgAnimationSupport: svgAnimateSupport(),

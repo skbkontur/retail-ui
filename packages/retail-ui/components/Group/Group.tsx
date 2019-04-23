@@ -1,14 +1,11 @@
-import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import Corners from '../Button/Corners';
-
 import '../ensureOldIEClassName';
 import styles from './Group.less';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
+import { cx as classNames } from 'emotion';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];
@@ -59,7 +56,7 @@ class Group extends React.Component<GroupProps> {
           const wrapCss = classNames({
             [styles.wrap]: true,
             [styles.fixed]: !childProps.mainInGroup,
-            [styles.stretch]: childProps.mainInGroup,
+            [styles.stretch]: !!childProps.mainInGroup,
           });
           const itemCss = classNames({
             [styles.item]: true,

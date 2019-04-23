@@ -1,10 +1,9 @@
-import cn from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import CapIcon, { IconProps } from '../Icon/20px';
-
 import styles from './TopBar.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { cx as cn } from 'emotion';
 
 export interface ItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -37,7 +36,7 @@ class Item extends React.Component<ItemProps> {
 
     const classes = {
       [styles.item]: true,
-      [styles.buttonActive]: active,
+      [styles.buttonActive]: !!active,
       [className]: true,
     };
     if (use) {
@@ -46,8 +45,8 @@ class Item extends React.Component<ItemProps> {
     }
 
     const iconClasses = {
-      [styles.icon]: icon,
-      [styles.iconOnly]: iconOnly,
+      [styles.icon]: !!icon,
+      [styles.iconOnly]: !!iconOnly,
     };
 
     return (
