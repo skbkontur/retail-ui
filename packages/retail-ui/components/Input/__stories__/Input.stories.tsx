@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import SearchIcon from '@skbkontur/react-icons/Search';
-
-import Input, { InputSize } from '../Input';
+import Input, { InputSize, InputProps } from '../Input';
 import Button from '../../Button';
 import Gapped from '../../Gapped';
+import StatesCombinator from 'retail-ui/components/internal/StatesCombinator';
+
 
 const styles = {
   display: 'inline-block',
@@ -236,10 +237,9 @@ storiesOf('Input', module)
     );
   })
   .add('Input with maxLength attr', () => <Input maxLength={3} placeholder="maxLength={3}" />)
-  .add('Manual blinking', () => {
+  .add('Manual blinking', () => { // TODO: добавить разные состояния инпута {visualStates}
     class Sample extends React.Component {
       private input: Input | null = null;
-
       public render() {
         return (
           <Gapped>
@@ -248,7 +248,6 @@ storiesOf('Input', module)
           </Gapped>
         );
       }
-
       private handleClick = () => {
         if (this.input) {
           this.input.blink();
@@ -340,4 +339,50 @@ storiesOf('Input', module)
         <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
       </Gapped>
     </div>
+  ))
+  .add('different content', () => (
+    <Gapped vertical>
+      <StatesCombinator states={[...contentStates, ...widthStates, ...alignStates]} sizeX={4} sizeY={4} presetState={{ value: 'Value' }} children={null} component={Input} />
+      <StatesCombinator states={[...contentStates, ...widthStates, ...alignStates]} sizeX={4} sizeY={4} presetState={{ placeholder: 'Placeholder' }} children={null} component={Input} />
+    </Gapped>
+  ))
+  .add('different sizes', () => (
+    <StatesCombinator states={[...widthStates, ...sizeStates]} sizeX={4} sizeY={4} presetState={{ value: 'Value' }} children={null} component={Input} />
+  ))
+  .add('different visual states', () => (
+    <StatesCombinator states={[...visualStates, ...contentStates, ...innerStates]} sizeX={8} sizeY={8} presetState={{ width: '150px' }} children={null} component={Input} />
   ));
+type InputState = Partial<InputProps>;
+
+const alignStates: InputState[] = [
+  { align: 'left' },
+  { align: 'right' },
+  { align: 'center' },
+  { align: undefined },
+];
+
+const contentStates: InputState[] = [
+  { prefix: 'Pref' },
+  { suffix: 'Suf' },
+  { type: 'password' },
+  { leftIcon: <SearchIcon /> },
+  { rightIcon: <SearchIcon /> },
+  { prefix: 'Pref', suffix: 'Suff' },
+  { leftIcon: <SearchIcon />, rightIcon: <SearchIcon /> },
+  { mask: "a9*MASK", alwaysShowMask: true }
+
+];
+
+const widthStates: InputState[] = [{ width: 100 }, { width: 'auto' }, { width: undefined }, { width: 0 }];
+
+const visualStates: InputState[] = [
+  { disabled: true },
+  { checked: true },
+  { borderless: true },
+  { error: true },
+  { warning: true },
+];
+
+const sizeStates: InputState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
+
+const innerStates: InputState[] = [{ value: "Value" }, { placeholder: "Placeholder" }];
