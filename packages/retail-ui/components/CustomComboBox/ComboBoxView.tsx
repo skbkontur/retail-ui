@@ -258,7 +258,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
   private renderSpinner = () => (
     <span className={styles.spinnerWrapper}>
-      <Spinner type="mini" caption="" dimmed/>
+      <Spinner type="mini" caption="" dimmed />
     </span>
   );
 
@@ -271,7 +271,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     if (drawArrow) {
       return (
-        <span className={styles.arrowWrapper}>
+        <span className={styles.arrowWrapper} >
           <ArrowTriangleDown/>
         </span>
       );
