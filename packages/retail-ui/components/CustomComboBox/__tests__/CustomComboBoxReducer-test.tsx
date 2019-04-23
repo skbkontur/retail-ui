@@ -72,4 +72,14 @@ describe('Default combobox reducer', () => {
       }
     });
   });
+
+  it('UnexpectedInput with single item should call `ValueChange` action once', () => {
+    const mockedGetProps = jest.fn(() => ({ onUnexpectedInput: (x: any) => x, valueToString: (x: any) => x }));
+    const mockedDispatch = jest.fn();
+    const mockedGetState = jest.fn();
+    const mockedGetInstance = jest.fn();
+    Effect.UnexpectedInput('Hello', ['Hello'])(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+
+    expect(mockedDispatch).toHaveBeenCalledTimes(1);
+  });
 });

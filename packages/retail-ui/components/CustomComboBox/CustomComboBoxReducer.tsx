@@ -112,6 +112,7 @@ export const Effect: EffectFactory = {
 
       if (valueContent === textValue) {
         dispatch({ type: 'ValueChange', value: singleItem, keepFocus: false });
+        return;
       }
     }
 
