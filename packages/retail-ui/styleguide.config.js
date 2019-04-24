@@ -165,7 +165,7 @@ const webpackConfig = {
     ],
   },
   devServer: {
-    public: 'localhost.skbkontur.ru',
+    public: 'localhost.testkontur.ru',
   },
 };
 
@@ -196,5 +196,4 @@ module.exports = {
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui',
   },
-  serverHost: 'localhost.skbkontur.ru',
 };
