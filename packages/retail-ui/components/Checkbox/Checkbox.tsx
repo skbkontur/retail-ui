@@ -1,16 +1,17 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
 import '../ensureOldIEClassName';
-import Upgrades from '../../lib/Upgrades';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
+import { cx as classNames } from 'emotion';
+import ThemeManager from '../../lib/ThemeManager';
+import styles from './Checkbox.less';
+import jsStyles from './Checkbox.styles';
 
-const styles = isFlatDesign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
+const theme = ThemeManager.getTheme();
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -73,6 +74,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   public render() {
+    const props = this.props;
     const {
       children,
       error,
@@ -81,23 +83,23 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onMouseLeave,
       onMouseOver,
       onChange,
-
       style,
       className,
       type,
       initialIndeterminate,
       ...rest
-    } = this.props;
+    } = props;
     const hasCaption = !!children;
 
     const rootClass = classNames({
       [styles.root]: true,
       [styles.withoutCaption]: !hasCaption,
-      [styles.checked || '']: this.props.checked,
-      [styles.disabled]: this.props.disabled,
-      [styles.error]: this.props.error,
-      [styles.warning]: this.props.warning,
-      [styles.focus]: this.state.focusedByTab,
+      [styles.disabled]: !!props.disabled,
+      [jsStyles.root(theme)]: true,
+      [jsStyles.checked(theme) || '']: !!props.checked,
+      [jsStyles.focus(theme)]: this.state.focusedByTab,
+      [jsStyles.warning(theme)]: !!props.warning,
+      [jsStyles.error(theme)]: !!props.error,
     });
 
     const inputProps = {
@@ -115,18 +117,16 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       caption = <div className={styles.caption}>{children}</div>;
     }
 
+    const isIndeterminate = this.state.indeterminate;
+    const boxClass = classNames(styles.box, jsStyles.box(theme), isIndeterminate && jsStyles.boxIndeterminate(theme));
     return (
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
-        <span
-          className={classNames(styles.box, {
-            [styles.boxIndeterminate]: this.state.indeterminate,
-          })}
-        >
-          {this.state.indeterminate ? (
-            <span className={styles.indeterminate} />
+        <span className={boxClass}>
+          {isIndeterminate ? (
+            <span className={classNames(styles.indeterminate, jsStyles.indeterminate(theme))} />
           ) : (
-            this.props.checked && (
+            props.checked && (
               <div className={styles.ok}>
                 <OkIcon />
               </div>
