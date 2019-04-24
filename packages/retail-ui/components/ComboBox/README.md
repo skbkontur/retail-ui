@@ -316,6 +316,7 @@ class ComboboxExample extends React.Component {
       query: '',
       selected: { value: 3, label: 'Third' },
       error: false,
+      shouldRenderAddButton: false,
     };
 
     this.comboBoxElement = null;
@@ -323,7 +324,8 @@ class ComboboxExample extends React.Component {
     this.getItems = this.getItems.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
-    this.renderNotFound = this.renderNotFound.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.renderAddButton = this.renderAddButton.bind(this);
     this.refComboBox = this.refComboBox.bind(this);
     this.addItem = this.addItem.bind(this);
   }
@@ -337,8 +339,8 @@ class ComboboxExample extends React.Component {
         onFocus={this.handleFocus}
         placeholder="Enter number"
         value={this.state.selected}
-        onInputChange={query => this.setState({ query })}
-        renderNotFound={this.renderNotFound}
+        onInputChange={this.handleInputChange}
+        renderAddButton={this.renderAddButton}
         ref={this.refComboBox}
       />
     );
@@ -350,19 +352,27 @@ class ComboboxExample extends React.Component {
     ).then(delay(500));
   }
 
+  handleInputChange(query) {
+    const isItemExists = this.state.items.find(x => x.label.toLowerCase() == query.toLowerCase());
+    this.setState({ query, shouldRenderAddButton: !isItemExists });
+  }
+
   handleChange(_, item) {
-    this.setState({ selected: item, error: false });
+    this.setState({ selected: item, error: false, shouldRenderAddButton: false });
   }
 
   handleFocus() {
     this.setState({ error: false });
   }
 
-  renderNotFound() {
+  renderAddButton() {
+    if (!this.state.shouldRenderAddButton) {
+      return null;
+    }
     return (
-      <Button onClick={this.addItem} use="link">
+      <MenuItem link onClick={this.addItem}>
         + Добавить "{this.state.query}"
-      </Button>
+      </MenuItem>
     );
   }
 
@@ -371,28 +381,19 @@ class ComboboxExample extends React.Component {
   }
 
   addItem() {
-    this.setState(
-      currentState => {
-        const newItem = {
-          value: Math.max(...currentState.items.map(({ value }) => value)) + 1,
-          label: currentState.query,
-        };
+    this.setState(currentState => {
+      const newItem = {
+        value: Math.max(...currentState.items.map(({ value }) => value)) + 1,
+        label: currentState.query,
+      };
 
-        return {
-          items: [...currentState.items, newItem],
-          selected: newItem,
-          error: false,
-        };
-      },
-      () => {
-        /**
-         * Очищаем внутренний стэйт комбобокса
-         */
-        if (this.comboBoxElement) {
-          this.comboBoxElement.reset();
-        }
-      },
-    );
+      return {
+        items: [...currentState.items, newItem],
+        selected: newItem,
+        error: false,
+        shouldRenderAddButton: false,
+      };
+    });
   }
 }
 
@@ -405,7 +406,7 @@ class ComboboxExample extends React.Component {
 interface ComboBoxLocale {
   notFound?: string;
   errorNetworkButton?: string;
-  errorNetworkMessage?: string;  
+  errorNetworkMessage?: string;
 }
 
 const ru_RU = {

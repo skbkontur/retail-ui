@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import warning from 'warning';
 import { isFunction } from '../../lib/utils';
 
 import styles from './MenuItem.less';
@@ -20,6 +21,7 @@ export interface MenuItemProps {
   comment?: React.ReactNode;
   disabled?: boolean;
   icon?: React.ReactElement<any>;
+  link?: boolean;
 
   /** @ignore */
   loose?: boolean;
@@ -64,8 +66,21 @@ export default class MenuItem extends React.Component<MenuItemProps> {
   };
 
   public render() {
-    const { alkoLink, comment, icon, loose, state, children, _enableIconPadding, component, ...rest } = this.props;
     const theme = ThemeManager.getTheme();
+    const {
+      alkoLink,
+      link,
+      comment,
+      icon,
+      loose,
+      state,
+      children,
+      _enableIconPadding,
+      component,
+      ...rest
+    } = this.props;
+
+    warning(alkoLink === undefined, "[MenuItem]: Prop 'alkoLink' was deprecated please use 'link' instead");
 
     const hover = state === 'hover' && !this.props.disabled;
 
@@ -77,12 +92,12 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     const className = classNames({
       [styles.root]: true,
       [styles.disabled]: !!this.props.disabled,
-      [jsStyles.disabled(theme)]: !!this.props.disabled,
-      [jsStyles.hover(theme)]: hover,
       [styles.loose]: !!loose,
+      [jsStyles.hover(theme)]: hover,
       [jsStyles.selected(theme)]: state === 'selected',
-      [jsStyles.link(theme)]: !!alkoLink,
+      [jsStyles.link(theme)]: !!link || !!alkoLink,
       [jsStyles.withIcon(theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [jsStyles.disabled(theme)]: !!this.props.disabled,
     });
 
     let content = children;
