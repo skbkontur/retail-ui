@@ -6,8 +6,8 @@
   .commonStyles();
 
   .root {
-    color: @chb-flat-input-color;
-    background-color: @chb-flat-input-bg;
+    color: @input-flat-color;
+    background-color: @input-flat-bg;
     border: 1px solid @border-color-gray-light;
 
     &.focus {
@@ -16,13 +16,14 @@
     }
 
     &.disabled {
-      border-color: transparent;
+      background: @input-flat-disabled-color;
+      border-color: @input-flat-disabled-color;
     }
 
     .leftIcon,
     .rightIcon {
       &.useDefaultColor {
-        color: @chb-flat-input-icon-color;
+        color: @input-flat-icon-color;
       }
     }
   }

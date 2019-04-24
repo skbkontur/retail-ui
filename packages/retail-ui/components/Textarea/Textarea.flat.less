@@ -8,10 +8,16 @@
   .textarea {
     background: @textarea-flat-bg;
     color: @textarea-flat-color;
+    border-color: @border-color-gray-light;
 
     &:focus {
       border-color: @flat-border-color-focus;
       box-shadow: 0 0 0 1px @flat-border-color-focus;
+    }
+
+    &:disabled {
+      background: @textarea-flat-disabled-color;
+      border-color: @textarea-flat-disabled-color;
     }
   }
 }

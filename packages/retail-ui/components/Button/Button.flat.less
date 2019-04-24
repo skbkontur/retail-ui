@@ -4,43 +4,33 @@
 @import './Button.common.less';
 
 :local {
+  @default-hover-shadow-arrow: 1px -1px 0 0 @btn-flat-default-hover-border-color, 1px -1px 0 0 @btn-flat-default-hover-bg;
+  @default-active-shadow-arrow: 1px -1px 0 0 @btn-flat-default-active-border-color, 1px -1px 0 0 @btn-flat-default-active-bg;
+
   .commonStyles();
 
-  .buttonColorMixin(
-  @className,
-  @color,
-  @bgColor,
-  @bgHoverColor,
-  @bgActiveColor,
-  @bgDisabledColor,
-  @border
-) {
-    .@{className} {
-      background: @bgColor;
-      color: @color;
-      border: @border;
-
-      &:hover {
-        background: @bgHoverColor;
-      }
-
-      &.focus {
-        box-shadow: inset 0 0 0 1px #fff, 0 0 0 1px @flat-border-color-focus;
-        border: 1px solid @flat-border-color-focus;
-        position: relative;
-        z-index: 2;
-      }
-    }
-
-    .@{className}:active,
-    .@{className}.active {
-      background: @bgActiveColor;
-    }
-  }
+  .buttonSizeMixin(
+    sizeSmall,
+    17.6px,
+    7.5px,
+    -8px,
+    -8px,
+    -7.7px,
+    rotate(53deg) skewX(24deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0),
+    7px,
+    7px,
+    -207px,
+    441%
+  );
 
   .sizeSmall {
     &:not(.link) {
       height: @control-height-small;
+    }
+
+    .arrow {
+      border-radius: 2px 2px 4px 16px;
     }
   }
 
@@ -49,6 +39,20 @@
       height: @control-height-medium;
     }
   }
+  .buttonSizeMixin(
+    sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
+    -10.2px,
+    -9.5px,
+    rotate(53deg) skewX(25deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -207px,
+    441%
+  );
 
   .DEPRECATED_sizeMedium {
     font-size: 16px;
@@ -63,70 +67,199 @@
       }
     }
   }
+  .buttonSizeMixin(
+    DEPRECATED_sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
+    -10.2px,
+    -9.5px,
+    rotate(53deg) skewX(25deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -208px,
+    441%
+  );
 
   .sizeLarge {
     &:not(.link) {
       height: @control-height-large;
     }
   }
-
-  // Use Default
-  .buttonColorMixin(
-    default,
-    none,
-    @btn-flat-default-bg,
-    @btn-flat-default-hover-bg,
-    @btn-flat-default-active-bg,
-    @btn-flat-default-disabled-bg,
-    @btn-flat-default-border
+  .buttonSizeMixin(
+    sizeLarge,
+    21.7px,
+    10.2px,
+    -10.8px,
+    -10.8px,
+    -10.2px,
+    rotate(53deg) skewX(26deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
+    -32px,
+    -36px,
+    -198px,
+    700%
   );
 
-  // Use Primary
+  // Use Default
+  .buttonUseColorsMixin(
+    default,
+    @btn-flat-default-bg,
+    @btn-flat-default-bg-arrow,
+    @btn-flat-default-bg-arrow,
+    none,
+    @btn-flat-default-shadow-arrow,
+    @btn-flat-default-shadow-arrow,
+    @btn-flat-default-text-color,
+    @btn-flat-default-border
+  );
+  .buttonUseHoverMixin(
+    default,
+    @btn-flat-default-hover-bg,
+    @btn-flat-default-hover-bg,
+    @btn-flat-default-hover-bg,
+    none,
+    @default-hover-shadow-arrow,
+    @default-hover-shadow-arrow,
+    @btn-flat-default-hover-border-color
+  );
+  .buttonUseActiveMixin(
+    default,
+    @btn-flat-default-active-bg,
+    none,
+    @default-active-shadow-arrow,
+    @default-active-shadow-arrow
+  );
 
-  .buttonColorMixin(
+  .root.default.checked {
+    .arrow {
+      box-shadow: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px @btn-flat-checked-bg;
+    }
+
+    .arrow_left {
+      box-shadow: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px @btn-flat-checked-bg;
+    }
+  }
+
+  // Use Primary
+  .buttonUseColorsMixin(
     primary,
-    #fff,
     @btn-flat-primary-bg,
-    @btn-flat-primary-hover-bg,
-    @btn-flat-primary-active-bg,
-    @btn-flat-primary-disabled-bg,
+    @btn-flat-primary-bg,
+    @btn-flat-primary-bg,
+    none,
+    0 0 0 1px @btn-flat-primary-disabled-bg,
+    0 0 0 1px @btn-flat-primary-disabled-bg,
+    @btn-flat-primary-text-color,
     @btn-flat-primary-border
+  );
+  .buttonUseHoverMixin(
+    primary,
+    @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg,
+    none,
+    0 0 0 1px @btn-flat-primary-hover-bg,
+    0 0 0 1px @btn-flat-primary-hover-bg,
+    @btn-flat-primary-hover-bg
+  );
+  .buttonUseActiveMixin(
+    primary,
+    @btn-flat-primary-active-bg,
+    none,
+    0 0 0 1px @btn-flat-primary-active-bg,
+    0 0 0 1px @btn-flat-primary-active-bg
   );
 
   // Use Success
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     success,
-    #fff,
     @btn-flat-success-bg,
-    @btn-flat-success-hover-bg,
-    @btn-flat-success-active-bg,
-    @btn-flat-success-disabled-bg,
+    @btn-flat-success-bg,
+    @btn-flat-success-bg,
+    none,
+    0 0 0 1px @btn-flat-success-disabled-bg,
+    0 0 0 1px @btn-flat-success-disabled-bg,
+    @btn-flat-success-text-color,
     @btn-flat-success-border
+  );
+  .buttonUseHoverMixin(
+    success,
+    @btn-flat-success-hover-bg,
+    @btn-flat-success-hover-bg,
+    @btn-flat-success-hover-bg,
+    none,
+    0 0 0 1px @btn-flat-success-hover-bg,
+    0 0 0 1px @btn-flat-success-hover-bg,
+    @btn-flat-success-hover-bg
+  );
+  .buttonUseActiveMixin(
+    success,
+    @btn-flat-success-active-bg,
+    none,
+    0 0 0 1px @btn-flat-success-active-bg,
+    0 0 0 1px @btn-flat-success-active-bg
   );
 
   // Use Danger
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     danger,
-    #fff,
     @btn-flat-danger-bg,
-    @btn-flat-danger-hover-bg,
-    @btn-flat-danger-active-bg,
-    @btn-flat-danger-disabled-bg,
+    @btn-flat-danger-bg,
+    @btn-flat-danger-bg,
+    none,
+    0 0 0 1px @btn-flat-danger-disabled-bg,
+    0 0 0 1px @btn-flat-danger-disabled-bg,
+    @btn-flat-danger-text-color,
     @btn-flat-danger-border
+  );
+  .buttonUseHoverMixin(
+    danger,
+    @btn-flat-danger-hover-bg,
+    @btn-flat-danger-hover-bg,
+    @btn-flat-danger-hover-bg,
+    none,
+    0 0 0 1px @btn-flat-danger-hover-bg,
+    0 0 0 1px @btn-flat-danger-hover-bg,
+    @btn-flat-danger-hover-bg
+  );
+  .buttonUseActiveMixin(
+    danger,
+    @btn-flat-danger-active-bg,
+    none,
+    0 0 0 1px @btn-flat-danger-active-bg,
+    0 0 0 1px @btn-flat-danger-active-bg
   );
 
   // Use Pay
-
-  .buttonColorMixin(
+  .buttonUseColorsMixin(
     pay,
-    none,
     @btn-flat-pay-bg,
-    @btn-flat-pay-hover-bg,
-    @btn-flat-pay-active-bg,
-    @btn-flat-pay-disabled-bg,
+    @btn-flat-pay-bg,
+    @btn-flat-pay-bg,
+    none,
+    0 0 0 1px @btn-flat-pay-disabled-bg,
+    0 0 0 1px @btn-flat-pay-disabled-bg,
+    @btn-flat-pay-text-color,
     @btn-flat-pay-border
+  );
+  .buttonUseHoverMixin(
+    pay,
+    @btn-flat-pay-hover-bg,
+    @btn-flat-pay-hover-bg,
+    @btn-flat-pay-hover-bg,
+    none,
+    0 0 0 1px @btn-flat-pay-hover-bg,
+    0 0 0 1px @btn-flat-pay-hover-bg,
+    @btn-flat-pay-hover-bg
+  );
+  .buttonUseActiveMixin(
+    pay,
+    @btn-flat-pay-active-bg,
+    none,
+    0 0 1px @btn-flat-pay-active-bg,
+    0 0 1px @btn-flat-pay-active-bg
   );
 
   .root.link.linkError {
@@ -136,45 +269,26 @@
   }
 
   // End Use
-  .root.checked {
-    background: @btn-flat-checked-bg;
-    color: #fff;
+  .buttonFocusMixin(
+    1px,
+    1px solid @flat-border-color-focus,
+    @flat-border-color-focus,
+    @flat-outline-color-focus
+  );
 
-    &:hover {
-      background: @btn-flat-checked-bg;
-    }
-
-    &.focus {
-      box-shadow: inset 0 0 0 1px #fff, 0 0 0 2px @border-color-focus;
-      position: relative;
-      z-index: 2;
-    }
-  }
-
-  .root.disabled {
-    border-color: transparent;
-  }
-
-  // TODO: arrow styles
-  .arrow {
-    content: '';
-  }
-
-  .arrow_loading {
-    content: '';
-  }
-
-  .arrow_warning {
-    content: '';
-  }
-
-  .arrow_error {
-    content: '';
-  }
-
-  .wrap_arrow {
-    content: '';
-  }
+  .buttonStateColorsMixin(
+    @btn-flat-checked-bg,
+    none,
+    0 0 0 1px @btn-flat-checked-bg,
+    0 0 0 1px @btn-flat-checked-bg,
+    @btn-flat-checked-bg,
+    1px,
+    @btn-flat-disabled-bg,
+    none,
+    1px -1px 0 0 @btn-flat-disabled-bg,
+    @btn-flat-checked-text-color,
+    @flat-outline-color-focus
+  );
 
   .borderless {
     box-shadow: none;

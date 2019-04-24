@@ -6,10 +6,10 @@ gemini.suite('ComboBox', () => {
       suite
         .before(renderStory('ComboBoxView', 'input like text'))
         .setCaptureElements('#test-element')
-        .ignoreElements('[class^="Spinner-spinner"]')
+        .ignoreElements('[data-comp-name="Spinner"]')
         .capture('plain')
         .capture('focused first element', (action, find) => {
-          action.click(find('[class^="Input-input"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
@@ -24,7 +24,7 @@ gemini.suite('ComboBox', () => {
       suite
         .before(renderStory('ComboBoxView', 'opened'))
         .setCaptureElements('#test-element')
-        .ignoreElements('[class^="Spinner-spinner"]')
+        .ignoreElements('[data-comp-name="Spinner"]')
         .capture('plain');
     });
 
@@ -52,10 +52,10 @@ gemini.suite('ComboBox', () => {
         .setCaptureElements('#test-element')
         .capture('plain')
         .capture('opened', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         })
         .capture('hovered', (action, find) => {
-          targetMenuItem = find('[class^="MenuItem-root"]:nth-of-type(4)');
+          targetMenuItem = find('[data-comp-name="MenuItem"]:nth-of-type(4)');
           action.mouseMove(targetMenuItem);
         })
         .capture('selected', action => {
@@ -68,7 +68,7 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'always reject'))
         .setCaptureElements('#test-element')
         .capture('opened', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
@@ -78,10 +78,10 @@ gemini.suite('ComboBox', () => {
         .setCaptureElements('#test-element')
         .capture('plain')
         .capture('opened', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         })
         .capture('hovered', (action, find) => {
-          targetMenuItem = find('[class^="MenuItem-root"]:nth-of-type(4)');
+          targetMenuItem = find('[data-comp-name="MenuItem"]:nth-of-type(4)');
           action.mouseMove(targetMenuItem);
         })
         .capture('selected', action => {
@@ -94,14 +94,14 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('search result', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys('input', 'Second');
         })
         .capture('selcted', action => {
           action.sendKeys(gemini.ENTER);
         })
         .capture('opened again', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
@@ -110,7 +110,7 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('search result', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys('input', 'Такого точно нету');
         });
     });
@@ -121,12 +121,12 @@ gemini.suite('ComboBox', () => {
         .setCaptureElements('#test-element')
         .capture('initial value')
         .capture('reset value', (action, find) => {
-          const resetButton = find('[class^="Button-wrap"]:nth-child(3)');
+          const resetButton = find('[data-tid="resetBtn"]');
 
           action.click(resetButton);
         })
         .capture('set value', (action, find) => {
-          const setButton = find('[class^="Button-wrap"]:nth-child(2)');
+          const setButton = find('[data-tid="setValueBtn"]');
 
           action.click(setButton);
         });
@@ -137,7 +137,7 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('select', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys(gemini.ARROW_DOWN);
           action.sendKeys(gemini.ARROW_DOWN);
           action.sendKeys(gemini.ARROW_DOWN);
@@ -153,10 +153,10 @@ gemini.suite('ComboBox', () => {
         .setCaptureElements('#test-element')
         .capture('plain')
         .capture('with error', (action, find) => {
-          action.click(find("[class^='Toggle-wrapper']"));
+          action.click(find("[data-comp-name='Toggle']"));
         })
         .capture('plain again', (action, find) => {
-          action.click(find("[class^='Toggle-wrapper']"));
+          action.click(find("[data-comp-name='Toggle']"));
         });
     });
 
@@ -172,14 +172,14 @@ gemini.suite('ComboBox', () => {
         .before(renderStory('ComboBox', 'simple combobox'))
         .setCaptureElements('#test-element')
         .capture('editing', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
           action.sendKeys('input', 'Second');
         })
         .capture('select', (action, find) => {
           action.click(find('body'));
         })
         .capture('selected', (action, find) => {
-          action.click(find('[class^="Input-root"]'));
+          action.click(find('[data-comp-name="InputLikeText"]'));
         });
     });
 
@@ -190,6 +190,9 @@ gemini.suite('ComboBox', () => {
         .capture('before')
         .capture('after Enter on Item', action => {
           action.sendKeys(gemini.ENTER);
+        })
+        .capture('after click back on the first field', (action, find) => {
+          action.click(find('[class^="Input-root"]'));
         });
     });
   });

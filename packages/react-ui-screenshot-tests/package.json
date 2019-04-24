@@ -1,6 +1,6 @@
 {
   "name": "react-ui-screenshot-tests",
-  "version": "1.1.8",
+  "version": "1.1.10",
   "main": "index.js",
   "license": "MIT",
   "private": true,
@@ -14,7 +14,8 @@
   },
   "scripts": {
     "test": "node gemini test --reporter vflat --config gemini.config.js",
-    "test:gui": "node gemini gui --config gemini.config.js"
+    "test:gui": "node gemini gui --config gemini.config.js",
+    "test:update": "node gemini update --config gemini.config.js"
   },
   "devDependencies": {
     "dotenv": "^6.0.0"

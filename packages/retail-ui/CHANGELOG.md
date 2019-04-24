@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.47.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.2...retail-ui@0.47.0) (2019-04-22)
+
+
+### Bug Fixes
+
+* **Button:** add border radius & background styles in flat theme ([59486e3](https://github.com/skbkontur/retail-ui/commit/59486e3))
+* **Button:** fix arrow position in flat version for small button ([2ce7b42](https://github.com/skbkontur/retail-ui/commit/2ce7b42))
+* **Button:** fix border color at checked + focused state on hover ([bad4f08](https://github.com/skbkontur/retail-ui/commit/bad4f08))
+* **Button:** fix border overlap in visually focused state with error/warning ([72d2787](https://github.com/skbkontur/retail-ui/commit/72d2787))
+* **Button:** fix stylelint `eol-whitespace` error ([461850f](https://github.com/skbkontur/retail-ui/commit/461850f))
+* **Button:** fixed disabled state shadow styles at flat version ([ad5db6f](https://github.com/skbkontur/retail-ui/commit/ad5db6f))
+* **Button:** fixed flat styles in IE ([ad3f558](https://github.com/skbkontur/retail-ui/commit/ad3f558))
+* **Input:** add background & border color styles in flat theme ([b106eb2](https://github.com/skbkontur/retail-ui/commit/b106eb2))
+* **Paging:** changed detecting of pressed key ([f7b5f24](https://github.com/skbkontur/retail-ui/commit/f7b5f24))
+* **Radio:** fixed outline padding in flat styles ([0baf333](https://github.com/skbkontur/retail-ui/commit/0baf333))
+* **Textarea:** add background & border color styles in flat theme ([003c268](https://github.com/skbkontur/retail-ui/commit/003c268))
+* **Toggle:** add white outline to focused box-shadow ([7b7a3c9](https://github.com/skbkontur/retail-ui/commit/7b7a3c9))
+
+
+### Features
+
+* **Button:** add arrow styles in flat version ([8e1d268](https://github.com/skbkontur/retail-ui/commit/8e1d268))
+* **Button:** add arrows shadow & border styles in flat theme ([1889232](https://github.com/skbkontur/retail-ui/commit/1889232))
+* **Button, Checkbox, Radio, Toggle:** add common outline color variable ([58fac79](https://github.com/skbkontur/retail-ui/commit/58fac79))
+
+
+
+
+
+## [0.46.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.1...retail-ui@0.46.2) (2019-04-17)
+
+
+### Bug Fixes
+
+* **Tabs:** context provider render children for reac@15 ([f0df170](https://github.com/skbkontur/retail-ui/commit/f0df170))
+
+
+
+
+
+## [0.46.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.0...retail-ui@0.46.1) (2019-04-16)
+
+
+### Bug Fixes
+
+* **Autocomplete:** restore lost focus in IE ([a232110](https://github.com/skbkontur/retail-ui/commit/a232110)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **ComboBox:** add missing callbacks ([fab3ff6](https://github.com/skbkontur/retail-ui/commit/fab3ff6))
+* **ComboBox:** restore lost focus to outer element on clickOutside in IE ([702f60c](https://github.com/skbkontur/retail-ui/commit/702f60c)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **ComboBoxOld:** restore lost focus in IE ([dff471b](https://github.com/skbkontur/retail-ui/commit/dff471b)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **Hint:** render popup even if no text provided ([cf4a473](https://github.com/skbkontur/retail-ui/commit/cf4a473))
+* **Tabs:** correct work with FunctionalComponents ([93163db](https://github.com/skbkontur/retail-ui/commit/93163db)), closes [#1337](https://github.com/skbkontur/retail-ui/issues/1337)
+* **Tabs:** error findDOMNode on unmounted active tab component ([90142cb](https://github.com/skbkontur/retail-ui/commit/90142cb))
+* **TopBarDropdown:** added methods open & close ([9e7ddcc](https://github.com/skbkontur/retail-ui/commit/9e7ddcc))
+
+
+
+
+
 # [0.46.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.45.0...retail-ui@0.46.0) (2019-04-08)
 
 
