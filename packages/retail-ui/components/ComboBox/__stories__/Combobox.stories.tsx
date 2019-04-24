@@ -163,6 +163,13 @@ storiesOf('ComboBox', module)
     <div>
       <ComplexCombobox />
     </div>
+  ))
+  .add("with add button", () => (
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      renderAddButton={query => query && <MenuItem onClick={() => alert(query)}>Добавить {query}</MenuItem>}
+    />
   ));
 
 interface ComboBoxWithErrorTogglerState {
@@ -241,6 +248,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
+          renderAddButton={this.props.renderAddButton}
           valueToString={x => x.name}
           placeholder="numbers"
           onChange={this.handleChange}
