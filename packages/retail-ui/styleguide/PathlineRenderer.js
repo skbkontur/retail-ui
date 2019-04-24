@@ -92,7 +92,7 @@ export class PathlineRenderer extends React.Component {
           <div>
             {issueList.length > 0 &&
               <div>
-                <h3>Список связанных issue:</h3>
+                <h3>Список связанных issues:</h3>
                 <ul>
                   {issueList.map((issue) => {
                     return <li key={issue.id}>
