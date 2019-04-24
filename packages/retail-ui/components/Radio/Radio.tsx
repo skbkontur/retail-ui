@@ -218,7 +218,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     const labelClassNames = classNames({
       [styles.label]: true,
       [jsStyles.label(theme)]: true,
-      [styles.labelDisabled]: this.props.disabled,
+      [styles.labelDisabled]: !!this.props.disabled,
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
