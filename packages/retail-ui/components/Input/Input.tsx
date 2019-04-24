@@ -1,14 +1,10 @@
 import * as React from 'react';
-
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
-
-import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
-
 import { cx as classNames } from 'emotion';
 import ThemeManager from '../../lib/ThemeManager';
 import classes from './Input.less';
