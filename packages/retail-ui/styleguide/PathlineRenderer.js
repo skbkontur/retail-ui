@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'rsg-components/Styled';
-// yarn workspace retail-ui styleguide
+
 const styles = ({ font, base, light, link, baseBackground, mq }) => ({
   root: {
     color: base,
