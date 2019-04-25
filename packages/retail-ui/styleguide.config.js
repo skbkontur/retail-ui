@@ -174,7 +174,7 @@ module.exports = {
   styleguideDir: path.resolve(__dirname, `styleguide/${libraryVersion}`),
   skipComponentsWithoutExample: true,
   styleguideComponents: {
-    PathlineRenderer: path.join(__dirname, 'styleguide/PathlineRenderer'),
+    PathlineRenderer: path.join(__dirname, 'scripts/styleguide/PathlineRenderer'),
   },
   pagePerSection: true,
   styles,

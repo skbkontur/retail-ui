@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Styled from 'rsg-components/Styled';
+import fetch from '../../lib/net/fetch-cors';
 
 const styles = ({ font, base, light, link, baseBackground, mq }) => ({
   root: {
@@ -14,7 +15,7 @@ const styles = ({ font, base, light, link, baseBackground, mq }) => ({
   },
 });
 
-const ALL_ISSUES_LINK = 'https://github.com/skbkontur/retail-ui/issues';
+const CREATE_ISSUE_LINK = 'https://github.com/skbkontur/retail-ui/issues/new';
 const API_URL = 'https://guides.kontur.ru/github';
 const GUIDES_LINK = 'https://guides.kontur.ru/components/';
 
@@ -26,35 +27,35 @@ export class PathlineRenderer extends React.Component {
       issueList: [],
       isFetching: true,
       hasGuidesLink: false,
-      componentInGuideUrl: '',
+      componentExistsInGuide: false,
     };
   }
 
   componentDidMount = async () => {
     try {
-      const component = this.getComponentName().toLowerCase();
+      const component = this.getComponentName();
 
-      this.toggleFetchingState(true);
       await this.getIssueList(component);
-      await this.getGuidesLink(component);
-      this.toggleFetchingState(false);
+      await this.checkGuideForComponent(component);
     } catch (error) {
       console.error(error);
+    } finally {
+      this.toggleFetchingState(false);
     }
   }
 
-  getGuidesLink = async (component) => {
+  checkGuideForComponent = async (component) => {
     const componentUrl = `${GUIDES_LINK}${component}`;
 
     await fetch(componentUrl).then((response) => {
       if (response.status === 200) {
-        this.setState({ componentInGuideUrl: componentUrl });
+        this.setState({ componentExistsInGuide: true });
       }
     });
   }
 
-  getIssueList = async (component) => {
-    await fetch(`${API_URL}/${component}`).then((response) => {
+  getIssueList = (component) => {
+    fetch(`${API_URL}/${component}`).then((response) => {
       return response.json();
     }).then((issueList) => {
       this.setState({
@@ -70,7 +71,7 @@ export class PathlineRenderer extends React.Component {
     const component = componentPathArray[componentPathArray.length - 1];
     const componentName = component.split('.')[0];
 
-    return componentName;
+    return componentName.toLowerCase();
   }
 
   toggleFetchingState = (isFetching) => {
@@ -81,7 +82,7 @@ export class PathlineRenderer extends React.Component {
 
   render() {
     const { classes, children } = this.props;
-    const { issueList, isFetching, componentInGuideUrl } = this.state;
+    const { issueList, isFetching, componentExistsInGuide } = this.state;
 
     return (
       <div className={classes.root}>
@@ -105,11 +106,11 @@ export class PathlineRenderer extends React.Component {
                 </ul>
               </div>
             }
-            {componentInGuideUrl.length > 0 &&
+            {componentExistsInGuide &&
               <h4>
                 <a
                   target="_blank"
-                  href={componentInGuideUrl}
+                  href={`${GUIDES_LINK}${this.getComponentName()}`}
                 >Компонент в гайдах</a>
               </h4>
             }
@@ -123,8 +124,8 @@ export class PathlineRenderer extends React.Component {
         <h4>
           <a
             target="_blank"
-            href={ALL_ISSUES_LINK}
-          >Список всех issues</a>
+            href={CREATE_ISSUE_LINK}
+          >Создать задачу</a>
         </h4>
       </div>
     );
