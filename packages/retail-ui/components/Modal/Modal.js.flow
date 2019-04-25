@@ -6,6 +6,7 @@ import { Body } from './ModalBody';
 import { Footer } from './ModalFooter';
 
 export type ModalProps = {|
+  children: React$Node,
   disableClose?: boolean,
   alignTop?: boolean,
   ignoreBackgroundClick?: boolean,

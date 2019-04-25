@@ -113,6 +113,11 @@ export interface ComboBoxProps<T> {
   renderValue: (item: T) => React.ReactNode;
 
   /**
+   * Функция отрисовки кнопки добавления в выпадающем списке
+   */
+  renderAddButton?: (query?: string) => React.ReactNode;
+
+  /**
    * Общее количество элементов.
    * Необходим для работы `renderTotalCount`
    */
