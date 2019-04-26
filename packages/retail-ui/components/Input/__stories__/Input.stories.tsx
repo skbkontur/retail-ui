@@ -377,7 +377,6 @@ const widthStates: InputState[] = [{ width: 100 }, { width: 'auto' }, { width: u
 
 const visualStates: InputState[] = [
   { disabled: true },
-  { checked: true },
   { borderless: true },
   { error: true },
   { warning: true },
