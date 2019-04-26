@@ -78,9 +78,17 @@ export class PathlineRenderer extends React.Component {
     });
   }
 
+  getCreateNewIssueLink = () => {
+    let componentName = this.getComponentName();
+    componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1);
+
+    return `${CREATE_ISSUE_LINK}?title=[${componentName}]&labels=bug,${componentName}`;
+  }
+
   render() {
     const { classes, children } = this.props;
     const { issueList, isFetching, componentExistsInGuide } = this.state;
+    const componentName = this.getComponentName();
 
     return (
       <div className={classes.root}>
@@ -107,7 +115,7 @@ export class PathlineRenderer extends React.Component {
             {componentExistsInGuide &&
               <a
                 target="_blank"
-                href={`${GUIDES_LINK}${this.getComponentName()}`}
+                href={`${GUIDES_LINK}${componentName}`}
               >Компонент в гайдах</a>
             }
           </div>
@@ -119,7 +127,7 @@ export class PathlineRenderer extends React.Component {
         }
         <a
           target="_blank"
-          href={CREATE_ISSUE_LINK}
+          href={this.getCreateNewIssueLink()}
         >Создать задачу</a>
       </div>
     );
