@@ -2,6 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import CalendarIcon from '@skbkontur/react-icons/Calendar';
+import { isChrome } from '../../lib/utils';
 
 import { CalendarDateShape } from '../Calendar/CalendarDateShape';
 import { parseDateString } from '../DatePicker/DatePickerHelpers';
@@ -224,6 +225,8 @@ class DateInput extends React.Component<DateInputProps, DateInputState> {
     const isMaskHidden = this.checkIfMaskHidden();
     return (
       <InputLikeText
+        contentEditable={isChrome && !this.props.disabled}
+        suppressContentEditableWarning={true}
         width={this.props.width}
         ref={el => (this.inputlikeText = el)}
         size={this.props.size}
