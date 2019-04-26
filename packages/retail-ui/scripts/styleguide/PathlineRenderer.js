@@ -54,8 +54,8 @@ export class PathlineRenderer extends React.Component {
     });
   }
 
-  getIssueList = (component) => {
-    fetch(`${API_URL}/${component}`).then((response) => {
+  getIssueList = async (component) => {
+    await fetch(`${API_URL}/${component}`).then((response) => {
       return response.json();
     }).then((issueList) => {
       this.setState({
@@ -93,7 +93,7 @@ export class PathlineRenderer extends React.Component {
           <div>
             {issueList.length > 0 &&
               <div>
-                <h3>Список связанных issues:</h3>
+                <p>Список связанных issues:</p>
                 <ul>
                   {issueList.map((issue) => {
                     return <li key={issue.id}>
@@ -107,12 +107,10 @@ export class PathlineRenderer extends React.Component {
               </div>
             }
             {componentExistsInGuide &&
-              <h4>
-                <a
-                  target="_blank"
-                  href={`${GUIDES_LINK}${this.getComponentName()}`}
-                >Компонент в гайдах</a>
-              </h4>
+              <a
+                target="_blank"
+                href={`${GUIDES_LINK}${this.getComponentName()}`}
+              >Компонент в гайдах</a>
             }
           </div>
         }
@@ -121,12 +119,10 @@ export class PathlineRenderer extends React.Component {
             <span>loading...</span>
           </div>
         }
-        <h4>
-          <a
-            target="_blank"
-            href={CREATE_ISSUE_LINK}
-          >Создать задачу</a>
-        </h4>
+        <a
+          target="_blank"
+          href={CREATE_ISSUE_LINK}
+        >Создать задачу</a>
       </div>
     );
   }
