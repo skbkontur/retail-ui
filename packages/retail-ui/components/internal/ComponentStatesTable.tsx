@@ -37,7 +37,7 @@ export interface TableProps<T extends {}> {
 export default function ComponentStatesTable<T extends {}>(props: TableProps<T>) {
   const { rows = [], cols = [], presetState, component: Component } = props;
   return (
-    <table style={{ width: '100%', borderSpacing: 10, marginBottom: 20 }}>
+    <table style={{ borderSpacing: 10, marginBottom: 20 }}>
       <caption style={{ captionSide: 'bottom' }}>{renderStateDesc(presetState)}</caption>
       <thead>
         <tr>
