@@ -54,15 +54,13 @@ export class PathlineRenderer extends React.Component {
     });
   }
 
-  getIssueList = async (component) => {
-    await fetch(`${API_URL}/${component}`).then((response) => {
+  getIssueList = (component) => {
+    return fetch(`${API_URL}/${component}`).then((response) => {
       return response.json();
     }).then((issueList) => {
       this.setState({
         issueList,
       });
-    }).catch((error) => {
-      throw error;
     });
   }
 
