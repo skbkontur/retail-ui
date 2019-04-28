@@ -227,7 +227,7 @@ export class Address {
     return index > -1 ? Address.MAIN_FIELDS.slice(index + 1) : [];
   };
 
-  public static removeFiasData = (address: Address, fields: Fields[] = Address.MAIN_FIELDS.slice()): Address => {
+  public static removeFiasData = (address: Address, fields: Fields[] = Address.MAIN_FIELDS): Address => {
     const addressFields = { ...address.fields };
     for (const field of fields) {
       const element = addressFields[field];
@@ -398,10 +398,9 @@ export class Address {
   };
 
   public verifyConsistency = (): VerifyResponse => {
-    const fields = Address.MAIN_FIELDS.slice();
     const verifiedFields: AddressFields = { ...this.fields };
 
-    for (const field of fields) {
+    for (const field of Address.MAIN_FIELDS) {
       const element = this.fields[field];
       if (element) {
         if (element.data) {
