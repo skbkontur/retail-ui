@@ -23,15 +23,21 @@ export class AddressElement {
   constructor(public type: Fields, public name: string, public data?: FiasData) {}
 
   public get isFederalCity(): boolean {
-    if (!(this.data && this.data.fiasId)) {
+    if (!this.fiasId) {
       return false;
     }
-    return AddressElement.FEDERAL_CITIES.indexOf(this.data.fiasId) > -1;
+    return AddressElement.FEDERAL_CITIES.indexOf(this.fiasId) > -1;
   }
 
   public get fiasData(): FiasObject | undefined {
     if (this.data && this.data.data) {
       return this.data.data;
+    }
+  }
+
+  public get fiasId(): FiasId | undefined {
+    if (this.data) {
+      return this.data.fiasId;
     }
   }
 

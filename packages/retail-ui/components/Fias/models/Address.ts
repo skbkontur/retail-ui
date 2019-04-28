@@ -367,8 +367,8 @@ export class Address {
         .reverse();
       for (const parentField of parents) {
         const parent = this.fields[parentField];
-        if (parent && parent.data) {
-          return parent.data.fiasId;
+        if (parent) {
+          return parent.fiasId;
         }
       }
     }
@@ -379,8 +379,8 @@ export class Address {
       const fields = Address.MAIN_FIELDS.slice().reverse();
       for (const field of fields) {
         const element = this.fields[field];
-        if (element && element.data && element.data.fiasId) {
-          return element.data.fiasId;
+        if (element && element.fiasId) {
+          return element.fiasId;
         }
       }
     }
@@ -405,9 +405,9 @@ export class Address {
       const element = this.fields[field];
       if (element) {
         if (element.data) {
-          const { parentFiasId: expectedParentFiasId } = element.data;
-          const actualParentFiasId = this.getClosestParentFiasId(field);
-          if (!this.getParent(field) || actualParentFiasId === expectedParentFiasId) {
+          const expectedParentFiasId = element.data.parentFiasId;
+          const parent = this.getParent(field);
+          if (!parent || parent.fiasId === expectedParentFiasId) {
             verifiedFields[field] = element;
             continue;
           }
