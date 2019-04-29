@@ -1,7 +1,5 @@
 @import '../variables.less';
 
-@containerPadding: 20px 0;
-
 :local {
   .root {
     height: 100%;
@@ -23,12 +21,10 @@
 
   .container {
     position: relative;
-    box-sizing: border-box;
     white-space: nowrap;
     text-align: center;
     height: 100%;
     overflow-y: auto;
-    padding: @containerPadding;
     outline: none;
 
     &::before {
@@ -40,8 +36,6 @@
 
     @media screen and (max-width: @modal-adaptive-threshold) {
       &.mobile {
-        padding: 0;
-
         .centerContainer {
           margin: 0;
           width: 100%;
@@ -53,7 +47,7 @@
   .centerContainer {
     position: relative;
     display: inline-block;
-    margin: 0 20px;
+    margin: 40px 20px;
     text-align: left;
     vertical-align: middle;
     box-sizing: border-box;
@@ -205,16 +199,5 @@
       top: 11px;
       box-shadow: @modal-fixed-footer-shadow;
     }
-  }
-
-  .modalClickTrap {
-    position: absolute;
-    padding: @containerPadding;
-    box-sizing: content-box;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 5;
   }
 }
