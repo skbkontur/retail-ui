@@ -19,7 +19,10 @@ export interface DropdownMenuProps {
 
   header?: React.ReactNode;
   footer?: React.ReactNode;
-  /**  Массив разрешенных положений меню относительно caption'а. */
+  /**
+   * Массив разрешенных положений меню относительно caption'а.
+   * @default ['bottom left', 'bottom right', 'top left', 'top right']
+   */
   positions?: PopupPosition[];
 
   onOpen?: () => void;
