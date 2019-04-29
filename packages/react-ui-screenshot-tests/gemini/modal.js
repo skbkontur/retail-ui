@@ -98,3 +98,28 @@ gemini.suite('modal with align to the top', suite => {
     .setCaptureElements('html')
     .capture('alignTop');
 });
+
+gemini.suite('modal closing', suite => {
+  suite
+    .before(renderStory('Modal', 'Small modal on the Top'))
+    .setCaptureElements('html')
+    .ignoreElements({ every: 'button' })
+    .before((actions, find) => {
+      this.button = find('button');
+    })
+    .capture('open modal', (actions, find) => {
+      actions.click(this.button);
+    })
+    .capture('close by click on the cross', (actions, find) => {
+      actions.click(find('[data-tid="modal-close"]'));
+    })
+    .capture('open again', (actions, find) => {
+      actions.click(this.button);
+    })
+    .capture("doesn't close by click on the content", (actions, find) => {
+      actions.click(find('[data-tid="modal-content-button"]'));
+    })
+    .capture('closes by click on the background', (actions, find) => {
+      actions.click(find('[data-tid="modal-container"]'));
+    });
+});
