@@ -6,8 +6,6 @@ import isEqual from 'lodash.isequal';
 import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import ComboBoxView from './ComboBoxView';
-import reactGetTextContent from '../../lib/reactGetTextContent/reactGetTextContent';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { getFirstFocusableElement, getNextFocusableElement } from '../../lib/dom/getFocusableElements';
 
@@ -106,15 +104,15 @@ export const Effect: EffectFactory = {
     }
   },
   UnexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
-    const { onUnexpectedInput, renderItem = ComboBoxView.defaultProps.renderItem } = getProps();
+    const { onUnexpectedInput, valueToString } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
-      const renderedValue: React.ReactNode = renderItem(singleItem);
-      const valueContent = reactGetTextContent(renderedValue);
+      const valueContent = getValueString(singleItem, valueToString);
 
       if (valueContent === textValue) {
         dispatch({ type: 'ValueChange', value: singleItem, keepFocus: false });
+        return;
       }
     }
 
