@@ -181,6 +181,9 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
+  private contentObserver: Nullable<MutationObserver> = typeof MutationObserver
+    ? new MutationObserver(() => this.delayUpdateLocation())
+    : null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -373,6 +376,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private refPopupElement = (zIndex: ZIndex | null) => {
     if (zIndex) {
       this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
+      if (this.contentObserver) {
+        this.contentObserver.disconnect();
+        this.contentObserver.observe(this.lastPopupElement, { childList: true, subtree: true });
+      }
     }
   };
 
