@@ -5,6 +5,7 @@ import Input, { InputSize, InputProps } from '../Input';
 import Button from '../../Button';
 import Gapped from '../../Gapped';
 import StatesCombinator from 'retail-ui/components/internal/StatesCombinator';
+import ComponentStatesTable from 'retail-ui/components/internal/ComponentStatesTable';
 
 
 const styles = {
@@ -237,7 +238,7 @@ storiesOf('Input', module)
     );
   })
   .add('Input with maxLength attr', () => <Input maxLength={3} placeholder="maxLength={3}" />)
-  .add('Manual blinking', () => { // TODO: добавить разные состояния инпута {visualStates}
+  .add('Manual blinking', () => { // TODO: сделать отдельный компонент, в котором будет инпут + прокидывание пропов и логика с миганием
     class Sample extends React.Component {
       private input: Input | null = null;
       public render() {
@@ -350,8 +351,15 @@ storiesOf('Input', module)
     <StatesCombinator states={[...widthStates, ...sizeStates]} sizeX={4} sizeY={4} presetState={{ value: 'Value' }} children={null} component={Input} />
   ))
   .add('different visual states', () => (
-    <StatesCombinator states={[...visualStates, ...contentStates, ...innerStates]} sizeX={8} sizeY={8} presetState={{ width: '150px' }} children={null} component={Input} />
+    <StatesCombinator states={[...visualStates, ...contentStates, ...innerStates]} sizeX={8} sizeY={9} presetState={{ width: '150px' }} children={null} component={Input} />
+  ))
+  .add('different states with different sizes', () => (
+    <Gapped vertical>
+      <ComponentStatesTable component={Input} rows={visualStates} cols={sizeStates} presetState={{ width: 200, value: 'Value' }} children={null} />
+      <ComponentStatesTable component={Input} rows={visualStates} cols={widthStates} presetState={{ value: 'Value' }} children={null} />
+    </Gapped>
   ));
+
 type InputState = Partial<InputProps>;
 
 const alignStates: InputState[] = [
@@ -376,6 +384,7 @@ const contentStates: InputState[] = [
 const widthStates: InputState[] = [{ width: 100 }, { width: 'auto' }, { width: undefined }, { width: 0 }];
 
 const visualStates: InputState[] = [
+  { disabled: false },
   { disabled: true },
   { borderless: true },
   { error: true },
@@ -385,3 +394,6 @@ const visualStates: InputState[] = [
 const sizeStates: InputState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
 const innerStates: InputState[] = [{ value: "Value" }, { placeholder: "Placeholder" }];
+
+
+// TODO: После того, как в ComponentStatesTable можно будет передавать состояния, добаить их к сторисам
