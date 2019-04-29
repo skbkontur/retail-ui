@@ -96,7 +96,7 @@ export class Address {
     if (fields) {
       Address.MAIN_FIELDS.forEach(field => {
         const element = fields[field];
-        if (element && element.data) {
+        if (element && element.fiasData) {
           response[field] = element.fiasData;
         }
       });
