@@ -1,6 +1,6 @@
 # React UI
 
-[![Build Status](https://tc.skbkontur.ru/app/rest/builds/buildType:Common_RetailUi_RunAll/statusIcon)](https://tc.skbkontur.ru/project.html?projectId=Common_RetailUi&tab=projectOverview)
+[![Build Status](https://tc.skbkontur.ru/app/rest/builds/buildType:FrontendInfrastructure_Packages_RunAll/statusIcon)](https://tc.skbkontur.ru/project.html?projectId=FrontendInfrastructure_Packages_ReactUI&tab=projectOverview)
 
 - [Варианты использования](#Варианты-использования)
   - [Квик-старт](#Квик-старт) **@skbkontur/react-ui** собранная версия библиотеки
