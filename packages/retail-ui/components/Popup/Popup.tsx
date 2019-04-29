@@ -18,6 +18,7 @@ import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
 import LifeCycleProxy from '../internal/LifeCycleProxy';
 
+const MAX_LOCATION_UPDATES = 10;
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 const DUMMY_LOCATION: PopupLocation = {
@@ -176,6 +177,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
+  private locationUpdateCounter: number = 0;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
@@ -438,11 +440,23 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
     const location = this.getLocation(popupElement, this.state.location);
     if (!this.locationEquals(this.state.location, location)) {
-      this.setState({ location });
+      this.setState({ location }, () => {
+        const isInconsistentLocation = this.locationUpdateCounter >= MAX_LOCATION_UPDATES;
+        warning(!isInconsistentLocation, '[Popup]: Cannot determine appropriate Popup location');
+        if (isInconsistentLocation) {
+          this.locationUpdateCounter = 0;
+          return;
+        }
+        this.locationUpdateCounter += 1;
+        this.delayUpdateLocation();
+      });
+    } else {
+      this.locationUpdateCounter = 0;
     }
   };
 
   private resetLocation = () => {
+    this.locationUpdateCounter = 0;
     this.cancelDelayedUpdateLocation();
     this.setState({ location: null });
   };

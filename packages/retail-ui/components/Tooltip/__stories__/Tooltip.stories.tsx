@@ -170,6 +170,7 @@ storiesOf('Tooltip', module)
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
   .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />)
   .add('Tooltip with Input and switchable content', () => <TooltipWithInput />)
+  .add('Tooltip with Input and huge content', () => <TooltipWithHoverInput />)
   .add('dynamic triggers', () => <DynamicTriggers />);
 
 class TooltipWithInput extends React.Component {
@@ -189,6 +190,22 @@ class TooltipWithInput extends React.Component {
       return <span>{'Content'}</span>;
     }
     return null;
+  };
+}
+
+class TooltipWithHoverInput extends React.Component {
+  public render() {
+    return (
+      <div style={{ padding: '200px' }}>
+        <Tooltip render={this.renderContent} trigger="hover">
+          <Input />
+        </Tooltip>
+      </div>
+    );
+  }
+
+  public renderContent = () => {
+    return <span>{'Content '.repeat(100)}</span>;
   };
 }
 
