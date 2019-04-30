@@ -1,17 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Styled from 'rsg-components/Styled';
+import Styled from 'react-styleguidist/lib/rsg-components/Styled';
+import Spinner from '../../components/Spinner';
+import Link from '../../components/Link';
+import Gapped from '../../components/Gapped';
 import fetch from '../../lib/net/fetch-cors';
 
-const styles = ({ font, base, light, link, baseBackground, mq }) => ({
+interface GithubIssue {
+  id: string;
+  html_url: string;
+  title: string;
+}
+
+interface Classes {
+  root: React.CSSProperties;
+  pathline: React.CSSProperties;
+  spinner: React.CSSProperties;
+}
+
+interface PathlineRendererProps {
+  children: string;
+  classes: { [name: string]: string };
+}
+interface PathlineRendererState {
+  issueList: GithubIssue[];
+  isFetching: boolean;
+  hasGuidesLink: boolean;
+  componentExistsInGuide: boolean;
+}
+
+const styles = ({ baseBackground, fontFamily, fontSize, color }): Classes => ({
   root: {
-    color: base,
+    color: color.base,
     backgroundColor: baseBackground,
   },
-  content: {
-    fontFamily: font,
-    paddingTop: '8px',
-    paddingBottom: '8px',
+  pathline: {
+    fontFamily: fontFamily.monospace,
+    fontSize: fontSize.small,
+    color: color.light,
+    wordBreak: 'break-all',
+  },
+  spinner: {
+    marginBottom: '10px',
   },
 });
 
@@ -19,17 +49,17 @@ const CREATE_ISSUE_LINK = 'https://github.com/skbkontur/retail-ui/issues/new';
 const API_URL = 'https://guides.kontur.ru/github';
 const GUIDES_LINK = 'https://guides.kontur.ru/components/';
 
-export class PathlineRenderer extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      issueList: [],
-      isFetching: true,
-      hasGuidesLink: false,
-      componentExistsInGuide: false,
-    };
-  }
+export class PathlineRenderer extends React.Component<PathlineRendererProps, PathlineRendererState> {
+  public static propTypes = {
+    children: PropTypes.node.isRequired,
+    classes: PropTypes.object.isRequired,
+  };
+  public state: PathlineRendererState = {
+    issueList: [],
+    isFetching: true,
+    hasGuidesLink: false,
+    componentExistsInGuide: false,
+  };
 
   public componentDidMount = async () => {
     try {
@@ -40,30 +70,20 @@ export class PathlineRenderer extends React.Component {
     } catch (error) {
       console.error(error);
     } finally {
-      this.toggleFetchingState(false);
+      this.setState({ isFetching: false });
     }
   };
 
-  public checkGuideForComponent = async component => {
-    const componentUrl = `${GUIDES_LINK}${component}`;
-
-    await fetch(componentUrl).then(response => {
-      if (response.status === 200) {
-        this.setState({ componentExistsInGuide: true });
-      }
-    });
+  public checkGuideForComponent = (component: string) => {
+    return fetch(`${GUIDES_LINK}${component}`).then(response =>
+      this.setState({ componentExistsInGuide: response.status === 200 }),
+    );
   };
 
-  public getIssueList = component => {
+  public getIssueList = (component: string) => {
     return fetch(`${API_URL}/${component}`)
-      .then(response => {
-        return response.json();
-      })
-      .then(issueList => {
-        this.setState({
-          issueList,
-        });
-      });
+      .then(response => response.json())
+      .then((issueList: GithubIssue[]) => this.setState({ issueList }));
   };
 
   public getComponentName = () => {
@@ -72,12 +92,6 @@ export class PathlineRenderer extends React.Component {
     const componentName = component.split('.')[0];
 
     return componentName.toLowerCase();
-  };
-
-  public toggleFetchingState = isFetching => {
-    this.setState({
-      isFetching,
-    });
   };
 
   public getCreateNewIssueLink = () => {
@@ -94,7 +108,7 @@ export class PathlineRenderer extends React.Component {
 
     return (
       <div className={classes.root}>
-        <div className={classes.content}>{children}</div>
+        <div className={classes.pathline}>{children}</div>
         {!isFetching && (
           <div>
             {issueList.length > 0 && (
@@ -104,38 +118,35 @@ export class PathlineRenderer extends React.Component {
                   {issueList.map(issue => {
                     return (
                       <li key={issue.id}>
-                        <a href={issue.html_url} target="_blank">
+                        <Link href={issue.html_url} target="_blank">
                           {issue.title}
-                        </a>
+                        </Link>
                       </li>
                     );
                   })}
                 </ul>
               </div>
             )}
-            {componentExistsInGuide && (
-              <a target="_blank" href={`${GUIDES_LINK}${componentName}`}>
-                Компонент в гайдах
-              </a>
-            )}
           </div>
         )}
         {isFetching && (
-          <div>
-            <span>loading...</span>
+          <div className={classes.spinner}>
+            <Spinner type="mini" caption="Загрузка issues" />
           </div>
         )}
-        <a target="_blank" href={this.getCreateNewIssueLink()}>
-          Создать задачу
-        </a>
+        <Gapped gap={20}>
+          {componentExistsInGuide && (
+            <Link target="_blank" href={`${GUIDES_LINK}${componentName}`}>
+              Компонент в гайдах
+            </Link>
+          )}
+          <Link target="_blank" href={this.getCreateNewIssueLink()}>
+            Создать задачу
+          </Link>
+        </Gapped>
       </div>
     );
   }
 }
-
-PathlineRenderer.propTypes = {
-  children: PropTypes.node.isRequired,
-  classes: PropTypes.object.isRequired,
-};
 
 export default Styled(styles)(PathlineRenderer);
