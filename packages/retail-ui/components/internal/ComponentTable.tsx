@@ -2,7 +2,7 @@ import * as React from 'react';
 import { isFunctionalComponent } from 'retail-ui/lib/utils';
 
 // TODO We should output state too
-const renderStateDesc = <P extends {}>(props: P): React.ReactNode => {
+const renderPropsDesc = <P extends {}>(props: P): React.ReactNode => {
   return Object.keys(props)
     .map(key => {
       // @ts-ignore
@@ -61,13 +61,13 @@ export class ComponentTable<
     const { rows = [], cols = [], presetProps, presetState, Component, children } = this.props;
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
-        <caption style={{ captionSide: 'bottom' }}>{renderStateDesc(presetProps)}</caption>
+        <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps)}</caption>
         <thead>
           <tr>
             <th />
-            {cols.map((state, i) => (
+            {cols.map(({ props: colProps = {} }, i) => (
               <th style={{ whiteSpace: 'nowrap' }} key={i}>
-                {renderStateDesc(state)}
+                {renderPropsDesc(colProps)}
               </th>
             ))}
           </tr>
@@ -75,7 +75,7 @@ export class ComponentTable<
         <tbody>
           {rows.map(({ props: rowProps = {}, state: rowState = {} }, rowIndex) => (
             <tr key={rowIndex}>
-              <td style={{ whiteSpace: 'nowrap' }}>{renderStateDesc(rowProps)}</td>
+              <td style={{ whiteSpace: 'nowrap' }}>{renderPropsDesc(rowProps)}</td>
               {cols.map(({ props: colProps = {}, state: colState = {} }, colIndex) => (
                 <td key={colIndex}>
                   {/* Defaultized props incompatible with JSX.LibraryManagedAttributes so just ignore it
