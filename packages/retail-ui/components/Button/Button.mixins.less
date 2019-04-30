@@ -1,15 +1,15 @@
 .buttonArrowMixin(
-  @className,
-  @top,
-  @left,
-  @right,
-  @size,
-  @transform
+@className,
+@top,
+@left,
+@right,
+@size,
+@transform
 ) {
   .@{className} {
     .arrow {
-      top:  @top;
-      right:  @right;
+      top: @top;
+      right: @right;
       height: @size;
       width: @size;
       transform: @transform;
@@ -22,18 +22,18 @@
 }
 
 .buttonLoadingArrowMixin(
-  @className,
-  @top,
-  @leftArrowTop,
-  @left,
-  @height
+@className,
+@top,
+@leftArrowTop,
+@left,
+@height
 ) {
   .@{className} {
     .arrow {
       &.arrow_loading {
         &::before {
-         top: @top;
-         height: @height;
+          top: @top;
+          height: @height;
         }
       }
     }

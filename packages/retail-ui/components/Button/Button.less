@@ -3,14 +3,6 @@
 @import './Button.mixins.less';
 
 :local {
-  .wrap {
-    padding: 1px;
-
-    &_link {
-      padding: 0;
-    }
-  }
-
   .root {
     .reset-button();
     .reset-text();
@@ -65,13 +57,6 @@
       bottom: 0;
       left: 0;
       right: 0;
-    }
-
-    .arrow {
-      position: absolute;
-      border-radius: 2px 2px 2px 16px;
-      box-sizing: border-box;
-      z-index: 1;
     }
 
     .arrow {
@@ -218,6 +203,7 @@
 
   .DEPRECATED_sizeMedium {
     .sizeMedium;
+
     font-size: 14px;
   }
 
