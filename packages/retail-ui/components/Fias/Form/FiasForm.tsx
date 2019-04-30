@@ -89,7 +89,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private fields: FiasFormFields;
 
-  private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
+  private lastVerifyPromise: Promise<Address> | null = null;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -134,11 +134,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   public componentDidMount() {
-    this.check();
+    this.validate();
   }
 
   public submit = async (): Promise<Address> => {
-    await this.verifyPromise;
+    await this.lastVerifyPromise;
     return this.state.address;
   };
 
@@ -297,13 +297,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         ...address.fields,
         ...value.fields,
       };
+      // get rid of undefineds
       let addressField: Fields;
       for (addressField in newFields) {
         if (!newFields[addressField]) {
           delete newFields[addressField];
         }
       }
-      this.handleAddressChange(Address.createFromAddress(address, { fields: newFields }));
+      this.handleAddressChange(Address.createFromAddress(address, { fields: newFields }), this.validate);
     };
 
     const onInputChange = () => {
@@ -472,21 +473,28 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private check(): void {
+  private verify = (): Promise<Address> => {
     const { address } = this.state;
-    const { api, locale } = this.props;
+    const { api } = this.props;
 
-    this.verifyPromise = api.verify(address.convertForVerification()).then(result => {
+    return api.verify(address).then((result: APIResult<VerifyResponse>) => {
       const { success, data } = result;
       if (success && data) {
-        const verifiedFields = (data[0] && data[0].address) || {};
-        const verifiedAddress = Address.verify(address, verifiedFields, locale);
+        return Address.verify(address, data);
+      }
+      return Address.removeFiasData(address);
+    });
+  };
 
+  private validate(): void {
+    const verifyPromise = (this.lastVerifyPromise = this.verify());
+
+    verifyPromise.then(verifiedAddress => {
+      if (verifyPromise === this.lastVerifyPromise) {
         this.setState({
-          address: verifiedAddress,
+          address: Address.validate(verifiedAddress, this.props.locale),
         });
       }
-      return result;
     });
   }
 
@@ -502,16 +510,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private handleAddressChange = (address: Address) => {
+  private handleAddressChange = (address: Address, callback?: () => void) => {
     this.setState(
       {
         address: Address.createFromAddress(address, {
           fields: Address.filterVisibleFields(address.fields, this.props.fieldsSettings),
         }),
       },
-      () => {
-        this.check();
-      },
+      callback,
     );
   };
 
