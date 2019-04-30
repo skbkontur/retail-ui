@@ -12,6 +12,7 @@
     "jest": "^23.1.0",
     "jscodeshift": "^0.6.3",
     "less": "^3.9.0",
+    "proper-lockfile": "^4.1.1",
     "shelljs": "^0.8.2"
   },
   "scripts": {
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@types/jscodeshift": "^0.6.0",
-    "@types/less": "^3.0.0"
+    "@types/less": "^3.0.0",
+    "@types/proper-lockfile": "^3.0.1"
   }
 }
