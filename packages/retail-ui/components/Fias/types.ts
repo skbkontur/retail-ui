@@ -1,5 +1,6 @@
 import { AddressElement } from './models/AddressElement';
 import { defaultLocale } from './constants/locale';
+import { Address } from './models/Address';
 
 export type FiasId = string;
 
@@ -13,7 +14,7 @@ export interface FiasEntity {
 export interface AddressObject extends FiasEntity {
   name: string;
   abbreviation: string;
-  code: string;
+  code?: string;
 }
 
 export interface Stead extends FiasEntity {
@@ -98,11 +99,11 @@ export type AddressResponse = { [key in Fields]?: FiasObject };
 
 export type SearchResponse = AddressResponse[];
 
-export type VerifyResponse = Array<{
+export interface VerifyResponse {
   address: AddressResponse;
   isValid: boolean;
-  invalidLevel?: string;
-}>;
+  invalidLevel?: Fields;
+}
 
 export type AddressErrors = { [key in Fields | ExtraFields]?: string };
 
@@ -127,7 +128,7 @@ export interface SearchOptions {
 export interface APIProvider {
   search: (options: SearchOptions) => Promise<APIResult<SearchResponse>>;
   searchCountry: (options: { prefix: string; limit?: number }) => Promise<APIResult<FiasCountry[]>>;
-  verify: (address: AddressValue) => Promise<APIResult<VerifyResponse>>;
+  verify: (address: Address) => Promise<APIResult<VerifyResponse>>;
 }
 
 export interface APIResult<Data> {
