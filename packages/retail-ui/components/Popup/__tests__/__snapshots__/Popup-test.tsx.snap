@@ -13,7 +13,6 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
   hasPin={false}
   hasShadow={false}
   margin={10}
-  maxWidth={500}
   opened={false}
   pinOffset={16}
   pinSize={8}
@@ -53,7 +52,6 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
   hasPin={false}
   hasShadow={false}
   margin={10}
-  maxWidth={500}
   opened={false}
   pinOffset={16}
   pinSize={8}
@@ -98,7 +96,6 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
   hasPin={false}
   hasShadow={false}
   margin={10}
-  maxWidth={500}
   opened={true}
   pinOffset={16}
   pinSize={8}
@@ -125,7 +122,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
         >
           <div
             class="popup transition-enter-active transition-enter-bottom"
-            style="top: 10px; left: 0px; max-width: 500px; z-index: 1000;"
+            style="top: 10px; left: 0px; z-index: 1000;"
           >
             <div
               class="content"
@@ -179,7 +176,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
             style={
               Object {
                 "left": -9999,
-                "maxWidth": 500,
+                "maxWidth": undefined,
                 "top": -9999,
               }
             }
@@ -191,7 +188,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
               style={
                 Object {
                   "left": -9999,
-                  "maxWidth": 500,
+                  "maxWidth": undefined,
                   "top": -9999,
                   "zIndex": 1000,
                 }
