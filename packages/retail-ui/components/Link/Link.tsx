@@ -98,6 +98,7 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     const props = {
       className: classNames({
+        [styles.disabled]: !!disabled,
         [jsStyles.disabled(theme)]: !!disabled,
         [styles.button]: !!_button,
         [styles.buttonOpened]: !!_buttonOpened,
