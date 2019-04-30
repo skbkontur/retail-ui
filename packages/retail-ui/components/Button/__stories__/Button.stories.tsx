@@ -244,9 +244,7 @@ storiesOf('Button', module)
       rows={alignStates.map(x => ({ props: x }))}
       cols={layoutStates.map(x => ({ props: x }))}
       presetProps={{ width: 200, children: 'Button' }}
-    >
-      {'Button'}
-    </ComponentTable>
+    />
   ))
   .add('different visual states', () => (
     <ComponentCombinator
@@ -255,19 +253,16 @@ storiesOf('Button', module)
       combinations={[...visualStates, ...sizeStates, ...arrowStates, ...useStates].map(x => ({ props: x }))}
       sizeX={7}
       sizeY={7}
-    >
-      {'Button'}
-    </ComponentCombinator>
+    />
   ))
   .add('different content', () => (
     <ComponentCombinator
       Component={Button}
+      presetProps={{ children: 'Button' }}
       combinations={[...contentStates, ...widthStates, ...layoutStates].map(x => ({ props: x }))}
       sizeX={3}
       sizeY={6}
-    >
-      {'Button'}
-    </ComponentCombinator>
+    />
   ));
 
 type ButtonState = Partial<ButtonProps>;
