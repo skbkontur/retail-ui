@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import { EventSubscription } from 'fbemitter';
-import throttle from 'lodash/throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
@@ -57,17 +56,7 @@ export interface ModalProps {
 export interface ModalState {
   stackPosition: number;
   horizontalScroll: boolean;
-  clickTrapHeight?: React.CSSProperties['height'];
 }
-
-/** Вынесено в компонет исключительно для того, чтобы искать enzyme'ом в тесте */
-type ModalClickTrap = React.HTMLAttributes<HTMLDivElement> & {
-  innerRef: (element: HTMLDivElement | null) => void;
-};
-
-const ModalClickTrap: React.SFC<ModalClickTrap> = ({ innerRef, ...props }) => (
-  <div ref={node => innerRef(node)} {...props} />
-);
 
 /**
  * Модальное окно
@@ -95,7 +84,6 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
-  private clickTrapNode: HTMLDivElement | null = null;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -127,10 +115,6 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     if (this.containerNode) {
       this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
-    }
-
-    if (this.throtteledResizeClickTrap) {
-      this.throtteledResizeClickTrap.cancel();
     }
   }
 
@@ -183,15 +167,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
           {this.state.stackPosition === 0 && <div className={cn(styles.bg, jsStyles.bg(theme))} />}
-          <div ref={this.refContainer} className={cn(styles.container, styles.mobile)}>
-            <ModalClickTrap
-              className={styles.modalClickTrap}
-              onClick={this.handleContainerClick}
-              innerRef={this.refClickTrap}
-              style={{
-                height: this.state.clickTrapHeight,
-              }}
-            />
+          <div
+            ref={this.refContainer}
+            className={cn(styles.container, styles.mobile)}
+            onMouseDown={this.handleContainerClick}
+            data-tid="modal-container"
+          >
             <div
               className={cn(styles.centerContainer, {
                 [styles.alignTop]: !!this.props.alignTop,
@@ -239,7 +220,10 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
   private handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!this.props.ignoreBackgroundClick) {
-      this.requestClose();
+      const { target, currentTarget } = event;
+      if (target === currentTarget) {
+        this.requestClose();
+      }
     }
   };
 
@@ -274,29 +258,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     return !ReactDOM.createPortal || isIE;
   };
 
-  private refClickTrap = (node: HTMLDivElement | null) => {
-    this.clickTrapNode = node;
-  };
-
-  private resizeClickTrap = (height?: number) => {
-    if (this.clickTrapNode) {
-      this.setState({
-        clickTrapHeight: height,
-      });
-    }
-  };
-
-  // tslint:disable-next-line:member-ordering
-  private throtteledResizeClickTrap = throttle(this.resizeClickTrap, 300);
-
   private handleResize = (event: UIEvent) => {
     LayoutEvents.emit();
-
-    if (this.containerNode) {
-      const height = (event.target as Window).innerHeight;
-      const containerHeight = this.containerNode.offsetHeight;
-
-      this.throtteledResizeClickTrap(height > containerHeight ? height : undefined);
-    }
   };
 }

@@ -1,4 +1,4 @@
-import { EstateStatuses, FiasId, Fields, StructureStatuses } from '../types';
+import { EstateStatuses, FiasId, Fields, StructureStatuses, FiasObject } from '../types';
 import { abbreviations } from '../constants/abbreviations';
 import { FiasData } from './FiasData';
 
@@ -23,10 +23,22 @@ export class AddressElement {
   constructor(public type: Fields, public name: string, public data?: FiasData) {}
 
   public get isFederalCity(): boolean {
-    if (!(this.data && this.data.fiasId)) {
+    if (!this.fiasId) {
       return false;
     }
-    return AddressElement.FEDERAL_CITIES.indexOf(this.data.fiasId) > -1;
+    return AddressElement.FEDERAL_CITIES.indexOf(this.fiasId) > -1;
+  }
+
+  public get fiasData(): FiasObject | undefined {
+    if (this.data && this.data.data) {
+      return this.data.data;
+    }
+  }
+
+  public get fiasId(): FiasId | undefined {
+    if (this.data) {
+      return this.data.fiasId;
+    }
   }
 
   public getText(withoutType: boolean = false): string {
@@ -154,4 +166,8 @@ export class AddressElement {
       name: this.name,
     };
   }
+
+  public removeData = () => {
+    delete this.data;
+  };
 }

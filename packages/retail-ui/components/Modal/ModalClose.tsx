@@ -12,6 +12,7 @@ export default class Close extends React.Component<CloseProps> {
       <button
         className={classNames(styles.close, jsStyles.close(theme), this.props.disableClose && styles.disabled)}
         onClick={this.props.requestClose}
+		data-tid="modal-close"
       >
         <span className={styles.closeOutline} />
       </button>

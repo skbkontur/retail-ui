@@ -10,7 +10,6 @@ import { cx as classNames } from 'emotion';
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
 const SCROLL_HIDDEN = isChrome || isOpera || isSafari;
-const SCROLL_WIDTH = SCROLL_HIDDEN ? 0 : getScrollWidth();
 
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
@@ -91,7 +90,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     }
 
     const innerStyle = {
-      marginRight: -1 * (PADDING_RIGHT + SCROLL_WIDTH),
+      marginRight: this.getMarginRight(),
       maxHeight: this.props.maxHeight,
       paddingRight: PADDING_RIGHT,
     };
@@ -325,5 +324,9 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     } else {
       return 'scroll';
     }
+  }
+
+  private getMarginRight(): number {
+    return -1 * (PADDING_RIGHT + (SCROLL_HIDDEN ? 0 : getScrollWidth()));
   }
 }

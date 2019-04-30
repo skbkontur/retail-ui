@@ -78,7 +78,7 @@ export interface PopupProps extends PopupHandlerProps {
   hasShadow: boolean;
   disableAnimations: boolean;
   margin: number;
-  maxWidth: number | string;
+  maxWidth?: number | string;
   opened: boolean;
   pinOffset: number;
   pinSize: number;
@@ -171,7 +171,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasPin: false,
     hasShadow: false,
     disableAnimations: false,
-    maxWidth: 500,
     useWrapper: false,
   };
 
