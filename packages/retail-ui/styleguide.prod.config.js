@@ -18,10 +18,7 @@ const isStable = config.version === tags.latest;
 const isOldVersion = semver.lt(config.version, tags.latest);
 
 if (isOldVersion) {
-  renameSync(
-    config.styleguideDir,
-    path.join(config.styleguideDir, '..', config.version)
-  );
+  renameSync(config.styleguideDir, path.join(config.styleguideDir, '..', config.version));
   process.exit(0);
 }
 
@@ -62,6 +59,9 @@ config.sections = [
 ];
 config.sections.push(versionSection);
 config.styleguideDir = path.join(config.styleguideDir, '..');
+config.styleguideComponents = {
+  PathlineRenderer: require.resolve('./scripts/styleguide/PathlineRenderer.tsx'),
+};
 
 Reflect.deleteProperty(config, 'components');
 

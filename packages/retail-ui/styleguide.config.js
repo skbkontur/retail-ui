@@ -173,9 +173,6 @@ module.exports = {
   components: getComponentList,
   styleguideDir: path.resolve(__dirname, `styleguide/${libraryVersion}`),
   skipComponentsWithoutExample: true,
-  styleguideComponents: {
-    PathlineRenderer: path.join(__dirname, 'scripts/styleguide/PathlineRenderer'),
-  },
   pagePerSection: true,
   styles,
   title: 'React UI',

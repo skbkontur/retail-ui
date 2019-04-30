@@ -31,7 +31,7 @@ export class PathlineRenderer extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
+  public componentDidMount = async () => {
     try {
       const component = this.getComponentName();
 
@@ -42,93 +42,92 @@ export class PathlineRenderer extends React.Component {
     } finally {
       this.toggleFetchingState(false);
     }
-  }
+  };
 
-  checkGuideForComponent = async (component) => {
+  public checkGuideForComponent = async component => {
     const componentUrl = `${GUIDES_LINK}${component}`;
 
-    await fetch(componentUrl).then((response) => {
+    await fetch(componentUrl).then(response => {
       if (response.status === 200) {
         this.setState({ componentExistsInGuide: true });
       }
     });
-  }
+  };
 
-  getIssueList = (component) => {
-    return fetch(`${API_URL}/${component}`).then((response) => {
-      return response.json();
-    }).then((issueList) => {
-      this.setState({
-        issueList,
+  public getIssueList = component => {
+    return fetch(`${API_URL}/${component}`)
+      .then(response => {
+        return response.json();
+      })
+      .then(issueList => {
+        this.setState({
+          issueList,
+        });
       });
-    });
-  }
+  };
 
-  getComponentName = () => {
+  public getComponentName = () => {
     const componentPathArray = this.props.children.split(/(\\|\/)/);
     const component = componentPathArray[componentPathArray.length - 1];
     const componentName = component.split('.')[0];
 
     return componentName.toLowerCase();
-  }
+  };
 
-  toggleFetchingState = (isFetching) => {
+  public toggleFetchingState = isFetching => {
     this.setState({
       isFetching,
     });
-  }
+  };
 
-  getCreateNewIssueLink = () => {
+  public getCreateNewIssueLink = () => {
     let componentName = this.getComponentName();
     componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1);
 
     return `${CREATE_ISSUE_LINK}?title=[${componentName}]&labels=bug,${componentName}`;
-  }
+  };
 
-  render() {
+  public render() {
     const { classes, children } = this.props;
     const { issueList, isFetching, componentExistsInGuide } = this.state;
     const componentName = this.getComponentName();
 
     return (
       <div className={classes.root}>
-        <div className={classes.content}>
-          {children}
-        </div>
-        {!isFetching &&
+        <div className={classes.content}>{children}</div>
+        {!isFetching && (
           <div>
-            {issueList.length > 0 &&
+            {issueList.length > 0 && (
               <div>
                 <p>Список связанных issues:</p>
                 <ul>
-                  {issueList.map((issue) => {
-                    return <li key={issue.id}>
-                      <a
-                        href={issue.html_url}
-                        target="_blank"
-                      >{issue.title}</a>
-                    </li>;
+                  {issueList.map(issue => {
+                    return (
+                      <li key={issue.id}>
+                        <a href={issue.html_url} target="_blank">
+                          {issue.title}
+                        </a>
+                      </li>
+                    );
                   })}
                 </ul>
               </div>
-            }
-            {componentExistsInGuide &&
-              <a
-                target="_blank"
-                href={`${GUIDES_LINK}${componentName}`}
-              >Компонент в гайдах</a>
-            }
+            )}
+            {componentExistsInGuide && (
+              <a target="_blank" href={`${GUIDES_LINK}${componentName}`}>
+                Компонент в гайдах
+              </a>
+            )}
           </div>
-        }
-        {isFetching &&
+        )}
+        {isFetching && (
           <div>
             <span>loading...</span>
           </div>
-        }
-        <a
-          target="_blank"
-          href={this.getCreateNewIssueLink()}
-        >Создать задачу</a>
+        )}
+        <a target="_blank" href={this.getCreateNewIssueLink()}>
+          Создать задачу
+        </a>
       </div>
     );
   }
