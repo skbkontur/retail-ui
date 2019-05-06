@@ -3,6 +3,10 @@
     width: 1600px;
     border-collapse: collapse;
 
+    & tbody tr:not(.invisibleRow) > td {
+      border-top: 0 none;
+    }
+
     & tbody tr:hover {
       background-color: palegreen;
     }
@@ -19,12 +23,22 @@
     }
   }
 
-  .invisible {
+  .invisibleCell {
     padding: 0 !important;
     height: 0 !important;
     font-size: 0 !important;
     line-height: 0 !important;
     border: 0 none !important;
+    border-top: 1px solid #000 !important;
+  }
+
+  .invisibleRow {
+    padding: 0 !important;
+    height: 0 !important;
+  }
+
+  .suspiciousRow {
+    background-color: red;
   }
 
   .pre {
