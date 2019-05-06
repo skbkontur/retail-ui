@@ -4,10 +4,11 @@ import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
 import { isFunction } from '../../lib/utils';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './SidePage.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
@@ -64,8 +65,6 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
   }
 
   private renderHeader = (fixed: boolean = false) => {
-    const theme = ThemeManager.getTheme();
-
     return (
       <div className={classNames(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(theme)]: fixed })}>
         {this.renderClose()}
@@ -77,8 +76,6 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
   };
 
   private renderClose = () => {
-    const theme = ThemeManager.getTheme();
-
     return (
       <Sticky side="top" offset={CLOSE_ELEMENT_OFFSET}>
         {fixed => (

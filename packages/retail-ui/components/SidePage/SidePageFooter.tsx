@@ -3,10 +3,11 @@ import { SidePageContext, SidePageContextType } from './SidePageContext';
 import styles from './SidePage.less';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './SidePage.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface SidePageFooterProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -52,8 +53,6 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   }
 
   public render(): JSX.Element {
-    const theme = ThemeManager.getTheme();
-
     return (
       <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
         <SidePageContext.Consumer>

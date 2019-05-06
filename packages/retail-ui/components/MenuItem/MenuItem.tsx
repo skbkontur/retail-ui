@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import warning from 'warning';
 import { isFunction } from '../../lib/utils';
-
 import styles from './MenuItem.less';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../../retail-ui/lib/ThemeManager';
 import jsStyles from './MenuItem.styles';
+import ThemeFactory from "../../lib/theming/ThemeFactory";
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
@@ -66,7 +66,6 @@ export default class MenuItem extends React.Component<MenuItemProps> {
   };
 
   public render() {
-    const theme = ThemeManager.getTheme();
     const {
       alkoLink,
       link,

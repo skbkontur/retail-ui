@@ -8,9 +8,10 @@ import styles from './InternalMenu.less';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../../lib/ThemeManager';
 import jsStyles from './InternalMenu.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 interface MenuProps {
   children?: React.ReactNode;

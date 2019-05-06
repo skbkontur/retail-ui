@@ -8,11 +8,11 @@ import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Tooltip.styles';
 import { cx } from 'emotion';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;

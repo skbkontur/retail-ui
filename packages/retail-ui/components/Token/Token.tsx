@@ -4,10 +4,11 @@ import styles from './Token.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Token.styles';
 import jsTokenColors from './Colors.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',

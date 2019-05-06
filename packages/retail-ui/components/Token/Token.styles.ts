@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import styles from './Token.less';
-import { ITheme } from '../../lib/ThemeManager';
+import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
   warning(t: ITheme) {

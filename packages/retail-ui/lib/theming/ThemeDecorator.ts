@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ThemeConsumer } from './ThemeProvider';
-import { ITheme } from './ThemeFactory';
+import { ITheme } from './Theme';
 
 type ComponentConstructorType = new (...args: any[]) => React.Component & { readonly theme: ITheme };
 

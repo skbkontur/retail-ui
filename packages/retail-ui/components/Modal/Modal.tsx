@@ -15,13 +15,12 @@ import { Body } from './ModalBody';
 import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
-
 import styles from './Modal.less';
-
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../../retail-ui/lib/ThemeManager';
 import jsStyles from './Modal.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
 
+const theme = ThemeFactory.getDefaultTheme();
 let mountedModalsCount = 0;
 
 export interface ModalProps {
@@ -154,7 +153,6 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
-    const theme = ThemeManager.getTheme();
 
     if (this.props.width) {
       style.width = this.props.width;

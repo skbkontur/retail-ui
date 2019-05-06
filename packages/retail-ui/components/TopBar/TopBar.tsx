@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Logotype from '../Logotype';
-
 import ButtonItem from './ButtonItem';
 import Divider from './Divider';
 import Item from './Item';
@@ -9,15 +8,15 @@ import Organizations from './Organizations';
 import TopBarDropdown from './TopBarDropdown';
 import User from './User';
 import '../ensureOldIEClassName';
-
 import styles from './TopBar.less';
 import End from './TopBarEnd';
 import Start from './TopBarStart';
 import Logout from './TopBarLogout';
 import { cx as classNames } from 'emotion';
 import jsStyles from './TopBar.styles';
-import ThemeManager from '../../lib/ThemeManager';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface TopBarProps {
   children?: React.ReactNode;

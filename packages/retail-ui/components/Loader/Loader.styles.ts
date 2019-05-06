@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import styles from './Loader.less';
-import { ITheme } from '../../lib/ThemeManager';
+import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
   active(t: ITheme) {

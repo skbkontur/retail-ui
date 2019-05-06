@@ -1,15 +1,14 @@
 import * as React from 'react';
 import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
-
 import Corners from './Corners';
-
 import '../ensureOldIEClassName';
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import classes from './Button.less';
 import jsClasses from './Button.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from "../../lib/theming/ThemeFactory";
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';

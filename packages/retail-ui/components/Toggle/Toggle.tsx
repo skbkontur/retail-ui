@@ -1,13 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import tabListener from '../../lib/events/tabListener';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import styles from './Toggle.less';
 import jsStyles from './Toggle.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
 
-const theme = ThemeManager.getTheme();
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface ToggleProps {
   checked?: boolean;
