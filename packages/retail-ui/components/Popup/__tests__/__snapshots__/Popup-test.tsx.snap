@@ -84,6 +84,23 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
 `;
 
 exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
+.emotion-2 {
+  border-radius: 2px;
+  border: none transparent;
+}
+
+.rt-ie8 .emotion-2 {
+  border: 1px solid #d0d0d0;
+}
+
+.emotion-1 {
+  border-radius: 2px;
+}
+
+.emotion-0 {
+  background: #fff;
+}
+
 <Popup
   anchorElement={
     <button
@@ -116,19 +133,36 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
     <RenderInnerContainer
       anchor={null}
       domContainer={
-        <div
+        .emotion-2 {
+  border-radius: 2px;
+  border: none transparent;
+}
+
+.rt-ie8 .emotion-2 {
+  border: 1px solid #d0d0d0;
+}
+
+.emotion-1 {
+  border-radius: 2px;
+}
+
+.emotion-0 {
+  background: #fff;
+}
+
+<div
           class="react-ui"
           data-rendered-container-id="1"
         >
           <div
-            class="popup css-19wbdva transition-enter-active transition-enter-bottom"
+            class="popup emotion-2 transition-enter-active transition-enter-bottom"
             style="top: 10px; left: 0px; z-index: 1000;"
           >
             <div
-              class="content css-szdefn"
+              class="content emotion-1"
             >
               <div
-                class="css-1p7ln06"
+                class="emotion-0"
               >
                 Test content
               </div>
@@ -167,7 +201,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
           unmountOnExit={true}
         >
           <ZIndex
-            className="popup css-19wbdva transition-enter-top"
+            className="popup emotion-2 transition-enter-top"
             delta={1000}
             key="dummy"
             onMouseEnter={[Function]}
@@ -182,7 +216,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
             }
           >
             <div
-              className="popup css-19wbdva transition-enter-top"
+              className="popup emotion-2 transition-enter-top"
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
               style={
@@ -195,10 +229,10 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
               }
             >
               <div
-                className="content css-szdefn"
+                className="content emotion-1"
               >
                 <div
-                  className="css-1p7ln06"
+                  className="emotion-0"
                   style={
                     Object {
                       "backgroundColor": undefined,
