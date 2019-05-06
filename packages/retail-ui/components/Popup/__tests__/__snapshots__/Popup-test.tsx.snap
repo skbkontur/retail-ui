@@ -121,14 +121,14 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
           data-rendered-container-id="1"
         >
           <div
-            class="popup css-140yvgu transition-enter-active transition-enter-bottom"
+            class="popup css-19wbdva transition-enter-active transition-enter-bottom"
             style="top: 10px; left: 0px; z-index: 1000;"
           >
             <div
-              class="content css-r93459"
+              class="content css-szdefn"
             >
               <div
-                class="css-fopoh2"
+                class="css-1p7ln06"
               >
                 Test content
               </div>
@@ -138,104 +138,80 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
       }
       rootId={1}
     >
-      <Portal
-        containerInfo={
-          <div
-            class="react-ui"
-            data-rendered-container-id="1"
-          >
-            <div
-              class="popup css-140yvgu transition-enter-active transition-enter-bottom"
-              style="top: 10px; left: 0px; max-width: 500px; z-index: 1000;"
-            >
-              <div
-                class="content css-r93459"
-              >
-                <div
-                  class="css-fopoh2"
-                >
-                  Test content
-                </div>
-              </div>
-            </div>
-          </div>
+      <LifeCycleProxy
+        onDidUpdate={[Function]}
+        props={
+          Object {
+            "location": null,
+          }
         }
       >
-        <LifeCycleProxy
-          onDidUpdate={[Function]}
-          props={
+        <Transition
+          appear={true}
+          enter={true}
+          exit={true}
+          in={true}
+          mountOnEnter={true}
+          onEnter={[Function]}
+          onEntered={[Function]}
+          onEntering={[Function]}
+          onExit={[Function]}
+          onExited={[Function]}
+          onExiting={[Function]}
+          timeout={
             Object {
-              "location": null,
+              "enter": 0,
+              "exit": 200,
             }
           }
+          unmountOnExit={true}
         >
-          <Transition
-            appear={true}
-            enter={true}
-            exit={true}
-            in={true}
-            mountOnEnter={true}
-            onEnter={[Function]}
-            onEntered={[Function]}
-            onEntering={[Function]}
-            onExit={[Function]}
-            onExited={[Function]}
-            onExiting={[Function]}
-            timeout={
+          <ZIndex
+            className="popup css-19wbdva transition-enter-top"
+            delta={1000}
+            key="dummy"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            render={true}
+            style={
               Object {
-                "enter": 0,
-                "exit": 200,
+                "left": -9999,
+                "maxWidth": undefined,
+                "top": -9999,
               }
             }
-            unmountOnExit={true}
           >
-            <ZIndex
-              className="popup css-140yvgu transition-enter-top"
-              delta={1000}
-              key="dummy"
+            <div
+              className="popup css-19wbdva transition-enter-top"
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
-              render={true}
               style={
                 Object {
                   "left": -9999,
                   "maxWidth": undefined,
                   "top": -9999,
+                  "zIndex": 1000,
                 }
               }
             >
               <div
-                className="popup css-140yvgu transition-enter-top"
-                onMouseEnter={[Function]}
-                onMouseLeave={[Function]}
-                style={
-                  Object {
-                    "left": -9999,
-                    "maxWidth": 500,
-                    "top": -9999,
-                    "zIndex": 1000,
-                  }
-                }
+                className="content css-szdefn"
               >
                 <div
-                  className="content css-r93459"
-                >
-                  <div
-                    className="css-fopoh2"
-                    style={
-                      Object {
-                        "backgroundColor": undefined,
-                      }
+                  className="css-1p7ln06"
+                  style={
+                    Object {
+                      "backgroundColor": undefined,
                     }
-                  >
-                    Test content
-                  </div>
+                  }
+                >
+                  Test content
                 </div>
               </div>
-            </ZIndex>
-          </Transition>
-        </LifeCycleProxy>
-      </Portal>
+            </div>
+          </ZIndex>
+        </Transition>
+      </LifeCycleProxy>
       <Portal
         key="portal-ref"
         rt_rootID={1}
