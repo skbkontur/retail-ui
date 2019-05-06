@@ -338,7 +338,8 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const tokens = this.state.activeTokens
       .map(token => this.props.selectedItems.indexOf(token))
       .sort()
-      .map(index => this.props.selectedItems[index]);
+      .map(index => this.props.selectedItems[index])
+      .map(this.props.renderValue);
     event.clipboardData.setData('text/plain', tokens.join(this.delimiters[0]));
   };
 
