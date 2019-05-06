@@ -2,6 +2,7 @@ import * as React from 'react';
 import { number, func } from 'prop-types';
 import cn from 'classnames';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
+import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
 
@@ -367,6 +368,10 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private goToPage = (pageNumber: number) => {
     if (1 <= pageNumber && pageNumber !== this.props.activePage && pageNumber <= this.props.pagesCount) {
       this.props.onPageChange(pageNumber);
+      if (isIE) {
+        // IE11 теряет фокус при навигации клавишами (Ctrl + Left/Right)
+        setTimeout(() => this.container && this.container.focus(), 0);
+      }
     }
   };
 
