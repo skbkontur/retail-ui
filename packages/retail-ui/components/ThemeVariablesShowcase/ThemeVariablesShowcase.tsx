@@ -3,6 +3,7 @@ import styles from './ThemeVariablesShowcase.less';
 import defaultVariables from '../../lib/theming/themes/DefaultTheme';
 import flatVariables from '../../lib/theming/themes/FlatTheme';
 import { ITheme } from '../../lib/theming/Theme';
+import { cx } from 'emotion';
 
 interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -14,12 +15,21 @@ interface ComponentDescriptionType {
   };
 }
 
+interface ThemeVariablesShowcaseProps {
+  isDebugMode?: boolean;
+}
+
 const DESCRIPTIONS: DescriptionsType = require('./VariablesDescription');
 
-export default class ThemeVariablesShowcase extends React.Component<{}, {}> {
+export default class ThemeVariablesShowcase extends React.Component<ThemeVariablesShowcaseProps, {}> {
   public render() {
     return Object.keys(DESCRIPTIONS).map(componentName => (
-      <ComponentShowcase key={componentName} name={componentName} description={DESCRIPTIONS[componentName]} />
+      <ComponentShowcase
+        key={componentName}
+        name={componentName}
+        description={DESCRIPTIONS[componentName]}
+        isDebugMode={this.props.isDebugMode}
+      />
     ));
   }
 }
@@ -27,15 +37,18 @@ export default class ThemeVariablesShowcase extends React.Component<{}, {}> {
 interface ComponentShowcaseProps {
   name: string;
   description: ComponentDescriptionType;
+  isDebugMode?: boolean;
 }
 class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
   public render() {
     const description = this.props.description;
     const elements = Object.keys(description);
 
+    const { isDebugMode } = this.props;
+
     return (
       <React.Fragment>
-        <h3>{this.props.name}</h3>
+        <h2 className={styles.heading}>{this.props.name}</h2>
         <table className={styles.table}>
           <thead>
             <tr>
@@ -53,8 +66,10 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
               return (
                 <React.Fragment key={`${this.props.name}_${el}`}>
                   <tr className={styles.invisibleRow}>
-                    <td rowSpan={rowSpan}>.{el}</td>
-                    <td rowSpan={rowSpan} className={styles.pre}>
+                    <td rowSpan={rowSpan} className={styles.className}>
+                      .{el}
+                    </td>
+                    <td rowSpan={rowSpan} className={styles.relativeCss}>
                       {row.contents}
                     </td>
                     <td className={styles.invisibleCell} />
@@ -64,16 +79,24 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
                   {row.variables.map(variableName => {
                     const variableDefault = (defaultVariables as ITheme)[variableName];
                     const variableFlat = (flatVariables as ITheme)[variableName];
-                    const isSuspicious = !variableDefault && !variableFlat;
+                    const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
+                    const hasOnlyDefaultVariable = isDebugMode && variableDefault && !variableFlat;
 
                     return (
                       <tr
                         key={`${this.props.name}_${el}_${variableName}`}
-                        className={isSuspicious ? styles.suspiciousRow : undefined}
+                        className={hasNoVariables ? styles.suspiciousRow : undefined}
                       >
-                        <td>{variableName}</td>
-                        <td>{variableDefault}</td>
-                        <td>{variableFlat}</td>
+                        <td
+                          className={cx(
+                            styles.variableName,
+                            hasOnlyDefaultVariable ? styles.suspiciousCell : undefined,
+                          )}
+                        >
+                          {variableName}
+                        </td>
+                        <td className={variableDefault ? undefined : styles.undefined}>{variableDefault || 'undefined'}</td>
+                        <td className={variableFlat ? undefined : styles.undefined}>{variableFlat || 'undefined'}</td>
                       </tr>
                     );
                   })}

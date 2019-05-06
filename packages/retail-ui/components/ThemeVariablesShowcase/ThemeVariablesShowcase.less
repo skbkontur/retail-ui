@@ -1,4 +1,9 @@
 :local {
+  .heading {
+    padding: 0 0 0 5px;
+    margin: 24px 0 16px 0;
+  }
+
   .table {
     width: 1600px;
     border-collapse: collapse;
@@ -8,7 +13,15 @@
     }
 
     & tbody tr:hover {
-      background-color: palegreen;
+      background-color: #f8f8f8;
+    }
+
+    & tbody tr.invisibleRow:hover ~ tr:not(.invisibleRow) {
+      background-color: #f8f8f8;
+    }
+
+    & tbody tr.invisibleRow:hover ~ .invisibleRow ~ tr {
+      background-color: transparent;
     }
 
     & th {
@@ -17,19 +30,11 @@
     }
 
     & td {
-      border: 1px solid #000;
+      border-top: 1px solid #e8e8e8;
+      border-bottom: 1px solid #e8e8e8;
       vertical-align: top;
       padding: 5px;
     }
-  }
-
-  .invisibleCell {
-    padding: 0 !important;
-    height: 0 !important;
-    font-size: 0 !important;
-    line-height: 0 !important;
-    border: 0 none !important;
-    border-top: 1px solid #000 !important;
   }
 
   .invisibleRow {
@@ -41,7 +46,34 @@
     background-color: red;
   }
 
-  .pre {
+  .invisibleCell {
+    padding: 0 !important;
+    height: 0 !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    border: 0 none !important;
+    border-top: 1px solid #e8e8e8 !important;
+  }
+
+  .suspiciousCell {
+    background-color: orange;
+  }
+
+  .className {
+    color: #7f9a44;
+    font-weight: 400;
+  }
+
+  .relativeCss {
     white-space: pre;
+    color: #333;
+  }
+  .variableName {
+    color: #b77daa;
+    font-weight: 400;
+  }
+
+  .undefined {
+    text-decoration: line-through;
   }
 }
