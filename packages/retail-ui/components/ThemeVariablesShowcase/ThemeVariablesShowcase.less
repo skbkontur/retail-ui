@@ -1,7 +1,22 @@
+@value searchBarHeight: 45px;
+
 :local {
+  //noinspection CssInvalidPropertyValue
+  .searchBar {
+    box-sizing: border-box;
+    height: searchBarHeight;
+    padding: 5px;
+    background-color: #fff;
+  }
+
   .heading {
-    padding: 0 0 0 5px;
-    margin: 24px 0 16px 0;
+    padding: 24px 0 16px 5px;
+    margin: 0;
+    background-color: #fff;
+  }
+
+  .headingSticky {
+    border-bottom: 1px solid #e8e8e8;
   }
 
   .table {

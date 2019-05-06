@@ -6,6 +6,7 @@ import { ITheme } from '../../lib/theming/Theme';
 import ComboBox, { ComboBoxItem } from '../ComboBox';
 import Gapped from '../Gapped';
 import Link from '../Link';
+import Sticky from "../Sticky";
 
 interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -70,16 +71,20 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
 
     return (
       <React.Fragment>
-        <Gapped vertical={false} gap={15}>
-          <ComboBox
-            getItems={this.getItems}
-            value={selectedVariable}
-            onChange={this.handleVariableChange}
-            onUnexpectedInput={this.handleUnexpectedVariableInput}
-            placeholder={'поиск по названию переменной'}
-          />
-          {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}
-        </Gapped>
+        <Sticky side={'top'}>
+          <div className={styles.searchBar}>
+            <Gapped vertical={false} gap={15}>
+              <ComboBox
+                getItems={this.getItems}
+                value={selectedVariable}
+                onChange={this.handleVariableChange}
+                onUnexpectedInput={this.handleUnexpectedVariableInput}
+                placeholder={'поиск по названию переменной'}
+              />
+              {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}
+            </Gapped>
+          </div>
+        </Sticky>
         {Object.keys(descriptionsToRender).map(componentName => (
           <ComponentShowcase
             key={componentName}
@@ -141,7 +146,9 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
 
     return (
       <React.Fragment>
-        <h2 className={styles.heading}>{this.props.name}</h2>
+        <Sticky side={'top'} offset={parseInt(styles.searchBarHeight, 10)}>
+          {(isSticky) => <h2 className={`${styles.heading} ${isSticky && styles.headingSticky}`}>{this.props.name}</h2>}
+        </Sticky>
         <table className={styles.table}>
           <thead>
             <tr>
