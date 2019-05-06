@@ -7,8 +7,8 @@ import ComboBox, { ComboBoxItem } from '../ComboBox';
 import Gapped from '../Gapped';
 import Link from '../Link';
 import Sticky from '../Sticky';
-import { cx } from 'emotion';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
+import * as VariablesDescriptions from './VariablesDescription';
 
 interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -24,7 +24,7 @@ interface VariableNameToComponentsMap {
   [variableName: string]: DescriptionsType;
 }
 
-const DESCRIPTIONS: DescriptionsType = require('./VariablesDescription');
+const DESCRIPTIONS: DescriptionsType = VariablesDescriptions as DescriptionsType;
 const VARIABLE_TO_COMPONENTS_MAP: VariableNameToComponentsMap = {};
 Object.keys(DESCRIPTIONS).forEach(compName => {
   const elements = DESCRIPTIONS[compName];
@@ -52,6 +52,7 @@ Object.keys(DESCRIPTIONS).forEach(compName => {
 });
 
 const USED_VARIABLES = Object.keys(VARIABLE_TO_COMPONENTS_MAP).sort();
+const ALL_VARIABLES = Array.from(new Set(Object.keys(defaultVariables).concat(Object.keys(flatVariables)))).sort();
 
 interface ShowcaseProps {
   isDebugMode?: boolean;
@@ -71,6 +72,7 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
       ? VARIABLE_TO_COMPONENTS_MAP[selectedVariable.value] || {}
       : DESCRIPTIONS;
 
+
     return (
       <React.Fragment>
         <Sticky side={'top'}>
@@ -87,15 +89,17 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
             </Gapped>
           </div>
         </Sticky>
-        {Object.keys(descriptionsToRender).map(componentName => (
-          <ComponentShowcase
-            key={componentName}
-            name={componentName}
-            description={descriptionsToRender[componentName]}
-            isDebugMode={this.props.isDebugMode}
-            onVariableSelect={this.handleVariableChange}
-          />
-        ))}
+        {Object.keys(descriptionsToRender)
+          .sort()
+          .map(componentName => (
+            <ComponentShowcase
+              key={componentName}
+              name={componentName}
+              description={descriptionsToRender[componentName]}
+              isDebugMode={this.props.isDebugMode}
+              onVariableSelect={this.handleVariableChange}
+            />
+          ))}
       </React.Fragment>
     );
   }
