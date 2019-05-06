@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from './ThemeVariablesShowcase.less';
-import defaultVariables from '../variables.less';
-import flatVariables from '../variables.flat.less';
+import defaultVariables from '../../lib/theming/themes/DefaultTheme';
+import flatVariables from '../../lib/theming/themes/FlatTheme';
 import { ITheme } from '../../lib/theming/Theme';
 
 interface DescriptionsType {
@@ -64,9 +64,13 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
                   {row.variables.map(variableName => {
                     const variableDefault = (defaultVariables as ITheme)[variableName];
                     const variableFlat = (flatVariables as ITheme)[variableName];
-                    const isSuspicious = !variableDefault && !variableFlat
+                    const isSuspicious = !variableDefault && !variableFlat;
+
                     return (
-                      <tr key={`${this.props.name}_${el}_${variableName}`} className={isSuspicious ? styles.suspiciousRow : undefined}>
+                      <tr
+                        key={`${this.props.name}_${el}_${variableName}`}
+                        className={isSuspicious ? styles.suspiciousRow : undefined}
+                      >
                         <td>{variableName}</td>
                         <td>{variableDefault}</td>
                         <td>{variableFlat}</td>

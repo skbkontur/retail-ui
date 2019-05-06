@@ -1,5 +1,5 @@
-import defaultThemeVariables from "../../themes/DefaultTheme";
-import { ITheme, IThemeIn } from "./Theme";
+import defaultThemeVariables from './themes/DefaultTheme';
+import { ITheme, IThemeIn } from './Theme';
 
 export default class ThemeFactory {
   public static create(...themes: IThemeIn[]): ITheme {
