@@ -4,6 +4,24 @@ import { storiesOf } from '@storybook/react';
 import Token, { TokenColors } from '../Token';
 import Gapped from '../../Gapped/Gapped';
 
+// Color name string is passed as Token child (See `colored` story)
+// The map keeps old names to pass in story, which prevents screenshot tests failure.
+// Can be removed after customization release.
+const newToDeprecatedColorNamesMap: { [key: string]: string } = {
+  defaultIdle: 'i-default',
+  defaultActive: 'a-default',
+  grayIdle: 'l-gray',
+  blueIdle: 'l-blue',
+  grayActive: 'd-gray',
+  blueActive: 'd-blue',
+  greenIdle: 'l-green',
+  greenActive: 'd-green',
+  yellowIdle: 'l-yellow',
+  yellowActive: 'd-yellow',
+  redIdle: 'l-red',
+  redActive: 'd-red',
+};
+
 const FixedWidthDecorator = (storyFn: any) => (
   <div className="token-test-container" style={{ margin: 40, padding: 4 }}>
     {storyFn()}
@@ -57,17 +75,17 @@ storiesOf('Token', module)
         <Gapped vertical={true}>
           <Gapped>
             {default_colors.map(c => (
-              <Token colors={c}>{c.idle}</Token>
+              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
             ))}
           </Gapped>
           <Gapped>
             {l_colors.map(c => (
-              <Token colors={c}>{c.idle}</Token>
+              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
             ))}
           </Gapped>
           <Gapped>
             {d_colors.map(c => (
-              <Token colors={c}>{c.idle}</Token>
+              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
             ))}
           </Gapped>
         </Gapped>
