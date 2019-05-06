@@ -1,18 +1,16 @@
 import * as React from 'react';
-
 import '../../ensureOldIEClassName';
 import Upgrades from '../../../lib/Upgrades';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
-
 import styles from './InputLikeText.less';
 import { cx as classNames } from 'emotion';
-
 import inputStyles from '../../Input/Input.less';
 import jsInputStyles from '../../Input/Input.styles';
-import ThemeManager from '../../../lib/ThemeManager';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;

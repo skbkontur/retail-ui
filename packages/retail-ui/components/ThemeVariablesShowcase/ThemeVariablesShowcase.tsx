@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styles from './ThemeVariablesShowcase.less';
-import defaultVariables from '../variables.less';
-import flatVariables from '../variables.less';
-import { ITheme } from '../../lib/ThemeManager';
+import defaultVariables from '../../lib/theming/themes/DefaultTheme';
+import flatVariables from '../../lib/theming/themes/FlatTheme';
+import { ITheme } from '../../lib/theming/Theme';
 
 interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -52,20 +52,25 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
               const rowSpan = row.variables.length + 1;
               return (
                 <React.Fragment key={`${this.props.name}_${el}`}>
-                  <tr>
+                  <tr className={styles.invisibleRow}>
                     <td rowSpan={rowSpan}>.{el}</td>
                     <td rowSpan={rowSpan} className={styles.pre}>
                       {row.contents}
                     </td>
-                    <td className={styles.invisible} />
-                    <td className={styles.invisible} />
-                    <td className={styles.invisible} />
+                    <td className={styles.invisibleCell} />
+                    <td className={styles.invisibleCell} />
+                    <td className={styles.invisibleCell} />
                   </tr>
                   {row.variables.map(variableName => {
                     const variableDefault = (defaultVariables as ITheme)[variableName];
                     const variableFlat = (flatVariables as ITheme)[variableName];
+                    const isSuspicious = !variableDefault && !variableFlat;
+
                     return (
-                      <tr key={`${this.props.name}_${el}_${variableName}`}>
+                      <tr
+                        key={`${this.props.name}_${el}_${variableName}`}
+                        className={isSuspicious ? styles.suspiciousRow : undefined}
+                      >
                         <td>{variableName}</td>
                         <td>{variableDefault}</td>
                         <td>{variableFlat}</td>

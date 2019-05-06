@@ -13,11 +13,11 @@ import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
-
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './TokenInput.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export enum TokenInputType {
   WithReference,

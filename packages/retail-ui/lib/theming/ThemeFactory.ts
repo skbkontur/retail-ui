@@ -1,11 +1,5 @@
-import defaultThemeVariables from '../../themes/DefaultTheme';
-import flatThemeVariables from '../../themes/FlatTheme';
-
-type ThemeType = typeof defaultThemeVariables & typeof flatThemeVariables;
-type ThemeInType = Partial<ThemeType>;
-
-export interface ITheme extends ThemeType {}
-export interface IThemeIn extends ThemeInType {}
+import defaultThemeVariables from './themes/DefaultTheme';
+import { ITheme, IThemeIn } from './Theme';
 
 export default class ThemeFactory {
   public static create(...themes: IThemeIn[]): ITheme {

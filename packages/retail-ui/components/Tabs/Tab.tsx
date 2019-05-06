@@ -6,9 +6,9 @@ import { isFunctionalComponent, withContext } from '../../lib/utils';
 import styles from './Tab.less';
 import { TabsContextType, TabsContext } from './TabsContext';
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Tab.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from "../../lib/theming/ThemeFactory";
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface TabIndicators {
   error: boolean;

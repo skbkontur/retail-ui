@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
-
 import stopPropagation from '../../lib/events/stopPropagation';
 import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
@@ -9,8 +8,10 @@ import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';
 import styles from './Logotype.less';
 import { cx as classnames } from 'emotion';
-import ThemeManager from '../../../retail-ui/lib/ThemeManager';
 import jsStyles from './Logotype.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 const createCloud = (color: string) => (
   <svg width="24" height="17" viewBox="0 0 24 17" className={styles.cloud}>
@@ -106,7 +107,6 @@ class Logotype extends React.Component<LogotypeProps> {
     const dropdownClassName = classnames(styles.dropdown, {
       [styles.inline]: !withWidget,
     });
-    const theme = ThemeManager.getTheme();
 
     return (
       <div id="spwDropdown" className={dropdownClassName}>

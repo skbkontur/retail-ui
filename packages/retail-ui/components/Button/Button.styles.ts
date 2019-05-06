@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import classes from './Button.less';
-import { ITheme } from '../../lib/ThemeManager';
+import { ITheme } from '../../lib/theming/Theme';
 import { shiftVariableValue } from '../../lib/styles/StyleHelpers';
 
 const jsClasses = {

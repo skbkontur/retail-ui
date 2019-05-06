@@ -8,7 +8,6 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import RenderContainer from './components/RenderContainer';
 import { ZIndexStorage } from './components/ZIndex';
-import ThemeManager from './lib/ThemeManager';
 
 configure({ adapter: new Adapter() });
 
@@ -51,7 +50,8 @@ beforeAll(() => {
   for (let key in THEME_OBJECT) {
     if (THEME_OBJECT.hasOwnProperty(key)) {
       // noinspection JSAccessibilityCheck
-      ThemeManager.theme[key] = THEME_OBJECT[key];
+      // ThemeManager.theme[key] = THEME_OBJECT[key];
+      // }
     }
   }
 });

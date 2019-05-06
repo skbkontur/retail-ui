@@ -1,10 +1,8 @@
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
-
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-
 import Button from '../Button';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
@@ -17,15 +15,15 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
 import Item from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
-
 import styles from './Select.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Select.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -330,7 +328,6 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         icon: this.props._icon,
       });
     }
-    const theme = ThemeManager.getTheme();
 
     const labelProps = {
       className: classNames({

@@ -3,19 +3,17 @@ import { number, func } from 'prop-types';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
-
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
 import { Nullable } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
-
 import styles from './Paging.less';
-
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Paging.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 

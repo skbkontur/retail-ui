@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { cx } from 'emotion';
-
 import styles from './TopBar.less';
 import jsStyles from './TopBar.styles';
-import ThemeManager from '../../lib/ThemeManager';
+import ThemeFactory from "../../lib/theming/ThemeFactory";
 
-const theme = ThemeManager.getTheme();
+const theme = ThemeFactory.getDefaultTheme();
 
 class Divider extends React.Component<{}> {
   public render() {

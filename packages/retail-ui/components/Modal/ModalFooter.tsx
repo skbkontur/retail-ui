@@ -2,12 +2,12 @@ import * as React from 'react';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import Sticky from '../Sticky/Sticky';
 import { ModalContext } from './ModalContext';
-
 import styles from './Modal.less';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Modal.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface FooterProps {
   /**
@@ -48,7 +48,6 @@ export class Footer extends React.Component<FooterProps> {
   }
 
   private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
-    const theme = ThemeManager.getTheme();
     const className = classNames(styles.footer, jsStyles.footer(theme), {
       [styles.panel]: !!this.props.panel,
       [styles.fixedFooter]: fixed,

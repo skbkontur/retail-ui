@@ -2,12 +2,12 @@ import * as React from 'react';
 import { ModalContext, CloseProps } from './ModalContext';
 import Sticky from '../Sticky';
 import Close from './ModalClose';
-
 import styles from './Modal.less';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Modal.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface HeaderProps {
   close?: boolean;
@@ -40,8 +40,6 @@ export class Header extends React.Component<HeaderProps> {
   }
 
   private renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => {
-    const theme = ThemeManager.getTheme();
-
     return (
       <div
         className={classNames({

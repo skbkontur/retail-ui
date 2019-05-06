@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import styles from './Checkbox.less';
-import { ITheme } from '../../lib/ThemeManager';
+import { ITheme } from '../../lib/theming/Theme';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
 
 const jsStyles = {
@@ -74,6 +74,7 @@ const jsStyles = {
   },
 
   checked(t: ITheme) {
+    console.log('[Checkbox.styles.ts]', 'checked', t.chbCheckedBg, t.chbCheckedColor);
     return css`
       & .${styles.box} {
         background: ${t.chbCheckedBg};
