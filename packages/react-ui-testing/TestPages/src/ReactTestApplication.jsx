@@ -33,6 +33,7 @@ else SidePageTestPage = () => <div>Does not work</div>;
 import './styles/reset.less';
 import './styles/typography.less';
 import AutocompleteTestPage from './components/TestPages/AutocompleteTestPage';
+import ToggleTestPage from "./components/TestPages/ToggleTestPage";
 
 export default function ReactTestApplication() {
   return (
@@ -57,6 +58,7 @@ export default function ReactTestApplication() {
         <Route path="Paging" component={PagingTestPage} />
         <Route path="SidePage" component={SidePageTestPage} />
         <Route path="Autocomplete" component={AutocompleteTestPage} />
+        <Route path="Toggle" component={ToggleTestPage} />
       </Route>
     </Router>
   );
