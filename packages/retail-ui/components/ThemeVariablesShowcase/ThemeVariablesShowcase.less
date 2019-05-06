@@ -1,22 +1,26 @@
 @value searchBarHeight: 45px;
 
+@whiteColor: #fff;
+@hoverColor: #f8f8f8;
+@grayBorder: 1px solid #e8e8e8;
+
 :local {
-  //noinspection CssInvalidPropertyValue
   .searchBar {
     box-sizing: border-box;
+    //noinspection CssInvalidPropertyValue
     height: searchBarHeight;
     padding: 5px;
-    background-color: #fff;
+    background-color: @whiteColor;
   }
 
   .heading {
     padding: 24px 0 16px 5px;
     margin: 0;
-    background-color: #fff;
+    background-color: @whiteColor;
   }
 
   .headingSticky {
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: @grayBorder;
   }
 
   .table {
@@ -28,11 +32,11 @@
     }
 
     & tbody tr:hover {
-      background-color: #f8f8f8;
+      background-color: @hoverColor;
     }
 
     & tbody tr.invisibleRow:hover ~ tr:not(.invisibleRow) {
-      background-color: #f8f8f8;
+      background-color: @hoverColor;
     }
 
     & tbody tr.invisibleRow:hover ~ .invisibleRow ~ tr {
@@ -45,8 +49,8 @@
     }
 
     & td {
-      border-top: 1px solid #e8e8e8;
-      border-bottom: 1px solid #e8e8e8;
+      border-top: @grayBorder;
+      border-bottom: @grayBorder;
       vertical-align: top;
       padding: 5px;
     }
@@ -61,13 +65,14 @@
     background-color: red;
   }
 
+  //noinspection CssReplaceWithShorthandSafely
   .invisibleCell {
     padding: 0 !important;
     height: 0 !important;
     font-size: 0 !important;
     line-height: 0 !important;
     border: 0 none !important;
-    border-top: 1px solid #e8e8e8 !important;
+    border-top: @grayBorder !important;
   }
 
   .suspiciousCell {
@@ -87,6 +92,16 @@
     color: #b77daa;
     font-weight: 400;
     cursor: pointer;
+  }
+
+  .colorExample {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    border: 1px solid transparent;
+    margin-right: 4px;
+    vertical-align: -3px;
   }
 
   .undefined {

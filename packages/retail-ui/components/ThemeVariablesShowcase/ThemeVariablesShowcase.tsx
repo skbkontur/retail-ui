@@ -6,7 +6,9 @@ import { ITheme } from '../../lib/theming/Theme';
 import ComboBox, { ComboBoxItem } from '../ComboBox';
 import Gapped from '../Gapped';
 import Link from '../Link';
-import Sticky from "../Sticky";
+import Sticky from '../Sticky';
+import { cx } from 'emotion';
+import ColorFunctions from '../../lib/styles/ColorFunctions';
 
 interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -147,7 +149,7 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
     return (
       <React.Fragment>
         <Sticky side={'top'} offset={parseInt(styles.searchBarHeight, 10)}>
-          {(isSticky) => <h2 className={`${styles.heading} ${isSticky && styles.headingSticky}`}>{this.props.name}</h2>}
+          {isSticky => <h2 className={`${styles.heading} ${isSticky && styles.headingSticky}`}>{this.props.name}</h2>}
         </Sticky>
         <table className={styles.table}>
           <thead>
@@ -190,10 +192,12 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
                         <td className={hasOnlyDefaultVariable ? styles.suspiciousCell : undefined}>
                           <VariableName variableName={varName} onVariableSelect={this.props.onVariableSelect} />
                         </td>
-                        <td className={variableDefault ? undefined : styles.undefined}>
-                          {variableDefault || 'undefined'}
+                        <td>
+                          <VariableValue value={variableDefault} />
                         </td>
-                        <td className={variableFlat ? undefined : styles.undefined}>{variableFlat || 'undefined'}</td>
+                        <td>
+                          <VariableValue value={variableFlat} />
+                        </td>
                       </tr>
                     );
                   })}
@@ -226,4 +230,30 @@ class VariableName extends React.Component<VariableNameProps> {
       onVariableSelect(event, { value: variableName, label: variableName });
     }
   };
+}
+
+const VariableValue = (props: { value: string }) => {
+  const value = props.value;
+  const valueIsColor = isColor(value);
+  const valueIsGradient = isGradient(value);
+  const hasExample = valueIsColor || valueIsGradient;
+  let borderColor = 'transparent';
+  if (hasExample) {
+    borderColor = valueIsColor ? ColorFunctions.contrast(value) : '#000';
+  }
+
+  return (
+    <span className={!value ? styles.undefined : undefined}>
+      {hasExample && <span className={styles.colorExample} style={{ background: value, borderColor }} />}
+      {value || 'undefined'}
+    </span>
+  );
+};
+
+function isColor(input: string) {
+  return !!input && (input.startsWith('#') || input.startsWith('rgb') || input.startsWith('hsl'));
+}
+
+function isGradient(input: string) {
+  return !!input && input.startsWith('linear-gradient');
 }
