@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
-import { ITheme } from '../../lib/ThemeManager';
+import { ITheme } from '../../lib/theming/Theme';
 
 const jsTokenColors = {
   defaultIdle(t: ITheme) {

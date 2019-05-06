@@ -30,22 +30,22 @@ storiesOf('Token', module)
     );
   })
   .add('colored', () => {
-    const gray: TokenColors = { idle: 'l-gray' };
-    const blue: TokenColors = { idle: 'l-blue' };
-    const red: TokenColors = { idle: 'l-red' };
-    const green: TokenColors = { idle: 'l-green' };
-    const yellow: TokenColors = { idle: 'l-yellow' };
+    const gray: TokenColors = { idle: 'grayIdle' };
+    const blue: TokenColors = { idle: 'blueIdle' };
+    const red: TokenColors = { idle: 'redIdle' };
+    const green: TokenColors = { idle: 'greenIdle' };
+    const yellow: TokenColors = { idle: 'yellowIdle' };
 
-    const d_gray: TokenColors = { idle: 'd-gray' };
-    const d_blue: TokenColors = { idle: 'd-blue' };
-    const d_red: TokenColors = { idle: 'd-red' };
-    const d_green: TokenColors = { idle: 'd-green' };
-    const d_yellow: TokenColors = { idle: 'd-yellow' };
+    const d_gray: TokenColors = { idle: 'grayActive' };
+    const d_blue: TokenColors = { idle: 'blueActive' };
+    const d_red: TokenColors = { idle: 'redActive' };
+    const d_green: TokenColors = { idle: 'greenActive' };
+    const d_yellow: TokenColors = { idle: 'yellowActive' };
 
-    const a_default: TokenColors = { idle: 'a-default' };
-    const i_default: TokenColors = { idle: 'i-default' };
+    const a_default: TokenColors = { idle: 'defaultActive' };
+    const i_default: TokenColors = { idle: 'defaultIdle' };
 
-    const black: TokenColors = { idle: 'black', active: 'd-green' };
+    const black: TokenColors = { idle: 'black', active: 'greenActive' };
     const white: TokenColors = { idle: 'white' };
 
     const default_colors = [i_default, a_default];

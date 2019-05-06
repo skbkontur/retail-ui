@@ -1,6 +1,7 @@
-import { css } from 'emotion';
-import classes from './Input.less';
-import { ITheme } from '../../lib/ThemeManager';
+import { css } from "emotion";
+import classes from "./Input.less";
+import { ITheme } from "../../lib/theming/Theme";
+import { shiftVariableValue } from "../../lib/styles/StyleHelpers";
 
 const jsClasses = {
   root(t: ITheme) {
@@ -128,8 +129,8 @@ const jsClasses = {
       height: ${t.controlHeightSmall};
 
       .rt-ie-any & {
-        padding-top: ${addOffset(t.controlPaddingYSmall, -1)};
-        padding-bottom: ${addOffset(t.controlPaddingYSmall, 1)};
+        padding-top: ${shiftVariableValue(t.controlPaddingYSmall, '-1')};
+        padding-bottom: ${shiftVariableValue(t.controlPaddingYSmall, '1')};
       }
     `;
   },
@@ -142,8 +143,8 @@ const jsClasses = {
       height: ${t.controlHeightMedium};
 
       .rt-ie-any & {
-        padding-top: ${addOffset(t.controlPaddingYMedium, -1)};
-        padding-bottom: ${addOffset(t.controlPaddingYMedium, 1)};
+        padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};
+        padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};
       }
     `;
   },
@@ -156,8 +157,8 @@ const jsClasses = {
       height: ${t.controlHeightMedium};
 
       .rt-ie-any & {
-        padding-top: ${addOffset(t.controlPaddingYMedium, -1)};
-        padding-bottom: ${addOffset(t.controlPaddingYMedium, 1)};
+        padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};
+        padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};
       }
     `;
   },
@@ -166,12 +167,12 @@ const jsClasses = {
     return css`
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
-      padding-top: ${addOffset(t.controlPaddingYLarge, -1)};
-      padding-bottom: ${addOffset(t.controlPaddingYLarge, 1)};
+      padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-1')};
+      padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '1')};
 
       .rt-ie-any & {
-        padding-top: ${addOffset(t.controlPaddingYLarge, -2)};
-        padding-bottom: ${addOffset(t.controlPaddingYLarge, 2)};
+        padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-2')};
+        padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '2')};
       }
     `;
   },
@@ -188,9 +189,5 @@ const jsClasses = {
     `;
   },
 };
-
-function addOffset(padding: string, offset: number): string {
-  return `${parseFloat(padding) + offset}px`;
-}
 
 export default jsClasses;

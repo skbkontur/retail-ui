@@ -1,8 +1,8 @@
 /* tslint:disable:no-console */
-import { API, FileInfo } from 'jscodeshift/src/core';
-import { ClassDeclaration, Identifier, ImportDeclaration } from 'ast-types/gen/nodes';
-import { NodePath } from 'ast-types';
-import * as path from 'path';
+import { API, FileInfo } from "jscodeshift/src/core";
+import { ClassDeclaration, Identifier, ImportDeclaration } from "ast-types/gen/nodes";
+import { NodePath } from "ast-types";
+import * as path from "path";
 
 const INJECT_THEME_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'ThemeDecorator');
 const TO_SOURCE_OPTIONS: any = {

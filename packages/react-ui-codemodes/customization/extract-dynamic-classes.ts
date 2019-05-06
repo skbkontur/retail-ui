@@ -1,19 +1,19 @@
 /* tslint:disable:no-console */
-import { API, FileInfo, JSCodeshift } from 'jscodeshift/src/core';
-import * as path from 'path';
-import { parseLess } from './less-parser';
-import { DynamicRulesAggregator, IDynamicRulesetsMap, IRemovalInfo } from './dynamic-rules-aggregator';
-import { ITokenizedDynamicRulesMap, tokenize } from './rules-tokenizer';
+import { API, FileInfo, JSCodeshift } from "jscodeshift/src/core";
+import * as path from "path";
+import { parseLess } from "./less-parser";
+import { DynamicRulesAggregator, IDynamicRulesetsMap, IRemovalInfo } from "./dynamic-rules-aggregator";
+import { ITokenizedDynamicRulesMap, tokenize } from "./rules-tokenizer";
 import {
   Identifier,
   ImportDeclaration,
   ImportDefaultSpecifier,
   ImportSpecifier,
-  StringLiteral,
-} from 'ast-types/gen/nodes';
-import { NodePath } from 'ast-types';
-import * as fs from 'fs';
-import { Collection } from 'jscodeshift/src/Collection';
+  StringLiteral
+} from "ast-types/gen/nodes";
+import { NodePath } from "ast-types";
+import * as fs from "fs";
+import { Collection } from "jscodeshift/src/Collection";
 
 let DRA_ID = 0;
 const ROOT_PATH = process.cwd();

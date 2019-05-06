@@ -1,18 +1,16 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
 import isActiveElement from './isActiveElement';
 import ScrollContainer from '../ScrollContainer/ScrollContainer';
-
 import MenuItem, { MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
 import { isMenuHeader } from '../MenuHeader/MenuHeader';
-
 import styles from './Menu.less';
 import { Nullable } from '../../typings/utility-types';
-
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../../retail-ui/lib/ThemeManager';
 import jsStyles from './Menu.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 interface MenuProps {
   children: React.ReactNode;
@@ -52,7 +50,6 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => typeof x === 'object' && x.props.icon,
     );
-    const theme = ThemeManager.getTheme();
 
     if (this.isEmpty()) {
       return null;

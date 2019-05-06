@@ -17,6 +17,7 @@ export type ComboBoxProps<T = ComboBoxItem> = {|
   getItems?: (query: string) => Promise<T[]>,
   itemToValue?: (item: T) => string | number,
   maxLength?: number,
+  drawArrow?: boolean,
   menuAlign?: 'left' | 'right',
   onBlur?: () => void,
   onChange?: (

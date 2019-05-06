@@ -2,12 +2,14 @@
 import type { ItemProps } from './Item';
 import type { IconProps } from '../Icon/20px';
 
+export type IconName = $PropertyType<IconProps, 'name'>;
+
 export type ButtonItemProps = {|
   ...$Exact<ItemProps>,
   active?: boolean,
   children?: React$Node,
   className?: string,
-  icon?: $PropertyType<IconProps, 'name'>,
+  icon?: IconName,
   iconOnly?: boolean,
   minWidth?: string | number,
   onClick?: () => void,

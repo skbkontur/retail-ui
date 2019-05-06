@@ -1,6 +1,6 @@
 import { css } from 'emotion';
 import styles from './Link.less';
-import { ITheme } from '../../lib/ThemeManager';
+import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
   useDefault(t: ITheme) {
@@ -9,7 +9,7 @@ const jsStyles = {
 
       &:hover {
         color: ${t.linkColor};
-        text-decoration: ${t.linkHoverTextDecoration};
+        text-decoration-color: ${t.linkHoverTextDecoration};
       }
       &:active {
         color: ${t.linkActiveColor};
@@ -38,16 +38,28 @@ const jsStyles = {
 
   useSuccess(t: ITheme) {
     return css`
+      color: ${t.linkColorSuccess};
+
       &:hover {
-        text-decoration: ${t.linkHoverTextDecoration};
+        color: ${t.linkColorSuccess};
+        text-decoration-color: ${t.linkHoverColorSuccess};
+      }
+      &:active {
+        color: ${t.linkActiveColorSuccess};
       }
     `;
   },
 
   useDanger(t: ITheme) {
     return css`
+      color: ${t.linkColorDanger};
+
       &:hover {
-        text-decoration: ${t.linkHoverTextDecoration};
+        color: ${t.linkColorDanger};
+        text-decoration-color: ${t.linkHoverColorDanger};
+      }
+      &:active {
+        color: ${t.linkActiveColorDanger};
       }
     `;
   },
@@ -58,7 +70,7 @@ const jsStyles = {
 
       &:hover {
         color: ${t.textColorDisabled};
-        text-decoration: ${t.linkHoverTextDecoration};
+        text-decoration-color: ${t.linkHoverTextDecoration};
       }
       &:active {
         color: ${t.textColorDisabled};
@@ -72,7 +84,6 @@ const jsStyles = {
         color: ${t.textColorDisabled};
 
         &:hover {
-          text-decoration: none;
           color: ${t.textColorDisabled};
         }
       }
@@ -80,7 +91,6 @@ const jsStyles = {
         color: ${t.textColorDisabled};
 
         &:hover {
-          text-decoration: none;
           color: ${t.textColorDisabled};
         }
       }
@@ -88,7 +98,6 @@ const jsStyles = {
         color: ${t.textColorDisabled};
 
         &:hover {
-          text-decoration: none;
           color: ${t.textColorDisabled};
         }
       }
@@ -96,7 +105,6 @@ const jsStyles = {
         color: ${t.textColorDisabled};
 
         &:hover {
-          text-decoration: none;
           color: ${t.textColorDisabled};
         }
       }

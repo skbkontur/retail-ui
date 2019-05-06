@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
-
 import styles from './Link.less';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager, { ITheme } from '../../../retail-ui/lib/ThemeManager';
 import jsStyles from './Link.styles';
+import { ITheme } from '../../lib/theming/Theme';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 interface UseClasses {
   default: string;
@@ -84,7 +84,6 @@ class Link extends React.Component<LinkProps, LinkState> {
       LinkProps,
       Link
     >();
-    const theme = ThemeManager.getTheme();
 
     let iconElement = null;
     if (icon) {
@@ -98,6 +97,7 @@ class Link extends React.Component<LinkProps, LinkState> {
 
     const props = {
       className: classNames({
+        [styles.disabled]: !!disabled,
         [jsStyles.disabled(theme)]: !!disabled,
         [styles.button]: !!_button,
         [styles.buttonOpened]: !!_buttonOpened,

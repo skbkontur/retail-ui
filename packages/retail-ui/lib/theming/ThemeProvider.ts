@@ -1,7 +1,7 @@
 import createReactContext from 'create-react-context';
-import ThemeManager from "../../lib/ThemeManager";
+import ThemeFactory from './ThemeFactory';
 
-const ThemeContext = createReactContext(ThemeManager.getTheme());
+const ThemeContext = createReactContext(ThemeFactory.getDefaultTheme());
 
 export const ThemeConsumer = ThemeContext.Consumer;
 export default ThemeContext.Provider;

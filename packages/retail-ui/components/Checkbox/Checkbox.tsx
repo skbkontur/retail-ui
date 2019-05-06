@@ -4,13 +4,12 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import styles from './Checkbox.less';
 import jsStyles from './Checkbox.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
 
-const theme = ThemeManager.getTheme();
+const theme = ThemeFactory.getDefaultTheme();
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,

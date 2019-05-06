@@ -16,11 +16,11 @@ import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
 import LifeCycleProxy from '../internal/LifeCycleProxy';
-
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Popup.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
 
+const theme = ThemeFactory.getDefaultTheme();
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 const DUMMY_LOCATION: PopupLocation = {
@@ -78,7 +78,7 @@ export interface PopupProps extends PopupHandlerProps {
   hasShadow: boolean;
   disableAnimations: boolean;
   margin: number;
-  maxWidth: number | string;
+  maxWidth?: number | string;
   opened: boolean;
   pinOffset: number;
   pinSize: number;
@@ -171,7 +171,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasPin: false,
     hasShadow: false,
     disableAnimations: false,
-    maxWidth: 500,
     useWrapper: false,
   };
 
@@ -322,7 +321,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       left: location.coordinates.left,
       maxWidth: props.maxWidth,
     };
-    const theme = ThemeManager.getTheme();
 
     // This need to correct handle order of lifecycle hooks with portal and react@15
     // For more details see issue #1257

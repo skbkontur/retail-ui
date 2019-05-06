@@ -9,11 +9,11 @@ import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
 import Upgrades from '../../lib/Upgrades';
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Textarea.styles';
 import styles from './Textarea.less';
+import ThemeFactory from "../../lib/theming/ThemeFactory";
 
-const theme = ThemeManager.getTheme();
+const theme = ThemeFactory.getDefaultTheme();
 const DEFAULT_WIDTH = 250;
 
 export type TextareaProps = Override<

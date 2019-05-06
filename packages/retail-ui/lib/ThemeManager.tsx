@@ -12,7 +12,7 @@ type IndexedFlatVariables = typeof flatThemeVariables & IndexSignature;
 type IndexedVariablesObject = IndexedDefaultVariables & IndexedFlatVariables;
 
 class ThemeManagerConstructor {
-  private isFlatDesign: boolean = Upgrades.isFlatDesignEnabled();
+  private isFlatDesign: boolean = !Upgrades.isFlatDesignEnabled();
   private theme: VariablesObject;
   private defaultTheme: IndexedVariablesObject;
 

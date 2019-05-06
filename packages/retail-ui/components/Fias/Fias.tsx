@@ -19,10 +19,11 @@ import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
-
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../../retail-ui/lib/ThemeManager';
 import jsStyles from './Fias.styles';
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface FiasProps {
   /**
@@ -215,7 +216,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public render() {
     const { showAddressText, label, icon, error, warning, feedback } = this.props;
     const { opened, address, locale } = this.state;
-    const theme = ThemeManager.getTheme();
 
     const linkText = label || (address.isEmpty ? locale.addressFill : locale.addressEdit);
 

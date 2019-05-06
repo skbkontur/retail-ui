@@ -1,6 +1,5 @@
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
-
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
@@ -14,12 +13,12 @@ import { SidePageContext } from './SidePageContext';
 import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from './SidePageFooter';
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
-
 import styles from './SidePage.less';
-
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './SidePage.styles';
+import ThemeFactory from "../../lib/theming/ThemeFactory";
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface SidePageProps {
   /**
@@ -158,7 +157,6 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderContainer(): JSX.Element {
     const { delta, classes, style } = this.getZIndexProps();
-    const theme = ThemeManager.getTheme();
 
     return (
       <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>

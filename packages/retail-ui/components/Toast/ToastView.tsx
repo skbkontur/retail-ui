@@ -2,14 +2,13 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import CROSS from '../internal/cross';
 import ZIndex from '../ZIndex/ZIndex';
-
 import styles from './ToastView.less';
 import { Nullable } from '../../typings/utility-types';
-
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './ToastView.styles';
 import { cx } from 'emotion';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface ToastViewProps {
   children?: string;

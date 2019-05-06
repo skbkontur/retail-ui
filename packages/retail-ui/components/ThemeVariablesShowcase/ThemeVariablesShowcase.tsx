@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styles from './ThemeVariablesShowcase.less';
 import defaultVariables from '../variables.less';
-import flatVariables from '../variables.less';
-import { ITheme } from '../../lib/ThemeManager';
+import flatVariables from '../variables.flat.less';
+import { ITheme } from '../../lib/theming/Theme';
 
 interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;

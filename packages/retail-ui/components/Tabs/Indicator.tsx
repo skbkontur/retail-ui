@@ -8,9 +8,10 @@ import { Nullable } from '../../typings/utility-types';
 import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { cx as cn } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Indicator.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from "../../lib/theming/ThemeFactory";
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface IndicatorProps {
   className?: string;

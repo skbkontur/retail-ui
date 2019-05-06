@@ -1,19 +1,18 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
 import Corners from './Corners';
 import '../ensureOldIEClassName';
+import { cx as classNames } from 'emotion';
+import classes from './Button.less';
+import jsClasses from './Button.styles';
+import ThemeFactory from "../../lib/theming/ThemeFactory";
 
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-const classes = isFlatDesign ? require('./Button.flat.less') : require('./Button.less');
+const theme = ThemeFactory.getDefaultTheme();
 
 export type ButtonSize = 'small' | 'medium' | 'large';
-
 export type ButtonType = 'button' | 'submit' | 'reset';
-
 export type ButtonArrow = boolean | 'left';
-
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
 export interface ButtonProps {
@@ -154,12 +153,14 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
   public render(): JSX.Element {
     const { corners = 0 } = this.props;
-    const RADIUS = this.props.size === 'small' && !isFlatDesign ? '1px' : '2px';
+    const RADIUS = this.props.size === 'small' ? theme.btnSmallBorderRadius : theme.btnBorderRadius;
 
     const SIZE_CLASSES = {
-      small: classes.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled() ? classes.sizeMedium : classes.DEPRECATED_sizeMedium,
-      large: classes.sizeLarge,
+      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(theme)),
+      medium: Upgrades.isSizeMedium16pxEnabled()
+        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(theme))
+        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(theme)),
+      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(theme)),
     };
 
     const rootProps = {
@@ -169,19 +170,27 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: classNames({
         [classes.root]: true,
-        [classes[this.props.use!] || classes.default]: true,
-        [classes.active]: this.props.active,
-        [classes.checked]: this.props.checked,
-        [classes.disabled]: this.props.disabled || this.props.loading,
-        [classes.error]: this.props.error,
-        [classes.warning]: this.props.warning,
-        [classes.narrow]: this.props.narrow,
-        [classes.noPadding]: this.props._noPadding,
-        [classes.noRightPadding]: this.props._noRightPadding,
+        [jsClasses.root(theme)]: true,
+        [classNames(jsClasses[this.props.use!] && jsClasses[this.props.use!](theme)) || jsClasses.default(theme)]: true,
+        [classes.active]: !!this.props.active,
+        [classes.checked]: !!this.props.checked,
+        [jsClasses.checked(theme)]: !!this.props.checked,
+        [classes.disabled]: !!this.props.disabled || !!this.props.loading,
+        [jsClasses.disabled(theme)]: !!this.props.disabled || !!this.props.loading,
+        [classes.errorRoot]: !!this.props.error,
+        [jsClasses.errorRoot(theme)]: !!this.props.error,
+        [classes.warningRoot]: !!this.props.warning,
+        [jsClasses.warningRoot(theme)]: !!this.props.warning,
+        [classes.error]: !!this.props.error,
+        [classes.warning]: !!this.props.warning,
+        [classes.narrow]: !!this.props.narrow,
+        [classes.noPadding]: !!this.props._noPadding,
+        [classes.noRightPadding]: !!this.props._noRightPadding,
         [classes.buttonWithIcon]: !!this.props.icon,
         [SIZE_CLASSES[this.props.size!]]: true,
-        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused,
-        [classes.borderless]: this.props.borderless,
+        [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsClasses.focus(theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [classes.borderless]: !!this.props.borderless,
       }),
       style: {
         borderRadius:
@@ -205,7 +214,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: classNames({
         [classes.wrap]: true,
-        [classes.wrap_arrow]: this.props.arrow,
+        [jsClasses.wrap(theme)]: true,
+        [classes.wrap_arrow]: !!this.props.arrow,
         [classes.wrap_arrow_left]: this.props.arrow === 'left',
       }),
       style: {
@@ -215,9 +225,9 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
     let error = null;
     if (this.props.error) {
-      error = <div className={classes.error} />;
+      error = <div className={classNames(classes.error, jsClasses.error(theme))} />;
     } else if (this.props.warning) {
-      error = <div className={classes.warning} />;
+      error = <div className={classNames(classes.warning, jsClasses.warning(theme))} />;
     }
 
     let loading = null;
@@ -235,11 +245,11 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={classNames({
-            [classes.arrow || '']: true,
-            [classes.arrow_left || '']: this.props.arrow === 'left',
-            [classes.arrow_loading || '']: this.props.loading,
-            [classes.arrow_error || '']: this.props.error,
-            [classes.arrow_warning || '']: this.props.warning,
+            [classNames(classes.arrow, jsClasses.arrow(theme)) || '']: true,
+            [classNames(classes.arrow_left, jsClasses.arrow_left(theme)) || '']: this.props.arrow === 'left',
+            [classes.arrow_loading || '']: !!this.props.loading,
+            [jsClasses.arrow_error(theme)]: !!this.props.error,
+            [jsClasses.arrow_warning(theme)]: !!this.props.warning,
           })}
         />
       );
@@ -249,11 +259,15 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.use === 'link') {
       rootProps.className = classNames({
         [classes.root]: true,
+        [jsClasses.root(theme)]: true,
         [classes.link]: true,
-        [classes.disabled]: this.props.disabled,
+        [jsClasses.link(theme)]: true,
+        [classes.disabled]: !!this.props.disabled,
+        [jsClasses.disabled(theme)]: !!this.props.disabled,
         [classes.buttonWithIcon]: !!this.props.icon,
         [SIZE_CLASSES[this.props.size!]]: true,
-        [classes.focus]: this.state.focusedByTab || this.props.visuallyFocused,
+        [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsClasses.focus(theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
       });
       Object.assign(wrapProps, {
         className: classNames(classes.wrap, {

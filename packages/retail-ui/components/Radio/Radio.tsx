@@ -4,9 +4,10 @@ import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import styles from './Radio.less';
 import { cx as classNames } from 'emotion';
-import ThemeManager from '../../lib/ThemeManager';
 import jsStyles from './Radio.styles';
-const theme = ThemeManager.getTheme();
+import ThemeFactory from '../../lib/theming/ThemeFactory';
+
+const theme = ThemeFactory.getDefaultTheme();
 
 export interface SyntheticRadioEvent<T> {
   target: {
@@ -216,7 +217,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     const labelClassNames = classNames({
       [styles.label]: true,
       [jsStyles.label(theme)]: true,
-      [styles.labelDisabled]: this.props.disabled,
+      [styles.labelDisabled]: !!this.props.disabled,
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
