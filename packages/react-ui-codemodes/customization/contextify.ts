@@ -1,10 +1,11 @@
 /* tslint:disable:no-console */
-import { API, FileInfo } from "jscodeshift/src/core";
-import { ClassDeclaration, Identifier, ImportDeclaration } from "ast-types/gen/nodes";
-import { NodePath } from "ast-types";
-import * as path from "path";
+import { API, FileInfo } from 'jscodeshift/src/core';
+import { BlockStatement, ClassDeclaration, Identifier, ImportDeclaration } from 'ast-types/gen/nodes';
+import { NodePath } from 'ast-types';
+import * as path from 'path';
 
-const INJECT_THEME_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'ThemeDecorator');
+const THEME_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'Theme');
+const THEME_CONSUMER_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'ThemeProvider');
 const TO_SOURCE_OPTIONS: any = {
   quote: 'single',
   useTab: false,
@@ -27,22 +28,22 @@ function contextify(fileInfo: FileInfo, api: API) {
   const j = api.jscodeshift;
   const root = j(fileInfo.source);
 
-  let themeManagerImport: ImportDeclaration | null = null;
-  const themeManagerImports = root.find(j.ImportDeclaration).filter(({ node }) => {
-    return !!node && !!node.source && !!node.source.value && (node.source as any).value.endsWith('ThemeManager');
+  let themeFactoryImport: ImportDeclaration | null = null;
+  const themeFactoryImports = root.find(j.ImportDeclaration).filter(({ node }) => {
+    return !!node && !!node.source && !!node.source.value && (node.source as any).value.endsWith('ThemeFactory');
   });
-  if (themeManagerImports.length === 1) {
-    themeManagerImport = themeManagerImports.get().value;
-  } else if (themeManagerImports.length > 1) {
-    throw new Error('More than one ThemeManager import found');
+  if (themeFactoryImports.length === 1) {
+    themeFactoryImport = themeFactoryImports.get().value;
+  } else if (themeFactoryImports.length > 1) {
+    throw new Error('More than one ThemeFactory import found');
   }
 
-  if (!themeManagerImport) {
+  if (!themeFactoryImport) {
     return null;
   }
 
   let themeManagerIdentifier: Identifier | null = null;
-  const themeManagerSpecifier = themeManagerImport.specifiers.find(s => s.type === 'ImportDefaultSpecifier');
+  const themeManagerSpecifier = themeFactoryImport.specifiers.find(s => s.type === 'ImportDefaultSpecifier');
   if (themeManagerSpecifier) {
     themeManagerIdentifier = themeManagerSpecifier.local as Identifier;
   }
@@ -84,20 +85,54 @@ function contextify(fileInfo: FileInfo, api: API) {
       j.tsTypeAnnotation(j.tsTypeReference(j.identifier('ITheme'))),
     );
     (themeProperty as any).definite = false;
-    (themeProperty as any).accessibility = 'public';
+    (themeProperty as any).accessibility = 'private';
 
-    const insertAt = classDeclaration.body.body.findIndex(
-      n => (n.type === 'ClassProperty' || n.type === 'ClassMethod') && !n.static,
-    );
-    classDeclaration.body.body.splice(Math.max(0, insertAt), 0, themeProperty);
+    const renderBodyPath: NodePath<BlockStatement> = j(classDeclaration)
+      .find(j.ClassMethod)
+      .filter(
+        node =>
+          node.value.key &&
+          ((node.value.key.type === 'StringLiteral' && node.value.key.value === 'render') ||
+            (node.value.key.type === 'Identifier' && node.value.key.name === 'render')),
+      )
+      .get('body');
 
-    const classDeclarationAny = classDeclaration as any;
+    if (!renderBodyPath) {
+      console.error('Did not find .render() body');
+      return;
+    }
+    const renderMainIdentifier = j.identifier('renderMain');
+    const renderMainMethod = j.classMethod('method', renderMainIdentifier, [], renderBodyPath.value);
 
-    if (!classDeclarationAny.decorators) {
-      classDeclarationAny.decorators = [];
+    renderMainMethod.accessibility = 'private';
+    let insertThemePropAt = 0;
+    let insertRenderMainAt = 0;
+    classDeclaration.body.body.forEach((n, i) => {
+      if (n.type === 'ClassProperty' && (n.static || (n as any).accessibility === 'public')) {
+        insertThemePropAt = i;
+      }
+      if (n.type === 'ClassMethod' && (n.static || n.accessibility === 'public')) {
+        insertRenderMainAt = i;
+      }
+    });
+
+    if (insertRenderMainAt < insertThemePropAt) {
+      insertRenderMainAt = insertThemePropAt + 1;
     }
 
-    classDeclarationAny.decorators.unshift(j.decorator(j.identifier('injectTheme')));
+    classDeclaration.body.body.splice(insertThemePropAt + 1, 0, themeProperty);
+    classDeclaration.body.body.splice(insertRenderMainAt + 2, 0, renderMainMethod);
+
+    const renderReturnStatement = j.template.expression([
+      `<ThemeConsumer>
+  {theme => {
+    this.theme = theme;
+    return this.renderMain();
+  }}
+</ThemeConsumer>`,
+    ]);
+
+    renderBodyPath.replace(j.blockStatement([j.returnStatement(renderReturnStatement)]));
 
     modifiedClasses.set(classDeclaration, true);
   }
@@ -132,19 +167,20 @@ function contextify(fileInfo: FileInfo, api: API) {
     }
   });
 
-  themeManagerImport.specifiers.push(j.importSpecifier(j.identifier('ITheme')));
-  themeManagerImport.specifiers = themeManagerImport.specifiers.filter(s => s.type !== 'ImportDefaultSpecifier');
-
-  const decoratorImportPath = path.relative(path.dirname(fileInfo.path), INJECT_THEME_PATH).replace(/\\/g, '/');
-  const decoratorImport = j.importDeclaration(
-    [j.importSpecifier(j.identifier('injectTheme'))],
-    j.literal(decoratorImportPath),
+  const themeImportPath = path.relative(path.dirname(fileInfo.path), THEME_PATH).replace(/\\/g, '/');
+  const themeImport = j.importDeclaration([j.importSpecifier(j.identifier('ITheme'))], j.literal(themeImportPath));
+  const consumerImportPath = path.relative(path.dirname(fileInfo.path), THEME_CONSUMER_PATH).replace(/\\/g, '/');
+  const consumerImport = j.importDeclaration(
+    [j.importSpecifier(j.identifier('ThemeConsumer'))],
+    j.literal(consumerImportPath),
   );
 
-  themeManagerImports.insertAfter(decoratorImport);
+  themeFactoryImports.insertAfter(themeImport);
+  themeFactoryImports.insertAfter(consumerImport);
+  themeFactoryImports.remove();
 
   // NOTE: this hack is here because themeProperty.definite=true does not work
-  return root.toSource(TO_SOURCE_OPTIONS).replace('public theme: ITheme;', 'public theme!: ITheme;');
+  return root.toSource(TO_SOURCE_OPTIONS).replace('private theme: ITheme;', 'private theme!: ITheme;');
 }
 
 function findClassNodePath(nodePath: NodePath): ClassDeclaration | null {
