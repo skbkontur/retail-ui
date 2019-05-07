@@ -154,7 +154,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
-    if (this.props.width || this.state.width !== null) {
+    if (this.props.width || (this.state.width !== null && this.presentScrollBar())) {
       style.width = this.state.width || this.props.width;
     } else {
       containerStyle.width = 'auto';
@@ -199,9 +199,10 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     );
   }
 
-  private fixedWidth = (rect: ClientRect | DOMRect) => {
-    this.setState({ width: rect.width });
-  };
+  private fixedWidth = (rect: ClientRect | DOMRect) => this.setState({ width: rect.width });
+
+  private presentScrollBar = (): boolean =>
+    !!this.containerNode && this.containerNode.clientWidth !== this.containerNode.offsetWidth;
 
   private requestClose = () => {
     if (this.props.disableClose) {
