@@ -34,6 +34,7 @@ export interface TokenInputProps<T> {
   hideMenuIfEmptyInputValue?: boolean;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
+  valueToString?: (item: T) => string;
   renderNotFound?: () => React.ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
@@ -79,6 +80,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     selectedItems: [],
     renderItem: identity,
     renderValue: identity,
+    valueToString: identity,
     valueToItem: (item: string) => item,
     toKey: defaultToKey,
     onChange: () => void 0,
@@ -339,7 +341,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       .map(token => this.props.selectedItems.indexOf(token))
       .sort()
       .map(index => this.props.selectedItems[index])
-      .map(this.props.renderValue);
+      .map(this.props.valueToString!);
     event.clipboardData.setData('text/plain', tokens.join(this.delimiters[0]));
   };
 
