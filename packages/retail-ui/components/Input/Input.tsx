@@ -335,7 +335,9 @@ class Input extends React.Component<InputProps, InputState> {
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={classNames(className, jsClasses.useDefaultColor(theme))}>{icon}</span>;
+    return (
+      <span className={classNames(className, classes.useDefaultColor, jsClasses.useDefaultColor(theme))}>{icon}</span>
+    );
   }
 
   private renderPlaceholder() {
