@@ -251,8 +251,8 @@ storiesOf('Button', module)
       Component={Button}
       presetProps={{ children: 'Button' }}
       combinations={[...visualStates, ...sizeStates, ...arrowStates, ...useStates].map(x => ({ props: x }))}
-      sizeX={7}
-      sizeY={7}
+      colsPerPage={7}
+      rowsPerPage={7}
     />
   ))
   .add('different content', () => (
@@ -260,8 +260,8 @@ storiesOf('Button', module)
       Component={Button}
       presetProps={{ children: 'Button' }}
       combinations={[...contentStates, ...widthStates, ...layoutStates].map(x => ({ props: x }))}
-      sizeX={3}
-      sizeY={6}
+      colsPerPage={3}
+      rowsPerPage={6}
     />
   ));
 

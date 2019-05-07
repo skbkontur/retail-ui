@@ -3,8 +3,8 @@ import { ComponentTable, StatePropsCombinations, StateType, Defaultize } from '.
 
 export interface ComponentCombinatorProps<C, P, S> {
   combinations: StatePropsCombinations<P, S>;
-  sizeX: number;
-  sizeY: number;
+  colsPerPage: number;
+  rowsPerPage: number;
   Component: C;
   presetProps: C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
   presetState: Partial<S>;
@@ -21,8 +21,8 @@ export class ComponentCombinator<
   public static defaultProps = {
     props: [],
     states: [],
-    sizeX: 0,
-    sizeY: 0,
+    colsPerPage: 0,
+    rowsPerPage: 0,
     presetProps: {},
     presetState: {},
   };
@@ -33,19 +33,18 @@ export class ComponentCombinator<
 
   public render() {
     const { page } = this.state;
-    const { combinations, sizeX, sizeY, Component, presetProps, presetState } = this.props;
-    const cols = combinations.slice();
-    const rows = combinations.slice();
+    const { combinations, colsPerPage, rowsPerPage, Component, presetProps, presetState } = this.props;
     const pages = [];
 
-    for (let row = 0; row < rows.length; row += sizeY) {
-      for (let col = 0; col < cols.length; col += sizeX) {
+    for (let row = 0; row < combinations.length; row += rowsPerPage) {
+      for (let col = 0; col < combinations.length; col += colsPerPage) {
         pages.push({
           offsetX: col,
           offsetY: row,
         });
       }
     }
+
     const pageOffsets = pages[page];
     return (
       <div>
@@ -65,8 +64,8 @@ export class ComponentCombinator<
               Component={Component}
               presetProps={presetProps}
               presetState={presetState}
-              rows={rows.slice(pageOffsets.offsetY, pageOffsets.offsetY + sizeY)}
-              cols={cols.slice(pageOffsets.offsetX, pageOffsets.offsetX + sizeX)}
+              rows={combinations.slice(pageOffsets.offsetY, pageOffsets.offsetY + rowsPerPage)}
+              cols={combinations.slice(pageOffsets.offsetX, pageOffsets.offsetX + colsPerPage)}
             />
           )}
         </div>

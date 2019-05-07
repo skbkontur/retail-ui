@@ -2,14 +2,13 @@ import * as React from 'react';
 import { isFunctionalComponent } from '../../lib/utils';
 
 // TODO We should output state too
-const renderPropsDesc = <P extends {}>(props: P): React.ReactNode => {
+const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNode => {
   return Object.keys(props)
     .map(key => {
-      // @ts-ignore
       const value = props[key];
       switch (typeof value) {
         case 'boolean':
-          return key + (value ? '' : ': false');
+          return value ? key : `${key}: false`;
         case 'string':
           return `${key}: "${value}"`;
         case 'object':
