@@ -23,7 +23,6 @@ export interface ComponentCombinatorProps<
   Component: C extends React.ComponentClass<P, S> ? React.ClassType<P, T, C> : C;
   presetProps: DP;
   presetState: Partial<S>;
-  children?: React.ReactNode;
 }
 
 export class ComponentCombinator<
@@ -49,7 +48,7 @@ export class ComponentCombinator<
 
   public render() {
     const { page } = this.state;
-    const { combinations, sizeX, sizeY, Component, presetProps, presetState, children } = this.props;
+    const { combinations, sizeX, sizeY, Component, presetProps, presetState } = this.props;
     const cols = combinations.slice();
     const rows = combinations.slice();
     const pages = [];
@@ -82,9 +81,7 @@ export class ComponentCombinator<
               presetState={presetState}
               rows={rows.slice(pageOffsets.offsetY, pageOffsets.offsetY + sizeY)}
               cols={cols.slice(pageOffsets.offsetX, pageOffsets.offsetX + sizeX)}
-            >
-              {children}
-            </ComponentTable>
+            />
           )}
         </div>
       </div>

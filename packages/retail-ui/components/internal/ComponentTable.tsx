@@ -43,7 +43,6 @@ export interface ComponentTableProps<
   presetProps: P;
   presetState: Partial<S>;
   Component: C extends React.ComponentClass<P, S> ? React.ClassType<P, T, C> : C;
-  children?: React.ReactNode;
 }
 
 // Known limitation: Don't work when component have `propTypes` static field
@@ -58,7 +57,7 @@ export class ComponentTable<
   };
 
   public render() {
-    const { rows = [], cols = [], presetProps, presetState, Component, children } = this.props;
+    const { rows = [], cols = [], presetProps, presetState, Component } = this.props;
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
         <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps)}</caption>
@@ -96,9 +95,7 @@ export class ComponentTable<
                               ...colState,
                             }))
                     }
-                  >
-                    {children}
-                  </Component>
+                  />
                 </td>
               ))}
             </tr>
