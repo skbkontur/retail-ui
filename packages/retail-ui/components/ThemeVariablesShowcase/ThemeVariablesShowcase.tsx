@@ -65,6 +65,23 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
   public state: ShowcaseState = {};
 
   private isUnmounting = false;
+  private variablesDiff: string[] = [];
+
+  public componentWillMount(): void {
+    const hasUnusedVariables = this.props.isDebugMode && USED_VARIABLES.length !== ALL_VARIABLES.length;
+
+    if (hasUnusedVariables) {
+      let offset = 0;
+      USED_VARIABLES.forEach((v, i) => {
+        if (v !== ALL_VARIABLES[i + offset]) {
+          while (ALL_VARIABLES[i + offset] && v !== ALL_VARIABLES[i + offset]) {
+            this.variablesDiff.push(ALL_VARIABLES[i + offset]);
+            offset++;
+          }
+        }
+      });
+    }
+  }
 
   public render() {
     const selectedVariable = this.state.selectedVariable;
@@ -72,9 +89,9 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
       ? VARIABLE_TO_COMPONENTS_MAP[selectedVariable.value] || {}
       : DESCRIPTIONS;
 
-
     return (
       <React.Fragment>
+        <ShowUnusedVariables diff={this.variablesDiff} />
         <Sticky side={'top'}>
           <div className={styles.searchBar}>
             <Gapped vertical={false} gap={15}>
@@ -251,6 +268,23 @@ const VariableValue = (props: { value: string }) => {
       {hasExample && <span className={styles.colorExample} style={{ background: value, borderColor }} />}
       {value || 'undefined'}
     </span>
+  );
+};
+
+const ShowUnusedVariables = (props: { diff: string[] }) => {
+  if (props.diff.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className={styles.unusedVariablesWarning}>
+      Неиспользованные переменные:
+      <ul>
+        {props.diff.map(v => (
+          <li key={v}>{v}</li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
