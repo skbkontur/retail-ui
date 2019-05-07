@@ -18,12 +18,12 @@ interface UseClasses {
   grayed: string;
 }
 
-function getUseClasses(theme: ITheme): UseClasses {
+function getUseClasses(t: ITheme): UseClasses {
   return {
-    default: classNames(styles.useDefault, jsStyles.useDefault(theme)),
-    success: classNames(styles.useSuccess, jsStyles.useSuccess(theme)),
-    danger: classNames(styles.useDanger, jsStyles.useDanger(theme)),
-    grayed: classNames(styles.useGrayed, jsStyles.useGrayed(theme)),
+    default: classNames(styles.useDefault, jsStyles.useDefault(t)),
+    success: classNames(styles.useSuccess, jsStyles.useSuccess(t)),
+    danger: classNames(styles.useDanger, jsStyles.useDanger(t)),
+    grayed: classNames(styles.useGrayed, jsStyles.useGrayed(t)),
   };
 }
 
