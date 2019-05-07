@@ -1,7 +1,7 @@
-import { css } from "emotion";
-import classes from "./Input.less";
-import { ITheme } from "../../lib/theming/Theme";
-import { shiftVariableValue } from "../../lib/styles/StyleHelpers";
+import { css } from 'emotion';
+import classes from './Input.less';
+import { ITheme } from '../../lib/theming/Theme';
+import { shiftVariableValue } from '../../lib/styles/StyleHelpers';
 
 const jsClasses = {
   root(t: ITheme) {
