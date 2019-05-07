@@ -7,6 +7,19 @@
     user-select: none;
     line-height: 20px;
 
+    &:hover {
+      .box {
+        background: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
+      }
+    }
+
+    &:active {
+      .box {
+        box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+        background: #e1e1e1;
+      }
+    }
+
     &.withoutCaption .box {
       position: relative;
     }
@@ -22,6 +35,9 @@
   }
 
   .box {
+    background: linear-gradient(#fdfdfd, #ededed);
+    border: none;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
     position: absolute;
     display: inline-block;
     top: 2px;
@@ -66,6 +82,7 @@
   }
 
   .indeterminate {
+    background: #404040;
     position: absolute;
     display: inline-block;
     top: 4px;
@@ -78,5 +95,16 @@
 
   .disabled {
     cursor: default;
+
+    .box {
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) !important; /* to override hover and active */
+    }
+  }
+
+  .warning,
+  .error {
+    .box {
+      border-color: transparent;
+    }
   }
 }
