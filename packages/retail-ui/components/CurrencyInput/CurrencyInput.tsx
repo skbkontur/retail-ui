@@ -90,7 +90,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, mainInGroup, maxLength, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
@@ -264,8 +264,15 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     if (result) {
       const formatted = result.value;
       const selection = SelectionHelper.fromPosition(result.position);
+      const parsedValue = CurrencyHelper.parse(formatted);
+      if (
+        !this.props.mask &&
+        parsedValue &&
+        Math.floor(parsedValue).toString().length > (this.props.maxLength || Infinity)
+      ) {
+        return false;
+      }
       this.setState({ formatted, selection }, () => {
-        const parsedValue = CurrencyHelper.parse(formatted);
         if (this.props.value !== parsedValue) {
           this.props.onChange({ target: { value: parsedValue } }, parsedValue);
         }
