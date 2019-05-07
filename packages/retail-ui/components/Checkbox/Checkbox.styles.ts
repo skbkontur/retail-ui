@@ -74,7 +74,6 @@ const jsStyles = {
   },
 
   checked(t: ITheme) {
-    console.log('[Checkbox.styles.ts]', 'checked', t.chbCheckedBg, t.chbCheckedColor);
     return css`
       & .${styles.box} {
         background: ${t.chbCheckedBg};
