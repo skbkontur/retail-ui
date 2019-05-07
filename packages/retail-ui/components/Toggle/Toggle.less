@@ -11,6 +11,7 @@
 
 :local {
   .handle {
+    background: linear-gradient(-180deg, #fff, #ebebeb);
     height: 18px;
     width: @handleSize;
     border-radius: @handleSize / 2;
@@ -33,6 +34,12 @@
     width: @containerWidth;
     height: @containerHeight;
     cursor: pointer;
+
+    &:hover {
+      .handle {
+        background: linear-gradient(-180deg, #f1f1f1, #dedede);
+      }
+    }
 
     &.isDisabled {
       pointer-events: none;
@@ -63,6 +70,10 @@
     height: 100%;
     border-radius: @containerHeight / 2;
     overflow: hidden;
+
+    .isDisabled & {
+      background: none;
+    }
   }
 
   .activeBackground {
