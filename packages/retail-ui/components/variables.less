@@ -339,9 +339,6 @@
 @btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
 
 // Toggle
-@toggle-bg: linear-gradient(-180deg, #fff, #ebebeb);
-@toggle-bg-disabled: none;
-@toggle-bg-hover: linear-gradient(-180deg, #f1f1f1, #dedede);
 @toggle-bg-checked: #3072c4;
 @toggle-bg-warning: @warning-main;
 @toggle-bg-error: @error-main;
@@ -358,54 +355,21 @@
 @popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 
 // Input
-@input-side-padding: 10px;
-@input-bg: #fff;
 @input-disabled-bg: @bg-disabled;
 @input-disabled-border-color: @border-color-gray-light;
-@input-icon-color: #a9a9a9;
-@input-color: inherit;
 @input-disabled-color: @bg-disabled;
-@input-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
-@input-focus-shadow: 0 0 0 1px #5199db;
 @input-focus-outline: @border-color-focus;
 @input-border-width: @control-border-width;
 @input-border-top-color: @border-color-gray-dark;
 
 // Checkbox
-@chb-bg: linear-gradient(#fdfdfd, #ededed);
-@chb-active-bg: #e1e1e1;
-@chb-hover-bg: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
-@chb-indeterminate-bg: @text-color-default;
-@chb-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
-@chb-shadow-disabled: 0 0 0 1px rgba(0, 0, 0, 0.15);
-@chb-shadow-active: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 @chb-shadow-width: 2px;
-@chb-border: none;
 @chb-border-color-focus: @border-color-focus;
-@chb-border-color-warning: transparent;
-@chb-border-color-error: transparent;
 
 // Textarea
-@textarea-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
 @textarea-border-top-color: @border-color-gray-dark;
 @textarea-disabled-bg: @bg-disabled;
 @textarea-disabled-border-color: @border-color-gray-light;
-
-// Radio
-@radio-size: 16px;
-@radio-vertical-align: -2px;
-@radio-bg-image: linear-gradient(-180deg, #fff 0, #ebebeb 100%);
-@radio-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
-@radio-border: 0 none; // remove
-@radio-hover-bg: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
-@radio-hover-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2);
-@radio-active-bg: linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%);
-@radio-active-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
-@radio-focus-shadow: none; // remove
-@radio-checked-bg-color: transparent; // remove
-@radio-checked-bullet-color: @text-color-default;
-@radio-disabled-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
-@radio-label-display: inline-table;
 
 // specificity
 @specificity-level: 0;
@@ -740,9 +704,6 @@
 @value menuItemPaddingForIcon: @menu-item-padding-for-icon;
 @value menuBorder: @menu-border;
 @value menuShadow: @menu-shadow;
-@value toggleBg: @toggle-bg;
-@value toggleBgDisabled: @toggle-bg-disabled;
-@value toggleBgHover: @toggle-bg-hover;
 @value toggleBgChecked: @toggle-bg-checked;
 @value toggleBgWarning: @toggle-bg-warning;
 @value toggleBgError: @toggle-bg-error;
@@ -755,43 +716,15 @@
 @value popupBorderColor: @popup-border-color;
 @value popupDropShadow: @popup-drop-shadow;
 @value popupBoxShadow: @popup-box-shadow;
-@value inputSidePadding: @input-side-padding;
-@value inputBg: @input-bg;
 @value inputDisabledBg: @input-disabled-bg;
 @value inputDisabledBorderColor: @input-disabled-border-color;
-@value inputIconColor: @input-icon-color;
-@value inputColor: @input-color;
 @value inputDisabledColor: @input-disabled-color;
-@value inputShadow: @input-shadow;
-@value inputFocusShadow: @input-focus-shadow;
 @value inputFocusOutline: @input-focus-outline;
 @value inputBorderWidth: @input-border-width;
 @value inputBorderTopColor: @input-border-top-color;
-@value chbShadow: @chb-shadow;
-@value chbShadowDisabled: @chb-shadow-disabled;
-@value chbShadowActive: @chb-shadow-active;
-@value chbBg: @chb-bg;
-@value chbIndeterminateBg: @chb-indeterminate-bg;
-@value chbActiveBg: @chb-active-bg;
-@value chbHoverBg: @chb-hover-bg;
-@value chbBorder: @chb-border;
 @value chbBorderColorFocus: @border-color-focus;
-@value chbBorderColorWarning: @chb-border-color-warning;
-@value chbBorderColorError: @chb-border-color-error;
 @value chbShadowWidth: @chb-shadow-width;
-@value textareaShadow: @textarea-shadow;
 @value textareaBorderTopColor: @textarea-border-top-color;
 @value textareaDisabledBg: @textarea-disabled-bg;
 @value textareaDisabledBorderColor: @textarea-disabled-border-color;
-@value radioSize: @radio-size;
-@value radioVerticalAlign: @radio-vertical-align;
-@value radioBgImage: @radio-bg-image;
-@value radioBoxShadow: @radio-box-shadow;
-@value radioHoverBg: @radio-hover-bg;
-@value radioHoverShadow: @radio-hover-shadow;
-@value radioActiveBg: @radio-active-bg;
-@value radioActiveShadow: @radio-active-shadow;
-@value radioCheckedBulletColor: @radio-checked-bullet-color;
-@value radioDisabledShadow: @radio-disabled-shadow;
-@value radioLabelDisplay: @radio-label-display;
 @value specificityLevel: @specificity-level;
