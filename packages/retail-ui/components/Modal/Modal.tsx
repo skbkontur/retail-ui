@@ -53,6 +53,7 @@ export interface ModalProps {
 export interface ModalState {
   stackPosition: number;
   horizontalScroll: boolean;
+  width: number | null;
 }
 
 /**
@@ -77,6 +78,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   public state: ModalState = {
     stackPosition: 0,
     horizontalScroll: false,
+    width: null,
   };
 
   private stackSubscription: EventSubscription | null = null;
@@ -135,6 +137,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     const modalContextProps: ModalContextProps = {
       hasHeader,
       horizontalScroll: this.state.horizontalScroll,
+      fixedWidth: this.fixedWidth,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -151,8 +154,8 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
-    if (this.props.width) {
-      style.width = this.props.width;
+    if (this.props.width || this.state.width !== null) {
+      style.width = this.state.width || this.props.width;
     } else {
       containerStyle.width = 'auto';
     }
@@ -195,6 +198,10 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       </RenderContainer>
     );
   }
+
+  private fixedWidth = (rect: ClientRect | DOMRect) => {
+    this.setState({ width: rect.width });
+  };
 
   private requestClose = () => {
     if (this.props.disableClose) {

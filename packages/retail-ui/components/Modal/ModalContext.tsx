@@ -13,6 +13,7 @@ export interface ModalContextProps {
   hasHeader?: boolean;
   close?: CloseProps;
   horizontalScroll?: boolean;
+  fixedWidth?: (rect: ClientRect | DOMRect) => void;
 }
 
 export const ModalContext = createReactContext<ModalContextProps>({});

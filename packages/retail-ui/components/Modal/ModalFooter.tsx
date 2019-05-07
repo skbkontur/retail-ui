@@ -29,10 +29,15 @@ export class Footer extends React.Component<FooterProps> {
   public render(): JSX.Element {
     return (
       <ModalContext.Consumer>
-        {({ horizontalScroll }) => {
+        {({ horizontalScroll, fixedWidth }) => {
           if (this.props.sticky) {
             return (
-              <Sticky side="bottom" offset={horizontalScroll ? this.scrollbarWidth : 0} allowChildWithMargins>
+              <Sticky
+                side="bottom"
+                offset={horizontalScroll ? this.scrollbarWidth : 0}
+                allowChildWithMargins
+                getInitialClientRect={fixedWidth}
+              >
                 {this.renderContent(horizontalScroll)}
               </Sticky>
             );

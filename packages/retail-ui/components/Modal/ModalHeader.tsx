@@ -21,10 +21,10 @@ export class Header extends React.Component<HeaderProps> {
   public render(): JSX.Element {
     return (
       <ModalContext.Consumer>
-        {({ close, additionalPadding }) => {
+        {({ close, additionalPadding, fixedWidth }) => {
           if (this.props.sticky) {
             return (
-              <Sticky side="top" allowChildWithMargins>
+              <Sticky side="top" allowChildWithMargins getInitialClientRect={fixedWidth}>
                 {this.renderContent(close, additionalPadding)}
               </Sticky>
             );
