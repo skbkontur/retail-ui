@@ -138,7 +138,9 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     const { children, placeholder } = this.props;
 
     if (!children && placeholder) {
-      return <span className={inputStyles.placeholder}>{placeholder}</span>;
+      return (
+        <span className={classNames(inputStyles.placeholder, jsInputStyles.placeholder(theme))}>{placeholder}</span>
+      );
     }
     return null;
   }

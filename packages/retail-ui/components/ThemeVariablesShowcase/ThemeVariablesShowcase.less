@@ -1,4 +1,28 @@
+@value searchBarHeight: 45px;
+
+@whiteColor: #fff;
+@hoverColor: #f8f8f8;
+@grayBorder: 1px solid #e8e8e8;
+
 :local {
+  .searchBar {
+    box-sizing: border-box;
+    //noinspection CssInvalidPropertyValue
+    height: searchBarHeight;
+    padding: 5px;
+    background-color: @whiteColor;
+  }
+
+  .heading {
+    padding: 24px 0 16px 5px;
+    margin: 0;
+    background-color: @whiteColor;
+  }
+
+  .headingSticky {
+    border-bottom: @grayBorder;
+  }
+
   .table {
     width: 1600px;
     border-collapse: collapse;
@@ -8,7 +32,15 @@
     }
 
     & tbody tr:hover {
-      background-color: palegreen;
+      background-color: @hoverColor;
+    }
+
+    & tbody tr.invisibleRow:hover ~ tr:not(.invisibleRow) {
+      background-color: @hoverColor;
+    }
+
+    & tbody tr.invisibleRow:hover ~ .invisibleRow ~ tr {
+      background-color: transparent;
     }
 
     & th {
@@ -17,19 +49,11 @@
     }
 
     & td {
-      border: 1px solid #000;
+      border-top: @grayBorder;
+      border-bottom: @grayBorder;
       vertical-align: top;
       padding: 5px;
     }
-  }
-
-  .invisibleCell {
-    padding: 0 !important;
-    height: 0 !important;
-    font-size: 0 !important;
-    line-height: 0 !important;
-    border: 0 none !important;
-    border-top: 1px solid #000 !important;
   }
 
   .invisibleRow {
@@ -41,7 +65,52 @@
     background-color: red;
   }
 
-  .pre {
+  //noinspection CssReplaceWithShorthandSafely
+  .invisibleCell {
+    padding: 0 !important;
+    height: 0 !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    border: 0 none !important;
+    border-top: @grayBorder !important;
+  }
+
+  .suspiciousCell {
+    background-color: #f28a25;
+  }
+
+  .className {
+    color: #7f9a44;
+    font-weight: 400;
+  }
+
+  .relativeCss {
     white-space: pre;
+    color: #333;
+  }
+  .variableName {
+    color: #b77daa;
+    font-weight: 400;
+    cursor: pointer;
+  }
+
+  .colorExample {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 16px;
+    height: 16px;
+    border: 1px solid transparent;
+    margin-right: 4px;
+    vertical-align: -3px;
+  }
+
+  .undefined {
+    text-decoration: line-through;
+  }
+  .unusedVariablesWarning {
+    padding: 16px;
+    margin: 20px 0;
+    background-color: #f28a25;
+    border-radius: 3px;
   }
 }

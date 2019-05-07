@@ -8,6 +8,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import RenderContainer from './components/RenderContainer';
 import { ZIndexStorage } from './components/ZIndex';
+import ThemeFactory from './lib/theming/ThemeFactory';
 
 configure({ adapter: new Adapter() });
 
@@ -38,25 +39,16 @@ delete React.PropTypes;
 // In general, it's easier (and performance-wise faster) to patch class once,
 // than write "__mock__" implementation and call
 // ```jest.mock(...)``` in every test (including indirect ones)
-
 beforeAll(() => {
   // Stable data-rendered-container-id / keys for every test
   RenderContainer.getRootId = () => 1;
 
   // Stable zIndex for every test
   ZIndexStorage.incrementZIndex = () => 1000;
-
-  // Constant theme
-  for (let key in THEME_OBJECT) {
-    if (THEME_OBJECT.hasOwnProperty(key)) {
-      // noinspection JSAccessibilityCheck
-      // ThemeManager.theme[key] = THEME_OBJECT[key];
-      // }
-    }
-  }
 });
 
-const THEME_OBJECT = {
+// Constant theme, move to beforeAll() after switching to ThemeProvider
+ThemeFactory.defaultTheme = Object.freeze({
   brandXLight: '#cae5f5',
   brandLight: '#3094d0',
   brand: '#1e79be',
@@ -352,4 +344,4 @@ const THEME_OBJECT = {
   radioDisabledShadow: '0 0 0 1px rgba(0, 0, 0, 0.15)',
   radioLabelDisplay: 'inline-table',
   specificityLevel: '0',
-};
+});
