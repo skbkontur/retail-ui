@@ -61,6 +61,7 @@ export class ComponentCombinator<
         <div>
           {pageOffsets && (
             <ComponentTable
+              key={page}
               Component={Component}
               presetProps={presetProps}
               presetState={presetState}
