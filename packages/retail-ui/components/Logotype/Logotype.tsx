@@ -9,9 +9,8 @@ import ProductWidget from './ProductWidget';
 import styles from './Logotype.less';
 import { cx as classnames } from 'emotion';
 import jsStyles from './Logotype.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 const createCloud = (color: string) => (
   <svg width="24" height="17" viewBox="0 0 24 17" className={styles.cloud}>
@@ -77,8 +76,8 @@ class Logotype extends React.Component<LogotypeProps> {
     href: '/',
   };
 
+  private theme!: ITheme;
   private readonly locale!: LogotypeLocale;
-
   private logoWrapper: Nullable<HTMLElement> = null;
   private isWidgetInited: boolean = false;
 
@@ -95,6 +94,17 @@ class Logotype extends React.Component<LogotypeProps> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       color,
       textColor,
@@ -111,7 +121,7 @@ class Logotype extends React.Component<LogotypeProps> {
     return (
       <div id="spwDropdown" className={dropdownClassName}>
         <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
-          <Component href={href} tabIndex="-1" className={classnames(styles.root, jsStyles.root(theme))}>
+          <Component href={href} tabIndex="-1" className={classnames(styles.root, jsStyles.root(this.theme))}>
             <span style={{ color: textColor }}>{propLocale.prefix}</span>
             <span style={{ color }}>{createCloud(color)}</span>
             <span style={{ color: textColor }}>
@@ -120,7 +130,7 @@ class Logotype extends React.Component<LogotypeProps> {
             </span>
             {suffix && <span style={{ color }}>{suffix}</span>}
           </Component>
-          {withWidget && <span className={classnames(styles.divider, jsStyles.divider(theme))} />}
+          {withWidget && <span className={classnames(styles.divider, jsStyles.divider(this.theme))} />}
         </span>
         {withWidget && (
           <button className={styles.button}>

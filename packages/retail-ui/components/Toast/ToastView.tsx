@@ -6,9 +6,8 @@ import styles from './ToastView.less';
 import { Nullable } from '../../typings/utility-types';
 import jsStyles from './ToastView.styles';
 import { cx } from 'emotion';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface ToastViewProps {
   children?: string;
@@ -37,24 +36,37 @@ class ToastView extends React.Component<ToastViewProps> {
     onClose: PropTypes.func,
   };
 
+  private theme!: ITheme;
+
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { children, action, onClose, ...rest } = this.props;
 
     const link = action ? (
-      <span className={cx(styles.link, jsStyles.link(theme))} onClick={action.handler}>
+      <span className={cx(styles.link, jsStyles.link(this.theme))} onClick={action.handler}>
         {action.label}
       </span>
     ) : null;
 
     const close = action ? (
-      <span className={cx(styles.close, jsStyles.close(theme))} onClick={onClose}>
+      <span className={cx(styles.close, jsStyles.close(this.theme))} onClick={onClose}>
         {CROSS}
       </span>
     ) : null;
 
     return (
       <ZIndex delta={1000} className={styles.wrapper}>
-        <div className={cx(styles.root, jsStyles.root(theme))} {...rest}>
+        <div className={cx(styles.root, jsStyles.root(this.theme))} {...rest}>
           {children}
           {link}
           {close}

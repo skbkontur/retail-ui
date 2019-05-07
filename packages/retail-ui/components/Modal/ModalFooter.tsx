@@ -5,9 +5,8 @@ import { ModalContext } from './ModalContext';
 import styles from './Modal.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Modal.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface FooterProps {
   /**
@@ -27,9 +26,21 @@ export class Footer extends React.Component<FooterProps> {
     sticky: true,
   };
 
+  private theme!: ITheme;
   private scrollbarWidth = getScrollWidth();
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     return (
       <ModalContext.Consumer>
         {({ horizontalScroll }) => {
@@ -48,10 +59,10 @@ export class Footer extends React.Component<FooterProps> {
   }
 
   private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
-    const className = classNames(styles.footer, jsStyles.footer(theme), {
+    const className = classNames(styles.footer, jsStyles.footer(this.theme), {
       [styles.panel]: !!this.props.panel,
       [styles.fixedFooter]: fixed,
-      [jsStyles.fixedFooter(theme)]: fixed,
+      [jsStyles.fixedFooter(this.theme)]: fixed,
     });
 
     return <div className={className}>{this.props.children}</div>;

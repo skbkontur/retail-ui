@@ -8,9 +8,8 @@ import styles from './InputLikeText.less';
 import { cx as classNames } from 'emotion';
 import inputStyles from '../../Input/Input.less';
 import jsInputStyles from '../../Input/Input.styles';
-import ThemeFactory from '../../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../../lib/theming/ThemeProvider';
+import { ITheme } from '../../../lib/theming/Theme';
 
 export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;
@@ -31,6 +30,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     focused: false,
   };
 
+  private theme!: ITheme;
   private _node: HTMLElement | null = null;
   private _blinkTimeout: Nullable<TimeoutID>;
 
@@ -68,6 +68,17 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       innerRef,
       tabIndex,
@@ -88,17 +99,17 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       ...rest
     } = this.props;
 
-    const className = classNames(inputStyles.root, jsInputStyles.root(theme), this._getSizeClassName(), {
+    const className = classNames(inputStyles.root, jsInputStyles.root(this.theme), this._getSizeClassName(), {
       [inputStyles.disabled]: !!this.props.disabled,
-      [jsInputStyles.disabled(theme)]: !!this.props.disabled,
+      [jsInputStyles.disabled(this.theme)]: !!this.props.disabled,
       [inputStyles.error]: !!error,
-      [jsInputStyles.error(theme)]: !!error,
+      [jsInputStyles.error(this.theme)]: !!error,
       [inputStyles.warning]: !!warning,
-      [jsInputStyles.warning(theme)]: !!warning,
+      [jsInputStyles.warning(this.theme)]: !!warning,
       [inputStyles.borderless]: !!borderless,
-      [jsInputStyles.blink(theme)]: !!this.state.blinking,
+      [jsInputStyles.blink(this.theme)]: !!this.state.blinking,
       [inputStyles.focus]: this.state.focused,
-      [jsInputStyles.focus(theme)]: this.state.focused,
+      [jsInputStyles.focus(this.theme)]: this.state.focused,
     });
 
     return (
@@ -113,14 +124,14 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       >
         <span className={inputStyles.sideContainer}>
           {this.renderLeftIcon()}
-          {prefix && <span className={jsInputStyles.prefix(theme)}>{prefix}</span>}
+          {prefix && <span className={jsInputStyles.prefix(this.theme)}>{prefix}</span>}
         </span>
         <span className={inputStyles.wrapper}>
-          <span className={classNames(inputStyles.input, styles.input, jsInputStyles.input(theme))}>{children}</span>
+          <span className={classNames(inputStyles.input, styles.input, jsInputStyles.input(this.theme))}>{children}</span>
           {this.renderPlaceholder()}
         </span>
         <span className={classNames(inputStyles.sideContainer, inputStyles.rightContainer)}>
-          {suffix && <span className={jsInputStyles.suffix(theme)}>{suffix}</span>}
+          {suffix && <span className={jsInputStyles.suffix(this.theme)}>{suffix}</span>}
           {this.renderRightIcon()}
         </span>
       </span>
@@ -138,20 +149,18 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     const { children, placeholder } = this.props;
 
     if (!children && placeholder) {
-      return (
-        <span className={classNames(inputStyles.placeholder, jsInputStyles.placeholder(theme))}>{placeholder}</span>
-      );
+      return <span className={classNames(inputStyles.placeholder, jsInputStyles.placeholder(this.theme))}>{placeholder}</span>;
     }
     return null;
   }
 
   private _getSizeClassName() {
     const SIZE_CLASS_NAMES = {
-      small: classNames(inputStyles.sizeSmall, jsInputStyles.sizeSmall(theme)),
+      small: classNames(inputStyles.sizeSmall, jsInputStyles.sizeSmall(this.theme)),
       medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classNames(inputStyles.sizeMedium, jsInputStyles.sizeMedium(theme))
-        : classNames(inputStyles.DEPRECATED_sizeMedium, jsInputStyles.DEPRECATED_sizeMedium(theme)),
-      large: classNames(inputStyles.sizeLarge, jsInputStyles.sizeLarge(theme)),
+        ? classNames(inputStyles.sizeMedium, jsInputStyles.sizeMedium(this.theme))
+        : classNames(inputStyles.DEPRECATED_sizeMedium, jsInputStyles.DEPRECATED_sizeMedium(this.theme)),
+      large: classNames(inputStyles.sizeLarge, jsInputStyles.sizeLarge(this.theme)),
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
@@ -164,6 +173,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       this.props.onFocus(event);
     }
   };
+
   private handleBlur = (event: React.FocusEvent<HTMLElement>) => {
     this.setState({ focused: false });
 
@@ -189,6 +199,6 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={classNames(className, jsInputStyles.useDefaultColor(theme))}>{icon}</span>;
+    return <span className={classNames(className, jsInputStyles.useDefaultColor(this.theme))}>{icon}</span>;
   }
 }

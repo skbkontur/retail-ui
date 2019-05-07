@@ -11,10 +11,8 @@ import { emptyHandler } from '../../lib/utils';
 import styles from './Paging.less';
 import { cx as cn } from 'emotion';
 import jsStyles from './Paging.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
-
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 interface ItemComponentProps {
@@ -82,8 +80,8 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     keyboardControl: this.props.useGlobalListener,
   };
 
+  private theme!: ITheme;
   private readonly locale!: PagingLocale;
-
   private addedGlobalListener: boolean = false;
   private container: HTMLSpanElement | null = null;
 
@@ -117,6 +115,17 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
   public render() {
     return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
+    return (
       <span
         tabIndex={0}
         className={styles.paging}
@@ -148,7 +157,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
   private renderDots = (key: string) => {
     return (
-      <span key={key} className={cn(styles.dots, jsStyles.dots(theme))}>
+      <span key={key} className={cn(styles.dots, jsStyles.dots(this.theme))}>
         {'...'}
       </span>
     );
@@ -157,11 +166,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
     const classes = cn({
       [styles.forwardLink]: true,
-      [jsStyles.forwardLink(theme)]: true,
+      [jsStyles.forwardLink(this.theme)]: true,
       [styles.focused]: focused,
-      [jsStyles.focused(theme)]: focused,
+      [jsStyles.focused(this.theme)]: focused,
       [styles.disabled]: disabled,
-      [jsStyles.disabled(theme)]: disabled,
+      [jsStyles.disabled(this.theme)]: disabled,
     });
     const { component: Component, strings: { forward = this.locale.forward } = {}, caption } = this.props;
 
@@ -185,11 +194,11 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
     const classes = cn({
       [styles.pageLink]: true,
-      [jsStyles.pageLink(theme)]: true,
+      [jsStyles.pageLink(this.theme)]: true,
       [styles.focused]: focused,
-      [jsStyles.focused(theme)]: focused,
+      [jsStyles.focused(this.theme)]: focused,
       [styles.active]: active,
-      [jsStyles.active(theme)]: active,
+      [jsStyles.active(this.theme)]: active,
     });
     const Component = this.props.component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -215,7 +224,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
     if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
-        <span className={cn(styles.pageLinkHint, jsStyles.pageLinkHint(theme))}>
+        <span className={cn(styles.pageLinkHint, jsStyles.pageLinkHint(this.theme))}>
           <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
           <span className={canGoForward ? '' : styles.transparent}>{'→'}</span>

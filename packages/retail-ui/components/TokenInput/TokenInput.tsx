@@ -15,9 +15,8 @@ import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
 import { cx as cn } from 'emotion';
 import jsStyles from './TokenInput.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export enum TokenInputType {
   WithReference,
@@ -69,6 +68,7 @@ export interface TokenInputState<T> {
 
 const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
+
 const defaultRenderToken = <T extends any>(
   item: T,
   { isActive, onClick, onRemove }: Partial<TokenProps & TokenActions>,
@@ -99,6 +99,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     activeTokens: [],
   };
 
+  private theme!: ITheme;
   private input: HTMLInputElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -135,6 +136,17 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
   }
 
   public render(): ReactNode {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       throw Error('Missed getItems for type ' + this.type);
     }
@@ -177,10 +189,10 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         <label
           ref={this.wrapperRef}
           style={{ width }}
-          className={cn(styles.label, jsStyles.label(theme), {
-            [jsStyles.labelFocused(theme)]: !!inFocus,
-            [jsStyles.error(theme)]: !!error,
-            [jsStyles.warning(theme)]: !!warning,
+          className={cn(styles.label, jsStyles.label(this.theme), {
+            [jsStyles.labelFocused(this.theme)]: !!inFocus,
+            [jsStyles.error(this.theme)]: !!error,
+            [jsStyles.warning(this.theme)]: !!warning,
           })}
           onMouseDown={this.handleWrapperMouseDown}
           onMouseUp={this.handleWrapperMouseUp}
@@ -194,7 +206,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
             autoComplete="off"
             spellCheck={false}
             disabled={disabled}
-            className={cn(styles.input, jsStyles.input(theme))}
+            className={cn(styles.input, jsStyles.input(this.theme))}
             placeholder={selectedItems.length > 0 ? undefined : placeholder}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}

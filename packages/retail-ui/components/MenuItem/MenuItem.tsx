@@ -5,10 +5,8 @@ import { isFunction } from '../../lib/utils';
 import styles from './MenuItem.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './MenuItem.styles';
-import ThemeFactory from "../../lib/theming/ThemeFactory";
-
-const theme = ThemeFactory.getDefaultTheme();
-
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
@@ -65,7 +63,20 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     onClick: PropTypes.func,
   };
 
+  private theme!: ITheme;
+
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       alkoLink,
       link,
@@ -92,11 +103,11 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       [styles.root]: true,
       [styles.disabled]: !!this.props.disabled,
       [styles.loose]: !!loose,
-      [jsStyles.hover(theme)]: hover,
-      [jsStyles.selected(theme)]: state === 'selected',
-      [jsStyles.link(theme)]: !!link || !!alkoLink,
-      [jsStyles.withIcon(theme)]: Boolean(iconElement) || !!_enableIconPadding,
-      [jsStyles.disabled(theme)]: !!this.props.disabled,
+      [jsStyles.hover(this.theme)]: hover,
+      [jsStyles.selected(this.theme)]: state === 'selected',
+      [jsStyles.link(this.theme)]: !!link || !!alkoLink,
+      [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [jsStyles.disabled(this.theme)]: !!this.props.disabled,
     });
 
     let content = children;

@@ -21,9 +21,8 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Select.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -188,6 +187,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
+
   public static static = (element: React.ReactNode | (() => React.ReactNode)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
@@ -201,11 +201,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     value: this.props.defaultValue,
   };
 
+  private theme!: ITheme;
   private readonly locale!: SelectLocale;
-
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
-
   private getProps = createPropsGetter(Select.defaultProps);
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
@@ -218,30 +217,13 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   }
 
   public render() {
-    const { label, isPlaceholder } = this.renderLabel();
-
-    const buttonParams: ButtonParams = {
-      opened: this.state.opened,
-      label,
-      isPlaceholder,
-      onClick: this.toggle,
-      onKeyDown: this.handleKey,
-    };
-
-    const style = {
-      width: this.props.width,
-      maxWidth: this.props.maxWidth || undefined,
-    };
-
-    const button = this.getButton(buttonParams);
-
     return (
-      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-        <span className={styles.root} style={style}>
-          {button}
-          {!this.props.disabled && this.state.opened && this.renderMenu()}
-        </span>
-      </RenderLayer>
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
     );
   }
 
@@ -278,6 +260,34 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }
+  }
+
+  private renderMain() {
+    const { label, isPlaceholder } = this.renderLabel();
+
+    const buttonParams: ButtonParams = {
+      opened: this.state.opened,
+      label,
+      isPlaceholder,
+      onClick: this.toggle,
+      onKeyDown: this.handleKey,
+    };
+
+    const style = {
+      width: this.props.width,
+      maxWidth: this.props.maxWidth || undefined,
+    };
+
+    const button = this.getButton(buttonParams);
+
+    return (
+      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+        <span className={styles.root} style={style}>
+          {button}
+          {!this.props.disabled && this.state.opened && this.renderMenu()}
+        </span>
+      </RenderLayer>
+    );
   }
 
   private renderLabel() {
@@ -334,7 +344,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         [styles.label]: this.props.use !== 'link',
         [styles.labelWithLeftIcon]: !!this.props._icon,
         [styles.placeholder]: params.isPlaceholder,
-        [jsStyles.placeholder(theme)]: params.isPlaceholder,
+        [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
         [styles.customUsePlaceholder]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
@@ -350,7 +360,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           <span className={styles.labelText}>{params.label}</span>
         </span>
         <div className={styles.arrowWrap}>
-          <div className={classNames(styles.arrow, jsStyles.arrow(theme), useIsCustom && styles.customUseArrow)} />
+          <div className={classNames(styles.arrow, jsStyles.arrow(this.theme), useIsCustom && styles.customUseArrow)} />
         </div>
       </Button>
     );

@@ -1,17 +1,17 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
+
 // Note SpinnerType нужен для генерации правильного .d.ts файла
 // @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
 import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
+
 import styles from './Loader.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx as classnames } from 'emotion';
-
 import jsStyles from './Loader.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -62,6 +62,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
   };
 
+  private theme!: ITheme;
   private containerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLSpanElement>;
   private spinnerHeight?: number;
@@ -94,10 +95,21 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { active, type, caption, className } = this.props;
     const loaderClassName = classnames(styles.loader, className, {
       [styles.active]: active,
-      [jsStyles.active(theme)]: active,
+      [jsStyles.active(this.theme)]: active,
     });
 
     return (

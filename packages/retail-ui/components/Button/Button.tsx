@@ -6,10 +6,8 @@ import '../ensureOldIEClassName';
 import { cx as classNames } from 'emotion';
 import classes from './Button.less';
 import jsClasses from './Button.styles';
-import ThemeFactory from "../../lib/theming/ThemeFactory";
-
-const theme = ThemeFactory.getDefaultTheme();
-
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonArrow = boolean | 'left';
@@ -108,7 +106,6 @@ export interface ButtonState {
 
 export default class Button extends React.Component<ButtonProps, ButtonState> {
   public static __BUTTON__ = true;
-
   public static TOP_LEFT = Corners.TOP_LEFT;
   public static TOP_RIGHT = Corners.TOP_RIGHT;
   public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
@@ -124,6 +121,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     focusedByTab: false,
   };
 
+  private theme!: ITheme;
   private _node: HTMLButtonElement | null = null;
 
   public componentDidMount() {
@@ -152,15 +150,26 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { corners = 0 } = this.props;
-    const RADIUS = this.props.size === 'small' ? theme.btnSmallBorderRadius : theme.btnBorderRadius;
+    const RADIUS = this.props.size === 'small' ? this.theme.btnSmallBorderRadius : this.theme.btnBorderRadius;
 
     const SIZE_CLASSES = {
-      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(theme)),
+      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
       medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(theme))
-        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(theme)),
-      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(theme)),
+        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(this.theme))
+        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(this.theme)),
+      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(this.theme)),
     };
 
     const rootProps = {
@@ -170,17 +179,17 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: classNames({
         [classes.root]: true,
-        [jsClasses.root(theme)]: true,
-        [classNames(jsClasses[this.props.use!] && jsClasses[this.props.use!](theme)) || jsClasses.default(theme)]: true,
+        [jsClasses.root(this.theme)]: true,
+        [classNames(jsClasses[this.props.use!] && jsClasses[this.props.use!](this.theme)) || jsClasses.default(this.theme)]: true,
         [classes.active]: !!this.props.active,
         [classes.checked]: !!this.props.checked,
-        [jsClasses.checked(theme)]: !!this.props.checked,
+        [jsClasses.checked(this.theme)]: !!this.props.checked,
         [classes.disabled]: !!this.props.disabled || !!this.props.loading,
-        [jsClasses.disabled(theme)]: !!this.props.disabled || !!this.props.loading,
+        [jsClasses.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
         [classes.errorRoot]: !!this.props.error,
-        [jsClasses.errorRoot(theme)]: !!this.props.error,
+        [jsClasses.errorRoot(this.theme)]: !!this.props.error,
         [classes.warningRoot]: !!this.props.warning,
-        [jsClasses.warningRoot(theme)]: !!this.props.warning,
+        [jsClasses.warningRoot(this.theme)]: !!this.props.warning,
         [classes.error]: !!this.props.error,
         [classes.warning]: !!this.props.warning,
         [classes.narrow]: !!this.props.narrow,
@@ -189,7 +198,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.buttonWithIcon]: !!this.props.icon,
         [SIZE_CLASSES[this.props.size!]]: true,
         [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsClasses.focus(theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [classes.borderless]: !!this.props.borderless,
       }),
       style: {
@@ -214,7 +223,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: classNames({
         [classes.wrap]: true,
-        [jsClasses.wrap(theme)]: true,
+        [jsClasses.wrap(this.theme)]: true,
         [classes.wrap_arrow]: !!this.props.arrow,
         [classes.wrap_arrow_left]: this.props.arrow === 'left',
       }),
@@ -225,9 +234,9 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
     let error = null;
     if (this.props.error) {
-      error = <div className={classNames(classes.error, jsClasses.error(theme))} />;
+      error = <div className={classNames(classes.error, jsClasses.error(this.theme))} />;
     } else if (this.props.warning) {
-      error = <div className={classNames(classes.warning, jsClasses.warning(theme))} />;
+      error = <div className={classNames(classes.warning, jsClasses.warning(this.theme))} />;
     }
 
     let loading = null;
@@ -245,11 +254,11 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={classNames({
-            [classNames(classes.arrow, jsClasses.arrow(theme)) || '']: true,
-            [classNames(classes.arrow_left, jsClasses.arrow_left(theme)) || '']: this.props.arrow === 'left',
+            [classNames(classes.arrow, jsClasses.arrow(this.theme)) || '']: true,
+            [classNames(classes.arrow_left, jsClasses.arrow_left(this.theme)) || '']: this.props.arrow === 'left',
             [classes.arrow_loading || '']: !!this.props.loading,
-            [jsClasses.arrow_error(theme)]: !!this.props.error,
-            [jsClasses.arrow_warning(theme)]: !!this.props.warning,
+            [jsClasses.arrow_error(this.theme)]: !!this.props.error,
+            [jsClasses.arrow_warning(this.theme)]: !!this.props.warning,
           })}
         />
       );
@@ -259,15 +268,15 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.use === 'link') {
       rootProps.className = classNames({
         [classes.root]: true,
-        [jsClasses.root(theme)]: true,
+        [jsClasses.root(this.theme)]: true,
         [classes.link]: true,
-        [jsClasses.link(theme)]: true,
+        [jsClasses.link(this.theme)]: true,
         [classes.disabled]: !!this.props.disabled,
-        [jsClasses.disabled(theme)]: !!this.props.disabled,
+        [jsClasses.disabled(this.theme)]: !!this.props.disabled,
         [classes.buttonWithIcon]: !!this.props.icon,
         [SIZE_CLASSES[this.props.size!]]: true,
         [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsClasses.focus(theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
       });
       Object.assign(wrapProps, {
         className: classNames(classes.wrap, {

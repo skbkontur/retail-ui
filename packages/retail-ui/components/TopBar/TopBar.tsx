@@ -14,9 +14,8 @@ import Start from './TopBarStart';
 import Logout from './TopBarLogout';
 import { cx as classNames } from 'emotion';
 import jsStyles from './TopBar.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface TopBarProps {
   children?: React.ReactNode;
@@ -133,7 +132,20 @@ class TopBar extends React.Component<TopBarProps> {
     onLogout: PropTypes.func,
   };
 
+  private theme!: ITheme;
+
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       children,
       leftItems,
@@ -168,7 +180,7 @@ class TopBar extends React.Component<TopBarProps> {
       <div
         className={classNames({
           [styles.root]: true,
-          [jsStyles.root(theme)]: true,
+          [jsStyles.root(this.theme)]: true,
           [styles.noShadow]: !!noShadow,
           [styles.noMargin]: !!noMargin,
         })}

@@ -11,9 +11,8 @@ import Upgrades from '../../lib/Upgrades';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Textarea.styles';
 import styles from './Textarea.less';
-import ThemeFactory from "../../lib/theming/ThemeFactory";
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 const DEFAULT_WIDTH = 250;
 
 export type TextareaProps = Override<
@@ -139,6 +138,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 1,
   };
 
+  private theme!: ITheme;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
@@ -163,6 +163,59 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  /**
+   * @public
+   */
+  public focus() {
+    if (this.node) {
+      this.node.focus();
+    }
+  }
+
+  /**
+   * @public
+   */
+  public blur() {
+    if (this.node) {
+      this.node.blur();
+    }
+  }
+
+  /**
+   * @public
+   */
+  public setSelectionRange = (start: number, end: number) => {
+    if (!this.node) {
+      throw new Error('Cannot call "setSelectionRange" on unmounted Input');
+    }
+
+    if (document.activeElement !== this.node) {
+      this.focus();
+    }
+
+    this.node.setSelectionRange(start, end);
+  };
+
+  /**
+   * @public
+   */
+  public selectAll = () => {
+    if (this.node) {
+      this.setSelectionRange(0, this.node.value.length);
+    }
+  };
+
+  private renderMain() {
     const {
       width = DEFAULT_WIDTH,
       error,
@@ -188,9 +241,9 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaClassNames = classNames({
       [styles.textarea]: true,
-      [jsStyles.textarea(theme)]: true,
-      [jsStyles.error(theme)]: !!error,
-      [jsStyles.warning(theme)]: !!warning,
+      [jsStyles.textarea(this.theme)]: true,
+      [jsStyles.error(this.theme)]: !!error,
+      [jsStyles.warning(this.theme)]: !!warning,
     });
 
     const textAreaStyle = {
@@ -237,48 +290,6 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       </label>
     );
   }
-
-  /**
-   * @public
-   */
-  public focus() {
-    if (this.node) {
-      this.node.focus();
-    }
-  }
-
-  /**
-   * @public
-   */
-  public blur() {
-    if (this.node) {
-      this.node.blur();
-    }
-  }
-
-  /**
-   * @public
-   */
-  public setSelectionRange = (start: number, end: number) => {
-    if (!this.node) {
-      throw new Error('Cannot call "setSelectionRange" on unmounted Input');
-    }
-
-    if (document.activeElement !== this.node) {
-      this.focus();
-    }
-
-    this.node.setSelectionRange(start, end);
-  };
-
-  /**
-   * @public
-   */
-  public selectAll = () => {
-    if (this.node) {
-      this.setSelectionRange(0, this.node.value.length);
-    }
-  };
 
   private handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {

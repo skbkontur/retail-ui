@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Link from '../Link';
+
 import {
   Fields,
   ExtraFields,
@@ -11,6 +12,7 @@ import {
   FieldsSettings,
   SearchOptions,
 } from './types';
+
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -21,9 +23,8 @@ import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
 import { cx as cn } from 'emotion';
 import jsStyles from './Fias.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface FiasProps {
   /**
@@ -152,6 +153,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     fieldsSettings: this.fieldsSettings,
   };
 
+  private theme!: ITheme;
   private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: FiasForm | null = null;
 
@@ -214,6 +216,17 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { showAddressText, label, icon, error, warning, feedback } = this.props;
     const { opened, address, locale } = this.state;
 
@@ -221,7 +234,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
     const validation =
       (error || warning) && feedback ? (
-        <span className={cn({ [jsStyles.error(theme)]: !!error, [jsStyles.warning(theme)]: !!warning })}>
+        <span className={cn({ [jsStyles.error(this.theme)]: !!error, [jsStyles.warning(this.theme)]: !!warning })}>
           {feedback}
         </span>
       ) : null;

@@ -4,9 +4,8 @@ import tabListener from '../../lib/events/tabListener';
 import { cx as classNames } from 'emotion';
 import styles from './Toggle.less';
 import jsStyles from './Toggle.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface ToggleProps {
   checked?: boolean;
@@ -44,6 +43,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
   };
 
+  private theme!: ITheme;
   private input: HTMLInputElement | null = null;
 
   constructor(props: ToggleProps) {
@@ -73,20 +73,31 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   };
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { warning, error, loading, color } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
-    const containerClassNames = classNames(styles.container, jsStyles.container(theme), {
-      [jsStyles.isWarning(theme)]: !color && !!warning,
-      [jsStyles.isError(theme)]: !color && !!error,
-      [jsStyles.isLoading(theme)]: !!loading,
-      [jsStyles.focused(theme)]: !disabled && !!this.state.focusByTab,
+    const containerClassNames = classNames(styles.container, jsStyles.container(this.theme), {
+      [jsStyles.isWarning(this.theme)]: !color && !!warning,
+      [jsStyles.isError(this.theme)]: !color && !!error,
+      [jsStyles.isLoading(this.theme)]: !!loading,
+      [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
     });
 
     return (
       <label
-        className={classNames(styles.wrapper, jsStyles.wrapper(theme), {
+        className={classNames(styles.wrapper, jsStyles.wrapper(this.theme), {
           [styles.isDisabled]: !!disabled,
         })}
       >
@@ -112,11 +123,11 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
           }
         >
           <div
-            className={classNames(styles.activeBackground, jsStyles.activeBackground(theme))}
+            className={classNames(styles.activeBackground, jsStyles.activeBackground(this.theme))}
             style={checked && color ? { backgroundColor: color } : undefined}
           />
         </div>
-        <div className={classNames(styles.handle, jsStyles.handle(theme))} />
+        <div className={classNames(styles.handle, jsStyles.handle(this.theme))} />
       </label>
     );
   }
