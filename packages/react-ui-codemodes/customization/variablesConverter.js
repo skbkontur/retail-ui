@@ -1,38 +1,41 @@
-const fs = require('fs');
+const {
+  appendFileSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  unlinkSync,
+  lstatSync,
+  existsSync,
+  copyFileSync,
+} = require('fs');
+const { parse, join } = require('path');
 
 const ARGS = process.argv.slice(2);
 const VARIABLES_ARGUMENT_NAME = 'variables';
 const OUTPUT_ARGUMENT_NAME = 'output';
-const PATH_TO_LESS_ARGUMENT_NAME = 'pathToLess';
 const LESS_VARIABLE_REGEXP = /@[a-z|_-]+:/gm;
 const STRING_CAMELIZE_REGEXP_1 = /(\-|\_|\.|\s)+(.)?/g;
 const STRING_CAMELIZE_REGEXP_2 = /(^|\/)([A-Z])/g;
 const ENCODING = 'UTF-8';
 const TEMP_FILE_PATH = './variables.temp.less';
+const ROOT_PATH = parse(process.cwd()).root;
 
 let less;
 let variablesFilePath;
 let output;
 
+defineLess();
 validateArguments();
 parseArguments();
 processFile();
 
 function validateArguments() {
-  if (ARGS.length < 3) {
-    throw new Error('3 arguments should be passed: `input`, `output` and `pathToLess`. Check CLI arguments.');
-  }
-
   if (!ARGS.some(i => i.startsWith(VARIABLES_ARGUMENT_NAME))) {
     throw new Error(`Argument '${VARIABLES_ARGUMENT_NAME}' is required.`);
   }
 
   if (!ARGS.some(i => i.startsWith(OUTPUT_ARGUMENT_NAME))) {
     throw new Error(`Argument '${OUTPUT_ARGUMENT_NAME}' is required.`);
-  }
-
-  if (!ARGS.some(i => i.startsWith(PATH_TO_LESS_ARGUMENT_NAME))) {
-    throw new Error(`Argument '${PATH_TO_LESS_ARGUMENT_NAME}' is required.`);
   }
 }
 
@@ -44,15 +47,12 @@ function parseArguments() {
     if (i.startsWith(OUTPUT_ARGUMENT_NAME)) {
       return parseOutputArgument(i);
     }
-    if (i.startsWith(PATH_TO_LESS_ARGUMENT_NAME)) {
-      return parsePathToLessArgument(i);
-    }
   });
 }
 
 function parseVariablesArgument(arg) {
   const [argName, pathToFile] = arg.split('=');
-  const isValidFile = fs.existsSync(pathToFile) && pathToFile.endsWith('.less');
+  const isValidFile = existsSync(pathToFile) && pathToFile.endsWith('.less');
 
   if (isValidFile) {
     variablesFilePath = pathToFile;
@@ -66,28 +66,14 @@ function parseOutputArgument(arg) {
   output = outputPath;
 }
 
-function parsePathToLessArgument(arg) {
-  const [argName, pathToLess] = arg.split('=');
-
-  try {
-    less = require(pathToLess);
-  } catch (e) {
-    console.log('Error with requiring less package. Check path, passed in `less` CLI argument.');
-  }
-
-  if (!less || typeof less.render !== 'function') {
-    throw new Error('Wrong less package. Check path, passed in `less` CLI argument.');
-  }
-}
-
 function processFile() {
   writeTempFile();
   processTempFile();
 }
 
 function writeTempFile() {
-  fs.copyFileSync(variablesFilePath, TEMP_FILE_PATH);
-  const tempFileContent = fs.readFileSync(TEMP_FILE_PATH, { encoding: ENCODING });
+  copyFileSync(variablesFilePath, TEMP_FILE_PATH);
+  const tempFileContent = readFileSync(TEMP_FILE_PATH, { encoding: ENCODING });
   const variables = tempFileContent.match(LESS_VARIABLE_REGEXP);
   const locals = getLocals(variables);
 
@@ -95,7 +81,7 @@ function writeTempFile() {
 }
 
 function processTempFile() {
-  const tempFileContent = fs.readFileSync(TEMP_FILE_PATH, { encoding: ENCODING });
+  const tempFileContent = readFileSync(TEMP_FILE_PATH, { encoding: ENCODING });
   less.render(tempFileContent).then(lessRenderCallback);
 }
 
@@ -128,11 +114,11 @@ function parseField(field) {
 }
 
 function writeThemeToOutput(content) {
-  fs.writeFileSync(output, content);
+  writeFileSync(output, content);
 }
 
 function removeTempFile() {
-  fs.unlinkSync(TEMP_FILE_PATH);
+  unlinkSync(TEMP_FILE_PATH);
 }
 
 function writeLocalsToFile(camelizedVarialbesObject, filePath) {
@@ -144,7 +130,7 @@ function writeLocalsToFile(camelizedVarialbesObject, filePath) {
     localsArr.push(`@value ${key}: ${value};`);
   });
 
-  fs.appendFileSync(filePath, localsArr.join('\n'));
+  appendFileSync(filePath, localsArr.join('\n'));
 }
 
 function getLocals(variablesList) {
@@ -164,4 +150,37 @@ function camelizeString(str) {
   return str
     .replace(STRING_CAMELIZE_REGEXP_1, (match, separator, chr) => (chr ? chr.toUpperCase() : ''))
     .replace(STRING_CAMELIZE_REGEXP_2, match => match.toLowerCase());
+}
+
+function defineLess() {
+  const pathToLess = findLess(__dirname);
+
+  try {
+    less = require(pathToLess);
+  } catch (e) {
+    console.log(`Error with less package require: ${e}`);
+  }
+}
+
+function findLess(path) {
+  if (path === ROOT_PATH) {
+    throw new Error("Couldn't find less package");
+  }
+
+  const directories = getDirectories(path);
+  if (directories.includes('node_modules')) {
+    const nodeModulesDirectories = getDirectories(join(path, 'node_modules'));
+    if (nodeModulesDirectories.includes('less')) {
+      return join(path, 'node_modules', 'less', 'index.js');
+    }
+  }
+  return findLess(join(path, '..'));
+}
+
+function isDirectory(source) {
+  return lstatSync(source).isDirectory();
+}
+
+function getDirectories(source) {
+  return readdirSync(source).filter(name => isDirectory(join(source, name)));
 }
