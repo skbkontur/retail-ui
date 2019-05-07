@@ -108,24 +108,20 @@ function contextify(fileInfo: FileInfo, api: API) {
     let insertThemePropAt = 0;
     let insertRenderMainAt = 0;
     classDeclaration.body.body.forEach((n: any, i) => {
-      const isProperty = n.type === 'ClassProperty' && (!n.value || n.value && n.value.type !== 'ArrowFunctionExpression');
+      const isProperty = n.type === 'ClassProperty' && (!n.value || n.value.type !== 'ArrowFunctionExpression');
       if (isProperty && (n.static || n.accessibility === 'public')) {
-        insertThemePropAt = i;
+        insertThemePropAt = i + 1;
       }
 
       const isClassicMethod = n.type === 'ClassMethod';
       const isPropertyLikeMethod = n.type === 'ClassProperty' && n.value && n.value.type === 'ArrowFunctionExpression';
       if ((isClassicMethod || isPropertyLikeMethod) && (n.static || n.accessibility === 'public')) {
-        insertRenderMainAt = i;
+        insertRenderMainAt = i + 1;
       }
     });
 
-    if (insertRenderMainAt < insertThemePropAt) {
-      insertRenderMainAt = insertThemePropAt + 1;
-    }
-
-    classDeclaration.body.body.splice(insertThemePropAt + 1, 0, themeProperty);
-    classDeclaration.body.body.splice(insertRenderMainAt + 2, 0, renderMainMethod);
+    classDeclaration.body.body.splice(insertThemePropAt, 0, themeProperty);
+    classDeclaration.body.body.splice(insertRenderMainAt + 1, 0, renderMainMethod);
 
     const renderReturnStatement = j.template.expression([
       `<ThemeConsumer>
