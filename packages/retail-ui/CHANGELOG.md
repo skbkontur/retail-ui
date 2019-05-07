@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.48.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.47.0...retail-ui@0.48.0) (2019-04-30)
+
+
+### Bug Fixes
+
+* **ComboBox:** fix input text with single item behavior ([#1360](https://github.com/skbkontur/retail-ui/issues/1360)) ([c6fa7a5](https://github.com/skbkontur/retail-ui/commit/c6fa7a5)), closes [#992](https://github.com/skbkontur/retail-ui/issues/992)
+* **Fias:** search postal Code through all fields ([7433d12](https://github.com/skbkontur/retail-ui/commit/7433d12))
+* **Fias:** validate all fields ([8d126f9](https://github.com/skbkontur/retail-ui/commit/8d126f9))
+* **flow:** add children to Modal props ([1e7e420](https://github.com/skbkontur/retail-ui/commit/1e7e420))
+* **flow:** add missed props ([5538a61](https://github.com/skbkontur/retail-ui/commit/5538a61))
+* **Modal:** change modal position according to the guides ([0e7e053](https://github.com/skbkontur/retail-ui/commit/0e7e053)), closes [#1331](https://github.com/skbkontur/retail-ui/issues/1331)
+* **Modal:** fix closing on background click ([089bad0](https://github.com/skbkontur/retail-ui/commit/089bad0)), closes [#810](https://github.com/skbkontur/retail-ui/issues/810) [#1352](https://github.com/skbkontur/retail-ui/issues/1352)
+* **Popup:** remove hardcoded maxWidth ([721b751](https://github.com/skbkontur/retail-ui/commit/721b751)), closes [#1343](https://github.com/skbkontur/retail-ui/issues/1343)
+* **ScrollContainer:** do not access the DOM until it is surely ready ([2b59064](https://github.com/skbkontur/retail-ui/commit/2b59064)), closes [#1371](https://github.com/skbkontur/retail-ui/issues/1371)
+
+
+### Features
+
+* **ComboBox:** add prop `renderAddButton` ([#1365](https://github.com/skbkontur/retail-ui/issues/1365)) ([55345e1](https://github.com/skbkontur/retail-ui/commit/55345e1))
+* **DropdownMenu:** add positions prop ([7fc607d](https://github.com/skbkontur/retail-ui/commit/7fc607d))
+* **MenuItem:** add `link` prop ([d705f19](https://github.com/skbkontur/retail-ui/commit/d705f19))
+
+
+
+
+
 # [0.47.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.2...retail-ui@0.47.0) (2019-04-22)
 
 

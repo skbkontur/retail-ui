@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Nullable } from '../../typings/utility-types';
 import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { isProductionEnv } from '../internal/currentEnvironment';
+import { PopupPosition } from '../Popup';
 
 export interface DropdownMenuProps {
   /** Максимальная высота меню */
@@ -18,6 +19,11 @@ export interface DropdownMenuProps {
 
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  /**
+   * Массив разрешенных положений меню относительно caption'а.
+   * @default ['bottom left', 'bottom right', 'top left', 'top right']
+   */
+  positions?: PopupPosition[];
 
   onOpen?: () => void;
   onClose?: () => void;
@@ -34,6 +40,7 @@ export interface DropdownMenuProps {
 export default class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static defaultProps = {
     disableAnimations: false,
+    positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };
 
   private popupMenu: Nullable<PopupMenu> = null;
@@ -59,7 +66,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
         onChangeMenuState={this.handleChangeMenuState}
         popupHasPin={false}
         popupMargin={0}
-        positions={['bottom left', 'bottom right', 'top left', 'top right']}
+        positions={this.props.positions}
         disableAnimations={this.props.disableAnimations}
         header={this.props.header}
         footer={this.props.footer}

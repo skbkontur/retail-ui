@@ -47,7 +47,7 @@ export class FiasData {
   }
 
   public get code(): string {
-    return FiasData.isAddressObject(this.data) ? this.data.code : '';
+    return (FiasData.isAddressObject(this.data) && this.data.code) || '';
   }
 
   public get number(): string {
@@ -63,7 +63,11 @@ export class FiasData {
   }
 
   public get fiasId(): FiasId {
-    return (this.data && this.data.fiasId) || '';
+    return this.data.fiasId;
+  }
+
+  public get parentFiasId(): FiasId {
+    return (this.data && this.data.parentFiasId) || '';
   }
 
   public get postalCode(): string {
