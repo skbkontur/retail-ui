@@ -22,6 +22,7 @@ export interface StickyProps {
    * @default false
    */
   allowChildWithMargins?: boolean;
+  getInitialClientRect?: (rect: ClientRect | DOMRect) => void;
 }
 
 export interface StickyState {
@@ -79,6 +80,9 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private getProps = createPropsGetter(Sticky.defaultProps);
 
   public componentDidMount() {
+    if (this._wrapper && this.props.getInitialClientRect) {
+      this.props.getInitialClientRect(this._wrapper.getBoundingClientRect())
+    }
     this._reflow();
 
     this._layoutSubscription = LayoutEvents.addListener(() => this._reflow());
