@@ -51,7 +51,7 @@ function parseArguments() {
 }
 
 function parseVariablesArgument(arg) {
-  const [argName, pathToFile] = arg.split('=');
+  const [argName, pathToFile] = arg.split('=').map(i => i.trim());
   const isValidFile = existsSync(pathToFile) && pathToFile.endsWith('.less');
 
   if (isValidFile) {
@@ -62,7 +62,7 @@ function parseVariablesArgument(arg) {
 }
 
 function parseOutputArgument(arg) {
-  const [argName, outputPath] = arg.split('=');
+  const [argName, outputPath] = arg.split('=').map(i => i.trim());
   output = outputPath;
 }
 
