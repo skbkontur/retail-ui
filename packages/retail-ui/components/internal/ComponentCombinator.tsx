@@ -1,36 +1,21 @@
 import * as React from 'react';
-import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
+import { ComponentTable, StatePropsCombinations, StateType, Defaultize } from './ComponentTable';
 
-// NOTE: Copy-paste from @types/react
-export type Defaultize<P, D> = P extends any
-  ? string extends keyof P
-    ? P
-    : Pick<P, Exclude<keyof P, keyof D>> &
-        Partial<Pick<P, Extract<keyof P, keyof D>>> &
-        Partial<Pick<D, Exclude<keyof D, keyof P>>>
-  : never;
-
-export interface ComponentCombinatorProps<
-  T extends React.Component<any, any, any>,
-  C extends React.FunctionComponent<any> | React.ComponentClass<any, any>,
-  P extends React.ComponentProps<C>,
-  S,
-  DP
-> {
+export interface ComponentCombinatorProps<C, P, S> {
   combinations: StatePropsCombinations<P, S>;
   sizeX: number;
   sizeY: number;
-  Component: C extends React.ComponentClass<P, S> ? React.ClassType<P, T, C> : C;
-  presetProps: DP;
+  Component: C;
+  presetProps: C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
   presetState: Partial<S>;
 }
 
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
-  C extends React.FunctionComponent<any> | React.ComponentClass<any, any>,
+  C extends React.ComponentType<any>,
   P extends React.ComponentProps<C>
 > extends React.Component<
-  ComponentCombinatorProps<T, C, P, StateType<C, P>, C extends { defaultProps: infer D } ? Defaultize<P, D> : P>,
+  ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }
 > {
   public static defaultProps = {

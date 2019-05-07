@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isFunctionalComponent } from 'retail-ui/lib/utils';
+import { isFunctionalComponent } from '../../lib/utils';
 
 // TODO We should output state too
 const renderPropsDesc = <P extends {}>(props: P): React.ReactNode => {
@@ -21,40 +21,43 @@ const renderPropsDesc = <P extends {}>(props: P): React.ReactNode => {
           return `${key}: ${value}`;
       }
     })
-    .map((node: React.ReactNode, index: number, nodes: React.ReactNode[]) => (
+    .map((node, index, nodes) => (
       <span key={index}>
         {node} {index + 1 < nodes.length ? ', ' : null}
       </span>
     ));
 };
 
+// NOTE: Copy-paste from @types/react
+export type Defaultize<P, D> = P extends any
+  ? string extends keyof P
+    ? P
+    : Pick<P, Exclude<keyof P, keyof D>> &
+        Partial<Pick<P, Extract<keyof P, keyof D>>> &
+        Partial<Pick<D, Exclude<keyof D, keyof P>>>
+  : never;
+
 export type StatePropsCombinations<P, S> = Array<{ props?: Partial<P>; state?: Partial<S> }>;
 
-export type StateType<C, P> = C extends React.Component<P, infer S> | React.ComponentClass<P, infer S> ? S : never;
+export type StateType<C> = C extends React.Component<any, infer S> | React.ComponentClass<any, infer S> ? S : never;
 
-export interface ComponentTableProps<
-  T extends React.Component<any, any, any>,
-  C extends React.FunctionComponent<any> | React.ComponentClass<any, any>,
-  P extends React.ComponentProps<C>,
-  S
-> {
+export interface ComponentTableProps<C, P, S> {
   rows?: StatePropsCombinations<P, S>;
   cols?: StatePropsCombinations<P, S>;
-  presetProps: P;
+  presetProps: C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
   presetState: Partial<S>;
-  Component: C extends React.ComponentClass<P, S> ? React.ClassType<P, T, C> : C;
+  Component: C;
 }
 
 // Known limitation: Don't work when component have `propTypes` static field
 export class ComponentTable<
   T extends React.Component<any, any, any>,
-  C extends React.FunctionComponent<any> | React.ComponentClass<any, any>,
+  C extends React.ComponentType<any>,
   P extends React.ComponentProps<C>
-> extends React.Component<ComponentTableProps<T, C, P, StateType<C, P>>> {
-  public static defaultProps = {
-    presetProps: {},
-    presetState: {},
-  };
+> extends React.Component<
+  ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
+> {
+  public static defaultProps = { presetProps: {}, presetState: {} };
 
   public render() {
     const { rows = [], cols = [], presetProps, presetState, Component } = this.props;
@@ -84,11 +87,12 @@ export class ComponentTable<
                     {...rowProps}
                     {...colProps}
                     ref={
+                      // NOTE Call setState from outside is bad practice, but here it needed for test state combinations
                       isFunctionalComponent(Component)
                         ? undefined
-                        : (el: React.Component<P, StateType<C, P>>) =>
+                        : (el: React.Component<P, StateType<C>>) =>
                             el &&
-                            el.setState((state: StateType<C, P>) => ({
+                            el.setState((state: StateType<C>) => ({
                               ...state,
                               ...presetState,
                               ...rowState,
