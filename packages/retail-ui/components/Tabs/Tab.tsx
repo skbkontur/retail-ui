@@ -7,8 +7,8 @@ import styles from './Tab.less';
 import { TabsContextType, TabsContext } from './TabsContext';
 import { cx as cn } from 'emotion';
 import jsStyles from './Tab.styles';
-import ThemeFactory from "../../lib/theming/ThemeFactory";
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface TabIndicators {
   error: boolean;
@@ -154,6 +154,7 @@ export class Tab extends React.Component<TabProps, TabState> {
     focusedByKeyboard: false,
   };
 
+  private theme!: ITheme;
   private tabComponent: Nullable<React.ReactElement<Tab>> = null;
 
   public componentWillMount() {
@@ -189,6 +190,29 @@ export class Tab extends React.Component<TabProps, TabState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  public getIndicators() {
+    return {
+      error: Boolean(this.props.error),
+      warning: Boolean(this.props.warning),
+      success: Boolean(this.props.success),
+      primary: Boolean(this.props.primary),
+      disabled: Boolean(this.props.disabled),
+    };
+  }
+
+  public getUnderlyingNode = () => this.tabComponent;
+
+  private renderMain() {
     const {
       context,
       children,
@@ -215,16 +239,16 @@ export class Tab extends React.Component<TabProps, TabState> {
       <Component
         className={cn({
           [styles.root]: true,
-          [jsStyles.root(theme)]: true,
+          [jsStyles.root(this.theme)]: true,
           [styles.vertical]: !!isVertical,
-          [jsStyles.vertical(theme)]: !!isVertical,
-          [jsStyles.primary(theme)]: !!primary,
-          [jsStyles.success(theme)]: !!success,
-          [jsStyles.warning(theme)]: !!warning,
-          [jsStyles.error(theme)]: !!error,
+          [jsStyles.vertical(this.theme)]: !!isVertical,
+          [jsStyles.primary(this.theme)]: !!primary,
+          [jsStyles.success(this.theme)]: !!success,
+          [jsStyles.warning(this.theme)]: !!warning,
+          [jsStyles.error(this.theme)]: !!error,
           [styles.active]: !!isActive,
           [styles.disabled]: !!disabled,
-          [jsStyles.disabled(theme)]: !!disabled,
+          [jsStyles.disabled(this.theme)]: !!disabled,
         })}
         onBlur={this.handleBlur}
         onClick={this.switchTab}
@@ -236,22 +260,10 @@ export class Tab extends React.Component<TabProps, TabState> {
         style={style}
       >
         {children}
-        {this.state.focusedByKeyboard && <div className={cn(styles.focus, jsStyles.focus(theme))} />}
+        {this.state.focusedByKeyboard && <div className={cn(styles.focus, jsStyles.focus(this.theme))} />}
       </Component>
     );
   }
-
-  public getIndicators() {
-    return {
-      error: Boolean(this.props.error),
-      warning: Boolean(this.props.warning),
-      success: Boolean(this.props.success),
-      primary: Boolean(this.props.primary),
-      disabled: Boolean(this.props.disabled),
-    };
-  }
-
-  public getUnderlyingNode = () => this.tabComponent;
 
   private getId = () => this.props.id || this.props.href;
 

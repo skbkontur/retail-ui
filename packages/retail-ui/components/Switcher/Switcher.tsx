@@ -6,9 +6,8 @@ import styles from './Switcher.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Switcher.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface SwitcherProps {
   /**
@@ -55,10 +54,23 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     focusedIndex: null,
   };
 
+  private theme!: ITheme;
+
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const listClassNames = classNames({
       [styles.error]: !!this.props.error,
-      [jsStyles.error(theme)]: !!this.props.error,
+      [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
     const inputProps = {

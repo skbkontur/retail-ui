@@ -3,9 +3,8 @@ import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 import styles from './MaskedInput.less';
 import jsStyles from './MaskedInput.styles';
 import { cx } from 'emotion';
-import ThemeFactory from "../../../lib/theming/ThemeFactory";
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../../lib/theming/ThemeProvider';
+import { ITheme } from '../../../lib/theming/Theme';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -31,6 +30,7 @@ export default class MaskedInput extends React.Component<MaskedInputProps, Maske
   };
 
   public input: HTMLInputElement | null = null;
+  private theme!: ITheme;
   private reactInputMask: ReactInputMask | null = null;
 
   public componentDidMount() {
@@ -49,6 +49,17 @@ export default class MaskedInput extends React.Component<MaskedInputProps, Maske
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       maskChar,
       alwaysShowMask,
@@ -74,7 +85,7 @@ export default class MaskedInput extends React.Component<MaskedInputProps, Maske
           ref={this.refMaskedInput}
         />
         {this.isMaskVisible() && (
-          <span className={cx(styles.inputMask, jsStyles.inputMask(theme))}>
+          <span className={cx(styles.inputMask, jsStyles.inputMask(this.theme))}>
             <span style={{ color: 'transparent' }}>{this.state.emptyValue.slice(0, this.state.value.length)}</span>
             {this.state.emptyValue.slice(this.state.value.length)}
           </span>

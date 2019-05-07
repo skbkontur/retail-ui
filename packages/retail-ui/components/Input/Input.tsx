@@ -8,20 +8,16 @@ import MaskedInput from '../internal/MaskedInput/MaskedInput';
 import { cx as classNames } from 'emotion';
 import classes from './Input.less';
 import jsClasses from './Input.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 const isDeleteKey = (key: string) => {
   return key === 'Backspace' || key === 'Delete';
 };
 
 export type InputSize = 'small' | 'medium' | 'large';
-
 export type InputAlign = 'left' | 'center' | 'right';
-
 export type InputType = 'password' | 'text';
-
 export type IconType = React.ReactNode | (() => React.ReactNode);
 
 export type InputProps = Override<
@@ -129,8 +125,8 @@ class Input extends React.Component<InputProps, InputState> {
     focused: false,
   };
 
+  private theme!: ITheme;
   private blinkTimeout: number = 0;
-
   private input: HTMLInputElement | null = null;
 
   public componentDidMount() {
@@ -198,6 +194,26 @@ class Input extends React.Component<InputProps, InputState> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  /**
+   * @public
+   */
+  public selectAll = () => {
+    if (this.input) {
+      this.setSelectionRange(0, this.input.value.length);
+    }
+  };
+
+  private renderMain() {
     const {
       onMouseEnter,
       onMouseLeave,
@@ -233,17 +249,17 @@ class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: classNames(classes.root, jsClasses.root(theme), this.getSizeClassName(), {
+      className: classNames(classes.root, jsClasses.root(this.theme), this.getSizeClassName(), {
         [classes.disabled]: !!disabled,
-        [jsClasses.disabled(theme)]: !!disabled,
+        [jsClasses.disabled(this.theme)]: !!disabled,
         [classes.error]: !!error,
-        [jsClasses.error(theme)]: !!error,
+        [jsClasses.error(this.theme)]: !!error,
         [classes.warning]: !!warning,
-        [jsClasses.warning(theme)]: !!warning,
+        [jsClasses.warning(this.theme)]: !!warning,
         [classes.borderless]: !!borderless,
-        [jsClasses.blink(theme)]: !!blinking,
+        [jsClasses.blink(this.theme)]: !!blinking,
         [classes.focus]: focused,
-        [jsClasses.focus(theme)]: focused,
+        [jsClasses.focus(this.theme)]: focused,
       }),
       style: { width },
       onMouseEnter,
@@ -253,7 +269,7 @@ class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: classNames(classes.input, jsClasses.input(theme)),
+      className: classNames(classes.input, jsClasses.input(this.theme)),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -291,15 +307,6 @@ class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  /**
-   * @public
-   */
-  public selectAll = () => {
-    if (this.input) {
-      this.setSelectionRange(0, this.input.value.length);
-    }
-  };
-
   private renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
       capture?: boolean;
@@ -335,7 +342,7 @@ class Input extends React.Component<InputProps, InputState> {
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={classNames(className, jsClasses.useDefaultColor(theme))}>{icon}</span>;
+    return <span className={classNames(className, jsClasses.useDefaultColor(this.theme))}>{icon}</span>;
   }
 
   private renderPlaceholder() {
@@ -344,7 +351,7 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div
-          className={classNames(classes.placeholder, jsClasses.placeholder(theme))}
+          className={classNames(classes.placeholder, jsClasses.placeholder(this.theme))}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
@@ -357,11 +364,11 @@ class Input extends React.Component<InputProps, InputState> {
 
   private getSizeClassName() {
     const SIZE_CLASS_NAMES = {
-      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(theme)),
+      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
       medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(theme))
-        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(theme)),
-      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(theme)),
+        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(this.theme))
+        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(this.theme)),
+      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(this.theme)),
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
@@ -445,7 +452,7 @@ class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return <span className={jsClasses.prefix(theme)}>{prefix}</span>;
+    return <span className={jsClasses.prefix(this.theme)}>{prefix}</span>;
   };
 
   private renderSuffix = () => {
@@ -455,7 +462,7 @@ class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return <span className={jsClasses.suffix(theme)}>{suffix}</span>;
+    return <span className={jsClasses.suffix(this.theme)}>{suffix}</span>;
   };
 }
 

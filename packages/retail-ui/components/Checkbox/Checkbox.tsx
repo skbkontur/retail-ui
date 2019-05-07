@@ -7,9 +7,8 @@ import tabListener from '../../lib/events/tabListener';
 import { cx as classNames } from 'emotion';
 import styles from './Checkbox.less';
 import jsStyles from './Checkbox.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -52,11 +51,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     onMouseLeave: PropTypes.func,
     onMouseOver: PropTypes.func,
   };
+
   public state = {
     focusedByTab: false,
     indeterminate: this.props.initialIndeterminate || false,
   };
 
+  private theme!: ITheme;
   private input: Nullable<HTMLInputElement>;
 
   public componentDidMount = () => {
@@ -72,67 +73,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   public render() {
-    const props = this.props;
-    const {
-      children,
-      error,
-      warning,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onChange,
-      style,
-      className,
-      type,
-      initialIndeterminate,
-      ...rest
-    } = props;
-    const hasCaption = !!children;
-
-    const rootClass = classNames({
-      [styles.root]: true,
-      [styles.withoutCaption]: !hasCaption,
-      [styles.disabled]: !!props.disabled,
-      [jsStyles.root(theme)]: true,
-      [jsStyles.checked(theme) || '']: !!props.checked,
-      [jsStyles.focus(theme)]: this.state.focusedByTab,
-      [jsStyles.warning(theme)]: !!props.warning,
-      [jsStyles.error(theme)]: !!props.error,
-    });
-
-    const inputProps = {
-      ...rest,
-      type: 'checkbox',
-      className: styles.input,
-      onChange: this._handleChange,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
-      ref: this._inputRef,
-    };
-
-    let caption = null;
-    if (hasCaption) {
-      caption = <div className={styles.caption}>{children}</div>;
-    }
-
-    const isIndeterminate = this.state.indeterminate;
-    const boxClass = classNames(styles.box, jsStyles.box(theme), isIndeterminate && jsStyles.boxIndeterminate(theme));
     return (
-      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
-        <input {...inputProps} />
-        <span className={boxClass}>
-          {isIndeterminate ? (
-            <span className={classNames(styles.indeterminate, jsStyles.indeterminate(theme))} />
-          ) : (
-            props.checked && (
-              <div className={styles.ok}>
-                <OkIcon />
-              </div>
-            )
-          )}
-        </span>
-        {caption}
-      </label>
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
     );
   }
 
@@ -180,6 +127,71 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       this.input.indeterminate = false;
     }
   };
+
+  private renderMain() {
+    const props = this.props;
+    const {
+      children,
+      error,
+      warning,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      onChange,
+      style,
+      className,
+      type,
+      initialIndeterminate,
+      ...rest
+    } = props;
+    const hasCaption = !!children;
+
+    const rootClass = classNames({
+      [styles.root]: true,
+      [styles.withoutCaption]: !hasCaption,
+      [styles.disabled]: !!props.disabled,
+      [jsStyles.root(this.theme)]: true,
+      [jsStyles.checked(this.theme) || '']: !!props.checked,
+      [jsStyles.focus(this.theme)]: this.state.focusedByTab,
+      [jsStyles.warning(this.theme)]: !!props.warning,
+      [jsStyles.error(this.theme)]: !!props.error,
+    });
+
+    const inputProps = {
+      ...rest,
+      type: 'checkbox',
+      className: styles.input,
+      onChange: this._handleChange,
+      onFocus: this._handleFocus,
+      onBlur: this._handleBlur,
+      ref: this._inputRef,
+    };
+
+    let caption = null;
+    if (hasCaption) {
+      caption = <div className={styles.caption}>{children}</div>;
+    }
+
+    const isIndeterminate = this.state.indeterminate;
+    const boxClass = classNames(styles.box, jsStyles.box(this.theme), isIndeterminate && jsStyles.boxIndeterminate(this.theme));
+    return (
+      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
+        <input {...inputProps} />
+        <span className={boxClass}>
+          {isIndeterminate ? (
+            <span className={classNames(styles.indeterminate, jsStyles.indeterminate(this.theme))} />
+          ) : (
+            props.checked && (
+              <div className={styles.ok}>
+                <OkIcon />
+              </div>
+            )
+          )}
+        </span>
+        {caption}
+      </label>
+    );
+  }
 
   private _handleFocus = (e: React.FocusEvent<any>) => {
     if (!this.props.disabled) {

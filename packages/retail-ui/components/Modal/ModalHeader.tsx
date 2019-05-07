@@ -5,9 +5,8 @@ import Close from './ModalClose';
 import styles from './Modal.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Modal.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface HeaderProps {
   close?: boolean;
@@ -21,7 +20,20 @@ export class Header extends React.Component<HeaderProps> {
     sticky: true,
   };
 
+  private theme!: ITheme;
+
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     return (
       <ModalContext.Consumer>
         {({ close, additionalPadding }) => {
@@ -45,7 +57,7 @@ export class Header extends React.Component<HeaderProps> {
         className={classNames({
           [styles.header]: true,
           [styles.fixedHeader]: fixed,
-          [jsStyles.fixedHeader(theme)]: fixed,
+          [jsStyles.fixedHeader(this.theme)]: fixed,
           [styles.headerAddPadding]: !!additionalPadding,
         })}
       >

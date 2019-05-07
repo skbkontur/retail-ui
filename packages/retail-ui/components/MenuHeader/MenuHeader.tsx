@@ -4,9 +4,8 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx as classNames } from 'emotion';
 import jsStyles from './MenuHeader.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface MenuHeaderProps {
   children: React.ReactNode;
@@ -18,16 +17,29 @@ export interface MenuHeaderProps {
  */
 export default class MenuHeader extends React.Component<MenuHeaderProps> {
   public static __MENU_HEADER__ = true;
+
   public static defaultProps = {
     _enableIconPadding: false,
   };
 
+  private theme!: ITheme;
   private getProps = createPropsGetter(MenuHeader.defaultProps);
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const classnames: string = classNames({
       [styles.root]: true,
-      [jsStyles.withLeftPadding(theme)]: this.getProps()._enableIconPadding,
+      [jsStyles.withLeftPadding(this.theme)]: this.getProps()._enableIconPadding,
     });
     return <div className={classnames}>{this.props.children}</div>;
   }

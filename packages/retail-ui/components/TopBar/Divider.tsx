@@ -2,13 +2,25 @@ import * as React from 'react';
 import { cx } from 'emotion';
 import styles from './TopBar.less';
 import jsStyles from './TopBar.styles';
-import ThemeFactory from "../../lib/theming/ThemeFactory";
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 class Divider extends React.Component<{}> {
+  private theme!: ITheme;
+
   public render() {
-    return <span className={cx(styles.divider, jsStyles.divider(theme))} />;
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
+    return <span className={cx(styles.divider, jsStyles.divider(this.theme))} />;
   }
 }
 

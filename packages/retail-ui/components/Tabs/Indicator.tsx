@@ -9,9 +9,8 @@ import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { cx as cn } from 'emotion';
 import jsStyles from './Indicator.styles';
-import ThemeFactory from "../../lib/theming/ThemeFactory";
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface IndicatorProps {
   className?: string;
@@ -31,9 +30,12 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     styles: {},
   };
 
+  private theme!: ITheme;
+
   private eventListener: Nullable<{
     remove: () => void;
   }> = null;
+
   private removeTabUpdatesListener: Nullable<() => void> = null;
 
   public componentDidMount() {
@@ -58,6 +60,17 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { context } = this.props;
     const node = context ? context.getTab(context.activeTab) : null;
     const indicators: TabIndicators = (node && node.getIndicators && node.getIndicators()) || {
@@ -71,11 +84,11 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
       <div
         className={cn(
           styles.root,
-          jsStyles.root(theme),
-          indicators.primary && jsStyles.primary(theme),
-          indicators.success && jsStyles.success(theme),
-          indicators.warning && jsStyles.warning(theme),
-          indicators.error && jsStyles.error(theme),
+          jsStyles.root(this.theme),
+          indicators.primary && jsStyles.primary(this.theme),
+          indicators.success && jsStyles.success(this.theme),
+          indicators.warning && jsStyles.warning(this.theme),
+          indicators.error && jsStyles.error(this.theme),
           this.props.className,
         )}
         style={this.state.styles}

@@ -18,11 +18,11 @@ import { isFunction } from '../../lib/utils';
 import LifeCycleProxy from '../internal/LifeCycleProxy';
 import { cx as cn } from 'emotion';
 import jsStyles from './Popup.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
+
 const DUMMY_LOCATION: PopupLocation = {
   position: 'top left',
   coordinates: {
@@ -175,7 +175,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   public state: PopupState = { location: null };
-
+  private theme!: ITheme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
@@ -216,6 +216,17 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { anchorElement, useWrapper } = this.props;
 
     let child: Nullable<React.ReactNode> = null;
@@ -284,21 +295,25 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       this.props.onMouseEnter(event);
     }
   };
+
   private handleMouseLeave = (event: MouseEventType) => {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
+
   private handleClick = (event: MouseEventType) => {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
   };
+
   private handleFocus = (event: FocusEventType) => {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
+
   private handleBlur = (event: FocusEventType) => {
     if (this.props.onBlur) {
       this.props.onBlur(event);
@@ -342,9 +357,9 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               ref={this.refPopupElement}
               className={cn({
                 [styles.popup]: true,
-                [jsStyles.popup(theme)]: true,
+                [jsStyles.popup(this.theme)]: true,
                 [styles['popup-ignore-hover']]: !!props.ignoreHover,
-                [jsStyles.shadow(theme)]: props.hasShadow,
+                [jsStyles.shadow(this.theme)]: props.hasShadow,
                 [styles['transition-enter']]: state === 'entering',
                 [styles['transition-enter-active']]: state === 'entered',
                 [styles['transition-exit']]: state === 'exiting',
@@ -354,8 +369,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={cn(styles.content, jsStyles.content(theme))}>
-                <div className={jsStyles.contentInner(theme)} style={{ backgroundColor }}>
+              <div className={cn(styles.content, jsStyles.content(this.theme))}>
+                <div className={jsStyles.contentInner(this.theme)} style={{ backgroundColor }}>
                   {children}
                 </div>
               </div>
@@ -463,6 +478,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
     );
   }
+
   private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
     const positions = this.props.positions;
     const anchorElement = this.anchorElement;

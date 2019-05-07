@@ -6,9 +6,8 @@ import { emptyHandler } from '../../lib/utils';
 import { cx as cn } from 'emotion';
 import jsStyles from './Token.styles';
 import jsTokenColors from './Colors.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -58,7 +57,20 @@ export default class Token extends Component<TokenProps & TokenActions> {
     onBlur: emptyHandler,
   };
 
+  private theme!: ITheme;
+
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       children,
       isActive,
@@ -86,20 +98,20 @@ export default class Token extends Component<TokenProps & TokenActions> {
       }
     }
 
-    let tokenClassName = jsTokenColors.defaultIdle(theme);
-    let activeTokenClassName = jsTokenColors.defaultActive(theme);
+    let tokenClassName = jsTokenColors.defaultIdle(this.theme);
+    let activeTokenClassName = jsTokenColors.defaultActive(this.theme);
     if (colors) {
       const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
-      tokenClassName = jsTokenColors[idleClassName](theme);
+      tokenClassName = jsTokenColors[idleClassName](this.theme);
 
       const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
-      activeTokenClassName = jsTokenColors[activeClassName](theme);
+      activeTokenClassName = jsTokenColors[activeClassName](this.theme);
     }
 
     const tokenClassNames = cn(styles.token, tokenClassName, {
       [activeTokenClassName]: !!isActive,
-      [jsStyles.warning(theme)]: !!warning,
-      [jsStyles.error(theme)]: !!error,
+      [jsStyles.warning(this.theme)]: !!warning,
+      [jsStyles.error(this.theme)]: !!error,
     });
 
     return (

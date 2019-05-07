@@ -11,9 +11,8 @@ import styles from './Kebab.less';
 import { PopupPosition } from '../Popup';
 import { cx as cn } from 'emotion';
 import jsStyles from './Kebab.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface KebabProps {
   disabled?: boolean;
@@ -49,6 +48,7 @@ export interface KebabState {
 
 export default class Kebab extends React.Component<KebabProps, KebabState> {
   public static propTypes = {};
+
   public static defaultProps = {
     onOpen: () => undefined,
     onClose: () => undefined,
@@ -62,6 +62,8 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     focusedByTab: false,
     anchor: null,
   };
+
+  private theme!: ITheme;
 
   private listener: {
     remove: () => void;
@@ -79,6 +81,17 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { disabled, positions } = this.props;
 
     return (
@@ -122,7 +135,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
           captionProps.opened && styles.opened,
           disabled && styles.disabled,
           this.state.focusedByTab && styles.focused,
-          this.state.focusedByTab && jsStyles.focused(theme),
+          this.state.focusedByTab && jsStyles.focused(this.theme),
         )}
       >
         {this.renderIcon()}

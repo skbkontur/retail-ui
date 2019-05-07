@@ -9,9 +9,8 @@ import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
 import { cx as cn } from 'emotion';
 import jsStyles from './InternalMenu.styles';
-import ThemeFactory from '../../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../../lib/theming/ThemeProvider';
+import { ITheme } from '../../../lib/theming/Theme';
 
 interface MenuProps {
   children?: React.ReactNode;
@@ -52,12 +51,12 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     scrollState: 'top',
   };
 
+  private theme!: ITheme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private rootElement: Nullable<HTMLDivElement>;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
-
   private getProps = createPropsGetter(InternalMenu.defaultProps);
 
   public componentDidMount() {
@@ -84,6 +83,17 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => typeof x === 'object' && x.props.icon,
     );
@@ -94,7 +104,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
 
     return (
       <div
-        className={cn(styles.root, jsStyles.root(theme), this.props.hasShadow && styles.shadow)}
+        className={cn(styles.root, jsStyles.root(this.theme), this.props.hasShadow && styles.shadow)}
         style={{
           width: this.props.width,
           maxHeight: this.state.maxHeight,

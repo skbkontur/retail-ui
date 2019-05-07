@@ -16,9 +16,8 @@ import { CSSTransition } from 'react-transition-group';
 import styles from './SidePage.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './SidePage.styles';
-import ThemeFactory from "../../lib/theming/ThemeFactory";
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface SidePageProps {
   /**
@@ -89,9 +88,8 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Body: (props: SidePageBodyProps) => JSX.Element = SidePageBodyWithContext;
   public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
   public static Container = SidePageContainer;
-
   public state: SidePageState = {};
-
+  private theme!: ITheme;
   private stackSubscription: EventSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
@@ -120,6 +118,17 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { disableAnimations } = this.props;
 
     return (
@@ -164,8 +173,8 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
           <div
             className={classNames(
               styles.container,
-              jsStyles.container(theme),
-              this.state.hasShadow && jsStyles.shadow(theme),
+              jsStyles.container(this.theme),
+              this.state.hasShadow && jsStyles.shadow(this.theme),
             )}
             style={this.getSidebarStyle()}
           >

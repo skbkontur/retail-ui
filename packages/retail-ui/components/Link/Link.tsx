@@ -7,9 +7,7 @@ import styles from './Link.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
 
 interface UseClasses {
   default: string;
@@ -58,6 +56,7 @@ export interface LinkState {
  */
 class Link extends React.Component<LinkProps, LinkState> {
   public static __ADAPTER__: any;
+
   public static propTypes = {
     disabled: PropTypes.bool,
 
@@ -77,9 +76,21 @@ class Link extends React.Component<LinkProps, LinkState> {
     focusedByTab: false,
   };
 
+  private theme!: ITheme;
   private getProps = createPropsGetter(Link.defaultProps);
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { disabled, href, icon, use, _button, _buttonOpened, className, style, ...rest } = this.getProps<
       LinkProps,
       Link
@@ -98,11 +109,11 @@ class Link extends React.Component<LinkProps, LinkState> {
     const props = {
       className: classNames({
         [styles.disabled]: !!disabled,
-        [jsStyles.disabled(theme)]: !!disabled,
+        [jsStyles.disabled(this.theme)]: !!disabled,
         [styles.button]: !!_button,
         [styles.buttonOpened]: !!_buttonOpened,
-        [jsStyles.focus(theme)]: !disabled && this.state.focusedByTab,
-        [getUseClasses(theme)[use as keyof UseClasses]]: !!use,
+        [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
+        [getUseClasses(this.theme)[use as keyof UseClasses]]: !!use,
       }),
       href,
       onClick: this._handleClick,

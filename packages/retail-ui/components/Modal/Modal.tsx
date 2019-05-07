@@ -18,9 +18,8 @@ import { isIE } from '../ensureOldIEClassName';
 import styles from './Modal.less';
 import { cx as cn } from 'emotion';
 import jsStyles from './Modal.styles';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-
-const theme = ThemeFactory.getDefaultTheme();
+import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ITheme } from '../../lib/theming/Theme';
 let mountedModalsCount = 0;
 
 export interface ModalProps {
@@ -81,6 +80,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     horizontalScroll: false,
   };
 
+  private theme!: ITheme;
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
 
@@ -118,6 +118,17 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     let hasHeader = false;
     let hasFooter = false;
     let hasPanel = false;
@@ -164,7 +175,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={cn(styles.bg, jsStyles.bg(theme))} />}
+          {this.state.stackPosition === 0 && <div className={cn(styles.bg, jsStyles.bg(this.theme))} />}
           <div
             ref={this.refContainer}
             className={cn(styles.container, styles.mobile)}
@@ -177,7 +188,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
               })}
               style={containerStyle}
             >
-              <div className={cn(styles.window, jsStyles.window(theme))} style={style}>
+              <div className={cn(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
