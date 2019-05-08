@@ -5,6 +5,7 @@ let sizeMedium16pxEnabled = false;
 
 const Upgrade = {
   enableFlatDesign() {
+    warning(false, 'Метод Upgrades.enableFlatDesign устарел. Используйте ThemeProvider или ThemeFactory.overrideDefaultTheme()');
     flatDesignEnabled = true;
   },
 
