@@ -9,7 +9,7 @@ class ThemesCache {
     if (isDevelopmentEnv) {
       const hasSameShape = this.keys.some(themeIn => isEqual(key, themeIn));
       warning(
-        hasSameShape,
+        !hasSameShape,
         `ThemesCache already has object with shape: ${JSON.stringify(key)}.` +
           '\n' +
           `Consider using the same object reference for performance reasons`,
