@@ -273,7 +273,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
     return (
       <span {...wrapProps}>
-        <button ref={this._ref} onMouseDown={this.handleMouseDown} {...rootProps}>
+        <button ref={this._ref} {...rootProps}>
           {error}
           {loading}
           {arrow}
@@ -285,10 +285,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       </span>
     );
   }
-
-  private handleMouseDown = (): void => {
-    tabListener.isTabPressed = false;
-  };
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
     if (!this.props.disabled && !this.props.disableFocus) {
