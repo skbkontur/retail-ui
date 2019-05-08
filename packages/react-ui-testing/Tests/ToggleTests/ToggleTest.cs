@@ -40,25 +40,6 @@ namespace SKBKontur.SeleniumTesting.Tests.ToggleTests
             page.DisablingToggle.IsDisabled.Wait().That(Is.True);
         }
 
-        [Test]
-        public void TestCheckedNoChangeWhenDisabled()
-        {
-            page.DisablingToggle.IsChecked.Wait().That(Is.False);
-            page.DisablingToggle.Click();
-            page.DisablingToggle.IsChecked.Wait().That(Is.True);
-
-            page.DisablingToggle.IsChecked.Wait().That(Is.True);
-            page.DisablingCheckbox.Click();
-            page.DisablingToggle.IsChecked.Wait().That(Is.True);
-
-            page.DisablingCheckbox.Click();
-            page.DisablingToggle.Click();
-
-            page.DisablingToggle.IsChecked.Wait().That(Is.False);
-            page.DisablingCheckbox.Click();
-            page.DisablingToggle.IsChecked.Wait().That(Is.False);
-        }
-
         private ToggleTestPage page;
     }
 }
