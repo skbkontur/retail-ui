@@ -9,7 +9,7 @@ import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
 import { cx as cn } from 'emotion';
 import jsStyles from './InternalMenu.styles';
-import { ThemeConsumer } from '../../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../ThemeContext';
 import { ITheme } from '../../../lib/theming/Theme';
 
 interface MenuProps {

@@ -11,7 +11,7 @@ import styles from './Kebab.less';
 import { PopupPosition } from '../Popup';
 import { cx as cn } from 'emotion';
 import jsStyles from './Kebab.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface KebabProps {

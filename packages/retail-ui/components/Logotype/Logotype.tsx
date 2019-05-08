@@ -9,7 +9,7 @@ import ProductWidget from './ProductWidget';
 import styles from './Logotype.less';
 import { cx as classnames } from 'emotion';
 import jsStyles from './Logotype.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 const createCloud = (color: string) => (

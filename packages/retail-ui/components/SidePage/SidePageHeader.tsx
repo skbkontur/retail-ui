@@ -6,7 +6,7 @@ import styles from './SidePage.less';
 import { isFunction } from '../../lib/utils';
 import { cx as classNames } from 'emotion';
 import jsStyles from './SidePage.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;

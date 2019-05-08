@@ -7,7 +7,7 @@ import styles from './Tab.less';
 import { TabsContextType, TabsContext } from './TabsContext';
 import { cx as cn } from 'emotion';
 import jsStyles from './Tab.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface TabIndicators {

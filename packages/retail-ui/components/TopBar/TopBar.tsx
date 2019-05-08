@@ -14,7 +14,7 @@ import Start from './TopBarStart';
 import Logout from './TopBarLogout';
 import { cx as classNames } from 'emotion';
 import jsStyles from './TopBar.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface TopBarProps {

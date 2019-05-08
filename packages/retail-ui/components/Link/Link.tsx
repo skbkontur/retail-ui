@@ -7,7 +7,7 @@ import styles from './Link.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 
 interface UseClasses {
   default: string;

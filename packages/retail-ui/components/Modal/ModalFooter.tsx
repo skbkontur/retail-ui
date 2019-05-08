@@ -5,7 +5,7 @@ import { ModalContext } from './ModalContext';
 import styles from './Modal.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Modal.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface FooterProps {

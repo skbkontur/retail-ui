@@ -6,7 +6,7 @@ import { emptyHandler } from '../../lib/utils';
 import { cx as cn } from 'emotion';
 import jsStyles from './Token.styles';
 import jsTokenColors from './Colors.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {

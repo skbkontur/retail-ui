@@ -10,7 +10,7 @@ import styles from './Loader.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx as classnames } from 'emotion';
 import jsStyles from './Loader.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface LoaderProps {

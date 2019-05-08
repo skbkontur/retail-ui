@@ -21,7 +21,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Select.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface ButtonParams {

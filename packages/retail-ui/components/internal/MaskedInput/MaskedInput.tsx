@@ -3,7 +3,7 @@ import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 import styles from './MaskedInput.less';
 import jsStyles from './MaskedInput.styles';
 import { cx } from 'emotion';
-import { ThemeConsumer } from '../../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../ThemeContext';
 import { ITheme } from '../../../lib/theming/Theme';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {

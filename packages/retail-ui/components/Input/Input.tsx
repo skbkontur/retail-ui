@@ -8,7 +8,7 @@ import MaskedInput from '../internal/MaskedInput/MaskedInput';
 import { cx as classNames } from 'emotion';
 import classes from './Input.less';
 import jsClasses from './Input.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 const isDeleteKey = (key: string) => {

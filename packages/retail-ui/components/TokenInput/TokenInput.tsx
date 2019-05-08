@@ -15,7 +15,7 @@ import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
 import { cx as cn } from 'emotion';
 import jsStyles from './TokenInput.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export enum TokenInputType {

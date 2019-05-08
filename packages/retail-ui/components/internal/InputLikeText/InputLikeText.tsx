@@ -8,7 +8,7 @@ import styles from './InputLikeText.less';
 import { cx as classNames } from 'emotion';
 import inputStyles from '../../Input/Input.less';
 import jsInputStyles from '../../Input/Input.styles';
-import { ThemeConsumer } from '../../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../ThemeContext';
 import { ITheme } from '../../../lib/theming/Theme';
 
 export interface InputLikeTextProps extends InputProps {

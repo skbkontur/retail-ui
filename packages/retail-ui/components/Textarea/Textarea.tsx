@@ -11,7 +11,7 @@ import Upgrades from '../../lib/Upgrades';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Textarea.styles';
 import styles from './Textarea.less';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 const DEFAULT_WIDTH = 250;
 
