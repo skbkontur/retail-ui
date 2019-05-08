@@ -1,35 +1,17 @@
 
 @linkIconPadding: 3px;
 
-.linkMixin(@className) {
-  .@{className} {
-    border-radius: 1px;
-    outline: none;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .@{className}.disabled {
-    box-shadow: none;
-    cursor: default;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-}
-
 :local {
 
   .linkMixin(useDefault);
 
   .linkMixin(useSuccess);
 
+  .linkUseColorsMixin(useSuccess, #3f9726, #24760d);
+
   .linkMixin(useDanger);
+
+  .linkUseColorsMixin(useDanger, #e3071c, #b00616);
 
   .linkMixin(useGrayed);
 
@@ -59,5 +41,42 @@
     margin-bottom: 3px;
     margin-left: 3px;
     vertical-align: middle;
+  }
+}
+
+.linkMixin(@className) {
+  .@{className} {
+    border-radius: 1px;
+    outline: none;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .@{className}.disabled {
+    box-shadow: none;
+    cursor: default;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.linkUseColorsMixin(@className, @mainColor, @activeColor) {
+  .@{className} {
+    color: @mainColor;
+
+    &:hover {
+      color: @mainColor;
+      text-decoration-color: @mainColor;
+    }
+
+    &:active {
+      color: @activeColor;
+    }
   }
 }
