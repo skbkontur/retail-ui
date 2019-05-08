@@ -189,6 +189,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={classNames(className, jsInputStyles.useDefaultColor(theme))}>{icon}</span>;
+    return (
+      <span className={classNames(className, inputStyles.useDefaultColor, jsInputStyles.useDefaultColor(theme))}>
+        {icon}
+      </span>
+    );
   }
 }
