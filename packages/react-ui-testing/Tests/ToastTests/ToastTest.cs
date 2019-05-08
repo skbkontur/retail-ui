@@ -41,13 +41,14 @@ namespace SKBKontur.SeleniumTesting.Tests.ToastTests
         [Test]
         public void TestWithStaticToast()
         {
-            Toast.Static(page).IsPresent.Wait().False();
+            var toast = Toast.Static(page);
+            toast.IsPresent.Wait().False();
             page.StaticToastButton.Click();
-            Toast.Static(page).IsPresent.Wait().True();
-            Toast.Static(page).Text.Wait().EqualTo("Static");
-            Toast.Static(page).Action.Text.Wait().EqualTo("close");
-            Toast.Static(page).Action.Click();
-            Toast.Static(page).IsPresent.Wait().False();
+            toast.IsPresent.Wait().True();
+            toast.Text.Wait().EqualTo("Static");
+            toast.Action.Text.Wait().EqualTo("close");
+            toast.Action.Click();
+            toast.IsPresent.Wait().False();
         }
 
         private ToastTestPage page;
