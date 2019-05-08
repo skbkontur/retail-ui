@@ -2,10 +2,11 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { configure, addDecorator, storiesOf, getStorybook } from '@storybook/react';
-import Upgrades from '../lib/Upgrades';
+import ThemeFactory from "../lib/theming/ThemeFactory";
+import FLAT_VARIABLES from "../lib/theming/themes/FlatTheme";
 
 if (process.env.STORYBOOK_FLAT_UI) {
-  Upgrades.enableFlatDesign();
+  ThemeFactory.overrideDefaultTheme(FLAT_VARIABLES)
 }
 
 let stories = null;
