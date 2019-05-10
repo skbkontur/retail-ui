@@ -1,4 +1,5 @@
 import defaultThemeVariables from './themes/DefaultTheme';
+import flatThemeVariables from './themes/FlatTheme';
 import { ITheme, IThemeIn } from './Theme';
 import { isDevelopmentEnv } from '../../components/internal/currentEnvironment';
 import isEqual from 'lodash.isequal';
@@ -50,6 +51,10 @@ export default class ThemeFactory {
     return this.defaultTheme;
   }
 
+  public static getFlatTheme() {
+    return this.flatTheme;
+  }
+
   public static overrideDefaultTheme(...themes: IThemeIn[]) {
     themes.forEach(themePartial => {
       Object.keys(themePartial).forEach(variableName => {
@@ -60,4 +65,5 @@ export default class ThemeFactory {
   }
 
   private static defaultTheme = Object.assign({}, defaultThemeVariables) as ITheme;
+  private static flatTheme = Object.assign({}, flatThemeVariables) as ITheme;
 }
