@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Gapped from '../../Gapped';
 import Input from '../../Input';
+import styles from './styles.less';
 
 export interface IVariableValueProps {
   onChange: (variable: string, value: string) => void;
@@ -17,11 +17,12 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   };
 
   public render() {
+    const { variable } = this.props;
     return (
-      <Gapped verticalAlign={'middle'} gap={10}>
-        <span>{`${this.props.variable}: `}</span>
-        <Input value={this.state.value} onChange={this.handleChange} onBlur={this.handleBlur} />
-      </Gapped>
+      <div className={styles.variableValueRoot}>
+        <div className={styles.variableName} title={variable}>{`${variable}: `}</div>
+        <Input width={150} value={this.state.value} onChange={this.handleChange} onBlur={this.handleBlur} />
+      </div>
     );
   }
 

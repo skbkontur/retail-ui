@@ -7,6 +7,9 @@ import SidePage from '../../SidePage';
 import { VariableValue } from './VariableValue';
 import { Playground } from './Playground';
 import { ThemeType } from './enums';
+import Gapped from '../../Gapped';
+
+import styles from './styles.less';
 
 interface IState {
   theme: ITheme;
@@ -52,17 +55,19 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={750} onClose={this.handleClose}>
         <SidePage.Header>Своя тема</SidePage.Header>
         <SidePage.Body>
-          <div>
-            {Object.keys(this.customTheme).map(key => {
-              return (
-                <VariableValue
-                  onChange={this.handleCustomThemeVariableChange}
-                  value={this.customTheme[key]}
-                  variable={key}
-                  key={key}
-                />
-              );
-            })}
+          <div className={styles.sidePageBody}>
+            <Gapped verticalAlign={'middle'} gap={10}>
+              {Object.keys(this.customTheme).map(key => {
+                return (
+                  <VariableValue
+                    onChange={this.handleCustomThemeVariableChange}
+                    value={this.customTheme[key]}
+                    variable={key}
+                    key={key}
+                  />
+                );
+              })}
+            </Gapped>
           </div>
         </SidePage.Body>
       </SidePage>
