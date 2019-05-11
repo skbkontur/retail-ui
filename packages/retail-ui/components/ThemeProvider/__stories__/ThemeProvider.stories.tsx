@@ -2,6 +2,7 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { ITheme } from '../../../lib/theming/Theme';
+import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
 import { VariableValue } from './VariableValue';
 import { Playground } from './Playground';
@@ -33,17 +34,16 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
   public render() {
     const { theme, opened, activeThemeType } = this.state;
     return (
-      <div>
+      <ThemeProvider value={theme}>
         {opened && this.renderSidePage()}
         {
           <Playground
-            theme={theme}
             onThemeChange={this.handleThemeChange}
             activeThemeType={activeThemeType}
             onEditLinkClick={this.handleOpen}
           />
         }
-      </div>
+      </ThemeProvider>
     );
   }
 

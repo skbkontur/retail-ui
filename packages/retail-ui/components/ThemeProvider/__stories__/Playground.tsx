@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { ITheme } from '../../../lib/theming/Theme';
-import ThemeProvider from '../ThemeProvider';
 import Button from '../../Button';
 import Tabs from '../../Tabs/Tabs';
 import { ThemeType } from './enums';
@@ -19,17 +17,15 @@ import Radio from '../../Radio';
 import Checkbox from '../../Checkbox';
 
 export interface IComponentsListProps {
-  theme: ITheme;
   activeThemeType: ThemeType;
   onThemeChange: ((ev: { target: { value: string } }, value: string) => void);
   onEditLinkClick: () => void;
 }
 
 export const Playground = (props: IComponentsListProps) => {
-  const { theme, activeThemeType, onThemeChange, onEditLinkClick } = props;
+  const { activeThemeType, onThemeChange, onEditLinkClick } = props;
 
   return (
-    <ThemeProvider value={theme}>
       <Gapped vertical gap={50}>
         <TabsGroup activeThemeId={activeThemeType} onEditLinkClick={onEditLinkClick} onThemeChange={onThemeChange} />
         <ButtonsGroup />
@@ -41,7 +37,6 @@ export const Playground = (props: IComponentsListProps) => {
         <RadiosGroup />
         <CheckboxesGroup />
       </Gapped>
-    </ThemeProvider>
   );
 };
 
