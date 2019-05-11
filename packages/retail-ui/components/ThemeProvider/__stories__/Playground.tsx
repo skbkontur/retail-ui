@@ -20,18 +20,18 @@ import Checkbox from '../../Checkbox';
 
 export interface IComponentsListProps {
   theme: ITheme;
-  activeThemeId: ThemeType;
+  activeThemeType: ThemeType;
   onThemeChange: ((ev: { target: { value: string } }, value: string) => void);
   onEditLinkClick: () => void;
 }
 
 export const Playground = (props: IComponentsListProps) => {
-  const { theme, activeThemeId, onThemeChange, onEditLinkClick } = props;
+  const { theme, activeThemeType, onThemeChange, onEditLinkClick } = props;
 
   return (
     <ThemeProvider value={theme}>
       <Gapped vertical gap={50}>
-        <TabsGroup activeThemeId={activeThemeId} onEditLinkClick={onEditLinkClick} onThemeChange={onThemeChange} />
+        <TabsGroup activeThemeId={activeThemeType} onEditLinkClick={onEditLinkClick} onThemeChange={onThemeChange} />
         <ButtonsGroup />
         <InputsGroup />
         <TokenInputsGroup />

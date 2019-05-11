@@ -10,12 +10,10 @@ import { ThemeType } from './enums';
 interface IState {
   theme: ITheme;
   opened: boolean;
-  activeThemeId: ThemeType;
+  activeThemeType: ThemeType;
 }
 
-interface IProps {
-
-}
+interface IProps {}
 
 class ThemeProviderStory extends React.Component<IProps, IState> {
   private customTheme: ITheme;
@@ -25,48 +23,41 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.customTheme = this.defaultTheme;
+    this.state = {
+      theme: this.defaultTheme,
+      opened: false,
+      activeThemeType: ThemeType.Default,
+    };
   }
 
-  public state = {
-    theme: this.defaultTheme,
-    opened: false,
-    activeThemeId: ThemeType.Default,
-  };
-
   public render() {
-    const { theme, opened, activeThemeId } = this.state;
+    const { theme, opened, activeThemeType } = this.state;
     return (
       <div>
         {opened && this.renderSidePage()}
-        {<Playground
-          theme={theme}
-          onThemeChange={this.handleThemeChange}
-          activeThemeId={activeThemeId}
-          onEditLinkClick={this.handleOpen}
-        />}
+        {
+          <Playground
+            theme={theme}
+            onThemeChange={this.handleThemeChange}
+            activeThemeType={activeThemeType}
+            onEditLinkClick={this.handleOpen}
+          />
+        }
       </div>
     );
   }
 
   private renderSidePage = () => {
-    const { theme } = this.state;
-
     return (
-      <SidePage
-        disableAnimations
-        ignoreBackgroundClick
-        blockBackground
-        width={500}
-        onClose={this.handleClose}
-      >
-        <SidePage.Header>Theme</SidePage.Header>
+      <SidePage disableAnimations ignoreBackgroundClick blockBackground width={750} onClose={this.handleClose}>
+        <SidePage.Header>Своя тема</SidePage.Header>
         <SidePage.Body>
           <div>
-            {Object.keys(this.defaultTheme).map(key => {
+            {Object.keys(this.customTheme).map(key => {
               return (
                 <VariableValue
                   onChange={this.handleCustomThemeVariableChange}
-                  value={(theme as any)[key]}
+                  value={this.customTheme[key]}
                   variable={key}
                   key={key}
                 />
@@ -90,9 +81,9 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
     });
   };
 
-  private handleThemeChange = (ev: { target: { value: string; }; }, value: string) => {
+  private handleThemeChange = (ev: { target: { value: string } }, value: string) => {
     this.setState({
-      activeThemeId: value as ThemeType,
+      activeThemeType: value as ThemeType,
     });
     this.changeTheme(value as ThemeType);
   };
@@ -120,10 +111,12 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
 
   private handleCustomThemeVariableChange = (variable: string, value: string) => {
     this.customTheme = Object.assign({}, this.customTheme, { [variable]: value });
-    this.setState({
-      theme: this.customTheme,
-    });
+    if (this.state.activeThemeType === ThemeType.Custom) {
+      this.setState({
+        theme: this.customTheme,
+      });
+    }
   };
 }
 
-storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderStory/>);
+storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderStory />);
