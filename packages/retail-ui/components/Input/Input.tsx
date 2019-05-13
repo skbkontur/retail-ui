@@ -250,6 +250,8 @@ class Input extends React.Component<InputProps, InputState> {
 
     const labelProps = {
       className: classNames(classes.root, jsClasses.root(this.theme), this.getSizeClassName(), {
+        [classes.focus]: focused,
+        [jsClasses.focus(this.theme)]: focused,
         [classes.disabled]: !!disabled,
         [jsClasses.disabled(this.theme)]: !!disabled,
         [classes.error]: !!error,
@@ -258,8 +260,6 @@ class Input extends React.Component<InputProps, InputState> {
         [jsClasses.warning(this.theme)]: !!warning,
         [classes.borderless]: !!borderless,
         [jsClasses.blink(this.theme)]: !!blinking,
-        [classes.focus]: focused,
-        [jsClasses.focus(this.theme)]: focused,
       }),
       style: { width },
       onMouseEnter,
@@ -343,7 +343,9 @@ class Input extends React.Component<InputProps, InputState> {
     }
 
     return (
-      <span className={classNames(className, classes.useDefaultColor, jsClasses.useDefaultColor(this.theme))}>{icon}</span>
+      <span className={classNames(className, classes.useDefaultColor, jsClasses.useDefaultColor(this.theme))}>
+        {icon}
+      </span>
     );
   }
 
