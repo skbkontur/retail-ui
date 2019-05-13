@@ -8,7 +8,7 @@ import { VariableValue } from './VariableValue';
 import { Playground } from './Playground';
 import { ThemeType } from './enums';
 import Gapped from '../../Gapped';
-
+import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
 import styles from './styles.less';
 
 interface IState {
@@ -20,13 +20,12 @@ interface IState {
 interface IProps {}
 
 class ThemeProviderStory extends React.Component<IProps, IState> {
-  private customTheme: ITheme;
   private readonly defaultTheme = ThemeFactory.getDefaultTheme();
-  private readonly flatTheme = ThemeFactory.getFlatTheme();
+  private readonly flatTheme = ThemeFactory.create(flatThemeVariables);
+  private customTheme = ThemeFactory.create({});
 
   constructor(props: IProps) {
     super(props);
-    this.customTheme = this.defaultTheme;
     this.state = {
       theme: this.defaultTheme,
       opened: false,
@@ -57,7 +56,7 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
         <SidePage.Body>
           <div className={styles.sidePageBody}>
             <Gapped verticalAlign={'middle'} gap={10}>
-              {Object.keys(this.customTheme).map(key => {
+              {ThemeFactory.getKeys(this.customTheme).map(key => {
                 return (
                   <VariableValue
                     onChange={this.handleCustomThemeVariableChange}
@@ -115,7 +114,7 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
   };
 
   private handleCustomThemeVariableChange = (variable: string, value: string) => {
-    this.customTheme = Object.assign({}, this.customTheme, { [variable]: value });
+    this.customTheme = ThemeFactory.create({ ...this.customTheme, [variable]: value });
     if (this.state.activeThemeType === ThemeType.Custom) {
       this.setState({
         theme: this.customTheme,

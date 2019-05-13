@@ -1,5 +1,4 @@
-import defaultThemeVariables from './themes/DefaultTheme';
-import flatThemeVariables from './themes/FlatTheme';
+import DefaultTheme from './themes/DefaultTheme';
 import { ITheme, IThemeIn } from './Theme';
 import { isDevelopmentEnv } from '../../components/internal/currentEnvironment';
 import isEqual from 'lodash.isequal';
@@ -32,13 +31,15 @@ class ThemesCache {
     this.values.push(value);
   }
 
-  private static keys: IThemeIn[] = [];
-  private static values: ITheme[] = [];
+  private static keys: Array<Readonly<IThemeIn>> = [];
+  private static values: Array<Readonly<ITheme>> = [];
 }
 
 export default class ThemeFactory {
   public static create(theme: IThemeIn) {
-    return Object.freeze(Object.assign({}, defaultThemeVariables, theme)) as ITheme;
+    const newTheme = Object.create(DefaultTheme) as ITheme;
+    this.constructTheme(newTheme, theme);
+    return Object.freeze(newTheme);
   }
 
   public static getOrCreate(theme: IThemeIn) {
@@ -54,19 +55,28 @@ export default class ThemeFactory {
     return this.defaultTheme;
   }
 
-  public static getFlatTheme() {
-    return this.flatTheme;
+  public static overrideDefaultTheme(theme: IThemeIn) {
+    this.constructTheme(this.defaultTheme, theme);
   }
 
-  public static overrideDefaultTheme(...themes: IThemeIn[]) {
-    themes.forEach(themePartial => {
-      Object.keys(themePartial).forEach(variableName => {
-        const descriptor = Object.getOwnPropertyDescriptor(themePartial, variableName)!;
-        Object.defineProperty(this.defaultTheme, variableName, descriptor);
+  public static getKeys(theme: ITheme) {
+    const keys: string[] = [];
+    for (; theme != null; theme = Object.getPrototypeOf(theme)) {
+      Object.keys(theme).forEach(key => {
+        if (!keys.includes(key)) {
+          keys.push(key);
+        }
       });
+    }
+    return keys.sort();
+  }
+
+  private static defaultTheme = Object.create(DefaultTheme) as ITheme;
+
+  private static constructTheme(base: ITheme, theme: IThemeIn) {
+    Object.keys(theme).forEach(variableName => {
+      const descriptor = Object.getOwnPropertyDescriptor(theme, variableName)!;
+      Object.defineProperty(base, variableName, descriptor);
     });
   }
-
-  private static defaultTheme = Object.assign({}, defaultThemeVariables) as ITheme;
-  private static flatTheme = Object.assign({}, flatThemeVariables) as ITheme;
 }

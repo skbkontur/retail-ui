@@ -3,10 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { configure, addDecorator, storiesOf, getStorybook } from '@storybook/react';
 import ThemeFactory from "../lib/theming/ThemeFactory";
-import FLAT_VARIABLES from "../lib/theming/themes/FlatTheme";
+import FlatTheme from "../lib/theming/themes/FlatTheme";
 
 if (process.env.STORYBOOK_FLAT_UI) {
-  ThemeFactory.overrideDefaultTheme(FLAT_VARIABLES)
+  ThemeFactory.overrideDefaultTheme(FlatTheme)
 }
 
 let stories = null;
