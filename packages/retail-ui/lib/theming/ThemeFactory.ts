@@ -7,7 +7,9 @@ import warning from 'warning';
 
 class ThemesCache {
   public static has(key: IThemeIn) {
-    if (isDevelopmentEnv) {
+    const hasKey = this.keys.includes(key);
+
+    if (!hasKey && isDevelopmentEnv) {
       const hasSameShape = this.keys.some(themeIn => isEqual(key, themeIn));
       warning(
         !hasSameShape,
@@ -16,7 +18,8 @@ class ThemesCache {
           `Consider using the same object reference for performance reasons`,
       );
     }
-    return this.keys.includes(key);
+
+    return hasKey;
   }
 
   public static get(key: IThemeIn) {
