@@ -15,6 +15,7 @@ import { TogglePlayground } from './TogglePlayground';
 import { SwitcherPlayground } from './SwitcherPlayground';
 import Radio from '../../Radio';
 import Checkbox from '../../Checkbox';
+import { FxInputPlayground } from './FxInputPlayground';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground';
 
 export interface IComponentsListProps {
@@ -106,7 +107,7 @@ const TokenInputsGroup = () => {
 };
 
 const DifferentInputsGroup = () => {
-  const components = [<CurrencyInputPlayground />, <DatePickerPlayground />];
+  const components = [<CurrencyInputPlayground />, <FxInputPlayground />, <DatePickerPlayground />];
   return renderComponentsGroup('Прочие поля', components);
 };
 
