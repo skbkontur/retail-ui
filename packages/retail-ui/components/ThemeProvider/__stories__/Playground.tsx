@@ -15,6 +15,7 @@ import { TogglePlayground } from './TogglePlayground';
 import { SwitcherPlayground } from './SwitcherPlayground';
 import Radio from '../../Radio';
 import Checkbox from '../../Checkbox';
+import { CurrencyInputPlayground } from './CurrencyInputPlayground';
 
 export interface IComponentsListProps {
   activeThemeType: ThemeType;
@@ -26,17 +27,17 @@ export const Playground = (props: IComponentsListProps) => {
   const { activeThemeType, onThemeChange, onEditLinkClick } = props;
 
   return (
-      <Gapped vertical gap={50}>
-        <TabsGroup activeThemeId={activeThemeType} onEditLinkClick={onEditLinkClick} onThemeChange={onThemeChange} />
-        <ButtonsGroup />
-        <InputsGroup />
-        <TokenInputsGroup />
-        <DifferentInputsGroup />
-        <TogglesGroup />
-        <SwitchersGroup />
-        <RadiosGroup />
-        <CheckboxesGroup />
-      </Gapped>
+    <Gapped vertical gap={50}>
+      <TabsGroup activeThemeId={activeThemeType} onEditLinkClick={onEditLinkClick} onThemeChange={onThemeChange} />
+      <ButtonsGroup />
+      <InputsGroup />
+      <TokenInputsGroup />
+      <DifferentInputsGroup />
+      <TogglesGroup />
+      <SwitchersGroup />
+      <RadiosGroup />
+      <CheckboxesGroup />
+    </Gapped>
   );
 };
 
@@ -105,7 +106,7 @@ const TokenInputsGroup = () => {
 };
 
 const DifferentInputsGroup = () => {
-  const components = [<DatePickerPlayground />];
+  const components = [<CurrencyInputPlayground />, <DatePickerPlayground />];
   return renderComponentsGroup('Прочие поля', components);
 };
 
