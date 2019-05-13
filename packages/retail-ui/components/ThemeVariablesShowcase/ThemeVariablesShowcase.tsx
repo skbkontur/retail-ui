@@ -211,7 +211,10 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
                         className={hasNoVariables ? styles.suspiciousRow : undefined}
                       >
                         <td className={hasOnlyDefaultVariable ? styles.suspiciousCell : undefined}>
-                          <VariableName variableName={varName} onVariableSelect={this.props.onVariableSelect} />
+                          <VariableName
+                            variableName={varName as string}
+                            onVariableSelect={this.props.onVariableSelect}
+                          />
                         </td>
                         <td>
                           <VariableValue value={variableDefault} />
