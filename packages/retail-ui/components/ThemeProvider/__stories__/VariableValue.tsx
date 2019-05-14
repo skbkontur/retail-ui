@@ -1,11 +1,14 @@
 import * as React from 'react';
+import { cx, css } from 'emotion';
 import Input from '../../Input';
 import styles from './styles.less';
+import { PlaygroundTheme } from './ThemeProvider.stories';
 
 export interface IVariableValueProps {
   onChange: (variable: string, value: string) => void;
   value: string;
   variable: string;
+  theme: PlaygroundTheme;
 }
 export interface IVariableValueState {
   value: string;
@@ -17,10 +20,18 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   };
 
   public render() {
-    const { variable } = this.props;
+    const { variable, theme } = this.props;
     return (
       <div className={styles.variableValueRoot}>
-        <div className={styles.variableName} title={variable}>{`${variable}: `}</div>
+        <div
+          className={cx(
+            styles.variableName,
+            css`
+              color: ${theme.textColorMain};
+            `,
+          )}
+          title={variable}
+        >{`${variable}: `}</div>
         <Input width={150} value={this.state.value} onChange={this.handleChange} onBlur={this.handleBlur} />
       </div>
     );

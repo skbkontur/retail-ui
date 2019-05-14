@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { css } from 'emotion';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { ITheme } from '../../../lib/theming/Theme';
@@ -9,25 +10,33 @@ import { Playground } from './Playground';
 import { ThemeType } from './enums';
 import Gapped from '../../Gapped';
 import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
+import darkThemeVariables from './darkTheme';
 import styles from './styles.less';
 
 interface IState {
-  theme: ITheme;
+  theme: PlaygroundTheme;
   opened: boolean;
   activeThemeType: ThemeType;
 }
 
 interface IProps {}
 
-class ThemeProviderStory extends React.Component<IProps, IState> {
+interface IThemeExtension {
+  backgroundMain: string;
+  textColorMain: string;
+}
+export type PlaygroundTheme = ITheme & IThemeExtension;
+
+export class ThemeProviderShowcase extends React.Component<IProps, IState> {
   private readonly defaultTheme = ThemeFactory.getDefaultTheme();
   private readonly flatTheme = ThemeFactory.create(flatThemeVariables);
   private customTheme = ThemeFactory.create({});
+  private readonly darkTheme = ThemeFactory.create(darkThemeVariables);
 
   constructor(props: IProps) {
     super(props);
     this.state = {
-      theme: this.defaultTheme,
+      theme: this.defaultTheme as PlaygroundTheme,
       opened: false,
       activeThemeType: ThemeType.Default,
     };
@@ -52,15 +61,24 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
   private renderSidePage = () => {
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={750} onClose={this.handleClose}>
-        <SidePage.Header>Своя тема</SidePage.Header>
+        <SidePage.Header>
+          <div
+            className={css`
+              color: ${this.state.theme.textColorMain};
+            `}
+          >
+            Своя тема
+          </div>
+        </SidePage.Header>
         <SidePage.Body>
           <div className={styles.sidePageBody}>
             <Gapped verticalAlign={'middle'} gap={10}>
               {ThemeFactory.getKeys(this.customTheme).map(key => {
                 return (
                   <VariableValue
+                    theme={this.state.theme}
                     onChange={this.handleCustomThemeVariableChange}
-                    value={this.customTheme[key]}
+                    value={this.customTheme[key as keyof ITheme]}
                     variable={key}
                     key={key}
                   />
@@ -104,12 +122,15 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
       case ThemeType.Custom:
         theme = this.customTheme;
         break;
+      case ThemeType.Dark:
+        theme = this.darkTheme;
+        break;
       default:
         theme = this.defaultTheme;
     }
 
     this.setState({
-      theme,
+      theme: theme as PlaygroundTheme,
     });
   };
 
@@ -117,10 +138,10 @@ class ThemeProviderStory extends React.Component<IProps, IState> {
     this.customTheme = ThemeFactory.create({ ...this.customTheme, [variable]: value });
     if (this.state.activeThemeType === ThemeType.Custom) {
       this.setState({
-        theme: this.customTheme,
+        theme: this.customTheme as PlaygroundTheme,
       });
     }
   };
 }
 
-storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderStory />);
+storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderShowcase />);
