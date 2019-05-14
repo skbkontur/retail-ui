@@ -23,6 +23,7 @@ export type DropdownProps = {|
   use?: ButtonUse,
   onClose?: () => void,
   onOpen?: () => void,
+  children?: React$Node,
   onMouseEnter?: MouseEventHandler<HTMLElement>,
   onMouseLeave?: MouseEventHandler<HTMLElement>,
   onMouseOver?: MouseEventHandler<HTMLElement>,

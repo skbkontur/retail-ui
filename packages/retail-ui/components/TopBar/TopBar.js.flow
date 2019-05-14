@@ -5,6 +5,7 @@ import Item from './Item';
 import Organizations from './Organizations';
 import TopBarDropdown from './TopBarDropdown';
 import User from './User';
+import Logout from './TopBarLogout';
 
 export type TopBarProps = {|
   children?: React$Node,
@@ -29,15 +30,24 @@ export type TopBarDefaultProps = {|
   rightItems: Array<React$Node>,
 |};
 
+type TopBarStartProps = {|
+  children?: React$Node,
+|};
+
+type TopBarEndProps = {|
+  children?: React$Node,
+|};
+
 declare class TopBar extends React$Component<TopBarProps> {
   static Divider: typeof Divider;
   static Item: typeof ButtonItem;
   static Dropdown: typeof TopBarDropdown;
   static OrganizationsDropdown: typeof Organizations;
-  static Start: React$ComponentType<{||}>;
-  static End: React$ComponentType<{||}>;
+  static Start: React$ComponentType<TopBarStartProps>;
+  static End: React$ComponentType<TopBarEndProps>;
   static ItemStatic: typeof Item;
   static User: typeof User;
+  static Logout: typeof Logout;
 }
 
 export default TopBar;
