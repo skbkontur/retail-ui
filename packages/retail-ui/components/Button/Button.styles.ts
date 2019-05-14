@@ -250,7 +250,7 @@ const jsClasses = {
 
   arrow_left(t: ITheme) {
     return css`
-      .${classes.root}.${jsClasses.default(t)}.${classes.checked} & {
+      .${classes.root}.${classes.default}.${classes.checked} & {
         box-shadow: ${t.btnDefaultCheckedShadowArrow};
       }
       .${classes.root}.${classes.checked} & {
@@ -681,11 +681,11 @@ const jsClasses = {
         box-shadow: ${t.btnPayShadowArrowLeft};
       }
 
-      .${classes.arrow}.${jsClasses.arrow_warning(t)} {
+      .${classes.arrow}.${classes.arrow_warning} {
         box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
       }
 
-      .${classes.arrow}.${jsClasses.arrow_error(t)} {
+      .${classes.arrow}.${classes.arrow_error} {
         box-shadow: 2px -2px 0 0 ${t.borderColorError};
       }
 
