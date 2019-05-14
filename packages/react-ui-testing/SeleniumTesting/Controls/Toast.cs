@@ -9,24 +9,24 @@ namespace SKBKontur.SeleniumTesting.Controls
         public Toast(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-            ToastView = this.Find<Label>().By("ToastView");
-            Notification = new Label(ToastView, new BySelector(By.CssSelector("span:first-child")));
-            Action = new Label(ToastView, new BySelector(By.CssSelector("span:nth-child(2)")));
+            toastView = this.Find<Label>().By("ToastView");
+            notification = new Label(toastView, new BySelector(By.CssSelector("span:first-child")));
+            Action = new Label(toastView, new BySelector(By.CssSelector("span:nth-child(2)")));
         }
-
-        private Label ToastView { get; }
-
-        private Label Notification { get; }
 
         public Label Action { get; }
 
-        public new IProp<bool> IsPresent => ToastView.IsPresent;
+        public new IProp<bool> IsPresent => toastView.IsPresent;
 
-        public override IProp<string> Text => Notification.Text;
+        public override IProp<string> Text => notification.Text;
 
         public static Toast Static(ISearchContainer container)
         {
             return new Toast(container.GetRootContainer(), new UniversalSelector("##StaticToast"));
         }
+
+        private readonly Label toastView;
+
+        private readonly Label notification;
     }
 }
