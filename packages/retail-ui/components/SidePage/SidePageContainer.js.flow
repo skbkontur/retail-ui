@@ -1,7 +1,7 @@
 /* @flow */
 
 type Props = {|
-  children: React$Node,
+  children?: React$Node,
 |};
 
 declare class SidePageContainer extends React$Component<Props> {}

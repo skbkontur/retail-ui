@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
+import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
 import PagingHelper from './PagingHelper';
@@ -204,7 +205,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     const handleClick = () => this.goToPage(pageNumber);
 
     return (
-      <span key={pageNumber} className={styles.pageLinkWrapper}>
+      <span key={pageNumber} className={styles.pageLinkWrapper} onMouseDown={this.handleMouseDownPageLink}>
         <Component active={active} className={classes} onClick={handleClick} tabIndex={-1} pageNumber={pageNumber}>
           {pageNumber}
         </Component>
@@ -237,6 +238,14 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
   private handleMouseDown = () => {
     this.setState({ focusedByTab: false, focusedItem: null });
+  };
+
+  private handleMouseDownPageLink = () => {
+    if (isIE) {
+      // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
+      // Поэтому горячие клавиши работают пока span существует на странице.
+      setTimeout(() => this.container && this.container.focus(), 0);
+    }
   };
 
   private handleKeyDown = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {

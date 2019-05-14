@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.49.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.48.0...retail-ui@0.49.0) (2019-05-14)
+
+
+### Bug Fixes
+
+* **flow:** update props ([c652880](https://github.com/skbkontur/retail-ui/commit/c652880))
+* **Paging:** add autofocus for IE11 ([e434d80](https://github.com/skbkontur/retail-ui/commit/e434d80)), closes [#1358](https://github.com/skbkontur/retail-ui/issues/1358)
+* **TokenInput:** add mapping `renderValue` before copying to clipboard ([79c76c0](https://github.com/skbkontur/retail-ui/commit/79c76c0)), closes [#1336](https://github.com/skbkontur/retail-ui/issues/1336)
+
+
+### Features
+
+* **TokenInput:** add prop `valueToString` ([9e7bf50](https://github.com/skbkontur/retail-ui/commit/9e7bf50))
+
+
+
+
+
 # [0.48.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.47.0...retail-ui@0.48.0) (2019-04-30)
 
 
