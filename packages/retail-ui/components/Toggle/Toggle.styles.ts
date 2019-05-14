@@ -33,7 +33,7 @@ const jsStyles = {
 
   activeBackground(t: ITheme) {
     return css`
-      .${jsStyles.isLoading(t)} & {
+      .${styles.isLoading} & {
         background: ${t.toggleBgChecked};
       }
 
@@ -58,7 +58,7 @@ const jsStyles = {
         background: ${t.warningMain};
         border-color: ${t.warningMain};
 
-        .${jsStyles.activeBackground(t)} {
+        .${styles.activeBackground} {
           background: ${t.warningMain};
         }
       }
@@ -71,7 +71,7 @@ const jsStyles = {
         background: ${t.errorMain};
         border-color: ${t.errorMain};
 
-        .${jsStyles.activeBackground(t)} {
+        .${styles.activeBackground} {
           background: ${t.errorMain};
         }
       }
