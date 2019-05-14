@@ -12,15 +12,4 @@ export type ModalContextProps = {|
   horizontalScroll?: boolean,
 |};
 
-declare export var ModalContext: {|
-  Provider: React$ComponentType<{|
-    value: ModalContextProps,
-    children: React$Node,
-  // eslint-disable-next-line flowtype/no-weak-types
-  |}, any>,
-  Consumer: React$ComponentType<{|
-    children: ((value: ModalContextProps) => React$Node) | [(value: ModalContextProps) => React$Node],
-    observedBits?: number | void,
-  // eslint-disable-next-line flowtype/no-weak-types
-  |}, any>,
-|};
+declare export var ModalContext: React$Context<ModalContextProps>;
