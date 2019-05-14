@@ -4,6 +4,7 @@ import { ITheme, IThemeIn } from '../../lib/theming/Theme';
 import ThemeFactory from '../../lib/theming/ThemeFactory';
 
 interface ThemeProviderProps {
+  children: React.ReactNode;
   value: IThemeIn;
 }
 
