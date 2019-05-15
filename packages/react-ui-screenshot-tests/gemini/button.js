@@ -101,5 +101,12 @@ gemini.suite('Button', suite => {
     gemini.suite('different content', suite => {
       paginatedScenario(suite.before(renderStory('Button', 'different content')), 8);
     });
+
+    gemini.suite('different content sizes', suite => {
+      suite
+        .before(renderStory('Button', 'different content sizes'))
+        .setCaptureElements('#test-element')
+        .capture('plain');
+    });
   });
 });

@@ -30,6 +30,32 @@ storiesOf('Button', module)
       <Button size="large">Large</Button>
     </Gapped>
   ))
+  .add('different content sizes', () => (
+    <ComponentStatesTable
+      component={Button}
+      rows={sizeStates}
+      cols={[
+        { children: 'Button' },
+        {
+          children: (
+            <span>
+              <OkIcon size={20} /> 20px
+            </span>
+          ),
+        },
+        {
+          children: (
+            <span>
+              <OkIcon size={50} /> 50px
+            </span>
+          ),
+        },
+        { icon: <OkIcon size={50} />, children: 'Icon 50px' },
+      ]}
+      presetState={{}}
+      children={null}
+    />
+  ))
   .add('with icons', () => {
     return (
       <Gapped>
