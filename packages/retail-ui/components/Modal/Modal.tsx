@@ -137,7 +137,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     const modalContextProps: ModalContextProps = {
       hasHeader,
       horizontalScroll: this.state.horizontalScroll,
-      fixedWidth: this.fixedWidth,
+      fixedWidth: this.fixWidth,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -154,7 +154,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
-    if (this.props.width || (this.state.width !== null && this.presentScrollBar())) {
+    if (this.props.width || (this.state.width !== null && this.isThereScrollBar())) {
       style.width = this.state.width || this.props.width;
     } else {
       containerStyle.width = 'auto';
@@ -199,9 +199,9 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     );
   }
 
-  private fixedWidth = (rect: ClientRect | DOMRect) => this.setState({ width: rect.width });
+  private fixWidth = (rect: ClientRect | DOMRect) => this.setState({ width: rect.width });
 
-  private presentScrollBar = (): boolean =>
+  private isThereScrollBar = (): boolean =>
     !!this.containerNode && this.containerNode.clientWidth !== this.containerNode.offsetWidth;
 
   private requestClose = () => {
