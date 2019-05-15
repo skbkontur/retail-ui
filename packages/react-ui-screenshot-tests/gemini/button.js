@@ -109,4 +109,11 @@ gemini.suite('Button', suite => {
         .capture('plain');
     });
   });
+
+  gemini.suite('baseline', suite => {
+    suite
+      .before(renderStory('Button', 'baseline'))
+      .setCaptureElements('#test-element')
+      .capture('plain');
+  });
 });

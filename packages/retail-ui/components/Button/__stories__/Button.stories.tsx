@@ -272,6 +272,28 @@ storiesOf('Button', module)
   ))
   .add('different content', () => (
     <StatesCombinator states={[...contentStates, ...widthStates, ...layoutStates]} sizeX={3} sizeY={6} component={Button} presetState={{}} children='Button' />
+  ))
+  .add('baseline', () => (
+    <div>
+      Text <Button>Button</Button>
+      <Button size="small">Small</Button>
+      <Button size="medium">Medium</Button>
+      <Button size="large">Large</Button>
+      <Button>
+        <OkIcon />
+      </Button>
+      <Button>
+        <OkIcon size={20} /> 20px
+      </Button>
+      <Button>
+        <OkIcon size={50} /> 50px
+      </Button>
+      <Button icon={<OkIcon size={50} />}>Icon</Button>
+      <Button>
+        <div style={{ fontSize: 50 }}>50px</div>
+      </Button>
+      <Button use="link">link</Button>
+    </div>
   ));
 
 type ButtonState = Partial<ButtonProps>;
