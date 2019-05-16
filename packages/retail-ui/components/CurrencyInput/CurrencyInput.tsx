@@ -18,6 +18,8 @@ export type CurrencyInputProps = Override<
     fractionDigits?: Nullable<number>;
     /** Отрицательные значения */
     signed?: boolean;
+    /** Допустимое кол-во цифр целой части */
+    integerPartLength?: Nullable<number>;
     /** onChange */
     onChange: (e: { target: { value: Nullable<number> } }, value: Nullable<number>) => void;
     /** onSubmit */
@@ -90,7 +92,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, maxLength, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, mainInGroup, maxLength, integerPartLength, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
@@ -260,19 +262,13 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
       value,
       this.props.fractionDigits,
       !this.props.signed,
+      this.props.integerPartLength,
     );
     if (result) {
       const formatted = result.value;
       const selection = SelectionHelper.fromPosition(result.position);
-      const parsedValue = CurrencyHelper.parse(formatted);
-      if (
-        !this.props.mask &&
-        parsedValue &&
-        Math.floor(parsedValue).toString().length > (this.props.maxLength || Infinity)
-      ) {
-        return false;
-      }
       this.setState({ formatted, selection }, () => {
+        const parsedValue = CurrencyHelper.parse(formatted);
         if (this.props.value !== parsedValue) {
           this.props.onChange({ target: { value: parsedValue } }, parsedValue);
         }

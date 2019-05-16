@@ -8,8 +8,8 @@ export default class CurrencyInputHelper {
     return selection.start === selection.end
       ? CursorHelper.calculatePosition(CurrencyHelper.getInfo(value).cursorMap, selection.start, step)
       : step < 0
-      ? selection.start
-      : selection.end;
+        ? selection.start
+        : selection.end;
   }
 
   public static extendSelection(value: string, selection: Selection, step: number) {
@@ -29,6 +29,7 @@ export default class CurrencyInputHelper {
     input: string,
     fractionDigits: Nullable<number>,
     unsigned: Nullable<boolean>,
+    integerPartLength: Nullable<number>,
   ) {
     const extracted = CurrencyInputHelper.getMaximumValidSubstring(
       value,
@@ -39,7 +40,11 @@ export default class CurrencyInputHelper {
       unsigned,
     );
     if (extracted != null) {
-      return CurrencyInputHelper.insert(value, start, end, extracted);
+      const insert = CurrencyInputHelper.insert(value, start, end, extracted);
+      if (!CurrencyInputHelper.isAllowedLengthIntegerPart(CurrencyHelper.parse(insert.value), integerPartLength)) {
+        return null;
+      }
+      return insert;
     }
     return null;
   }
@@ -81,5 +86,16 @@ export default class CurrencyInputHelper {
     const formattedPosition = CursorHelper.toFormattedPosition(info2.cursorMap, raw + input.length);
 
     return { value: info2.formatted, position: formattedPosition };
+  }
+
+  public static isAllowedLengthIntegerPart(value: Nullable<number>, maxLength: Nullable<number>): boolean {
+    if (typeof value !== 'number' || typeof maxLength !== 'number') {
+      return true;
+    }
+    const integerPart = Math.floor(Math.abs(value));
+    if (integerPart === 0 && maxLength === 0) {
+      return true;
+    }
+    return integerPart.toString().length <= maxLength;
   }
 }
