@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { cx, css } from 'emotion';
-import Input from '../../Input';
+import Input from '../../Input/index';
 import styles from './styles.less';
-import { PlaygroundTheme } from './ThemeProvider.stories';
+import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 
 export interface IVariableValueProps {
   onChange: (variable: string, value: string) => void;

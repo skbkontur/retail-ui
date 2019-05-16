@@ -5,13 +5,13 @@ import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { ITheme } from '../../../lib/theming/Theme';
 import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
-import { VariableValue } from './VariableValue';
-import { Playground } from './Playground';
-import { ThemeType } from './enums';
+import { VariableValue } from '../Playground/VariableValue';
+import { Playground } from '../Playground/Playground';
+import { ThemeType } from '../Playground/enums';
 import Gapped from '../../Gapped';
 import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
-import darkThemeVariables from './darkTheme';
-import styles from './styles.less';
+import darkThemeVariables from '../Playground/darkTheme';
+import styles from '../Playground/styles.less';
 
 interface IState {
   theme: PlaygroundTheme;

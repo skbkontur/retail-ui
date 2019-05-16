@@ -56,6 +56,8 @@ export default {
   controlHeightSmall: '34px',
   controlHeightMedium: '40px',
   controlHeightLarge: '44px',
+  chbCheckedColor: '#000',
+  chbShadowDisabled: '#a0a0a0',
   textColorDefault: '#fff',
   textColorInvert: '#fff',
   textColorDisabled: '#a0a0a0',

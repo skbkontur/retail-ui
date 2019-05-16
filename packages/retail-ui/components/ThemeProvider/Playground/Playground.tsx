@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { cx, css } from 'emotion';
-import Button from '../../Button';
+import Button from '../../Button/index';
 import Tabs from '../../Tabs/Tabs';
 import { ThemeType } from './enums';
 import Gapped from '../../Gapped/Gapped';
 import Link from '../../Link/Link';
 
 import styles from './styles.less';
-import Input from '../../Input';
+import Input from '../../Input/index';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import { TokenInputPlayground } from './TokenInputPlayground';
-import Spinner from '../../Spinner';
+import Spinner from '../../Spinner/index';
 import { DatePickerPlayground } from './AnotherInputsPlayground';
 import { TogglePlayground } from './TogglePlayground';
 import { SwitcherPlayground } from './SwitcherPlayground';
-import Radio from '../../Radio';
-import Checkbox from '../../Checkbox';
+import Radio from '../../Radio/index';
+import Checkbox from '../../Checkbox/index';
 import { FxInputPlayground } from './FxInputPlayground';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground';
 import { ThemeConsumer } from '../../internal/ThemeContext';
-import { PlaygroundTheme } from './ThemeProvider.stories';
+import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 
 export interface IComponentsListProps {
   activeThemeType: ThemeType;
