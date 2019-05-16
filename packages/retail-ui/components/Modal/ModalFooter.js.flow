@@ -3,7 +3,7 @@
 export type FooterProps = {|
   panel?: boolean,
   sticky?: boolean,
-  children: React$Node,
+  children?: React$Node,
 |};
 
 declare export function isFooter(child: React$Node): boolean;

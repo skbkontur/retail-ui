@@ -8,9 +8,9 @@ export type DropdownMenuProps = {|
   onOpen?: () => void,
   onClose?: () => void,
   disableAnimations?: boolean,
-  children: React$Node
+  children?: React$Node,
 |};
 
-class DropdownMenu extends React$Component<DropdownMenuProps> {}
+declare class DropdownMenu extends React$Component<DropdownMenuProps> {}
 
 export default DropdownMenu;
