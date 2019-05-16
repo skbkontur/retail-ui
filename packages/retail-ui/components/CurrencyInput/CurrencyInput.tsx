@@ -274,6 +274,8 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
         }
       });
       return true;
+    } else if (this.input) {
+      this.input.blink();
     }
     return false;
   };
