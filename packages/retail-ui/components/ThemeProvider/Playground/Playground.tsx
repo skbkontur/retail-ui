@@ -22,7 +22,7 @@ import { ThemeConsumer } from '../../internal/ThemeContext';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 
 export interface IComponentsListProps {
-  activeThemeType: ThemeType;
+  currentThemeType: ThemeType;
   onThemeChange: ((ev: { target: { value: string } }, value: string) => void);
   onEditLinkClick: () => void;
 }
@@ -69,10 +69,10 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
   }
 
   private renderTabsGroup = () => {
-    const { activeThemeType, onThemeChange, onEditLinkClick } = this.props;
+    const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
     return (
       <Gapped vertical={false} verticalAlign={'middle'} gap={80}>
-        <Tabs value={activeThemeType} onChange={onThemeChange} vertical={false}>
+        <Tabs value={currentThemeType} onChange={onThemeChange} vertical={false}>
           <div
             className={css`
               color: ${this.theme.textColorMain};

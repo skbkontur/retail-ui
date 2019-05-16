@@ -5,6 +5,7 @@ import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { ITheme } from '../../../lib/theming/Theme';
 import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
+import ComboBox from '../../ComboBox';
 import { VariableValue } from '../Playground/VariableValue';
 import { Playground } from '../Playground/Playground';
 import { ThemeType } from '../Playground/enums';
@@ -14,11 +15,16 @@ import darkThemeVariables from '../Playground/darkTheme';
 import styles from '../Playground/styles.less';
 
 interface IState {
-  theme: PlaygroundTheme;
-  opened: boolean;
-  activeThemeType: ThemeType;
+  currentTheme: PlaygroundTheme;
+  currentThemeType: ThemeType;
+  editorOpened: boolean;
+  editingTheme: ITheme;
+  editingThemeItem: ISelectedThemeToEditItem;
 }
-
+interface ISelectedThemeToEditItem {
+  value: ThemeType;
+  label: string;
+}
 interface IProps {}
 
 interface IThemeExtension {
@@ -27,30 +33,41 @@ interface IThemeExtension {
 }
 export type PlaygroundTheme = ITheme & IThemeExtension;
 
-export class ThemeProviderShowcase extends React.Component<IProps, IState> {
-  private readonly defaultTheme = ThemeFactory.getDefaultTheme();
-  private readonly flatTheme = ThemeFactory.create(flatThemeVariables);
+export class ThemeProviderPlayground extends React.Component<IProps, IState> {
+  private defaultTheme = ThemeFactory.getDefaultTheme();
+  private flatTheme = ThemeFactory.create(flatThemeVariables);
+  private darkTheme = ThemeFactory.create(darkThemeVariables);
   private customTheme = ThemeFactory.create({});
-  private readonly darkTheme = ThemeFactory.create(darkThemeVariables);
+  private readonly editableThemesItems = [
+    { value: ThemeType.Default, label: 'Дефолтная' },
+    { value: ThemeType.Flat, label: 'Плоская' },
+    { value: ThemeType.Dark, label: 'Темная' },
+    { value: ThemeType.Custom, label: 'Своя' },
+  ];
 
   constructor(props: IProps) {
     super(props);
     this.state = {
-      theme: this.defaultTheme as PlaygroundTheme,
-      opened: false,
-      activeThemeType: ThemeType.Default,
+      currentTheme: this.defaultTheme as PlaygroundTheme,
+      editorOpened: false,
+      currentThemeType: ThemeType.Default,
+      editingTheme: this.defaultTheme,
+      editingThemeItem: {
+        value: ThemeType.Default,
+        label: 'Дефолтная',
+      },
     };
   }
 
   public render() {
-    const { theme, opened, activeThemeType } = this.state;
+    const { currentTheme, editorOpened, currentThemeType } = this.state;
     return (
-      <ThemeProvider value={theme}>
-        {opened && this.renderSidePage()}
+      <ThemeProvider value={currentTheme}>
+        {editorOpened && this.renderSidePage()}
         {
           <Playground
             onThemeChange={this.handleThemeChange}
-            activeThemeType={activeThemeType}
+            currentThemeType={currentThemeType}
             onEditLinkClick={this.handleOpen}
           />
         }
@@ -59,26 +76,34 @@ export class ThemeProviderShowcase extends React.Component<IProps, IState> {
   }
 
   private renderSidePage = () => {
+    const { currentTheme, editingThemeItem, editingTheme } = this.state;
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={750} onClose={this.handleClose}>
         <SidePage.Header>
           <div
             className={css`
-              color: ${this.state.theme.textColorMain};
+              color: ${currentTheme.textColorMain};
             `}
           >
-            Своя тема
+            <Gapped>
+              <span>Тема для редактирования:</span>
+              <ComboBox
+                getItems={this.getEditableThemesItems}
+                value={editingThemeItem}
+                onChange={this.handleSelectedThemeToEditChange}
+              />
+            </Gapped>
           </div>
         </SidePage.Header>
         <SidePage.Body>
           <div className={styles.sidePageBody}>
             <Gapped verticalAlign={'middle'} gap={10}>
-              {ThemeFactory.getKeys(this.customTheme).map(key => {
+              {ThemeFactory.getKeys(editingTheme).map(key => {
                 return (
                   <VariableValue
-                    theme={this.state.theme}
-                    onChange={this.handleCustomThemeVariableChange}
-                    value={this.customTheme[key as keyof ITheme]}
+                    theme={currentTheme}
+                    onChange={this.handleThemeVariableChange}
+                    value={editingTheme[key as keyof ITheme]}
                     variable={key}
                     key={key}
                   />
@@ -93,55 +118,79 @@ export class ThemeProviderShowcase extends React.Component<IProps, IState> {
 
   private handleOpen = () => {
     this.setState({
-      opened: true,
+      editorOpened: true,
     });
   };
 
   private handleClose = () => {
     this.setState({
-      opened: false,
+      editorOpened: false,
     });
   };
 
   private handleThemeChange = (ev: { target: { value: string } }, value: string) => {
     this.setState({
-      activeThemeType: value as ThemeType,
+      currentThemeType: value as ThemeType,
     });
     this.changeTheme(value as ThemeType);
   };
 
-  private changeTheme = (themeId: ThemeType) => {
-    let theme: ITheme;
-    switch (themeId) {
-      case ThemeType.Default:
-        theme = this.defaultTheme;
-        break;
-      case ThemeType.Flat:
-        theme = this.flatTheme;
-        break;
-      case ThemeType.Custom:
-        theme = this.customTheme;
-        break;
-      case ThemeType.Dark:
-        theme = this.darkTheme;
-        break;
-      default:
-        theme = this.defaultTheme;
-    }
-
+  private changeTheme = (themeType: ThemeType) => {
     this.setState({
-      theme: theme as PlaygroundTheme,
+      currentTheme: this.getThemeByType(themeType) as PlaygroundTheme,
     });
   };
 
-  private handleCustomThemeVariableChange = (variable: string, value: string) => {
-    this.customTheme = ThemeFactory.create({ ...this.customTheme, [variable]: value });
-    if (this.state.activeThemeType === ThemeType.Custom) {
+  private getThemeByType = (themeType: ThemeType): ITheme => {
+    switch (themeType) {
+      case ThemeType.Default:
+        return this.defaultTheme;
+      case ThemeType.Flat:
+        return this.flatTheme;
+      case ThemeType.Custom:
+        return this.customTheme;
+      case ThemeType.Dark:
+        return this.darkTheme;
+    }
+  };
+
+  private handleThemeVariableChange = (variable: string, value: string) => {
+    const { editingTheme, editingThemeItem } = this.state;
+    const editingThemeType = editingThemeItem.value;
+    const result = Object.assign({}, editingTheme, { [variable]: value });
+
+    switch (editingThemeType) {
+      case ThemeType.Default:
+        this.defaultTheme = result;
+        break;
+      case ThemeType.Flat:
+        this.flatTheme = result;
+        break;
+      case ThemeType.Custom:
+        this.customTheme = result;
+        break;
+      case ThemeType.Dark:
+        this.darkTheme = result;
+        break;
+    }
+
+    if (this.state.currentThemeType === editingThemeType) {
       this.setState({
-        theme: this.customTheme as PlaygroundTheme,
+        currentTheme: ThemeFactory.create(result) as PlaygroundTheme,
       });
     }
   };
+
+  private getEditableThemesItems = (query: string) => {
+    return Promise.resolve(this.editableThemesItems.filter(i => i.label.toLowerCase().includes(query.toLowerCase())));
+  };
+
+  private handleSelectedThemeToEditChange = (_: any, item: ISelectedThemeToEditItem) => {
+    this.setState({
+      editingThemeItem: item,
+      editingTheme: this.getThemeByType(item.value),
+    });
+  };
 }
 
-storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderShowcase />);
+storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderPlayground />);
