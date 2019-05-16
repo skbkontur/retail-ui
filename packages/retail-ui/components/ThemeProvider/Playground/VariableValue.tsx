@@ -3,6 +3,7 @@ import { cx, css } from 'emotion';
 import Input from '../../Input/index';
 import styles from './styles.less';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
+import Gapped from '../../Gapped';
 
 export interface IVariableValueProps {
   onChange: (variable: string, value: string) => void;
@@ -22,7 +23,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   public render() {
     const { variable, theme } = this.props;
     return (
-      <div className={styles.variableValueRoot}>
+      <Gapped gap={30}>
         <div
           className={cx(
             styles.variableName,
@@ -32,8 +33,14 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
           )}
           title={variable}
         >{`${variable}: `}</div>
-        <Input width={150} value={this.state.value} onChange={this.handleChange} onBlur={this.handleBlur} />
-      </div>
+        <Input
+          leftIcon={isColor(this.state.value) && this.inputIcon()}
+          value={this.state.value}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          align={'right'}
+        />
+      </Gapped>
     );
   }
 
@@ -42,6 +49,10 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
       this.setState({ value: this.props.value });
     }
   }
+
+  private inputIcon = () => {
+    return <div className={styles.inputIcon} style={{ background: this.state.value }} />;
+  };
 
   private handleChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
     this.setState({
@@ -55,4 +66,8 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
       onChange(variable, this.state.value);
     }
   };
+}
+
+function isColor(input: string) {
+  return !!input && (input.startsWith('#') || input.startsWith('rgb') || input.startsWith('hsl'));
 }
