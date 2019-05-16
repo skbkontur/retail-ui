@@ -18,7 +18,10 @@ export type CurrencyInputProps = Override<
     fractionDigits?: Nullable<number>;
     /** Отрицательные значения */
     signed?: boolean;
-    /** Допустимое кол-во цифр целой части */
+    /**
+     * Допустимое кол-во цифр целой части.
+     * Если передан **0**, то и в целой части допускается только **0**.
+     */
     integerPartLength?: Nullable<number>;
     /** onChange */
     onChange: (e: { target: { value: Nullable<number> } }, value: Nullable<number>) => void;
