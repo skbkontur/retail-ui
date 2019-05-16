@@ -137,7 +137,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     const modalContextProps: ModalContextProps = {
       hasHeader,
       horizontalScroll: this.state.horizontalScroll,
-      fixedWidth: this.fixWidth,
+      fixWidth: this.fixWidth,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
