@@ -6,22 +6,22 @@ import { ITheme } from '../../../lib/theming/Theme';
 import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
 import ComboBox from '../../ComboBox';
-import { VariableValue } from '../Playground/VariableValue';
 import { Playground } from '../Playground/Playground';
 import { ThemeType } from '../Playground/enums';
 import Gapped from '../../Gapped';
 import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
 import darkThemeVariables from '../Playground/darkTheme';
 import styles from '../Playground/styles.less';
+import { EditingVariables } from '../Playground/EditingVariables';
 
 interface IState {
   currentTheme: PlaygroundTheme;
   currentThemeType: ThemeType;
   editorOpened: boolean;
   editingTheme: ITheme;
-  editingThemeItem: ISelectedThemeToEditItem;
+  editingThemeItem: IEditingThemeItem;
 }
-interface ISelectedThemeToEditItem {
+interface IEditingThemeItem {
   value: ThemeType;
   label: string;
 }
@@ -78,7 +78,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   private renderSidePage = () => {
     const { currentTheme, editingThemeItem, editingTheme } = this.state;
     return (
-      <SidePage disableAnimations ignoreBackgroundClick blockBackground width={750} onClose={this.handleClose}>
+      <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
           <div
             className={css`
@@ -97,19 +97,11 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
         </SidePage.Header>
         <SidePage.Body>
           <div className={styles.sidePageBody}>
-            <Gapped verticalAlign={'middle'} gap={10}>
-              {ThemeFactory.getKeys(editingTheme).map(key => {
-                return (
-                  <VariableValue
-                    theme={currentTheme}
-                    onChange={this.handleThemeVariableChange}
-                    value={editingTheme[key as keyof ITheme]}
-                    variable={key}
-                    key={key}
-                  />
-                );
-              })}
-            </Gapped>
+            <EditingVariables
+              editingTheme={editingTheme}
+              currentTheme={currentTheme}
+              onValueChange={this.handleThemeVariableChange}
+            />
           </div>
         </SidePage.Body>
       </SidePage>
@@ -185,7 +177,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
     return Promise.resolve(this.editableThemesItems.filter(i => i.label.toLowerCase().includes(query.toLowerCase())));
   };
 
-  private handleSelectedThemeToEditChange = (_: any, item: ISelectedThemeToEditItem) => {
+  private handleSelectedThemeToEditChange = (_: any, item: IEditingThemeItem) => {
     this.setState({
       editingThemeItem: item,
       editingTheme: this.getThemeByType(item.value),

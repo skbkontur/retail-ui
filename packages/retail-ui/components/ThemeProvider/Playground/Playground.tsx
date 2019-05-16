@@ -84,7 +84,7 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
             <Tabs.Tab id={ThemeType.Custom}>Своя</Tabs.Tab>
           </div>
         </Tabs>
-        <Link onClick={onEditLinkClick}>Изменить свою тему</Link>
+        <Link onClick={onEditLinkClick}>Изменить тему</Link>
       </Gapped>
     );
   };
