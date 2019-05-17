@@ -146,10 +146,10 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
     }
   };
 
-  private handleThemeVariableChange = (variable: string, value: string) => {
-    const { editingTheme, editingThemeItem } = this.state;
+  private handleThemeVariableChange = (variable: keyof PlaygroundTheme, value: string) => {
+    const { editingTheme, editingThemeItem, currentTheme } = this.state;
     const editingThemeType = editingThemeItem.value;
-    const result = Object.assign({}, editingTheme, { [variable]: value });
+    const result = this.changeThemeVariable(editingTheme, variable, value);
 
     switch (editingThemeType) {
       case ThemeType.Default:
@@ -165,12 +165,15 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
         this.darkTheme = result;
         break;
     }
+    const stateUpdate = {
+      editingTheme: result,
+      currentTheme,
+    };
 
     if (this.state.currentThemeType === editingThemeType) {
-      this.setState({
-        currentTheme: ThemeFactory.create(result) as PlaygroundTheme,
-      });
+      stateUpdate.currentTheme = result as PlaygroundTheme;
     }
+    this.setState(stateUpdate);
   };
 
   private getEditableThemesItems = (query: string) => {
@@ -183,6 +186,32 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       editingTheme: this.getThemeByType(item.value),
     });
   };
+
+  private changeThemeVariable = (theme: ITheme, variableName: keyof ITheme, variableValue: string): ITheme => {
+    const result = {} as PlaygroundTheme;
+    ThemeFactory.getKeys(theme).forEach(key => {
+      const descriptor = findPropretyDescriptor(theme, key);
+      descriptor.enumerable = true;
+      descriptor.configurable = true;
+      if (key === variableName) {
+        delete descriptor.get;
+        delete descriptor.set;
+        descriptor.value = variableValue;
+      }
+      Object.defineProperty(result, key, descriptor);
+    });
+
+    return result;
+  };
+}
+
+function findPropretyDescriptor(theme: ITheme, propName: keyof ITheme) {
+  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
+    if (theme.hasOwnProperty(propName)) {
+      return Object.getOwnPropertyDescriptor(theme, propName) || {};
+    }
+  }
+  return {};
 }
 
 storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderPlayground />);
