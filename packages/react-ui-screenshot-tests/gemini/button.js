@@ -2,7 +2,7 @@
 
 const renderStory = require('./utils').renderStory;
 
-gemini.suite('Button', suite => {
+gemini.suite('Button', () => {
   const testScenario = suite => {
     suite
       .capture('idle')
