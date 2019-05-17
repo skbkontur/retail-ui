@@ -31,7 +31,6 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   public render() {
     const { variable, theme, baseVariable } = this.props;
     return (
-      <div className={styles.variableValue}>
         <Gapped gap={30}>
           <div
             className={cx(
@@ -44,7 +43,6 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
           >{`${variable}: `}</div>
           {baseVariable && !this.state.editing ? this.renderBaseVariableLink() : this.renderInput()}
         </Gapped>
-      </div>
     );
   }
 

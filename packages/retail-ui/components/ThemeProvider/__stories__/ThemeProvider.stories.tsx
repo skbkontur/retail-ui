@@ -18,8 +18,8 @@ interface IState {
   currentTheme: PlaygroundTheme;
   currentThemeType: ThemeType;
   editorOpened: boolean;
-  editingTheme: ITheme;
-  editingThemeItem: IEditingThemeItem;
+  editingTheme?: ITheme;
+  editingThemeItem?: IEditingThemeItem;
 }
 interface IEditingThemeItem {
   value: ThemeType;
@@ -51,11 +51,6 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       currentTheme: this.defaultTheme as PlaygroundTheme,
       editorOpened: false,
       currentThemeType: ThemeType.Default,
-      editingTheme: this.defaultTheme,
-      editingThemeItem: {
-        value: ThemeType.Default,
-        label: 'Дефолтная',
-      },
     };
   }
 
@@ -98,7 +93,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
         <SidePage.Body>
           <div className={styles.sidePageBody}>
             <EditingVariables
-              editingTheme={editingTheme}
+              editingTheme={editingTheme!}
               currentTheme={currentTheme}
               onValueChange={this.handleThemeVariableChange}
             />
@@ -109,9 +104,11 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   };
 
   private handleOpen = () => {
-    this.setState({
+    this.setState(state => ({
       editorOpened: true,
-    });
+      editingThemeItem: this.editableThemesItems.find(i => i.value === state.currentThemeType),
+      editingTheme: state.currentTheme,
+    }));
   };
 
   private handleClose = () => {
@@ -148,8 +145,8 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
 
   private handleThemeVariableChange = (variable: keyof PlaygroundTheme, value: string) => {
     const { editingTheme, editingThemeItem, currentTheme } = this.state;
-    const editingThemeType = editingThemeItem.value;
-    const result = this.changeThemeVariable(editingTheme, variable, value);
+    const editingThemeType = editingThemeItem!.value;
+    const result = this.changeThemeVariable(editingTheme!, variable, value);
 
     switch (editingThemeType) {
       case ThemeType.Default:
