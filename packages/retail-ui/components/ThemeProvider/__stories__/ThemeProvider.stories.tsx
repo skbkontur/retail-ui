@@ -37,12 +37,10 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   private defaultTheme = ThemeFactory.getDefaultTheme();
   private flatTheme = ThemeFactory.create(flatThemeVariables);
   private darkTheme = ThemeFactory.create(darkThemeVariables);
-  private customTheme = ThemeFactory.create({});
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
     { value: ThemeType.Flat, label: 'Плоская' },
     { value: ThemeType.Dark, label: 'Темная' },
-    { value: ThemeType.Custom, label: 'Своя' },
   ];
 
   constructor(props: IProps) {
@@ -136,8 +134,6 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
         return this.defaultTheme;
       case ThemeType.Flat:
         return this.flatTheme;
-      case ThemeType.Custom:
-        return this.customTheme;
       case ThemeType.Dark:
         return this.darkTheme;
     }
@@ -155,8 +151,6 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       case ThemeType.Flat:
         this.flatTheme = result;
         break;
-      case ThemeType.Custom:
-        this.customTheme = result;
         break;
       case ThemeType.Dark:
         this.darkTheme = result;
@@ -198,7 +192,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       Object.defineProperty(result, key, descriptor);
     });
 
-    return result;
+    return Object.freeze(result);
   };
 }
 

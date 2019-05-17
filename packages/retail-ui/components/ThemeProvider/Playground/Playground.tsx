@@ -81,7 +81,6 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
             <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
             <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
             <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
-            <Tabs.Tab id={ThemeType.Custom}>Своя</Tabs.Tab>
           </div>
         </Tabs>
         <Link onClick={onEditLinkClick}>Изменить тему</Link>
