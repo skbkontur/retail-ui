@@ -9,12 +9,11 @@ import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 interface IEditingVariablesProps {
   editingTheme: ITheme;
   currentTheme: PlaygroundTheme;
-  onValueChange: (variable: string, value: string) => void;
+  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
 export const EditingVariables = (props: IEditingVariablesProps) => {
   const { editingTheme, currentTheme, onValueChange } = props;
   const keys = ThemeFactory.getKeys(editingTheme);
-
   return (
     <Gapped verticalAlign={'middle'}>
       {renderGroups({
@@ -32,7 +31,7 @@ interface IVariableValuesGroupProps {
   currentTheme: PlaygroundTheme;
   title: string;
   variables: string[];
-  onValueChange: (variable: string, value: string) => void;
+  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
 const VariableValuesGroup = (props: IVariableValuesGroupProps) => {
   const { editingTheme, currentTheme, onValueChange, title, variables } = props;
@@ -55,6 +54,7 @@ const VariableValuesGroup = (props: IVariableValuesGroupProps) => {
               value={editingTheme[variable as keyof ITheme]}
               variable={variable}
               key={variable}
+              baseVariable={getBaseVariable(editingTheme, variable)}
             />
           );
         })}
@@ -66,7 +66,7 @@ const VariableValuesGroup = (props: IVariableValuesGroupProps) => {
 interface IVariablesGroupProps {
   editingTheme: ITheme;
   currentTheme: PlaygroundTheme;
-  onValueChange: (variable: string, value: string) => void;
+  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
   variables: string[];
 }
 const renderGroups = (props: IVariablesGroupProps) => {
@@ -132,4 +132,19 @@ const isCommonVariable = (nameStarts: string[], name: string) => {
 const nameStartsReducer = (acc: string[], current: { title: string; nameStart: string }): string[] => {
   const splitNameStart = current.nameStart.split(' ');
   return [...acc, ...splitNameStart];
+};
+const getBaseVariable = (theme: ITheme, variable: keyof ITheme): keyof ITheme => {
+  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
+    if (theme.hasOwnProperty(variable)) {
+      const descriptor = Object.getOwnPropertyDescriptor(theme, variable);
+
+      if (descriptor && typeof descriptor.get !== 'undefined') {
+        const stringifiedGetter = descriptor.get.toString();
+        const variableNameMatchArray = stringifiedGetter.match(/(\.\w+;)/gm) || [];
+        return (variableNameMatchArray[0] || '').replace(/\W+/g, '');
+      }
+      break;
+    }
+  }
+  return '';
 };

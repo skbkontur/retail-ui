@@ -4,43 +4,47 @@ import Input from '../../Input/index';
 import styles from './styles.less';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 import Gapped from '../../Gapped';
+import { ITheme } from '../../../lib/theming/Theme';
+import Link from '../../Link';
+import EditIcon from '@skbkontur/react-icons/Edit';
+import DeleteIcon from '@skbkontur/react-icons/Delete';
+import Hint from '../../Hint';
 
 export interface IVariableValueProps {
-  onChange: (variable: string, value: string) => void;
+  onChange: (variable: keyof PlaygroundTheme, value: string) => void;
   value: string;
   variable: string;
   theme: PlaygroundTheme;
+  baseVariable: keyof ITheme;
 }
 export interface IVariableValueState {
   value: string;
+  editing: boolean;
 }
 
 export class VariableValue extends React.Component<IVariableValueProps, IVariableValueState> {
   public state = {
     value: this.props.value,
+    editing: false,
   };
 
   public render() {
-    const { variable, theme } = this.props;
+    const { variable, theme, baseVariable } = this.props;
     return (
-      <Gapped gap={30}>
-        <div
-          className={cx(
-            styles.variableName,
-            css`
-              color: ${theme.textColorMain};
-            `,
-          )}
-          title={variable}
-        >{`${variable}: `}</div>
-        <Input
-          leftIcon={isColor(this.state.value) && this.inputIcon()}
-          value={this.state.value}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-          align={'right'}
-        />
-      </Gapped>
+      <div className={styles.variableValue}>
+        <Gapped gap={30}>
+          <div
+            className={cx(
+              styles.variableName,
+              css`
+                color: ${theme.textColorMain};
+              `,
+            )}
+            title={variable}
+          >{`${variable}: `}</div>
+          {baseVariable && !this.state.editing ? this.renderBaseVariableLink() : this.renderInput()}
+        </Gapped>
+      </div>
     );
   }
 
@@ -50,8 +54,73 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     }
   }
 
+  private renderBaseVariableLink = () => {
+    return (
+      <div className={styles.linkRoot}>
+        <Gapped>
+          <Hint text={'Изменить значение'}>
+            <Link icon={<EditIcon />} onClick={this.handleEditLinkClick} />
+          </Hint>
+          <Link onClick={this.scrollToBaseVariable}>{this.props.baseVariable}</Link>
+        </Gapped>
+      </div>
+    );
+  };
+
+  private renderInput = () => {
+    return this.state.editing ? (
+      <Gapped>
+        {this.input}
+        <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
+          <div className={styles.linkRoot}>
+            <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
+          </div>
+        </Hint>
+      </Gapped>
+    ) : (
+      this.input
+    );
+  };
+
+  private get input() {
+    return (
+      <Input
+        leftIcon={isColor(this.state.value) && this.inputIcon()}
+        value={this.state.value}
+        onChange={this.handleChange}
+        onBlur={this.handleBlur}
+        align={'right'}
+        width={this.state.editing ? 225 : undefined}
+      />
+    );
+  }
+
   private inputIcon = () => {
     return <div className={styles.inputIcon} style={{ background: this.state.value }} />;
+  };
+
+  private handleEditLinkClick = () => {
+    this.setState({
+      editing: true,
+    });
+  };
+
+  private rollbackToBaseVariable = () => {
+    this.setState({
+      editing: false,
+      value: this.props.value,
+    });
+  };
+
+  private scrollToBaseVariable = () => {
+    const { baseVariable } = this.props;
+    const domNode = document.querySelector(`[title='${baseVariable}']`)!;
+    if (domNode && domNode.scrollIntoView) {
+      domNode.scrollIntoView({
+        block: 'center',
+        behavior: 'smooth',
+      });
+    }
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -63,11 +132,16 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   private handleBlur = () => {
     const { variable, value, onChange } = this.props;
     if (this.state.value !== value) {
-      onChange(variable, this.state.value);
+      onChange(variable as keyof PlaygroundTheme, this.state.value);
     }
   };
 }
 
-function isColor(input: string) {
-  return !!input && (input.startsWith('#') || input.startsWith('rgb') || input.startsWith('hsl'));
+function isColor(color: string) {
+  const style = new Option().style;
+  style.color = color;
+
+  return (
+    !!color && (color.startsWith('#') || color.startsWith('rgb') || color.startsWith('hsl') || style.color === color)
+  );
 }
