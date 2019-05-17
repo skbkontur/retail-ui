@@ -10,7 +10,6 @@ class TabListener {
       }
     });
     window.addEventListener('keyup', () => (this.isTabPressed = false), true);
-    window.addEventListener('focus', () => (this.isTabPressed = false), true);
   }
 }
 
