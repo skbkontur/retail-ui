@@ -256,7 +256,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   /**
    * @public
    */
-  public focus() {
+  public focus = () => {
     if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }

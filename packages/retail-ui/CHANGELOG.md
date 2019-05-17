@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.49.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.49.0...retail-ui@0.49.1) (2019-05-16)
+
+
+### Bug Fixes
+
+* **Select:** bind public focus function to component instance ([5909b9e](https://github.com/skbkontur/retail-ui/commit/5909b9e))
+* **Toggle:** fix overflow issue in Safari ([#1411](https://github.com/skbkontur/retail-ui/issues/1411)) ([7073cb5](https://github.com/skbkontur/retail-ui/commit/7073cb5))
+
+
+
+
+
 # [0.49.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.48.0...retail-ui@0.49.0) (2019-05-14)
 
 

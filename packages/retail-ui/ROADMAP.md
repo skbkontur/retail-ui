@@ -22,7 +22,7 @@
 
 ### Апрель 2019
 
-— [x] Добавлены скриншотные тесты на плоскую тему [#1253](https://github.com/skbkontur/retail-ui/pull/1253)
+- [x] Добавлены скриншотные тесты на плоскую тему [#1253](https://github.com/skbkontur/retail-ui/pull/1253)
 - [x] Ссылки со стайлгайдиста на ишьюс гитхаба и гайды  [#1376](https://github.com/skbkontur/retail-ui/pull/1376)
 
 ### Март 2019
