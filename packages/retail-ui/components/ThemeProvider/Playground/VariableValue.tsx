@@ -9,6 +9,9 @@ import Link from '../../Link';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import Hint from '../../Hint';
+import { EventEmitter, EventSubscription } from 'fbemitter';
+
+const emitter = new EventEmitter();
 
 export interface IVariableValueProps {
   onChange: (variable: keyof PlaygroundTheme, value: string) => void;
@@ -27,28 +30,42 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     value: this.props.value,
     editing: false,
   };
+  private subscription: EventSubscription | null = null;
+  private inputInstance: Input | null = null;
 
   public render() {
     const { variable, theme, baseVariable } = this.props;
     return (
-        <Gapped gap={30}>
-          <div
-            className={cx(
-              styles.variableName,
-              css`
-                color: ${theme.textColorMain};
-              `,
-            )}
-            title={variable}
-          >{`${variable}: `}</div>
-          {baseVariable && !this.state.editing ? this.renderBaseVariableLink() : this.renderInput()}
-        </Gapped>
+      <Gapped gap={30}>
+        <div
+          className={cx(
+            styles.variableName,
+            css`
+              color: ${theme.textColorMain};
+            `,
+          )}
+          title={variable}
+        >{`${variable}: `}</div>
+        {baseVariable && !this.state.editing ? this.renderBaseVariableLink() : this.renderInput()}
+      </Gapped>
     );
+  }
+
+  public componentDidMount(): void {
+    if (!this.subscription) {
+      this.subscription = emitter.addListener('clicked', this.emitterEventHandler);
+    }
   }
 
   public componentDidUpdate(prevProps: IVariableValueProps) {
     if (prevProps.value !== this.props.value) {
       this.setState({ value: this.props.value });
+    }
+  }
+
+  public componentWillUnmount(): void {
+    if (this.subscription) {
+      this.subscription.remove();
     }
   }
 
@@ -89,9 +106,14 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
         onBlur={this.handleBlur}
         align={'right'}
         width={this.state.editing ? 225 : undefined}
+        ref={this.inputRef}
       />
     );
   }
+
+  private inputRef = (instance: Input) => {
+    this.inputInstance = instance;
+  };
 
   private inputIcon = () => {
     return <div className={styles.inputIcon} style={{ background: this.state.value }} />;
@@ -119,6 +141,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
         behavior: 'smooth',
       });
     }
+    emitter.emit('clicked', baseVariable);
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -131,6 +154,12 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     const { variable, value, onChange } = this.props;
     if (this.state.value !== value) {
       onChange(variable as keyof PlaygroundTheme, this.state.value);
+    }
+  };
+
+  private emitterEventHandler = (name: keyof ITheme) => {
+    if (name === this.props.variable && this.inputInstance) {
+      this.inputInstance.focus();
     }
   };
 }

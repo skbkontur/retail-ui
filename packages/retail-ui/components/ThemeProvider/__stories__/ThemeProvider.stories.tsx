@@ -151,7 +151,6 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       case ThemeType.Flat:
         this.flatTheme = result;
         break;
-        break;
       case ThemeType.Dark:
         this.darkTheme = result;
         break;
