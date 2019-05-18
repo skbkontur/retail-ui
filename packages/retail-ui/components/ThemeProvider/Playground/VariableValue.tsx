@@ -20,6 +20,7 @@ export interface IVariableValueProps {
   theme: PlaygroundTheme;
   baseVariable: keyof ITheme;
 }
+
 export interface IVariableValueState {
   value: string;
   editing: boolean;
@@ -71,12 +72,15 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
 
   private renderBaseVariableLink = () => {
     return (
-      <div className={styles.linkRoot}>
+      <div className={styles.baseVariableRoot}>
+        <div className={styles.colorIconWrapper}>
+          {this.colorIcon()}
+        </div>
         <Gapped>
+          <Link onClick={this.emitClickEvent}>{this.props.baseVariable}</Link>
           <Hint text={'Изменить значение'}>
-            <Link icon={<EditIcon />} onClick={this.handleEditLinkClick} />
+            <Link icon={<EditIcon/>} onClick={this.handleEditLinkClick}/>
           </Hint>
-          <Link onClick={this.scrollToBaseVariable}>{this.props.baseVariable}</Link>
         </Gapped>
       </div>
     );
@@ -88,7 +92,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
         {this.input}
         <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
           <div className={styles.linkRoot}>
-            <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
+            <Link icon={<DeleteIcon/>} onClick={this.rollbackToBaseVariable}/>
           </div>
         </Hint>
       </Gapped>
@@ -100,7 +104,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   private get input() {
     return (
       <Input
-        leftIcon={isColor(this.state.value) && this.inputIcon()}
+        leftIcon={isColor(this.state.value) && this.colorIcon()}
         value={this.state.value}
         onChange={this.handleChange}
         onBlur={this.handleBlur}
@@ -115,8 +119,8 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     this.inputInstance = instance;
   };
 
-  private inputIcon = () => {
-    return <div className={styles.inputIcon} style={{ background: this.state.value }} />;
+  private colorIcon = () => {
+    return <div className={styles.colorIcon} style={{ background: this.state.value }}/>;
   };
 
   private handleEditLinkClick = () => {
@@ -132,16 +136,8 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     });
   };
 
-  private scrollToBaseVariable = () => {
-    const { baseVariable } = this.props;
-    const domNode = document.querySelector(`[title='${baseVariable}']`)!;
-    if (domNode && domNode.scrollIntoView) {
-      domNode.scrollIntoView({
-        block: 'center',
-        behavior: 'smooth',
-      });
-    }
-    emitter.emit('clicked', baseVariable);
+  private emitClickEvent = () => {
+    emitter.emit('clicked', this.props.baseVariable);
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -154,6 +150,9 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     const { variable, value, onChange } = this.props;
     if (this.state.value !== value) {
       onChange(variable as keyof PlaygroundTheme, this.state.value);
+      this.setState({
+        editing: false,
+      });
     }
   };
 
