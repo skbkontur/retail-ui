@@ -5,35 +5,73 @@ import { VariableValue } from './VariableValue';
 import { ITheme } from '../../../lib/theming/Theme';
 import Gapped from '../../Gapped';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
+import Loader from '../../Loader/Loader';
+import styles from './styles.less';
+import { VARIABLES_GROUPS } from './constants';
 
 interface IThemeEditorProps {
   editingTheme: ITheme;
   currentTheme: PlaygroundTheme;
   onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
-export const ThemeEditor = (props: IThemeEditorProps) => {
-  const { editingTheme, currentTheme, onValueChange } = props;
-  const keys = ThemeFactory.getKeys(editingTheme);
-  return (
-    <Gapped verticalAlign={'middle'}>
-      {renderGroups({
-        currentTheme,
-        editingTheme,
-        onValueChange,
-        variables: keys,
-      })}
-    </Gapped>
-  );
-};
+interface IThemeEditorState {
+  groups: IGroup[];
+  isLoading: boolean;
+}
+interface IGroup {
+  title: string;
+  prefix: string;
+  isCommon?: boolean;
+}
+export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditorState> {
+  public state = {
+    groups: [],
+    isLoading: true
+  };
 
-interface IVariableValuesGroupProps {
+  public render() {
+    return (
+      <Gapped verticalAlign={'middle'}>
+        {this.state.isLoading ? <Loader type="big" active className={styles.loader} /> : this.renderGroups()}
+      </Gapped>
+    );
+  }
+
+  public componentDidMount() {
+    setTimeout(() => {
+      this.setState({groups: VARIABLES_GROUPS, isLoading: false});
+    }, 500)
+  }
+
+  private renderGroups = () => {
+    const { editingTheme, currentTheme, onValueChange } = this.props;
+    const keys = ThemeFactory.getKeys(editingTheme);
+
+    return this.state.groups.map((i: IGroup) => (
+      <Group
+        editingTheme={editingTheme}
+        currentTheme={currentTheme}
+        onValueChange={onValueChange}
+        title={i.title}
+        variables={keys.filter(
+          i.isCommon
+            ? isCommonVariable.bind(null, this.state.groups.reduce(prefixesReducer, []))
+            : isGroupVariable.bind(null, i.prefix),
+        )}
+        key={i.title}
+      />
+    ));
+  };
+}
+
+interface IGroupProps {
   editingTheme: ITheme;
   currentTheme: PlaygroundTheme;
   title: string;
   variables: string[];
   onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
-const VariableValuesGroup = (props: IVariableValuesGroupProps) => {
+const Group = (props: IGroupProps) => {
   const { editingTheme, currentTheme, onValueChange, title, variables } = props;
 
   return variables.length > 0 ? (
@@ -63,75 +101,27 @@ const VariableValuesGroup = (props: IVariableValuesGroupProps) => {
   ) : null;
 };
 
-interface IVariablesGroupProps {
-  editingTheme: ITheme;
-  currentTheme: PlaygroundTheme;
-  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
-  variables: string[];
-}
-const renderGroups = (props: IVariablesGroupProps) => {
-  const { editingTheme, currentTheme, onValueChange, variables } = props;
-  const groups = [
-    { title: 'Common', nameStart: 'null', isCommon: true },
-    { title: 'Button', nameStart: 'btn' },
-    { title: 'Border', nameStart: 'border' },
-    { title: 'Checkbox', nameStart: 'chb' },
-    { title: 'DatePicker', nameStart: 'date calendar picker' },
-    { title: 'Dropdown', nameStart: 'dropdown' },
-    { title: 'Input', nameStart: 'input' },
-    { title: 'Link', nameStart: 'link' },
-    { title: 'Loader', nameStart: 'loader' },
-    { title: 'Menu', nameStart: 'menu' },
-    { title: 'Modal', nameStart: 'modal' },
-    { title: 'Paging', nameStart: 'paging' },
-    { title: 'Popup', nameStart: 'popup' },
-    { title: 'Radio', nameStart: 'radio' },
-    { title: 'SidePage', nameStart: 'sidePage' },
-    { title: 'Tabs', nameStart: 'tab' },
-    { title: 'Textarea', nameStart: 'textarea' },
-    { title: 'Toast', nameStart: 'toast' },
-    { title: 'Toggle', nameStart: 'toggle' },
-    { title: 'Tooltip', nameStart: 'tooltip' },
-    { title: 'Token', nameStart: 'token' },
-  ];
+const isGroupVariable = (prefix: string, name: string) => {
+  const splitPrefix = prefix.split(' ') || [];
 
-  return groups.map(i => (
-    <VariableValuesGroup
-      editingTheme={editingTheme}
-      currentTheme={currentTheme}
-      onValueChange={onValueChange}
-      title={i.title}
-      variables={variables.filter(
-        i.isCommon
-          ? isCommonVariable.bind(null, groups.reduce(nameStartsReducer, []))
-          : isGroupVariable.bind(null, i.nameStart),
-      )}
-      key={i.title}
-    />
-  ));
-};
-
-const isGroupVariable = (nameStart: string, name: string) => {
-  const split = nameStart.split(' ') || [];
-
-  for (const start of split) {
-    if (name.startsWith(start.trim())) {
+  for (const item of splitPrefix) {
+    if (name.startsWith(item.trim())) {
       return true;
     }
   }
   return false;
 };
-const isCommonVariable = (nameStarts: string[], name: string) => {
-  for (const start of nameStarts) {
-    if (name.startsWith(start.trim())) {
+const isCommonVariable = (prefixes: string[], name: string) => {
+  for (const item of prefixes) {
+    if (name.startsWith(item.trim())) {
       return false;
     }
   }
   return true;
 };
-const nameStartsReducer = (acc: string[], current: { title: string; nameStart: string }): string[] => {
-  const splitNameStart = current.nameStart.split(' ');
-  return [...acc, ...splitNameStart];
+const prefixesReducer = (acc: string[], current: { title: string; prefix: string }): string[] => {
+  const splitPrefix = current.prefix.split(' ');
+  return [...acc, ...splitPrefix];
 };
 const getBaseVariable = (theme: ITheme, variable: keyof ITheme): keyof ITheme => {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {

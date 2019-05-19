@@ -7,7 +7,7 @@ import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
 import ComboBox from '../../ComboBox';
 import { Playground } from '../Playground/Playground';
-import { ThemeType } from '../Playground/enums';
+import { ThemeType } from '../Playground/constants';
 import Gapped from '../../Gapped';
 import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
 import darkThemeVariables from '../Playground/darkTheme';

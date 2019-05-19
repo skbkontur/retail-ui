@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cx, css } from 'emotion';
 import Button from '../../Button/index';
 import Tabs from '../../Tabs/Tabs';
-import { ThemeType } from './enums';
+import { ThemeType } from './constants';
 import Gapped from '../../Gapped/Gapped';
 import Link from '../../Link/Link';
 
