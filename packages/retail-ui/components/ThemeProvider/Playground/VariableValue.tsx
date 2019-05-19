@@ -33,6 +33,8 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   };
   private subscription: EventSubscription | null = null;
   private inputInstance: Input | null = null;
+  private readonly debounceTimeout = 500;
+  private debounceInterval: number | undefined = undefined;
 
   public render() {
     const { variable, theme, baseVariable } = this.props;
@@ -67,6 +69,9 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   public componentWillUnmount(): void {
     if (this.subscription) {
       this.subscription.remove();
+    }
+    if (this.debounceInterval !== undefined) {
+      clearInterval(this.debounceInterval);
     }
   }
 
@@ -144,16 +149,24 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     this.setState({
       value,
     });
+
+    if (this.debounceInterval === undefined) {
+      this.debounceInterval = setInterval(this.debounceHandler, this.debounceTimeout);
+    }
+  };
+
+  private debounceHandler = () => {
+    const { variable, onChange } = this.props;
+
+    onChange(variable as keyof PlaygroundTheme, this.state.value);
+    clearInterval(this.debounceInterval);
+    this.debounceInterval = undefined;
   };
 
   private handleBlur = () => {
-    const { variable, value, onChange } = this.props;
-    if (this.state.value !== value) {
-      onChange(variable as keyof PlaygroundTheme, this.state.value);
-      this.setState({
-        editing: false,
-      });
-    }
+    this.setState({
+      editing: false,
+    });
   };
 
   private emitterEventHandler = (name: keyof ITheme) => {
