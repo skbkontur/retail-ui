@@ -6,12 +6,12 @@ import { ITheme } from '../../../lib/theming/Theme';
 import Gapped from '../../Gapped';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 
-interface IEditingVariablesProps {
+interface IThemeEditorProps {
   editingTheme: ITheme;
   currentTheme: PlaygroundTheme;
   onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
-export const EditingVariables = (props: IEditingVariablesProps) => {
+export const ThemeEditor = (props: IThemeEditorProps) => {
   const { editingTheme, currentTheme, onValueChange } = props;
   const keys = ThemeFactory.getKeys(editingTheme);
   return (
