@@ -5,6 +5,7 @@ import Spinner from '../../components/Spinner';
 import Link from '../../components/Link';
 import Gapped from '../../components/Gapped';
 import fetch from '../../lib/net/fetch-cors';
+import OriginalPathlineRenderer from 'react-styleguidist/lib/rsg-components/Pathline/PathlineRenderer.js';
 
 interface GithubIssue {
   id: string;
@@ -14,7 +15,6 @@ interface GithubIssue {
 
 interface Classes {
   root: React.CSSProperties;
-  pathline: React.CSSProperties;
   issues: React.CSSProperties;
 }
 
@@ -33,12 +33,6 @@ const styles = ({ baseBackground, fontFamily, fontSize, color }): Classes => ({
   root: {
     color: color.base,
     backgroundColor: baseBackground,
-  },
-  pathline: {
-    fontFamily: fontFamily.monospace,
-    fontSize: fontSize.small,
-    color: color.light,
-    wordBreak: 'break-all',
   },
   issues: {
     height: '20px',
@@ -110,7 +104,7 @@ export class PathlineRenderer extends React.Component<PathlineRendererProps, Pat
 
     return (
       <div className={classes.root}>
-        <div className={classes.pathline}>{children}</div>
+        <OriginalPathlineRenderer>{children}</OriginalPathlineRenderer>
         <div>
           <details>
             <summary className={classes.issues}>
