@@ -68,11 +68,11 @@ const jsStyles = {
   isError(t: ITheme) {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
-        background: ${t.errorMain};
-        border-color: ${t.errorMain};
+        background: ${t.toggleBgError};
+        border-color: ${t.toggleBgError};
 
         .${styles.activeBackground} {
-          background: ${t.errorMain};
+          background: ${t.toggleBgError};
         }
       }
     `;
