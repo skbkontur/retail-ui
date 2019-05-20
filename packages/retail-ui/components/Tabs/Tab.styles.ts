@@ -7,7 +7,7 @@ const jsStyles = {
   root(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${t.borderColorFocusLight};
+        border-bottom: 3px solid ${t.tabColorHover};
       }
     `;
   },
@@ -15,7 +15,7 @@ const jsStyles = {
   vertical(t: ITheme) {
     return css`
       .${styles.root}&:hover {
-        border-left: 3px solid ${t.borderColorFocusLight};
+        border-left: 3px solid ${t.tabColorHover};
       }
     `;
   },
