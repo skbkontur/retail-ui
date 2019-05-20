@@ -1,12 +1,11 @@
 /* tslint:disable:no-console */
 import { API, FileInfo } from 'jscodeshift/src/core';
 import { Identifier, StringLiteral } from 'ast-types/gen/nodes';
-import lockfile from 'proper-lockfile';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const DESCRIPTION_DIR_PATH = path.join('..', 'retail-ui', 'components', 'ThemeVariablesShowcase');
-const DESCRIPTION_FILE_PATH = path.join(DESCRIPTION_DIR_PATH, 'VariablesDescription.ts');
+const DESCRIPTION_DIR_PATH = path.join('..', 'retail-ui', 'components', 'ThemeVariablesShowcase', 'ComponentDescriptions');
+
 const TO_SOURCE_OPTIONS: any = {
   quote: 'single',
   useTab: false,
@@ -31,8 +30,8 @@ function collectVariables(fileInfo: FileInfo, api: API) {
 
   const j = api.jscodeshift;
   const fileName = path.basename(fileInfo.path);
+  const outputFilePath = path.join(DESCRIPTION_DIR_PATH, fileName.replace('.styles.', '.description.'));
   const root = j(fileInfo.source);
-
   const result: any = {};
 
   root.find(j.VariableDeclarator).forEach(variableNodePath => {
@@ -71,32 +70,7 @@ function collectVariables(fileInfo: FileInfo, api: API) {
     fs.mkdirSync(DESCRIPTION_DIR_PATH);
   }
 
-  const from = Date.now();
-  let releaseLock = null;
-
-  while (Date.now() - from < 20000) {
-    if (!lockfile.checkSync(DESCRIPTION_FILE_PATH)) {
-      try {
-        releaseLock = lockfile.lockSync(DESCRIPTION_FILE_PATH);
-      } catch (e) {
-        console.log('[collect-variables.ts]', e.message);
-      }
-    }
-    if (releaseLock) {
-      break;
-    }
-  }
-
-  if (!releaseLock) {
-    throw new Error('Could not acquire lock');
-  }
-
-  let existingContent = '';
-  if (fs.existsSync(DESCRIPTION_FILE_PATH)) {
-    existingContent = fs.readFileSync(DESCRIPTION_FILE_PATH).toString('utf8');
-  }
-
-  const toFormat = `export const ${fileName.replace('.styles.ts', '')} = ${JSON.stringify(result, undefined, 2)};`;
+  const toFormat = `export default ${JSON.stringify(result, undefined, 2)};`;
   const resultAST = j(toFormat).forEach(program => {
     j(program)
       .find(j.ObjectProperty)
@@ -105,10 +79,7 @@ function collectVariables(fileInfo: FileInfo, api: API) {
       });
   });
 
-  const content = existingContent + (existingContent ? '\n' : '') + resultAST.toSource(TO_SOURCE_OPTIONS);
-  fs.writeFileSync(DESCRIPTION_FILE_PATH, content);
-
-  releaseLock();
+  fs.writeFileSync(outputFilePath, resultAST.toSource(TO_SOURCE_OPTIONS));
 
   return null;
 }
