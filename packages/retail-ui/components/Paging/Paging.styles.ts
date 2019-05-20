@@ -18,7 +18,7 @@ const jsStyles = {
   disabled(t: ITheme) {
     return css`
       .${styles.forwardLink}& {
-        color: ${t.textColorDisabled};
+        color: ${t.pagingForwardLinkDisabledColor};
       }
     `;
   },
