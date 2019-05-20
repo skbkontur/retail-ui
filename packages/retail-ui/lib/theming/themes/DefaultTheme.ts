@@ -21,11 +21,6 @@ const DEFAULT_THEME = Object.create(DEFAULT_VARIABLES, {
       return this.textColorDisabled;
     },
   },
-  dropdownMenuBg: {
-    get() {
-      return this.bgDefault;
-    },
-  },
   btnDisabledShadowColor: {
     get() {
       return this.borderColorGrayLight;
