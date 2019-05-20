@@ -1,30 +1,9 @@
-export const Logotype = {
-  root: {
-    contents: "css`\n  color: ${t.logoColor};\n\n  &:hover {\n    color: ${t.logoHoverColor};\n  }\n`",
+export const Loader = {
+  active: {
+    contents: "css`\n  .${styles.loader}&::after {\n    background: ${t.loaderBg};\n    opacity: ${t.loaderOpacity};\n  }\n`",
     variables: [
-      "logoColor",
-      "logoHoverColor"
-    ]
-  },
-  divider: {
-    contents: "css`\n  background-color: ${t.tdDividerBg};\n`",
-    variables: [
-      "tdDividerBg"
-    ]
-  }
-};
-export const Menu = {
-  root: {
-    contents: "css`\n  background: ${t.bgDefault};\n`",
-    variables: [
-      "bgDefault"
-    ]
-  },
-  shadow: {
-    contents: "css`\n  border: ${t.menuBorder};\n  box-shadow: ${t.menuShadow};\n`",
-    variables: [
-      "menuBorder",
-      "menuShadow"
+      "loaderBg",
+      "loaderOpacity"
     ]
   }
 };
@@ -42,50 +21,18 @@ export const Fias = {
     ]
   }
 };
-export const Select = {
-  placeholder: {
-    contents: "css`\n  color: ${t.sltPlaceholderColor};\n`",
+export const Logotype = {
+  root: {
+    contents: "css`\n  color: ${t.logoColor};\n\n  &:hover {\n    color: ${t.logoHoverColor};\n  }\n`",
     variables: [
-      "sltPlaceholderColor"
+      "logoColor",
+      "logoHoverColor"
     ]
   },
-  arrow: {
-    contents: "css`\n  .${styles.arrowWrap} & {\n    border-top-color: ${t.btnMenuArrowColor};\n  }\n`",
+  divider: {
+    contents: "css`\n  background-color: ${t.tdDividerBg};\n`",
     variables: [
-      "btnMenuArrowColor"
-    ]
-  }
-};
-export const MenuItem = {
-  hover: {
-    contents: "css`\n  background: ${t.dropdownMenuHoverBg};\n  color: ${t.textColorInvert} !important;\n`",
-    variables: [
-      "dropdownMenuHoverBg",
-      "textColorInvert"
-    ]
-  },
-  selected: {
-    contents: "css`\n  background: ${t.dropdownMenuSelectedBg};\n`",
-    variables: [
-      "dropdownMenuSelectedBg"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  color: ${t.textColorDisabled};\n`",
-    variables: [
-      "textColorDisabled"
-    ]
-  },
-  link: {
-    contents: "css`\n  color: ${t.linkColor};\n`",
-    variables: [
-      "linkColor"
-    ]
-  },
-  withIcon: {
-    contents: "css`\n  padding-left: ${t.menuItemPaddingForIcon};\n`",
-    variables: [
-      "menuItemPaddingForIcon"
+      "tdDividerBg"
     ]
   }
 };
@@ -94,6 +41,59 @@ export const InternalMenu = {
     contents: "css`\n  background: ${t.bgDefault};\n`",
     variables: [
       "bgDefault"
+    ]
+  }
+};
+export const Popup = {
+  popup: {
+    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n  border: ${t.popupBorder} ${t.popupBorderColor};\n`",
+    variables: [
+      "popupBorderRadius",
+      "popupBorder",
+      "popupBorderColor"
+    ]
+  },
+  content: {
+    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n`",
+    variables: [
+      "popupBorderRadius"
+    ]
+  },
+  contentInner: {
+    contents: "css`\n  background: ${t.bgDefault};\n`",
+    variables: [
+      "bgDefault"
+    ]
+  },
+  shadow: {
+    contents: "css`\n  filter: ${t.popupDropShadow};\n  -webkit-filter: ${t.popupDropShadow};\n\n  .rt-ie-any & {\n    box-shadow: ${t.popupBoxShadow};\n  }\n`",
+    variables: [
+      "popupDropShadow",
+      "popupBoxShadow"
+    ]
+  }
+};
+export const MenuHeader = {
+  withLeftPadding: {
+    contents: "css`\n  .${styles.root}& {\n    padding-left: ${t.menuItemPaddingForIcon};\n  }\n`",
+    variables: [
+      "menuItemPaddingForIcon"
+    ]
+  }
+};
+export const MaskedInput = {
+  inputMask: {
+    contents: "css`\n  color: ${t.placeholderColor};\n`",
+    variables: [
+      "placeholderColor"
+    ]
+  }
+};
+export const MenuSeparator = {
+  root: {
+    contents: "css`\n  border-top: 1px solid ${t.menuSeparatorBorderColor};\n`",
+    variables: [
+      "menuSeparatorBorderColor"
     ]
   }
 };
@@ -127,20 +127,18 @@ export const Checkbox = {
     ]
   },
   warning: {
-    contents: "css`\n  & .${styles.box} {\n    box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.warningMain};\n    border-color: ${t.borderColorWarning};\n  }\n\n  .rt-ie8 & .${styles.box} {\n    outline: 1px solid ${t.warningMain};\n  }\n`",
+    contents: "css`\n  & .${styles.box} {\n    box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning};\n    border-color: ${t.borderColorWarning};\n  }\n\n  .rt-ie8 & .${styles.box} {\n    outline: 1px solid ${t.borderColorWarning};\n  }\n`",
     variables: [
       "outlineColorFocus",
       "chbShadowWidth",
-      "warningMain",
       "borderColorWarning"
     ]
   },
   error: {
-    contents: "css`\n  & .${styles.box} {\n    box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.errorMain};\n    border-color: ${t.borderColorError};\n  }\n\n  .rt-ie8 & .${styles.box} {\n    outline: 1px solid ${t.errorMain};\n  }\n`",
+    contents: "css`\n  & .${styles.box} {\n    box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError};\n    border-color: ${t.borderColorError};\n  }\n\n  .rt-ie8 & .${styles.box} {\n    outline: 1px solid ${t.borderColorError};\n  }\n`",
     variables: [
       "outlineColorFocus",
       "chbShadowWidth",
-      "errorMain",
       "borderColorError"
     ]
   },
@@ -160,77 +158,9 @@ export const Checkbox = {
     ]
   },
   boxIndeterminate: {
-    contents: "css`\n  background: ${t.chbBoxIndeterminateBg};\n\n  .${styles.root}:hover & {\n    background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgHover, '5%')};\n  }\n  .${styles.root}:active & {\n    background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgActive, '15%')};\n  }\n`",
+    contents: "css`\n  background: ${t.chbBoxIndeterminateBg};\n\n  .${styles.root}:hover & {\n    background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};\n  }\n  .${styles.root}:active & {\n    background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};\n  }\n`",
     variables: [
-      "chbBoxIndeterminateBg",
-      "chbBoxIndeterminateBgHover",
-      "chbBoxIndeterminateBgActive"
-    ]
-  }
-};
-export const MaskedInput = {
-  inputMask: {
-    contents: "css`\n  color: ${t.placeholderColor};\n`",
-    variables: [
-      "placeholderColor"
-    ]
-  }
-};
-export const MenuHeader = {
-  withLeftPadding: {
-    contents: "css`\n  .${styles.root}& {\n    padding-left: ${t.menuItemPaddingForIcon};\n  }\n`",
-    variables: [
-      "menuItemPaddingForIcon"
-    ]
-  }
-};
-export const SidePage = {
-  container: {
-    contents: "css`\n  background: ${t.bgDefault};\n`",
-    variables: [
-      "bgDefault"
-    ]
-  },
-  shadow: {
-    contents: "css`\n  .${styles.container}& {\n    box-shadow: ${t.sidePageContainerShadow};\n  }\n`",
-    variables: [
-      "sidePageContainerShadow"
-    ]
-  },
-  close: {
-    contents: "css`\n  color: ${t.sidePageCloseButtonColor};\n\n  &:hover {\n    color: ${t.sidePageCloseButtonHoverColor};\n  }\n`",
-    variables: [
-      "sidePageCloseButtonColor",
-      "sidePageCloseButtonHoverColor"
-    ]
-  },
-  panel: {
-    contents: "css`\n  .${styles.footerContent}& {\n    background: ${t.sidePageFooterPanelBg};\n  }\n  .${styles.footerContent}.${styles.fixed}& {\n    background: ${t.sidePageFooterPanelBg};\n  }\n`",
-    variables: [
-      "sidePageFooterPanelBg"
-    ]
-  },
-  fixed: {
-    contents: "css`\n  .${styles.header}& {\n    background: ${t.bgDefault};\n    box-shadow: 0 1px ${t.borderColorGrayLight};\n  }\n  .${styles.footerContent}& {\n    background: ${t.bgDefault};\n    border-top: 1px solid ${t.borderColorGrayLight};\n  }\n`",
-    variables: [
-      "bgDefault",
-      "borderColorGrayLight"
-    ]
-  }
-};
-export const MenuSeparator = {
-  root: {
-    contents: "css`\n  border-top: 1px solid ${t.menuSeparatorBorderColor};\n`",
-    variables: [
-      "menuSeparatorBorderColor"
-    ]
-  }
-};
-export const Switcher = {
-  error: {
-    contents: "css`\n  box-shadow: 0 0 0 2px ${t.errorMain};\n`",
-    variables: [
-      "errorMain"
+      "chbBoxIndeterminateBg"
     ]
   }
 };
@@ -269,97 +199,21 @@ export const Toggle = {
     ]
   },
   isWarning: {
-    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.warningMain};\n    border-color: ${t.warningMain};\n\n    .${styles.activeBackground} {\n      background: ${t.warningMain};\n    }\n  }\n`",
+    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.toggleBgWarning};\n    border-color: ${t.toggleBgWarning};\n\n    .${styles.activeBackground} {\n      background: ${t.toggleBgWarning};\n    }\n  }\n`",
     variables: [
-      "warningMain"
+      "toggleBgWarning"
     ]
   },
   isError: {
-    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.errorMain};\n    border-color: ${t.errorMain};\n\n    .${styles.activeBackground} {\n      background: ${t.errorMain};\n    }\n  }\n`",
+    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.toggleBgError};\n    border-color: ${t.toggleBgError};\n\n    .${styles.activeBackground} {\n      background: ${t.toggleBgError};\n    }\n  }\n`",
     variables: [
-      "errorMain"
+      "toggleBgError"
     ]
   },
   wrapper: {
     contents: "css`\n  &:hover {\n    .${styles.handle} {\n      background: ${t.toggleBgHover};\n    }\n  }\n`",
     variables: [
       "toggleBgHover"
-    ]
-  }
-};
-export const Indicator = {
-  root: {
-    contents: "css`\n  background: ${t.borderColorFocus};\n`",
-    variables: [
-      "borderColorFocus"
-    ]
-  },
-  primary: {
-    contents: "css`\n  background: ${t.btnPrimaryBg};\n`",
-    variables: [
-      "btnPrimaryBg"
-    ]
-  },
-  success: {
-    contents: "css`\n  background: ${t.btnSuccessBg};\n`",
-    variables: [
-      "btnSuccessBg"
-    ]
-  },
-  warning: {
-    contents: "css`\n  background: ${t.btnPayBg};\n`",
-    variables: [
-      "btnPayBg"
-    ]
-  },
-  error: {
-    contents: "css`\n  background: ${t.btnDangerBg};\n`",
-    variables: [
-      "btnDangerBg"
-    ]
-  }
-};
-export const Modal = {
-  bg: {
-    contents: "css`\n  background: ${t.modalBackBg};\n  opacity: ${t.modalBackOpacity};\n`",
-    variables: [
-      "modalBackBg",
-      "modalBackOpacity"
-    ]
-  },
-  window: {
-    contents: "css`\n  background: ${t.bgDefault};\n`",
-    variables: [
-      "bgDefault"
-    ]
-  },
-  close: {
-    contents: "css`\n  &.${styles.disabled} {\n    color: ${t.modalCloseButtonDisabledColor};\n  }\n\n  &:after,\n  &:before {\n    background: ${t.modalCloseButtonColor};\n  }\n\n  &:focus::before,\n  &:focus::after,\n  &:hover::before,\n  &:hover::after {\n    background: ${t.modalCloseButtonHoverColor};\n  }\n\n  &:focus {\n    &.${styles.closeOutline} {\n      border: 2px solid ${t.borderColorFocus};\n    }\n  }\n`",
-    variables: [
-      "modalCloseButtonDisabledColor",
-      "modalCloseButtonColor",
-      "modalCloseButtonHoverColor",
-      "borderColorFocus"
-    ]
-  },
-  footer: {
-    contents: "css`\n  &.${styles.panel} {\n    background: ${t.modalFooterBg};\n  }\n`",
-    variables: [
-      "modalFooterBg"
-    ]
-  },
-  fixedHeader: {
-    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:after {\n    box-shadow: ${t.modalFixedHeaderShadow};\n  }\n`",
-    variables: [
-      "modalFixedHeaderBg",
-      "modalFixedHeaderShadow"
-    ]
-  },
-  fixedFooter: {
-    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:before {\n    box-shadow: ${t.modalFixedFooterShadow};\n  }\n`",
-    variables: [
-      "modalFixedHeaderBg",
-      "modalFixedFooterShadow"
     ]
   }
 };
@@ -405,15 +259,15 @@ export const Input = {
     ]
   },
   warning: {
-    contents: "css`\n  .${classes.root}& {\n    border-color: ${t.warningMain};\n    box-shadow: 0 0 0 1px ${t.warningMain};\n  }\n  .rt-ie-any .${classes.root}& {\n    outline: 1px solid ${t.warningMain};\n  }\n`",
+    contents: "css`\n  .${classes.root}& {\n    border-color: ${t.borderColorWarning};\n    box-shadow: 0 0 0 1px ${t.borderColorWarning};\n  }\n  .rt-ie-any .${classes.root}& {\n    outline: 1px solid ${t.borderColorWarning};\n  }\n`",
     variables: [
-      "warningMain"
+      "borderColorWarning"
     ]
   },
   error: {
-    contents: "css`\n  .${classes.root}& {\n    border-color: ${t.errorMain};\n    box-shadow: 0 0 0 1px ${t.errorMain};\n  }\n  .rt-ie-any .${classes.root}& {\n    outline: 1px solid ${t.errorMain};\n  }\n`",
+    contents: "css`\n  .${classes.root}& {\n    border-color: ${t.borderColorError};\n    box-shadow: 0 0 0 1px ${t.borderColorError};\n  }\n  .rt-ie-any .${classes.root}& {\n    outline: 1px solid ${t.borderColorError};\n  }\n`",
     variables: [
-      "errorMain"
+      "borderColorError"
     ]
   },
   disabled: {
@@ -474,99 +328,17 @@ export const Input = {
     ]
   }
 };
-export const Tab = {
-  root: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.borderColorFocusLight};\n  }\n`",
+export const Select = {
+  placeholder: {
+    contents: "css`\n  color: ${t.sltPlaceholderColor};\n`",
     variables: [
-      "borderColorFocusLight"
+      "sltPlaceholderColor"
     ]
   },
-  vertical: {
-    contents: "css`\n  .${styles.root}&:hover {\n    border-left: 3px solid ${t.borderColorFocusLight};\n  }\n`",
+  arrow: {
+    contents: "css`\n  .${styles.arrowWrap} & {\n    border-top-color: ${t.btnMenuArrowColor};\n  }\n`",
     variables: [
-      "borderColorFocusLight"
-    ]
-  },
-  focus: {
-    contents: "css`\n  border: 2px solid ${t.borderColorFocus};\n`",
-    variables: [
-      "borderColorFocus"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  color: rgba(\n    ${ColorFunctions.red(t.textColorDefault)},\n    ${ColorFunctions.green(t.textColorDefault)},\n    ${ColorFunctions.blue(t.textColorDefault)},\n    0.5\n  );\n`",
-    variables: [
-      "textColorDefault"
-    ]
-  },
-  primary: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPrimaryBg, '25%')};\n  }\n`",
-    variables: [
-      "btnPrimaryBg"
-    ]
-  },
-  success: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnSuccessBg, '25%')};\n  }\n`",
-    variables: [
-      "btnSuccessBg"
-    ]
-  },
-  warning: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPayBg, '25%')};\n  }\n`",
-    variables: [
-      "btnPayBg"
-    ]
-  },
-  error: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnDangerBg, '25%')};\n  }\n`",
-    variables: [
-      "btnDangerBg"
-    ]
-  }
-};
-export const Paging = {
-  dots: {
-    contents: "css`\n  color: ${t.pagingDotsColor};\n`",
-    variables: [
-      "pagingDotsColor"
-    ]
-  },
-  forwardLink: {
-    contents: "css`\n  color: ${t.linkColor};\n`",
-    variables: [
-      "linkColor"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  .${styles.forwardLink}& {\n    color: ${t.textColorDisabled};\n  }\n`",
-    variables: [
-      "textColorDisabled"
-    ]
-  },
-  pageLink: {
-    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.linkColor};\n  }\n  .${styles.pageLinkWrapper} &:not(.${styles.active}):hover {\n    background: ${t.pagingPageLinkHoverBg};\n  }\n`",
-    variables: [
-      "linkColor",
-      "pagingPageLinkHoverBg"
-    ]
-  },
-  active: {
-    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    background: ${t.pagingPageLinkActiveBg};\n    color: ${t.pagingPageLinkActiveColor};\n  }\n`",
-    variables: [
-      "pagingPageLinkActiveBg",
-      "pagingPageLinkActiveColor"
-    ]
-  },
-  focused: {
-    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    border: solid 2px ${t.borderColorFocus};\n  }\n`",
-    variables: [
-      "borderColorFocus"
-    ]
-  },
-  pageLinkHint: {
-    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.pagingPageLinkHintColor};\n  }\n`",
-    variables: [
-      "pagingPageLinkHintColor"
+      "btnMenuArrowColor"
     ]
   }
 };
@@ -584,34 +356,136 @@ export const Kebab = {
     ]
   }
 };
-export const Textarea = {
-  textarea: {
-    contents: "css`\n  background: ${t.textareaBg};\n  border: 1px solid ${t.borderColorGrayLight};\n  border-top-color: ${t.textareaBorderTopColor};\n  color: ${t.textareaColor};\n  min-height: ${t.controlHeightSmall};\n  box-shadow: ${t.textareaShadow};\n\n  &:focus {\n    border-color: ${t.borderColorFocus};\n    box-shadow: 0 0 0 1px ${t.borderColorFocus};\n\n    &::placeholder {\n      color: ${t.placeholderColorLight};\n    }\n  }\n  &:disabled {\n    color: ${t.textColorDisabled};\n    background: ${t.textareaDisabledBg};\n    border-color: ${t.textareaDisabledBorderColor};\n  }\n\n  &::placeholder {\n    color: ${t.placeholderColor};\n  }\n\n  &:-moz-placeholder {\n    color: inherit; // Need to be discussed\n  }\n\n  &::-moz-placeholder {\n    color: inherit;\n  }\n`",
+export const Menu = {
+  root: {
+    contents: "css`\n  background: ${t.bgDefault};\n`",
     variables: [
-      "textareaBg",
-      "borderColorGrayLight",
-      "textareaBorderTopColor",
-      "textareaColor",
-      "controlHeightSmall",
-      "textareaShadow",
-      "borderColorFocus",
-      "placeholderColorLight",
-      "textColorDisabled",
-      "textareaDisabledBg",
-      "textareaDisabledBorderColor",
-      "placeholderColor"
+      "bgDefault"
     ]
   },
+  shadow: {
+    contents: "css`\n  border: ${t.menuBorder};\n  box-shadow: ${t.menuShadow};\n`",
+    variables: [
+      "menuBorder",
+      "menuShadow"
+    ]
+  }
+};
+export const SidePage = {
+  container: {
+    contents: "css`\n  background: ${t.bgDefault};\n`",
+    variables: [
+      "bgDefault"
+    ]
+  },
+  shadow: {
+    contents: "css`\n  .${styles.container}& {\n    box-shadow: ${t.sidePageContainerShadow};\n  }\n`",
+    variables: [
+      "sidePageContainerShadow"
+    ]
+  },
+  close: {
+    contents: "css`\n  color: ${t.sidePageCloseButtonColor};\n\n  &:hover {\n    color: ${t.sidePageCloseButtonHoverColor};\n  }\n`",
+    variables: [
+      "sidePageCloseButtonColor",
+      "sidePageCloseButtonHoverColor"
+    ]
+  },
+  panel: {
+    contents: "css`\n  .${styles.footerContent}& {\n    background: ${t.sidePageFooterPanelBg};\n  }\n  .${styles.footerContent}.${styles.fixed}& {\n    background: ${t.sidePageFooterPanelBg};\n  }\n`",
+    variables: [
+      "sidePageFooterPanelBg"
+    ]
+  },
+  fixed: {
+    contents: "css`\n  .${styles.header}& {\n    background: ${t.bgDefault};\n    box-shadow: 0 1px ${t.borderColorGrayLight};\n  }\n  .${styles.footerContent}& {\n    background: ${t.bgDefault};\n    border-top: 1px solid ${t.borderColorGrayLight};\n  }\n`",
+    variables: [
+      "bgDefault",
+      "borderColorGrayLight"
+    ]
+  }
+};
+export const Link = {
+  useDefault: {
+    contents: "css`\n  color: ${t.linkColor};\n\n  &:hover {\n    color: ${t.linkHoverColor};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.linkActiveColor};\n  }\n`",
+    variables: [
+      "linkColor",
+      "linkHoverColor",
+      "linkHoverTextDecoration",
+      "linkActiveColor"
+    ]
+  },
+  focus: {
+    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.linkColor};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useSuccess}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useDanger}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useGrayed}& {\n    color: ${t.linkDisabledColor};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n`",
+    variables: [
+      "linkColor",
+      "linkHoverTextDecoration",
+      "linkDisabledColor"
+    ]
+  },
+  useGrayed: {
+    contents: "css`\n  color: ${t.linkDisabledColor};\n\n  &:hover {\n    color: ${t.linkDisabledColor};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.linkDisabledColor};\n  }\n`",
+    variables: [
+      "linkDisabledColor",
+      "linkHoverTextDecoration"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.linkDisabledColor};\n\n    &:hover {\n      color: ${t.linkDisabledColor};\n    }\n  }\n  .${styles.useSuccess}& {\n    color: ${t.linkDisabledColor};\n\n    &:hover {\n      color: ${t.linkDisabledColor};\n    }\n  }\n  .${styles.useDanger}& {\n    color: ${t.linkDisabledColor};\n\n    &:hover {\n      color: ${t.linkDisabledColor};\n    }\n  }\n  .${styles.useGrayed}& {\n    color: ${t.linkDisabledColor};\n\n    &:hover {\n      color: ${t.linkDisabledColor};\n    }\n  }\n`",
+    variables: [
+      "linkDisabledColor"
+    ]
+  }
+};
+export const Switcher = {
   error: {
-    contents: "css`\n  .${styles.textarea}& {\n    border-color: ${t.errorMain};\n    box-shadow: 0 0 0 1px ${t.errorMain};\n  }\n  .${styles.textarea}&:focus {\n    border-color: ${t.errorMain};\n    box-shadow: 0 0 0 1px ${t.errorMain};\n  }\n`",
+    contents: "css`\n  box-shadow: 0 0 0 2px ${t.borderColorError};\n`",
     variables: [
-      "errorMain"
+      "borderColorError"
+    ]
+  }
+};
+export const Modal = {
+  bg: {
+    contents: "css`\n  background: ${t.modalBackBg};\n  opacity: ${t.modalBackOpacity};\n`",
+    variables: [
+      "modalBackBg",
+      "modalBackOpacity"
     ]
   },
-  warning: {
-    contents: "css`\n  .${styles.textarea}& {\n    border-color: ${t.warningMain};\n    box-shadow: 0 0 0 1px ${t.warningMain};\n  }\n  .${styles.textarea}&:focus {\n    border-color: ${t.warningMain};\n    box-shadow: 0 0 0 1px ${t.warningMain};\n  }\n`",
+  window: {
+    contents: "css`\n  background: ${t.bgDefault};\n`",
     variables: [
-      "warningMain"
+      "bgDefault"
+    ]
+  },
+  close: {
+    contents: "css`\n  &.${styles.disabled} {\n    color: ${t.modalCloseButtonDisabledColor};\n  }\n\n  &:after,\n  &:before {\n    background: ${t.modalCloseButtonColor};\n  }\n\n  &:focus::before,\n  &:focus::after,\n  &:hover::before,\n  &:hover::after {\n    background: ${t.modalCloseButtonHoverColor};\n  }\n\n  &:focus {\n    &.${styles.closeOutline} {\n      border: 2px solid ${t.borderColorFocus};\n    }\n  }\n`",
+    variables: [
+      "modalCloseButtonDisabledColor",
+      "modalCloseButtonColor",
+      "modalCloseButtonHoverColor",
+      "borderColorFocus"
+    ]
+  },
+  footer: {
+    contents: "css`\n  &.${styles.panel} {\n    background: ${t.modalFooterBg};\n  }\n`",
+    variables: [
+      "modalFooterBg"
+    ]
+  },
+  fixedHeader: {
+    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:after {\n    box-shadow: ${t.modalFixedHeaderShadow};\n  }\n`",
+    variables: [
+      "modalFixedHeaderBg",
+      "modalFixedHeaderShadow"
+    ]
+  },
+  fixedFooter: {
+    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:before {\n    box-shadow: ${t.modalFixedFooterShadow};\n  }\n`",
+    variables: [
+      "modalFixedHeaderBg",
+      "modalFixedFooterShadow"
     ]
   }
 };
@@ -701,6 +575,271 @@ export const Colors = {
     ]
   }
 };
+export const Indicator = {
+  root: {
+    contents: "css`\n  background: ${t.tabColorFocus};\n`",
+    variables: [
+      "tabColorFocus"
+    ]
+  },
+  primary: {
+    contents: "css`\n  background: ${t.tabColorPrimary};\n`",
+    variables: [
+      "tabColorPrimary"
+    ]
+  },
+  success: {
+    contents: "css`\n  background: ${t.tabColorSuccess};\n`",
+    variables: [
+      "tabColorSuccess"
+    ]
+  },
+  warning: {
+    contents: "css`\n  background: ${t.tabColorWarning};\n`",
+    variables: [
+      "tabColorWarning"
+    ]
+  },
+  error: {
+    contents: "css`\n  background: ${t.tabColorError};\n`",
+    variables: [
+      "tabColorError"
+    ]
+  }
+};
+export const MenuItem = {
+  hover: {
+    contents: "css`\n  background: ${t.dropdownMenuHoverBg};\n  color: ${t.textColorInvert} !important;\n`",
+    variables: [
+      "dropdownMenuHoverBg",
+      "textColorInvert"
+    ]
+  },
+  selected: {
+    contents: "css`\n  background: ${t.dropdownMenuSelectedBg};\n`",
+    variables: [
+      "dropdownMenuSelectedBg"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  color: ${t.textColorDisabled};\n`",
+    variables: [
+      "textColorDisabled"
+    ]
+  },
+  link: {
+    contents: "css`\n  color: ${t.linkColor};\n`",
+    variables: [
+      "linkColor"
+    ]
+  },
+  withIcon: {
+    contents: "css`\n  padding-left: ${t.menuItemPaddingForIcon};\n`",
+    variables: [
+      "menuItemPaddingForIcon"
+    ]
+  }
+};
+export const Token = {
+  warning: {
+    contents: "css`\n  .${styles.token}& {\n    border: 1px solid ${t.borderColorWarning};\n    box-shadow: 0 0 0 1px ${t.borderColorWarning};\n  }\n`",
+    variables: [
+      "borderColorWarning"
+    ]
+  },
+  error: {
+    contents: "css`\n  .${styles.token}& {\n    border: 1px solid ${t.borderColorError};\n    box-shadow: 0 0 0 1px ${t.borderColorError};\n  }\n`",
+    variables: [
+      "borderColorError"
+    ]
+  }
+};
+export const Tooltip = {
+  cross: {
+    contents: "css`\n  color: ${t.tooltipCloseBtnColor};\n\n  &:hover {\n    color: ${t.tooltipCloseBtnHoverColor};\n  }\n`",
+    variables: [
+      "tooltipCloseBtnColor",
+      "tooltipCloseBtnHoverColor"
+    ]
+  }
+};
+export const Tab = {
+  root: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.tabColorHover};\n  }\n`",
+    variables: [
+      "tabColorHover"
+    ]
+  },
+  vertical: {
+    contents: "css`\n  .${styles.root}&:hover {\n    border-left: 3px solid ${t.tabColorHover};\n  }\n`",
+    variables: [
+      "tabColorHover"
+    ]
+  },
+  focus: {
+    contents: "css`\n  border: 2px solid ${t.tabColorFocus};\n`",
+    variables: [
+      "tabColorFocus"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  color: rgba(\n    ${ColorFunctions.red(t.textColorDefault)},\n    ${ColorFunctions.green(t.textColorDefault)},\n    ${ColorFunctions.blue(t.textColorDefault)},\n    0.5\n  );\n`",
+    variables: [
+      "textColorDefault"
+    ]
+  },
+  primary: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorPrimary, '25%')};\n  }\n`",
+    variables: [
+      "tabColorPrimary"
+    ]
+  },
+  success: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorSuccess, '25%')};\n  }\n`",
+    variables: [
+      "tabColorSuccess"
+    ]
+  },
+  warning: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorWarning, '25%')};\n  }\n`",
+    variables: [
+      "tabColorWarning"
+    ]
+  },
+  error: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorError, '25%')};\n  }\n`",
+    variables: [
+      "tabColorError"
+    ]
+  }
+};
+export const Paging = {
+  dots: {
+    contents: "css`\n  color: ${t.pagingDotsColor};\n`",
+    variables: [
+      "pagingDotsColor"
+    ]
+  },
+  forwardLink: {
+    contents: "css`\n  color: ${t.pagingForwardLinkColor};\n`",
+    variables: [
+      "pagingForwardLinkColor"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  .${styles.forwardLink}& {\n    color: ${t.pagingForwardLinkDisabledColor};\n  }\n`",
+    variables: [
+      "pagingForwardLinkDisabledColor"
+    ]
+  },
+  pageLink: {
+    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.pagingForwardLinkColor};\n  }\n  .${styles.pageLinkWrapper} &:not(.${styles.active}):hover {\n    background: ${t.pagingPageLinkHoverBg};\n  }\n`",
+    variables: [
+      "pagingForwardLinkColor",
+      "pagingPageLinkHoverBg"
+    ]
+  },
+  active: {
+    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    background: ${t.pagingPageLinkActiveBg};\n    color: ${t.pagingPageLinkActiveColor};\n  }\n`",
+    variables: [
+      "pagingPageLinkActiveBg",
+      "pagingPageLinkActiveColor"
+    ]
+  },
+  focused: {
+    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    border: solid 2px ${t.borderColorFocus};\n  }\n`",
+    variables: [
+      "borderColorFocus"
+    ]
+  },
+  pageLinkHint: {
+    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.pagingPageLinkHintColor};\n  }\n`",
+    variables: [
+      "pagingPageLinkHintColor"
+    ]
+  }
+};
+export const TokenInput = {
+  warning: {
+    contents: "css`\n  .${styles.root} .${styles.label}& {\n    border: 1px solid ${t.borderColorWarning};\n    box-shadow: 0 0 0 1px ${t.borderColorWarning};\n  }\n`",
+    variables: [
+      "borderColorWarning"
+    ]
+  },
+  error: {
+    contents: "css`\n  .${styles.root} .${styles.label}& {\n    border: 1px solid ${t.borderColorError};\n    box-shadow: 0 0 0 1px ${t.borderColorError};\n  }\n`",
+    variables: [
+      "borderColorError"
+    ]
+  },
+  label: {
+    contents: "css`\n  .${styles.root} & {\n    background: ${t.bgDefault};\n    border: 1px solid ${t.borderColorGrayLight};\n    border-top-color: ${t.borderColorGrayDark};\n  }\n`",
+    variables: [
+      "bgDefault",
+      "borderColorGrayLight",
+      "borderColorGrayDark"
+    ]
+  },
+  labelFocused: {
+    contents: "css`\n  .${styles.root} & {\n    border: 1px solid ${t.borderColorFocus};\n    box-shadow: 0 0 0 1px ${t.borderColorFocus};\n  }\n`",
+    variables: [
+      "borderColorFocus"
+    ]
+  },
+  input: {
+    contents: "css`\n  .${styles.root} &::placeholder {\n    color: ${t.placeholderColor};\n  }\n  .${styles.root} &:focus::placeholder {\n    color: ${t.placeholderColorLight};\n  }\n`",
+    variables: [
+      "placeholderColor",
+      "placeholderColorLight"
+    ]
+  }
+};
+export const Textarea = {
+  textarea: {
+    contents: "css`\n  background: ${t.textareaBg};\n  border: 1px solid ${t.borderColorGrayLight};\n  border-top-color: ${t.textareaBorderTopColor};\n  color: ${t.textareaColor};\n  min-height: ${t.controlHeightSmall};\n  box-shadow: ${t.textareaShadow};\n\n  &:focus {\n    border-color: ${t.borderColorFocus};\n    box-shadow: 0 0 0 1px ${t.borderColorFocus};\n\n    &::placeholder {\n      color: ${t.placeholderColorLight};\n    }\n  }\n  &:disabled {\n    color: ${t.textColorDisabled};\n    background: ${t.textareaDisabledBg};\n    border-color: ${t.textareaDisabledBorderColor};\n  }\n\n  &::placeholder {\n    color: ${t.placeholderColor};\n  }\n\n  &:-moz-placeholder {\n    color: inherit; // Need to be discussed\n  }\n\n  &::-moz-placeholder {\n    color: inherit;\n  }\n`",
+    variables: [
+      "textareaBg",
+      "borderColorGrayLight",
+      "textareaBorderTopColor",
+      "textareaColor",
+      "controlHeightSmall",
+      "textareaShadow",
+      "borderColorFocus",
+      "placeholderColorLight",
+      "textColorDisabled",
+      "textareaDisabledBg",
+      "textareaDisabledBorderColor",
+      "placeholderColor"
+    ]
+  },
+  error: {
+    contents: "css`\n  .${styles.textarea}& {\n    border-color: ${t.borderColorError};\n    box-shadow: 0 0 0 1px ${t.borderColorError};\n  }\n  .${styles.textarea}&:focus {\n    border-color: ${t.borderColorError};\n    box-shadow: 0 0 0 1px ${t.borderColorError};\n  }\n`",
+    variables: [
+      "borderColorError"
+    ]
+  },
+  warning: {
+    contents: "css`\n  .${styles.textarea}& {\n    border-color: ${t.borderColorWarning};\n    box-shadow: 0 0 0 1px ${t.borderColorWarning};\n  }\n  .${styles.textarea}&:focus {\n    border-color: ${t.borderColorWarning};\n    box-shadow: 0 0 0 1px ${t.borderColorWarning};\n  }\n`",
+    variables: [
+      "borderColorWarning"
+    ]
+  }
+};
+export const TopBar = {
+  root: {
+    contents: "css`\n  background: ${t.tbBg};\n  box-shadow: ${t.tbShadow};\n`",
+    variables: [
+      "tbBg",
+      "tbShadow"
+    ]
+  },
+  divider: {
+    contents: "css`\n  background-color: ${t.tdDividerBg};\n`",
+    variables: [
+      "tdDividerBg"
+    ]
+  }
+};
 export const Radio = {
   radio: {
     contents: "css`\n  width: ${t.radioSize};\n  height: ${t.radioSize};\n  vertical-align: ${t.radioVerticalAlign};\n  background-image: ${t.radioBgImage};\n  box-shadow: ${t.radioBoxShadow};\n  border: ${t.radioBorder};\n\n  .${styles.root}:hover & {\n    background: ${t.radioHoverBg};\n    box-shadow: ${t.radioHoverShadow};\n  }\n  .${styles.root}:active & {\n    background: ${t.radioActiveBg};\n    box-shadow: ${t.radioActiveShadow};\n  }\n  .${styles.input}:focus + &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.borderColorFocus};\n  }\n`",
@@ -726,17 +865,17 @@ export const Radio = {
     ]
   },
   warning: {
-    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.warningMain};\n  }\n`",
+    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.borderColorWarning};\n  }\n`",
     variables: [
       "radioFocusShadow",
-      "warningMain"
+      "borderColorWarning"
     ]
   },
   error: {
-    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.errorMain};\n  }\n`",
+    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.borderColorError};\n  }\n`",
     variables: [
       "radioFocusShadow",
-      "errorMain"
+      "borderColorError"
     ]
   },
   checked: {
@@ -756,37 +895,6 @@ export const Radio = {
     contents: "css`\n  display: ${t.radioLabelDisplay};\n`",
     variables: [
       "radioLabelDisplay"
-    ]
-  }
-};
-export const Link = {
-  useDefault: {
-    contents: "css`\n  color: ${t.linkColor};\n\n  &:hover {\n    color: ${t.linkColor};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.linkActiveColor};\n  }\n`",
-    variables: [
-      "linkColor",
-      "linkHoverTextDecoration",
-      "linkActiveColor"
-    ]
-  },
-  focus: {
-    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.linkColor};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useSuccess}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useDanger}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useGrayed}& {\n    color: ${t.textColorDisabled};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n`",
-    variables: [
-      "linkColor",
-      "linkHoverTextDecoration",
-      "textColorDisabled"
-    ]
-  },
-  useGrayed: {
-    contents: "css`\n  color: ${t.textColorDisabled};\n\n  &:hover {\n    color: ${t.textColorDisabled};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.textColorDisabled};\n  }\n`",
-    variables: [
-      "textColorDisabled",
-      "linkHoverTextDecoration"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${styles.useSuccess}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${styles.useDanger}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${styles.useGrayed}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n`",
-    variables: [
-      "textColorDisabled"
     ]
   }
 };
@@ -812,118 +920,6 @@ export const ToastView = {
     ]
   }
 };
-export const Popup = {
-  popup: {
-    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n  border: ${t.popupBorder} ${t.popupBorderColor};\n\n  .rt-ie8 & {\n    border: 1px solid ${t.dropdownMenuBorder};\n  }\n`",
-    variables: [
-      "popupBorderRadius",
-      "popupBorder",
-      "popupBorderColor",
-      "dropdownMenuBorder"
-    ]
-  },
-  content: {
-    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n`",
-    variables: [
-      "popupBorderRadius"
-    ]
-  },
-  contentInner: {
-    contents: "css`\n  background: ${t.bgDefault};\n`",
-    variables: [
-      "bgDefault"
-    ]
-  },
-  shadow: {
-    contents: "css`\n  filter: ${t.popupDropShadow};\n  -webkit-filter: ${t.popupDropShadow};\n\n  .rt-ie-any & {\n    box-shadow: ${t.popupBoxShadow};\n  }\n`",
-    variables: [
-      "popupDropShadow",
-      "popupBoxShadow"
-    ]
-  }
-};
-export const Token = {
-  warning: {
-    contents: "css`\n  .${styles.token}& {\n    border: 1px solid ${t.warningMain};\n    box-shadow: 0 0 0 1px ${t.warningMain};\n  }\n`",
-    variables: [
-      "warningMain"
-    ]
-  },
-  error: {
-    contents: "css`\n  .${styles.token}& {\n    border: 1px solid ${t.errorMain};\n    box-shadow: 0 0 0 1px ${t.errorMain};\n  }\n`",
-    variables: [
-      "errorMain"
-    ]
-  }
-};
-export const Loader = {
-  active: {
-    contents: "css`\n  .${styles.loader}&::after {\n    background: ${t.loaderBg};\n    opacity: ${t.loaderOpacity};\n  }\n`",
-    variables: [
-      "loaderBg",
-      "loaderOpacity"
-    ]
-  }
-};
-export const TokenInput = {
-  warning: {
-    contents: "css`\n  .${styles.root} .${styles.label}& {\n    border: 1px solid ${t.warningMain};\n    box-shadow: 0 0 0 1px ${t.warningMain};\n  }\n`",
-    variables: [
-      "warningMain"
-    ]
-  },
-  error: {
-    contents: "css`\n  .${styles.root} .${styles.label}& {\n    border: 1px solid ${t.errorMain};\n    box-shadow: 0 0 0 1px ${t.errorMain};\n  }\n`",
-    variables: [
-      "errorMain"
-    ]
-  },
-  label: {
-    contents: "css`\n  .${styles.root} & {\n    background: ${t.bgDefault};\n    border: 1px solid ${t.borderColorGrayLight};\n    border-top-color: ${t.borderColorGrayDark};\n  }\n`",
-    variables: [
-      "bgDefault",
-      "borderColorGrayLight",
-      "borderColorGrayDark"
-    ]
-  },
-  labelFocused: {
-    contents: "css`\n  .${styles.root} & {\n    border: 1px solid ${t.borderColorFocus};\n    box-shadow: 0 0 0 1px ${t.borderColorFocus};\n  }\n`",
-    variables: [
-      "borderColorFocus"
-    ]
-  },
-  input: {
-    contents: "css`\n  .${styles.root} &::placeholder {\n    color: ${t.placeholderColor};\n  }\n  .${styles.root} &:focus::placeholder {\n    color: ${t.placeholderColorLight};\n  }\n`",
-    variables: [
-      "placeholderColor",
-      "placeholderColorLight"
-    ]
-  }
-};
-export const Tooltip = {
-  cross: {
-    contents: "css`\n  color: ${t.tooltipCloseBtnColor};\n\n  &:hover {\n    color: ${t.tooltipCloseBtnHoverColor};\n  }\n`",
-    variables: [
-      "tooltipCloseBtnColor",
-      "tooltipCloseBtnHoverColor"
-    ]
-  }
-};
-export const TopBar = {
-  root: {
-    contents: "css`\n  background: ${t.tbBg};\n  box-shadow: ${t.tbShadow};\n`",
-    variables: [
-      "tbBg",
-      "tbShadow"
-    ]
-  },
-  divider: {
-    contents: "css`\n  background-color: ${t.tdDividerBg};\n`",
-    variables: [
-      "tdDividerBg"
-    ]
-  }
-};
 export const Button = {
   root: {
     contents: "css`\n  color: ${t.textColorDefault};\n`",
@@ -932,9 +928,9 @@ export const Button = {
     ]
   },
   warning: {
-    contents: "css`\n  .${classes.root}:not(.${classes.link}) & {\n    box-shadow: 0 0 0 2px ${t.warningMain};\n  }\n`",
+    contents: "css`\n  .${classes.root}:not(.${classes.link}) & {\n    box-shadow: 0 0 0 2px ${t.borderColorWarning};\n  }\n`",
     variables: [
-      "warningMain"
+      "borderColorWarning"
     ]
   },
   warningRoot: {
@@ -944,9 +940,9 @@ export const Button = {
     ]
   },
   error: {
-    contents: "css`\n  .${classes.root}:not(.${classes.link}) & {\n    box-shadow: 0 0 0 2px ${t.errorMain};\n  }\n  .${classes.wrap} .${classes.root}.${classes.link} & {\n    background: ${t.errorSecondary};\n  }\n`",
+    contents: "css`\n  .${classes.root}:not(.${classes.link}) & {\n    box-shadow: 0 0 0 2px ${t.borderColorError};\n  }\n  .${classes.wrap} .${classes.root}.${classes.link} & {\n    background: ${t.errorSecondary};\n  }\n`",
     variables: [
-      "errorMain",
+      "borderColorError",
       "errorSecondary"
     ]
   },
@@ -1009,9 +1005,10 @@ export const Button = {
     ]
   },
   link: {
-    contents: "css`\n  color: ${t.linkColor};\n\n  &:hover {\n    color: ${t.linkColor};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.linkActiveColor};\n  }\n`",
+    contents: "css`\n  color: ${t.linkColor};\n\n  &:hover {\n    color: ${t.linkHoverColor};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.linkActiveColor};\n  }\n`",
     variables: [
       "linkColor",
+      "linkHoverColor",
       "linkHoverTextDecoration",
       "linkActiveColor"
     ]
@@ -1055,18 +1052,17 @@ export const Button = {
     ]
   },
   arrow_warning: {
-    contents: "css`\n  .${classes.root} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.borderColorWarning};\n  }\n  .${classes.root}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.warningMain};\n  }\n  .${classes.root}.${classes.checked} .${classes.arrow}& {\n    box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.warningMain};\n  }\n  .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.warningMain};\n  }\n  .${classes.root}.${classes.disabled} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.warningMain};\n  }\n`",
+    contents: "css`\n  .${classes.root} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.borderColorWarning};\n  }\n  .${classes.root}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};\n  }\n  .${classes.root}.${classes.checked} .${classes.arrow}& {\n    box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.borderColorWarning};\n  }\n  .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};\n  }\n  .${classes.root}.${classes.disabled} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.borderColorWarning};\n  }\n`",
     variables: [
       "borderColorWarning",
       "outlineColorFocus",
-      "warningMain",
       "btnCheckedShadowColorArrow"
     ]
   },
   arrow_error: {
-    contents: "css`\n  .${classes.root} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.errorMain};\n  }\n  .${classes.root}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.errorMain};\n  }\n  .${classes.root}.${classes.checked} .${classes.arrow}& {\n    box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.errorMain};\n  }\n  .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.errorMain};\n  }\n  .${classes.root}.${classes.disabled} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.errorMain};\n  }\n`",
+    contents: "css`\n  .${classes.root} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.borderColorError};\n  }\n  .${classes.root}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};\n  }\n  .${classes.root}.${classes.checked} .${classes.arrow}& {\n    box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.borderColorError};\n  }\n  .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {\n    box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};\n  }\n  .${classes.root}.${classes.disabled} .${classes.arrow}& {\n    box-shadow: 2px -2px 0 0 ${t.borderColorError};\n  }\n`",
     variables: [
-      "errorMain",
+      "borderColorError",
       "outlineColorFocus",
       "btnCheckedShadowColorArrow"
     ]
