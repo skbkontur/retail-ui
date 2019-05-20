@@ -1,3 +1,102 @@
+export const Logotype = {
+  root: {
+    contents: "css`\n  color: ${t.logoColor};\n\n  &:hover {\n    color: ${t.logoHoverColor};\n  }\n`",
+    variables: [
+      "logoColor",
+      "logoHoverColor"
+    ]
+  },
+  divider: {
+    contents: "css`\n  background-color: ${t.tdDividerBg};\n`",
+    variables: [
+      "tdDividerBg"
+    ]
+  }
+};
+export const Menu = {
+  root: {
+    contents: "css`\n  background: ${t.bgDefault};\n`",
+    variables: [
+      "bgDefault"
+    ]
+  },
+  shadow: {
+    contents: "css`\n  border: ${t.menuBorder};\n  box-shadow: ${t.menuShadow};\n`",
+    variables: [
+      "menuBorder",
+      "menuShadow"
+    ]
+  }
+};
+export const Fias = {
+  warning: {
+    contents: "css`\n  color: ${t.warningText};\n`",
+    variables: [
+      "warningText"
+    ]
+  },
+  error: {
+    contents: "css`\n  color: ${t.errorText};\n`",
+    variables: [
+      "errorText"
+    ]
+  }
+};
+export const Select = {
+  placeholder: {
+    contents: "css`\n  color: ${t.sltPlaceholderColor};\n`",
+    variables: [
+      "sltPlaceholderColor"
+    ]
+  },
+  arrow: {
+    contents: "css`\n  .${styles.arrowWrap} & {\n    border-top-color: ${t.btnMenuArrowColor};\n  }\n`",
+    variables: [
+      "btnMenuArrowColor"
+    ]
+  }
+};
+export const MenuItem = {
+  hover: {
+    contents: "css`\n  background: ${t.dropdownMenuHoverBg};\n  color: ${t.textColorInvert} !important;\n`",
+    variables: [
+      "dropdownMenuHoverBg",
+      "textColorInvert"
+    ]
+  },
+  selected: {
+    contents: "css`\n  background: ${t.dropdownMenuSelectedBg};\n`",
+    variables: [
+      "dropdownMenuSelectedBg"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  color: ${t.textColorDisabled};\n`",
+    variables: [
+      "textColorDisabled"
+    ]
+  },
+  link: {
+    contents: "css`\n  color: ${t.linkColor};\n`",
+    variables: [
+      "linkColor"
+    ]
+  },
+  withIcon: {
+    contents: "css`\n  padding-left: ${t.menuItemPaddingForIcon};\n`",
+    variables: [
+      "menuItemPaddingForIcon"
+    ]
+  }
+};
+export const InternalMenu = {
+  root: {
+    contents: "css`\n  background: ${t.bgDefault};\n`",
+    variables: [
+      "bgDefault"
+    ]
+  }
+};
 export const Checkbox = {
   root: {
     contents: "css`\n  &:hover .${styles.box} {\n    background: ${t.chbHoverBg};\n  }\n\n  &:active .${styles.box} {\n    box-shadow: ${t.chbShadowActive};\n    background: ${t.chbActiveBg};\n  }\n\n  &.${styles.disabled} {\n    color: ${t.textColorDisabled};\n  }\n`",
@@ -69,233 +168,19 @@ export const Checkbox = {
     ]
   }
 };
-export const ToastView = {
-  root: {
-    contents: "css`\n  background: ${t.toastBg};\n  color: ${t.toastColor};\n`",
+export const MaskedInput = {
+  inputMask: {
+    contents: "css`\n  color: ${t.placeholderColor};\n`",
     variables: [
-      "toastBg",
-      "toastColor"
-    ]
-  },
-  link: {
-    contents: "css`\n  color: ${t.toastLinkColor};\n`",
-    variables: [
-      "toastLinkColor"
-    ]
-  },
-  close: {
-    contents: "css`\n  color: ${t.toastCloseColor};\n\n  &:hover {\n    color: ${t.toastCloseHoverColor};\n  }\n`",
-    variables: [
-      "toastCloseColor",
-      "toastCloseHoverColor"
+      "placeholderColor"
     ]
   }
 };
-export const Fias = {
-  warning: {
-    contents: "css`\n  color: ${t.warningText};\n`",
+export const MenuHeader = {
+  withLeftPadding: {
+    contents: "css`\n  .${styles.root}& {\n    padding-left: ${t.menuItemPaddingForIcon};\n  }\n`",
     variables: [
-      "warningText"
-    ]
-  },
-  error: {
-    contents: "css`\n  color: ${t.errorText};\n`",
-    variables: [
-      "errorText"
-    ]
-  }
-};
-export const Radio = {
-  radio: {
-    contents: "css`\n  width: ${t.radioSize};\n  height: ${t.radioSize};\n  vertical-align: ${t.radioVerticalAlign};\n  background-image: ${t.radioBgImage};\n  box-shadow: ${t.radioBoxShadow};\n  border: ${t.radioBorder};\n\n  .${styles.root}:hover & {\n    background: ${t.radioHoverBg};\n    box-shadow: ${t.radioHoverShadow};\n  }\n  .${styles.root}:active & {\n    background: ${t.radioActiveBg};\n    box-shadow: ${t.radioActiveShadow};\n  }\n  .${styles.input}:focus + &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.borderColorFocus};\n  }\n`",
-    variables: [
-      "radioSize",
-      "radioVerticalAlign",
-      "radioBgImage",
-      "radioBoxShadow",
-      "radioBorder",
-      "radioHoverBg",
-      "radioHoverShadow",
-      "radioActiveBg",
-      "radioActiveShadow",
-      "radioFocusShadow",
-      "borderColorFocus"
-    ]
-  },
-  focus: {
-    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.borderColorFocus};\n  }\n`",
-    variables: [
-      "radioFocusShadow",
-      "borderColorFocus"
-    ]
-  },
-  warning: {
-    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.warningMain};\n  }\n`",
-    variables: [
-      "radioFocusShadow",
-      "warningMain"
-    ]
-  },
-  error: {
-    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.errorMain};\n  }\n`",
-    variables: [
-      "radioFocusShadow",
-      "errorMain"
-    ]
-  },
-  checked: {
-    contents: "css`\n  .${styles.root} .${styles.radio}& {\n    background-color: ${t.radioCheckedBgColor};\n  }\n  .${styles.root} .${styles.radio}&::before {\n    background: ${t.radioCheckedBulletColor};\n  }\n`",
-    variables: [
-      "radioCheckedBgColor",
-      "radioCheckedBulletColor"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  box-shadow: ${t.radioDisabledShadow} !important;\n`",
-    variables: [
-      "radioDisabledShadow"
-    ]
-  },
-  label: {
-    contents: "css`\n  display: ${t.radioLabelDisplay};\n`",
-    variables: [
-      "radioLabelDisplay"
-    ]
-  }
-};
-export const Kebab = {
-  focused: {
-    contents: "css`\n  .${styles.kebab}& {\n    border-color: ${t.borderColorFocus};\n  }\n`",
-    variables: [
-      "borderColorFocus"
-    ]
-  },
-  menu: {
-    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n`",
-    variables: [
-      "popupBorderRadius"
-    ]
-  }
-};
-export const Select = {
-  placeholder: {
-    contents: "css`\n  color: ${t.sltPlaceholderColor};\n`",
-    variables: [
-      "sltPlaceholderColor"
-    ]
-  },
-  arrow: {
-    contents: "css`\n  .${styles.arrowWrap} & {\n    border-top-color: ${t.btnMenuArrowColor};\n  }\n`",
-    variables: [
-      "btnMenuArrowColor"
-    ]
-  }
-};
-export const InternalMenu = {
-  root: {
-    contents: "css`\n  background: ${t.bgDefault};\n`",
-    variables: [
-      "bgDefault"
-    ]
-  }
-};
-export const Link = {
-  useDefault: {
-    contents: "css`\n  color: ${t.linkColor};\n\n  &:hover {\n    color: ${t.linkColor};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.linkActiveColor};\n  }\n`",
-    variables: [
-      "linkColor",
-      "linkHoverTextDecoration",
-      "linkActiveColor"
-    ]
-  },
-  focus: {
-    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.linkColor};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${jsStyles.useSuccess(t)}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${jsStyles.useDanger(t)}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useGrayed}& {\n    color: ${t.textColorDisabled};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n`",
-    variables: [
-      "linkColor",
-      "linkHoverTextDecoration",
-      "textColorDisabled"
-    ]
-  },
-  useSuccess: {
-    contents: "css`\n  color: ${t.linkColorSuccess};\n\n  &:hover {\n    color: ${t.linkColorSuccess};\n    text-decoration-color: ${t.linkHoverColorSuccess};\n  }\n  &:active {\n    color: ${t.linkActiveColorSuccess};\n  }\n`",
-    variables: [
-      "linkColorSuccess",
-      "linkHoverColorSuccess",
-      "linkActiveColorSuccess"
-    ]
-  },
-  useDanger: {
-    contents: "css`\n  color: ${t.linkColorDanger};\n\n  &:hover {\n    color: ${t.linkColorDanger};\n    text-decoration-color: ${t.linkHoverColorDanger};\n  }\n  &:active {\n    color: ${t.linkActiveColorDanger};\n  }\n`",
-    variables: [
-      "linkColorDanger",
-      "linkHoverColorDanger",
-      "linkActiveColorDanger"
-    ]
-  },
-  useGrayed: {
-    contents: "css`\n  color: ${t.textColorDisabled};\n\n  &:hover {\n    color: ${t.textColorDisabled};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.textColorDisabled};\n  }\n`",
-    variables: [
-      "textColorDisabled",
-      "linkHoverTextDecoration"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${jsStyles.useSuccess(t)}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${jsStyles.useDanger(t)}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${styles.useGrayed}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n`",
-    variables: [
-      "textColorDisabled"
-    ]
-  }
-};
-export const Toggle = {
-  handle: {
-    contents: "css`\n  background: ${t.toggleBg};\n`",
-    variables: [
-      "toggleBg"
-    ]
-  },
-  container: {
-    contents: "css`\n  border: 1px solid ${t.toggleBorderColor};\n\n  .${styles.isDisabled} & {\n    background: ${t.toggleBgDisabled};\n  }\n  .${styles.input}:checked ~ & {\n    border-color: ${t.toggleBgChecked};\n    background: ${t.toggleBgChecked};\n  }\n`",
-    variables: [
-      "toggleBorderColor",
-      "toggleBgDisabled",
-      "toggleBgChecked"
-    ]
-  },
-  focused: {
-    contents: "css`\n  .${styles.container}& {\n    box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 3px ${t.toggleFocusShadowColor};\n  }\n`",
-    variables: [
-      "outlineColorFocus",
-      "toggleFocusShadowColor"
-    ]
-  },
-  activeBackground: {
-    contents: "css`\n  .${jsStyles.isLoading(t)} & {\n    background: ${t.toggleBgChecked};\n  }\n\n  .${styles.input}:checked ~ .${styles.container} & {\n    background: ${t.toggleBgChecked};\n  }\n`",
-    variables: [
-      "toggleBgChecked"
-    ]
-  },
-  isLoading: {
-    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.toggleBorderColor};\n    border-color: ${t.toggleBorderColor};\n  }\n`",
-    variables: [
-      "toggleBorderColor"
-    ]
-  },
-  isWarning: {
-    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.warningMain};\n    border-color: ${t.warningMain};\n\n    .${jsStyles.activeBackground(t)} {\n      background: ${t.warningMain};\n    }\n  }\n`",
-    variables: [
-      "warningMain"
-    ]
-  },
-  isError: {
-    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.errorMain};\n    border-color: ${t.errorMain};\n\n    .${jsStyles.activeBackground(t)} {\n      background: ${t.errorMain};\n    }\n  }\n`",
-    variables: [
-      "errorMain"
-    ]
-  },
-  wrapper: {
-    contents: "css`\n  &:hover {\n    .${styles.handle} {\n      background: ${t.toggleBgHover};\n    }\n  }\n`",
-    variables: [
-      "toggleBgHover"
+      "menuItemPaddingForIcon"
     ]
   }
 };
@@ -333,20 +218,11 @@ export const SidePage = {
     ]
   }
 };
-export const Loader = {
-  active: {
-    contents: "css`\n  .${styles.loader}&::after {\n    background: ${t.loaderBg};\n    opacity: ${t.loaderOpacity};\n  }\n`",
+export const MenuSeparator = {
+  root: {
+    contents: "css`\n  border-top: 1px solid ${t.menuSeparatorBorderColor};\n`",
     variables: [
-      "loaderBg",
-      "loaderOpacity"
-    ]
-  }
-};
-export const MaskedInput = {
-  inputMask: {
-    contents: "css`\n  color: ${t.placeholderColor};\n`",
-    variables: [
-      "placeholderColor"
+      "menuSeparatorBorderColor"
     ]
   }
 };
@@ -355,6 +231,135 @@ export const Switcher = {
     contents: "css`\n  box-shadow: 0 0 0 2px ${t.errorMain};\n`",
     variables: [
       "errorMain"
+    ]
+  }
+};
+export const Toggle = {
+  handle: {
+    contents: "css`\n  background: ${t.toggleBg};\n`",
+    variables: [
+      "toggleBg"
+    ]
+  },
+  container: {
+    contents: "css`\n  border: 1px solid ${t.toggleBorderColor};\n\n  .${styles.isDisabled} & {\n    background: ${t.toggleBgDisabled};\n  }\n  .${styles.input}:checked ~ & {\n    border-color: ${t.toggleBgChecked};\n    background: ${t.toggleBgChecked};\n  }\n`",
+    variables: [
+      "toggleBorderColor",
+      "toggleBgDisabled",
+      "toggleBgChecked"
+    ]
+  },
+  focused: {
+    contents: "css`\n  .${styles.container}& {\n    box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 3px ${t.toggleFocusShadowColor};\n  }\n`",
+    variables: [
+      "outlineColorFocus",
+      "toggleFocusShadowColor"
+    ]
+  },
+  activeBackground: {
+    contents: "css`\n  .${styles.isLoading} & {\n    background: ${t.toggleBgChecked};\n  }\n\n  .${styles.input}:checked ~ .${styles.container} & {\n    background: ${t.toggleBgChecked};\n  }\n`",
+    variables: [
+      "toggleBgChecked"
+    ]
+  },
+  isLoading: {
+    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.toggleBorderColor};\n    border-color: ${t.toggleBorderColor};\n  }\n`",
+    variables: [
+      "toggleBorderColor"
+    ]
+  },
+  isWarning: {
+    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.warningMain};\n    border-color: ${t.warningMain};\n\n    .${styles.activeBackground} {\n      background: ${t.warningMain};\n    }\n  }\n`",
+    variables: [
+      "warningMain"
+    ]
+  },
+  isError: {
+    contents: "css`\n  .${styles.input}:checked ~ .${styles.container}& {\n    background: ${t.errorMain};\n    border-color: ${t.errorMain};\n\n    .${styles.activeBackground} {\n      background: ${t.errorMain};\n    }\n  }\n`",
+    variables: [
+      "errorMain"
+    ]
+  },
+  wrapper: {
+    contents: "css`\n  &:hover {\n    .${styles.handle} {\n      background: ${t.toggleBgHover};\n    }\n  }\n`",
+    variables: [
+      "toggleBgHover"
+    ]
+  }
+};
+export const Indicator = {
+  root: {
+    contents: "css`\n  background: ${t.borderColorFocus};\n`",
+    variables: [
+      "borderColorFocus"
+    ]
+  },
+  primary: {
+    contents: "css`\n  background: ${t.btnPrimaryBg};\n`",
+    variables: [
+      "btnPrimaryBg"
+    ]
+  },
+  success: {
+    contents: "css`\n  background: ${t.btnSuccessBg};\n`",
+    variables: [
+      "btnSuccessBg"
+    ]
+  },
+  warning: {
+    contents: "css`\n  background: ${t.btnPayBg};\n`",
+    variables: [
+      "btnPayBg"
+    ]
+  },
+  error: {
+    contents: "css`\n  background: ${t.btnDangerBg};\n`",
+    variables: [
+      "btnDangerBg"
+    ]
+  }
+};
+export const Modal = {
+  bg: {
+    contents: "css`\n  background: ${t.modalBackBg};\n  opacity: ${t.modalBackOpacity};\n`",
+    variables: [
+      "modalBackBg",
+      "modalBackOpacity"
+    ]
+  },
+  window: {
+    contents: "css`\n  background: ${t.bgDefault};\n`",
+    variables: [
+      "bgDefault"
+    ]
+  },
+  close: {
+    contents: "css`\n  &.${styles.disabled} {\n    color: ${t.modalCloseButtonDisabledColor};\n  }\n\n  &:after,\n  &:before {\n    background: ${t.modalCloseButtonColor};\n  }\n\n  &:focus::before,\n  &:focus::after,\n  &:hover::before,\n  &:hover::after {\n    background: ${t.modalCloseButtonHoverColor};\n  }\n\n  &:focus {\n    &.${styles.closeOutline} {\n      border: 2px solid ${t.borderColorFocus};\n    }\n  }\n`",
+    variables: [
+      "modalCloseButtonDisabledColor",
+      "modalCloseButtonColor",
+      "modalCloseButtonHoverColor",
+      "borderColorFocus"
+    ]
+  },
+  footer: {
+    contents: "css`\n  &.${styles.panel} {\n    background: ${t.modalFooterBg};\n  }\n`",
+    variables: [
+      "modalFooterBg"
+    ]
+  },
+  fixedHeader: {
+    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:after {\n    box-shadow: ${t.modalFixedHeaderShadow};\n  }\n`",
+    variables: [
+      "modalFixedHeaderBg",
+      "modalFixedHeaderShadow"
+    ]
+  },
+  fixedFooter: {
+    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:before {\n    box-shadow: ${t.modalFixedFooterShadow};\n  }\n`",
+    variables: [
+      "modalFixedHeaderBg",
+      "modalFixedFooterShadow"
     ]
   }
 };
@@ -425,7 +430,7 @@ export const Input = {
     ]
   },
   sizeSmall: {
-    contents: "css`\n  line-height: ${t.controlLineHeightSmall};\n  padding-top: ${t.controlPaddingYSmall};\n  padding-bottom: ${t.controlPaddingYSmall};\n  height: ${t.controlHeightSmall};\n\n  .rt-ie-any & {\n    padding-top: ${shiftVariableValue(t.controlPaddingYSmall, '-1')};\n    padding-bottom: ${shiftVariableValue(t.controlPaddingYSmall, '1')};\n  }\n`",
+    contents: "css`\n  line-height: ${t.controlLineHeightSmall};\n  padding-top: ${t.controlPaddingYSmall};\n  padding-bottom: ${t.controlPaddingYSmall};\n  height: ${t.controlHeightSmall};\n\n  .rt-ie-any & {\n    padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};\n    padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};\n  }\n`",
     variables: [
       "controlLineHeightSmall",
       "controlPaddingYSmall",
@@ -433,7 +438,7 @@ export const Input = {
     ]
   },
   sizeMedium: {
-    contents: "css`\n  line-height: ${t.controlLineHeightMedium};\n  padding-top: ${t.controlPaddingYMedium};\n  padding-bottom: ${t.controlPaddingYMedium};\n  height: ${t.controlHeightMedium};\n\n  .rt-ie-any & {\n    padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};\n    padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};\n  }\n`",
+    contents: "css`\n  line-height: ${t.controlLineHeightMedium};\n  padding-top: ${t.controlPaddingYMedium};\n  padding-bottom: ${t.controlPaddingYMedium};\n  height: ${t.controlHeightMedium};\n\n  .rt-ie-any & {\n    padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};\n    padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};\n  }\n`",
     variables: [
       "controlLineHeightMedium",
       "controlPaddingYMedium",
@@ -441,7 +446,7 @@ export const Input = {
     ]
   },
   DEPRECATED_sizeMedium: {
-    contents: "css`\n  line-height: ${t.controlLineHeightMedium};\n  padding-top: ${t.controlPaddingYMedium};\n  padding-bottom: ${t.controlPaddingYMedium};\n  height: ${t.controlHeightMedium};\n\n  .rt-ie-any & {\n    padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};\n    padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};\n  }\n`",
+    contents: "css`\n  line-height: ${t.controlLineHeightMedium};\n  padding-top: ${t.controlPaddingYMedium};\n  padding-bottom: ${t.controlPaddingYMedium};\n  height: ${t.controlHeightMedium};\n\n  .rt-ie-any & {\n    padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};\n    padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};\n  }\n`",
     variables: [
       "controlLineHeightMedium",
       "controlPaddingYMedium",
@@ -449,7 +454,7 @@ export const Input = {
     ]
   },
   sizeLarge: {
-    contents: "css`\n  line-height: ${t.controlLineHeightLarge};\n  height: ${t.controlHeightLarge};\n  padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-1')};\n  padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '1')};\n\n  .rt-ie-any & {\n    padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-2')};\n    padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '2')};\n  }\n`",
+    contents: "css`\n  line-height: ${t.controlLineHeightLarge};\n  height: ${t.controlHeightLarge};\n  padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};\n  padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};\n\n  .rt-ie-any & {\n    padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};\n    padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};\n  }\n`",
     variables: [
       "controlLineHeightLarge",
       "controlHeightLarge",
@@ -469,11 +474,113 @@ export const Input = {
     ]
   }
 };
-export const MenuHeader = {
-  withLeftPadding: {
-    contents: "css`\n  .${styles.root}& {\n    padding-left: ${t.menuItemPaddingForIcon};\n  }\n`",
+export const Tab = {
+  root: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.borderColorFocusLight};\n  }\n`",
     variables: [
-      "menuItemPaddingForIcon"
+      "borderColorFocusLight"
+    ]
+  },
+  vertical: {
+    contents: "css`\n  .${styles.root}&:hover {\n    border-left: 3px solid ${t.borderColorFocusLight};\n  }\n`",
+    variables: [
+      "borderColorFocusLight"
+    ]
+  },
+  focus: {
+    contents: "css`\n  border: 2px solid ${t.borderColorFocus};\n`",
+    variables: [
+      "borderColorFocus"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  color: rgba(\n    ${ColorFunctions.red(t.textColorDefault)},\n    ${ColorFunctions.green(t.textColorDefault)},\n    ${ColorFunctions.blue(t.textColorDefault)},\n    0.5\n  );\n`",
+    variables: [
+      "textColorDefault"
+    ]
+  },
+  primary: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPrimaryBg, '25%')};\n  }\n`",
+    variables: [
+      "btnPrimaryBg"
+    ]
+  },
+  success: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnSuccessBg, '25%')};\n  }\n`",
+    variables: [
+      "btnSuccessBg"
+    ]
+  },
+  warning: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPayBg, '25%')};\n  }\n`",
+    variables: [
+      "btnPayBg"
+    ]
+  },
+  error: {
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnDangerBg, '25%')};\n  }\n`",
+    variables: [
+      "btnDangerBg"
+    ]
+  }
+};
+export const Paging = {
+  dots: {
+    contents: "css`\n  color: ${t.pagingDotsColor};\n`",
+    variables: [
+      "pagingDotsColor"
+    ]
+  },
+  forwardLink: {
+    contents: "css`\n  color: ${t.linkColor};\n`",
+    variables: [
+      "linkColor"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  .${styles.forwardLink}& {\n    color: ${t.textColorDisabled};\n  }\n`",
+    variables: [
+      "textColorDisabled"
+    ]
+  },
+  pageLink: {
+    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.linkColor};\n  }\n  .${styles.pageLinkWrapper} &:not(.${styles.active}):hover {\n    background: ${t.pagingPageLinkHoverBg};\n  }\n`",
+    variables: [
+      "linkColor",
+      "pagingPageLinkHoverBg"
+    ]
+  },
+  active: {
+    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    background: ${t.pagingPageLinkActiveBg};\n    color: ${t.pagingPageLinkActiveColor};\n  }\n`",
+    variables: [
+      "pagingPageLinkActiveBg",
+      "pagingPageLinkActiveColor"
+    ]
+  },
+  focused: {
+    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    border: solid 2px ${t.borderColorFocus};\n  }\n`",
+    variables: [
+      "borderColorFocus"
+    ]
+  },
+  pageLinkHint: {
+    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.pagingPageLinkHintColor};\n  }\n`",
+    variables: [
+      "pagingPageLinkHintColor"
+    ]
+  }
+};
+export const Kebab = {
+  focused: {
+    contents: "css`\n  .${styles.kebab}& {\n    border-color: ${t.borderColorFocus};\n  }\n`",
+    variables: [
+      "borderColorFocus"
+    ]
+  },
+  menu: {
+    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n`",
+    variables: [
+      "popupBorderRadius"
     ]
   }
 };
@@ -594,18 +701,144 @@ export const Colors = {
     ]
   }
 };
-export const Menu = {
+export const Radio = {
+  radio: {
+    contents: "css`\n  width: ${t.radioSize};\n  height: ${t.radioSize};\n  vertical-align: ${t.radioVerticalAlign};\n  background-image: ${t.radioBgImage};\n  box-shadow: ${t.radioBoxShadow};\n  border: ${t.radioBorder};\n\n  .${styles.root}:hover & {\n    background: ${t.radioHoverBg};\n    box-shadow: ${t.radioHoverShadow};\n  }\n  .${styles.root}:active & {\n    background: ${t.radioActiveBg};\n    box-shadow: ${t.radioActiveShadow};\n  }\n  .${styles.input}:focus + &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.borderColorFocus};\n  }\n`",
+    variables: [
+      "radioSize",
+      "radioVerticalAlign",
+      "radioBgImage",
+      "radioBoxShadow",
+      "radioBorder",
+      "radioHoverBg",
+      "radioHoverShadow",
+      "radioActiveBg",
+      "radioActiveShadow",
+      "radioFocusShadow",
+      "borderColorFocus"
+    ]
+  },
+  focus: {
+    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.borderColorFocus};\n  }\n`",
+    variables: [
+      "radioFocusShadow",
+      "borderColorFocus"
+    ]
+  },
+  warning: {
+    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.warningMain};\n  }\n`",
+    variables: [
+      "radioFocusShadow",
+      "warningMain"
+    ]
+  },
+  error: {
+    contents: "css`\n  &::after {\n    box-shadow: ${t.radioFocusShadow};\n    border-color: ${t.errorMain};\n  }\n`",
+    variables: [
+      "radioFocusShadow",
+      "errorMain"
+    ]
+  },
+  checked: {
+    contents: "css`\n  .${styles.root} .${styles.radio}& {\n    background-color: ${t.radioCheckedBgColor};\n  }\n  .${styles.root} .${styles.radio}&::before {\n    background: ${t.radioCheckedBulletColor};\n  }\n`",
+    variables: [
+      "radioCheckedBgColor",
+      "radioCheckedBulletColor"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  box-shadow: ${t.radioDisabledShadow} !important;\n`",
+    variables: [
+      "radioDisabledShadow"
+    ]
+  },
+  label: {
+    contents: "css`\n  display: ${t.radioLabelDisplay};\n`",
+    variables: [
+      "radioLabelDisplay"
+    ]
+  }
+};
+export const Link = {
+  useDefault: {
+    contents: "css`\n  color: ${t.linkColor};\n\n  &:hover {\n    color: ${t.linkColor};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.linkActiveColor};\n  }\n`",
+    variables: [
+      "linkColor",
+      "linkHoverTextDecoration",
+      "linkActiveColor"
+    ]
+  },
+  focus: {
+    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.linkColor};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useSuccess}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useDanger}& {\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n  .${styles.useGrayed}& {\n    color: ${t.textColorDisabled};\n    text-decoration: ${t.linkHoverTextDecoration};\n  }\n`",
+    variables: [
+      "linkColor",
+      "linkHoverTextDecoration",
+      "textColorDisabled"
+    ]
+  },
+  useGrayed: {
+    contents: "css`\n  color: ${t.textColorDisabled};\n\n  &:hover {\n    color: ${t.textColorDisabled};\n    text-decoration-color: ${t.linkHoverTextDecoration};\n  }\n  &:active {\n    color: ${t.textColorDisabled};\n  }\n`",
+    variables: [
+      "textColorDisabled",
+      "linkHoverTextDecoration"
+    ]
+  },
+  disabled: {
+    contents: "css`\n  .${styles.useDefault}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${styles.useSuccess}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${styles.useDanger}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n  .${styles.useGrayed}& {\n    color: ${t.textColorDisabled};\n\n    &:hover {\n      color: ${t.textColorDisabled};\n    }\n  }\n`",
+    variables: [
+      "textColorDisabled"
+    ]
+  }
+};
+export const ToastView = {
   root: {
+    contents: "css`\n  background: ${t.toastBg};\n  color: ${t.toastColor};\n`",
+    variables: [
+      "toastBg",
+      "toastColor"
+    ]
+  },
+  link: {
+    contents: "css`\n  color: ${t.toastLinkColor};\n`",
+    variables: [
+      "toastLinkColor"
+    ]
+  },
+  close: {
+    contents: "css`\n  color: ${t.toastCloseColor};\n\n  &:hover {\n    color: ${t.toastCloseHoverColor};\n  }\n`",
+    variables: [
+      "toastCloseColor",
+      "toastCloseHoverColor"
+    ]
+  }
+};
+export const Popup = {
+  popup: {
+    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n  border: ${t.popupBorder} ${t.popupBorderColor};\n\n  .rt-ie8 & {\n    border: 1px solid ${t.dropdownMenuBorder};\n  }\n`",
+    variables: [
+      "popupBorderRadius",
+      "popupBorder",
+      "popupBorderColor",
+      "dropdownMenuBorder"
+    ]
+  },
+  content: {
+    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n`",
+    variables: [
+      "popupBorderRadius"
+    ]
+  },
+  contentInner: {
     contents: "css`\n  background: ${t.bgDefault};\n`",
     variables: [
       "bgDefault"
     ]
   },
   shadow: {
-    contents: "css`\n  border: ${t.menuBorder};\n  box-shadow: ${t.menuShadow};\n`",
+    contents: "css`\n  filter: ${t.popupDropShadow};\n  -webkit-filter: ${t.popupDropShadow};\n\n  .rt-ie-any & {\n    box-shadow: ${t.popupBoxShadow};\n  }\n`",
     variables: [
-      "menuBorder",
-      "menuShadow"
+      "popupDropShadow",
+      "popupBoxShadow"
     ]
   }
 };
@@ -623,50 +856,12 @@ export const Token = {
     ]
   }
 };
-export const Indicator = {
-  root: {
-    contents: "css`\n  background: ${t.borderColorFocus};\n`",
+export const Loader = {
+  active: {
+    contents: "css`\n  .${styles.loader}&::after {\n    background: ${t.loaderBg};\n    opacity: ${t.loaderOpacity};\n  }\n`",
     variables: [
-      "borderColorFocus"
-    ]
-  },
-  primary: {
-    contents: "css`\n  background: ${t.btnPrimaryBg};\n`",
-    variables: [
-      "btnPrimaryBg"
-    ]
-  },
-  success: {
-    contents: "css`\n  background: ${t.btnSuccessBg};\n`",
-    variables: [
-      "btnSuccessBg"
-    ]
-  },
-  warning: {
-    contents: "css`\n  background: ${t.btnPayBg};\n`",
-    variables: [
-      "btnPayBg"
-    ]
-  },
-  error: {
-    contents: "css`\n  background: ${t.btnDangerBg};\n`",
-    variables: [
-      "btnDangerBg"
-    ]
-  }
-};
-export const Logotype = {
-  root: {
-    contents: "css`\n  color: ${t.logoColor};\n\n  &:hover {\n    color: ${t.logoHoverColor};\n  }\n`",
-    variables: [
-      "logoColor",
-      "logoHoverColor"
-    ]
-  },
-  divider: {
-    contents: "css`\n  background-color: ${t.tdDividerBg};\n`",
-    variables: [
-      "tdDividerBg"
+      "loaderBg",
+      "loaderOpacity"
     ]
   }
 };
@@ -705,103 +900,12 @@ export const TokenInput = {
     ]
   }
 };
-export const Tab = {
-  root: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.borderColorFocusLight};\n  }\n`",
-    variables: [
-      "borderColorFocusLight"
-    ]
-  },
-  vertical: {
-    contents: "css`\n  .${styles.root}&:hover {\n    border-left: 3px solid ${t.borderColorFocusLight};\n  }\n`",
-    variables: [
-      "borderColorFocusLight"
-    ]
-  },
-  focus: {
-    contents: "css`\n  border: 2px solid ${t.borderColorFocus};\n`",
-    variables: [
-      "borderColorFocus"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  color: rgba(\n    ${ColorFunctions.red(t.textColorDefault)},\n    ${ColorFunctions.green(t.textColorDefault)},\n    ${ColorFunctions.blue(t.textColorDefault)},\n    0.5\n  );\n`",
-    variables: [
-      "textColorDefault"
-    ]
-  },
-  primary: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPrimaryBg, '25%')};\n  }\n`",
-    variables: [
-      "btnPrimaryBg"
-    ]
-  },
-  success: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnSuccessBg, '25%')};\n  }\n`",
-    variables: [
-      "btnSuccessBg"
-    ]
-  },
-  warning: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPayBg, '25%')};\n  }\n`",
-    variables: [
-      "btnPayBg"
-    ]
-  },
-  error: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.btnDangerBg, '25%')};\n  }\n`",
-    variables: [
-      "btnDangerBg"
-    ]
-  }
-};
-export const MenuItem = {
-  hover: {
-    contents: "css`\n  background: ${t.dropdownMenuHoverBg};\n  color: ${t.textColorInvert} !important;\n`",
-    variables: [
-      "dropdownMenuHoverBg",
-      "textColorInvert"
-    ]
-  },
-  selected: {
-    contents: "css`\n  background: ${t.dropdownMenuSelectedBg};\n`",
-    variables: [
-      "dropdownMenuSelectedBg"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  color: ${t.textColorDisabled};\n`",
-    variables: [
-      "textColorDisabled"
-    ]
-  },
-  link: {
-    contents: "css`\n  color: ${t.linkColor};\n`",
-    variables: [
-      "linkColor"
-    ]
-  },
-  withIcon: {
-    contents: "css`\n  padding-left: ${t.menuItemPaddingForIcon};\n`",
-    variables: [
-      "menuItemPaddingForIcon"
-    ]
-  }
-};
 export const Tooltip = {
   cross: {
     contents: "css`\n  color: ${t.tooltipCloseBtnColor};\n\n  &:hover {\n    color: ${t.tooltipCloseBtnHoverColor};\n  }\n`",
     variables: [
       "tooltipCloseBtnColor",
       "tooltipCloseBtnHoverColor"
-    ]
-  }
-};
-export const MenuSeparator = {
-  root: {
-    contents: "css`\n  border-top: 1px solid ${t.menuSeparatorBorderColor};\n`",
-    variables: [
-      "menuSeparatorBorderColor"
     ]
   }
 };
@@ -817,50 +921,6 @@ export const TopBar = {
     contents: "css`\n  background-color: ${t.tdDividerBg};\n`",
     variables: [
       "tdDividerBg"
-    ]
-  }
-};
-export const Modal = {
-  bg: {
-    contents: "css`\n  background: ${t.modalBackBg};\n  opacity: ${t.modalBackOpacity};\n`",
-    variables: [
-      "modalBackBg",
-      "modalBackOpacity"
-    ]
-  },
-  window: {
-    contents: "css`\n  background: ${t.bgDefault};\n`",
-    variables: [
-      "bgDefault"
-    ]
-  },
-  close: {
-    contents: "css`\n  &.${styles.disabled} {\n    color: ${t.modalCloseButtonDisabledColor};\n  }\n\n  &:after,\n  &:before {\n    background: ${t.modalCloseButtonColor};\n  }\n\n  &:focus::before,\n  &:focus::after,\n  &:hover::before,\n  &:hover::after {\n    background: ${t.modalCloseButtonHoverColor};\n  }\n\n  &:focus {\n    &.${styles.closeOutline} {\n      border: 2px solid ${t.borderColorFocus};\n    }\n  }\n`",
-    variables: [
-      "modalCloseButtonDisabledColor",
-      "modalCloseButtonColor",
-      "modalCloseButtonHoverColor",
-      "borderColorFocus"
-    ]
-  },
-  footer: {
-    contents: "css`\n  &.${styles.panel} {\n    background: ${t.modalFooterBg};\n  }\n`",
-    variables: [
-      "modalFooterBg"
-    ]
-  },
-  fixedHeader: {
-    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:after {\n    box-shadow: ${t.modalFixedHeaderShadow};\n  }\n`",
-    variables: [
-      "modalFixedHeaderBg",
-      "modalFixedHeaderShadow"
-    ]
-  },
-  fixedFooter: {
-    contents: "css`\n  background: ${t.modalFixedHeaderBg};\n\n  &:before {\n    box-shadow: ${t.modalFixedFooterShadow};\n  }\n`",
-    variables: [
-      "modalFixedHeaderBg",
-      "modalFixedFooterShadow"
     ]
   }
 };
@@ -897,7 +957,7 @@ export const Button = {
     ]
   },
   sizeSmall: {
-    contents: "css`\n  &:not(.${classes.link}) {\n    height: ${shiftVariableValue(t.controlHeightSmall, t.btnHeightShift)};\n    padding: ${t.controlPaddingYSmall} 15px;\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${shiftVariableValue(t.controlPaddingYSmall, '-1')};\n      padding-bottom: ${shiftVariableValue(t.controlPaddingYSmall, '1')};\n    }\n  }\n\n  .${classes.arrow} {\n    right: ${t.btnSmallArrowRight};\n    height: ${t.btnSmallArrowLength};\n    width: ${t.btnSmallArrowLength};\n    border-radius: ${t.btnSmallArrowBorderRadius};\n  }\n\n  .${classes.arrow_left} {\n    left: ${t.btnSmallArrowLeft};\n  }\n`",
+    contents: "css`\n  &:not(.${classes.link}) {\n    height: ${DimensionFunctions.shift(t.controlHeightSmall, t.btnHeightShift)};\n    padding: ${t.controlPaddingYSmall} 15px;\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};\n    }\n  }\n\n  .${classes.arrow} {\n    right: ${t.btnSmallArrowRight};\n    height: ${t.btnSmallArrowLength};\n    width: ${t.btnSmallArrowLength};\n    border-radius: ${t.btnSmallArrowBorderRadius};\n  }\n\n  .${classes.arrow_left} {\n    left: ${t.btnSmallArrowLeft};\n  }\n`",
     variables: [
       "controlHeightSmall",
       "btnHeightShift",
@@ -910,7 +970,7 @@ export const Button = {
     ]
   },
   sizeMedium: {
-    contents: "css`\n  &:not(.${classes.link}) {\n    padding: ${shiftVariableValue(t.controlPaddingYMedium, '-1')} 15px\n      ${shiftVariableValue(t.controlPaddingYMedium, '1')};\n    height: ${shiftVariableValue(t.controlHeightMedium, t.btnHeightShift)};\n    line-height: ${t.controlLineHeightMedium};\n\n    .rt-ie-any & {\n      padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-2')};\n      padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, ' 2')};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnMediumArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnMediumArrowLeft};\n    }\n\n    .${classes.arrow_left}.${classes.arrow_loading}::before {\n      left: ${t.btnMediumArrowLeftLoadingLeft};\n    }\n  }\n`",
+    contents: "css`\n  &:not(.${classes.link}) {\n    padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')} 15px\n      ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};\n    height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};\n    line-height: ${t.controlLineHeightMedium};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-2')};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, ' 2')};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnMediumArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnMediumArrowLeft};\n    }\n\n    .${classes.arrow_left}.${classes.arrow_loading}::before {\n      left: ${t.btnMediumArrowLeftLoadingLeft};\n    }\n  }\n`",
     variables: [
       "controlPaddingYMedium",
       "controlHeightMedium",
@@ -922,7 +982,7 @@ export const Button = {
     ]
   },
   DEPRECATED_sizeMedium: {
-    contents: "css`\n  font-size: ${t.btnDeprecatedSizeMediumFontSize};\n\n  &:not(.${classes.link}) {\n    height: ${shiftVariableValue(t.controlHeightMedium, t.btnHeightShift)};\n    padding: ${shiftVariableValue(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)} 15px\n      ${shiftVariableValue(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${shiftVariableValue(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`)};\n      padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnMediumArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnMediumArrowLeft};\n    }\n\n    .${classes.arrow_left}.${classes.arrow_loading}::before {\n      left: ${t.btnMediumArrowLeftLoadingLeft};\n    }\n  }\n`",
+    contents: "css`\n  font-size: ${t.btnDeprecatedSizeMediumFontSize};\n\n  &:not(.${classes.link}) {\n    height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};\n    padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)} 15px\n      ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`)};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnMediumArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnMediumArrowLeft};\n    }\n\n    .${classes.arrow_left}.${classes.arrow_loading}::before {\n      left: ${t.btnMediumArrowLeftLoadingLeft};\n    }\n  }\n`",
     variables: [
       "btnDeprecatedSizeMediumFontSize",
       "controlHeightMedium",
@@ -937,7 +997,7 @@ export const Button = {
     ]
   },
   sizeLarge: {
-    contents: "css`\n  &:not(.${classes.link}) {\n    padding: ${shiftVariableValue(t.controlPaddingYLarge, '-1')} 20px\n      ${shiftVariableValue(t.controlPaddingYLarge, '1')};\n    height: ${shiftVariableValue(t.controlHeightLarge, t.btnHeightShift)};\n    line-height: ${t.controlLineHeightLarge};\n\n    .rt-ie-any & {\n      padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-2')};\n      padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '2')};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnLargeArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnLargeArrowLeft};\n    }\n\n    .${classes.arrow}.${classes.arrow_loading}::before {\n      background: ${t.btnLargeArrowBg};\n    }\n  }\n`",
+    contents: "css`\n  &:not(.${classes.link}) {\n    padding: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')} 20px\n      ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};\n    height: ${DimensionFunctions.shift(t.controlHeightLarge, t.btnHeightShift)};\n    line-height: ${t.controlLineHeightLarge};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnLargeArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnLargeArrowLeft};\n    }\n\n    .${classes.arrow}.${classes.arrow_loading}::before {\n      background: ${t.btnLargeArrowBg};\n    }\n  }\n`",
     variables: [
       "controlPaddingYLarge",
       "controlHeightLarge",
@@ -987,7 +1047,7 @@ export const Button = {
     ]
   },
   arrow_left: {
-    contents: "css`\n  .${classes.root}.${jsClasses.default(t)}.${classes.checked} & {\n    box-shadow: ${t.btnDefaultCheckedShadowArrow};\n  }\n  .${classes.root}.${classes.checked} & {\n    background: ${t.btnCheckedBg};\n    box-shadow: ${t.btnCheckedShadowArrowLeft};\n  }\n  .${classes.root}.${classes.checked}:hover & {\n    background: ${t.btnCheckedBg};\n    box-shadow: ${t.btnCheckedShadowArrowLeft};\n  }\n`",
+    contents: "css`\n  .${classes.root}.${classes.default}.${classes.checked} & {\n    box-shadow: ${t.btnDefaultCheckedShadowArrow};\n  }\n  .${classes.root}.${classes.checked} & {\n    background: ${t.btnCheckedBg};\n    box-shadow: ${t.btnCheckedShadowArrowLeft};\n  }\n  .${classes.root}.${classes.checked}:hover & {\n    background: ${t.btnCheckedBg};\n    box-shadow: ${t.btnCheckedShadowArrowLeft};\n  }\n`",
     variables: [
       "btnDefaultCheckedShadowArrow",
       "btnCheckedBg",
@@ -1109,7 +1169,7 @@ export const Button = {
     ]
   },
   pay: {
-    contents: "css`\n  background: ${\n    t.btnPayBgStart === t.btnPayBgEnd ? t.btnPayBgStart : `linear-gradient(${t.btnPayBgStart}, ${t.btnPayBgEnd})`\n  };\n  color: ${t.btnPayTextColor};\n  border: ${t.btnPayBorder};\n  box-shadow: ${t.btnPayShadow};\n\n  .${classes.arrow} {\n    background: ${\n      t.btnPayBgArrowStart === t.btnPayBgArrowEnd\n        ? t.btnPayBgArrowStart\n        : `linear-gradient(to bottom right, ${t.btnPayBgArrowStart}, ${t.btnPayBgArrowEnd})`\n    };\n    box-shadow: ${t.btnPayShadowArrow};\n  }\n\n  .${classes.arrow_left} {\n    background: ${\n      t.btnPayBgArrowStart === t.btnPayBgArrowEnd\n        ? t.btnPayBgArrowStart\n        : `linear-gradient(to top left, ${t.btnPayBgArrowStart}, ${t.btnPayBgArrowEnd})`\n    };\n    box-shadow: ${t.btnPayShadowArrowLeft};\n  }\n\n  .${classes.arrow}.${jsClasses.arrow_warning(t)} {\n    box-shadow: 2px -2px 0 0 ${t.borderColorWarning};\n  }\n\n  .${classes.arrow}.${jsClasses.arrow_error(t)} {\n    box-shadow: 2px -2px 0 0 ${t.borderColorError};\n  }\n\n  &:hover {\n    background: ${\n      t.btnPayHoverBgStart === t.btnPayHoverBgEnd\n        ? t.btnPayHoverBgStart\n        : `linear-gradient(${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`\n    };\n    box-shadow: ${t.btnPayHoverShadow};\n    border-color: ${t.btnPayHoverBg};\n\n    .${classes.arrow} {\n      background: ${\n        t.btnPayHoverBgStart === t.btnPayHoverBgEnd\n          ? t.btnPayHoverBgStart\n          : `linear-gradient(to bottom right, ${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`\n      };\n      box-shadow: ${t.btnPayHoverShadowArrow};\n    }\n\n    .${classes.arrow_left} {\n      background: ${\n        t.btnPayHoverBgStart === t.btnPayHoverBgEnd\n          ? t.btnPayHoverBgStart\n          : `linear-gradient(to top left, ${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`\n      };\n      box-shadow: ${t.btnPayHoverShadowArrowLeft};\n    }\n  }\n\n  &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {\n    background: ${t.btnPayActiveBg};\n    box-shadow: ${t.btnPayActiveShadow};\n\n    .${classes.arrow} {\n      background: ${t.btnPayActiveBg};\n      box-shadow: ${t.btnPayActiveShadowArrow};\n    }\n\n    .${classes.arrow_left} {\n      box-shadow: ${t.btnPayActiveShadowArrowLeft};\n    }\n  }\n  .${classes.active}:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading})& {\n    background: ${t.btnPayActiveBg};\n    box-shadow: ${t.btnPayActiveShadow};\n\n    .${classes.arrow} {\n      background: ${t.btnPayActiveBg};\n      box-shadow: ${t.btnPayActiveShadowArrow};\n    }\n\n    .${classes.arrow_left} {\n      box-shadow: ${t.btnPayActiveShadowArrowLeft};\n    }\n  }\n`",
+    contents: "css`\n  background: ${\n    t.btnPayBgStart === t.btnPayBgEnd ? t.btnPayBgStart : `linear-gradient(${t.btnPayBgStart}, ${t.btnPayBgEnd})`\n  };\n  color: ${t.btnPayTextColor};\n  border: ${t.btnPayBorder};\n  box-shadow: ${t.btnPayShadow};\n\n  .${classes.arrow} {\n    background: ${\n      t.btnPayBgArrowStart === t.btnPayBgArrowEnd\n        ? t.btnPayBgArrowStart\n        : `linear-gradient(to bottom right, ${t.btnPayBgArrowStart}, ${t.btnPayBgArrowEnd})`\n    };\n    box-shadow: ${t.btnPayShadowArrow};\n  }\n\n  .${classes.arrow_left} {\n    background: ${\n      t.btnPayBgArrowStart === t.btnPayBgArrowEnd\n        ? t.btnPayBgArrowStart\n        : `linear-gradient(to top left, ${t.btnPayBgArrowStart}, ${t.btnPayBgArrowEnd})`\n    };\n    box-shadow: ${t.btnPayShadowArrowLeft};\n  }\n\n  .${classes.arrow}.${classes.arrow_warning} {\n    box-shadow: 2px -2px 0 0 ${t.borderColorWarning};\n  }\n\n  .${classes.arrow}.${classes.arrow_error} {\n    box-shadow: 2px -2px 0 0 ${t.borderColorError};\n  }\n\n  &:hover {\n    background: ${\n      t.btnPayHoverBgStart === t.btnPayHoverBgEnd\n        ? t.btnPayHoverBgStart\n        : `linear-gradient(${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`\n    };\n    box-shadow: ${t.btnPayHoverShadow};\n    border-color: ${t.btnPayHoverBg};\n\n    .${classes.arrow} {\n      background: ${\n        t.btnPayHoverBgStart === t.btnPayHoverBgEnd\n          ? t.btnPayHoverBgStart\n          : `linear-gradient(to bottom right, ${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`\n      };\n      box-shadow: ${t.btnPayHoverShadowArrow};\n    }\n\n    .${classes.arrow_left} {\n      background: ${\n        t.btnPayHoverBgStart === t.btnPayHoverBgEnd\n          ? t.btnPayHoverBgStart\n          : `linear-gradient(to top left, ${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`\n      };\n      box-shadow: ${t.btnPayHoverShadowArrowLeft};\n    }\n  }\n\n  &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {\n    background: ${t.btnPayActiveBg};\n    box-shadow: ${t.btnPayActiveShadow};\n\n    .${classes.arrow} {\n      background: ${t.btnPayActiveBg};\n      box-shadow: ${t.btnPayActiveShadowArrow};\n    }\n\n    .${classes.arrow_left} {\n      box-shadow: ${t.btnPayActiveShadowArrowLeft};\n    }\n  }\n  .${classes.active}:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading})& {\n    background: ${t.btnPayActiveBg};\n    box-shadow: ${t.btnPayActiveShadow};\n\n    .${classes.arrow} {\n      background: ${t.btnPayActiveBg};\n      box-shadow: ${t.btnPayActiveShadowArrow};\n    }\n\n    .${classes.arrow_left} {\n      box-shadow: ${t.btnPayActiveShadowArrowLeft};\n    }\n  }\n`",
     variables: [
       "btnPayBgStart",
       "btnPayBgEnd",
@@ -1147,82 +1207,6 @@ export const Button = {
     contents: "css`\n  padding: ${t.btnWrapPadding};\n`",
     variables: [
       "btnWrapPadding"
-    ]
-  }
-};
-export const Paging = {
-  dots: {
-    contents: "css`\n  color: ${t.pagingDotsColor};\n`",
-    variables: [
-      "pagingDotsColor"
-    ]
-  },
-  forwardLink: {
-    contents: "css`\n  color: ${t.linkColor};\n`",
-    variables: [
-      "linkColor"
-    ]
-  },
-  disabled: {
-    contents: "css`\n  .${styles.forwardLink}& {\n    color: ${t.textColorDisabled};\n  }\n`",
-    variables: [
-      "textColorDisabled"
-    ]
-  },
-  pageLink: {
-    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.linkColor};\n  }\n  .${styles.pageLinkWrapper} &:not(.${styles.active}):hover {\n    background: ${t.pagingPageLinkHoverBg};\n  }\n`",
-    variables: [
-      "linkColor",
-      "pagingPageLinkHoverBg"
-    ]
-  },
-  active: {
-    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    background: ${t.pagingPageLinkActiveBg};\n    color: ${t.pagingPageLinkActiveColor};\n  }\n`",
-    variables: [
-      "pagingPageLinkActiveBg",
-      "pagingPageLinkActiveColor"
-    ]
-  },
-  focused: {
-    contents: "css`\n  .${styles.pageLinkWrapper} .${styles.pageLink}& {\n    border: solid 2px ${t.borderColorFocus};\n  }\n`",
-    variables: [
-      "borderColorFocus"
-    ]
-  },
-  pageLinkHint: {
-    contents: "css`\n  .${styles.pageLinkWrapper} & {\n    color: ${t.pagingPageLinkHintColor};\n  }\n`",
-    variables: [
-      "pagingPageLinkHintColor"
-    ]
-  }
-};
-export const Popup = {
-  popup: {
-    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n  border: ${t.popupBorder} ${t.popupBorderColor};\n\n  .rt-ie8 & {\n    border: 1px solid ${t.dropdownMenuBorder};\n  }\n`",
-    variables: [
-      "popupBorderRadius",
-      "popupBorder",
-      "popupBorderColor",
-      "dropdownMenuBorder"
-    ]
-  },
-  content: {
-    contents: "css`\n  border-radius: ${t.popupBorderRadius};\n`",
-    variables: [
-      "popupBorderRadius"
-    ]
-  },
-  contentInner: {
-    contents: "css`\n  background: ${t.bgDefault};\n`",
-    variables: [
-      "bgDefault"
-    ]
-  },
-  shadow: {
-    contents: "css`\n  filter: ${t.popupDropShadow};\n  -webkit-filter: ${t.popupDropShadow};\n\n  .rt-ie-any & {\n    box-shadow: ${t.popupBoxShadow};\n  }\n`",
-    variables: [
-      "popupDropShadow",
-      "popupBoxShadow"
     ]
   }
 };

@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import classes from './Button.less';
 import { ITheme } from '../../lib/theming/Theme';
-import { shiftVariableValue } from '../../lib/styles/StyleHelpers';
+import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 
 const jsClasses = {
   root(t: ITheme) {
@@ -54,13 +54,13 @@ const jsClasses = {
   sizeSmall(t: ITheme) {
     return css`
       &:not(.${classes.link}) {
-        height: ${shiftVariableValue(t.controlHeightSmall, t.btnHeightShift)};
+        height: ${DimensionFunctions.shift(t.controlHeightSmall, t.btnHeightShift)};
         padding: ${t.controlPaddingYSmall} 15px;
         line-height: ${t.controlLineHeightSmall};
 
         .rt-ie-any & {
-          padding-top: ${shiftVariableValue(t.controlPaddingYSmall, '-1')};
-          padding-bottom: ${shiftVariableValue(t.controlPaddingYSmall, '1')};
+          padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
+          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
         }
       }
 
@@ -80,14 +80,14 @@ const jsClasses = {
   sizeMedium(t: ITheme) {
     return css`
       &:not(.${classes.link}) {
-        padding: ${shiftVariableValue(t.controlPaddingYMedium, '-1')} 15px
-          ${shiftVariableValue(t.controlPaddingYMedium, '1')};
-        height: ${shiftVariableValue(t.controlHeightMedium, t.btnHeightShift)};
+        padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')} 15px
+          ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
+        height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};
         line-height: ${t.controlLineHeightMedium};
 
         .rt-ie-any & {
-          padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-2')};
-          padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, ' 2')};
+          padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-2')};
+          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, ' 2')};
         }
 
         .${classes.arrow} {
@@ -110,14 +110,14 @@ const jsClasses = {
       font-size: ${t.btnDeprecatedSizeMediumFontSize};
 
       &:not(.${classes.link}) {
-        height: ${shiftVariableValue(t.controlHeightMedium, t.btnHeightShift)};
-        padding: ${shiftVariableValue(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)} 15px
-          ${shiftVariableValue(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};
+        height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};
+        padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)} 15px
+          ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};
         line-height: ${t.controlLineHeightSmall};
 
         .rt-ie-any & {
-          padding-top: ${shiftVariableValue(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`)};
-          padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};
+          padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`)};
+          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};
         }
 
         .${classes.arrow} {
@@ -138,14 +138,14 @@ const jsClasses = {
   sizeLarge(t: ITheme) {
     return css`
       &:not(.${classes.link}) {
-        padding: ${shiftVariableValue(t.controlPaddingYLarge, '-1')} 20px
-          ${shiftVariableValue(t.controlPaddingYLarge, '1')};
-        height: ${shiftVariableValue(t.controlHeightLarge, t.btnHeightShift)};
+        padding: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')} 20px
+          ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};
+        height: ${DimensionFunctions.shift(t.controlHeightLarge, t.btnHeightShift)};
         line-height: ${t.controlLineHeightLarge};
 
         .rt-ie-any & {
-          padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-2')};
-          padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '2')};
+          padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
+          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
         }
 
         .${classes.arrow} {
