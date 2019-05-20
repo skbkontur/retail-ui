@@ -15,7 +15,7 @@ interface GithubIssue {
 interface Classes {
   root: React.CSSProperties;
   pathline: React.CSSProperties;
-  spinner: React.CSSProperties;
+  issues: React.CSSProperties;
 }
 
 interface PathlineRendererProps {
@@ -40,8 +40,10 @@ const styles = ({ baseBackground, fontFamily, fontSize, color }): Classes => ({
     color: color.light,
     wordBreak: 'break-all',
   },
-  spinner: {
+  issues: {
+    height: '20px',
     marginBottom: '10px',
+    outline: 'none',
   },
 });
 
@@ -109,31 +111,24 @@ export class PathlineRenderer extends React.Component<PathlineRendererProps, Pat
     return (
       <div className={classes.root}>
         <div className={classes.pathline}>{children}</div>
-        {!isFetching && (
-          <div>
-            {issueList.length > 0 && (
-              <div>
-                <p>Список связанных issues:</p>
-                <ul>
-                  {issueList.map(issue => {
-                    return (
-                      <li key={issue.id}>
-                        <Link href={issue.html_url} target="_blank">
-                          {issue.title}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
-        )}
-        {isFetching && (
-          <div className={classes.spinner}>
-            <Spinner type="mini" caption="Загрузка issues" />
-          </div>
-        )}
+        <div>
+          <details>
+            <summary className={classes.issues}>
+              {isFetching ? <Spinner type="mini" caption="Загрузка issues" /> : 'Список связанных issues:'}
+            </summary>
+            <ul>
+              {issueList.map(issue => {
+                return (
+                  <li key={issue.id}>
+                    <Link href={issue.html_url} target="_blank">
+                      {issue.title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </details>
+        </div>
         <Gapped gap={20}>
           {componentExistsInGuide && (
             <Link target="_blank" href={`${GUIDES_LINK}${componentName}`}>
