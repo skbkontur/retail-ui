@@ -8,7 +8,7 @@ const jsStyles = {
       color: ${t.linkColor};
 
       &:hover {
-        color: ${t.linkColor};
+        color: ${t.linkHoverColor};
         text-decoration-color: ${t.linkHoverTextDecoration};
       }
       &:active {

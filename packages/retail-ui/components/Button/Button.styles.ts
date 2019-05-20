@@ -168,7 +168,7 @@ const jsClasses = {
       color: ${t.linkColor};
 
       &:hover {
-        color: ${t.linkColor};
+        color: ${t.linkHoverColor};
         text-decoration: ${t.linkHoverTextDecoration};
       }
       &:active {
