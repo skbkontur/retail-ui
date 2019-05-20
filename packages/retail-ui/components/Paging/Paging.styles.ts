@@ -11,7 +11,7 @@ const jsStyles = {
 
   forwardLink(t: ITheme) {
     return css`
-      color: ${t.linkColor};
+      color: ${t.pagingForwardLinkColor};
     `;
   },
 
@@ -26,7 +26,7 @@ const jsStyles = {
   pageLink(t: ITheme) {
     return css`
       .${styles.pageLinkWrapper} & {
-        color: ${t.linkColor};
+        color: ${t.pagingForwardLinkColor};
       }
       .${styles.pageLinkWrapper} &:not(.${styles.active}):hover {
         background: ${t.pagingPageLinkHoverBg};
