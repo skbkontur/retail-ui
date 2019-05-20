@@ -1,8 +1,7 @@
 import FLAT_VARIABLES from '../../../components/variables.flat.less';
+import { defineInternalTheme } from "../ThemeHelpers";
 
-const FLAT_THEME = Object.assign({}, FLAT_VARIABLES);
-
-Object.defineProperties(FLAT_THEME, {
+const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES,{
   btnCheckedHoverBorderColor: {
     get() {
       return this.btnCheckedBg;
@@ -60,4 +59,5 @@ Object.defineProperties(FLAT_THEME, {
   },
 });
 
-export default Object.freeze(FLAT_THEME);
+
+export default FLAT_THEME;

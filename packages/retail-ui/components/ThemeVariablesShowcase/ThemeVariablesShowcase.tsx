@@ -8,7 +8,6 @@ import Gapped from '../Gapped';
 import Link from '../Link';
 import Sticky from '../Sticky';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
-import * as VariablesDescriptions from './VariablesDescription';
 import Tooltip from '../Tooltip';
 import { PopupPosition } from '../Popup';
 
@@ -29,11 +28,33 @@ interface VariableNameToComponentsMap {
   [variableName: string]: DescriptionsType;
 }
 
+interface ThemeDescriptionType {
+  [derivedVariableName: string]: string[];
+}
+
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
-const DESCRIPTIONS: DescriptionsType = VariablesDescriptions as DescriptionsType;
+
+const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
+const componentsContext = require.context('./ComponentDescriptions', false, /\.description\.ts$/);
+componentsContext.keys().forEach(fileName => {
+  COMPONENT_DESCRIPTIONS[fileName.replace('./', '').replace('.description.ts', '')] = componentsContext(
+    fileName,
+  ).default;
+});
+
+const DERIVATIONS_DESCRIPTIONS: ThemeDescriptionType = {};
+const themesContext = require.context('./ThemeDescriptions', false, /\.description\.ts$/);
+themesContext.keys().forEach(fileName => {
+  const themeDescription = themesContext(fileName).default;
+  Object.keys(themeDescription).forEach(key => {
+    DERIVATIONS_DESCRIPTIONS[key] = (DERIVATIONS_DESCRIPTIONS[key] || []).concat(themeDescription[key]);
+  });
+});
+
 const VARIABLE_TO_COMPONENTS_MAP: VariableNameToComponentsMap = {};
-Object.keys(DESCRIPTIONS).forEach(compName => {
-  const elements = DESCRIPTIONS[compName];
+const USED_DERIVATIONS: string[] = [];
+Object.keys(COMPONENT_DESCRIPTIONS).forEach(compName => {
+  const elements = COMPONENT_DESCRIPTIONS[compName];
   Object.keys(elements).forEach(elName => {
     const variables = elements[elName].variables;
     variables.forEach(varName => {
@@ -47,18 +68,29 @@ Object.keys(DESCRIPTIONS).forEach(compName => {
 
       if (!VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName]) {
         VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName] = {
-          contents: DESCRIPTIONS[compName][elName].contents,
+          contents: COMPONENT_DESCRIPTIONS[compName][elName].contents,
           variables: [varName],
         };
       } else if (!VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName].variables.includes(varName)) {
         VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName].variables.push(varName);
       }
+
+      if (DERIVATIONS_DESCRIPTIONS[varName]) {
+        DERIVATIONS_DESCRIPTIONS[varName].forEach(usedBaseVariable => {
+          if (!USED_DERIVATIONS.includes(usedBaseVariable)) {
+            USED_DERIVATIONS.push(usedBaseVariable);
+          }
+        });
+      }
     });
   });
 });
 
-const USED_VARIABLES = Object.keys(VARIABLE_TO_COMPONENTS_MAP).sort();
-const ALL_VARIABLES = Array.from(new Set(Object.keys(defaultVariables).concat(Object.keys(flatVariables)))).sort();
+const USED_VARIABLES = Object.keys(VARIABLE_TO_COMPONENTS_MAP);
+
+const ALL_VARIABLES = Object.keys(defaultVariables)
+  .concat(Object.keys(flatVariables))
+  .filter((variable, index, all) => all.indexOf(variable) === index);
 
 interface ShowcaseProps {
   isDebugMode?: boolean;
@@ -74,16 +106,11 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
   private variablesDiff: string[] = [];
 
   public componentWillMount(): void {
-    const hasUnusedVariables = this.props.isDebugMode && USED_VARIABLES.length !== ALL_VARIABLES.length;
-
-    if (hasUnusedVariables) {
-      let offset = 0;
-      USED_VARIABLES.forEach((v, i) => {
-        if (v !== ALL_VARIABLES[i + offset]) {
-          while (ALL_VARIABLES[i + offset] && v !== ALL_VARIABLES[i + offset]) {
-            this.variablesDiff.push(ALL_VARIABLES[i + offset]);
-            offset++;
-          }
+    if (this.props.isDebugMode) {
+      ALL_VARIABLES.forEach(variable => {
+        const found = USED_VARIABLES.includes(variable) || USED_DERIVATIONS.includes(variable);
+        if (!found) {
+          this.variablesDiff.push(variable);
         }
       });
     }
@@ -93,37 +120,39 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
     const selectedVariable = this.state.selectedVariable;
     const descriptionsToRender = selectedVariable
       ? VARIABLE_TO_COMPONENTS_MAP[selectedVariable.value] || {}
-      : DESCRIPTIONS;
+      : COMPONENT_DESCRIPTIONS;
 
     return (
-      <React.Fragment>
-        <ShowUnusedVariables diff={this.variablesDiff} />
-        <Sticky side={'top'}>
-          <div className={styles.searchBar}>
-            <Gapped vertical={false} gap={15}>
-              <ComboBox
-                getItems={this.getItems}
-                value={selectedVariable}
-                onChange={this.handleVariableChange}
-                onUnexpectedInput={this.handleUnexpectedVariableInput}
-                placeholder={'поиск по названию переменной'}
+      <Gapped vertical={false} gap={30} verticalAlign={'top'}>
+        <div>
+          <Sticky side={'top'}>
+            <div className={styles.searchBar}>
+              <Gapped vertical={false} gap={15}>
+                <ComboBox
+                  getItems={this.getItems}
+                  value={selectedVariable}
+                  onChange={this.handleVariableChange}
+                  onUnexpectedInput={this.handleUnexpectedVariableInput}
+                  placeholder={'поиск по названию переменной'}
+                />
+                {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}
+              </Gapped>
+            </div>
+          </Sticky>
+          {Object.keys(descriptionsToRender)
+            .sort()
+            .map(componentName => (
+              <ComponentShowcase
+                key={componentName}
+                name={componentName}
+                description={descriptionsToRender[componentName]}
+                isDebugMode={this.props.isDebugMode}
+                onVariableSelect={this.handleVariableChange}
               />
-              {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}
-            </Gapped>
-          </div>
-        </Sticky>
-        {Object.keys(descriptionsToRender)
-          .sort()
-          .map(componentName => (
-            <ComponentShowcase
-              key={componentName}
-              name={componentName}
-              description={descriptionsToRender[componentName]}
-              isDebugMode={this.props.isDebugMode}
-              onVariableSelect={this.handleVariableChange}
-            />
-          ))}
-      </React.Fragment>
+            ))}
+        </div>
+        <ShowUnusedVariables diff={this.variablesDiff} />
+      </Gapped>
     );
   }
   public componentWillUnmount(): void {
@@ -309,9 +338,10 @@ const ShowUnusedVariables = (props: { diff: string[] }) => {
 
   return (
     <div className={styles.unusedVariablesWarning}>
-      Неиспользованные переменные:
+      Неиспользованные переменные ({props.diff.length}
+      ):
       <ul>
-        {props.diff.map(v => (
+        {props.diff.sort().map(v => (
           <li key={v}>{v}</li>
         ))}
       </ul>

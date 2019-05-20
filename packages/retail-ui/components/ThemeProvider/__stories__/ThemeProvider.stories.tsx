@@ -2,7 +2,7 @@ import * as React from 'react';
 import { css } from 'emotion';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
-import { ITheme, IThemeIn } from '../../../lib/theming/Theme';
+import { ITheme } from '../../../lib/theming/Theme';
 import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
 import ComboBox from '../../ComboBox';
@@ -19,12 +19,12 @@ interface IState {
   currentThemeType: ThemeType;
   editorOpened: boolean;
   editingThemeItem?: IEditingThemeItem;
-  themes: IThemes
+  themes: IThemes;
 }
 interface IThemes {
   default: ITheme;
-  dark: IThemeIn;
-  flat: IThemeIn;
+  dark: ITheme;
+  flat: ITheme;
 }
 interface IEditingThemeItem {
   value: ThemeType;
@@ -54,8 +54,8 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       themes: {
         default: ThemeFactory.getDefaultTheme(),
         dark: ThemeFactory.create(darkThemeVariables),
-        flat: ThemeFactory.create(flatThemeVariables)
-      }
+        flat: ThemeFactory.create(flatThemeVariables),
+      },
     };
   }
 

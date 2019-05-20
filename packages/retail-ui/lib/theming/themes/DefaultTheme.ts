@@ -1,6 +1,7 @@
 import DEFAULT_VARIABLES from '../../../components/variables.less';
+import { defineInternalTheme } from '../ThemeHelpers';
 
-const DEFAULT_THEME = Object.create(DEFAULT_VARIABLES, {
+const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   borderColorError: {
     get() {
       return this.errorMain;
@@ -163,4 +164,4 @@ const DEFAULT_THEME = Object.create(DEFAULT_VARIABLES, {
   },
 });
 
-export default Object.freeze(DEFAULT_THEME);
+export default DEFAULT_THEME;
