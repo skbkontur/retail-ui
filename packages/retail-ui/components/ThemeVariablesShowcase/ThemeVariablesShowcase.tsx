@@ -9,21 +9,27 @@ import Link from '../Link';
 import Sticky from '../Sticky';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
 import * as VariablesDescriptions from './VariablesDescription';
+import Tooltip from '../Tooltip';
+import { PopupPosition } from '../Popup';
 
 interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
 }
+
+interface ComponentRowDescriptionType {
+  contents: string;
+  variables: Array<keyof ITheme>;
+}
+
 interface ComponentDescriptionType {
-  [elementName: string]: {
-    contents: string;
-    variables: Array<keyof ITheme>;
-  };
+  [elementName: string]: ComponentRowDescriptionType;
 }
 
 interface VariableNameToComponentsMap {
   [variableName: string]: DescriptionsType;
 }
 
+const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 const DESCRIPTIONS: DescriptionsType = VariablesDescriptions as DescriptionsType;
 const VARIABLE_TO_COMPONENTS_MAP: VariableNameToComponentsMap = {};
 Object.keys(DESCRIPTIONS).forEach(compName => {
@@ -164,7 +170,7 @@ interface ComponentShowcaseProps {
 }
 class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
   public render() {
-    const { description, isDebugMode } = this.props;
+    const { name, description, onVariableSelect, isDebugMode } = this.props;
     const elements = Object.keys(description);
 
     return (
@@ -175,64 +181,86 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 120 }}>ClassName</th>
-              <th>Styles</th>
-              <th style={{ width: 220 }}>Variable name</th>
-              <th style={{ width: 200 }}>Default value</th>
-              <th style={{ width: 200 }}>Flat value</th>
+              <th style={{ width: 200 }}>ClassName</th>
+              <th style={{ width: 220 }}>Variable Name</th>
+              <th style={{ width: 250 }}>Default Value</th>
+              <th style={{ width: 250 }}>Flat Value</th>
             </tr>
           </thead>
           <tbody>
-            {elements.map(el => {
-              const row = description[el];
-              const rowSpan = row.variables.length + 1;
-              return (
-                <React.Fragment key={`${this.props.name}_${el}`}>
-                  <tr className={styles.invisibleRow}>
-                    <td rowSpan={rowSpan} className={styles.className}>
-                      .{el}
-                    </td>
-                    <td rowSpan={rowSpan} className={styles.relativeCss}>
-                      {row.contents}
-                    </td>
-                    <td className={styles.invisibleCell} />
-                    <td className={styles.invisibleCell} />
-                    <td className={styles.invisibleCell} />
-                  </tr>
-                  {row.variables.map(varName => {
-                    const variableDefault = (defaultVariables as ITheme)[varName];
-                    const variableFlat = (flatVariables as ITheme)[varName];
-                    const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
-                    const hasOnlyDefaultVariable = isDebugMode && variableDefault && !variableFlat;
-
-                    return (
-                      <tr
-                        key={`${this.props.name}_${el}_${varName}`}
-                        className={hasNoVariables ? styles.suspiciousRow : undefined}
-                      >
-                        <td className={hasOnlyDefaultVariable ? styles.suspiciousCell : undefined}>
-                          <VariableName
-                            variableName={varName as string}
-                            onVariableSelect={this.props.onVariableSelect}
-                          />
-                        </td>
-                        <td>
-                          <VariableValue value={variableDefault} />
-                        </td>
-                        <td>
-                          <VariableValue value={variableFlat} />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </React.Fragment>
-              );
-            })}
+            {elements.map(el => (
+              <ComponentShowcaseRow
+                key={`${name}_${el}`}
+                element={el}
+                row={description[el]}
+                onVariableSelect={onVariableSelect}
+                isDebugMode={isDebugMode}
+              />
+            ))}
           </tbody>
         </table>
       </React.Fragment>
     );
   }
+}
+
+interface ComponentShowcaseRowProps {
+  element: string;
+  row: ComponentRowDescriptionType;
+  isDebugMode?: boolean;
+  onVariableSelect: (event: any, item: ComboBoxItem) => void;
+}
+
+class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
+  public render() {
+    const { element: el, row, isDebugMode } = this.props;
+    const rowSpan = row.variables.length + 1;
+
+    return (
+      <React.Fragment>
+        <tr className={styles.invisibleRow}>
+          <td rowSpan={rowSpan}>
+            <Tooltip
+              render={this.getCss}
+              pos={'bottom left'}
+              allowedPositions={CSS_TOOLTIP_ALLOWED_POSITIONS}
+              trigger={'click'}
+              useWrapper={false}
+            >
+              <span className={styles.elementName}>.{el}</span>
+            </Tooltip>
+          </td>
+          <td className={styles.invisibleCell} />
+          <td className={styles.invisibleCell} />
+          <td className={styles.invisibleCell} />
+        </tr>
+        {row.variables.map(varName => {
+          const variableDefault = (defaultVariables as ITheme)[varName];
+          const variableFlat = (flatVariables as ITheme)[varName];
+          const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
+          const hasOnlyDefaultVariable = isDebugMode && variableDefault && !variableFlat;
+
+          return (
+            <tr key={`${el}_${varName}`} className={hasNoVariables ? styles.suspiciousRow : undefined}>
+              <td className={hasOnlyDefaultVariable ? styles.suspiciousCell : undefined}>
+                <VariableName variableName={varName as string} onVariableSelect={this.props.onVariableSelect} />
+              </td>
+              <td>
+                <VariableValue value={variableDefault} />
+              </td>
+              <td>
+                <VariableValue value={variableFlat} />
+              </td>
+            </tr>
+          );
+        })}
+      </React.Fragment>
+    );
+  }
+
+  private getCss = () => {
+    return <span className={styles.relativeCss}>{this.props.row.contents}</span>;
+  };
 }
 
 interface VariableNameProps {
