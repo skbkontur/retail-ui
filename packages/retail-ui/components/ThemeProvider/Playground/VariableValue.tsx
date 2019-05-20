@@ -78,15 +78,15 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   private renderBaseVariableLink = () => {
     return (
       <div className={styles.baseVariableRoot}>
-        <div className={styles.colorIconWrapper}>
-          {this.colorIcon()}
+        {this.colorIcon()}
+        <div className={styles.baseLinkWrapper}>
+          <Gapped>
+            <Link onClick={this.emitClickEvent}>{this.props.baseVariable}</Link>
+            <Hint text={'Изменить значение'}>
+              <Link icon={<EditIcon />} onClick={this.handleEditLinkClick} />
+            </Hint>
+          </Gapped>
         </div>
-        <Gapped>
-          <Link onClick={this.emitClickEvent}>{this.props.baseVariable}</Link>
-          <Hint text={'Изменить значение'}>
-            <Link icon={<EditIcon/>} onClick={this.handleEditLinkClick}/>
-          </Hint>
-        </Gapped>
       </div>
     );
   };
@@ -97,7 +97,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
         {this.input}
         <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
           <div className={styles.linkRoot}>
-            <Link icon={<DeleteIcon/>} onClick={this.rollbackToBaseVariable}/>
+            <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
           </div>
         </Hint>
       </Gapped>
@@ -125,7 +125,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   };
 
   private colorIcon = () => {
-    return <div className={styles.colorIcon} style={{ background: this.state.value }}/>;
+    return <div className={styles.colorIcon} style={{ background: this.state.value }} />;
   };
 
   private handleEditLinkClick = () => {
