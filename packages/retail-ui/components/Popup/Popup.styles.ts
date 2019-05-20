@@ -6,10 +6,6 @@ const jsStyles = {
     return css`
       border-radius: ${t.popupBorderRadius};
       border: ${t.popupBorder} ${t.popupBorderColor};
-
-      .rt-ie8 & {
-        border: 1px solid ${t.dropdownMenuBorder};
-      }
     `;
   },
 

@@ -56,11 +56,6 @@ const DEFAULT_THEME = Object.create(DEFAULT_VARIABLES, {
       return this.borderColorFocusLight;
     },
   },
-  tooltipBorder: {
-    get() {
-      return this.dropdownMenuBorder;
-    },
-  },
   calendarCellHoverBgColor: {
     get() {
       return this.bgActive;
