@@ -56,7 +56,7 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPayBg, '25%')};
+        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorWarning, '25%')};
       }
     `;
   },

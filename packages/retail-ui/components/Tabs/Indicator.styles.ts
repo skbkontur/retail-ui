@@ -22,7 +22,7 @@ const jsStyles = {
 
   warning(t: ITheme) {
     return css`
-      background: ${t.btnPayBg};
+      background: ${t.tabColorWarning};
     `;
   },
 
