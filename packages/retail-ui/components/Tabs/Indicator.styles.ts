@@ -10,7 +10,7 @@ const jsStyles = {
 
   primary(t: ITheme) {
     return css`
-      background: ${t.btnPrimaryBg};
+      background: ${t.tabColorPrimary};
     `;
   },
 

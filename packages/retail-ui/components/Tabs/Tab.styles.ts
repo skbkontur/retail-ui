@@ -40,7 +40,7 @@ const jsStyles = {
   primary(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPrimaryBg, '25%')};
+        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorPrimary, '25%')};
       }
     `;
   },
