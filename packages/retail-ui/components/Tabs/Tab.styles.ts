@@ -64,7 +64,7 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnDangerBg, '25%')};
+        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorError, '25%')};
       }
     `;
   },

@@ -28,7 +28,7 @@ const jsStyles = {
 
   error(t: ITheme) {
     return css`
-      background: ${t.btnDangerBg};
+      background: ${t.tabColorError};
     `;
   },
 };
