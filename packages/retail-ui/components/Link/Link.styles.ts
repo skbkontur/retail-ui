@@ -30,7 +30,7 @@ const jsStyles = {
         text-decoration: ${t.linkHoverTextDecoration};
       }
       .${styles.useGrayed}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
         text-decoration: ${t.linkHoverTextDecoration};
       }
     `;
@@ -38,14 +38,14 @@ const jsStyles = {
 
   useGrayed(t: ITheme) {
     return css`
-      color: ${t.textColorDisabled};
+      color: ${t.linkDisabledColor};
 
       &:hover {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
         text-decoration-color: ${t.linkHoverTextDecoration};
       }
       &:active {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
       }
     `;
   },
@@ -53,31 +53,31 @@ const jsStyles = {
   disabled(t: ITheme) {
     return css`
       .${styles.useDefault}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
       .${styles.useSuccess}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
       .${styles.useDanger}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
       .${styles.useGrayed}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
     `;
