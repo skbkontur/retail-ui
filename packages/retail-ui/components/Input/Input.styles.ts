@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import classes from './Input.less';
 import { ITheme } from '../../lib/theming/Theme';
-import { shiftVariableValue } from '../../lib/styles/StyleHelpers';
+import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 
 const jsClasses = {
   root(t: ITheme) {
@@ -129,8 +129,8 @@ const jsClasses = {
       height: ${t.controlHeightSmall};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYSmall, '-1')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYSmall, '1')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
       }
     `;
   },
@@ -143,8 +143,8 @@ const jsClasses = {
       height: ${t.controlHeightMedium};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
       }
     `;
   },
@@ -157,8 +157,8 @@ const jsClasses = {
       height: ${t.controlHeightMedium};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
       }
     `;
   },
@@ -167,12 +167,12 @@ const jsClasses = {
     return css`
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
-      padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-1')};
-      padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '1')};
+      padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};
+      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-2')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '2')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
       }
     `;
   },
