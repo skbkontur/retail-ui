@@ -22,7 +22,7 @@ const jsStyles = {
 
   focus(t: ITheme) {
     return css`
-      border: 2px solid ${t.borderColorFocus};
+      border: 2px solid ${t.tabColorFocus};
     `;
   },
 

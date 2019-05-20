@@ -4,7 +4,7 @@ import { ITheme } from '../../lib/theming/Theme';
 const jsStyles = {
   root(t: ITheme) {
     return css`
-      background: ${t.borderColorFocus};
+      background: ${t.tabColorFocus};
     `;
   },
 
