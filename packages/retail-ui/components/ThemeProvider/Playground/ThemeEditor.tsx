@@ -26,41 +26,47 @@ interface IGroup {
 export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditorState> {
   public state = {
     groups: [],
-    isLoading: true
+    isLoading: true,
   };
 
   public render() {
-    return (
-      <Gapped verticalAlign={'middle'}>
-        {this.state.isLoading ? <Loader type="big" active className={styles.loader} /> : this.renderGroups()}
-      </Gapped>
+    return this.state.isLoading ? (
+      <div className={styles.loaderWrapper}>
+        <Loader type="big" active className={styles.loader} />
+      </div>
+    ) : (
+      this.renderGroups()
     );
   }
 
   public componentDidMount() {
     setTimeout(() => {
-      this.setState({groups: VARIABLES_GROUPS, isLoading: false});
-    }, 500)
+      this.setState({ groups: VARIABLES_GROUPS, isLoading: false });
+    }, 500);
   }
 
   private renderGroups = () => {
     const { editingTheme, currentTheme, onValueChange } = this.props;
     const keys = ThemeFactory.getKeys(editingTheme);
 
-    return this.state.groups.map((i: IGroup) => (
-      <Group
-        editingTheme={editingTheme}
-        currentTheme={currentTheme}
-        onValueChange={onValueChange}
-        title={i.title}
-        variables={keys.filter(
-          i.isCommon
-            ? isCommonVariable.bind(null, this.state.groups.reduce(prefixesReducer, []))
-            : isGroupVariable.bind(null, i.prefix),
-        )}
-        key={i.title}
-      />
-    ));
+    return (
+      <Gapped verticalAlign={'middle'}>
+        {this.state.groups.map((i: IGroup) => (
+          <Group
+            editingTheme={editingTheme}
+            currentTheme={currentTheme}
+            onValueChange={onValueChange}
+            title={i.title}
+            variables={keys.filter(
+              i.isCommon
+                ? isCommonVariable.bind(null, this.state.groups.reduce(prefixesReducer, []))
+                : isGroupVariable.bind(null, i.prefix),
+            )}
+            key={i.title}
+          />
+        ))}
+      </Gapped>
+    );
   };
 }
 
