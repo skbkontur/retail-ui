@@ -111,6 +111,7 @@
     "flow-bin": "^0.91.0",
     "flow-typed": "^2.5.1",
     "fork-ts-checker-webpack-plugin": "^0.4.9",
+    "fs-extra": "^8.0.1",
     "fs-readdir-recursive": "^1.1.0",
     "gh-pages": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
