@@ -63,12 +63,12 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       & .${styles.box} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.errorMain};
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError};
         border-color: ${t.borderColorError};
       }
 
       .rt-ie8 & .${styles.box} {
-        outline: 1px solid ${t.errorMain};
+        outline: 1px solid ${t.borderColorError};
       }
     `;
   },

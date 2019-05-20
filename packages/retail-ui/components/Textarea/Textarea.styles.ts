@@ -43,12 +43,12 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       .${styles.textarea}& {
-        border-color: ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border-color: ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
       .${styles.textarea}&:focus {
-        border-color: ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border-color: ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
     `;
   },

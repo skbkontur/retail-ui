@@ -95,11 +95,11 @@ const jsClasses = {
   error(t: ITheme) {
     return css`
       .${classes.root}& {
-        border-color: ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border-color: ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
       .rt-ie-any .${classes.root}& {
-        outline: 1px solid ${t.errorMain};
+        outline: 1px solid ${t.borderColorError};
       }
     `;
   },

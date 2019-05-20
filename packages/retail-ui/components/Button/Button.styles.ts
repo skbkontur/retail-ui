@@ -32,7 +32,7 @@ const jsClasses = {
   error(t: ITheme) {
     return css`
       .${classes.root}:not(.${classes.link}) & {
-        box-shadow: 0 0 0 2px ${t.errorMain};
+        box-shadow: 0 0 0 2px ${t.borderColorError};
       }
       .${classes.wrap} .${classes.root}.${classes.link} & {
         background: ${t.errorSecondary};
@@ -287,19 +287,19 @@ const jsClasses = {
   arrow_error(t: ITheme) {
     return css`
       .${classes.root} .${classes.arrow}& {
-        box-shadow: 2px -2px 0 0 ${t.errorMain};
+        box-shadow: 2px -2px 0 0 ${t.borderColorError};
       }
       .${classes.root}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.errorMain};
+        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
       }
       .${classes.root}.${classes.checked} .${classes.arrow}& {
-        box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.errorMain};
+        box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.borderColorError};
       }
       .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.errorMain};
+        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
       }
       .${classes.root}.${classes.disabled} .${classes.arrow}& {
-        box-shadow: 2px -2px 0 0 ${t.errorMain};
+        box-shadow: 2px -2px 0 0 ${t.borderColorError};
       }
     `;
   },

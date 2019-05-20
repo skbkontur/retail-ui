@@ -15,8 +15,8 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       .${styles.token}& {
-        border: 1px solid ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border: 1px solid ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
     `;
   },
