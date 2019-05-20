@@ -16,7 +16,7 @@ const jsStyles = {
 
   success(t: ITheme) {
     return css`
-      background: ${t.btnSuccessBg};
+      background: ${t.tabColorSuccess};
     `;
   },
 

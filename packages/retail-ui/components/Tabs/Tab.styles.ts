@@ -48,7 +48,7 @@ const jsStyles = {
   success(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnSuccessBg, '25%')};
+        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorSuccess, '25%')};
       }
     `;
   },
