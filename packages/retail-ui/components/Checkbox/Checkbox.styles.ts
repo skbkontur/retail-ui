@@ -109,10 +109,10 @@ const jsStyles = {
       background: ${t.chbBoxIndeterminateBg};
 
       .${styles.root}:hover & {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgHover, '5%')};
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
       }
       .${styles.root}:active & {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgActive, '15%')};
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
       }
     `;
   },

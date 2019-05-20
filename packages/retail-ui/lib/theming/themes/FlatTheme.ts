@@ -43,16 +43,6 @@ Object.defineProperties(FLAT_THEME, {
       return this.chbCheckedBg;
     },
   },
-  chbBoxIndeterminateBgHover: {
-    get() {
-      return this.chbCheckedBg;
-    },
-  },
-  chbBoxIndeterminateBgActive: {
-    get() {
-      return this.chbCheckedBg;
-    },
-  },
   radioHoverBg: {
     get() {
       return this.chbHoverBg;
