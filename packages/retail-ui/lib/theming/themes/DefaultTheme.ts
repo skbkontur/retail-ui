@@ -56,11 +56,6 @@ const DEFAULT_THEME = Object.create(DEFAULT_VARIABLES, {
       return this.borderColorFocusLight;
     },
   },
-  tooltipBg: {
-    get() {
-      return this.bgDefault;
-    },
-  },
   tooltipBorder: {
     get() {
       return this.dropdownMenuBorder;
