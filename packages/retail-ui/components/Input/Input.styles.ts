@@ -83,11 +83,11 @@ const jsClasses = {
   warning(t: ITheme) {
     return css`
       .${classes.root}& {
-        border-color: ${t.warningMain};
-        box-shadow: 0 0 0 1px ${t.warningMain};
+        border-color: ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
       .rt-ie-any .${classes.root}& {
-        outline: 1px solid ${t.warningMain};
+        outline: 1px solid ${t.borderColorWarning};
       }
     `;
   },

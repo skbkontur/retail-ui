@@ -56,12 +56,12 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       .${styles.textarea}& {
-        border-color: ${t.warningMain};
-        box-shadow: 0 0 0 1px ${t.warningMain};
+        border-color: ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
       .${styles.textarea}&:focus {
-        border-color: ${t.warningMain};
-        box-shadow: 0 0 0 1px ${t.warningMain};
+        border-color: ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
     `;
   },

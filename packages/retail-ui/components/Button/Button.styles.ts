@@ -13,7 +13,7 @@ const jsClasses = {
   warning(t: ITheme) {
     return css`
       .${classes.root}:not(.${classes.link}) & {
-        box-shadow: 0 0 0 2px ${t.warningMain};
+        box-shadow: 0 0 0 2px ${t.borderColorWarning};
       }
     `;
   },
@@ -270,16 +270,16 @@ const jsClasses = {
         box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
       }
       .${classes.root}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.warningMain};
+        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
       }
       .${classes.root}.${classes.checked} .${classes.arrow}& {
-        box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.warningMain};
+        box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.borderColorWarning};
       }
       .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.warningMain};
+        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
       }
       .${classes.root}.${classes.disabled} .${classes.arrow}& {
-        box-shadow: 2px -2px 0 0 ${t.warningMain};
+        box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
       }
     `;
   },

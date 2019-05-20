@@ -50,12 +50,12 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       & .${styles.box} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.warningMain};
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning};
         border-color: ${t.borderColorWarning};
       }
 
       .rt-ie8 & .${styles.box} {
-        outline: 1px solid ${t.warningMain};
+        outline: 1px solid ${t.borderColorWarning};
       }
     `;
   },
