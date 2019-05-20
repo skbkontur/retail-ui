@@ -55,11 +55,11 @@ const jsStyles = {
   isWarning(t: ITheme) {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
-        background: ${t.warningMain};
-        border-color: ${t.warningMain};
+        background: ${t.toggleBgWarning};
+        border-color: ${t.toggleBgWarning};
 
         .${styles.activeBackground} {
-          background: ${t.warningMain};
+          background: ${t.toggleBgWarning};
         }
       }
     `;
