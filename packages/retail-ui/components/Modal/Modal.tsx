@@ -54,6 +54,7 @@ export interface ModalState {
   stackPosition: number;
   horizontalScroll: boolean;
   width: number | null;
+  scrollBar: boolean;
 }
 
 /**
@@ -79,6 +80,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     stackPosition: 0,
     horizontalScroll: false,
     width: null,
+    scrollBar: false,
   };
 
   private stackSubscription: EventSubscription | null = null;
@@ -98,6 +100,13 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     if (this.containerNode) {
       this.containerNode.addEventListener('scroll', LayoutEvents.emit);
     }
+
+    LayoutEvents.addListener(() => {
+      const scrollBar = this.isThereScrollBar();
+      if (this.state.scrollBar !== scrollBar) {
+        this.setState({ scrollBar });
+      }
+    })
   }
 
   public componentWillUnmount() {
@@ -154,7 +163,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
-    if (this.props.width || (this.state.width !== null && this.isThereScrollBar())) {
+    if (this.props.width || (this.state.width !== null && this.state.scrollBar)) {
       style.width = this.state.width || this.props.width;
     } else {
       containerStyle.width = 'auto';
