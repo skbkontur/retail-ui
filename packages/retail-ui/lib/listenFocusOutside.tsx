@@ -1,8 +1,6 @@
-import events from 'add-event-listener';
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
-
-const isFF = Boolean(~navigator.userAgent.indexOf('Firefox'));
+import { isFirefox } from './utils';
 
 interface FocusOutsideEventHandler {
   elements: HTMLElement[] | (() => HTMLElement[]);
@@ -20,18 +18,19 @@ function addHandleEvent() {
    * Mozilla Firefix
    *   ¯\_(ツ)_/¯
    */
-  events.addEventListener(
-    document.body,
-    isFF ? 'focus' : ('focusin' as 'focus'),
-    isFF ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
-    isFF,
+  document.body.addEventListener(
+    isFirefox ? 'focus' : ('focusin' as 'focus'),
+    isFirefox ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
+    isFirefox,
   );
 }
 
-if (document.readyState === 'complete') {
-  addHandleEvent();
-} else {
-  events.addEventListener(window, 'load', addHandleEvent);
+if (typeof(document) !== 'undefined') {
+  if (document.readyState === 'complete') {
+    addHandleEvent();
+  } else {
+    window.addEventListener('load', addHandleEvent);
+  }
 }
 
 function handleNativeFocus(event: UIEvent) {

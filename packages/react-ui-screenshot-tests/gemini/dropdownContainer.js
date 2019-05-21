@@ -15,34 +15,19 @@ var initTest = (suite, showLongItems) =>
       }
     });
 
-var pageScrollTest = suite =>
+var innerScrollTest = suite =>
   suite.capture('shot', actions => {
     actions.executeJS(function(window) {
-      var doc = window.document.documentElement;
-      doc.scrollTop = doc.scrollHeight - doc.offsetHeight;
-      doc.scrollLeft = doc.scrollWidth - doc.offsetWidth;
+      var innerScroll = window.document.querySelector('#inner-scroll');
+      innerScroll.scrollTop = innerScroll.scrollHeight;
+      innerScroll.scrollLeft = innerScroll.scrollWidth;
     });
   });
-
-var innerScrollTest = suite =>
-  suite
-    .capture('shot', actions => {
-      actions.executeJS(function(window) {
-        var innerScroll = window.document.querySelector('#inner-scroll');
-        innerScroll.scrollTop = innerScroll.scrollHeight - innerScroll.offsetHeight;
-        innerScroll.scrollLeft = innerScroll.scrollWidth - innerScroll.offsetWidth;
-      });
-    })
-    .skip.in('ie11', 'ie иногда не до конца скролит элемент (разница в пару px)');
 
 gemini.suite('DropdownContainer', () => {
   gemini.suite('short Items', () => {
     gemini.suite('items', suite => {
       initTest(suite).capture('shot');
-    });
-
-    gemini.suite('page scroll', suite => {
-      pageScrollTest(initTest(suite));
     });
 
     gemini.suite('inner scroll', suite => {
@@ -53,10 +38,6 @@ gemini.suite('DropdownContainer', () => {
   gemini.suite('long Items', () => {
     gemini.suite('items', suite => {
       initTest(suite, true).capture('shot');
-    });
-
-    gemini.suite('page scroll', suite => {
-      pageScrollTest(initTest(suite, true));
     });
 
     gemini.suite('inner scroll', suite => {

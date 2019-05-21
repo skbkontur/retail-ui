@@ -9,6 +9,7 @@ import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
 export interface AutocompleteProps extends InputProps {
   /** Функция отрисовки элемента меню */
@@ -91,6 +92,7 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
   private menu: Nullable<Menu>;
 
   private focused: boolean = false;
+  private requestId: number = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
 
@@ -140,7 +142,7 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
       ref: this.refInput,
     };
     return (
-      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleBlur}>
+      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
         <span style={{ display: 'inline-block' }}>
           <Input {...inputProps} />
           {this.renderMenu()}
@@ -221,6 +223,11 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     }
   };
 
+  private handleClickOutside = (e: Event) => {
+    fixClickFocusIE(e);
+    this.handleBlur();
+  };
+
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
@@ -298,13 +305,14 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     }
 
     let promise;
+    const expectingId = (this.requestId += 1);
     if (typeof source === 'function') {
       promise = source(pattern);
     } else {
       promise = match(pattern, source);
     }
     promise.then(items => {
-      if (this.opened) {
+      if (this.opened && expectingId === this.requestId) {
         this.setState({
           items,
           selected: -1,

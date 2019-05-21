@@ -1,0 +1,15 @@
+/* @flow */
+
+export type CloseProps = {|
+  disableClose?: boolean,
+  requestClose: () => void,
+|};
+
+export type ModalContextProps = {|
+  additionalPadding?: boolean,
+  hasHeader?: boolean,
+  close?: CloseProps,
+  horizontalScroll?: boolean,
+|};
+
+declare export var ModalContext: React$Context<ModalContextProps>;

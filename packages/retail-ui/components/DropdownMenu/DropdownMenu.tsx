@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { Nullable } from '../../typings/utility-types';
 import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { isProductionEnv } from '../internal/currentEnvironment';
+import { PopupPosition } from '../Popup';
 
 export interface DropdownMenuProps {
   /** Максимальная высота меню */
@@ -17,6 +19,11 @@ export interface DropdownMenuProps {
 
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  /**
+   * Массив разрешенных положений меню относительно caption'а.
+   * @default ['bottom left', 'bottom right', 'top left', 'top right']
+   */
+  positions?: PopupPosition[];
 
   onOpen?: () => void;
   onClose?: () => void;
@@ -33,7 +40,10 @@ export interface DropdownMenuProps {
 export default class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static defaultProps = {
     disableAnimations: false,
+    positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };
+
+  private popupMenu: Nullable<PopupMenu> = null;
 
   constructor(props: DropdownMenuProps) {
     super(props);
@@ -49,13 +59,14 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
     }
     return (
       <PopupMenu
+        ref={this.refPopupMenu}
         caption={this.props.caption}
         menuMaxHeight={this.props.menuMaxHeight}
         menuWidth={this.props.menuWidth}
         onChangeMenuState={this.handleChangeMenuState}
         popupHasPin={false}
         popupMargin={0}
-        positions={['bottom left', 'bottom right', 'top left', 'top right']}
+        positions={this.props.positions}
         disableAnimations={this.props.disableAnimations}
         header={this.props.header}
         footer={this.props.footer}
@@ -64,6 +75,20 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
       </PopupMenu>
     );
   }
+
+  public open = (): void => {
+    if (this.popupMenu) {
+      this.popupMenu.open();
+    }
+  };
+
+  public close = (): void => {
+    if (this.popupMenu) {
+      this.popupMenu.close();
+    }
+  };
+
+  private refPopupMenu = (ref: Nullable<PopupMenu>) => (this.popupMenu = ref);
 
   private handleChangeMenuState = (menuVisible: boolean) => {
     if (menuVisible && this.props.onOpen) {

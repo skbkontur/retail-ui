@@ -1,4 +1,4 @@
-import { AddressObject, EstateStatuses, FiasId, FiasObject, House, Stead, StructureStatuses } from '../types';
+import { AddressObject, EstateStatuses, FiasId, FiasObject, House, Stead, Room, StructureStatuses } from '../types';
 
 export class FiasData {
   public static isAddressObject = (data: FiasObject): data is AddressObject => {
@@ -20,6 +20,12 @@ export class FiasData {
     );
   };
 
+  public static isRoom = (data: FiasObject): data is Room => {
+    return (
+      data && data.hasOwnProperty('flatType') && data.hasOwnProperty('flatNumber') && data.hasOwnProperty('liveStatus')
+    );
+  };
+
   constructor(public data: FiasObject) {}
 
   public get name(): string {
@@ -30,6 +36,8 @@ export class FiasData {
       return data.number;
     } else if (FiasData.isHouse(data)) {
       return data.number || data.structureNumber || data.buildingNumber || '';
+    } else if (FiasData.isRoom(data)) {
+      return data.flatNumber;
     }
     return '';
   }
@@ -39,7 +47,7 @@ export class FiasData {
   }
 
   public get code(): string {
-    return FiasData.isAddressObject(this.data) ? this.data.code : '';
+    return (FiasData.isAddressObject(this.data) && this.data.code) || '';
   }
 
   public get number(): string {
@@ -55,7 +63,11 @@ export class FiasData {
   }
 
   public get fiasId(): FiasId {
-    return (this.data && this.data.fiasId) || '';
+    return this.data.fiasId;
+  }
+
+  public get parentFiasId(): FiasId {
+    return (this.data && this.data.parentFiasId) || '';
   }
 
   public get postalCode(): string {

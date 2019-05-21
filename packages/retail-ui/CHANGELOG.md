@@ -3,6 +3,209 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.49.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.49.0...retail-ui@0.49.1) (2019-05-16)
+
+
+### Bug Fixes
+
+* **Select:** bind public focus function to component instance ([5909b9e](https://github.com/skbkontur/retail-ui/commit/5909b9e))
+* **Toggle:** fix overflow issue in Safari ([#1411](https://github.com/skbkontur/retail-ui/issues/1411)) ([7073cb5](https://github.com/skbkontur/retail-ui/commit/7073cb5))
+
+
+
+
+
+# [0.49.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.48.0...retail-ui@0.49.0) (2019-05-14)
+
+
+### Bug Fixes
+
+* **flow:** update props ([c652880](https://github.com/skbkontur/retail-ui/commit/c652880))
+* **Paging:** add autofocus for IE11 ([e434d80](https://github.com/skbkontur/retail-ui/commit/e434d80)), closes [#1358](https://github.com/skbkontur/retail-ui/issues/1358)
+* **TokenInput:** add mapping `renderValue` before copying to clipboard ([79c76c0](https://github.com/skbkontur/retail-ui/commit/79c76c0)), closes [#1336](https://github.com/skbkontur/retail-ui/issues/1336)
+
+
+### Features
+
+* **TokenInput:** add prop `valueToString` ([9e7bf50](https://github.com/skbkontur/retail-ui/commit/9e7bf50))
+
+
+
+
+
+# [0.48.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.47.0...retail-ui@0.48.0) (2019-04-30)
+
+
+### Bug Fixes
+
+* **ComboBox:** fix input text with single item behavior ([#1360](https://github.com/skbkontur/retail-ui/issues/1360)) ([c6fa7a5](https://github.com/skbkontur/retail-ui/commit/c6fa7a5)), closes [#992](https://github.com/skbkontur/retail-ui/issues/992)
+* **Fias:** search postal Code through all fields ([7433d12](https://github.com/skbkontur/retail-ui/commit/7433d12))
+* **Fias:** validate all fields ([8d126f9](https://github.com/skbkontur/retail-ui/commit/8d126f9))
+* **flow:** add children to Modal props ([1e7e420](https://github.com/skbkontur/retail-ui/commit/1e7e420))
+* **flow:** add missed props ([5538a61](https://github.com/skbkontur/retail-ui/commit/5538a61))
+* **Modal:** change modal position according to the guides ([0e7e053](https://github.com/skbkontur/retail-ui/commit/0e7e053)), closes [#1331](https://github.com/skbkontur/retail-ui/issues/1331)
+* **Modal:** fix closing on background click ([089bad0](https://github.com/skbkontur/retail-ui/commit/089bad0)), closes [#810](https://github.com/skbkontur/retail-ui/issues/810) [#1352](https://github.com/skbkontur/retail-ui/issues/1352)
+* **Popup:** remove hardcoded maxWidth ([721b751](https://github.com/skbkontur/retail-ui/commit/721b751)), closes [#1343](https://github.com/skbkontur/retail-ui/issues/1343)
+* **ScrollContainer:** do not access the DOM until it is surely ready ([2b59064](https://github.com/skbkontur/retail-ui/commit/2b59064)), closes [#1371](https://github.com/skbkontur/retail-ui/issues/1371)
+
+
+### Features
+
+* **ComboBox:** add prop `renderAddButton` ([#1365](https://github.com/skbkontur/retail-ui/issues/1365)) ([55345e1](https://github.com/skbkontur/retail-ui/commit/55345e1))
+* **DropdownMenu:** add positions prop ([7fc607d](https://github.com/skbkontur/retail-ui/commit/7fc607d))
+* **MenuItem:** add `link` prop ([d705f19](https://github.com/skbkontur/retail-ui/commit/d705f19))
+
+
+
+
+
+# [0.47.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.2...retail-ui@0.47.0) (2019-04-22)
+
+
+### Bug Fixes
+
+* **Button:** add border radius & background styles in flat theme ([59486e3](https://github.com/skbkontur/retail-ui/commit/59486e3))
+* **Button:** fix arrow position in flat version for small button ([2ce7b42](https://github.com/skbkontur/retail-ui/commit/2ce7b42))
+* **Button:** fix border color at checked + focused state on hover ([bad4f08](https://github.com/skbkontur/retail-ui/commit/bad4f08))
+* **Button:** fix border overlap in visually focused state with error/warning ([72d2787](https://github.com/skbkontur/retail-ui/commit/72d2787))
+* **Button:** fix stylelint `eol-whitespace` error ([461850f](https://github.com/skbkontur/retail-ui/commit/461850f))
+* **Button:** fixed disabled state shadow styles at flat version ([ad5db6f](https://github.com/skbkontur/retail-ui/commit/ad5db6f))
+* **Button:** fixed flat styles in IE ([ad3f558](https://github.com/skbkontur/retail-ui/commit/ad3f558))
+* **Input:** add background & border color styles in flat theme ([b106eb2](https://github.com/skbkontur/retail-ui/commit/b106eb2))
+* **Paging:** changed detecting of pressed key ([f7b5f24](https://github.com/skbkontur/retail-ui/commit/f7b5f24))
+* **Radio:** fixed outline padding in flat styles ([0baf333](https://github.com/skbkontur/retail-ui/commit/0baf333))
+* **Textarea:** add background & border color styles in flat theme ([003c268](https://github.com/skbkontur/retail-ui/commit/003c268))
+* **Toggle:** add white outline to focused box-shadow ([7b7a3c9](https://github.com/skbkontur/retail-ui/commit/7b7a3c9))
+
+
+### Features
+
+* **Button:** add arrow styles in flat version ([8e1d268](https://github.com/skbkontur/retail-ui/commit/8e1d268))
+* **Button:** add arrows shadow & border styles in flat theme ([1889232](https://github.com/skbkontur/retail-ui/commit/1889232))
+* **Button, Checkbox, Radio, Toggle:** add common outline color variable ([58fac79](https://github.com/skbkontur/retail-ui/commit/58fac79))
+
+
+
+
+
+## [0.46.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.1...retail-ui@0.46.2) (2019-04-17)
+
+
+### Bug Fixes
+
+* **Tabs:** context provider render children for reac@15 ([f0df170](https://github.com/skbkontur/retail-ui/commit/f0df170))
+
+
+
+
+
+## [0.46.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.46.0...retail-ui@0.46.1) (2019-04-16)
+
+
+### Bug Fixes
+
+* **Autocomplete:** restore lost focus in IE ([a232110](https://github.com/skbkontur/retail-ui/commit/a232110)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **ComboBox:** add missing callbacks ([fab3ff6](https://github.com/skbkontur/retail-ui/commit/fab3ff6))
+* **ComboBox:** restore lost focus to outer element on clickOutside in IE ([702f60c](https://github.com/skbkontur/retail-ui/commit/702f60c)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **ComboBoxOld:** restore lost focus in IE ([dff471b](https://github.com/skbkontur/retail-ui/commit/dff471b)), closes [#1075](https://github.com/skbkontur/retail-ui/issues/1075)
+* **Hint:** render popup even if no text provided ([cf4a473](https://github.com/skbkontur/retail-ui/commit/cf4a473))
+* **Tabs:** correct work with FunctionalComponents ([93163db](https://github.com/skbkontur/retail-ui/commit/93163db)), closes [#1337](https://github.com/skbkontur/retail-ui/issues/1337)
+* **Tabs:** error findDOMNode on unmounted active tab component ([90142cb](https://github.com/skbkontur/retail-ui/commit/90142cb))
+* **TopBarDropdown:** added methods open & close ([9e7ddcc](https://github.com/skbkontur/retail-ui/commit/9e7ddcc))
+
+
+
+
+
+# [0.46.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.45.0...retail-ui@0.46.0) (2019-04-08)
+
+
+### Bug Fixes
+
+* **Button:** compare elements reliable way ([0d7843e](https://github.com/skbkontur/retail-ui/commit/0d7843e)), closes [#1267](https://github.com/skbkontur/retail-ui/issues/1267)
+* preventDefault inside passive event listener ([055eb48](https://github.com/skbkontur/retail-ui/commit/055eb48)), closes [#1326](https://github.com/skbkontur/retail-ui/issues/1326)
+* safe components usage for SSR ([#1312](https://github.com/skbkontur/retail-ui/issues/1312)) ([0c8c91e](https://github.com/skbkontur/retail-ui/commit/0c8c91e))
+* **ComboBoxOld:** args types for renderTotalCount and onInputChange ([4ddd480](https://github.com/skbkontur/retail-ui/commit/4ddd480))
+* **Fias:** allow to fill stead and house without street ([9c728e5](https://github.com/skbkontur/retail-ui/commit/9c728e5)), closes [#1314](https://github.com/skbkontur/retail-ui/issues/1314)
+* **Menu,InternalMenu:** compare elements reliable way ([4c60cb4](https://github.com/skbkontur/retail-ui/commit/4c60cb4)), closes [#1267](https://github.com/skbkontur/retail-ui/issues/1267)
+* **Modal:** compare elements reliable way ([fdba164](https://github.com/skbkontur/retail-ui/commit/fdba164)), closes [#1267](https://github.com/skbkontur/retail-ui/issues/1267)
+
+
+### Features
+
+* **Fias:** add rooms search ([10843e1](https://github.com/skbkontur/retail-ui/commit/10843e1))
+
+
+
+
+
+# [0.45.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.3...retail-ui@0.45.0) (2019-04-01)
+
+
+### Bug Fixes
+
+* **Autocomplete:** handle concurrent requests ([dd07ef4](https://github.com/skbkontur/retail-ui/commit/dd07ef4)), closes [#1299](https://github.com/skbkontur/retail-ui/issues/1299)
+* **Logotype:** async load products widget script ([85312d9](https://github.com/skbkontur/retail-ui/commit/85312d9))
+* **Popup:** children is not required by prop-types ([c976312](https://github.com/skbkontur/retail-ui/commit/c976312)), closes [#1292](https://github.com/skbkontur/retail-ui/issues/1292)
+* **ScrollContainer:** multiple scrollbars on OSX ([#827](https://github.com/skbkontur/retail-ui/issues/827)) ([118b347](https://github.com/skbkontur/retail-ui/commit/118b347))
+* **Tooltip:** deactivate RenderLayer by default ([0818973](https://github.com/skbkontur/retail-ui/commit/0818973)), closes [#1304](https://github.com/skbkontur/retail-ui/issues/1304)
+
+
+### Features
+
+* **flow:** add typings ([42f8fed](https://github.com/skbkontur/retail-ui/commit/42f8fed))
+
+
+### Reverts
+
+* **Popup:** fix regress with dynamically changing callbacks ([1b3bd4e](https://github.com/skbkontur/retail-ui/commit/1b3bd4e)), closes [#1297](https://github.com/skbkontur/retail-ui/issues/1297)
+* **RenderLayer): "perf(RenderLayer:** less event subscriptions" ([8e492e8](https://github.com/skbkontur/retail-ui/commit/8e492e8)), closes [#1304](https://github.com/skbkontur/retail-ui/issues/1304)
+
+
+
+
+
+## [0.44.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.2...retail-ui@0.44.3) (2019-03-27)
+
+
+### Bug Fixes
+
+* **Input:** don't show placeholder if mask is visible ([1c40f1d](https://github.com/skbkontur/retail-ui/commit/1c40f1d))
+* **Input:** fix placeholder width for masked input ([8696f40](https://github.com/skbkontur/retail-ui/commit/8696f40)), closes [#1272](https://github.com/skbkontur/retail-ui/issues/1272)
+
+
+
+
+
+## [0.44.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.1...retail-ui@0.44.2) (2019-03-26)
+
+
+### Bug Fixes
+
+* **ComboBoxOld:** bring typings back ([65d26cd](https://github.com/skbkontur/retail-ui/commit/65d26cd))
+* **hint:** add pin offset ([9c68d44](https://github.com/skbkontur/retail-ui/commit/9c68d44)), closes [#1265](https://github.com/skbkontur/retail-ui/issues/1265)
+* **Input:** fix input outlines in IE ([2594500](https://github.com/skbkontur/retail-ui/commit/2594500)), closes [#1197](https://github.com/skbkontur/retail-ui/issues/1197)
+* **Popup:** call `onOpen` prop in right moment for react@15 ([07d98e7](https://github.com/skbkontur/retail-ui/commit/07d98e7)), closes [#1257](https://github.com/skbkontur/retail-ui/issues/1257)
+* **Tooltip:** correct render invalid react element ([d49b9fd](https://github.com/skbkontur/retail-ui/commit/d49b9fd))
+* **Tooltip:** loosing focus on show/hide content ([83b86f7](https://github.com/skbkontur/retail-ui/commit/83b86f7))
+
+
+### Performance Improvements
+
+* **Popup:** bind instead of field initializer ([e1bfba1](https://github.com/skbkontur/retail-ui/commit/e1bfba1))
+* **Popup:** do not renderContent if closed ([49b03a6](https://github.com/skbkontur/retail-ui/commit/49b03a6))
+* **Popup:** less event subscriptions ([eb30481](https://github.com/skbkontur/retail-ui/commit/eb30481))
+* **Popup:** remove RenderLayer/onCloseRequest ([1763036](https://github.com/skbkontur/retail-ui/commit/1763036))
+* **RenderContainer:** lazy domContainer ([7a193fe](https://github.com/skbkontur/retail-ui/commit/7a193fe))
+* **RenderLayer:** bind instead of field initializer ([a7a940b](https://github.com/skbkontur/retail-ui/commit/a7a940b))
+* **RenderLayer:** less event subscriptions ([f095eca](https://github.com/skbkontur/retail-ui/commit/f095eca))
+* **Tooltip:** bind instead of field initializer ([e4a1ef5](https://github.com/skbkontur/retail-ui/commit/e4a1ef5))
+* **Tooltip:** skip RenderLayer if unneeded ([9719e45](https://github.com/skbkontur/retail-ui/commit/9719e45))
+
+
+
+
+
 ## [0.44.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.44.0...retail-ui@0.44.1) (2019-03-19)
 
 

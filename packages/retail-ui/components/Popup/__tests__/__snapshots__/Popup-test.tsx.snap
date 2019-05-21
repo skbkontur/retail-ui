@@ -13,7 +13,6 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
   hasPin={false}
   hasShadow={false}
   margin={10}
-  maxWidth={500}
   opened={false}
   pinOffset={16}
   pinSize={8}
@@ -28,53 +27,15 @@ exports[`Popup snapshots:  open and close popup: closed popup 1`] = `
   }
   useWrapper={false}
 >
-  <RenderLayer
-    active={false}
-    onClickOutside={[Function]}
-    onFocusOutside={[Function]}
+  <RenderContainer
+    anchor={null}
   >
-    <RenderContainer
+    <RenderInnerContainer
       anchor={null}
-    >
-      <LifeCycleProxy
-        onDidUpdate={[Function]}
-        props={
-          Object {
-            "location": null,
-          }
-        }
-      >
-        <Transition
-          appear={true}
-          enter={true}
-          exit={true}
-          in={false}
-          mountOnEnter={true}
-          onEnter={[Function]}
-          onEntered={[Function]}
-          onEntering={[Function]}
-          onExit={[Function]}
-          onExited={[Function]}
-          onExiting={[Function]}
-          timeout={
-            Object {
-              "enter": 0,
-              "exit": 200,
-            }
-          }
-          unmountOnExit={true}
-        />
-      </LifeCycleProxy>
-      <Portal
-        key="portal-ref"
-        rt_rootID={1}
-      >
-        <noscript
-          data-render-container-id={1}
-        />
-      </Portal>
-    </RenderContainer>
-  </RenderLayer>
+      domContainer={null}
+      rootId={1}
+    />
+  </RenderContainer>
 </Popup>
 `;
 
@@ -91,7 +52,6 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
   hasPin={false}
   hasShadow={false}
   margin={10}
-  maxWidth={500}
   opened={false}
   pinOffset={16}
   pinSize={8}
@@ -106,53 +66,20 @@ exports[`Popup snapshots:  open and close popup: closed popup again 1`] = `
   }
   useWrapper={false}
 >
-  <RenderLayer
-    active={false}
-    onClickOutside={[Function]}
-    onFocusOutside={[Function]}
+  <RenderContainer
+    anchor={null}
   >
-    <RenderContainer
+    <RenderInnerContainer
       anchor={null}
-    >
-      <LifeCycleProxy
-        onDidUpdate={[Function]}
-        props={
-          Object {
-            "location": null,
-          }
-        }
-      >
-        <Transition
-          appear={true}
-          enter={true}
-          exit={true}
-          in={false}
-          mountOnEnter={true}
-          onEnter={[Function]}
-          onEntered={[Function]}
-          onEntering={[Function]}
-          onExit={[Function]}
-          onExited={[Function]}
-          onExiting={[Function]}
-          timeout={
-            Object {
-              "enter": 0,
-              "exit": 200,
-            }
-          }
-          unmountOnExit={true}
+      domContainer={
+        <div
+          class="react-ui"
+          data-rendered-container-id="1"
         />
-      </LifeCycleProxy>
-      <Portal
-        key="portal-ref"
-        rt_rootID={1}
-      >
-        <noscript
-          data-render-container-id={1}
-        />
-      </Portal>
-    </RenderContainer>
-  </RenderLayer>
+      }
+      rootId={1}
+    />
+  </RenderContainer>
 </Popup>
 `;
 
@@ -169,7 +96,6 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
   hasPin={false}
   hasShadow={false}
   margin={10}
-  maxWidth={500}
   opened={true}
   pinOffset={16}
   pinSize={8}
@@ -184,13 +110,33 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
   }
   useWrapper={false}
 >
-  <RenderLayer
-    active={false}
-    onClickOutside={[Function]}
-    onFocusOutside={[Function]}
+  <RenderContainer
+    anchor={null}
   >
-    <RenderContainer
+    <RenderInnerContainer
       anchor={null}
+      domContainer={
+        <div
+          class="react-ui"
+          data-rendered-container-id="1"
+        >
+          <div
+            class="popup transition-enter-active transition-enter-bottom"
+            style="top: 10px; left: 0px; z-index: 1000;"
+          >
+            <div
+              class="content"
+            >
+              <div
+                class="contentInner"
+              >
+                Test content
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+      rootId={1}
     >
       <LifeCycleProxy
         onDidUpdate={[Function]}
@@ -230,7 +176,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
             style={
               Object {
                 "left": -9999,
-                "maxWidth": 500,
+                "maxWidth": undefined,
                 "top": -9999,
               }
             }
@@ -242,9 +188,9 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
               style={
                 Object {
                   "left": -9999,
-                  "maxWidth": 500,
+                  "maxWidth": undefined,
                   "top": -9999,
-                  "zIndex": 26000,
+                  "zIndex": 1000,
                 }
               }
             >
@@ -274,7 +220,7 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
           data-render-container-id={1}
         />
       </Portal>
-    </RenderContainer>
-  </RenderLayer>
+    </RenderInnerContainer>
+  </RenderContainer>
 </Popup>
 `;

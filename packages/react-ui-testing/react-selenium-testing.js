@@ -470,11 +470,15 @@ function fillPropsForDomElementRecursive(attrContainer, instance) {
 }
 
 function fillPropsForDomElement(attrContainer, instance) {
-  const instanceProps = instance._currentElement && instance._currentElement.props;
   const componentName = getComponentName(instance);
   if (componentName) {
     appendToSet(attrContainer, 'data-comp-name', componentName);
   }
+  const key = instance._currentElement && instance._currentElement.key;
+  if (key) {
+    appendToSet(attrContainer, 'data-key', key);
+  }
+  const instanceProps = instance._currentElement && instance._currentElement.props;
   if (instanceProps) {
     if (instanceProps['data-tid']) {
       appendToSet(attrContainer, 'data-tid', instanceProps['data-tid']);

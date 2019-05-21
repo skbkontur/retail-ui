@@ -1,6 +1,5 @@
 import {
   AddressObject,
-  AddressValue,
   APIProvider,
   FiasId,
   Fields,
@@ -9,6 +8,7 @@ import {
   SearchOptions,
   SearchResponse,
   Stead,
+  Room,
   VerifyResponse,
   APIResult,
   FetchFn,
@@ -19,6 +19,7 @@ import abbreviations from '../constants/abbreviations';
 import { Logger } from '../logger/Logger';
 import { APIResultFactory } from './APIResultFactory';
 import xhrFetch from '../../../lib/net/fetch-cors';
+import { Address } from '../models/Address';
 
 interface SearchQuery {
   [key: string]: string | number | boolean | FiasId | Fields[] | undefined;
@@ -74,35 +75,33 @@ export class FiasAPI implements APIProvider {
       .join(' ');
   };
 
-  private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
   private regionsPromise: Promise<APIResult<SearchResponse>> | null = null;
 
   constructor(private baseUrl: string = '', private version?: string, private fetchFn: FetchFn = xhrFetch) {}
 
-  public verify = (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
+  public verify = (address: Address): Promise<APIResult<VerifyResponse>> => {
     const query = {
       directParent: false,
       search: false,
     };
-    const emptyResult = {
-      success: true,
-      data: [],
-    };
-    const promise = this.send<VerifyResponse>(`verify?${FiasAPI.createQuery(query)}`, {
+    return this.send<VerifyResponse[]>(`verify?${FiasAPI.createQuery(query)}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify([address]),
-    });
-    this.verifyPromise = promise;
-
-    return promise.then(result => {
-      if (promise !== this.verifyPromise) {
-        return emptyResult;
+      body: JSON.stringify([address.convertForVerification()]),
+    }).then(({ success, data, error }: APIResult<VerifyResponse[]>) => {
+      if (success && data) {
+        const { address: verifiedAddress = {}, isValid = false, invalidLevel }: VerifyResponse = data[0] || {};
+        return APIResultFactory.success<VerifyResponse>({
+          address: verifiedAddress,
+          isValid,
+          ...(invalidLevel ? { invalidLevel: invalidLevel.toLowerCase() as Fields } : {}),
+        });
+      } else {
+        return APIResultFactory.fail<VerifyResponse>(error && error.message);
       }
-      return result;
     });
   };
 
@@ -148,6 +147,8 @@ export class FiasAPI implements APIProvider {
             return this.searchHouse(query);
           case Fields.stead:
             return this.searchStead(query);
+          case Fields.room:
+            return this.searchRoom(query);
           default:
             return this.searchAddressObject({ ...query, levels: [field] });
         }
@@ -242,6 +243,23 @@ export class FiasAPI implements APIProvider {
     });
   };
 
+  private searchRoom = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
+    return this.send<Room[]>(`rooms?${FiasAPI.createQuery(query)}`).then(result => {
+      const { success, data, error } = result;
+      if (success && data) {
+        return APIResultFactory.success<SearchResponse>(
+          data.map((room: Room) => {
+            return {
+              room,
+            };
+          }),
+        );
+      } else {
+        return APIResultFactory.fail<SearchResponse>(error && error.message);
+      }
+    });
+  };
+
   private searchRegions = (searchText: string): Promise<APIResult<SearchResponse>> => {
     if (!this.regionsPromise) {
       this.regionsPromise = this.send<SearchResponse>('addresses/regions');
@@ -259,7 +277,7 @@ export class FiasAPI implements APIProvider {
       if (success && data) {
         return APIResultFactory.success<SearchResponse>(
           data.filter((address: AddressResponse) => {
-            const { name, code } = address.region as AddressObject;
+            const { name, code = '' } = address.region as AddressObject;
             return isStartsWithSearchText(name) || isStartsWithSearchText(code);
           }),
         );

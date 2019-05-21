@@ -150,4 +150,19 @@ storiesOf('Checkbox', module)
       </div>
     );
   })
-  .add('indeterminate', () => <IndeterminatePlayground>Label</IndeterminatePlayground>);
+  .add('indeterminate', () => <IndeterminatePlayground>Label</IndeterminatePlayground>)
+  .add('highlighted', () => {
+    return (
+      <div style={{ margin: 5 }}>
+        <Gapped gap={5} vertical>
+          <Checkbox checked>Highlighted default</Checkbox>
+          <Checkbox checked warning>
+            Highlighted warning
+          </Checkbox>
+          <Checkbox checked error>
+            Highlighted error
+          </Checkbox>
+        </Gapped>
+      </div>
+    );
+  });

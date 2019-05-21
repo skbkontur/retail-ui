@@ -4,10 +4,10 @@ import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
 
 import Indicator from './Indicator';
-import Tab from './Tab';
+import { TabsContext } from './TabsContext';
+import { TabProps, TabWithContext, Tab } from './Tab';
 
 import styles from './Tabs.less';
-import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface TabsProps {
   /**
@@ -32,8 +32,9 @@ export interface TabsProps {
 
   /**
    * Vertical indicator
+   * @default false
    */
-  vertical?: boolean;
+  vertical: boolean;
 
   /**
    * Width of tabs container
@@ -41,137 +42,113 @@ export interface TabsProps {
   width?: number | string;
 }
 
-export interface TabsState {
-  tabs: Array<{
-    getNode: () => Tab | null;
-    id: string;
-  }>;
-}
-
 /**
  * Tabs wrapper
  *
  * contains static property `Tab`
  */
-class Tabs extends React.Component<TabsProps, TabsState> {
-  public static propTypes = {};
-  public static childContextTypes = {};
+class Tabs extends React.Component<TabsProps> {
+  public static propTypes = {
+    children: PropTypes.node,
+    indicatorClassName: PropTypes.string,
+    value: PropTypes.string.isRequired,
+    vertical: PropTypes.bool,
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    onChange: PropTypes.func,
+  };
   public static defaultProps = {
     vertical: false,
   };
 
-  public static Tab = Tab;
+  public static Tab: (props: TabProps) => JSX.Element = TabWithContext;
 
-  public state: TabsState = {
-    tabs: [],
-  };
+  private tabs: Array<{
+    getNode: () => Tab | null;
+    id: string;
+  }> = [];
 
-  private _tabUpdates = {
+  private tabUpdates = {
     on: (cb: () => void) => {
-      const index = this._listeners.push(cb);
+      const index = this.listeners.push(cb);
       return () => {
-        this._listeners.splice(index, 1);
+        this.listeners.splice(index, 1);
       };
     },
   };
 
-  private getProps = createPropsGetter(Tabs.defaultProps);
-  private _listeners: Array<() => void> = [];
-
-  public getChildContext() {
-    return {
-      activeTab: this.props.value,
-      addTab: this._addTab,
-      notifyUpdate: this._notifyUpdate,
-      removeTab: this._removeTab,
-      shiftFocus: this._shiftFocus,
-      switchTab: this._switchTab,
-      vertical: this.props.vertical,
-    };
-  }
+  private listeners: Array<() => void> = [];
 
   public render(): JSX.Element {
-    const activeTab = this.state.tabs.find(x => x.id === this.props.value);
-    const { vertical } = this.getProps<TabsProps, Tabs>();
+    const { vertical, value, width, children, indicatorClassName } = this.props;
 
     return (
-      <div className={cn(styles.root, vertical && styles.vertical)} style={{ width: this.props.width }}>
-        {this.props.children}
-        <Indicator
-          className={this.props.indicatorClassName}
-          getAnchorNode={activeTab ? activeTab.getNode : () => null}
-          tabUpdates={this._tabUpdates}
-          vertical={vertical}
-        />
+      <div className={cn(styles.root, vertical && styles.vertical)} style={{ width }}>
+        <TabsContext.Provider
+          value={{
+            vertical,
+            activeTab: value,
+            getTab: this.getTab,
+            addTab: this.addTab,
+            removeTab: this.removeTab,
+            notifyUpdate: this.notifyUpdate,
+            shiftFocus: this.shiftFocus,
+            switchTab: this.switchTab,
+          }}
+        >
+          <div>
+            {/* React <= 15. TabsContext.Provider can only receive a single child element. */}
+            {children}
+            <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+          </div>
+        </TabsContext.Provider>
       </div>
     );
   }
 
-  private _shiftFocus = (fromTab: string, delta: number) => {
-    const { tabs } = this.state;
+  private shiftFocus = (fromTab: string, delta: number) => {
+    const { tabs } = this;
     const index = tabs.findIndex(x => x.id === fromTab);
     const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
     const tab = tabs[newIndex];
 
     const tabNode = tab.getNode();
-    let htmlNode;
+    let htmlNode = null;
     if (tabNode instanceof React.Component) {
-      htmlNode = findDOMNode(tabNode) as HTMLElement;
+      htmlNode = findDOMNode(tabNode);
     }
 
-    if (htmlNode && htmlNode.hasOwnProperty('focus')) {
+    if (htmlNode && htmlNode instanceof HTMLElement && htmlNode.hasOwnProperty('focus')) {
       htmlNode.focus();
     }
   };
 
-  private _notifyUpdate = () => {
-    this._listeners.forEach(cb => cb());
+  private notifyUpdate = () => {
+    this.listeners.forEach(cb => cb());
   };
 
-  private _switchTab = (id: string) => {
+  private switchTab = (id: string) => {
     const { onChange, value } = this.props;
     if (id !== value && onChange) {
-      onChange(this._createEvent(id), id);
+      onChange(this.createEvent(id), id);
     }
   };
 
-  private _addTab = (id: string, getNode: () => any) => {
-    this.setState(({ tabs }: TabsState) => ({
-      tabs: tabs.concat({ id, getNode }),
-    }));
+  private getTab = (id: string): Tab | null => {
+    const { getNode = null } = this.tabs.find(x => x.id === id) || {};
+    return getNode && getNode();
   };
 
-  private _removeTab = (id: string) => {
-    this.setState((state: TabsState) => {
-      const tabs = state.tabs.filter(tab => tab.id !== id);
-      return { tabs };
-    });
+  private addTab = (id: string, getNode: () => any) => {
+    this.tabs = this.tabs.concat({ id, getNode });
   };
 
-  private _createEvent(value: string) {
+  private removeTab = (id: string) => {
+    this.tabs = this.tabs.filter(tab => tab.id !== id);
+  };
+
+  private createEvent(value: string) {
     return { target: { value } };
   }
 }
-
-const { string, func, bool, node, oneOfType, number } = PropTypes;
-
-Tabs.propTypes = {
-  children: node,
-  indicatorClassName: string,
-  value: string.isRequired,
-  vertical: bool,
-  width: oneOfType([string, number]),
-  onChange: func,
-};
-
-Tabs.childContextTypes = {
-  activeTab: string.isRequired,
-  addTab: func.isRequired,
-  notifyUpdate: func.isRequired,
-  removeTab: func.isRequired,
-  shiftFocus: func.isRequired,
-  switchTab: func.isRequired,
-  vertical: bool.isRequired,
-};
 
 export default Tabs;

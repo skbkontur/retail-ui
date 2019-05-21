@@ -4,8 +4,10 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
-import { ButtonSize, ButtonArrow } from '../Button';
+import { ButtonSize, ButtonArrow, ButtonProps } from '../Button';
 import SearchIcon from '@skbkontur/react-icons/Search';
+import ComponentStatesTable from '../../internal/ComponentStatesTable';
+import StatesCombinator from '../../internal/StatesCombinator';
 
 storiesOf('Button', module)
   .add('playground', () => {
@@ -235,4 +237,59 @@ storiesOf('Button', module)
         </Gapped>
       </div>
     );
-  });
+  })
+  .add('different aligns', () => (
+    <ComponentStatesTable component={Button} rows={alignStates} cols={layoutStates} presetState={{ width: 200, children: 'Button' }} children='Button' />
+  ))
+  .add('different visual states', () => (
+    <StatesCombinator states={[...visualStates, ...sizeStates, ...arrowStates, ...useStates]} sizeX={7} sizeY={7} presetState={{ children: 'Button' }} children='Button' component={Button} />
+  ))
+  .add('different content', () => (
+    <StatesCombinator states={[...contentStates, ...widthStates, ...layoutStates]} sizeX={3} sizeY={6} component={Button} presetState={{}} children='Button' />
+  ));
+
+type ButtonState = Partial<ButtonProps>;
+
+const visualStates: ButtonState[] = [
+  { disabled: true },
+  { loading: true },
+  { checked: true },
+  { active: true },
+  { narrow: true },
+  { borderless: true },
+  { error: true },
+  { warning: true },
+  { visuallyFocused: true },
+];
+
+const sizeStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
+const arrowStates: ButtonState[] = [{ arrow: true }, { arrow: 'left' }];
+
+const useStates: ButtonState[] = [
+  { use: 'default' },
+  { use: 'primary' },
+  { use: 'success' },
+  { use: 'danger' },
+  { use: 'pay' },
+  { use: 'link' },
+];
+
+const contentStates: ButtonState[] = [
+  { icon: <SearchIcon /> },
+  { children: 'long-long-long text' },
+  { children: <SearchIcon /> },
+  { children: null },
+];
+
+const widthStates: ButtonState[] = [{ width: 100 }, { width: 'auto' }, { width: undefined }, { width: 0 }];
+
+const alignStates: ButtonState[] = [
+  { align: 'left' },
+  { align: 'start' },
+  { align: 'right' },
+  { align: 'end' },
+  { align: 'center' },
+  { align: 'justify' },
+];
+
+const layoutStates: ButtonState[] = [{ use: 'default' }, { arrow: true }, { arrow: 'left' }, { use: 'link' }];
