@@ -25,6 +25,7 @@ const jsStyles = {
     return css`
       color: ${t.textColorDefault};
       border: ${t.chbBorder};
+      border-radius: ${t.chbBorderRadius};
       box-shadow: ${t.chbShadow};
       background: ${t.chbBg};
 
