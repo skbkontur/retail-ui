@@ -8,7 +8,7 @@ import SpinnerFallback from './SpinnerFallback';
 import jsStyles from './Spinner.styles';
 import { cx } from 'emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from "../internal/ThemeContext";
+import { ThemeConsumer } from '../internal/ThemeContext';
 
 export const SpinnerConfig = {
   hasSvgAnimationSupport: svgAnimateSupport(),
@@ -93,11 +93,15 @@ class Spinner extends React.Component<SpinnerProps> {
 
   private _renderCloud = (type: SpinnerType) => {
     const params = sizeMaps[type];
-    const strokeClassName = cx(styles.cloudStrokePath, this.props.dimmed && jsStyles.dimmed(this.theme));
+    const bgClassName = jsStyles.cloudBg(this.theme);
+    const strokeClassName = cx(
+      styles.cloudStroke,
+      this.props.dimmed ? jsStyles.cloudStrokeDimmed(this.theme) : jsStyles.cloudStroke(this.theme),
+    );
 
     return (
       <svg className={styles.cloud} width={params.width} height={params.height} viewBox={params.viewBox}>
-        <path d={CLOUD_SVG_PATH} strokeWidth={params.strokeWidth} className={jsStyles.cloudBgPath(this.theme)} />
+        <path d={CLOUD_SVG_PATH} strokeWidth={params.strokeWidth} className={bgClassName} />
         <path d={CLOUD_SVG_PATH} strokeWidth={params.strokeWidth} className={strokeClassName} />
       </svg>
     );
@@ -105,11 +109,12 @@ class Spinner extends React.Component<SpinnerProps> {
 
   private _renderCircle = (type: SpinnerType) => {
     const params = sizeMaps[type];
-    const circleClassName = this.props.dimmed ? jsStyles.dimmed(this.theme) : undefined;
+    const theme = this.theme;
+    const strokeClassName = this.props.dimmed ? jsStyles.circleStrokeDimmed(theme) : jsStyles.circleStroke(theme);
 
     return (
-      <svg className={styles.circle} width={params.width} height={params.height}>
-        <circle cx="8" cy="8" r="6" strokeWidth={params.strokeWidth} className={circleClassName} />
+      <svg className={cx(styles.circle, jsStyles.circle(theme))} width={params.width} height={params.height}>
+        <circle cx="8" cy="8" r="6" strokeWidth={params.strokeWidth} className={strokeClassName} />
       </svg>
     );
   };

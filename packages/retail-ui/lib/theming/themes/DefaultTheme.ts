@@ -1,6 +1,7 @@
 import DEFAULT_VARIABLES from '../../../components/variables.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 import ColorFunctions from '../../styles/ColorFunctions';
+import { keyframes } from 'emotion';
 
 const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   borderColorError: {
@@ -26,21 +27,6 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   btnDisabledShadowColor: {
     get() {
       return this.borderColorGrayLight;
-    },
-  },
-  spinnerBgColor: {
-    get() {
-      return this.grayXLight;
-    },
-  },
-  spinnerDimmedColor: {
-    get() {
-      return this.gray;
-    },
-  },
-  spinnerCaptionColor: {
-    get() {
-      return this.gray;
     },
   },
   tabColorFocus: {
@@ -196,6 +182,72 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   textareaDisabledBorderColor: {
     get() {
       return this.borderColorGrayLight;
+    },
+  },
+  spinnerBgColor: {
+    get() {
+      return this.grayXLight;
+    },
+  },
+  spinnerDimmedColor: {
+    get() {
+      return this.gray;
+    },
+  },
+  spinnerCaptionColor: {
+    get() {
+      return this.gray;
+    },
+  },
+  spinnerKeyframesCloudOffset: {
+    get() {
+      return keyframes`
+        0% { stroke-dashoffset: 10; }
+        100% { stroke-dashoffset: 116; }
+      `;
+    },
+  },
+  spinnerKeyframesCloudLength: {
+    get() {
+      return keyframes`
+        0% { stroke-dasharray: 10, 96; }
+        50% { stroke-dasharray: 50, 56; }
+        100% { stroke-dasharray: 10, 96;}
+      `;
+    },
+  },
+  spinnerKeyframesCircleOffset: {
+    get() {
+      return keyframes`
+        0% { stroke-dashoffset: 0; }
+        100% { stroke-dashoffset: -37; }
+      `;
+    },
+  },
+  spinnerKeyframesCircleLength: {
+    get() {
+      return keyframes`
+        0% { stroke-dasharray: 10, 27; }
+        50% {  stroke-dasharray: 30, 7; }
+        100% { stroke-dasharray: 10, 27; }
+      `;
+    },
+  },
+  spinnerKeyframesCircleRotate: {
+    get() {
+      return keyframes`
+        100% { transform: rotate(360deg); }
+      `;
+    },
+  },
+  spinnerKeyframesColor: {
+    get() {
+      return keyframes`
+        100%, 0% { stroke: ${this.red}; }
+        40% { stroke: ${this.yellow}; }
+        66% { stroke: ${this.green}; }
+        80%, 90% { stroke: ${this.brand}; }
+      `;
     },
   },
 });
