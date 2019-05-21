@@ -15,7 +15,7 @@ export type RadioGroupProps<T> = {|
   warning?: boolean,
   error?: boolean,
   inline?: boolean,
-  children: React$Node,
+  children?: React$Node,
   width?: CSS.WidthProperty<string | number>,
   renderItem?: (itemValue: T, data: React$Node) => React$Node,
   /* eslint-disable flowtype/no-weak-types */

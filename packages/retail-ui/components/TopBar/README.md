@@ -46,7 +46,7 @@ let contentStyle = {
 </div>;
 ```
 
-Старый вариант
+Старый вариант. (Продуктовый виджет работает только у первого Logotype на странице)
 
 ```jsx
 const BabyIcon = require('@skbkontur/react-icons/Baby').default;
