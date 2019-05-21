@@ -1,8 +1,4 @@
-@green: #00aa90;
-@blue: #1e79be;
-@red: #d70c17;
-@yellow: #f8982d;
-@gray: #9b9b9b;
+@import (reference) '../variables.less';
 
 :local {
   .spinner {
@@ -15,45 +11,48 @@
   }
 
   .caption {
-    color: rgb(128, 128, 128);
     font-size: 14px;
     line-height: 20px;
+    color: @spinner-caption-color;
   }
 
   .captionRight {
-    .caption;
-
     margin-left: 5px;
   }
 
   .captionBottom {
-    .caption;
-
     display: block;
   }
 
-  .path {
+  .dimmed {
+    stroke: @gray;
+  }
+
+  .cloudBgPath {
     fill: none;
     stroke-linecap: round;
-
-    .spinner_big &,
-    .spinner_small & {
-      stroke-width: 2px;
-    }
+    stroke: @spinner-bg;
   }
 
-  .cloud .bg {
+  .cloudStrokePath {
     fill: none;
-    stroke: #eee;
-  }
-
-  .cloud .path {
+    stroke-linecap: round;
     stroke-dasharray: 20, 86;
     stroke-dashoffset: 15;
 
     :global {
-      animation: rt_cloud_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        rt_cloud_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_color 6s ease-in-out infinite;
+      animation:
+        rt_cloud_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+        rt_cloud_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
+        rt_color 6s ease-in-out infinite;
+    }
+
+    &.dimmed {
+      :global {
+        animation:
+          rt_cloud_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+          rt_cloud_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite;
+      }
     }
   }
 
@@ -66,18 +65,11 @@
     top: 3px;
 
     :global {
-      animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite,
+      animation:
+        rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+        rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
+        rt_rotate 2s linear infinite,
         rt_color 6s ease-in-out infinite;
-    }
-
-    &.dimmed {
-      stroke: @gray;
-
-      :global {
-        animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-          rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite;
-      }
     }
   }
 
@@ -151,7 +143,7 @@
 
   80%,
   90% {
-    stroke: @blue;
+    stroke: @brand;
   }
 }
 

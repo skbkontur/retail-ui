@@ -28,6 +28,16 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.borderColorGrayLight;
     },
   },
+  spinnerBg: {
+    get() {
+      return this.grayXLight;
+    },
+  },
+  spinnerCaptionColor: {
+    get() {
+      return this.gray;
+    },
+  },
   tabColorFocus: {
     get() {
       return this.borderColorFocus;
