@@ -1,10 +1,12 @@
+type StringifyDescriptors<D extends PropertyDescriptorMap> = { [key in keyof D]: string };
+
 interface VariablesMap {
   readonly [key: string]: string;
 }
 
 export function defineInternalTheme<VM extends VariablesMap, CD extends PropertyDescriptorMap>(
   staticVariables: VM,
-  computedDescriptors: CD & ThisType<VM & CD>,
+  computedDescriptors: CD & ThisType<VM & StringifyDescriptors<CD>>,
 ) {
   const result: unknown = {};
 
