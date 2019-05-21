@@ -40,7 +40,7 @@ const jsStyles = {
   primary(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorPrimary, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverPrimary};
       }
     `;
   },
@@ -48,7 +48,7 @@ const jsStyles = {
   success(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorSuccess, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverSuccess};
       }
     `;
   },
@@ -56,7 +56,7 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorWarning, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverWarning};
       }
     `;
   },
@@ -64,7 +64,7 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorError, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverError};
       }
     `;
   },

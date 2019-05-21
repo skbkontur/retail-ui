@@ -1,5 +1,6 @@
 import DEFAULT_VARIABLES from '../../../components/variables.less';
 import { defineInternalTheme } from '../ThemeHelpers';
+import ColorFunctions from '../../styles/ColorFunctions';
 
 const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   borderColorError: {
@@ -57,6 +58,26 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.borderColorFocusLight;
     },
   },
+  tabColorHoverError: {
+    get() {
+      return ColorFunctions.lighten(this.tabColorError, '25%');
+    },
+  },
+  tabColorHoverWarning: {
+    get() {
+      return ColorFunctions.lighten(this.tabColorWarning, '25%');
+    },
+  },
+  tabColorHoverSuccess: {
+    get() {
+      return ColorFunctions.lighten(this.tabColorSuccess, '25%');
+    },
+  },
+  tabColorHoverPrimary: {
+    get() {
+      return ColorFunctions.lighten(this.tabColorPrimary, '25%');
+    },
+  },
   calendarCellHoverBgColor: {
     get() {
       return this.bgActive;
@@ -102,14 +123,14 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.linkDisabledColor;
     },
   },
-  toggleBgWarning: {
-    get() {
-      return this.warningMain;
-    },
-  },
   toggleBgError: {
     get() {
       return this.errorMain;
+    },
+  },
+  toggleBgWarning: {
+    get() {
+      return this.warningMain;
     },
   },
   inputDisabledBg: {
