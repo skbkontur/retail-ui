@@ -262,6 +262,7 @@ export default {
   popupBoxShadow: '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)',
   inputSidePadding: '10px',
   inputColor: '#fff',
+  inputTextColor: '#fff',
   inputBg: '#333',
   specificityLevel: '0',
   textareaBg: 'none',

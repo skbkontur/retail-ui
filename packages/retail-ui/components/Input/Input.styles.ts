@@ -47,6 +47,8 @@ const jsClasses = {
 
   input(t: ITheme) {
     return css`
+      color: ${t.inputTextColor};
+
       .${classes.root}.${classes.focus} &:-moz-placeholder {
         color: ${t.placeholderColorLight};
       }
