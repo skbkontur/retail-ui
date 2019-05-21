@@ -6,7 +6,7 @@ import '../ensureOldIEClassName';
 import { cx as classNames } from 'emotion';
 import classes from './Button.less';
 import jsClasses from './Button.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';

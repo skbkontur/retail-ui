@@ -33,7 +33,7 @@ const jsStyles = {
 
   activeBackground(t: ITheme) {
     return css`
-      .${jsStyles.isLoading(t)} & {
+      .${styles.isLoading} & {
         background: ${t.toggleBgChecked};
       }
 
@@ -55,11 +55,11 @@ const jsStyles = {
   isWarning(t: ITheme) {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
-        background: ${t.warningMain};
-        border-color: ${t.warningMain};
+        background: ${t.toggleBgWarning};
+        border-color: ${t.toggleBgWarning};
 
-        .${jsStyles.activeBackground(t)} {
-          background: ${t.warningMain};
+        .${styles.activeBackground} {
+          background: ${t.toggleBgWarning};
         }
       }
     `;
@@ -68,11 +68,11 @@ const jsStyles = {
   isError(t: ITheme) {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
-        background: ${t.errorMain};
-        border-color: ${t.errorMain};
+        background: ${t.toggleBgError};
+        border-color: ${t.toggleBgError};
 
-        .${jsStyles.activeBackground(t)} {
-          background: ${t.errorMain};
+        .${styles.activeBackground} {
+          background: ${t.toggleBgError};
         }
       }
     `;

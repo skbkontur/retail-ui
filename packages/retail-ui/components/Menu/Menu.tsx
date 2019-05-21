@@ -8,7 +8,7 @@ import styles from './Menu.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx as cn } from 'emotion';
 import jsStyles from './Menu.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 interface MenuProps {

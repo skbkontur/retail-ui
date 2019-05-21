@@ -50,12 +50,12 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       & .${styles.box} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.warningMain};
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning};
         border-color: ${t.borderColorWarning};
       }
 
       .rt-ie8 & .${styles.box} {
-        outline: 1px solid ${t.warningMain};
+        outline: 1px solid ${t.borderColorWarning};
       }
     `;
   },
@@ -63,12 +63,12 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       & .${styles.box} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.errorMain};
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError};
         border-color: ${t.borderColorError};
       }
 
       .rt-ie8 & .${styles.box} {
-        outline: 1px solid ${t.errorMain};
+        outline: 1px solid ${t.borderColorError};
       }
     `;
   },
@@ -109,10 +109,10 @@ const jsStyles = {
       background: ${t.chbBoxIndeterminateBg};
 
       .${styles.root}:hover & {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgHover, '5%')};
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
       }
       .${styles.root}:active & {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBgActive, '15%')};
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
       }
     `;
   },

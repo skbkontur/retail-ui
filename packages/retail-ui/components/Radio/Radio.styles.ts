@@ -40,7 +40,7 @@ const jsStyles = {
     return css`
       &::after {
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.warningMain};
+        border-color: ${t.borderColorWarning};
       }
     `;
   },
@@ -49,7 +49,7 @@ const jsStyles = {
     return css`
       &::after {
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.errorMain};
+        border-color: ${t.borderColorError};
       }
     `;
   },

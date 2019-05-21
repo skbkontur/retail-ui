@@ -4,31 +4,31 @@ import { ITheme } from '../../lib/theming/Theme';
 const jsStyles = {
   root(t: ITheme) {
     return css`
-      background: ${t.borderColorFocus};
+      background: ${t.tabColorFocus};
     `;
   },
 
   primary(t: ITheme) {
     return css`
-      background: ${t.btnPrimaryBg};
+      background: ${t.tabColorPrimary};
     `;
   },
 
   success(t: ITheme) {
     return css`
-      background: ${t.btnSuccessBg};
+      background: ${t.tabColorSuccess};
     `;
   },
 
   warning(t: ITheme) {
     return css`
-      background: ${t.btnPayBg};
+      background: ${t.tabColorWarning};
     `;
   },
 
   error(t: ITheme) {
     return css`
-      background: ${t.btnDangerBg};
+      background: ${t.tabColorError};
     `;
   },
 };

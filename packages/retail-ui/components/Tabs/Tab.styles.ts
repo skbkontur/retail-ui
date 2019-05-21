@@ -7,7 +7,7 @@ const jsStyles = {
   root(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${t.borderColorFocusLight};
+        border-bottom: 3px solid ${t.tabColorHover};
       }
     `;
   },
@@ -15,14 +15,14 @@ const jsStyles = {
   vertical(t: ITheme) {
     return css`
       .${styles.root}&:hover {
-        border-left: 3px solid ${t.borderColorFocusLight};
+        border-left: 3px solid ${t.tabColorHover};
       }
     `;
   },
 
   focus(t: ITheme) {
     return css`
-      border: 2px solid ${t.borderColorFocus};
+      border: 2px solid ${t.tabColorFocus};
     `;
   },
 
@@ -40,7 +40,7 @@ const jsStyles = {
   primary(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPrimaryBg, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverPrimary};
       }
     `;
   },
@@ -48,7 +48,7 @@ const jsStyles = {
   success(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnSuccessBg, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverSuccess};
       }
     `;
   },
@@ -56,7 +56,7 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnPayBg, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverWarning};
       }
     `;
   },
@@ -64,7 +64,7 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${ColorFunctions.lighten(t.btnDangerBg, '25%')};
+        border-bottom: 3px solid ${t.tabColorHoverError};
       }
     `;
   },

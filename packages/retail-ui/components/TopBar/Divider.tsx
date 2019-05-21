@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cx } from 'emotion';
 import styles from './TopBar.less';
 import jsStyles from './TopBar.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 class Divider extends React.Component<{}> {

@@ -6,8 +6,8 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       .${styles.root} .${styles.label}& {
-        border: 1px solid ${t.warningMain};
-        box-shadow: 0 0 0 1px ${t.warningMain};
+        border: 1px solid ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
     `;
   },
@@ -15,8 +15,8 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       .${styles.root} .${styles.label}& {
-        border: 1px solid ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border: 1px solid ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
     `;
   },

@@ -7,7 +7,7 @@ import styles from './Link.less';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 
 interface UseClasses {
   default: string;
@@ -19,8 +19,8 @@ interface UseClasses {
 function getUseClasses(t: ITheme): UseClasses {
   return {
     default: classNames(styles.useDefault, jsStyles.useDefault(t)),
-    success: classNames(styles.useSuccess, jsStyles.useSuccess(t)),
-    danger: classNames(styles.useDanger, jsStyles.useDanger(t)),
+    success: classNames(styles.useSuccess),
+    danger: classNames(styles.useDanger),
     grayed: classNames(styles.useGrayed, jsStyles.useGrayed(t)),
   };
 }

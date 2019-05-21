@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import classes from './Input.less';
 import { ITheme } from '../../lib/theming/Theme';
-import { shiftVariableValue } from '../../lib/styles/StyleHelpers';
+import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 
 const jsClasses = {
   root(t: ITheme) {
@@ -47,6 +47,8 @@ const jsClasses = {
 
   input(t: ITheme) {
     return css`
+      color: ${t.inputTextColor};
+
       .${classes.root}.${classes.focus} &:-moz-placeholder {
         color: ${t.placeholderColorLight};
       }
@@ -83,11 +85,11 @@ const jsClasses = {
   warning(t: ITheme) {
     return css`
       .${classes.root}& {
-        border-color: ${t.warningMain};
-        box-shadow: 0 0 0 1px ${t.warningMain};
+        border-color: ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
       .rt-ie-any .${classes.root}& {
-        outline: 1px solid ${t.warningMain};
+        outline: 1px solid ${t.borderColorWarning};
       }
     `;
   },
@@ -95,11 +97,11 @@ const jsClasses = {
   error(t: ITheme) {
     return css`
       .${classes.root}& {
-        border-color: ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border-color: ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
       .rt-ie-any .${classes.root}& {
-        outline: 1px solid ${t.errorMain};
+        outline: 1px solid ${t.borderColorError};
       }
     `;
   },
@@ -129,8 +131,8 @@ const jsClasses = {
       height: ${t.controlHeightSmall};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYSmall, '-1')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYSmall, '1')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
       }
     `;
   },
@@ -143,8 +145,8 @@ const jsClasses = {
       height: ${t.controlHeightMedium};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
       }
     `;
   },
@@ -157,8 +159,8 @@ const jsClasses = {
       height: ${t.controlHeightMedium};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYMedium, '1')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
       }
     `;
   },
@@ -167,12 +169,12 @@ const jsClasses = {
     return css`
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
-      padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-1')};
-      padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '1')};
+      padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};
+      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};
 
       .rt-ie-any & {
-        padding-top: ${shiftVariableValue(t.controlPaddingYLarge, '-2')};
-        padding-bottom: ${shiftVariableValue(t.controlPaddingYLarge, '2')};
+        padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
+        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
       }
     `;
   },

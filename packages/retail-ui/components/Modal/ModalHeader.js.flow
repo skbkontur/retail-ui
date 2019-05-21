@@ -3,7 +3,7 @@
 export type HeaderProps = {|
   close?: boolean,
   sticky?: boolean,
-  children: React$Node,
+  children?: React$Node,
 |};
 
 declare export function isHeader(child: React$Node): boolean;

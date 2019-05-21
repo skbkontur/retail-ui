@@ -45,8 +45,6 @@
 @border-color-gray-dark: rgba(0, 0, 0, 0.28);
 @border-color-gray-light: rgba(0, 0, 0, 0.15);
 @border-color-gray-lighter: #fff;
-@border-color-error: @error-main;
-@border-color-warning: @warning-main;
 
 @outline-color-focus: #fff;
 
@@ -74,19 +72,13 @@
 
 // Link
 @link-color: #3072c4;
-@link-color-success: #3f9726;
-@link-color-danger: #e3071c;
 @link-active-color: #044785;
-@link-active-color-success: #24760d;
-@link-active-color-danger: #b00616;
-@link-hover-color: @link-color;
-@link-hover-color-success: @link-color-success;
-@link-hover-color-danger: @link-color-danger;
-@link-disabled-color: @text-color-disabled;
 @link-hover-text-decoration: underline;
 
+// Used in non-themed datepicker, remove afterwards
+@link-disabled-color: @text-color-disabled;
+
 @dropdown-menu-border: #d0d0d0;
-@dropdown-menu-bg: @bg-default;
 @dropdown-menu-hover-bg: #5199db;
 @dropdown-menu-selected-bg: #f1f1f1;
 
@@ -97,7 +89,6 @@
 // Button
 @btn-height-shift: -2;
 @btn-focus-shadow-width: 2px;
-@btn-disabled-shadow-color: @border-color-gray-light;
 @btn-border-radius: 2px;
 @btn-small-border-radius: 1px;
 
@@ -227,22 +218,7 @@
 // Select
 @slt-placeholder-color: #888;
 
-// Tabs
-@tab-color-focus: @border-color-focus;
-@tab-color-error: @btn-danger-bg;
-@tab-color-warning: @btn-pay-bg;
-@tab-color-success: @btn-success-bg;
-@tab-color-primary: @btn-primary-bg;
-@tab-color-hover: @border-color-focus-light;
-@tab-color-hover-error: lighten(@btn-danger-bg, 25%);
-@tab-color-hover-warning: lighten(@btn-pay-bg, 25%);
-@tab-color-hover-success: lighten(@btn-success-bg, 25%);
-@tab-color-hover-primary: lighten(@btn-primary-bg, 25%);
-
 // tooltip
-@tooltip-bg: @bg-default;
-@tooltip-border: @dropdown-menu-border;
-@tooltip-border-raduis: 2px;
 @tooltip-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 @tooltip-close-btn-color: #808080;
 @tooltip-close-btn-hover-color: #606060;
@@ -304,8 +280,6 @@
 
 // Paging
 @paging-dots-color: gray;
-@paging-forward-link-color: @link-color;
-@paging-forward-link-disabled-color: @link-disabled-color;
 @paging-page-link-active-bg: rgba(0, 0, 0, 0.09);
 @paging-page-link-active-color: black;
 @paging-page-link-hover-bg: rgba(0, 0, 0, 0.05);
@@ -340,8 +314,6 @@
 
 // Toggle
 @toggle-bg-checked: #3072c4;
-@toggle-bg-warning: @warning-main;
-@toggle-bg-error: @error-main;
 @toggle-bg-active: #e5e5e5;
 @toggle-focus-shadow-color: #5199db;
 @toggle-border-color: #d0d0d0;
@@ -354,22 +326,10 @@
 @popup-drop-shadow: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 @popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 
-// Input
-@input-disabled-bg: @bg-disabled;
-@input-disabled-border-color: @border-color-gray-light;
-@input-disabled-color: @bg-disabled;
-@input-focus-outline: @border-color-focus;
-@input-border-width: @control-border-width;
-@input-border-top-color: @border-color-gray-dark;
-
+@input-text-color: none;
 // Checkbox
 @chb-shadow-width: 2px;
-@chb-border-color-focus: @border-color-focus;
 
-// Textarea
-@textarea-border-top-color: @border-color-gray-dark;
-@textarea-disabled-bg: @bg-disabled;
-@textarea-disabled-border-color: @border-color-gray-light;
 
 // specificity
 @specificity-level: 0;
@@ -490,8 +450,6 @@
 @value borderColorGrayDark: @border-color-gray-dark;
 @value borderColorGrayLight: @border-color-gray-light;
 @value borderColorGrayLighter: @border-color-gray-lighter;
-@value borderColorError: @border-color-error;
-@value borderColorWarning: @border-color-warning;
 @value placeholderColor: @placeholder-color;
 @value outlineColorFocus: @outline-color-focus;
 @value placeholderColorLight: @placeholder-color-light;
@@ -510,18 +468,9 @@
 @value textColorInvert: @text-color-invert;
 @value textColorDisabled: @text-color-disabled;
 @value linkColor: @link-color;
-@value linkColorSuccess: @link-color-success;
-@value linkColorDanger: @link-color-danger;
 @value linkActiveColor: @link-active-color;
-@value linkActiveColorSuccess: @link-active-color-success;
-@value linkActiveColorDanger: @link-active-color-danger;
-@value linkHoverColor: @link-hover-color;
-@value linkHoverColorSuccess: @link-hover-color-success;
-@value linkHoverColorDanger: @link-hover-color-danger;
-@value linkDisabledColor: @link-disabled-color;
 @value linkHoverTextDecoration: @link-hover-text-decoration;
 @value dropdownMenuBorder: @dropdown-menu-border;
-@value dropdownMenuBg: @dropdown-menu-bg;
 @value dropdownMenuHoverBg: @dropdown-menu-hover-bg;
 @value dropdownMenuSelectedBg: @dropdown-menu-selected-bg;
 @value loaderBg: @loader-bg;
@@ -533,7 +482,6 @@
 @value btnCheckedShadowColorArrow: @btn-checked-shadow-color-arrow;
 @value btnCheckedShadowArrow: @btn-shadow-checked-arrow;
 @value btnCheckedShadowArrowLeft: @btn-shadow-checked-arrow-left;
-@value btnDisabledShadowColor: @btn-disabled-shadow-color;
 @value btnBorderRadius: @btn-border-radius;
 @value btnSmallBorderRadius: @btn-small-border-radius;
 @value btnDefaultBg: @btn-default-bg;
@@ -628,19 +576,6 @@
 @value btnPayActiveShadowArrowLeft: @btn-pay-active-shadow-arrow-left;
 @value btnDeprecatedSizeMediumPaddingShiftIe: @btn-deprecated-size-medium-padding-shift-ie;
 @value sltPlaceholderColor: @slt-placeholder-color;
-@value tabColorFocus: @tab-color-focus;
-@value tabColorError: @tab-color-error;
-@value tabColorWarning: @tab-color-warning;
-@value tabColorSuccess: @tab-color-success;
-@value tabColorPrimary: @tab-color-primary;
-@value tabColorHover: @tab-color-hover;
-@value tabColorHoverError: @tab-color-hover-error;
-@value tabColorHoverWarning: @tab-color-hover-warning;
-@value tabColorHoverSuccess: @tab-color-hover-success;
-@value tabColorHoverPrimary: @tab-color-hover-primary;
-@value tooltipBg: @tooltip-bg;
-@value tooltipBorder: @tooltip-border;
-@value tooltipBorderRaduis: @tooltip-border-raduis;
 @value tooltipBoxShadow: @tooltip-box-shadow;
 @value tooltipCloseBtnColor: @tooltip-close-btn-color;
 @value tooltipCloseBtnHoverColor: @tooltip-close-btn-hover-color;
@@ -684,8 +619,6 @@
 @value pickerTodayWrapperBorderTop: @picker-today-wrapper-border-top;
 @value pickerTodayWrapperHoverBgColor: @picker-today-wrapper-hover-bg-color;
 @value pagingDotsColor: @paging-dots-color;
-@value pagingForwardLinkColor: @paging-forward-link-color;
-@value pagingForwardLinkDisabledColor: @paging-forward-link-disabled-color;
 @value pagingPageLinkActiveBg: @paging-page-link-active-bg;
 @value pagingPageLinkActiveColor: @paging-page-link-active-color;
 @value pagingPageLinkHoverBg: @paging-page-link-hover-bg;
@@ -705,8 +638,6 @@
 @value menuBorder: @menu-border;
 @value menuShadow: @menu-shadow;
 @value toggleBgChecked: @toggle-bg-checked;
-@value toggleBgWarning: @toggle-bg-warning;
-@value toggleBgError: @toggle-bg-error;
 @value toggleBgActive: @toggle-bg-active;
 @value toggleFocusShadowColor: @toggle-focus-shadow-color;
 @value toggleBorderColor: @toggle-border-color;
@@ -716,15 +647,6 @@
 @value popupBorderColor: @popup-border-color;
 @value popupDropShadow: @popup-drop-shadow;
 @value popupBoxShadow: @popup-box-shadow;
-@value inputDisabledBg: @input-disabled-bg;
-@value inputDisabledBorderColor: @input-disabled-border-color;
-@value inputDisabledColor: @input-disabled-color;
-@value inputFocusOutline: @input-focus-outline;
-@value inputBorderWidth: @input-border-width;
-@value inputBorderTopColor: @input-border-top-color;
-@value chbBorderColorFocus: @border-color-focus;
+@value inputTextColor: @input-text-color;
 @value chbShadowWidth: @chb-shadow-width;
-@value textareaBorderTopColor: @textarea-border-top-color;
-@value textareaDisabledBg: @textarea-disabled-bg;
-@value textareaDisabledBorderColor: @textarea-disabled-border-color;
 @value specificityLevel: @specificity-level;

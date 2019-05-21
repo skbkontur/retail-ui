@@ -6,7 +6,7 @@ import styles from './Switcher.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx as classNames } from 'emotion';
 import jsStyles from './Switcher.styles';
-import { ThemeConsumer } from '../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface SwitcherProps {

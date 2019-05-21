@@ -8,7 +8,7 @@ const jsStyles = {
       color: ${t.linkColor};
 
       &:hover {
-        color: ${t.linkColor};
+        color: ${t.linkHoverColor};
         text-decoration-color: ${t.linkHoverTextDecoration};
       }
       &:active {
@@ -23,57 +23,29 @@ const jsStyles = {
         color: ${t.linkColor};
         text-decoration: ${t.linkHoverTextDecoration};
       }
-      .${jsStyles.useSuccess(t)}& {
+      .${styles.useSuccess}& {
         text-decoration: ${t.linkHoverTextDecoration};
       }
-      .${jsStyles.useDanger(t)}& {
+      .${styles.useDanger}& {
         text-decoration: ${t.linkHoverTextDecoration};
       }
       .${styles.useGrayed}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
         text-decoration: ${t.linkHoverTextDecoration};
-      }
-    `;
-  },
-
-  useSuccess(t: ITheme) {
-    return css`
-      color: ${t.linkColorSuccess};
-
-      &:hover {
-        color: ${t.linkColorSuccess};
-        text-decoration-color: ${t.linkHoverColorSuccess};
-      }
-      &:active {
-        color: ${t.linkActiveColorSuccess};
-      }
-    `;
-  },
-
-  useDanger(t: ITheme) {
-    return css`
-      color: ${t.linkColorDanger};
-
-      &:hover {
-        color: ${t.linkColorDanger};
-        text-decoration-color: ${t.linkHoverColorDanger};
-      }
-      &:active {
-        color: ${t.linkActiveColorDanger};
       }
     `;
   },
 
   useGrayed(t: ITheme) {
     return css`
-      color: ${t.textColorDisabled};
+      color: ${t.linkDisabledColor};
 
       &:hover {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
         text-decoration-color: ${t.linkHoverTextDecoration};
       }
       &:active {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
       }
     `;
   },
@@ -81,31 +53,31 @@ const jsStyles = {
   disabled(t: ITheme) {
     return css`
       .${styles.useDefault}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
-      .${jsStyles.useSuccess(t)}& {
-        color: ${t.textColorDisabled};
+      .${styles.useSuccess}& {
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
-      .${jsStyles.useDanger(t)}& {
-        color: ${t.textColorDisabled};
+      .${styles.useDanger}& {
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
       .${styles.useGrayed}& {
-        color: ${t.textColorDisabled};
+        color: ${t.linkDisabledColor};
 
         &:hover {
-          color: ${t.textColorDisabled};
+          color: ${t.linkDisabledColor};
         }
       }
     `;

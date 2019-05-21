@@ -8,7 +8,7 @@ import styles from './InputLikeText.less';
 import { cx as classNames } from 'emotion';
 import inputStyles from '../../Input/Input.less';
 import jsInputStyles from '../../Input/Input.styles';
-import { ThemeConsumer } from '../../../lib/theming/ThemeProvider';
+import { ThemeConsumer } from '../ThemeContext';
 import { ITheme } from '../../../lib/theming/Theme';
 
 export interface InputLikeTextProps extends InputProps {
@@ -199,6 +199,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={classNames(className, jsInputStyles.useDefaultColor(this.theme))}>{icon}</span>;
+    return (
+      <span className={classNames(className, inputStyles.useDefaultColor, jsInputStyles.useDefaultColor(this.theme))}>
+        {icon}
+      </span>
+    );
   }
 }

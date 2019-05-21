@@ -43,12 +43,12 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       .${styles.textarea}& {
-        border-color: ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border-color: ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
       .${styles.textarea}&:focus {
-        border-color: ${t.errorMain};
-        box-shadow: 0 0 0 1px ${t.errorMain};
+        border-color: ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
       }
     `;
   },
@@ -56,12 +56,12 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       .${styles.textarea}& {
-        border-color: ${t.warningMain};
-        box-shadow: 0 0 0 1px ${t.warningMain};
+        border-color: ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
       .${styles.textarea}&:focus {
-        border-color: ${t.warningMain};
-        box-shadow: 0 0 0 1px ${t.warningMain};
+        border-color: ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
     `;
   },
