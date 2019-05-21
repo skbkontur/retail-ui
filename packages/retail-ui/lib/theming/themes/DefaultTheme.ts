@@ -28,9 +28,14 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.borderColorGrayLight;
     },
   },
-  spinnerBg: {
+  spinnerBgColor: {
     get() {
       return this.grayXLight;
+    },
+  },
+  spinnerDimmedColor: {
+    get() {
+      return this.gray;
     },
   },
   spinnerCaptionColor: {
