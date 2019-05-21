@@ -123,3 +123,43 @@ gemini.suite('modal closing', suite => {
       actions.click(find('[data-tid="modal-container"]'));
     });
 });
+
+gemini.suite('modal with sticky Header and changeable content', suite => {
+  suite
+    .before(renderStory('Modal', 'Modal with sticky and changeable content'))
+    .setCaptureElements('html')
+    .before((actions, find) => {
+      this.content = find('[data-tid="modal-content-checkbox"]');
+    })
+    .capture('scrolled', (actions, find) => {
+      actions.click(this.content).executeJS(function(window) {
+        const modalContainer = window.document.querySelector('[class^="Modal-container"]');
+        const modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
+
+        modalContainer.scrollTop = modalContent.offsetHeight / 2;
+      });
+    });
+});
+
+gemini.suite('modal with sticky Footer and changeable content', suite => {
+  suite
+    .before(renderStory('Modal', 'Modal with sticky and changeable content'))
+    .setCaptureElements('html')
+    .before((actions, find) => {
+      this.content = find('[data-tid="modal-content-checkbox"]');
+      this.header = find('[data-tid="modal-header-checkbox"]');
+      this.footer = find('[data-tid="modal-footer-checkbox"]');
+    })
+    .capture('scrolled', (actions, find) => {
+      actions
+        .click(this.header)
+        .click(this.footer)
+        .click(this.content)
+        .executeJS(function(window) {
+          const modalContainer = window.document.querySelector('[class^="Modal-container"]');
+          const modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
+
+          modalContainer.scrollTop = modalContent.offsetHeight / 2;
+        });
+    });
+});

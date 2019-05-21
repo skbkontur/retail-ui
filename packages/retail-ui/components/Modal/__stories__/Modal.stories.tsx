@@ -4,6 +4,8 @@ import { storiesOf } from '@storybook/react';
 
 import Modal from '../';
 import Button from '../../Button';
+import Checkbox from '../../Checkbox';
+import Gapped from '../../Gapped';
 import Input from '../../Input';
 import Toggle from '../../Toggle';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
@@ -406,6 +408,63 @@ class SmallModalOnTop extends Component<{}, {}> {
   };
 }
 
+class ModalWithStickyAndChangeableContent extends Component<
+  any,
+  {
+    showHeader: boolean;
+    showFooter: boolean;
+    moreContent: boolean;
+  }
+> {
+  public state = {
+    showHeader: true,
+    showFooter: false,
+    moreContent: false,
+  };
+
+  public render = () => {
+    return (
+      <Modal alignTop>
+        {this.state.showHeader ? (
+          <Modal.Header>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, tempore.</Modal.Header>
+        ) : null}
+        <Modal.Body>
+          <Gapped>
+            <div>
+              <Checkbox
+                data-tid="modal-content-checkbox"
+                checked={this.state.moreContent}
+                onChange={() => this.setState(({ moreContent }) => ({ moreContent: !moreContent }))}
+              />{' '}
+              More Content
+            </div>
+            <div>
+              <Checkbox
+                data-tid="modal-header-checkbox"
+                checked={this.state.showHeader}
+                onChange={() => this.setState(({ showHeader }) => ({ showHeader: !showHeader }))}
+              />{' '}
+              Header
+            </div>
+            <div>
+              <Checkbox
+                data-tid="modal-footer-checkbox"
+                checked={this.state.showFooter}
+                onChange={() => this.setState(({ showFooter }) => ({ showFooter: !showFooter }))}
+              />{' '}
+              Footer
+            </div>
+          </Gapped>
+          {Array(this.state.moreContent ? 100 : 10).fill(<p>Lorem ipsum dolor sit amet.</p>)}
+        </Modal.Body>
+        {this.state.showFooter ? (
+          <Modal.Footer>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, tempore.</Modal.Footer>
+        ) : null}
+      </Modal>
+    );
+  };
+}
+
 storiesOf('Modal', module)
   .add('With scrollable parent content', () => <ModalWithScrollableContent />)
   .add('With Icon Input', () => <ModalWithIconInput />)
@@ -453,4 +512,5 @@ storiesOf('Modal', module)
       </Modal.Body>
     </Modal>
   ))
-  .add('Small modal on the Top', () => <SmallModalOnTop />);
+  .add('Small modal on the Top', () => <SmallModalOnTop />)
+  .add('Modal with sticky and changeable content', () => <ModalWithStickyAndChangeableContent />);
