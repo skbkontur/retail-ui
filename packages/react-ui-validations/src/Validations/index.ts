@@ -1,6 +1,6 @@
 import { ValidationBuilder } from './ValidationBuilder';
 import { ValidationWriter } from './ValidationWriter';
-import { RootValidationRule } from './Types';
+import { RootValidationRule, ValidationRule, ItemValidationRule } from './Types';
 import { ValidationReader } from './ValidationReader';
 import { PathTokensCache } from './PathHelper';
 
@@ -19,3 +19,5 @@ export function createValidator<T>(rule: RootValidationRule<T>): Validator<T> {
     return validate(value, rule, tokens);
   };
 }
+
+export { ValidationReader, ValidationBuilder, RootValidationRule, ValidationRule, ItemValidationRule };
