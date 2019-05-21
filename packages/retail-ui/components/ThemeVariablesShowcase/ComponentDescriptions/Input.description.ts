@@ -32,8 +32,9 @@ export default {
     ]
   },
   input: {
-    contents: "css`\n  .${classes.root}.${classes.focus} &:-moz-placeholder {\n    color: ${t.placeholderColorLight};\n  }\n  .${classes.root}.${classes.focus} &::-moz-placeholder {\n    color: ${t.placeholderColorLight};\n  }\n  .${classes.root}.${classes.focus} &::placeholder {\n    color: ${t.placeholderColorLight};\n  }\n  .${classes.root}.${classes.disabled} & {\n    color: ${t.textColorDisabled};\n  }\n  .${classes.root}.${classes.disabled} &:-moz-placeholder {\n    -webkit-text-fill-color: ${t.placeholderColor};\n  }\n  .${classes.root}.${classes.disabled} &::-moz-placeholder {\n    -webkit-text-fill-color: ${t.placeholderColor};\n  }\n  .${classes.root}.${classes.disabled} &::placeholder {\n    -webkit-text-fill-color: ${t.placeholderColor};\n  }\n  &:-moz-placeholder {\n    color: ${t.placeholderColor};\n  }\n  &::-moz-placeholder {\n    color: ${t.placeholderColor};\n  }\n  &::placeholder {\n    color: ${t.placeholderColor};\n  }\n`",
+    contents: "css`\n  color: ${t.inputTextColor};\n\n  .${classes.root}.${classes.focus} &:-moz-placeholder {\n    color: ${t.placeholderColorLight};\n  }\n  .${classes.root}.${classes.focus} &::-moz-placeholder {\n    color: ${t.placeholderColorLight};\n  }\n  .${classes.root}.${classes.focus} &::placeholder {\n    color: ${t.placeholderColorLight};\n  }\n  .${classes.root}.${classes.disabled} & {\n    color: ${t.textColorDisabled};\n  }\n  .${classes.root}.${classes.disabled} &:-moz-placeholder {\n    -webkit-text-fill-color: ${t.placeholderColor};\n  }\n  .${classes.root}.${classes.disabled} &::-moz-placeholder {\n    -webkit-text-fill-color: ${t.placeholderColor};\n  }\n  .${classes.root}.${classes.disabled} &::placeholder {\n    -webkit-text-fill-color: ${t.placeholderColor};\n  }\n  &:-moz-placeholder {\n    color: ${t.placeholderColor};\n  }\n  &::-moz-placeholder {\n    color: ${t.placeholderColor};\n  }\n  &::placeholder {\n    color: ${t.placeholderColor};\n  }\n`",
     variables: [
+      "inputTextColor",
       "placeholderColorLight",
       "textColorDisabled",
       "placeholderColor"
