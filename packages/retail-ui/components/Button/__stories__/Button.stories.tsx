@@ -6,8 +6,8 @@ import Button, { ButtonUse } from '../../Button';
 import Gapped from '../../Gapped';
 import { ButtonSize, ButtonArrow, ButtonProps } from '../Button';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import ComponentStatesTable from '../../internal/ComponentStatesTable';
-import StatesCombinator from '../../internal/StatesCombinator';
+import { ComponentTable } from '../../internal/ComponentTable';
+import { ComponentCombinator } from '../../internal/ComponentCombinator';
 
 storiesOf('Button', module)
   .add('playground', () => {
@@ -239,13 +239,30 @@ storiesOf('Button', module)
     );
   })
   .add('different aligns', () => (
-    <ComponentStatesTable component={Button} rows={alignStates} cols={layoutStates} presetState={{ width: 200, children: 'Button' }} children='Button' />
+    <ComponentTable
+      Component={Button}
+      rows={alignStates.map(x => ({ props: x }))}
+      cols={layoutStates.map(x => ({ props: x }))}
+      presetProps={{ width: 200, children: 'Button' }}
+    />
   ))
   .add('different visual states', () => (
-    <StatesCombinator states={[...visualStates, ...sizeStates, ...arrowStates, ...useStates]} sizeX={7} sizeY={7} presetState={{ children: 'Button' }} children='Button' component={Button} />
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button' }}
+      combinations={[...visualStates, ...sizeStates, ...arrowStates, ...useStates].map(x => ({ props: x }))}
+      colsPerPage={7}
+      rowsPerPage={7}
+    />
   ))
   .add('different content', () => (
-    <StatesCombinator states={[...contentStates, ...widthStates, ...layoutStates]} sizeX={3} sizeY={6} component={Button} presetState={{}} children='Button' />
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button' }}
+      combinations={[...contentStates, ...widthStates, ...layoutStates].map(x => ({ props: x }))}
+      colsPerPage={3}
+      rowsPerPage={6}
+    />
   ));
 
 type ButtonState = Partial<ButtonProps>;
