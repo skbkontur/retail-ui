@@ -22,7 +22,7 @@ export type CurrencyInputProps = Override<
      * Допустимое кол-во цифр целой части.
      * Если передан **0**, то и в целой части допускается только **0**.
      */
-    integerPartLength?: Nullable<number>;
+    integerDigits?: Nullable<number>;
     /** onChange */
     onChange: (e: { target: { value: Nullable<number> } }, value: Nullable<number>) => void;
     /** onSubmit */
@@ -95,7 +95,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, maxLength, integerPartLength, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, mainInGroup, maxLength, integerDigits, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
@@ -265,7 +265,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
       value,
       this.props.fractionDigits,
       !this.props.signed,
-      this.props.integerPartLength,
+      this.props.integerDigits,
     );
     if (result) {
       const formatted = result.value;

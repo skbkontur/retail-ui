@@ -29,7 +29,7 @@ export default class CurrencyInputHelper {
     input: string,
     fractionDigits: Nullable<number>,
     unsigned: Nullable<boolean>,
-    integerPartLength: Nullable<number>,
+    integerDigits: Nullable<number>,
   ) {
     const extracted = CurrencyInputHelper.getMaximumValidSubstring(
       value,
@@ -41,7 +41,7 @@ export default class CurrencyInputHelper {
     );
     if (extracted != null) {
       const insert = CurrencyInputHelper.insert(value, start, end, extracted);
-      if (!CurrencyInputHelper.isAllowedLengthIntegerPart(CurrencyHelper.parse(insert.value), integerPartLength)) {
+      if (!CurrencyInputHelper.isAllowedLengthIntegerPart(CurrencyHelper.parse(insert.value), integerDigits)) {
         return null;
       }
       return insert;

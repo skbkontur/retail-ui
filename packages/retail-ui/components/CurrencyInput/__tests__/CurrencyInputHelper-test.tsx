@@ -178,7 +178,7 @@ describe('CurrencyInputHelper', () => {
         input: 'a',
         fractionDigits: null,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: null,
       },
       {
@@ -188,7 +188,7 @@ describe('CurrencyInputHelper', () => {
         input: '1',
         fractionDigits: null,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: { value: '123\u2009123\u2009123\u2009123\u2009123', position: 1 },
       },
       {
@@ -198,7 +198,7 @@ describe('CurrencyInputHelper', () => {
         input: '3',
         fractionDigits: null,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: { value: '123\u2009123\u2009123\u2009123\u2009123', position: 0 },
       },
       {
@@ -208,7 +208,7 @@ describe('CurrencyInputHelper', () => {
         input: '1',
         fractionDigits: null,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: { value: '123\u2009123\u2009123\u2009123,123', position: 1 },
       },
       {
@@ -218,7 +218,7 @@ describe('CurrencyInputHelper', () => {
         input: '3',
         fractionDigits: null,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: { value: '123\u2009123\u2009123\u2009123,123', position: 0 },
       },
       {
@@ -228,7 +228,7 @@ describe('CurrencyInputHelper', () => {
         input: '3',
         fractionDigits: 2,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: { value: '0,12', position: 4 },
       },
       {
@@ -238,7 +238,7 @@ describe('CurrencyInputHelper', () => {
         input: '',
         fractionDigits: 2,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: null,
       },
       {
@@ -248,7 +248,7 @@ describe('CurrencyInputHelper', () => {
         input: '4',
         fractionDigits: 2,
         unsigned: null,
-        integerPartLength: null,
+        integerDigits: null,
         expected: { value: '0,12', position: 4 },
       },
       {
@@ -258,7 +258,7 @@ describe('CurrencyInputHelper', () => {
         input: '4',
         fractionDigits: 2,
         unsigned: null,
-        integerPartLength: 2,
+        integerDigits: 2,
         expected: { value: '43,21', position: 1 },
       },
       {
@@ -268,7 +268,7 @@ describe('CurrencyInputHelper', () => {
         input: '5',
         fractionDigits: 2,
         unsigned: null,
-        integerPartLength: 2,
+        integerDigits: 2,
         expected: null,
       },
       {
@@ -278,7 +278,7 @@ describe('CurrencyInputHelper', () => {
         input: '0',
         fractionDigits: 2,
         unsigned: null,
-        integerPartLength: 0,
+        integerDigits: 0,
         expected: { value: '0,21', position: 1 },
       },
       {
@@ -288,7 +288,7 @@ describe('CurrencyInputHelper', () => {
         input: '-',
         fractionDigits: 2,
         unsigned: true,
-        integerPartLength: 2,
+        integerDigits: 2,
         expected: null,
       },
       {
@@ -298,7 +298,7 @@ describe('CurrencyInputHelper', () => {
         input: '-',
         fractionDigits: 2,
         unsigned: false,
-        integerPartLength: 2,
+        integerDigits: 2,
         expected: { value: '\u221243,21', position: 1 },
       },
       {
@@ -308,7 +308,7 @@ describe('CurrencyInputHelper', () => {
         input: '\u2212',
         fractionDigits: 2,
         unsigned: false,
-        integerPartLength: 2,
+        integerDigits: 2,
         expected: { value: '\u221243,21', position: 1 },
       },
       {
@@ -318,12 +318,12 @@ describe('CurrencyInputHelper', () => {
         input: '1',
         fractionDigits: 2,
         unsigned: false,
-        integerPartLength: 2,
+        integerDigits: 2,
         expected: { value: '\u221299,21', position: 6 },
       },
     ].forEach(x => {
       it(`safeInsert('${x.value}', ${x.start}, ${x.end}, '${x.input}', ${x.fractionDigits}, ${x.unsigned}, ${
-        x.integerPartLength
+        x.integerDigits
       }) => ${JSON.stringify(x.expected)}`, () => {
         const actual = CurrencyInputHelper.safeInsert(
           x.value,
@@ -332,7 +332,7 @@ describe('CurrencyInputHelper', () => {
           x.input,
           x.fractionDigits,
           x.unsigned,
-          x.integerPartLength,
+          x.integerDigits,
         );
         const expected = x.expected;
         expect(actual).toEqual(expected);
