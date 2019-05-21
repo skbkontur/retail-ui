@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { Nullable } from '../typings/Types';
-import { tooltip } from './ErrorRenderer';
-import ValidationWrapper, { RenderErrorMessage, ValidationBehaviour, ValidationLevel } from './ValidationWrapper';
+import {Nullable} from '../typings/Types';
+import {tooltip} from './ErrorRenderer';
+import ValidationWrapper, {RenderErrorMessage, ValidationBehaviour, ValidationLevel} from './ValidationWrapper';
 
 export interface ValidationInfo {
-  type?: ValidationBehaviour;
-  level?: ValidationLevel;
+  type?: Nullable<ValidationBehaviour>;
+  level?: Nullable<ValidationLevel>;
   message: React.ReactNode;
 }
 
@@ -17,7 +17,7 @@ export interface ValidationWrapperV1Props {
 
 export default class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Props> {
   public render() {
-    const { children, validationInfo, renderMessage } = this.props;
+    const {children, validationInfo, renderMessage} = this.props;
 
     return (
       <ValidationWrapper
@@ -25,8 +25,8 @@ export default class ValidationWrapperV1 extends React.Component<ValidationWrapp
         validations={[
           {
             error: Boolean(validationInfo),
-            level: validationInfo && validationInfo.level ? validationInfo.level : 'error',
-            behaviour: (validationInfo && validationInfo.type) || 'lostfocus',
+            level: validationInfo && validationInfo.level || 'error',
+            behaviour: validationInfo && validationInfo.type || 'lostfocus',
             message: validationInfo && validationInfo.message,
           },
         ]}
