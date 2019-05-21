@@ -1,8 +1,3 @@
-@green: #00aa90;
-@blue: #1e79be;
-@red: #d70c17;
-@yellow: #f8982d;
-@gray: #9b9b9b;
 
 :local {
   .spinner {
@@ -15,46 +10,26 @@
   }
 
   .caption {
-    color: rgb(128, 128, 128);
     font-size: 14px;
     line-height: 20px;
   }
 
   .captionRight {
-    .caption;
-
     margin-left: 5px;
   }
 
   .captionBottom {
-    .caption;
-
     display: block;
   }
 
-  .path {
+  .cloud {
     fill: none;
     stroke-linecap: round;
-
-    .spinner_big &,
-    .spinner_small & {
-      stroke-width: 2px;
-    }
   }
 
-  .cloud .bg {
-    fill: none;
-    stroke: #eee;
-  }
-
-  .cloud .path {
+  .cloudStroke {
     stroke-dasharray: 20, 86;
     stroke-dashoffset: 15;
-
-    :global {
-      animation: rt_cloud_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        rt_cloud_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_color 6s ease-in-out infinite;
-    }
   }
 
   .circle {
@@ -64,99 +39,10 @@
     stroke-dashoffset: -37;
     stroke-width: 1.5px;
     top: 3px;
-
-    :global {
-      animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite,
-        rt_color 6s ease-in-out infinite;
-    }
-
-    &.dimmed {
-      stroke: @gray;
-
-      :global {
-        animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-          rt_circle_length 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite, rt_rotate 2s linear infinite;
-      }
-    }
   }
 
   .fallback {
     display: inline-block;
     position: relative;
-  }
-}
-
-@keyframes rt_cloud_offset {
-  0% {
-    stroke-dashoffset: 10;
-  }
-
-  100% {
-    stroke-dashoffset: 116;
-  }
-}
-
-@keyframes rt_cloud_length {
-  0% {
-    stroke-dasharray: 10, 96;
-  }
-
-  50% {
-    stroke-dasharray: 50, 56;
-  }
-
-  100% {
-    stroke-dasharray: 10, 96;
-  }
-}
-
-@keyframes rt_circle_offset {
-  0% {
-    stroke-dashoffset: 0;
-  }
-
-  100% {
-    stroke-dashoffset: -37;
-  }
-}
-
-@keyframes rt_circle_length {
-  0% {
-    stroke-dasharray: 10, 27;
-  }
-
-  50% {
-    stroke-dasharray: 30, 7;
-  }
-
-  100% {
-    stroke-dasharray: 10, 27;
-  }
-}
-
-@keyframes rt_color {
-  100%,
-  0% {
-    stroke: @red;
-  }
-
-  40% {
-    stroke: @yellow;
-  }
-
-  66% {
-    stroke: @green;
-  }
-
-  80%,
-  90% {
-    stroke: @blue;
-  }
-}
-
-@keyframes rt_rotate {
-  100% {
-    transform: rotate(360deg);
   }
 }

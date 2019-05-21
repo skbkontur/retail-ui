@@ -14,7 +14,6 @@
 @btn-flat-shadow-checked-arrow: 0 0 0 1px @btn-flat-checked-bg;
 @btn-flat-shadow-checked-arrow-left: 0 0 0 1px @btn-flat-checked-bg;
 @btn-flat-checked-text-color: #fff;
-@btn-flat-checked-hover-border-color: @btn-flat-checked-bg;
 @btn-flat-disabled-bg: #f4f4f4;
 @btn-flat-disabled-shadow: none;
 @btn-flat-disabled-shadow-color: #f4f4f4;
@@ -44,7 +43,6 @@
 @btn-flat-default-border: 1px solid rgba(0, 0, 0, 0.15);
 @btn-flat-default-shadow: none;
 @btn-flat-default-shadow-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.15);
-@btn-flat-default-shadow-arrow-left: @btn-flat-default-shadow-arrow;
 
 @btn-flat-primary-bg: #1d85d0;
 @btn-flat-primary-bg-start: #1d85d0;
@@ -155,21 +153,13 @@
 
 // Checkbox
 @chb-flat-shadow: none;
-@chb-flat-border: @btn-flat-default-border;
-@chb-flat-border-color-focus: @flat-border-color-focus;
 @chb-flat-border-radius: 2px;
 @chb-flat-bg: none;
 @chb-flat-indeterminate-bg: #fff;
-@chb-flat-hover-bg: @btn-flat-default-hover-bg;
-@chb-flat-active-bg: @btn-flat-default-active-bg;
-@chb-flat-checked-bg: @flat-border-color-focus;
 @chb-flat-shadow-disabled: none;
 @chb-flat-shadow-active: none;
 @chb-flat-shadow-width: 1px;
 @chb-flat-checked-color: #fff;
-@chb-flat-box-indeterminate-bg: @chb-flat-checked-bg;
-@chb-flat-box-indeterminate-bg-hover: @chb-flat-checked-bg;
-@chb-flat-box-indeterminate-bg-active: @chb-flat-checked-bg;
 
 // Radio
 @radio-flat-size: 18px;
@@ -177,12 +167,9 @@
 @radio-flat-bg-image: none;
 @radio-flat-box-shadow: none;
 @radio-flat-border: 1px solid rgba(0, 0, 0, 0.15);
-@radio-flat-hover-bg: @chb-flat-hover-bg;
 @radio-flat-hover-shadow: none;
-@radio-flat-active-bg: @chb-flat-active-bg;
 @radio-flat-active-shadow: none;
 @radio-flat-focus-shadow: inset 0 0 0 1px @flat-outline-color-focus;
-@radio-flat-checked-bg-color: @chb-flat-checked-bg;
 @radio-flat-checked-bullet-color: #fff;
 @radio-flat-disabled-shadow: none;
 @radio-flat-label-display: inline-block;
@@ -238,7 +225,6 @@
 @value btnCheckedBg: @btn-flat-checked-bg;
 @value btnCheckedTextColor: @btn-flat-checked-text-color;
 @value btnCheckedShadow: @btn-flat-checked-shadow;
-@value btnCheckedHoverBorderColor: @btn-flat-checked-hover-border-color;
 @value btnCheckedShadowArrow: @btn-flat-shadow-checked-arrow;
 @value btnCheckedShadowArrowLeft: @btn-flat-shadow-checked-arrow-left;
 @value btnDisabledBg: @btn-flat-disabled-bg;
@@ -257,7 +243,6 @@
 @value btnDefaultBorder: @btn-flat-default-border;
 @value btnDefaultShadow: @btn-flat-default-shadow;
 @value btnDefaultShadowArrow: @btn-flat-default-shadow-arrow;
-@value btnDefaultShadowArrowLeft: @btn-flat-default-shadow-arrow-left;
 @value btnDefaultBgStart: @btn-flat-default-bg-start;
 @value btnDefaultBgEnd: @btn-flat-default-bg-end;
 @value btnDefaultHoverBgStart: @btn-flat-default-hover-bg-start;
@@ -366,21 +351,13 @@
 @value btnLargeArrowTransform: @btn-flat-large-arrow-transform;
 @value btnLargeArrowBg: @btn-flat-large-arrow-bg;
 @value chbShadow: @chb-flat-shadow;
-@value chbBorder: @chb-flat-border;
-@value chbBorderColorFocus: @chb-flat-border-color-focus;
 @value chbBorderRadius: @chb-flat-border-radius;
 @value chbBg: @chb-flat-bg;
 @value chbIndeterminateBg: @chb-flat-indeterminate-bg;
-@value chbHoverBg: @chb-flat-hover-bg;
-@value chbActiveBg: @chb-flat-active-bg;
-@value chbCheckedBg: @chb-flat-checked-bg;
 @value chbShadowDisabled: @chb-flat-shadow-disabled;
 @value chbShadowActive: @chb-flat-shadow-active;
 @value chbShadowWidth: @chb-flat-shadow-width;
 @value chbCheckedColor: @chb-flat-checked-color;
-@value chbBoxIndeterminateBg: @chb-flat-box-indeterminate-bg;
-@value chbBoxIndeterminateBgHover: @chb-flat-box-indeterminate-bg-hover;
-@value chbBoxIndeterminateBgActive: @chb-flat-box-indeterminate-bg-active;
 @value inputBg: @input-flat-bg;
 @value inputIconColor: @input-flat-icon-color;
 @value inputColor: @input-flat-color;
@@ -412,12 +389,9 @@
 @value radioBgImage: @radio-flat-bg-image;
 @value radioBoxShadow: @radio-flat-box-shadow;
 @value radioBorder: @radio-flat-border;
-@value radioHoverBg: @radio-flat-hover-bg;
 @value radioHoverShadow: @radio-flat-hover-shadow;
-@value radioActiveBg: @radio-flat-active-bg;
 @value radioActiveShadow: @radio-flat-active-shadow;
 @value radioFocusShadow: @radio-flat-focus-shadow;
-@value radioCheckedBgColor: @radio-flat-checked-bg-color;
 @value radioCheckedBulletColor: @radio-flat-checked-bullet-color;
 @value radioDisabledShadow: @radio-flat-disabled-shadow;
 @value radioLabelDisplay: @radio-flat-label-display;
