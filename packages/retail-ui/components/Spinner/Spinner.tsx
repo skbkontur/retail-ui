@@ -5,7 +5,7 @@ import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 import { sizeMaps, svgAnimateSupport, types } from './settings';
 import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
-import { cx as classnames } from 'emotion';
+import { cx } from 'emotion';
 
 export const SpinnerConfig = {
   hasSvgAnimationSupport: svgAnimateSupport(),
@@ -18,6 +18,15 @@ export interface SpinnerProps {
   dimmed?: boolean;
   type?: SpinnerType;
 }
+
+const CLOUD_SVG_PATH = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
+      5.67148577 25.9305165,4 22.1999329,4 C17.3429265,
+      4 12.9026663,7.04270463 11.154144,11.5717304 L10.901479,
+      12.2253114 L10.2421341,12.4725311 C6.50853057,13.8727758 4,
+      17.4719751 4,21.428492 C4,26.7061833 8.32047079,
+      31 13.6314689,31 L32.0297086,31 C38.078569,31 43,26.1036477 43,
+      20.0862989 C43,14.3602091 38.493302,9.5769573 32.7403918,
+      9.19661922 L32.0297086,9.1495774 Z`;
 
 /**
  * DRAFT - инлайн-лоадер
@@ -70,34 +79,23 @@ class Spinner extends React.Component<SpinnerProps> {
 
   private _renderCloud = (type: SpinnerType) => {
     const params = sizeMaps[type];
-
-    const svgPath = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
-      5.67148577 25.9305165,4 22.1999329,4 C17.3429265,
-      4 12.9026663,7.04270463 11.154144,11.5717304 L10.901479,
-      12.2253114 L10.2421341,12.4725311 C6.50853057,13.8727758 4,
-      17.4719751 4,21.428492 C4,26.7061833 8.32047079,
-      31 13.6314689,31 L32.0297086,31 C38.078569,31 43,26.1036477 43,
-      20.0862989 C43,14.3602091 38.493302,9.5769573 32.7403918,
-      9.19661922 L32.0297086,9.1495774 Z`;
+    const strokeClassName = cx(styles.cloudStrokePath, this.props.dimmed && styles.dimmed);
 
     return (
-      <svg className={styles.cloud} width={params.width} height={params.height} viewBox={params.viewBox}>
-        <path className={styles.bg} strokeWidth={params.strokeWidth} d={svgPath} />
-        <path className={styles.path} strokeWidth={params.strokeWidth} d={svgPath} />
+      <svg width={params.width} height={params.height} viewBox={params.viewBox}>
+        <path d={CLOUD_SVG_PATH} strokeWidth={params.strokeWidth} className={styles.cloudBgPath} />
+        <path d={CLOUD_SVG_PATH} strokeWidth={params.strokeWidth} className={strokeClassName} />
       </svg>
     );
   };
 
   private _renderCircle = (type: SpinnerType) => {
     const params = sizeMaps[type];
+    const circleClassName = this.props.dimmed ? styles.dimmed : undefined;
 
     return (
-      <svg
-        className={classnames(styles.circle, this.props.dimmed && styles.dimmed)}
-        width={params.width}
-        height={params.height}
-      >
-        <circle cx="8" cy="8" r="6" className={styles.path} strokeWidth={params.strokeWidth} />
+      <svg className={styles.circle} width={params.width} height={params.height}>
+        <circle cx="8" cy="8" r="6" strokeWidth={params.strokeWidth} className={circleClassName} />
       </svg>
     );
   };
@@ -111,12 +109,8 @@ class Spinner extends React.Component<SpinnerProps> {
   };
 
   private _renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
-    const spanClassName = classnames({
-      [styles.captionRight]: type === types.mini,
-      [styles.captionBottom]: type !== types.mini,
-    });
-
-    return <span className={spanClassName}>{caption}</span>;
+    const captionClassName = cx(styles.caption, type === types.mini ? styles.captionRight : styles.captionBottom);
+    return <span className={captionClassName}>{caption}</span>;
   };
 }
 
