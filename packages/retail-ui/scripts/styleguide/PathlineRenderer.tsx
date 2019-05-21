@@ -5,7 +5,7 @@ import Spinner from '../../components/Spinner';
 import Link from '../../components/Link';
 import Gapped from '../../components/Gapped';
 import fetch from '../../lib/net/fetch-cors';
-import OriginalPathlineRenderer from 'react-styleguidist/lib/rsg-components/Pathline/PathlineRenderer.js';
+import OriginalPathlineRenderer from 'react-styleguidist/lib/rsg-components/Pathline/PathlineRenderer';
 
 interface GithubIssue {
   id: string;
