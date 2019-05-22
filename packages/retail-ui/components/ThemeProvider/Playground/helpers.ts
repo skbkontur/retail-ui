@@ -5,7 +5,10 @@ export const getComponentsFromPropsList = <T>(
   propsList: T[],
 ): Array<React.ReactElement<T>> => {
   return propsList.reduce(
-    (result: Array<React.ReactElement<T>>, props) => [...result, React.cloneElement(component, props)],
+    (result: Array<React.ReactElement<T>>, props, index) => [
+      ...result,
+      React.cloneElement(component, { ...props, key: index }),
+    ],
     [],
   );
 };

@@ -7,12 +7,14 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import TrashIcon from '@skbkontur/react-icons/Trash';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import styles from './styles.less';
+import jsStyles from './jsStyles';
+
 import Button, { ButtonProps } from '../../Button';
 import Tabs from '../../Tabs/Tabs';
 import { ThemeType } from './constants';
 import Gapped from '../../Gapped/Gapped';
 import Link, { LinkProps } from '../../Link/Link';
-import styles from './styles.less';
 import Input, { InputProps } from '../../Input';
 import { TokenInputPlayground } from './TokenInputPlayground';
 import { DatePickerPlayground } from './AnotherInputsPlayground';
@@ -30,6 +32,7 @@ import Tooltip from '../../Tooltip';
 import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
+import Sticky from '../../Sticky';
 
 export interface IComponentsListProps {
   currentThemeType: ThemeType;
@@ -39,6 +42,7 @@ export interface IComponentsListProps {
 
 export class Playground extends React.Component<IComponentsListProps, {}> {
   private theme!: PlaygroundTheme;
+  private stickyStop: HTMLElement | null = null;
 
   public render() {
     return (
@@ -52,7 +56,6 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
   }
 
   /* tslint:disable jsx-key */
-
   private renderMain() {
     return (
       <div
@@ -73,6 +76,9 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
           {this.renderTokenInputsGroup()}
           {this.renderSwitchersGroup()}
           {this.renderControlsGroup()}
+        </Gapped>
+        {this.renderStickyStopElement()}
+        <Gapped vertical gap={50}>
           {this.renderHintsGroup()}
           {this.renderTooltip()}
           {this.renderPaging()}
@@ -83,21 +89,33 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
 
   private renderTabsGroup = () => {
     const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
+    const tabsGroup = (isSticky: boolean) => (
+      <div
+        style={{
+          background: this.theme.backgroundMain || 'white',
+        }}
+        className={cx(styles.tabsWrapper, isSticky && jsStyles.stickyTabsWrapper(this.theme))}
+      >
+        <Gapped vertical={false} verticalAlign={'middle'} gap={40}>
+          <Tabs value={currentThemeType} onChange={onThemeChange} vertical={false}>
+            <div
+              className={css`
+                color: ${this.theme.textColorMain};
+              `}
+            >
+              <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
+            </div>
+          </Tabs>
+          <Link onClick={onEditLinkClick}>Настроить тему</Link>
+        </Gapped>
+      </div>
+    );
     return (
-      <Gapped vertical={false} verticalAlign={'middle'} gap={40}>
-        <Tabs value={currentThemeType} onChange={onThemeChange} vertical={false}>
-          <div
-            className={css`
-              color: ${this.theme.textColorMain};
-            `}
-          >
-            <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
-            <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
-            <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
-          </div>
-        </Tabs>
-        <Link onClick={onEditLinkClick}>Настроить тему</Link>
-      </Gapped>
+      <Sticky side={'top'} getStop={this.getStickyStop}>
+        {tabsGroup(true)}
+      </Sticky>
     );
   };
 
@@ -204,11 +222,13 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
   };
 
   private renderTooltip = () => {
-    const tooltipRender = () => (
-      <div style={{ width: 210 }}>{'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}</div>
+    const tooltipContent = () => (
+      <div className={styles.tooltipContent}>
+        {'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}
+      </div>
     );
     const components = [
-      <Tooltip render={tooltipRender} pos="right middle" trigger={'opened'}>
+      <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'}>
         <Link icon={<HelpDotIcon />} />
       </Tooltip>,
     ];
@@ -217,6 +237,14 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
 
   private renderPaging = () => {
     const components = [<PagingPlayground />];
-    return <ComponentsGroup title={'Пэйджинг'} components={components} theme={this.theme} />;
+    return <ComponentsGroup title={'Пейджинг'} components={components} theme={this.theme} />;
   };
+
+  private renderStickyStopElement = () => {
+    return <div ref={this.stopRef} style={{ height: 50 }} />;
+  };
+
+  private stopRef = (el: HTMLElement | null) => (this.stickyStop = el);
+
+  private getStickyStop = () => this.stickyStop;
 }

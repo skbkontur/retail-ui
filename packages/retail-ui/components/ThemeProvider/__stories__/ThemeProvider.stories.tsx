@@ -124,13 +124,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   private handleThemeChange = (ev: { target: { value: string } }, value: string) => {
     this.setState({
       currentThemeType: value as ThemeType,
-    });
-    this.changeTheme(value as ThemeType);
-  };
-
-  private changeTheme = (themeType: ThemeType) => {
-    this.setState({
-      currentTheme: this.getThemeByType(themeType) as PlaygroundTheme,
+      currentTheme: this.getThemeByType(value as ThemeType) as PlaygroundTheme,
     });
   };
 

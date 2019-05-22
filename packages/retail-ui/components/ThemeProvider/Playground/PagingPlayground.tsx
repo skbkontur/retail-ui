@@ -1,5 +1,5 @@
 import React from 'react';
-import Paging from '../../Paging';
+import Paging from '../../Paging/Paging';
 
 export class PagingPlayground extends React.Component<{}, { active: number }> {
   public state = {
