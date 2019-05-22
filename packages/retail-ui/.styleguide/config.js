@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-const parseTsComponent = require('react-docgen-typescript').withCustomConfig('./tsconfig.json', {
+const parseTsComponent = require('react-docgen-typescript').withCustomConfig(path.join(__dirname, '../tsconfig.json'), {
   propFilter: prop => !(prop.parent && /node_modules/.test(prop.parent.fileName)),
 }).parse;
 const parseJsComponent = require('react-docgen').parse;
-const libraryVersion = require('./package.json').version;
+const libraryVersion = require('../package.json').version;
 
 function getComponentList() {
-  const dirPath = path.resolve(__dirname, 'components');
+  const dirPath = path.resolve(__dirname, '../components');
   return fs
     .readdirSync(dirPath)
     .filter(i => !i.startsWith('Theme'))
@@ -169,7 +169,7 @@ const webpackConfig = {
 };
 
 module.exports = {
-  styleguideDir: path.resolve(__dirname, `styleguide/${libraryVersion}`),
+  styleguideDir: path.resolve(__dirname, `build/${libraryVersion}`),
   skipComponentsWithoutExample: true,
   pagePerSection: true,
   styles,
@@ -191,7 +191,11 @@ module.exports = {
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui',
   },
-  sections: [
+  
+  getComponentPathLine(path) {
+    return path.substring(path.indexOf('components')) || path;
+  },
+sections: [
     {
       name: 'Theming',
       components: [

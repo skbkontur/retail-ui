@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import warning from 'warning';
 import { isFunction } from '../../lib/utils';
 import styles from './MenuItem.less';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './MenuItem.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

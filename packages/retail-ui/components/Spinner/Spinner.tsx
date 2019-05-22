@@ -6,7 +6,7 @@ import { sizeMaps, svgAnimateSupport, types } from './settings';
 import styles from './Spinner.less';
 import SpinnerFallback from './SpinnerFallback';
 import jsStyles from './Spinner.styles';
-import { cx } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../internal/ThemeContext';
 

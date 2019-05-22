@@ -14,7 +14,7 @@ import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from '
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 import styles from './SidePage.less';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

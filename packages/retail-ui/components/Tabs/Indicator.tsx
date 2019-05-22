@@ -7,7 +7,7 @@ import styles from './Indicator.less';
 import { Nullable } from '../../typings/utility-types';
 import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Indicator.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

@@ -12,7 +12,7 @@ import styles from './TopBar.less';
 import End from './TopBarEnd';
 import Start from './TopBarStart';
 import Logout from './TopBarLogout';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './TopBar.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

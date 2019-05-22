@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CloseProps } from './ModalContext';
 import styles from './Modal.less';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

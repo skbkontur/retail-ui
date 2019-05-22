@@ -3,7 +3,7 @@ import Popup, { PopupPosition } from '../Popup';
 import styles from './HintBox.less';
 import { Nullable, TimeoutID } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';

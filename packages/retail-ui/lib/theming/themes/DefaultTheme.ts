@@ -1,7 +1,7 @@
 import DEFAULT_VARIABLES from '../../../components/variables.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 import ColorFunctions from '../../styles/ColorFunctions';
-import { keyframes } from 'emotion';
+import { keyframes } from '../Emotion';
 
 const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   bgActive: {
@@ -24,9 +24,28 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.warningMain;
     },
   },
-  dropdownMenuHoverBg: {
+  controlHeightSmall: {
     get() {
-      return this.bgActive;
+      const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+      const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
+      const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
+      return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}`;
+    },
+  },
+  controlHeightMedium: {
+    get() {
+      const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+      const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
+      const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
+      return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}`;
+    },
+  },
+  controlHeightLarge: {
+    get() {
+      const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+      const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
+      const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
+      return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}`;
     },
   },
   linkHoverColor: {
@@ -37,6 +56,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   linkDisabledColor: {
     get() {
       return this.textColorDisabled;
+    },
+  },
+  dropdownMenuHoverBg: {
+    get() {
+      return this.bgActive;
     },
   },
   btnDisabledShadowColor: {

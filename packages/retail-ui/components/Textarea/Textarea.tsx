@@ -8,7 +8,7 @@ import { getTextAreaHeight } from './TextareaHelpers';
 import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
 import Upgrades from '../../lib/Upgrades';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './Textarea.styles';
 import styles from './Textarea.less';
 import { ThemeConsumer } from '../internal/ThemeContext';

@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import styles from './SidePage.less';
 import { ITheme } from '../../lib/theming/Theme';
 

@@ -5,7 +5,7 @@ import getScrollWidth from '../../lib/dom/getScrollWidth';
 import styles from './ScrollContainer.less';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;

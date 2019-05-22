@@ -4,7 +4,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import styles from './Checkbox.less';
 import jsStyles from './Checkbox.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

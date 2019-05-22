@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
 import { ITheme } from '../../lib/theming/Theme';
 

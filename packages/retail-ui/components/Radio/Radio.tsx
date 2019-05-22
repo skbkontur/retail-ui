@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import styles from './Radio.less';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './Radio.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

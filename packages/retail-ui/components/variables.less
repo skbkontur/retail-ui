@@ -1,10 +1,9 @@
-//Colors
+// Colors
 @brand_x_light: #cae5f5;
 @brand_light: #3094d0;
 @brand: #1e79be;
 @brand_dark: #1363a0;
 @brand_x_dark: #084f85;
-
 @white: #fff;
 @gray_xx_light: #f2f2f2;
 @gray_x_light: #e5e5e5;
@@ -30,7 +29,8 @@
 // Common
 @bg-default: #fff;
 @bg-disabled: #f2f2f2;
-@bg-active: @blue_light;
+// make '__COMPUTED__' after calendar/datepicker
+@bg-active: #5199db;
 
 @error-main: #d70c17;
 @error-secondary: #ffd6d6;
@@ -40,10 +40,13 @@
 @warning-secondary: #fff0bc;
 @warning-text: #d97e00;
 
+@border-color-focus: '__COMPUTED__';
 @border-color-focus-light: #bad7f1;
 @border-color-gray-dark: rgba(0, 0, 0, 0.28);
 @border-color-gray-light: rgba(0, 0, 0, 0.15);
 @border-color-gray-lighter: #fff;
+@border-color-error: '__COMPUTED__';
+@border-color-warning: '__COMPUTED__';
 
 @outline-color-focus: #fff;
 
@@ -60,9 +63,9 @@
 @control-padding-y-medium: 9px;
 @control-padding-y-large: 10px;
 
-@control-height-small: 2 * @control-border-width + 2 * @control-padding-y-small + @control-line-height-small;
-@control-height-medium: 2 * @control-border-width + 2 * @control-padding-y-medium + @control-line-height-medium;
-@control-height-large: 2 * @control-border-width + 2 * @control-padding-y-large + @control-line-height-large;
+@control-height-small: '__COMPUTED__';
+@control-height-medium: '__COMPUTED__';
+@control-height-large: '__COMPUTED__';
 
 // Text
 @text-color-default: #404040;
@@ -72,10 +75,13 @@
 // Link
 @link-color: #3072c4;
 @link-active-color: #044785;
+@link-hover-color: '__COMPUTED__';
+@link-disabled-color: '__COMPUTED__';
 @link-hover-text-decoration: underline;
 
 // Dropdown
 @dropdown-menu-border: #d0d0d0;
+@dropdown-menu-hover-bg: '__COMPUTED__';
 @dropdown-menu-selected-bg: #f1f1f1;
 
 // Loader
@@ -87,8 +93,9 @@
 @btn-focus-shadow-width: 2px;
 @btn-border-radius: 2px;
 @btn-small-border-radius: 1px;
+@btn-menu-arrow-color: #a6a6a6;
 
-//checked button
+// checked button
 @btn-checked-bg: #737373;
 @btn-checked-text-color: #fff;
 @btn-checked-shadow-color-arrow: rgba(0, 0, 0, 0.3);
@@ -214,7 +221,19 @@
 // Select
 @slt-placeholder-color: #888;
 
-// tooltip
+// Tabs
+@tab-color-focus: '__COMPUTED__';
+@tab-color-error: '__COMPUTED__';
+@tab-color-warning: '__COMPUTED__';
+@tab-color-success: '__COMPUTED__';
+@tab-color-primary: '__COMPUTED__';
+@tab-color-hover: '__COMPUTED__';
+@tab-color-hover-error: '__COMPUTED__';
+@tab-color-hover-warning: '__COMPUTED__';
+@tab-color-hover-success: '__COMPUTED__';
+@tab-color-hover-primary: '__COMPUTED__';
+
+// Tooltip
 @tooltip-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 @tooltip-close-btn-color: #808080;
 @tooltip-close-btn-hover-color: #606060;
@@ -243,7 +262,7 @@
 
 // Calendar
 @calendar-cell-bg: white;
-@calendar-cell-hover-bg-color: #5199db;
+@calendar-cell-hover-bg-color: @bg-active;
 @calendar-cell-hover-color: white;
 @calendar-cell-active-hover-color: white;
 @calendar-cell-weekend-color: red;
@@ -256,7 +275,7 @@
 // DateSelect
 @date-select-menu-bg: @bg-default;
 
-@date-select-menu-item-bg-active: #5199db;
+@date-select-menu-item-bg-active: @bg-active;
 @date-select-menu-item-bg-selected: #ececec;
 @date-select-menu-item-bg-disabled: @bg-default;
 
@@ -276,6 +295,8 @@
 
 // Paging
 @paging-dots-color: gray;
+@paging-forward-link-color: '__COMPUTED__';
+@paging-forward-link-disabled-color: '__COMPUTED__';
 @paging-page-link-active-bg: rgba(0, 0, 0, 0.09);
 @paging-page-link-active-color: black;
 @paging-page-link-hover-bg: rgba(0, 0, 0, 0.05);
@@ -310,10 +331,11 @@
 
 // Toggle
 @toggle-bg-checked: #3072c4;
+@toggle-bg-warning: '__COMPUTED__';
+@toggle-bg-error: '__COMPUTED__';
 @toggle-bg-active: #e5e5e5;
+@toggle-focus-shadow-color: '__COMPUTED__';
 @toggle-border-color: #d0d0d0;
-
-@btn-menu-arrow-color: #a6a6a6;
 
 @popup-border-radius: 2px;
 @popup-border: none;
@@ -328,7 +350,7 @@
 @chb-border-radius: 2px;
 @chb-shadow-width: 2px;
 
-// specificity
+// Specificity
 @specificity-level: 0;
 
 .add-specificity (@rules, @times) when (@times > 0) {
@@ -456,9 +478,6 @@
 @value controlPaddingYSmall: @control-padding-y-small;
 @value controlPaddingYMedium: @control-padding-y-medium;
 @value controlPaddingYLarge: @control-padding-y-large;
-@value controlHeightSmall: @control-height-small;
-@value controlHeightMedium: @control-height-medium;
-@value controlHeightLarge: @control-height-large;
 @value textColorDefault: @text-color-default;
 @value textColorInvert: @text-color-invert;
 @value textColorDisabled: @text-color-disabled;
@@ -644,3 +663,31 @@
 @value chbBorderRadius: @chb-border-radius;
 @value chbShadowWidth: @chb-shadow-width;
 @value specificityLevel: @specificity-level;
+
+
+// Computed values
+@value bgActive: @bg-active;
+@value borderColorFocus: @border-color-focus;
+@value borderColorError: @border-color-error;
+@value borderColorWarning: @border-color-warning;
+@value controlHeightSmall: @control-height-small;
+@value controlHeightMedium: @control-height-medium;
+@value controlHeightLarge: @control-height-large;
+@value linkHoverColor: @link-hover-color;
+@value linkDisabledColor: @link-disabled-color;
+@value dropdownMenuHoverBg: @dropdown-menu-hover-bg;
+@value tabColorFocus: @tab-color-focus;
+@value tabColorError: @tab-color-error;
+@value tabColorWarning: @tab-color-warning;
+@value tabColorSuccess: @tab-color-success;
+@value tabColorPrimary: @tab-color-primary;
+@value tabColorHover: @tab-color-hover;
+@value tabColorHoverError: @tab-color-hover-error;
+@value tabColorHoverWarning: @tab-color-hover-warning;
+@value tabColorHoverSuccess: @tab-color-hover-success;
+@value tabColorHoverPrimary: @tab-color-hover-primary;
+@value pagingForwardLinkColor: @paging-forward-link-color;
+@value pagingForwardLinkDisabledColor: @paging-forward-link-disabled-color;
+@value toggleBgWarning: @toggle-bg-warning;
+@value toggleBgError: @toggle-bg-error;
+@value toggleFocusShadowColor: @toggle-focus-shadow-color;

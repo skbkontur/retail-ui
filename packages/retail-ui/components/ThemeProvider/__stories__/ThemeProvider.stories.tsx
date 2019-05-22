@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { css } from 'emotion';
+import { css } from '../../../lib/theming/Emotion';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { ITheme } from '../../../lib/theming/Theme';

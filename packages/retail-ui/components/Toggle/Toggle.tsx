@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import tabListener from '../../lib/events/tabListener';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import styles from './Toggle.less';
 import jsStyles from './Toggle.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

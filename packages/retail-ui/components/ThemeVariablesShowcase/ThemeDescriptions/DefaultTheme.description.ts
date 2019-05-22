@@ -1,15 +1,39 @@
 export default {
+  bgActive: [
+    "blueLight"
+  ],
+  borderColorFocus: [
+    "blueLight"
+  ],
   borderColorError: [
     "errorMain"
   ],
   borderColorWarning: [
     "warningMain"
   ],
+  controlHeightSmall: [
+    "controlBorderWidth",
+    "controlPaddingYSmall",
+    "controlLineHeightSmall"
+  ],
+  controlHeightMedium: [
+    "controlBorderWidth",
+    "controlPaddingYMedium",
+    "controlLineHeightMedium"
+  ],
+  controlHeightLarge: [
+    "controlBorderWidth",
+    "controlPaddingYLarge",
+    "controlLineHeightLarge"
+  ],
   linkHoverColor: [
     "linkColor"
   ],
   linkDisabledColor: [
     "textColorDisabled"
+  ],
+  dropdownMenuHoverBg: [
+    "bgActive"
   ],
   btnDisabledShadowColor: [
     "borderColorGrayLight"
@@ -76,6 +100,12 @@ export default {
   ],
   toggleBgWarning: [
     "warningMain"
+  ],
+  toggleFocusShadowColor: [
+    "borderColorFocus"
+  ],
+  inputFocusShadow: [
+    "borderColorFocus"
   ],
   inputDisabledBg: [
     "bgDisabled"
