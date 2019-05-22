@@ -9,7 +9,7 @@ import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import jsStyles from './Tooltip.styles';
-import { cx } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 const POPUP_MARGIN = 15;

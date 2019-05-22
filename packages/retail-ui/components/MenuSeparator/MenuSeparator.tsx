@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styles from './MenuSeparator.less';
-import { cx } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './MenuSeparator.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

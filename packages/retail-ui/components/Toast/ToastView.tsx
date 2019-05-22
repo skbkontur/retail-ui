@@ -5,7 +5,7 @@ import ZIndex from '../ZIndex/ZIndex';
 import styles from './ToastView.less';
 import { Nullable } from '../../typings/utility-types';
 import jsStyles from './ToastView.styles';
-import { cx } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 

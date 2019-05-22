@@ -8,7 +8,7 @@ import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
 
 import styles from './Loader.less';
 import { Nullable } from '../../typings/utility-types';
-import { cx as classnames } from 'emotion';
+import { cx as classnames } from '../../lib/theming/Emotion';
 import jsStyles from './Loader.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

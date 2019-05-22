@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import classes from './Button.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';

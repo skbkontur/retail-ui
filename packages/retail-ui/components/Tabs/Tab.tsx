@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
 import styles from './Tab.less';
 import { TabsContextType, TabsContext } from './TabsContext';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Tab.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

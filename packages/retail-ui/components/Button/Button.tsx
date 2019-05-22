@@ -3,7 +3,7 @@ import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
 import Corners from './Corners';
 import '../ensureOldIEClassName';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import classes from './Button.less';
 import jsClasses from './Button.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

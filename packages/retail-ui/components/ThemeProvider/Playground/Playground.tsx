@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cx, css } from 'emotion';
+import { cx, css } from '../../../lib/theming/Emotion';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';
@@ -7,7 +7,6 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import TrashIcon from '@skbkontur/react-icons/Trash';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
-
 import Button, { ButtonProps } from '../../Button';
 import Tabs from '../../Tabs/Tabs';
 import { ThemeType } from './constants';

@@ -4,7 +4,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import styles from './Link.less';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../internal/ThemeContext';

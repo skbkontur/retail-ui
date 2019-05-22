@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import CapIcon, { IconProps } from '../Icon/20px';
 import styles from './TopBar.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 
 export interface ItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;

@@ -21,7 +21,7 @@ import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Fias.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

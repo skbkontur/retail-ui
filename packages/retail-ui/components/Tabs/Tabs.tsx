@@ -7,7 +7,7 @@ import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
 import styles from './Tabs.less';
 
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 
 export interface TabsProps {
   /**

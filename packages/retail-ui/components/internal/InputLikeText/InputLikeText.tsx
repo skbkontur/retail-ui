@@ -5,7 +5,7 @@ import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
 import styles from './InputLikeText.less';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../../lib/theming/Emotion';
 import inputStyles from '../../Input/Input.less';
 import jsInputStyles from '../../Input/Input.styles';
 import { ThemeConsumer } from '../ThemeContext';

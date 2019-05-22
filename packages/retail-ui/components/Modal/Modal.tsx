@@ -16,7 +16,7 @@ import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 import styles from './Modal.less';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
