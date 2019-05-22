@@ -6,12 +6,7 @@ gemini.suite('Customization', () => {
     suite
       .before(renderStory('ThemeProvider', 'playground'))
       .setCaptureElements('#test-element')
-      .capture('default theme', actions => {
-        actions.executeJS(function(window) {
-          const documentElement = window.document.documentElement;
-          documentElement.scrollTop = 0;
-        });
-      })
+      .capture('default theme')
       .capture('flat theme', (actions, find) => {
         actions.click(find('[data-prop-id="flat"]'));
       })
