@@ -27,24 +27,21 @@ export default class CurrencyInputHelper {
     start: number,
     end: number,
     input: string,
+    integerDigits: Nullable<number>,
     fractionDigits: Nullable<number>,
     unsigned: Nullable<boolean>,
-    integerDigits: Nullable<number>,
   ) {
     const extracted = CurrencyInputHelper.getMaximumValidSubstring(
       value,
       start,
       end,
       input || '',
+      integerDigits,
       fractionDigits,
       unsigned,
     );
     if (extracted != null) {
-      const insert = CurrencyInputHelper.insert(value, start, end, extracted);
-      if (!CurrencyInputHelper.isAllowedLengthIntegerPart(CurrencyHelper.parse(insert.value), integerDigits)) {
-        return null;
-      }
-      return insert;
+      return CurrencyInputHelper.insert(value, start, end, extracted);
     }
     return null;
   }
@@ -54,6 +51,7 @@ export default class CurrencyInputHelper {
     start: number,
     end: number,
     input: string,
+    integerDigits: Nullable<number>,
     fractionDigits: Nullable<number>,
     unsigned: Nullable<boolean>,
   ) {
@@ -66,12 +64,9 @@ export default class CurrencyInputHelper {
     const prefix = value.substring(0, start);
     const suffix = value.substring(end);
 
-    for (let i = extracted.length; i >= 0; --i) {
-      const result = extracted.substr(0, i);
-      const combined = prefix + result + suffix;
-      if (CurrencyHelper.isValidString(combined, fractionDigits, unsigned)) {
-        return result;
-      }
+    const combined = prefix + extracted + suffix;
+    if (CurrencyHelper.isValidString(combined, integerDigits, fractionDigits, unsigned)) {
+      return extracted;
     }
     return null;
   }
@@ -86,16 +81,5 @@ export default class CurrencyInputHelper {
     const formattedPosition = CursorHelper.toFormattedPosition(info2.cursorMap, raw + input.length);
 
     return { value: info2.formatted, position: formattedPosition };
-  }
-
-  public static isAllowedLengthIntegerPart(value: Nullable<number>, maxLength: Nullable<number>): boolean {
-    if (typeof value !== 'number' || typeof maxLength !== 'number') {
-      return true;
-    }
-    const integerPart = Math.floor(Math.abs(value));
-    if (integerPart === 0 && maxLength === 0) {
-      return true;
-    }
-    return integerPart.toString().length <= maxLength;
   }
 }

@@ -140,7 +140,12 @@ export default class CurrencyHelper {
     return result;
   }
 
-  public static isValidString(value: string, fractionDigits: Nullable<number>, unsigned?: Nullable<boolean>) {
+  public static isValidString(
+    value: string,
+    integerDigits: Nullable<number>,
+    fractionDigits: Nullable<number>,
+    unsigned?: Nullable<boolean>,
+  ) {
     value = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(value);
 
@@ -150,6 +155,15 @@ export default class CurrencyHelper {
 
     const { sign, integer, delimiter, fraction } = destructed;
 
+    if (integerDigits && integer.length > integerDigits) {
+      return false;
+    }
+
+    if (integerDigits === 0 && integer !== '0' && integer !== '') {
+      return false;
+    }
+
+    // https://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer
     if (integer.length + fraction.length > 15) {
       return false;
     }
@@ -185,7 +199,7 @@ export default class CurrencyHelper {
 
     for (let i = token.length; i >= 0; --i) {
       const result = token.substr(0, i);
-      if (CurrencyHelper.isValidString(result, fractionDigits, unsigned)) {
+      if (CurrencyHelper.isValidString(result, null, fractionDigits, unsigned)) {
         return result;
       }
     }

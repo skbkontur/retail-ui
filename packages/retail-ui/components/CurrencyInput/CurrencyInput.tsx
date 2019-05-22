@@ -263,9 +263,9 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
       start,
       end,
       value,
+      this.props.integerDigits,
       this.props.fractionDigits,
       !this.props.signed,
-      this.props.integerDigits,
     );
     if (result) {
       const formatted = result.value;
