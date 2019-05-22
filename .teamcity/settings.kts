@@ -244,7 +244,7 @@ object ReactUI_BuildRetailUi : BuildType({
 })
 
 object ReactUI_CreeveyTests : BuildType({
-    name = "Creevey tests"
+    name = "Creevey test"
 
     artifactRules = "packages/react-ui-selenium/report => report.zip"
     maxRunningBuilds = 1
