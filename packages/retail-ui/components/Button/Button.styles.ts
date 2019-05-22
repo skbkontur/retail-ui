@@ -7,6 +7,7 @@ const jsClasses = {
   root(t: ITheme) {
     return css`
       color: ${t.textColorDefault};
+      border-radius: ${t.btnBorderRadius};
     `;
   },
 
@@ -53,6 +54,8 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
+      border-radius: ${t.btnSmallBorderRadius};
+
       &:not(.${classes.link}) {
         height: ${DimensionFunctions.shift(t.controlHeightSmall, t.btnHeightShift)};
         padding: ${t.controlPaddingYSmall} 15px;
@@ -111,12 +114,15 @@ const jsClasses = {
 
       &:not(.${classes.link}) {
         height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};
-        padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)} 15px
-          ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};
+        padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)}
+          15px ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};
         line-height: ${t.controlLineHeightSmall};
 
         .rt-ie-any & {
-          padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`)};
+          padding-top: ${DimensionFunctions.shift(
+            t.controlPaddingYMedium,
+            `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`,
+          )};
           padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};
         }
 
@@ -188,7 +194,7 @@ const jsClasses = {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
       }
       .${classes.root}.${classes.checked}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} #5199db;
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
       }
       .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.errorRoot} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};

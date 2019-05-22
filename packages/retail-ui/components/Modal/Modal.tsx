@@ -178,12 +178,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
           {this.state.stackPosition === 0 && <div className={cn(styles.bg, jsStyles.bg(this.theme))} />}
           <div
             ref={this.refContainer}
-            className={cn(styles.container, styles.mobile)}
+            className={styles.container}
             onMouseDown={this.handleContainerClick}
             data-tid="modal-container"
           >
             <div
-              className={cn(styles.centerContainer, {
+              className={cn(styles.centerContainer, jsStyles.centerContainer(this.theme), {
                 [styles.alignTop]: !!this.props.alignTop,
               })}
               style={containerStyle}

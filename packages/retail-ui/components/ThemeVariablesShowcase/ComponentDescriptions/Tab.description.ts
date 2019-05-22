@@ -24,27 +24,27 @@ export default {
     ]
   },
   primary: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorPrimary, '25%')};\n  }\n`",
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.tabColorHoverPrimary};\n  }\n`",
     variables: [
-      "tabColorPrimary"
+      "tabColorHoverPrimary"
     ]
   },
   success: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorSuccess, '25%')};\n  }\n`",
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.tabColorHoverSuccess};\n  }\n`",
     variables: [
-      "tabColorSuccess"
+      "tabColorHoverSuccess"
     ]
   },
   warning: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorWarning, '25%')};\n  }\n`",
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.tabColorHoverWarning};\n  }\n`",
     variables: [
-      "tabColorWarning"
+      "tabColorHoverWarning"
     ]
   },
   error: {
-    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${ColorFunctions.lighten(t.tabColorError, '25%')};\n  }\n`",
+    contents: "css`\n  &:hover {\n    border-bottom: 3px solid ${t.tabColorHoverError};\n  }\n`",
     variables: [
-      "tabColorError"
+      "tabColorHoverError"
     ]
   }
 };

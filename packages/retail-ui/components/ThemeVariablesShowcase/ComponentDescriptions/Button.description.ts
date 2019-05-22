@@ -1,8 +1,9 @@
 export default {
   root: {
-    contents: "css`\n  color: ${t.textColorDefault};\n`",
+    contents: "css`\n  color: ${t.textColorDefault};\n  border-radius: ${t.btnBorderRadius};\n`",
     variables: [
-      "textColorDefault"
+      "textColorDefault",
+      "btnBorderRadius"
     ]
   },
   warning: {
@@ -31,8 +32,9 @@ export default {
     ]
   },
   sizeSmall: {
-    contents: "css`\n  &:not(.${classes.link}) {\n    height: ${DimensionFunctions.shift(t.controlHeightSmall, t.btnHeightShift)};\n    padding: ${t.controlPaddingYSmall} 15px;\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};\n    }\n  }\n\n  .${classes.arrow} {\n    right: ${t.btnSmallArrowRight};\n    height: ${t.btnSmallArrowLength};\n    width: ${t.btnSmallArrowLength};\n    border-radius: ${t.btnSmallArrowBorderRadius};\n  }\n\n  .${classes.arrow_left} {\n    left: ${t.btnSmallArrowLeft};\n  }\n`",
+    contents: "css`\n  border-radius: ${t.btnSmallBorderRadius};\n\n  &:not(.${classes.link}) {\n    height: ${DimensionFunctions.shift(t.controlHeightSmall, t.btnHeightShift)};\n    padding: ${t.controlPaddingYSmall} 15px;\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};\n    }\n  }\n\n  .${classes.arrow} {\n    right: ${t.btnSmallArrowRight};\n    height: ${t.btnSmallArrowLength};\n    width: ${t.btnSmallArrowLength};\n    border-radius: ${t.btnSmallArrowBorderRadius};\n  }\n\n  .${classes.arrow_left} {\n    left: ${t.btnSmallArrowLeft};\n  }\n`",
     variables: [
+      "btnSmallBorderRadius",
       "controlHeightSmall",
       "btnHeightShift",
       "controlPaddingYSmall",
@@ -56,7 +58,7 @@ export default {
     ]
   },
   DEPRECATED_sizeMedium: {
-    contents: "css`\n  font-size: ${t.btnDeprecatedSizeMediumFontSize};\n\n  &:not(.${classes.link}) {\n    height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};\n    padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)} 15px\n      ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`)};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnMediumArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnMediumArrowLeft};\n    }\n\n    .${classes.arrow_left}.${classes.arrow_loading}::before {\n      left: ${t.btnMediumArrowLeftLoadingLeft};\n    }\n  }\n`",
+    contents: "css`\n  font-size: ${t.btnDeprecatedSizeMediumFontSize};\n\n  &:not(.${classes.link}) {\n    height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};\n    padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)}\n      15px ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};\n    line-height: ${t.controlLineHeightSmall};\n\n    .rt-ie-any & {\n      padding-top: ${DimensionFunctions.shift(\n        t.controlPaddingYMedium,\n        `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`,\n      )};\n      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};\n    }\n\n    .${classes.arrow} {\n      transform: ${t.btnMediumArrowTransform};\n    }\n\n    .${classes.arrow_left} {\n      left: ${t.btnMediumArrowLeft};\n    }\n\n    .${classes.arrow_left}.${classes.arrow_loading}::before {\n      left: ${t.btnMediumArrowLeftLoadingLeft};\n    }\n  }\n`",
     variables: [
       "btnDeprecatedSizeMediumFontSize",
       "controlHeightMedium",

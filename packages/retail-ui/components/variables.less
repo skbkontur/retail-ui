@@ -30,7 +30,7 @@
 // Common
 @bg-default: #fff;
 @bg-disabled: #f2f2f2;
-@bg-active: #5199db;
+@bg-active: @blue_light;
 
 @error-main: #d70c17;
 @error-secondary: #ffd6d6;
@@ -40,7 +40,6 @@
 @warning-secondary: #fff0bc;
 @warning-text: #d97e00;
 
-@border-color-focus: #5199db;
 @border-color-focus-light: #bad7f1;
 @border-color-gray-dark: rgba(0, 0, 0, 0.28);
 @border-color-gray-light: rgba(0, 0, 0, 0.15);
@@ -75,11 +74,8 @@
 @link-active-color: #044785;
 @link-hover-text-decoration: underline;
 
-// Used in non-themed datepicker, remove afterwards
-@link-disabled-color: @text-color-disabled;
-
+// Dropdown
 @dropdown-menu-border: #d0d0d0;
-@dropdown-menu-hover-bg: #5199db;
 @dropdown-menu-selected-bg: #f1f1f1;
 
 // Loader
@@ -247,7 +243,7 @@
 
 // Calendar
 @calendar-cell-bg: white;
-@calendar-cell-hover-bg-color: @bg-active;
+@calendar-cell-hover-bg-color: #5199db;
 @calendar-cell-hover-color: white;
 @calendar-cell-active-hover-color: white;
 @calendar-cell-weekend-color: red;
@@ -260,7 +256,7 @@
 // DateSelect
 @date-select-menu-bg: @bg-default;
 
-@date-select-menu-item-bg-active: @bg-active;
+@date-select-menu-item-bg-active: #5199db;
 @date-select-menu-item-bg-selected: #ececec;
 @date-select-menu-item-bg-disabled: @bg-default;
 
@@ -315,7 +311,6 @@
 // Toggle
 @toggle-bg-checked: #3072c4;
 @toggle-bg-active: #e5e5e5;
-@toggle-focus-shadow-color: #5199db;
 @toggle-border-color: #d0d0d0;
 
 @btn-menu-arrow-color: #a6a6a6;
@@ -326,10 +321,12 @@
 @popup-drop-shadow: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 @popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
 
+// Input
 @input-text-color: none;
-// Checkbox
-@chb-shadow-width: 2px;
 
+// Checkbox
+@chb-border-radius: 2px;
+@chb-shadow-width: 2px;
 
 // specificity
 @specificity-level: 0;
@@ -438,14 +435,12 @@
 @value yellowDark: @yellow_dark;
 @value bgDefault: @bg-default;
 @value bgDisabled: @bg-disabled;
-@value bgActive: @bg-active;
 @value errorMain: @error-main;
 @value errorSecondary: @error-secondary;
 @value errorText: @error-text;
 @value warningMain: @warning-main;
 @value warningSecondary: @warning-secondary;
 @value warningText: @warning-text;
-@value borderColorFocus: @border-color-focus;
 @value borderColorFocusLight: @border-color-focus-light;
 @value borderColorGrayDark: @border-color-gray-dark;
 @value borderColorGrayLight: @border-color-gray-light;
@@ -471,7 +466,6 @@
 @value linkActiveColor: @link-active-color;
 @value linkHoverTextDecoration: @link-hover-text-decoration;
 @value dropdownMenuBorder: @dropdown-menu-border;
-@value dropdownMenuHoverBg: @dropdown-menu-hover-bg;
 @value dropdownMenuSelectedBg: @dropdown-menu-selected-bg;
 @value loaderBg: @loader-bg;
 @value loaderOpacity: @loader-opacity;
@@ -639,7 +633,6 @@
 @value menuShadow: @menu-shadow;
 @value toggleBgChecked: @toggle-bg-checked;
 @value toggleBgActive: @toggle-bg-active;
-@value toggleFocusShadowColor: @toggle-focus-shadow-color;
 @value toggleBorderColor: @toggle-border-color;
 @value btnMenuArrowColor: @btn-menu-arrow-color;
 @value popupBorderRadius: @popup-border-radius;
@@ -648,5 +641,6 @@
 @value popupDropShadow: @popup-drop-shadow;
 @value popupBoxShadow: @popup-box-shadow;
 @value inputTextColor: @input-text-color;
+@value chbBorderRadius: @chb-border-radius;
 @value chbShadowWidth: @chb-shadow-width;
 @value specificityLevel: @specificity-level;

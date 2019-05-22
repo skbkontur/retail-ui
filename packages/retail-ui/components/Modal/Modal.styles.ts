@@ -15,6 +15,14 @@ const jsStyles = {
       background: ${t.bgDefault};
     `;
   },
+  centerContainer(t: ITheme) {
+    return css`
+      @media screen and (max-width: ${t.modalAdaptiveThreshold}) {
+        margin: 0;
+        width: 100%;
+      }
+    `;
+  },
 
   close(t: ITheme) {
     return css`

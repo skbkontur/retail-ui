@@ -9,10 +9,11 @@ export default {
     ]
   },
   box: {
-    contents: "css`\n  color: ${t.textColorDefault};\n  border: ${t.chbBorder};\n  box-shadow: ${t.chbShadow};\n  background: ${t.chbBg};\n\n  .${styles.disabled} & {\n    box-shadow: ${t.chbShadowDisabled} !important; //to overide hover and active\n    background: ${t.bgDisabled} !important;\n    color: ${t.textColorDisabled} !important;\n    border-color: transparent;\n  }\n`",
+    contents: "css`\n  color: ${t.textColorDefault};\n  border: ${t.chbBorder};\n  border-radius: ${t.chbBorderRadius};\n  box-shadow: ${t.chbShadow};\n  background: ${t.chbBg};\n\n  .${styles.disabled} & {\n    box-shadow: ${t.chbShadowDisabled} !important; //to overide hover and active\n    background: ${t.bgDisabled} !important;\n    color: ${t.textColorDisabled} !important;\n    border-color: transparent;\n  }\n`",
     variables: [
       "textColorDefault",
       "chbBorder",
+      "chbBorderRadius",
       "chbShadow",
       "chbBg",
       "chbShadowDisabled",

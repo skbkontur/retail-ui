@@ -1,7 +1,6 @@
 export default {
   borderColorError: [
-    "errorMain",
-    "warningMain"
+    "errorMain"
   ],
   borderColorWarning: [
     "warningMain"
@@ -33,6 +32,18 @@ export default {
   tabColorHover: [
     "borderColorFocusLight"
   ],
+  tabColorHoverError: [
+    "tabColorError"
+  ],
+  tabColorHoverWarning: [
+    "tabColorWarning"
+  ],
+  tabColorHoverSuccess: [
+    "tabColorSuccess"
+  ],
+  tabColorHoverPrimary: [
+    "tabColorPrimary"
+  ],
   calendarCellHoverBgColor: [
     "bgActive"
   ],
@@ -60,11 +71,11 @@ export default {
   pagingForwardLinkDisabledColor: [
     "linkDisabledColor"
   ],
-  toggleBgWarning: [
-    "warningMain"
-  ],
   toggleBgError: [
     "errorMain"
+  ],
+  toggleBgWarning: [
+    "warningMain"
   ],
   inputDisabledBg: [
     "bgDisabled"
@@ -95,5 +106,25 @@ export default {
   ],
   textareaDisabledBorderColor: [
     "borderColorGrayLight"
+  ],
+  spinnerBgColor: [
+    "grayXLight"
+  ],
+  spinnerDimmedColor: [
+    "gray"
+  ],
+  spinnerCaptionColor: [
+    "gray"
+  ],
+  spinnerKeyframesCloudOffset: [],
+  spinnerKeyframesCloudLength: [],
+  spinnerKeyframesCircleOffset: [],
+  spinnerKeyframesCircleLength: [],
+  spinnerKeyframesCircleRotate: [],
+  spinnerKeyframesColor: [
+    "red",
+    "yellow",
+    "green",
+    "brand"
   ]
 };

@@ -4,6 +4,16 @@ import ColorFunctions from '../../styles/ColorFunctions';
 import { keyframes } from 'emotion';
 
 const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
+  bgActive: {
+    get() {
+      return this.blueLight;
+    },
+  },
+  borderColorFocus: {
+    get() {
+      return this.blueLight;
+    },
+  },
   borderColorError: {
     get() {
       return this.errorMain;
@@ -12,6 +22,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   borderColorWarning: {
     get() {
       return this.warningMain;
+    },
+  },
+  dropdownMenuHoverBg: {
+    get() {
+      return this.bgActive;
     },
   },
   linkHoverColor: {
@@ -132,6 +147,16 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   toggleBgWarning: {
     get() {
       return this.warningMain;
+    },
+  },
+  toggleFocusShadowColor: {
+    get() {
+      return this.borderColorFocus;
+    },
+  },
+  inputFocusShadow: {
+    get() {
+      return `0 0 0 1px ${this.borderColorFocus}`;
     },
   },
   inputDisabledBg: {
