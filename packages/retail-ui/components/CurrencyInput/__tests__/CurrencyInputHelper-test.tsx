@@ -199,7 +199,7 @@ describe('CurrencyInputHelper', () => {
         fractionDigits: null,
         unsigned: null,
         integerDigits: null,
-        expected: { value: '123\u2009123\u2009123\u2009123\u2009123', position: 0 },
+        expected: null,
       },
       {
         value: '23 123 123 123,123',
@@ -219,7 +219,7 @@ describe('CurrencyInputHelper', () => {
         fractionDigits: null,
         unsigned: null,
         integerDigits: null,
-        expected: { value: '123\u2009123\u2009123\u2009123,123', position: 0 },
+        expected: null,
       },
       {
         value: '0,12',
@@ -229,7 +229,7 @@ describe('CurrencyInputHelper', () => {
         fractionDigits: 2,
         unsigned: null,
         integerDigits: null,
-        expected: { value: '0,12', position: 4 },
+        expected: null,
       },
       {
         value: '0,123',
@@ -249,7 +249,7 @@ describe('CurrencyInputHelper', () => {
         fractionDigits: 2,
         unsigned: null,
         integerDigits: null,
-        expected: { value: '0,12', position: 4 },
+        expected: null,
       },
       {
         value: '3,21',
@@ -330,9 +330,9 @@ describe('CurrencyInputHelper', () => {
           x.start,
           x.end,
           x.input,
+          x.integerDigits,
           x.fractionDigits,
           x.unsigned,
-          x.integerDigits,
         );
         const expected = x.expected;
         expect(actual).toEqual(expected);
