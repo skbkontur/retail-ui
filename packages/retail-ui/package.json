@@ -33,6 +33,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.6",
+    "create-emotion": "^10.0.9",
     "create-react-context": "^0.2.2",
     "csstype": "^2.6.1",
     "emotion": "^10.0.9",
@@ -50,6 +51,7 @@
     "react-focus-lock": "^1.11.2",
     "react-input-mask": "2.0.4",
     "react-transition-group": "^2.4.0",
+    "stylis-plugin-extra-scope": "^0.1.1",
     "tabbable": "^3.1.1",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
@@ -182,7 +184,9 @@
       "node"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/test-setup.js",
-    "snapshotSerializers": ["jest-emotion"],
+    "snapshotSerializers": [
+      "jest-emotion"
+    ],
     "roots": [
       "components",
       "lib",
