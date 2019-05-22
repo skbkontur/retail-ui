@@ -16,3 +16,4 @@ const ButtonAdapter = {
 (Button as any).__ADAPTER__ = ButtonAdapter;
 
 export default Button;
+export { isButton } from './Button.js';
