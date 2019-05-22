@@ -35,6 +35,8 @@ import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import Sticky from '../../Sticky';
 
+const enableReactTesting = process.env.enableReactTesting;
+
 export interface IComponentsListProps {
   currentThemeType: ThemeType;
   onThemeChange: ((ev: { target: { value: string } }, value: string) => void);
@@ -113,7 +115,10 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
         </Gapped>
       </div>
     );
-    return (
+
+    return enableReactTesting ? (
+      tabsGroup()
+    ) : (
       <Sticky side={'top'} getStop={this.getStickyStop}>
         {tabsGroup(true)}
       </Sticky>
