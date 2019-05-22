@@ -223,11 +223,13 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
   };
 
   private renderTooltip = () => {
-    const tooltipRender = () => (
-      <div style={{ width: 210 }}>{'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}</div>
+    const tooltipContent = () => (
+      <div className={styles.tooltipContent}>
+        {'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}
+      </div>
     );
     const components = [
-      <Tooltip render={tooltipRender} pos="right middle" trigger={'opened'}>
+      <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'}>
         <Link icon={<HelpDotIcon />} />
       </Tooltip>,
     ];
@@ -240,7 +242,7 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
   };
 
   private renderStickyStopElement = () => {
-    return <div ref={this.stopRef} />;
+    return <div ref={this.stopRef} style={{ height: 50 }} />;
   };
 
   private stopRef = (el: HTMLElement | null) => (this.stickyStop = el);
