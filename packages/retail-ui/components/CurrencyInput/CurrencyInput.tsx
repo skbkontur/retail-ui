@@ -258,15 +258,11 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   };
 
   private inputValue = (start: number, end: number, value: string) => {
-    const result = CurrencyInputHelper.safeInsert(
-      this.state.formatted,
-      start,
-      end,
-      value,
-      this.props.integerDigits,
-      this.props.fractionDigits,
-      !this.props.signed,
-    );
+    const result = CurrencyInputHelper.safeInsert(this.state.formatted, start, end, value, {
+      integerDigits: this.props.integerDigits,
+      fractionDigits: this.props.fractionDigits,
+      unsigned: !this.props.signed,
+    });
     if (result) {
       const formatted = result.value;
       const selection = SelectionHelper.fromPosition(result.position);
@@ -277,7 +273,9 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
         }
       });
       return true;
-    } else if (this.input) {
+    }
+
+    if (this.input) {
       this.input.blink();
     }
     return false;
