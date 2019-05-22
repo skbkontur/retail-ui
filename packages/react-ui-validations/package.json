@@ -17,7 +17,7 @@
     "deploy:react-ui": "yarn --cwd ./build/react-ui-dist publish --non-interactive",
     "deploy:docs": "gh-pages -a -d dist -r git@github.com:skbkontur/react-ui-validations.git",
     "storybook": "start-storybook -p 8081",
-    "start:docs": "webpack-dev-server -d --history-api-fallback --inline --config webpack.docs.config.js --host 0.0.0.0 --disable-host-check",
+    "start:docs": "webpack-dev-server -d --config webpack.docs.config.js",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit",
     "lint:tslint": "tslint --project tsconfig.json",
@@ -112,7 +112,7 @@
       }
     },
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/jest-file-stub.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/tests/jest-file-stub.js",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {

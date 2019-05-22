@@ -17,26 +17,26 @@ export default class ValidationContainer extends React.Component<ValidationConta
   public static propTypes = {
     scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
       const { scrollOffset } = props;
-      if(typeof scrollOffset === 'number'){
+      if (typeof scrollOffset === 'number') {
         return new Error(
           `[${componentName}]: scrollOffset as a number type has been deprecated, now use object { top?: number; bottom?: number; }`,
         );
       }
-    }
+    },
   };
 
   private childContext: ValidationContext | null = null;
 
   public async submit(withoutFocus: boolean = false): Promise<void> {
     if (!this.childContext) {
-      throw new Error("Invalid state");
+      throw new Error('Invalid state');
     }
     await this.childContext.validate(withoutFocus);
   }
 
   public validate(withoutFocus: boolean = false): Promise<boolean> {
     if (!this.childContext) {
-      throw new Error("Invalid state");
+      throw new Error('Invalid state');
     }
     return this.childContext.validate(withoutFocus);
   }

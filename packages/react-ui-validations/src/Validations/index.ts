@@ -1,11 +1,11 @@
-import {ValidationBuilder} from "./ValidationBuilder";
-import {ValidationWriter} from "./ValidationWriter";
-import {RootValidationRule} from "./Types";
-import {ValidationReader} from "./ValidationReader";
+import { ValidationBuilder } from './ValidationBuilder';
+import { ValidationWriter } from './ValidationWriter';
+import { RootValidationRule } from './Types';
+import { ValidationReader } from './ValidationReader';
 
 const validate = <T>(data: T, validationRule: RootValidationRule<T>): ValidationReader<T> => {
   const validationWriter = new ValidationWriter<T>();
-  const builder = new ValidationBuilder<T, T>({validationWriter}, [], data);
+  const builder = new ValidationBuilder<T, T>(validationWriter, [], data);
   validationRule(builder, data);
   return validationWriter.reader;
 };

@@ -1,12 +1,12 @@
-import {ValidationNode} from "./Types";
-import {ValidationInfo} from "../ValidationWrapperV1";
-import {ValidationReader} from "./ValidationReader";
+import { ValidationNode } from './Types';
+import { ValidationInfo } from '../ValidationWrapperV1';
+import { ValidationReader } from './ValidationReader';
 
 export class ValidationWriter<T> {
   private readonly node: ValidationNode<T>;
 
   constructor(node?: ValidationNode<T>) {
-    this.node = node || {validation: null, children: null};
+    this.node = node || { validation: null, children: null };
   }
 
   public get reader(): ValidationReader<T> {

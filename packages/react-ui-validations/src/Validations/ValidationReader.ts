@@ -1,7 +1,7 @@
-import {ValidationNode} from "./Types";
-import {FunctionHelper, LambdaPath} from "./FunctionHelper";
-import {ValidationInfo} from "../ValidationWrapperV1";
-import {ExtractItem, Nullable} from "../../typings/Types";
+import { ValidationNode } from './Types';
+import { FunctionHelper, LambdaPath } from './FunctionHelper';
+import { ValidationInfo } from '../ValidationWrapperV1';
+import { ExtractItem, Nullable } from '../../typings/Types';
 
 export class ValidationReader<T> {
   private readonly node: Nullable<ValidationNode<T>>;

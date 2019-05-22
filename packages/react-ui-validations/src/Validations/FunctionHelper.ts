@@ -6,7 +6,7 @@ export class FunctionHelper {
       const lambda = lambdaPath.toString();
       const match = FunctionHelper.pathRegEx.exec(lambda);
       if (match && match.length === 3) {
-        return (match[2] || "").split(/[\s\.\[\]]+/g).filter(x => x);
+        return (match[2] || '').split(/[\s\.\[\]]+/g).filter(x => x);
       }
     }
     throw new Error(`Not a lambda path: <${lambdaPath.toString()}>`);
