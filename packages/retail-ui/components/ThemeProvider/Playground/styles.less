@@ -59,4 +59,25 @@
     height: 300px;
     margin: auto;
   }
+
+  .stickyWrapper {
+    position: relative;
+    z-index: 10000;
+  }
+
+  .tabsWrapper {
+    margin: 0 -32px;
+    padding: 0 32px;
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      z-index: -1;
+    }
+  }
 }
