@@ -1,7 +1,7 @@
 const { renameSync } = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
-const config = require('./styleguide.config.js');
+const config = require('./config.js');
 const semver = require('semver');
 
 const excludeVersions = ['0.8.8'];
@@ -18,10 +18,7 @@ const isStable = config.version === tags.latest;
 const isOldVersion = semver.lt(config.version, tags.latest);
 
 if (isOldVersion) {
-  renameSync(
-    config.styleguideDir,
-    path.join(config.styleguideDir, '..', config.version)
-  );
+  renameSync(config.styleguideDir, path.join(config.styleguideDir, '..', config.version));
   process.exit(0);
 }
 
@@ -40,28 +37,31 @@ const versionSection = { name: 'Versions', sections: [] };
 // NOTE For some reason styleguidist need content field with valid file
 versionSection.sections.push({
   name: 'next',
-  content: 'README.md',
+  content: '../README.md',
   href: 'http://tech.skbkontur.ru/react-ui/next',
 });
 
 stableVersions.forEach(version => {
   versionSection.sections.push({
     name: version,
-    content: 'README.md',
+    content: '../README.md',
     href: `http://tech.skbkontur.ru/react-ui/${version}`,
   });
 });
 
 config.sections = [
-  { name: 'Readme', content: 'README.md', exampleMode: 'expand' },
-  { name: 'Changelog', content: 'CHANGELOG.md' },
-  { name: 'Roadmap', content: 'ROADMAP.md' },
-  { name: 'Icons', content: './components/Icon/README.md' },
-  { name: 'LocaleProvider', content: 'LOCALEPROVIDER.md' },
+  { name: 'Readme', content: '../README.md', exampleMode: 'expand' },
+  { name: 'Changelog', content: '../CHANGELOG.md' },
+  { name: 'Roadmap', content: '../ROADMAP.md' },
+  { name: 'Icons', content: '../components/Icon/README.md' },
+  { name: 'LocaleProvider', content: '../LOCALEPROVIDER.md' },
   { name: 'Components', components: config.components, sectionDepth: 1 },
 ];
 config.sections.push(versionSection);
 config.styleguideDir = path.join(config.styleguideDir, '..');
+config.styleguideComponents = {
+  PathlineRenderer: require.resolve('./components/Pathline/PathlineRenderer.tsx'),
+};
 
 Reflect.deleteProperty(config, 'components');
 
