@@ -11,7 +11,6 @@ const jsClasses = {
       box-shadow: ${t.inputShadow};
       border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
       border-top-color: ${t.inputBorderTopColor};
-      }
     `;
   },
 
