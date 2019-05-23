@@ -1,17 +1,13 @@
 import { ValidationNode } from './Types';
-import { getPathTokens, LambdaPath } from './FunctionHelper';
+import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationInfo } from '../ValidationWrapperV1';
 import { ExtractItem, Nullable } from '../../typings/Types';
 
 export class ValidationReader<T> {
-  private readonly node: Nullable<ValidationNode<T>>;
-
-  constructor(node: Nullable<ValidationNode<T>>) {
-    this.node = node;
-  }
+  constructor(private readonly node: Nullable<ValidationNode<T>>, private readonly tokens: PathTokensCache) {}
 
   public getNode<TChild>(lambdaPath: LambdaPath<T, TChild>): ValidationReader<TChild> {
-    const path = getPathTokens(lambdaPath);
+    const path = this.tokens.getOrAdd(lambdaPath);
     return this.getReaderInternal<TChild>(path);
   }
 
@@ -29,7 +25,7 @@ export class ValidationReader<T> {
 
   private getReaderInternal<TChild>(path: string[]): ValidationReader<TChild> {
     const node = this.getNodeInternal<TChild>(path);
-    return new ValidationReader<TChild>(node);
+    return new ValidationReader<TChild>(node, this.tokens);
   }
 
   private getNodeInternal<TChild>(path: string[]): Nullable<ValidationNode<TChild>> {

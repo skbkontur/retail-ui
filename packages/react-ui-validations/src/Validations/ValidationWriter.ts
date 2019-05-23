@@ -1,6 +1,7 @@
 import { ValidationNode } from './Types';
 import { ValidationInfo } from '../ValidationWrapperV1';
 import { ValidationReader } from './ValidationReader';
+import { PathTokensCache } from './PathHelper';
 
 export class ValidationWriter<T> {
   private readonly node: ValidationNode<T>;
@@ -9,8 +10,8 @@ export class ValidationWriter<T> {
     this.node = node || { validation: null, children: null };
   }
 
-  public get reader(): ValidationReader<T> {
-    return new ValidationReader(this.node);
+  public getReader(tokens: PathTokensCache): ValidationReader<T> {
+    return new ValidationReader(this.node, tokens);
   }
 
   public set(validation: ValidationInfo): void {

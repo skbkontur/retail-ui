@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Nullable } from '../../typings/Types';
-import { getPathTokens, LambdaPath } from './FunctionHelper';
+import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationWriter } from './ValidationWriter';
 import { ItemValidationRule, ValidationRule } from './Types';
 import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapper';
@@ -13,6 +13,7 @@ interface PathInfo<T> {
 export class ValidationBuilder<TRoot, T> {
   constructor(
     private readonly writer: ValidationWriter<TRoot>,
+    private readonly tokens: PathTokensCache,
     private readonly path: string[],
     private readonly data: T,
   ) {}
@@ -23,7 +24,7 @@ export class ValidationBuilder<TRoot, T> {
       return;
     }
 
-    const builder = new ValidationBuilder<TRoot, TChild>(this.writer, info.path, info.data);
+    const builder = new ValidationBuilder<TRoot, TChild>(this.writer, this.tokens, info.path, info.data);
     rule(builder, builder.data);
   }
 
@@ -36,7 +37,7 @@ export class ValidationBuilder<TRoot, T> {
     const array = info.data;
     for (let i = 0; i < array.length; ++i) {
       const path = [...info.path, i.toString()];
-      const builder = new ValidationBuilder<TRoot, TChild>(this.writer, path, array[i]);
+      const builder = new ValidationBuilder<TRoot, TChild>(this.writer, this.tokens, path, array[i]);
       rule(builder, builder.data, i, array);
     }
   }
@@ -61,7 +62,7 @@ export class ValidationBuilder<TRoot, T> {
   }
 
   private getPathInfo<TChild>(lambdaPath: LambdaPath<T, TChild>): Nullable<PathInfo<TChild>> {
-    const path = getPathTokens(lambdaPath);
+    const path = this.tokens.getOrAdd(lambdaPath);
 
     let data: any = this.data;
     for (const part of path) {
