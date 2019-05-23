@@ -215,7 +215,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   private fixWidth = (rect: ClientRect | DOMRect) => this.setState({ width: rect.width });
 
   private isThereScrollBar = (): boolean =>
-    !!this.containerNode && this.containerNode.clientWidth !== this.containerNode.offsetWidth;
+    !!this.containerNode && this.containerNode.scrollHeight !== this.containerNode.clientHeight;
 
   private requestClose = () => {
     if (this.props.disableClose) {
