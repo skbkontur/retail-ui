@@ -10,6 +10,7 @@ function getComponentList() {
   const dirPath = path.resolve(__dirname, '../components');
   return fs
     .readdirSync(dirPath)
+    .filter(i => !i.startsWith('Theme'))
     .map(x => [path.join(dirPath, x, `${x}.tsx`), path.join(dirPath, x, `${x}.js`)])
     .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
     .filter(Boolean);
@@ -38,6 +39,7 @@ const styles = {
       width: 300,
       background: '#41464e',
       fontSize: '16px',
+      paddingBottom: 100,
     },
     logo: {
       borderBottom: 'none',
@@ -65,9 +67,6 @@ const styles = {
     },
   },
   ComponentsList: {
-    list: {
-      paddingBottom: 100,
-    },
     item: {
       fontSize: '16px',
       margin: 0,
@@ -170,7 +169,6 @@ const webpackConfig = {
 };
 
 module.exports = {
-  components: getComponentList,
   styleguideDir: path.resolve(__dirname, `build/${libraryVersion}`),
   skipComponentsWithoutExample: true,
   pagePerSection: true,
@@ -193,7 +191,23 @@ module.exports = {
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui',
   },
+  
   getComponentPathLine(path) {
     return path.substring(path.indexOf('components')) || path;
   },
+sections: [
+    {
+      name: 'Theming',
+      components: [
+        './components/ThemeProvider/ThemeProvider.tsx',
+        './components/ThemeVariablesShowcase/ThemeVariablesShowcase.tsx',
+      ],
+      sectionDepth: 1,
+    },
+    {
+      name: 'Components',
+      components: getComponentList,
+      sectionDepth: 1,
+    },
+  ],
 };
