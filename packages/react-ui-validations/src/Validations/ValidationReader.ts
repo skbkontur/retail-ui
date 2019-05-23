@@ -1,5 +1,5 @@
 import { ValidationNode } from './Types';
-import { FunctionHelper, LambdaPath } from './FunctionHelper';
+import { getPathTokens, LambdaPath } from './FunctionHelper';
 import { ValidationInfo } from '../ValidationWrapperV1';
 import { ExtractItem, Nullable } from '../../typings/Types';
 
@@ -11,7 +11,7 @@ export class ValidationReader<T> {
   }
 
   public getNode<TChild>(lambdaPath: LambdaPath<T, TChild>): ValidationReader<TChild> {
-    const path = FunctionHelper.getLambdaPath(lambdaPath);
+    const path = getPathTokens(lambdaPath);
     return this.getReaderInternal<TChild>(path);
   }
 
@@ -27,12 +27,12 @@ export class ValidationReader<T> {
     return this.node ? this.node.validation : null;
   }
 
-  private getReaderInternal = <TChild>(path: string[]): ValidationReader<TChild> => {
+  private getReaderInternal<TChild>(path: string[]): ValidationReader<TChild> {
     const node = this.getNodeInternal<TChild>(path);
     return new ValidationReader<TChild>(node);
-  };
+  }
 
-  private getNodeInternal = <TChild>(path: string[]): Nullable<ValidationNode<TChild>> => {
+  private getNodeInternal<TChild>(path: string[]): Nullable<ValidationNode<TChild>> {
     let current: Nullable<ValidationNode<any>> = this.node;
     for (const part of path) {
       if (!current || !current.children) {
@@ -41,5 +41,5 @@ export class ValidationReader<T> {
       current = current.children[part];
     }
     return current;
-  };
+  }
 }

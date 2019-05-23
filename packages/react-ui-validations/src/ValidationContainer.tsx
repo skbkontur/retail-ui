@@ -29,14 +29,14 @@ export default class ValidationContainer extends React.Component<ValidationConta
 
   public async submit(withoutFocus: boolean = false): Promise<void> {
     if (!this.childContext) {
-      throw new Error('Invalid state');
+      throw new Error('childContext is not defined');
     }
     await this.childContext.validate(withoutFocus);
   }
 
   public validate(withoutFocus: boolean = false): Promise<boolean> {
     if (!this.childContext) {
-      throw new Error('Invalid state');
+      throw new Error('childContext is not defined');
     }
     return this.childContext.validate(withoutFocus);
   }

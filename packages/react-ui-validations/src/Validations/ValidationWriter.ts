@@ -13,20 +13,20 @@ export class ValidationWriter<T> {
     return new ValidationReader(this.node);
   }
 
-  public set = (validation: ValidationInfo): void => {
+  public set(validation: ValidationInfo): void {
     this.node.validation = validation;
-  };
+  }
 
-  public isValidated = (): boolean => {
+  public isValidated(): boolean {
     return !!this.node.validation;
-  };
+  }
 
-  public getNode = <TChild>(path: string[]): ValidationWriter<TChild> => {
+  public getNode<TChild>(path: string[]): ValidationWriter<TChild> {
     const node = this.getNodeInternal<TChild>(path);
     return new ValidationWriter<TChild>(node);
-  };
+  }
 
-  private getNodeInternal = <TChild>(path: string[]): ValidationNode<TChild> => {
+  private getNodeInternal<TChild>(path: string[]): ValidationNode<TChild> {
     let node: ValidationNode<any> = this.node;
     for (const part of path) {
       if (!node.children) {
@@ -41,5 +41,5 @@ export class ValidationWriter<T> {
       node = node.children[part];
     }
     return node;
-  };
+  }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Nullable } from '../../typings/Types';
-import { FunctionHelper, LambdaPath } from './FunctionHelper';
+import { getPathTokens, LambdaPath } from './FunctionHelper';
 import { ValidationWriter } from './ValidationWriter';
 import { ItemValidationRule, ValidationRule } from './Types';
 import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapper';
@@ -17,7 +17,7 @@ export class ValidationBuilder<TRoot, T> {
     private readonly data: T,
   ) {}
 
-  public prop = <TChild>(lambdaPath: LambdaPath<T, TChild>, rule: ValidationRule<TRoot, TChild>): void => {
+  public prop<TChild>(lambdaPath: LambdaPath<T, TChild>, rule: ValidationRule<TRoot, TChild>): void {
     const info = this.getPathInfo(lambdaPath);
     if (info == null) {
       return;
@@ -25,9 +25,9 @@ export class ValidationBuilder<TRoot, T> {
 
     const builder = new ValidationBuilder<TRoot, TChild>(this.writer, info.path, info.data);
     rule(builder, builder.data);
-  };
+  }
 
-  public array = <TChild>(lambdaPath: LambdaPath<T, TChild[]>, rule: ItemValidationRule<TRoot, TChild>): void => {
+  public array<TChild>(lambdaPath: LambdaPath<T, TChild[]>, rule: ItemValidationRule<TRoot, TChild>): void {
     const info = this.getPathInfo(lambdaPath);
     if (info == null || !Array.isArray(info.data)) {
       return;
@@ -39,14 +39,14 @@ export class ValidationBuilder<TRoot, T> {
       const builder = new ValidationBuilder<TRoot, TChild>(this.writer, path, array[i]);
       rule(builder, builder.data, i, array);
     }
-  };
+  }
 
-  public invalid = (
+  public invalid(
     isInvalid: (value: T) => boolean,
     message: React.ReactNode,
     type?: ValidationBehaviour,
     level?: ValidationLevel,
-  ): void => {
+  ): void {
     const validationWriter = this.writer.getNode<T>(this.path);
     if (validationWriter.isValidated()) {
       return;
@@ -58,10 +58,10 @@ export class ValidationBuilder<TRoot, T> {
     }
 
     validationWriter.set({ message, type, level });
-  };
+  }
 
-  private getPathInfo = <TChild>(lambdaPath: LambdaPath<T, TChild>): Nullable<PathInfo<TChild>> => {
-    const path = FunctionHelper.getLambdaPath(lambdaPath);
+  private getPathInfo<TChild>(lambdaPath: LambdaPath<T, TChild>): Nullable<PathInfo<TChild>> {
+    const path = getPathTokens(lambdaPath);
 
     let data: any = this.data;
     for (const part of path) {
@@ -72,5 +72,5 @@ export class ValidationBuilder<TRoot, T> {
     }
 
     return { data, path: [...this.path, ...path] };
-  };
+  }
 }
