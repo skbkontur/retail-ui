@@ -89,10 +89,6 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
   border: none transparent;
 }
 
-.rt-ie8 .emotion-2 {
-  border: 1px solid #d0d0d0;
-}
-
 .emotion-1 {
   border-radius: 2px;
 }
@@ -136,10 +132,6 @@ exports[`Popup snapshots:  open and close popup: opened popup 1`] = `
         .emotion-2 {
   border-radius: 2px;
   border: none transparent;
-}
-
-.rt-ie8 .emotion-2 {
-  border: 1px solid #d0d0d0;
 }
 
 .emotion-1 {
