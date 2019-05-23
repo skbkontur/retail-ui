@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../../lib/theming/Emotion';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 
 const jsStyles = {

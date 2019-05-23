@@ -9,7 +9,6 @@ import TrashIcon from '@skbkontur/react-icons/Trash';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 import styles from './styles.less';
 import jsStyles from './jsStyles';
-
 import Button, { ButtonProps } from '../../Button';
 import Tabs from '../../Tabs/Tabs';
 import { ThemeType } from './constants';
