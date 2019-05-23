@@ -238,7 +238,7 @@ describe('ColorFunctions', () => {
 
     describe('to dark', () => {
       test('default', () => {
-        expect(ColorFunctions.contrast('#ffd6d6')).toBe('#ffffff');
+        expect(ColorFunctions.contrast('#ffd6d6')).toBe('#000000');
       });
       test('custom', () => {
         expect(ColorFunctions.contrast('#ffd6d6', '#222')).toBe('#222222');
