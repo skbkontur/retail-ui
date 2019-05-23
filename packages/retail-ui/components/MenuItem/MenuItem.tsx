@@ -63,7 +63,6 @@ export default class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private mouseEntered: boolean = false;
-  private component: HTMLElement | null = null;
 
   public render() {
     const {
@@ -110,7 +109,6 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     return (
       <Component
         {...rest}
-        ref={this.componentRef}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         className={className}
@@ -132,22 +130,18 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     );
   }
 
-  private componentRef = (el: HTMLElement | null) => {
-    this.component = el;
-  };
-
   // https://github.com/facebook/react/issues/10109
   // Mouseenter event not triggered when cursor moves from disabled button
   private handleMouseEnterFix = (e: React.MouseEvent<HTMLElement>) => {
-    if (!this.mouseEntered && e.target === this.component && this.props.onMouseEnter) {
+    if (!this.mouseEntered && this.props.onMouseEnter) {
       this.mouseEntered = true;
       this.props.onMouseEnter(e);
     }
   };
 
   private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    this.mouseEntered = false;
     if (this.props.onMouseLeave) {
-      this.mouseEntered = false;
       this.props.onMouseLeave(e);
     }
   };
