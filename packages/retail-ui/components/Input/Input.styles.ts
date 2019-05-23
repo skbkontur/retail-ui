@@ -109,8 +109,8 @@ const jsClasses = {
   disabled(t: ITheme) {
     return css`
       .${classes.root}& {
-        border-color: ${t.inputDisabledBorderColor};
         background: ${t.inputDisabledBg};
+        border-color: ${t.inputDisabledBorderColor};
       }
     `;
   },

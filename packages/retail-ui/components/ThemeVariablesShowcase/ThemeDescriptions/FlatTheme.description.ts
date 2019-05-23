@@ -105,6 +105,9 @@ export default {
   btnPayActiveShadowArrowLeft: [
     "btnPayActiveBg"
   ],
+  inputDisabledBorderColor: [
+    "inputDisabledBg"
+  ],
   chbBorder: [
     "btnDefaultBorder"
   ],
@@ -134,5 +137,8 @@ export default {
   ],
   radioCheckedBgColor: [
     "chbCheckedBg"
+  ],
+  textareaDisabledBorderColor: [
+    "textareaDisabledBg"
   ]
 };

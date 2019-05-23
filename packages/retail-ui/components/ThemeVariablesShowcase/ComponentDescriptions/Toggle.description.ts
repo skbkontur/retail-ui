@@ -21,8 +21,9 @@ export default {
     ]
   },
   activeBackground: {
-    contents: "css`\n  .${styles.isLoading} & {\n    background: ${t.toggleBgChecked};\n  }\n\n  .${styles.input}:checked ~ .${styles.container} & {\n    background: ${t.toggleBgChecked};\n  }\n`",
+    contents: "css`\n  .${styles.isLoading} & {\n    background: ${t.toggleBgActive};\n  }\n\n  .${styles.input}:checked ~ .${styles.container} & {\n    background: ${t.toggleBgChecked};\n  }\n`",
     variables: [
+      "toggleBgActive",
       "toggleBgChecked"
     ]
   },

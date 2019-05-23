@@ -163,6 +163,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.linkDisabledColor;
     },
   },
+  toggleBgActive: {
+    get() {
+      return this.toggleBgChecked;
+    },
+  },
   toggleBgError: {
     get() {
       return this.errorMain;
@@ -191,11 +196,6 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   inputDisabledBorderColor: {
     get() {
       return this.borderColorGrayLight;
-    },
-  },
-  inputDisabledColor: {
-    get() {
-      return this.bgDisabled;
     },
   },
   inputFocusOutline: {

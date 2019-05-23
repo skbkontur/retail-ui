@@ -89,10 +89,11 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
     const containerClassNames = classNames(styles.container, jsStyles.container(this.theme), {
+      [styles.isLoading]: !!loading,
+      [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
+      [jsStyles.isLoading(this.theme)]: !!loading,
       [jsStyles.isWarning(this.theme)]: !color && !!warning,
       [jsStyles.isError(this.theme)]: !color && !!error,
-      [jsStyles.isLoading(this.theme)]: !!loading,
-      [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
     });
 
     return (

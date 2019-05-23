@@ -16,7 +16,6 @@
 @btn-flat-disabled-bg: #f4f4f4;
 @btn-flat-disabled-shadow: none;
 @btn-flat-disabled-shadow-color: #f4f4f4;
-@btn-flat-disabled-outline-color: #fff;
 @btn-flat-focus-shadow-width: 1px;
 @btn-flat-focus-border: '__COMPUTED__';
 
@@ -177,11 +176,10 @@
 
 // Input
 @input-flat-bg: white;
-@input-flat-disabled-bg: rgba(0, 0, 0, 0.05);
-@input-flat-disabled-border-color: rgba(0, 0, 0, 0.05);
 @input-flat-icon-color: #a9a9a9;
 @input-flat-color: inherit;
 @input-flat-disabled-color: rgba(0, 0, 0, 0.05);
+@input-flat-disabled-border-color: '__COMPUTED__';
 @input-flat-shadow: none;
 @input-flat-border-width: 1px;
 @input-flat-border-top-color: rgba(0, 0, 0, 0.15);
@@ -200,10 +198,9 @@
 @textarea-flat-bg: white;
 @textarea-flat-color: inherit;
 @textarea-flat-shadow: none;
-@textarea-flat-disabled-color: rgba(0, 0, 0, 0.05);
 @textarea-flat-border-top-color: rgba(0, 0, 0, 0.15);
-@textarea-flat-disabled-bg: rgba(0, 0, 0, 0.05);
-@textarea-flat-disabled-border-color: rgba(0, 0, 0, 0.05);
+@textarea-flat-disabled-color: rgba(0, 0, 0, 0.05);
+@textarea-flat-disabled-border-color: '__COMPUTED__';
 
 @import (optional) '~react-ui-theme-flat';
 
@@ -224,7 +221,6 @@
 @value btnDefaultBg: @btn-flat-default-bg;
 @value btnDisabledShadow: @btn-flat-disabled-shadow;
 @value btnDisabledShadowColor: @btn-flat-disabled-shadow-color;
-@value btnDisabledOutlineColor: @btn-flat-disabled-outline-color;
 @value btnDefaultBgArrowStart: @btn-flat-default-bg-arrow-start;
 @value btnDefaultBgArrowEnd: @btn-flat-default-bg-arrow-end;
 @value btnDefaultCheckedShadowArrow: @btn-flat-default-checked-shadow-arrow;
@@ -353,11 +349,10 @@
 @value inputBg: @input-flat-bg;
 @value inputIconColor: @input-flat-icon-color;
 @value inputColor: @input-flat-color;
-@value inputDisabledColor: @input-flat-disabled-color;
 @value inputShadow: @input-flat-shadow;
 @value inputBorderWidth: @input-flat-border-width;
 @value inputBorderTopColor: @input-flat-border-top-color;
-@value inputDisabledBg: @input-flat-disabled-bg;
+@value inputDisabledBg: @input-flat-disabled-color;
 @value inputDisabledBorderColor: @input-flat-disabled-border-color;
 @value toggleBg: @toggle-flat-bg;
 @value toggleBgDisabled: @toggle-flat-bg-disabled;
@@ -370,9 +365,8 @@
 @value textareaBg: @textarea-flat-bg;
 @value textareaColor: @textarea-flat-color;
 @value textareaShadow: @textarea-flat-shadow;
-@value textareaDisabledColor: @textarea-flat-disabled-color;
 @value textareaBorderTopColor: @textarea-flat-border-top-color;
-@value textareaDisabledBg: @textarea-flat-disabled-bg;
+@value textareaDisabledBg: @textarea-flat-disabled-color;
 @value textareaDisabledBorderColor: @textarea-flat-disabled-border-color;
 @value radioSize: @radio-flat-size;
 @value radioVerticalAlign: @radio-flat-vertical-align;

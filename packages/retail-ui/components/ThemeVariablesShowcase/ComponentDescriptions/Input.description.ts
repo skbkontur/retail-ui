@@ -53,10 +53,10 @@ export default {
     ]
   },
   disabled: {
-    contents: "css`\n  .${classes.root}& {\n    border-color: ${t.inputDisabledBorderColor};\n    background: ${t.inputDisabledBg};\n  }\n`",
+    contents: "css`\n  .${classes.root}& {\n    background: ${t.inputDisabledBg};\n    border-color: ${t.inputDisabledBorderColor};\n  }\n`",
     variables: [
-      "inputDisabledBorderColor",
-      "inputDisabledBg"
+      "inputDisabledBg",
+      "inputDisabledBorderColor"
     ]
   },
   blink: {

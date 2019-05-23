@@ -34,7 +34,7 @@ const jsStyles = {
   activeBackground(t: ITheme) {
     return css`
       .${styles.isLoading} & {
-        background: ${t.toggleBgChecked};
+        background: ${t.toggleBgActive};
       }
 
       .${styles.input}:checked ~ .${styles.container} & {

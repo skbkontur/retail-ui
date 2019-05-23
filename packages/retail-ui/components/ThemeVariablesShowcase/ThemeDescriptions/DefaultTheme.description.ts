@@ -95,6 +95,9 @@ export default {
   pagingForwardLinkDisabledColor: [
     "linkDisabledColor"
   ],
+  toggleBgActive: [
+    "toggleBgChecked"
+  ],
   toggleBgError: [
     "errorMain"
   ],
@@ -112,9 +115,6 @@ export default {
   ],
   inputDisabledBorderColor: [
     "borderColorGrayLight"
-  ],
-  inputDisabledColor: [
-    "bgDisabled"
   ],
   inputFocusOutline: [
     "borderColorFocus"

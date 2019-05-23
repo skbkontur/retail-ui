@@ -173,7 +173,11 @@ const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
       return `0 0 0 1px ${this.btnPayActiveBg};`;
     },
   },
-
+  inputDisabledBorderColor: {
+    get() {
+      return this.inputDisabledBg;
+    },
+  },
   chbBorder: {
     get() {
       return this.btnDefaultBorder;
@@ -222,6 +226,11 @@ const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
   radioCheckedBgColor: {
     get() {
       return this.chbCheckedBg;
+    },
+  },
+  textareaDisabledBorderColor: {
+    get() {
+      return this.textareaDisabledBg;
     },
   },
 });
