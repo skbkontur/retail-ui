@@ -35,17 +35,17 @@ interface ThemeDescriptionType {
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 
 const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
-const componentsContext = require.context('./ComponentDescriptions', false, /\.description\.ts$/);
+const componentsContext = require.context('./ComponentDescriptions', false, /\.json$/);
 componentsContext.keys().forEach(fileName => {
-  COMPONENT_DESCRIPTIONS[fileName.replace('./', '').replace('.description.ts', '')] = componentsContext(
+  COMPONENT_DESCRIPTIONS[fileName.replace('./', '').replace('.json', '')] = componentsContext(
     fileName,
-  ).default;
+  );
 });
 
 const DERIVATIONS_DESCRIPTIONS: ThemeDescriptionType = {};
-const themesContext = require.context('./ThemeDescriptions', false, /\.description\.ts$/);
+const themesContext = require.context('./ThemeDescriptions', false, /\.json$/);
 themesContext.keys().forEach(fileName => {
-  const themeDescription = themesContext(fileName).default;
+  const themeDescription = themesContext(fileName);
   Object.keys(themeDescription).forEach(key => {
     DERIVATIONS_DESCRIPTIONS[key] = (DERIVATIONS_DESCRIPTIONS[key] || []).concat(themeDescription[key]);
   });

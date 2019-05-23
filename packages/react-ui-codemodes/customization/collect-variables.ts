@@ -1,10 +1,16 @@
 /* tslint:disable:no-console */
 import { API, FileInfo } from 'jscodeshift/src/core';
-import { Identifier, StringLiteral } from 'ast-types/gen/nodes';
+import { Identifier } from 'ast-types/gen/nodes';
 import * as path from 'path';
 import * as fs from 'fs';
 
-const DESCRIPTION_DIR_PATH = path.join('..', 'retail-ui', 'components', 'ThemeVariablesShowcase', 'ComponentDescriptions');
+const DESCRIPTION_DIR_PATH = path.join(
+  '..',
+  'retail-ui',
+  'components',
+  'ThemeVariablesShowcase',
+  'ComponentDescriptions',
+);
 
 const TO_SOURCE_OPTIONS: any = {
   quote: 'single',
@@ -30,7 +36,7 @@ function collectVariables(fileInfo: FileInfo, api: API) {
 
   const j = api.jscodeshift;
   const fileName = path.basename(fileInfo.path);
-  const outputFilePath = path.join(DESCRIPTION_DIR_PATH, fileName.replace('.styles.', '.description.'));
+  const outputFilePath = path.join(DESCRIPTION_DIR_PATH, fileName.replace('.styles.ts', '.json'));
   const root = j(fileInfo.source);
   const result: any = {};
 
@@ -70,16 +76,7 @@ function collectVariables(fileInfo: FileInfo, api: API) {
     fs.mkdirSync(DESCRIPTION_DIR_PATH);
   }
 
-  const toFormat = `export default ${JSON.stringify(result, undefined, 2)};`;
-  const resultAST = j(toFormat).forEach(program => {
-    j(program)
-      .find(j.ObjectProperty)
-      .forEach(op => {
-        op.value.key = j.identifier((op.value.key as StringLiteral).value);
-      });
-  });
-
-  fs.writeFileSync(outputFilePath, resultAST.toSource(TO_SOURCE_OPTIONS));
+  fs.writeFileSync(outputFilePath, JSON.stringify(result, undefined, 2));
 
   return null;
 }
