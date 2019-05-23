@@ -115,7 +115,7 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
     );
 
     return enableReactTesting ? (
-      tabsGroup()
+      tabsGroup(false)
     ) : (
       <Sticky side={'top'} getStop={this.getStickyStop}>
         {tabsGroup(true)}
