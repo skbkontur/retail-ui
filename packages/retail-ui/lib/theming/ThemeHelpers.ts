@@ -15,6 +15,7 @@ export function defineInternalTheme<VM extends VariablesMap, CD extends Property
   Object.keys(computedDescriptors).forEach(key => {
     const resultElement = (result as VM)[key];
     if (!resultElement || resultElement === '__COMPUTED__') {
+      computedDescriptors[key].enumerable = true;
       Object.defineProperty(result, key, computedDescriptors[key]);
     }
   });

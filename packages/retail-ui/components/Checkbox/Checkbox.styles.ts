@@ -30,7 +30,7 @@ const jsStyles = {
       background: ${t.chbBg};
 
       .${styles.disabled} & {
-        box-shadow: ${t.chbShadowDisabled} !important; //to overide hover and active
+        box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
         background: ${t.bgDisabled} !important;
         color: ${t.textColorDisabled} !important;
         border-color: transparent;
