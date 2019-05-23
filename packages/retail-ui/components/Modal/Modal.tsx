@@ -85,6 +85,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
+  private layoutEvents: { remove: () => void } | null = null;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -101,7 +102,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       this.containerNode.addEventListener('scroll', LayoutEvents.emit);
     }
 
-    LayoutEvents.addListener(() => {
+    this.layoutEvents = LayoutEvents.addListener(() => {
       const scrollBar = this.isThereScrollBar();
       if (this.state.scrollBar !== scrollBar) {
         this.setState({ scrollBar });
@@ -123,6 +124,9 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     if (this.containerNode) {
       this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
+    }
+    if (this.layoutEvents) {
+      this.layoutEvents.remove();
     }
   }
 
