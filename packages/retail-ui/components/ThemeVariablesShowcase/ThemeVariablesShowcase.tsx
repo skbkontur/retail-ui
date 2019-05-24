@@ -10,83 +10,17 @@ import Sticky from '../Sticky';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
 import Tooltip from '../Tooltip';
 import { PopupPosition } from '../Popup';
-
-interface DescriptionsType {
-  [componentName: string]: ComponentDescriptionType;
-}
-
-interface ComponentRowDescriptionType {
-  contents: string;
-  variables: Array<keyof ITheme>;
-}
-
-interface ComponentDescriptionType {
-  [elementName: string]: ComponentRowDescriptionType;
-}
-
-interface VariableNameToComponentsMap {
-  [variableName: string]: DescriptionsType;
-}
-
-interface ThemeDescriptionType {
-  [derivedVariableName: string]: string[];
-}
+import {
+  ALL_USED_VARIABLES,
+  DIRECTLY_USED_VARIABLES,
+  COMPONENT_DESCRIPTIONS,
+  COMPONENT_DESCRIPTIONS_BY_VARIABLE,
+  EXECUTION_TIME,
+  ComponentDescriptionType,
+  ComponentRowDescriptionType,
+} from './VariablesCollector';
 
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
-
-const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
-const componentsContext = require.context('./ComponentDescriptions', false, /\.json$/);
-componentsContext.keys().forEach(fileName => {
-  COMPONENT_DESCRIPTIONS[fileName.replace('./', '').replace('.json', '')] = componentsContext(
-    fileName,
-  );
-});
-
-const DERIVATIONS_DESCRIPTIONS: ThemeDescriptionType = {};
-const themesContext = require.context('./ThemeDescriptions', false, /\.json$/);
-themesContext.keys().forEach(fileName => {
-  const themeDescription = themesContext(fileName);
-  Object.keys(themeDescription).forEach(key => {
-    DERIVATIONS_DESCRIPTIONS[key] = (DERIVATIONS_DESCRIPTIONS[key] || []).concat(themeDescription[key]);
-  });
-});
-
-const VARIABLE_TO_COMPONENTS_MAP: VariableNameToComponentsMap = {};
-const USED_DERIVATIONS: string[] = [];
-Object.keys(COMPONENT_DESCRIPTIONS).forEach(compName => {
-  const elements = COMPONENT_DESCRIPTIONS[compName];
-  Object.keys(elements).forEach(elName => {
-    const variables = elements[elName].variables;
-    variables.forEach(varName => {
-      if (!VARIABLE_TO_COMPONENTS_MAP[varName]) {
-        VARIABLE_TO_COMPONENTS_MAP[varName] = {};
-      }
-
-      if (!VARIABLE_TO_COMPONENTS_MAP[varName][compName]) {
-        VARIABLE_TO_COMPONENTS_MAP[varName][compName] = {};
-      }
-
-      if (!VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName]) {
-        VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName] = {
-          contents: COMPONENT_DESCRIPTIONS[compName][elName].contents,
-          variables: [varName],
-        };
-      } else if (!VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName].variables.includes(varName)) {
-        VARIABLE_TO_COMPONENTS_MAP[varName][compName][elName].variables.push(varName);
-      }
-
-      if (DERIVATIONS_DESCRIPTIONS[varName]) {
-        DERIVATIONS_DESCRIPTIONS[varName].forEach(usedBaseVariable => {
-          if (!USED_DERIVATIONS.includes(usedBaseVariable)) {
-            USED_DERIVATIONS.push(usedBaseVariable);
-          }
-        });
-      }
-    });
-  });
-});
-
-const USED_VARIABLES = Object.keys(VARIABLE_TO_COMPONENTS_MAP);
 
 const ALL_VARIABLES = Object.keys(defaultVariables)
   .concat(Object.keys(flatVariables))
@@ -108,7 +42,7 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
   public componentWillMount(): void {
     if (this.props.isDebugMode) {
       ALL_VARIABLES.forEach(variable => {
-        const found = USED_VARIABLES.includes(variable) || USED_DERIVATIONS.includes(variable);
+        const found = ALL_USED_VARIABLES.includes(variable);
         if (!found) {
           this.variablesDiff.push(variable);
         }
@@ -119,15 +53,18 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
   public render() {
     const selectedVariable = this.state.selectedVariable;
     const descriptionsToRender = selectedVariable
-      ? VARIABLE_TO_COMPONENTS_MAP[selectedVariable.value] || {}
+      ? COMPONENT_DESCRIPTIONS_BY_VARIABLE[selectedVariable.value] || {}
       : COMPONENT_DESCRIPTIONS;
 
+    const isDebugMode = this.props.isDebugMode;
+    const executionTime = isDebugMode ? `Сгенерировано за ${EXECUTION_TIME.toFixed(3)}ms` : '';
+
     return (
-      <Gapped vertical={false} gap={30} verticalAlign={'top'}>
+      <Gapped gap={30} vertical={false} verticalAlign={'top'}>
         <div>
           <Sticky side={'top'}>
-            <div className={styles.searchBar}>
-              <Gapped vertical={false} gap={15}>
+            <div className={styles.searchBar} data-execution-time={executionTime}>
+              <Gapped gap={15} vertical={false}>
                 <ComboBox
                   getItems={this.getItems}
                   value={selectedVariable}
@@ -146,7 +83,7 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
                 key={componentName}
                 name={componentName}
                 description={descriptionsToRender[componentName]}
-                isDebugMode={this.props.isDebugMode}
+                isDebugMode={isDebugMode}
                 onVariableSelect={this.handleVariableChange}
               />
             ))}
@@ -161,7 +98,7 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
 
   private getValues(query: string) {
     const lowerCaseQuery = query.toLowerCase();
-    return USED_VARIABLES.filter(usedVariable => usedVariable.toLowerCase().startsWith(lowerCaseQuery)).map(
+    return DIRECTLY_USED_VARIABLES.filter(usedVariable => usedVariable.toLowerCase().startsWith(lowerCaseQuery)).map(
       usedVariableName => ({
         value: usedVariableName,
         label: usedVariableName,

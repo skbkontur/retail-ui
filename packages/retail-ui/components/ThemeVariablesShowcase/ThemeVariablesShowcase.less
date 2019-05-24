@@ -1,26 +1,41 @@
-@value searchBarHeight: 45px;
+@white-color: #fff;
+@hover-color: #f8f8f8;
+@gray-border: 1px solid #e8e8e8;
 
-@whiteColor: #fff;
-@hoverColor: #f8f8f8;
-@grayBorder: 1px solid #e8e8e8;
+@search-bar-height: 40px;
+@execution-time-height: 20px;
+@execution-time-top: ((@search-bar-height - @execution-time-height) / 2) + 1;
+
+@value searchBarHeight: @search-bar-height;
 
 :local {
   //noinspection CssInvalidPropertyValue
   .searchBar {
+    position: relative;
     box-sizing: border-box;
     height: searchBarHeight;
     padding: 5px;
-    background-color: @whiteColor;
+    background-color: @white-color;
+
+    &::after {
+      content: attr(data-execution-time);
+      position: absolute;
+      top: @execution-time-top;
+      right: 20px;
+      color: #808080;
+      height: @execution-time-height;
+      line-height: @execution-time-height;
+    }
   }
 
   .heading {
     padding: 24px 0 16px 5px;
     margin: 0;
-    background-color: @whiteColor;
+    background-color: @white-color;
   }
 
   .headingSticky {
-    border-bottom: @grayBorder;
+    border-bottom: @gray-border;
   }
 
   .table {
@@ -32,11 +47,11 @@
     }
 
     & tbody tr:hover {
-      background-color: @hoverColor;
+      background-color: @hover-color;
     }
 
     & tbody tr.invisibleRow:hover ~ tr:not(.invisibleRow) {
-      background-color: @hoverColor;
+      background-color: @hover-color;
     }
 
     & tbody tr.invisibleRow:hover ~ .invisibleRow ~ tr {
@@ -49,8 +64,8 @@
     }
 
     & td {
-      border-top: @grayBorder;
-      border-bottom: @grayBorder;
+      border-top: @gray-border;
+      border-bottom: @gray-border;
       vertical-align: top;
       padding: 5px;
     }
@@ -72,7 +87,7 @@
     font-size: 0 !important;
     line-height: 0 !important;
     border: 0 none !important;
-    border-top: @grayBorder !important;
+    border-top: @gray-border !important;
   }
 
   .suspiciousCell {
@@ -115,5 +130,21 @@
     margin: 20px 0;
     background-color: #fff0bc;
     border-radius: 3px;
+  }
+
+  .cssClassObject {
+    color: #d28445;
+  }
+
+  .cssClassName {
+    color: #7f9a44;
+  }
+
+  .cssThemeObject {
+    color: #ac4142;
+  }
+
+  .cssThemeProp {
+    color: #b77daa;
   }
 }
