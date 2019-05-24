@@ -248,57 +248,7 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.gray;
     },
   },
-  spinnerKeyframesCloudOffset: {
-    get() {
-      return keyframes`
-        0% { stroke-dashoffset: 10; }
-        100% { stroke-dashoffset: 116; }
-      `;
-    },
-  },
-  spinnerKeyframesCloudLength: {
-    get() {
-      return keyframes`
-        0% { stroke-dasharray: 10, 96; }
-        50% { stroke-dasharray: 50, 56; }
-        100% { stroke-dasharray: 10, 96;}
-      `;
-    },
-  },
-  spinnerKeyframesCircleOffset: {
-    get() {
-      return keyframes`
-        0% { stroke-dashoffset: 0; }
-        100% { stroke-dashoffset: -37; }
-      `;
-    },
-  },
-  spinnerKeyframesCircleLength: {
-    get() {
-      return keyframes`
-        0% { stroke-dasharray: 10, 27; }
-        50% {  stroke-dasharray: 30, 7; }
-        100% { stroke-dasharray: 10, 27; }
-      `;
-    },
-  },
-  spinnerKeyframesCircleRotate: {
-    get() {
-      return keyframes`
-        100% { transform: rotate(360deg); }
-      `;
-    },
-  },
-  spinnerKeyframesColor: {
-    get() {
-      return keyframes`
-        100%, 0% { stroke: ${this.red}; }
-        40% { stroke: ${this.yellow}; }
-        66% { stroke: ${this.green}; }
-        80%, 90% { stroke: ${this.brand}; }
-      `;
-    },
-  },
+
 });
 
 export default DEFAULT_THEME;
