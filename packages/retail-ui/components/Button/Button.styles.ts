@@ -453,7 +453,7 @@ const jsClasses = {
           background: ${
             t.btnPrimaryHoverBgStart === t.btnPrimaryHoverBgEnd
               ? t.btnPrimaryHoverBgStart
-              : `linear-gradient(to top left, ${t.btnPrimaryHoverBgStart}, ${t.btnPrimaryHoverBgEnd}`
+              : `linear-gradient(to top left, ${t.btnPrimaryHoverBgStart}, ${t.btnPrimaryHoverBgEnd})`
           };
           box-shadow: ${t.btnPrimaryHoverShadowArrowLeft};
         }
