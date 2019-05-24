@@ -16,25 +16,36 @@ export interface ComponentDescriptionType {
 export interface ComponentRowDescriptionType {
   contents: React.ReactNode[];
   variables: Array<keyof ITheme>;
+  dependencies: VariableDependencies;
 }
 
 export interface VariableNameToComponentsMap {
   [variableName: string]: DescriptionsType;
 }
 
+export interface VariableDependencies {
+  [variableName: string]: string[];
+}
+
 let executionTime = 0;
 
 const ALL_USED_VARIABLES_SET = new Set<string>();
-const DIRECTLY_USED_VARIABLES_SET = new Set<string>();
-function getProxyHandler(accumulator: Set<string>): ProxyHandler<ITheme> {
+function getProxyHandler(accumulator: Set<string>, dependencies: VariableDependencies): ProxyHandler<ITheme> {
   let accessLevel = 0;
+  let rootProp = '';
   return {
     get(target, prop, receiver) {
       const propName = String(prop);
       ALL_USED_VARIABLES_SET.add(propName);
       if (accessLevel === 0) {
+        rootProp = propName;
         accumulator.add(propName);
-        DIRECTLY_USED_VARIABLES_SET.add(propName);
+      } else {
+        if (!dependencies[rootProp]) {
+          dependencies[rootProp] = [propName];
+        } else if (!dependencies[rootProp].includes(propName)) {
+          dependencies[rootProp].push(propName);
+        }
       }
       accessLevel++;
       const start = performance.now();
@@ -62,15 +73,16 @@ componentsContext.keys().forEach(fileName => {
 
   Object.keys(jsStyles).forEach(elementName => {
     const jsStyle = jsStyles[elementName];
-    const elementAccumulator = new Set<string>();
-    const elementProxyHandler = getProxyHandler(elementAccumulator);
+    const variablesAccumulator = new Set<string>();
+    const dependencies: VariableDependencies = {};
+    const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
     const themes = THEMES.map(t => new Proxy(t, elementProxyHandler));
     themes.forEach(t => jsStyle(t));
 
     const contents = formatSourceCode(jsStyle.toString(), componentName);
-    const variables = Array.from(elementAccumulator);
+    const variables = Array.from(variablesAccumulator);
 
-    componentDescription[elementName] = { contents, variables };
+    componentDescription[elementName] = { contents, variables, dependencies };
 
     variables.forEach(variableName => {
       if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
@@ -86,16 +98,31 @@ componentsContext.keys().forEach(fileName => {
       if (!componentNode[elementName]) {
         componentNode[elementName] = {
           contents,
+          dependencies,
           variables: [variableName],
         };
       } else if (!componentNode[elementName].variables.includes(variableName)) {
+        componentNode[elementName].contents = contents;
+        componentNode[elementName].dependencies = dependencies;
         componentNode[elementName].variables.push(variableName);
+      }
+
+      const dependenciesList = dependencies[variableName];
+      if (dependenciesList) {
+        dependenciesList.forEach(dependencyName => {
+          if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
+            COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
+          }
+
+          const dependencyNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName];
+          if (!dependencyNode[componentName]) {
+            dependencyNode[componentName] = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName][componentName];
+          }
+        });
       }
     });
   });
 
-  // console.log(componentName);
-  // console.log('componentDescription:', componentDescription);
   COMPONENT_DESCRIPTIONS[componentName] = componentDescription;
 });
 
@@ -128,6 +155,7 @@ function formatSourceCode(input: string, componentName: string) {
       let variableString = variablesArray[index];
       const classNameRegExp = new RegExp(componentName + '_less_[\\d]+\\.default\\.', '');
       const themeRegExp = /\bt\.([a-zA-Z0-9]+)/gm;
+      const animationsRegExp = /AnimationKeyframes_[\d]+\.AnimationKeyframes\./g;
 
       if (classNameRegExp.test(variableString)) {
         children.push(
@@ -165,6 +193,12 @@ function formatSourceCode(input: string, componentName: string) {
         if (start < variableString.length) {
           children.push(<span key={`variable_${index}_textAfter`}>{variableString.substring(start)}</span>);
         }
+      } else if (animationsRegExp.test(variableString)) {
+        children.push(
+          <span key={`variable_${index}_animation`}>
+            {variableString.replace(animationsRegExp, 'AnimationKeyframes.')}
+          </span>,
+        );
       } else {
         warning(false, 'Could not parse variable content');
         children.push(<span key={`variable_${index}_unknown`}>{variableString}</span>);
@@ -206,5 +240,4 @@ function parseVariables(input: string) {
 }
 
 export const ALL_USED_VARIABLES = Array.from(ALL_USED_VARIABLES_SET);
-export const DIRECTLY_USED_VARIABLES = Array.from(DIRECTLY_USED_VARIABLES_SET);
 export const EXECUTION_TIME = executionTime;

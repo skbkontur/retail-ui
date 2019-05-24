@@ -12,15 +12,15 @@ import Tooltip from '../Tooltip';
 import { PopupPosition } from '../Popup';
 import {
   ALL_USED_VARIABLES,
-  DIRECTLY_USED_VARIABLES,
   COMPONENT_DESCRIPTIONS,
   COMPONENT_DESCRIPTIONS_BY_VARIABLE,
-  EXECUTION_TIME,
   ComponentDescriptionType,
   ComponentRowDescriptionType,
+  EXECUTION_TIME,
 } from './VariablesCollector';
 
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
+const EMPTY_ARRAY: string[] = [];
 
 const ALL_VARIABLES = Object.keys(defaultVariables)
   .concat(Object.keys(flatVariables))
@@ -97,13 +97,15 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
   }
 
   private getValues(query: string) {
-    const lowerCaseQuery = query.toLowerCase();
-    return DIRECTLY_USED_VARIABLES.filter(usedVariable => usedVariable.toLowerCase().startsWith(lowerCaseQuery)).map(
-      usedVariableName => ({
-        value: usedVariableName,
-        label: usedVariableName,
-      }),
-    );
+    const lowerCaseQuery = query && query.toLowerCase().trim();
+    let allItems = ALL_USED_VARIABLES;
+    if (lowerCaseQuery) {
+      allItems = ALL_USED_VARIABLES.filter(usedVariable => usedVariable.toLowerCase().startsWith(lowerCaseQuery));
+    }
+    return allItems.map(usedVariableName => ({
+      value: usedVariableName,
+      label: usedVariableName,
+    }));
   }
   private getItems = (query: string) => {
     return Promise.resolve(this.getValues(query));
@@ -201,15 +203,19 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
           <td className={styles.invisibleCell} />
         </tr>
         {row.variables.map(varName => {
+          const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
           const variableDefault = (defaultVariables as ITheme)[varName];
           const variableFlat = (flatVariables as ITheme)[varName];
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
-          const hasOnlyDefaultVariable = isDebugMode && variableDefault && !variableFlat;
 
           return (
             <tr key={`${el}_${varName}`} className={hasNoVariables ? styles.suspiciousRow : undefined}>
-              <td className={hasOnlyDefaultVariable ? styles.suspiciousCell : undefined}>
-                <VariableName variableName={varName as string} onVariableSelect={this.props.onVariableSelect} />
+              <td>
+                <VariableName
+                  variableName={varName as string}
+                  dependencies={dependencies}
+                  onVariableSelect={this.props.onVariableSelect}
+                />
               </td>
               <td>
                 <VariableValue value={variableDefault} />
@@ -231,21 +237,84 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
 
 interface VariableNameProps {
   variableName: string;
+  dependencies: string[];
   onVariableSelect: (event: any, item: ComboBoxItem) => void;
 }
 
 class VariableName extends React.Component<VariableNameProps> {
   public render() {
     return (
-      <span className={styles.variableName} onClick={this.handleVariableSelect}>
-        {this.props.variableName}
+      <span>
+        <span className={styles.variableName} onClick={this.handleVariableSelect}>
+          {this.props.variableName}
+        </span>
+        {this.props.dependencies.length > 0 && this.renderDependencies()}
       </span>
     );
   }
+
+  private renderDependencies() {
+    const { dependencies, onVariableSelect } = this.props;
+    return (
+      <React.Fragment>
+        <br />
+        <br />
+        зависит от:
+        {dependencies.map(dependency => (
+          <DependencyName
+            key={`dependency_${dependency}`}
+            dependencyName={dependency}
+            onDependencySelect={onVariableSelect}
+          />
+        ))}
+      </React.Fragment>
+    );
+  }
+
   private handleVariableSelect = () => {
     const { variableName, onVariableSelect } = this.props;
     if (onVariableSelect) {
       onVariableSelect(event, { value: variableName, label: variableName });
+    }
+  };
+}
+
+interface DependencyNameProps {
+  dependencyName: string;
+  onDependencySelect: (event: any, item: ComboBoxItem) => void;
+}
+class DependencyName extends React.Component<DependencyNameProps> {
+  public render() {
+    return (
+      <React.Fragment>
+        <br />
+        &ndash;{' '}
+        <Tooltip trigger={'hover'} render={this.getValues} pos={'right middle'}>
+          <span className={styles.variableName} onClick={this.handleDependencySelect}>
+            {this.props.dependencyName}
+          </span>
+        </Tooltip>
+      </React.Fragment>
+    );
+  }
+
+  private getValues = () => {
+    const dependencyName = this.props.dependencyName;
+    const dependencyDefault = (defaultVariables as ITheme)[dependencyName];
+    const dependencyFlat = (flatVariables as ITheme)[dependencyName];
+    return (
+      <React.Fragment>
+        <span>Default value: {<VariableValue value={dependencyDefault} />}</span>
+        <br />
+        <span>Flat value: {<VariableValue value={dependencyFlat} />}</span>
+      </React.Fragment>
+    );
+  };
+
+  private handleDependencySelect = () => {
+    const { dependencyName, onDependencySelect } = this.props;
+    if (onDependencySelect) {
+      onDependencySelect(event, { value: dependencyName, label: dependencyName });
     }
   };
 }
