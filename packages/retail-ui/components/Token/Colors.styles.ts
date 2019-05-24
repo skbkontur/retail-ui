@@ -163,7 +163,7 @@ const jsTokenColors = {
     return css`
       background-color: ${t.black};
       color: ${ColorFunctions.contrast(t.black)};
-      border: 1px solid ${ColorFunctions.darken(t.black, '5%')};
+      border: 1px solid ${t.black};
 
       & [data-name='RemoveIcon']:hover {
         color: ${ColorFunctions.contrast(t.black)};
