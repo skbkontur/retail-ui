@@ -79,6 +79,13 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   private input: Nullable<Input>;
   private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
 
+  public componentDidMount(): void {
+    warning(
+      this.props.maxLength === undefined,
+      `[CurrencyInput]: Prop 'maxLength' was been deprecated. See 'integerDigits' and 'fractionDigits'`,
+    );
+  }
+
   public componentWillReceiveProps(nextProps: CurrencyInputProps) {
     const { value, fractionDigits } = nextProps;
     if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
@@ -103,11 +110,6 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
             fractionDigits: this.props.fractionDigits,
           })
         : this.props.placeholder;
-
-    warning(
-      this.props.maxLength === undefined,
-      "[CurrencyInput]: Prop 'maxLength' was been deprecated. See 'integerDigits' and 'fractionDigits'",
-    );
 
     return (
       <Input
