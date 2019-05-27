@@ -28,7 +28,7 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
       const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
       const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
-      return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}`;
+      return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
     },
   },
   controlHeightMedium: {
@@ -36,7 +36,7 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
       const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
       const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
-      return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}`;
+      return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
     },
   },
   controlHeightLarge: {
@@ -44,7 +44,7 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
       const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
       const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
-      return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}`;
+      return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
     },
   },
   linkHoverColor: {
