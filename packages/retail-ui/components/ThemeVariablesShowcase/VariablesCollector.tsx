@@ -4,6 +4,7 @@ import ThemeFactory from '../../lib/theming/ThemeFactory';
 import FLAT_THEME from '../../lib/theming/themes/FlatTheme';
 import warning = require('warning');
 import styles from './ThemeVariablesShowcase.less';
+import { IS_PROXY_SUPPORTED } from '../internal/Supports';
 
 export interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -27,9 +28,80 @@ export interface VariableDependencies {
   [variableName: string]: string[];
 }
 
-let executionTime = 0;
+export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
+export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
 
+if (IS_PROXY_SUPPORTED) {
+  const baseThemes: ITheme[] = [];
+  baseThemes.push(ThemeFactory.getDefaultTheme());
+  baseThemes.push(ThemeFactory.create(FLAT_THEME));
+
+  const componentsContext = require.context('../', true, /\.styles.ts$/);
+  componentsContext.keys().forEach(fileName => {
+    const fileNameStart = fileName.lastIndexOf('/') + 1;
+    const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
+    const componentDescription: ComponentDescriptionType = {};
+    const jsStyles = componentsContext(fileName).default;
+
+    Object.keys(jsStyles).forEach(elementName => {
+      const jsStyle = jsStyles[elementName];
+      const variablesAccumulator = new Set<string>();
+      const dependencies: VariableDependencies = {};
+      const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
+      const themes = baseThemes.map(t => new Proxy(t, elementProxyHandler));
+      themes.forEach(t => jsStyle(t));
+
+      const contents = formatSourceCode(jsStyle.toString(), componentName);
+      const variables = Array.from(variablesAccumulator);
+
+      componentDescription[elementName] = { contents, variables, dependencies };
+
+      variables.forEach(variableName => {
+        if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
+          COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName] = {};
+        }
+
+        const variableNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName];
+        if (!variableNode[componentName]) {
+          variableNode[componentName] = {};
+        }
+
+        const componentNode = variableNode[componentName];
+        if (!componentNode[elementName]) {
+          componentNode[elementName] = {
+            contents,
+            dependencies,
+            variables: [variableName],
+          };
+        } else if (!componentNode[elementName].variables.includes(variableName)) {
+          componentNode[elementName].contents = contents;
+          componentNode[elementName].dependencies = dependencies;
+          componentNode[elementName].variables.push(variableName);
+        }
+
+        const dependenciesList = dependencies[variableName];
+        if (dependenciesList) {
+          dependenciesList.forEach(dependencyName => {
+            if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
+              COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
+            }
+
+            const dependencyNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName];
+            if (!dependencyNode[componentName]) {
+              dependencyNode[componentName] = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName][componentName];
+            }
+          });
+        }
+      });
+    });
+
+    COMPONENT_DESCRIPTIONS[componentName] = componentDescription;
+  });
+}
+
+let executionTime = 0;
 const ALL_USED_VARIABLES_SET = new Set<string>();
+
 function getProxyHandler(accumulator: Set<string>, dependencies: VariableDependencies): ProxyHandler<ITheme> {
   let accessLevel = 0;
   let rootProp = '';
@@ -56,75 +128,6 @@ function getProxyHandler(accumulator: Set<string>, dependencies: VariableDepende
     },
   };
 }
-
-const THEMES: ITheme[] = [];
-THEMES.push(ThemeFactory.getDefaultTheme());
-THEMES.push(ThemeFactory.create(FLAT_THEME));
-
-export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
-export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
-
-const componentsContext = require.context('../', true, /\.styles.ts$/);
-componentsContext.keys().forEach(fileName => {
-  const fileNameStart = fileName.lastIndexOf('/') + 1;
-  const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
-  const componentDescription: ComponentDescriptionType = {};
-  const jsStyles = componentsContext(fileName).default;
-
-  Object.keys(jsStyles).forEach(elementName => {
-    const jsStyle = jsStyles[elementName];
-    const variablesAccumulator = new Set<string>();
-    const dependencies: VariableDependencies = {};
-    const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
-    const themes = THEMES.map(t => new Proxy(t, elementProxyHandler));
-    themes.forEach(t => jsStyle(t));
-
-    const contents = formatSourceCode(jsStyle.toString(), componentName);
-    const variables = Array.from(variablesAccumulator);
-
-    componentDescription[elementName] = { contents, variables, dependencies };
-
-    variables.forEach(variableName => {
-      if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
-        COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName] = {};
-      }
-
-      const variableNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName];
-      if (!variableNode[componentName]) {
-        variableNode[componentName] = {};
-      }
-
-      const componentNode = variableNode[componentName];
-      if (!componentNode[elementName]) {
-        componentNode[elementName] = {
-          contents,
-          dependencies,
-          variables: [variableName],
-        };
-      } else if (!componentNode[elementName].variables.includes(variableName)) {
-        componentNode[elementName].contents = contents;
-        componentNode[elementName].dependencies = dependencies;
-        componentNode[elementName].variables.push(variableName);
-      }
-
-      const dependenciesList = dependencies[variableName];
-      if (dependenciesList) {
-        dependenciesList.forEach(dependencyName => {
-          if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
-            COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
-          }
-
-          const dependencyNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName];
-          if (!dependencyNode[componentName]) {
-            dependencyNode[componentName] = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName][componentName];
-          }
-        });
-      }
-    });
-  });
-
-  COMPONENT_DESCRIPTIONS[componentName] = componentDescription;
-});
 
 function formatSourceCode(input: string, componentName: string) {
   const regEx = /\.css\(templateObject_[\d]+\s+\|\|\s+\(templateObject_[\d]+\s+=\s+tslib_[\d]+\.__makeTemplateObject\((\[[\S\s]+\]),\s+(\[[\S\s]+\])\)\),\s+([\s\S]+)\);/gm;

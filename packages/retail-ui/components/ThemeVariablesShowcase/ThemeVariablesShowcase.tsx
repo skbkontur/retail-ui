@@ -18,6 +18,7 @@ import {
   ComponentRowDescriptionType,
   EXECUTION_TIME,
 } from './VariablesCollector';
+import { IS_PROXY_SUPPORTED } from '../internal/Supports';
 
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 const EMPTY_ARRAY: string[] = [];
@@ -51,6 +52,18 @@ export default class ThemeVariablesShowcase extends React.Component<ShowcaseProp
   }
 
   public render() {
+    if (!IS_PROXY_SUPPORTED) {
+      return (
+        <div>
+          Таблица использования переменных доступна только в{' '}
+          <Link href={'https://caniuse.com/#feat=proxy'} target={'_blank'}>
+            браузерах с поддержкой Proxy
+          </Link>
+          .
+        </div>
+      );
+    }
+
     const selectedVariable = this.state.selectedVariable;
     const descriptionsToRender = selectedVariable
       ? COMPONENT_DESCRIPTIONS_BY_VARIABLE[selectedVariable.value] || {}
