@@ -71,6 +71,12 @@ function createConfig(publicPath, output) {
         REACT_UI_PACKAGE: JSON.stringify('retail-ui'),
       }),
     ],
+    devServer: {
+      disableHostCheck: true,
+      historyApiFallback: true,
+      host: '0.0.0.0',
+      inline: true,
+    },
   };
 }
 
