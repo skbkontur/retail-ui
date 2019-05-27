@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import warning from 'warning';
 
 import Input, { InputProps } from '../Input';
 
@@ -95,13 +96,18 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, maxLength, integerDigits, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, mainInGroup, integerDigits, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
             fractionDigits: this.props.fractionDigits,
           })
         : this.props.placeholder;
+
+    warning(
+      this.props.maxLength === undefined,
+      "[CurrencyInput]: Prop 'maxLength' was been deprecated, use 'integerDigits' instead",
+    );
 
     return (
       <Input
