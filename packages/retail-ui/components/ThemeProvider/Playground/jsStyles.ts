@@ -9,6 +9,11 @@ const jsStyles = {
       }
     `;
   },
+  tabsInnerWrapper(t: PlaygroundTheme) {
+    return css`
+      color: ${t.textColorMain};
+    `;
+  },
 };
 
 export default jsStyles;

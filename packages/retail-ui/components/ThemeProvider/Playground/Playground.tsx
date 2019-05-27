@@ -33,7 +33,8 @@ import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import Sticky from '../../Sticky';
 
-const enableReactTesting = process.env.enableReactTesting;
+const enableReactTesting = process.env.enableReactTesting === 'true';
+const useSticky = !enableReactTesting;
 
 export interface IComponentsListProps {
   currentThemeType: ThemeType;
@@ -89,21 +90,25 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
   }
 
   private renderTabsGroup = () => {
+    return useSticky ? (
+      <Sticky side={'top'} getStop={this.getStickyStop}>
+        {this.renderTabs()}
+      </Sticky>
+    ) : (
+      this.renderTabs()
+    );
+  };
+
+  private renderTabs() {
     const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
-    const tabsGroup = (isSticky: boolean) => (
-      <div
-        style={{
-          background: this.theme.backgroundMain || 'white',
-        }}
-        className={cx(styles.tabsWrapper, isSticky && jsStyles.stickyTabsWrapper(this.theme))}
-      >
+    const tabsOuterWrapperStyle = { background: this.theme.backgroundMain || 'white' };
+    const tabsOuterWrapperClass = cx(styles.tabsWrapper, useSticky && jsStyles.stickyTabsWrapper(this.theme));
+
+    return (
+      <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
         <Gapped vertical={false} verticalAlign={'middle'} gap={40}>
           <Tabs value={currentThemeType} onChange={onThemeChange} vertical={false}>
-            <div
-              className={css`
-                color: ${this.theme.textColorMain};
-              `}
-            >
+            <div className={jsStyles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
@@ -113,15 +118,7 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
         </Gapped>
       </div>
     );
-
-    return enableReactTesting ? (
-      tabsGroup(false)
-    ) : (
-      <Sticky side={'top'} getStop={this.getStickyStop}>
-        {tabsGroup(true)}
-      </Sticky>
-    );
-  };
+  }
 
   private renderSizesGroup = () => {
     const sizes = ['small', 'medium', 'large'];
