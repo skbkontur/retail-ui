@@ -38,7 +38,7 @@ export default class ValidationContext extends React.Component<ValidationContext
     let scrollOffset: ScrollOffset = {};
 
     if (typeof this.props.scrollOffset === 'number') {
-      scrollOffset = { top: this.props.scrollOffset }
+      scrollOffset = { top: this.props.scrollOffset };
     } else {
       scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
     }
@@ -47,7 +47,7 @@ export default class ValidationContext extends React.Component<ValidationContext
     return {
       scrollOffset: {
         top,
-        bottom
+        bottom,
       },
     };
   }
