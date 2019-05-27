@@ -4,8 +4,8 @@ import { tooltip } from './ErrorRenderer';
 import ValidationWrapper, { RenderErrorMessage, ValidationBehaviour, ValidationLevel } from './ValidationWrapper';
 
 export interface ValidationInfo {
-  type?: ValidationBehaviour;
-  level?: ValidationLevel;
+  type?: Nullable<ValidationBehaviour>;
+  level?: Nullable<ValidationLevel>;
   message: React.ReactNode;
 }
 
@@ -25,7 +25,7 @@ export default class ValidationWrapperV1 extends React.Component<ValidationWrapp
         validations={[
           {
             error: Boolean(validationInfo),
-            level: validationInfo && validationInfo.level ? validationInfo.level : 'error',
+            level: (validationInfo && validationInfo.level) || 'error',
             behaviour: (validationInfo && validationInfo.type) || 'lostfocus',
             message: validationInfo && validationInfo.message,
           },
