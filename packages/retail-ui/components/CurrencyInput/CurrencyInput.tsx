@@ -106,7 +106,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
 
     warning(
       this.props.maxLength === undefined,
-      "[CurrencyInput]: Prop 'maxLength' was been deprecated, use 'integerDigits' instead",
+      "[CurrencyInput]: Prop 'maxLength' was been deprecated. See 'integerDigits' and 'fractionDigits'",
     );
 
     return (
