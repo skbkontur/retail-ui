@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './ThemeVariablesShowcase.less';
+import styles from './ThemeShowcase.less';
 import defaultVariables from '../../lib/theming/themes/DefaultTheme';
 import flatVariables from '../../lib/theming/themes/FlatTheme';
 import { ITheme } from '../../lib/theming/Theme';
@@ -17,7 +17,7 @@ import {
   ComponentDescriptionType,
   ComponentRowDescriptionType,
   EXECUTION_TIME,
-} from './VariablesCollector';
+} from './ThemeShowcaseHelpers/VariablesCollector';
 import { IS_PROXY_SUPPORTED } from '../internal/Supports';
 
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
@@ -34,7 +34,7 @@ interface ShowcaseState {
   selectedVariable?: ComboBoxItem;
 }
 
-export default class ThemeVariablesShowcase extends React.Component<ShowcaseProps, ShowcaseState> {
+export default class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState> {
   public state: ShowcaseState = {};
 
   private isUnmounting = false;
