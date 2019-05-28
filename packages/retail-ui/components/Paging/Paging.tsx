@@ -10,7 +10,7 @@ import { Nullable } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
 import styles from './Paging.less';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Paging.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -303,7 +303,6 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     process.nextTick(() => {
       if (tabListener.isTabPressed) {
         this.setState({ focusedByTab: true });
-        tabListener.isTabPressed = false;
       }
     });
   };

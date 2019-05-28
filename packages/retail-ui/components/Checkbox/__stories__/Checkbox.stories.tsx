@@ -115,7 +115,7 @@ storiesOf('Checkbox', module)
       Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </PlainCheckbox>
   ))
-  .add('w/o label', () => (
+  .add('without label', () => (
     <div>
       <div>
         Some text <Checkbox />

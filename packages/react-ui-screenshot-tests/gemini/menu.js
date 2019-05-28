@@ -61,4 +61,13 @@ gemini.suite('Menu', wrapperSuite => {
   gemini.suite('without Shadow', suite => {
     applyTest(renderStory('Menu', 'without Shadow'), suite);
   });
+
+  gemini.suite('with disabled MenuItem', suite => {
+    suite
+      .before(renderStory('Menu', 'with disabled MenuItem'))
+      .setCaptureElements(TEST_CONTAINER)
+      .capture('mouseenter', (actions, find) => {
+        actions.click(find('[data-tid="menuitem-notdisabled"]'));
+      });
+  });
 });

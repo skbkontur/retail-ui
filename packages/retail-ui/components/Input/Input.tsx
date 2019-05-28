@@ -5,7 +5,7 @@ import Upgrades from '../../lib/Upgrades';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import classes from './Input.less';
 import jsClasses from './Input.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

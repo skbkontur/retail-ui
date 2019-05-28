@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { css } from 'emotion';
+import { css } from '../../../lib/theming/Emotion';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { VariableValue } from './VariableValue';
 import { ITheme } from '../../../lib/theming/Theme';

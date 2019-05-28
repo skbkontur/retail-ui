@@ -1,1 +1,1 @@
-export { default, PagingProps, PagingState } from './Paging.js';
+export { default, PagingProps, PagingState } from './Paging';

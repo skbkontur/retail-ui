@@ -6,7 +6,7 @@ import MenuItem, { MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
 import { isMenuHeader } from '../MenuHeader/MenuHeader';
 import styles from './Menu.less';
 import { Nullable } from '../../typings/utility-types';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Menu.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

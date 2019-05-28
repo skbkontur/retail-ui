@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cx, css } from 'emotion';
+import { cx, css } from '../../../lib/theming/Emotion';
 import Input from '../../Input/index';
 import styles from './styles.less';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';

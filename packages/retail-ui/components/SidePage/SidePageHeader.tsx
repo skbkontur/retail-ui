@@ -4,7 +4,7 @@ import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
 import { isFunction } from '../../lib/utils';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

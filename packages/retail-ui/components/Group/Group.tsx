@@ -5,7 +5,7 @@ import '../ensureOldIEClassName';
 import styles from './Group.less';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];

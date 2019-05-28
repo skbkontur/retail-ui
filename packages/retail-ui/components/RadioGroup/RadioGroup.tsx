@@ -7,7 +7,7 @@ import Radio, { SyntheticRadioEvent } from '../Radio';
 import styles from './RadioGroup.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 
 export type ItemType<T> = T | [T, React.ReactNode];
 

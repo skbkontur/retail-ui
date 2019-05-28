@@ -71,7 +71,7 @@ export default class ThemeFactory {
     return keys.sort();
   }
 
-  private static defaultTheme = Object.create(DefaultTheme) as ITheme;
+  private static defaultTheme: ITheme = Object.create(DefaultTheme);
 
   private static constructTheme(base: ITheme, theme: IThemeIn) {
     Object.keys(theme).forEach(variableName => {

@@ -4,7 +4,7 @@ import Group from '../Group';
 import Button from '../Button';
 import styles from './Switcher.less';
 import { Nullable } from '../../typings/utility-types';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import jsStyles from './Switcher.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

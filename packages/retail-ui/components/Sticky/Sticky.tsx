@@ -5,7 +5,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Sticky.less';
 import { isFunction } from '../../lib/utils';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 
 export interface StickyProps {
   side: 'top' | 'bottom';

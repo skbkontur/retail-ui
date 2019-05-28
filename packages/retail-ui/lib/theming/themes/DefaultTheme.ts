@@ -1,9 +1,18 @@
 import DEFAULT_VARIABLES from '../../../components/variables.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 import ColorFunctions from '../../styles/ColorFunctions';
-import { keyframes } from 'emotion';
 
 const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
+  bgActive: {
+    get() {
+      return this.blueLight;
+    },
+  },
+  borderColorFocus: {
+    get() {
+      return this.blueLight;
+    },
+  },
   borderColorError: {
     get() {
       return this.errorMain;
@@ -14,6 +23,30 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.warningMain;
     },
   },
+  controlHeightSmall: {
+    get() {
+      const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+      const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
+      const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
+      return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
+    },
+  },
+  controlHeightMedium: {
+    get() {
+      const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+      const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
+      const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
+      return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
+    },
+  },
+  controlHeightLarge: {
+    get() {
+      const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+      const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
+      const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
+      return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
+    },
+  },
   linkHoverColor: {
     get() {
       return this.linkColor;
@@ -22,6 +55,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   linkDisabledColor: {
     get() {
       return this.textColorDisabled;
+    },
+  },
+  dropdownMenuHoverBg: {
+    get() {
+      return this.bgActive;
     },
   },
   btnDisabledShadowColor: {
@@ -124,6 +162,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.linkDisabledColor;
     },
   },
+  toggleBgActive: {
+    get() {
+      return this.toggleBgChecked;
+    },
+  },
   toggleBgError: {
     get() {
       return this.errorMain;
@@ -134,6 +177,16 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.warningMain;
     },
   },
+  toggleFocusShadowColor: {
+    get() {
+      return this.borderColorFocus;
+    },
+  },
+  inputFocusShadow: {
+    get() {
+      return `0 0 0 1px ${this.borderColorFocus}`;
+    },
+  },
   inputDisabledBg: {
     get() {
       return this.bgDisabled;
@@ -142,11 +195,6 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   inputDisabledBorderColor: {
     get() {
       return this.borderColorGrayLight;
-    },
-  },
-  inputDisabledColor: {
-    get() {
-      return this.bgDisabled;
     },
   },
   inputFocusOutline: {
@@ -199,57 +247,7 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.gray;
     },
   },
-  spinnerKeyframesCloudOffset: {
-    get() {
-      return keyframes`
-        0% { stroke-dashoffset: 10; }
-        100% { stroke-dashoffset: 116; }
-      `;
-    },
-  },
-  spinnerKeyframesCloudLength: {
-    get() {
-      return keyframes`
-        0% { stroke-dasharray: 10, 96; }
-        50% { stroke-dasharray: 50, 56; }
-        100% { stroke-dasharray: 10, 96;}
-      `;
-    },
-  },
-  spinnerKeyframesCircleOffset: {
-    get() {
-      return keyframes`
-        0% { stroke-dashoffset: 0; }
-        100% { stroke-dashoffset: -37; }
-      `;
-    },
-  },
-  spinnerKeyframesCircleLength: {
-    get() {
-      return keyframes`
-        0% { stroke-dasharray: 10, 27; }
-        50% {  stroke-dasharray: 30, 7; }
-        100% { stroke-dasharray: 10, 27; }
-      `;
-    },
-  },
-  spinnerKeyframesCircleRotate: {
-    get() {
-      return keyframes`
-        100% { transform: rotate(360deg); }
-      `;
-    },
-  },
-  spinnerKeyframesColor: {
-    get() {
-      return keyframes`
-        100%, 0% { stroke: ${this.red}; }
-        40% { stroke: ${this.yellow}; }
-        66% { stroke: ${this.green}; }
-        80%, 90% { stroke: ${this.brand}; }
-      `;
-    },
-  },
+
 });
 
 export default DEFAULT_THEME;

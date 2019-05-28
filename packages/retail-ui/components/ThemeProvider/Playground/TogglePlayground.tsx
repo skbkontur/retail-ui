@@ -11,68 +11,16 @@ export class TogglePlayground extends Component<{}, any> {
 
   public render() {
     return (
-      <div>
-        <div>
-          <Gapped gap={20}>
-            <Gapped vertical gap={20}>
-              <div>
-                <Toggle checked={this.state.checked} onChange={this.handleToggle} loading={this.state.loading} />{' '}
-                {this.state.checked ? 'On' : 'Off'}
-              </div>
-              <div>
-                <Toggle checked={false} disabled />
-                {' Off disabled'}
-              </div>
-              <div>
-                <Toggle checked={true} disabled />
-                {' On disabled'}
-              </div>
-            </Gapped>
-
-            <Gapped vertical gap={20}>
-              <div>
-                <Toggle
-                  checked={this.state.checked}
-                  onChange={this.handleToggle}
-                  warning
-                  loading={this.state.loading}
-                />{' '}
-                {this.state.checked ? 'On' : 'Off'}
-              </div>
-              <div>
-                <Toggle checked={false} disabled warning />
-                {' Off disabled'}
-              </div>
-              <div>
-                <Toggle checked={true} disabled warning />
-                {' On disabled'}
-              </div>
-            </Gapped>
-
-            <Gapped vertical gap={20}>
-              <div>
-                <Toggle checked={this.state.checked} onChange={this.handleToggle} error loading={this.state.loading} />{' '}
-                {this.state.checked ? 'On' : 'Off'}
-              </div>
-              <div>
-                <Toggle checked={false} disabled error />
-                {' Off disabled'}
-              </div>
-              <div>
-                <Toggle checked={true} disabled error />
-                {' On disabled'}
-              </div>
-            </Gapped>
-          </Gapped>
-        </div>
-      </div>
+      <Gapped vertical>
+        <Gapped gap={10}>
+          <Toggle />
+          <div>Toggle</div>
+        </Gapped>
+        <Gapped gap={10}>
+          <Toggle disabled />
+          <div>Disabled toggle</div>
+        </Gapped>
+      </Gapped>
     );
   }
-
-  private handleToggle = (checked: boolean) => {
-    this.setState({
-      checked,
-      loading: this.state.loadingActive,
-    });
-  };
 }

@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-ui-validations.svg?maxAge=300&style=flat-square)](https://www.npmjs.com/package/react-ui-validations)
 
-Набор компонентов, реализующих поведение [валидаций по контур-гайдам](https://guides.kontur.ru/principles/validation/).
+Набор компонентов, реализующих поведение [валидаций по Контур.Гайдам](https://guides.kontur.ru/principles/validation/).
 
 ## Документация
 

@@ -3,7 +3,7 @@ import warningOutput from 'warning';
 import styles from './Token.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Token.styles';
 import jsTokenColors from './Colors.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

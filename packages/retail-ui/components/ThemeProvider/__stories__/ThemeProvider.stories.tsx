@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { css } from 'emotion';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { ITheme } from '../../../lib/theming/Theme';
@@ -12,6 +11,7 @@ import Gapped from '../../Gapped';
 import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
 import darkThemeVariables from '../Playground/darkTheme';
 import styles from '../Playground/styles.less';
+import jsStyles from '../Playground/jsStyles';
 import { ThemeEditor } from '../Playground/ThemeEditor';
 
 interface IState {
@@ -80,11 +80,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
-          <div
-            className={css`
-              color: ${currentTheme.textColorMain};
-            `}
-          >
+          <div className={jsStyles.editorHeaderWrapper(currentTheme)}>
             <Gapped>
               <span>Тема для редактирования:</span>
               <ComboBox
@@ -124,13 +120,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   private handleThemeChange = (ev: { target: { value: string } }, value: string) => {
     this.setState({
       currentThemeType: value as ThemeType,
-    });
-    this.changeTheme(value as ThemeType);
-  };
-
-  private changeTheme = (themeType: ThemeType) => {
-    this.setState({
-      currentTheme: this.getThemeByType(themeType) as PlaygroundTheme,
+      currentTheme: this.getThemeByType(value as ThemeType) as PlaygroundTheme,
     });
   };
 

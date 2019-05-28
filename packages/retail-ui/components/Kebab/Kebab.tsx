@@ -9,7 +9,7 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 import styles from './Kebab.less';
 import { PopupPosition } from '../Popup';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './Kebab.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -188,7 +188,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
     }

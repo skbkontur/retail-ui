@@ -3,7 +3,7 @@ import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
 import Corners from './Corners';
 import '../ensureOldIEClassName';
-import { cx as classNames } from 'emotion';
+import { cx as classNames } from '../../lib/theming/Emotion';
 import classes from './Button.less';
 import jsClasses from './Button.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -162,7 +162,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
   private renderMain() {
     const { corners = 0 } = this.props;
-    const RADIUS = this.props.size === 'small' ? this.theme.btnSmallBorderRadius : this.theme.btnBorderRadius;
 
     const SIZE_CLASSES = {
       small: classNames(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
@@ -180,7 +179,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       className: classNames({
         [classes.root]: true,
         [jsClasses.root(this.theme)]: true,
-        [classNames(jsClasses[this.props.use!] && jsClasses[this.props.use!](this.theme)) || jsClasses.default(this.theme)]: true,
+        [classNames(jsClasses[this.props.use!] && jsClasses[this.props.use!](this.theme)) ||
+        jsClasses.default(this.theme)]: true,
         [classes.active]: !!this.props.active,
         [classes.checked]: !!this.props.checked,
         [jsClasses.checked(this.theme)]: !!this.props.checked,
@@ -202,11 +202,10 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.borderless]: !!this.props.borderless,
       }),
       style: {
-        borderRadius:
-          `${corners & Corners.TOP_LEFT ? 0 : RADIUS}` +
-          ` ${corners & Corners.TOP_RIGHT ? 0 : RADIUS}` +
-          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : RADIUS}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : RADIUS}`,
+        borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
+        borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
+        borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
+        borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: this.props.align,
       },
       disabled: this.props.disabled || this.props.loading,
@@ -311,7 +310,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
       if (this.props.onFocus) {

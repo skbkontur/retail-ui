@@ -13,7 +13,7 @@ import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
-import { cx as cn } from 'emotion';
+import { cx as cn } from '../../lib/theming/Emotion';
 import jsStyles from './TokenInput.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

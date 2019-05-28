@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import classes from './Input.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
@@ -11,7 +11,6 @@ const jsClasses = {
       box-shadow: ${t.inputShadow};
       border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
       border-top-color: ${t.inputBorderTopColor};
-      }
     `;
   },
 
@@ -109,8 +108,8 @@ const jsClasses = {
   disabled(t: ITheme) {
     return css`
       .${classes.root}& {
-        border-color: ${t.inputDisabledBorderColor};
         background: ${t.inputDisabledBg};
+        border-color: ${t.inputDisabledBorderColor};
       }
     `;
   },
