@@ -2,7 +2,7 @@
 
 ThemeProvider - компонент, передающий объект темы вниз по дереву с помощью полифила [`create-react-context.`](https://github.com/jamiebuilds/create-react-context)
 
-Принимает в качестве пропов `children: React.ReactNode` и `value` типа `IThemIn`:
+Принимает в качестве пропов `children: React.ReactNode` и `value` типа `IThemeIn`:
 
 ```typescript
 import defaultThemeVariables from './components/variables.less';
@@ -13,7 +13,7 @@ type ThemeInType = Partial<ThemeType>;
 
 interface IThemeIn extends ThemeInType {};
 ```
-В качестве базовой темы выступает объект, полученный из переменных `variables.less`. Объект, переданный в value будет смерджен с объектом базовой темой.
+В качестве базовой темы выступает объект, полученный из переменных `variables.less`. Объект, переданный в `value` будет смерджен с объектом базовой темой.
 
 Помимо базовой темы, есть плоская тема, собранная из переменных `variables.flat.less`.
 Объект плоской темы можно импортировать и передавать в ThemeProvider:
