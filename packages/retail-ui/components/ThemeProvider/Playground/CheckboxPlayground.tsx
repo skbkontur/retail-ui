@@ -3,7 +3,7 @@ import Gapped from '../../Gapped';
 import Checkbox, { CheckboxProps } from '../../Checkbox';
 import { getComponentsFromPropsList } from './helpers';
 
-const propsList: (CheckboxProps & { focused?: boolean })[] = [
+const propsList: Array<CheckboxProps & { focused?: boolean }> = [
   { children: 'Default' },
   { children: 'Checked', checked: true },
   { children: 'Disabled', checked: true, disabled: true },
