@@ -16,7 +16,7 @@ import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
 import LifeCycleProxy from '../internal/LifeCycleProxy';
-import { cx as cn } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Popup.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -355,7 +355,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               key={this.state.location ? 'real' : 'dummy'}
               delta={1000}
               ref={this.refPopupElement}
-              className={cn({
+              className={cx({
                 [styles.popup]: true,
                 [jsStyles.popup(this.theme)]: true,
                 [styles['popup-ignore-hover']]: !!props.ignoreHover,
@@ -363,13 +363,13 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
                 [styles['transition-enter']]: state === 'entering',
                 [styles['transition-enter-active']]: state === 'entered',
                 [styles['transition-exit']]: state === 'exiting',
-                [cn(styles[('transition-enter-' + direction) as keyof typeof styles])]: true,
+                [cx(styles[('transition-enter-' + direction) as keyof typeof styles])]: true,
               })}
               style={rootStyle}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={cn(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
+              <div className={cx(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
                 <div className={jsStyles.contentInner(this.theme)} style={{ backgroundColor }} data-tid={'PopupContentInner'}>
                   {children}
                 </div>

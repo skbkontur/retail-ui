@@ -4,7 +4,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import styles from './Checkbox.less';
 import jsStyles from './Checkbox.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -146,7 +146,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     } = props;
     const hasCaption = !!children;
 
-    const rootClass = classNames({
+    const rootClass = cx({
       [styles.root]: true,
       [styles.withoutCaption]: !hasCaption,
       [styles.disabled]: !!props.disabled,
@@ -173,13 +173,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
 
     const isIndeterminate = this.state.indeterminate;
-    const boxClass = classNames(styles.box, jsStyles.box(this.theme), isIndeterminate && jsStyles.boxIndeterminate(this.theme));
+    const boxClass = cx(styles.box, jsStyles.box(this.theme), isIndeterminate && jsStyles.boxIndeterminate(this.theme));
     return (
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
         <span className={boxClass}>
           {isIndeterminate ? (
-            <span className={classNames(styles.indeterminate, jsStyles.indeterminate(this.theme))} />
+            <span className={cx(styles.indeterminate, jsStyles.indeterminate(this.theme))} />
           ) : (
             props.checked && (
               <div className={styles.ok}>
