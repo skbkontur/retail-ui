@@ -223,7 +223,7 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
       </div>
     );
     const components = [
-      <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'}>
+      <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations={true}>
         <Link icon={<HelpDotIcon />} />
       </Tooltip>,
     ];
