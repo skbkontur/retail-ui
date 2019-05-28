@@ -1,8 +1,18 @@
 import * as React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import Popup, { PopupProps, PopupState } from '../Popup';
-import toJson from 'enzyme-to-json';
 import { delay } from '../../../lib/utils';
+import RenderContainer from '../../RenderContainer/RenderContainer';
+import ZIndex from '../../ZIndex';
+import { Transition } from 'react-transition-group';
+import LifeCycleProxy from '../../internal/LifeCycleProxy';
+import ReactDOM from 'react-dom';
+import { RenderInnerContainer as RenderContainerNative } from '../../RenderContainer/RenderContainerNative';
+import { RenderInnerContainer as RenderContainerFallback } from '../../RenderContainer/RenderContainerFallback';
+import { Nullable } from '../../../typings/utility-types';
+
+const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
+const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {
@@ -30,7 +40,8 @@ const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, Po
     <Popup
       positions={['bottom left', 'bottom right', 'top left', 'top right']}
       opened={false}
-      anchorElement={anchor as HTMLElement}
+      anchorElement={anchor}
+      disableAnimations={true}
       {...props}
     >
       Test content
@@ -51,7 +62,7 @@ describe('Popup', () => {
       <Popup
         positions={['bottom right', 'top left', 'top right', 'bottom left']}
         opened={false}
-        anchorElement={anchor as HTMLElement}
+        anchorElement={anchor}
       >
         Test content
       </Popup>
@@ -108,20 +119,39 @@ describe('Popup', () => {
   });
 });
 
-describe('Popup snapshots: ', () => {
-  it('open and close popup', async () => {
-    const wrapper = renderWrapper();
 
-    expect(toJson(wrapper)).toMatchSnapshot('closed popup');
+describe('properly renders opened/closed states ', () => {
+  type TreeNodeType = React.ComponentClass<any> | string
+  const closedPopupTree: TreeNodeType[] = [RenderContainer, RenderInnerContainer];
+  const openedPopupTree: TreeNodeType[] = [RenderContainer, RenderInnerContainer, LifeCycleProxy, Transition, ZIndex, 'div.popup', 'div.content', 'div.contentInner'];
 
+  function traverseTree(root: ReactWrapper<any>, tree: TreeNodeType[]): Nullable<ReactWrapper> {
+    return tree.reduce((found: Nullable<ReactWrapper>, toFind) => found ? found.children(toFind as string) : null, root);
+  }
+
+  const wrapper = renderWrapper();
+
+  it('01 - initially closed', () => {
+    const innerContainer = traverseTree(wrapper, closedPopupTree);
+    expect(innerContainer).toBeDefined();
+    expect(innerContainer!.children()).toHaveLength(0);
+  });
+
+  it('02 - then opened', async () => {
     await openPopup(wrapper);
-    expect(toJson(wrapper)).toMatchSnapshot('opened popup');
+    wrapper.update();
 
+    const content = traverseTree(wrapper, openedPopupTree);
+    expect(content).toBeDefined();
+    expect(content!.text()).toBe('Test content');
+  });
+
+  it('03 - and closed again', async () => {
     await closePopup(wrapper);
     wrapper.update();
-    /** Ждем когда кончится анимация react-transition-group и случится unmount */
-    await delay(300);
-    wrapper.update();
-    expect(toJson(wrapper)).toMatchSnapshot('closed popup again');
+
+    const innerContainer = traverseTree(wrapper, closedPopupTree);
+    expect(innerContainer).toBeDefined();
+    expect(innerContainer!.children()).toHaveLength(0);
   });
 });
