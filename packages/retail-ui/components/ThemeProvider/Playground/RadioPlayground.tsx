@@ -7,7 +7,7 @@ const propsList: Array<RadioProps<string>> = [
   { value: '', children: 'Default', checked: false },
   { value: '', children: 'Checked' },
   { value: '', children: 'Disabled', disabled: true },
-  { value: '', children: 'Focused', autoFocus: true, focused: true },
+  { value: '', children: 'Focused', focused: true },
   { value: '', children: 'Error', error: true },
   { value: '', children: 'Warning', warning: true },
 ];
