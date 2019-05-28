@@ -369,8 +369,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={cn(styles.content, jsStyles.content(this.theme))}>
-                <div className={jsStyles.contentInner(this.theme)} style={{ backgroundColor }}>
+              <div className={cn(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
+                <div className={jsStyles.contentInner(this.theme)} style={{ backgroundColor }} data-tid={'PopupContentInner'}>
                   {children}
                 </div>
               </div>
