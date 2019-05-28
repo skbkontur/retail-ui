@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cx, css } from '../../../lib/theming/Emotion';
+import { cx } from '../../../lib/theming/Emotion';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';
@@ -59,15 +59,9 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
 
   /* tslint:disable jsx-key */
   private renderMain() {
+    const wrapperClassName = cx(styles.playground, jsStyles.playgroundWrapper(this.theme));
     return (
-      <div
-        className={cx(
-          styles.playground,
-          css`
-            background: ${this.theme.backgroundMain};
-          `,
-        )}
-      >
+      <div className={wrapperClassName}>
         <Gapped vertical gap={50}>
           {this.renderTabsGroup()}
           {this.renderSizesGroup()}

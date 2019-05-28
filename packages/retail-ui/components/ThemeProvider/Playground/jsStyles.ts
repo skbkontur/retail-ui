@@ -14,6 +14,16 @@ const jsStyles = {
       color: ${t.textColorMain};
     `;
   },
+  playgroundWrapper(t: PlaygroundTheme) {
+    return css`
+      background: ${t.backgroundMain};
+    `;
+  },
+  editorHeaderWrapper(t: PlaygroundTheme) {
+    return css`
+      color: ${t.textColorMain};
+    `;
+  },
 };
 
 export default jsStyles;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { css } from '../../../lib/theming/Emotion';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { ITheme } from '../../../lib/theming/Theme';
@@ -12,6 +11,7 @@ import Gapped from '../../Gapped';
 import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
 import darkThemeVariables from '../Playground/darkTheme';
 import styles from '../Playground/styles.less';
+import jsStyles from '../Playground/jsStyles';
 import { ThemeEditor } from '../Playground/ThemeEditor';
 
 interface IState {
@@ -80,11 +80,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
-          <div
-            className={css`
-              color: ${currentTheme.textColorMain};
-            `}
-          >
+          <div className={jsStyles.editorHeaderWrapper(currentTheme)}>
             <Gapped>
               <span>Тема для редактирования:</span>
               <ComboBox
