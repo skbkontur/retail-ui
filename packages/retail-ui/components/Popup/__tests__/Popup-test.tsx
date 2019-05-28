@@ -121,9 +121,18 @@ describe('Popup', () => {
 
 
 describe('properly renders opened/closed states ', () => {
-  type TreeNodeType = React.ComponentClass<any> | string
+  type TreeNodeType = React.ComponentClass<any> | string;
   const closedPopupTree: TreeNodeType[] = [RenderContainer, RenderInnerContainer];
-  const openedPopupTree: TreeNodeType[] = [RenderContainer, RenderInnerContainer, LifeCycleProxy, Transition, ZIndex, 'div.popup', 'div.content', 'div.contentInner'];
+  const openedPopupTree: TreeNodeType[] = [
+    RenderContainer,
+    RenderInnerContainer,
+    LifeCycleProxy,
+    Transition,
+    ZIndex,
+    'div.popup',
+    'div[data-tid="PopupContent"]',
+    'div[data-tid="PopupContentInner"]',
+  ];
 
   function traverseTree(root: ReactWrapper<any>, tree: TreeNodeType[]): Nullable<ReactWrapper> {
     return tree.reduce((found: Nullable<ReactWrapper>, toFind) => {
