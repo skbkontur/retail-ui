@@ -200,7 +200,6 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
     }

@@ -310,7 +310,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
       if (this.props.onFocus) {

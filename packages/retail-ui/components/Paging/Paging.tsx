@@ -303,7 +303,6 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     process.nextTick(() => {
       if (tabListener.isTabPressed) {
         this.setState({ focusedByTab: true });
-        tabListener.isTabPressed = false;
       }
     });
   };

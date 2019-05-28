@@ -159,9 +159,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     if (tabListener.isTabPressed) {
-      this.setState({ focusByTab: true }, () => {
-        tabListener.isTabPressed = false;
-      });
+      this.setState({ focusByTab: true });
     }
   };
 
