@@ -117,7 +117,7 @@ class Tabs extends React.Component<TabsProps> {
       htmlNode = findDOMNode(tabNode);
     }
 
-    if (htmlNode && htmlNode instanceof HTMLElement && htmlNode.hasOwnProperty('focus')) {
+    if (htmlNode && htmlNode instanceof HTMLElement && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
     }
   };
