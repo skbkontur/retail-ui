@@ -5,7 +5,7 @@ import Upgrades from '../../lib/Upgrades';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import classes from './Input.less';
 import jsClasses from './Input.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -249,7 +249,7 @@ class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: classNames(classes.root, jsClasses.root(this.theme), this.getSizeClassName(), {
+      className: cx(classes.root, jsClasses.root(this.theme), this.getSizeClassName(), {
         [classes.focus]: focused,
         [jsClasses.focus(this.theme)]: focused,
         [classes.disabled]: !!disabled,
@@ -269,7 +269,7 @@ class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: classNames(classes.input, jsClasses.input(this.theme)),
+      className: cx(classes.input, jsClasses.input(this.theme)),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -299,7 +299,7 @@ class Input extends React.Component<InputProps, InputState> {
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={classNames(classes.sideContainer, classes.rightContainer)}>
+        <span className={cx(classes.sideContainer, classes.rightContainer)}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -343,7 +343,7 @@ class Input extends React.Component<InputProps, InputState> {
     }
 
     return (
-      <span className={classNames(className, classes.useDefaultColor, jsClasses.useDefaultColor(this.theme))}>
+      <span className={cx(className, classes.useDefaultColor, jsClasses.useDefaultColor(this.theme))}>
         {icon}
       </span>
     );
@@ -355,7 +355,7 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div
-          className={classNames(classes.placeholder, jsClasses.placeholder(this.theme))}
+          className={cx(classes.placeholder, jsClasses.placeholder(this.theme))}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
@@ -368,11 +368,11 @@ class Input extends React.Component<InputProps, InputState> {
 
   private getSizeClassName() {
     const SIZE_CLASS_NAMES = {
-      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
+      small: cx(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
       medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(this.theme))
-        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(this.theme)),
-      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(this.theme)),
+        ? cx(classes.sizeMedium, jsClasses.sizeMedium(this.theme))
+        : cx(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(this.theme)),
+      large: cx(classes.sizeLarge, jsClasses.sizeLarge(this.theme)),
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];

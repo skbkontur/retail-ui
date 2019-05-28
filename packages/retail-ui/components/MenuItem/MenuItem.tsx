@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import warning from 'warning';
 import { isFunction } from '../../lib/utils';
 import styles from './MenuItem.less';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './MenuItem.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -102,7 +102,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       iconElement = <div className={styles.icon}>{icon}</div>;
     }
 
-    const className = classNames({
+    const className = cx({
       [styles.root]: true,
       [styles.disabled]: !!this.props.disabled,
       [styles.loose]: !!loose,
@@ -132,7 +132,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
         {content}
         {this.props.comment && (
           <div
-            className={classNames({
+            className={cx({
               [styles.comment]: true,
               [styles.commentHover]: hover,
             })}

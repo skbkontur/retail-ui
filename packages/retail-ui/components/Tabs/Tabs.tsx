@@ -5,7 +5,7 @@ import Indicator from './Indicator';
 import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
 import styles from './Tabs.less';
-import { cx as cn } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 
 export interface TabsProps {
   /**
@@ -80,7 +80,7 @@ class Tabs extends React.Component<TabsProps> {
     const { vertical, value, width, children, indicatorClassName } = this.props;
 
     return (
-      <div className={cn(styles.root, vertical && styles.vertical)} style={{ width }}>
+      <div className={cx(styles.root, vertical && styles.vertical)} style={{ width }}>
         <TabsContext.Provider
           value={{
             vertical,

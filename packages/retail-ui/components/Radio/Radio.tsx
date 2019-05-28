@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import styles from './Radio.less';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Radio.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -151,7 +151,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       ...rest
     } = this.props;
 
-    let radioClassNames = classNames({
+    let radioClassNames = cx({
       [styles.radio]: true,
       [jsStyles.radio(this.theme)]: true,
       [styles.checked]: this.props.checked,
@@ -208,7 +208,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
       inputProps.name = this.context.name;
-      radioClassNames = classNames(radioClassNames, checked && classNames(styles.checked, jsStyles.checked(this.theme)));
+      radioClassNames = cx(radioClassNames, checked && cx(styles.checked, jsStyles.checked(this.theme)));
     }
 
     return (
@@ -225,7 +225,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
   private _isInRadioGroup = () => Boolean(this.context.name);
 
   private renderLabel() {
-    const labelClassNames = classNames({
+    const labelClassNames = cx({
       [styles.label]: true,
       [jsStyles.label(this.theme)]: true,
       [styles.labelDisabled]: !!this.props.disabled,

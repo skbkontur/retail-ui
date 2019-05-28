@@ -21,7 +21,7 @@ import { Address } from './models/Address';
 import { defaultLocale } from './constants/locale';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
-import { cx as cn } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Fias.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -234,7 +234,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
     const validation =
       (error || warning) && feedback ? (
-        <span className={cn({ [jsStyles.error(this.theme)]: !!error, [jsStyles.warning(this.theme)]: !!warning })}>
+        <span className={cx({ [jsStyles.error(this.theme)]: !!error, [jsStyles.warning(this.theme)]: !!warning })}>
           {feedback}
         </span>
       ) : null;

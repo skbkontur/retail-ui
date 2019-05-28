@@ -5,7 +5,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Sticky.less';
 import { isFunction } from '../../lib/utils';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
@@ -131,7 +131,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     return (
       <div style={wrapperStyle} ref={this._refWrapper}>
         <div
-          className={classNames({
+          className={cx({
             [styles.innerFixed]: this.state.fixed,
             [styles.innerStopped]: this.state.stopped,
           })}

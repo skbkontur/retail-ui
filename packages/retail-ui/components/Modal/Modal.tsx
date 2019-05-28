@@ -16,7 +16,7 @@ import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 import styles from './Modal.less';
-import { cx as cn } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -175,7 +175,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={cn(styles.bg, jsStyles.bg(this.theme))} />}
+          {this.state.stackPosition === 0 && <div className={cx(styles.bg, jsStyles.bg(this.theme))} />}
           <div
             ref={this.refContainer}
             className={styles.container}
@@ -183,12 +183,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
             data-tid="modal-container"
           >
             <div
-              className={cn(styles.centerContainer, jsStyles.centerContainer(this.theme), {
+              className={cx(styles.centerContainer, jsStyles.centerContainer(this.theme), {
                 [styles.alignTop]: !!this.props.alignTop,
               })}
               style={containerStyle}
             >
-              <div className={cn(styles.window, jsStyles.window(this.theme))} style={style}>
+              <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (

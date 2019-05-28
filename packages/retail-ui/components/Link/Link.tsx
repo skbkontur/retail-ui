@@ -4,7 +4,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import styles from './Link.less';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -18,10 +18,10 @@ interface UseClasses {
 
 function getUseClasses(t: ITheme): UseClasses {
   return {
-    default: classNames(styles.useDefault, jsStyles.useDefault(t)),
-    success: classNames(styles.useSuccess),
-    danger: classNames(styles.useDanger),
-    grayed: classNames(styles.useGrayed, jsStyles.useGrayed(t)),
+    default: cx(styles.useDefault, jsStyles.useDefault(t)),
+    success: cx(styles.useSuccess),
+    danger: cx(styles.useDanger),
+    grayed: cx(styles.useGrayed, jsStyles.useGrayed(t)),
   };
 }
 
@@ -107,7 +107,7 @@ class Link extends React.Component<LinkProps, LinkState> {
     }
 
     const props = {
-      className: classNames({
+      className: cx({
         [styles.disabled]: !!disabled,
         [jsStyles.disabled(this.theme)]: !!disabled,
         [styles.button]: !!_button,

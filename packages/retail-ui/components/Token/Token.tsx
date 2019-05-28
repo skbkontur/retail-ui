@@ -3,7 +3,7 @@ import warningOutput from 'warning';
 import styles from './Token.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
-import { cx as cn } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Token.styles';
 import jsTokenColors from './Colors.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -108,7 +108,7 @@ export default class Token extends Component<TokenProps & TokenActions> {
       activeTokenClassName = jsTokenColors[activeClassName](this.theme);
     }
 
-    const tokenClassNames = cn(styles.token, tokenClassName, {
+    const tokenClassNames = cx(styles.token, tokenClassName, {
       [activeTokenClassName]: !!isActive,
       [jsStyles.warning(this.theme)]: !!warning,
       [jsStyles.error(this.theme)]: !!error,

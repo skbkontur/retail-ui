@@ -13,7 +13,7 @@ import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
-import { cx as cn } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './TokenInput.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -195,7 +195,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         <label
           ref={this.wrapperRef}
           style={{ width }}
-          className={cn(styles.label, jsStyles.label(this.theme), {
+          className={cx(styles.label, jsStyles.label(this.theme), {
             [jsStyles.labelFocused(this.theme)]: !!inFocus,
             [jsStyles.error(this.theme)]: !!error,
             [jsStyles.warning(this.theme)]: !!warning,
@@ -212,7 +212,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
             autoComplete="off"
             spellCheck={false}
             disabled={disabled}
-            className={cn(styles.input, jsStyles.input(this.theme))}
+            className={cx(styles.input, jsStyles.input(this.theme))}
             placeholder={selectedItems.length > 0 ? undefined : placeholder}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}

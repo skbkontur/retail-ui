@@ -7,7 +7,7 @@ import { isMenuHeader } from '../../MenuHeader';
 import styles from './InternalMenu.less';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
-import { cx as cn } from '../../../lib/theming/Emotion';
+import { cx } from '../../../lib/theming/Emotion';
 import jsStyles from './InternalMenu.styles';
 import { ThemeConsumer } from '../ThemeContext';
 import { ITheme } from '../../../lib/theming/Theme';
@@ -104,7 +104,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
 
     return (
       <div
-        className={cn(styles.root, jsStyles.root(this.theme), this.props.hasShadow && styles.shadow)}
+        className={cx(styles.root, jsStyles.root(this.theme), this.props.hasShadow && styles.shadow)}
         style={{
           width: this.props.width,
           maxHeight: this.state.maxHeight,
@@ -166,7 +166,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     return (
       <div
         ref={el => (this.header = el)}
-        className={cn({
+        className={cx({
           [styles.header]: true,
           [styles.fixedHeader]: this.state.scrollState !== 'top',
         })}
@@ -180,7 +180,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     return (
       <div
         ref={el => (this.footer = el)}
-        className={cn({
+        className={cx({
           [styles.footer]: true,
           [styles.fixedFooter]: this.state.scrollState !== 'bottom',
         })}

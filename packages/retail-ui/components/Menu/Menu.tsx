@@ -6,7 +6,7 @@ import MenuItem, { MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
 import { isMenuHeader } from '../MenuHeader/MenuHeader';
 import styles from './Menu.less';
 import { Nullable } from '../../typings/utility-types';
-import { cx as cn } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Menu.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -106,7 +106,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn(styles.root, jsStyles.root(this.theme), this.props.hasShadow && jsStyles.shadow(this.theme))}
+        className={cx(styles.root, jsStyles.root(this.theme), this.props.hasShadow && jsStyles.shadow(this.theme))}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer

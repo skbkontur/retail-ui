@@ -5,7 +5,7 @@ import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
 import styles from './InputLikeText.less';
-import { cx as classNames } from '../../../lib/theming/Emotion';
+import { cx } from '../../../lib/theming/Emotion';
 import inputStyles from '../../Input/Input.less';
 import jsInputStyles from '../../Input/Input.styles';
 import { ThemeConsumer } from '../ThemeContext';
@@ -99,7 +99,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       ...rest
     } = this.props;
 
-    const className = classNames(inputStyles.root, jsInputStyles.root(this.theme), this._getSizeClassName(), {
+    const className = cx(inputStyles.root, jsInputStyles.root(this.theme), this._getSizeClassName(), {
       [inputStyles.disabled]: !!this.props.disabled,
       [jsInputStyles.disabled(this.theme)]: !!this.props.disabled,
       [inputStyles.error]: !!error,
@@ -127,10 +127,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
           {prefix && <span className={jsInputStyles.prefix(this.theme)}>{prefix}</span>}
         </span>
         <span className={inputStyles.wrapper}>
-          <span className={classNames(inputStyles.input, styles.input, jsInputStyles.input(this.theme))}>{children}</span>
+          <span className={cx(inputStyles.input, styles.input, jsInputStyles.input(this.theme))}>{children}</span>
           {this.renderPlaceholder()}
         </span>
-        <span className={classNames(inputStyles.sideContainer, inputStyles.rightContainer)}>
+        <span className={cx(inputStyles.sideContainer, inputStyles.rightContainer)}>
           {suffix && <span className={jsInputStyles.suffix(this.theme)}>{suffix}</span>}
           {this.renderRightIcon()}
         </span>
@@ -149,18 +149,18 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     const { children, placeholder } = this.props;
 
     if (!children && placeholder) {
-      return <span className={classNames(inputStyles.placeholder, jsInputStyles.placeholder(this.theme))}>{placeholder}</span>;
+      return <span className={cx(inputStyles.placeholder, jsInputStyles.placeholder(this.theme))}>{placeholder}</span>;
     }
     return null;
   }
 
   private _getSizeClassName() {
     const SIZE_CLASS_NAMES = {
-      small: classNames(inputStyles.sizeSmall, jsInputStyles.sizeSmall(this.theme)),
+      small: cx(inputStyles.sizeSmall, jsInputStyles.sizeSmall(this.theme)),
       medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classNames(inputStyles.sizeMedium, jsInputStyles.sizeMedium(this.theme))
-        : classNames(inputStyles.DEPRECATED_sizeMedium, jsInputStyles.DEPRECATED_sizeMedium(this.theme)),
-      large: classNames(inputStyles.sizeLarge, jsInputStyles.sizeLarge(this.theme)),
+        ? cx(inputStyles.sizeMedium, jsInputStyles.sizeMedium(this.theme))
+        : cx(inputStyles.DEPRECATED_sizeMedium, jsInputStyles.DEPRECATED_sizeMedium(this.theme)),
+      large: cx(inputStyles.sizeLarge, jsInputStyles.sizeLarge(this.theme)),
     };
 
     return SIZE_CLASS_NAMES[this.props.size!];
@@ -200,7 +200,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     }
 
     return (
-      <span className={classNames(className, inputStyles.useDefaultColor, jsInputStyles.useDefaultColor(this.theme))}>
+      <span className={cx(className, inputStyles.useDefaultColor, jsInputStyles.useDefaultColor(this.theme))}>
         {icon}
       </span>
     );
