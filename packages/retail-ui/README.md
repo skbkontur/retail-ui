@@ -111,15 +111,19 @@ resolve: {
 
 ### Сломались стили при использовании css-loader 2.x
 
-Во 2-й версии, `css-loader` изменились опции по умолчаниию и был отключена [опции `modules`](https://github.com/webpack-contrib/css-loader/releases/tag/v2.0.0). Чтобы исправить и вернуть предыдущее поведение, надо явно задать в опциях `modules: 'global'`
+Во [2-й версии](https://github.com/webpack-contrib/css-loader/releases/tag/v2.0.0), `css-loader` отключили использование `css-modules` по умолчанию.
+**Решение**: В опциях к `css-loader` явно задать `modules: 'global'`.
 
 ### Как использовать retail-ui с storybook 5.x?
 
 В 5-й версии изменилось [API сторибука для кастомизации настроек webpack](https://github.com/storybooks/storybook/blob/v5.0.0/MIGRATION.md#webpack-config-simplifcation).
-Для упрощения работы `Storybook` с CRA был изменен конфиг webpack по умолчанию. Это порождает проблемы вида [storybooks/storybook#4891](https://github.com/storybooks/storybook/issues/4891).
-в конфигурации по умолчанию `css-loader` идет без опций, в то время как `retail-ui` требует указания опции `modules: global`.
+Кроме того был изменен дефолтный webpack конфиг. Это порождает проблемы вида [storybooks/storybook#4891](https://github.com/storybooks/storybook/issues/4891).
+**Решение**: Заменить лоадеры для `css/less`. Например [так](https://github.com/storybooks/storybook/issues/6319#issuecomment-477852640) на свои
 
-**Решение**: Полностью заменить `config.module.rules` конфигурацией из вашего webpack конфига. Или можно воспользоваться библиотекой [`webpack-merge`](https://github.com/survivejs/webpack-merge) для более умной замены правила `/\.css$/`
+### Возникает ошибка `Error: Can't resolve 'mask-char-font/font.eot'`
+
+Ошибка проявляется при использовании `css-loader@1.x` с выставленой опцией `modules`.
+**Решение**: Обновить `css-loader` до 2-й версии или дополнительно указать опцию `url: false`
 
 ### Не могу прокинуть css-класс компонентам. Как кастомизировать?
 
