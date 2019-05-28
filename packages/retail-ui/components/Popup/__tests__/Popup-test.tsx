@@ -126,7 +126,14 @@ describe('properly renders opened/closed states ', () => {
   const openedPopupTree: TreeNodeType[] = [RenderContainer, RenderInnerContainer, LifeCycleProxy, Transition, ZIndex, 'div.popup', 'div.content', 'div.contentInner'];
 
   function traverseTree(root: ReactWrapper<any>, tree: TreeNodeType[]): Nullable<ReactWrapper> {
-    return tree.reduce((found: Nullable<ReactWrapper>, toFind) => found ? found.children(toFind as string) : null, root);
+    return tree.reduce((found: Nullable<ReactWrapper>, toFind) => {
+      if (found) {
+        const children = found.children(toFind as string);
+        return children.length > 0 ? children : null;
+      } else {
+        return null;
+      }
+    }, root);
   }
 
   const wrapper = renderWrapper();
@@ -134,6 +141,7 @@ describe('properly renders opened/closed states ', () => {
   it('01 - initially closed', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
     expect(innerContainer).toBeDefined();
+    expect(innerContainer).toHaveLength(1);
     expect(innerContainer!.children()).toHaveLength(0);
   });
 
@@ -143,6 +151,7 @@ describe('properly renders opened/closed states ', () => {
 
     const content = traverseTree(wrapper, openedPopupTree);
     expect(content).toBeDefined();
+    expect(content).toHaveLength(1);
     expect(content!.text()).toBe('Test content');
   });
 
@@ -152,6 +161,7 @@ describe('properly renders opened/closed states ', () => {
 
     const innerContainer = traverseTree(wrapper, closedPopupTree);
     expect(innerContainer).toBeDefined();
+    expect(innerContainer).toHaveLength(1);
     expect(innerContainer!.children()).toHaveLength(0);
   });
 });
