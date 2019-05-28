@@ -1987,14 +1987,7 @@
   resolved "https://registry.yarnpkg.com/@types/detect-indent/-/detect-indent-0.1.30.tgz#dc682bb412b4e65ba098e70edad73b4833fb910d"
   integrity sha1-3GgrtBK05lugmOcO2tc7SDP7kQ0=
 
-"@types/enzyme-to-json@^1.5.1":
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/@types/enzyme-to-json/-/enzyme-to-json-1.5.2.tgz#fc33d5c6d81c1bd3ab35460c402185a7dcb94ef2"
-  integrity sha512-3f5gJ+cf77nF4Erx/YmCdeP39Tk3iBjXl4yZOqQEHjriqqgYkYJDKDjOdKOsGsktOi/cTH+iXLbz6u66w1SUVA==
-  dependencies:
-    "@types/enzyme" "*"
-
-"@types/enzyme@*", "@types/enzyme@^3.1.12":
+"@types/enzyme@^3.1.12":
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-3.1.13.tgz#4bbc5c81fa40c9fc7efee25c4a23cb37119a33ea"
   integrity sha512-TwzKKiX5sGh/WweucxPXb8zjMLlLekGtBQw0ihk1HSj14zZuioG3Gql3jbxxb1YDRLbT4WQyzWG/h4Y7eCdw1g==
@@ -6634,13 +6627,6 @@ enzyme-adapter-utils@^1.5.0:
     function.prototype.name "^1.1.0"
     object.assign "^4.1.0"
     prop-types "^15.6.2"
-
-enzyme-to-json@^3.3.4:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/enzyme-to-json/-/enzyme-to-json-3.3.4.tgz#67c6040e931182f183418af2eb9f4323258aa77f"
-  integrity sha1-Z8YEDpMRgvGDQYry659DIyWKp38=
-  dependencies:
-    lodash "^4.17.4"
 
 enzyme@^3.3.0:
   version "3.4.4"
