@@ -91,6 +91,7 @@ const KEYCODE_ARROW_LEFT = 37;
 const KEYCODE_ARROW_UP = 38;
 const KEYCODE_ARROW_RIGHT = 39;
 const KEYCODE_ARROW_DOWN = 40;
+const ARROW_KEYCODES = [KEYCODE_ARROW_LEFT, KEYCODE_ARROW_UP, KEYCODE_ARROW_RIGHT, KEYCODE_ARROW_DOWN];
 /**
  * Tab element of Tabs component
  *
@@ -257,9 +258,7 @@ export class Tab extends React.Component<TabProps, TabState> {
   };
 
   private handleKeyDownGlobal = (event: KeyboardEvent) => {
-    this.isArrowKeyPressed = [KEYCODE_ARROW_LEFT, KEYCODE_ARROW_UP, KEYCODE_ARROW_RIGHT, KEYCODE_ARROW_DOWN].some(
-      keyCode => event.keyCode === keyCode,
-    );
+    this.isArrowKeyPressed = ARROW_KEYCODES.some(keyCode => event.keyCode === keyCode);
   };
 
   private getTabInstance = () => this;
