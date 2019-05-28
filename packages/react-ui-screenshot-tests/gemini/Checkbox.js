@@ -55,7 +55,7 @@ gemini.suite('Checkbox', suite => {
 
   gemini.suite('Checkbox without label', suite => {
     suite
-      .before(renderStory('Checkbox', 'w/o label'))
+      .before(renderStory('Checkbox', 'without label'))
       .setCaptureElements('#test-element')
       .capture('plain');
   });
