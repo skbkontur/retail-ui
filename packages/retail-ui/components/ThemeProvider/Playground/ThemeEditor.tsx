@@ -79,17 +79,14 @@ interface IGroupProps {
 }
 const Group = (props: IGroupProps) => {
   const { editingTheme, currentTheme, onValueChange, title, variables } = props;
+  const headerClassname = css`
+    color: ${currentTheme.textColorMain};
+  `;
 
   return variables.length > 0 ? (
     <>
-      <h2
-        className={css`
-          color: ${currentTheme.textColorMain};
-        `}
-      >
-        {title}
-      </h2>
-      <Gapped>
+      <h2 className={headerClassname}>{title}</h2>
+      <Gapped gap={16}>
         {variables.map(variable => {
           return (
             <VariableValue
@@ -98,7 +95,7 @@ const Group = (props: IGroupProps) => {
               value={editingTheme[variable as keyof ITheme]}
               variable={variable}
               key={variable}
-              baseVariable={getBaseVariable(editingTheme, variable)}
+              baseVariables={getBaseVariables(editingTheme, variable)}
             />
           );
         })}
@@ -129,18 +126,18 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
   const splitPrefix = current.prefix.split(' ');
   return [...acc, ...splitPrefix];
 };
-const getBaseVariable = (theme: ITheme, variable: keyof ITheme): keyof ITheme => {
+const getBaseVariables = (theme: ITheme, variable: keyof ITheme): Array<keyof ITheme> => {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
     if (theme.hasOwnProperty(variable)) {
       const descriptor = Object.getOwnPropertyDescriptor(theme, variable);
 
       if (descriptor && typeof descriptor.get !== 'undefined') {
         const stringifiedGetter = descriptor.get.toString();
-        const variableNameMatchArray = stringifiedGetter.match(/(\.\w+;)/gm) || [];
-        return (variableNameMatchArray[0] || '').replace(/\W+/g, '');
+        const variableNameMatchArray = stringifiedGetter.match(/this\.(\w+)\b/gm) || [];
+        return (variableNameMatchArray || []).map(v => v.replace(/this\./g, ''));
       }
       break;
     }
   }
-  return '';
+  return [];
 };
