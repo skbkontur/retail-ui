@@ -73,7 +73,6 @@ const ColorFunctions = {
   },
 };
 
-
 const ColorFunctionsCache: { [key: string]: string } = Object.create(null);
 function buildCacheKey(name: string, ...args: any[]) {
   return `${name}(${args.join()})`;

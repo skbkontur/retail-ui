@@ -5,6 +5,7 @@
 Таблица фильтруется по названию переменной.
 <br/>
 Значения в колонке `Variable name` кликабельны.
+
 ```jsx
 const { default: ThemeShowcase } = require('./ThemeShowcase.tsx');
 

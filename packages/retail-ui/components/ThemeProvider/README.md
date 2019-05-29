@@ -11,74 +11,75 @@ import flatThemeVariables from './components/variables.flat.less';
 type ThemeType = typeof defaultThemeVariables & typeof flatThemeVariables;
 type ThemeInType = Partial<ThemeType>;
 
-interface IThemeIn extends ThemeInType {};
+interface IThemeIn extends ThemeInType {}
 ```
+
 В качестве базовой темы выступает объект, полученный из переменных `variables.less`. Объект, переданный в `value` будет смерджен с объектом базовой темой.
 
 Помимо базовой темы, есть плоская тема, собранная из переменных `variables.flat.less`.
 Объект плоской темы можно импортировать и передавать в ThemeProvider:
 
 ```jsx
-const {default: flatTheme} = require('../../lib/theming/themes/FlatTheme.ts');
+const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme.ts');
 const { ShowcaseGroup } = require('./Playground/ShowcaseGroup.tsx');
 
 const FlatComponents = () => (
- <ThemeProvider value={flatTheme}>
+  <ThemeProvider value={flatTheme}>
     <ShowcaseGroup />
- </ThemeProvider>
+  </ThemeProvider>
 );
 
 <FlatComponents />;
-
 ```
 
 ### Варианты кастомизации:
 
 Несколько тем одновременно:
 <br/>
+
 ```jsx
-const {default: flatTheme} = require('../../lib/theming/themes/FlatTheme.ts');
+const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme.ts');
 const { ShowcaseGroup } = require('./Playground/ShowcaseGroup.tsx');
 
 const CombinedComponents = () => (
   <>
-    <ShowcaseGroup title='Default'/>
+    <ShowcaseGroup title="Default" />
     <ThemeProvider value={flatTheme}>
       <div>
-        <ShowcaseGroup title='Flat'/>        
+        <ShowcaseGroup title="Flat" />
       </div>
     </ThemeProvider>
   </>
 );
 
 <CombinedComponents />;
-
 ```
 
 Вложенные темы:
 <br/>
+
 ```jsx
-const {default: flatTheme} = require('../../lib/theming/themes/FlatTheme');
-const {default: defaultTheme} = require('../../lib/theming/themes/DefaultTheme');
-const {default: darkTheme} = require('./Playground/darkTheme.ts');
+const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
+const { default: defaultTheme } = require('../../lib/theming/themes/DefaultTheme');
+const { default: darkTheme } = require('./Playground/darkTheme.ts');
 const { ShowcaseGroup } = require('./Playground/ShowcaseGroup.tsx');
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',
   padding: '0 15px 15px',
-  marginTop: 25
-}
+  marginTop: 25,
+};
 
 const NestedThemes = () => (
   <ThemeProvider value={flatTheme}>
-    <div style={{...wrapperStyles, width: 750}}>
-      <ShowcaseGroup title='Flat Theme' />
+    <div style={{ ...wrapperStyles, width: 750 }}>
+      <ShowcaseGroup title="Flat Theme" />
       <ThemeProvider value={defaultTheme}>
         <div style={wrapperStyles}>
-          <ShowcaseGroup title='Default Theme' />
+          <ShowcaseGroup title="Default Theme" />
           <ThemeProvider value={darkTheme}>
-            <div style={{...wrapperStyles, background: '#000', color: '#fff'}}>
-              <ShowcaseGroup title='Dark Theme' />
+            <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
+              <ShowcaseGroup title="Dark Theme" />
             </div>
           </ThemeProvider>
         </div>
@@ -88,19 +89,20 @@ const NestedThemes = () => (
 );
 
 <NestedThemes />;
-
 ```
 
 ### Playground
+
 Разные варианты стилизации компонентов:
 
 ```jsx
 const { ThemeProviderPlayground } = require('./__stories__/ThemeProvider.stories.tsx');
 
-<ThemeProviderPlayground />
+<ThemeProviderPlayground />;
 ```
 
 ### Переход с кастомизации с помощью `less`
+
 Для перехода с кастомизации посредстовом переопределения less-переменных, необходимо превратить less-переменные в объект темы.
 Это можно сделать с помощью <a target="_blank" href="#">скрипта</a>
 
@@ -109,10 +111,13 @@ const { ThemeProviderPlayground } = require('./__stories__/ThemeProvider.stories
 Перед запуском скрипт необходимо скачать и положить в папку с проектом. В процессе конвертации используется пакет [less.js](https://www.npmjs.com/package/less), который скрипт возьмет из зависимостей проекта.
 
 Пример использования:
+
 ```shell
 node variablesConverter.js variables=../../less/myVariables.less output=../theme/theme.js
 ```
+
 Для следующего содержимого myVariables.less:
+
 ```less
 @btn-danger-bg: #e14c30;
 @warning-main: #f69c00;
@@ -123,25 +128,28 @@ node variablesConverter.js variables=../../less/myVariables.less output=../theme
 @toggle-bg-warning: @warning-main;
 @toggle-bg-error: @error-main;
 ```
+
 Сгенерируется файл theme.js:
+
 ```typescript
 export default {
- btnDangerBg: "#e14c30",
- warningMain: "#f69c00",
- errorMain: "#d70c17",
- borderColorGrayDark: "rgba(0, 0, 0, 0.28)",
- borderColorGrayLight: "rgba(0, 0, 0, 0.15)",
- tabColorHoverError: "#ee9989",
- toggleBgWarning: "#f69c00",
- toggleBgError: "#d70c17" 
-}; 
+  btnDangerBg: '#e14c30',
+  warningMain: '#f69c00',
+  errorMain: '#d70c17',
+  borderColorGrayDark: 'rgba(0, 0, 0, 0.28)',
+  borderColorGrayLight: 'rgba(0, 0, 0, 0.15)',
+  tabColorHoverError: '#ee9989',
+  toggleBgWarning: '#f69c00',
+  toggleBgError: '#d70c17',
+};
 ```
 
 Далее объект из theme.js можно передавать в ThemeProvider:
+
 ```typescript
 import ReactDOM from 'react-dom';
 import React from 'react';
-import ThemeProvider from '${retail-ui|@skbkontur/react-ui}/components/ThemeProvider'
+import ThemeProvider from '${retail-ui|@skbkontur/react-ui}/components/ThemeProvider';
 
 import App from './components/App';
 import theme from './theme/theme.js';
@@ -150,11 +158,12 @@ ReactDOM.render(
   <ThemeProvider value={theme}>
     <App />
   </ThemeProvider>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );
 ```
 
 В случае, если приложение не является полноценным React-приложением, и тему нужно переопределить единоразово, то можно воспользоваться методом `overrideDefaultTheme` в `ThemeFactory`:
+
 ```typescript
 // точка входа в приложение
 ...
@@ -166,5 +175,5 @@ ThemeFactory.overrideDefaultTheme(theme);
 ```
 
 ### Список кастомизируемых компонентов
-Посмотреть, какие компоненты можно кастомизировать, а также увидеть, какие переменные используются в каждом из них, можно в [таблице](#/Theming/ThemeVariablesShowcase)
 
+Посмотреть, какие компоненты можно кастомизировать, а также увидеть, какие переменные используются в каждом из них, можно в [таблице](#/Theming/ThemeVariablesShowcase)
