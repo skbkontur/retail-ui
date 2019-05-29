@@ -16,6 +16,7 @@ const emitter = new EventEmitter();
 export interface IVariableValueProps {
   onChange: (variable: keyof PlaygroundTheme, value: string) => void;
   value: string;
+  isError: boolean;
   variable: string;
   theme: PlaygroundTheme;
   baseVariables: Array<keyof ITheme>;
@@ -47,7 +48,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     return (
       <Gapped gap={30}>
         <div className={wrapperClassName} title={variable}>{`${variable}: `}</div>
-        {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInput()}
+        {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
       </Gapped>
     );
   }
@@ -96,22 +97,18 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     );
   };
 
-  private renderInput = () => {
+  private renderInputWrapper = () => {
     return this.state.editing ? (
       <Gapped>
-        {this.input}
-        <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
-          <div className={styles.linkRoot}>
-            <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
-          </div>
-        </Hint>
+        {this.renderInput()}
+        {this.renderRollbackIcon()}
       </Gapped>
     ) : (
-      this.input
+      this.renderInput()
     );
   };
 
-  private get input() {
+  private renderInput() {
     return (
       <Input
         leftIcon={isColor(this.state.value) && this.colorIcon()}
@@ -121,7 +118,18 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
         align={'right'}
         width={this.state.editing ? 225 : undefined}
         ref={this.inputRef}
+        error={this.props.isError}
       />
+    );
+  }
+
+  private renderRollbackIcon() {
+    return (
+      <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
+        <div className={styles.linkRoot}>
+          <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
+        </div>
+      </Hint>
     );
   }
 
