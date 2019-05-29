@@ -48,6 +48,16 @@ const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static defaultProps = {
     holidays: [],
+    minDate: {
+      year: 1900,
+      month: 1,
+      date: 1,
+    },
+    maxDate: {
+      year: 2099,
+      month: 12,
+      date: 31,
+    },
   };
 
   private wheelEndTimeout: Nullable<number>;

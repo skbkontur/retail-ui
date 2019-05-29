@@ -3,4 +3,5 @@ declare interface Window {
   RetailUIVerticalScrollCounter: number;
   ReactTesting: any;
   __RetailUiZIndexes: number[];
+  clipboardData: any;
 }

@@ -29,6 +29,7 @@ interface LocaleControls {
   Select?: SelectLocale;
   Paging?: PagingLocale;
   Logotype?: LogotypeLocale;
+  DatePicker?: DatePickerLocale;
 }
 ```
 
@@ -110,6 +111,8 @@ const LocalizationControlNames = {
   Select: 'Select',
   Paging: 'Paging',
   Logotype: 'Logotype',
+  DatePicker: 'DatePicker',
+  DateInput: 'DateInput',
 };
 
 class LocalizationControls extends React.Component {
@@ -163,6 +166,12 @@ class LocalizationControls extends React.Component {
 
       case LocalizationControlNames.Spinner:
         return <Spinner />;
+
+      case LocalizationControlNames.DatePicker:
+        return <DatePicker value="30.12.2012" />;
+
+      case LocalizationControlNames.DateInput:
+        return <DateInput value="30.12.2012" />;
 
       case LocalizationControlNames.TopBar:
         return (

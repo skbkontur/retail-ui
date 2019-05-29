@@ -124,6 +124,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     );
   }
 
+  public getNode(): HTMLElement | null {
+    return this._node;
+  }
+
   private _ref = (el: HTMLElement | null) => {
     if (this.props.innerRef) {
       this.props.innerRef(el);

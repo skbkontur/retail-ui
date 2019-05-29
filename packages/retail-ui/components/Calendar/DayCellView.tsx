@@ -13,7 +13,7 @@ interface DayCellViewProps {
   value?: Nullable<CDS.CalendarDateShape>;
   minDate?: CDS.CalendarDateShape;
   maxDate?: CDS.CalendarDateShape;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onDateClick?: (day: CDS.CalendarDateShape) => void;
   isWeekend?: boolean;
 }
 
@@ -24,20 +24,34 @@ const cellStyle = {
   borderRadius: config.DAY_HEIGHT / 2,
 };
 
-export const DayCellView = ({ date, minDate, maxDate, today, value, isWeekend, onClick }: DayCellViewProps) => (
-  <button
-    style={cellStyle}
-    tabIndex={-1}
-    disabled={!CDS.isBetween(date, minDate, maxDate)}
-    name={`${date.date}.${date.month}.${date.year}`}
-    className={classNames({
-      [styles.cell]: true,
-      [styles.weekend]: isWeekend,
-      [styles.today]: today && CDS.isEqual(date, today),
-      [styles.selected]: value && CDS.isEqual(date, value),
-    })}
-    onClick={onClick}
-  >
-    {date.date}
-  </button>
-);
+export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
+  public render() {
+    const { date, minDate, maxDate, today, value, isWeekend } = this.props;
+
+    return (
+      <button
+        style={cellStyle}
+        tabIndex={-1}
+        disabled={!CDS.isBetween(date, minDate, maxDate)}
+        className={classNames({
+          [styles.cell]: true,
+          [styles.weekend]: isWeekend,
+          [styles.today]: today && CDS.isEqual(date, today),
+          [styles.selected]: value && CDS.isEqual(date, value),
+        })}
+        onClick={this.handleClick}
+      >
+        {date.date}
+      </button>
+    );
+  }
+
+  private handleClick = (): void => {
+    const { onDateClick } = this.props;
+    if (!onDateClick) {
+      return;
+    }
+    const { date, month, year } = this.props.date;
+    onDateClick({ date, month, year });
+  }
+}

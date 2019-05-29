@@ -1,14 +1,20 @@
 // tslint:disable:jsx-no-lambda
-import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Calendar from '../Calendar';
+import * as React from 'react';
+import { Nullable } from '../../../typings/utility-types';
 import Button from '../../Button';
 import Gapped from '../../Gapped';
-import { Nullable } from '../../../typings/utility-types';
+import LocaleProvider, { LangCodes } from '../../LocaleProvider';
+import Calendar from '../Calendar';
 
 storiesOf('Calendar', module)
   .add('simple', () => (
     <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
+  ))
+  .add('LocaleProvider', () => (
+    <LocaleProvider langCode={LangCodes.en_EN}>
+      <Calendar />
+    </LocaleProvider>
   ))
   .add('CalendarWithButtons', () => <CalendarWithButtons />)
   .add('Calendar with holidays', () => {
@@ -26,7 +32,7 @@ storiesOf('Calendar', module)
       holidays[index] = element;
     }
 
-    return <Calendar />;
+    return <Calendar holidays={holidays as any} />;
   });
 
 const initialDate = { year: 2018, month: 0, date: 1 };
