@@ -17,6 +17,7 @@ export const getComponentsFromPropsList = <P>(
             el.setState({ focusedByTab: true });
           }
         };
+        delete checkboxProps.focused;
       }
     }
 
