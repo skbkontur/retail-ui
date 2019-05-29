@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
-import { ITheme } from '../../../lib/theming/Theme';
+import { ITheme, IThemeIn } from '../../../lib/theming/Theme';
 import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
 import ComboBox from '../../ComboBox';
@@ -13,6 +13,7 @@ import darkThemeVariables from '../Playground/darkTheme';
 import styles from '../Playground/styles.less';
 import jsStyles from '../Playground/jsStyles';
 import { ThemeEditor } from '../Playground/ThemeEditor';
+import Link from '../../Link';
 
 interface IState {
   currentTheme: PlaygroundTheme;
@@ -90,6 +91,9 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
               />
             </Gapped>
           </div>
+          <div style={{ fontSize: 14, marginTop: 8 }}>
+            <Link onClick={this.handelGetTheme}>Вывести тему в консоль</Link>
+          </div>
         </SidePage.Header>
         <SidePage.Body>
           <div className={styles.sidePageBody}>
@@ -102,6 +106,21 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
         </SidePage.Body>
       </SidePage>
     );
+  };
+
+  private handelGetTheme = () => {
+    const currentTheme = this.state.currentTheme;
+    const defaultTheme = ThemeFactory.getDefaultTheme();
+    const themeObject: IThemeIn = {};
+    ThemeFactory.getKeys(currentTheme).forEach(key => {
+      const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
+      if (descriptor && !descriptor.get && defaultTheme[key] && currentTheme[key] !== defaultTheme[key]) {
+        themeObject[key] = currentTheme[key];
+      }
+    });
+
+    // tslint:disable-next-line:no-console
+    console.log(JSON.stringify(themeObject));
   };
 
   private handleOpen = () => {
