@@ -245,4 +245,98 @@ describe('ColorFunctions', () => {
       });
     });
   });
+  describe('isValid', () => {
+    describe('hex', () => {
+      describe('3 digits', () => {
+        test('detects valid', () => {
+          expect(ColorFunctions.isValid('#34f')).toBe(true);
+        });
+        test('detects invalid', () => {
+          expect(ColorFunctions.isValid('#cg3')).toBe(false);
+        });
+      });
+      describe('6 digits', () => {
+        test('detects valid', () => {
+          expect(ColorFunctions.isValid('#33aa9e')).toBe(true);
+        });
+        test('detects invalid', () => {
+          expect(ColorFunctions.isValid('#d70cv7')).toBe(false);
+        });
+      });
+    });
+    describe('rgb', () => {
+      test('detects valid', () => {
+        expect(ColorFunctions.isValid('rgb(50, 100, 150)')).toBe(true);
+      });
+      test('detects invalid params count', () => {
+        expect(ColorFunctions.isValid('rgb(50, 100, 150, 0.2)')).toBe(false);
+      });
+      test('detects invalid r value', () => {
+        expect(ColorFunctions.isValid('rgb(ff, 100, 150)')).toBe(false);
+      });
+      test('detects invalid g value', () => {
+        expect(ColorFunctions.isValid('rgb(50, ff, 150)')).toBe(false);
+      });
+      test('detects invalid b value', () => {
+        expect(ColorFunctions.isValid('rgb(50, 100, ff)')).toBe(false);
+      });
+    });
+    describe('rgba', () => {
+      test('detects valid', () => {
+        expect(ColorFunctions.isValid('rgba(50, 100, 150, 0.2)')).toBe(true);
+      });
+      test('detects invalid params count', () => {
+        expect(ColorFunctions.isValid('rgba(50, 100, 150)')).toBe(false);
+      });
+      test('detects invalid r value', () => {
+        expect(ColorFunctions.isValid('rgba(ff, 100, 150, 20%)')).toBe(false);
+      });
+      test('detects invalid g value', () => {
+        expect(ColorFunctions.isValid('rgba(50, ff, 150, 20%)')).toBe(false);
+      });
+      test('detects invalid b value', () => {
+        expect(ColorFunctions.isValid('rgba(50, 100, ff, 20%)')).toBe(false);
+      });
+      test('detects invalid a value', () => {
+        expect(ColorFunctions.isValid('rgba(50, 100, 150, 20)')).toBe(false);
+      });
+    });
+    describe('hsl', () => {
+      test('detects valid', () => {
+        expect(ColorFunctions.isValid('hsl(50, 50%, 100%)')).toBe(true);
+      });
+      test('detects invalid params count', () => {
+        expect(ColorFunctions.isValid('hsl(50, 50%, 100%, 20%)')).toBe(false);
+      });
+      test('detects invalid h value', () => {
+        expect(ColorFunctions.isValid('hsl(50%, 50%, 100%)')).toBe(false);
+      });
+      test('detects invalid s value', () => {
+        expect(ColorFunctions.isValid('hsl(50, 50, 100%)')).toBe(false);
+      });
+      test('detects invalid l value', () => {
+        expect(ColorFunctions.isValid('hsl(50, 50%, 100)')).toBe(false);
+      });
+    });
+    describe('hsla', () => {
+      test('detects valid', () => {
+        expect(ColorFunctions.isValid('hsla(50, 50%, 100%, 0.2)')).toBe(true);
+      });
+      test('detects invalid params count', () => {
+        expect(ColorFunctions.isValid('hsla(50, 50%, 100%)')).toBe(false);
+      });
+      test('detects invalid h value', () => {
+        expect(ColorFunctions.isValid('hsla(50%, 50%, 100%, 20%)')).toBe(false);
+      });
+      test('detects invalid s value', () => {
+        expect(ColorFunctions.isValid('hsla(50, 50, 100%, 20%)')).toBe(false);
+      });
+      test('detects invalid l value', () => {
+        expect(ColorFunctions.isValid('hsla(50, 50%, 100, 20%)')).toBe(false);
+      });
+      test('detects invalid a value', () => {
+        expect(ColorFunctions.isValid('hsla(50, 50%, 100%, 20)')).toBe(false);
+      });
+    });
+  });
 });
