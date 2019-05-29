@@ -58,8 +58,8 @@ const CombinedComponents = () => (
 Вложенные темы:
 <br/>
 ```jsx
-const {default: flatTheme} = require('../../lib/theming/themes/FlatTheme.js');
-const {default: defaultTheme} = require('../../lib/theming/themes/DefaultTheme.js');
+const {default: flatTheme} = require('../../lib/theming/themes/FlatTheme');
+const {default: defaultTheme} = require('../../lib/theming/themes/DefaultTheme');
 const {default: darkTheme} = require('./Playground/darkTheme.ts');
 const { ShowcaseGroup } = require('./Playground/ShowcaseGroup.tsx');
 

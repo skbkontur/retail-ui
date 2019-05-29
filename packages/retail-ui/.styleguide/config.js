@@ -199,8 +199,8 @@ sections: [
     {
       name: 'Theming',
       components: [
-        './components/ThemeProvider/ThemeProvider.tsx',
-        './components/ThemeVariablesShowcase/ThemeVariablesShowcase.tsx',
+        '../components/ThemeProvider/ThemeProvider.tsx',
+        '../components/ThemeShowcase/ThemeShowcase.tsx',
       ],
       sectionDepth: 1,
     },

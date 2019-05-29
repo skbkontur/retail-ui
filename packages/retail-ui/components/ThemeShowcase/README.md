@@ -6,7 +6,7 @@
 <br/>
 Значения в колонке `Variable name` кликабельны.
 ```jsx
-const { default: ThemeVariablesShowcase } = require('./ThemeVariablesShowcase.tsx');
+const { default: ThemeShowcase } = require('./ThemeShowcase.tsx');
 
-<ThemeVariablesShowcase />
+<ThemeShowcase />
 ```
