@@ -1,6 +1,8 @@
-import { clamp, extractColorParts, hue2rgb, parseHSLParts, parseRGBParts } from "./ColorHelpers";
-import { ColorKeywords } from "./ColorKeywords";
-import { ColorKeywordsType, ColorObject, ColorType, RGBTuple } from "./ColorObject";
+import { clamp, extractColorParts, hue2rgb, parseHSLParts, parseRGBParts } from './ColorHelpers';
+import { ColorKeywords } from './ColorKeywords';
+import { ColorKeywordsType, ColorObject, ColorType, RGBTuple } from './ColorObject';
+import warning from 'warning';
+import { isDevelopmentEnv } from '../../components/internal/currentEnvironment';
 
 interface ColorFactoryCacheType {
   [key: string]: ColorObject;
@@ -23,6 +25,10 @@ export class ColorFactory {
   private static cache: ColorFactoryCacheType = Object.create(null);
 
   private static instantiate(input: string) {
+    if (typeof input !== 'string' && isDevelopmentEnv) {
+      warning(false, `Invalid type of input (${typeof input}), expected a string. Returning transparent color`);
+      return new ColorObject([0, 0, 0], 1.0, 'transparent');
+    }
     input = input.toLowerCase();
 
     if (input === 'transparent') {
@@ -103,4 +109,3 @@ export class ColorFactory {
     return new ColorObject(rgb, a, a < 1 ? 'hsla' : 'hsl');
   }
 }
-
