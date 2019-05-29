@@ -12,6 +12,7 @@ import Tooltip from '../Tooltip';
 import { PopupPosition } from '../Popup';
 import {
   ALL_USED_VARIABLES,
+  CALLS_COUNT,
   COMPONENT_DESCRIPTIONS,
   COMPONENT_DESCRIPTIONS_BY_VARIABLE,
   ComponentDescriptionType,
@@ -70,13 +71,14 @@ export default class ThemeShowcase extends React.Component<ShowcaseProps, Showca
       : COMPONENT_DESCRIPTIONS;
 
     const isDebugMode = this.props.isDebugMode;
+    const callsCount = isDebugMode ? `(${CALLS_COUNT} вызовов)` : '';
     const executionTime = isDebugMode ? `Сгенерировано за ${EXECUTION_TIME.toFixed(3)}ms` : '';
 
     return (
       <Gapped gap={30} vertical={false} verticalAlign={'top'}>
         <div>
           <Sticky side={'top'}>
-            <div className={styles.searchBar} data-execution-time={executionTime}>
+            <div className={styles.searchBar} data-perf-info={`${executionTime} ${callsCount}`}>
               <Gapped gap={15} vertical={false}>
                 <ComboBox
                   getItems={this.getItems}

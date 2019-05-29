@@ -26,6 +26,7 @@ export interface VariableDependencies {
   [variableName: string]: string[];
 }
 
+let callsCount = 0;
 let executionTime = 0;
 const ALL_USED_VARIABLES_SET = new Set<string>();
 
@@ -121,6 +122,7 @@ function getProxyHandler(accumulator: Set<string>, dependencies: VariableDepende
       const start = performance.now();
       const result = Reflect.get(target, prop, receiver);
       executionTime += performance.now() - start;
+      callsCount++;
       accessLevel--;
       return result;
     },
@@ -128,4 +130,5 @@ function getProxyHandler(accumulator: Set<string>, dependencies: VariableDepende
 }
 
 export const ALL_USED_VARIABLES = Array.from(ALL_USED_VARIABLES_SET);
+export const CALLS_COUNT = callsCount;
 export const EXECUTION_TIME = executionTime;
