@@ -13,4 +13,10 @@ changeBuildType(RelativeId("ReactUI_CreeveyTests")) {
         "Unexpected name: '$name'"
     }
     name = "Creevey tests"
+
+    params {
+        add {
+            param("env.enableReactTesting", "true")
+        }
+    }
 }
