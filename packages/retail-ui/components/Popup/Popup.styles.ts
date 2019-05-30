@@ -17,7 +17,8 @@ const jsStyles = {
 
   contentInner(t: ITheme) {
     return css`
-      background: ${t.bgDefault};
+      color: ${t.textColorDefault};
+      background: ${t.popupBackground};
     `;
   },
 

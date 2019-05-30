@@ -247,6 +247,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.gray;
     },
   },
+  popupBackground: {
+    get() {
+      return this.bgDefault
+    }
+  }
 });
 
 export default DEFAULT_THEME;
