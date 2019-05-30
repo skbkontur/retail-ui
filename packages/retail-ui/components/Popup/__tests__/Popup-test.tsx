@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ComponentClass, EnzymePropSelector, mount, ReactWrapper, StatelessComponent } from 'enzyme';
+import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import Popup, { PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import RenderContainer from '../../RenderContainer/RenderContainer';
