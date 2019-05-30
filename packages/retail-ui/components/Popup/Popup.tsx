@@ -399,8 +399,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private renderPin(position: string): React.ReactNode {
     /**
      * Box-shadow does not appear under the pin. Borders are used instead.
-     * In non-ie browsers drop-shodow filter is used. It is applying
-     * shadow to pin too.
+     * In non-ie browsers drop-shadow filter is used. It is applying
+     * shadow to the pin too.
      */
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
