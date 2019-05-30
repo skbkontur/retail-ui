@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { ComponentClass, EnzymePropSelector, mount, ReactWrapper, StatelessComponent } from 'enzyme';
 import Popup, { PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import RenderContainer from '../../RenderContainer/RenderContainer';
@@ -121,7 +121,7 @@ describe('Popup', () => {
 
 
 describe('properly renders opened/closed states ', () => {
-  type TreeNodeType = React.ComponentClass<any> | string;
+  type TreeNodeType = ComponentClass<any> | string;
   const closedPopupTree: TreeNodeType[] = [RenderContainer, RenderInnerContainer];
   const openedPopupTree: TreeNodeType[] = [
     RenderContainer,
@@ -137,11 +137,10 @@ describe('properly renders opened/closed states ', () => {
   function traverseTree(root: ReactWrapper<any>, tree: TreeNodeType[]): Nullable<ReactWrapper> {
     return tree.reduce((found: Nullable<ReactWrapper>, toFind) => {
       if (found) {
-        const children = found.children(toFind as string);
+        const children = found.children(toFind as ComponentClass<any>);
         return children.length > 0 ? children : null;
-      } else {
-        return null;
       }
+      return null;
     }, root);
   }
 
@@ -149,7 +148,7 @@ describe('properly renders opened/closed states ', () => {
 
   it('01 - initially closed', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
-    expect(innerContainer).toBeDefined();
+    expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
     expect(innerContainer!.children()).toHaveLength(0);
   });
@@ -159,7 +158,7 @@ describe('properly renders opened/closed states ', () => {
     wrapper.update();
 
     const content = traverseTree(wrapper, openedPopupTree);
-    expect(content).toBeDefined();
+    expect(content).not.toBeNull();
     expect(content).toHaveLength(1);
     expect(content!.text()).toBe('Test content');
   });
@@ -169,7 +168,7 @@ describe('properly renders opened/closed states ', () => {
     wrapper.update();
 
     const innerContainer = traverseTree(wrapper, closedPopupTree);
-    expect(innerContainer).toBeDefined();
+    expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
     expect(innerContainer!.children()).toHaveLength(0);
   });
