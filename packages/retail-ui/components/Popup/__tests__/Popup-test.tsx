@@ -10,6 +10,7 @@ import ReactDOM from 'react-dom';
 import { RenderInnerContainer as RenderContainerNative } from '../../RenderContainer/RenderContainerNative';
 import { RenderInnerContainer as RenderContainerFallback } from '../../RenderContainer/RenderContainerFallback';
 import { Nullable } from '../../../typings/utility-types';
+import { ReactComponentLike } from 'prop-types';
 
 const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
 const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
@@ -121,9 +122,8 @@ describe('Popup', () => {
 
 
 describe('properly renders opened/closed states ', () => {
-  type TreeNodeType = ComponentClass<any> | string;
-  const closedPopupTree: TreeNodeType[] = [RenderContainer, RenderInnerContainer];
-  const openedPopupTree: TreeNodeType[] = [
+  const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];
+  const openedPopupTree: ReactComponentLike[] = [
     RenderContainer,
     RenderInnerContainer,
     LifeCycleProxy,
@@ -134,9 +134,11 @@ describe('properly renders opened/closed states ', () => {
     'div[data-tid="PopupContentInner"]',
   ];
 
-  function traverseTree(root: ReactWrapper<any>, tree: TreeNodeType[]): Nullable<ReactWrapper> {
+  function traverseTree(root: ReactWrapper<any>, tree: ReactComponentLike[]): Nullable<ReactWrapper> {
     return tree.reduce((found: Nullable<ReactWrapper>, toFind) => {
       if (found) {
+        // NOTE: приходится кастовать к тайпингам Enzyme'а
+        // (https://github.com/skbkontur/retail-ui/pull/1434/files#r289259497)
         const children = found.children(toFind as ComponentClass<any>);
         return children.length > 0 ? children : null;
       }
