@@ -110,6 +110,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
         </label>
         <LocaleProvider locale={{ DatePicker: { order: this.state.order, separator: this.state.separator } }}>
           <DatePicker
+            width={200}
             value={this.state.value}
             minDate={this.state.min}
             maxDate={this.state.max}
@@ -139,12 +140,12 @@ storiesOf('DatePicker', module)
   .add('with mouseevent handlers', () => (
     <div style={{ paddingTop: 200 }}>
       <DatePicker
+        width={200}
         value="02.07.2017"
         onMouseEnter={() => console.count('enter')}
         onMouseLeave={() => console.count('leave')}
         onChange={action('change')}
       />
-      <button>ok</button>
     </div>
   ))
   .add('DatePickerWithError', () => <DatePickerWithError />)
