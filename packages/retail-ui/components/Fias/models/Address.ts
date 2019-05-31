@@ -61,7 +61,7 @@ export class Address {
     Fields.planningstructure,
   ];
 
-  public static ALL_PARENTS_SEARCH_FIELDS = [
+  public static NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS = [
     Fields.district,
     Fields.city,
     Fields.intracityarea,
@@ -345,8 +345,10 @@ export class Address {
     return false;
   };
 
-  public isAllowedToSearchThroughAllParents = (field?: Fields): boolean => {
-    return Boolean(field && Address.ALL_PARENTS_SEARCH_FIELDS.includes(field));
+  // doesn't work on api side yet
+  // @see https://yt.skbkontur.ru/issue/PS-1401
+  public isAllowedToSearchThroughChildrenOfDirectParent = (field?: Fields): boolean => {
+    return Boolean(field && Address.NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS.includes(field));
   };
 
   public hasOnlyIndirectParent = (field?: Fields): boolean => {
