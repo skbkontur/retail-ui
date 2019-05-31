@@ -4,7 +4,7 @@ import { Address } from '../models/Address';
 import { defaultLocale } from '../constants/locale';
 import { Fields, FiasLocale } from '../types';
 
-interface FiasSearchProps {
+interface InternalFiasSearchProps {
   source: (query: string) => Promise<Address[]>;
   address: Address;
   onChange: (value: Address) => void;
@@ -12,7 +12,7 @@ interface FiasSearchProps {
   locale?: FiasLocale;
 }
 
-export class FiasSearch extends React.Component<FiasSearchProps> {
+export class InternalFiasSearch extends React.Component<InternalFiasSearchProps> {
   public static defaultProps = {
     locale: defaultLocale,
   };
@@ -65,4 +65,4 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 }
 
-export default FiasSearch;
+export default InternalFiasSearch;
