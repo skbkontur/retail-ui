@@ -5,6 +5,7 @@ import { InternalDate } from '../../lib/date/InternalDate';
 import InternalDateGetter from '../../lib/date/InternalDateGetter';
 import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
 import { InternalDateComponent, InternalDateComponentType, InternalDateValidateCheck } from '../../lib/date/types';
+import MouseDrag from '../../lib/events/MouseDrag';
 import Upgrades from '../../lib/Upgrades';
 import { isFirefox } from '../../lib/utils';
 
@@ -27,6 +28,7 @@ export interface DateInputState {
   inputMode: boolean;
   focused: boolean;
   notify: boolean;
+  dragged: boolean;
   autoMoved: boolean;
 }
 
@@ -72,6 +74,7 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
       typesOrder: [],
       inputMode: false,
       focused: false,
+      dragged: false,
       autoMoved: false,
     };
   }
@@ -100,6 +103,18 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
 
   public componentDidMount(): void {
     this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
+    if (this.divInnerNode) {
+      MouseDrag.listen(this.divInnerNode);
+      this.divInnerNode.addEventListener('mousedragstart', this.handleMouseDragStart);
+      this.divInnerNode.addEventListener('mousedragend', this.handleMouseDragEnd);
+    }
+  }
+
+  public componentWillUnmount(): void {
+    if (this.divInnerNode) {
+      this.divInnerNode.removeEventListener('mousedragstart', this.handleMouseDragStart);
+      this.divInnerNode.removeEventListener('mousedragend', this.handleMouseDragEnd);
+    }
   }
 
   public render() {
@@ -121,11 +136,7 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
         rightIcon={this.renderIcon()}
       >
         {
-          <div
-            ref={el => (this.divInnerNode = el)}
-            onDoubleClick={this.handleDoubleClick}
-            className={styles.root}
-          >
+          <div ref={el => (this.divInnerNode = el)} onDoubleClick={this.handleDoubleClick} className={styles.root}>
             {this.getFragments()}
           </div>
         }
@@ -222,6 +233,10 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
     }
   };
 
+  private handleMouseDragStart = () => this.setState({ dragged: true, selected: null });
+
+  private handleMouseDragEnd = () => this.setState({ dragged: false });
+
   private updateInternalDate = (
     _internalDate?: InternalDate,
     state: Partial<DateInputState> = {},
@@ -281,8 +296,7 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
       this.isFirstFocus = !prevState.focused;
       return {
         focused: true,
-        selected:
-          prevState.selected === null ? this.getFirstDateComponentType() : prevState.selected,
+        selected: prevState.selected === null ? this.getFirstDateComponentType() : prevState.selected,
       };
     });
 
