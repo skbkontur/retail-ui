@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.8.1...react-ui-validations@0.9.0) (2019-05-28)
+
+
+### Features
+
+* **react-ui-validations:** declarative validation description ([18416c7](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/18416c7))
+* **react-ui-validations:** docs rework ([ec76425](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/ec76425))
+
+
+
+
+
 ## [0.8.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.8.0...react-ui-validations@0.8.1) (2019-04-16)
 
 **Note:** Version bump only for package react-ui-validations

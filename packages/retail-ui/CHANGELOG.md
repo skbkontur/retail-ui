@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.51.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.50.0...retail-ui@0.51.0) (2019-05-28)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix icon style ([3e092ef](https://github.com/skbkontur/retail-ui/commit/3e092ef))
+* **MenuItem:** fix triggered `MouseEnter` from disabled button ([1c88969](https://github.com/skbkontur/retail-ui/commit/1c88969))
+* **Tabs:** replace check on existence `focus` ([87e0443](https://github.com/skbkontur/retail-ui/commit/87e0443))
+
+
+### Features
+
+* **CurrencyInput:** add support prop `integerDigits` ([#1404](https://github.com/skbkontur/retail-ui/issues/1404)) ([165e822](https://github.com/skbkontur/retail-ui/commit/165e822)), closes [#685](https://github.com/skbkontur/retail-ui/issues/685)
+
+
+
+
+
 # [0.50.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.49.1...retail-ui@0.50.0) (2019-05-22)
 
 
