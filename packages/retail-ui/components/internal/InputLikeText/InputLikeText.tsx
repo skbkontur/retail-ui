@@ -80,6 +80,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       error,
       warning,
       onChange,
+      disabled,
 
       prefix,
       suffix,
@@ -155,6 +156,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   }
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     this.setState({ focused: true });
 
     if (this.props.onFocus) {

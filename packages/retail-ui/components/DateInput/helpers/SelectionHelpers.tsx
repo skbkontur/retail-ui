@@ -12,8 +12,13 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
       range.selectNodeContents(node);
     }
     if (selection !== null) {
-      selection.removeAllRanges();
-      selection.addRange(range);
+      try {
+        // Fix IE from issue not working (https://github.com/skbkontur/retail-ui/issues/1205)
+        selection.removeAllRanges();
+        selection.addRange(range);
+      } catch (e) {
+        // empty block
+      }
       return;
     }
   }
@@ -23,7 +28,9 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
     // @ts-ignore
     const range = document.body.createTextRange();
     range.moveToElementText(node);
-    range.select();
+    if (typeof range.select === 'function') {
+      range.select();
+    }
     return;
   }
 };
@@ -31,7 +38,11 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
 export const removeAllSelections = () => {
   const selection = window.getSelection();
   if (selection !== null) {
-    selection.removeAllRanges();
-    // Fix IE from issue not working (https://github.com/skbkontur/retail-ui/issues/1205)
+    try {
+      // Fix IE from issue not working (https://github.com/skbkontur/retail-ui/issues/1205)
+      selection.removeAllRanges();
+    } catch (e) {
+      // empty block
+    }
   }
 };

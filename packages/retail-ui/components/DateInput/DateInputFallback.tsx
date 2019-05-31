@@ -47,6 +47,8 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
     };
 
     public handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+      // @ts-ignore
+      this.isMouseDown = true;
       if (this.state.focused && !this.frozen) {
         event.preventDefault();
         event.stopPropagation();
@@ -54,6 +56,9 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
     };
 
     public handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
+      if (this.props.disabled) {
+        return;
+      }
       if (this.frozen) {
         this.frozen = false;
         event.preventDefault();
@@ -65,7 +70,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
         return {
           focused: true,
           selected:
-            prevState.selected === null ? this.getFirstDateComponentType() : prevState.selected,
+            prevState.selected === null && !this.isMouseDown ? this.getFirstDateComponentType() : prevState.selected,
         };
       });
 

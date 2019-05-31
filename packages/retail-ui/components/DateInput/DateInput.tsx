@@ -16,7 +16,7 @@ import InputLikeText from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
 import styles from './DateInput.less';
 import { DateInputFallback } from './DateInputFallback';
-import { DateFragmentView } from './DateFragmentView';
+import { DateFragmentsView } from './DateFragmentsView';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { inputNumber } from './helpers/inputNumber';
 import { removeAllSelections, selectNodeContents } from './helpers/SelectionHelpers';
@@ -62,6 +62,7 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   private locale!: DatePickerLocale;
   private inputLikeText: InputLikeText | null = null;
   private divInnerNode: HTMLElement | null = null;
+  private isMouseDown: boolean = false;
   private isFirstFocus: boolean = false;
 
   constructor(props: DateInputProps) {
@@ -132,12 +133,14 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
         onMouseUp={this.handleMouseUp}
+        onMouseDown={this.handleMouseDown}
         onPaste={this.handlePaste}
         rightIcon={this.renderIcon()}
+        onDoubleClickCapture={this.handleDoubleClick}
       >
         {
-          <div ref={el => (this.divInnerNode = el)} onDoubleClick={this.handleDoubleClick} className={styles.root}>
-            {this.getFragments()}
+          <div ref={el => (this.divInnerNode = el)} className={styles.root}>
+            {this.renderFragments()}
           </div>
         }
       </InputLikeText>
@@ -168,46 +171,41 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
     }
   }
 
-  private getFragments = (): JSX.Element[] => {
-    const { selected, inputMode, focused } = this.state;
+  private renderFragments = (): React.ReactNode => {
+    const { internalDate, focused, selected, inputMode } = this.state;
     const fragments =
-      this.state.internalDate && (focused || !this.state.internalDate.isEmpty())
-        ? this.state.internalDate.toFragments({
+      internalDate && (focused || !internalDate.isEmpty())
+        ? internalDate.toFragments({
             withSeparator: true,
             withPad: true,
           })
         : [];
-    return fragments.map(
-      (fragment, index) =>
-        fragment.type === InternalDateComponentType.Separator ? (
-          <span
-            key={index}
-            className={classNames({
-              [styles.delimiter]: true,
-              [styles.filled]: fragments[index + 1].value !== null,
-            })}
-          >
-            {fragment.value}
-          </span>
-        ) : (
-          <DateFragmentView
-            key={index}
-            {...fragment}
-            onChange={this.onChangeDateComponentFromFragment}
-            selected={selected}
-            inputMode={inputMode}
-          />
-        ),
+    if (fragments.length === 0) {
+      return null;
+    }
+    return (
+      <DateFragmentsView
+        fragments={fragments}
+        onSelectDateComponent={this.handleSelectDateComponent}
+        selected={selected}
+        inputMode={inputMode}
+      />
     );
   };
 
+  private handleMouseDown = (): void => {
+    this.isMouseDown = true;
+  };
+
   private handleMouseUp = (): void => {
+    this.isMouseDown = false;
     this.setState({ selected: this.getFirstDateComponentType() });
   };
 
-  private onChangeDateComponentFromFragment = (type: InternalDateComponentType) => (
+  private handleSelectDateComponent = (type: InternalDateComponentType) => (
     event: React.MouseEvent<HTMLElement>,
   ): void => {
+    this.isMouseDown = false;
     if (this.isFirstFocus && this.state.internalDate && this.state.internalDate.isEmpty()) {
       this.isFirstFocus = false;
       return;
@@ -292,11 +290,15 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
+    if (this.props.disabled) {
+      return;
+    }
     this.setState(prevState => {
       this.isFirstFocus = !prevState.focused;
       return {
         focused: true,
-        selected: prevState.selected === null ? this.getFirstDateComponentType() : prevState.selected,
+        selected:
+          prevState.selected === null && !this.isMouseDown ? this.getFirstDateComponentType() : prevState.selected,
       };
     });
 
