@@ -257,6 +257,7 @@ export default {
   popupBorderColor: '#4D4D4D',
   popupDropShadow: 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))',
   popupBoxShadow: '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)',
+  popupTextColor: '#fff',
   inputColor: '#fff',
   inputTextColor: '#fff',
   inputBg: '#333',
