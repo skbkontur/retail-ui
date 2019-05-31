@@ -199,6 +199,8 @@ export class Address {
     return verifiedAddress;
   };
 
+  // TODO: Hide invisible fields without removing them.
+  // (removing can break the verification)
   public static filterVisibleFields = (
     fields: { [key in Fields]?: any },
     fieldsSettings: FieldsSettings,

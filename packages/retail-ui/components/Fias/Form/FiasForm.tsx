@@ -330,7 +330,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         const regionCode = element.data.code.substr(0, 2);
         return `${regionCode} ${fieldText}`;
       }
-
+      // TODO: handle possible identical texts of elements
+      // while in the "not directParent" search mode
       return hasParents ? [address.getText(field), fieldText].join(', ') : fieldText;
     };
 
