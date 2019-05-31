@@ -2,7 +2,7 @@
 import type { Address } from '../models/Address';
 import type { FiasLocale } from '../locale/types';
 
-type FiasSearchProps = {|
+type InternalFiasSearchProps = {|
   source: (query: string) => Promise<Address[]>,
   address: Address,
   onChange: (value: Address) => void,
@@ -10,6 +10,6 @@ type FiasSearchProps = {|
   locale?: FiasLocale,
 |};
 
-declare export class FiasSearch extends React$Component<FiasSearchProps> {}
+declare export class InternalFiasSearch extends React$Component<InternalFiasSearchProps> {}
 
-export default FiasSearch;
+export default InternalFiasSearch;
