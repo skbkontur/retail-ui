@@ -12,6 +12,8 @@ import {
   FiasLocale,
   FieldsSettings,
   FiasCountry,
+  SearchOptions,
+  APIProvider,
 } from '../types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
@@ -236,6 +238,60 @@ export class Address {
       }
     }
     return Address.createFromAddress(address, { fields: addressFields });
+  };
+
+  public static getAddress = async (
+    value: Partial<FiasValue> | undefined,
+    fieldsSettings: FieldsSettings | undefined,
+    api: APIProvider | undefined,
+  ) => {
+    if (!value) {
+      return new Address();
+    }
+
+    const { address, addressString, fiasId, postalCode, country, foreignAddress } = value;
+    const additionalFields: AdditionalFields = {};
+    let searchOptions: SearchOptions = {};
+
+    if (postalCode) {
+      additionalFields[ExtraFields.postalcode] = postalCode;
+    }
+
+    if (country && !Address.IS_RUSSIA(country)) {
+      return new Address({
+        country,
+        foreignAddress,
+        additionalFields: { [ExtraFields.postalcode]: postalCode },
+      });
+    }
+
+    if (address) {
+      const addressValue = fieldsSettings ? Address.filterVisibleFields(address, fieldsSettings) : address;
+      return Address.createFromAddressValue(addressValue, additionalFields, country);
+    }
+
+    if (fiasId) {
+      searchOptions = {
+        fiasId,
+      };
+    }
+
+    if (addressString) {
+      searchOptions = {
+        searchText: addressString,
+        limit: 1,
+      };
+    }
+
+    if (api) {
+      const { success, data } = await api.search(searchOptions);
+      if (success && data && data.length) {
+        const addressResponse = fieldsSettings ? Address.filterVisibleFields(data[0], fieldsSettings) : data[0];
+        return Address.createFromResponse(addressResponse, additionalFields, country);
+      }
+    }
+
+    return new Address({ country });
   };
 
   public fields: AddressFields;
