@@ -10,15 +10,19 @@ interface InternalFiasSearchProps {
   onChange: (value: Address) => void;
   limit?: number;
   locale?: FiasLocale;
+  width?: number | string;
+  error?: boolean;
+  warning?: boolean;
 }
 
 export class InternalFiasSearch extends React.Component<InternalFiasSearchProps> {
   public static defaultProps = {
     locale: defaultLocale,
+    width: '100%',
   };
 
   public render() {
-    const { address, source, limit, locale } = this.props;
+    const { address, source, limit, locale, width, error, warning } = this.props;
     return (
       <FiasComboBox
         getItems={source}
@@ -30,10 +34,12 @@ export class InternalFiasSearch extends React.Component<InternalFiasSearchProps>
         onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
         placeholder={locale!.searchPlaceholder}
-        width={'100%'}
+        width={width}
         drawArrow={false}
         searchOnFocus={false}
         limit={limit}
+        error={error}
+        warning={warning}
       />
     );
   }
