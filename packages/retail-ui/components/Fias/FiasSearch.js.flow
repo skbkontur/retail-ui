@@ -1,0 +1,26 @@
+/* @flow */
+import type { FiasValue, FormValidation, FiasLocale, APIProvider } from './types';
+import { Address } from './models/Address';
+import { FiasSearchState } from './FiasSearch';
+
+export type FiasSearchProps = {|
+  value?: FiasValue,
+  onChange?: (value: FiasValue) => void,
+  width?: number | string,
+  error?: boolean,
+  warning?: boolean,
+  baseUrl?: string,
+  api?: APIProvider,
+  limit?: number,
+  locale?: FiasLocale,
+  version?: string,
+|};
+
+export type FiasSearchState = {|
+  address: Address,
+  locale: FiasLocale,
+|};
+
+declare export class FiasSearch extends React$Component<FiasSearchProps, FiasSearchState> {}
+
+export default FiasSearch;
