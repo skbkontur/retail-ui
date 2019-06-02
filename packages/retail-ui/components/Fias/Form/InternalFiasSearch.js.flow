@@ -8,6 +8,9 @@ type InternalFiasSearchProps = {|
   onChange: (value: Address) => void,
   limit?: number,
   locale?: FiasLocale,
+  width?: string | number;
+  error?: boolean;
+  warning?: boolean;
 |};
 
 declare export class InternalFiasSearch extends React$Component<InternalFiasSearchProps> {}
