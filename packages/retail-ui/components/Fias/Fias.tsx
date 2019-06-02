@@ -10,9 +10,7 @@ import {
   FiasValue,
   FormValidation,
   APIProvider,
-  AdditionalFields,
   FieldsSettings,
-  SearchOptions,
 } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
@@ -274,7 +272,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   private updateAddress = async (): Promise<Address> => {
-    const address = await this.getAddress(this.props.value);
+    const address = await Address.getAddress(this.props.value, this.state.fieldsSettings, this.api);
     this.setState({
       address,
     });
@@ -289,55 +287,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     this.setState({
       fieldsSettings: this.fieldsSettings,
     });
-  };
-
-  private getAddress = async (value: Partial<FiasValue> | undefined) => {
-    if (value) {
-      const { address, addressString, fiasId, postalCode, country, foreignAddress } = value;
-      const additionalFields: AdditionalFields = {};
-      const { fieldsSettings } = this.state;
-      let searchOptions: SearchOptions = {};
-
-      if (postalCode) {
-        additionalFields[ExtraFields.postalcode] = postalCode;
-      }
-
-      if (country && !Address.IS_RUSSIA(country)) {
-        return new Address({
-          country,
-          foreignAddress,
-          additionalFields: { [ExtraFields.postalcode]: postalCode },
-        });
-      }
-
-      if (address) {
-        const addressValue = Address.filterVisibleFields(address, fieldsSettings);
-        return Address.createFromAddressValue(addressValue, additionalFields, country);
-      }
-
-      if (fiasId) {
-        searchOptions = {
-          fiasId,
-        };
-      }
-
-      if (addressString) {
-        searchOptions = {
-          searchText: addressString,
-          limit: 1,
-        };
-      }
-
-      const { success, data } = await this.api.search(searchOptions);
-      if (success && data && data.length) {
-        const addressResponse = Address.filterVisibleFields(data[0], fieldsSettings);
-        return Address.createFromResponse(addressResponse, additionalFields, country);
-      } else {
-        return new Address({ country });
-      }
-    }
-
-    return new Address();
   };
 
   private handleOpen = () => {
