@@ -73,10 +73,12 @@ export const Token: React.SFC<TokenProps & TokenActions> = ({
     }
   }
 
-  const tokenClassName = colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
+  const tokenClassName = disabled ?
+    tokenColors.defaultDisable :
+    colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
 
   const activeTokenClassName = disabled ?
-    colors ? tokenColors[colors.idle] : tokenColors.defaultIdle :
+    tokenColors.defaultDisable :
     colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
 
   const tokenClassNames = cn(
