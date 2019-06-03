@@ -35,7 +35,7 @@ export default class SubmitValidationDemo extends React.Component<{}, State> {
           </Form.Line>
 
           <Form.ActionsBar>
-            <Button onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>
