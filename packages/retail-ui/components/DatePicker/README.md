@@ -287,7 +287,7 @@ const ru_RU = {
   separator: InternalDateSeparator.Dot,
 };
 
-const en_EN = {
+const en_GB = {
   today: 'Today',
   months: [
     'January',

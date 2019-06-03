@@ -131,10 +131,10 @@ describe('DatePicker', () => {
     });
 
     it('render correct locale when set langCode', () => {
-      const wrapper = renderDatePickerLocale({ props: { enableTodayLink: true }, langCode: LangCodes.en_EN });
+      const wrapper = renderDatePickerLocale({ props: { enableTodayLink: true }, langCode: LangCodes.en_GB });
       const datePicker = wrapper.find(DatePicker).instance();
-      const expectedText = DatePickerLocaleHelper.get(LangCodes.en_EN).today;
-      const today = getToday({ langCode: LangCodes.en_EN });
+      const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
+      const today = getToday({ langCode: LangCodes.en_GB });
 
       datePicker.setState({ opened: true });
       wrapper.update();
@@ -145,12 +145,12 @@ describe('DatePicker', () => {
     it('render custom locale', () => {
       const wrapper = renderDatePickerLocale({
         props: { enableTodayLink: true },
-        langCode: LangCodes.en_EN,
+        langCode: LangCodes.en_GB,
         locale: { DatePicker: { separator: InternalDateSeparator.Dash } },
       });
       const datePicker = wrapper.find(DatePicker).instance();
-      const expectedText = DatePickerLocaleHelper.get(LangCodes.en_EN).today;
-      const today = getToday({ langCode: LangCodes.en_EN, separator: InternalDateSeparator.Dash });
+      const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
+      const today = getToday({ langCode: LangCodes.en_GB, separator: InternalDateSeparator.Dash });
 
       datePicker.setState({ opened: true });
       wrapper.update();
@@ -163,10 +163,10 @@ describe('DatePicker', () => {
         props: { enableTodayLink: true },
       });
       const datePicker = wrapper.find(DatePicker).instance();
-      const expectedText = DatePickerLocaleHelper.get(LangCodes.en_EN).today;
-      const today = getToday({ langCode: LangCodes.en_EN });
+      const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
+      const today = getToday({ langCode: LangCodes.en_GB });
 
-      wrapper.setProps({ langCode: LangCodes.en_EN });
+      wrapper.setProps({ langCode: LangCodes.en_GB });
       datePicker.setState({ opened: true });
       wrapper.update();
 

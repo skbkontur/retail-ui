@@ -13,7 +13,7 @@ storiesOf('Calendar', module)
     <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
   ))
   .add('LocaleProvider', () => (
-    <LocaleProvider langCode={LangCodes.en_EN}>
+    <LocaleProvider langCode={LangCodes.en_GB}>
       <Calendar />
     </LocaleProvider>
   ))

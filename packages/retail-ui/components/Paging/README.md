@@ -37,7 +37,7 @@ const ru_RU = {
   forward: 'Дальше',
 };
 
-const en_EN = {
+const en_GB = {
   forward: 'Forward',
 };
 ```

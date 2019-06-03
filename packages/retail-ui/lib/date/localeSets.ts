@@ -20,5 +20,5 @@ export const internalDateLocale: {
   [key in LangCodes]: InternalDateLocaleSet
 } = {
   [LangCodes.ru_RU]: DateCustomSet_DMY_Dot_Monday_6_7,
-  [LangCodes.en_EN]: DateCustomSet_MDY_Slash_Sunday_6_7,
+  [LangCodes.en_GB]: DateCustomSet_MDY_Slash_Sunday_6_7,
 };

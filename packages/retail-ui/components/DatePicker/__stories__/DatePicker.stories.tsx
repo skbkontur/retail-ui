@@ -160,7 +160,7 @@ storiesOf('DatePicker', module)
   .add('DatePicker LocaleProvider', () => {
     return (
       <div style={{ paddingTop: 200 }}>
-        <LocaleProvider langCode={LangCodes.en_EN}>
+        <LocaleProvider langCode={LangCodes.en_GB}>
           <DatePicker
             value="02.07.2017"
             minDate="02.07.2017"

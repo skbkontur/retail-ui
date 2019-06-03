@@ -14,7 +14,7 @@ interface LocaleProviderProps {
 ```typescript jsx
 enum LangCodes {
   ru_RU = 'ru_RU',
-  en_EN = 'en_EN',
+  en_GB = 'en_GB',
 }
 ```
 
@@ -44,7 +44,7 @@ const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvi
 const { TokenInputType } = require('./components/TokenInput');
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-<LocaleProvider langCode={LangCodes.en_EN}>
+<LocaleProvider langCode={LangCodes.en_GB}>
   <TokenInput type={TokenInputType.Combined} getItems={() => Promise.resolve([]).then(delay(500))} />
 </LocaleProvider>;
 ```
@@ -62,7 +62,7 @@ const customLocale = {
   },
 };
 
-<LocaleProvider locale={customLocale} langCode={LangCodes.en_EN}>
+<LocaleProvider locale={customLocale} langCode={LangCodes.en_GB}>
   <TokenInput type={TokenInputType.Combined} delimiters={[' ']} getItems={() => Promise.resolve([]).then(delay(500))} />
 </LocaleProvider>;
 ```
@@ -82,9 +82,9 @@ const customLocale = {
   },
 };
 
-<LocaleProvider langCode={LangCodes.en_EN}>
+<LocaleProvider langCode={LangCodes.en_GB}>
   <Gapped vertical gap={10}>
-    <LocaleProvider locale={customLocale} langCode={LangCodes.en_EN}>
+    <LocaleProvider locale={customLocale} langCode={LangCodes.en_GB}>
       <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
     </LocaleProvider>
     <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
@@ -128,7 +128,7 @@ class LocalizationControls extends React.Component {
     const customLocaleRU = {};
     const customLocaleEN = {};
 
-    const locale = this.state.langCode === LangCodes.en_EN ? customLocaleEN : customLocaleRU;
+    const locale = this.state.langCode === LangCodes.en_GB ? customLocaleEN : customLocaleRU;
 
     return (
       <Gapped vertical gap={10}>

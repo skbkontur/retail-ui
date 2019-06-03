@@ -18,7 +18,7 @@ const componentsLocales: DatePickerLocale = {
     'November',
     'December',
   ],
-  ...internalDateLocale[LangCodes.en_EN],
+  ...internalDateLocale[LangCodes.en_GB],
 };
 
 export default componentsLocales;

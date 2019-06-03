@@ -20,5 +20,5 @@ export interface LocaleControls {
 
 export enum LangCodes {
   ru_RU = 'ru_RU',
-  en_EN = 'en_EN',
+  en_GB = 'en_GB',
 }
