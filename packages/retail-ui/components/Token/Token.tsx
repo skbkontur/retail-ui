@@ -42,6 +42,7 @@ export interface TokenProps {
   isActive?: boolean;
   error?: boolean;
   warning?: boolean;
+  disabled?: boolean;
 }
 
 export const Token: React.SFC<TokenProps & TokenActions> = ({
@@ -50,6 +51,7 @@ export const Token: React.SFC<TokenProps & TokenActions> = ({
   colors,
   error,
   warning,
+  disabled,
   onClick = emptyHandler,
   onRemove = emptyHandler,
   onMouseEnter = emptyHandler,
@@ -73,7 +75,9 @@ export const Token: React.SFC<TokenProps & TokenActions> = ({
 
   const tokenClassName = colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
 
-  const activeTokenClassName = colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
+  const activeTokenClassName = disabled ?
+    colors ? tokenColors[colors.idle] : tokenColors.defaultIdle :
+    colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
 
   const tokenClassNames = cn(
     styles.token,
@@ -81,6 +85,7 @@ export const Token: React.SFC<TokenProps & TokenActions> = ({
       [activeTokenClassName]: isActive,
       [styles.warning]: warning,
       [styles.error]: error,
+      [styles.disabled]: disabled,
     },
     tokenClassName,
   );
@@ -95,7 +100,9 @@ export const Token: React.SFC<TokenProps & TokenActions> = ({
       onBlur={onBlur}
     >
       <span className={styles.text}>{children}</span>
-      <TokenRemoveIcon className={styles.removeIcon} onClick={onRemove} />
+      {!disabled &&
+        <TokenRemoveIcon className={styles.removeIcon} onClick={onRemove} />
+      }
     </div>
   );
 };
