@@ -203,14 +203,12 @@ const isHoliday = (date, isWeekend) => holidays.includes(date) || isWeekend;
 ### Ручное форматирование даты
 
 ```jsx
-const { InternalDateOrder, InternalDateSeparator } = require('../../lib/date/types');
-const { InternalDate } = require('../../lib/date/InternalDate');
-const { default: LocaleProvider } = require('../LocaleProvider');
+const { default: LocaleProvider, DateOrder, DateSeparator } = require('../LocaleProvider');
 
 class DatePickerFormatting extends React.Component {
   constructor() {
     this.state = {
-      order: InternalDateOrder.YMD,
+      order: DateOrder.YMD,
       separator: 'Dot',
       value: '21.12.2012',
     };
@@ -221,28 +219,28 @@ class DatePickerFormatting extends React.Component {
       <Gapped vertical gap={10}>
         <div>
           <span style={{ width: '300px', display: 'inline-block' }}>
-            Порядок компонентов (<tt>InternalDateOrder</tt>)
+            Порядок компонентов (<tt>DateOrder</tt>)
           </span>
           <Select
             value={this.state.order}
-            items={Object.keys(InternalDateOrder)}
+            items={Object.keys(DateOrder)}
             onChange={(_, order) => this.setState({ order })}
           />
         </div>
         <div>
           <span style={{ width: '300px', display: 'inline-block' }}>
-            Разделитель (<tt>InternalDateSeparator</tt>)
+            Разделитель (<tt>DateSeparator</tt>)
           </span>
           <Select
             value={this.state.separator}
-            items={Object.keys(InternalDateSeparator)}
+            items={Object.keys(DateSeparator)}
             onChange={(_, separator) => this.setState({ separator })}
           />
         </div>
         <LocaleProvider
           locale={{
             DatePicker: {
-              separator: InternalDateSeparator[this.state.separator],
+              separator: DateSeparator[this.state.separator],
               order: this.state.order,
             },
           }}
@@ -263,8 +261,8 @@ class DatePickerFormatting extends React.Component {
 interface DatePickerLocale {
   today?: string;
   months?: string[];
-  order?: InternalDateOrder;
-  separator?: InternalDateSeparator;
+  order?: DateOrder;
+  separator?: DateSeparator;
 }
 
 const ru_RU = {
@@ -283,8 +281,8 @@ const ru_RU = {
     'Ноябрь',
     'Декабрь',
   ],
-  order: InternalDateOrder.DMY,
-  separator: InternalDateSeparator.Dot,
+  order: DateOrder.DMY,
+  separator: DateSeparator.Dot,
 };
 
 const en_GB = {
@@ -303,7 +301,7 @@ const en_GB = {
     'November',
     'December',
   ],
-  order: InternalDateOrder.MDY,
-  separator: InternalDateSeparator.Slash,
+  order: DateOrder.MDY,
+  separator: DateSeparator.Slash,
 };
 ```

@@ -14,7 +14,6 @@
 
 ```jsx
 const { default: LocaleProvider, LangCodes } = require('../LocaleProvider');
-const { InternalDate } = require('../../lib/date/InternalDate');
 
 class DateInputFormatting2 extends React.Component {
   constructor() {
@@ -52,14 +51,12 @@ class DateInputFormatting2 extends React.Component {
 ### Ручное форматирование даты
 
 ```jsx
-const { InternalDateOrder, InternalDateSeparator } = require('../../lib/date/types');
-const { InternalDate } = require('../../lib/date/InternalDate');
-const { default: LocaleProvider } = require('../LocaleProvider');
+const { default: LocaleProvider, DateOrder, DateSeparator } = require('../LocaleProvider');
 
 class DateInputFormatting extends React.Component {
   constructor() {
     this.state = {
-      order: InternalDateOrder.YMD,
+      order: DateOrder.YMD,
       separator: 'Dot',
       value: '21.12.2012',
     };
@@ -70,28 +67,28 @@ class DateInputFormatting extends React.Component {
       <Gapped vertical gap={10}>
         <div>
           <span style={{ width: '300px', display: 'inline-block' }}>
-            Порядок компонентов (<tt>InternalDateOrder</tt>)
+            Порядок компонентов (<tt>DateOrder</tt>)
           </span>
           <Select
             value={this.state.order}
-            items={Object.keys(InternalDateOrder)}
+            items={Object.keys(DateOrder)}
             onChange={(_, order) => this.setState({ order })}
           />
         </div>
         <div>
           <span style={{ width: '300px', display: 'inline-block' }}>
-            Разделитель (<tt>InternalDateSeparator</tt>)
+            Разделитель (<tt>DateSeparator</tt>)
           </span>
           <Select
             value={this.state.separator}
-            items={Object.keys(InternalDateSeparator)}
+            items={Object.keys(DateSeparator)}
             onChange={(_, separator) => this.setState({ separator })}
           />
         </div>
         <LocaleProvider
           locale={{
             DatePicker: {
-              separator: InternalDateSeparator[this.state.separator],
+              separator: DateSeparator[this.state.separator],
               order: this.state.order,
             },
           }}
