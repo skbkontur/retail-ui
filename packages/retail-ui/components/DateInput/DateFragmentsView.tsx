@@ -2,27 +2,29 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { CHAR_MASK } from '../../lib/date/constants';
 import InternalDateValidator from '../../lib/date/InternalDateValidator';
-import {
-  InternalDateComponentType,
-  InternalDateFragment,
-} from '../../lib/date/types';
+import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
 import styles from './DateInput.less';
 import { removeAllSelections } from './helpers/SelectionHelpers';
 
 interface DateFragmentViewProps {
+  nodeRef: (el: HTMLDivElement | null) => void;
   selected: InternalDateComponentType | null;
   fragments: InternalDateFragment[];
   inputMode: boolean;
-  onSelectDateComponent: (type: InternalDateComponentType) => (event: React.MouseEvent<HTMLElement>) => void;
+  onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLElement>) => void;
 }
 
 export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}> {
   public render() {
-    return this.props.fragments.map(
-      (fragment, index) =>
-        fragment.type === InternalDateComponentType.Separator
-          ? this.renderSeparator(fragment, index)
-          : this.renderDateComponent(fragment, index),
+    return (
+      <div ref={this.props.nodeRef} className={styles.root}>
+        {this.props.fragments.map(
+          (fragment, index) =>
+            fragment.type === InternalDateComponentType.Separator
+              ? this.renderSeparator(fragment, index)
+              : this.renderDateComponent(fragment, index),
+        )}
+      </div>
     );
   }
 
@@ -48,9 +50,11 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
       ? Math.max(length - valueMask!.toString().length, 0)
       : length;
 
+    const handleMouseUp = (e: React.MouseEvent<HTMLElement>) => onSelectDateComponent(type, e);
+
     return (
-      <span key={index} onMouseUp={onSelectDateComponent(type)} onMouseDown={removeAllSelections}>
-        {valueMask === null || (selected === type && inputMode) ? valueMask : valueWithPad || valueMask}
+      <span key={index} onMouseUp={handleMouseUp} onMouseDown={removeAllSelections}>
+        {valueMask}
         <span className={styles.mask}>{CHAR_MASK.repeat(lengthMask)}</span>
       </span>
     );

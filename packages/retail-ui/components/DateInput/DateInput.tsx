@@ -61,7 +61,7 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
 
   private locale!: DatePickerLocale;
   private inputLikeText: InputLikeText | null = null;
-  private divInnerNode: HTMLElement | null = null;
+  private divInnerNode: HTMLDivElement | null = null;
   private isMouseDown: boolean = false;
   private isFirstFocus: boolean = false;
 
@@ -119,6 +119,15 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   }
 
   public render() {
+    const { internalDate, focused, selected, inputMode } = this.state;
+    const fragments =
+      internalDate && (focused || !internalDate.isEmpty())
+        ? internalDate.toFragments({
+            withSeparator: true,
+            withPad: true,
+          })
+        : [];
+
     return (
       <InputLikeText
         width={this.props.width}
@@ -138,11 +147,13 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
         rightIcon={this.renderIcon()}
         onDoubleClickCapture={this.handleDoubleClick}
       >
-        {
-          <div ref={el => (this.divInnerNode = el)} className={styles.root}>
-            {this.renderFragments()}
-          </div>
-        }
+        <DateFragmentsView
+          nodeRef={this.divInnerNodeRef}
+          fragments={fragments}
+          onSelectDateComponent={this.handleSelectDateComponent}
+          selected={selected}
+          inputMode={inputMode}
+        />
       </InputLikeText>
     );
   }
@@ -171,26 +182,8 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
     }
   }
 
-  private renderFragments = (): React.ReactNode => {
-    const { internalDate, focused, selected, inputMode } = this.state;
-    const fragments =
-      internalDate && (focused || !internalDate.isEmpty())
-        ? internalDate.toFragments({
-            withSeparator: true,
-            withPad: true,
-          })
-        : [];
-    if (fragments.length === 0) {
-      return null;
-    }
-    return (
-      <DateFragmentsView
-        fragments={fragments}
-        onSelectDateComponent={this.handleSelectDateComponent}
-        selected={selected}
-        inputMode={inputMode}
-      />
-    );
+  private divInnerNodeRef = (el: HTMLDivElement | null) => {
+    this.divInnerNode = el;
   };
 
   private handleMouseDown = (): void => {
@@ -202,9 +195,7 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
     this.setState({ selected: this.getFirstDateComponentType() });
   };
 
-  private handleSelectDateComponent = (type: InternalDateComponentType) => (
-    event: React.MouseEvent<HTMLElement>,
-  ): void => {
+  private handleSelectDateComponent = (type: InternalDateComponentType, event: React.MouseEvent<HTMLElement>): void => {
     this.isMouseDown = false;
     if (this.isFirstFocus && this.state.internalDate && this.state.internalDate.isEmpty()) {
       this.isFirstFocus = false;
