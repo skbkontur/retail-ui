@@ -38,7 +38,7 @@ declare export class Address {
   getText: (minField?: Fields | void, skipTypes?: boolean, connector?: string) => string,
   isAllowedToFill: (field: ?Fields) => boolean,
   isAllowedToSearchFullAddress: (field?: Fields | void) => boolean,
-  isAllowedToSearchThroughAllParents: (field?: Fields | void) => boolean,
+  isAllowedToSearchThroughChildrenOfDirectParent: (field?: Fields | void) => boolean,
   hasOnlyIndirectParent: (field: ?Fields) => boolean,
   getClosestParentFiasId: (field?: Fields | void) => string | void,
   getFiasId: () => string,

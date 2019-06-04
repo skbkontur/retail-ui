@@ -330,7 +330,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         const regionCode = element.data.code.substr(0, 2);
         return `${regionCode} ${fieldText}`;
       }
-
+      // TODO: handle possible identical texts of elements
+      // while in the "not directParent" search mode
       return hasParents ? [address.getText(field), fieldText].join(', ') : fieldText;
     };
 
@@ -410,7 +411,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         field,
         parentFiasId: address.getClosestParentFiasId(field),
         fullAddress: address.isAllowedToSearchFullAddress(field),
-        directParent: !address.isAllowedToSearchThroughAllParents(field),
+        directParent: !address.isAllowedToSearchThroughChildrenOfDirectParent(field),
         limit: limit + 1, // +1 to detect if there are more items
       };
       return this.props.api.search(options).then(result => {
