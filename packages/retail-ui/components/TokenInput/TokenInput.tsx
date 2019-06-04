@@ -35,7 +35,7 @@ export interface TokenInputProps<T> {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
-  renderAddButton?: (() => React.ReactNode) | null;
+  renderAddButton?: (() => React.ReactNode) | undefined;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
