@@ -13,7 +13,7 @@ import DatePicker from '../DatePicker';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
-    value: '08.15.2014',
+    value: '15.08.2014',
     error: false,
     tooltip: false,
   };
@@ -33,8 +33,8 @@ class DatePickerWithError extends React.Component<any, any> {
               size={this.props.size}
               error={this.state.error}
               value={this.state.value}
-              minDate="08.15.2003"
-              maxDate="10.21.2006"
+              minDate="15.08.2003"
+              maxDate="21.10.2006"
               onChange={this._handleChange}
               onFocus={this._unvalidate}
               onBlur={this._validate}
