@@ -81,7 +81,7 @@ export class FiasAPI implements APIProvider {
 
   public verify = (address: Address): Promise<APIResult<VerifyResponse>> => {
     const query = {
-      directParent: false,
+      directParent: true,
       search: false,
     };
     return this.send<VerifyResponse[]>(`verify?${FiasAPI.createQuery(query)}`, {
