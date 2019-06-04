@@ -7,7 +7,7 @@
       //...
     </ValidationContainer>
 
-    <Button onClick={this.handleSubmit}>Submit</Button>
+    <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
 
     handleSubmit = async () => {
       const isValid = await this.container.validate();

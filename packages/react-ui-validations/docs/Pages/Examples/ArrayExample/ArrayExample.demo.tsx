@@ -76,7 +76,7 @@ export default class ArrayExampleDemo extends React.Component<{}, State> {
 
           <Form.ActionsBar>
             <Button use={'primary'} onClick={this.handleSubmit}>
-              Отправить
+              Submit
             </Button>
           </Form.ActionsBar>
         </Form>
