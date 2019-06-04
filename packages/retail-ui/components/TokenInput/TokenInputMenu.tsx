@@ -65,6 +65,10 @@ export default class TokenInputMenu<T = string> extends React.Component<TokenInp
       return;
     }
 
+    if (this.props.renderAddButton !== undefined) {
+      return this.props.renderAddButton;
+    }
+
     const { addButtonComment, addButtonTitle } = this.locale;
 
     const handleAddItemNoteClick = () => this.props.onAddItem(value);

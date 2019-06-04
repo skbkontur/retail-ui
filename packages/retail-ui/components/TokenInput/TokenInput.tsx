@@ -35,6 +35,7 @@ export interface TokenInputProps<T> {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
+  renderAddButton?: (() => React.ReactNode) | null;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
@@ -69,10 +70,10 @@ const defaultRenderToken = <T extends any>(
   item: T,
   { isActive, onClick, onRemove }: Partial<TokenProps & TokenActions>,
 ) => (
-  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
-    {item}
-  </Token>
-);
+    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+      {item}
+    </Token>
+  );
 
 export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static defaultProps: Partial<TokenInputProps<any>> = {
@@ -144,6 +145,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       placeholder,
       renderItem,
       renderNotFound,
+      renderAddButton,
       hideMenuIfEmptyInputValue,
       onMouseEnter,
       onMouseLeave,
@@ -207,6 +209,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
               anchorElement={this.input!}
               inputValue={inputValue}
               renderNotFound={renderNotFound}
+              renderAddButton={renderAddButton}
               renderItem={renderItem}
               onAddItem={this.handleAddItem}
               onChange={this.handleChange}
