@@ -13,9 +13,9 @@ interface DateInputFormattingState {
   value: string;
 }
 class DateInputFormatting extends React.Component<{}, DateInputFormattingState> {
-  public state = {
+  public state: DateInputFormattingState = {
     order: InternalDateOrder.YMD,
-    separator: 'Dot' as keyof typeof InternalDateSeparator,
+    separator: 'Dot',
     value: '2012.12.30',
   };
 
@@ -48,7 +48,7 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
         <LocaleProvider
           locale={{
             DatePicker: {
-              separator: InternalDateSeparator[this.state.separator as any] as InternalDateSeparator,
+              separator: InternalDateSeparator[this.state.separator],
               order: this.state.order,
             },
           }}
