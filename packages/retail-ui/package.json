@@ -11,7 +11,7 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "prepublishOnly": "yarn clean && yarn build",
+    "prepublishOnly": "yarn clean && yarn build && node scripts/prepublish",
     "clean": "git clean -fdxqe node_modules",
     "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
     "postpublish": "yarn deploy && yarn publish:react-ui",
