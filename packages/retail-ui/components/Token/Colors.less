@@ -28,6 +28,12 @@
 
   .defaultDisable {
     .makeColor(@border-color-gray-light);
+
+    [data-name='RemoveIcon'] {
+      transition: none;
+      fill: @text-color-disabled;
+      opacity: 1;
+    }
   }
 
   .grayIdle {
