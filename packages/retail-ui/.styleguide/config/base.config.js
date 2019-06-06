@@ -1,19 +1,12 @@
-const fs = require('fs');
 const path = require('path');
-const parseTsComponent = require('react-docgen-typescript').withCustomConfig(path.join(__dirname, '../tsconfig.json'), {
-  propFilter: prop => !(prop.parent && /node_modules/.test(prop.parent.fileName)),
-}).parse;
+const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
+  path.join(__dirname, '../../tsconfig.json'),
+  {
+    propFilter: prop => !(prop.parent && /node_modules/.test(prop.parent.fileName)),
+  },
+).parse;
 const parseJsComponent = require('react-docgen').parse;
-const libraryVersion = require('../package.json').version;
-
-function getComponentList() {
-  const dirPath = path.resolve(__dirname, '../components');
-  return fs
-    .readdirSync(dirPath)
-    .map(x => [path.join(dirPath, x, `${x}.tsx`), path.join(dirPath, x, `${x}.js`)])
-    .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
-    .filter(Boolean);
-}
+const { version } = require('../helpers');
 
 const styles = {
   StyleGuide: {
@@ -170,8 +163,6 @@ const webpackConfig = {
 };
 
 module.exports = {
-  components: getComponentList,
-  styleguideDir: path.resolve(__dirname, `build/${libraryVersion}`),
   skipComponentsWithoutExample: true,
   pagePerSection: true,
   styles,
@@ -189,7 +180,7 @@ module.exports = {
     config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.json'];
     return config;
   },
-  version: libraryVersion,
+  version,
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui',
   },
