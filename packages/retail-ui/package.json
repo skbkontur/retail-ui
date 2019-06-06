@@ -184,7 +184,8 @@
     "roots": [
       "components",
       "lib",
-      "testing"
+      "testing",
+      "scripts"
     ]
   }
 }
