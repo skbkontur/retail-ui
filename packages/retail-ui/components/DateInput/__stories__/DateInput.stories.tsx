@@ -9,13 +9,13 @@ import DateInput from '../DateInput';
 
 interface DateInputFormattingState {
   order: InternalDateOrder;
-  separator: string;
+  separator: keyof typeof InternalDateSeparator;
   value: string;
 }
 class DateInputFormatting extends React.Component<{}, DateInputFormattingState> {
   public state = {
     order: InternalDateOrder.YMD,
-    separator: 'Dot',
+    separator: 'Dot' as keyof typeof InternalDateSeparator,
     value: '2012.12.30',
   };
 

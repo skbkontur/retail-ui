@@ -38,10 +38,10 @@ export interface DatePickerProps<T> {
   width: number | string;
   onBlur?: () => void;
   /**
-   * @param fakeEvent - объект, частично имитирующий объект `Event`.
-   * @param value - значение выбранной даты в виде строки.
+   * @param e - объект, частично имитирующий объект `Event`.
+   * @param value - строка в формате `dd.mm.yyyy`.
    */
-  onChange: (fakeEvent: { target: { value: T } }, value: T) => void;
+  onChange: (e: { target: { value: T } }, value: T) => void;
   onFocus?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
   onMouseEnter?: (e: React.MouseEvent<any>) => void;

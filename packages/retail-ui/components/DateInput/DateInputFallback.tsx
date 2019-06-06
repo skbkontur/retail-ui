@@ -30,7 +30,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
         prevProps.minDate !== this.props.minDate ||
         prevProps.maxDate !== this.props.maxDate
       ) {
-        this.updateInternalDate(this.props.internalDate, {}, this.updateInternalDateFromProps);
+        this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
       }
 
       if (prevState.internalDate !== this.state.internalDate) {
@@ -47,8 +47,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
     };
 
     public handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-      // @ts-ignore
-      this.isMouseDown = true;
+      super.isMouseDown = true;
       if (this.state.focused && !this.frozen) {
         event.preventDefault();
         event.stopPropagation();
@@ -65,8 +64,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
         return;
       }
       this.setState((prevState: DateInputState) => {
-        // @ts-ignore
-        this.isFirstFocus = !prevState.focused;
+        super.isFirstFocus = !prevState.focused;
         return {
           focused: true,
           selected:

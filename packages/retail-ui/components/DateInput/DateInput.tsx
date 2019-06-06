@@ -23,7 +23,7 @@ import { removeAllSelections, selectNodeContents } from './helpers/SelectionHelp
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
-  internalDate: InternalDate | null;
+  internalDate: InternalDate;
   typesOrder: InternalDateComponentType[];
   inputMode: boolean;
   focused: boolean;
@@ -45,10 +45,10 @@ export interface DateInputProps {
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   /**
-   * @param fakeEvent - объект, частично имитирующий объект `Event`.
-   * @param value - значение выбранной даты в виде строки.
+   * @param e - объект, частично имитирующий объект `Event`.
+   * @param value - строка в формате `dd.mm.yyyy`.
    */
-  onChange?: (fakeEvent: { target: { value: string } }, value: string) => void;
+  onChange?: (e: { target: { value: string } }, value: string) => void;
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
@@ -71,7 +71,7 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
     this.state = {
       notify: false,
       selected: null,
-      internalDate: null,
+      internalDate: new InternalDate(),
       typesOrder: [],
       inputMode: false,
       focused: false,
@@ -238,9 +238,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   };
 
   private updateInternalDateFromProps = (): void => {
-    if (this.state.internalDate === null) {
-      return;
-    }
     let isMod: boolean = false;
     const internalDate = this.state.internalDate.clone();
     const start = internalDate.getRangeStart();
@@ -405,9 +402,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   }
 
   private pressDelimiter = () => {
-    if (this.state.internalDate === null) {
-      return;
-    }
     const value = this.state.internalDate.get(this.state.selected);
     if (value !== null && value !== '') {
       if (this.state.autoMoved) {
@@ -431,9 +425,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   };
 
   private emitChange = (): void => {
-    if (this.state.internalDate === null) {
-      return;
-    }
     const value = this.state.internalDate.isEmpty() ? '' : this.state.internalDate.toInternalString();
     if (this.props.value === value) {
       return;
@@ -444,9 +435,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   };
 
   private clearSelected(): void {
-    if (this.state.internalDate === null) {
-      return;
-    }
     const selected = this.state.selected === null ? this.getFirstDateComponentType() : this.state.selected;
     this.updateInternalDate(this.state.internalDate.clone().set(selected, null), { inputMode: false, selected });
     if (selected === InternalDateComponentType.All) {
@@ -456,9 +444,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
 
   private clearOneChar(): void {
     const { selected, internalDate, inputMode } = this.state;
-    if (internalDate === null) {
-      return;
-    }
     const prevType = selected === null ? this.getLastDateComponentType() : selected;
     const nextType =
       prevType === InternalDateComponentType.All
@@ -480,9 +465,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   }
 
   private updateDateComponentBy(step: number): void {
-    if (this.state.internalDate === null) {
-      return;
-    }
     const internalDate = this.state.internalDate.clone();
     const initial = internalDate.clone();
     let { selected } = this.state;
@@ -511,9 +493,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
 
   private moveSelection(step: number, isAutoMoved: boolean = false): void {
     const { internalDate, typesOrder, selected } = this.state;
-    if (internalDate === null) {
-      return;
-    }
     const index = selected === null ? 0 : typesOrder.indexOf(selected);
     if (
       (typesOrder[index] === this.getLastDateComponentType() && step > 0) ||
@@ -546,9 +525,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
   private inputValue(event: React.KeyboardEvent<HTMLElement>): void {
     event.persist();
     let { selected: type } = this.state;
-    if (this.state.internalDate === null) {
-      return;
-    }
     const internalDate = this.state.internalDate.clone();
     let prev = internalDate.get(type);
     if (type === null) {
@@ -568,9 +544,6 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
 
   private inputNumberCallBack = (next: InternalDateComponent, inputMode: boolean): void => {
     let { selected: type } = this.state;
-    if (this.state.internalDate === null) {
-      return;
-    }
     const internalDate = this.state.internalDate.clone();
     if (type === null || type === InternalDateComponentType.All) {
       type = this.getFirstDateComponentType();
