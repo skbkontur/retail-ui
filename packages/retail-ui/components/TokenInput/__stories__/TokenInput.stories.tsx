@@ -256,7 +256,7 @@ storiesOf('TokenInput', module)
     return <Wrapper
       type={TokenInputType.Combined}
       getItems={getItems}
-      renderAddButton={null}
+      renderAddButton={() => null}
       renderNotFound={() => <span>Тестовое ничего не найдено</span>}
     />;
   });
