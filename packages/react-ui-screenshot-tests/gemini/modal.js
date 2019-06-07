@@ -10,7 +10,7 @@ gemini.suite('modal', suite => {
       actions.click(find('button'));
     })
     .capture('open second modal', (actions, find) => {
-      actions.click(find('[class^="Modal-body"] button'));
+      actions.click(find('[data-comp-name="Body"] button'));
     });
 });
 
@@ -65,7 +65,7 @@ gemini.suite('modal with variable height of content', suite => {
       actions.click(find('button'));
     })
     .capture('toggle content height', (actions, find) => {
-      actions.click(find('#modal-inner [class^="Toggle-wrapper"]')).wait(500);
+      actions.click(find('#modal-inner [data-comp-name="Toggle"]')).wait(500);
     });
 });
 
@@ -97,4 +97,29 @@ gemini.suite('modal with align to the top', suite => {
     .before(renderStory('Modal', 'With alignTop'))
     .setCaptureElements('html')
     .capture('alignTop');
+});
+
+gemini.suite('modal closing', suite => {
+  suite
+    .before(renderStory('Modal', 'Small modal on the Top'))
+    .setCaptureElements('html')
+    .ignoreElements({ every: 'button' })
+    .before((actions, find) => {
+      this.button = find('button');
+    })
+    .capture('open modal', (actions, find) => {
+      actions.click(this.button);
+    })
+    .capture('close by click on the cross', (actions, find) => {
+      actions.click(find('[data-tid="modal-close"]'));
+    })
+    .capture('open again', (actions, find) => {
+      actions.click(this.button);
+    })
+    .capture("doesn't close by click on the content", (actions, find) => {
+      actions.click(find('[data-tid="modal-content-button"]'));
+    })
+    .capture('closes by click on the background', (actions, find) => {
+      actions.click(find('[data-tid="modal-container"]'));
+    });
 });

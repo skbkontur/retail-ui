@@ -55,6 +55,7 @@ export const defaultLocale: {
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
+  roomNotFound: 'Не найдены помещения по указанному выше расположению',
   roomFillBefore: 'Заполните номер дома, чтобы выбрать квартиру',
   roomPlaceholder: '',
 

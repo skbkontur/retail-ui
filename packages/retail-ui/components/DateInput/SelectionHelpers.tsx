@@ -3,8 +3,10 @@ export const selectNodeContents = (node: HTMLElement) => {
     const selection = window.getSelection();
     const range = window.document.createRange();
     range.selectNodeContents(node);
-    selection.removeAllRanges();
-    selection.addRange(range);
+    if (selection) {
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
     return;
   }
 
@@ -24,6 +26,9 @@ export const removeAllSelections = () => {
     // @ts-ignore
     document.body.createTextRange().collapse();
   } else {
-    window.getSelection().removeAllRanges();
+    const selection = window.getSelection();
+    if (selection) {
+      selection.removeAllRanges();
+    }
   }
 };

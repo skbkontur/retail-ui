@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import classNames from 'classnames';
+import warning from 'warning';
 import { isFunction } from '../../lib/utils';
 
 import styles from './MenuItem.less';
@@ -17,6 +18,7 @@ export interface MenuItemProps {
   comment?: React.ReactNode;
   disabled?: boolean;
   icon?: React.ReactElement<any>;
+  link?: boolean;
 
   /** @ignore */
   loose?: boolean;
@@ -60,8 +62,25 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     onClick: PropTypes.func,
   };
 
+  private mouseEntered: boolean = false;
+
   public render() {
-    const { alkoLink, comment, icon, loose, state, children, _enableIconPadding, component, ...rest } = this.props;
+    const {
+      alkoLink,
+      link,
+      comment,
+      icon,
+      loose,
+      state,
+      children,
+      _enableIconPadding,
+      component,
+      onMouseEnter,
+      onMouseLeave,
+      ...rest
+    } = this.props;
+
+    warning(alkoLink === undefined, "[MenuItem]: Prop 'alkoLink' was deprecated please use 'link' instead");
 
     const hover = state === 'hover' && !this.props.disabled;
 
@@ -76,7 +95,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       [styles.hover]: hover,
       [styles.loose]: loose,
       [styles.selected]: state === 'selected',
-      [styles.link]: alkoLink,
+      [styles.link]: link || alkoLink,
       [styles.withIcon]: Boolean(iconElement) || _enableIconPadding,
     });
 
@@ -88,7 +107,13 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     const Component = this.getComponent();
 
     return (
-      <Component {...rest} className={className} tabIndex={-1}>
+      <Component
+        {...rest}
+        onMouseOver={this.handleMouseEnterFix}
+        onMouseLeave={this.handleMouseLeave}
+        className={className}
+        tabIndex={-1}
+      >
         {iconElement}
         {content}
         {this.props.comment && (
@@ -104,6 +129,22 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       </Component>
     );
   }
+
+  // https://github.com/facebook/react/issues/10109
+  // Mouseenter event not triggered when cursor moves from disabled button
+  private handleMouseEnterFix = (e: React.MouseEvent<HTMLElement>) => {
+    if (!this.mouseEntered && this.props.onMouseEnter) {
+      this.mouseEntered = true;
+      this.props.onMouseEnter(e);
+    }
+  };
+
+  private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    this.mouseEntered = false;
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(e);
+    }
+  };
 
   private getComponent = () => {
     const { disabled, component, href } = this.props;

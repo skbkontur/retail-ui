@@ -75,7 +75,7 @@ export interface PopupProps extends PopupHandlerProps {
   hasShadow: boolean;
   disableAnimations: boolean;
   margin: number;
-  maxWidth: number | string;
+  maxWidth?: number | string;
   opened: boolean;
   pinOffset: number;
   pinSize: number;
@@ -168,7 +168,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasPin: false,
     hasShadow: false,
     disableAnimations: false,
-    maxWidth: 500,
     useWrapper: false,
   };
 
@@ -351,8 +350,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={styles.content}>
-                <div className={styles.contentInner} style={{ backgroundColor }}>
+              <div className={styles.content} data-tid={'PopupContent'}>
+                <div className={styles.contentInner} style={{ backgroundColor }} data-tid={'PopupContentInner'}>
                   {children}
                 </div>
               </div>

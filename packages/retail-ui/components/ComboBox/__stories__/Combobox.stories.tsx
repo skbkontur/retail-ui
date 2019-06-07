@@ -163,6 +163,13 @@ storiesOf('ComboBox', module)
     <div>
       <ComplexCombobox />
     </div>
+  ))
+  .add("with add button", () => (
+    <TestComboBox
+      onSearch={search}
+      renderItem={renderValue}
+      renderAddButton={query => query && <MenuItem onClick={() => alert(query)}>Добавить {query}</MenuItem>}
+    />
   ));
 
 interface ComboBoxWithErrorTogglerState {
@@ -241,6 +248,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           getItems={this.props.onSearch}
           renderItem={this.props.renderItem}
           renderValue={renderValue}
+          renderAddButton={this.props.renderAddButton}
           valueToString={x => x.name}
           placeholder="numbers"
           onChange={this.handleChange}
@@ -462,7 +470,7 @@ function searchWithCustomElements(query: string) {
     ...(_items.slice(0, 3).length ? [<MenuSeparator key={5} />] : []),
     ...(_items.slice(3).length ? _items.slice(3) : [disabled]),
     <MenuSeparator key={3} />,
-    <MenuItem key={4} alkoLink onClick={() => alert('Clicked')}>
+    <MenuItem key={4} link onClick={() => alert('Clicked')}>
       Ha ha
     </MenuItem>,
   ]);
@@ -509,8 +517,12 @@ class ComboBoxWithExternalValue extends React.Component {
         warning={this.state.warning}
         ref={element => (this.combobox = element)}
       />
-      <Button onClick={this.fill}>Set `First`</Button>
-      <Button onClick={this.reset}>Reset</Button>
+      <Button data-tid="setValueBtn" onClick={this.fill}>
+        Set `First`
+      </Button>
+      <Button data-tid="resetBtn" onClick={this.reset}>
+        Reset
+      </Button>
       <div>
         this.state.value: <code>{JSON.stringify(this.state.value)}</code>
       </div>
