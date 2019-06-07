@@ -251,12 +251,4 @@ storiesOf('TokenInput', module)
         <FilledWrapper getItems={getItems} disabled={true} />
       </Gapped>
     );
-  })
-  .add('combined with renderNotFound', () => {
-    return <Wrapper
-      type={TokenInputType.Combined}
-      getItems={getItems}
-      renderAddButton={() => null}
-      renderNotFound={() => <span>Тестовое ничего не найдено</span>}
-    />;
   });
