@@ -13,7 +13,7 @@ const TAGS = {
 const PACKAGE_JSON = path.join(__dirname, '../../package.json');
 
 const getPackageInfo = (configPath = PACKAGE_JSON) => {
-  const config = readJsonSync(configPath);
+  const config = loadConfig(configPath);
 
   const { npmVersions, npmTags } = fetchPackageData(config.name);
 
@@ -35,6 +35,10 @@ const getPackageInfo = (configPath = PACKAGE_JSON) => {
     homepage,
     config,
   };
+};
+
+const loadConfig = (path = PACKAGE_JSON) => {
+  return readJsonSync(path);
 };
 
 const updateConfig = (config, path = PACKAGE_JSON) => {
@@ -125,6 +129,7 @@ const getGitTag = version => {
 
 module.exports = {
   getPackageInfo,
+  loadConfig,
   updateConfig,
   getDistTag,
   TAGS,
