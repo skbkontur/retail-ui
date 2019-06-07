@@ -32,13 +32,17 @@ storiesOf('Button', module)
   ))
   .add('with icons', () => {
     return (
-      <Gapped>
+      <Gapped vertical={true}>
         <Button icon={<OkIcon />}>Small</Button>
         <Button size="medium" icon={<OkIcon />}>
           Medium
         </Button>
         <Button size="large" icon={<OkIcon />}>
           Large
+        </Button>
+        <Button>{<OkIcon />}</Button>
+        <Button icon={<OkIcon />} use={'primary'}>
+          icon with long text and color
         </Button>
       </Gapped>
     );
@@ -246,59 +250,64 @@ storiesOf('Button', module)
       presetProps={{ width: 200, children: 'Button' }}
     />
   ))
-  .add('different visual states', () => (
+  .add('default combinations', () => (
     <ComponentCombinator
       Component={Button}
       presetProps={{ children: 'Button' }}
-      combinations={[...visualStates, ...sizeStates, ...arrowStates, ...useStates].map(x => ({ props: x }))}
-      colsPerPage={7}
-      rowsPerPage={7}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
     />
   ))
-  .add('different content', () => (
+  .add('combinations with warning', () => (
     <ComponentCombinator
       Component={Button}
-      presetProps={{ children: 'Button' }}
-      combinations={[...contentStates, ...widthStates, ...layoutStates].map(x => ({ props: x }))}
-      colsPerPage={3}
-      rowsPerPage={6}
+      presetProps={{ children: 'Button', warning: true }}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
+    />
+  ))
+  .add('combinations with error', () => (
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button', error: true }}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
+    />
+  ))
+  .add('combinations with focus', () => (
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button', visuallyFocused: true }}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
+    />
+  ))
+  .add('loading combinations', () => (
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button', loading: true }}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
+    />
+  ))
+  .add('disabled combinations', () => (
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button', disabled: true }}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
+    />
+  ))
+  .add('active combinations', () => (
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button', active: true }}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
+    />
+  ))
+  .add('checked combinations', () => (
+    <ComponentCombinator
+      Component={Button}
+      presetProps={{ children: 'Button', checked: true }}
+      combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
     />
   ));
 
 type ButtonState = Partial<ButtonProps>;
-
-const visualStates: ButtonState[] = [
-  { disabled: true },
-  { loading: true },
-  { checked: true },
-  { active: true },
-  { narrow: true },
-  { borderless: true },
-  { error: true },
-  { warning: true },
-  { visuallyFocused: true },
-];
-
-const sizeStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
-const arrowStates: ButtonState[] = [{ arrow: true }, { arrow: 'left' }];
-
-const useStates: ButtonState[] = [
-  { use: 'default' },
-  { use: 'primary' },
-  { use: 'success' },
-  { use: 'danger' },
-  { use: 'pay' },
-  { use: 'link' },
-];
-
-const contentStates: ButtonState[] = [
-  { icon: <SearchIcon /> },
-  { children: 'long-long-long text' },
-  { children: <SearchIcon /> },
-  { children: null },
-];
-
-const widthStates: ButtonState[] = [{ width: 100 }, { width: 'auto' }, { width: undefined }, { width: 0 }];
 
 const alignStates: ButtonState[] = [
   { align: 'left' },
@@ -310,3 +319,24 @@ const alignStates: ButtonState[] = [
 ];
 
 const layoutStates: ButtonState[] = [{ use: 'default' }, { arrow: true }, { arrow: 'left' }, { use: 'link' }];
+
+const sizeStates = getProps('size', ['small', 'medium', 'large']);
+
+const arrowStates = getProps('arrow', [true, 'left']);
+
+const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'link']);
+
+const widthStates = getProps('width', [100, 'auto']);
+
+const visualStates = [{ narrow: true }, { borderless: true }].map(x => ({ props: x }));
+
+const contentStates = [{ icon: <SearchIcon /> }, { children: 'long-long-long text' }, { children: <SearchIcon /> }].map(
+  x => ({ props: x }),
+);
+
+function getProps<TKey extends keyof ButtonProps>(
+  key: TKey,
+  values: Array<ButtonProps[TKey]>,
+): Array<{ props: Pick<ButtonProps, TKey> }> {
+  return values.map(x => ({ props: { [key]: x } }));
+}

@@ -94,12 +94,36 @@ gemini.suite('Button', suite => {
         .capture('plain');
     });
 
-    gemini.suite('different visual states', suite => {
-      paginatedScenario(suite.before(renderStory('Button', 'different visual states')), 9);
+    gemini.suite('default combination', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'default combinations')), 5);
     });
 
-    gemini.suite('different content', suite => {
-      paginatedScenario(suite.before(renderStory('Button', 'different content')), 8);
+    gemini.suite('combinations with warning', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'combinations with warning')), 5);
+    });
+
+    gemini.suite('combinations with error', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'combinations with error')), 5);
+    });
+
+    gemini.suite('combinations with focus', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'combinations with focus')), 5);
+    });
+
+    gemini.suite('loading combinations', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'loading combinations')), 5);
+    });
+
+    gemini.suite('disabled combinations', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'disabled combinations')), 5);
+    });
+
+    gemini.suite('active combinations', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'active combinations')), 5);
+    });
+
+    gemini.suite('checked combinations', suite => {
+      paginatedScenario(suite.before(renderStory('Button', 'checked combinations')), 5);
     });
   });
 });
