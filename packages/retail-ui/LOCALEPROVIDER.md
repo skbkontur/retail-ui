@@ -29,6 +29,7 @@ interface LocaleControls {
   Select?: SelectLocale;
   Paging?: PagingLocale;
   Logotype?: LogotypeLocale;
+  Fias?: FiasLocale;
 }
 ```
 
@@ -110,6 +111,7 @@ const LocalizationControlNames = {
   Select: 'Select',
   Paging: 'Paging',
   Logotype: 'Logotype',
+  Fias: 'Fias',
 };
 
 class LocalizationControls extends React.Component {
@@ -188,6 +190,9 @@ class LocalizationControls extends React.Component {
 
       case LocalizationControlNames.Paging:
         return <Paging activePage={1} pagesCount={12} onPageChange={value => value} />;
+
+      case LocalizationControlNames.Fias:
+        return <Fias />;
     }
     return null;
   }
