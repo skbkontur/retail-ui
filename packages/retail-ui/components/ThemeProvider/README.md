@@ -20,8 +20,8 @@ interface IThemeIn extends ThemeInType {}
 Объект плоской темы можно импортировать и передавать в ThemeProvider:
 
 ```jsx
-const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme.ts');
-const { ShowcaseGroup } = require('./Playground/ShowcaseGroup.tsx');
+const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
+const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
 
 const FlatComponents = () => (
   <ThemeProvider value={flatTheme}>
@@ -38,8 +38,8 @@ const FlatComponents = () => (
 <br/>
 
 ```jsx
-const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme.ts');
-const { ShowcaseGroup } = require('./Playground/ShowcaseGroup.tsx');
+const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
+const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
 
 const CombinedComponents = () => (
   <>
@@ -61,8 +61,8 @@ const CombinedComponents = () => (
 ```jsx
 const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
 const { default: defaultTheme } = require('../../lib/theming/themes/DefaultTheme');
-const { default: darkTheme } = require('./Playground/darkTheme.ts');
-const { ShowcaseGroup } = require('./Playground/ShowcaseGroup.tsx');
+const { default: darkTheme } = require('./Playground/darkTheme');
+const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',
@@ -96,7 +96,7 @@ const NestedThemes = () => (
 Разные варианты стилизации компонентов:
 
 ```jsx
-const { ThemeProviderPlayground } = require('./__stories__/ThemeProvider.stories.tsx');
+const { ThemeProviderPlayground } = require('./__stories__/ThemeProvider.stories');
 
 <ThemeProviderPlayground />;
 ```
@@ -152,7 +152,7 @@ import React from 'react';
 import ThemeProvider from '${retail-ui|@skbkontur/react-ui}/components/ThemeProvider';
 
 import App from './components/App';
-import theme from './theme/theme.js';
+import theme from './theme/theme';
 
 ReactDOM.render(
   <ThemeProvider value={theme}>
@@ -167,8 +167,8 @@ ReactDOM.render(
 ```typescript
 // точка входа в приложение
 ...
-import theme from './theme/theme.js';
-import ThemeFactory from '${retail-ui|@skbkontur/react-ui}/lib/theming/ThemeFactory.ts';
+import theme from './theme/theme';
+import ThemeFactory from '${retail-ui|@skbkontur/react-ui}/lib/theming/ThemeFactory';
 
 ThemeFactory.overrideDefaultTheme(theme);
 ...
