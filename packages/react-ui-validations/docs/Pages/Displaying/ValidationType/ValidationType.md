@@ -1,6 +1,6 @@
 # Виды валидаций
 
-[Виды валидаций по Контур.Гайдам](https://guides.kontur.ru/principles/validation/#Vidi_validatsii)
+[Описание видов валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii)
 
 Вид валидации задается с помощью свойства `type` в объекте `validationInfo`.
 
