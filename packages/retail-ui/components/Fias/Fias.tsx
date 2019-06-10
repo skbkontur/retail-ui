@@ -72,6 +72,7 @@ export interface FiasProps {
   limit?: number;
   /**
    * Словарь текстовых констант. См. полный список ниже
+   * @deprecated используйте LocaleProvider
    */
   locale?: FiasLocale;
   /**
