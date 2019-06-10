@@ -24,4 +24,11 @@ gemini.suite('DateInput', () => {
       .capture('idle')
       .capture('focus', actions => actions.click("[data-comp-name*='DateInput']"));
   });
+
+  gemini.suite('different formatting', suite => {
+    suite
+      .before(renderStory('DateInput', 'different formatting'))
+      .setCaptureElements('#test-element')
+      .capture('idle');
+  });
 });

@@ -1,8 +1,0 @@
-/* @flow */
-declare export var parseValue: (value: string | null | void) => {|
-  date: string | null,
-  month: string | null,
-  year: string | null,
-|};
-
-declare export var formatDate: (date: string | null | void, month: string | null | void, year: string | null | void) => string;

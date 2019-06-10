@@ -128,8 +128,8 @@ namespace SKBKontur.SeleniumTesting.Controls
 
             public void Clear()
             {
-                span.SendKeys(Keys.ArrowRight + Keys.ArrowRight);
-                span.SendKeys(Keys.Backspace + Keys.Backspace + Keys.Backspace + Keys.Backspace + Keys.Backspace);
+                span.SendKeys(Keys.Control + "a");
+                span.SendKeys(Keys.Backspace);
             }
 
             public void Input(string value)

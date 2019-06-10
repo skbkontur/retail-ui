@@ -75,7 +75,7 @@ const ru_RU = {
   addButtonTitle: 'Добавить',
 };
 
-const en_EN = {
+const en_GB = {
   addButtonComment: 'Press Enter or type comma',
   addButtonTitle: 'Add',
 };

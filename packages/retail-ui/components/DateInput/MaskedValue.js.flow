@@ -1,9 +1,0 @@
-/* @flow */
-
-type MaskedValueProps = {|
-  value: string | null,
-  length: number,
-|};
-
-// eslint-disable-next-line flowtype/no-weak-types
-declare export var MaskedValue: (props: MaskedValueProps) => React$Element<any>;
