@@ -57,8 +57,8 @@ describe('<TokenInput />', () => {
     });
 
     it('render correct locale when set langCode', async () => {
-      contextMount({ langCode: LangCodes.en_EN });
-      const expectedComment = TokenInputLocaleHelper.get(LangCodes.en_EN).addButtonComment;
+      contextMount({ langCode: LangCodes.en_GB });
+      const expectedComment = TokenInputLocaleHelper.get(LangCodes.en_GB).addButtonComment;
 
       await focus();
 
@@ -75,7 +75,7 @@ describe('<TokenInput />', () => {
     });
 
     it('updates when langCode changes', async () => {
-      contextMount({ langCode: LangCodes.en_EN });
+      contextMount({ langCode: LangCodes.en_GB });
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
 
       await focus();

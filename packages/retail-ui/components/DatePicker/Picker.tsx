@@ -1,12 +1,14 @@
 import * as React from 'react';
+import { InternalDate } from '../../lib/date/InternalDate';
+import InternalDateGetter from '../../lib/date/InternalDateGetter';
 import Calendar, { CalendarDateShape } from '../Calendar';
 import shallowEqual from 'fbjs/lib/shallowEqual';
-
-import { formatDate } from './DatePickerHelpers';
+import { locale } from '../LocaleProvider/decorators';
 
 import styles from './Picker.less';
 import { Nullable } from '../../typings/utility-types';
 import { isLess, isGreater } from '../Calendar/CalendarDateShape';
+import { DatePickerLocaleHelper, DatePickerLocale } from './locale';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -32,8 +34,11 @@ const getTodayCalendarDate = () => {
   };
 };
 
+@locale('DatePicker', DatePickerLocaleHelper)
 export default class Picker extends React.Component<Props, State> {
-  private _calendar: Calendar | null = null;
+  private calendar: Calendar | null = null;
+
+  private readonly locale!: DatePickerLocale;
 
   constructor(props: Props) {
     super(props);
@@ -47,7 +52,7 @@ export default class Picker extends React.Component<Props, State> {
   public componentDidUpdate(prevProps: Props) {
     const { value } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
-      this._scrollToMonth(value.month, value.year);
+      this.scrollToMonth(value.month, value.year);
     }
   }
 
@@ -57,7 +62,7 @@ export default class Picker extends React.Component<Props, State> {
       // tslint:disable-next-line:jsx-no-lambda
       <div className={styles.root} onMouseDown={e => e.preventDefault()}>
         <Calendar
-          ref={c => (this._calendar = c)}
+          ref={c => (this.calendar = c)}
           value={this.props.value}
           initialMonth={date.month}
           initialYear={date.year}
@@ -66,33 +71,34 @@ export default class Picker extends React.Component<Props, State> {
           maxDate={this.props.maxDate}
           isHoliday={this.props.isHoliday}
         />
-        {this.props.enableTodayLink && this._renderTodayLink()}
+        {this.props.enableTodayLink && this.renderTodayLink()}
       </div>
     );
   }
 
-  private _scrollToMonth = (month: number, year: number) => {
-    if (this._calendar) {
-      this._calendar.scrollToMonth(month, year);
+  private scrollToMonth = (month: number, year: number) => {
+    if (this.calendar) {
+      this.calendar.scrollToMonth(month, year);
     }
   };
 
-  private _renderTodayLink() {
+  private renderTodayLink() {
+    const { order, separator } = this.locale;
+    const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
     return (
-      <button className={styles.todayWrapper} onClick={this._handleSelectToday} tabIndex={-1}>
-        Сегодня {formatDate(this.state.today)}
+      <button className={styles.todayWrapper} onClick={this.handleSelectToday(today)} tabIndex={-1}>
+        {`${this.locale.today} ${today.toString({ withPad: true, withSeparator: true })}`}
       </button>
     );
   }
 
-  private _handleSelectToday = () => {
-    const { today } = this.state;
+  private handleSelectToday = (today: InternalDate) => () => {
     if (this.props.onSelect) {
-      this.props.onSelect(today);
+      this.props.onSelect(today.toNativeFormat()!);
     }
-    if (this._calendar) {
-      const { month, year } = today;
-      this._calendar.scrollToMonth(month, year);
+    if (this.calendar) {
+      const { month, year } = this.state.today;
+      this.calendar.scrollToMonth(month, year);
     }
   };
 
