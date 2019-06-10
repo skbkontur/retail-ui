@@ -28,7 +28,9 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
       if (
         prevProps.value !== this.props.value ||
         prevProps.minDate !== this.props.minDate ||
-        prevProps.maxDate !== this.props.maxDate
+        prevProps.maxDate !== this.props.maxDate ||
+        prevState.internalDate.getOrder() !== this.locale.order ||
+        prevState.internalDate.getSeparator() !== this.locale.separator
       ) {
         this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
       }

@@ -53,7 +53,7 @@ export interface DateInputProps {
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export class DateInput extends React.PureComponent<DateInputProps, DateInputState> {
+export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static defaultProps = {
     size: 'small',
     width: 125,
@@ -80,15 +80,13 @@ export class DateInput extends React.PureComponent<DateInputProps, DateInputStat
     };
   }
 
-  public componentLocaleDidUpdate(): void {
-    this.updateInternalDate();
-  }
-
   public componentDidUpdate(prevProps: DateInputProps, prevState: DateInputState) {
     if (
       prevProps.value !== this.props.value ||
       prevProps.minDate !== this.props.minDate ||
-      prevProps.maxDate !== this.props.maxDate
+      prevProps.maxDate !== this.props.maxDate ||
+      prevState.internalDate.getOrder() !== this.locale.order ||
+      prevState.internalDate.getSeparator() !== this.locale.separator
     ) {
       this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
     }
