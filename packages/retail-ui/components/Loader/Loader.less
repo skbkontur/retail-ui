@@ -1,5 +1,3 @@
-@import (reference) '../variables.less';
-
 :local {
   .fillContainerPosition() {
     bottom: 0;
@@ -18,7 +16,6 @@
 
     &.active::after {
       content: ' ';
-      filter: 'alpha(opacity = (@{loader-opacity} * 100 + ))';
       z-index: 500;
       .fillContainerPosition;
     }
