@@ -1,24 +1,21 @@
-type StringifyDescriptors<D extends PropertyDescriptorMap> = { [key in keyof D]: string };
+const IS_COMPUTED_MARKER = '__COMPUTED__';
 
-interface VariablesMap {
-  readonly [key: string]: string;
-}
-
-export function defineInternalTheme<VM extends VariablesMap, CD extends PropertyDescriptorMap>(
+export function defineInternalTheme<VM, CD>(
   staticVariables: VM,
-  computedDescriptors: CD & ThisType<VM & StringifyDescriptors<CD>>,
+  computedDescriptors: CD & PropertyDescriptorMap & ThisType<VM & CD>,
 ) {
-  const result: unknown = {};
+  const result: { [key: string]: string } = {};
 
   Object.assign(result, staticVariables);
 
   Object.keys(computedDescriptors).forEach(key => {
-    const resultElement = (result as VM)[key];
-    if (!resultElement || resultElement === '__COMPUTED__') {
+    const resultElement = result[key];
+
+    if (!resultElement || resultElement === IS_COMPUTED_MARKER) {
       computedDescriptors[key].enumerable = true;
       Object.defineProperty(result, key, computedDescriptors[key]);
     }
   });
 
-  return Object.freeze(result) as { [key in keyof (VM & CD)]: string };
+  return Object.freeze(result) as { readonly [key in keyof (VM & CD)]: string };
 }

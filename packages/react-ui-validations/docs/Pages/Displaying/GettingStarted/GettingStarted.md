@@ -4,9 +4,9 @@
 
 Исходный код [на GitHub](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations).
 
-Библиотека реализует поведение [валидаций по Контур.Гайдам](https://guides.kontur.ru/principles/validation/).
+Библиотека реализует поведение валидаций форм и отображение найденных ошибок описанное в [Контур.Гайдах](https://guides.kontur.ru/principles/validation/).
 
-Библиотека совместима с контролами из библиотеки [retail-ui](https://tech.skbkontur.ru/react-ui/).
+Библиотека совместима с контролами из библиотеки [React UI](https://tech.skbkontur.ru/react-ui/).
 
 ## Установка
 

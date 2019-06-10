@@ -258,8 +258,8 @@ export default class EditorsDemo extends React.Component<{}, State> {
           </Form.Line>
 
           <Form.ActionsBar>
-            <Button use="primary" onClick={this.handleSubmit}>
-              Сохранить
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
             </Button>
           </Form.ActionsBar>
         </ValidationContainer>
