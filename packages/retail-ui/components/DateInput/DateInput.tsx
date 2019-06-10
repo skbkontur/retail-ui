@@ -109,13 +109,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   }
 
-  public componentWillUnmount(): void {
-    if (this.divInnerNode) {
-      this.divInnerNode.removeEventListener('mousedragstart', this.handleMouseDragStart);
-      this.divInnerNode.removeEventListener('mousedragend', this.handleMouseDragEnd);
-    }
-  }
-
   public render() {
     const { internalDate, focused, selected, inputMode } = this.state;
     const fragments =
