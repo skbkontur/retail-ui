@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
+import { FiasLocale } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
 import styles from './FiasForm.less';
 import {
   Fields,
   FormValidation,
-  FiasLocale,
   AddressResponse,
   VerifyResponse,
   APIProvider,
@@ -203,7 +203,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     return {
       error: address.hasError(field) && validationLevel === FormValidation.Error,
       warning: address.hasError(field) && validationLevel === FormValidation.Warning,
-      placeholder: locale[`${field}Placeholder`],
+      placeholder: locale[`${field}Placeholder` as keyof FiasLocale],
     };
   };
 
@@ -214,7 +214,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const settings = fieldsSettings[field];
       if (control && Boolean(settings && settings.visible)) {
         const { meta, render } = control;
-        const label = locale[`${field}Label`];
+        const label = locale[`${field}Label` as keyof FiasLocale];
         return (
           control && (
             <FiasForm.Field label={label} key={field}>

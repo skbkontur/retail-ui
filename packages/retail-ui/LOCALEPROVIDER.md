@@ -30,6 +30,7 @@ interface LocaleControls {
   Paging?: PagingLocale;
   Logotype?: LogotypeLocale;
   DatePicker?: DatePickerLocale;
+  Fias?: FiasLocale;
 }
 ```
 
@@ -113,6 +114,7 @@ const LocalizationControlNames = {
   Logotype: 'Logotype',
   DatePicker: 'DatePicker',
   DateInput: 'DateInput',
+  Fias: 'Fias',
 };
 
 class LocalizationControls extends React.Component {
@@ -197,6 +199,9 @@ class LocalizationControls extends React.Component {
 
       case LocalizationControlNames.Paging:
         return <Paging activePage={1} pagesCount={12} onPageChange={value => value} />;
+
+      case LocalizationControlNames.Fias:
+        return <Fias />;
     }
     return null;
   }

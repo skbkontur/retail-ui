@@ -1,6 +1,6 @@
-export const defaultLocale: {
-  [key: string]: string;
-} = {
+import { FiasLocale } from '../types';
+
+const componentsLocales: FiasLocale = {
   modalTitle: 'Адрес',
   modalButtonOk: 'Сохранить',
   modalButtonCancel: 'Отменить',
@@ -72,4 +72,4 @@ export const defaultLocale: {
   countryPlaceholder: 'Начните вводить название страны',
 };
 
-export default defaultLocale;
+export default componentsLocales;

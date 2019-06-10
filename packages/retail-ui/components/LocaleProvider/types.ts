@@ -1,5 +1,6 @@
 import { ComboBoxLocale } from '../CustomComboBox/locale';
 import { DatePickerLocale } from '../DatePicker/locale';
+import { FiasLocale } from '../Fias/locale';
 import { LogotypeLocale } from '../Logotype/locale';
 import { PagingLocale } from '../Paging/locale';
 import { SelectLocale } from '../Select/locale';
@@ -16,6 +17,7 @@ export interface LocaleControls {
   Paging?: Partial<PagingLocale>;
   Logotype?: Partial<LogotypeLocale>;
   DatePicker?: Partial<DatePickerLocale>;
+  Fias?: Partial<FiasLocale>;
 }
 
 export enum LangCodes {
