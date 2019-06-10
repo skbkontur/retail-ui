@@ -42,62 +42,85 @@ export interface TokenProps {
   isActive?: boolean;
   error?: boolean;
   warning?: boolean;
+  disabled?: boolean;
 }
 
-export const Token: React.SFC<TokenProps & TokenActions> = ({
-  children,
-  isActive,
-  colors,
-  error,
-  warning,
-  onClick = emptyHandler,
-  onRemove = emptyHandler,
-  onMouseEnter = emptyHandler,
-  onMouseLeave = emptyHandler,
-  onFocus = emptyHandler,
-  onBlur = emptyHandler,
-}) => {
-  if (process.env.NODE_ENV !== 'production' && colors) {
-    warningOutput(
-      !deprecatedColorNames[colors.idle],
-      `Color name '${colors.idle}' has been deprecated, use '${deprecatedColorNames[colors.idle]}' instead`,
+class Token extends React.Component<TokenProps & TokenActions, {}> {
+  public render() {
+    const {
+      children,
+      isActive,
+      colors,
+      error,
+      warning,
+      disabled,
+      onClick = emptyHandler,
+      onMouseEnter = emptyHandler,
+      onMouseLeave = emptyHandler,
+      onFocus = emptyHandler,
+      onBlur = emptyHandler,
+    } = this.props;
+    if (process.env.NODE_ENV !== 'production' && colors) {
+      warningOutput(
+        !deprecatedColorNames[colors.idle],
+        `Color name '${colors.idle}' has been deprecated, use '${deprecatedColorNames[colors.idle]}' instead`,
+      );
+
+      if (colors.active) {
+        warningOutput(
+          !deprecatedColorNames[colors.active],
+          `Color name '${colors.active}' has been deprecated, use '${deprecatedColorNames[colors.active]}' instead`,
+        );
+      }
+    }
+
+    const tokenClassName = disabled ?
+      tokenColors.defaultDisable :
+      colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
+
+    const activeTokenClassName = disabled ?
+      tokenColors.defaultDisable :
+      colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
+
+    const tokenClassNames = cn(
+      styles.token,
+      {
+        [activeTokenClassName]: isActive,
+        [styles.warning]: warning,
+        [styles.error]: error,
+        [styles.disabled]: disabled,
+      },
+      tokenClassName,
     );
 
-    if (colors.active) {
-      warningOutput(
-        !deprecatedColorNames[colors.active],
-        `Color name '${colors.active}' has been deprecated, use '${deprecatedColorNames[colors.active]}' instead`,
-      );
-    }
+    return (
+      <div
+        className={tokenClassNames}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      >
+        <span className={styles.text}>{children}</span>
+        <TokenRemoveIcon className={styles.removeIcon} onClick={this.onRemoveClick} />
+      </div>
+    )
   }
 
-  const tokenClassName = colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
+  private onRemoveClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+    const {
+      disabled,
+      onRemove = emptyHandler,
+    } = this.props;
 
-  const activeTokenClassName = colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
+    if (disabled) {
+      event.preventDefault()
+      return;
+    }
 
-  const tokenClassNames = cn(
-    styles.token,
-    {
-      [activeTokenClassName]: isActive,
-      [styles.warning]: warning,
-      [styles.error]: error,
-    },
-    tokenClassName,
-  );
-
-  return (
-    <div
-      className={tokenClassNames}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onFocus={onFocus}
-      onBlur={onBlur}
-    >
-      <span className={styles.text}>{children}</span>
-      <TokenRemoveIcon className={styles.removeIcon} onClick={onRemove} />
-    </div>
-  );
-};
+    onRemove(event)
+  }
+}
 
 export default Token;

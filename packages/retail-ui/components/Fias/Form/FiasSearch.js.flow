@@ -1,6 +1,6 @@
 /* @flow */
 import type { Address } from '../models/Address';
-import type { FiasLocale } from '../types';
+import type { FiasLocale } from '../locale/types';
 
 type FiasSearchProps = {|
   source: (query: string) => Promise<Address[]>,

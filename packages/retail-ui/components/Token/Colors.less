@@ -26,6 +26,16 @@
     .makeColor(@brand);
   }
 
+  .defaultDisable {
+    .makeColor(@token-disabled-bg);
+
+    [data-name='RemoveIcon'] {
+      transition: none;
+      fill: @text-color-disabled;
+      opacity: 1;
+    }
+  }
+
   .grayIdle {
     .makeColor(@gray_x_light);
   }

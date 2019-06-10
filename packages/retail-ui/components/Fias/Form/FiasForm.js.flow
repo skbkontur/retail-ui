@@ -1,6 +1,7 @@
 /* @flow */
-import type { FormValidation, FiasLocale, APIProvider } from '../types';
+import type { FormValidation, APIProvider } from '../types';
 import type { Address } from '../models/Address';
+import type { FiasLocale } from '../locale/types';
 
 type FiasFormProps = {|
   api: APIProvider,

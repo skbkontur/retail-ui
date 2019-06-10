@@ -25,8 +25,8 @@ interface MonthProps {
 }
 
 export class Month extends React.Component<MonthProps> {
-  private _monthSelect: DateSelect | null = null;
-  private _yearSelect: DateSelect | null = null;
+  private monthSelect: DateSelect | null = null;
+  private yearSelect: DateSelect | null = null;
 
   public shouldComponentUpdate(nextProps: MonthProps) {
     if (this.props.top !== nextProps.top) {
@@ -48,7 +48,7 @@ export class Month extends React.Component<MonthProps> {
   }
 
   public componentDidMount() {
-    CalendarScrollEvents.addListener(this._closeSelects);
+    CalendarScrollEvents.addListener(this.closeSelects);
   }
 
   public render() {
@@ -64,17 +64,17 @@ export class Month extends React.Component<MonthProps> {
         month={month.month}
         top={top}
         year={month.year}
-        onMonthSelect={this._handleMonthSelect}
-        onYearSelect={this._handleYearSelect}
-        monthSelectRef={this._monthRef}
-        yearSelectRef={this._yearRef}
+        onMonthSelect={this.handleMonthSelect}
+        onYearSelect={this.handleYearSelect}
+        monthSelectRef={this.monthRef}
+        yearSelectRef={this.yearRef}
       >
-        {this._renderCells()}
+        {this.renderCells()}
       </MonthView>
     );
   }
 
-  private _renderCells() {
+  private renderCells() {
     return (
       <MonthDayGrid
         days={this.props.month.days}
@@ -89,28 +89,28 @@ export class Month extends React.Component<MonthProps> {
     );
   }
 
-  private _closeSelects = () => {
-    if (this._monthSelect) {
-      this._monthSelect.close();
+  private closeSelects = () => {
+    if (this.monthSelect) {
+      this.monthSelect.close();
     }
-    if (this._yearSelect) {
-      this._yearSelect.close();
+    if (this.yearSelect) {
+      this.yearSelect.close();
     }
   };
 
-  private _monthRef = (monthSelect: DateSelect | null) => {
-    this._monthSelect = monthSelect;
+  private monthRef = (monthSelect: DateSelect | null) => {
+    this.monthSelect = monthSelect;
   };
 
-  private _yearRef = (yearSelect: DateSelect | null) => {
-    this._yearSelect = yearSelect;
+  private yearRef = (yearSelect: DateSelect | null) => {
+    this.yearSelect = yearSelect;
   };
 
-  private _handleMonthSelect = (month: number) => {
+  private handleMonthSelect = (month: number) => {
     this.props.onMonthYearChange(month, this.props.month.year);
   };
 
-  private _handleYearSelect = (year: number) => {
+  private handleYearSelect = (year: number) => {
     this.props.onMonthYearChange(this.props.month.month, year);
   };
 }
@@ -168,24 +168,11 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
               today={this.props.today}
               value={this.props.value}
               isWeekend={isWeekend}
-              onClick={this._handleClick}
+              onDateClick={this.props.onDateClick}
             />
           );
         })}
       </div>
     );
   }
-
-  private _handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const { onDateClick } = this.props;
-    if (!onDateClick) {
-      return;
-    }
-    const name = event.currentTarget.name;
-    if (!name) {
-      throw new Error('Missing name on date button');
-    }
-    const [date, month, year] = name.split('.').map(Number);
-    onDateClick({ date, month, year });
-  };
 }
