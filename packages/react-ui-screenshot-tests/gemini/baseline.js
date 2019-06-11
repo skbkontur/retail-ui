@@ -2,13 +2,10 @@
 var renderStory = require('./utils').renderStory;
 
 gemini.suite('Baseline', suite => {
-  suite
-    .before(renderStory('Baseline', 'Button and text'))
-    .setCaptureElements('#test-element')
+  suite.before(renderStory('Baseline', 'Button and text')).setCaptureElements('#test-element');
 
   gemini.suite('Small button Baseline', suite => {
-    suite
-      .capture('simple');
+    suite.capture('simple');
   });
 
   gemini.suite('Medium button Baseline', suite => {
@@ -64,6 +61,12 @@ gemini.suite('Baseline', suite => {
     gemini.suite('Text, Large Button', suite => {
       suite
         .before(renderStory('Baseline', 'Text, Large Button'))
+        .setCaptureElements('#test-element')
+        .capture('simple');
+    });
+    gemini.suite('Text, Spinner', suite => {
+      suite
+        .before(renderStory('Baseline', 'Text, Spinner'))
         .setCaptureElements('#test-element')
         .capture('simple');
     });
