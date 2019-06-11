@@ -102,7 +102,7 @@ const ru_RU = {
   logout: 'Выйти',
 };
 
-const en_EN = {
+const en_GB = {
   cabinetTitle: 'Personal account Kontur',
   cabinetSettings: 'Configure login services',
   cabinetCertificates: 'Certificates',

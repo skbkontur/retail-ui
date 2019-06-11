@@ -1,5 +1,5 @@
 /* @flow */
-import type { FiasLocale } from './types';
+import type { FiasLocale } from './locale/types';
 
 type FiasModalProps = {|
   locale: FiasLocale,

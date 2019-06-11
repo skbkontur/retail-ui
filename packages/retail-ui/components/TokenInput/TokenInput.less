@@ -2,16 +2,6 @@
 
 :local {
   .root {
-    .label.warning {
-      border: 1px solid @border-color-warning;
-      box-shadow: 0 0 0 1px @border-color-warning;
-    }
-
-    .label.error {
-      border: 1px solid @border-color-error;
-      box-shadow: 0 0 0 1px @border-color-error;
-    }
-
     .label {
       background: @bg-default;
       border: 1px solid @border-color-gray-light;
@@ -22,11 +12,37 @@
       display: flex;
       flex-wrap: wrap;
       outline: none;
-    }
 
-    .labelFocused {
-      border: 1px solid @border-color-focus;
-      box-shadow: 0 0 0 1px @border-color-focus;
+      &.warning {
+        border: 1px solid @border-color-warning;
+        box-shadow: 0 0 0 1px @border-color-warning;
+      }
+
+      &.error {
+        border: 1px solid @border-color-error;
+        box-shadow: 0 0 0 1px @border-color-error;
+      }
+
+      &.focus {
+        border: 1px solid @border-color-focus;
+        box-shadow: 0 0 0 1px @border-color-focus;
+      }
+
+      &.disabled {
+        background: @bg-disabled;
+        box-shadow: none;
+        border-color: @border-color-gray-light;
+
+        .input {
+          color: @text-color-disabled;
+          pointer-events: none;
+
+          /* fix text color in safari */
+          -webkit-text-fill-color: currentcolor;
+
+          .placeholder({-webkit-text-fill-color: @placeholder-color;});
+        }
+      }
     }
 
     .input {

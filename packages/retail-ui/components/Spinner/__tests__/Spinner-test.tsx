@@ -130,11 +130,11 @@ describe('Spinner', () => {
 
     it('render correct locale when set langCode', () => {
       const wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_EN}>
+        <LocaleProvider langCode={LangCodes.en_GB}>
           <Spinner />
         </LocaleProvider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_EN).loading;
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
 
       expect(getTextLoading(wrapper)).toBe(expectedText);
     });
@@ -160,9 +160,9 @@ describe('Spinner', () => {
           <Spinner />
         </LocaleProvider>,
       );
-      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_EN).loading;
+      const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
 
-      wrapper.setProps({ langCode: LangCodes.en_EN });
+      wrapper.setProps({ langCode: LangCodes.en_GB });
 
       expect(getTextLoading(wrapper)).toBe(expectedText);
     });

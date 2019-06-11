@@ -463,13 +463,13 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
   public state: DynamicTriggersState = {};
 
   public render() {
-    const triggers: TooltipTrigger[] = ['hover', 'click', 'focus', 'opened', 'closed', 'hoverAnchor'];
+    const triggers: TooltipTrigger[] = ['hover', 'click', 'focus', 'opened', 'closed', 'hoverAnchor', 'hover&focus'];
     return (
       <div>
         <div>
           {triggers.map(trigger => (
             <button
-              id={trigger}
+              id={trigger.replace("&", "_")}
               key={trigger}
               onClick={() => this.setTrigger(trigger)}
               disabled={this.state.trigger === trigger}

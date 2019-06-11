@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import normalizeWheel from 'normalize-wheel';
+import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
 
 import config from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -48,6 +49,16 @@ const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static defaultProps = {
     holidays: [],
+    minDate: {
+      year: MIN_YEAR,
+      month: MIN_MONTH,
+      date: MIN_DATE,
+    },
+    maxDate: {
+      year: MAX_YEAR,
+      month: MAX_MONTH,
+      date: MAX_DATE,
+    },
   };
 
   private wheelEndTimeout: Nullable<number>;
