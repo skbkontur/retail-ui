@@ -1,6 +1,6 @@
 /* @flow */
 import type { PopupMenuProps } from '../internal/PopupMenu';
-import type { PopupPositions  } from '../Popup';
+import type { PopupPosition  } from '../Popup';
 
 export type DropdownMenuProps = {|
   menuMaxHeight?: string | number,
@@ -12,7 +12,7 @@ export type DropdownMenuProps = {|
   children?: React$Node,
   header?: React$Node,
   footer?: React$Node,
-  positions?: PopupPositions
+  positions?: PopupPosition[]
 |};
 
 declare class DropdownMenu extends React$Component<DropdownMenuProps> {}
