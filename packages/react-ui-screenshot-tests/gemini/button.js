@@ -48,23 +48,9 @@ gemini.suite('Button', suite => {
     testScenario(suite.before(renderStory('Button', 'with error')).setCaptureElements('#test-element'));
   });
 
-  gemini.suite('Button arrows', suite => {
+  gemini.suite('different content', suite => {
     suite
-      .before(renderStory('Button', 'arrow table'))
-      .setCaptureElements('#test-element')
-      .capture('plain');
-  });
-
-  gemini.suite('Button text styles reset', suite => {
-    suite
-      .before(renderStory('Button', 'text styles reset'))
-      .setCaptureElements('#test-element')
-      .capture('plain');
-  });
-
-  gemini.suite('Button with width', suite => {
-    suite
-      .before(renderStory('Button', 'with width'))
+      .before(renderStory('Button', 'different content'))
       .setCaptureElements('#test-element')
       .capture('plain');
   });
