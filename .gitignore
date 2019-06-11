@@ -1,5 +1,5 @@
+.env
 .idea
-.vscode
 .DS_Store
 .npmrc
 *.code-workspace
@@ -9,3 +9,5 @@ yarn-debug.log
 yarn-error.log
 npm-debug.log
 lerna-debug.log
+
+browsers/
