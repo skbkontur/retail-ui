@@ -17,7 +17,7 @@
     "postpublish": "yarn deploy && yarn publish:react-ui",
     "predeploy": "rimraf .styleguide/build && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git",
-    "publish:react-ui": "yarn --cwd ./build publish --non-interactive",
+    "publish:react-ui": "npm publish ./build",
     "storybook": "start-storybook -p 6060",
     "styleguide": "styleguidist server --config .styleguide/config/dev.config.js",
     "styleguide:build": "node .styleguide/build",
