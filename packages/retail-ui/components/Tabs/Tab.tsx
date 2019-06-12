@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
+import tabListener from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
 
@@ -84,29 +85,10 @@ export interface TabState {
   focusedByKeyboard: boolean;
 }
 
-const KEYCODE_TAB = 9;
 const KEYCODE_ARROW_LEFT = 37;
 const KEYCODE_ARROW_UP = 38;
 const KEYCODE_ARROW_RIGHT = 39;
 const KEYCODE_ARROW_DOWN = 40;
-
-let isListening: boolean;
-let focusKeyPressed: boolean;
-
-function listenTabPresses() {
-  if (!isListening) {
-    window.addEventListener('keydown', (event: KeyboardEvent) => {
-      focusKeyPressed = [
-        KEYCODE_TAB,
-        KEYCODE_ARROW_LEFT,
-        KEYCODE_ARROW_UP,
-        KEYCODE_ARROW_RIGHT,
-        KEYCODE_ARROW_DOWN,
-      ].includes(event.keyCode);
-    });
-    isListening = true;
-  }
-}
 
 /**
  * Tab element of Tabs component
@@ -154,6 +136,7 @@ export class Tab extends React.Component<TabProps, TabState> {
   };
 
   private tabComponent: Nullable<React.ReactElement<Tab>> = null;
+  private isArrowKeyPressed: boolean = false;
 
   public componentWillMount() {
     invariant(
@@ -167,7 +150,7 @@ export class Tab extends React.Component<TabProps, TabState> {
     if (this.props.context && typeof id === 'string') {
       this.props.context.addTab(id, this.getTabInstance);
     }
-    listenTabPresses();
+    window.addEventListener('keydown', this.handleKeyDownGlobal);
   }
 
   public componentDidUpdate() {
@@ -185,6 +168,7 @@ export class Tab extends React.Component<TabProps, TabState> {
     if (this.props.context && typeof id === 'string') {
       this.props.context.removeTab(id);
     }
+    window.removeEventListener('keydown', this.handleKeyDownGlobal);
   }
 
   public render() {
@@ -224,6 +208,7 @@ export class Tab extends React.Component<TabProps, TabState> {
         })}
         onBlur={this.handleBlur}
         onClick={this.switchTab}
+        onMouseDown={this.handleMouseDown}
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
         tabIndex={disabled ? -1 : 0}
@@ -255,6 +240,12 @@ export class Tab extends React.Component<TabProps, TabState> {
     this.tabComponent = instance;
   };
 
+  private handleKeyDownGlobal = (event: KeyboardEvent) => {
+    this.isArrowKeyPressed = [KEYCODE_ARROW_LEFT, KEYCODE_ARROW_UP, KEYCODE_ARROW_RIGHT, KEYCODE_ARROW_DOWN].some(
+      keyCode => event.keyCode === keyCode,
+    );
+  };
+
   private getTabInstance = () => this;
 
   private switchTab = (event: React.MouseEvent<HTMLElement>) => {
@@ -273,6 +264,8 @@ export class Tab extends React.Component<TabProps, TabState> {
       this.props.context.switchTab(id);
     }
   };
+
+  private handleMouseDown = () => (this.isArrowKeyPressed = false);
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     if (this.props.disabled) {
@@ -314,9 +307,8 @@ export class Tab extends React.Component<TabProps, TabState> {
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
     process.nextTick(() => {
-      if (focusKeyPressed) {
+      if (tabListener.isTabPressed || this.isArrowKeyPressed) {
         this.setState({ focusedByKeyboard: true });
-        focusKeyPressed = false;
       }
     });
   };

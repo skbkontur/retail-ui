@@ -27,7 +27,7 @@ const ru_RU = {
   loading: 'Загрузка',
 };
 
-const en_EN = {
+const en_GB = {
   loading: 'Loading',
 };
 ```

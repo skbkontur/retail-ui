@@ -125,7 +125,6 @@ class Link extends React.Component<LinkProps, LinkState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
     }

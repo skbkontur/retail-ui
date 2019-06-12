@@ -173,6 +173,23 @@ gemini.suite('Tooltip', () => {
 
       .capture('closed', (actions, find) => {
         actions.click(find('#closed'));
+      })
+
+      .capture('hover&focus - mouseEnter', (actions, find) => {
+        actions.click(find('#hover_focus'));
+        actions.mouseMove(this.anchor);
+      })
+      .capture('hover&focus - mouseLeave', (actions, find) => {
+        actions.mouseMove(find('body', [0, 0]));
+      })
+      .capture('hover&focus - focus', (actions, find) => {
+        actions.focus(this.anchor);
+      })
+      .capture('hover&focus - focus - mouseLeave', (actions, find) => {
+        actions.mouseMove(find('body', [0, 0]));
+      })
+      .capture('hover&focus - blur', (actions, find) => {
+        actions.focus(find('body'));
       });
   });
 });

@@ -34,6 +34,11 @@ export interface TokenInputProps<T> {
   hideMenuIfEmptyInputValue?: boolean;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
+  /**
+   * Функция должна возвращать строковое представление токена
+   * @default item => item
+   */
+  valueToString: (item: T) => string;
   renderNotFound?: () => React.ReactNode;
   renderAddButton?: () => React.ReactNode;
   valueToItem: (item: string) => T;
@@ -68,9 +73,9 @@ const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
 const defaultRenderToken = <T extends any>(
   item: T,
-  { isActive, onClick, onRemove }: Partial<TokenProps & TokenActions>,
+  { isActive, onClick, onRemove, disabled }: Partial<TokenProps & TokenActions>,
 ) => (
-    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
       {item}
     </Token>
   );
@@ -80,6 +85,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     selectedItems: [],
     renderItem: identity,
     renderValue: identity,
+    valueToString: identity,
     valueToItem: (item: string) => item,
     toKey: defaultToKey,
     onChange: () => void 0,
@@ -176,9 +182,10 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
           ref={this.wrapperRef}
           style={{ width }}
           className={cn(styles.label, {
-            [styles.labelFocused]: inFocus,
+            [styles.focus]: inFocus,
             [styles.error]: error,
             [styles.warning]: warning,
+            [styles.disabled]: disabled,
           })}
           onMouseDown={this.handleWrapperMouseDown}
           onMouseUp={this.handleWrapperMouseUp}
@@ -341,7 +348,8 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const tokens = this.state.activeTokens
       .map(token => this.props.selectedItems.indexOf(token))
       .sort()
-      .map(index => this.props.selectedItems[index]);
+      .map(index => this.props.selectedItems[index])
+      .map(item => this.props.valueToString(item));
     event.clipboardData.setData('text/plain', tokens.join(this.delimiters[0]));
   };
 
@@ -606,7 +614,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       );
     }
 
-    const { renderValue, toKey } = this.props;
+    const { renderValue, toKey, disabled } = this.props;
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
     const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
       event.stopPropagation();
@@ -622,6 +630,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         {...{
           key: toKey(item),
           isActive,
+          disabled,
           colors,
           error,
           warning,
@@ -641,7 +650,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
   };
 
   private renderToken = (item: T) => {
-    const { renderToken = defaultRenderToken } = this.props;
+    const { renderToken = defaultRenderToken, disabled } = this.props;
 
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
 
@@ -661,6 +670,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       isActive,
       onClick: handleTokenClick,
       onRemove: handleIconClick,
+      disabled,
     });
   };
 }

@@ -76,7 +76,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
           <MenuItem disabled key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
-          <MenuItem alkoLink onClick={this.props.repeatRequest} key="retry">
+          <MenuItem link onClick={this.props.repeatRequest} key="retry">
             {errorNetworkButton}
           </MenuItem>
         </Menu>

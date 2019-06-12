@@ -53,8 +53,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
         {...this.props}
         selectedItems={this.state.selectedItems}
         onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
-        renderToken={(item, { isActive, onClick, onRemove }) => (
-          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+        renderToken={(item, { isActive, onClick, onRemove, disabled }) => (
+          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
             {item}
           </Token>
         )}
@@ -249,6 +249,7 @@ storiesOf('TokenInput', module)
     return (
       <Gapped vertical gap={10}>
         <FilledWrapper getItems={getItems} disabled={true} />
+        <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
       </Gapped>
     );
   });

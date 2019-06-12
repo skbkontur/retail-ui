@@ -69,7 +69,7 @@ const childPids = [];
 process.on('exit', killChildren);
 process.on('SIGINT', killChildren);
 
-runStorybook({ port: 6060 })
+Promise.all([runStorybook({ port: 6060 }), runStorybook({ env: { STORYBOOK_FLAT_UI: true }, port: 6061 })])
   .then(() => {
     const gemini = exec(`yarn gemini ${process.argv.slice(2).join(' ')}`);
 

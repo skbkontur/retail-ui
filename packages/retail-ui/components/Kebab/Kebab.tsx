@@ -172,7 +172,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
     }

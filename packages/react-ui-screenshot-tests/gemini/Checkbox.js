@@ -55,7 +55,7 @@ gemini.suite('Checkbox', suite => {
 
   gemini.suite('Checkbox without label', suite => {
     suite
-      .before(renderStory('Checkbox', 'w/o label'))
+      .before(renderStory('Checkbox', 'without label'))
       .setCaptureElements('#test-element')
       .capture('plain');
   });
@@ -73,4 +73,15 @@ gemini.suite('Checkbox', suite => {
         actions.sendKeys(gemini.TAB);
       });
   });
+});
+
+gemini.suite('Checkbox highlighted', suite => {
+  suite
+    .before(renderStory('Checkbox', 'highlighted'))
+    .setCaptureElements('#test-element')
+    .capture('plain')
+    .capture('tabPress', (actions, find) => {
+      actions.click(find('body'), 0, [0, 0]);
+      actions.sendKeys(gemini.TAB);
+    });
 });

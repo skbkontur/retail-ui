@@ -32,15 +32,15 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     focused: false,
   };
 
-  private _node: HTMLElement | null = null;
-  private _blinkTimeout: Nullable<TimeoutID>;
+  private node: HTMLElement | null = null;
+  private blinkTimeout: Nullable<TimeoutID>;
 
   /**
    * @public
    */
   public focus() {
-    if (this._node) {
-      this._node.focus();
+    if (this.node) {
+      this.node.focus();
     }
   }
 
@@ -48,8 +48,8 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
    * @public
    */
   public blur() {
-    if (this._node) {
-      this._node.blur();
+    if (this.node) {
+      this.node.blur();
     }
   }
 
@@ -58,13 +58,13 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
    */
   public blink() {
     this.setState({ blinking: true }, () => {
-      this._blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
+      this.blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
   public componentWillUnmount() {
-    if (this._blinkTimeout) {
-      clearTimeout(this._blinkTimeout);
+    if (this.blinkTimeout) {
+      clearTimeout(this.blinkTimeout);
     }
   }
 
@@ -80,6 +80,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       error,
       warning,
       onChange,
+      disabled,
 
       prefix,
       suffix,
@@ -89,7 +90,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       ...rest
     } = this.props;
 
-    const className = classNames(inputStyles.root, this._getSizeClassName(), {
+    const className = classNames(inputStyles.root, this.getSizeClassName(), {
       [inputStyles.disabled]: this.props.disabled,
       [inputStyles.error]: error,
       [inputStyles.warning]: warning,
@@ -106,7 +107,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
         tabIndex={this.props.disabled ? undefined : 0}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        ref={this._ref}
+        ref={this.ref}
       >
         <span className={inputStyles.sideContainer}>
           {this.renderLeftIcon()}
@@ -124,11 +125,15 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     );
   }
 
-  private _ref = (el: HTMLElement | null) => {
+  public getNode(): HTMLElement | null {
+    return this.node;
+  }
+
+  private ref = (el: HTMLElement | null) => {
     if (this.props.innerRef) {
       this.props.innerRef(el);
     }
-    this._node = el;
+    this.node = el;
   };
 
   private renderPlaceholder() {
@@ -140,7 +145,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     return null;
   }
 
-  private _getSizeClassName() {
+  private getSizeClassName() {
     const SIZE_CLASS_NAMES = {
       small: inputStyles.sizeSmall,
       medium: Upgrades.isSizeMedium16pxEnabled() ? inputStyles.sizeMedium : inputStyles.DEPRECATED_sizeMedium,
@@ -151,6 +156,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   }
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     this.setState({ focused: true });
 
     if (this.props.onFocus) {

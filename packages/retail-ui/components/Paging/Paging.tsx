@@ -2,6 +2,7 @@ import * as React from 'react';
 import { number, func } from 'prop-types';
 import cn from 'classnames';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
+import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
 
@@ -187,7 +188,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     const handleClick = () => this.goToPage(pageNumber);
 
     return (
-      <span key={pageNumber} className={styles.pageLinkWrapper}>
+      <span key={pageNumber} className={styles.pageLinkWrapper} onMouseDown={this.handleMouseDownPageLink}>
         <Component active={active} className={classes} onClick={handleClick} tabIndex={-1} pageNumber={pageNumber}>
           {pageNumber}
         </Component>
@@ -222,12 +223,24 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     this.setState({ focusedByTab: false, focusedItem: null });
   };
 
+  private handleMouseDownPageLink = () => {
+    if (isIE) {
+      // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
+      // Поэтому горячие клавиши работают пока span существует на странице.
+      setTimeout(() => this.container && this.container.focus(), 0);
+    }
+  };
+
   private handleKeyDown = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {
     if (event.shiftKey) {
       return;
     }
 
     const target = event.target;
+    const key = event.key;
+
+    const isArrowLeft = key === 'ArrowLeft' || key === 'Left';
+    const isArrowRight = key === 'ArrowRight' || key === 'Right';
 
     if (
       target instanceof Element &&
@@ -236,21 +249,21 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return;
     }
 
-    if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowLeft') {
+    if (NavigationHelper.checkKeyPressed(event) && isArrowLeft) {
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
-    if (NavigationHelper.checkKeyPressed(event) && event.key === 'ArrowRight') {
+    if (NavigationHelper.checkKeyPressed(event) && isArrowRight) {
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
 
     if (this.container && this.container === event.target) {
-      if (event.key === 'ArrowLeft') {
+      if (isArrowLeft) {
         this.setState({ focusedByTab: true }, this.moveFocusLeft);
         return;
       }
-      if (event.key === 'ArrowRight') {
+      if (isArrowRight) {
         this.setState({ focusedByTab: true }, this.moveFocusRight);
         return;
       }
@@ -273,7 +286,6 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     process.nextTick(() => {
       if (tabListener.isTabPressed) {
         this.setState({ focusedByTab: true });
-        tabListener.isTabPressed = false;
       }
     });
   };
