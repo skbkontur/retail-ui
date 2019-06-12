@@ -70,5 +70,11 @@ gemini.suite('Baseline', suite => {
         .setCaptureElements('#test-element')
         .capture('simple');
     });
+    gemini.suite('Icon, Spinner', suite => {
+      suite
+        .before(renderStory('Baseline', 'Icon, Spinner'))
+        .setCaptureElements('#test-element')
+        .capture('simple');
+    });
   });
 });
