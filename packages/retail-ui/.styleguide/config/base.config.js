@@ -1,4 +1,5 @@
 const path = require('path');
+const semver = require('semver');
 const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   path.join(__dirname, '../../tsconfig.json'),
   {
@@ -6,7 +7,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
-const { version } = require('../helpers');
+const { packageVersion, styleguidistVersion, removeProps } = require('../helpers');
 
 const styles = {
   StyleGuide: {
@@ -162,7 +163,7 @@ const webpackConfig = {
   },
 };
 
-module.exports = {
+const baseConfig = {
   skipComponentsWithoutExample: true,
   pagePerSection: true,
   styles,
@@ -180,7 +181,7 @@ module.exports = {
     config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.json'];
     return config;
   },
-  version,
+  version: packageVersion,
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui',
   },
@@ -188,3 +189,5 @@ module.exports = {
     return path.substring(path.indexOf('components')) || path;
   },
 };
+
+module.exports = removeProps(baseConfig, ['version'], semver.lt(styleguidistVersion, '7.1.0'));

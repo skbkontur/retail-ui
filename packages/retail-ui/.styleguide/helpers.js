@@ -1,10 +1,12 @@
 const fs = require('fs');
 const path = require('path');
-const { version } = require('../package.json');
+const semver = require('semver');
+const { version: packageVersion } = require('../package.json');
+const { version: styleguidistVersion } = require('react-styleguidist/package.json');
 const { getPackageInfo } = require('../scripts/package');
 
 const ROOT_DIR = path.join(__dirname, 'build');
-const VERSION_DIR = path.join(ROOT_DIR, version);
+const VERSION_DIR = path.join(ROOT_DIR, packageVersion);
 const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
 const components = fs
@@ -21,7 +23,9 @@ const getCommonSections = () => {
     { name: 'Icons', content: path.join(__dirname, '../components/Icon/README.md') },
     { name: 'LocaleProvider', content: path.join(__dirname, '../LOCALEPROVIDER.md') },
     { name: 'Components', components, sectionDepth: 1 },
-  ].filter(section => !section.content || fs.existsSync(section.content));
+  ]
+    .filter(section => !section.content || fs.existsSync(section.content))
+    .map(section => removeProps(section, ['exampleMode', 'sectionDepth'], semver.lt(styleguidistVersion, '7.1.0')));
 };
 
 const getVersionsSection = () => {
@@ -51,11 +55,24 @@ const getVersionsSection = () => {
   };
 };
 
+const removeProps = (obj, props, condition) => {
+  if (condition) {
+    for (const key in obj) {
+      if (props.includes(key)) {
+        delete obj[key];
+      }
+    }
+  }
+  return obj;
+};
+
 module.exports = {
   components,
   commonSections: getCommonSections(),
   versionsSection: getVersionsSection(),
-  version,
+  packageVersion,
+  styleguidistVersion,
+  removeProps,
   ROOT_DIR,
   VERSION_DIR,
 };
