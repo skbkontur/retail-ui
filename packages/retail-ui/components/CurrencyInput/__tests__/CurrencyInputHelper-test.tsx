@@ -168,4 +168,168 @@ describe('CurrencyInputHelper', () => {
       });
     });
   });
+
+  describe('safeInsert', () => {
+    [
+      {
+        value: '12',
+        start: 2,
+        end: 2,
+        input: 'a',
+        expected: null,
+      },
+      {
+        value: '23 123 123 123 123',
+        start: 0,
+        end: 0,
+        input: '1',
+        fractionDigits: null,
+        unsigned: false,
+        integerDigits: null,
+        expected: { value: '123\u2009123\u2009123\u2009123\u2009123', position: 1 },
+      },
+      {
+        value: '123 123 123 123 123',
+        start: 0,
+        end: 0,
+        input: '3',
+        fractionDigits: null,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
+      {
+        value: '23 123 123 123,123',
+        start: 0,
+        end: 0,
+        input: '1',
+        fractionDigits: null,
+        unsigned: false,
+        integerDigits: null,
+        expected: { value: '123\u2009123\u2009123\u2009123,123', position: 1 },
+      },
+      {
+        value: '123 123 123 123,123',
+        start: 0,
+        end: 0,
+        input: '3',
+        fractionDigits: null,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
+      {
+        value: '0,12',
+        start: 4,
+        end: 4,
+        input: '3',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
+      {
+        value: '0,123',
+        start: 5,
+        end: 5,
+        input: '',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
+      {
+        value: '0,123',
+        start: 4,
+        end: 5,
+        input: '4',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: null,
+        expected: null,
+      },
+      {
+        value: '3,21',
+        start: 0,
+        end: 0,
+        input: '4',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: 2,
+        expected: { value: '43,21', position: 1 },
+      },
+      {
+        value: '43,21',
+        start: 0,
+        end: 0,
+        input: '5',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: 2,
+        expected: null,
+      },
+      {
+        value: '43,21',
+        start: 0,
+        end: 2,
+        input: '0',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: 0,
+        expected: { value: '0,21', position: 1 },
+      },
+      {
+        value: '43,21',
+        start: 0,
+        end: 0,
+        input: '-',
+        fractionDigits: 2,
+        unsigned: true,
+        integerDigits: 2,
+        expected: null,
+      },
+      {
+        value: '43,21',
+        start: 0,
+        end: 0,
+        input: '-',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: 2,
+        expected: { value: '\u221243,21', position: 1 },
+      },
+      {
+        value: '43,21',
+        start: 0,
+        end: 0,
+        input: '\u2212',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: 2,
+        expected: { value: '\u221243,21', position: 1 },
+      },
+      {
+        value: '\u221299,2',
+        start: 5,
+        end: 5,
+        input: '1',
+        fractionDigits: 2,
+        unsigned: false,
+        integerDigits: 2,
+        expected: { value: '\u221299,21', position: 6 },
+      },
+    ].forEach(x => {
+      it(`safeInsert('${x.value}', ${x.start}, ${x.end}, '${x.input}', ${x.fractionDigits}, ${x.unsigned}, ${
+        x.integerDigits
+      }) => ${JSON.stringify(x.expected)}`, () => {
+        const actual = CurrencyInputHelper.safeInsert(x.value, x.start, x.end, x.input, {
+          integerDigits: x.integerDigits,
+          fractionDigits: x.fractionDigits,
+          unsigned: x.unsigned,
+        });
+        const expected = x.expected;
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
 });

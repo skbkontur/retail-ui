@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
+import { FiasLocale } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
 import styles from './FiasForm.less';
 import {
   Fields,
   FormValidation,
-  FiasLocale,
   AddressResponse,
   VerifyResponse,
   APIProvider,
@@ -203,7 +203,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     return {
       error: address.hasError(field) && validationLevel === FormValidation.Error,
       warning: address.hasError(field) && validationLevel === FormValidation.Warning,
-      placeholder: locale[`${field}Placeholder`],
+      placeholder: locale[`${field}Placeholder` as keyof FiasLocale],
     };
   };
 
@@ -214,7 +214,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const settings = fieldsSettings[field];
       if (control && Boolean(settings && settings.visible)) {
         const { meta, render } = control;
-        const label = locale[`${field}Label`];
+        const label = locale[`${field}Label` as keyof FiasLocale];
         return (
           control && (
             <FiasForm.Field label={label} key={field}>
@@ -330,7 +330,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         const regionCode = element.data.code.substr(0, 2);
         return `${regionCode} ${fieldText}`;
       }
-
+      // TODO: handle possible identical texts of elements
+      // while in the "not directParent" search mode
       return hasParents ? [address.getText(field), fieldText].join(', ') : fieldText;
     };
 
@@ -410,7 +411,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         field,
         parentFiasId: address.getClosestParentFiasId(field),
         fullAddress: address.isAllowedToSearchFullAddress(field),
-        directParent: !address.isAllowedToSearchThroughAllParents(field),
+        directParent: !address.isAllowedToSearchThroughChildrenOfDirectParent(field),
         limit: limit + 1, // +1 to detect if there are more items
       };
       return this.props.api.search(options).then(result => {

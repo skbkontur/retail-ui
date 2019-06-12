@@ -25,7 +25,7 @@ const ru_RU = {
   suffix: 'нтур',
 };
 
-const en_EN = {
+const en_GB = {
   prefix: 'k',
   suffix: 'ntur',
 };

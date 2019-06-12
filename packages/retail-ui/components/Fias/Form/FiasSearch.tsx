@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
 import { Address } from '../models/Address';
-import { defaultLocale } from '../constants/locale';
-import { Fields, FiasLocale } from '../types';
+import { Fields } from '../types';
 
 interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
@@ -14,7 +14,7 @@ interface FiasSearchProps {
 
 export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defaultProps = {
-    locale: defaultLocale,
+    locale: FiasLocaleHelper.get(),
   };
 
   public render() {

@@ -1,3 +1,4 @@
+import { DecimalOptions } from './CurrencyInputHelper';
 import { CursorMap } from './CursorHelper';
 import { Nullable } from '../../typings/utility-types';
 
@@ -140,7 +141,7 @@ export default class CurrencyHelper {
     return result;
   }
 
-  public static isValidString(value: string, fractionDigits: Nullable<number>, unsigned?: Nullable<boolean>) {
+  public static isValidString(value: string, options: DecimalOptions) {
     value = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(value);
 
@@ -150,29 +151,38 @@ export default class CurrencyHelper {
 
     const { sign, integer, delimiter, fraction } = destructed;
 
+    if (options.integerDigits && integer.length > options.integerDigits) {
+      return false;
+    }
+
+    if (options.integerDigits === 0 && integer !== '0' && integer !== '') {
+      return false;
+    }
+
+    // https://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer
     if (integer.length + fraction.length > 15) {
       return false;
     }
 
-    if (unsigned && sign) {
+    if (options.unsigned && sign) {
       return false;
     }
 
-    switch (fractionDigits) {
+    switch (options.fractionDigits) {
       case null:
       case undefined:
         return true;
       case 0:
         return !delimiter;
       default:
-        return fraction.length <= fractionDigits && integer.length <= 15 - fractionDigits;
+        return fraction.length <= options.fractionDigits && integer.length <= 15 - options.fractionDigits;
     }
   }
 
-  public static extractValid(value: string, fractionDigits: Nullable<number>, unsigned: Nullable<boolean>): string {
+  public static extractValid(value: string, options: DecimalOptions): string {
     value = CurrencyHelper.unformatString(value);
 
-    const special = [unsigned ? '' : '-', fractionDigits === 0 ? '' : '\\.'].join('');
+    const special = [options.unsigned ? '' : '-', options.fractionDigits === 0 ? '' : '\\.'].join('');
 
     const regexp = new RegExp(`[${special}\\d]+`);
     const match = regexp.exec(value);
@@ -185,7 +195,7 @@ export default class CurrencyHelper {
 
     for (let i = token.length; i >= 0; --i) {
       const result = token.substr(0, i);
-      if (CurrencyHelper.isValidString(result, fractionDigits, unsigned)) {
+      if (CurrencyHelper.isValidString(result, options)) {
         return result;
       }
     }

@@ -1,8 +1,8 @@
 import * as React from 'react';
+import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
 import { Address } from '../models/Address';
-import { defaultLocale } from '../constants/locale';
-import { FiasLocale, FiasCountry, APIProvider } from '../types';
+import { FiasCountry, APIProvider } from '../types';
 
 export interface FiasCountrySelectorProps {
   api: APIProvider;
@@ -14,7 +14,7 @@ export interface FiasCountrySelectorProps {
 
 export class FiasCountrySelector extends React.Component<FiasCountrySelectorProps> {
   public static defaultProps = {
-    locale: defaultLocale,
+    locale: FiasLocaleHelper.get(),
   };
 
   public render() {

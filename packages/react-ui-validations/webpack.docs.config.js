@@ -56,9 +56,10 @@ function createConfig(publicPath, output) {
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
       alias: {
-        Demo: path.resolve(__dirname, './docs/components/Demo.tsx'),
-        src: path.resolve(__dirname, 'src'),
-        docs: path.resolve(__dirname, 'docs'),
+        Demo: path.resolve(__dirname, './docs/Common/Demo.tsx'),
+        SourceCode: path.resolve(__dirname, './docs/Common/SourceCode.tsx'),
+        src: path.resolve(__dirname, './src'),
+        docs: path.resolve(__dirname, './docs'),
       },
     },
     plugins: [
@@ -71,6 +72,12 @@ function createConfig(publicPath, output) {
         REACT_UI_PACKAGE: JSON.stringify('retail-ui'),
       }),
     ],
+    devServer: {
+      disableHostCheck: true,
+      historyApiFallback: true,
+      host: '0.0.0.0',
+      inline: true,
+    },
   };
 }
 

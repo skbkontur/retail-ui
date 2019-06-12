@@ -84,6 +84,12 @@ storiesOf('Menu', module)
       <MenuItem>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Menu>
+  ))
+  .add('with disabled MenuItem', () => (
+    <Menu hasShadow={false}>
+      <MenuItem disabled>MenuItem1</MenuItem>
+      <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>
+    </Menu>
   ));
 
 class MoveControls extends React.Component {
