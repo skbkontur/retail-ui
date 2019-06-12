@@ -7,6 +7,7 @@
     "type": "git",
     "url": "git@github.com:skbkontur/retail-ui.git"
   },
+  "homepage": "https://tech.skbkontur.ru/react-ui/",
   "lint-staged": {
     "*.js": [
       "prettier --single-quote --write",
