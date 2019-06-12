@@ -10,6 +10,7 @@ const run = cmd => {
 
 const checkoutFiles = () => {
   const PATHS = [
+    '.teamcity/',
     'packages/retail-ui/scripts/publish/',
     'packages/retail-ui/scripts/package/',
     'packages/retail-ui/scripts/git/',
