@@ -1,17 +1,17 @@
 import isEqual from 'lodash.isequal';
 import * as React from 'react';
 import { FiasAPI } from './api/FiasAPI';
-import { defaultLocale } from './constants/locale';
 import InternalFiasSearch from './Form/InternalFiasSearch';
 import { Logger } from './logger/Logger';
 import { Address } from './models/Address';
 import {
   AddressResponse,
   APIProvider,
-  FiasLocale,
   FiasValue,
   SearchOptions,
 } from './types';
+import { FiasLocale, FiasLocaleHelper } from './locale';
+import { locale } from '../LocaleProvider/decorators';
 
 export interface FiasSearchProps {
   /**
@@ -39,11 +39,6 @@ export interface FiasSearchProps {
   limit?: number;
 
   /**
-   * Словарь текстовых констант. См. полный список ниже
-   */
-  locale?: FiasLocale;  // ?
-
-  /**
    * Версия базы данных ФИАС. Формат: "2018-10-22"
    */
   version?: string;
@@ -51,9 +46,9 @@ export interface FiasSearchProps {
 
 export interface FiasSearchState {
   address: Address;
-  locale: FiasLocale;
 }
 
+@locale('Fias', FiasLocaleHelper)
 export class FiasSearch extends React.Component<FiasSearchProps, FiasSearchState> {
   public static defaultProps = {
     validationLevel: 'Error',
@@ -63,17 +58,11 @@ export class FiasSearch extends React.Component<FiasSearchProps, FiasSearchState
 
   public state: Readonly<FiasSearchState> = {
     address: new Address(),
-    locale: this.locale,
   };
 
-  private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
+  private readonly locale!: FiasLocale;
 
-  public get locale(): FiasLocale {
-    return {
-      ...defaultLocale,
-      ...this.props.locale,
-    };
-  }
+  private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
 
   constructor(props: FiasSearchProps) {
     super(props);
@@ -90,9 +79,6 @@ export class FiasSearch extends React.Component<FiasSearchProps, FiasSearchState
     if (!isEqual(prevProps.value, this.props.value)) {
       this.updateAddress();
     }
-    if (!isEqual(prevProps.locale, this.props.locale)) {
-      this.updateLocale();
-    }
   };
 
   public render() {
@@ -100,7 +86,7 @@ export class FiasSearch extends React.Component<FiasSearchProps, FiasSearchState
     return (
       <InternalFiasSearch
         source={this.getItems}
-        locale={this.state.locale}
+        locale={this.locale}
         address={this.state.address}
         onChange={this.handleChange}
         width={width}
@@ -138,12 +124,6 @@ export class FiasSearch extends React.Component<FiasSearchProps, FiasSearchState
     const address = await Address.getAddress(this.props.value, undefined, this.api);
     this.setState({
       address,
-    });
-  };
-
-  private updateLocale = (): void => {
-    this.setState({
-      locale: this.locale,
     });
   };
 }
