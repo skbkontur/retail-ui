@@ -1,7 +1,7 @@
 import warning from 'warning';
 
 let flatDesignEnabled = false;
-let sizeMedium16pxEnabled = false;
+const sizeMedium16pxEnabled = false;
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
 
