@@ -1,6 +1,6 @@
 import { clamp, roundToPrecision } from './ColorHelpers';
 import { ColorKeywords } from './ColorKeywords';
-import warning = require('warning');
+import warning from 'warning';
 
 export type RGBTuple = [number, number, number];
 export type ColorKeywordsType = keyof typeof ColorKeywords;
