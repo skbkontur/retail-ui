@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
 import Corners from './Corners';
 import '../ensureOldIEClassName';
@@ -162,14 +161,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
   private renderMain() {
     const { corners = 0 } = this.props;
-
-    const SIZE_CLASSES = {
-      small: cx(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? cx(classes.sizeMedium, jsClasses.sizeMedium(this.theme))
-        : cx(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(this.theme)),
-      large: cx(classes.sizeLarge, jsClasses.sizeLarge(this.theme)),
-    };
+    const sizeClass = this.getSizeClassName();
 
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
@@ -196,7 +188,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.noPadding]: !!this.props._noPadding,
         [classes.noRightPadding]: !!this.props._noRightPadding,
         [classes.buttonWithIcon]: !!this.props.icon,
-        [SIZE_CLASSES[this.props.size!]]: true,
+        [sizeClass]: true,
         [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [classes.borderless]: !!this.props.borderless,
@@ -273,7 +265,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.disabled]: !!this.props.disabled,
         [jsClasses.disabled(this.theme)]: !!this.props.disabled,
         [classes.buttonWithIcon]: !!this.props.icon,
-        [SIZE_CLASSES[this.props.size!]]: true,
+        [sizeClass]: true,
         [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
       });
@@ -301,6 +293,18 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         </button>
       </span>
     );
+  }
+
+  private getSizeClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return cx(classes.sizeLarge, jsClasses.sizeLarge(this.theme));
+      case 'medium':
+        return cx(classes.sizeMedium, jsClasses.sizeMedium(this.theme));
+      case 'small':
+      default:
+        return cx(classes.sizeSmall, jsClasses.sizeSmall(this.theme));
+    }
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {

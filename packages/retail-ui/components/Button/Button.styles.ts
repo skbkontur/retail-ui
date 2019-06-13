@@ -54,6 +54,7 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeSmall};
       border-radius: ${t.btnSmallBorderRadius};
 
       &:not(.${classes.link}) {
@@ -82,6 +83,8 @@ const jsClasses = {
 
   sizeMedium(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeMedium};
+      
       &:not(.${classes.link}) {
         padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')} 15px
           ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
@@ -108,41 +111,10 @@ const jsClasses = {
     `;
   },
 
-  DEPRECATED_sizeMedium(t: ITheme) {
-    return css`
-      font-size: ${t.btnDeprecatedSizeMediumFontSize};
-
-      &:not(.${classes.link}) {
-        height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};
-        padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, `-${t.btnDeprecatedSizeMediumPaddingShift || 0}`)}
-          15px ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShift)};
-        line-height: ${t.controlLineHeightSmall};
-
-        .rt-ie-any & {
-          padding-top: ${DimensionFunctions.shift(
-            t.controlPaddingYMedium,
-            `-${t.btnDeprecatedSizeMediumPaddingShiftIe}`,
-          )};
-          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, t.btnDeprecatedSizeMediumPaddingShiftIe)};
-        }
-
-        .${classes.arrow} {
-          transform: ${t.btnMediumArrowTransform};
-        }
-
-        .${classes.arrow_left} {
-          left: ${t.btnMediumArrowLeft};
-        }
-
-        .${classes.arrow_left}.${classes.arrow_loading}::before {
-          left: ${t.btnMediumArrowLeftLoadingLeft};
-        }
-      }
-    `;
-  },
-
   sizeLarge(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeLarge};
+
       &:not(.${classes.link}) {
         padding: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')} 20px
           ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};
