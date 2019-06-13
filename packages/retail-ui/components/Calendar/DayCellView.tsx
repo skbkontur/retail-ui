@@ -1,11 +1,12 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import * as CDS from './CalendarDateShape';
-
 import config from './config';
-
 import styles from './DayCellView.less';
 import { Nullable } from '../../typings/utility-types';
+import { cx as classNames } from '../../lib/theming/Emotion';
+import { ITheme } from '../../lib/theming/Theme';
+import jsStyles from './DayCellView.styles';
+import ThemeConsumer from "../ThemeConsumer";
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -17,15 +18,30 @@ interface DayCellViewProps {
   isWeekend?: boolean;
 }
 
+const size = config.DAY_HEIGHT;
+
 const cellStyle = {
-  width: config.DAY_HEIGHT,
-  height: config.DAY_HEIGHT,
-  lineHeight: config.DAY_HEIGHT - 2 + 'px',
-  borderRadius: config.DAY_HEIGHT / 2,
+  width: size,
+  height: size,
+  lineHeight: size - 2 + 'px',
+  borderRadius: size / 2,
 };
 
 export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
+  private theme!: ITheme;
+
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { date, minDate, maxDate, today, value, isWeekend } = this.props;
 
     return (
@@ -35,9 +51,10 @@ export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
         disabled={!CDS.isBetween(date, minDate, maxDate)}
         className={classNames({
           [styles.cell]: true,
-          [styles.weekend]: isWeekend,
-          [styles.today]: today && CDS.isEqual(date, today),
-          [styles.selected]: value && CDS.isEqual(date, value),
+          [jsStyles.cell(this.theme)]: true,
+          [jsStyles.weekend(this.theme)]: !!isWeekend,
+          [jsStyles.today(this.theme)]: !!today && !!CDS.isEqual(date, today),
+          [jsStyles.selected(this.theme)]: !!value && !!CDS.isEqual(date, value),
         })}
         onClick={this.handleClick}
       >
