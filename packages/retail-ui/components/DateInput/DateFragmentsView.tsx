@@ -3,7 +3,7 @@ import * as React from 'react';
 import { CHAR_MASK } from '../../lib/date/constants';
 import InternalDateValidator from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
-import styles from './DateInput.less';
+import styles from './DateFragmentsView.less';
 import { removeAllSelections } from './helpers/SelectionHelpers';
 
 interface DateFragmentViewProps {
