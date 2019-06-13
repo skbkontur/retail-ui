@@ -1,5 +1,4 @@
 import CalendarIcon from '@skbkontur/react-icons/Calendar';
-import classNames from 'classnames';
 import * as React from 'react';
 import { InternalDate } from '../../lib/date/InternalDate';
 import InternalDateGetter from '../../lib/date/InternalDateGetter';
@@ -8,7 +7,6 @@ import { InternalDateComponent, InternalDateComponentType, InternalDateValidateC
 import MouseDrag from '../../lib/events/MouseDrag';
 import Upgrades from '../../lib/Upgrades';
 import { isFirefox } from '../../lib/utils';
-
 import { Nullable } from '../../typings/utility-types';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { isEdge, isIE } from '../ensureOldIEClassName';
@@ -20,6 +18,10 @@ import { DateFragmentsView } from './DateFragmentsView';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { inputNumber } from './helpers/inputNumber';
 import { removeAllSelections, selectNodeContents } from './helpers/SelectionHelpers';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './DateInput.styles';
+import { ITheme } from '../../lib/theming/Theme';
+import ThemeConsumer from '../ThemeConsumer';
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
@@ -59,6 +61,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     width: 125,
   };
 
+  private theme!: ITheme;
   private locale!: DatePickerLocale;
   private inputLikeText: InputLikeText | null = null;
   private divInnerNode: HTMLDivElement | null = null;
@@ -110,6 +113,41 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  public blur() {
+    if (this.inputLikeText) {
+      this.inputLikeText.blur();
+    }
+    this.setState({ focused: false });
+  }
+
+  public focus() {
+    if (!this.props.disabled) {
+      if (this.inputLikeText) {
+        this.inputLikeText.focus();
+      }
+      this.setState({ focused: true });
+    }
+  }
+
+  public blink() {
+    if (!this.props.disabled) {
+      if (this.inputLikeText) {
+        this.inputLikeText.blink();
+      }
+    }
+  }
+
+  private renderMain() {
     const { internalDate, focused, selected, inputMode } = this.state;
     const fragments =
       internalDate && (focused || !internalDate.isEmpty())
@@ -147,30 +185,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         />
       </InputLikeText>
     );
-  }
-
-  public blur() {
-    if (this.inputLikeText) {
-      this.inputLikeText.blur();
-    }
-    this.setState({ focused: false });
-  }
-
-  public focus() {
-    if (!this.props.disabled) {
-      if (this.inputLikeText) {
-        this.inputLikeText.focus();
-      }
-      this.setState({ focused: true });
-    }
-  }
-
-  public blink() {
-    if (!this.props.disabled) {
-      if (this.inputLikeText) {
-        this.inputLikeText.blink();
-      }
-    }
   }
 
   private divInnerNodeRef = (el: HTMLDivElement | null) => {
@@ -214,7 +228,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragStart = () => this.setState({ dragged: true, selected: null });
-
   private handleMouseDragEnd = () => this.setState({ dragged: false });
 
   private updateInternalDate = (
@@ -573,16 +586,19 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private getFirstDateComponentType = (): InternalDateComponentType => this.state.typesOrder[0];
+
   private getLastDateComponentType = (): InternalDateComponentType =>
     this.state.typesOrder[this.state.typesOrder.length - 1];
 
   private renderIcon = (): (() => JSX.Element | null) => {
-    const { withIcon, disabled } = this.props;
+    const { withIcon, disabled = false } = this.props;
 
     if (withIcon) {
-      const iconStyles = classNames({
+      const iconStyles = cx({
         [styles.icon]: true,
+        [jsStyles.icon(this.theme)]: true,
         [styles.iconDisabled]: disabled,
+        [jsStyles.iconDisabled(this.theme)]: disabled,
       });
       return () => (
         <span className={iconStyles}>
