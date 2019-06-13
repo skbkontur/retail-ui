@@ -3,7 +3,7 @@ import * as CDS from './CalendarDateShape';
 import config from './config';
 import styles from './MonthView.less';
 import DateSelect from '../DateSelect';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import jsStyles from './MonthView.styles';
 import ThemeConsumer from '../ThemeConsumer';
@@ -92,7 +92,7 @@ export class MonthView extends React.Component<MonthViewProps> {
       <div className={styles.month} style={{ top }} key={month + '-' + year}>
         <div
           style={{ lineHeight: `${config.MONTH_TITLE_HEIGHT}px`, top: headerTop, borderBottomColor }}
-          className={classNames({
+          className={cx({
             [styles.monthTitle]: true,
             [jsStyles.monthTitle(this.theme)]: true,
             [styles.headerSticky]: isHeaderSticky,
