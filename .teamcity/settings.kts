@@ -375,8 +375,11 @@ object ReactUI_Publish : BuildType({
 
     vcs {
         root(RetailUiTags)
+        root(RetailUi)
 
-        buildDefaultBranch = false
+        branchFilter = """
+            +:*
+        """.trimIndent()
     }
 
     steps {
@@ -405,6 +408,7 @@ object ReactUI_Publish : BuildType({
 
     triggers {
         vcs {
+          branchFilter = "+:refs/tags/retail-ui@*"
         }
     }
 
