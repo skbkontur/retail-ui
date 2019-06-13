@@ -5,7 +5,7 @@ import { NodePath } from 'ast-types';
 import * as path from 'path';
 
 const THEME_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'Theme');
-const THEME_CONSUMER_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'ThemeProvider');
+const THEME_CONSUMER_PATH = path.join('..', 'retail-ui', 'components', 'ThemeConsumer');
 const TO_SOURCE_OPTIONS: any = {
   quote: 'single',
   useTab: false,
