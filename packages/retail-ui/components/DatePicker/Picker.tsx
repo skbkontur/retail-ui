@@ -4,11 +4,14 @@ import InternalDateGetter from '../../lib/date/InternalDateGetter';
 import Calendar, { CalendarDateShape } from '../Calendar';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import { locale } from '../LocaleProvider/decorators';
-
 import styles from './Picker.less';
 import { Nullable } from '../../typings/utility-types';
 import { isLess, isGreater } from '../Calendar/CalendarDateShape';
 import { DatePickerLocaleHelper, DatePickerLocale } from './locale';
+import jsStyles from './Picker.styles';
+import { cx } from '../../lib/theming/Emotion';
+import { ITheme } from '../../lib/theming/Theme';
+import ThemeConsumer from '../ThemeConsumer';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -36,8 +39,8 @@ const getTodayCalendarDate = () => {
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export default class Picker extends React.Component<Props, State> {
+  private theme!: ITheme;
   private calendar: Calendar | null = null;
-
   private readonly locale!: DatePickerLocale;
 
   constructor(props: Props) {
@@ -57,10 +60,21 @@ export default class Picker extends React.Component<Props, State> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { date } = this.state;
     return (
       // tslint:disable-next-line:jsx-no-lambda
-      <div className={styles.root} onMouseDown={e => e.preventDefault()}>
+      <div className={cx(styles.root, jsStyles.root(this.theme))} onMouseDown={e => e.preventDefault()}>
         <Calendar
           ref={c => (this.calendar = c)}
           value={this.props.value}
@@ -86,7 +100,11 @@ export default class Picker extends React.Component<Props, State> {
     const { order, separator } = this.locale;
     const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
     return (
-      <button className={styles.todayWrapper} onClick={this.handleSelectToday(today)} tabIndex={-1}>
+      <button
+        className={cx(styles.todayWrapper, jsStyles.todayWrapper(this.theme))}
+        onClick={this.handleSelectToday(today)}
+        tabIndex={-1}
+      >
         {`${this.locale.today} ${today.toString({ withPad: true, withSeparator: true })}`}
       </button>
     );
