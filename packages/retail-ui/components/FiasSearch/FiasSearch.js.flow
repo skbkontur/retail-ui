@@ -1,7 +1,7 @@
 /* @flow */
-import type { FiasValue, FormValidation, FiasLocale, APIProvider } from '../Fias/types';
+import type { FiasValue, APIProvider } from '../Fias/types';
+import type { FiasLocale } from '../Fias/locale/types';
 import { Address } from '../Fias/models/Address';
-import { FiasSearchState } from './FiasSearch';
 
 export type FiasSearchProps = {|
   value?: FiasValue,
