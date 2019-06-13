@@ -30,10 +30,12 @@ const TO_SOURCE_OPTIONS: any = {
     parameters: true,
   },
 };
-const THEME_MANAGER_PATH = path.join('..', 'retail-ui', 'lib', 'ThemeManager');
+const THEME_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'Theme');
+const THEME_FACTORY_PATH = path.join('..', 'retail-ui', 'lib', 'theming', 'ThemeFactory');
 const COLOR_FUNCTIONS_PATH = path.join('..', 'retail-ui', 'lib', 'styles', 'ColorFunctions');
 let rulesToRemove: IRemovalInfo[] = [];
 let themeManagerImportPath: string;
+let themeImportPath: string;
 let colorFunctionsImportPath: string;
 
 function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
@@ -80,7 +82,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
         emotionCxImportIdentifier = j.identifier(classnamesImportName);
         emotionImportStatement = j.importDeclaration(
           [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
-          j.literal('emotion'),
+          j.literal('../../lib/theming/Emotion'),
         );
         classnamesImports.remove();
       }
@@ -189,9 +191,10 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
     tokenizedStylesMap.set(identifier, tokenize(styles));
   });
 
-  themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_MANAGER_PATH).replace(/\\/g, '/');
+  themeImportPath = path.relative(path.dirname(fileInfo.path), THEME_PATH).replace(/\\/g, '/');
+  themeManagerImportPath = path.relative(path.dirname(fileInfo.path), THEME_FACTORY_PATH).replace(/\\/g, '/');
   colorFunctionsImportPath = path.relative(path.dirname(fileInfo.path), COLOR_FUNCTIONS_PATH).replace(/\\/g, '/');
-  const themeManagerIdentifier = j.identifier('ThemeManager');
+  const themeManagerIdentifier = j.identifier('ThemeFactory');
   const themeTypeIdentifier = j.identifier('ITheme');
   const themeManagerImportStatement = j.importDeclaration(
     [j.importDefaultSpecifier(themeManagerIdentifier)],
@@ -205,7 +208,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
   const themeConst = j.variableDeclaration('const', [
     j.variableDeclarator(
       themeIdentifier,
-      j.callExpression(j.memberExpression(themeManagerIdentifier, j.identifier('getTheme')), []),
+      j.callExpression(j.memberExpression(themeManagerIdentifier, j.identifier('getDefaultTheme')), []),
     ),
   ]);
 
@@ -486,7 +489,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
             } else {
               emotionImportStatement = j.importDeclaration(
                 [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
-                j.literal('emotion'),
+                j.literal('../../lib/theming/Emotion'),
               );
               importDeclarations = root.find(j.ImportDeclaration);
               importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
@@ -561,7 +564,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
                   } else {
                     emotionImportStatement = j.importDeclaration(
                       [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
-                      j.literal('emotion'),
+                      j.literal('../../lib/theming/Emotion'),
                     );
                     importDeclarations = root.find(j.ImportDeclaration);
                     importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
@@ -593,7 +596,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
                 } else {
                   emotionImportStatement = j.importDeclaration(
                     [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
-                    j.literal('emotion'),
+                    j.literal('../../lib/theming/Emotion'),
                   );
                   importDeclarations = root.find(j.ImportDeclaration);
                   importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
@@ -624,7 +627,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
                   } else {
                     emotionImportStatement = j.importDeclaration(
                       [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
-                      j.literal('emotion'),
+                      j.literal('../../lib/theming/Emotion'),
                     );
                     importDeclarations = root.find(j.ImportDeclaration);
                     importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
@@ -669,7 +672,7 @@ function extractDynamicClasses(fileInfo: FileInfo, api: API, options: any) {
                 } else {
                   emotionImportStatement = j.importDeclaration(
                     [j.importSpecifier(j.identifier('cx'), emotionCxImportIdentifier)],
-                    j.literal('emotion'),
+                    j.literal('../../lib/theming/Emotion'),
                   );
                   importDeclarations = root.find(j.ImportDeclaration);
                   importDeclarations.at(importDeclarations.length - 1).insertAfter(emotionImportStatement);
@@ -758,7 +761,7 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, stylesIdentifier:
   const themeTypeIdentifier = j.identifier('ITheme');
   const themeManagerImportDeclaration = j.importDeclaration(
     [j.importSpecifier(themeTypeIdentifier)],
-    j.literal(themeManagerImportPath),
+    j.literal(themeImportPath),
   );
 
   const colorFunctionsIdentifier = j.identifier('cf');
@@ -769,7 +772,7 @@ function processJsStylesFile(j: JSCodeshift, filePath: string, stylesIdentifier:
 
   const cssEmotionImportDeclaration = j.importDeclaration(
     [j.importSpecifier(j.identifier('css'))],
-    j.literal('emotion'),
+    j.literal('../../lib/theming/Emotion'),
   );
   const lessImportDeclaration = j.importDeclaration(
     [j.importDefaultSpecifier(stylesIdentifier)],
