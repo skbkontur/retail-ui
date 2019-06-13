@@ -577,12 +577,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.state.typesOrder[this.state.typesOrder.length - 1];
 
   private renderIcon = (): (() => JSX.Element | null) => {
-    const iconStyles = classNames({
-      [styles.icon]: true,
-      [styles.disabled]: this.props.disabled,
-    });
+    const { withIcon, disabled } = this.props;
 
-    if (this.props.withIcon) {
+    if (withIcon) {
+      const iconStyles = classNames({
+        [styles.icon]: true,
+        [styles.iconDisabled]: disabled,
+      });
       return () => (
         <span className={iconStyles}>
           <CalendarIcon size={this.getIconSize()} />
