@@ -7,7 +7,6 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
-import Upgrades from '../../lib/Upgrades';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Textarea.styles';
 import styles from './Textarea.less';
@@ -268,12 +267,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
 
     return (
-      <label
-        {...rootProps}
-        className={cx(styles.root, {
-          [styles.size16]: Upgrades.isSizeMedium16pxEnabled(),
-        })}
-      >
+      <label {...rootProps} className={cx(styles.root, jsStyles.root(this.theme))}>
         {placeholderPolyfill}
         <textarea
           {...textareaProps}

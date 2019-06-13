@@ -1,6 +1,6 @@
-import DEFAULT_VARIABLES from "../../../components/variables.less";
-import { defineInternalTheme } from "../ThemeHelpers";
-import ColorFunctions from "../../styles/ColorFunctions";
+import DEFAULT_VARIABLES from '../../../components/variables.less';
+import { defineInternalTheme } from '../ThemeHelpers';
+import ColorFunctions from '../../styles/ColorFunctions';
 
 const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   bgActive: {
@@ -217,6 +217,19 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.borderColorFocus;
     },
   },
+  textareaLineHeight: {
+    get() {
+      const fontSize = this.fontSizeMedium;
+      switch (fontSize) {
+        case '14px':
+          return '20px';
+        case '16px':
+          return '25px';
+        default:
+          return `${parseInt(fontSize, 10) * 1.5}px`;
+      }
+    },
+  },
   textareaBorderTopColor: {
     get() {
       return this.borderColorGrayDark;
@@ -249,9 +262,9 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   },
   popupBackground: {
     get() {
-      return this.bgDefault
-    }
-  }
+      return this.bgDefault;
+    },
+  },
 });
 
 export default DEFAULT_THEME;

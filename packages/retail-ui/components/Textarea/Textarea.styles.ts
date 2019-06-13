@@ -3,6 +3,12 @@ import styles from './Textarea.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
+  root(t: ITheme) {
+    return css`
+      font-size: ${t.fontSizeMedium};
+      line-height: ${t.textareaLineHeight};
+    `
+  },
   textarea(t: ITheme) {
     return css`
       background: ${t.textareaBg};
