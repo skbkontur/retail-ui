@@ -1,16 +1,16 @@
 import isEqual from 'lodash.isequal';
 import * as React from 'react';
-import { FiasAPI } from './api/FiasAPI';
-import InternalFiasSearch from './Form/InternalFiasSearch';
-import { Logger } from './logger/Logger';
-import { Address } from './models/Address';
+import { FiasAPI } from '../Fias/api/FiasAPI';
+import InternalFiasSearch from '../Fias/Form/InternalFiasSearch';
+import { Logger } from '../Fias/logger/Logger';
+import { Address } from '../Fias/models/Address';
 import {
   AddressResponse,
   APIProvider,
   FiasValue,
   SearchOptions,
-} from './types';
-import { FiasLocale, FiasLocaleHelper } from './locale';
+} from '../Fias/types';
+import { FiasLocale, FiasLocaleHelper } from '../Fias/locale';
 import { locale } from '../LocaleProvider/decorators';
 
 export interface FiasSearchProps {

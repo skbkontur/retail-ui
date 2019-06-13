@@ -2,10 +2,10 @@ import { action } from '@storybook/addon-actions';
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import FiasSearch from '../FiasSearch';
-import { Address } from '../models/Address';
+import { Address } from '../../Fias/models/Address';
 
 const BASE_URL = 'https://api.testkontur.ru/fias/v1/';
-const MOCK_RESPONSE = require('../api/data.json')[0];
+const MOCK_RESPONSE = require('../../Fias/api/data.json')[0];
 const MOCK_VALUE = Address.createFromResponse(MOCK_RESPONSE).getValue(false);
 
 storiesOf('FiasSearch', module)
