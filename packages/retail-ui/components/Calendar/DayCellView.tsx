@@ -3,7 +3,7 @@ import * as CDS from './CalendarDateShape';
 import config from './config';
 import styles from './DayCellView.less';
 import { Nullable } from '../../typings/utility-types';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import jsStyles from './DayCellView.styles';
 import ThemeConsumer from "../ThemeConsumer";
@@ -49,7 +49,7 @@ export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
         style={cellStyle}
         tabIndex={-1}
         disabled={!CDS.isBetween(date, minDate, maxDate)}
-        className={classNames({
+        className={cx({
           [styles.cell]: true,
           [jsStyles.cell(this.theme)]: true,
           [jsStyles.weekend(this.theme)]: !!isWeekend,

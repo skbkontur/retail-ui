@@ -10,7 +10,7 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import styles from './DateSelect.less';
-import { cx as classNames } from '../../lib/theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './DateSelect.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import ThemeConsumer from '../ThemeConsumer';
@@ -159,7 +159,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
   private renderMain() {
     const { width, disabled } = this.props;
     const rootProps = {
-      className: classNames({
+      className: cx({
         [styles.root]: true,
         [jsStyles.root(this.theme)]: true,
         [styles.disabled]: !!disabled,
@@ -172,7 +172,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
         <div className={styles.caption} onClick={this.open}>
           {this.getItem(0)}
           <div
-            className={classNames({
+            className={cx({
               [styles.arrow]: true,
               [jsStyles.arrow(this.theme)]: true,
               [styles.arrowDisabled]: !!disabled,
@@ -232,7 +232,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
 
     for (let i = from; i < to; ++i) {
       const disableItems = this.disableItems(i) || false;
-      const className = classNames({
+      const className = cx({
         [styles.menuItem]: true,
         [jsStyles.menuItem(this.theme)]: true,
         [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
@@ -274,7 +274,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
       top: -shift,
     };
 
-    const holderClass = classNames({
+    const holderClass = cx({
       [styles.menuHolder]: true,
       [jsStyles.menuHolder(this.theme)]: true,
       [styles.isTopCapped]: this.state.topCapped,
@@ -294,7 +294,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
             <div className={holderClass} style={style}>
               {!this.state.topCapped && (
                 <div
-                  className={classNames(styles.menuUp, jsStyles.menuUp(this.theme))}
+                  className={cx(styles.menuUp, jsStyles.menuUp(this.theme))}
                   onClick={this.handleUp}
                   onMouseDown={this.handleLongClickUp}
                   onMouseUp={this.handleLongClickStop}
@@ -314,7 +314,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
               </div>
               {!this.state.botCapped && (
                 <div
-                  className={classNames(styles.menuDown, jsStyles.menuDown(this.theme))}
+                  className={cx(styles.menuDown, jsStyles.menuDown(this.theme))}
                   onClick={this.handleDown}
                   onMouseDown={this.handleLongClickDown}
                   onMouseUp={this.handleLongClickStop}
