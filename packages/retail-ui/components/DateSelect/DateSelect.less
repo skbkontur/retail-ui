@@ -2,7 +2,6 @@
 
 :local {
   .root {
-    color: @text-color-default;
     cursor: pointer;
     display: inline-block;
     outline: 0;
@@ -11,10 +10,6 @@
     font-size: 14px;
     line-height: 24px;
     padding-right: 2px;
-
-    &:hover {
-      color: @link-color;
-    }
 
     &.disabled {
       color: inherit;
@@ -35,7 +30,6 @@
     opacity: 1;
     transition: opacity 0.2s ease-out;
     transform: scaleX(0.7);
-    color: @text-color-disabled;
   }
 
   .arrowDisabled {
@@ -43,14 +37,11 @@
   }
 
   .menuHolder {
-    background: @date-select-menu-bg;
-    box-shadow: @popup-box-shadow;
     box-sizing: content-box;
     margin-top: -11px;
     overflow: hidden;
     position: absolute;
     font-size: 14px;
-    color: @text-color-default;
     z-index: 1000;
   }
 
@@ -75,41 +66,21 @@
     line-height: 24px;
     padding-left: 10px;
     white-space: nowrap;
-    color: @text-color-default;
+  }
 
-    &Selected {
-      background: @date-select-menu-item-bg-selected;
-      color: @date-select-menu-item-font-selected;
-    }
-
-    &Active {
-      background: @date-select-menu-item-bg-active;
-      color: @date-select-menu-item-font-active;
-    }
-
-    &Disabled {
-      pointer-events: none;
-      color: @text-color-disabled;
-      background: @date-select-menu-item-bg-disabled;
-    }
+  .menuItemDisabled {
+    pointer-events: none;
   }
 
   .menuUp,
   .menuDown {
     cursor: pointer;
     user-select: none;
-    background: @date-select-menu-bg;
     box-sizing: border-box;
     height: 16px;
-    color: @text-color-default;
     text-align: left;
     line-height: 0;
     padding-left: 18px;
-
-    &:hover {
-      background: @date-select-menu-item-bg-active;
-      color: @text-color-invert;
-    }
   }
 
   .menuDown span {
