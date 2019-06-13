@@ -21,7 +21,8 @@ const TO_SOURCE_OPTIONS: any = {
 };
 
 function contextify(fileInfo: FileInfo, api: API) {
-  if (fileInfo.path.includes('__stories__') || fileInfo.path.includes('__tests__')) {
+  const filePath = fileInfo.path;
+  if (filePath.includes('__stories__') || filePath.includes('__tests__') || filePath.endsWith('ThemeEditor.tsx')) {
     return null;
   }
 
@@ -71,7 +72,7 @@ function contextify(fileInfo: FileInfo, api: API) {
 
   function patchClass(classDeclaration: ClassDeclaration | null, themeVariableName: string) {
     if (!classDeclaration) {
-      console.error(`${fileInfo.path}: variable ${themeVariableName} is declared outside class declaration`);
+      console.error(`${filePath}: variable ${themeVariableName} is declared outside class declaration`);
       return;
     }
 
@@ -167,9 +168,9 @@ function contextify(fileInfo: FileInfo, api: API) {
     }
   });
 
-  const themeImportPath = path.relative(path.dirname(fileInfo.path), THEME_PATH).replace(/\\/g, '/');
+  const themeImportPath = path.relative(path.dirname(filePath), THEME_PATH).replace(/\\/g, '/');
   const themeImport = j.importDeclaration([j.importSpecifier(j.identifier('ITheme'))], j.literal(themeImportPath));
-  const consumerImportPath = path.relative(path.dirname(fileInfo.path), THEME_CONSUMER_PATH).replace(/\\/g, '/');
+  const consumerImportPath = path.relative(path.dirname(filePath), THEME_CONSUMER_PATH).replace(/\\/g, '/');
   const consumerImport = j.importDeclaration(
     [j.importSpecifier(j.identifier('ThemeConsumer'))],
     j.literal(consumerImportPath),
