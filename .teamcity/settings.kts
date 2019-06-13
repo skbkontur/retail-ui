@@ -374,7 +374,6 @@ object ReactUI_Publish : BuildType({
     }
 
     vcs {
-        root(RetailUiTags)
         root(RetailUi)
 
         branchFilter = """
