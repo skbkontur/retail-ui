@@ -34,7 +34,7 @@ export default class Demo extends React.Component<DemoProps> {
     const { demo: DemoComponent, source } = this.props;
     return (
       <DemoWrapper>
-        <Gapped vertical gap={0}>
+        <Gapped vertical gap={8}>
           <DemoContainer>
             <DemoComponent />
           </DemoContainer>
@@ -48,7 +48,7 @@ export default class Demo extends React.Component<DemoProps> {
     return (
       <Gapped vertical gap={0}>
         <Button use={'link'} onClick={() => this.setState({ isVisible: !isVisible })}>
-          {isVisible ? 'СКРЫТЬ КОД' : 'ПОКАЗАТЬ КОД'}
+          VIEW CODE
         </Button>
         {isVisible && <SourceCode source={source} />}
       </Gapped>

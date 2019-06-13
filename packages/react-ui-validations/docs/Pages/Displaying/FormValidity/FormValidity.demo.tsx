@@ -65,7 +65,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
 
           <Form.ActionsBar>
             <Gapped>
-              <Button onClick={this.handleSubmit}>Submit</Button>
+              <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
               {this.renderFormState()}
             </Gapped>
           </Form.ActionsBar>

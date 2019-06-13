@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.51.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.51.0...retail-ui@0.51.1) (2019-06-04)
+
+
+### Bug Fixes
+
+* **Fias:** prevent the verification api from returning wrong fields ([d77dc2c](https://github.com/skbkontur/retail-ui/commit/d77dc2c)), closes [#1436](https://github.com/skbkontur/retail-ui/issues/1436)
+
+
+
+
+
 # [0.51.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.50.0...retail-ui@0.51.0) (2019-05-28)
 
 
