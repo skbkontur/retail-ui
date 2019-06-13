@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CloseProps } from './ModalContext';
 import styles from './Modal.less';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -23,7 +23,7 @@ export default class Close extends React.Component<CloseProps> {
   private renderMain() {
     return (
       <button
-        className={classNames(styles.close, jsStyles.close(this.theme), this.props.disableClose && styles.disabled)}
+        className={cx(styles.close, jsStyles.close(this.theme), this.props.disableClose && styles.disabled)}
         onClick={this.props.requestClose}
         data-tid="modal-close"
       >

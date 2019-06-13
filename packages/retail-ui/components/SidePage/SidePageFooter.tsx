@@ -3,7 +3,7 @@ import { SidePageContext, SidePageContextType } from './SidePageContext';
 import styles from './SidePage.less';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -77,7 +77,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
               }}
             >
               <div
-                className={classNames(styles.footerContent, {
+                className={cx(styles.footerContent, {
                   [styles.panel]: !!this.props.panel,
                   [jsStyles.panel(this.theme)]: !!this.props.panel,
                   [styles.fixed]: this.state.fixed,

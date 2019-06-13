@@ -14,7 +14,7 @@ import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from '
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 import styles from './SidePage.less';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -38,7 +38,7 @@ export interface SidePageProps {
   /**
    * Задать ширину сайдпейджа
    */
-  width?: number;
+  width?: number | string;
 
   /**
    * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на
@@ -157,7 +157,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { fromLeft, blockBackground } = this.props;
     return {
       delta: 1000,
-      classes: classNames(styles.root, {
+      classes: cx(styles.root, {
         [styles.leftSide]: !!fromLeft,
       }),
       style: blockBackground ? { width: '100%' } : undefined,
@@ -171,7 +171,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
-            className={classNames(
+            className={cx(
               styles.container,
               jsStyles.container(this.theme),
               this.state.hasShadow && jsStyles.shadow(this.theme),
@@ -212,7 +212,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
         {blockBackground && [
           <HideBodyVerticalScroll key="hbvs" />,
-          <div key="overlay" className={classNames(styles.background, this.state.hasBackground && styles.gray)} />,
+          <div key="overlay" className={cx(styles.background, this.state.hasBackground && styles.gray)} />,
         ]}
       </ZIndex>
     );
@@ -236,10 +236,10 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private getTransitionNames(): Record<string, string> {
     const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
-    const transitionEnter = classNames(
+    const transitionEnter = cx(
       styles[('transition-enter-' + direction) as 'transition-enter-left' | 'transition-enter-right'],
     );
-    const transitionAppear = classNames(
+    const transitionAppear = cx(
       styles[('transition-appear-' + direction) as 'transition-appear-left' | 'transition-appear-right'],
     );
 

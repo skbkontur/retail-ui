@@ -1,5 +1,5 @@
-import { css } from 'emotion';
 import { ITheme } from '../../lib/theming/Theme';
+import { css } from '../../lib/theming/Emotion';
 
 const jsStyles = {
   hover(t: ITheme) {
@@ -9,25 +9,21 @@ const jsStyles = {
       color: ${t.textColorInvert} !important;
     `;
   },
-
   selected(t: ITheme) {
     return css`
       background: ${t.dropdownMenuSelectedBg};
     `;
   },
-
   disabled(t: ITheme) {
     return css`
       color: ${t.textColorDisabled};
     `;
   },
-
   link(t: ITheme) {
     return css`
       color: ${t.linkColor};
     `;
   },
-
   withIcon(t: ITheme) {
     return css`
       padding-left: ${t.menuItemPaddingForIcon};

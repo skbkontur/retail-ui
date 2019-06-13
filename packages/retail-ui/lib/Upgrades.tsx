@@ -1,11 +1,16 @@
 import warning from 'warning';
 
 let flatDesignEnabled = false;
-let sizeMedium16pxEnabled = false;
+const sizeMedium16pxEnabled = false;
+let specificityLevel = 0;
+let canModifySpecificityLevel = true;
 
 const Upgrade = {
   enableFlatDesign() {
-    warning(false, 'Метод Upgrades.enableFlatDesign устарел. Используйте ThemeProvider или ThemeFactory.overrideDefaultTheme()');
+    warning(
+      false,
+      'Метод Upgrades.enableFlatDesign устарел. Используйте ThemeProvider или ThemeFactory.overrideDefaultTheme()',
+    );
     flatDesignEnabled = true;
   },
 
@@ -14,7 +19,7 @@ const Upgrade = {
   },
 
   enableSizeMedium16px() {
-    sizeMedium16pxEnabled = true;
+    warning(false, 'Метод Upgrades.enableSizeMedium16px устарел. Переопределите fontSizeMedium в теме через ThemeProvider или ThemeFactory.overrideDefaultTheme()');
   },
 
   isSizeMedium16pxEnabled() {
@@ -27,6 +32,17 @@ const Upgrade = {
 
   isAdaptiveStyles() {
     return true;
+  },
+  getSpecificityLevel() {
+    canModifySpecificityLevel = false;
+    return specificityLevel;
+  },
+  setSpecificityLevel(level: number) {
+    if (canModifySpecificityLevel) {
+      specificityLevel = level;
+    } else {
+      warning(false, `specificityLevel=${specificityLevel} уже использован`);
+    }
   },
 };
 

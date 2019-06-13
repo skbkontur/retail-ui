@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import styles from './Toggle.less';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -34,7 +34,7 @@ const jsStyles = {
   activeBackground(t: ITheme) {
     return css`
       .${styles.isLoading} & {
-        background: ${t.toggleBgChecked};
+        background: ${t.toggleBgActive};
       }
 
       .${styles.input}:checked ~ .${styles.container} & {

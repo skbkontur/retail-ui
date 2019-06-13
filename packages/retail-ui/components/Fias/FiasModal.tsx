@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '../Button';
 import Gapped from '../Gapped';
 import Modal from '../Modal';
-import { FiasLocale } from './types';
+import { FiasLocale } from './locale';
 
 interface FiasModalProps {
   locale: FiasLocale;

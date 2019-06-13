@@ -7,11 +7,10 @@
   .title {
     width: 110px;
     color: #404040;
-    padding-top: 10px;
   }
 
   .componentsGroup {
-    max-width: 500px;
+    max-width: 700px;
   }
 
   .sidePageBody {
@@ -59,5 +58,30 @@
   .loader {
     height: 300px;
     margin: auto;
+  }
+
+  .stickyWrapper {
+    position: relative;
+    z-index: 10000;
+  }
+
+  .tabsWrapper {
+    margin: 0 -32px;
+    padding: 11px 32px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  .tooltipContent {
+    width: 210px;
   }
 }

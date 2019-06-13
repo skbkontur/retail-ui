@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import styles from './Modal.less';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -13,6 +13,14 @@ const jsStyles = {
   window(t: ITheme) {
     return css`
       background: ${t.bgDefault};
+    `;
+  },
+  centerContainer(t: ITheme) {
+    return css`
+      @media screen and (max-width: ${t.modalAdaptiveThreshold}) {
+        margin: 0;
+        width: 100%;
+      }
     `;
   },
 

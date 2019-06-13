@@ -19,7 +19,7 @@ import styles from './Select.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Select.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -304,7 +304,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     return {
       label: (
         <span
-          className={classNames({
+          className={cx({
             [styles.customUsePlaceholder]: this.props.use !== 'default',
           })}
         >
@@ -340,7 +340,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     }
 
     const labelProps = {
-      className: classNames({
+      className: cx({
         [styles.label]: this.props.use !== 'link',
         [styles.labelWithLeftIcon]: !!this.props._icon,
         [styles.placeholder]: params.isPlaceholder,
@@ -360,7 +360,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           <span className={styles.labelText}>{params.label}</span>
         </span>
         <div className={styles.arrowWrap}>
-          <div className={classNames(styles.arrow, jsStyles.arrow(this.theme), useIsCustom && styles.customUseArrow)} />
+          <div className={cx(styles.arrow, jsStyles.arrow(this.theme), useIsCustom && styles.customUseArrow)} />
         </div>
       </Button>
     );

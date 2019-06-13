@@ -1,4 +1,3 @@
-
 :local {
   .token {
     box-sizing: border-box;
@@ -20,14 +19,10 @@
       cursor: pointer;
     }
 
-    [data-name='RemoveIcon'] {
-      transition: none;
-      fill: currentColor;
-      opacity: 0.5;
-
-      &:hover {
-        opacity: 1;
-      }
+    &.disabled {
+      border: none !important;
+      user-select: text !important;
+      cursor: text !important;
     }
   }
 
@@ -43,6 +38,12 @@
     padding: 2px;
     box-sizing: border-box;
     margin-left: 4px;
-    transition: fill 0.2s ease-out;
+    transition: none;
+    fill: currentColor;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }

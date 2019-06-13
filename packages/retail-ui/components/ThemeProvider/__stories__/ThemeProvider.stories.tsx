@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { css } from 'emotion';
 import { storiesOf } from '@storybook/react';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
-import { ITheme } from '../../../lib/theming/Theme';
+import { ITheme, IThemeIn } from '../../../lib/theming/Theme';
 import ThemeProvider from '../ThemeProvider';
 import SidePage from '../../SidePage';
 import ComboBox from '../../ComboBox';
@@ -12,19 +11,28 @@ import Gapped from '../../Gapped';
 import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
 import darkThemeVariables from '../Playground/darkTheme';
 import styles from '../Playground/styles.less';
+import jsStyles from '../Playground/jsStyles';
 import { ThemeEditor } from '../Playground/ThemeEditor';
+import Link from '../../Link';
+import ColorFunctions from '../../../lib/styles/ColorFunctions';
 
 interface IState {
-  currentTheme: PlaygroundTheme;
-  currentThemeType: ThemeType;
   editorOpened: boolean;
   editingThemeItem?: IEditingThemeItem;
   themes: IThemes;
+  themesErrors: IThemesErrors;
+  currentTheme: PlaygroundTheme;
+  currentThemeType: ThemeType;
 }
 interface IThemes {
   default: ITheme;
   dark: ITheme;
   flat: ITheme;
+}
+interface IThemesErrors {
+  default: ThemeErrorsType;
+  dark: ThemeErrorsType;
+  flat: ThemeErrorsType;
 }
 interface IEditingThemeItem {
   value: ThemeType;
@@ -37,6 +45,7 @@ interface IThemeExtension {
   textColorMain: string;
 }
 export type PlaygroundTheme = ITheme & IThemeExtension;
+export type ThemeErrorsType = { [key in keyof PlaygroundTheme]?: boolean };
 
 export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   private readonly editableThemesItems = [
@@ -55,6 +64,11 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
         default: ThemeFactory.getDefaultTheme(),
         dark: ThemeFactory.create(darkThemeVariables),
         flat: ThemeFactory.create(flatThemeVariables),
+      },
+      themesErrors: {
+        default: {},
+        dark: {},
+        flat: {},
       },
     };
   }
@@ -76,15 +90,12 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   }
 
   private renderSidePage = () => {
-    const { currentTheme, editingThemeItem, themes } = this.state;
+    const { currentTheme, themesErrors, editingThemeItem, themes } = this.state;
+    const themeErrors = themesErrors[editingThemeItem ? editingThemeItem.value : 'default'];
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
-          <div
-            className={css`
-              color: ${currentTheme.textColorMain};
-            `}
-          >
+          <div className={jsStyles.editorHeaderWrapper(currentTheme)}>
             <Gapped>
               <span>Тема для редактирования:</span>
               <ComboBox
@@ -94,18 +105,37 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
               />
             </Gapped>
           </div>
+          <div style={{ fontSize: 14, marginTop: 8 }}>
+            <Link onClick={this.handelGetTheme}>Вывести тему в консоль</Link>
+          </div>
         </SidePage.Header>
         <SidePage.Body>
           <div className={styles.sidePageBody}>
             <ThemeEditor
               editingTheme={themes[editingThemeItem!.value]}
               currentTheme={currentTheme}
+              currentErrors={themeErrors}
               onValueChange={this.handleThemeVariableChange}
             />
           </div>
         </SidePage.Body>
       </SidePage>
     );
+  };
+
+  private handelGetTheme = () => {
+    const currentTheme = this.state.currentTheme;
+    const defaultTheme = ThemeFactory.getDefaultTheme();
+    const themeObject: IThemeIn = {};
+    ThemeFactory.getKeys(currentTheme).forEach(key => {
+      const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
+      if (descriptor && !descriptor.get && defaultTheme[key] && currentTheme[key] !== defaultTheme[key]) {
+        themeObject[key] = currentTheme[key];
+      }
+    });
+
+    // tslint:disable-next-line:no-console
+    console.log(JSON.stringify(themeObject));
   };
 
   private handleOpen = () => {
@@ -122,34 +152,36 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   };
 
   private handleThemeChange = (ev: { target: { value: string } }, value: string) => {
+    const themeType = value as ThemeType;
     this.setState({
-      currentThemeType: value as ThemeType,
+      currentThemeType: themeType,
+      currentTheme: this.state.themes[themeType] as PlaygroundTheme,
     });
-    this.changeTheme(value as ThemeType);
-  };
-
-  private changeTheme = (themeType: ThemeType) => {
-    this.setState({
-      currentTheme: this.getThemeByType(themeType) as PlaygroundTheme,
-    });
-  };
-
-  private getThemeByType = (themeType: ThemeType): ITheme => {
-    return this.state.themes[themeType];
   };
 
   private handleThemeVariableChange = (variable: keyof PlaygroundTheme, value: string) => {
-    const { editingThemeItem, currentTheme, themes } = this.state;
+    const { editingThemeItem, currentTheme, themes, themesErrors } = this.state;
     const editingThemeType = editingThemeItem!.value;
-    const result = this.changeThemeVariable(themes[editingThemeType], variable, value);
 
-    const stateUpdate = {
-      themes,
-      currentTheme,
-    };
-    stateUpdate.themes[editingThemeType] = result;
-    if (this.state.currentThemeType === editingThemeType) {
-      stateUpdate.currentTheme = result as PlaygroundTheme;
+    const theme = themes[editingThemeType];
+    const currentValue = theme[variable];
+
+    let canSetVariable = true;
+    if (ColorFunctions.isValid(currentValue)) {
+      canSetVariable = ColorFunctions.isValid(value);
+      themesErrors[editingThemeType][variable] = !canSetVariable;
+    }
+
+    const nextThemeErrors: IThemesErrors = { ...themesErrors };
+    nextThemeErrors[editingThemeType][variable] = !canSetVariable;
+    const stateUpdate = { themes, currentTheme, themesErrors: nextThemeErrors };
+
+    if (canSetVariable) {
+      const result = this.changeThemeVariable(theme, variable, value);
+      stateUpdate.themes[editingThemeType] = result;
+      if (this.state.currentThemeType === editingThemeType) {
+        stateUpdate.currentTheme = result as PlaygroundTheme;
+      }
     }
 
     this.setState(stateUpdate);
@@ -160,9 +192,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   };
 
   private handleEditingThemeSwitch = (_: any, item: IEditingThemeItem) => {
-    this.setState({
-      editingThemeItem: item,
-    });
+    this.setState({ editingThemeItem: item });
   };
 
   private changeThemeVariable = (theme: ITheme, variableName: keyof ITheme, variableValue: string): ITheme => {

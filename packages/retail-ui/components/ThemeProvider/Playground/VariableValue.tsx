@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cx, css } from 'emotion';
+import { cx, css } from '../../../lib/theming/Emotion';
 import Input from '../../Input/index';
 import styles from './styles.less';
 import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
@@ -16,9 +16,10 @@ const emitter = new EventEmitter();
 export interface IVariableValueProps {
   onChange: (variable: keyof PlaygroundTheme, value: string) => void;
   value: string;
+  isError: boolean;
   variable: string;
   theme: PlaygroundTheme;
-  baseVariable: keyof ITheme;
+  baseVariables: Array<keyof ITheme>;
 }
 
 export interface IVariableValueState {
@@ -37,19 +38,17 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   private debounceInterval: number | undefined = undefined;
 
   public render() {
-    const { variable, theme, baseVariable } = this.props;
+    const { variable, theme, baseVariables } = this.props;
+    const wrapperClassName = cx(
+      styles.variableName,
+      css`
+        color: ${theme.textColorMain};
+      `,
+    );
     return (
       <Gapped gap={30}>
-        <div
-          className={cx(
-            styles.variableName,
-            css`
-              color: ${theme.textColorMain};
-            `,
-          )}
-          title={variable}
-        >{`${variable}: `}</div>
-        {baseVariable && !this.state.editing ? this.renderBaseVariableLink() : this.renderInput()}
+        <div className={wrapperClassName} title={variable}>{`${variable}: `}</div>
+        {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
       </Gapped>
     );
   }
@@ -76,12 +75,19 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
   }
 
   private renderBaseVariableLink = () => {
+    const baseVariables = this.props.baseVariables;
     return (
       <div className={styles.baseVariableRoot}>
         {this.colorIcon()}
         <div className={styles.baseLinkWrapper}>
           <Gapped>
-            <Link onClick={this.emitClickEvent}>{this.props.baseVariable}</Link>
+            <div style={{ textAlign: 'right' }}>
+              <Gapped vertical={true} verticalAlign={'top'}>
+                {baseVariables.map(v => (
+                  <BaseVariableLink key={v} baseVariable={v} emitClickEvent={this.emitClickEvent} />
+                ))}
+              </Gapped>
+            </div>
             <Hint text={'Изменить значение'}>
               <Link icon={<EditIcon />} onClick={this.handleEditLinkClick} />
             </Hint>
@@ -91,22 +97,18 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     );
   };
 
-  private renderInput = () => {
+  private renderInputWrapper = () => {
     return this.state.editing ? (
       <Gapped>
-        {this.input}
-        <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
-          <div className={styles.linkRoot}>
-            <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
-          </div>
-        </Hint>
+        {this.renderInput()}
+        {this.renderRollbackIcon()}
       </Gapped>
     ) : (
-      this.input
+      this.renderInput()
     );
   };
 
-  private get input() {
+  private renderInput() {
     return (
       <Input
         leftIcon={isColor(this.state.value) && this.colorIcon()}
@@ -116,7 +118,18 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
         align={'right'}
         width={this.state.editing ? 225 : undefined}
         ref={this.inputRef}
+        error={this.props.isError}
       />
+    );
+  }
+
+  private renderRollbackIcon() {
+    return (
+      <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
+        <div className={styles.linkRoot}>
+          <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
+        </div>
+      </Hint>
     );
   }
 
@@ -141,8 +154,8 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     });
   };
 
-  private emitClickEvent = () => {
-    emitter.emit('clicked', this.props.baseVariable);
+  private emitClickEvent = (variable: string | number) => {
+    emitter.emit('clicked', variable);
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -173,6 +186,19 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     if (name === this.props.variable && this.inputInstance) {
       this.inputInstance.focus();
     }
+  };
+}
+
+interface BaseVariableLinkProps {
+  baseVariable: string | number;
+  emitClickEvent: (baseVariable: string | number) => void;
+}
+class BaseVariableLink extends React.Component<BaseVariableLinkProps> {
+  public render() {
+    return <Link onClick={this.emitClickEvent}>{this.props.baseVariable}</Link>;
+  }
+  private emitClickEvent = () => {
+    this.props.emitClickEvent(this.props.baseVariable);
   };
 }
 

@@ -1,10 +1,9 @@
-//Colors
+// Colors
 @brand_x_light: #cae5f5;
 @brand_light: #3094d0;
 @brand: #1e79be;
 @brand_dark: #1363a0;
 @brand_x_dark: #084f85;
-
 @white: #fff;
 @gray_xx_light: #f2f2f2;
 @gray_x_light: #e5e5e5;
@@ -30,6 +29,7 @@
 // Common
 @bg-default: #fff;
 @bg-disabled: #f2f2f2;
+// make '__COMPUTED__' after calendar/datepicker
 @bg-active: #5199db;
 
 @error-main: #d70c17;
@@ -40,11 +40,12 @@
 @warning-secondary: #fff0bc;
 @warning-text: #d97e00;
 
-@border-color-focus: #5199db;
+@border-color-focus: '__COMPUTED__';
 @border-color-focus-light: #bad7f1;
 @border-color-gray-dark: rgba(0, 0, 0, 0.28);
 @border-color-gray-light: rgba(0, 0, 0, 0.15);
-@border-color-gray-lighter: #fff;
+@border-color-error: '__COMPUTED__';
+@border-color-warning: '__COMPUTED__';
 
 @outline-color-focus: #fff;
 
@@ -61,26 +62,32 @@
 @control-padding-y-medium: 9px;
 @control-padding-y-large: 10px;
 
-@control-height-small: 2 * @control-border-width + 2 * @control-padding-y-small + @control-line-height-small;
-@control-height-medium: 2 * @control-border-width + 2 * @control-padding-y-medium + @control-line-height-medium;
-@control-height-large: 2 * @control-border-width + 2 * @control-padding-y-large + @control-line-height-large;
+@control-height-small: '__COMPUTED__';
+@control-height-medium: '__COMPUTED__';
+@control-height-large: '__COMPUTED__';
 
 // Text
 @text-color-default: #404040;
 @text-color-invert: #fff;
 @text-color-disabled: #a0a0a0;
 
+@font-size-small: 14px;
+@font-size-medium: 14px;
+@font-size-large: 16px;
+
 // Link
 @link-color: #3072c4;
 @link-active-color: #044785;
+@link-hover-color: '__COMPUTED__';
+@link-disabled-color: '__COMPUTED__';
 @link-hover-text-decoration: underline;
 
-// Used in non-themed datepicker, remove afterwards
-@link-disabled-color: @text-color-disabled;
-
-@dropdown-menu-border: #d0d0d0;
-@dropdown-menu-hover-bg: #5199db;
+// Dropdown
+@dropdown-menu-hover-bg: '__COMPUTED__';
 @dropdown-menu-selected-bg: #f1f1f1;
+
+// Token
+@token-disabled-bg: rgba(0, 0, 0, 0.15);
 
 // Loader
 @loader-bg: #fff;
@@ -91,14 +98,14 @@
 @btn-focus-shadow-width: 2px;
 @btn-border-radius: 2px;
 @btn-small-border-radius: 1px;
+@btn-menu-arrow-color: #a6a6a6;
 
-//checked button
+// checked button
 @btn-checked-bg: #737373;
 @btn-checked-text-color: #fff;
 @btn-checked-shadow-color-arrow: rgba(0, 0, 0, 0.3);
 
 // use default
-@btn-default-bg: #f9f9f9;
 @btn-default-bg-start: #fff;
 @btn-default-bg-end: #ebebeb;
 @btn-default-bg-arrow-start: #fff;
@@ -218,8 +225,19 @@
 // Select
 @slt-placeholder-color: #888;
 
-// tooltip
-@tooltip-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+// Tabs
+@tab-color-focus: '__COMPUTED__';
+@tab-color-error: '__COMPUTED__';
+@tab-color-warning: '__COMPUTED__';
+@tab-color-success: '__COMPUTED__';
+@tab-color-primary: '__COMPUTED__';
+@tab-color-hover: '__COMPUTED__';
+@tab-color-hover-error: '__COMPUTED__';
+@tab-color-hover-warning: '__COMPUTED__';
+@tab-color-hover-success: '__COMPUTED__';
+@tab-color-hover-primary: '__COMPUTED__';
+
+// Tooltip
 @tooltip-close-btn-color: #808080;
 @tooltip-close-btn-hover-color: #606060;
 
@@ -244,6 +262,7 @@
 // DateInput
 @date_input-icon-color: inherit;
 @date_input-mask-color: #b8b8b8;
+@date_input-component-selected-bg-color: #cae0f4;
 
 // Calendar
 @calendar-cell-bg: white;
@@ -280,6 +299,8 @@
 
 // Paging
 @paging-dots-color: gray;
+@paging-forward-link-color: '__COMPUTED__';
+@paging-forward-link-disabled-color: '__COMPUTED__';
 @paging-page-link-active-bg: rgba(0, 0, 0, 0.09);
 @paging-page-link-active-color: black;
 @paging-page-link-hover-bg: rgba(0, 0, 0, 0.05);
@@ -314,24 +335,27 @@
 
 // Toggle
 @toggle-bg-checked: #3072c4;
-@toggle-bg-active: #e5e5e5;
-@toggle-focus-shadow-color: #5199db;
+@toggle-bg-warning: '__COMPUTED__';
+@toggle-bg-error: '__COMPUTED__';
+@toggle-bg-active: '__COMPUTED__';
+@toggle-focus-shadow-color: '__COMPUTED__';
 @toggle-border-color: #d0d0d0;
-
-@btn-menu-arrow-color: #a6a6a6;
 
 @popup-border-radius: 2px;
 @popup-border: none;
 @popup-border-color: transparent;
 @popup-drop-shadow: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 @popup-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2);
+@popup-text-color: 'inherit';
 
+// Input
 @input-text-color: none;
+
 // Checkbox
+@chb-border-radius: 2px;
 @chb-shadow-width: 2px;
 
-
-// specificity
+// Specificity
 @specificity-level: 0;
 
 .add-specificity (@rules, @times) when (@times > 0) {
@@ -438,18 +462,15 @@
 @value yellowDark: @yellow_dark;
 @value bgDefault: @bg-default;
 @value bgDisabled: @bg-disabled;
-@value bgActive: @bg-active;
 @value errorMain: @error-main;
 @value errorSecondary: @error-secondary;
 @value errorText: @error-text;
 @value warningMain: @warning-main;
 @value warningSecondary: @warning-secondary;
 @value warningText: @warning-text;
-@value borderColorFocus: @border-color-focus;
 @value borderColorFocusLight: @border-color-focus-light;
 @value borderColorGrayDark: @border-color-gray-dark;
 @value borderColorGrayLight: @border-color-gray-light;
-@value borderColorGrayLighter: @border-color-gray-lighter;
 @value placeholderColor: @placeholder-color;
 @value outlineColorFocus: @outline-color-focus;
 @value placeholderColorLight: @placeholder-color-light;
@@ -461,18 +482,17 @@
 @value controlPaddingYSmall: @control-padding-y-small;
 @value controlPaddingYMedium: @control-padding-y-medium;
 @value controlPaddingYLarge: @control-padding-y-large;
-@value controlHeightSmall: @control-height-small;
-@value controlHeightMedium: @control-height-medium;
-@value controlHeightLarge: @control-height-large;
 @value textColorDefault: @text-color-default;
 @value textColorInvert: @text-color-invert;
 @value textColorDisabled: @text-color-disabled;
+@value fontSizeSmall: @font-size-small;
+@value fontSizeMedium: @font-size-medium;
+@value fontSizeLarge: @font-size-large;
 @value linkColor: @link-color;
 @value linkActiveColor: @link-active-color;
 @value linkHoverTextDecoration: @link-hover-text-decoration;
-@value dropdownMenuBorder: @dropdown-menu-border;
-@value dropdownMenuHoverBg: @dropdown-menu-hover-bg;
 @value dropdownMenuSelectedBg: @dropdown-menu-selected-bg;
+@value tokenDisabledBg: @token-disabled-bg;
 @value loaderBg: @loader-bg;
 @value loaderOpacity: @loader-opacity;
 @value btnHeightShift: @btn-height-shift;
@@ -484,7 +504,6 @@
 @value btnCheckedShadowArrowLeft: @btn-shadow-checked-arrow-left;
 @value btnBorderRadius: @btn-border-radius;
 @value btnSmallBorderRadius: @btn-small-border-radius;
-@value btnDefaultBg: @btn-default-bg;
 @value btnDefaultBgStart: @btn-default-bg-start;
 @value btnDefaultBgEnd: @btn-default-bg-end;
 @value btnDefaultBgArrowStart: @btn-default-bg-arrow-start;
@@ -576,7 +595,6 @@
 @value btnPayActiveShadowArrowLeft: @btn-pay-active-shadow-arrow-left;
 @value btnDeprecatedSizeMediumPaddingShiftIe: @btn-deprecated-size-medium-padding-shift-ie;
 @value sltPlaceholderColor: @slt-placeholder-color;
-@value tooltipBoxShadow: @tooltip-box-shadow;
 @value tooltipCloseBtnColor: @tooltip-close-btn-color;
 @value tooltipCloseBtnHoverColor: @tooltip-close-btn-hover-color;
 @value modalBackBg: @modal-back-bg;
@@ -639,14 +657,40 @@
 @value menuShadow: @menu-shadow;
 @value toggleBgChecked: @toggle-bg-checked;
 @value toggleBgActive: @toggle-bg-active;
-@value toggleFocusShadowColor: @toggle-focus-shadow-color;
 @value toggleBorderColor: @toggle-border-color;
 @value btnMenuArrowColor: @btn-menu-arrow-color;
-@value popupBorderRadius: @popup-border-radius;
 @value popupBorder: @popup-border;
+@value popupBorderRadius: @popup-border-radius;
 @value popupBorderColor: @popup-border-color;
 @value popupDropShadow: @popup-drop-shadow;
 @value popupBoxShadow: @popup-box-shadow;
+@value popupTextColor: @popup-text-color;
 @value inputTextColor: @input-text-color;
+@value chbBorderRadius: @chb-border-radius;
 @value chbShadowWidth: @chb-shadow-width;
 @value specificityLevel: @specificity-level;
+@value bgActive: @bg-active;
+@value borderColorFocus: @border-color-focus;
+@value borderColorError: @border-color-error;
+@value borderColorWarning: @border-color-warning;
+@value controlHeightSmall: @control-height-small;
+@value controlHeightMedium: @control-height-medium;
+@value controlHeightLarge: @control-height-large;
+@value linkHoverColor: @link-hover-color;
+@value linkDisabledColor: @link-disabled-color;
+@value dropdownMenuHoverBg: @dropdown-menu-hover-bg;
+@value tabColorFocus: @tab-color-focus;
+@value tabColorError: @tab-color-error;
+@value tabColorWarning: @tab-color-warning;
+@value tabColorSuccess: @tab-color-success;
+@value tabColorPrimary: @tab-color-primary;
+@value tabColorHover: @tab-color-hover;
+@value tabColorHoverError: @tab-color-hover-error;
+@value tabColorHoverWarning: @tab-color-hover-warning;
+@value tabColorHoverSuccess: @tab-color-hover-success;
+@value tabColorHoverPrimary: @tab-color-hover-primary;
+@value pagingForwardLinkColor: @paging-forward-link-color;
+@value pagingForwardLinkDisabledColor: @paging-forward-link-disabled-color;
+@value toggleBgWarning: @toggle-bg-warning;
+@value toggleBgError: @toggle-bg-error;
+@value toggleFocusShadowColor: @toggle-focus-shadow-color;

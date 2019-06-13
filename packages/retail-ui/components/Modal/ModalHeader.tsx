@@ -3,7 +3,7 @@ import { ModalContext, CloseProps } from './ModalContext';
 import Sticky from '../Sticky';
 import Close from './ModalClose';
 import styles from './Modal.less';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -54,7 +54,7 @@ export class Header extends React.Component<HeaderProps> {
   private renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => {
     return (
       <div
-        className={classNames({
+        className={cx({
           [styles.header]: true,
           [styles.fixedHeader]: fixed,
           [jsStyles.fixedHeader(this.theme)]: fixed,

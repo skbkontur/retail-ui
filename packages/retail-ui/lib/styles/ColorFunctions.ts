@@ -5,6 +5,74 @@ import { ColorObject } from './ColorObject';
 type SignType = '+' | '-';
 type MethodType = 'absolute' | 'relative';
 
+const DEFAULT_DARK = ColorFactory.create('#000');
+const DEFAULT_LIGHT = ColorFactory.create('#fff');
+
+const ColorFunctions = {
+  lighten(colorString: string, amount: number | string, method?: MethodType) {
+    const key = buildCacheKey('lighten', colorString, amount, method);
+    if (ColorFunctionsCache[key] === undefined) {
+      ColorFunctionsCache[key] = shiftColor(colorString, amount, '+', method);
+    }
+    return ColorFunctionsCache[key]!;
+  },
+  darken(colorString: string, amount: number | string, method?: MethodType) {
+    const key = buildCacheKey('darken', colorString, amount, method);
+    if (ColorFunctionsCache[key] === undefined) {
+      ColorFunctionsCache[key] = shiftColor(colorString, amount, '-', method);
+    }
+
+    return ColorFunctionsCache[key]!;
+  },
+  contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43) {
+    const key = buildCacheKey('contrast', colorString, darkString, lightString, threshold);
+    if (!colorString) {
+      ColorFunctionsCache[key] = '';
+    }
+    if (ColorFunctionsCache[key] === undefined) {
+      const color = ColorFactory.create(colorString);
+      let dark = typeof darkString === 'undefined' ? DEFAULT_DARK : ColorFactory.create(darkString);
+      let light = typeof lightString === 'undefined' ? DEFAULT_LIGHT : ColorFactory.create(lightString);
+
+      // Figure out which is actually light and dark:
+      if (dark.luma() > light.luma()) {
+        [dark, light] = [light, dark];
+      }
+
+      if (color.luma() < threshold) {
+        ColorFunctionsCache[key] = light.alpha < 1 ? light.toRGBString() : light.toHEXString();
+      } else {
+        ColorFunctionsCache[key] = dark.alpha < 1 ? dark.toRGBString() : dark.toHEXString();
+      }
+    }
+    return ColorFunctionsCache[key]!;
+  },
+  red(colorString: string) {
+    const color = ColorFactory.create(colorString);
+    return color.rgb[0];
+  },
+  green(colorString: string) {
+    const color = ColorFactory.create(colorString);
+    return color.rgb[1];
+  },
+  blue(colorString: string) {
+    const color = ColorFactory.create(colorString);
+    return color.rgb[2];
+  },
+  alpha(colorString: string) {
+    const color = ColorFactory.create(colorString);
+    return color.alpha;
+  },
+  isValid(colorString: string) {
+    try {
+      ColorFactory.create(colorString);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+};
+
 const ColorFunctionsCache: { [key: string]: string } = Object.create(null);
 function buildCacheKey(name: string, ...args: any[]) {
   return `${name}(${args.join()})`;
@@ -58,62 +126,5 @@ function shiftColor(colorString: string, a: number | string, sign: SignType, met
       return newColor.toHEXString();
   }
 }
-
-const ColorFunctions = {
-  lighten(colorString: string, amount: number | string, method?: MethodType) {
-    const key = buildCacheKey('lighten', colorString, amount, method);
-    if (ColorFunctionsCache[key] === undefined) {
-      ColorFunctionsCache[key] = shiftColor(colorString, amount, '+', method);
-    }
-    return ColorFunctionsCache[key]!;
-  },
-  darken(colorString: string, amount: number | string, method?: MethodType) {
-    const key = buildCacheKey('darken', colorString, amount, method);
-    if (ColorFunctionsCache[key] === undefined) {
-      ColorFunctionsCache[key] = shiftColor(colorString, amount, '-', method);
-    }
-
-    return ColorFunctionsCache[key]!;
-  },
-  contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43) {
-    const key = buildCacheKey('contrast', colorString, darkString, lightString, threshold);
-    if (!colorString) {
-      ColorFunctionsCache[key] = '';
-    }
-    if (ColorFunctionsCache[key] === undefined) {
-      const color = ColorFactory.create(colorString);
-      let dark = typeof darkString === 'undefined' ? ColorFactory.create('#000') : ColorFactory.create(darkString);
-      let light = typeof lightString === 'undefined' ? ColorFactory.create('#fff') : ColorFactory.create(lightString);
-
-      // Figure out which is actually light and dark:
-      if (dark.luma() > light.luma()) {
-        [dark, light] = [light, dark];
-      }
-
-      if (color.luma() < threshold) {
-        ColorFunctionsCache[key] = light.alpha < 1 ? light.toRGBString() : light.toHEXString();
-      } else {
-        ColorFunctionsCache[key] = dark.alpha < 1 ? dark.toRGBString() : dark.toHEXString();
-      }
-    }
-    return ColorFunctionsCache[key]!;
-  },
-  red(colorString: string) {
-    const color = ColorFactory.create(colorString);
-    return color.rgb[0];
-  },
-  green(colorString: string) {
-    const color = ColorFactory.create(colorString);
-    return color.rgb[1];
-  },
-  blue(colorString: string) {
-    const color = ColorFactory.create(colorString);
-    return color.rgb[2];
-  },
-  alpha(colorString: string) {
-    const color = ColorFactory.create(colorString);
-    return color.alpha;
-  },
-};
 
 export default ColorFunctions;

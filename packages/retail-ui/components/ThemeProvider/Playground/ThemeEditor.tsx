@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { css } from 'emotion';
+import { css } from '../../../lib/theming/Emotion';
 import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { VariableValue } from './VariableValue';
 import { ITheme } from '../../../lib/theming/Theme';
 import Gapped from '../../Gapped';
-import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
+import { PlaygroundTheme, ThemeErrorsType } from '../__stories__/ThemeProvider.stories';
 import Loader from '../../Loader/Loader';
 import styles from './styles.less';
 import { VARIABLES_GROUPS } from './constants';
@@ -12,6 +12,7 @@ import { VARIABLES_GROUPS } from './constants';
 interface IThemeEditorProps {
   editingTheme: ITheme;
   currentTheme: PlaygroundTheme;
+  currentErrors: ThemeErrorsType;
   onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
 interface IThemeEditorState {
@@ -28,6 +29,7 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
     groups: [],
     isLoading: true,
   };
+  private updateTimeout?: number;
 
   public render() {
     return this.state.isLoading ? (
@@ -40,13 +42,17 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
   }
 
   public componentDidMount() {
-    setTimeout(() => {
+    this.updateTimeout = setTimeout(() => {
       this.setState({ groups: VARIABLES_GROUPS, isLoading: false });
     }, 500);
   }
 
+  public componentWillUnmount(): void {
+    clearTimeout(this.updateTimeout);
+  }
+
   private renderGroups = () => {
-    const { editingTheme, currentTheme, onValueChange } = this.props;
+    const { editingTheme, currentTheme, currentErrors, onValueChange } = this.props;
     const keys = ThemeFactory.getKeys(editingTheme);
 
     return (
@@ -55,6 +61,7 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
           <Group
             editingTheme={editingTheme}
             currentTheme={currentTheme}
+            currentErrors={currentErrors}
             onValueChange={onValueChange}
             title={i.title}
             variables={keys.filter(
@@ -73,37 +80,38 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
 interface IGroupProps {
   editingTheme: ITheme;
   currentTheme: PlaygroundTheme;
+  currentErrors: ThemeErrorsType;
   title: string;
   variables: string[];
   onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
 const Group = (props: IGroupProps) => {
-  const { editingTheme, currentTheme, onValueChange, title, variables } = props;
+  const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
+  const headerClassname = css`
+    color: ${currentTheme.textColorMain};
+  `;
 
   return variables.length > 0 ? (
-    <>
-      <h2
-        className={css`
-          color: ${currentTheme.textColorMain};
-        `}
-      >
-        {title}
-      </h2>
-      <Gapped>
+    <React.Fragment>
+      <h2 className={headerClassname}>{title}</h2>
+      <Gapped gap={16}>
         {variables.map(variable => {
+          const value = editingTheme[variable as keyof ITheme];
+          const isError = currentErrors[variable];
           return (
             <VariableValue
               theme={currentTheme}
               onChange={onValueChange}
-              value={editingTheme[variable as keyof ITheme]}
+              value={value}
+              isError={isError || false}
               variable={variable}
               key={variable}
-              baseVariable={getBaseVariable(editingTheme, variable)}
+              baseVariables={getBaseVariables(editingTheme, variable)}
             />
           );
         })}
       </Gapped>
-    </>
+    </React.Fragment>
   ) : null;
 };
 
@@ -129,18 +137,18 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
   const splitPrefix = current.prefix.split(' ');
   return [...acc, ...splitPrefix];
 };
-const getBaseVariable = (theme: ITheme, variable: keyof ITheme): keyof ITheme => {
+const getBaseVariables = (theme: ITheme, variable: keyof ITheme): Array<keyof ITheme> => {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
     if (theme.hasOwnProperty(variable)) {
       const descriptor = Object.getOwnPropertyDescriptor(theme, variable);
 
       if (descriptor && typeof descriptor.get !== 'undefined') {
-        const stringifiedGetter = descriptor.get.toString();
-        const variableNameMatchArray = stringifiedGetter.match(/(\.\w+;)/gm) || [];
-        return (variableNameMatchArray[0] || '').replace(/\W+/g, '');
+        const getterBody = descriptor.get.toString();
+        const variableNameMatchArray = getterBody.match(/this\.(\w+)\b/gm) || [];
+        return (variableNameMatchArray || []).map(v => v.replace(/this\./g, ''));
       }
       break;
     }
   }
-  return '';
+  return [];
 };

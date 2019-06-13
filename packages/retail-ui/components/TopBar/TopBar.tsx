@@ -12,7 +12,7 @@ import styles from './TopBar.less';
 import End from './TopBarEnd';
 import Start from './TopBarStart';
 import Logout from './TopBarLogout';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './TopBar.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -178,7 +178,7 @@ class TopBar extends React.Component<TopBarProps> {
 
     return (
       <div
-        className={classNames({
+        className={cx({
           [styles.root]: true,
           [jsStyles.root(this.theme)]: true,
           [styles.noShadow]: !!noShadow,

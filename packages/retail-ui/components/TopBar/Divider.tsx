@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { cx } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import styles from './TopBar.less';
 import jsStyles from './TopBar.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

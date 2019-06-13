@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import tabListener from '../../lib/events/tabListener';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import styles from './Toggle.less';
 import jsStyles from './Toggle.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -88,16 +88,17 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
-    const containerClassNames = classNames(styles.container, jsStyles.container(this.theme), {
+    const containerClassNames = cx(styles.container, jsStyles.container(this.theme), {
+      [styles.isLoading]: !!loading,
+      [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
+      [jsStyles.isLoading(this.theme)]: !!loading,
       [jsStyles.isWarning(this.theme)]: !color && !!warning,
       [jsStyles.isError(this.theme)]: !color && !!error,
-      [jsStyles.isLoading(this.theme)]: !!loading,
-      [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
     });
 
     return (
       <label
-        className={classNames(styles.wrapper, jsStyles.wrapper(this.theme), {
+        className={cx(styles.wrapper, jsStyles.wrapper(this.theme), {
           [styles.isDisabled]: !!disabled,
         })}
       >
@@ -123,11 +124,11 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
           }
         >
           <div
-            className={classNames(styles.activeBackground, jsStyles.activeBackground(this.theme))}
+            className={cx(styles.activeBackground, jsStyles.activeBackground(this.theme))}
             style={checked && color ? { backgroundColor: color } : undefined}
           />
         </div>
-        <div className={classNames(styles.handle, jsStyles.handle(this.theme))} />
+        <div className={cx(styles.handle, jsStyles.handle(this.theme))} />
       </label>
     );
   }
@@ -158,9 +159,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     if (tabListener.isTabPressed) {
-      this.setState({ focusByTab: true }, () => {
-        tabListener.isTabPressed = false;
-      });
+      this.setState({ focusByTab: true });
     }
   };
 

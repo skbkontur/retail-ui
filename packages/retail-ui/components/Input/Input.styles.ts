@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import classes from './Input.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
@@ -11,7 +11,6 @@ const jsClasses = {
       box-shadow: ${t.inputShadow};
       border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
       border-top-color: ${t.inputBorderTopColor};
-      }
     `;
   },
 
@@ -109,8 +108,8 @@ const jsClasses = {
   disabled(t: ITheme) {
     return css`
       .${classes.root}& {
-        border-color: ${t.inputDisabledBorderColor};
         background: ${t.inputDisabledBg};
+        border-color: ${t.inputDisabledBorderColor};
       }
     `;
   },
@@ -125,6 +124,7 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeSmall};
       line-height: ${t.controlLineHeightSmall};
       padding-top: ${t.controlPaddingYSmall};
       padding-bottom: ${t.controlPaddingYSmall};
@@ -133,12 +133,14 @@ const jsClasses = {
       .rt-ie-any & {
         padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
         padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
+        line-height: normal;
       }
     `;
   },
 
   sizeMedium(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeMedium};
       line-height: ${t.controlLineHeightMedium};
       padding-top: ${t.controlPaddingYMedium};
       padding-bottom: ${t.controlPaddingYMedium};
@@ -147,26 +149,14 @@ const jsClasses = {
       .rt-ie-any & {
         padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
         padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
-      }
-    `;
-  },
-
-  DEPRECATED_sizeMedium(t: ITheme) {
-    return css`
-      line-height: ${t.controlLineHeightMedium};
-      padding-top: ${t.controlPaddingYMedium};
-      padding-bottom: ${t.controlPaddingYMedium};
-      height: ${t.controlHeightMedium};
-
-      .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
+        line-height: normal;
       }
     `;
   },
 
   sizeLarge(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeLarge};
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
       padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};
@@ -175,6 +165,7 @@ const jsClasses = {
       .rt-ie-any & {
         padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
         padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
+        line-height: normal;
       }
     `;
   },

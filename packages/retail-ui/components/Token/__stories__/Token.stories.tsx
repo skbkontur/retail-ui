@@ -39,6 +39,14 @@ storiesOf('Token', module)
       </>
     );
   })
+  .add('disabled', () => {
+    return (
+      <>
+        <Token disabled={true}>test disabled 01</Token>
+        <Token disabled={true}>test disabled 02</Token>
+      </>
+    );
+  })
   .add('long text', () => {
     return (
       <>

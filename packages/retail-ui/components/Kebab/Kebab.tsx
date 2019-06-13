@@ -9,7 +9,7 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 import styles from './Kebab.less';
 import { PopupPosition } from '../Popup';
-import { cx as cn } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Kebab.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -130,7 +130,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cn(
+        className={cx(
           styles.kebab,
           captionProps.opened && styles.opened,
           disabled && styles.disabled,
@@ -188,7 +188,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
     }

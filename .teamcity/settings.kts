@@ -41,23 +41,12 @@ version = "2018.2"
 
 project {
 
-    vcsRoot(ReactUiTestingTags)
-    vcsRoot(RetailUi)
-    vcsRoot(HttpsGithubComSkbkonturRetailUiRefsHeadsMaster_2)
-    vcsRoot(ReactUiValidationsTags)
     vcsRoot(RetailUiTags)
+    vcsRoot(RetailUi)
+    vcsRoot(ReactUiTestingTags)
+    vcsRoot(ReactUiValidationsTags)
 
-    buildType(SeleniumTesting)
     buildType(RunAll)
-    buildType(PublishRetailUi)
-    buildType(LintTestReactUiValidations)
-    buildType(TestConfig)
-    buildType(LintAndTest)
-    buildType(TestUi)
-    buildType(Build)
-    buildType(BuildReactUiValidations)
-    buildType(PublishReactUiValidations)
-    buildType(PublishReactUiTesting)
 
     params {
         text("teamcity.runner.commandline.stdstreams.encoding", "UTF8", display = ParameterDisplay.HIDDEN, allowEmpty = true)
@@ -65,7 +54,7 @@ project {
 
     features {
         feature {
-            id = "PROJECT_EXT_161"
+            id = "PROJECT_EXT_65"
             type = "IssueTracker"
             param("secure:password", "")
             param("name", "skbkontur/retail-ui")
@@ -77,7 +66,7 @@ project {
             param("username", "")
         }
         feature {
-            id = "PROJECT_EXT_37"
+            id = "PROJECT_EXT_66"
             type = "OAuthProvider"
             param("clientId", "ac69bdb75bcac9b85bc2")
             param("defaultTokenScope", "public_repo,repo,repo:status,write:repo_hook")
@@ -91,15 +80,109 @@ project {
     cleanup {
         all(days = 30)
     }
-    buildTypesOrder = arrayListOf(RunAll, LintAndTest, LintTestReactUiValidations, SeleniumTesting, TestUi, Build, BuildReactUiValidations, PublishRetailUi, PublishReactUiValidations, PublishReactUiTesting)
+    buildTypesOrder = arrayListOf(RunAll)
+
+    subProject(ReactUI)
+    subProject(Validations)
+    subProject(SeleniumTesting)
 }
 
-object Build : BuildType({
-    name = "Build retail-ui"
+object RunAll : BuildType({
+    name = "Run All"
+
+    allowExternalStatus = true
+    type = BuildTypeSettings.Type.COMPOSITE
+
+    vcs {
+        root(RetailUi)
+
+        showDependenciesChanges = true
+    }
+
+    triggers {
+        schedule {
+            schedulingPolicy = daily {
+                hour = 0
+            }
+            branchFilter = "+:<default>"
+            triggerBuild = always()
+            withPendingChangesOnly = false
+        }
+    }
+
+    features {
+        pullRequests {
+            provider = github {
+                authType = token {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+                filterTargetBranch = "refs/heads/master"
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
+    }
+
+    dependencies {
+        snapshot(ReactUI_BuildRetailUi) {
+        }
+        snapshot(ReactUI_LintTest) {
+        }
+        snapshot(ReactUI_ScreenshotTests) {
+        }
+        snapshot(SeleniumTesting_Test) {
+        }
+        snapshot(Validations_Build) {
+        }
+        snapshot(Validations_LintTest) {
+        }
+    }
+})
+
+object ReactUiTestingTags : GitVcsRoot({
+    name = "react-ui-testing tags"
+    url = "https://github.com/skbkontur/retail-ui.git"
+    branchSpec = "+:refs/tags/react-ui-testing@*"
+    useTagsAsBranches = true
+})
+
+object ReactUiValidationsTags : GitVcsRoot({
+    name = "react-ui-validations tags"
+    url = "https://github.com/skbkontur/retail-ui.git"
+    branchSpec = "+:refs/tags/react-ui-validations@*"
+    useTagsAsBranches = true
+})
+
+object RetailUi : GitVcsRoot({
+    name = "retail-ui"
+    url = "https://github.com/skbkontur/retail-ui.git"
+    branchSpec = "+:refs/heads/*"
+})
+
+object RetailUiTags : GitVcsRoot({
+    name = "retail-ui tags"
+    url = "https://github.com/skbkontur/retail-ui.git"
+    branchSpec = "+:refs/tags/retail-ui@*"
+    useTagsAsBranches = true
+})
+
+
+object ReactUI : Project({
+    name = "ReactUI"
+
+    buildType(ReactUI_LintTest)
+    buildType(ReactUI_ScreenshotTests)
+    buildType(ReactUI_BuildRetailUi)
+    buildType(ReactUI_Publish)
+    buildType(ReactUI_CreeveyTests)
+    buildTypesOrder = arrayListOf(ReactUI_LintTest, ReactUI_ScreenshotTests, ReactUI_CreeveyTests, ReactUI_BuildRetailUi, ReactUI_Publish)
+})
+
+object ReactUI_BuildRetailUi : BuildType({
+    name = "Build"
 
     artifactRules = """
-        packages\retail-ui\retail-ui-*.tgz
-        packages\retail-ui\skbkontur-react-ui-*.tgz
+        packages\retail-ui\retail-ui-%build.number%.tgz
+        packages\retail-ui\skbkontur-react-ui-%build.number%.tgz
     """.trimIndent()
 
     vcs {
@@ -160,8 +243,376 @@ object Build : BuildType({
     }
 })
 
-object BuildReactUiValidations : BuildType({
-    name = "Build react-ui-validations"
+object ReactUI_CreeveyTests : BuildType({
+    name = "Creevey test"
+
+    artifactRules = "packages/react-ui-selenium/report => report.zip"
+    maxRunningBuilds = 1
+
+    params {
+        password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
+        password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
+    }
+
+    vcs {
+        root(RetailUi)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        script {
+            name = "Start"
+            scriptContent = """
+                start /b yarn workspace retail-ui storybook
+                ping 127.0.0.1 -n 61
+            """.trimIndent()
+        }
+        step {
+            name = "Test UI"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace react-ui-selenium creevey --reporter mocha-teamcity-reporter")
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = "+:gemini-rip"
+        }
+    }
+
+    features {
+        swabra {
+            forceCleanCheckout = true
+            lockingProcesses = Swabra.LockingProcessPolicy.KILL
+        }
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+            }
+            param("github_oauth_user", "wKich")
+        }
+        pullRequests {
+            provider = github {
+                authType = token {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+                filterTargetBranch = "refs/heads/master"
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
+    }
+})
+
+object ReactUI_LintTest : BuildType({
+    name = "Lint/Test"
+
+    vcs {
+        root(RetailUi)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Lint"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace retail-ui lint")
+        }
+        step {
+            name = "Test"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace retail-ui test")
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = "+:pull/*"
+        }
+    }
+
+    features {
+        swabra {
+            forceCleanCheckout = true
+        }
+        pullRequests {
+            provider = github {
+                authType = token {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+                filterTargetBranch = "refs/heads/master"
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+            }
+            param("github_oauth_user", "wKich")
+        }
+    }
+})
+
+object ReactUI_Publish : BuildType({
+    name = "Publish"
+
+    params {
+        password("env.NPM_TOKEN", "credentialsJSON:2cea5b86-4e77-4fb6-b21f-c8f564c39fa6", display = ParameterDisplay.HIDDEN, readOnly = true)
+    }
+
+    vcs {
+        root(RetailUiTags)
+
+        buildDefaultBranch = false
+    }
+
+    steps {
+        step {
+            name = "Install"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Auth"
+            type = "jonnyzzz.npm"
+            param("npm_commands", """config set "//registry.npmjs.org/:_authToken" "%env.NPM_TOKEN%"""")
+        }
+        step {
+            name = "Publish"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace retail-ui publish")
+        }
+        step {
+            name = "Clean"
+            type = "jonnyzzz.npm"
+            executionMode = BuildStep.ExecutionMode.ALWAYS
+            param("npm_commands", """config delete "//registry.npmjs.org/:_authToken"""")
+        }
+    }
+
+    triggers {
+        vcs {
+        }
+    }
+
+    features {
+        sshAgent {
+            teamcitySshKey = "GitHub"
+        }
+    }
+})
+
+object ReactUI_ScreenshotTests : BuildType({
+    name = "Screenshot tests"
+
+    artifactRules = "packages/react-ui-screenshot-tests/html-report => html-report.zip"
+    maxRunningBuilds = 1
+
+    params {
+        password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
+        password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
+    }
+
+    vcs {
+        root(RetailUi)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Test UI"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace react-ui-screenshot-tests test")
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = "+:pull/*"
+        }
+    }
+
+    features {
+        swabra {
+            forceCleanCheckout = true
+            lockingProcesses = Swabra.LockingProcessPolicy.KILL
+        }
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+            }
+            param("github_oauth_user", "wKich")
+        }
+        pullRequests {
+            provider = github {
+                authType = token {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+                filterTargetBranch = "refs/heads/master"
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
+    }
+})
+
+
+object SeleniumTesting : Project({
+    name = "SeleniumTesting"
+
+    buildType(SeleniumTesting_Publish)
+    buildType(SeleniumTesting_Test)
+    buildTypesOrder = arrayListOf(SeleniumTesting_Test, SeleniumTesting_Publish)
+})
+
+object SeleniumTesting_Publish : BuildType({
+    name = "Publish"
+
+    artifactRules = "packages/react-ui-testing/Output/*.nupkg"
+
+    vcs {
+        root(ReactUiTestingTags)
+
+        buildDefaultBranch = false
+    }
+
+    steps {
+        step {
+            name = "Install"
+            type = "jb.nuget.installer"
+            param("nuget.path", "%teamcity.tool.NuGet.CommandLine.DEFAULT%")
+            param("nuget.updatePackages.mode", "sln")
+            param("sln.path", "packages/react-ui-testing/SeleniumTesting.sln")
+        }
+        dotnetBuild {
+            name = "Build"
+            projects = "packages/react-ui-testing/SeleniumTesting/SeleniumTesting.csproj"
+            configuration = "Release"
+            versionSuffix = "%teamcity.build.branch%"
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
+        }
+        step {
+            name = "Publish"
+            type = "jb.nuget.publish"
+            param("secure:nuget.api.key", "credentialsJSON:b87415ec-fb4b-4489-80dd-03e53cd922e5")
+            param("nuget.path", "%teamcity.tool.NuGet.CommandLine.4.9.2%")
+            param("nuget.publish.source", "https://api.nuget.org/v3/index.json")
+            param("nuget.publish.files", "packages/react-ui-testing/Output/*.nupkg")
+        }
+    }
+
+    triggers {
+        vcs {
+        }
+    }
+})
+
+object SeleniumTesting_Test : BuildType({
+    name = "Test"
+
+    artifactRules = "packages/react-ui-testing/.screenshots => screenshots.zip"
+
+    params {
+        password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
+        password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
+    }
+
+    vcs {
+        root(RetailUi)
+    }
+
+    steps {
+        step {
+            name = "Install"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "install")
+        }
+        step {
+            name = "Build"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", """
+                workspace retail-ui build
+                workspace react-ui-testing build
+            """.trimIndent())
+        }
+        script {
+            name = "Start"
+            scriptContent = """
+                start /b yarn workspace react-ui-testing start
+                ping 127.0.0.1 -n 11
+            """.trimIndent()
+        }
+        dotnetTest {
+            name = "Test"
+            projects = "packages/react-ui-testing/Tests/Tests.csproj"
+            framework = "netcoreapp2.1"
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
+        }
+    }
+
+    triggers {
+        vcs {
+            branchFilter = "+:pull/*"
+        }
+    }
+
+    features {
+        swabra {
+            forceCleanCheckout = true
+            lockingProcesses = Swabra.LockingProcessPolicy.KILL
+        }
+        commitStatusPublisher {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+            }
+            param("github_oauth_user", "wKich")
+        }
+        pullRequests {
+            provider = github {
+                authType = token {
+                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                }
+                filterTargetBranch = "refs/heads/master"
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+        }
+    }
+})
+
+
+object Validations : Project({
+    name = "Validations"
+
+    buildType(Validations_Build)
+    buildType(Validations_LintTest)
+    buildType(Validations_Publish)
+    buildTypesOrder = arrayListOf(Validations_LintTest, Validations_Build, Validations_Publish)
+})
+
+object Validations_Build : BuildType({
+    name = "Build"
 
     artifactRules = """
         packages\react-ui-validations\react-ui-validations-*.tgz
@@ -231,64 +682,8 @@ object BuildReactUiValidations : BuildType({
     }
 })
 
-object LintAndTest : BuildType({
-    name = "Lint/Test retail-ui"
-
-    vcs {
-        root(RetailUi)
-    }
-
-    steps {
-        step {
-            name = "Install"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "install")
-        }
-        step {
-            name = "Lint"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui lint")
-        }
-        step {
-            name = "Test"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui test")
-        }
-    }
-
-    triggers {
-        vcs {
-            branchFilter = "+:pull/*"
-        }
-    }
-
-    features {
-        swabra {
-            forceCleanCheckout = true
-        }
-        pullRequests {
-            provider = github {
-                authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
-                }
-                filterTargetBranch = "refs/heads/master"
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
-            }
-        }
-        commitStatusPublisher {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
-                }
-            }
-            param("github_oauth_user", "wKich")
-        }
-    }
-})
-
-object LintTestReactUiValidations : BuildType({
-    name = "Lint/Test react-ui-validations"
+object Validations_LintTest : BuildType({
+    name = "Lint/Test"
 
     vcs {
         root(RetailUi)
@@ -365,50 +760,8 @@ object LintTestReactUiValidations : BuildType({
     }
 })
 
-object PublishReactUiTesting : BuildType({
-    name = "Publish react-ui-testing"
-
-    artifactRules = "packages/react-ui-testing/Output/*.nupkg"
-
-    vcs {
-        root(ReactUiTestingTags)
-
-        buildDefaultBranch = false
-    }
-
-    steps {
-        step {
-            name = "Install"
-            type = "jb.nuget.installer"
-            param("nuget.path", "%teamcity.tool.NuGet.CommandLine.DEFAULT%")
-            param("nuget.updatePackages.mode", "sln")
-            param("sln.path", "packages/react-ui-testing/SeleniumTesting.sln")
-        }
-        dotnetBuild {
-            name = "Build"
-            projects = "packages/react-ui-testing/SeleniumTesting/SeleniumTesting.csproj"
-            configuration = "Release"
-            versionSuffix = "%teamcity.build.branch%"
-            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
-        }
-        step {
-            name = "Publish"
-            type = "jb.nuget.publish"
-            param("secure:nuget.api.key", "credentialsJSON:53edc6c7-2259-4fcc-9ea2-5e869ab8ee43")
-            param("nuget.path", "%teamcity.tool.NuGet.CommandLine.4.9.2%")
-            param("nuget.publish.source", "https://api.nuget.org/v3/index.json")
-            param("nuget.publish.files", "packages/react-ui-testing/Output/*.nupkg")
-        }
-    }
-
-    triggers {
-        vcs {
-        }
-    }
-})
-
-object PublishReactUiValidations : BuildType({
-    name = "Publish react-ui-validations"
+object Validations_Publish : BuildType({
+    name = "Publish"
 
     params {
         password("env.NPM_TOKEN", "credentialsJSON:2cea5b86-4e77-4fb6-b21f-c8f564c39fa6", display = ParameterDisplay.HIDDEN, readOnly = true)
@@ -459,297 +812,4 @@ object PublishReactUiValidations : BuildType({
             teamcitySshKey = "GitHub"
         }
     }
-})
-
-object PublishRetailUi : BuildType({
-    name = "Publish retail-ui"
-
-    params {
-        password("env.NPM_TOKEN", "credentialsJSON:2cea5b86-4e77-4fb6-b21f-c8f564c39fa6", display = ParameterDisplay.HIDDEN, readOnly = true)
-    }
-
-    vcs {
-        root(RetailUiTags)
-
-        buildDefaultBranch = false
-    }
-
-    steps {
-        step {
-            name = "Install"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "install")
-        }
-        step {
-            name = "Auth"
-            type = "jonnyzzz.npm"
-            param("npm_commands", """config set "//registry.npmjs.org/:_authToken" "%env.NPM_TOKEN%"""")
-        }
-        step {
-            name = "Publish"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui publish")
-        }
-        step {
-            name = "Clean"
-            type = "jonnyzzz.npm"
-            executionMode = BuildStep.ExecutionMode.ALWAYS
-            param("npm_commands", """config delete "//registry.npmjs.org/:_authToken"""")
-        }
-    }
-
-    triggers {
-        vcs {
-        }
-    }
-
-    features {
-        sshAgent {
-            teamcitySshKey = "GitHub"
-        }
-    }
-})
-
-object RunAll : BuildType({
-    name = "Run All"
-
-    allowExternalStatus = true
-    type = BuildTypeSettings.Type.COMPOSITE
-
-    vcs {
-        root(RetailUi)
-
-        showDependenciesChanges = true
-    }
-
-    triggers {
-        schedule {
-            schedulingPolicy = daily {
-                hour = 0
-            }
-            branchFilter = "+:<default>"
-            triggerBuild = always()
-            withPendingChangesOnly = false
-        }
-    }
-
-    features {
-        pullRequests {
-            provider = github {
-                authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
-                }
-                filterTargetBranch = "refs/heads/master"
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
-            }
-        }
-    }
-
-    dependencies {
-        snapshot(Build) {
-        }
-        snapshot(BuildReactUiValidations) {
-        }
-        snapshot(LintAndTest) {
-        }
-        snapshot(LintTestReactUiValidations) {
-        }
-        snapshot(SeleniumTesting) {
-        }
-        snapshot(TestUi) {
-        }
-    }
-})
-
-object SeleniumTesting : BuildType({
-    name = "SeleniumTesting"
-
-    artifactRules = "packages/react-ui-testing/.screenshots => screenshots.zip"
-
-    params {
-        password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
-        password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
-    }
-
-    vcs {
-        root(RetailUi)
-    }
-
-    steps {
-        step {
-            name = "Install"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "install")
-        }
-        step {
-            name = "Build"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", """
-                workspace retail-ui build
-                workspace react-ui-testing build
-            """.trimIndent())
-        }
-        script {
-            name = "Start"
-            scriptContent = """
-                start /b yarn workspace react-ui-testing start
-                ping 127.0.0.1 -n 11
-            """.trimIndent()
-        }
-        dotnetTest {
-            name = "Test"
-            projects = "packages/react-ui-testing/Tests/Tests.csproj"
-            framework = "netcoreapp2.1"
-            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
-        }
-    }
-
-    triggers {
-        vcs {
-            branchFilter = "+:pull/*"
-        }
-    }
-
-    features {
-        swabra {
-            forceCleanCheckout = true
-            lockingProcesses = Swabra.LockingProcessPolicy.KILL
-        }
-        commitStatusPublisher {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
-                }
-            }
-            param("github_oauth_user", "wKich")
-        }
-        pullRequests {
-            provider = github {
-                authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
-                }
-                filterTargetBranch = "refs/heads/master"
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
-            }
-        }
-    }
-})
-
-object TestConfig : BuildType({
-    name = "TestConfig"
-
-    vcs {
-        root(HttpsGithubComSkbkonturRetailUiRefsHeadsMaster_2)
-    }
-
-    steps {
-        step {
-            name = "hello"
-            type = "jonnyzzz.node"
-            param("node_script_text", "console.log('Hello TC!')")
-            param("node_execution_mode", "script")
-        }
-    }
-
-    triggers {
-        vcs {
-        }
-    }
-})
-
-object TestUi : BuildType({
-    name = "Screenshot tests"
-
-    artifactRules = "packages/react-ui-screenshot-tests/html-report => html-report.zip"
-    maxRunningBuilds = 1
-
-    params {
-        password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
-        password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
-    }
-
-    vcs {
-        root(RetailUi)
-    }
-
-    steps {
-        step {
-            name = "Install"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "install")
-        }
-        step {
-            name = "Test UI"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-screenshot-tests test")
-        }
-    }
-
-    triggers {
-        vcs {
-            branchFilter = "+:pull/*"
-        }
-    }
-
-    features {
-        swabra {
-            forceCleanCheckout = true
-            lockingProcesses = Swabra.LockingProcessPolicy.KILL
-        }
-        commitStatusPublisher {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
-                }
-            }
-            param("github_oauth_user", "wKich")
-        }
-        pullRequests {
-            provider = github {
-                authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
-                }
-                filterTargetBranch = "refs/heads/master"
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
-            }
-        }
-    }
-})
-
-object HttpsGithubComSkbkonturRetailUiRefsHeadsMaster_2 : GitVcsRoot({
-    name = "https://github.com/skbkontur/retail-ui#refs/heads/master"
-    url = "https://github.com/skbkontur/retail-ui"
-    authMethod = password {
-        userName = "zhzz"
-        password = "credentialsJSON:36ab2546-497c-4e37-84fd-380a2273fbe9"
-    }
-})
-
-object ReactUiTestingTags : GitVcsRoot({
-    name = "react-ui-testing tags"
-    url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/tags/react-ui-testing@*"
-    useTagsAsBranches = true
-})
-
-object ReactUiValidationsTags : GitVcsRoot({
-    name = "react-ui-validations tags"
-    url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/tags/react-ui-validations@*"
-    useTagsAsBranches = true
-})
-
-object RetailUi : GitVcsRoot({
-    name = "retail-ui"
-    url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/heads/*"
-})
-
-object RetailUiTags : GitVcsRoot({
-    name = "retail-ui tags"
-    url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/tags/retail-ui@*"
-    useTagsAsBranches = true
 })

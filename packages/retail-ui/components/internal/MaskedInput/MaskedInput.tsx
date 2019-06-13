@@ -2,7 +2,7 @@ import * as React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 import styles from './MaskedInput.less';
 import jsStyles from './MaskedInput.styles';
-import { cx } from 'emotion';
+import { cx } from '../../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeContext';
 import { ITheme } from '../../../lib/theming/Theme';
 
@@ -23,15 +23,19 @@ interface MaskedInputState {
 }
 
 export default class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
-  public state: MaskedInputState = {
-    value: this.props.value ? this.props.value.toString() : '',
-    emptyValue: '',
-    focused: false,
-  };
-
   public input: HTMLInputElement | null = null;
   private theme!: ITheme;
   private reactInputMask: ReactInputMask | null = null;
+
+  public constructor(props: MaskedInputProps) {
+    super(props);
+
+    this.state = {
+      value: this.getValue(props),
+      emptyValue: '',
+      focused: false,
+    };
+  }
 
   public componentDidMount() {
     if (this.reactInputMask) {
@@ -67,6 +71,7 @@ export default class MaskedInput extends React.Component<MaskedInputProps, Maske
       hasRightIcon,
       maxLength,
       onUnexpectedInput,
+      defaultValue,
       ...inputProps
     } = this.props;
 
@@ -93,6 +98,12 @@ export default class MaskedInput extends React.Component<MaskedInputProps, Maske
       </span>
     );
   }
+
+  private getValue = (props: MaskedInputProps): string => {
+    const { value, defaultValue } = props;
+
+    return value !== undefined ? value.toString() : defaultValue !== undefined ? defaultValue.toString() : '';
+  };
 
   private refInput = (input: HTMLInputElement | null) => {
     this.input = input;

@@ -4,7 +4,7 @@ import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.less';
 import { isFunction } from '../../lib/utils';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -76,9 +76,9 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
 
   private renderHeader = (fixed: boolean = false) => {
     return (
-      <div className={classNames(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
+      <div className={cx(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
         {this.renderClose()}
-        <div className={classNames(styles.title, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
+        <div className={cx(styles.title, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
@@ -93,7 +93,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
             {({ requestClose }) => (
               <a
                 href="javascript:"
-                className={classNames(styles.close, jsStyles.close(this.theme), {
+                className={cx(styles.close, jsStyles.close(this.theme), {
                   [styles.fixed]: fixed,
                   [jsStyles.fixed(this.theme)]: fixed,
                 })}

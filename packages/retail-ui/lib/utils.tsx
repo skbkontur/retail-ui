@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { ConsumerProps } from 'create-react-context';
+import { ReactComponentLike } from 'prop-types';
 
 // NOTE Some checks are used from https://github.com/arasatasaygin/is.js
 const platform = ((navigator && navigator.platform) || '').toLowerCase();
@@ -38,7 +39,7 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
-export function isFunctionalComponent(Component: string | React.ComponentClass | React.FunctionComponent) {
+export function isFunctionalComponent(Component: ReactComponentLike) {
   return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
 }
 

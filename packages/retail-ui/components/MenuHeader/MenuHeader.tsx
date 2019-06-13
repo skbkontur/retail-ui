@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './MenuHeader.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './MenuHeader.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -37,7 +37,7 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
   }
 
   private renderMain() {
-    const classnames: string = classNames({
+    const classnames: string = cx({
       [styles.root]: true,
       [jsStyles.withLeftPadding(this.theme)]: this.getProps()._enableIconPadding,
     });

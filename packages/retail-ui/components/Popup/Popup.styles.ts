@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
@@ -17,7 +17,8 @@ const jsStyles = {
 
   contentInner(t: ITheme) {
     return css`
-      background: ${t.bgDefault};
+      color: ${t.popupTextColor};
+      background: ${t.popupBackground};
     `;
   },
 

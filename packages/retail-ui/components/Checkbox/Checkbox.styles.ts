@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import styles from './Checkbox.less';
 import { ITheme } from '../../lib/theming/Theme';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
@@ -25,11 +25,12 @@ const jsStyles = {
     return css`
       color: ${t.textColorDefault};
       border: ${t.chbBorder};
+      border-radius: ${t.chbBorderRadius};
       box-shadow: ${t.chbShadow};
       background: ${t.chbBg};
 
       .${styles.disabled} & {
-        box-shadow: ${t.chbShadowDisabled} !important; //to overide hover and active
+        box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
         background: ${t.bgDisabled} !important;
         color: ${t.textColorDisabled} !important;
         border-color: transparent;

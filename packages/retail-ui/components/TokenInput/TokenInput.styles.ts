@@ -1,4 +1,4 @@
-import { css } from 'emotion';
+import { css } from '../../lib/theming/Emotion';
 import styles from './TokenInput.less';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -40,6 +40,13 @@ const jsStyles = {
     `;
   },
 
+  labelDisabled(t: ITheme) {
+    return css`
+      background: ${t.bgDisabled};
+      border-color: ${t.borderColorGrayLight};
+    `;
+  },
+
   input(t: ITheme) {
     return css`
       .${styles.root} &::placeholder {
@@ -48,6 +55,12 @@ const jsStyles = {
       .${styles.root} &:focus::placeholder {
         color: ${t.placeholderColorLight};
       }
+    `;
+  },
+
+  inputDisabled(t: ITheme) {
+    return css`
+      color: ${t.textColorDisabled};
     `;
   },
 };

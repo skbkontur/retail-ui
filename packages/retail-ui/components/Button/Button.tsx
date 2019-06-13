@@ -1,9 +1,8 @@
 import * as React from 'react';
-import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
 import Corners from './Corners';
 import '../ensureOldIEClassName';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import classes from './Button.less';
 import jsClasses from './Button.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -162,25 +161,18 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
   private renderMain() {
     const { corners = 0 } = this.props;
-    const RADIUS = this.props.size === 'small' ? this.theme.btnSmallBorderRadius : this.theme.btnBorderRadius;
-
-    const SIZE_CLASSES = {
-      small: classNames(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? classNames(classes.sizeMedium, jsClasses.sizeMedium(this.theme))
-        : classNames(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(this.theme)),
-      large: classNames(classes.sizeLarge, jsClasses.sizeLarge(this.theme)),
-    };
+    const sizeClass = this.getSizeClassName();
 
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
-      className: classNames({
+      className: cx({
         [classes.root]: true,
         [jsClasses.root(this.theme)]: true,
-        [classNames(jsClasses[this.props.use!] && jsClasses[this.props.use!](this.theme)) || jsClasses.default(this.theme)]: true,
+        [cx(jsClasses[this.props.use!] && jsClasses[this.props.use!](this.theme)) ||
+        jsClasses.default(this.theme)]: true,
         [classes.active]: !!this.props.active,
         [classes.checked]: !!this.props.checked,
         [jsClasses.checked(this.theme)]: !!this.props.checked,
@@ -196,17 +188,16 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.noPadding]: !!this.props._noPadding,
         [classes.noRightPadding]: !!this.props._noRightPadding,
         [classes.buttonWithIcon]: !!this.props.icon,
-        [SIZE_CLASSES[this.props.size!]]: true,
+        [sizeClass]: true,
         [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [classes.borderless]: !!this.props.borderless,
       }),
       style: {
-        borderRadius:
-          `${corners & Corners.TOP_LEFT ? 0 : RADIUS}` +
-          ` ${corners & Corners.TOP_RIGHT ? 0 : RADIUS}` +
-          ` ${corners & Corners.BOTTOM_RIGHT ? 0 : RADIUS}` +
-          ` ${corners & Corners.BOTTOM_LEFT ? 0 : RADIUS}`,
+        borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
+        borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
+        borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
+        borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: this.props.align,
       },
       disabled: this.props.disabled || this.props.loading,
@@ -221,7 +212,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: classNames({
+      className: cx({
         [classes.wrap]: true,
         [jsClasses.wrap(this.theme)]: true,
         [classes.wrap_arrow]: !!this.props.arrow,
@@ -234,9 +225,9 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
     let error = null;
     if (this.props.error) {
-      error = <div className={classNames(classes.error, jsClasses.error(this.theme))} />;
+      error = <div className={cx(classes.error, jsClasses.error(this.theme))} />;
     } else if (this.props.warning) {
-      error = <div className={classNames(classes.warning, jsClasses.warning(this.theme))} />;
+      error = <div className={cx(classes.warning, jsClasses.warning(this.theme))} />;
     }
 
     let loading = null;
@@ -253,9 +244,9 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.arrow) {
       arrow = (
         <div
-          className={classNames({
-            [classNames(classes.arrow, jsClasses.arrow(this.theme)) || '']: true,
-            [classNames(classes.arrow_left, jsClasses.arrow_left(this.theme)) || '']: this.props.arrow === 'left',
+          className={cx({
+            [cx(classes.arrow, jsClasses.arrow(this.theme)) || '']: true,
+            [cx(classes.arrow_left, jsClasses.arrow_left(this.theme)) || '']: this.props.arrow === 'left',
             [classes.arrow_loading || '']: !!this.props.loading,
             [jsClasses.arrow_error(this.theme)]: !!this.props.error,
             [jsClasses.arrow_warning(this.theme)]: !!this.props.warning,
@@ -266,7 +257,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
     // Force disable all props and features, that cannot be use with Link
     if (this.props.use === 'link') {
-      rootProps.className = classNames({
+      rootProps.className = cx({
         [classes.root]: true,
         [jsClasses.root(this.theme)]: true,
         [classes.link]: true,
@@ -274,12 +265,12 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.disabled]: !!this.props.disabled,
         [jsClasses.disabled(this.theme)]: !!this.props.disabled,
         [classes.buttonWithIcon]: !!this.props.icon,
-        [SIZE_CLASSES[this.props.size!]]: true,
+        [sizeClass]: true,
         [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
       });
       Object.assign(wrapProps, {
-        className: classNames(classes.wrap, {
+        className: cx(classes.wrap, {
           [classes.wrap_link]: this.props.use === 'link',
         }),
         style: { width: wrapProps.style.width },
@@ -304,6 +295,18 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     );
   }
 
+  private getSizeClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return cx(classes.sizeLarge, jsClasses.sizeLarge(this.theme));
+      case 'medium':
+        return cx(classes.sizeMedium, jsClasses.sizeMedium(this.theme));
+      case 'small':
+      default:
+        return cx(classes.sizeSmall, jsClasses.sizeSmall(this.theme));
+    }
+  }
+
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
@@ -311,7 +314,6 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
       if (this.props.onFocus) {

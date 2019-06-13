@@ -1,14 +1,12 @@
 const {
   appendFileSync,
-  readdirSync,
   readFileSync,
   writeFileSync,
   unlinkSync,
-  lstatSync,
   existsSync,
   copyFileSync,
 } = require('fs');
-const { parse, join } = require('path');
+const less = require('less');
 
 const ARGS = process.argv.slice(2);
 const VARIABLES_ARGUMENT_NAME = 'variables';
@@ -18,13 +16,10 @@ const STRING_CAMELIZE_REGEXP_1 = /(\-|\_|\.|\s)+(.)?/g;
 const STRING_CAMELIZE_REGEXP_2 = /(^|\/)([A-Z])/g;
 const ENCODING = 'UTF-8';
 const TEMP_FILE_PATH = './variables.temp.less';
-const ROOT_PATH = parse(process.cwd()).root;
 
-let less;
 let variablesFilePath;
 let output;
 
-defineLess();
 validateArguments();
 parseArguments();
 processFile();
@@ -150,37 +145,4 @@ function camelizeString(str) {
   return str
     .replace(STRING_CAMELIZE_REGEXP_1, (match, separator, chr) => (chr ? chr.toUpperCase() : ''))
     .replace(STRING_CAMELIZE_REGEXP_2, match => match.toLowerCase());
-}
-
-function defineLess() {
-  const pathToLess = findLess(__dirname);
-
-  try {
-    less = require(pathToLess);
-  } catch (e) {
-    console.log(`Error with less package require: ${e}`);
-  }
-}
-
-function findLess(path) {
-  if (path === ROOT_PATH) {
-    throw new Error("Couldn't find less package");
-  }
-
-  const directories = getDirectories(path);
-  if (directories.includes('node_modules')) {
-    const nodeModulesDirectories = getDirectories(join(path, 'node_modules'));
-    if (nodeModulesDirectories.includes('less')) {
-      return join(path, 'node_modules', 'less', 'index.js');
-    }
-  }
-  return findLess(join(path, '..'));
-}
-
-function isDirectory(source) {
-  return lstatSync(source).isDirectory();
-}
-
-function getDirectories(source) {
-  return readdirSync(source).filter(name => isDirectory(join(source, name)));
 }

@@ -8,7 +8,7 @@ import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
 
 import styles from './Loader.less';
 import { Nullable } from '../../typings/utility-types';
-import { cx as classnames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Loader.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -107,7 +107,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private renderMain() {
     const { active, type, caption, className } = this.props;
-    const loaderClassName = classnames(styles.loader, className, {
+    const loaderClassName = cx(styles.loader, className, {
       [styles.active]: active,
       [jsStyles.active(this.theme)]: active,
     });

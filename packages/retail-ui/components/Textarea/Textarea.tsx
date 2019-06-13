@@ -7,8 +7,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
 import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
-import Upgrades from '../../lib/Upgrades';
-import { cx as classNames } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Textarea.styles';
 import styles from './Textarea.less';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -239,7 +238,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       },
     };
 
-    const textareaClassNames = classNames({
+    const textareaClassNames = cx({
       [styles.textarea]: true,
       [jsStyles.textarea(this.theme)]: true,
       [jsStyles.error(this.theme)]: !!error,
@@ -261,19 +260,14 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
       const fakeProps = {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
-        className: classNames(textareaClassNames, styles.fake),
+        className: cx(textareaClassNames, styles.fake),
         readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
     return (
-      <label
-        {...rootProps}
-        className={classNames(styles.root, {
-          [styles.size16]: Upgrades.isSizeMedium16pxEnabled(),
-        })}
-      >
+      <label {...rootProps} className={cx(styles.root, jsStyles.root(this.theme))}>
         {placeholderPolyfill}
         <textarea
           {...textareaProps}

@@ -13,7 +13,7 @@ import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
-import { cx as cn } from 'emotion';
+import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './TokenInput.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -73,12 +73,11 @@ export interface TokenInputState<T> {
 
 const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
-
 const defaultRenderToken = <T extends any>(
   item: T,
-  { isActive, onClick, onRemove }: Partial<TokenProps & TokenActions>,
+  { isActive, onClick, onRemove, disabled }: Partial<TokenProps & TokenActions>,
 ) => (
-  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
     {item}
   </Token>
 );
@@ -188,6 +187,18 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
+    const theme = this.theme;
+    const labelClassName = cx(styles.label, jsStyles.label(theme), {
+      [jsStyles.labelFocused(theme)]: !!inFocus,
+      [jsStyles.error(theme)]: !!error,
+      [jsStyles.warning(theme)]: !!warning,
+      [styles.labelDisabled]: !!disabled,
+      [jsStyles.labelDisabled(theme)]: !!disabled,
+    });
+    const inputClassName = cx(styles.input, jsStyles.input(theme), {
+      [styles.inputDisabled]: !!disabled,
+      [jsStyles.inputDisabled(theme)]: !!disabled,
+    });
     return (
       <div data-tid="TokenInput" className={styles.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         {/* расчёт ширины текста с последующим обновлением ширины input */}
@@ -195,11 +206,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         <label
           ref={this.wrapperRef}
           style={{ width }}
-          className={cn(styles.label, jsStyles.label(this.theme), {
-            [jsStyles.labelFocused(this.theme)]: !!inFocus,
-            [jsStyles.error(this.theme)]: !!error,
-            [jsStyles.warning(this.theme)]: !!warning,
-          })}
+          className={labelClassName}
           onMouseDown={this.handleWrapperMouseDown}
           onMouseUp={this.handleWrapperMouseUp}
         >
@@ -212,7 +219,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
             autoComplete="off"
             spellCheck={false}
             disabled={disabled}
-            className={cn(styles.input, jsStyles.input(this.theme))}
+            className={inputClassName}
             placeholder={selectedItems.length > 0 ? undefined : placeholder}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
@@ -626,7 +633,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       );
     }
 
-    const { renderValue, toKey } = this.props;
+    const { renderValue, toKey, disabled } = this.props;
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
     const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
       event.stopPropagation();
@@ -642,6 +649,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         {...{
           key: toKey(item),
           isActive,
+          disabled,
           colors,
           error,
           warning,
@@ -661,7 +669,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
   };
 
   private renderToken = (item: T) => {
-    const { renderToken = defaultRenderToken } = this.props;
+    const { renderToken = defaultRenderToken, disabled } = this.props;
 
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
 
@@ -681,6 +689,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       isActive,
       onClick: handleTokenClick,
       onRemove: handleIconClick,
+      disabled,
     });
   };
 }

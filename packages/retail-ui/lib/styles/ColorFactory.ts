@@ -1,6 +1,7 @@
-import { clamp, extractColorParts, hue2rgb, parseHSLParts, parseRGBParts } from "./ColorHelpers";
-import { ColorKeywords } from "./ColorKeywords";
-import { ColorKeywordsType, ColorObject, ColorType, RGBTuple } from "./ColorObject";
+import { clamp, extractColorParts, hue2rgb, parseHSLParts, parseRGBParts } from './ColorHelpers';
+import { ColorKeywords } from './ColorKeywords';
+import { ColorKeywordsType, ColorObject, ColorType, RGBTuple } from './ColorObject';
+import warning from 'warning';
 
 interface ColorFactoryCacheType {
   [key: string]: ColorObject;
@@ -10,6 +11,7 @@ const RGB_REGEX = /rgb\(\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,\s*(\d{1,3}(?:(?:\.\d+)?
 const RGBA_REGEX = /rgba\(\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,\s*(\d{1,3}(?:(?:\.\d+)?%)?)\s*,\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*\)/;
 const HSL_REGEX = /hsl\(\s*(\d{1,3})\s*,\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*,\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*\)/;
 const HSLA_REGEX = /hsla\(\s*(\d{1,3})\s*,\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*,\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*,\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d+)?%))\s*\)/;
+const HEX_REGEX = /^#([0-9a-f]{3}|[0-9a-f]{6})$/;
 
 export class ColorFactory {
   public static create(input: string) {
@@ -23,7 +25,11 @@ export class ColorFactory {
   private static cache: ColorFactoryCacheType = Object.create(null);
 
   private static instantiate(input: string) {
-    input = input.toLowerCase();
+    if (typeof input !== 'string') {
+      warning(false, `Invalid type of input (${typeof input}), expected a string. Returning transparent color`);
+      return new ColorObject([0, 0, 0], 1.0, 'transparent');
+    }
+    input = input.toLowerCase().trim();
 
     if (input === 'transparent') {
       return new ColorObject([0, 0, 0], 0, 'transparent');
@@ -63,7 +69,7 @@ export class ColorFactory {
   }
 
   private static fromHex(hexString: string, type: ColorType = 'hex') {
-    if (hexString.charAt(0) !== '#' || (hexString.length !== 7 && hexString.length !== 4)) {
+    if (!HEX_REGEX.test(hexString)) {
       throw new Error(`${hexString} is not a valid hex color string`);
     }
 
@@ -103,4 +109,3 @@ export class ColorFactory {
     return new ColorObject(rgb, a, a < 1 ? 'hsla' : 'hsl');
   }
 }
-
