@@ -1,8 +1,8 @@
 import * as React from 'react';
-import InternalFiasSearch from '../Fias/Form/InternalFiasSearch';
-import { Address } from '../Fias/models/Address';
-import { AddressResponse, SearchOptions } from '../Fias/types';
-import { FiasViewBaseProps } from '../Fias/Fias';
+import InternalFiasSearch from '../Form/InternalFiasSearch';
+import { Address } from '../models/Address';
+import { AddressResponse, SearchOptions } from '../types';
+import { FiasViewBaseProps } from '../Fias';
 
 export interface FiasSearchProps {
   error?: boolean;
@@ -28,6 +28,7 @@ export class FiasSearch extends React.Component<FiasViewBaseProps & FiasSearchPr
         width={width}
         error={error}
         warning={warning}
+        limit={this.props.limit || FiasSearch.defaultProps.limit}
       />
     );
   }
