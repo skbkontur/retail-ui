@@ -54,10 +54,6 @@ const jsStyles = {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning};
         border-color: ${t.borderColorWarning};
       }
-
-      .rt-ie8 & .${styles.box} {
-        outline: 1px solid ${t.borderColorWarning};
-      }
     `;
   },
 
@@ -66,10 +62,6 @@ const jsStyles = {
       & .${styles.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError};
         border-color: ${t.borderColorError};
-      }
-
-      .rt-ie8 & .${styles.box} {
-        outline: 1px solid ${t.borderColorError};
       }
     `;
   },
@@ -97,10 +89,6 @@ const jsStyles = {
       & .${styles.box} {
         border-color: ${t.chbBorderColorFocus};
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus};
-      }
-
-      .rt-ie8 & .${styles.box} {
-        outline: 1px solid ${t.chbBorderColorFocus};
       }
     `;
   },
