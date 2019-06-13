@@ -1,6 +1,5 @@
 /* @flow */
 import type { AddressElement } from './models/AddressElement';
-import { defaultLocale } from './constants/locale';
 
 export type FiasId = string;
 
@@ -84,8 +83,6 @@ export type AddressErrors = {
 };
 
 export type FormValidation = 'Error' | 'Warning' | 'None';
-
-export type FiasLocale = typeof defaultLocale;
 
 export type SearchOptions = {|
   fiasId?: FiasId,

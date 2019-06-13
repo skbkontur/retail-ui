@@ -1,4 +1,5 @@
 import createReactContext from 'create-react-context';
+import { ReactNode } from 'react';
 import * as React from 'react';
 import { defaultLangCode } from './constants';
 import { LangCodes, LocaleControls } from './types';
@@ -8,6 +9,7 @@ const LocaleContext = createReactContext<LocaleProviderProps>({});
 export interface LocaleProviderProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
+  children?: ReactNode;
 }
 
 export const LocaleConsumer = LocaleContext.Consumer;

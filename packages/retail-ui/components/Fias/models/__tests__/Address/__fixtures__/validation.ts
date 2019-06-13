@@ -1,5 +1,5 @@
+import { FiasLocaleHelper } from '../../../../locale';
 import { AddressResponse, AddressErrors, Fields } from '../../../../types';
-import { defaultLocale } from '../../../../constants/locale';
 import { Address } from '../../../Address';
 
 export interface ValidationTestCase {
@@ -14,6 +14,8 @@ const CASE_03 = 'one invalid field without data';
 const CASE_04 = 'one invalid field that is not allowed';
 const CASE_05 = 'two fields - the top one is invalid';
 const CASE_06 = 'two fields - the bottom one is invalid';
+
+const defaultLocale = FiasLocaleHelper.get();
 
 export const validationTestCases: ValidationTestCase[] = [
   {

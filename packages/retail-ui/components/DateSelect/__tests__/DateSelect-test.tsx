@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { DatePickerLocaleHelper } from '../../DatePicker/locale';
 import DateSelect from '../DateSelect';
 import styles from '../DateSelect.less';
 import { mount } from 'enzyme';
@@ -25,19 +26,7 @@ describe('DateSelect', () => {
   });
 
   it('works correct with January', () => {
-    const expectedDisabledMonths = [
-      'Февраль',
-      'Март',
-      'Апрель',
-      'Май',
-      'Июнь',
-      'Июль',
-      'Август',
-      'Сентябрь',
-      'Октябрь',
-      'Ноябрь',
-      'Декабрь',
-    ];
+    const expectedDisabledMonths = DatePickerLocaleHelper.get().months.slice(1);
     const dateSelect = renderSelect({
       type: 'month',
       minValue: 0,

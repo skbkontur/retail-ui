@@ -24,6 +24,7 @@ const jsStyles = {
   },
   circle(t: ITheme) {
     return css`
+      stroke: ${t.red};
       animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
         ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite;

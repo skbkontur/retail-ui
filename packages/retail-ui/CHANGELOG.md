@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.52.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.51.1...retail-ui@0.52.0) (2019-06-13)
+
+
+### Bug Fixes
+
+* **Button:**  fix paddings for medium size in flat theme ([3f99560](https://github.com/skbkontur/retail-ui/commit/3f99560)), closes [#1309](https://github.com/skbkontur/retail-ui/issues/1309) [#1451](https://github.com/skbkontur/retail-ui/issues/1451)
+* **DropdownMenu:** added missing flow types props ([#1462](https://github.com/skbkontur/retail-ui/issues/1462)) ([eb1bc3e](https://github.com/skbkontur/retail-ui/commit/eb1bc3e))
+* **MaskedInput:** add support prop 'defaultValue' ([e8b9436](https://github.com/skbkontur/retail-ui/commit/e8b9436))
+* **RenderLayer:** add touchstart handling ([567f80b](https://github.com/skbkontur/retail-ui/commit/567f80b)), closes [#1439](https://github.com/skbkontur/retail-ui/issues/1439)
+* **SidePage:** allow pass string to width prop ([#1447](https://github.com/skbkontur/retail-ui/issues/1447)) ([eff4f78](https://github.com/skbkontur/retail-ui/commit/eff4f78))
+* **Spinner:** baseline and height are equal to icons ([996c365](https://github.com/skbkontur/retail-ui/commit/996c365))
+
+
+### Features
+
+* **DatePicker:** add localization ([10d30d0](https://github.com/skbkontur/retail-ui/commit/10d30d0))
+* **DateSelect:** add localization ([00a5ea7](https://github.com/skbkontur/retail-ui/commit/00a5ea7))
+* **Fias:** add localization ([cc5a7ef](https://github.com/skbkontur/retail-ui/commit/cc5a7ef))
+* **lib:** add lib `MouseDrag` ([9e7d329](https://github.com/skbkontur/retail-ui/commit/9e7d329))
+* **lib:** add tools for internationalizing dates ([aac2c0d](https://github.com/skbkontur/retail-ui/commit/aac2c0d))
+* **LocaleHelper:** add getting locale with default langCode ([d25d2a3](https://github.com/skbkontur/retail-ui/commit/d25d2a3))
+* **Tooltip:** add trigger type hover&focus ([422915e](https://github.com/skbkontur/retail-ui/commit/422915e))
+
+
+
+
+
 ## [0.51.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.51.0...retail-ui@0.51.1) (2019-06-04)
 
 

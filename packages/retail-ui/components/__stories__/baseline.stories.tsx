@@ -6,6 +6,8 @@ import Button from '../Button';
 import Link from '../Link';
 import Input from '../Input';
 import ComboBox from '../ComboBox';
+import Spinner from '../Spinner';
+import SpinnerIcon from '@skbkontur/react-icons/Spinner';
 
 storiesOf('Baseline', module)
   .add('Button and text', () => (
@@ -75,6 +77,18 @@ storiesOf('Baseline', module)
     <div>
       <span>Text</span>
       <Button size="large" children="Large" />
+    </div>
+  ))
+  .add('Text, Spinner', () => (
+    <div>
+      <span>Text</span>
+      <Spinner type="mini" />
+    </div>
+  ))
+  .add('Icon, Spinner', () => (
+    <div>
+      <SpinnerIcon />
+      <Spinner type="mini" />
     </div>
   ));
 

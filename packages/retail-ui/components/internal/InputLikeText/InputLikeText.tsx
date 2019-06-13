@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../ensureOldIEClassName';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
-import { InputVisibilityState, IconType } from '../../Input/Input';
+import { IconType, InputVisibilityState } from '../../Input/Input';
 import { InputProps } from '../../Input';
 import styles from './InputLikeText.less';
 import { cx } from '../../../lib/theming/Emotion';
@@ -30,15 +30,15 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   };
 
   private theme!: ITheme;
-  private _node: HTMLElement | null = null;
-  private _blinkTimeout: Nullable<TimeoutID>;
+  private node: HTMLElement | null = null;
+  private blinkTimeout: Nullable<TimeoutID>;
 
   /**
    * @public
    */
   public focus() {
-    if (this._node) {
-      this._node.focus();
+    if (this.node) {
+      this.node.focus();
     }
   }
 
@@ -46,8 +46,8 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
    * @public
    */
   public blur() {
-    if (this._node) {
-      this._node.blur();
+    if (this.node) {
+      this.node.blur();
     }
   }
 
@@ -56,13 +56,17 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
    */
   public blink() {
     this.setState({ blinking: true }, () => {
-      this._blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
+      this.blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
     });
   }
 
+  public getNode(): HTMLElement | null {
+    return this.node;
+  }
+
   public componentWillUnmount() {
-    if (this._blinkTimeout) {
-      clearTimeout(this._blinkTimeout);
+    if (this.blinkTimeout) {
+      clearTimeout(this.blinkTimeout);
     }
   }
 
@@ -89,25 +93,27 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       error,
       warning,
       onChange,
+      disabled,
       prefix,
       suffix,
       leftIcon,
       rightIcon,
-
       ...rest
     } = this.props;
 
+    const { focused, blinking } = this.state;
+
     const className = cx(inputStyles.root, jsInputStyles.root(this.theme), this.getSizeClassName(), {
-      [inputStyles.focus]: this.state.focused,
+      [inputStyles.focus]: focused,
       [inputStyles.warning]: !!warning,
       [inputStyles.error]: !!error,
       [inputStyles.borderless]: !!borderless,
-      [inputStyles.disabled]: !!this.props.disabled,
-      [jsInputStyles.focus(this.theme)]: this.state.focused,
-      [jsInputStyles.blink(this.theme)]: !!this.state.blinking,
+      [inputStyles.disabled]: !!disabled,
+      [jsInputStyles.focus(this.theme)]: focused,
+      [jsInputStyles.blink(this.theme)]: !!blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
-      [jsInputStyles.disabled(this.theme)]: !!this.props.disabled,
+      [jsInputStyles.disabled(this.theme)]: !!disabled,
     });
 
     return (
@@ -115,10 +121,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
         {...rest}
         className={className}
         style={{ width, textAlign: align }}
-        tabIndex={this.props.disabled ? undefined : 0}
+        tabIndex={disabled ? undefined : 0}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        ref={this._ref}
+        ref={this.ref}
       >
         <span className={inputStyles.sideContainer}>
           {this.renderLeftIcon()}
@@ -136,11 +142,11 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     );
   }
 
-  private _ref = (el: HTMLElement | null) => {
+  private ref = (el: HTMLElement | null) => {
     if (this.props.innerRef) {
       this.props.innerRef(el);
     }
-    this._node = el;
+    this.node = el;
   };
 
   private renderPlaceholder() {
@@ -165,6 +171,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   }
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
+    if (this.props.disabled) {
+      return;
+    }
+
     this.setState({ focused: true });
 
     if (this.props.onFocus) {

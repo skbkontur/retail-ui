@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import ArrowTriangleUpDownIcon from '@skbkontur/react-icons/ArrowTriangleUpDown';
 import ArrowTriangleUpIcon from '@skbkontur/react-icons/ArrowTriangleUp';
 import ArrowTriangleDownIcon from '@skbkontur/react-icons/ArrowTriangleDown';
+import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
+import { locale } from '../LocaleProvider/decorators';
 
 import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -12,21 +14,6 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 
 import styles from './DateSelect.less';
-
-export const MONTHS = [
-  'Январь',
-  'Февраль',
-  'Март',
-  'Апрель',
-  'Май',
-  'Июнь',
-  'Июль',
-  'Август',
-  'Сентябрь',
-  'Октябрь',
-  'Ноябрь',
-  'Декабрь',
-];
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -56,6 +43,7 @@ export interface DateSelectState {
   nodeTop: number;
 }
 
+@locale('DatePicker', DatePickerLocaleHelper)
 export default class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static propTypes = {
     disabled: PropTypes.bool,
@@ -91,6 +79,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     nodeTop: Infinity,
   };
 
+  private readonly locale!: DatePickerLocale;
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
 
@@ -408,7 +397,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
   private getItem(index: number) {
     const value = this.props.value + index;
     if (this.props.type === 'month') {
-      return MONTHS[value];
+      return this.locale.months[value];
     }
     return value;
   }
