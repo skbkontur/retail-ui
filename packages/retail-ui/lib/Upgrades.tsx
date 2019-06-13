@@ -19,7 +19,7 @@ const Upgrade = {
   },
 
   enableSizeMedium16px() {
-    sizeMedium16pxEnabled = true;
+    warning(false, 'Метод Upgrades.enableSizeMedium16px устарел. Переопределите fontSizeMedium в теме через ThemeProvider или ThemeFactory.overrideDefaultTheme()');
   },
 
   isSizeMedium16pxEnabled() {
