@@ -51,9 +51,11 @@ const jsStyles = {
     return css`
       .${styles.root} &::placeholder {
         color: ${t.placeholderColor};
+        -webkit-text-fill-color: ${t.placeholderColor};
       }
       .${styles.root} &:focus::placeholder {
         color: ${t.placeholderColorLight};
+        -webkit-text-fill-color: ${t.placeholderColorLight};
       }
     `;
   },
