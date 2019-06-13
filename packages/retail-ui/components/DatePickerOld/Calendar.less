@@ -1,12 +1,10 @@
-@import (reference) '../variables.less';
-
 :local {
   @cell-height: 31px;
   @cell-width: 26px;
   @day-side: 24px;
 
   .root {
-    background: @bg-default;
+    background: #fff;
     height: 220px;
     width: 280px;
     outline: none;
@@ -52,7 +50,7 @@
 
     &:hover .cellInner {
       background: #5199db;
-      color: @text-color-invert;
+      color: #fff;
     }
   }
 
@@ -72,11 +70,11 @@
 
   .cellCurrent .cellInner,
   .cellCurrent:hover .cellInner {
-    color: @text-color-default;
+    color: #404040;
     background: rgba(0, 0, 0, 0.09);
   }
 
   .cellHoly {
-    color: @text-color-disabled;
+    color: #a0a0a0;
   }
 }

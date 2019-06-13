@@ -22,6 +22,11 @@
     margin-left: 0;
   }
 
+  .wrap {
+    /* for .wrap class not to be 'undefined': used in tests */
+    visibility: visible;
+  }
+
   :global(.rt-ie-any) {
     .root.hasWidth {
       .stretch {
