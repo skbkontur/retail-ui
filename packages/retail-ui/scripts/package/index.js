@@ -1,7 +1,7 @@
 const path = require('path');
 const { spawnSync } = require('child_process');
 const { eq, gt, gte, valid, diff } = require('semver');
-const { getCurrentBranch, getRevisionHash, isTagExists } = require('../git');
+const { getCurrentBranch, getRevisionHash, getRevisionTags } = require('../git');
 const { readJsonSync, writeJsonSync } = require('fs-extra');
 
 const TAGS = {
@@ -17,8 +17,9 @@ const getPackageInfo = (configPath = PACKAGE_JSON) => {
 
   const { npmVersions, npmTags } = fetchPackageData(config.name);
 
-  const gitTag = getGitTag(config.version);
-  const distTag = getDistTag(config.version, npmTags, getCurrentBranch(), isTagExists(gitTag));
+  const gitTagName = getGitTagName(config.version);
+  const gitTag = getRevisionTags(gitTagName)[0];
+  const distTag = getDistTag(config.version, npmTags, getCurrentBranch(), gitTag);
 
   if (!distTag) {
     console.log('Failed to determine the dist-tag.');
@@ -63,7 +64,7 @@ const fetchPackageData = packageName => {
   };
 };
 
-const getDistTag = (version, npmTags, gitBranch, isGitTagExists) => {
+const getDistTag = (version, npmTags, gitBranch, gitTag) => {
   const { LATEST, UNSTABLE, OLD, LTS } = TAGS;
 
   if (!valid(version)) {
@@ -71,7 +72,7 @@ const getDistTag = (version, npmTags, gitBranch, isGitTagExists) => {
     return null;
   }
 
-  if (gitBranch && isGitTagExists) {
+  if (gitBranch && gitTag) {
     switch (gitBranch) {
       case 'master':
         if (valid(npmTags.latest)) {
@@ -123,7 +124,7 @@ const getHomepage = (distTag, publishVersion) => {
   }
 };
 
-const getGitTag = version => {
+const getGitTagName = version => {
   return `retail-ui@${version}`;
 };
 

@@ -11,6 +11,18 @@ const getCurrentBranch = () => {
   return stdout.toString().trim();
 };
 
+const getRevisionTags = (pattern = '*') => {
+  const { stderr, stdout } = spawnSync(`git tag -l ${pattern} --points-at HEAD`, [], { shell: true });
+
+  if (stderr) {
+    console.log(stderr.toString());
+  }
+
+  const tags = stdout.toString().trim();
+
+  return tags ? tags.split('\n') : [];
+};
+
 const getRevisionHash = () => {
   const { error, stdout } = spawnSync('git rev-parse HEAD', [], { shell: true });
 
@@ -22,23 +34,8 @@ const getRevisionHash = () => {
   return stdout.toString().trim();
 };
 
-const isTagExists = tag => {
-  if (!tag) {
-    return false;
-  }
-
-  const { error, stdout } = spawnSync(`git tag -l ${tag}`, [], { shell: true });
-
-  if (error) {
-    console.log(error);
-    process.exit(-1);
-  }
-
-  return Boolean(stdout.toString().trim());
-};
-
 module.exports = {
   getCurrentBranch,
   getRevisionHash,
-  isTagExists,
+  getRevisionTags,
 };
