@@ -375,10 +375,6 @@ object ReactUI_Publish : BuildType({
 
     vcs {
         root(RetailUi)
-
-        branchFilter = """
-            +:*
-        """.trimIndent()
     }
 
     steps {
