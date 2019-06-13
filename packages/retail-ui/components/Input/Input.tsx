@@ -1,7 +1,6 @@
 import * as React from 'react';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
-import Upgrades from '../../lib/Upgrades';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
@@ -251,15 +250,15 @@ class Input extends React.Component<InputProps, InputState> {
     const labelProps = {
       className: cx(classes.root, jsClasses.root(this.theme), this.getSizeClassName(), {
         [classes.focus]: focused,
-        [jsClasses.focus(this.theme)]: focused,
         [classes.disabled]: !!disabled,
-        [jsClasses.disabled(this.theme)]: !!disabled,
         [classes.error]: !!error,
-        [jsClasses.error(this.theme)]: !!error,
         [classes.warning]: !!warning,
-        [jsClasses.warning(this.theme)]: !!warning,
         [classes.borderless]: !!borderless,
+        [jsClasses.focus(this.theme)]: focused,
         [jsClasses.blink(this.theme)]: !!blinking,
+        [jsClasses.warning(this.theme)]: !!warning,
+        [jsClasses.error(this.theme)]: !!error,
+        [jsClasses.disabled(this.theme)]: !!disabled,
       }),
       style: { width },
       onMouseEnter,
@@ -343,9 +342,7 @@ class Input extends React.Component<InputProps, InputState> {
     }
 
     return (
-      <span className={cx(className, classes.useDefaultColor, jsClasses.useDefaultColor(this.theme))}>
-        {icon}
-      </span>
+      <span className={cx(className, classes.useDefaultColor, jsClasses.useDefaultColor(this.theme))}>{icon}</span>
     );
   }
 
@@ -367,15 +364,15 @@ class Input extends React.Component<InputProps, InputState> {
   }
 
   private getSizeClassName() {
-    const SIZE_CLASS_NAMES = {
-      small: cx(classes.sizeSmall, jsClasses.sizeSmall(this.theme)),
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? cx(classes.sizeMedium, jsClasses.sizeMedium(this.theme))
-        : cx(classes.DEPRECATED_sizeMedium, jsClasses.DEPRECATED_sizeMedium(this.theme)),
-      large: cx(classes.sizeLarge, jsClasses.sizeLarge(this.theme)),
-    };
-
-    return SIZE_CLASS_NAMES[this.props.size!];
+    switch (this.props.size) {
+      case 'large':
+        return jsClasses.sizeLarge(this.theme);
+      case 'medium':
+        return jsClasses.sizeMedium(this.theme);
+      case 'small':
+      default:
+        return jsClasses.sizeSmall(this.theme);
+    }
   }
 
   private refInput = (element: HTMLInputElement | MaskedInput | null) => {

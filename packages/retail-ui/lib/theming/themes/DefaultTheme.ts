@@ -1,6 +1,6 @@
-import DEFAULT_VARIABLES from '../../../components/variables.less';
-import { defineInternalTheme } from '../ThemeHelpers';
-import ColorFunctions from '../../styles/ColorFunctions';
+import DEFAULT_VARIABLES from "../../../components/variables.less";
+import { defineInternalTheme } from "../ThemeHelpers";
+import ColorFunctions from "../../styles/ColorFunctions";
 
 const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   bgActive: {

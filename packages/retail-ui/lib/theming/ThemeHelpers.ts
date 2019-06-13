@@ -1,8 +1,8 @@
 const IS_COMPUTED_MARKER = '__COMPUTED__';
 
-export function defineInternalTheme<VM, CD>(
+export function defineInternalTheme<VM, CD extends PropertyDescriptorMap>(
   staticVariables: VM,
-  computedDescriptors: CD & PropertyDescriptorMap & ThisType<VM & CD>,
+  computedDescriptors: CD & ThisType<VM & CD>,
 ) {
   const result: { [key: string]: string } = {};
 

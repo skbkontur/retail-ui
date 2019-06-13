@@ -1,6 +1,5 @@
 import * as React from 'react';
 import '../../ensureOldIEClassName';
-import Upgrades from '../../../lib/Upgrades';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
@@ -90,7 +89,6 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       error,
       warning,
       onChange,
-
       prefix,
       suffix,
       leftIcon,
@@ -99,17 +97,17 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       ...rest
     } = this.props;
 
-    const className = cx(inputStyles.root, jsInputStyles.root(this.theme), this._getSizeClassName(), {
-      [inputStyles.disabled]: !!this.props.disabled,
-      [jsInputStyles.disabled(this.theme)]: !!this.props.disabled,
-      [inputStyles.error]: !!error,
-      [jsInputStyles.error(this.theme)]: !!error,
-      [inputStyles.warning]: !!warning,
-      [jsInputStyles.warning(this.theme)]: !!warning,
-      [inputStyles.borderless]: !!borderless,
-      [jsInputStyles.blink(this.theme)]: !!this.state.blinking,
+    const className = cx(inputStyles.root, jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [inputStyles.focus]: this.state.focused,
+      [inputStyles.warning]: !!warning,
+      [inputStyles.error]: !!error,
+      [inputStyles.borderless]: !!borderless,
+      [inputStyles.disabled]: !!this.props.disabled,
       [jsInputStyles.focus(this.theme)]: this.state.focused,
+      [jsInputStyles.blink(this.theme)]: !!this.state.blinking,
+      [jsInputStyles.warning(this.theme)]: !!warning,
+      [jsInputStyles.error(this.theme)]: !!error,
+      [jsInputStyles.disabled(this.theme)]: !!this.props.disabled,
     });
 
     return (
@@ -154,16 +152,16 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     return null;
   }
 
-  private _getSizeClassName() {
-    const SIZE_CLASS_NAMES = {
-      small: cx(inputStyles.sizeSmall, jsInputStyles.sizeSmall(this.theme)),
-      medium: Upgrades.isSizeMedium16pxEnabled()
-        ? cx(inputStyles.sizeMedium, jsInputStyles.sizeMedium(this.theme))
-        : cx(inputStyles.DEPRECATED_sizeMedium, jsInputStyles.DEPRECATED_sizeMedium(this.theme)),
-      large: cx(inputStyles.sizeLarge, jsInputStyles.sizeLarge(this.theme)),
-    };
-
-    return SIZE_CLASS_NAMES[this.props.size!];
+  private getSizeClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return jsInputStyles.sizeLarge(this.theme);
+      case 'medium':
+        return jsInputStyles.sizeMedium(this.theme);
+      case 'small':
+      default:
+        return jsInputStyles.sizeSmall(this.theme);
+    }
   }
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>) => {

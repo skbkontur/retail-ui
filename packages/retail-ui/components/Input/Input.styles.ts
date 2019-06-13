@@ -124,6 +124,7 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeSmall};
       line-height: ${t.controlLineHeightSmall};
       padding-top: ${t.controlPaddingYSmall};
       padding-bottom: ${t.controlPaddingYSmall};
@@ -132,12 +133,14 @@ const jsClasses = {
       .rt-ie-any & {
         padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
         padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
+        line-height: normal;
       }
     `;
   },
 
   sizeMedium(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeMedium};
       line-height: ${t.controlLineHeightMedium};
       padding-top: ${t.controlPaddingYMedium};
       padding-bottom: ${t.controlPaddingYMedium};
@@ -146,26 +149,14 @@ const jsClasses = {
       .rt-ie-any & {
         padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
         padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
-      }
-    `;
-  },
-
-  DEPRECATED_sizeMedium(t: ITheme) {
-    return css`
-      line-height: ${t.controlLineHeightMedium};
-      padding-top: ${t.controlPaddingYMedium};
-      padding-bottom: ${t.controlPaddingYMedium};
-      height: ${t.controlHeightMedium};
-
-      .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
+        line-height: normal;
       }
     `;
   },
 
   sizeLarge(t: ITheme) {
     return css`
+      font-size: ${t.fontSizeLarge};
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
       padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};
@@ -174,6 +165,7 @@ const jsClasses = {
       .rt-ie-any & {
         padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
         padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
+        line-height: normal;
       }
     `;
   },
