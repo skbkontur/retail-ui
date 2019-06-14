@@ -41,10 +41,10 @@ const updatePackageJson = () => {
   packageJson.scripts = Object.assign({}, packageJson.scripts, {
     prepublishOnly: 'yarn clean && node scripts/publish/prepublish && yarn build',
     clean: 'git clean -fdxqe node_modules',
-    postpublish: 'yarn deploy && yarn publish:react-ui',
+    postpublish: 'yarn deploy && npm run publish:react-ui',
     predeploy: 'rimraf .styleguide/build && yarn run styleguide:build',
     deploy: 'gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git',
-    'publish:react-ui': 'yarn --cwd ./build publish --non-interactive',
+    'publish:react-ui': 'npm publish ./build',
     'styleguide:build': 'node .styleguide/build',
   });
 

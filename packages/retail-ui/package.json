@@ -14,7 +14,7 @@
     "prepublishOnly": "yarn clean && node scripts/publish/prepublish && yarn build",
     "clean": "git clean -fdxqe node_modules",
     "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
-    "postpublish": "yarn deploy && yarn publish:react-ui",
+    "postpublish": "yarn deploy && npm run publish:react-ui",
     "predeploy": "rimraf .styleguide/build && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git",
     "publish:react-ui": "npm publish ./build",
