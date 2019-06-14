@@ -39,7 +39,7 @@ const updatePackageJson = () => {
   const EOF = '\n';
 
   packageJson.scripts = Object.assign({}, packageJson.scripts, {
-    prepublishOnly: 'yarn clean && yarn build && node scripts/publish/prepublish',
+    prepublishOnly: 'yarn clean && node scripts/publish/prepublish && yarn build',
     clean: 'git clean -fdxqe node_modules',
     postpublish: 'yarn deploy && yarn publish:react-ui',
     predeploy: 'rimraf .styleguide/build && yarn run styleguide:build',
