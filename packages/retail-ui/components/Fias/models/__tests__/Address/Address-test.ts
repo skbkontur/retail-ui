@@ -1,6 +1,6 @@
+import { FiasLocaleHelper } from '../../../locale';
 import { Address } from '../../Address';
 import { Fields, AddressFields } from 'retail-ui/components/Fias/types';
-import { defaultLocale } from '../../../constants/locale';
 import { removeFiasDataTestCases } from './__fixtures__/removeFiasData';
 import { getParentTestCases } from './__fixtures__/getParent';
 import { responseToFieldsTestCases } from './__fixtures__/responseToFields';
@@ -22,6 +22,8 @@ const getFieldsWithData = (fields: AddressFields): Fields[] => {
   }
   return result;
 };
+
+const defaultLocale = FiasLocaleHelper.get();
 
 describe('Address', () => {
   describe('getParent', () => {

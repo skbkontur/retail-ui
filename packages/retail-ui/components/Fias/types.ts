@@ -1,5 +1,4 @@
 import { AddressElement } from './models/AddressElement';
-import { defaultLocale } from './constants/locale';
 import { Address } from './models/Address';
 
 export type FiasId = string;
@@ -112,8 +111,6 @@ export enum FormValidation {
   Warning = 'Warning',
   None = 'None',
 }
-
-export type FiasLocale = typeof defaultLocale;
 
 export interface SearchOptions {
   fiasId?: FiasId;

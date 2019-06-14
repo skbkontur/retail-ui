@@ -1,3 +1,4 @@
+import { FiasLocale } from '../locale';
 import {
   AddressErrors,
   AddressFields,
@@ -9,7 +10,6 @@ import {
   FiasValue,
   Fields,
   ExtraFields,
-  FiasLocale,
   FieldsSettings,
   FiasCountry,
 } from '../types';
@@ -156,7 +156,7 @@ export class Address {
         }
 
         if (!address.isAllowedToFill(field)) {
-          error = locale[`${field}FillBefore`];
+          error = locale[`${field}FillBefore` as keyof FiasLocale];
         }
 
         if (Boolean(error)) {
