@@ -86,14 +86,13 @@ const jsClasses = {
       font-size: ${t.fontSizeMedium};
       
       &:not(.${classes.link}) {
-        padding: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')} 15px
-          ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
+        padding: ${t.controlPaddingYMedium} 15px;
         height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};
         line-height: ${t.controlLineHeightMedium};
 
         .rt-ie-any & {
-          padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-2')};
-          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, ' 2')};
+          padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
+          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
         }
 
         .${classes.arrow} {
