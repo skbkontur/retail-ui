@@ -1,6 +1,7 @@
 import * as React from 'react';
 import warning from 'warning';
 import styles from '../ThemeShowcase.less';
+import { Nullable } from '../../../typings/utility-types';
 
 export function formatSourceCode(input: string, componentName: string) {
   const regEx = /\.css\(templateObject_[\d]+\s+\|\|\s+\(templateObject_[\d]+\s+=\s+tslib_[\d]+\.__makeTemplateObject\((\[[\S\s]+\]),\s+(\[[\S\s]+\])\)\),\s+([\s\S]+)\);/gm;
@@ -8,7 +9,7 @@ export function formatSourceCode(input: string, componentName: string) {
   const sourceParts = regEx.exec(input);
   if (!sourceParts) {
     warning(false, 'Could not parse jsStyles for source');
-    return [<span key={'unknown_input'}>{input}</span>];
+    return <span>{input}</span>;
   }
 
   const cookedAsString = sourceParts[1];
@@ -21,70 +22,106 @@ export function formatSourceCode(input: string, componentName: string) {
   const variablesArray = parseVariables(sourceParts[3]);
   warning(cookedArray.length === variablesArray.length + 1, 'Variables array has suspicious length, consider revising');
 
-  const children: React.ReactNode[] = [];
-  children.push(<span key={'prefix'}>{'css: {'}</span>);
-  cookedArray.forEach((literal, index) => {
-    children.push(<span key={`literal_${index}`}>{literal}</span>);
-    if (variablesArray[index]) {
-      children.push(<span key={`variable_${index}_prefix`}>{'${'}</span>);
-
-      let variableString = variablesArray[index];
-      const classNameRegExp = new RegExp(componentName + '_less_[\\d]+\\.default\\.', '');
-      const themeRegExp = /\bt\.([a-zA-Z0-9]+)/gm;
-      const animationsRegExp = /AnimationKeyframes_[\d]+\.AnimationKeyframes\./g;
-
-      if (classNameRegExp.test(variableString)) {
-        children.push(
-          <span key={`variable_${index}_classObject`} className={styles.cssClassObject}>
-            classNames.
-          </span>,
-        );
-        children.push(
-          <span key={`variable_${index}_className`} className={styles.cssClassName}>
-            {variableString.replace(classNameRegExp, '')}
-          </span>,
-        );
-      } else if (themeRegExp.test(variableString)) {
-        variableString = variableString.replace(/ColorFunctions_[\d]+\.default\./g, 'ColorFunctions.');
-        variableString = variableString.replace(/DimensionFunctions_[\d]+\.default\./g, 'DimensionFunctions.');
-
-        let start = 0;
-        variableString.replace(themeRegExp, (match, propName, offset, whole) => {
-          children.push(<span key={`variable_${index}_textBefore_${offset}`}>{whole.substring(start, offset)}</span>);
-          children.push(
-            <span key={`variable_${index}_themeObject_${offset}`} className={styles.cssThemeObject}>
-              theme.
-            </span>,
-          );
-          children.push(
-            <span key={`variable_${index}_themeProp_${offset}`} className={styles.cssThemeProp}>
-              {propName}
-            </span>,
-          );
-          start = offset + match.length;
-
-          return match;
-        });
-
-        if (start < variableString.length) {
-          children.push(<span key={`variable_${index}_textAfter`}>{variableString.substring(start)}</span>);
-        }
-      } else if (animationsRegExp.test(variableString)) {
-        children.push(
-          <span key={`variable_${index}_animation`}>
-            {variableString.replace(animationsRegExp, 'AnimationKeyframes.')}
-          </span>,
-        );
-      } else {
-        warning(false, 'Could not parse variable content');
-        children.push(<span key={`variable_${index}_unknown`}>{variableString}</span>);
-      }
-
-      children.push(<span key={`variable_${index}_suffix`}>{'}'}</span>);
-    }
+  const tokens = cookedArray.map((literal, index) => {
+    return (
+      <React.Fragment key={`group_${index}`}>
+        <span>{literal}</span>
+        {variablesArray[index] && renderVariables(variablesArray[index], componentName)}
+      </React.Fragment>
+    );
   });
-  children.push(<span key={`suffix`}>{'}'}</span>);
-  return children;
+
+  return (
+    <React.Fragment>
+      <span key={'prefix'}>{'css: {'}</span>
+      {tokens}
+      <span key={`suffix`}>{'}'}</span>
+    </React.Fragment>
+  );
+}
+
+function renderVariables(variableString: string, componentName: string) {
+  variableString = variableString
+    .replace(/ColorFunctions_[\d]+\.default\./g, 'ColorFunctions.')
+    .replace(/DimensionFunctions_[\d]+\.default\./g, 'DimensionFunctions.')
+    .replace(/AnimationKeyframes_[\d]+\.AnimationKeyframes\./g, 'AnimationKeyframes.');
+
+  const className = getClassName(variableString, componentName);
+  const theme = getTheme(variableString);
+
+  return (
+    <React.Fragment>
+      <span>{'${'}</span>
+      {className && renderClassName(className)}
+      {!className && theme && renderTheme(theme)}
+      {!className && !theme && renderUnknown(variableString)}
+      <span>{'}'}</span>
+    </React.Fragment>
+  );
+}
+
+function getClassName(variableString: string, componentName: string) {
+  const classNameRegExp = new RegExp(componentName + '_less_[\\d]+\\.default\\.', '');
+  if (classNameRegExp.test(variableString)) {
+    return variableString.replace(classNameRegExp, '');
+  }
+  return null;
+}
+
+function renderClassName(className: string) {
+  return (
+    <React.Fragment>
+      <span className={styles.cssClassObject}>classNames.</span>
+      <span className={styles.cssClassName}>{className}</span>
+    </React.Fragment>
+  );
+}
+
+function getTheme(variableString: string) {
+  const themeRegExp = /\bt(?:\.([a-zA-Z0-9]+))?\b/gm;
+
+  if (themeRegExp.test(variableString)) {
+    themeRegExp.lastIndex = 0;
+    let match: Nullable<RegExpExecArray> = null;
+    const result = [];
+    do {
+      const start = themeRegExp.lastIndex;
+      match = themeRegExp.exec(variableString);
+      if (match) {
+        const textBefore = variableString.substring(start, match.index);
+        const key = `${start}_${match.index}`;
+        const themeProp = match[1];
+        result.push(<span key={`${key}_textBefore`}>{textBefore}</span>);
+        result.push(
+          <span key={`${key}_themeObject`} className={styles.cssThemeObject}>
+            theme
+            {themeProp ? '.' : ''}
+          </span>,
+        );
+        if (themeProp) {
+          result.push(
+            <span key={`${key}_themePropName`} className={styles.cssThemeProp}>
+              {themeProp}
+            </span>,
+          );
+        }
+      } else {
+        result.push(<span key={`${start}_${variableString.length}_textAfter`}>{variableString.substring(start)}</span>);
+      }
+    } while (match);
+
+    return result;
+  }
+  return null;
+}
+
+function renderTheme(children: React.ReactNode) {
+  return <React.Fragment>{children}</React.Fragment>;
+}
+
+function renderUnknown(unknown: string) {
+  warning(false, 'Could not parse variable content');
+  return <span>{unknown}</span>;
 }
 
 function parseVariables(input: string) {

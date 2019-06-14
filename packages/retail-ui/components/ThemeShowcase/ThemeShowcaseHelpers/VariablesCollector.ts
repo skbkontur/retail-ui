@@ -13,7 +13,7 @@ export interface ComponentDescriptionType {
 }
 
 export interface ComponentRowDescriptionType {
-  contents: React.ReactNode[];
+  contents: JSX.Element;
   variables: Array<keyof ITheme>;
   dependencies: VariableDependencies;
 }
