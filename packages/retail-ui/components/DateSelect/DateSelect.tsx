@@ -235,8 +235,8 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
       const className = cx({
         [styles.menuItem]: true,
         [jsStyles.menuItem(this.theme)]: true,
-        [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
         [jsStyles.menuItemSelected(this.theme)]: i === 0,
+        [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
         [styles.menuItemDisabled]: disableItems,
         [jsStyles.menuItemDisabled(this.theme)]: disableItems,
       });
