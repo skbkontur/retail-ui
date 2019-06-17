@@ -6,7 +6,7 @@ import DatePicker from '../../DatePicker/index';
 
 export class DatePickerPlayground extends React.Component<any, any> {
   public state = {
-    value: new Date().toLocaleString(),
+    value: '17.06.2019',
     error: false,
     tooltip: false,
   };
