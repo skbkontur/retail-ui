@@ -3,7 +3,6 @@ const { commonSections, ROOT_DIR, removeUnsupportedConfigOptions } = require('..
 
 const config = Object.assign({}, baseConfig, {
   styleguideDir: ROOT_DIR,
-  components: [],
   sections: commonSections,
 });
 
