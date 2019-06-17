@@ -62,9 +62,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       return (
         <Menu ref={refMenu}>
           <MenuItem disabled>
-            <div style={{ margin: '-2px 0 -1px' }}>
-              <Spinner type="mini" dimmed />
-            </div>
+            <Spinner type="mini" dimmed />
           </MenuItem>
         </Menu>
       );
