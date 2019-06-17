@@ -1,3 +1,5 @@
+@import (reference) '../mixins.less';
+
 :local {
   .root {
     .label {
@@ -35,6 +37,9 @@
       &::-ms-clear {
         display: none;
       }
+
+      /* fix firefox placeholder opacity */
+      .placeholder({});
     }
 
     .inputDisabled {
