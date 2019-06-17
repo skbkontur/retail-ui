@@ -9,6 +9,8 @@ const ROOT_DIR = path.join(__dirname, 'build');
 const VERSION_DIR = path.join(ROOT_DIR, packageVersion);
 const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
+const { npmVersions, npmTags, publishVersion } = getPackageInfo();
+
 const components = fs
   .readdirSync(COMPONENTS_DIR)
   .map(x => [path.join(COMPONENTS_DIR, x, `${x}.tsx`), path.join(COMPONENTS_DIR, x, `${x}.js`)])
@@ -28,7 +30,6 @@ const getCommonSections = () => {
 };
 
 const getVersionsSection = () => {
-  const { npmVersions, npmTags } = getPackageInfo();
   const excludeVersions = ['0.8.8', '0.18.16', '0.18.17', '0.42.2'];
   const stableVersions = npmVersions
     .reverse()
@@ -83,7 +84,7 @@ module.exports = {
   components,
   commonSections: getCommonSections(),
   versionsSection: getVersionsSection(),
-  packageVersion,
+  publishVersion,
   removeUnsupportedConfigOptions,
   ROOT_DIR,
   VERSION_DIR,

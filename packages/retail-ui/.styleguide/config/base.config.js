@@ -7,7 +7,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
-const { packageVersion } = require('../helpers');
+const { publishVersion } = require('../helpers');
 
 const styles = {
   StyleGuide: {
@@ -181,7 +181,7 @@ module.exports = {
     config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.json'];
     return config;
   },
-  version: packageVersion,
+  version: publishVersion,
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui',
   },
