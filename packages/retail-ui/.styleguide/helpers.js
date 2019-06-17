@@ -27,29 +27,35 @@ const getCommonSections = () => {
 };
 
 const getVersionsSection = () => {
-  const { npmVersions } = getPackageInfo();
+  const { npmVersions, npmTags } = getPackageInfo();
   const excludeVersions = ['0.8.8'];
   const stableVersions = npmVersions
     .reverse()
     .filter(version => !version.includes('-'))
     .filter(version => !excludeVersions.includes(version));
+  const sections = [];
+
+  if (npmTags.lts) {
+    sections.push({
+      name: 'lts',
+      content: path.join(__dirname, '../README.md'),
+      href: 'http://tech.skbkontur.ru/react-ui/lts',
+    });
+  }
+
+  sections.push(
+    ...stableVersions.map(version => {
+      return {
+        name: version,
+        content: path.join(__dirname, '../README.md'),
+        href: `http://tech.skbkontur.ru/react-ui/${version}`,
+      };
+    }),
+  );
 
   return {
     name: 'Versions',
-    sections: [
-      {
-        name: 'lts',
-        content: path.join(__dirname, '../README.md'),
-        href: 'http://tech.skbkontur.ru/react-ui/lts',
-      },
-      ...stableVersions.map(version => {
-        return {
-          name: version,
-          content: path.join(__dirname, '../README.md'),
-          href: `http://tech.skbkontur.ru/react-ui/${version}`,
-        };
-      }),
-    ],
+    sections,
   };
 };
 
