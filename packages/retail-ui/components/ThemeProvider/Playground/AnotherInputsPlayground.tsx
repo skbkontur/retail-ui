@@ -17,7 +17,7 @@ export class DatePickerPlayground extends React.Component<any, any> {
         <Tooltip
           trigger={this.state.tooltip ? 'opened' : 'closed'}
           render={() => 'Такой даты не существует'}
-          onCloseClick={this._removeTooltip}
+          onCloseClick={this.removeTooltip}
         >
           <DatePicker
             {...this.props}
@@ -25,9 +25,9 @@ export class DatePickerPlayground extends React.Component<any, any> {
             size={this.props.size}
             error={this.state.error}
             value={this.state.value}
-            onChange={this._handleChange}
-            onFocus={this._unvalidate}
-            onBlur={this._validate}
+            onChange={this.handleChange}
+            onFocus={this.invalidate}
+            onBlur={this.validate}
             enableTodayLink
           />
         </Tooltip>
@@ -35,17 +35,17 @@ export class DatePickerPlayground extends React.Component<any, any> {
     );
   }
 
-  private _handleChange = (_: any, value: string) => {
+  private handleChange = (_: any, value: string) => {
     this.setState({
       value,
     });
   };
 
-  private _unvalidate = () => {
+  private invalidate = () => {
     this.setState({ error: false, tooltip: false });
   };
 
-  private _validate = () => {
+  private validate = () => {
     const currentValue = this.state.value;
     this.setState(() => {
       const error = !!currentValue && !DatePicker.validate(currentValue);
@@ -56,7 +56,7 @@ export class DatePickerPlayground extends React.Component<any, any> {
     });
   };
 
-  private _removeTooltip = () => {
+  private removeTooltip = () => {
     this.setState({
       tooltip: false,
     });
