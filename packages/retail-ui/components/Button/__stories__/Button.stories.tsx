@@ -53,6 +53,37 @@ storiesOf('Button', module)
       </Button>
     </Gapped>
   ))
+  .add('text styles reset', () => {
+    return (
+      <div
+        style={{
+          fontWeight: 'bold',
+          fontStyle: 'italic',
+          fontVariant: 'small-caps slashed-zero',
+          fontStretch: 'expanded',
+          color: 'red',
+          lineHeight: '50px',
+          textAlign: 'right',
+          textShadow: '3px 3px 3px #333',
+          textTransform: 'uppercase',
+          letterSpacing: '5px',
+        }}
+      >
+        <Gapped>
+          <span>Inherited Styles</span>
+          <Button>
+            <SearchIcon/>
+          </Button>
+          <Button>Button</Button>
+          <Button visuallyFocused>Focused</Button>
+          <Button active>Active</Button>
+          <Button checked>Checked</Button>
+          <Button disabled>Disabled</Button>
+          <Button use="link">Link</Button>
+        </Gapped>
+      </div>
+    );
+  })
   .add('different aligns', () => (
     <ComponentTable
       Component={Button}
