@@ -32,6 +32,7 @@ const getPackageInfo = (configPath = PACKAGE_JSON) => {
   return {
     publishVersion,
     npmVersions,
+    npmTags,
     distTag,
     homepage,
     config,
