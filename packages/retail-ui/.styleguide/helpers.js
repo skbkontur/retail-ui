@@ -60,12 +60,8 @@ const getVersionsSection = () => {
   };
 };
 
-const removeOptions = (obj, props) => {
-  for (const key in obj) {
-    if (props.includes(key)) {
-      delete obj[key];
-    }
-  }
+const removeProps = (obj, props) => {
+  props.forEach(prop => delete obj[prop]);
   return obj;
 };
 
@@ -74,7 +70,7 @@ const removeUnsupportedConfigOptions = config => {
   if (semver.lt(styleguidistVersion, '7.1.0')) {
     const { sections } = config;
     if (sections && sections.length) {
-      config.sections = sections.map(section => removeOptions(section, ['exampleMode', 'sectionDepth', 'usageMode']));
+      config.sections = sections.map(section => removeProps(section, ['exampleMode', 'sectionDepth', 'usageMode']));
     }
 
     delete config.version;
