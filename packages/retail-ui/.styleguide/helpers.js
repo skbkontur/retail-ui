@@ -29,7 +29,7 @@ const getCommonSections = () => {
 
 const getVersionsSection = () => {
   const { npmVersions, npmTags } = getPackageInfo();
-  const excludeVersions = ['0.8.8'];
+  const excludeVersions = ['0.8.8', '0.18.16', '0.18.17', '0.42.2'];
   const stableVersions = npmVersions
     .reverse()
     .filter(version => !version.includes('-'))
