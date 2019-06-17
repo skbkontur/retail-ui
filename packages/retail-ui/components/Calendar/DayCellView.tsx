@@ -52,9 +52,9 @@ export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
         className={cx({
           [styles.cell]: true,
           [jsStyles.cell(this.theme)]: true,
-          [jsStyles.weekend(this.theme)]: !!isWeekend,
           [jsStyles.today(this.theme)]: !!today && !!CDS.isEqual(date, today),
           [jsStyles.selected(this.theme)]: !!value && !!CDS.isEqual(date, value),
+          [jsStyles.weekend(this.theme)]: !!isWeekend,
         })}
         onClick={this.handleClick}
       >
