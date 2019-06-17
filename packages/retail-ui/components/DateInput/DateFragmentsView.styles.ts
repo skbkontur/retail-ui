@@ -1,5 +1,6 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
+import styles from './DateFragmentsView.less';
 
 const jsStyles = {
   root(t: ITheme) {
@@ -22,6 +23,12 @@ const jsStyles = {
   delimiter(t: ITheme) {
     return css`
       color: ${t.dateInputMaskColor};
+      
+      &.${styles.filled} {
+        color: inherit;
+        line-height: 1.34;
+      }
+      
     `;
   },
 };
