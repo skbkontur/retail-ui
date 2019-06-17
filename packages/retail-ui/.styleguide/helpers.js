@@ -23,9 +23,7 @@ const getCommonSections = () => {
     { name: 'Icons', content: path.join(__dirname, '../components/Icon/README.md') },
     { name: 'LocaleProvider', content: path.join(__dirname, '../LOCALEPROVIDER.md') },
     { name: 'Components', components, sectionDepth: 1 },
-  ]
-    .filter(section => !section.content || fs.existsSync(section.content))
-    .map(section => removeProps(section, ['exampleMode', 'sectionDepth'], semver.lt(styleguidistVersion, '7.1.0')));
+  ].filter(section => !section.content || fs.existsSync(section.content));
 };
 
 const getVersionsSection = () => {
@@ -55,15 +53,27 @@ const getVersionsSection = () => {
   };
 };
 
-const removeProps = (obj, props, condition) => {
-  if (condition) {
-    for (const key in obj) {
-      if (props.includes(key)) {
-        delete obj[key];
-      }
+const removeOptions = (obj, props) => {
+  for (const key in obj) {
+    if (props.includes(key)) {
+      delete obj[key];
     }
   }
   return obj;
+};
+
+const removeUnsupportedConfigOptions = config => {
+  // @see https://github.com/styleguidist/react-styleguidist/releases/tag/v7.1.0
+  if (semver.lt(styleguidistVersion, '7.1.0')) {
+    const { sections } = config;
+    if (sections && sections.length) {
+      config.sections = sections.map(section => removeOptions(section, ['exampleMode', 'sectionDepth', 'usageMode']));
+    }
+
+    delete config.version;
+  }
+
+  return config;
 };
 
 module.exports = {
@@ -71,8 +81,7 @@ module.exports = {
   commonSections: getCommonSections(),
   versionsSection: getVersionsSection(),
   packageVersion,
-  styleguidistVersion,
-  removeProps,
+  removeUnsupportedConfigOptions,
   ROOT_DIR,
   VERSION_DIR,
 };

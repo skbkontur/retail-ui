@@ -7,7 +7,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
-const { packageVersion, styleguidistVersion, removeProps } = require('../helpers');
+const { packageVersion } = require('../helpers');
 
 const styles = {
   StyleGuide: {
@@ -163,7 +163,7 @@ const webpackConfig = {
   },
 };
 
-const baseConfig = {
+module.exports = {
   skipComponentsWithoutExample: true,
   pagePerSection: true,
   styles,
@@ -189,5 +189,3 @@ const baseConfig = {
     return path.substring(path.indexOf('components')) || path;
   },
 };
-
-module.exports = removeProps(baseConfig, ['version'], semver.lt(styleguidistVersion, '7.1.0'));

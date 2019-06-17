@@ -1,5 +1,5 @@
 const baseConfig = require('./base.config');
-const { commonSections, ROOT_DIR } = require('../helpers');
+const { commonSections, ROOT_DIR, removeUnsupportedConfigOptions } = require('../helpers');
 
 const config = Object.assign({}, baseConfig, {
   styleguideDir: ROOT_DIR,
@@ -7,4 +7,4 @@ const config = Object.assign({}, baseConfig, {
   sections: commonSections,
 });
 
-module.exports = config;
+module.exports = removeUnsupportedConfigOptions(config);
