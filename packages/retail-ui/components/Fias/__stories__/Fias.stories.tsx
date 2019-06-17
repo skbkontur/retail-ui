@@ -8,7 +8,6 @@ import { FiasAPI } from '../api/FiasAPI';
 import { FiasLocaleHelper } from '../locale';
 import { Address } from '../models/Address';
 import { MockAPI } from '../api/MockAPI';
-import { FiasDefaultView } from '../Views/FiasDefaultView';
 
 const BASE_URL = 'https://api.testkontur.ru/fias/v1/';
 const MOCK_RESPONSE = require('../api/data.json')[0];
