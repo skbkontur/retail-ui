@@ -7,4 +7,4 @@ config.publishConfig = Object.assign({}, config.publishConfig, { tag: distTag })
 
 updateConfig(config);
 
-console.log(`About to publish: ${config.name}@${publishVersion} with the "${distTag}" tag.`);
+console.log(`Ready to publish: ${config.name}@${publishVersion} with the "${distTag}" tag.`);
