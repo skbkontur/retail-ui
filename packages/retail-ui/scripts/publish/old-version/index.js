@@ -20,8 +20,7 @@ const checkoutFiles = () => {
   ];
 
   try {
-    // TODO: replace with origin/master before merge
-    run(`git checkout publish-tags ${PATHS.join(' ')}`);
+    run(`git checkout origin/master ${PATHS.join(' ')}`);
   } catch (e) {
     if (!PATHS.every(p => fs.existsSync(p))) {
       console.log('Critical files are missing.');
