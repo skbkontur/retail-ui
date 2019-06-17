@@ -1,37 +1,25 @@
-const { spawnSync } = require('child_process');
+const { execSync } = require('child_process');
 
 const getCurrentBranch = () => {
-  const { error, stdout } = spawnSync('git rev-parse --abbrev-ref HEAD', [], { shell: true });
-
-  if (error) {
-    console.log(error);
-    process.exit(-1);
-  }
-
-  return stdout.toString().trim();
+  return execSync('git rev-parse --abbrev-ref HEAD', { shell: true })
+    .toString()
+    .trim();
 };
 
 const getRevisionTags = (pattern = '*') => {
-  const { stderr, stdout } = spawnSync(`git tag -l ${pattern} --points-at HEAD`, [], { shell: true });
+  const stdout = execSync(`git tag -l ${pattern} --points-at HEAD`, {
+    shell: true,
+  })
+    .toString()
+    .trim();
 
-  if (stderr) {
-    console.log(stderr.toString());
-  }
-
-  const tags = stdout.toString().trim();
-
-  return tags ? tags.split('\n') : [];
+  return stdout ? stdout.split('\n') : [];
 };
 
 const getRevisionHash = () => {
-  const { error, stdout } = spawnSync('git rev-parse HEAD', [], { shell: true });
-
-  if (error) {
-    console.log(error);
-    process.exit(-1);
-  }
-
-  return stdout.toString().trim();
+  return execSync('git rev-parse HEAD', { shell: true })
+    .toString()
+    .trim();
 };
 
 module.exports = {

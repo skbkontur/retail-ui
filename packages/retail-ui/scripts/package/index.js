@@ -1,5 +1,5 @@
 const path = require('path');
-const { spawnSync } = require('child_process');
+const { execSync } = require('child_process');
 const { eq, gt, gte, valid, diff } = require('semver');
 const { getCurrentBranch, getRevisionHash, getRevisionTags } = require('../git');
 const { readJsonSync, writeJsonSync } = require('fs-extra');
@@ -51,13 +51,13 @@ const updateConfig = (config, path = PACKAGE_JSON) => {
 };
 
 const fetchPackageData = packageName => {
-  const { error, stdout } = spawnSync('npm', ['show', packageName, '--json'], { shell: true });
+  const stdout = execSync(`npm show ${packageName} --json`, {
+    shell: true,
+  })
+    .toString()
+    .trim();
 
-  if (error) {
-    console.log(error);
-    process.exit(-1);
-  }
-  const { versions: npmVersions, 'dist-tags': npmTags } = JSON.parse(stdout.toString());
+  const { versions: npmVersions, 'dist-tags': npmTags } = JSON.parse(stdout);
 
   return {
     npmVersions,

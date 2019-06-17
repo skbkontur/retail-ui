@@ -4,8 +4,7 @@ const { execSync } = require('child_process');
 const PACKAGE_JSON = path.join(__dirname, '../../../package.json');
 
 const run = cmd => {
-  const output = execSync(cmd, [], { shell: true });
-  console.log(output.toString());
+  return execSync(cmd, { shell: true });
 };
 
 const checkoutFiles = () => {
