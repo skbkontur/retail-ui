@@ -2,6 +2,11 @@ import FLAT_VARIABLES from '../../../components/variables.flat.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 
 const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
+  btnFontSizeMedium: {
+    get() {
+      return '16px';
+    },
+  },
   btnCheckedShadowArrow: {
     get() {
       return `0 0 0 1px ${this.btnCheckedBg}`;
