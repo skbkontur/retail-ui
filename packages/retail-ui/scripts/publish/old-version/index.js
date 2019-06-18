@@ -33,10 +33,10 @@ const addDependencies = () => {
 };
 
 const updatePackageJson = () => {
-  const packageJson = JSON.parse(fs.readFileSync(PACKAGE_JSON));
-  const EOF = '\n';
+  const { loadConfig, updateConfig } = require('../../package');
+  const config = loadConfig(PACKAGE_JSON);
 
-  packageJson.scripts = Object.assign({}, packageJson.scripts, {
+  config.scripts = Object.assign({}, config.scripts, {
     prepublishOnly: 'yarn clean && node scripts/publish/prepublish && yarn build',
     clean: 'git clean -fdxqe node_modules',
     postpublish: 'yarn deploy && npm run publish:react-ui',
@@ -46,9 +46,9 @@ const updatePackageJson = () => {
     'styleguide:build': 'node .styleguide/build',
   });
 
-  delete packageJson.scripts.postdeploy;
+  delete config.scripts.postdeploy;
 
-  fs.writeFileSync(PACKAGE_JSON, JSON.stringify(packageJson, null, 2) + EOF);
+  updateConfig(config, PACKAGE_JSON);
 };
 
 const commitChanges = () => {
