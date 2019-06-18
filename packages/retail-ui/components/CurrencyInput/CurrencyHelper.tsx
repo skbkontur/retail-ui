@@ -1,6 +1,7 @@
 import { DecimalOptions } from './CurrencyInputHelper';
 import { CursorMap } from './CursorHelper';
 import { Nullable } from '../../typings/utility-types';
+import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
 
 export interface DecimalFormattingOptions {
   fractionDigits?: Nullable<number>;
@@ -131,7 +132,7 @@ export default class CurrencyHelper {
     }
 
     if (fractionDigits) {
-      result += fraction.padEnd(fractionDigits, '0');
+      result += fraction.padEnd(Math.min(fractionDigits, MAX_SAFE_DIGITS), '0');
     }
 
     if (sign) {
@@ -159,8 +160,11 @@ export default class CurrencyHelper {
       return false;
     }
 
-    // https://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer
-    if (integer.length + fraction.length > 15) {
+    if (options.fractionDigits === MAX_SAFE_DIGITS && integer === '0') {
+      return fraction.length <= MAX_SAFE_DIGITS;
+    }
+
+    if (integer.length + fraction.length > MAX_SAFE_DIGITS) {
       return false;
     }
 
@@ -175,7 +179,7 @@ export default class CurrencyHelper {
       case 0:
         return !delimiter;
       default:
-        return fraction.length <= options.fractionDigits && integer.length <= 15 - options.fractionDigits;
+        return fraction.length <= options.fractionDigits && integer.length <= MAX_SAFE_DIGITS - options.fractionDigits;
     }
   }
 
@@ -191,7 +195,7 @@ export default class CurrencyHelper {
       return '';
     }
 
-    const token = match[0].substr(0, 17);
+    const token = match[0].substr(0, MAX_ALLOWED_CHARS);
 
     for (let i = token.length; i >= 0; --i) {
       const result = token.substr(0, i);
