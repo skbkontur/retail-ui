@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { ComponentTable, StatePropsCombinations, StateType, Defaultize } from './ComponentTable';
+import { ComponentTable, Defaultize, StatePropsCombinations, StateType } from './ComponentTable';
 
 export interface ComponentCombinatorProps<C, P, S> {
-  combinations: StatePropsCombinations<P, S>;
-  colsPerPage: number;
-  rowsPerPage: number;
+  combinations: Array<StatePropsCombinations<P, S>>;
   Component: C;
   presetProps: C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
   presetState: Partial<S>;
@@ -21,8 +19,6 @@ export class ComponentCombinator<
   public static defaultProps = {
     props: [],
     states: [],
-    colsPerPage: 0,
-    rowsPerPage: 0,
     presetProps: {},
     presetState: {},
   };
@@ -33,16 +29,17 @@ export class ComponentCombinator<
 
   public render() {
     const { page } = this.state;
-    const { combinations, colsPerPage, rowsPerPage, Component, presetProps, presetState } = this.props;
+    const { combinations, Component, presetProps, presetState } = this.props;
     const pages = [];
+    let row = 0;
+    const sizes = combinations.map(c => c.length);
+    const flatCombinations = ([] as typeof combinations[0]).concat(...combinations);
 
-    for (let row = 0; row < combinations.length; row += rowsPerPage) {
-      for (let col = 0; col < combinations.length; col += colsPerPage) {
-        pages.push({
-          offsetX: col,
-          offsetY: row,
-        });
-      }
+    for (let j = 0; j < sizes.length - 1; j++) {
+      pages.push({
+        offsetX: row,
+        offsetY: (row += sizes[j]),
+      });
     }
 
     const pageOffsets = pages[page];
@@ -64,8 +61,8 @@ export class ComponentCombinator<
               Component={Component}
               presetProps={presetProps}
               presetState={presetState}
-              rows={combinations.slice(pageOffsets.offsetY, pageOffsets.offsetY + rowsPerPage)}
-              cols={combinations.slice(pageOffsets.offsetX, pageOffsets.offsetX + colsPerPage)}
+              rows={flatCombinations.slice(pageOffsets.offsetY, flatCombinations.length)}
+              cols={flatCombinations.slice(pageOffsets.offsetX, pageOffsets.offsetY)}
             />
           )}
         </div>
