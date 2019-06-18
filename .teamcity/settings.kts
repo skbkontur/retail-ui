@@ -50,6 +50,7 @@ project {
 
     params {
         text("teamcity.runner.commandline.stdstreams.encoding", "UTF8", display = ParameterDisplay.HIDDEN, allowEmpty = true)
+        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
     }
 
     features {
