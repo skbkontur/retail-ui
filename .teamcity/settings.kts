@@ -166,8 +166,8 @@ object RetailUiTags : GitVcsRoot({
     name = "retail-ui tags"
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = """
+        -:*
         +:refs/tags/retail-ui@*
-        -:<default>
     """.trimIndent()
     useTagsAsBranches = true
 })
@@ -412,7 +412,11 @@ object ReactUI_Publish : BuildType({
 
     triggers {
         vcs {
-            triggerRules = "+:root=${RetailUiTags.id}:**"
+            triggerRules = """
+                -:**
+                +:root=${RetailUiTags.id}:**
+            """.trimIndent()
+
             branchFilter = ""
         }
     }
