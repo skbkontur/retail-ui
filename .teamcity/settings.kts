@@ -374,9 +374,7 @@ object ReactUI_Publish : BuildType({
     }
 
     vcs {
-        root(RetailUiTags)
-
-        buildDefaultBranch = false
+        root(RetailUi)
     }
 
     steps {
@@ -392,8 +390,8 @@ object ReactUI_Publish : BuildType({
         }
         step {
             name = "Publish"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui publish")
+            type = "jonnyzzz.npm"
+            param("npm_commands", "publish ./packages/retail-ui/")
         }
         step {
             name = "Clean"
@@ -405,6 +403,7 @@ object ReactUI_Publish : BuildType({
 
     triggers {
         vcs {
+          branchFilter = "+:refs/tags/retail-ui@*"
         }
     }
 
