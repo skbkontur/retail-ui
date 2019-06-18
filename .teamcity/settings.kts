@@ -496,7 +496,10 @@ object SeleniumTesting_Publish : BuildType({
     vcs {
         root(ReactUiTestingTags)
 
-        branchFilter = false
+        branchFilter = """
+            +:*
+            -:<default>
+        """.trimIndent()
     }
 
     steps {
@@ -775,7 +778,10 @@ object Validations_Publish : BuildType({
     vcs {
         root(ReactUiValidationsTags)
 
-        branchFilter = false
+        branchFilter = """
+            +:*
+            -:<default>
+        """.trimIndent()
     }
 
     steps {
