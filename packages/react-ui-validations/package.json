@@ -40,7 +40,7 @@
   "peerDependencies": {
     "react": ">=15 <=16",
     "react-dom": ">=15 <=16",
-    "retail-ui": "<1.0.0"
+    "retail-ui": ">=0.52.0 <1.0.0"
   },
   "dependencies": {
     "lodash.isequal": "^4.5.0",
