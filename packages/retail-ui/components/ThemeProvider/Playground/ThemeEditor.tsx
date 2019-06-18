@@ -4,10 +4,10 @@ import ThemeFactory from '../../../lib/theming/ThemeFactory';
 import { VariableValue } from './VariableValue';
 import { ITheme } from '../../../lib/theming/Theme';
 import Gapped from '../../Gapped';
-import { PlaygroundTheme, ThemeErrorsType } from '../__stories__/ThemeProvider.stories';
 import Loader from '../../Loader/Loader';
 import styles from './styles.less';
 import { VARIABLES_GROUPS } from './constants';
+import {PlaygroundTheme, ThemeErrorsType} from "./ThemeProviderPlayground";
 
 interface IThemeEditorProps {
   editingTheme: ITheme;

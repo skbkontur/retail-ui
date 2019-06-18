@@ -22,7 +22,6 @@ import { SwitcherPlayground } from './SwitcherPlayground';
 import { FxInputPlayground } from './FxInputPlayground';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground';
 import { ThemeConsumer } from '../../internal/ThemeContext';
-import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 import { SelectPlayground } from './SelectPlayground';
 import { getComponentsFromPropsList } from './helpers';
 import { CheckboxPlayground } from './CheckboxPlayground';
@@ -32,6 +31,7 @@ import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import Sticky from '../../Sticky';
+import {PlaygroundTheme} from "./ThemeProviderPlayground";
 
 const enableReactTesting = process.env.enableReactTesting === 'true';
 const useSticky = !enableReactTesting;

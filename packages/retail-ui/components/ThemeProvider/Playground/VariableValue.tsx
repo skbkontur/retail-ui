@@ -2,7 +2,6 @@ import * as React from 'react';
 import { cx, css } from '../../../lib/theming/Emotion';
 import Input from '../../Input/index';
 import styles from './styles.less';
-import { PlaygroundTheme } from '../__stories__/ThemeProvider.stories';
 import Gapped from '../../Gapped';
 import { ITheme } from '../../../lib/theming/Theme';
 import Link from '../../Link';
@@ -10,6 +9,7 @@ import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import Hint from '../../Hint';
 import { EventEmitter, EventSubscription } from 'fbemitter';
+import { PlaygroundTheme } from './ThemeProviderPlayground';
 
 const emitter = new EventEmitter();
 
