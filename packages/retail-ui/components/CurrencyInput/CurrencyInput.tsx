@@ -39,7 +39,12 @@ export interface CurrencyInputState {
 
 /**
  * Поле для денежных сумм (и других числовых значений).
- * Принимает любые свойства `Input`
+ * Принимает любые свойства `Input`.
+ * <br/>
+ * <br/>
+ * Максимальная длина числа - **15 цифр** (с десятичным разделителем в любом месте).
+ * <br/>
+ * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
 export default class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
   public static propTypes = {
