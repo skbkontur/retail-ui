@@ -23,6 +23,21 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.warningMain;
     },
   },
+  btnFontSizeSmall: {
+    get() {
+      return this.fontSizeSmall
+    }
+  },
+  btnFontSizeMedium: {
+    get() {
+      return this.fontSizeMedium
+    }
+  },
+  btnFontSizeLarge: {
+    get() {
+      return this.fontSizeLarge
+    }
+  },
   controlHeightSmall: {
     get() {
       const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
@@ -181,6 +196,21 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
     get() {
       return this.borderColorFocus;
     },
+  },
+  inputFontSizeSmall: {
+    get() {
+      return this.fontSizeSmall
+    }
+  },
+  inputFontSizeMedium: {
+    get() {
+      return this.fontSizeMedium
+    }
+  },
+  inputFontSizeLarge: {
+    get() {
+      return this.fontSizeLarge
+    }
   },
   inputFocusShadow: {
     get() {

@@ -54,7 +54,7 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
-      font-size: ${t.fontSizeSmall};
+      font-size: ${t.btnFontSizeSmall};
       border-radius: ${t.btnSmallBorderRadius};
 
       &:not(.${classes.link}) {
@@ -83,7 +83,7 @@ const jsClasses = {
 
   sizeMedium(t: ITheme) {
     return css`
-      font-size: ${t.fontSizeMedium};
+      font-size: ${t.btnFontSizeMedium};
       
       &:not(.${classes.link}) {
         padding: ${t.controlPaddingYMedium} 15px;
@@ -112,7 +112,7 @@ const jsClasses = {
 
   sizeLarge(t: ITheme) {
     return css`
-      font-size: ${t.fontSizeLarge};
+      font-size: ${t.btnFontSizeLarge};
 
       &:not(.${classes.link}) {
         padding: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')} 20px

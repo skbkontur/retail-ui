@@ -124,7 +124,7 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
-      font-size: ${t.fontSizeSmall};
+      font-size: ${t.inputFontSizeSmall};
       line-height: ${t.controlLineHeightSmall};
       padding-top: ${t.controlPaddingYSmall};
       padding-bottom: ${t.controlPaddingYSmall};
@@ -140,7 +140,7 @@ const jsClasses = {
 
   sizeMedium(t: ITheme) {
     return css`
-      font-size: ${t.fontSizeMedium};
+      font-size: ${t.inputFontSizeMedium};
       line-height: ${t.controlLineHeightMedium};
       padding-top: ${t.controlPaddingYMedium};
       padding-bottom: ${t.controlPaddingYMedium};
@@ -156,7 +156,7 @@ const jsClasses = {
 
   sizeLarge(t: ITheme) {
     return css`
-      font-size: ${t.fontSizeLarge};
+      font-size: ${t.inputFontSizeLarge};
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
       padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};
