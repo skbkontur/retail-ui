@@ -10,6 +10,6 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_Publish")) {
     vcs {
-        add(RelativeId("RetailUiTags"))
+        add(RelativeId("RetailUiTags"), "+:. => retail-ui_tags")
     }
 }
