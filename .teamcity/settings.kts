@@ -496,7 +496,7 @@ object SeleniumTesting_Publish : BuildType({
     vcs {
         root(ReactUiTestingTags)
 
-        buildDefaultBranch = false
+        branchFilter = false
     }
 
     steps {
@@ -721,6 +721,7 @@ object Validations_LintTest : BuildType({
         msBuild {
             name = "Build tests"
             path = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
+            version = MSBuildStep.MSBuildVersion.V15_0
             toolsVersion = MSBuildStep.MSBuildToolsVersion.V15_0
             param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
@@ -774,7 +775,7 @@ object Validations_Publish : BuildType({
     vcs {
         root(ReactUiValidationsTags)
 
-        buildDefaultBranch = false
+        branchFilter = false
     }
 
     steps {
