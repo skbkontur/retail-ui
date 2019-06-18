@@ -242,6 +242,7 @@ function generatePackageJson() {
       url: 'https://github.com/skbkontur/retail-ui/issues',
     },
     peerDependencies: packageJson.peerDependencies,
+    publishConfig: packageJson.publishConfig,
   };
   const source = JSON.stringify(result, null, 2);
   outputFileSync(path.join(OutDir, 'package.json'), source);
