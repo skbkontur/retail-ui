@@ -24,7 +24,16 @@ const getCommonSections = () => {
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
     { name: 'Icons', content: path.join(__dirname, '../components/Icon/README.md') },
     { name: 'LocaleProvider', content: path.join(__dirname, '../LOCALEPROVIDER.md') },
-    { name: 'ThemeProvider', content: path.join(__dirname, '../components/ThemeProvider/README.md') },
+    {
+      content: path.join(__dirname, '../CUSTOMIZATION.md'),
+      name: 'Customization',
+      sectionDepth: 1,
+      sections: [
+        { name: 'ThemeProvider', content: path.join(__dirname, '../components/ThemeProvider/README.md') },
+        { name: 'ThemeShowcase', content: path.join(__dirname, '../components/ThemeShowcase/README.md') },
+        { name: 'ThemePlayground', content: path.join(__dirname, '../components/ThemeProvider/Playground/README.md') },
+      ],
+    },
     { name: 'Components', components, sectionDepth: 1 },
   ].filter(section => !section.content || fs.existsSync(section.content));
 };
