@@ -155,7 +155,11 @@ object ReactUiValidationsTags : GitVcsRoot({
 object RetailUi : GitVcsRoot({
     name = "retail-ui"
     url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/heads/*"
+    branchSpec = """
+        +:refs/heads/*
+        +:refs/tags/retail-ui@*
+    """.trimIndent()
+    useTagsAsBranches = true
 })
 
 object RetailUiTags : GitVcsRoot({
@@ -252,6 +256,7 @@ object ReactUI_CreeveyTests : BuildType({
     params {
         password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
         password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
+        param("env.enableReactTesting", "true")
     }
 
     vcs {
