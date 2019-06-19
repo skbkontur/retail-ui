@@ -14,3 +14,10 @@ gemini.suite('toggle', suite => {
       actions.mouseUp(find('label'));
     });
 });
+
+gemini.suite('disabled toggle', suite => {
+  suite
+    .before(renderStory('Toggle', 'playground'))
+    .setCaptureElements('#test-element')
+    .capture('plain');
+});

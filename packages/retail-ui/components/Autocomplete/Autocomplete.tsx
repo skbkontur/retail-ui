@@ -9,6 +9,7 @@ import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
 export interface AutocompleteProps extends InputProps {
   /** Функция отрисовки элемента меню */
@@ -141,7 +142,7 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
       ref: this.refInput,
     };
     return (
-      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleBlur}>
+      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
         <span style={{ display: 'inline-block' }}>
           <Input {...inputProps} />
           {this.renderMenu()}
@@ -220,6 +221,11 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     if (this.props.onBlur) {
       this.props.onBlur();
     }
+  };
+
+  private handleClickOutside = (e: Event) => {
+    fixClickFocusIE(e);
+    this.handleBlur();
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {

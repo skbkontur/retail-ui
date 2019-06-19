@@ -59,12 +59,15 @@ export default class SpinnerFallback extends React.Component<SpinnerFallbackProp
     const size = sizeMaps[type];
 
     const cssSet: React.CSSProperties = {
-      backgroundPosition: `0 -${frame * size.height}px`,
       backgroundImage: `url('${this._imageUrls[this.getSpriteSettingsKey()]}')`,
       height: size.height,
       top: type === 'mini' ? 2 : 0,
       width: size.width,
     };
+
+    if (!process.env.enableReactTesting) {
+      cssSet.backgroundPosition = `0 -${frame * size.height}px`;
+    }
 
     return <span className={styles.fallback} style={cssSet} />;
   }

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
+import { FiasLocale } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
 import styles from './FiasForm.less';
 import {
   Fields,
   FormValidation,
-  FiasLocale,
   AddressResponse,
   VerifyResponse,
   APIProvider,
@@ -89,7 +89,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private fields: FiasFormFields;
 
-  private verifyPromise: Promise<APIResult<VerifyResponse>> | null = null;
+  private lastVerifyPromise: Promise<Address> | null = null;
 
   constructor(props: FiasFormProps) {
     super(props);
@@ -134,11 +134,11 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   }
 
   public componentDidMount() {
-    this.check();
+    this.validate();
   }
 
   public submit = async (): Promise<Address> => {
-    await this.verifyPromise;
+    await this.lastVerifyPromise;
     return this.state.address;
   };
 
@@ -203,7 +203,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     return {
       error: address.hasError(field) && validationLevel === FormValidation.Error,
       warning: address.hasError(field) && validationLevel === FormValidation.Warning,
-      placeholder: locale[`${field}Placeholder`],
+      placeholder: locale[`${field}Placeholder` as keyof FiasLocale],
     };
   };
 
@@ -214,7 +214,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       const settings = fieldsSettings[field];
       if (control && Boolean(settings && settings.visible)) {
         const { meta, render } = control;
-        const label = locale[`${field}Label`];
+        const label = locale[`${field}Label` as keyof FiasLocale];
         return (
           control && (
             <FiasForm.Field label={label} key={field}>
@@ -297,13 +297,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         ...address.fields,
         ...value.fields,
       };
+      // get rid of undefineds
       let addressField: Fields;
       for (addressField in newFields) {
         if (!newFields[addressField]) {
           delete newFields[addressField];
         }
       }
-      this.handleAddressChange(Address.createFromAddress(address, { fields: newFields }));
+      this.handleAddressChange(Address.createFromAddress(address, { fields: newFields }), this.validate);
     };
 
     const onInputChange = () => {
@@ -329,7 +330,8 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         const regionCode = element.data.code.substr(0, 2);
         return `${regionCode} ${fieldText}`;
       }
-
+      // TODO: handle possible identical texts of elements
+      // while in the "not directParent" search mode
       return hasParents ? [address.getText(field), fieldText].join(', ') : fieldText;
     };
 
@@ -409,7 +411,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         field,
         parentFiasId: address.getClosestParentFiasId(field),
         fullAddress: address.isAllowedToSearchFullAddress(field),
-        directParent: !address.isAllowedToSearchThroughAllParents(field),
+        directParent: !address.isAllowedToSearchThroughChildrenOfDirectParent(field),
         limit: limit + 1, // +1 to detect if there are more items
       };
       return this.props.api.search(options).then(result => {
@@ -472,21 +474,28 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private check(): void {
+  private verify = (): Promise<Address> => {
     const { address } = this.state;
-    const { api, locale } = this.props;
+    const { api } = this.props;
 
-    this.verifyPromise = api.verify(address.convertForVerification()).then(result => {
+    return api.verify(address).then((result: APIResult<VerifyResponse>) => {
       const { success, data } = result;
       if (success && data) {
-        const verifiedFields = (data[0] && data[0].address) || {};
-        const verifiedAddress = Address.verify(address, verifiedFields, locale);
+        return Address.verify(address, data);
+      }
+      return Address.removeFiasData(address);
+    });
+  };
 
+  private validate(): void {
+    const verifyPromise = (this.lastVerifyPromise = this.verify());
+
+    verifyPromise.then(verifiedAddress => {
+      if (verifyPromise === this.lastVerifyPromise) {
         this.setState({
-          address: verifiedAddress,
+          address: Address.validate(verifiedAddress, this.props.locale),
         });
       }
-      return result;
     });
   }
 
@@ -502,16 +511,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private handleAddressChange = (address: Address) => {
+  private handleAddressChange = (address: Address, callback?: () => void) => {
     this.setState(
       {
         address: Address.createFromAddress(address, {
           fields: Address.filterVisibleFields(address.fields, this.props.fieldsSettings),
         }),
       },
-      () => {
-        this.check();
-      },
+      callback,
     );
   };
 

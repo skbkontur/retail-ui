@@ -1,5 +1,4 @@
 import {
-  AddressValue,
   APIProvider,
   Fields,
   AddressResponse,
@@ -10,11 +9,18 @@ import {
   FiasCountry,
 } from '../types';
 import { APIResultFactory } from './APIResultFactory';
+import { Address } from '../models/Address';
+
 const addresses: SearchResponse = require('./data.json');
 
 export class MockAPI implements APIProvider {
-  public verify = async (address: AddressValue): Promise<APIResult<VerifyResponse>> => {
-    return Promise.resolve(APIResultFactory.success([]));
+  public verify = async (address: Address): Promise<APIResult<VerifyResponse>> => {
+    return Promise.resolve(
+      APIResultFactory.success({
+        address: {},
+        isValid: true,
+      }),
+    );
   };
 
   public search = async ({

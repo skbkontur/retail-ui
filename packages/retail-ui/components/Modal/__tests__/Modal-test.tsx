@@ -77,8 +77,21 @@ describe('Modal', () => {
     const wrapper = mount(<Modal onClose={onCloseHandler}>Modal content</Modal>);
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('ModalClickTrap').simulate('click');
+    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
     expect(onCloseHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("click on content doesn't call onClose", () => {
+    const onCloseHandler = jest.fn();
+    const wrapper = mount(
+      <Modal onClose={onCloseHandler}>
+        <div data-tid="modal-content" />
+      </Modal>,
+    );
+
+    expect(onCloseHandler).toHaveBeenCalledTimes(0);
+    wrapper.find('[data-tid="modal-content"]').simulate('mouseDown');
+    expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
   it('click on background works if noClose is true', () => {
@@ -90,7 +103,7 @@ describe('Modal', () => {
     );
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('ModalClickTrap').simulate('click');
+    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
     expect(onCloseHandler).toHaveBeenCalledTimes(1);
   });
 
@@ -103,7 +116,7 @@ describe('Modal', () => {
     );
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('ModalClickTrap').simulate('click');
+    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
@@ -116,7 +129,7 @@ describe('Modal', () => {
     );
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('ModalClickTrap').simulate('click');
+    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 

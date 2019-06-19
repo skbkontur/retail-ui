@@ -113,6 +113,11 @@ export interface ComboBoxProps<T> {
   renderValue: (item: T) => React.ReactNode;
 
   /**
+   * Функция отрисовки кнопки добавления в выпадающем списке
+   */
+  renderAddButton?: (query?: string) => React.ReactNode;
+
+  /**
    * Общее количество элементов.
    * Необходим для работы `renderTotalCount`
    */
@@ -138,6 +143,12 @@ export interface ComboBoxProps<T> {
   width?: string | number;
 
   maxMenuHeight?: number | string;
+
+  onMouseEnter?: (e: React.MouseEvent) => void;
+
+  onMouseOver?: (e: React.MouseEvent) => void;
+
+  onMouseLeave?: (e: React.MouseEvent) => void;
 }
 
 export interface ComboBoxItem {

@@ -26,4 +26,10 @@ gemini.suite('Token', suite => {
       .setCaptureElements('#test-element')
       .capture('idle');
   });
+  gemini.suite('disabled', suite => {
+    suite
+      .before(renderStory('Token', 'disabled'))
+      .setCaptureElements('#test-element')
+      .capture('idle');
+  });
 });
