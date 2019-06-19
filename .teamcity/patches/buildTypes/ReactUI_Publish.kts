@@ -1,6 +1,8 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -9,7 +11,14 @@ To apply the patch, change the buildType with id = 'ReactUI_Publish'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_Publish")) {
-    vcs {
-        add(RelativeId("RetailUiTags"), "+:. => retail-ui_tags")
+    triggers {
+        val trigger1 = find<VcsTrigger> {
+            vcs {
+                branchFilter = "+:retail-ui@*"
+            }
+        }
+        trigger1.apply {
+            enabled = false
+        }
     }
 }

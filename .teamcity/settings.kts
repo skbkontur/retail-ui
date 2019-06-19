@@ -158,7 +158,7 @@ object RetailUi : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = """
         +:refs/heads/*
-        +:refs/tags/retail-ui@*
+        +:refs/tags/*
     """.trimIndent()
     useTagsAsBranches = true
 })
@@ -166,7 +166,9 @@ object RetailUi : GitVcsRoot({
 object RetailUiTags : GitVcsRoot({
     name = "retail-ui tags"
     url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/tags/retail-ui@*"
+    branchSpec = """
+        +:refs/tags/retail-ui@*
+    """.trimIndent()
     useTagsAsBranches = true
 })
 
@@ -409,7 +411,7 @@ object ReactUI_Publish : BuildType({
 
     triggers {
         vcs {
-          branchFilter = "+:refs/tags/retail-ui@*"
+            branchFilter = "+:retail-ui@*"
         }
     }
 
