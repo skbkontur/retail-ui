@@ -8,6 +8,24 @@ const jsStyles = {
     `;
   },
 
+  iconSmall(t: ITheme) {
+    return css`
+      font-size: ${t.inputFontSizeSmall};
+    `;
+  },
+
+  iconMedium(t: ITheme) {
+    return css`
+      font-size: ${t.inputFontSizeMedium};
+    `;
+  },
+
+  iconLarge(t: ITheme) {
+    return css`
+      font-size: ${t.inputFontSizeLarge};
+    `;
+  },
+
   iconDisabled(t: ITheme) {
     return css`
       color: ${t.textColorDisabled};

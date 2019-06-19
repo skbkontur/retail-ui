@@ -5,7 +5,6 @@ import InternalDateGetter from '../../lib/date/InternalDateGetter';
 import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
 import { InternalDateComponent, InternalDateComponentType, InternalDateValidateCheck } from '../../lib/date/types';
 import MouseDrag from '../../lib/events/MouseDrag';
-import Upgrades from '../../lib/Upgrades';
 import { isFirefox } from '../../lib/utils';
 import { Nullable } from '../../typings/utility-types';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
@@ -173,7 +172,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         onMouseUp={this.handleMouseUp}
         onMouseDown={this.handleMouseDown}
         onPaste={this.handlePaste}
-        rightIcon={this.renderIcon()}
+        rightIcon={this.renderIcon}
         onDoubleClickCapture={this.handleDoubleClick}
       >
         <DateFragmentsView
@@ -268,17 +267,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (isMod) {
       this.setState({ internalDate });
     }
-  };
-
-  private getIconSize = () => {
-    // FIXME: вынести значения в пиксилях
-    if (this.props.size === 'large') {
-      return '16px';
-    }
-    if (this.props.size === 'medium' && Upgrades.isSizeMedium16pxEnabled()) {
-      return '16px';
-    }
-    return '14px';
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
@@ -590,23 +578,27 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private getLastDateComponentType = (): InternalDateComponentType =>
     this.state.typesOrder[this.state.typesOrder.length - 1];
 
-  private renderIcon = (): (() => JSX.Element | null) => {
-    const { withIcon, disabled = false } = this.props;
+  private renderIcon = () => {
+    const { withIcon, size, disabled = false } = this.props;
 
     if (withIcon) {
+      const theme = this.theme;
       const iconStyles = cx({
         [styles.icon]: true,
-        [jsStyles.icon(this.theme)]: true,
+        [jsStyles.icon(theme)]: true,
+        [jsStyles.iconSmall(theme)]: size === 'small',
+        [jsStyles.iconMedium(theme)]: size === 'medium',
+        [jsStyles.iconLarge(theme)]: size === 'large',
         [styles.iconDisabled]: disabled,
-        [jsStyles.iconDisabled(this.theme)]: disabled,
+        [jsStyles.iconDisabled(theme)]: disabled,
       });
-      return () => (
+      return (
         <span className={iconStyles}>
-          <CalendarIcon size={this.getIconSize()} />
+          <CalendarIcon />
         </span>
       );
     }
-    return () => null;
+    return null;
   };
 }
 
