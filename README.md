@@ -9,7 +9,7 @@
 
 ## Установка и запуск
 
-Для управления репозиторием и пакетами используется **[lernajs](https://lernajs.io/)** (используется для публикаци **retail-ui** в npm) и **[yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/)**.
+Для управления репозиторием и пакетами используется **[lernajs](https://lernajs.io/)** (используется для публикации **retail-ui** в npm) и **[yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/)**.
 
 Установка зависимостей для всех пакетов:
 
