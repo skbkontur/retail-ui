@@ -1,7 +1,5 @@
 import warning from 'warning';
 
-let flatDesignEnabled = false;
-const sizeMedium16pxEnabled = false;
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
 
@@ -11,19 +9,25 @@ const Upgrade = {
       false,
       'Метод Upgrades.enableFlatDesign устарел. Используйте ThemeProvider или ThemeFactory.overrideDefaultTheme()',
     );
-    flatDesignEnabled = true;
   },
 
   isFlatDesignEnabled() {
-    return flatDesignEnabled;
+    return false;
   },
 
   enableSizeMedium16px() {
-    warning(false, 'Метод Upgrades.enableSizeMedium16px устарел. Переопределите fontSizeMedium в теме через ThemeProvider или ThemeFactory.overrideDefaultTheme()');
+    warning(
+      false,
+      'Метод Upgrades.enableSizeMedium16px() устарел. Переопределите fontSizeMedium в теме через ThemeProvider или ThemeFactory.overrideDefaultTheme()',
+    );
   },
 
   isSizeMedium16pxEnabled() {
-    return sizeMedium16pxEnabled;
+    warning(
+      false,
+      'Метод Upgrades.isSizeMedium16pxEnabled() устарел. Переопределите fontSizeMedium в теме через ThemeProvider или ThemeFactory.overrideDefaultTheme()',
+    );
+    return false;
   },
 
   setAdaptiveStyles(enabled: boolean) {
