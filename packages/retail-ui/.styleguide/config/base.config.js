@@ -110,6 +110,16 @@ const styles = {
       marginBottom: 10,
     },
   },
+  Code: {
+    code: {
+      ':not(pre) > &': {
+        fontSize: '90%',
+        background: '#f5f5f5',
+        borderRadius: '2px',
+        padding: '.12em .3em'
+      }
+    },
+  },
 };
 
 const webpackConfig = {
