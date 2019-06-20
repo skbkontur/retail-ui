@@ -37,7 +37,7 @@ export interface SidePageProps {
   /**
    * Задать ширину сайдпейджа
    */
-  width?: number;
+  width?: number | string;
 
   /**
    * Вызывается, когда пользователь запросил закрытие сайдпейджа (нажал на фон, на

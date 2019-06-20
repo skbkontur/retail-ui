@@ -43,9 +43,9 @@ describe('CurrencyHelper', () => {
       });
     });
     [
-      { value: 1.0, fractionDigits: undefined, expected: '1' },
-      { value: 1.2, fractionDigits: undefined, expected: '1,2' },
-      { value: 1.0123, fractionDigits: undefined, expected: '1,0123' },
+      { value: 1.0, expected: '1' },
+      { value: 1.2, expected: '1,2' },
+      { value: 1.0123, expected: '1,0123' },
 
       { value: 1, fractionDigits: 0, expected: '1' },
       { value: 1, fractionDigits: 1, expected: '1,0' },
@@ -96,18 +96,18 @@ describe('CurrencyHelper', () => {
       });
     });
     [
-      { value: '\uFF0D', fractionDigits: undefined, expected: '\u2212' },
-      { value: '-', fractionDigits: undefined, expected: '\u2212' },
-      { value: '-.', fractionDigits: undefined, expected: '\u2212,' },
-      { value: '-.123', fractionDigits: undefined, expected: '\u2212,123' },
-      { value: '-00.0', fractionDigits: undefined, expected: '\u221200,0' },
+      { value: '\uFF0D', expected: '\u2212' },
+      { value: '-', expected: '\u2212' },
+      { value: '-.', expected: '\u2212,' },
+      { value: '-.123', expected: '\u2212,123' },
+      { value: '-00.0', expected: '\u221200,0' },
 
-      { value: '', fractionDigits: undefined, expected: '' },
-      { value: '.', fractionDigits: undefined, expected: ',' },
-      { value: '0', fractionDigits: undefined, expected: '0' },
-      { value: '00', fractionDigits: undefined, expected: '00' },
-      { value: '00.', fractionDigits: undefined, expected: '00,' },
-      { value: '00,0', fractionDigits: undefined, expected: '00,0' },
+      { value: '', expected: '' },
+      { value: '.', expected: ',' },
+      { value: '0', expected: '0' },
+      { value: '00', expected: '00' },
+      { value: '00.', expected: '00,' },
+      { value: '00,0', expected: '00,0' },
 
       { value: '', fractionDigits: 2, expected: ',00' },
       { value: '.', fractionDigits: 2, expected: ',00' },
@@ -181,19 +181,19 @@ describe('CurrencyHelper', () => {
   describe('isValidString', () => {
     [
       { value: '1x', fractionDigits: null, expected: false },
-      { value: '0123456789012345', fractionDigits: null, expected: false },
-      { value: '1234567890123450', fractionDigits: null, expected: false },
-      { value: '1234567890123456', fractionDigits: null, expected: false },
+      { value: '0123456789012345', expected: false },
+      { value: '1234567890123450', expected: false },
+      { value: '1234567890123456', expected: false },
 
-      { value: '123456789012345', fractionDigits: null, expected: true },
-      { value: '.123456789012345', fractionDigits: null, expected: true },
-      { value: '1234567.89012345', fractionDigits: null, expected: true },
-      { value: '123456789012345.', fractionDigits: null, expected: true },
+      { value: '123456789012345', expected: true },
+      { value: '.123456789012345', expected: true },
+      { value: '1234567.89012345', expected: true },
+      { value: '123456789012345.', expected: true },
 
-      { value: '123456789012345', fractionDigits: undefined, expected: true },
-      { value: '123456789012345.', fractionDigits: undefined, expected: true },
-      { value: '1234567.89012345', fractionDigits: undefined, expected: true },
-      { value: '.123456789012345', fractionDigits: undefined, expected: true },
+      { value: '123456789012345', expected: true },
+      { value: '123456789012345.', expected: true },
+      { value: '1234567.89012345', expected: true },
+      { value: '.123456789012345', expected: true },
 
       { value: '123456789012345', fractionDigits: 0, expected: true },
       { value: '123456789012345.', fractionDigits: 0, expected: false },
@@ -224,19 +224,29 @@ describe('CurrencyHelper', () => {
       { value: '12345678901.0000', fractionDigits: 4, expected: true },
       { value: '1234567890.00000', fractionDigits: 4, expected: false },
 
-      { value: '', fractionDigits: null, expected: true },
-      { value: '1', fractionDigits: null, expected: true },
-      { value: '.', fractionDigits: null, expected: true },
-      { value: ',', fractionDigits: null, expected: true },
-      { value: '.1', fractionDigits: null, expected: true },
-      { value: '1.', fractionDigits: null, expected: true },
-      { value: '..', fractionDigits: null, expected: false },
-      { value: '000.000', fractionDigits: null, expected: true },
-      { value: '1 234 567 890 123,45', fractionDigits: null, expected: true },
+      { value: '', expected: true },
+      { value: '1', expected: true },
+      { value: '.', expected: true },
+      { value: ',', expected: true },
+      { value: '.1', expected: true },
+      { value: '1.', expected: true },
+      { value: '..', expected: false },
+      { value: '000.000', expected: true },
+      { value: '1 234 567 890 123,45', expected: true },
       { value: '1 234 567 890 123,45', fractionDigits: 2, expected: true },
+
+      { value: '', integerDigits: 0, expected: true },
+      { value: '0,12', integerDigits: 0, expected: true },
+      { value: '1,23', integerDigits: 0, expected: false },
+      { value: '1,23', integerDigits: 1, expected: true },
+      { value: '1,23', integerDigits: 2, expected: true },
+      { value: '123,45', integerDigits: 2, expected: false },
     ].forEach(x => {
-      it(`parse('${x.value}', ${x.fractionDigits}) === ${x.expected}`, () => {
-        const actual = CurrencyHelper.isValidString(x.value, x.fractionDigits);
+      it(`parse('${x.value}', ${x.integerDigits}, ${x.fractionDigits}) === ${x.expected}`, () => {
+        const actual = CurrencyHelper.isValidString(x.value, {
+          integerDigits: x.integerDigits,
+          fractionDigits: x.fractionDigits,
+        });
         const expected = x.expected;
         expect(actual).toBe(expected);
       });

@@ -62,9 +62,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       return (
         <Menu ref={refMenu}>
           <MenuItem disabled>
-            <div style={{ margin: '-2px 0 -1px' }}>
-              <Spinner type="mini" dimmed />
-            </div>
+            <Spinner type="mini" dimmed />
           </MenuItem>
         </Menu>
       );
@@ -76,7 +74,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
           <MenuItem disabled key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
-          <MenuItem alkoLink onClick={this.props.repeatRequest} key="retry">
+          <MenuItem link onClick={this.props.repeatRequest} key="retry">
             {errorNetworkButton}
           </MenuItem>
         </Menu>

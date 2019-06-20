@@ -75,11 +75,11 @@ describe('Select', () => {
 
     it('render correct locale when set langCode', () => {
       const wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_EN}>
+        <LocaleProvider langCode={LangCodes.en_GB}>
           <Select />
         </LocaleProvider>,
       );
-      const expectedText = SelectLocaleHelper.get(LangCodes.en_EN).placeholder;
+      const expectedText = SelectLocaleHelper.get(LangCodes.en_GB).placeholder;
 
       expect(wrapper.text()).toBe(expectedText);
     });
@@ -101,7 +101,7 @@ describe('Select', () => {
 
     it('updates when langCode changes', () => {
       const wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_EN}>
+        <LocaleProvider langCode={LangCodes.en_GB}>
           <Select />
         </LocaleProvider>,
       );

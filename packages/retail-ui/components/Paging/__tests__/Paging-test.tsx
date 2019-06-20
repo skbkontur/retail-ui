@@ -162,8 +162,8 @@ describe('Pager', () => {
     });
 
     it('render default locale', () => {
-      wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}>{PagingContext()}</LocaleProvider>);
-      const expectedText = PagingLocaleHelper.get(LangCodes.en_EN).forward;
+      wrapper = mount(<LocaleProvider langCode={LangCodes.en_GB}>{PagingContext()}</LocaleProvider>);
+      const expectedText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
 
       expect(getForwardText()).toBe(expectedText);
     });
@@ -178,7 +178,7 @@ describe('Pager', () => {
     });
 
     it('updates when langCode changes', () => {
-      wrapper = mount(<LocaleProvider langCode={LangCodes.en_EN}>{PagingContext()}</LocaleProvider>);
+      wrapper = mount(<LocaleProvider langCode={LangCodes.en_GB}>{PagingContext()}</LocaleProvider>);
       const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
 
       wrapper.setProps({ langCode: LangCodes.ru_RU });
