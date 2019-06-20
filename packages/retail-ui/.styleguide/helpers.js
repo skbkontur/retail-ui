@@ -11,8 +11,10 @@ const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
 const { npmVersions, npmTags, publishVersion } = getPackageInfo();
 
+const excludeComponents = ['ThemeProvider', 'ThemeConsumer', 'ThemeShowcase'];
 const components = fs
   .readdirSync(COMPONENTS_DIR)
+  .filter(x => !excludeComponents.includes(x))
   .map(x => [path.join(COMPONENTS_DIR, x, `${x}.tsx`), path.join(COMPONENTS_DIR, x, `${x}.js`)])
   .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
   .filter(Boolean);
