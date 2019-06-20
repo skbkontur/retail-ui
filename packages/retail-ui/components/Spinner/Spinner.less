@@ -17,7 +17,6 @@
   .caption {
     color: rgb(128, 128, 128);
     font-size: 14px;
-    line-height: 20px;
   }
 
   .captionRight {
@@ -59,11 +58,11 @@
 
   .circle {
     fill: none;
-    position: relative;
+    stroke: @red;
     stroke-dasharray: 10, 27;
     stroke-dashoffset: -37;
     stroke-width: 1.5px;
-    top: 3px;
+    margin-bottom: -0.2307692307692308em;
 
     :global {
       animation: rt_circle_offset 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,

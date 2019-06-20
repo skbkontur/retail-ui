@@ -15,4 +15,10 @@ gemini.suite('TokenInput', suite => {
     .capture('withMenu', (actions, find) => {
       actions.wait(500);
     });
+  gemini.suite('disabled', suite => {
+    suite
+      .before(renderStory('TokenInput', 'disabled'))
+      .setCaptureElements('#test-element')
+      .capture('idle');
+  });
 });

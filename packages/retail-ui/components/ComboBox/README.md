@@ -415,7 +415,7 @@ const ru_RU = {
   errorNetworkMessage: 'Что-то пошло не так. Проверьте соединение с интернетом и попробуйте еще раз',
 };
 
-const en_EN = {
+const en_GB = {
   notFound: 'Not found',
   errorNetworkButton: 'Refresh',
   errorNetworkMessage: 'Something went wrong. Check your internet connection and try again',

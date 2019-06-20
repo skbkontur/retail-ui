@@ -29,3 +29,5 @@ export {
   tooltip,
   text,
 };
+
+export * from './Validations';

@@ -42,8 +42,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
+        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+        : [];
     this.state = { selectedItems };
   }
 
@@ -53,8 +53,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
         {...this.props}
         selectedItems={this.state.selectedItems}
         onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
-        renderToken={(item, { isActive, onClick, onRemove }) => (
-          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+        renderToken={(item, { isActive, onClick, onRemove, disabled }) => (
+          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
             {item}
           </Token>
         )}
@@ -63,7 +63,7 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
   }
 }
 
-class MyTokenInput extends TokenInput<TokenModel> {}
+class MyTokenInput extends TokenInput<TokenModel> { }
 
 class WrapperCustomModel extends React.Component<any, { selectedItems: TokenModel[] }> {
   constructor(props: any) {
@@ -88,9 +88,9 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
             colors={
               item.value.includes('aaa')
                 ? {
-                    idle: 'redIdle',
-                    active: 'redActive',
-                  }
+                  idle: 'redIdle',
+                  active: 'redActive',
+                }
                 : undefined
             }
             isActive={isActive}
@@ -121,8 +121,8 @@ class ColoredWrapper extends React.Component<any, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
+        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+        : [];
     this.state = { selectedItems };
   }
 
@@ -249,6 +249,7 @@ storiesOf('TokenInput', module)
     return (
       <Gapped vertical gap={10}>
         <FilledWrapper getItems={getItems} disabled={true} />
+        <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
       </Gapped>
     );
   });

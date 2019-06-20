@@ -6,7 +6,6 @@ gemini.suite('ComboBox', () => {
       suite
         .before(renderStory('ComboBoxView', 'input like text'))
         .setCaptureElements('#test-element')
-        .ignoreElements('[data-comp-name="Spinner"]')
         .capture('plain')
         .capture('focused first element', (action, find) => {
           action.click(find('[data-comp-name="InputLikeText"]'));
@@ -24,7 +23,6 @@ gemini.suite('ComboBox', () => {
       suite
         .before(renderStory('ComboBoxView', 'opened'))
         .setCaptureElements('#test-element')
-        .ignoreElements('[data-comp-name="Spinner"]')
         .capture('plain');
     });
 
