@@ -35,10 +35,6 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
         this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
       }
 
-      if (prevState.internalDate !== this.state.internalDate) {
-        this.emitChange();
-      }
-
       if (this.state.focused && prevState.selected !== this.state.selected) {
         this.selection();
       }
