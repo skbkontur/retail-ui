@@ -236,7 +236,9 @@ describe('CurrencyHelper', () => {
       { value: '1 234 567 890 123,456', expected: false },
       { value: '0,123456789012345', fractionDigits: 15, expected: true },
       { value: '9,123456789012345', fractionDigits: 15, expected: false },
+      { value: '-0,123456789012345', fractionDigits: 15, unsigned: true, expected: false },
       { value: '1 234 567 890 123,45', fractionDigits: 2, expected: true },
+      { value: '-1 234 567 890 123,45', fractionDigits: 2, unsigned: true, expected: false },
       { value: '12 345 678 901 234,56', fractionDigits: 2, expected: false },
 
       { value: '', integerDigits: 0, expected: true },
@@ -250,6 +252,7 @@ describe('CurrencyHelper', () => {
         const actual = CurrencyHelper.isValidString(x.value, {
           integerDigits: x.integerDigits,
           fractionDigits: x.fractionDigits,
+          unsigned: x.unsigned,
         });
         const expected = x.expected;
         expect(actual).toBe(expected);
