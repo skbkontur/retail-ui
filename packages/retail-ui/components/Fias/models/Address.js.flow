@@ -50,7 +50,7 @@ declare export class Address {
   getClosestParentFiasId: (field?: Fields | void) => string | void,
   getFiasId: () => string,
   getAddressValue: () => AddressValue,
-  getValue: () => FiasValue,
+  getValue: (withPostalCode?: boolean) => FiasValue,
   convertForVerification: () => {},
 }
 

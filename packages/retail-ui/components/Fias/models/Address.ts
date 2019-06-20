@@ -512,7 +512,7 @@ export class Address {
   };
 
   // TODO: get fields usage from fieldsSettings
-  public getValue = (withPostalCode: boolean): FiasValue => {
+  public getValue = (withPostalCode: boolean = false): FiasValue => {
     const { country, foreignAddress } = this;
     return {
       address: this.getAddressValue(),
