@@ -85,6 +85,7 @@ _**ВАЖНО:** файл FlatTheme.ts не используется напря�
 
 3) В статическом классе `ThemeFactory` (_lib/theming/ThemeFactory.ts_) определяется `defaultTheme`. 
 `ThemeFactory` так же предоставляет следующие методы:
+
 ```typescript
   // создание новой темы:
   // - создается новый объект с прототипом defaultTheme;
@@ -119,9 +120,13 @@ const darkTheme = {
 ```
 
 4) Через `create-react-context` создается `ThemeContext`. В качестве `value` по умолчанию используется `ThemeFactory.getDefaultTheme()`.
+
 `ThemeConsumer`  - простой реэкспорт `ThemeContext.Consumer`. 
+
 `ThemeProvider` - чуть сложнее: в качестве `value` он принимает `IThemeIn` (`Partial<ITheme>`), а в настоящий `Provider`передает результат `ThemeFactory.getOrCreate(theme)`.
-Это позволяет упростить создание собственных тем - достаточно передать только измененные переменные и не нужно тянуть к себе `ThemeFactory`:
+
+Это позволяет упростить создание собственных тем - достаточно передать только измененные переменные, и не нужно тянуть к себе `ThemeFactory`:
+
 ```typescript
 import { ThemeProvider, Button, ButtonProps, Gapped } from '@skbkontur/react-ui';
 ...
@@ -131,8 +136,8 @@ const MyComponent = (props: {ok: ButtonProps, cancel: ButtonProps}) => {
   return (
     <ThemeProvider value={myTheme}>
       <Gapped>
-        <Button ...props.ok>My round OK button</Button>
-        <Button ...props.cancel>My round Cancel button</Button>
+        <Button {...props.ok}>My round OK button</Button>
+        <Button {...props.cancel}>My round Cancel button</Button>
       </Gapped>
     </ThemeProvider>
   );
