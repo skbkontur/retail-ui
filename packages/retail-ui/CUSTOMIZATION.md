@@ -127,7 +127,7 @@ const darkTheme = {
 
 Это позволяет упростить создание собственных тем - достаточно передать только измененные переменные, и не нужно тянуть к себе `ThemeFactory`:
 
-```typescript
+```jsx static
 import { ThemeProvider, Button, ButtonProps, Gapped } from '@skbkontur/react-ui';
 ...
 const myTheme = {btnBorderRadius: '10px'};
@@ -180,7 +180,7 @@ const jsStyles = {
 - чтобы задать сгенерированным классам дополнительным `scope` для specificityLevel (см. Specificity Level).
 
 6) В каждом кастомизируемом компоненте `render()` завернут в `ThemeConsumer`:
-```typescript
+```jsx static
   public render() {
     return (
       <ThemeConsumer>
@@ -193,43 +193,40 @@ const jsStyles = {
   }
 ```
 Это позволяет использовать `this.theme` внутри любого рендерящего метода, например (_Spinner.tsx_):
-```typescript
-  import styles from './Spinner.less';
-  import jsStyles from './Spinner.styles';
-  import { cx } from '../../lib/theming/Emotion';
-  
-   ...
 
-  private _renderCloud = (type: SpinnerType) => {
-    ...
-    const { props, theme } = this;
-    const bgClassName = jsStyles.cloudBg(this.theme);
-    const strokeClassName = cx(
-      styles.cloudStroke,
-      props.dimmed ? jsStyles.cloudStrokeDimmed(theme) : jsStyles.cloudStroke(theme)
-    );
+```jsx static
+import styles from './Spinner.less';
+import jsStyles from './Spinner.styles';
+import { cx } from '../../lib/theming/Emotion';
 
-    return (
-      <svg className={styles.cloud} ...>
-        <path ... className={bgClassName} />
-        <path ... className={strokeClassName} />
-      </svg>
-    );
-  };
+private _renderCloud = (type) => {
+  const { props, theme } = this;
+  const bgClassName = jsStyles.cloudBg(this.theme);
+  const strokeClassName = cx(
+    styles.cloudStroke,
+    props.dimmed ? jsStyles.cloudStrokeDimmed(theme) : jsStyles.cloudStroke(theme)
+  );
 
-  private _renderCircle = (type: SpinnerType) => {
-    ...
-    const { props, theme } = this;
-    const strokeClassName = props.dimmed ? 
-      jsStyles.circleStrokeDimmed(theme) : 
-      jsStyles.circleStroke(theme);
+  return (
+    <svg className={styles.cloud}>
+      <path className={bgClassName} />
+      <path className={strokeClassName} />
+    </svg>
+  );
+};
 
-    return (
-      <svg className={cx(styles.circle, jsStyles.circle(theme))} ...>
-        <circle ... className={strokeClassName} />
-      </svg>
-    );
-  };
+private _renderCircle = (type) => {
+  const { props, theme } = this;
+  const strokeClassName = props.dimmed ? 
+    jsStyles.circleStrokeDimmed(theme) : 
+    jsStyles.circleStroke(theme);
+
+  return (
+    <svg className={cx(styles.circle, jsStyles.circle(theme))}>
+      <circle className={strokeClassName} />
+    </svg>
+  );
+};
 ```
 
 7) PROFIT :)
