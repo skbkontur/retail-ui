@@ -144,14 +144,14 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public render() {
     const { address } = this.state;
-    const { locale, limit, countrySelector } = this.props;
+    const { api, locale, limit, countrySelector } = this.props;
     return (
       <div>
         <Gapped vertical>
           {countrySelector && (
             <FiasForm.Field label={locale.countryLabel}>
               <FiasCountrySelector
-                api={this.props.api}
+                api={api}
                 country={address.country}
                 onChange={this.handleCountryChange}
                 limit={limit}
@@ -162,7 +162,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           {this.props.search && (
             <FiasForm.Field>
               <FiasSearch
-                source={this.createItemsSource}
+                api={api}
                 address={address}
                 onChange={this.handleAddressChange}
                 limit={limit}
