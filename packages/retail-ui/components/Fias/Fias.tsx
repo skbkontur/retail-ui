@@ -4,14 +4,7 @@ import warningOutput from 'warning';
 import Link from '../Link';
 import { locale } from '../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from './locale';
-import {
-  Fields,
-  ExtraFields,
-  FiasValue,
-  FormValidation,
-  APIProvider,
-  FieldsSettings,
-} from './types';
+import { Fields, ExtraFields, FiasValue, FormValidation, APIProvider, FieldsSettings } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -272,7 +265,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   private updateAddress = async (): Promise<Address> => {
-    const address = await Address.getAddress(this.props.value, this.state.fieldsSettings, this.api);
+    const address = await Address.getAddress(this.api, this.props.value, this.state.fieldsSettings);
     this.setState({
       address,
     });

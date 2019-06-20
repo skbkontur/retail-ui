@@ -242,11 +242,7 @@ export class Address {
     return Address.createFromAddress(address, { fields: addressFields });
   };
 
-  public static getAddress = async (
-    value: Partial<FiasValue> | undefined,
-    fieldsSettings: FieldsSettings | undefined,
-    api: APIProvider | undefined,
-  ) => {
+  public static getAddress = async (api: APIProvider, value?: Partial<FiasValue>, fieldsSettings?: FieldsSettings) => {
     if (!value) {
       return new Address();
     }
