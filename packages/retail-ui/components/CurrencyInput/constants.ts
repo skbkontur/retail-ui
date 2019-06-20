@@ -3,4 +3,5 @@ export const MAX_SAFE_DIGITS = 15;
 
 // + десятичный разделитель
 // + целая часть равная нулю
-export const MAX_ALLOWED_CHARS = MAX_SAFE_DIGITS + 2;
+// + знак '-'
+export const MAX_ALLOWED_CHARS = MAX_SAFE_DIGITS + 3;
