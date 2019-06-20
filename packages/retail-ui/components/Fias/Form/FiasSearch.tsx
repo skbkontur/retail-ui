@@ -4,7 +4,7 @@ import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
 import { Address } from '../models/Address';
 import { Fields } from '../types';
 
-interface InternalFiasSearchProps {
+interface FiasSearchProps {
   source: (query: string) => Promise<Address[]>;
   address: Address;
   onChange: (value: Address) => void;
@@ -15,7 +15,7 @@ interface InternalFiasSearchProps {
   warning?: boolean;
 }
 
-export class InternalFiasSearch extends React.Component<InternalFiasSearchProps> {
+export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defaultProps = {
     locale: FiasLocaleHelper.get(),
     width: '100%',
@@ -71,4 +71,4 @@ export class InternalFiasSearch extends React.Component<InternalFiasSearchProps>
   };
 }
 
-export default InternalFiasSearch;
+export default FiasSearch;

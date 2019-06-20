@@ -21,7 +21,7 @@ import { AddressElement } from '../models/AddressElement';
 import Tooltip from '../../Tooltip/Tooltip';
 import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
-import InternalFiasSearch from './InternalFiasSearch';
+import FiasSearch from './FiasSearch';
 import { FiasCountrySelector } from './FiasCountrySelector';
 import Textarea from '../../Textarea';
 
@@ -161,7 +161,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           )}
           {this.props.search && (
             <FiasForm.Field>
-              <InternalFiasSearch
+              <FiasSearch
                 source={this.createItemsSource}
                 address={address}
                 onChange={this.handleAddressChange}
