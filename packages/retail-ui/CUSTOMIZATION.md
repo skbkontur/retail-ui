@@ -81,7 +81,7 @@ export interface IThemeIn extends ThemeInType {}
 ```
 
 
-_**ВАЖНО:** файл FlatTheme.ts не используется напрямую ни в одном компоненте и не попадет в итоговый bundle, если не будет использован в явном виде (см. [Использование плоской темы](#использование-плоской-темы))_.
+_**ВАЖНО:** файл FlatTheme.ts не используется напрямую ни в одном компоненте и не попадет в итоговый bundle, если не будет использован в явном виде (см. _Использование плоской темы_).
 
 3) В статическом классе `ThemeFactory` (_lib/theming/ThemeFactory.ts_) определяется `defaultTheme`. 
 `ThemeFactory` так же предоставляет следующие методы:
@@ -172,7 +172,7 @@ const jsStyles = {
 
 В retail-ui используется отдельный инстанс emotion'а созданный с помощью [create-emotion](https://www.npmjs.com/package/create-emotion) - с ключом 'react-ui'. Это сделано по двум причинам:
 - чтобы избежать конфликтов с проектами, которые используют или захотят использовать emotion;
-- чтобы задать сгенерированным классам дополнительным `scope` для specificityLevel (см. [Specificity Level](#specificity-level)).
+- чтобы задать сгенерированным классам дополнительным `scope` для specificityLevel (см. Specificity Level).
 
 6) В каждом кастомизируемом компоненте `render()` завернут в `ThemeConsumer`:
 ```typescript
