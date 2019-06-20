@@ -113,11 +113,12 @@ const styles = {
   Code: {
     code: {
       ':not(pre) > &': {
+        fontFamily: 'Consolas, "Liberation Mono", Menlo, monospace',
         fontSize: '90%',
         background: '#f5f5f5',
         borderRadius: '2px',
-        padding: '.12em .3em'
-      }
+        padding: '.12em .3em',
+      },
     },
   },
 };
