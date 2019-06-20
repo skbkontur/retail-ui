@@ -3,7 +3,7 @@ const { commonSections, VERSION_DIR, removeUnsupportedConfigOptions } = require(
 
 const config = Object.assign({}, baseConfig, {
   styleguideDir: VERSION_DIR,
-  sections: commonSections.filter(({ name }) => ['LocaleProvider', 'ThemeProvider', 'Components'].includes(name)),
+  sections: commonSections.filter(({ name }) => ['LocaleProvider', 'Customization', 'Components'].includes(name)),
 });
 
 module.exports = removeUnsupportedConfigOptions(config);

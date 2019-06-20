@@ -20,6 +20,7 @@ interface IThemeIn extends ThemeInType {}
 Объект плоской темы можно импортировать и передавать в ThemeProvider:
 
 ```jsx
+const { default: ThemeProvider } = require('./ThemeProvider');
 const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
 const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
 
@@ -38,6 +39,7 @@ const FlatComponents = () => (
 <br/>
 
 ```jsx
+const { default: ThemeProvider } = require('./ThemeProvider');
 const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
 const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
 
@@ -59,6 +61,7 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx
+const { default: ThemeProvider } = require('./ThemeProvider');
 const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
 const { default: defaultTheme } = require('../../lib/theming/themes/DefaultTheme');
 const { default: darkTheme } = require('./Playground/darkTheme');
