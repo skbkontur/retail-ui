@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import warning from 'warning';
 
 import Input, { InputProps } from '../Input';
+import { MAX_SAFE_DIGITS } from './constants';
 
 import SelectionHelper, { Selection, SelectionDirection } from './SelectionHelper';
 import CurrencyHelper from './CurrencyHelper';
@@ -21,7 +22,7 @@ export type CurrencyInputProps = Override<
     signed?: boolean;
     /**
      * Допустимое кол-во цифр целой части.
-     * Если передан **0**, то и в целой части допускается только **0**.
+     * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
      */
     integerDigits?: Nullable<number>;
     /** onChange */
@@ -39,7 +40,11 @@ export interface CurrencyInputState {
 
 /**
  * Поле для денежных сумм (и других числовых значений).
- * Принимает любые свойства `Input`
+ * Принимает любые свойства `Input`.
+ *
+ * Максимальная длина числа - **15 цифр** (с десятичным разделителем в любом месте).
+ * <br/>
+ * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
 export default class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
   public static propTypes = {
@@ -80,9 +85,15 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
 
   public componentDidMount(): void {
+    const { maxLength, integerDigits, fractionDigits } = this.props;
     warning(
-      this.props.maxLength === undefined,
+      maxLength === undefined,
       `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
+    );
+    warning(
+      (integerDigits || 0) + (fractionDigits || 0) <= MAX_SAFE_DIGITS,
+      `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
+        `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
     );
   }
 

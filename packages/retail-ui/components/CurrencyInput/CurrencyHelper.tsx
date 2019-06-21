@@ -1,6 +1,7 @@
 import { DecimalOptions } from './CurrencyInputHelper';
 import { CursorMap } from './CursorHelper';
 import { Nullable } from '../../typings/utility-types';
+import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
 
 export interface DecimalFormattingOptions {
   fractionDigits?: Nullable<number>;
@@ -131,7 +132,7 @@ export default class CurrencyHelper {
     }
 
     if (fractionDigits) {
-      result += fraction.padEnd(fractionDigits, '0');
+      result += fraction.padEnd(Math.min(fractionDigits, MAX_SAFE_DIGITS), '0');
     }
 
     if (sign) {
@@ -151,47 +152,42 @@ export default class CurrencyHelper {
 
     const { sign, integer, delimiter, fraction } = destructed;
 
-    if (options.integerDigits && integer.length > options.integerDigits) {
-      return false;
-    }
-
-    if (options.integerDigits === 0 && integer !== '0' && integer !== '') {
-      return false;
-    }
-
-    // https://www.ecma-international.org/ecma-262/6.0/#sec-number.max_safe_integer
-    if (integer.length + fraction.length > 15) {
-      return false;
-    }
-
     if (options.unsigned && sign) {
       return false;
     }
 
-    switch (options.fractionDigits) {
-      case null:
-      case undefined:
-        return true;
-      case 0:
-        return !delimiter;
-      default:
-        return fraction.length <= options.fractionDigits && integer.length <= 15 - options.fractionDigits;
+    if (options.fractionDigits === 0 && delimiter) {
+      return false;
     }
+
+    const integerDigits = integer === '0' ? 0 : integer.length;
+    const fractionDigits = fraction.length;
+
+    if (options.integerDigits != null && integerDigits > options.integerDigits) {
+      return false;
+    }
+
+    if (options.integerDigits == null && integerDigits > MAX_SAFE_DIGITS - (options.fractionDigits || 0)) {
+      return false;
+    }
+
+    if (options.fractionDigits != null && fractionDigits > options.fractionDigits) {
+      return false;
+    }
+
+    return integerDigits + fractionDigits <= MAX_SAFE_DIGITS;
   }
 
   public static extractValid(value: string, options: DecimalOptions): string {
     value = CurrencyHelper.unformatString(value);
 
-    const special = [options.unsigned ? '' : '-', options.fractionDigits === 0 ? '' : '\\.'].join('');
-
-    const regexp = new RegExp(`[${special}\\d]+`);
-    const match = regexp.exec(value);
+    const match = /[-\.\d]+/.exec(value);
 
     if (!match) {
       return '';
     }
 
-    const token = match[0].substr(0, 17);
+    const token = match[0].substr(0, MAX_ALLOWED_CHARS);
 
     for (let i = token.length; i >= 0; --i) {
       const result = token.substr(0, i);
