@@ -1,29 +1,36 @@
 const { execSync } = require('child_process');
 
-const getCurrentBranch = () => {
-  return execSync('git rev-parse --abbrev-ref HEAD', { shell: true })
-    .toString()
-    .trim();
-};
+const getRevisionRefs = (revId = getRevisionID()) => {
+  const refs = {
+    heads: [],
+    tags: [],
+  };
 
-const getRevisionTags = (pattern = '*') => {
-  const stdout = execSync(`git tag -l ${pattern} --points-at HEAD`, {
+  execSync('git ls-remote --heads --tags origin', {
     shell: true,
   })
     .toString()
-    .trim();
+    .trim()
+    .split('\n')
+    .filter(str => str.includes(revId))
+    .forEach(str => {
+      const match = str.match(/refs\/(heads|tags)\/(.+)$/);
+      if (match) {
+        const [str, type, name] = match;
+        refs[type].push(name.replace('^{}', ''));
+      }
+    });
 
-  return stdout ? stdout.split('\n') : [];
+  return refs;
 };
 
-const getRevisionHash = () => {
+const getRevisionID = () => {
   return execSync('git rev-parse HEAD', { shell: true })
     .toString()
     .trim();
 };
 
 module.exports = {
-  getCurrentBranch,
-  getRevisionHash,
-  getRevisionTags,
+  getRevisionID,
+  getRevisionRefs,
 };
