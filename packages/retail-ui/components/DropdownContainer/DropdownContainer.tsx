@@ -61,7 +61,7 @@ export default class DropdownContainer extends React.Component<DropdownContainer
     const htmlPosition = getComputedStyle(docEl).position;
     const bodyPosition = getComputedStyle(body).position;
 
-    const hasLimitedHeightRoot = docEl.offsetHeight !== docEl.scrollHeight;
+    const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
     const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
 
     this.setState({ isDocumentElementRoot: hasLimitedHeightRoot || hasStaticRoot });
