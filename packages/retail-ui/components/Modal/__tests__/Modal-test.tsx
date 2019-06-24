@@ -95,13 +95,32 @@ describe('Modal', () => {
     expect(wrapper.find('Close')).toHaveLength(0);
   });
 
-  it('click on background call onClose', () => {
+  it('direct click on background calls onClose', () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(<Modal onClose={onCloseHandler}>Modal content</Modal>);
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
     emulateRealClick(wrapper.find('[data-tid="modal-container"]').getDOMNode());
     expect(onCloseHandler).toHaveBeenCalledTimes(1);
+  });
+
+  it("click on background doesn't call onClose if started/ended on modal content", () => {
+    const onCloseHandler = jest.fn();
+    const wrapper = mount(
+      <Modal onClose={onCloseHandler}>
+        <div data-tid="modal-content" />
+      </Modal>,
+    );
+    const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
+    const contentNode = wrapper.find('[data-tid="modal-content"]').getDOMNode();
+
+    expect(onCloseHandler).toHaveBeenCalledTimes(0);
+
+    emulateRealClick(contentNode, containerNode, containerNode);
+    expect(onCloseHandler).toHaveBeenCalledTimes(0);
+
+    emulateRealClick(containerNode, contentNode, containerNode);
+    expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
   it("click on content doesn't call onClose", () => {
