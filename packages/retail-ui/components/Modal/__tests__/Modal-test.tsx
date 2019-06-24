@@ -4,6 +4,29 @@ import Modal from '../Modal';
 import { isHeader } from '../ModalHeader';
 import { isFooter } from '../ModalFooter';
 
+function emulateRealClick(
+  mouseDownTarget: Element | null,
+  mouseUpTarget?: Element | null,
+  clickTarget?: Element | null,
+) {
+  mouseUpTarget = mouseUpTarget || mouseDownTarget;
+  clickTarget = clickTarget || mouseDownTarget;
+
+  if (mouseDownTarget && mouseUpTarget && clickTarget) {
+    const mouseDownEvent = document.createEvent('HTMLEvents');
+    const mouseUpEvent = document.createEvent('HTMLEvents');
+    const clickEvent = document.createEvent('HTMLEvents');
+
+    mouseDownEvent.initEvent('mousedown', true, true);
+    mouseUpEvent.initEvent('mouseup', true, true);
+    clickEvent.initEvent('click', true, true);
+
+    mouseDownTarget.dispatchEvent(mouseDownEvent);
+    mouseUpTarget.dispatchEvent(mouseUpEvent);
+    clickTarget.dispatchEvent(clickEvent);
+  }
+}
+
 describe('Modal', () => {
   it('Simple render without crash', () => {
     const render = () =>
@@ -77,7 +100,7 @@ describe('Modal', () => {
     const wrapper = mount(<Modal onClose={onCloseHandler}>Modal content</Modal>);
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
+    emulateRealClick(wrapper.find('[data-tid="modal-container"]').getDOMNode());
     expect(onCloseHandler).toHaveBeenCalledTimes(1);
   });
 
@@ -88,9 +111,10 @@ describe('Modal', () => {
         <div data-tid="modal-content" />
       </Modal>,
     );
+    const contentNode = wrapper.find('[data-tid="modal-content"]').getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('[data-tid="modal-content"]').simulate('mouseDown');
+    emulateRealClick(contentNode);
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
@@ -101,22 +125,24 @@ describe('Modal', () => {
         Modal content
       </Modal>,
     );
+    const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
+    emulateRealClick(containerNode);
     expect(onCloseHandler).toHaveBeenCalledTimes(1);
   });
 
-  it('click on background not work if disableClose is true', () => {
+  it("click on background doesn't work if disableClose is true", () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(
       <Modal disableClose onClose={onCloseHandler}>
         Modal content
       </Modal>,
     );
+    const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
+    emulateRealClick(containerNode);
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
@@ -127,9 +153,10 @@ describe('Modal', () => {
         Modal content
       </Modal>,
     );
+    const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-    wrapper.find('[data-tid="modal-container"]').simulate('mouseDown');
+    emulateRealClick(containerNode);
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
