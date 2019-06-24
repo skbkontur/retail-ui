@@ -327,7 +327,7 @@ function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node, visited
   if (node.tag === 1 || node.tag === 2 || node.tag === 12 || node.tag === 13 || node.tag === 10) {
     fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes);
   } else if (node.tag === 5) {
-    // I dont know what does it mean
+    fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.return, visitedNodes);
   } else if (node.tag === 4) {
     // I dont know what does it mean
   } else {
