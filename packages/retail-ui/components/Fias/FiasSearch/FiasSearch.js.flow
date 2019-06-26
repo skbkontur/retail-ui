@@ -5,8 +5,8 @@ import type { APIProvider } from '../types';
 
 type FiasSearchProps = {|
   api: APIProvider,
-  address: Address,
-  onChange: (value: Address) => void,
+  address?: Address,
+  onChange?: (value: Address) => void,
   limit?: number,
   width?: string | number;
   error?: boolean;

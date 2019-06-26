@@ -7,10 +7,10 @@ import { locale } from '../../LocaleProvider/decorators';
 
 interface FiasSearchProps {
   api: APIProvider;
-  address: Address;
-  onChange: (value: Address) => void;
+  address?: Address;
+  onChange?: (value: Address) => void;
   limit: number;
-  width?: number | string;
+  width: number | string;
   error?: boolean;
   warning?: boolean;
 }
@@ -18,7 +18,6 @@ interface FiasSearchProps {
 @locale('Fias', FiasLocaleHelper)
 export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defaultProps = {
-    locale: FiasLocaleHelper.get(),
     width: '100%',
     limit: 5,
   };
@@ -65,7 +64,10 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-    this.props.onChange(value);
+    const { onChange } = this.props;
+    if (onChange) {
+      onChange(value);
+    }
   };
 
   private onUnexpectedInput = (query: string) => {
