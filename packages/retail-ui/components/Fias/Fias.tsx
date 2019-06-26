@@ -2,6 +2,7 @@ import * as React from 'react';
 import cn from 'classnames';
 import warningOutput from 'warning';
 import Link from '../Link';
+import LocaleProvider from '../LocaleProvider';
 import { locale } from '../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from './locale';
 import { Fields, ExtraFields, FiasValue, FormValidation, APIProvider, FieldsSettings } from './types';
@@ -215,18 +216,20 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       ) : null;
 
     return (
-      <div>
-        {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
-        {!this.props.readonly && (
-          <div>
-            <Link icon={icon} onClick={this.handleOpen}>
-              {linkText}
-            </Link>
-          </div>
-        )}
-        {validation}
-        {opened && this.renderModal()}
-      </div>
+      <LocaleProvider locale={{ Fias: this.state.locale }}>
+        <div>
+          {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
+          {!this.props.readonly && (
+            <div>
+              <Link icon={icon} onClick={this.handleOpen}>
+                {linkText}
+              </Link>
+            </div>
+          )}
+          {validation}
+          {opened && this.renderModal()}
+        </div>
+      </LocaleProvider>
     );
   }
 
@@ -241,14 +244,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     const { address, fieldsSettings } = this.state;
     const { search, limit, formValidation, countrySelector } = this.props;
     return (
-      <FiasModal locale={this.state.locale} onClose={this.handleClose} onSave={this.handleSave}>
+      <FiasModal onClose={this.handleClose} onSave={this.handleSave}>
         <FiasForm
           ref={this.refForm}
           address={address}
           api={this.api}
           search={search}
           limit={limit}
-          locale={this.state.locale}
           validationLevel={formValidation}
           fieldsSettings={fieldsSettings}
           countrySelector={countrySelector}

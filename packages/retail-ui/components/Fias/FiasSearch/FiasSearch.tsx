@@ -3,18 +3,19 @@ import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent } from '../Form/FiasComboBox';
 import { Address } from '../models/Address';
 import { Fields, APIProvider, SearchOptions, AddressResponse } from '../types';
+import { locale } from '../../LocaleProvider/decorators';
 
 interface FiasSearchProps {
   api: APIProvider;
   address: Address;
   onChange: (value: Address) => void;
   limit: number;
-  locale: FiasLocale;
   width?: number | string;
   error?: boolean;
   warning?: boolean;
 }
 
+@locale('Fias', FiasLocaleHelper)
 export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defaultProps = {
     locale: FiasLocaleHelper.get(),
@@ -22,8 +23,10 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     limit: 5,
   };
 
+  private readonly locale!: FiasLocale;
+
   public render() {
-    const { address, limit, locale, width, error, warning } = this.props;
+    const { address, limit, width, error, warning } = this.props;
     return (
       <FiasComboBox
         getItems={this.getItems}
@@ -34,7 +37,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         onChange={this.handleChange}
         onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
-        placeholder={locale!.searchPlaceholder}
+        placeholder={this.locale.searchPlaceholder}
         width={width}
         drawArrow={false}
         searchOnFocus={false}
@@ -54,7 +57,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private renderNotFound = (): React.ReactNode => {
-    return this.props.locale!.searchNotFound;
+    return this.locale.searchNotFound;
   };
 
   private valueToString = (address: Address): string => {

@@ -8,7 +8,6 @@ type FiasSearchProps = {|
   address: Address,
   onChange: (value: Address) => void,
   limit?: number,
-  locale?: FiasLocale,
   width?: string | number;
   error?: boolean;
   warning?: boolean;
