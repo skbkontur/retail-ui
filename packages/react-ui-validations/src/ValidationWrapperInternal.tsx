@@ -5,8 +5,7 @@ import warning from 'warning';
 import { Nullable } from '../typings/Types';
 import smoothScrollIntoView from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
-
-const isEqual = require('lodash.isequal');
+import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 
 if (typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -36,7 +35,7 @@ export interface ValidationWrapperInternalProps {
 }
 
 interface ValidationWrapperInternalState {
-  visible: boolean;
+  validation: Nullable<Validation>;
 }
 
 interface Point {
@@ -52,7 +51,7 @@ export default class ValidationWrapperInternal extends React.Component<
     validationContext: PropTypes.any,
   };
   public state: ValidationWrapperInternalState = {
-    visible: false,
+    validation: null,
   };
   public context!: {
     validationContext: IValidationContext;
@@ -62,7 +61,7 @@ export default class ValidationWrapperInternal extends React.Component<
   private child: any; // todo type
 
   public componentWillMount() {
-    this.syncWithState(this.props.validation);
+    this.applyValidation(this.props.validation);
   }
 
   public componentDidMount() {
@@ -83,9 +82,7 @@ export default class ValidationWrapperInternal extends React.Component<
   }
 
   public componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
-    if (!isEqual(this.props.validation, nextProps.validation)) {
-      this.syncWithState(nextProps.validation);
-    }
+    this.applyValidation(nextProps.validation);
   }
 
   public async focus(): Promise<void> {
@@ -101,6 +98,7 @@ export default class ValidationWrapperInternal extends React.Component<
 
   public render() {
     const { children } = this.props;
+    const { validation } = this.state;
 
     const clonedChild: React.ReactElement<any> = children ? (
       React.cloneElement(children, {
@@ -116,8 +114,8 @@ export default class ValidationWrapperInternal extends React.Component<
           }
           this.child = x;
         },
-        error: !this.isChanging && this.hasValidation('error'),
-        warning: !this.isChanging && this.hasValidation('warning'),
+        error: !this.isChanging && getLevel(validation) === 'error',
+        warning: !this.isChanging && getLevel(validation) === 'warning',
         onBlur: () => {
           this.handleBlur();
           if (children.props && children.props.onBlur) {
@@ -134,13 +132,7 @@ export default class ValidationWrapperInternal extends React.Component<
     ) : (
       <span />
     );
-    const hasValidation = this.hasValidation();
-    const span = (
-      <span>
-        {clonedChild}
-      </span>
-    );
-    return this.props.errorMessage(span, hasValidation, hasValidation ? this.props.validation : null);
+    return this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation);
   }
 
   public getControlPosition(): Nullable<Point> {
@@ -153,25 +145,19 @@ export default class ValidationWrapperInternal extends React.Component<
   }
 
   public processBlur() {
+    const touched = this.isChanging;
     this.isChanging = false;
-    const { validation } = this.props;
-    if (validation && validation.behaviour === 'lostfocus') {
-      this.setVisible(true);
-    }
+    const validation = this.getOnBlurValidation(touched);
+    return this.setValidation(validation);
   }
 
   public async processSubmit(): Promise<void> {
     this.isChanging = false;
-    return this.setVisible(true);
+    return this.setValidation(this.props.validation);
   }
 
   public hasError(): boolean {
-    return this.hasValidation('error');
-  }
-
-  private hasValidation(level?: Nullable<ValidationLevel>): boolean {
-    const { validation } = this.props;
-    return !!validation && (!level || validation.level === level) && this.state.visible;
+    return getLevel(this.state.validation) === 'error';
   }
 
   private handleBlur() {
@@ -180,41 +166,41 @@ export default class ValidationWrapperInternal extends React.Component<
     this.setState({});
   }
 
-  private syncWithState(validation: Nullable<Validation>) {
-    const visible = this.shouldBeValidationVisible(validation);
-    this.setVisible(visible);
+  private applyValidation(actual: Nullable<Validation>) {
+    const visible = this.getVisibleValidation(actual);
+    this.setValidation(visible);
   }
 
-  private setVisible(visible: boolean): Promise<void> {
+  private setValidation(validation: Nullable<Validation>): Promise<void> {
+    const current = this.state.validation;
+
+    if (current === validation) {
+      return Promise.resolve();
+    }
+
     return new Promise(resolve => {
-      if (this.state.visible === visible) {
-        resolve();
-        return;
+      this.setState({ validation }, resolve);
+      if (Boolean(current) !== Boolean(validation)) {
+        this.context.validationContext.onValidationUpdated(this, !validation);
       }
-      this.setState({ visible }, resolve);
-      this.context.validationContext.onValidationUpdated(this, !visible);
     });
   }
 
-  private shouldBeValidationVisible(validation: Nullable<Validation>): boolean {
-    if (!validation) {
-      return false;
+  private getOnBlurValidation(touched: boolean): Nullable<Validation> {
+    const actual = this.props.validation;
+    if (getType(actual) === 'submit') {
+      const visible = this.state.validation;
+      return !touched && getType(visible) === 'submit' ? visible : null;
     }
-    switch (validation.behaviour) {
-      case 'immediate':
-        return true;
-      case 'lostfocus':
-        if (this.isChanging) {
-          return false;
-        }
-        if (this.context.validationContext.isAnyWrapperInChangingMode() && !this.state.visible) {
-          return false;
-        }
-        return true;
-      case 'submit':
-        return false;
-      default:
-        throw new Error(`Unknown behaviour: ${validation.behaviour}`);
+    return actual;
+  }
+
+  private getVisibleValidation(actual: Nullable<Validation>): Nullable<Validation> {
+    const visible = this.state.validation;
+    if (isEqual(visible, actual)) {
+      return visible;
     }
+    const changing = this.context.validationContext.isAnyWrapperInChangingMode();
+    return getVisibleValidation(visible, actual, changing);
   }
 }
