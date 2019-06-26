@@ -3,7 +3,7 @@ import { Nullable } from '../../typings/Types';
 import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationWriter } from './ValidationWriter';
 import { ItemValidationRule, ValidationRule } from './Types';
-import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapper';
+import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapperInternal';
 
 interface PathInfo<T> {
   data: T;
