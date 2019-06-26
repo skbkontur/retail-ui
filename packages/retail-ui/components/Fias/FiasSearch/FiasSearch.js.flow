@@ -1,6 +1,5 @@
 /* @flow */
 import type { Address } from '../models/Address';
-import type { FiasLocale } from '../locale/types';
 import type { APIProvider } from '../types';
 
 type FiasSearchProps = {|
