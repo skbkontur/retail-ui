@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FiasLocale, FiasLocaleHelper } from '../locale';
-import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
+import { FiasComboBox, FiasComboBoxChangeEvent } from '../Form/FiasComboBox';
 import { Address } from '../models/Address';
 import { Fields, APIProvider, SearchOptions, AddressResponse } from '../types';
 
