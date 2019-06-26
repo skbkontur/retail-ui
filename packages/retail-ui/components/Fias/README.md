@@ -408,20 +408,29 @@ const ru_RU = {
 
   steadLabel: 'Земельный участок',
   steadNotFound: 'Не найдены участки по указанному выше расположению',
-  steadFillBefore: 'Заполните улицу, чтобы выбрать номер участка',
+  steadFillBefore: 'Заполните город или населенный пункт, чтобы выбрать номер участка',
   steadPlaceholder: '',
 
   houseLabel: 'Дом, сооружение',
   houseNotFound: 'Не найдены дома по указанному выше расположению',
-  houseFillBefore: 'Заполните улицу или иную территорию, чтобы выбрать номер дома',
+  houseFillBefore: 'Заполните город или населенный пункт, чтобы выбрать номер дома',
   housePlaceholder: '',
 
   roomLabel: 'Квартира, офис',
+  roomNotFound: 'Не найдены помещения по указанному выше расположению',
+  roomFillBefore: 'Заполните номер дома, чтобы выбрать квартиру',
   roomPlaceholder: '',
 
   postalcodeLabel: 'Индекс',
   postalcodePlaceholder: '',
   postalcodeNotFound: 'Заполнено не по справочнику адресов',
+  postalcodeNotValid: 'Значение не соответствует формату',
   postalcodeReplace: 'Заменить справочным',
+
+  foreignAddressLabel: 'Адрес',
+  foreignAddressPlaceholder: '',
+
+  countryLabel: 'Страна',
+  countryPlaceholder: 'Начните вводить название страны',
 };
 ```
