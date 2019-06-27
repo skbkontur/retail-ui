@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Nullable } from '../typings/Types';
 import ValidationContext from './ValidationContext';
 
 export interface ScrollOffset {
@@ -9,7 +8,7 @@ export interface ScrollOffset {
 
 export interface ValidationContainerProps {
   children?: React.ReactNode;
-  onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
+  onValidationUpdated?: (isValid: boolean) => void;
   scrollOffset?: number | ScrollOffset;
 }
 

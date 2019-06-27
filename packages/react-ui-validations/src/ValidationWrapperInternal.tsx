@@ -38,7 +38,7 @@ interface ValidationWrapperInternalState {
   validation: Nullable<Validation>;
 }
 
-interface Point {
+export interface Point {
   x: number;
   y: number;
 }
@@ -139,7 +139,7 @@ export default class ValidationWrapperInternal extends React.Component<
     const htmlElement = ReactDom.findDOMNode(this);
     if (htmlElement instanceof HTMLElement) {
       const rect = htmlElement.getBoundingClientRect();
-      return { x: rect.top, y: rect.left };
+      return { x: rect.left, y: rect.top };
     }
     return null;
   }
@@ -174,15 +174,17 @@ export default class ValidationWrapperInternal extends React.Component<
   private setValidation(validation: Nullable<Validation>): Promise<void> {
     const current = this.state.validation;
 
-    if (current === validation) {
+    if (isEqual(current, validation)) {
       return Promise.resolve();
     }
 
     return new Promise(resolve => {
-      this.setState({ validation }, resolve);
-      if (Boolean(current) !== Boolean(validation)) {
-        this.context.validationContext.onValidationUpdated(this, !validation);
-      }
+      this.setState({ validation }, () => {
+        resolve();
+        if (Boolean(current) !== Boolean(validation)) {
+          this.context.validationContext.onValidationUpdated(this);
+        }
+      });
     });
   }
 

@@ -1,7 +1,8 @@
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import ValidationWrapperInternal from './ValidationWrapperInternal';
+import ValidationWrapperInternal, { Point } from './ValidationWrapperInternal';
 import { ScrollOffset } from './ValidationContainer';
+import { Nullable } from '../typings/Types';
 
 export interface IValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -11,14 +12,14 @@ export interface IValidationContext {
   register(wrapper: ValidationWrapperInternal): void;
   unregister(wrapper: ValidationWrapperInternal): void;
   instanceProcessBlur(wrapper: ValidationWrapperInternal): void;
-  onValidationUpdated(wrapper: ValidationWrapperInternal, isValid: boolean): void;
+  onValidationUpdated(wrapper: ValidationWrapperInternal): void;
   getSettings(): IValidationContextSettings;
   isAnyWrapperInChangingMode(): boolean;
 }
 
 export interface ValidationContextProps {
   children?: React.ReactNode;
-  onValidationUpdated?: (isValid?: boolean) => void;
+  onValidationUpdated?: (isValid: boolean) => void;
   scrollOffset?: number | ScrollOffset;
 }
 
@@ -26,7 +27,9 @@ export default class ValidationContext extends React.Component<ValidationContext
   public static childContextTypes = {
     validationContext: PropTypes.any,
   };
-  public childWrappers: ValidationWrapperInternal[] = [];
+  private wrappers: ValidationWrapperInternal[] = [];
+  private requestedUpdate: Nullable<Promise<void>> = null;
+  private lastIsValid: boolean = true;
 
   public getChildContext(): { validationContext: IValidationContext } {
     return {
@@ -34,106 +37,109 @@ export default class ValidationContext extends React.Component<ValidationContext
     };
   }
 
-  public getSettings(): IValidationContextSettings {
-    let scrollOffset: ScrollOffset = {};
+  public render() {
+    return this.props.children;
+  }
 
-    if (typeof this.props.scrollOffset === 'number') {
-      scrollOffset = { top: this.props.scrollOffset };
-    } else {
-      scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
-    }
+  public getSettings(): IValidationContextSettings {
+    const offset = this.props.scrollOffset;
+
+    const scrollOffset: ScrollOffset = typeof offset === 'number' ? { top: offset } : offset || {};
 
     const { top = 50, bottom = 0 } = scrollOffset;
-    return {
-      scrollOffset: {
-        top,
-        bottom,
-      },
-    };
+    return { scrollOffset: { top, bottom } };
   }
 
-  public register(wrapper: ValidationWrapperInternal) {
-    this.childWrappers.push(wrapper);
+  public register(wrapper: ValidationWrapperInternal): void {
+    this.wrappers.push(wrapper);
+    this.requestUpdate();
   }
 
-  public unregister(wrapper: ValidationWrapperInternal) {
-    this.childWrappers.splice(this.childWrappers.indexOf(wrapper), 1);
-    this.onValidationRemoved();
+  public unregister(wrapper: ValidationWrapperInternal): void {
+    const index = this.wrappers.indexOf(wrapper);
+    this.wrappers.splice(index, 1);
+    this.requestUpdate();
   }
 
-  public instanceProcessBlur(instance: ValidationWrapperInternal) {
-    for (const wrapper of this.childWrappers.filter(x => x !== instance)) {
-      wrapper.processBlur();
+  public onValidationUpdated(wrapper: ValidationWrapperInternal): void {
+    this.requestUpdate();
+  }
+
+  public instanceProcessBlur(instance: ValidationWrapperInternal): void {
+    for (const wrapper of this.wrappers) {
+      if (wrapper !== instance) {
+        wrapper.processBlur();
+      }
     }
   }
 
-  public onValidationUpdated(wrapper: ValidationWrapperInternal, isValid?: boolean) {
-    const { onValidationUpdated } = this.props;
-    if (onValidationUpdated) {
-      const isValidResult = !this.childWrappers.find(x => {
-        if (x === wrapper) {
-          return !isValid;
-        }
-        return x.hasError();
-      });
-      onValidationUpdated(isValidResult);
-    }
+  public hasError(): boolean {
+    return this.wrappers.some(x => x.hasError());
+  }
+
+  public isValid(): boolean {
+    return !this.hasError();
   }
 
   public isAnyWrapperInChangingMode(): boolean {
-    return this.childWrappers.some(x => x.isChanging);
-  }
-
-  public onValidationRemoved() {
-    const { onValidationUpdated } = this.props;
-    if (onValidationUpdated) {
-      const isValidResult = !this.childWrappers.find(x => x.hasError());
-      onValidationUpdated(isValidResult);
-    }
-  }
-
-  public getChildWrappersSortedByPosition(): ValidationWrapperInternal[] {
-    const wrappersWithPosition = [...this.childWrappers].map(x => ({
-      target: x,
-      position: x.getControlPosition(),
-    }));
-    wrappersWithPosition.sort((x, y) => {
-      const xPosition = x.position;
-      const yPosition = y.position;
-      if (xPosition == null && yPosition == null) {
-        return 0;
-      }
-      if (xPosition == null) {
-        return 1;
-      }
-      if (yPosition == null) {
-        return -1;
-      }
-      if (Math.sign(xPosition.x - yPosition.x) !== 0) {
-        return Math.sign(xPosition.x - yPosition.x);
-      }
-      return Math.sign(xPosition.y - yPosition.y);
-    });
-    return wrappersWithPosition.map(x => x.target);
+    return this.wrappers.some(x => x.isChanging);
   }
 
   public async validate(withoutFocus: boolean): Promise<boolean> {
-    await Promise.all(this.childWrappers.map(x => x.processSubmit()));
-    const firstInvalid = this.getChildWrappersSortedByPosition().find(x => x.hasError());
-    if (firstInvalid) {
-      if (!withoutFocus) {
-        firstInvalid.focus();
-      }
+    await Promise.all(this.wrappers.map(x => x.processSubmit()));
+
+    if (withoutFocus) {
+      return this.isValid();
     }
 
-    if (this.props.onValidationUpdated) {
-      this.props.onValidationUpdated(!firstInvalid);
+    const wrapper = this.getFirstInvalidWrapper();
+    if (wrapper) {
+      wrapper.focus();
     }
 
-    return !firstInvalid;
+    return !wrapper;
   }
 
-  public render() {
-    return this.props.children;
+  private getFirstInvalidWrapper(): Nullable<ValidationWrapperInternal> {
+    let result: Nullable<ValidationWrapperInternal> = null;
+    let minCoordinates: Nullable<Point> = null;
+
+    for (const wrapper of this.wrappers) {
+      if (!wrapper.hasError()) {
+        continue;
+      }
+      const coordinates = wrapper.getControlPosition();
+      if (!coordinates) {
+        continue;
+      }
+      if (!minCoordinates || this.lessThen(coordinates, minCoordinates)) {
+        result = wrapper;
+        minCoordinates = coordinates;
+      }
+    }
+    return result;
+  }
+
+  private lessThen(a: Point, b: Point): boolean {
+    return a.y < b.y || (a.y === b.y && a.x < b.x);
+  }
+
+  private requestUpdate(): Promise<void> {
+    if (!this.requestedUpdate) {
+      this.requestedUpdate = new Promise(resolve => {
+        setImmediate(() => {
+          resolve();
+          if (this.props.onValidationUpdated) {
+            const isValid = this.isValid();
+            if (isValid !== this.lastIsValid) {
+              this.lastIsValid = isValid;
+              this.props.onValidationUpdated(isValid);
+            }
+          }
+          this.requestedUpdate = null;
+        });
+      });
+    }
+    return this.requestedUpdate;
   }
 }
