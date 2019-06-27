@@ -8,16 +8,12 @@ import { locale } from '../../LocaleProvider/decorators';
 export interface FiasCountrySelectorProps {
   api: APIProvider;
   country?: FiasCountry;
-  onChange: (value: FiasCountry | undefined) => void;
+  onChange?: (value?: FiasCountry) => void;
   limit?: number;
 }
 
 @locale('Fias', FiasLocaleHelper)
 export class FiasCountrySelector extends React.Component<FiasCountrySelectorProps> {
-  public static defaultProps = {
-    locale: FiasLocaleHelper.get(),
-  };
-
   private readonly locale!: FiasLocale;
 
   public render() {
@@ -76,7 +72,10 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
   };
 
   private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-    this.props.onChange(value.country);
+    const { onChange } = this.props;
+    if (onChange) {
+      onChange(value.country);
+    }
   };
 
   private onUnexpectedInput = (query: string) => {
