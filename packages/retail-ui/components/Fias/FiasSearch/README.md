@@ -63,3 +63,17 @@ const handleChange = value => setState({ value });
 
 <MyCustomFias baseUrl="https://api.kontur.ru/fias/v1/" value={state.value} onChange={handleChange} />;
 ```
+
+#### Локали по умолчанию (см. `LocaleProvider`)
+
+```typescript
+interface FiasLocale {
+  searchNotFound: string;
+  searchPlaceholder: string;
+}
+
+const ru_RU = {
+  searchNotFound: 'Адрес не найден',
+  searchPlaceholder: 'Начните вводить адрес, например: Москва, Внуково',
+};
+```
