@@ -5,7 +5,7 @@ import Reusable from './Reusable/Reusable.md';
 import MissingNodes from './MissingNodes/MissingNodes.md';
 
 export default {
-  caption: 'Описание валидаций',
+  caption: 'Синхронные валидаций',
   items: [
     {
       component: Objects,

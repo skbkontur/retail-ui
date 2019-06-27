@@ -32,6 +32,7 @@ export interface ValidationWrapperInternalProps {
   children?: React.ReactElement<any>;
   validation: Nullable<Validation>;
   errorMessage: RenderErrorMessage;
+  loading: boolean;
 }
 
 interface ValidationWrapperInternalState {

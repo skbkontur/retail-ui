@@ -18,9 +18,15 @@ const Content = styled.span`
   display: inline-flex;
 `;
 
+const Comment = styled.span`
+  margin-left: 10px;
+  color: grey;
+`;
+
 interface FormLineProps {
   children?: React.ReactNode;
   title: React.ReactNode;
+  comment?: React.ReactNode;
 }
 
 const FormLine: React.SFC<FormLineProps> = props => {
@@ -28,6 +34,7 @@ const FormLine: React.SFC<FormLineProps> = props => {
     <Line>
       <Title>{props.title}</Title>
       <Content>{props.children}</Content>
+      <Comment>{props.comment}</Comment>
     </Line>
   );
 };

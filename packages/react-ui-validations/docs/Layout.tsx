@@ -5,6 +5,7 @@ import Logotype from 'retail-ui/components/Logotype';
 import styled from 'styled-components';
 import Displaying from './Pages/Displaying';
 import Validator from './Pages/Validator';
+import AsyncValidator from './Pages/AsyncValidator';
 import Examples from './Pages/Examples';
 import Concepts from './Pages/Concepts';
 
@@ -21,7 +22,7 @@ const Layout: React.FunctionComponent = props => {
             API reference
           </NavigationLink>
           <Divider />
-          {[Displaying, Validator, Examples, Concepts].map((x, i) => (
+          {[Displaying, Validator, AsyncValidator, Examples, Concepts].map((x, i) => (
             <React.Fragment key={i}>
               <Header>{x.caption}</Header>
               {x.items.map(page => (

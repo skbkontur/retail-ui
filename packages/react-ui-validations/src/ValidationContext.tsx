@@ -122,7 +122,9 @@ export default class ValidationContext extends React.Component<ValidationContext
     const firstInvalid = this.getChildWrappersSortedByPosition().find(x => x.hasError());
     if (firstInvalid) {
       if (!withoutFocus) {
-        firstInvalid.focus();
+        setImmediate(() => {
+          firstInvalid.focus();
+        });
       }
     }
 

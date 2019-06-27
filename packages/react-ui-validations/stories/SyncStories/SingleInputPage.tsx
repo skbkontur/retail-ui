@@ -46,6 +46,9 @@ export default class SingleInputPage extends React.Component<SingleInputPageProp
             <ValidationWrapperV1 data-tid="InputValidation" validationInfo={this.validate()} renderMessage={text()}>
               <Input data-tid={'Input'} value={this.state.value} onChange={(_, value) => this.setState({ value })} />
             </ValidationWrapperV1>
+            <ValidationWrapperV1 data-tid="InputValidation" validationInfo={this.validate()}>
+              <Input data-tid={'Input'} value={this.state.value} onChange={(_, value) => this.setState({ value })} />
+            </ValidationWrapperV1>
             <Gapped>
               <Button data-tid={'SubmitButton'} loading={this.state.sending} onClick={this.handleSubmit}>
                 Submit
