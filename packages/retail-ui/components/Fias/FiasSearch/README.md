@@ -40,7 +40,7 @@ class MyCustomFias extends Component {
     );
   }
 
-  handleChange(address) {
+  handleChange(event, address) {
     this.setState({ address });
     if (this.props.onChange) {
       this.props.onChange(address.getValue());

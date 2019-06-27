@@ -22,7 +22,7 @@ import { AddressElement } from '../models/AddressElement';
 import Tooltip from '../../Tooltip/Tooltip';
 import { InputProps } from '../../Input';
 import Input from '../../Input/Input';
-import FiasSearch from '../FiasSearch/FiasSearch';
+import { FiasSearch, FiasSearchChangeEvent } from '../FiasSearch/FiasSearch';
 import { FiasCountrySelector } from './FiasCountrySelector';
 import Textarea from '../../Textarea';
 
@@ -163,7 +163,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           )}
           {this.props.search && (
             <FiasForm.Field>
-              <FiasSearch api={api} address={address} onChange={this.handleAddressChange} limit={limit} />
+              <FiasSearch api={api} address={address} onChange={this.handleSearchChange} limit={limit} />
             </FiasForm.Field>
           )}
           {this.isForeignForm ? (
@@ -513,6 +513,10 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       },
       callback,
     );
+  };
+
+  private handleSearchChange = (event: FiasSearchChangeEvent, address: Address) => {
+    this.handleAddressChange(address);
   };
 
   private resetAddressErrors = () => {

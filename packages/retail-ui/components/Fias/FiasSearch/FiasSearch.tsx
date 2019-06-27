@@ -1,18 +1,42 @@
 import * as React from 'react';
 import { FiasLocale, FiasLocaleHelper } from '../locale';
-import { FiasComboBox, FiasComboBoxChangeEvent } from '../Form/FiasComboBox';
+import { FiasComboBox, FiasComboBoxProps, FiasComboBoxChangeEvent } from '../Form/FiasComboBox';
 import { Address } from '../models/Address';
 import { Fields, APIProvider, SearchOptions, AddressResponse } from '../types';
 import { locale } from '../../LocaleProvider/decorators';
+import filterProps from '../../filterProps';
 
-interface FiasSearchProps {
+const COMBOBOX_PASS_PROPS = {
+  limit: true,
+  align: true,
+  searchOnFocus: true,
+  drawArrow: true,
+  autoFocus: true,
+  borderless: true,
+  disablePortal: true,
+  disabled: true,
+  error: true,
+  maxLength: true,
+  menuAlign: true,
+  onBlur: true,
+  onFocus: true,
+  onInputChange: true,
+  placeholder: true,
+  size: true,
+  warning: true,
+  width: true,
+  maxMenuHeight: true,
+  onMouseEnter: true,
+  onMouseOver: true,
+  onMouseLeave: true,
+};
+
+export interface FiasSearchChangeEvent extends FiasComboBoxChangeEvent {}
+
+export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
   api: APIProvider;
   address?: Address;
-  onChange?: (value: Address) => void;
-  limit: number;
-  width: number | string;
-  error?: boolean;
-  warning?: boolean;
+  onChange?: (event: FiasSearchChangeEvent, address: Address) => void;
 }
 
 @locale('Fias', FiasLocaleHelper)
@@ -20,29 +44,26 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   public static defaultProps = {
     width: '100%',
     limit: 5,
+    drawArrow: false,
+    searchOnFocus: false,
   };
 
   private readonly locale!: FiasLocale;
 
   public render() {
-    const { address, limit, width, error, warning } = this.props;
+    const restComboBoxProps = filterProps(this.props, COMBOBOX_PASS_PROPS);
     return (
       <FiasComboBox
         getItems={this.getItems}
-        value={address}
+        value={this.props.address}
         renderItem={this.renderItem}
         renderValue={this.renderValue}
         valueToString={this.valueToString}
-        onChange={this.handleChange}
+        onChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
         placeholder={this.locale.searchPlaceholder}
-        width={width}
-        drawArrow={false}
-        searchOnFocus={false}
-        limit={limit}
-        error={error}
-        warning={warning}
+        {...restComboBoxProps}
       />
     );
   }
@@ -63,10 +84,10 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     return address.getText(Fields.room);
   };
 
-  private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
+  private onChange = (event: FiasComboBoxChangeEvent, address: Address) => {
     const { onChange } = this.props;
     if (onChange) {
-      onChange(value);
+      onChange(event, address);
     }
   };
 
@@ -83,7 +104,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
       searchText,
       fullAddress: true,
       directParent: false,
-      limit: limit + 1, // +1 to detect if there are more items
+      limit: (limit || FiasSearch.defaultProps.limit) + 1, // +1 to detect if there are more items
     };
 
     return api.search(options).then(result => {
