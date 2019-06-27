@@ -134,6 +134,6 @@ export default class ValidationContext extends React.Component<ValidationContext
   }
 
   public render() {
-    return <span>{this.props.children}</span>;
+    return this.props.children;
   }
 }
