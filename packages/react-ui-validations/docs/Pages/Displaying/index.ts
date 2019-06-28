@@ -1,5 +1,6 @@
 import GettingStarted from './GettingStarted/GettingStarted.md';
 import ValidationType from './ValidationType/ValidationType.md';
+import PendingValidation from './PendingValidation/PendingValidation.md';
 import ErrorMessages from './ErrorMessages/ErrorMessages.md';
 import FormValidity from './FormValidity/FormValidity.md';
 import ScrollToValidation from './ScrollToValidation/ScrollToValidation.md';
@@ -16,6 +17,11 @@ export default {
       component: ValidationType,
       url: 'validation-type',
       caption: 'Виды валидаций',
+    },
+    {
+      component: PendingValidation,
+      url: 'pending-validation',
+      caption: 'Ожидание валидаций',
     },
     {
       component: ErrorMessages,

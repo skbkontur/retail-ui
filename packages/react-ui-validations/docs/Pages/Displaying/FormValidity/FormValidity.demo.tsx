@@ -31,7 +31,10 @@ export default class FormValidityDemo extends React.Component<{}, State> {
   public render() {
     const { immediate, lostfocus, submit } = this.state;
     return (
-      <ValidationContainer ref={this.refContainer}>
+      <ValidationContainer
+        ref={this.refContainer}
+        onValidationUpdated={x => console.log('valid: ' + x)}
+      >
         <Form>
           <Form.Line title={'immediate'}>
             <ValidationWrapper validationInfo={this.validate(immediate, 'immediate')}>
@@ -39,6 +42,26 @@ export default class FormValidityDemo extends React.Component<{}, State> {
                 placeholder={'Только цифры'}
                 value={immediate}
                 onChange={(_, value) => this.handleChange({ immediate: value })}
+              />
+            </ValidationWrapper>
+          </Form.Line>
+
+          <Form.Line title={'immediate'}>
+            <ValidationWrapper validationInfo={this.validate(immediate, 'immediate')}>
+              <Input
+                placeholder={'Только цифры'}
+                value={immediate}
+                onChange={(_, value) => this.handleChange({ immediate: value })}
+              />
+            </ValidationWrapper>
+          </Form.Line>
+
+          <Form.Line title={'lostfocus'}>
+            <ValidationWrapper validationInfo={this.validate(lostfocus, 'lostfocus')}>
+              <Input
+                placeholder={'Только цифры'}
+                value={lostfocus}
+                onChange={(_, value) => this.handleChange({ lostfocus: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -63,9 +86,21 @@ export default class FormValidityDemo extends React.Component<{}, State> {
             </ValidationWrapper>
           </Form.Line>
 
+          <Form.Line title={'submit'}>
+            <ValidationWrapper validationInfo={this.validate(submit, 'submit')}>
+              <Input
+                placeholder={'Только цифры'}
+                value={submit}
+                onChange={(_, value) => this.handleChange({ submit: value })}
+              />
+            </ValidationWrapper>
+          </Form.Line>
+
           <Form.ActionsBar>
             <Gapped>
-              <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+              <Button use={'primary'} onClick={this.handleSubmit}>
+                Submit
+              </Button>
               {this.renderFormState()}
             </Gapped>
           </Form.ActionsBar>

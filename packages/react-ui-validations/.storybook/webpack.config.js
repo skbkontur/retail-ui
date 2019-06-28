@@ -21,7 +21,7 @@ module.exports = function(sourceConfig, env, defaultConfig) {
           exclude: /node_moduels/,
           loader: 'ts-loader',
           options: {
-            transpileOnly: true,
+            // transpileOnly: true,
           },
         },
         {

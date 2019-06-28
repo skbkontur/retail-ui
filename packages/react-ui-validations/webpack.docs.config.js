@@ -26,7 +26,7 @@ function createConfig(publicPath, output) {
           exclude: /node_modules/,
           loader: 'ts-loader',
           options: {
-            transpileOnly: true,
+            // transpileOnly: true,
           },
         },
         {

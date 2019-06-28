@@ -31,6 +31,7 @@ export type RenderErrorMessage = (
 export interface ValidationWrapperInternalProps {
   children?: React.ReactElement<any>;
   validation: Nullable<Validation>;
+  pending: boolean;
   errorMessage: RenderErrorMessage;
 }
 
@@ -88,8 +89,9 @@ export default class ValidationWrapperInternal extends React.Component<
 
   public componentDidUpdate(prevProps: Readonly<ValidationWrapperInternalProps>): void {
     // todo migrate to getDerivedStateFromProps
-    if (!isEqual(this.props.validation, prevProps.validation)) {
-      this.applyValidation(this.props.validation);
+    const { pending, validation } = this.props;
+    if (pending !== prevProps.pending || !isEqual(validation, prevProps.validation)) {
+      this.applyValidation(pending ? null : validation);
     }
   }
 

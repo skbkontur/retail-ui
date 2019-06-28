@@ -8,11 +8,19 @@ import ValidationWrapperInternal, {
   ValidationLevel,
 } from './ValidationWrapperInternal';
 
-export interface ValidationInfo {
+interface ValidationInfoInternal {
   type?: Nullable<ValidationBehaviour>;
   level?: Nullable<ValidationLevel>;
   message: React.ReactNode;
 }
+
+export type ValidationInfo =
+  | {
+      pending: true;
+    } & Partial<ValidationInfoInternal>
+  | {
+      pending?: false;
+    } & ValidationInfoInternal;
 
 export interface ValidationWrapperProps {
   children: React.ReactElement<any>;
@@ -23,15 +31,21 @@ export interface ValidationWrapperProps {
 export default class ValidationWrapper extends React.Component<ValidationWrapperProps> {
   public render() {
     const { children, validationInfo, renderMessage } = this.props;
-    const validation: Nullable<Validation> = validationInfo
-      ? {
-          level: validationInfo.level || 'error',
-          behaviour: validationInfo.type || 'lostfocus',
-          message: validationInfo.message,
-        }
-      : null;
+    const pending = (validationInfo && validationInfo.pending) || false;
+    const validation: Nullable<Validation> =
+      !pending && validationInfo
+        ? {
+            level: validationInfo.level || 'error',
+            behaviour: validationInfo.type || 'lostfocus',
+            message: validationInfo.message,
+          }
+        : null;
     return (
-      <ValidationWrapperInternal errorMessage={renderMessage || tooltip('right top')} validation={validation}>
+      <ValidationWrapperInternal
+        errorMessage={renderMessage || tooltip('right top')}
+        validation={validation}
+        pending={pending}
+      >
         {children}
       </ValidationWrapperInternal>
     );
