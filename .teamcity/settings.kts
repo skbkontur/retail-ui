@@ -710,6 +710,11 @@ object Validations_LintTest : BuildType({
             type = "jonnyzzz.yarn"
             param("yarn_commands", "workspace react-ui-validations lint")
         }
+        step {
+            name = "Run unit tests"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace react-ui-validations test")
+        }
         script {
             name = "Start Storybook"
             scriptContent = """
