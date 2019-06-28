@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Input from 'retail-ui/components/Input';
-import { ValidationContainer, ValidationWrapperV1 } from '../../../../src';
+import { ValidationContainer, ValidationWrapper } from '../../../../src';
 import Form from '../../../Common/Form';
 
 interface State {
@@ -21,13 +21,13 @@ export default class ConditionalValidationDemo extends React.Component<{}, State
       <ValidationContainer>
         <Form>
           <Form.Line title="Номер">
-            <ValidationWrapperV1 validationInfo={validationInfo}>
+            <ValidationWrapper validationInfo={validationInfo}>
               <Input
                 placeholder={'Только цифры'}
                 value={value}
                 onChange={(_, v) => this.setState({ value: v })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
         </Form>
       </ValidationContainer>

@@ -3,7 +3,7 @@ import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -177,51 +177,51 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="Название организации">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.name).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
               <Input
                 value={organization.name}
                 onChange={(_, value) => this.handleChange({ name: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="ИНН">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.inn).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.inn).get()}>
               <Input
                 value={organization.inn}
                 onChange={(_, value) => this.handleChange({ inn: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="КПП">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.kpp).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.kpp).get()}>
               <Input
                 value={organization.kpp}
                 onChange={(_, value) => this.handleChange({ kpp: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.LineBreak />
 
           <Form.Line title="Электронная почта">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.email).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
               <Input
                 value={organization.email}
                 onChange={(_, value) => this.handleChange({ email: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Телефон">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.phone).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.phone).get()}>
               <Input
                 mask={'+7 999 999-99-99'}
                 value={organization.phone}
                 onChange={(_, value) => this.handleChange({ phone: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>
