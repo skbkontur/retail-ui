@@ -36,6 +36,7 @@ export interface ValidationWrapperInternalProps {
 
 interface ValidationWrapperInternalState {
   validation: Nullable<Validation>;
+  isChanging: boolean;
 }
 
 export interface Point {
@@ -52,13 +53,17 @@ export default class ValidationWrapperInternal extends React.Component<
   };
   public state: ValidationWrapperInternalState = {
     validation: null,
+    isChanging: false,
   };
   public context!: {
     validationContext: IValidationContext;
   };
 
-  public isChanging: boolean = false;
   private child: any; // todo type
+
+  public get isChanging() {
+    return this.state.isChanging;
+  }
 
   public componentWillMount() {
     this.applyValidation(this.props.validation);
@@ -81,8 +86,11 @@ export default class ValidationWrapperInternal extends React.Component<
     }
   }
 
-  public componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
-    this.applyValidation(nextProps.validation);
+  public componentDidUpdate(prevProps: Readonly<ValidationWrapperInternalProps>): void {
+    // todo migrate to getDerivedStateFromProps
+    if (!isEqual(this.props.validation, prevProps.validation)) {
+      this.applyValidation(this.props.validation);
+    }
   }
 
   public async focus(): Promise<void> {
@@ -93,12 +101,12 @@ export default class ValidationWrapperInternal extends React.Component<
         this.child.focus();
       }
     }
-    this.isChanging = false;
+    this.setIsChanging(false);
   }
 
   public render() {
     const { children } = this.props;
-    const { validation } = this.state;
+    const { validation, isChanging } = this.state;
 
     const clonedChild: React.ReactElement<any> = children ? (
       React.cloneElement(children, {
@@ -114,8 +122,8 @@ export default class ValidationWrapperInternal extends React.Component<
           }
           this.child = x;
         },
-        error: !this.isChanging && getLevel(validation) === 'error',
-        warning: !this.isChanging && getLevel(validation) === 'warning',
+        error: !isChanging && getLevel(validation) === 'error',
+        warning: !isChanging && getLevel(validation) === 'warning',
         onBlur: () => {
           this.handleBlur();
           if (children.props && children.props.onBlur) {
@@ -123,7 +131,7 @@ export default class ValidationWrapperInternal extends React.Component<
           }
         },
         onChange: (...args: any[]) => {
-          this.isChanging = true;
+          this.setIsChanging(true);
           if (children.props && children.props.onChange) {
             children.props.onChange(...args);
           }
@@ -144,15 +152,15 @@ export default class ValidationWrapperInternal extends React.Component<
     return null;
   }
 
-  public processBlur() {
-    const touched = this.isChanging;
-    this.isChanging = false;
+  public processBlur(): Promise<void> {
+    const touched = this.state.isChanging;
     const validation = this.getOnBlurValidation(touched);
+    this.setIsChanging(false);
     return this.setValidation(validation);
   }
 
   public async processSubmit(): Promise<void> {
-    this.isChanging = false;
+    this.setIsChanging(false);
     return this.setValidation(this.props.validation);
   }
 
@@ -160,10 +168,15 @@ export default class ValidationWrapperInternal extends React.Component<
     return getLevel(this.state.validation) === 'error';
   }
 
-  private handleBlur() {
+  private setIsChanging(isChanging: boolean): void {
+    if (this.state.isChanging !== isChanging) {
+      this.setState({ isChanging });
+    }
+  }
+
+  private handleBlur(): void {
     this.processBlur();
     this.context.validationContext.instanceProcessBlur(this);
-    this.setState({});
   }
 
   private applyValidation(actual: Nullable<Validation>) {
