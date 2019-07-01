@@ -62,7 +62,6 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         onChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
-        placeholder={this.locale.searchPlaceholder}
         {...restComboBoxProps}
       />
     );

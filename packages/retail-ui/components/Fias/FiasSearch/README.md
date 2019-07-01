@@ -36,6 +36,7 @@ class MyCustomFias extends Component {
         width={width}
         error={error}
         warning={warning}
+        placeholder="Начните вводить адрес, например: Москва, Внуково"
       />
     );
   }
@@ -69,11 +70,9 @@ const handleChange = value => setState({ value });
 ```typescript
 interface FiasLocale {
   searchNotFound: string;
-  searchPlaceholder: string;
 }
 
 const ru_RU = {
   searchNotFound: 'Адрес не найден',
-  searchPlaceholder: 'Начните вводить адрес, например: Москва, Внуково',
 };
 ```

@@ -163,7 +163,13 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
           )}
           {this.props.search && (
             <FiasForm.Field>
-              <FiasSearch api={api} address={address} onChange={this.handleSearchChange} limit={limit} />
+              <FiasSearch
+                api={api}
+                address={address}
+                onChange={this.handleSearchChange}
+                limit={limit}
+                placeholder={this.locale.searchPlaceholder}
+              />
             </FiasForm.Field>
           )}
           {this.isForeignForm ? (
