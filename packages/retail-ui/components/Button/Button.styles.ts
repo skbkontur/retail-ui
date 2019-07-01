@@ -3,6 +3,24 @@ import classes from './Button.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 
+const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {
+  let paddingTop = paddingY;
+  let paddingBottom = paddingY;
+
+  const shiftUp = (top: string, bottom: string, offset: number) => {
+    return [DimensionFunctions.shift(top, `${-offset}`), DimensionFunctions.shift(bottom, `${offset}`)];
+  };
+
+  if (fontSize === '16px') {
+    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, 1);
+  }
+  if (additionalOffset) {
+    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, additionalOffset);
+  }
+
+  return `${paddingTop} ${paddingX} ${paddingBottom}`;
+};
+
 const jsClasses = {
   root(t: ITheme) {
     return css`
@@ -59,12 +77,11 @@ const jsClasses = {
 
       &:not(.${classes.link}) {
         height: ${DimensionFunctions.shift(t.controlHeightSmall, t.btnHeightShift)};
-        padding: ${t.controlPaddingYSmall} 15px;
+        padding: ${getBtnPadding(t.btnFontSizeSmall, t.controlPaddingYSmall, '15px')};
         line-height: ${t.controlLineHeightSmall};
 
         .rt-ie-any & {
-          padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
-          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
+          padding: ${getBtnPadding(t.btnFontSizeSmall, t.controlPaddingYSmall, '15px', 1)};
         }
       }
 
@@ -84,15 +101,14 @@ const jsClasses = {
   sizeMedium(t: ITheme) {
     return css`
       font-size: ${t.btnFontSizeMedium};
-      
+
       &:not(.${classes.link}) {
-        padding: ${t.controlPaddingYMedium} 15px;
+        padding: ${getBtnPadding(t.btnFontSizeMedium, t.controlPaddingYMedium, '15px')};
         height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};
         line-height: ${t.controlLineHeightMedium};
 
         .rt-ie-any & {
-          padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
-          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
+          padding: ${getBtnPadding(t.btnFontSizeMedium, t.controlPaddingYMedium, '15px', 1)};
         }
 
         .${classes.arrow} {
@@ -115,14 +131,12 @@ const jsClasses = {
       font-size: ${t.btnFontSizeLarge};
 
       &:not(.${classes.link}) {
-        padding: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')} 20px
-          ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};
+        padding: ${getBtnPadding(t.btnFontSizeLarge, t.controlPaddingYLarge, '20px')};
         height: ${DimensionFunctions.shift(t.controlHeightLarge, t.btnHeightShift)};
         line-height: ${t.controlLineHeightLarge};
 
         .rt-ie-any & {
-          padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
-          padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
+          padding: ${getBtnPadding(t.btnFontSizeLarge, t.controlPaddingYLarge, '20px', 1)};
         }
 
         .${classes.arrow} {
