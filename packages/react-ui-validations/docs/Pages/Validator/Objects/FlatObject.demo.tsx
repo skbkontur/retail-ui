@@ -3,7 +3,7 @@ import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -54,23 +54,23 @@ export default class FlatObjectDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="Имя">
-            <ValidationWrapperV1 validationInfo={validation.getNode(x => x.name).get()}>
+            <ValidationWrapper validationInfo={validation.getNode(x => x.name).get()}>
               <Input
                 placeholder={'Любое'}
                 value={contactInfo.name}
                 onChange={(_, name) => this.handleChange({ name })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="E-mail">
-            <ValidationWrapperV1 validationInfo={validation.getNode(x => x.email).get()}>
+            <ValidationWrapper validationInfo={validation.getNode(x => x.email).get()}>
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={contactInfo.email}
                 onChange={(_, email) => this.handleChange({ email })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>

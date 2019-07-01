@@ -16,18 +16,18 @@ npm install --save react-ui-validations
 ```
 
 ```jsx
-import { ValidationContainer, ValidationWrapperV1 } from 'react-ui-validations';
+import { ValidationContainer, ValidationWrapper } from 'react-ui-validations';
 
 export default class DataEditor extends React.Component {
   // ...
   render() {
     return (
       <ValidationContainer>
-        <ValidationWrapperV1
+        <ValidationWrapper
           validationInfo={/\d+/.test(phone) ? { message: 'Телефон должен состоять только из цифр' } : null}
         >
           <Input value={phone} onChange={value => setState({ phone: value })} />
-        </ValidationWrapperV1>
+        </ValidationWrapper>
       </ValidationContainer>
     );
   }

@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import Button from 'retail-ui/components/Button';
 import RadioGroup from 'retail-ui/components/RadioGroup';
-import { ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../src';
+import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 storiesOf('RadioGroup', module).add('Example1', () => <RadioGroupStory />);
@@ -32,14 +32,14 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
     return (
       <div style={{ padding: '20px 20px' }}>
         <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapperV1 validationInfo={this.validateSex()}>
+          <ValidationWrapper validationInfo={this.validateSex()}>
             <RadioGroup
               value={this.state.sex}
               items={['male', 'female'] as Sex[]}
               renderItem={x => <span>{x}</span>}
               onChange={(e, value) => this.setState({ sex: value })}
             />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
           <div style={{ padding: '100px 0' }}>
             <Button onClick={() => this.container && this.container.validate()}>Check</Button>
           </div>

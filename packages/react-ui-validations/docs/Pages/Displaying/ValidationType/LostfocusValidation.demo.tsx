@@ -2,7 +2,7 @@ import * as React from 'react';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   ValidationInfo,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -22,13 +22,13 @@ export default class LostfocusValidationDemo extends React.Component<{}, State> 
       <ValidationContainer>
         <Form>
           <Form.Line title="Номер">
-            <ValidationWrapperV1 validationInfo={this.validate(this.state.value)}>
+            <ValidationWrapper validationInfo={this.validate(this.state.value)}>
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value}
                 onChange={(_, value) => this.setState({ value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
         </Form>
       </ValidationContainer>

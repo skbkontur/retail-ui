@@ -3,7 +3,7 @@ import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -40,13 +40,13 @@ export default class PrimitiveTypeArrayDemo extends React.Component<{}, State> {
         <Form>
           {this.state.emails.map((email, i) => (
             <Form.Line title={`E-mail #${i}`} key={i}>
-              <ValidationWrapperV1 validationInfo={validation.getNodeByIndex(i).get()}>
+              <ValidationWrapper validationInfo={validation.getNodeByIndex(i).get()}>
                 <Input
                   placeholder={'xxx@xxx.xx'}
                   value={email}
                   onChange={(_, value) => this.handleEmailChange(value, i)}
                 />
-              </ValidationWrapperV1>
+              </ValidationWrapper>
             </Form.Line>
           ))}
 

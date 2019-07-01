@@ -3,7 +3,7 @@ import * as React from 'react';
 import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import Select from 'retail-ui/components/Select';
-import { text, ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../src';
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 interface Example1State {
@@ -30,9 +30,9 @@ class Example1 extends React.Component<{}, Example1State> {
     return (
       <ValidationContainer>
         <div style={{ padding: 10 }}>
-          <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
             <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
         </div>
       </ValidationContainer>
     );
@@ -63,9 +63,9 @@ class Example2 extends React.Component<{}, Example2State> {
     return (
       <ValidationContainer>
         <div style={{ padding: 10 }}>
-          <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
             <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
         </div>
       </ValidationContainer>
     );
@@ -100,9 +100,9 @@ class Example3 extends React.Component<{}, Example3State> {
         <div style={{ padding: 10 }}>
           <Button onClick={() => this.submit()}>Отправить</Button>
           <div style={{ height: 1000, backgroundColor: '#eee' }} />
-          <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
             <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
           <Button onClick={() => this.submit()}>Отправить</Button>
           <div style={{ height: 1000, backgroundColor: '#eee' }} />
           <Button onClick={() => this.submit()}>Отправить</Button>
@@ -155,9 +155,9 @@ class Example8 extends React.Component<{}, Example3State> {
         </div>
         <div style={{ padding: 10 }}>
           <div style={{ height: 600, backgroundColor: '#eee' }}/>
-          <ValidationWrapperV1 validationInfo={this.validateValue()}>
+          <ValidationWrapper validationInfo={this.validateValue()}>
             <Input value={this.state.value} onChange={(_, value) => this.setState({ value })}/>
-          </ValidationWrapperV1>
+          </ValidationWrapper>
           <div style={{ height: 1000, backgroundColor: '#eee' }}/>
         </div>
         <div style={{
@@ -221,9 +221,9 @@ class Example4 extends React.Component<{}, Example4State> {
             value={this.state.type}
             onChange={(_, value) => this.setState({ type: value })}
           />
-          <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
             <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
           <div style={{ height: 1000, backgroundColor: '#eee' }} />
           <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
         </div>
@@ -267,9 +267,9 @@ class Example5 extends React.Component<{}, Example5State> {
           <div style={{ height: 300, width: 300, overflow: 'scroll' }}>
             <div style={{ height: 1000, width: 1000, position: 'relative' }}>
               <div style={{ position: 'absolute', top: 500, left: 500 }}>
-                <ValidationWrapperV1 validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+                <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
                   <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
-                </ValidationWrapperV1>
+                </ValidationWrapper>
               </div>
             </div>
           </div>
@@ -322,14 +322,14 @@ class Example6 extends React.Component<{}, Example6State> {
       <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 50, height: 200, position: 'relative' }}>
           <div style={{ position: 'absolute', top: 100 }}>
-            <ValidationWrapperV1 validationInfo={this.validateValue1()}>
+            <ValidationWrapper validationInfo={this.validateValue1()}>
               <Input value={this.state.value1} onChange={(_, value) => this.setState({ value1: value })} />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </div>
           <div style={{ position: 'absolute', top: 20 }}>
-            <ValidationWrapperV1 validationInfo={this.validateValue2()}>
+            <ValidationWrapper validationInfo={this.validateValue2()}>
               <Input value={this.state.value2} onChange={(_, value) => this.setState({ value2: value })} />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </div>
         </div>
         <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
@@ -371,19 +371,19 @@ class Example7 extends React.Component<{}, Example7State> {
       <ValidationContainer ref={this.refContainer}>
         <div>
           <div style={{ padding: 20 }}>
-            <ValidationWrapperV1 validationInfo={this.validateValue(value1)}>
+            <ValidationWrapper validationInfo={this.validateValue(value1)}>
               <Input value={value1} onChange={(_, value) => this.setState({ value1: value })} />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </div>
           <div style={{ padding: 20 }}>
-            <ValidationWrapperV1 validationInfo={this.validateValue(value2)}>
+            <ValidationWrapper validationInfo={this.validateValue(value2)}>
               <Input value={value2} onChange={(_, value) => this.setState({ value2: value })} />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </div>
           <div style={{ padding: 20 }}>
-            <ValidationWrapperV1 validationInfo={this.validateValue(value3)}>
+            <ValidationWrapper validationInfo={this.validateValue(value3)}>
               <Input value={value3} onChange={(_, value) => this.setState({ value3: value })} />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </div>
         </div>
         <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>

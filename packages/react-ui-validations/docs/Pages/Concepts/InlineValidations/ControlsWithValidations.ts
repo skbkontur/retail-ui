@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DatePicker from 'retail-ui/components/DatePicker';
 import Input from 'retail-ui/components/Input';
-import { RenderErrorMessage, ValidationInfo, ValidationWrapperV1 } from '../../../../src';
+import { RenderErrorMessage, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 
 interface ValidationProps<TValue> {
@@ -81,7 +81,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
   return props => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
-    return React.createElement(ValidationWrapperV1, { ...validationWrapperProps, children: control });
+    return React.createElement(ValidationWrapper, { ...validationWrapperProps, children: control });
   };
 }
 
