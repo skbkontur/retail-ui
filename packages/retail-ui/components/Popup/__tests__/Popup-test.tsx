@@ -60,11 +60,7 @@ describe('Popup', () => {
     anchor.innerHTML = 'test';
 
     const wrapper = mount<Popup>((
-      <Popup
-        positions={['bottom right', 'top left', 'top right', 'bottom left']}
-        opened={false}
-        anchorElement={anchor}
-      >
+      <Popup positions={['bottom right', 'top left', 'top right', 'bottom left']} opened={false} anchorElement={anchor}>
         Test content
       </Popup>
     ) as React.ReactElement<PopupProps>);
@@ -119,7 +115,6 @@ describe('Popup', () => {
     await checkLocation();
   });
 });
-
 
 describe('properly renders opened/closed states ', () => {
   const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];

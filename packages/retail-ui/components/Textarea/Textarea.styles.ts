@@ -7,7 +7,7 @@ const jsStyles = {
     return css`
       font-size: ${t.fontSizeMedium};
       line-height: ${t.textareaLineHeight};
-    `
+    `;
   },
   textarea(t: ITheme) {
     return css`

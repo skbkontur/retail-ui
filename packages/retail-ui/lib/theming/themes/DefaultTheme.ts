@@ -25,18 +25,18 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   },
   btnFontSizeSmall: {
     get() {
-      return this.fontSizeSmall
-    }
+      return this.fontSizeSmall;
+    },
   },
   btnFontSizeMedium: {
     get() {
-      return this.fontSizeMedium
-    }
+      return this.fontSizeMedium;
+    },
   },
   btnFontSizeLarge: {
     get() {
-      return this.fontSizeLarge
-    }
+      return this.fontSizeLarge;
+    },
   },
   controlHeightSmall: {
     get() {
@@ -199,18 +199,18 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   },
   inputFontSizeSmall: {
     get() {
-      return this.fontSizeSmall
-    }
+      return this.fontSizeSmall;
+    },
   },
   inputFontSizeMedium: {
     get() {
-      return this.fontSizeMedium
-    }
+      return this.fontSizeMedium;
+    },
   },
   inputFontSizeLarge: {
     get() {
-      return this.fontSizeLarge
-    }
+      return this.fontSizeLarge;
+    },
   },
   inputFocusShadow: {
     get() {

@@ -31,14 +31,14 @@ import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import Sticky from '../../Sticky';
-import {PlaygroundTheme} from "./ThemeProviderPlayground";
+import { PlaygroundTheme } from './ThemeProviderPlayground';
 
 const enableReactTesting = process.env.enableReactTesting === 'true';
 const useSticky = !enableReactTesting;
 
 export interface IComponentsListProps {
   currentThemeType: ThemeType;
-  onThemeChange: ((ev: { target: { value: string } }, value: string) => void);
+  onThemeChange: (ev: { target: { value: string } }, value: string) => void;
   onEditLinkClick: () => void;
 }
 

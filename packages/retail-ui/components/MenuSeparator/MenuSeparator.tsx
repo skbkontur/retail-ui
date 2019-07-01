@@ -23,7 +23,6 @@ export default class MenuSeparator extends React.Component<{}> {
   }
 
   private renderMain() {
-
     return <div className={cx(styles.root, jsStyles.root(this.theme))} />;
   }
 }

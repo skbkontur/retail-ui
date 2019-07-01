@@ -9,5 +9,5 @@
 ```jsx
 const { default: ThemeShowcase } = require('./ThemeShowcase');
 
-<ThemeShowcase />
+<ThemeShowcase />;
 ```

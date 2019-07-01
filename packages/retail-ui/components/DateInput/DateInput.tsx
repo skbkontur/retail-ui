@@ -602,4 +602,4 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 }
 
-export default (isIE || isEdge ? DateInputFallback(DateInput) : DateInput);
+export default isIE || isEdge ? DateInputFallback(DateInput) : DateInput;

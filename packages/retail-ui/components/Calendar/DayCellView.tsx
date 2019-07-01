@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import jsStyles from './DayCellView.styles';
-import ThemeConsumer from "../ThemeConsumer";
+import ThemeConsumer from '../ThemeConsumer';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;

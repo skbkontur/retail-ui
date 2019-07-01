@@ -1,11 +1,4 @@
-const {
-  appendFileSync,
-  readFileSync,
-  writeFileSync,
-  unlinkSync,
-  existsSync,
-  copyFileSync,
-} = require('fs');
+const { appendFileSync, readFileSync, writeFileSync, unlinkSync, existsSync, copyFileSync } = require('fs');
 const less = require('less');
 
 const ARGS = process.argv.slice(2);

@@ -72,11 +72,11 @@ const jsStyles = {
         background: ${t.chbCheckedBg};
         color: ${t.chbCheckedColor};
       }
-            
+
       &:hover .${styles.box} {
           background: ${ColorFunctions.darken(t.chbCheckedBg, '5%')};
       }
-      
+
       &:active .${styles.box} {
           background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
         }

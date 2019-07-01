@@ -4,7 +4,7 @@ import styles from './Token.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles, {jsTokenColors} from './Token.styles';
+import jsStyles, { jsTokenColors } from './Token.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 

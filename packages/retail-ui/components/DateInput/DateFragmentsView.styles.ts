@@ -23,12 +23,11 @@ const jsStyles = {
   delimiter(t: ITheme) {
     return css`
       color: ${t.dateInputMaskColor};
-      
+
       &.${styles.filled} {
         color: inherit;
         line-height: 1.34;
       }
-      
     `;
   },
 };

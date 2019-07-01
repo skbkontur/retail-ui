@@ -260,7 +260,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }
-  }
+  };
 
   private renderMain() {
     const { label, isPlaceholder } = this.renderLabel();

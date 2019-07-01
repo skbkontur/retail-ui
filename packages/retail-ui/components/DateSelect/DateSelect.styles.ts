@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from "../../lib/theming/Theme";
+import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
   root(t: ITheme) {
