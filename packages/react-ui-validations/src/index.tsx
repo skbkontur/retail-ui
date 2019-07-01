@@ -3,20 +3,20 @@ import ValidationContainer, { ValidationContainerProps } from './ValidationConta
 import ValidationContext, { ValidationContextProps } from './ValidationContext';
 import ValidationTooltip, { TooltipPosition, ValidationTooltipProps } from './ValidationTooltip';
 import { RenderErrorMessage, Validation, ValidationBehaviour } from './ValidationWrapperInternal';
-import ValidationWrapperV1, { ValidationInfo, ValidationWrapperV1Props } from './ValidationWrapperV1';
+import ValidationWrapper, { ValidationInfo, ValidationWrapperProps } from './ValidationWrapper';
 
 export {
   ValidationContainer,
   ValidationContainerProps,
   ValidationContext,
   ValidationContextProps,
-  ValidationWrapperV1 as ValidationWrapper,
-  ValidationWrapperV1Props as ValidationWrapperProps,
+  ValidationWrapper as ValidationWrapperV1,
+  ValidationWrapperProps as ValidationWrapperV1Props,
   RenderErrorMessage,
   ValidationBehaviour,
   Validation,
-  ValidationWrapperV1,
-  ValidationWrapperV1Props,
+  ValidationWrapper,
+  ValidationWrapperProps,
   ValidationInfo,
   ValidationTooltip,
   ValidationTooltipProps,

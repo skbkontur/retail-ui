@@ -4,7 +4,7 @@ import Input from 'retail-ui/components/Input';
 import Gapped from 'retail-ui/components/Gapped';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   ValidationInfo,
   ValidationBehaviour,
 } from '../../../../src';
@@ -34,33 +34,33 @@ export default class FormValidityDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title={'immediate'}>
-            <ValidationWrapperV1 validationInfo={this.validate(immediate, 'immediate')}>
+            <ValidationWrapper validationInfo={this.validate(immediate, 'immediate')}>
               <Input
                 placeholder={'Только цифры'}
                 value={immediate}
                 onChange={(_, value) => this.handleChange({ immediate: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title={'lostfocus'}>
-            <ValidationWrapperV1 validationInfo={this.validate(lostfocus, 'lostfocus')}>
+            <ValidationWrapper validationInfo={this.validate(lostfocus, 'lostfocus')}>
               <Input
                 placeholder={'Только цифры'}
                 value={lostfocus}
                 onChange={(_, value) => this.handleChange({ lostfocus: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title={'submit'}>
-            <ValidationWrapperV1 validationInfo={this.validate(submit, 'submit')}>
+            <ValidationWrapper validationInfo={this.validate(submit, 'submit')}>
               <Input
                 placeholder={'Только цифры'}
                 value={submit}
                 onChange={(_, value) => this.handleChange({ submit: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>

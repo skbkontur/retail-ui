@@ -3,7 +3,7 @@ import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -31,13 +31,13 @@ export default class PrimitiveTypeDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="E-mail">
-            <ValidationWrapperV1 validationInfo={validation.get()}>
+            <ValidationWrapper validationInfo={validation.get()}>
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={this.state.email}
                 onChange={(_, email) => this.setState({ email })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>

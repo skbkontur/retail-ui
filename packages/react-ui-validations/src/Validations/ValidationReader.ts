@@ -1,6 +1,6 @@
 import { ValidationNode } from './Types';
 import { LambdaPath, PathTokensCache } from './PathHelper';
-import { ValidationInfo } from '../ValidationWrapperV1';
+import { ValidationInfo } from '../ValidationWrapper';
 import { ExtractItem, Nullable } from '../../typings/Types';
 
 export class ValidationReader<T> {
