@@ -29,7 +29,7 @@ export interface DropdownContainerProps {
 export interface DropdownContainerState {
   position: Nullable<DropdownContainerPosition>;
   minWidth: number;
-  hasStaticRoot?: boolean;
+  isDocumentElementRoot?: boolean;
 }
 
 export default class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
@@ -43,7 +43,7 @@ export default class DropdownContainer extends React.Component<DropdownContainer
   public state: DropdownContainerState = {
     position: null,
     minWidth: 0,
-    hasStaticRoot: true,
+    isDocumentElementRoot: true,
   };
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
@@ -57,12 +57,14 @@ export default class DropdownContainer extends React.Component<DropdownContainer
   }
 
   public componentWillMount() {
-    const htmlPosition = getComputedStyle(document.documentElement).position;
-    const bodyPosition = getComputedStyle(document.body).position;
+    const { body, documentElement: docEl } = document;
+    const htmlPosition = getComputedStyle(docEl).position;
+    const bodyPosition = getComputedStyle(body).position;
 
-    if (htmlPosition !== 'static' || bodyPosition !== 'static') {
-      this.setState({ hasStaticRoot: false });
-    }
+    const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
+    const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
+
+    this.setState({ isDocumentElementRoot: hasLimitedHeightRoot || hasStaticRoot });
   }
 
   public componentWillUnmount() {
@@ -111,7 +113,7 @@ export default class DropdownContainer extends React.Component<DropdownContainer
 
     if (this.isElement(target) && dom) {
       const targetRect = target.getBoundingClientRect();
-      const docEl = document.documentElement;
+      const { body, documentElement: docEl } = document;
 
       if (!docEl) {
         throw Error('There is no "documentElement" in "document"');
@@ -135,29 +137,13 @@ export default class DropdownContainer extends React.Component<DropdownContainer
       let top: number | null = targetRect.bottom + scrollY + offsetY;
 
       const distanceToBottom = docEl.clientHeight - targetRect.bottom;
-      const distanceToTop = targetRect.top;
       const dropdownHeight = this.getHeight();
 
-      if (distanceToBottom < dropdownHeight && distanceToTop > dropdownHeight) {
+      if (distanceToBottom < dropdownHeight && targetRect.top > dropdownHeight) {
+        const clientHeight = this.state.isDocumentElementRoot ? docEl.clientHeight : body.scrollHeight;
+
         top = null;
-
-        if (this.state.hasStaticRoot) {
-          bottom = distanceToBottom - scrollY + offsetY + targetRect.bottom - targetRect.top;
-        } else {
-          let bodyScrollHeight = 0;
-          if (document.body) {
-            bodyScrollHeight = document.body.scrollHeight;
-          }
-
-          bottom =
-            bodyScrollHeight -
-            docEl.clientHeight -
-            scrollY +
-            distanceToBottom +
-            targetRect.bottom -
-            targetRect.top +
-            offsetY;
-        }
+        bottom = clientHeight + offsetY - scrollY - targetRect.top;
       }
 
       const position = {

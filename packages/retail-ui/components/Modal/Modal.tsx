@@ -83,6 +83,8 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   private theme!: ITheme;
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
+  private mouseDownTarget: EventTarget | null = null;
+  private mouseUpTarget: EventTarget | null = null;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -179,7 +181,9 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
           <div
             ref={this.refContainer}
             className={styles.container}
-            onMouseDown={this.handleContainerClick}
+            onMouseDown={this.handleContainerMouseDown}
+            onMouseUp={this.handleContainerMouseUp}
+            onClick={this.handleContainerClick}
             data-tid="modal-container"
           >
             <div
@@ -227,10 +231,18 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     this.setState({ stackPosition: stack.indexOf(this) });
   };
 
+  private handleContainerMouseDown = (event: React.MouseEvent) => {
+    this.mouseDownTarget = event.target;
+  };
+
+  private handleContainerMouseUp = (event: React.MouseEvent) => {
+    this.mouseUpTarget = event.target;
+  };
+
   private handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!this.props.ignoreBackgroundClick) {
       const { target, currentTarget } = event;
-      if (target === currentTarget) {
+      if (target === currentTarget && this.mouseDownTarget === currentTarget && this.mouseUpTarget === currentTarget) {
         this.requestClose();
       }
     }
