@@ -12,7 +12,7 @@ import dateParser from './dateParser';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
 import Center from '../Center';
-
+import warning from 'warning';
 import styles from './DatePicker.less';
 import { isIE } from '../ensureOldIEClassName';
 
@@ -35,6 +35,9 @@ const INPUT_PASS_PROPS = {
   onMouseOver: true,
 };
 
+/**
+ * @deprecated Компонент устарел и будет удален в версии 2.0.0. Используйте актульный [DatePicker](#/Components/DatePicker).
+ */
 class DatePickerOld extends React.Component {
   static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
 
@@ -115,6 +118,11 @@ class DatePickerOld extends React.Component {
       opened: false,
       textValue,
     };
+
+    warning(
+      false,
+      'DatePickerOld is deprecated and will be removed in v2.0.0. Please, use the actual DatePicker instead.',
+    );
   }
 
   /**
