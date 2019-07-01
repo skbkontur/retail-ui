@@ -26,7 +26,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 
             page.Input.InputValue("ok");
             page.Input.WaitNoError();
-            page.InputValidation.Label.WaitAbsent();
+            page.InputValidation.Label.WaitText("incorrect value");
 
             page.Input.TabOut();
             page.Input.WaitNoError();
@@ -43,11 +43,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.Input.SendKeys(Keys.End);
             page.Input.SendKeys(Keys.Backspace);
             page.Input.WaitNoError();
-            page.InputValidation.Label.WaitAbsent();
+            page.InputValidation.Label.WaitText("incorrect value");
 
             page.Input.SendKeys("d");
             page.Input.WaitNoError();
-            page.InputValidation.Label.WaitAbsent();
+            page.InputValidation.Label.WaitText("incorrect value");
 
             page.Input.TabOut();
             page.Input.WaitError();
