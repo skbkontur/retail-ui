@@ -11,13 +11,31 @@ const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
 const { npmVersions, npmTags, publishVersion } = getPackageInfo();
 
-const excludeComponents = ['ThemeProvider', 'ThemeConsumer', 'ThemeShowcase'];
-const components = fs
-  .readdirSync(COMPONENTS_DIR)
-  .filter(x => !excludeComponents.includes(x))
-  .map(x => [path.join(COMPONENTS_DIR, x, `${x}.tsx`), path.join(COMPONENTS_DIR, x, `${x}.js`)])
-  .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
-  .filter(Boolean);
+const excludeComponents = ['ThemeProvider', 'ThemeConsumer', 'ThemeShowcase', 'LocaleProvider'];
+
+const findComponent = dir => {
+  const name = path.basename(dir);
+  const ts = path.join(dir, `${name}.tsx`);
+  const js = path.join(dir, `${name}.js`);
+  const readme = path.join(dir, `README.md`);
+  if (!fs.existsSync(readme) || excludeComponents.includes(name)) {
+    return null;
+  }
+  return fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null;
+};
+
+const findComponentsRecursively = dir => {
+  if (!fs.statSync(dir).isDirectory()) {
+    return [];
+  }
+  const components = [findComponent(dir)];
+  fs.readdirSync(dir).forEach(name => {
+    components.push(...findComponentsRecursively(path.join(dir, name)));
+  });
+  return components.filter(Boolean);
+};
+
+const components = findComponentsRecursively(COMPONENTS_DIR);
 
 const getCommonSections = () => {
   return [

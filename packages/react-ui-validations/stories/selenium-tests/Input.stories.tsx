@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import Input from 'retail-ui/components/Input';
-import { text, ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../../src';
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
 interface Example1State {
@@ -34,13 +34,13 @@ class Example1 extends React.Component<{}, Example1State> {
           >
             Click here
           </div>
-          <ValidationWrapperV1
+          <ValidationWrapper
             data-tid="ValidationWrapper"
             validationInfo={this.validateValue1()}
             renderMessage={text('bottom')}
           >
             <Input data-tid="SingleInput" value={this.state.value} onChange={(e, value) => this.setState({ value })} />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
         </div>
       </ValidationContainer>
     );

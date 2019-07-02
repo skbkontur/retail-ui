@@ -2,7 +2,7 @@ import * as React from 'react';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   ValidationInfo,
   tooltip,
 } from '../../../../src';
@@ -24,19 +24,19 @@ export default class TooltipValidationDemo extends React.Component<{}, State> {
       <ValidationContainer>
         <Form>
           <Form.Line title="default">
-            <ValidationWrapperV1 validationInfo={v}>
+            <ValidationWrapper validationInfo={v}>
               {this.renderInput()}
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
           <Form.Line title="tooltip('right top')">
-            <ValidationWrapperV1 validationInfo={v} renderMessage={tooltip('right top')}>
+            <ValidationWrapper validationInfo={v} renderMessage={tooltip('right top')}>
               {this.renderInput()}
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
           <Form.Line title="tooltip('top left')">
-            <ValidationWrapperV1 validationInfo={v} renderMessage={tooltip('top left')}>
+            <ValidationWrapper validationInfo={v} renderMessage={tooltip('top left')}>
               {this.renderInput()}
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
         </Form>
       </ValidationContainer>

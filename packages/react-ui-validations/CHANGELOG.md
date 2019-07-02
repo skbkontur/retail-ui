@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.9.1...react-ui-validations@1.0.0) (2019-07-02)
+
+
+### Bug Fixes
+
+* **react-ui-validations:** tooltip improvements ([278debf](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/278debf)), closes [#1138](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/1138) [#1102](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/1102)
+* **ValidationWrapper:** lostfocus tooltip behaviour ([be4e355](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/be4e355)), closes [#1428](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/1428)
+
+
+### Code Refactoring
+
+* **ValidationWrapper:** simplify ([0b3f630](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/0b3f630))
+
+
+### BREAKING CHANGES
+
+* **ValidationWrapper:** ValidationWrapper api changed
+
+
+
+
+
 ## [0.9.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@0.9.0...react-ui-validations@0.9.1) (2019-06-04)
 
 **Note:** Version bump only for package react-ui-validations
