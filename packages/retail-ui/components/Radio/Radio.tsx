@@ -1,15 +1,12 @@
-import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import '../ensureOldIEClassName';
-import Upgrades from '../../lib/Upgrades';
 import { Nullable, Override } from '../../typings/utility-types';
-
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-const styles = isFlatDesign ? require('./Radio.flat.less') : require('./Radio.less');
+import styles from './Radio.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Radio.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface SyntheticRadioEvent<T> {
   target: {
@@ -101,9 +98,39 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     onMouseOver: PropTypes.func,
   };
 
+  private theme!: ITheme;
   private _node: Nullable<HTMLInputElement> = null;
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  /**
+   * @public
+   */
+  public focus() {
+    if (this._node) {
+      this._node.focus();
+    }
+  }
+
+  /**
+   * @public
+   */
+  public blur() {
+    if (this._node) {
+      this._node.blur();
+    }
+  }
+
+  private renderMain() {
     const {
       active,
       children,
@@ -124,13 +151,19 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       ...rest
     } = this.props;
 
-    let radioClassNames = classNames({
+    let radioClassNames = cx({
       [styles.radio]: true,
+      [jsStyles.radio(this.theme)]: true,
       [styles.checked]: this.props.checked,
+      [jsStyles.checked(this.theme)]: this.props.checked,
       [styles.focus]: this.props.focused,
+      [jsStyles.focus(this.theme)]: this.props.focused,
       [styles.error]: error,
+      [jsStyles.error(this.theme)]: error,
       [styles.warning]: warning,
+      [jsStyles.warning(this.theme)]: warning,
       [styles.disabled]: disabled,
+      [jsStyles.disabled(this.theme)]: disabled,
     });
 
     let value: string | number | undefined;
@@ -175,7 +208,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
       inputProps.name = this.context.name;
-      radioClassNames = classNames(radioClassNames, checked && styles.checked);
+      radioClassNames = cx(radioClassNames, checked && cx(styles.checked, jsStyles.checked(this.theme)));
     }
 
     return (
@@ -189,30 +222,13 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     );
   }
 
-  /**
-   * @public
-   */
-  public focus() {
-    if (this._node) {
-      this._node.focus();
-    }
-  }
-
-  /**
-   * @public
-   */
-  public blur() {
-    if (this._node) {
-      this._node.blur();
-    }
-  }
-
   private _isInRadioGroup = () => Boolean(this.context.name);
 
   private renderLabel() {
-    const labelClassNames = classNames({
+    const labelClassNames = cx({
       [styles.label]: true,
-      [styles.labelDisabled]: this.props.disabled,
+      [jsStyles.label(this.theme)]: true,
+      [styles.labelDisabled]: !!this.props.disabled,
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;

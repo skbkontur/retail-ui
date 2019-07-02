@@ -1,5 +1,3 @@
-@import '../variables.less';
-
 :local {
   .fillContainerPosition() {
     bottom: 0;
@@ -17,10 +15,7 @@
     z-index: inherit;
 
     &.active::after {
-      background: @loader-bg;
       content: ' ';
-      filter: 'alpha(opacity = (@{loader-opacity} * 100 + ))';
-      opacity: @loader-opacity;
       z-index: 500;
       .fillContainerPosition;
     }

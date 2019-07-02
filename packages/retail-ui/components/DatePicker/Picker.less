@@ -1,38 +1,20 @@
-@import '../variables.less';
-
 :local {
   .root {
     display: inline-block;
-    background: @picker-bg;
-    box-shadow: @picker-shadow;
     z-index: 1000;
     font-size: 0;
   }
 
   .todayWrapper {
     border: none;
-    background-color: @picker-today-wrapper-bg-color;
-    border-top: @picker-today-wrapper-border-top;
     padding-top: 7px;
     padding-bottom: 8px;
-    color: @link-color;
     display: block;
     width: 100%;
     font-size: 14px;
 
     &:hover {
-      background-color: @picker-today-wrapper-hover-bg-color;
       cursor: pointer;
-    }
-
-    &:active {
-      color: @link-active-color;
-    }
-  }
-
-  :global(.rt-ie8) {
-    .root {
-      border: 1px solid #d5d5d5;
     }
   }
 }

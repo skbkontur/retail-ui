@@ -60,11 +60,7 @@ describe('Popup', () => {
     anchor.innerHTML = 'test';
 
     const wrapper = mount<Popup>((
-      <Popup
-        positions={['bottom right', 'top left', 'top right', 'bottom left']}
-        opened={false}
-        anchorElement={anchor}
-      >
+      <Popup positions={['bottom right', 'top left', 'top right', 'bottom left']} opened={false} anchorElement={anchor}>
         Test content
       </Popup>
     ) as React.ReactElement<PopupProps>);
@@ -120,7 +116,6 @@ describe('Popup', () => {
   });
 });
 
-
 describe('properly renders opened/closed states ', () => {
   const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];
   const openedPopupTree: ReactComponentLike[] = [
@@ -150,6 +145,7 @@ describe('properly renders opened/closed states ', () => {
 
   it('01 - initially closed', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
+    expect(innerContainer).toBeDefined();
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
     expect(innerContainer!.children()).toHaveLength(0);
@@ -160,6 +156,7 @@ describe('properly renders opened/closed states ', () => {
     wrapper.update();
 
     const content = traverseTree(wrapper, openedPopupTree);
+    expect(content).toBeDefined();
     expect(content).not.toBeNull();
     expect(content).toHaveLength(1);
     expect(content!.text()).toBe('Test content');

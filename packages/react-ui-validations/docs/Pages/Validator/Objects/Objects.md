@@ -61,11 +61,11 @@ Validator позволяет декларативно описать все ва
 
     const validationInfo = validation.getNode(x => x.name).get();
 
-Объект валидации `validationInfo` можно передать в проп компонента `ValidationWrapperV1`.
+Объект валидации `validationInfo` можно передать в проп компонента `ValidationWrapper`.
 
-    <ValidationWrapperV1 validationInfo={validationInfo}>
+    <ValidationWrapper validationInfo={validationInfo}>
       <Input/>
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ### Пример
 

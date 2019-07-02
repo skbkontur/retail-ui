@@ -3,7 +3,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import EditIcon from '@skbkontur/react-icons/Edit';
-
+import warning from 'warning';
 import AddressModal from './AddressModal';
 import Colors from '../../lib/Colors';
 import Link from '../Link';
@@ -23,7 +23,7 @@ type State = {
 };
 
 /**
- * DRAFT
+ * @deprecated Компонент устарел и, вероятно, будет удален в версии 2.0.0. Рассмотрите возможность перехода на [Fias](#/Components/Fias).
  */
 export default class Kladr extends React.Component<Props, State> {
   static propTypes = {
@@ -40,6 +40,8 @@ export default class Kladr extends React.Component<Props, State> {
     this.state = {
       opened: false,
     };
+
+    warning(false, 'Kladr is deprecated and will be removed in v2.0.0. Please, consider to move on Fias instead.');
   }
 
   render() {

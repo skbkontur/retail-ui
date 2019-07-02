@@ -3,11 +3,11 @@
 [Описание сообщения об ошибках в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Soobscheniya_ob_oshibkah)
 
 По умолчанию сообщение об ошибке отображается в тултипе справа от контрола.
-Это поведение переопределяется с помощью пропа `renderMessage` компонента `ValidationWrapperV1`.
+Это поведение переопределяется с помощью пропа `renderMessage` компонента `ValidationWrapper`.
 
-    <ValidationWrapperV1 validationInfo={...} renderMessage={...}>
+    <ValidationWrapper validationInfo={...} renderMessage={...}>
       //...
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ## Тултипы
 
@@ -16,9 +16,9 @@
 Отображение сообщения в тултипе задается методом `tooltip`.
 Позиция отображения тултипа задается аргуметом метода.
 
-    <ValidationWrapperV1 validationInfo={...} renderMessage={tooltip("top left")}>
+    <ValidationWrapper validationInfo={...} renderMessage={tooltip("top left")}>
       //...
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ### Пример
 
@@ -32,9 +32,9 @@
 Позиция отображения текста задается аргуметом метода.
 Если позиция не указана, то умолчательной будет позиция `right`.
 
-    <ValidationWrapperV1 validationInfo={...} renderMessage={text("bottom")}>
+    <ValidationWrapper validationInfo={...} renderMessage={text("bottom")}>
       //...
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ### Пример
 

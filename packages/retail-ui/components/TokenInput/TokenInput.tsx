@@ -7,13 +7,16 @@ import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import LayoutEvents from '../../lib/LayoutEvents';
 import styles from './TokenInput.less';
-import cn from 'classnames';
 import Menu from '../Menu/Menu';
 import Token, { TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './TokenInput.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export enum TokenInputType {
   WithReference,
@@ -74,10 +77,10 @@ const defaultRenderToken = <T extends any>(
   item: T,
   { isActive, onClick, onRemove, disabled }: Partial<TokenProps & TokenActions>,
 ) => (
-    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
-      {item}
-    </Token>
-  );
+  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
+    {item}
+  </Token>
+);
 
 export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static defaultProps: Partial<TokenInputProps<any>> = {
@@ -101,6 +104,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     activeTokens: [],
   };
 
+  private theme!: ITheme;
   private input: HTMLInputElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -137,6 +141,17 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
   }
 
   public render(): ReactNode {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       throw Error('Missed getItems for type ' + this.type);
     }
@@ -172,6 +187,18 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
+    const theme = this.theme;
+    const labelClassName = cx(styles.label, jsStyles.label(theme), {
+      [jsStyles.labelFocused(theme)]: !!inFocus,
+      [jsStyles.error(theme)]: !!error,
+      [jsStyles.warning(theme)]: !!warning,
+      [styles.labelDisabled]: !!disabled,
+      [jsStyles.labelDisabled(theme)]: !!disabled,
+    });
+    const inputClassName = cx(styles.input, jsStyles.input(theme), {
+      [styles.inputDisabled]: !!disabled,
+      [jsStyles.inputDisabled(theme)]: !!disabled,
+    });
     return (
       <div data-tid="TokenInput" className={styles.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         {/* расчёт ширины текста с последующим обновлением ширины input */}
@@ -179,12 +206,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         <label
           ref={this.wrapperRef}
           style={{ width }}
-          className={cn(styles.label, {
-            [styles.focus]: inFocus,
-            [styles.error]: error,
-            [styles.warning]: warning,
-            [styles.disabled]: disabled,
-          })}
+          className={labelClassName}
           onMouseDown={this.handleWrapperMouseDown}
           onMouseUp={this.handleWrapperMouseUp}
         >
@@ -197,7 +219,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
             autoComplete="off"
             spellCheck={false}
             disabled={disabled}
-            className={styles.input}
+            className={inputClassName}
             placeholder={selectedItems.length > 0 ? undefined : placeholder}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}

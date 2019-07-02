@@ -10,9 +10,7 @@ import DateInput from '../DateInput';
 import { DateInput as PureDateInput } from '../DateInput/DateInput';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
-
 import styles from './DatePicker.less';
-
 import Picker from './Picker';
 
 const INPUT_PASS_PROPS = {
@@ -131,33 +129,33 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
     if (!value) {
       return false;
     }
+
     const internalDate = new InternalDate({
       order: InternalDateOrder.DMY,
       separator: InternalDateSeparator.Dot,
     }).parseValue(value);
+
     const checks = [
       InternalDateValidateCheck.NotNull,
       InternalDateValidateCheck.Number,
       InternalDateValidateCheck.Native,
       InternalDateValidateCheck.Limits,
     ];
+
     if (range !== undefined) {
       internalDate
         .setRangeStart(range.minDate ? new InternalDate({ value: range.minDate }) : null)
         .setRangeEnd(range.maxDate ? new InternalDate({ value: range.maxDate }) : null);
       checks.push(InternalDateValidateCheck.Range);
     }
+
     return internalDate.validate({ checks });
   };
 
-  public state: DatePickerState = {
-    opened: false,
-  };
+  public state: DatePickerState = { opened: false };
 
   private input: PureDateInput | null = null;
-
   private focused: boolean = false;
-
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);

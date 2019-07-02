@@ -2,7 +2,7 @@ import * as React from 'react';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   ValidationInfo,
   text,
 } from '../../../../src';
@@ -24,19 +24,19 @@ export default class TextValidationDemo extends React.Component<{}, State> {
       <ValidationContainer>
         <Form>
           <Form.Line title="text()">
-            <ValidationWrapperV1 validationInfo={v} renderMessage={text()}>
+            <ValidationWrapper validationInfo={v} renderMessage={text()}>
               {this.renderInput()}
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
           <Form.Line title="text('right')">
-            <ValidationWrapperV1 validationInfo={v} renderMessage={text('right')}>
+            <ValidationWrapper validationInfo={v} renderMessage={text('right')}>
               {this.renderInput()}
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
           <Form.Line title="text('bottom')">
-            <ValidationWrapperV1 validationInfo={v} renderMessage={text('bottom')}>
+            <ValidationWrapper validationInfo={v} renderMessage={text('bottom')}>
               {this.renderInput()}
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
         </Form>
       </ValidationContainer>

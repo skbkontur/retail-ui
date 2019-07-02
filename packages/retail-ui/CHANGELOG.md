@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.53.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.52.1...retail-ui@0.53.0) (2019-07-02)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** add 15-digit limit and warning about it ([b523ddf](https://github.com/skbkontur/retail-ui/commit/b523ddf))
+* **CurrencyLabel:** add warning about 15-digit limit for fractionDigits ([adba185](https://github.com/skbkontur/retail-ui/commit/adba185))
+* **DateInputFallback:** remove unnecessary call 'emitChange' ([cf28a56](https://github.com/skbkontur/retail-ui/commit/cf28a56)), closes [#1466](https://github.com/skbkontur/retail-ui/issues/1466)
+* **DropdownContainer:** change calculations for positioning up ([0e9460e](https://github.com/skbkontur/retail-ui/commit/0e9460e)), closes [#1471](https://github.com/skbkontur/retail-ui/issues/1471)
+* **Modal:** don't close by click on scrollbar ([d69fca6](https://github.com/skbkontur/retail-ui/commit/d69fca6)), closes [#757](https://github.com/skbkontur/retail-ui/issues/757) [#810](https://github.com/skbkontur/retail-ui/issues/810) [#1352](https://github.com/skbkontur/retail-ui/issues/1352) [#1456](https://github.com/skbkontur/retail-ui/issues/1456)
+
+
+### Features
+
+* **Fias:** expose FiasSearch ([075bd36](https://github.com/skbkontur/retail-ui/commit/075bd36))
+
+
+
+
+
 ## [0.52.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.52.0...retail-ui@0.52.1) (2019-06-18)
 
 **Note:** Version bump only for package retail-ui

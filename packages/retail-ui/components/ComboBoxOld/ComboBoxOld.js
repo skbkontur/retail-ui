@@ -2,7 +2,7 @@
 /* eslint-disable flowtype/no-types-missing-file-annotation */
 /* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
-
+import warning from 'warning';
 import PropTypes from 'prop-types';
 
 import ComboBoxRenderer from './ComboBoxRenderer';
@@ -12,6 +12,9 @@ type Props = BaseProps & {
   info?: Info | ((v: Value) => Promise<Info>),
 };
 
+/**
+ * @deprecated Компонент устарел и будет удален в версии 2.0.0. Используйте актульный [ComboBox](#/Components/ComboBox).
+ */
 export default class ComboBoxOld extends React.Component<Props, $FlowFixMeState> {
   static propTypes = {
     autoFocus: PropTypes.bool,
@@ -164,6 +167,7 @@ export default class ComboBoxOld extends React.Component<Props, $FlowFixMeState>
   };
 
   componentDidMount() {
+    warning(false, 'ComboBoxOld is deprecated and will be removed in v2.0.0. Please, use the actual ComboBox instead.');
     this._mounted = true;
     const { value, info } = this.props;
     if (typeof info === 'function') {

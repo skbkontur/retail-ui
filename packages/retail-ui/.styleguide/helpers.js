@@ -11,11 +11,31 @@ const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
 const { npmVersions, npmTags, publishVersion } = getPackageInfo();
 
-const components = fs
-  .readdirSync(COMPONENTS_DIR)
-  .map(x => [path.join(COMPONENTS_DIR, x, `${x}.tsx`), path.join(COMPONENTS_DIR, x, `${x}.js`)])
-  .map(([ts, js]) => (fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null))
-  .filter(Boolean);
+const excludeComponents = ['ThemeProvider', 'ThemeConsumer', 'ThemeShowcase', 'LocaleProvider'];
+
+const findComponent = dir => {
+  const name = path.basename(dir);
+  const ts = path.join(dir, `${name}.tsx`);
+  const js = path.join(dir, `${name}.js`);
+  const readme = path.join(dir, `README.md`);
+  if (!fs.existsSync(readme) || excludeComponents.includes(name)) {
+    return null;
+  }
+  return fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null;
+};
+
+const findComponentsRecursively = dir => {
+  if (!fs.statSync(dir).isDirectory()) {
+    return [];
+  }
+  const components = [findComponent(dir)];
+  fs.readdirSync(dir).forEach(name => {
+    components.push(...findComponentsRecursively(path.join(dir, name)));
+  });
+  return components.filter(Boolean);
+};
+
+const components = findComponentsRecursively(COMPONENTS_DIR);
 
 const getCommonSections = () => {
   return [
@@ -24,7 +44,16 @@ const getCommonSections = () => {
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
     { name: 'Icons', content: path.join(__dirname, '../components/Icon/README.md') },
     { name: 'LocaleProvider', content: path.join(__dirname, '../LOCALEPROVIDER.md') },
-    { name: 'ThemeProvider', content: path.join(__dirname, '../components/ThemeProvider/README.md') },
+    {
+      content: path.join(__dirname, '../CUSTOMIZATION.md'),
+      name: 'Customization',
+      sectionDepth: 1,
+      sections: [
+        { name: 'ThemeProvider', content: path.join(__dirname, '../components/ThemeProvider/README.md') },
+        { name: 'ThemeShowcase', content: path.join(__dirname, '../components/ThemeShowcase/README.md') },
+        { name: 'ThemePlayground', content: path.join(__dirname, '../components/ThemeProvider/Playground/README.md') },
+      ],
+    },
     { name: 'Components', components, sectionDepth: 1 },
   ].filter(section => !section.content || fs.existsSync(section.content));
 };
