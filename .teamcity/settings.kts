@@ -158,7 +158,7 @@ object RetailUi : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = """
         +:refs/heads/*
-        +:refs/tags/retail-ui@*
+        +:refs/tags/*
     """.trimIndent()
     useTagsAsBranches = true
 })
