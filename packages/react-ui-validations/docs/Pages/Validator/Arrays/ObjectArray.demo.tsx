@@ -4,7 +4,7 @@ import Input from 'retail-ui/components/Input';
 import {
   createValidator,
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import Form from '../../../Common/Form';
@@ -61,23 +61,23 @@ export default class ObjectArrayDemo extends React.Component<{}, State> {
                 <Form.Line title={'Контакт'}>{`#${i}`}</Form.Line>
 
                 <Form.Line title={'Имя'}>
-                  <ValidationWrapperV1 validationInfo={v.getNode(x => x.name).get()}>
+                  <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
                     <Input
                       placeholder={'Любое'}
                       value={contact.name}
                       onChange={(_, name) => this.handleItemChange({ name }, i)}
                     />
-                  </ValidationWrapperV1>
+                  </ValidationWrapper>
                 </Form.Line>
 
                 <Form.Line title={'E-mail'}>
-                  <ValidationWrapperV1 validationInfo={v.getNode(x => x.email).get()}>
+                  <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
                     <Input
                       placeholder={'xxx@xxx.xx'}
                       value={contact.email}
                       onChange={(_, email) => this.handleItemChange({ email }, i)}
                     />
-                  </ValidationWrapperV1>
+                  </ValidationWrapper>
                 </Form.Line>
               </React.Fragment>
             );

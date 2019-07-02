@@ -2,7 +2,7 @@ import * as React from 'react';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import Form from '../../../Common/Form';
@@ -49,7 +49,7 @@ export default class LostfocusValidationDemo extends React.Component<{}, State> 
             />
           </Form.Line>
           <Form.Line title="Значение">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.value).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.value).get()}>
               <Input
                 placeholder={
                   this.state.data.onlyDigits ? 'Только цифры' : 'Любые символы'
@@ -57,7 +57,7 @@ export default class LostfocusValidationDemo extends React.Component<{}, State> 
                 value={this.state.data.value}
                 onChange={(_, value) => this.handleChange({ value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
         </Form>
       </ValidationContainer>

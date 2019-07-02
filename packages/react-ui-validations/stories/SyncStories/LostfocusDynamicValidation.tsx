@@ -3,7 +3,7 @@ import Gapped from 'retail-ui/components/Gapped';
 import Input from 'retail-ui/components/Input';
 import { text, ValidationInfo } from '../../src';
 import ValidationContainer from '../../src/ValidationContainer';
-import ValidationWrapperV1 from '../../src/ValidationWrapperV1';
+import ValidationWrapper from '../../src/ValidationWrapper';
 import { Nullable } from '../../typings/Types';
 
 interface LostfocusDynamicValidationState {
@@ -38,17 +38,17 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
           <Gapped vertical>
             <Gapped>
               <b>A</b>
-              <ValidationWrapperV1 data-tid="InputAValidation" validationInfo={this.validateA()} renderMessage={text()}>
+              <ValidationWrapper data-tid="InputAValidation" validationInfo={this.validateA()} renderMessage={text()}>
                 <Input
                   data-tid={'InputA'}
                   value={this.state.valueA}
                   onChange={(_, value) => this.setState({ valueA: value })}
                 />
-              </ValidationWrapperV1>
+              </ValidationWrapper>
             </Gapped>
             <Gapped>
               <b>B</b>
-              <ValidationWrapperV1
+              <ValidationWrapper
                 data-tid="InputBValidation"
                 validationInfo={null /*it is important to wrap input with ValidationWrapper*/}
               >
@@ -57,7 +57,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
                   value={this.state.valueB}
                   onChange={(_, value) => this.setState({ valueB: value })}
                 />
-              </ValidationWrapperV1>
+              </ValidationWrapper>
             </Gapped>
           </Gapped>
         </div>

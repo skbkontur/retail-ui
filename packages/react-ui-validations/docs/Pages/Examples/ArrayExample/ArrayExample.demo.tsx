@@ -4,7 +4,7 @@ import Input from 'retail-ui/components/Input';
 import Group from 'retail-ui/components/Group';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
   text,
 } from '../../../../src';
@@ -60,7 +60,7 @@ export default class ArrayExampleDemo extends React.Component<{}, State> {
                 <Button onClick={() => this.handleRemove(i)}>
                   <b>x</b>
                 </Button>
-                <ValidationWrapperV1
+                <ValidationWrapper
                   validationInfo={validation.getNodeByIndex(i).get()}
                   renderMessage={text()}
                 >
@@ -69,7 +69,7 @@ export default class ArrayExampleDemo extends React.Component<{}, State> {
                     value={value}
                     onChange={(_, v) => this.handleChange(v, i)}
                   />
-                </ValidationWrapperV1>
+                </ValidationWrapper>
               </Group>
             </Form.Line>
           ))}

@@ -5,7 +5,6 @@ import { Fias } from '../Fias';
 import { FiasForm } from '../Form/FiasForm';
 import { FiasModal } from '../FiasModal';
 import { FiasAPI } from '../api/FiasAPI';
-import { FiasLocaleHelper } from '../locale';
 import { Address } from '../models/Address';
 import { MockAPI } from '../api/MockAPI';
 
@@ -39,8 +38,8 @@ storiesOf('Fias', module)
   .add('modal', () => {
     const api = new FiasAPI(BASE_URL);
     return (
-      <FiasModal locale={FiasLocaleHelper.get()}>
-        <FiasForm api={api} locale={FiasLocaleHelper.get()} address={new Address()} />
+      <FiasModal>
+        <FiasForm api={api} address={new Address()} />
       </FiasModal>
     );
   })

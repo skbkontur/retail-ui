@@ -4,7 +4,7 @@ import Gapped from 'retail-ui/components/Gapped';
 import Input from 'retail-ui/components/Input';
 import { text, ValidationInfo } from '../../src';
 import ValidationContainer from '../../src/ValidationContainer';
-import ValidationWrapperV1 from '../../src/ValidationWrapperV1';
+import ValidationWrapper from '../../src/ValidationWrapper';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
@@ -43,9 +43,9 @@ export default class SingleInputPage extends React.Component<SingleInputPageProp
       <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 30 }}>
           <Gapped vertical>
-            <ValidationWrapperV1 data-tid="InputValidation" validationInfo={this.validate()} renderMessage={text()}>
+            <ValidationWrapper data-tid="InputValidation" validationInfo={this.validate()} renderMessage={text()}>
               <Input data-tid={'Input'} value={this.state.value} onChange={(_, value) => this.setState({ value })} />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
             <Gapped>
               <Button data-tid={'SubmitButton'} loading={this.state.sending} onClick={this.handleSubmit}>
                 Submit

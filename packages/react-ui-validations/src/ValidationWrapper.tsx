@@ -14,13 +14,13 @@ export interface ValidationInfo {
   message: React.ReactNode;
 }
 
-export interface ValidationWrapperV1Props {
+export interface ValidationWrapperProps {
   children: React.ReactElement<any>;
   validationInfo: Nullable<ValidationInfo>;
   renderMessage?: Nullable<RenderErrorMessage>;
 }
 
-export default class ValidationWrapperV1 extends React.Component<ValidationWrapperV1Props> {
+export default class ValidationWrapper extends React.Component<ValidationWrapperProps> {
   public render() {
     const { children, validationInfo, renderMessage } = this.props;
     const validation: Nullable<Validation> = validationInfo
