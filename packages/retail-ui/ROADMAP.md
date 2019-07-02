@@ -10,19 +10,22 @@
 ### 2019
 
 - [ ] Шаблон проекта для быстрого старта
+
+### Август 2019
+
 - [ ] Интеграция скриншотных тестов КЭвеба в релизный цикл
+- [ ] Интеграция скриншотных тестов CandyForms в релизный цикл
 
 ### Июль 2019
 
-- [ ] Интеграция скриншотных тестов CandyForms в релизный цикл
 - [ ] Отказ от SauceLabs в пользу SeleniumGrid КЭвеба для скриншотных тестов
+- [ ] Гайдлайн для контрибьюторов [#1274](https://github.com/skbkontur/retail-ui/pull/1274)
 
 ### Июнь 2019
 
-- [ ] Гайдлайн для контрибьюторов [#1274](https://github.com/skbkontur/retail-ui/pull/1274)
-- [ ] Старт поддержки `LTS` версии библиотеки [#1295](https://github.com/skbkontur/retail-ui/issues/1295) 
-- [ ] Локализация DateInput и DatePicker [#1278](https://github.com/skbkontur/retail-ui/pull/1278)
-- [ ] Реализация механизма кастомизации на `css-in-js` [#1318](https://github.com/skbkontur/retail-ui/issues/1318) 
+- [x] Старт поддержки `LTS` версии библиотеки [#1295](https://github.com/skbkontur/retail-ui/issues/1295) 
+- [x] Локализация DateInput и DatePicker [#1278](https://github.com/skbkontur/retail-ui/pull/1278)
+- [x] Реализация механизма кастомизации на `css-in-js` [#1318](https://github.com/skbkontur/retail-ui/issues/1318) 
 
 ### Май 2019
 
