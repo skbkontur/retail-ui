@@ -1,15 +1,13 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import uuidv1 from 'uuid/v1';
 import Prevent from './Prevent';
-
 import Radio, { SyntheticRadioEvent } from '../Radio';
-
 import styles from './RadioGroup.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
 
 export type ItemType<T> = T | [T, React.ReactNode];
 
@@ -223,10 +221,10 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
   private _renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
       key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
-      className: classNames({
+      className: cx({
         [styles.item]: true,
         [styles.itemFirst]: index === 0,
-        [styles.itemInline]: this.props.inline,
+        [styles.itemInline]: !!this.props.inline,
       }),
     };
 

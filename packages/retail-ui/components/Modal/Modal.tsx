@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import cn from 'classnames';
 import FocusLock from 'react-focus-lock';
 import { EventSubscription } from 'fbemitter';
 import LayoutEvents from '../../lib/LayoutEvents';
@@ -16,9 +15,11 @@ import { Body } from './ModalBody';
 import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
-
 import styles from './Modal.less';
-
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Modal.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 let mountedModalsCount = 0;
 
 export interface ModalProps {
@@ -79,6 +80,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     horizontalScroll: false,
   };
 
+  private theme!: ITheme;
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
@@ -118,6 +120,17 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     let hasHeader = false;
     let hasFooter = false;
     let hasPanel = false;
@@ -153,6 +166,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
+
     if (this.props.width) {
       style.width = this.props.width;
     } else {
@@ -163,22 +177,22 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={styles.bg} />}
+          {this.state.stackPosition === 0 && <div className={cx(styles.bg, jsStyles.bg(this.theme))} />}
           <div
             ref={this.refContainer}
-            className={cn(styles.container, styles.mobile)}
+            className={styles.container}
             onMouseDown={this.handleContainerMouseDown}
             onMouseUp={this.handleContainerMouseUp}
             onClick={this.handleContainerClick}
             data-tid="modal-container"
           >
             <div
-              className={cn(styles.centerContainer, {
-                [styles.alignTop]: this.props.alignTop,
+              className={cx(styles.centerContainer, jsStyles.centerContainer(this.theme), {
+                [styles.alignTop]: !!this.props.alignTop,
               })}
               style={containerStyle}
             >
-              <div className={styles.window} style={style}>
+              <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (

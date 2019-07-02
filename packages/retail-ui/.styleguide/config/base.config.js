@@ -59,9 +59,6 @@ const styles = {
     },
   },
   ComponentsList: {
-    list: {
-      paddingBottom: 100,
-    },
     item: {
       fontSize: '16px',
       margin: 0,
@@ -111,6 +108,17 @@ const styles = {
       lineHeight: '50px',
       color: '#9B9B9B',
       marginBottom: 10,
+    },
+  },
+  Code: {
+    code: {
+      ':not(pre) > &': {
+        fontFamily: 'Consolas, "Liberation Mono", Menlo, monospace',
+        fontSize: '90%',
+        background: '#f5f5f5',
+        borderRadius: '2px',
+        padding: '.12em .3em',
+      },
     },
   },
 };
