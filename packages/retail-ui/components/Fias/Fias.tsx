@@ -2,18 +2,10 @@ import * as React from 'react';
 import cn from 'classnames';
 import warningOutput from 'warning';
 import Link from '../Link';
+import LocaleProvider from '../LocaleProvider';
 import { locale } from '../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from './locale';
-import {
-  Fields,
-  ExtraFields,
-  FiasValue,
-  FormValidation,
-  APIProvider,
-  AdditionalFields,
-  FieldsSettings,
-  SearchOptions,
-} from './types';
+import { Fields, ExtraFields, FiasValue, FormValidation, APIProvider, FieldsSettings } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
@@ -224,18 +216,20 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       ) : null;
 
     return (
-      <div>
-        {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
-        {!this.props.readonly && (
-          <div>
-            <Link icon={icon} onClick={this.handleOpen}>
-              {linkText}
-            </Link>
-          </div>
-        )}
-        {validation}
-        {opened && this.renderModal()}
-      </div>
+      <LocaleProvider locale={{ Fias: this.state.locale }}>
+        <div>
+          {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
+          {!this.props.readonly && (
+            <div>
+              <Link icon={icon} onClick={this.handleOpen}>
+                {linkText}
+              </Link>
+            </div>
+          )}
+          {validation}
+          {opened && this.renderModal()}
+        </div>
+      </LocaleProvider>
     );
   }
 
@@ -250,14 +244,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     const { address, fieldsSettings } = this.state;
     const { search, limit, formValidation, countrySelector } = this.props;
     return (
-      <FiasModal locale={this.state.locale} onClose={this.handleClose} onSave={this.handleSave}>
+      <FiasModal onClose={this.handleClose} onSave={this.handleSave}>
         <FiasForm
           ref={this.refForm}
           address={address}
           api={this.api}
           search={search}
           limit={limit}
-          locale={this.state.locale}
           validationLevel={formValidation}
           fieldsSettings={fieldsSettings}
           countrySelector={countrySelector}
@@ -274,7 +267,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   private updateAddress = async (): Promise<Address> => {
-    const address = await this.getAddress(this.props.value);
+    const address = await Address.getAddress(this.api, this.props.value, this.state.fieldsSettings);
     this.setState({
       address,
     });
@@ -289,55 +282,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     this.setState({
       fieldsSettings: this.fieldsSettings,
     });
-  };
-
-  private getAddress = async (value: Partial<FiasValue> | undefined) => {
-    if (value) {
-      const { address, addressString, fiasId, postalCode, country, foreignAddress } = value;
-      const additionalFields: AdditionalFields = {};
-      const { fieldsSettings } = this.state;
-      let searchOptions: SearchOptions = {};
-
-      if (postalCode) {
-        additionalFields[ExtraFields.postalcode] = postalCode;
-      }
-
-      if (country && !Address.IS_RUSSIA(country)) {
-        return new Address({
-          country,
-          foreignAddress,
-          additionalFields: { [ExtraFields.postalcode]: postalCode },
-        });
-      }
-
-      if (address) {
-        const addressValue = Address.filterVisibleFields(address, fieldsSettings);
-        return Address.createFromAddressValue(addressValue, additionalFields, country);
-      }
-
-      if (fiasId) {
-        searchOptions = {
-          fiasId,
-        };
-      }
-
-      if (addressString) {
-        searchOptions = {
-          searchText: addressString,
-          limit: 1,
-        };
-      }
-
-      const { success, data } = await this.api.search(searchOptions);
-      if (success && data && data.length) {
-        const addressResponse = Address.filterVisibleFields(data[0], fieldsSettings);
-        return Address.createFromResponse(addressResponse, additionalFields, country);
-      } else {
-        return new Address({ country });
-      }
-    }
-
-    return new Address();
   };
 
   private handleOpen = () => {
