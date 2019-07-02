@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -125,10 +125,9 @@ namespace SKBKontur.SeleniumTesting.Controls
         public void SelectByIndex(int index)
         {
             var renderContainer = GetRenderContainer();
-            renderContainer.FindElements(By.CssSelector($"[data-comp-name='{"MenuItem"}']"))
-                           .Skip(index)
-                           .FirstOrDefault()
-                           .Click();
+            var items = renderContainer.FindElements(By.CssSelector("[data-comp-name~='MenuItem']"));
+            var item = items.ElementAt(index);
+            item.Click();
         }
 
         protected Portal portal;

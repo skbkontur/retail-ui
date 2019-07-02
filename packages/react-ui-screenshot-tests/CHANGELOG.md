@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.16](https://github.com/skbkontur/retail-ui/compare/react-ui-screenshot-tests@1.1.14...react-ui-screenshot-tests@1.1.16) (2019-07-02)
+
+**Note:** Version bump only for package react-ui-screenshot-tests
+
+
+
+
+
 ## [1.1.15](https://github.com/skbkontur/retail-ui/compare/react-ui-screenshot-tests@1.1.14...react-ui-screenshot-tests@1.1.15) (2019-06-18)
 
 **Note:** Version bump only for package react-ui-screenshot-tests

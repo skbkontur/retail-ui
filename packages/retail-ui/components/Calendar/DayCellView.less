@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import (reference) '../mixins.less';
 
 :local {
   .cell {
@@ -11,12 +11,9 @@
     outline: none;
     font-size: 14px;
     padding: 0;
-    background: @calendar-cell-bg;
     user-select: none;
 
     &:hover {
-      background-color: @calendar-cell-hover-bg-color;
-      color: @calendar-cell-hover-color;
       cursor: pointer;
     }
 
@@ -24,22 +21,5 @@
       opacity: 0.5;
       pointer-events: none;
     }
-
-    &:active:hover {
-      color: @calendar-cell-active-hover-color;
-    }
-  }
-
-  .selected {
-    background-color: @calendar-cell-selected-bg-color;
-    color: @calendar-cell-selected-font-color;
-  }
-
-  .weekend {
-    color: @calendar-cell-weekend-color;
-  }
-
-  .today {
-    border: @calendar-cell-today-border;
   }
 }

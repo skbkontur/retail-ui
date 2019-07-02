@@ -4,7 +4,6 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import CalendarIcon from '@skbkontur/react-icons/Calendar';
-
 import filterProps from '../filterProps';
 import Picker from './Picker';
 import DateInput from './DateInput';
@@ -13,7 +12,7 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
 import Center from '../Center';
 import warning from 'warning';
-import styles from './DatePicker.less';
+import styles from './DatePickerOld.less';
 import { isIE } from '../ensureOldIEClassName';
 
 const INPUT_PASS_PROPS = {

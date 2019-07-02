@@ -1,5 +1,4 @@
 import * as React from 'react';
-import cn from 'classnames';
 import warningOutput from 'warning';
 import Link from '../Link';
 import LocaleProvider from '../LocaleProvider';
@@ -11,9 +10,12 @@ import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
-import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Fias.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface FiasProps {
   /**
@@ -144,6 +146,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     fieldsSettings: this.fieldsSettings,
   };
 
+  private theme!: ITheme;
   private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: FiasForm | null = null;
 
@@ -205,6 +208,17 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { showAddressText, label, icon, error, warning, feedback } = this.props;
     const { opened, address } = this.state;
 
@@ -212,7 +226,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
     const validation =
       (error || warning) && feedback ? (
-        <span className={cn({ [styles.error]: error, [styles.warning]: warning })}>{feedback}</span>
+        <span className={cx({ [jsStyles.error(this.theme)]: !!error, [jsStyles.warning(this.theme)]: !!warning })}>
+          {feedback}
+        </span>
       ) : null;
 
     return (

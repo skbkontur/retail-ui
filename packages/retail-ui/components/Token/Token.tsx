@@ -1,10 +1,12 @@
 import React from 'react';
-import cn from 'classnames';
 import warningOutput from 'warning';
 import styles from './Token.less';
-import tokenColors from './Colors.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles, { jsTokenColors } from './Token.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -21,7 +23,7 @@ const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'd-red': 'redActive',
 };
 
-export type TokenColorName = keyof typeof tokenColors;
+export type TokenColorName = keyof typeof jsTokenColors;
 
 export interface TokenColors {
   idle: TokenColorName;
@@ -45,8 +47,21 @@ export interface TokenProps {
   disabled?: boolean;
 }
 
-class Token extends React.Component<TokenProps & TokenActions, {}> {
+export default class Token extends React.Component<TokenProps & TokenActions> {
+  private theme!: ITheme;
+
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       children,
       isActive,
@@ -60,6 +75,7 @@ class Token extends React.Component<TokenProps & TokenActions, {}> {
       onFocus = emptyHandler,
       onBlur = emptyHandler,
     } = this.props;
+
     if (process.env.NODE_ENV !== 'production' && colors) {
       warningOutput(
         !deprecatedColorNames[colors.idle],
@@ -74,24 +90,26 @@ class Token extends React.Component<TokenProps & TokenActions, {}> {
       }
     }
 
-    const tokenClassName = disabled ?
-      tokenColors.defaultDisable :
-      colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
+    const theme = this.theme;
 
-    const activeTokenClassName = disabled ?
-      tokenColors.defaultDisable :
-      colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
+    let tokenClassName = disabled ? jsTokenColors.defaultDisabled(theme) : jsTokenColors.defaultIdle(theme);
+    let activeTokenClassName = disabled ? jsTokenColors.defaultDisabled(theme) : jsTokenColors.defaultActive(theme);
 
-    const tokenClassNames = cn(
-      styles.token,
-      {
-        [activeTokenClassName]: isActive,
-        [styles.warning]: warning,
-        [styles.error]: error,
-        [styles.disabled]: disabled,
-      },
-      tokenClassName,
-    );
+    if (!disabled && colors) {
+      const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
+      tokenClassName = jsTokenColors[idleClassName](theme);
+
+      const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
+      activeTokenClassName = jsTokenColors[activeClassName](theme);
+    }
+
+    const tokenClassNames = cx(styles.token, tokenClassName, {
+      [styles.disabled]: !!disabled,
+      [activeTokenClassName]: !!isActive,
+      [jsStyles.warning(theme)]: !!warning,
+      [jsStyles.error(theme)]: !!error,
+      [jsStyles.disabled(theme)]: !!disabled,
+    });
 
     return (
       <div
@@ -105,22 +123,17 @@ class Token extends React.Component<TokenProps & TokenActions, {}> {
         <span className={styles.text}>{children}</span>
         <TokenRemoveIcon className={styles.removeIcon} onClick={this.onRemoveClick} />
       </div>
-    )
+    );
   }
 
   private onRemoveClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
-    const {
-      disabled,
-      onRemove = emptyHandler,
-    } = this.props;
+    const { disabled, onRemove = emptyHandler } = this.props;
 
     if (disabled) {
-      event.preventDefault()
+      event.preventDefault();
       return;
     }
 
-    onRemove(event)
-  }
+    onRemove(event);
+  };
 }
-
-export default Token;

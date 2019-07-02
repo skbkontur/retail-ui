@@ -1,19 +1,34 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import { CloseProps } from './ModalContext';
-
 import styles from './Modal.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Modal.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
-const Close: React.SFC<CloseProps> = (props: CloseProps) => {
-  return (
-    <button
-      className={classNames(styles.close, props.disableClose && styles.disabled)}
-      onClick={props.requestClose}
-      data-tid="modal-close"
-    >
-      <span className={styles.closeOutline} />
-    </button>
-  );
-};
+export default class Close extends React.Component<CloseProps> {
+  private theme!: ITheme;
 
-export default Close;
+  public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
+    return (
+      <button
+        className={cx(styles.close, jsStyles.close(this.theme), this.props.disableClose && styles.disabled)}
+        onClick={this.props.requestClose}
+        data-tid="modal-close"
+      >
+        <span className={styles.closeOutline} />
+      </button>
+    );
+  }
+}
