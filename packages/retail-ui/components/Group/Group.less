@@ -22,20 +22,9 @@
     margin-left: 0;
   }
 
-  :global(.rt-ie8),
-  :global(.rt-ie9) {
-    .root {
-      display: table;
-    }
-
-    .wrap {
-      display: table-cell;
-      vertical-align: top;
-    }
-
-    .stretch {
-      width: 100%;
-    }
+  .wrap {
+    /* for .wrap class not to be 'undefined': used in tests */
+    visibility: visible;
   }
 
   :global(.rt-ie-any) {

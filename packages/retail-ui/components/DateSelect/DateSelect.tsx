@@ -1,32 +1,19 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 import ArrowTriangleUpDownIcon from '@skbkontur/react-icons/ArrowTriangleUpDown';
 import ArrowTriangleUpIcon from '@skbkontur/react-icons/ArrowTriangleUp';
 import ArrowTriangleDownIcon from '@skbkontur/react-icons/ArrowTriangleDown';
-
+import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
+import { locale } from '../LocaleProvider/decorators';
 import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import LayoutEvents from '../../lib/LayoutEvents';
-
 import { Nullable } from '../../typings/utility-types';
-
 import styles from './DateSelect.less';
-
-export const MONTHS = [
-  'Январь',
-  'Февраль',
-  'Март',
-  'Апрель',
-  'Май',
-  'Июнь',
-  'Июль',
-  'Август',
-  'Сентябрь',
-  'Октябрь',
-  'Ноябрь',
-  'Декабрь',
-];
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './DateSelect.styles';
+import { ITheme } from '../../lib/theming/Theme';
+import ThemeConsumer from '../ThemeConsumer';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -56,6 +43,7 @@ export interface DateSelectState {
   nodeTop: number;
 }
 
+@locale('DatePicker', DatePickerLocaleHelper)
 export default class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static propTypes = {
     disabled: PropTypes.bool,
@@ -91,12 +79,12 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     nodeTop: Infinity,
   };
 
+  private theme!: ITheme;
+  private readonly locale!: DatePickerLocale;
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
-
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private timeout: number | undefined;
-
   private longClickTimer: number = 0;
   private setPositionRepeatTimer: number = 0;
   private yearStep: number = 3;
@@ -158,11 +146,23 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
   };
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { width, disabled } = this.props;
     const rootProps = {
-      className: classNames({
+      className: cx({
         [styles.root]: true,
-        [styles.disabled]: disabled,
+        [jsStyles.root(this.theme)]: true,
+        [styles.disabled]: !!disabled,
       }),
       style: { width },
       ref: this.refRoot,
@@ -172,9 +172,10 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
         <div className={styles.caption} onClick={this.open}>
           {this.getItem(0)}
           <div
-            className={classNames({
+            className={cx({
               [styles.arrow]: true,
-              [styles.arrowDisabled]: disabled,
+              [jsStyles.arrow(this.theme)]: true,
+              [styles.arrowDisabled]: !!disabled,
             })}
           >
             <ArrowTriangleUpDownIcon size={12} />
@@ -230,11 +231,14 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     const items = [];
 
     for (let i = from; i < to; ++i) {
-      const className = classNames({
+      const disableItems = this.disableItems(i) || false;
+      const className = cx({
         [styles.menuItem]: true,
-        [styles.menuItemActive]: i === this.state.current,
-        [styles.menuItemSelected]: i === 0,
-        [styles.menuItemDisabled]: this.disableItems(i),
+        [jsStyles.menuItem(this.theme)]: true,
+        [jsStyles.menuItemSelected(this.theme)]: i === 0,
+        [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
+        [styles.menuItemDisabled]: disableItems,
+        [jsStyles.menuItemDisabled(this.theme)]: disableItems,
       });
       const clickHandler = {
         onMouseDown: preventDefault,
@@ -270,8 +274,9 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
       top: -shift,
     };
 
-    const holderClass = classNames({
+    const holderClass = cx({
       [styles.menuHolder]: true,
+      [jsStyles.menuHolder(this.theme)]: true,
       [styles.isTopCapped]: this.state.topCapped,
       [styles.isBotCapped]: this.state.botCapped,
     });
@@ -289,7 +294,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
             <div className={holderClass} style={style}>
               {!this.state.topCapped && (
                 <div
-                  className={styles.menuUp}
+                  className={cx(styles.menuUp, jsStyles.menuUp(this.theme))}
                   onClick={this.handleUp}
                   onMouseDown={this.handleLongClickUp}
                   onMouseUp={this.handleLongClickStop}
@@ -309,7 +314,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
               </div>
               {!this.state.botCapped && (
                 <div
-                  className={styles.menuDown}
+                  className={cx(styles.menuDown, jsStyles.menuDown(this.theme))}
                   onClick={this.handleDown}
                   onMouseDown={this.handleLongClickDown}
                   onMouseUp={this.handleLongClickStop}
@@ -408,7 +413,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
   private getItem(index: number) {
     const value = this.props.value + index;
     if (this.props.type === 'month') {
-      return MONTHS[value];
+      return this.locale.months[value];
     }
     return value;
   }

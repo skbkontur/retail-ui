@@ -4,7 +4,7 @@ import Gapped from 'retail-ui/components/Gapped';
 import Input from 'retail-ui/components/Input';
 import { text, ValidationInfo } from '../../src';
 import ValidationContainer from '../../src/ValidationContainer';
-import ValidationWrapperV1 from '../../src/ValidationWrapperV1';
+import ValidationWrapper from '../../src/ValidationWrapper';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
@@ -64,23 +64,23 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
           <Gapped vertical>
             <Gapped>
               <b>A</b>
-              <ValidationWrapperV1 data-tid="InputAValidation" validationInfo={this.validateA()} renderMessage={text()}>
+              <ValidationWrapper data-tid="InputAValidation" validationInfo={this.validateA()} renderMessage={text()}>
                 <Input
                   data-tid={'InputA'}
                   value={this.state.valueA}
                   onChange={(_, value) => this.setState({ valueA: value })}
                 />
-              </ValidationWrapperV1>
+              </ValidationWrapper>
             </Gapped>
             <Gapped>
               <b>B</b>
-              <ValidationWrapperV1 data-tid="InputBValidation" validationInfo={this.validateB()} renderMessage={text()}>
+              <ValidationWrapper data-tid="InputBValidation" validationInfo={this.validateB()} renderMessage={text()}>
                 <Input
                   data-tid={'InputB'}
                   value={this.state.valueB}
                   onChange={(_, value) => this.setState({ valueB: value })}
                 />
-              </ValidationWrapperV1>
+              </ValidationWrapper>
             </Gapped>
             <Gapped>
               <Button data-tid={'SubmitButton'} loading={this.state.sending} onClick={this.handleSubmit}>

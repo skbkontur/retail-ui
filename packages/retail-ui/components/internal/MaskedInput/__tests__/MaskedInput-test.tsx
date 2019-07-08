@@ -56,4 +56,19 @@ describe('MaskedInput', () => {
 
     expect(wrapper.state('value')).toBe('00:');
   });
+
+  it.each([
+    ['99:99', '12:', '12:01', '12:'],
+    ['99:99', '12:', '', '12:'],
+    ['99:99', undefined, '12:01', '12:01'],
+    ['99:99', undefined, '12:xx', '12:'],
+    ['99:99', '', '12:', ''],
+    ['99:99', 0, '12:xx', '0'],
+    ['99:99', [1,2,3], '12:xx', '12:3'],
+    ['99:99', ['1', '2', '3'], '12:xx', '12:3'],
+  ])(`Mask '%s' - pass value '%s' and defaultValue '%s' - state value '%s'`, (mask, inputValue, defaultValue, expected) => {
+    const wrapper = mount(<MaskedInput maskChar="_" mask={mask} value={inputValue} defaultValue={defaultValue} />);
+
+    expect(wrapper.state('value')).toBe(expected);
+  });
 });

@@ -1,6 +1,6 @@
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import ValidationWrapper from './ValidationWrapper';
+import ValidationWrapperInternal from './ValidationWrapperInternal';
 import { ScrollOffset } from './ValidationContainer';
 
 export interface IValidationContextSettings {
@@ -8,10 +8,10 @@ export interface IValidationContextSettings {
 }
 
 export interface IValidationContext {
-  register(wrapper: ValidationWrapper): void;
-  unregister(wrapper: ValidationWrapper): void;
-  instanceProcessBlur(wrapper: ValidationWrapper): void;
-  onValidationUpdated(wrapper: ValidationWrapper, isValid: boolean): void;
+  register(wrapper: ValidationWrapperInternal): void;
+  unregister(wrapper: ValidationWrapperInternal): void;
+  instanceProcessBlur(wrapper: ValidationWrapperInternal): void;
+  onValidationUpdated(wrapper: ValidationWrapperInternal, isValid: boolean): void;
   getSettings(): IValidationContextSettings;
   isAnyWrapperInChangingMode(): boolean;
 }
@@ -22,11 +22,11 @@ export interface ValidationContextProps {
   scrollOffset?: number | ScrollOffset;
 }
 
-export default class ValidationContext extends React.Component<ValidationContextProps> {
+export default class ValidationContext extends React.Component<ValidationContextProps> implements IValidationContext {
   public static childContextTypes = {
     validationContext: PropTypes.any,
   };
-  public childWrappers: ValidationWrapper[] = [];
+  public childWrappers: ValidationWrapperInternal[] = [];
 
   public getChildContext(): { validationContext: IValidationContext } {
     return {
@@ -38,7 +38,7 @@ export default class ValidationContext extends React.Component<ValidationContext
     let scrollOffset: ScrollOffset = {};
 
     if (typeof this.props.scrollOffset === 'number') {
-      scrollOffset = { top: this.props.scrollOffset }
+      scrollOffset = { top: this.props.scrollOffset };
     } else {
       scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
     }
@@ -47,27 +47,27 @@ export default class ValidationContext extends React.Component<ValidationContext
     return {
       scrollOffset: {
         top,
-        bottom
+        bottom,
       },
     };
   }
 
-  public register(wrapper: ValidationWrapper) {
+  public register(wrapper: ValidationWrapperInternal) {
     this.childWrappers.push(wrapper);
   }
 
-  public unregister(wrapper: ValidationWrapper) {
+  public unregister(wrapper: ValidationWrapperInternal) {
     this.childWrappers.splice(this.childWrappers.indexOf(wrapper), 1);
     this.onValidationRemoved();
   }
 
-  public instanceProcessBlur(instance: ValidationWrapper) {
+  public instanceProcessBlur(instance: ValidationWrapperInternal) {
     for (const wrapper of this.childWrappers.filter(x => x !== instance)) {
-      wrapper.emulateBlur();
+      wrapper.processBlur();
     }
   }
 
-  public onValidationUpdated(wrapper: ValidationWrapper, isValid?: boolean) {
+  public onValidationUpdated(wrapper: ValidationWrapperInternal, isValid?: boolean) {
     const { onValidationUpdated } = this.props;
     if (onValidationUpdated) {
       const isValidResult = !this.childWrappers.find(x => {
@@ -92,7 +92,7 @@ export default class ValidationContext extends React.Component<ValidationContext
     }
   }
 
-  public getChildWrappersSortedByPosition(): ValidationWrapper[] {
+  public getChildWrappersSortedByPosition(): ValidationWrapperInternal[] {
     const wrappersWithPosition = [...this.childWrappers].map(x => ({
       target: x,
       position: x.getControlPosition(),

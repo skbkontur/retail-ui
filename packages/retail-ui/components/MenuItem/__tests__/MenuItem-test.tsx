@@ -36,4 +36,35 @@ describe('MenuItem', () => {
 
     expect(wrapper.contains(<span>http:test.href</span>)).toEqual(true);
   });
+
+  describe('onMouseEnter', () => {
+    it('calls once', () => {
+      const onMouseEnter = jest.fn();
+      const wrapper = mount(
+        <MenuItem onMouseEnter={onMouseEnter}>
+          <span>MenuItem</span>
+        </MenuItem>,
+      );
+      const button = wrapper.find('button');
+
+      button.simulate('mouseover');
+      wrapper.find('span').simulate('mouseover');
+      button.simulate('mouseover');
+
+      expect(onMouseEnter.mock.calls.length).toBe(1);
+    });
+
+    it('calls again after onMouseLeave', () => {
+      const onMouseEnter = jest.fn();
+      const wrapper = mount(<MenuItem onMouseEnter={onMouseEnter}>MenuItem</MenuItem>);
+
+      wrapper
+        .find('button')
+        .simulate('mouseover')
+        .simulate('mouseleave')
+        .simulate('mouseover');
+
+      expect(onMouseEnter.mock.calls.length).toBe(2);
+    });
+  });
 });

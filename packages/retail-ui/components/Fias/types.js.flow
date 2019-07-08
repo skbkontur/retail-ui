@@ -1,6 +1,5 @@
 /* @flow */
 import type { AddressElement } from './models/AddressElement';
-import { defaultLocale } from './constants/locale';
 
 export type FiasId = string;
 
@@ -49,6 +48,8 @@ export type FiasObject = AddressObject | Stead | House | Room;
 
 export type Fields = "region" | "district" | "city" | "intracityarea" | "settlement" | "planningstructure" | "street" | "stead" | "house" | "room";
 
+export type ExtraFields = "postalcode";
+
 export type AddressFields = {
   [key: Fields]: ?AddressElement,
 };
@@ -85,8 +86,6 @@ export type AddressErrors = {
 
 export type FormValidation = 'Error' | 'Warning' | 'None';
 
-export type FiasLocale = typeof defaultLocale;
-
 export type SearchOptions = {|
   fiasId?: FiasId,
   searchText?: string,
@@ -120,3 +119,15 @@ export type FetchResponse = {|
   // eslint-disable-next-line flowtype/no-weak-types
   json: () => Promise<any>,
 |};
+
+export type FieldsSettings = {|
+  [field: Fields | ExtraFields]: {|
+    visible?: boolean,
+  |} | void,
+|};
+
+export type FiasCountry = {|
+  shortName: string,
+  fullName: string,
+  code: string,
+|}

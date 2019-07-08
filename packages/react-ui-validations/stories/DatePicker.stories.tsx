@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import Button from 'retail-ui/components/Button';
 import DatePicker from 'retail-ui/components/DatePicker';
-import { ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../src';
+import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 storiesOf('DatePicker', module).add('Example1', () => <DatePickerStory />);
@@ -30,9 +30,9 @@ class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
     return (
       <div style={{ padding: '20px 20px' }}>
         <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapperV1 validationInfo={this.validateValue()}>
+          <ValidationWrapper validationInfo={this.validateValue()}>
             <DatePicker value={this.state.value as any} onChange={(e, value) => this.setState({ value })} />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
           <div style={{ padding: '100px 0' }}>
             <Button onClick={() => this.container && this.container.validate()}>Check</Button>
           </div>

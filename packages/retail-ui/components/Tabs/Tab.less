@@ -1,5 +1,3 @@
-@import '../variables.less';
-
 @easing: 0.2s ease-out;
 
 :local {
@@ -33,13 +31,8 @@
     outline: inherit;
   }
 
-  .root:hover {
-    border-bottom: 3px solid @tab-color-hover;
-  }
-
   .root.vertical:hover {
     border-bottom: none;
-    border-left: 3px solid @tab-color-hover;
   }
 
   .active:hover {
@@ -57,7 +50,6 @@
     left: -20px;
     right: -20px;
     bottom: -3px;
-    border: 2px solid @tab-color-focus;
   }
 
   .vertical .focus {
@@ -75,8 +67,6 @@
   }
 
   .disabled {
-    color: @text-color-disabled;
-    color: rgba(red(@text-color-default), green(@text-color-default), blue(@text-color-default), 0.5);
     cursor: default;
   }
 
@@ -86,37 +76,5 @@
 
   .disabled.vertical:hover {
     border-left-color: transparent;
-  }
-
-  .primary:hover {
-    border-bottom: 3px solid @tab-color-hover-primary;
-  }
-
-  .primary.vertical:hover {
-    border-left: 3px solid @tab-color-hover-primary;
-  }
-
-  .success:hover {
-    border-bottom: 3px solid @tab-color-hover-success;
-  }
-
-  .success.vertical:hover {
-    border-left: 3px solid @tab-color-hover-success;
-  }
-
-  .warning:hover {
-    border-bottom: 3px solid @tab-color-hover-warning;
-  }
-
-  .warning.vertical:hover {
-    border-left: 3px solid @tab-color-hover-warning;
-  }
-
-  .error:hover {
-    border-bottom: 3px solid @tab-color-hover-error;
-  }
-
-  .error.vertical:hover {
-    border-left: 3px solid @tab-color-hover-error;
   }
 }

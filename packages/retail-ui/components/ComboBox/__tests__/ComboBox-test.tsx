@@ -1141,11 +1141,11 @@ describe('ComboBox', () => {
 
     it('render correct locale when set langCode', async () => {
       wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_EN}>
+        <LocaleProvider langCode={LangCodes.en_GB}>
           <ComboBox getItems={search} />
         </LocaleProvider>,
       );
-      const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_EN).notFound;
+      const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
       await focus();
 
@@ -1175,9 +1175,9 @@ describe('ComboBox', () => {
           <ComboBox getItems={search} />
         </LocaleProvider>,
       );
-      const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_EN).notFound;
+      const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
-      wrapper.setProps({ langCode: LangCodes.en_EN });
+      wrapper.setProps({ langCode: LangCodes.en_GB });
       await focus();
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);

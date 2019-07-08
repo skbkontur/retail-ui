@@ -57,7 +57,10 @@ class RenderLayer extends React.Component<RenderLayerProps> {
   private attachListeners() {
     this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
     window.addEventListener('blur', this.handleFocusOutside);
-    document.addEventListener('mousedown', this.handleNativeDocClick);
+    document.addEventListener(
+      'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
+      this.handleNativeDocClick,
+    );
   }
 
   private detachListeners() {
@@ -67,7 +70,10 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     }
 
     window.removeEventListener('blur', this.handleFocusOutside);
-    document.removeEventListener('mousedown', this.handleNativeDocClick);
+    document.removeEventListener(
+      'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
+      this.handleNativeDocClick,
+    );
   }
 
   private getDomNode() {

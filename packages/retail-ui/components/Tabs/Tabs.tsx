@@ -1,13 +1,11 @@
-import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
-
 import Indicator from './Indicator';
 import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
-
 import styles from './Tabs.less';
+import { cx } from '../../lib/theming/Emotion';
 
 export interface TabsProps {
   /**
@@ -82,7 +80,7 @@ class Tabs extends React.Component<TabsProps> {
     const { vertical, value, width, children, indicatorClassName } = this.props;
 
     return (
-      <div className={cn(styles.root, vertical && styles.vertical)} style={{ width }}>
+      <div className={cx(styles.root, vertical && styles.vertical)} style={{ width }}>
         <TabsContext.Provider
           value={{
             vertical,
@@ -117,7 +115,7 @@ class Tabs extends React.Component<TabsProps> {
       htmlNode = findDOMNode(tabNode);
     }
 
-    if (htmlNode && htmlNode instanceof HTMLElement && htmlNode.hasOwnProperty('focus')) {
+    if (htmlNode && htmlNode instanceof HTMLElement && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
     }
   };

@@ -6,7 +6,6 @@ import { FiasForm } from '../Form/FiasForm';
 import { FiasModal } from '../FiasModal';
 import { FiasAPI } from '../api/FiasAPI';
 import { Address } from '../models/Address';
-import { defaultLocale } from '../constants/locale';
 import { MockAPI } from '../api/MockAPI';
 
 const BASE_URL = 'https://api.testkontur.ru/fias/v1/';
@@ -39,8 +38,8 @@ storiesOf('Fias', module)
   .add('modal', () => {
     const api = new FiasAPI(BASE_URL);
     return (
-      <FiasModal locale={defaultLocale}>
-        <FiasForm api={api} locale={defaultLocale} address={new Address()} />
+      <FiasModal>
+        <FiasForm api={api} address={new Address()} />
       </FiasModal>
     );
   })

@@ -1,26 +1,21 @@
 import * as React from 'react';
-import cn from 'classnames';
+import warningOutput from 'warning';
 import Link from '../Link';
-import {
-  Fields,
-  ExtraFields,
-  FiasValue,
-  FormValidation,
-  FiasLocale,
-  APIProvider,
-  AdditionalFields,
-  FieldsSettings,
-  SearchOptions,
-} from './types';
+import LocaleProvider from '../LocaleProvider';
+import { locale } from '../LocaleProvider/decorators';
+import { FiasLocale, FiasLocaleHelper } from './locale';
+import { Fields, ExtraFields, FiasValue, FormValidation, APIProvider, FieldsSettings } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
-import { defaultLocale } from './constants/locale';
-import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Fias.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface FiasProps {
   /**
@@ -71,6 +66,7 @@ export interface FiasProps {
   limit?: number;
   /**
    * Словарь текстовых констант. См. полный список ниже
+   * @deprecated используйте LocaleProvider
    */
   locale?: FiasLocale;
   /**
@@ -129,6 +125,7 @@ function deepMerge<T>(dst: T, ...src: T[]): T {
   return dst;
 }
 
+@locale('Fias', FiasLocaleHelper)
 export class Fias extends React.Component<FiasProps, FiasState> {
   public static defaultProps = {
     showAddressText: true,
@@ -145,18 +142,21 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public state: FiasState = {
     opened: false,
     address: new Address(),
-    locale: this.locale,
+    locale: this.getLocaleMix(),
     fieldsSettings: this.fieldsSettings,
   };
 
+  private theme!: ITheme;
   private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: FiasForm | null = null;
 
-  public get locale(): FiasLocale {
-    return {
-      ...defaultLocale,
-      ...this.props.locale,
-    };
+  private readonly locale!: FiasLocale;
+
+  public constructor(props: FiasProps) {
+    super(props);
+    if (!props.baseUrl && !props.api) {
+      Logger.log(Logger.warnings.baseUrlOrApiIsRequired);
+    }
   }
 
   public get fieldsSettings(): FieldsSettings {
@@ -182,23 +182,20 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     );
   }
 
-  constructor(props: FiasProps) {
-    super(props);
-    if (!props.baseUrl && !props.api) {
-      Logger.log(Logger.warnings.baseUrlOrApiIsRequired);
-    }
-  }
-
   public componentDidMount = () => {
+    this.updateLocale();
     this.init();
+
+    warningOutput(this.props.locale === undefined, `[Fias]: Prop 'locale' has been deprecated. See 'LocaleProvider'`);
   };
 
-  public componentDidUpdate = (prevProps: FiasProps) => {
+  public componentDidUpdate = (prevProps: FiasProps, prevState: FiasState) => {
     if (!isEqual(prevProps.value, this.props.value)) {
       this.updateAddress();
     }
-    if (!isEqual(prevProps.locale, this.props.locale)) {
-      this.updateLocale();
+    const nextLocale = this.getLocaleMix(this.locale);
+    if (!isEqual(prevState.locale, nextLocale)) {
+      this.updateLocale(nextLocale);
     }
     if (!isEqual(prevProps.fieldsSettings, this.props.fieldsSettings)) {
       this.updateFieldsSettings();
@@ -211,44 +208,65 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   }
 
   public render() {
-    const { showAddressText, label, icon, error, warning, feedback } = this.props;
-    const { opened, address, locale } = this.state;
-
-    const linkText = label || (address.isEmpty ? locale.addressFill : locale.addressEdit);
-
-    const validation =
-      (error || warning) && feedback ? (
-        <span className={cn({ [styles.error]: error, [styles.warning]: warning })}>{feedback}</span>
-      ) : null;
-
     return (
-      <div>
-        {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
-        {!this.props.readonly && (
-          <div>
-            <Link icon={icon} onClick={this.handleOpen}>
-              {linkText}
-            </Link>
-          </div>
-        )}
-        {validation}
-        {opened && this.renderModal()}
-      </div>
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
     );
   }
 
+  private renderMain() {
+    const { showAddressText, label, icon, error, warning, feedback } = this.props;
+    const { opened, address } = this.state;
+
+    const linkText = label || (address.isEmpty ? this.state.locale.addressFill : this.state.locale.addressEdit);
+
+    const validation =
+      (error || warning) && feedback ? (
+        <span className={cx({ [jsStyles.error(this.theme)]: !!error, [jsStyles.warning(this.theme)]: !!warning })}>
+          {feedback}
+        </span>
+      ) : null;
+
+    return (
+      <LocaleProvider locale={{ Fias: this.state.locale }}>
+        <div>
+          {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
+          {!this.props.readonly && (
+            <div>
+              <Link icon={icon} onClick={this.handleOpen}>
+                {linkText}
+              </Link>
+            </div>
+          )}
+          {validation}
+          {opened && this.renderModal()}
+        </div>
+      </LocaleProvider>
+    );
+  }
+
+  private getLocaleMix(localeFromContext: FiasLocale = FiasLocaleHelper.get()): FiasLocale {
+    return {
+      ...localeFromContext,
+      ...this.props.locale,
+    };
+  }
+
   private renderModal() {
-    const { address, locale, fieldsSettings } = this.state;
+    const { address, fieldsSettings } = this.state;
     const { search, limit, formValidation, countrySelector } = this.props;
     return (
-      <FiasModal locale={locale} onClose={this.handleClose} onSave={this.handleSave}>
+      <FiasModal onClose={this.handleClose} onSave={this.handleSave}>
         <FiasForm
           ref={this.refForm}
           address={address}
           api={this.api}
           search={search}
           limit={limit}
-          locale={locale}
           validationLevel={formValidation}
           fieldsSettings={fieldsSettings}
           countrySelector={countrySelector}
@@ -265,72 +283,21 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   private updateAddress = async (): Promise<Address> => {
-    const address = await this.getAddress(this.props.value);
+    const address = await Address.getAddress(this.api, this.props.value, this.state.fieldsSettings);
     this.setState({
       address,
     });
     return address;
   };
 
-  private updateLocale = (): void => {
-    this.setState({
-      locale: this.locale,
-    });
+  private updateLocale = (nextLocale: FiasLocale = this.getLocaleMix()): void => {
+    this.setState({ locale: nextLocale });
   };
 
   private updateFieldsSettings = (): void => {
     this.setState({
       fieldsSettings: this.fieldsSettings,
     });
-  };
-
-  private getAddress = async (value: Partial<FiasValue> | undefined) => {
-    if (value) {
-      const { address, addressString, fiasId, postalCode, country, foreignAddress } = value;
-      const additionalFields: AdditionalFields = {};
-      const { fieldsSettings } = this.state;
-      let searchOptions: SearchOptions = {};
-
-      if (postalCode) {
-        additionalFields[ExtraFields.postalcode] = postalCode;
-      }
-
-      if (country && !Address.IS_RUSSIA(country)) {
-        return new Address({
-          country,
-          foreignAddress,
-          additionalFields: { [ExtraFields.postalcode]: postalCode },
-        });
-      }
-
-      if (address) {
-        const addressValue = Address.filterVisibleFields(address, fieldsSettings);
-        return Address.createFromAddressValue(addressValue, additionalFields, country);
-      }
-
-      if (fiasId) {
-        searchOptions = {
-          fiasId,
-        };
-      }
-
-      if (addressString) {
-        searchOptions = {
-          searchText: addressString,
-          limit: 1,
-        };
-      }
-
-      const { success, data } = await this.api.search(searchOptions);
-      if (success && data && data.length) {
-        const addressResponse = Address.filterVisibleFields(data[0], fieldsSettings);
-        return Address.createFromResponse(addressResponse, additionalFields, country);
-      } else {
-        return new Address({ country });
-      }
-    }
-
-    return new Address();
   };
 
   private handleOpen = () => {

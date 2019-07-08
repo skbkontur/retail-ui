@@ -3,13 +3,19 @@ import CurrencyHelper from './CurrencyHelper';
 import CursorHelper from './CursorHelper';
 import { Nullable } from '../../typings/utility-types';
 
+export interface DecimalOptions {
+  integerDigits?: Nullable<number>;
+  fractionDigits?: Nullable<number>;
+  unsigned?: boolean;
+}
+
 export default class CurrencyInputHelper {
   public static moveCursor(value: string, selection: Selection, step: number): number {
     return selection.start === selection.end
       ? CursorHelper.calculatePosition(CurrencyHelper.getInfo(value).cursorMap, selection.start, step)
       : step < 0
-      ? selection.start
-      : selection.end;
+        ? selection.start
+        : selection.end;
   }
 
   public static extendSelection(value: string, selection: Selection, step: number) {
@@ -22,51 +28,21 @@ export default class CurrencyInputHelper {
     return CursorHelper.normalizeSelection(info.cursorMap, selection);
   }
 
-  public static safeInsert(
-    value: string,
-    start: number,
-    end: number,
-    input: string,
-    fractionDigits: Nullable<number>,
-    unsigned: Nullable<boolean>,
-  ) {
-    const extracted = CurrencyInputHelper.getMaximumValidSubstring(
-      value,
-      start,
-      end,
-      input || '',
-      fractionDigits,
-      unsigned,
-    );
-    if (extracted != null) {
+  public static safeInsert(value: string, start: number, end: number, input: string, options: DecimalOptions) {
+    if (input && start === 0 && end === value.length) {
+      const extracted = CurrencyHelper.extractValid(input, options);
+      if (!extracted) {
+        return null;
+      }
       return CurrencyInputHelper.insert(value, start, end, extracted);
-    }
-    return null;
-  }
-
-  public static getMaximumValidSubstring(
-    value: string,
-    start: number,
-    end: number,
-    input: string,
-    fractionDigits: Nullable<number>,
-    unsigned: Nullable<boolean>,
-  ) {
-    const extracted = CurrencyHelper.extractValid(input, fractionDigits, unsigned);
-
-    if (input && !extracted) {
-      return null;
     }
 
     const prefix = value.substring(0, start);
     const suffix = value.substring(end);
 
-    for (let i = extracted.length; i >= 0; --i) {
-      const result = extracted.substr(0, i);
-      const combined = prefix + result + suffix;
-      if (CurrencyHelper.isValidString(combined, fractionDigits, unsigned)) {
-        return result;
-      }
+    const combined = prefix + input + suffix;
+    if (CurrencyHelper.isValidString(combined, options)) {
+      return CurrencyInputHelper.insert(value, start, end, input);
     }
     return null;
   }

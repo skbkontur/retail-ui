@@ -1,5 +1,3 @@
-@import '../variables.less';
-
 :local {
   .paging {
     user-select: none;
@@ -10,7 +8,6 @@
     display: inline-block;
     padding: 6px 10px 0;
     font-size: 16px;
-    color: @paging-dots-color;
   }
 
   .forwardLink {
@@ -20,14 +17,12 @@
     margin: 4px 0 2px 10px;
     padding-right: 22px;
     font-size: 16px;
-    color: @paging-forward-link-color;
     cursor: pointer;
     text-decoration: none;
     outline: none;
     user-select: none;
 
     &.disabled {
-      color: @paging-forward-link-disabled-color;
       cursor: default;
     }
 
@@ -54,25 +49,17 @@
       margin: 2px 1px;
       padding: 2px 10px 5px;
       font-size: 16px;
-      color: @paging-forward-link-color;
       border-radius: 16px;
       cursor: pointer;
       text-decoration: none;
       outline: none;
 
       &.active {
-        background: @paging-page-link-active-bg;
-        color: @paging-page-link-active-color;
         cursor: default;
       }
 
       &.focused {
         margin: 0 -1px;
-        border: solid 2px @border-color-focus;
-      }
-
-      &:not(.active):hover {
-        background: @paging-page-link-hover-bg;
       }
     }
 
@@ -80,17 +67,10 @@
       display: inline-block;
       margin: 0 -20px;
       font-size: 11px;
-      color: @paging-page-link-hint-color;
 
       .transparent {
         color: transparent;
       }
-    }
-  }
-
-  :global(.rt-ie8) {
-    .pageLink.active {
-      background: #e8e8e8;
     }
   }
 

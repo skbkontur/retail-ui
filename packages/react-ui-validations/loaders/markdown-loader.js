@@ -30,15 +30,12 @@ class Renderer {
       case 'para':
         return '<p>' + this.renderContent(content) + '</p>';
       case 'code_block':
-        if (content[0] && content[0].startsWith('!!DemoWithCode!!')) {
-          const path = './' + content[0].replace('!!DemoWithCode!!', '');
+        let code = content[0];
+        if (code && code.startsWith('!!DemoWithCode!!')) {
+          const path = './' + code.replace('!!DemoWithCode!!', '') + '.demo.tsx';
           return `<Demo demo={require('${path}').default} source={require('!raw-loader!${path}')} />`;
         }
-        if (content[0] && content[0].startsWith('!!Demo!!')) {
-          const path = './' + content[0].replace('!!Demo!!', '');
-          return `<Demo demo={require('${path}').default} />`;
-        }
-        return '<Code>{`' + content[0] + '`}</Code>';
+        return `<SourceCode source={\`${code}\`}/>`;
       case 'link':
         let result = '<Link';
         if (attrs.alt) {
@@ -84,9 +81,9 @@ module.exports = function(content) {
   return `
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import Code from 'react-syntax-highlighter';
 import Link from 'retail-ui/components/Link';
 import styled from 'styled-components';
+import SourceCode from 'SourceCode';
 import Demo from 'Demo';
 
 const InlineCode = styled.span\`

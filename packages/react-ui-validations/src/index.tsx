@@ -2,26 +2,21 @@ import { text, tooltip } from './ErrorRenderer';
 import ValidationContainer, { ValidationContainerProps } from './ValidationContainer';
 import ValidationContext, { ValidationContextProps } from './ValidationContext';
 import ValidationTooltip, { TooltipPosition, ValidationTooltipProps } from './ValidationTooltip';
-import ValidationWrapper, {
-  RenderErrorMessage,
-  Validation,
-  ValidationBehaviour,
-  ValidationWrapperProps,
-} from './ValidationWrapper';
-import ValidationWrapperV1, { ValidationInfo, ValidationWrapperV1Props } from './ValidationWrapperV1';
+import { RenderErrorMessage, Validation, ValidationBehaviour } from './ValidationWrapperInternal';
+import ValidationWrapper, { ValidationInfo, ValidationWrapperProps } from './ValidationWrapper';
 
 export {
   ValidationContainer,
   ValidationContainerProps,
   ValidationContext,
   ValidationContextProps,
-  ValidationWrapper,
-  ValidationWrapperProps,
+  ValidationWrapper as ValidationWrapperV1,
+  ValidationWrapperProps as ValidationWrapperV1Props,
   RenderErrorMessage,
   ValidationBehaviour,
   Validation,
-  ValidationWrapperV1,
-  ValidationWrapperV1Props,
+  ValidationWrapper,
+  ValidationWrapperProps,
   ValidationInfo,
   ValidationTooltip,
   ValidationTooltipProps,
@@ -29,3 +24,5 @@ export {
   tooltip,
   text,
 };
+
+export * from './Validations';
