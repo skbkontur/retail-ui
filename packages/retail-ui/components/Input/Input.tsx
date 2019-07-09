@@ -402,7 +402,8 @@ class Input extends React.Component<InputProps, InputState> {
     });
 
     if (this.props.selectAllOnFocus) {
-      this.selectAll();
+      // https://github.com/facebook/react/issues/7769
+      setTimeout(this.selectAll, 0);
     }
 
     if (this.props.onFocus) {
