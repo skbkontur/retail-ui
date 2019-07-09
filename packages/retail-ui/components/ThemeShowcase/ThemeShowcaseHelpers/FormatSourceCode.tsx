@@ -2,9 +2,10 @@ import * as React from 'react';
 import warning from 'warning';
 import styles from '../ThemeShowcase.less';
 import { Nullable } from '../../../typings/utility-types';
+import { isDevelopmentEnv } from '../../internal/currentEnvironment';
 
 export function formatSourceCode(input: string, componentName: string) {
-  const regEx = /\.css\(templateObject_[\d]+\s+\|\|\s+\(templateObject_[\d]+\s+=\s+tslib_[\d]+\.__makeTemplateObject\((\[[\S\s]+\]),\s+(\[[\S\s]+\])\)\),\s+([\s\S]+)\);/gm;
+  const regEx = /\.__makeTemplateObject\((\[[\S\s]+\]),\s*(\[[\S\s]+\])\)\),\s*([\s\S]+)\)/gm;
 
   const sourceParts = regEx.exec(input);
   if (!sourceParts) {
@@ -41,10 +42,24 @@ export function formatSourceCode(input: string, componentName: string) {
 }
 
 function renderVariables(variableString: string, componentName: string) {
-  variableString = variableString
-    .replace(/ColorFunctions_[\d]+\.default\./g, 'ColorFunctions.')
-    .replace(/DimensionFunctions_[\d]+\.default\./g, 'DimensionFunctions.')
-    .replace(/AnimationKeyframes_[\d]+\.AnimationKeyframes\./g, 'AnimationKeyframes.');
+  if (isDevelopmentEnv) {
+    variableString = variableString
+      .replace(/ColorFunctions_[\d]+\.default\./g, 'ColorFunctions.')
+      .replace(/DimensionFunctions_[\d]+\.default\./g, 'DimensionFunctions.')
+      .replace(/AnimationKeyframes_[\d]+\.AnimationKeyframes\./g, 'AnimationKeyframes.');
+  } else {
+    // TODO: replace ColorFunctions via captured group
+    variableString = variableString
+      .replace(/\b[a-z0-9]{1,2}\.default\.lighten/gi, 'ColorFunctions.lighten')
+      .replace(/\b[a-z0-9]{1,2}\.default\.darken/gi, 'ColorFunctions.darken')
+      .replace(/\b[a-z0-9]{1,2}\.default\.constrast/gi, 'ColorFunctions.contrast')
+      .replace(/\b[a-z0-9]{1,2}\.default\.red/gi, 'ColorFunctions.red')
+      .replace(/\b[a-z0-9]{1,2}\.default\.green/gi, 'ColorFunctions.green')
+      .replace(/\b[a-z0-9]{1,2}\.default\.blue/gi, 'ColorFunctions.blue')
+      .replace(/\b[a-z0-9]{1,2}\.default\.alpha/gi, 'ColorFunctions.alpha')
+      .replace(/\b[a-z0-9]{1,2}\.default\.shift/gi, 'DimensionFunctions.shift')
+      .replace(/\b[a-z0-9]{1,2}\.AnimationKeyframes\./gi, 'AnimationKeyframes.');
+  }
 
   const className = getClassName(variableString, componentName);
   const theme = getTheme(variableString);
@@ -61,7 +76,13 @@ function renderVariables(variableString: string, componentName: string) {
 }
 
 function getClassName(variableString: string, componentName: string) {
-  const classNameRegExp = new RegExp(componentName + '_less_[\\d]+\\.default\\.', '');
+  let classNameRegExp: RegExp;
+  if (isDevelopmentEnv) {
+    classNameRegExp = new RegExp(componentName + '_less_[\\d]+\\.default\\.', 'i');
+  } else {
+    classNameRegExp = /[a-z0-9]+\.default\./;
+  }
+
   if (classNameRegExp.test(variableString)) {
     return variableString.replace(classNameRegExp, '');
   }
@@ -78,7 +99,12 @@ function renderClassName(className: string) {
 }
 
 function getTheme(variableString: string) {
-  const themeRegExp = /\bt(?:\.([a-zA-Z0-9]+))?\b/gm;
+  let themeRegExp: RegExp;
+  if (isDevelopmentEnv) {
+    themeRegExp = /\bt(?:\.([a-zA-Z0-9]+))?\b/gm;
+  } else {
+    themeRegExp = /\b[a-z0-9]{1,2}(?:\.([a-zA-Z0-9]+))\b/gim;
+  }
 
   if (themeRegExp.test(variableString)) {
     themeRegExp.lastIndex = 0;
