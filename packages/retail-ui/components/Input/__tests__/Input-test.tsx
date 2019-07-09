@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
+import { delay } from '../../../lib/utils';
 import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
 
@@ -156,12 +157,13 @@ describe('<Input />', () => {
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
 
-  it('selectAllOnFocus prop works', () => {
+  it('selectAllOnFocus prop works', async () => {
     const value = 'Prop works';
     const wrapper = render({ value, selectAllOnFocus: true });
 
     wrapper.find('input').simulate('focus');
 
+    await delay(0);
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
