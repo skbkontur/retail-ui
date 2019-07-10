@@ -70,6 +70,7 @@
   - `lint` — `tsc --noEmit` + `tslint` + `eslint` + `stylelint` + `flow --check`
   - `build` — сборка библиотеки
   - `storybook` — Storybook
+  - `storybook:flat` — Storybook c flat-темой
   - `styleguide` — Styleguidist server
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
@@ -279,7 +280,7 @@ packages/
 
 [Storybook](https://storybook.js.org/) позволяет описывать и просматривать все имеющиеся компоненты в различных состояниях, а также взаимодействовать с ними. Он используется для ручного и скриншотного тестирования.
 
-Запускается командой `yarn workspace retail-ui storybook`.
+Запускается командой `yarn workspace retail-ui storybook` или `yarn workspace retail-ui storybook:flat` в плоском варианте.
 
 #### Создание story
 
