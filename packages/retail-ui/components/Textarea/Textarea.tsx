@@ -279,11 +279,27 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
           onCut={this.handleCut}
           onPaste={this.handlePaste}
           onFocus={this.handleFocus}
+          onKeyDown={this.handleKeyDown}
         />
         {fakeTextarea}
       </label>
     );
   }
+
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Edge bug: textarea maxlength doesn't work after new line
+    // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/18833616/
+    const value = this.props.value !== undefined ? this.props.value.toString() : null;
+    const isBlockEnter = event.key === 'Enter' && value !== null && value.length === this.props.maxLength;
+
+    if (isBlockEnter) {
+      event.preventDefault();
+    }
+
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+    }
+  };
 
   private handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {
