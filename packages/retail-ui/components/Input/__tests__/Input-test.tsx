@@ -163,7 +163,7 @@ describe('<Input />', () => {
 
     wrapper.find('input').simulate('focus');
 
-    await delay(0);
+    await delay(100);
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
     expect((document.activeElement as HTMLInputElement).selectionEnd).toBe(value.length);
   });
