@@ -9,6 +9,7 @@ import classes from './Input.less';
 import jsClasses from './Input.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
+import raf from 'raf';
 
 const isDeleteKey = (key: string) => {
   return key === 'Backspace' || key === 'Delete';
@@ -124,6 +125,7 @@ class Input extends React.Component<InputProps, InputState> {
     focused: false,
   };
 
+  private selectAllId: number | null = null;
   private theme!: ITheme;
   private blinkTimeout: number = 0;
   private input: HTMLInputElement | null = null;
@@ -138,6 +140,7 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.blinkTimeout) {
       clearTimeout(this.blinkTimeout);
     }
+    this.cancelDelayedSelectAll();
   }
 
   public componentWillReceiveProps(nextProps: InputProps) {
@@ -206,9 +209,18 @@ class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
-  public selectAll = () => {
+  public selectAll = (): void => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
+    }
+  };
+
+  private delaySelectAll = (): void => this.selectAllId = raf(this.selectAll);
+
+  private cancelDelayedSelectAll = (): void => {
+    if (this.selectAllId) {
+      raf.cancel(this.selectAllId);
+      this.selectAllId = null;
     }
   };
 
@@ -402,7 +414,8 @@ class Input extends React.Component<InputProps, InputState> {
     });
 
     if (this.props.selectAllOnFocus) {
-      this.selectAll();
+      // https://github.com/facebook/react/issues/7769
+      this.input ? this.selectAll() : this.delaySelectAll();
     }
 
     if (this.props.onFocus) {
