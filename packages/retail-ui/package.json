@@ -19,6 +19,7 @@
     "deploy": "gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git",
     "publish:react-ui": "npm publish ./build",
     "storybook": "start-storybook -p 6060",
+    "storybook:flat": "cross-env STORYBOOK_FLAT_UI=true yarn storybook",
     "styleguide": "styleguidist server --config .styleguide/config/dev.config.js",
     "styleguide:build": "node .styleguide/build",
     "lint:flow": "flow check",
