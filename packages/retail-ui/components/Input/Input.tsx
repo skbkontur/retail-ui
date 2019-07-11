@@ -206,15 +206,16 @@ class Input extends React.Component<InputProps, InputState> {
     );
   }
 
+  /**
+   * @public
+   */
   public selectAll = (): void => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
     }
   };
 
-  private delaySelectAll = (): void => {
-    this.selectAllId = raf(this.selectAll);
-  };
+  private delaySelectAll = (): void => this.selectAllId = raf(this.selectAll);
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
@@ -414,7 +415,7 @@ class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.selectAllOnFocus) {
       // https://github.com/facebook/react/issues/7769
-      this.delaySelectAll();
+      this.input ? this.selectAll() : this.delaySelectAll();
     }
 
     if (this.props.onFocus) {
