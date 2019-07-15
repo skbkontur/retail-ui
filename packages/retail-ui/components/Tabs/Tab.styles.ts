@@ -40,7 +40,10 @@ const jsStyles = {
   primary(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${t.tabColorHoverPrimary};
+        border-bottom-color: ${t.tabColorHoverPrimary};
+      }
+      &.${styles.vertical}:hover {
+        border-left-color: ${t.tabColorHoverPrimary};
       }
     `;
   },
@@ -48,7 +51,10 @@ const jsStyles = {
   success(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${t.tabColorHoverSuccess};
+        border-bottom-color: ${t.tabColorHoverSuccess};
+      }
+      &.${styles.vertical}:hover {
+        border-left-color: ${t.tabColorHoverSuccess};
       }
     `;
   },
@@ -56,7 +62,10 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${t.tabColorHoverWarning};
+        border-bottom-color: ${t.tabColorHoverWarning};
+      }
+      &.${styles.vertical}:hover {
+        border-left-color: ${t.tabColorHoverWarning};
       }
     `;
   },
@@ -64,7 +73,10 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       &:hover {
-        border-bottom: 3px solid ${t.tabColorHoverError};
+        border-bottom-color: ${t.tabColorHoverError};
+      }
+      &.${styles.vertical}:hover {
+        border-left-color: ${t.tabColorHoverError};
       }
     `;
   },
