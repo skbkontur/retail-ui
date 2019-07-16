@@ -2,8 +2,9 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import { linkTo } from '@storybook/addon-links';
-
+import { ComponentTable } from '../../internal/ComponentTable';
 import Tabs from '../Tabs';
+import { TabProps } from '../Tab';
 import Modal from '../../Modal';
 import Button from '../../Button';
 const { Tab } = Tabs;
@@ -220,6 +221,33 @@ class TabsInModal extends React.Component<any, any> {
   };
 }
 
+class TabsTable extends React.Component {
+  public static TestTab = class extends React.Component<TabProps & { vertical?: boolean }, any> {
+    public render() {
+      const { vertical, ...tabProps } = this.props;
+      return (
+        <Tabs vertical={vertical} value="">
+          <Tab {...tabProps}>Tab</Tab>
+        </Tabs>
+      );
+    }
+  };
+
+  public render() {
+    const rows = [{}, { primary: true }, { error: true }, { warning: true }];
+    const cols = [{}, { vertical: true }, { disabled: true }, { vertical: true, disabled: true }];
+    return (
+      <div>
+        <ComponentTable
+          Component={TabsTable.TestTab}
+          rows={rows.map(x => ({ props: x }))}
+          cols={cols.map(x => ({ props: x }))}
+        />
+      </div>
+    );
+  }
+}
+
 storiesOf('Tabs', module)
   .add('simple', () => <UncTabs />)
   .add('first', () => <RouterTabs value="first" />)
@@ -240,4 +268,5 @@ storiesOf('Tabs', module)
   .add('with component', () => <TabsWithMyLink />)
   .add('with unexpected tab size change', () => <OhMyTabs />)
   .add('with disabled tab', () => <DisabledTab />)
-  .add('tabs in modal', () => <TabsInModal />);
+  .add('tabs in modal', () => <TabsInModal />)
+  .add('hover table', () => <TabsTable />);
