@@ -119,8 +119,10 @@ class DisabledTab extends React.Component<any, any> {
         <Tab id="second" disabled>
           Second (disabled)
         </Tab>
-        <Tab id="third">Third</Tab>
-        <Tab id="fourth">Third</Tab>
+        <Tab id="third" disabled>
+          Third (disabled)
+        </Tab>
+        <Tab id="fourth">Fourth</Tab>
       </Tabs>
     );
   }
