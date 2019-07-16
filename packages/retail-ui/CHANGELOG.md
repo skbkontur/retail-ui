@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.0.0...retail-ui@1.0.1) (2019-07-16)
+
+
+### Bug Fixes
+
+* **Input:** add calling 'selectAll' via 'raf' ([#1496](https://github.com/skbkontur/retail-ui/issues/1496)) ([37b866d](https://github.com/skbkontur/retail-ui/commit/37b866d)), closes [#1413](https://github.com/skbkontur/retail-ui/issues/1413)
+* **Tab:** add error/warning/primary hover borders to vertical tabs ([29f4bc2](https://github.com/skbkontur/retail-ui/commit/29f4bc2))
+* **Tab:** remove hover border from disabled tabs ([2f98438](https://github.com/skbkontur/retail-ui/commit/2f98438)), closes [#1504](https://github.com/skbkontur/retail-ui/issues/1504)
+* **Textarea:** add blocking Enter after reaching 'maxLength' ([2a862f5](https://github.com/skbkontur/retail-ui/commit/2a862f5))
+* **ThemeShowcase:** make it fit enough to squize into styleguidist ([12f184b](https://github.com/skbkontur/retail-ui/commit/12f184b))
+* **ThemeShowcase:** source code tooltip contents in production mode ([89c5183](https://github.com/skbkontur/retail-ui/commit/89c5183))
+
+
+
+
+
 # [1.0.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.0...retail-ui@1.0.0) (2019-07-02)
 
 
