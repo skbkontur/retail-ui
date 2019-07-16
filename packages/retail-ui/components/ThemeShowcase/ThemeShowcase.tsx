@@ -164,8 +164,8 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
         <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ width: 200 }}>ClassName</th>
-              <th style={{ width: 220 }}>Variable Name</th>
+              <th style={{ width: 170 }}>ClassName</th>
+              <th style={{ width: 210 }}>Variable Name</th>
               <th style={{ width: 250 }}>Default Value</th>
               <th style={{ width: 250 }}>Flat Value</th>
             </tr>
