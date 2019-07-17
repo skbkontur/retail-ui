@@ -9,6 +9,7 @@ import CssStyles from './Input.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
+import raf from 'raf';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
@@ -131,6 +132,8 @@ class Input extends React.Component<InputProps, InputState> {
     focused: false,
   };
 
+  private selectAllId: number | null = null;
+
   private blinkTimeout: number = 0;
 
   private input: HTMLInputElement | null = null;
@@ -145,6 +148,7 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.blinkTimeout) {
       clearTimeout(this.blinkTimeout);
     }
+    this.cancelDelayedSelectAll();
   }
 
   public componentWillReceiveProps(nextProps: InputProps) {
@@ -292,12 +296,20 @@ class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
-  public selectAll = () => {
+  public selectAll = (): void => {
     if (this.input) {
       this.setSelectionRange(0, this.input.value.length);
     }
   };
 
+  private delaySelectAll = (): void => this.selectAllId = raf(this.selectAll);
+
+  private cancelDelayedSelectAll = (): void => {
+    if (this.selectAllId) {
+      raf.cancel(this.selectAllId);
+      this.selectAllId = null;
+    }
+  };
   private renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
       capture?: boolean;
@@ -387,7 +399,8 @@ class Input extends React.Component<InputProps, InputState> {
     });
 
     if (this.props.selectAllOnFocus) {
-      this.selectAll();
+      // https://github.com/facebook/react/issues/7769
+      this.input ? this.selectAll() : this.delaySelectAll();
     }
 
     if (this.props.onFocus) {
