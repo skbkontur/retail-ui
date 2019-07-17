@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Group from '../Group';
-import Button from '../Button';
+import Button, { ButtonSize } from '../Button';
 import styles from './Switcher.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Switcher.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
+
+export type SwitcherSize = ButtonSize;
 
 export interface SwitcherProps {
   /**
@@ -22,6 +24,9 @@ export interface SwitcherProps {
   label?: string;
 
   error?: boolean;
+
+  /** Размер */
+  size?: SwitcherSize;
 }
 
 export interface SwitcherState {
@@ -182,6 +187,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
           this._selectItem(value);
         },
         disableFocus: true,
+        size: this.props.size,
       };
       return (
         <Button key={value} {...buttonProps}>
