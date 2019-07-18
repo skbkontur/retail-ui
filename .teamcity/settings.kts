@@ -37,7 +37,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2018.2"
+version = "2019.1"
 
 project {
 
@@ -50,6 +50,7 @@ project {
 
     params {
         text("teamcity.runner.commandline.stdstreams.encoding", "UTF8", display = ParameterDisplay.HIDDEN, allowEmpty = true)
+        param("teamcity.vcsTrigger.runBuildInNewEmptyBranch", "true")
     }
 
     features {
@@ -155,13 +156,19 @@ object ReactUiValidationsTags : GitVcsRoot({
 object RetailUi : GitVcsRoot({
     name = "retail-ui"
     url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/heads/*"
+    branchSpec = """
+        +:refs/heads/*
+        +:refs/tags/*
+    """.trimIndent()
+    useTagsAsBranches = true
 })
 
 object RetailUiTags : GitVcsRoot({
     name = "retail-ui tags"
     url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = "+:refs/tags/retail-ui@*"
+    branchSpec = """
+        +:refs/tags/retail-ui@*
+    """.trimIndent()
     useTagsAsBranches = true
 })
 
@@ -252,6 +259,7 @@ object ReactUI_CreeveyTests : BuildType({
     params {
         password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
         password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
+        param("env.enableReactTesting", "true")
     }
 
     vcs {
@@ -374,9 +382,7 @@ object ReactUI_Publish : BuildType({
     }
 
     vcs {
-        root(RetailUiTags)
-
-        buildDefaultBranch = false
+        root(RetailUi)
     }
 
     steps {
@@ -392,8 +398,8 @@ object ReactUI_Publish : BuildType({
         }
         step {
             name = "Publish"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui publish")
+            type = "jonnyzzz.npm"
+            param("npm_commands", "publish ./packages/retail-ui/")
         }
         step {
             name = "Clean"
@@ -405,6 +411,7 @@ object ReactUI_Publish : BuildType({
 
     triggers {
         vcs {
+            branchFilter = "+:retail-ui@*"
         }
     }
 
@@ -492,7 +499,10 @@ object SeleniumTesting_Publish : BuildType({
     vcs {
         root(ReactUiTestingTags)
 
-        buildDefaultBranch = false
+        branchFilter = """
+            +:*
+            -:<default>
+        """.trimIndent()
     }
 
     steps {
@@ -700,6 +710,11 @@ object Validations_LintTest : BuildType({
             type = "jonnyzzz.yarn"
             param("yarn_commands", "workspace react-ui-validations lint")
         }
+        step {
+            name = "Run unit tests"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace react-ui-validations test")
+        }
         script {
             name = "Start Storybook"
             scriptContent = """
@@ -717,6 +732,7 @@ object Validations_LintTest : BuildType({
         msBuild {
             name = "Build tests"
             path = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
+            version = MSBuildStep.MSBuildVersion.V15_0
             toolsVersion = MSBuildStep.MSBuildToolsVersion.V15_0
             param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
@@ -770,7 +786,10 @@ object Validations_Publish : BuildType({
     vcs {
         root(ReactUiValidationsTags)
 
-        buildDefaultBranch = false
+        branchFilter = """
+            +:*
+            -:<default>
+        """.trimIndent()
     }
 
     steps {
