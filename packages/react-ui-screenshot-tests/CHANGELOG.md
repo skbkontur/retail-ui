@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.14](https://github.com/skbkontur/retail-ui/compare/react-ui-screenshot-tests@1.1.13...react-ui-screenshot-tests@1.1.14) (2019-07-18)
+
+
+### Bug Fixes
+
+* **TokenInput:** remove hardcoded data-tid ([47365a1](https://github.com/skbkontur/retail-ui/commit/47365a1)), closes [#1510](https://github.com/skbkontur/retail-ui/issues/1510)
+
+
+
+
+
 ## [1.1.13](https://github.com/skbkontur/retail-ui/compare/react-ui-screenshot-tests@1.1.12...react-ui-screenshot-tests@1.1.13) (2019-05-28)
 
 **Note:** Version bump only for package react-ui-screenshot-tests

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.51.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.51.1...retail-ui@0.51.2) (2019-07-18)
+
+
+### Bug Fixes
+
+* **TokenInput:** remove hardcoded data-tid ([47365a1](https://github.com/skbkontur/retail-ui/commit/47365a1)), closes [#1510](https://github.com/skbkontur/retail-ui/issues/1510)
+
+
+
+
+
 ## [0.51.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.51.0...retail-ui@0.51.1) (2019-06-04)
 
 
