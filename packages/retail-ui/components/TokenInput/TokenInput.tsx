@@ -200,7 +200,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       [jsStyles.inputDisabled(theme)]: !!disabled,
     });
     return (
-      <div data-tid="TokenInput" className={styles.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <div className={styles.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         {/* расчёт ширины текста с последующим обновлением ширины input */}
         <TextWidthHelper ref={this.textHelperRef} text={inputValue} />
         <label
