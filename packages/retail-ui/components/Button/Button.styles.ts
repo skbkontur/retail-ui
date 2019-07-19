@@ -330,7 +330,7 @@ const jsClasses = {
       &:hover {
         background: ${
           t.btnDefaultHoverBgStart === t.btnDefaultHoverBgEnd
-            ? t.btnDefaultHoverBgStart
+            ? t.btnDefaultHoverBg
             : `linear-gradient(${t.btnDefaultHoverBgStart}, ${t.btnDefaultHoverBgEnd})`
         };
         box-shadow: ${t.btnDefaultHoverShadow};
