@@ -175,3 +175,21 @@ gemini.suite('Input text styles reset', suite => {
     .setCaptureElements('#test-element')
     .capture('plain');
 });
+
+gemini.suite('Input error and focus', suite => {
+  suite
+    .before(renderStory('Input', 'Error and focus'))
+    .setCaptureElements('#test-element')
+    .capture('focused', (actions, find) => {
+      actions.click(find('label'));
+    });
+});
+
+gemini.suite('Input warning and focus', suite => {
+  suite
+    .before(renderStory('Input', 'Warning and focus'))
+    .setCaptureElements('#test-element')
+    .capture('focused', (actions, find) => {
+      actions.click(find('label'));
+    });
+});

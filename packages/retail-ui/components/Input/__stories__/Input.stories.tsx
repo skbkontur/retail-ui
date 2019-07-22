@@ -340,4 +340,10 @@ storiesOf('Input', module)
         <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
       </Gapped>
     </div>
+  ))
+  .add('Error and focus', () => (
+    <Input error selectAllOnFocus defaultValue="рамка должна оставаться красной" />
+  ))
+  .add('Warning and focus', () => (
+    <Input warning selectAllOnFocus defaultValue="рамка должна оставаться красной" />
   ));
