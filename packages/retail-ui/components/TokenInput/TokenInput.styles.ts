@@ -5,8 +5,8 @@ import { ITheme } from '../../lib/theming/Theme';
 const jsStyles = {
   label(t: ITheme) {
     return css`
-      background: ${t.bgDefault};
-      border: 1px solid ${t.borderColorGrayLight};
+      background-color: ${t.inputBg};
+      border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
       border-top-color: ${t.borderColorGrayDark};
     `;
   },
