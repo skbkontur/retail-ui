@@ -7,6 +7,7 @@ const jsStyles = {
     return css`
       .${styles.root} & {
         background-color: ${t.inputBg};
+        box-shadow: ${t.inputShadow};
         border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
         border-top-color: ${t.inputBorderTopColor};
       }
