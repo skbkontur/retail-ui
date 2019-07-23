@@ -5,37 +5,48 @@ import { ITheme } from '../../lib/theming/Theme';
 const jsStyles = {
   label(t: ITheme) {
     return css`
-      background: ${t.bgDefault};
-      border: 1px solid ${t.borderColorGrayLight};
-      border-top-color: ${t.borderColorGrayDark};
+      .${styles.root} & {
+        background-color: ${t.inputBg};
+        box-shadow: ${t.inputShadow};
+        border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
+        border-top-color: ${t.inputBorderTopColor};
+      }
     `;
   },
 
   warning(t: ITheme) {
     return css`
-      border: 1px solid ${t.borderColorWarning};
-      box-shadow: 0 0 0 1px ${t.borderColorWarning};
+      .${styles.root} & {
+        border: 1px solid ${t.borderColorWarning};
+        box-shadow: 0 0 0 1px ${t.borderColorWarning};
+      }
     `;
   },
 
   error(t: ITheme) {
     return css`
-      border: 1px solid ${t.borderColorError};
-      box-shadow: 0 0 0 1px ${t.borderColorError};
+      .${styles.root} & {
+        border: 1px solid ${t.borderColorError};
+        box-shadow: 0 0 0 1px ${t.borderColorError};
+      }
     `;
   },
 
   labelFocused(t: ITheme) {
     return css`
-      border: 1px solid ${t.borderColorFocus};
-      box-shadow: 0 0 0 1px ${t.borderColorFocus};
+      .${styles.root} & {
+        border: 1px solid ${t.borderColorFocus};
+        box-shadow: 0 0 0 1px ${t.borderColorFocus};
+      }
     `;
   },
 
   labelDisabled(t: ITheme) {
     return css`
-      background: ${t.bgDisabled};
-      border-color: ${t.borderColorGrayLight};
+      .${styles.root} & {
+        background: ${t.inputDisabledBg};
+        border-color: ${t.inputDisabledBorderColor};
+      }
     `;
   },
 
@@ -54,7 +65,9 @@ const jsStyles = {
 
   inputDisabled(t: ITheme) {
     return css`
-      color: ${t.textColorDisabled};
+      .${styles.root} & {
+        color: ${t.textColorDisabled};
+      }
     `;
   },
 };
