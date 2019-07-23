@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.0.1...retail-ui@1.1.0) (2019-07-23)
+
+
+### Bug Fixes
+
+* **Button:** change 'background-color' and 'border-color' when hovering ([627b1e6](https://github.com/skbkontur/retail-ui/commit/627b1e6)), closes [#1416](https://github.com/skbkontur/retail-ui/issues/1416)
+* **TokenInput:** add input's box-shadow ([6f0789f](https://github.com/skbkontur/retail-ui/commit/6f0789f))
+* **TokenInput:** fix flat styles ([0fa0d52](https://github.com/skbkontur/retail-ui/commit/0fa0d52)), closes [#1493](https://github.com/skbkontur/retail-ui/issues/1493)
+* **TokenInput:** remove hardcoded dataTid ([9e5151f](https://github.com/skbkontur/retail-ui/commit/9e5151f))
+
+
+### Features
+
+* **Switcher:** add prop 'size' ([a5e16ae](https://github.com/skbkontur/retail-ui/commit/a5e16ae)), closes [#1492](https://github.com/skbkontur/retail-ui/issues/1492)
+
+
+
+
+
 ## [1.0.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.0.0...retail-ui@1.0.1) (2019-07-16)
 
 
