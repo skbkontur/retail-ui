@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import styles from './Modal.less';
 import { ITheme } from '../../lib/theming/Theme';
+import { resetButton } from '../../lib/styles/Mixins';
 
 const jsStyles = {
   bg(t: ITheme) {
@@ -26,6 +27,12 @@ const jsStyles = {
 
   close(t: ITheme) {
     return css`
+      ${resetButton()};
+
+      margin: 2px 2px 0 0;
+      width: 76px;
+      height: 65px;
+
       &.${styles.disabled} {
         color: ${t.modalCloseButtonDisabledColor};
       }
