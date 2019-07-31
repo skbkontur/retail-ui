@@ -49,7 +49,7 @@ storiesOf('Radio', module)
   })
   .add('Highlighted', () => {
     return (
-      <div>
+      <div style={{ marginBottom: '70px' }}>
         <div>
           <Radio value={'value'} checked />
         </div>
