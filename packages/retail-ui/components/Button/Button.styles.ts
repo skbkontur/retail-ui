@@ -203,6 +203,7 @@ const jsClasses = {
     return css`
       .${classes.wrap} .${classes.root}&:not(.${classes.link}) {
         background: ${t.bgDisabled};
+        color: ${t.btnDisabledTextColor};
       }
       .${classes.root}& {
         box-shadow: ${t.btnDisabledShadow};
