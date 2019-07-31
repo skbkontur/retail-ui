@@ -2,10 +2,14 @@ import { css } from '../../lib/theming/Emotion';
 import classes from './Input.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
+import { resetText } from '../../lib/styles/Mixins';
 
 const jsClasses = {
   root(t: ITheme) {
     return css`
+      ${resetText()};
+
+      width: 250px;
       color: ${t.inputColor};
       background-color: ${t.inputBg};
       box-shadow: ${t.inputShadow};

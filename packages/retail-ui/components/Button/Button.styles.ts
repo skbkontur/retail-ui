@@ -2,6 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import classes from './Button.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
+import { resetButton, resetText } from '../../lib/styles/Mixins';
 
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {
   let paddingTop = paddingY;
@@ -24,6 +25,11 @@ const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, add
 const jsClasses = {
   root(t: ITheme) {
     return css`
+      ${resetButton()};
+      ${resetText()};
+
+      width: 100%;
+      text-align: center;
       color: ${t.textColorDefault};
       border-radius: ${t.btnBorderRadius};
     `;
