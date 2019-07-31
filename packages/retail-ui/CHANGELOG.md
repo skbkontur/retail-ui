@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.0...retail-ui@1.1.1) (2019-07-31)
+
+
+### Bug Fixes
+
+* **Button:** changed style 'color' for disabled button to '#a0a0a0' ([521a4e8](https://github.com/skbkontur/retail-ui/commit/521a4e8)), closes [#a0a0a0](https://github.com/skbkontur/retail-ui/issues/a0a0a0) [#1415](https://github.com/skbkontur/retail-ui/issues/1415)
+* **customization:** prevent js-styles from overriding by css-resets ([2a9c4ac](https://github.com/skbkontur/retail-ui/commit/2a9c4ac)), closes [#1514](https://github.com/skbkontur/retail-ui/issues/1514)
+* **Radio:** decrease types checking time ([f18c74b](https://github.com/skbkontur/retail-ui/commit/f18c74b)), closes [#1518](https://github.com/skbkontur/retail-ui/issues/1518)
+
+
+
+
+
 # [1.1.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.0.1...retail-ui@1.1.0) (2019-07-23)
 
 
