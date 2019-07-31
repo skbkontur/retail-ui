@@ -104,6 +104,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
 
     const className = cx({
       [styles.root]: true,
+      [jsStyles.root(this.theme)]: true,
       [styles.disabled]: !!this.props.disabled,
       [styles.loose]: !!loose,
       [jsStyles.hover(this.theme)]: hover,

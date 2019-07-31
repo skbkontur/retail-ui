@@ -1,10 +1,15 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
+import { resetButton } from '../../lib/styles/Mixins';
 
 const jsStyles = {
   cell(t: ITheme) {
     return css`
+      ${resetButton()};
+
+      text-align: center;
       background: ${t.calendarCellBg};
+      border: 1px solid transparent;
 
       &:hover {
         background-color: ${t.calendarCellHoverBgColor};
