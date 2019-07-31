@@ -79,25 +79,6 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     focused: false,
   };
 
-  public static propTypes = {
-    checked: PropTypes.bool,
-    children: PropTypes.node,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    focused: PropTypes.bool,
-    hovered: PropTypes.bool,
-    id: PropTypes.string,
-    name: PropTypes.string,
-    pressed: PropTypes.bool,
-    tabIndex: PropTypes.number,
-    value: PropTypes.any.isRequired,
-    warning: PropTypes.bool,
-    onChange: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-  };
-
   private theme!: ITheme;
   private _node: Nullable<HTMLInputElement> = null;
 
