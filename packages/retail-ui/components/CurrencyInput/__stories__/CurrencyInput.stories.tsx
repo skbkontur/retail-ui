@@ -1,6 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import Input from '../../Input';
 import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
 import Gapped from '../../Gapped';
 import Button from '../../Button';
@@ -112,6 +113,11 @@ class Sample extends React.Component<
   public render() {
     return (
       <div>
+        <form onSubmit={() => { console.log(this); return false;}}>
+          <Input />
+          <Button type="submit">123</Button>
+          <CurrencyInput onSubmit={() => { console.log(this); return false;}} value={this.state.value} fractionDigits={3} onChange={(_, value) => this.setState({ value })} />
+        </form>
         <CurrencyInput
           {...this.props}
           ref={this.currencyInputRef}

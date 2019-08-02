@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "build",
+    "project": "src",
+    "sourceMap": true,
+    "strict": true,
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "noUnusedLocals": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "**/node_modules/*", "**/styleguide", "**/build"]
+}

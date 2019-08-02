@@ -113,6 +113,8 @@ export interface ButtonState {
 }
 
 export default class Button extends React.Component<ButtonProps, ButtonState> {
+  public static __REACT_UI__: string = 'Button';
+
   public static __BUTTON__ = true;
 
   public static TOP_LEFT = Corners.TOP_LEFT;

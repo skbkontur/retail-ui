@@ -10,7 +10,11 @@ const config = require('./config.js');
 
 const FoldersToTransform = ['components', 'lib', 'typings'];
 const IgnoreTemplates = [/__tests__/, /\.stories.js$/];
-const OutDir = path.resolve(process.cwd(), 'build');
+let OutDir = path.resolve(process.cwd(), 'build');
+
+if (fs.existsSync(process.argv[2])) {
+  OutDir = process.argv[2];
+}
 
 build();
 
@@ -55,7 +59,7 @@ function compileLess(src, relative) {
       return;
     }
 
-    const dest = path.join(OutDir, relative).replace(/.less$/, '.css');
+    const dest = path.join(OutDir, relative).replace(/.less$/, '.module.css');
 
     less
       .render(data, {

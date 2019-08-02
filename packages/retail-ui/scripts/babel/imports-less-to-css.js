@@ -1,5 +1,5 @@
 const isLess = name => /\.less$/.test(name);
-const lessToCss = name => name.replace(/\.less$/, '.css');
+const lessToCss = name => name.replace(/\.less$/, '.module.css');
 
 /**
  * Turns this:

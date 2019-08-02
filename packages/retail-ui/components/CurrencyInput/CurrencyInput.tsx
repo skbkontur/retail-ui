@@ -191,6 +191,11 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
       return;
     }
 
+    if (event.key === 'Enter') {
+      console.log('submit');
+      // return;
+    }
+
     if (action !== CURRENCY_INPUT_ACTIONS.Unknown) {
       event.preventDefault();
     }
