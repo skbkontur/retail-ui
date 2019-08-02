@@ -181,7 +181,7 @@ gemini.suite('ComboBox', () => {
         });
     });
 
-    gemini.suite('focus next field after Enter on item', suite => {
+    gemini.suite('Focus flow', suite => {
       suite
         .before(renderStory('ComboBox', 'focus flow'))
         .setCaptureElements('#test-element')
@@ -189,8 +189,8 @@ gemini.suite('ComboBox', () => {
         .capture('after Enter on Item', action => {
           action.sendKeys(gemini.ENTER);
         })
-        .capture('after click back on the first field', (action, find) => {
-          action.click(find('[class^="Input-module-root"]'));
+        .capture('after Tab press', (action, find) => {
+          action.sendKeys(gemini.TAB);
         });
     });
   });
