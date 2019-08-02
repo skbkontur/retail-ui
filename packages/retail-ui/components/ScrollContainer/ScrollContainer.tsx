@@ -1,14 +1,11 @@
-import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import LayoutEvents from '../../lib/LayoutEvents';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-
 import styles from './ScrollContainer.less';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
@@ -73,9 +70,9 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   public render() {
     let scroll = null;
     if (this.state.scrollActive) {
-      const scrollClass = classNames({
+      const scrollClass = cx({
         [styles.scroll]: true,
-        [styles.scrollInvert]: this.props.invert,
+        [styles.scrollInvert]: !!this.props.invert,
         [styles.scrollHover]: this.state.hover || this.state.scrolling,
       });
       const scrollStyle = {

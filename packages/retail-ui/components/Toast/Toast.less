@@ -1,70 +1,10 @@
-@import '../variables.less';
-
-@show-transtion: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-@hide-transition: opacity 0.15s ease-out;
-
-:local {
-  .wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0;
-    text-align: center;
-  }
-
-  .root {
-    display: inline-block;
-    position: relative;
-    top: 20px;
-    padding: 10px 20px 11px;
-    background: #333;
-    background: @toast-bg;
-    opacity: 1;
-    font-size: 14px;
-    color: @toast-color;
-    border-radius: 2px;
-  }
-
-  .link {
-    color: @toast-link-color;
-    cursor: pointer;
-    display: inline-block;
-    margin: -10px 24px -11px 4px;
-    padding: 10px 10px 11px;
-    font-weight: 600;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .close {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    color: @toast-close-color;
-    cursor: pointer;
-
-    &:hover {
-      color: @toast-close-hover-color;
-    }
-  }
-}
-
 .slide-and-fade {
   &-enter {
     transform: translateY(-40px);
   }
 
   &-enter-active {
-    transition: @show-transtion;
+    transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
     transform: translateY(0);
   }
 
@@ -75,6 +15,6 @@
 
   &-exit-active {
     opacity: 0.01;
-    transition: @hide-transition;
+    transition: opacity 0.15s ease-out;
   }
 }

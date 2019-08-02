@@ -1,48 +1,18 @@
-@import '../variables.less';
+@import (reference) '../mixins.less';
 
 :local {
   .root {
     .label {
-      background: @bg-default;
-      border: 1px solid @border-color-gray-light;
-      border-top-color: @border-color-gray-dark;
       box-sizing: border-box;
       cursor: text;
       padding: 4px;
       display: flex;
       flex-wrap: wrap;
       outline: none;
+    }
 
-      &.warning {
-        border: 1px solid @border-color-warning;
-        box-shadow: 0 0 0 1px @border-color-warning;
-      }
-
-      &.error {
-        border: 1px solid @border-color-error;
-        box-shadow: 0 0 0 1px @border-color-error;
-      }
-
-      &.focus {
-        border: 1px solid @border-color-focus;
-        box-shadow: 0 0 0 1px @border-color-focus;
-      }
-
-      &.disabled {
-        background: @bg-disabled;
-        box-shadow: none;
-        border-color: @border-color-gray-light;
-
-        .input {
-          color: @text-color-disabled;
-          pointer-events: none;
-
-          /* fix text color in safari */
-          -webkit-text-fill-color: currentcolor;
-
-          .placeholder({-webkit-text-fill-color: @placeholder-color;});
-        }
-      }
+    .labelDisabled {
+      box-shadow: none;
     }
 
     .input {
@@ -68,13 +38,15 @@
         display: none;
       }
 
-      &::placeholder {
-        color: @placeholder-color;
-      }
+      /* fix firefox placeholder opacity */
+      .placeholder({});
+    }
 
-      &:focus::placeholder {
-        color: @placeholder-color-light;
-      }
+    .inputDisabled {
+      pointer-events: none;
+
+      /* fix text color in safari */
+      -webkit-text-fill-color: currentcolor;
     }
   }
 }

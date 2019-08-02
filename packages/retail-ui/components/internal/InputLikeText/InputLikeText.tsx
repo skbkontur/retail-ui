@@ -1,17 +1,14 @@
-import classNames from 'classnames';
 import * as React from 'react';
-
 import '../../ensureOldIEClassName';
-import Upgrades from '../../../lib/Upgrades';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
-import { InputVisibilityState, IconType } from '../../Input/Input';
+import { IconType, InputVisibilityState } from '../../Input/Input';
 import { InputProps } from '../../Input';
-
 import styles from './InputLikeText.less';
-
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-const inputStyles = isFlatDesign ? require('../../Input/Input.flat.less') : require('../../Input/Input.less');
+import { cx } from '../../../lib/theming/Emotion';
+import inputStyles from '../../Input/Input.less';
+import jsInputStyles from '../../Input/Input.styles';
+import { ThemeConsumer } from '../ThemeContext';
+import { ITheme } from '../../../lib/theming/Theme';
 
 export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;
@@ -32,6 +29,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     focused: false,
   };
 
+  private theme!: ITheme;
   private node: HTMLElement | null = null;
   private blinkTimeout: Nullable<TimeoutID>;
 
@@ -62,6 +60,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     });
   }
 
+  public getNode(): HTMLElement | null {
+    return this.node;
+  }
+
   public componentWillUnmount() {
     if (this.blinkTimeout) {
       clearTimeout(this.blinkTimeout);
@@ -69,6 +71,17 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       innerRef,
       tabIndex,
@@ -81,22 +94,26 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       warning,
       onChange,
       disabled,
-
       prefix,
       suffix,
       leftIcon,
       rightIcon,
-
       ...rest
     } = this.props;
 
-    const className = classNames(inputStyles.root, this.getSizeClassName(), {
-      [inputStyles.disabled]: this.props.disabled,
-      [inputStyles.error]: error,
-      [inputStyles.warning]: warning,
-      [inputStyles.borderless]: borderless,
-      [inputStyles.blink]: this.state.blinking,
-      [inputStyles.focus]: this.state.focused,
+    const { focused, blinking } = this.state;
+
+    const className = cx(inputStyles.root, jsInputStyles.root(this.theme), this.getSizeClassName(), {
+      [inputStyles.focus]: focused,
+      [inputStyles.warning]: !!warning,
+      [inputStyles.error]: !!error,
+      [inputStyles.borderless]: !!borderless,
+      [inputStyles.disabled]: !!disabled,
+      [jsInputStyles.focus(this.theme)]: focused,
+      [jsInputStyles.blink(this.theme)]: !!blinking,
+      [jsInputStyles.warning(this.theme)]: !!warning,
+      [jsInputStyles.error(this.theme)]: !!error,
+      [jsInputStyles.disabled(this.theme)]: !!disabled,
     });
 
     return (
@@ -104,29 +121,25 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
         {...rest}
         className={className}
         style={{ width, textAlign: align }}
-        tabIndex={this.props.disabled ? undefined : 0}
+        tabIndex={disabled ? undefined : 0}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         ref={this.ref}
       >
         <span className={inputStyles.sideContainer}>
           {this.renderLeftIcon()}
-          {prefix && <span className={inputStyles.prefix}>{prefix}</span>}
+          {prefix && <span className={jsInputStyles.prefix(this.theme)}>{prefix}</span>}
         </span>
         <span className={inputStyles.wrapper}>
-          <span className={classNames(inputStyles.input, styles.input)}>{children}</span>
+          <span className={cx(inputStyles.input, styles.input, jsInputStyles.input(this.theme))}>{children}</span>
           {this.renderPlaceholder()}
         </span>
-        <span className={classNames(inputStyles.sideContainer, inputStyles.rightContainer)}>
-          {suffix && <span className={inputStyles.suffix}>{suffix}</span>}
+        <span className={cx(inputStyles.sideContainer, inputStyles.rightContainer)}>
+          {suffix && <span className={jsInputStyles.suffix(this.theme)}>{suffix}</span>}
           {this.renderRightIcon()}
         </span>
       </span>
     );
-  }
-
-  public getNode(): HTMLElement | null {
-    return this.node;
   }
 
   private ref = (el: HTMLElement | null) => {
@@ -140,19 +153,21 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     const { children, placeholder } = this.props;
 
     if (!children && placeholder) {
-      return <span className={inputStyles.placeholder}>{placeholder}</span>;
+      return <span className={cx(inputStyles.placeholder, jsInputStyles.placeholder(this.theme))}>{placeholder}</span>;
     }
     return null;
   }
 
   private getSizeClassName() {
-    const SIZE_CLASS_NAMES = {
-      small: inputStyles.sizeSmall,
-      medium: Upgrades.isSizeMedium16pxEnabled() ? inputStyles.sizeMedium : inputStyles.DEPRECATED_sizeMedium,
-      large: inputStyles.sizeLarge,
-    };
-
-    return SIZE_CLASS_NAMES[this.props.size!];
+    switch (this.props.size) {
+      case 'large':
+        return jsInputStyles.sizeLarge(this.theme);
+      case 'medium':
+        return jsInputStyles.sizeMedium(this.theme);
+      case 'small':
+      default:
+        return jsInputStyles.sizeSmall(this.theme);
+    }
   }
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>) => {
@@ -166,6 +181,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       this.props.onFocus(event);
     }
   };
+
   private handleBlur = (event: React.FocusEvent<HTMLElement>) => {
     this.setState({ focused: false });
 
@@ -191,6 +207,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={classNames(className, inputStyles.useDefaultColor)}>{icon}</span>;
+    return (
+      <span className={cx(className, inputStyles.useDefaultColor, jsInputStyles.useDefaultColor(this.theme))}>
+        {icon}
+      </span>
+    );
   }
 }

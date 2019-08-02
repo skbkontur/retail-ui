@@ -1,5 +1,3 @@
-@import '../variables.less';
-
 :local {
   .kebab {
     display: inline-block;
@@ -22,10 +20,6 @@
 
     &.opened {
       cursor: default;
-    }
-
-    &.focused {
-      border-color: @border-color-focus;
     }
 
     &.disabled {
@@ -52,18 +46,7 @@
     }
   }
 
-  :global(.rt-ie8) {
-    .kebab {
-      &:hover,
-      &.opened,
-      &.focused {
-        background: #e5e5e5;
-      }
-    }
-  }
-
   .menu {
     overflow: hidden;
-    border-radius: @popup-border-radius;
   }
 }

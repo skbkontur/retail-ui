@@ -3,22 +3,21 @@ import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
 import { Address } from '../models/Address';
 import { FiasCountry, APIProvider } from '../types';
+import { locale } from '../../LocaleProvider/decorators';
 
 export interface FiasCountrySelectorProps {
   api: APIProvider;
   country?: FiasCountry;
-  onChange: (value: FiasCountry | undefined) => void;
+  onChange?: (value?: FiasCountry) => void;
   limit?: number;
-  locale?: FiasLocale;
 }
 
+@locale('Fias', FiasLocaleHelper)
 export class FiasCountrySelector extends React.Component<FiasCountrySelectorProps> {
-  public static defaultProps = {
-    locale: FiasLocaleHelper.get(),
-  };
+  private readonly locale!: FiasLocale;
 
   public render() {
-    const { country, limit, locale } = this.props;
+    const { country, limit } = this.props;
     const address = new Address({ country });
     return (
       <FiasComboBox
@@ -30,7 +29,7 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
         onChange={this.handleChange}
         onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
-        placeholder={(locale && locale.countryPlaceholder) || ''}
+        placeholder={this.locale.countryPlaceholder}
         width={'100%'}
         drawArrow={false}
         searchOnFocus={false}
@@ -64,7 +63,7 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
   };
 
   private renderNotFound = (): React.ReactNode => {
-    return this.props.locale!.searchNotFound;
+    return this.locale.searchNotFound;
   };
 
   private valueToString = (address: Address): string => {
@@ -73,7 +72,10 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
   };
 
   private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-    this.props.onChange(value.country);
+    const { onChange } = this.props;
+    if (onChange) {
+      onChange(value.country);
+    }
   };
 
   private onUnexpectedInput = (query: string) => {

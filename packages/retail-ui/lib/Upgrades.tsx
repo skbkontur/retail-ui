@@ -1,23 +1,33 @@
 import warning from 'warning';
 
-let flatDesignEnabled = false;
-let sizeMedium16pxEnabled = false;
+let specificityLevel = 0;
+let canModifySpecificityLevel = true;
 
 const Upgrade = {
   enableFlatDesign() {
-    flatDesignEnabled = true;
+    warning(
+      false,
+      'Метод Upgrades.enableFlatDesign устарел. Используйте ThemeProvider или ThemeFactory.overrideDefaultTheme()',
+    );
   },
 
   isFlatDesignEnabled() {
-    return flatDesignEnabled;
+    return false;
   },
 
   enableSizeMedium16px() {
-    sizeMedium16pxEnabled = true;
+    warning(
+      false,
+      'Метод Upgrades.enableSizeMedium16px() устарел. Переопределите fontSizeMedium в теме через ThemeProvider или ThemeFactory.overrideDefaultTheme()',
+    );
   },
 
   isSizeMedium16pxEnabled() {
-    return sizeMedium16pxEnabled;
+    warning(
+      false,
+      'Метод Upgrades.isSizeMedium16pxEnabled() устарел. Переопределите fontSizeMedium в теме через ThemeProvider или ThemeFactory.overrideDefaultTheme()',
+    );
+    return false;
   },
 
   setAdaptiveStyles(enabled: boolean) {
@@ -26,6 +36,17 @@ const Upgrade = {
 
   isAdaptiveStyles() {
     return true;
+  },
+  getSpecificityLevel() {
+    canModifySpecificityLevel = false;
+    return specificityLevel;
+  },
+  setSpecificityLevel(level: number) {
+    if (canModifySpecificityLevel) {
+      specificityLevel = level;
+    } else {
+      warning(false, `specificityLevel=${specificityLevel} уже использован`);
+    }
   },
 };
 

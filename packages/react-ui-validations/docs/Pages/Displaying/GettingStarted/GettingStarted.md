@@ -14,32 +14,33 @@
 
 ## Использование
 
-Для отображения валидаций используется два компонента `ValidationWrapperV1` и `ValidationContainer`.
-Компонент `ValidationWrapperV1` оборачивает контрол, для которого должна отобразиться валидация.
-Компонент `ValidationContainer` оборачивает всю валидируемую форму, внутри которой используются компоненты `ValidationWrapperV1`.
+Для отображения валидаций используется два компонента `ValidationWrapper` и `ValidationContainer`.
+Компонент `ValidationWrapper` оборачивает контрол, для которого должна отобразиться валидация.
+Компонент `ValidationContainer` оборачивает всю валидируемую форму, внутри которой используются компоненты `ValidationWrapper`.
 
     <ValidationContainer>
       //...
-        <ValidationWrapperV1 validationInfo={...}>
-          <Input/>
-        </ValidationWrapperV1>
+      <ValidationWrapper validationInfo={...}>
+        <Input/>
+      </ValidationWrapper>
       //...
     </ValidationContainer>
 
-Значение валидации задается через проп `validationInfo` компонента `ValidationWrapperV1`.
+Значение валидации задается через проп `validationInfo` компонента `ValidationWrapper`.
+Для обратной совместимости компонент `ValidationWrapper` дополнительно экспортируется как `ValidationWrapperV1`.
 
 Невалидное состояние задается объектом валидации `validationInfo={{message: "..."}}`.
 Поле `message` имеет тип ReactNode, то есть в него можно передать строку, React-компонент и т.п.
 
-    <ValidationWrapperV1 validationInfo={{message: <b>Ошибка</b>}}>
+    <ValidationWrapper validationInfo={{message: <b>Ошибка</b>}}>
       <Input/>
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 Валидное состояние задается значением `validationInfo={null}`.
 
-    <ValidationWrapperV1 validationInfo={null}>
+    <ValidationWrapper validationInfo={null}>
       <Input/>
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ### Пример
 
@@ -47,14 +48,14 @@
 
 Обычно валидация вычисляется динамически по текущему значению контрола.
 Для корректоного отображения нужно передавать всегда актуальное состояние валидации.
-Компонент `ValidationWrapperV1` сам в соответствии с Контур.Гайдами принимает решение, когда подсветить котрол и отобразить сообщение об ошибке.
+Компонент `ValidationWrapper` сам в соответствии с Контур.Гайдами принимает решение, когда подсветить котрол и отобразить сообщение об ошибке.
 
     const value = this.state.value;
     const validationInfo = !isValid(value) ? {message: "Error"} : null;
 
-    <ValidationWrapperV1 validationInfo={validationInfo}>
+    <ValidationWrapper validationInfo={validationInfo}>
       <Input value={value} />
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ### Пример
 

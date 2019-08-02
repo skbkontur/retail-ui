@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import (reference) '../mixins.less';
 
 :local {
   .root {
@@ -10,10 +10,8 @@
   }
 
   .bg {
-    background: @modal-back-bg;
     bottom: 0;
     left: 0;
-    opacity: @modal-back-opacity;
     position: absolute;
     right: 0;
     top: 0;
@@ -32,15 +30,6 @@
       display: inline-block;
       vertical-align: middle;
       height: 80%; /* to vertical align modal 40%/60% of screen height */
-    }
-
-    @media screen and (max-width: @modal-adaptive-threshold) {
-      &.mobile {
-        .centerContainer {
-          margin: 0;
-          width: 100%;
-        }
-      }
     }
   }
 
@@ -62,26 +51,16 @@
     position: relative;
     white-space: normal;
     margin: auto;
-    background: @bg-default;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
 
   .close {
-    .reset-button();
-
     position: relative;
     float: right;
-    margin: 2px 2px 0 0;
-    width: 76px;
-    box-sizing: border-box;
-    height: 65px;
-    border: none;
     background: none;
     cursor: pointer;
-    outline: none;
 
     &.disabled {
-      color: @modal-close-button-disabled-color;
       pointer-events: none;
       cursor: default;
     }
@@ -94,7 +73,6 @@
       right: 40px;
       height: 18px;
       width: 2px;
-      background: @modal-close-button-color;
     }
 
     &::after {
@@ -103,13 +81,6 @@
 
     &::before {
       transform: rotate(-45deg);
-    }
-
-    &:focus::before,
-    &:focus::after,
-    &:hover::before,
-    &:hover::after {
-      background: @modal-close-button-hover-color;
     }
 
     .closeOutline {
@@ -124,7 +95,6 @@
         right: 26px;
         width: 26px;
         height: 26px;
-        border: 2px solid @border-color-focus;
       }
     }
   }
@@ -139,11 +109,6 @@
     font-size: 22px;
     line-height: 30px;
     padding: 24px 110px 11px 30px;
-  }
-
-  .fixedHeader,
-  .fixedFooter {
-    background: @modal-fixed-header-bg;
   }
 
   .fixedHeader {
@@ -162,7 +127,6 @@
 
   .fixedHeader::after {
     bottom: 11px;
-    box-shadow: @modal-fixed-header-shadow;
   }
 
   .headerAddPadding {
@@ -185,7 +149,6 @@
     padding: 0 35px 30px 30px;
 
     &.panel {
-      background: @modal-footer-bg;
       padding-top: 20px;
       padding-bottom: 20px;
     }
@@ -197,7 +160,6 @@
 
     &::before {
       top: 11px;
-      box-shadow: @modal-fixed-footer-shadow;
     }
   }
 }

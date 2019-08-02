@@ -4,19 +4,19 @@
 
 Вид валидации задается с помощью свойства `type` в объекте `validationInfo`.
 
-    <ValidationWrapperV1 validationInfo={{type: "...", message: "..."}}>
+    <ValidationWrapper validationInfo={{type: "...", message: "..."}}>
       //...
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
-Допустимые значения: `"immediate" | "lostfocus" | "submit"`
+Допустимые значения: `"immediate" | "lostfocus" | "submit"`.
 
 ## Мгновенная
 
-Мгновенная валидация отображается в процессе изменения значения контрола.
+Мгновенная валидация отображается всегда.
 
-    <ValidationWrapperV1 validationInfo={{type: "immediate", message: "..."}}>
+    <ValidationWrapper validationInfo={{type: "immediate", message: "..."}}>
       //...
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ### Пример
 
@@ -24,11 +24,11 @@
 
 ## По потере фокуса
 
-Валидация по потере фокуса отображается после завершения изменения значения.
+Валидация по потере фокуса отображается, когда контрол находится не в фокусе.
 
-    <ValidationWrapperV1 validationInfo={{type: "lostfocus", message: "..."}}>
+    <ValidationWrapper validationInfo={{type: "lostfocus", message: "..."}}>
       //...
-    </ValidationWrapperV1>
+    </ValidationWrapper>
 
 ### Пример
 
@@ -39,9 +39,9 @@
 Валидация по отправке формы отображается при вызове метода `submit` на компоненте `ValidationContainer`.
 
     <ValidationContainer ref={this.container}>
-      <ValidationWrapperV1 validationInfo={{type: "submit", message: "..."}}>
+      <ValidationWrapper validationInfo={{type: "submit", message: "..."}}>
         //...
-      </ValidationWrapperV1>
+      </ValidationWrapper>
     </ValidationContainer>
 
     <Button onClick={this.handleSubmit}>

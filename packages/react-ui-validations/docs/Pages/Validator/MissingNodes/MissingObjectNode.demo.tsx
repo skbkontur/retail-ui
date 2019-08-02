@@ -3,7 +3,7 @@ import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -86,23 +86,23 @@ export default class MissingObjectNodeDemo extends React.Component<{}, State> {
           {data.contact && (
             <>
               <Form.Line title="Имя">
-                <ValidationWrapperV1 validationInfo={v.getNode(x => x.name).get()}>
+                <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
                   <Input
                     placeholder={'Любое'}
                     value={data.contact.name}
                     onChange={(_, name) => this.handleContactChange({ name })}
                   />
-                </ValidationWrapperV1>
+                </ValidationWrapper>
               </Form.Line>
 
               <Form.Line title="E-mail">
-                <ValidationWrapperV1 validationInfo={v.getNode(x => x.email).get()}>
+                <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
                   <Input
                     placeholder={'xxx@xxx.xx'}
                     value={data.contact.email}
                     onChange={(_, email) => this.handleContactChange({ email })}
                   />
-                </ValidationWrapperV1>
+                </ValidationWrapper>
               </Form.Line>
             </>
           )}
