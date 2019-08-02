@@ -12,11 +12,15 @@
     "wait-on": "^2.1.0"
   },
   "scripts": {
-    "run-storybook": "yarn workspace retail-ui run storybook:run-serve &",
-    "test": "yarn run-storybook && wait-on http-get://localhost:6660/ && gemini test --reporter vflat",
-    "test:gui": "yarn run-storybook && wait-on http-get://localhost:6660/ && gemini gui"
+    "run-storybook": "yarn workspace retail-ui run storybook:run-serve",
+    "run-gemini": "yarn wait && gemini test --reporter vflat",
+    "run-gemini:gui": "yarn wait && gemini gui",
+    "wait": "yarn wait-on http-get://localhost:6660/",
+    "test": "run-p run-storybook run-gemini",
+    "test:gui": "run-p run-storybook run-gemini:gui"
   },
   "devDependencies": {
-    "dotenv": "^6.0.0"
+    "dotenv": "^6.0.0",
+    "npm-run-all": "^4.1.5"
   }
 }
