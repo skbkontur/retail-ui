@@ -1,5 +1,10 @@
-if (!process.env.CI) require("dotenv").config();
-var RetryCount = process.env.CI ? 2 : 0;
+const isCI = Boolean(process.env.TEAMCITY_VERSION || process.env.CI);
+
+if (!isCI) {
+  require("dotenv").config();
+}
+
+const RetryCount = isCI ? 2 : 0;
 
 module.exports = {
   rootUrl: "http://localhost:6660/",
