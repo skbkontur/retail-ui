@@ -167,13 +167,16 @@ gemini.suite("ComboBox", () => {
         });
     });
 
-    gemini.suite("focus next field after Enter on item", suite => {
+    gemini.suite('focus flow', suite => {
       suite
-        .setUrl(pathTo("ComboBox", "focus flow"))
-        .setCaptureElements("#test-element")
-        .capture("before")
-        .capture("after Enter on Item", (action) => {
+        .setUrl(pathTo('ComboBox', 'focus flow'))
+        .setCaptureElements('#test-element')
+        .capture('before')
+        .capture('after Enter on Item', action => {
           action.sendKeys(gemini.ENTER);
+        })
+        .capture('after Tab press', action => {
+          action.sendKeys(gemini.TAB);
         });
     });
   });
