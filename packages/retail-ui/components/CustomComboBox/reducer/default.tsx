@@ -347,7 +347,7 @@ const reducers: { [type: string]: Reducer } = {
         {
           opened: true
         },
-        [Effect.Search(state.textValue)]
+        [Effect.Search('')],
       ];
     }
     return state;
