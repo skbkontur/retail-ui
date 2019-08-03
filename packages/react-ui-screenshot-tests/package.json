@@ -16,8 +16,8 @@
     "run-gemini": "yarn wait && gemini test --reporter vflat",
     "run-gemini:gui": "yarn wait && gemini gui",
     "wait": "yarn wait-on http-get://localhost:6660/",
-    "test": "run-p run-storybook run-gemini",
-    "test:gui": "run-p run-storybook run-gemini:gui"
+    "test": "run-p -r run-storybook run-gemini",
+    "test:gui": "run-p -r run-storybook run-gemini:gui"
   },
   "devDependencies": {
     "dotenv": "^6.0.0",
