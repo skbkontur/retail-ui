@@ -99,7 +99,7 @@ gemini.suite('ComboBox', () => {
           action.sendKeys(gemini.ENTER);
         })
         .capture('opened again', (action, find) => {
-          action.click(find('[data-comp-name="InputLikeText"]'));
+          action.click(find('input'));
         });
     });
 
