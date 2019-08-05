@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.33.4"></a>
+## [0.33.4](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.33.3...retail-ui@0.33.4) (2019-08-05)
+
+
+### Bug Fixes
+
+* **ComboBox:** do empty search on InputClick in default mode ([94acc28](https://github.com/skbkontur/retail-ui/commit/94acc28))
+* **ComboBox:** keep focus after Enter key press on the list item ([db25211](https://github.com/skbkontur/retail-ui/commit/db25211))
+* **Input:** always keep placeholder above input ([96a91ac](https://github.com/skbkontur/retail-ui/commit/96a91ac))
+
+
+
+
 <a name="0.33.2"></a>
 ## [0.33.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.33.1...retail-ui@0.33.2) (2019-02-26)
 
