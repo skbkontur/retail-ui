@@ -6,7 +6,8 @@ gemini.suite('DateInput', () => {
       .before(renderStory('DateInput', 'simple'))
       .setCaptureElements('#test-element')
       .capture('idle')
-      .capture('focus', actions => actions.click("[data-comp-name*='DateInput']"));
+      .capture('focus', actions => actions.click("[data-comp-name*='DateInput']"))
+      .skip.in('ie11', 'в ie мигает выделение день/год из-за клика в центр');
   });
 
   gemini.suite('disabled', suite => {

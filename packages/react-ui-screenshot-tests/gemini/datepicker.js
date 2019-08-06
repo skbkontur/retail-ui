@@ -48,5 +48,6 @@ gemini.suite('DateSelect with disabled items', suite => {
 
       actions.click(find(selector));
     })
-    .skip.in('firefox', 'в firefox почему-то закрывается дэйтпикер после клика на DateSelect');
+    .skip.in('firefox', 'в firefox почему-то закрывается дэйтпикер после клика на DateSelect')
+    .skip.in('ie11', 'в ie мигает базовая линия инпута');
 });
