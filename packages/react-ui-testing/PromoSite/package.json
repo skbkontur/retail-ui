@@ -40,7 +40,7 @@
         "classnames-loader": "^2.0.0",
         "cross-env": "^5.1.1",
         "css-loader": "^0.28.7",
-        "eslint": "^4.13.1",
+        "eslint": "^4.18.2",
         "eslint-config-skbkontur-retail": "^3.0.2",
         "file-loader": "^1.1.6",
         "html-webpack-plugin": "^2.30.1",
