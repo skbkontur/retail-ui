@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.0...retail-ui@0.53.1) (2019-08-07)
+
+
+### Bug Fixes
+
+* **Input:** add calling 'selectAll' via 'raf' ([7f841d1](https://github.com/skbkontur/retail-ui/commit/7f841d1)), closes [#1413](https://github.com/skbkontur/retail-ui/issues/1413)
+* **Input:** add styles of warning/error for flat theme ([3daeea9](https://github.com/skbkontur/retail-ui/commit/3daeea9))
+* **Radio:** fix long typechecking ([f879f3c](https://github.com/skbkontur/retail-ui/commit/f879f3c)), closes [#1518](https://github.com/skbkontur/retail-ui/issues/1518)
+* **Textarea:** add blocking Enter after reaching 'maxLength' ([3b2d0ac](https://github.com/skbkontur/retail-ui/commit/3b2d0ac))
+
+
+
+
+
 # [0.53.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.52.1...retail-ui@0.53.0) (2019-07-02)
 
 
