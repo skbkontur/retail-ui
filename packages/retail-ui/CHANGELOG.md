@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.1...retail-ui@1.1.2) (2019-08-07)
+
+
+### Bug Fixes
+
+* **ComboBox:** keep focus after Enter key press on the list item ([a9b62dd](https://github.com/skbkontur/retail-ui/commit/a9b62dd)), closes [#1532](https://github.com/skbkontur/retail-ui/issues/1532)
+* **Group:** removed vertical-align ([2f8cad6](https://github.com/skbkontur/retail-ui/commit/2f8cad6))
+
+
+
+
+
 ## [1.1.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.0...retail-ui@1.1.1) (2019-07-31)
 
 
