@@ -291,13 +291,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     event.persist();
 
     this.setState({ focused: false, selected: null, inputMode: false }, () => {
-      const { internalDate } = this.state;
       removeAllSelections();
-      if (internalDate !== null) {
-        const restored = internalDate.clone().restore();
-        if (internalDate.toInternalString() !== restored.toInternalString()) {
-          this.updateInternalDate(internalDate.restore());
-        }
+      if (this.state.internalDate && this.state.internalDate.isIncomplete()) {
+        this.updateInternalDate(this.state.internalDate.restore());
       }
       if (this.props.onBlur) {
         this.props.onBlur(event);

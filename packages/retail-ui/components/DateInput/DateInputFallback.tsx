@@ -85,7 +85,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
 
       this.setState({ focused: false, selected: null, inputMode: false }, () => {
         removeAllSelections();
-        if (this.state.internalDate !== null) {
+        if (this.state.internalDate && this.state.internalDate.isIncomplete()) {
           this.updateInternalDate(this.state.internalDate.restore());
         }
         if (this.props.onBlur) {
