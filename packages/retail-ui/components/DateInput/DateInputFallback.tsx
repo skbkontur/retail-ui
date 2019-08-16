@@ -1,19 +1,13 @@
 import * as React from 'react';
 import { InternalDateComponentType } from '../../lib/date/types';
-import { DateInputProps, DateInputState } from './DateInput';
+import { DateInput, DateInputState } from './DateInput';
 import { removeAllSelections } from './helpers/SelectionHelpers';
 import debounce from 'lodash.debounce';
 
-export const DateInputFallback = <T extends { new (...args: any[]): any }>(constructor: T) => {
-  return class DateInput extends constructor {
-    // Костыль для возможности выделить компоненты даты
-    // В IE и Edge, при вызове range.selectNodeContents(node)
-    // снимается фокус у текущего элемента, т.е. вызывается handleBlur
-    // в handleBlur вызывается window.getSelection().removeAllRanges() и выделение пропадает.
-    // Этот флаг "замораживаниет" колбэки onBlur и onFocus, для возможности вернуть выделение сегмента.
-    public frozen: boolean = false;
+export const CreateDateInputFallback = () => {
+  return class DateInputFallback extends DateInput {
 
-    public selection = debounce(() => {
+    protected selection = debounce(() => {
       const node = this.inputLikeText && this.inputLikeText.getNode();
       if (this.inputLikeText && node && node.contains(document.activeElement)) {
         this.frozen = true;
@@ -24,35 +18,22 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
       }
     }, 10);
 
-    public componentDidUpdate = (prevProps: DateInputProps, prevState: DateInputState) => {
-      if (
-        prevProps.value !== this.props.value ||
-        prevProps.minDate !== this.props.minDate ||
-        prevProps.maxDate !== this.props.maxDate ||
-        prevState.internalDate.getOrder() !== this.locale.order ||
-        prevState.internalDate.getSeparator() !== this.locale.separator
-      ) {
-        this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
-      }
+    // Костыль для возможности выделить компоненты даты
+    // В IE и Edge, при вызове range.selectNodeContents(node)
+    // снимается фокус у текущего элемента, т.е. вызывается handleBlur
+    // в handleBlur вызывается window.getSelection().removeAllRanges() и выделение пропадает.
+    // Этот флаг "замораживаниет" колбэки onBlur и onFocus, для возможности вернуть выделение сегмента.
+    private frozen: boolean = false;
 
-      if (this.state.focused && prevState.selected !== this.state.selected) {
-        this.selection();
-      }
-
-      if (this.state.notify && !prevState.notify) {
-        this.notify();
-      }
-    };
-
-    public handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-      super.isMouseDown = true;
+    protected handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
+      this.isMouseDown = true;
       if (this.state.focused && !this.frozen) {
         event.preventDefault();
         event.stopPropagation();
       }
     };
 
-    public handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
+    protected handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
       if (this.props.disabled) {
         return;
       }
@@ -62,7 +43,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
         return;
       }
       this.setState((prevState: DateInputState) => {
-        super.isFirstFocus = !prevState.focused;
+        this.isFirstFocus = !prevState.focused;
         return {
           focused: true,
           selected:
@@ -75,7 +56,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
       }
     };
 
-    public handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
+    protected handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
       if (this.frozen) {
         event.preventDefault();
         return;
@@ -94,7 +75,7 @@ export const DateInputFallback = <T extends { new (...args: any[]): any }>(const
       });
     };
 
-    public selectDateComponent = (selected: InternalDateComponentType | null): void => {
+    protected selectDateComponent = (selected: InternalDateComponentType | null): void => {
       if (this.frozen) {
         return;
       }
