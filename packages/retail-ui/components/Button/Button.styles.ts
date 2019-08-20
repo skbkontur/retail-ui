@@ -185,6 +185,10 @@ const jsClasses = {
           }
         }
       }
+
+      .${classes.wrap} &.${classes.root}.${classes.link} {
+        color: ${t.linkDisabledColor};
+      }
     `;
   },
 
