@@ -168,11 +168,6 @@ const jsClasses = {
       .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.active} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
       }
-      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${
-      classes.warningRoot
-    } {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
-      }
     `;
   },
 
@@ -181,9 +176,20 @@ const jsClasses = {
       .${classes.wrap} .${classes.root}&:not(.${classes.link}) {
         background: ${t.bgDisabled};
         color: ${t.btnDisabledTextColor};
-      }
-      .${classes.root}& {
         box-shadow: ${t.btnDisabledShadow};
+
+        .${classes.arrow} {
+          background: ${t.btnDisabledBg};
+          box-shadow: 1px -1px 0 0 ${t.btnDisabledShadowColor};
+
+          &.${classes.arrow_warning} {
+            box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
+          }
+
+          &.${classes.arrow_error} {
+            box-shadow: 2px -2px 0 0 ${t.borderColorError};
+          }
+      }
       }
     `;
   },
@@ -205,10 +211,6 @@ const jsClasses = {
 
       .${classes.root}.${classes.checked}.${classes.focus} & {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
-      }
-      .${classes.root}.${classes.disabled} & {
-        background: ${t.btnDisabledBg};
-        box-shadow: 1px -1px 0 0 ${t.btnDisabledShadowColor};
       }
     `;
   },
@@ -240,9 +242,6 @@ const jsClasses = {
       }
       .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
-      }
-      .${classes.root}.${classes.disabled} .${classes.arrow}& {
-        box-shadow: 2px -2px 0 0 ${t.borderColorError};
       }
     `;
   },
