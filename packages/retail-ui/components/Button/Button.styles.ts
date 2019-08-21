@@ -4,6 +4,8 @@ import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
+import { buttonUseMixin } from './Button.mixins';
+
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {
   let paddingTop = paddingY;
   let paddingBottom = paddingY;
@@ -193,7 +195,9 @@ const jsClasses = {
       .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.active} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
       }
-      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.warningRoot} {
+      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${
+      classes.warningRoot
+    } {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
       }
     `;
@@ -302,37 +306,25 @@ const jsClasses = {
 
   default(t: ITheme) {
     return css`
-      background: ${
-        t.btnDefaultBgStart === t.btnDefaultBgEnd
-          ? t.btnDefaultBgStart
-          : `linear-gradient(${t.btnDefaultBgStart}, ${t.btnDefaultBgEnd})`
-      };
-      color: ${t.btnDefaultTextColor};
-      border: ${t.btnDefaultBorder};
-      box-shadow: ${t.btnDefaultShadow};
-
-      .${classes.arrow} {
-        background: ${
-          t.btnDefaultBgArrowStart === t.btnDefaultBgArrowEnd
-            ? t.btnDefaultBgArrowStart
-            : `linear-gradient(to bottom right, ${t.btnDefaultBgArrowStart}, ${t.btnDefaultBgArrowEnd})`
-        };
-        box-shadow: ${t.btnDefaultShadowArrow};
-      }
       .${classes.root}.${classes.checked}& .${classes.arrow} {
         box-shadow: ${t.btnDefaultCheckedShadowArrow};
       }
       .${classes.root}.${classes.checked}& .${classes.arrow_left} {
         box-shadow: ${t.btnDefaultCheckedShadowArrow};
       }
-      .${classes.arrow_left} {
-        background: ${
-          t.btnDefaultBgArrowStart === t.btnDefaultBgArrowEnd
-            ? t.btnDefaultBgArrowStart
-            : `linear-gradient(to top left, ${t.btnDefaultBgArrowStart}, ${t.btnDefaultBgArrowEnd})`
-        };
-        box-shadow: ${t.btnDefaultShadowArrowLeft};
-      }
+
+      ${buttonUseMixin(
+        t.btnDefaultBg,
+        t.btnDefaultBgStart,
+        t.btnDefaultBgEnd,
+        t.btnDefaultBgArrowStart,
+        t.btnDefaultBgArrowEnd,
+        t.btnDefaultShadow,
+        t.btnDefaultShadowArrow,
+        t.btnDefaultShadowArrowLeft,
+        t.btnDefaultTextColor,
+        t.btnDefaultBorder,
+      )};
 
       &:hover {
         background: ${
@@ -394,32 +386,18 @@ const jsClasses = {
 
   primary(t: ITheme) {
     return css`
-      background: ${
-        t.btnPrimaryBgStart === t.btnPrimaryBgEnd
-          ? t.btnPrimaryBgStart
-          : `linear-gradient(${t.btnPrimaryBgStart}, ${t.btnPrimaryBgEnd})`
-      };
-      color: ${t.btnPrimaryTextColor};
-      border: ${t.btnPrimaryBorder};
-      box-shadow: ${t.btnPrimaryShadow};
-
-      .${classes.arrow} {
-        background: ${
-          t.btnPrimaryBgArrowStart === t.btnPrimaryBgArrowEnd
-            ? t.btnPrimaryBgArrowStart
-            : `linear-gradient(to bottom right, ${t.btnPrimaryBgArrowStart}, ${t.btnPrimaryBgArrowEnd})`
-        };
-        box-shadow: ${t.btnPrimaryShadowArrow};
-      }
-
-      .${classes.arrow_left} {
-        background: ${
-          t.btnPrimaryBgArrowStart === t.btnPrimaryBgArrowEnd
-            ? t.btnPrimaryBgArrowStart
-            : `linear-gradient(to top left, ${t.btnPrimaryBgArrowStart}, ${t.btnPrimaryBgArrowEnd})`
-        };
-        box-shadow: ${t.btnPrimaryShadowArrowLeft};
-      }
+      ${buttonUseMixin(
+        t.btnPrimaryBg,
+        t.btnPrimaryBgStart,
+        t.btnPrimaryBgEnd,
+        t.btnPrimaryBgArrowStart,
+        t.btnPrimaryBgArrowEnd,
+        t.btnPrimaryShadow,
+        t.btnPrimaryShadowArrow,
+        t.btnPrimaryShadowArrowLeft,
+        t.btnPrimaryTextColor,
+        t.btnPrimaryBorder,
+      )};
 
       &:hover {
         background: ${
@@ -480,32 +458,18 @@ const jsClasses = {
 
   success(t: ITheme) {
     return css`
-      background: ${
-        t.btnSuccessBgStart === t.btnSuccessBgEnd
-          ? t.btnSuccessBgStart
-          : `linear-gradient(${t.btnSuccessBgStart}, ${t.btnSuccessBgEnd})`
-      };
-      color: ${t.btnSuccessTextColor};
-      border: ${t.btnSuccessBorder};
-      box-shadow: ${t.btnSuccessShadow};
-
-      .${classes.arrow} {
-        background: ${
-          t.btnSuccessBgArrowStart === t.btnSuccessBgArrowEnd
-            ? t.btnSuccessBgArrowStart
-            : `linear-gradient(to bottom right, ${t.btnSuccessBgArrowStart}, ${t.btnSuccessBgArrowEnd})`
-        };
-        box-shadow: ${t.btnSuccessShadowArrow};
-      }
-
-      .${classes.arrow_left} {
-        background: ${
-          t.btnSuccessBgArrowStart === t.btnSuccessBgArrowEnd
-            ? t.btnSuccessBgArrowStart
-            : `linear-gradient(to top left, ${t.btnSuccessBgArrowStart}, ${t.btnSuccessBgArrowEnd})`
-        };
-        box-shadow: ${t.btnSuccessShadowArrowLeft};
-      }
+      ${buttonUseMixin(
+        t.btnSuccessBg,
+        t.btnSuccessBgStart,
+        t.btnSuccessBgEnd,
+        t.btnSuccessBgArrowStart,
+        t.btnSuccessBgArrowEnd,
+        t.btnSuccessShadow,
+        t.btnSuccessShadowArrow,
+        t.btnSuccessShadowArrowLeft,
+        t.btnSuccessTextColor,
+        t.btnSuccessBorder,
+      )};
 
       &:hover {
         background: ${
@@ -566,32 +530,18 @@ const jsClasses = {
 
   danger(t: ITheme) {
     return css`
-      background: ${
-        t.btnDangerBgStart === t.btnDangerBgEnd
-          ? t.btnDangerBgStart
-          : `linear-gradient(${t.btnDangerBgStart}, ${t.btnDangerBgEnd})`
-      };
-      color: ${t.btnDangerTextColor};
-      border: ${t.btnDangerBorder};
-      box-shadow: ${t.btnDangerShadow};
-
-      .${classes.arrow} {
-        background: ${
-          t.btnDangerBgArrowStart === t.btnDangerBgArrowEnd
-            ? t.btnDangerBgArrowStart
-            : `linear-gradient(to bottom right, ${t.btnDangerBgArrowStart}, ${t.btnDangerBgArrowEnd})`
-        };
-        box-shadow: ${t.btnDangerShadowArrow};
-      }
-
-      .${classes.arrow_left} {
-        background: ${
-          t.btnDangerBgArrowStart === t.btnDangerBgArrowEnd
-            ? t.btnDangerBgArrowStart
-            : `linear-gradient(to top left, ${t.btnDangerBgArrowStart}, ${t.btnDangerBgArrowEnd})`
-        };
-        box-shadow: ${t.btnDangerShadowArrowLeft};
-      }
+      ${buttonUseMixin(
+        t.btnDangerBg,
+        t.btnDangerBgStart,
+        t.btnDangerBgEnd,
+        t.btnDangerBgArrowStart,
+        t.btnDangerBgArrowEnd,
+        t.btnDangerShadow,
+        t.btnDangerShadowArrow,
+        t.btnDangerShadowArrowLeft,
+        t.btnDangerTextColor,
+        t.btnDangerBorder,
+      )};
 
       &:hover {
         background: ${
@@ -652,38 +602,18 @@ const jsClasses = {
 
   pay(t: ITheme) {
     return css`
-      background: ${
-        t.btnPayBgStart === t.btnPayBgEnd ? t.btnPayBgStart : `linear-gradient(${t.btnPayBgStart}, ${t.btnPayBgEnd})`
-      };
-      color: ${t.btnPayTextColor};
-      border: ${t.btnPayBorder};
-      box-shadow: ${t.btnPayShadow};
-
-      .${classes.arrow} {
-        background: ${
-          t.btnPayBgArrowStart === t.btnPayBgArrowEnd
-            ? t.btnPayBgArrowStart
-            : `linear-gradient(to bottom right, ${t.btnPayBgArrowStart}, ${t.btnPayBgArrowEnd})`
-        };
-        box-shadow: ${t.btnPayShadowArrow};
-      }
-
-      .${classes.arrow_left} {
-        background: ${
-          t.btnPayBgArrowStart === t.btnPayBgArrowEnd
-            ? t.btnPayBgArrowStart
-            : `linear-gradient(to top left, ${t.btnPayBgArrowStart}, ${t.btnPayBgArrowEnd})`
-        };
-        box-shadow: ${t.btnPayShadowArrowLeft};
-      }
-
-      .${classes.arrow}.${classes.arrow_warning} {
-        box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
-      }
-
-      .${classes.arrow}.${classes.arrow_error} {
-        box-shadow: 2px -2px 0 0 ${t.borderColorError};
-      }
+      ${buttonUseMixin(
+        t.btnPayBg,
+        t.btnPayBgStart,
+        t.btnPayBgEnd,
+        t.btnPayBgArrowStart,
+        t.btnPayBgArrowEnd,
+        t.btnPayShadow,
+        t.btnPayShadowArrow,
+        t.btnPayShadowArrowLeft,
+        t.btnPayTextColor,
+        t.btnPayBorder,
+      )};
 
       &:hover {
         background: ${
