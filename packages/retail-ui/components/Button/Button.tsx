@@ -245,8 +245,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={cx({
-            [cx(classes.arrow, jsClasses.arrow(this.theme)) || '']: true,
-            [cx(classes.arrow_left, jsClasses.arrow_left(this.theme)) || '']: this.props.arrow === 'left',
+            [classes.arrow_left]: this.props.arrow === 'left',
             [classes.arrow_loading || '']: !!this.props.loading,
             [jsClasses.arrow_error(this.theme)]: !!this.props.error,
             [jsClasses.arrow_warning(this.theme)]: !!this.props.warning,

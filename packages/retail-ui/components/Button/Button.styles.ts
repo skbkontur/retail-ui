@@ -202,14 +202,6 @@ const jsClasses = {
       .${classes.root}.${classes.focus}.${classes.active} & {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
       }
-      .${classes.root}.${classes.checked} & {
-        background: ${t.btnCheckedBg};
-        box-shadow: ${t.btnCheckedShadowArrow};
-      }
-      .${classes.root}.${classes.checked}:hover & {
-        background: ${t.btnCheckedBg};
-        box-shadow: ${t.btnCheckedShadowArrowLeft};
-      }
 
       .${classes.root}.${classes.checked}.${classes.focus} & {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
@@ -221,22 +213,6 @@ const jsClasses = {
     `;
   },
 
-  arrow_left(t: ITheme) {
-    return css`
-      .${classes.root}.${classes.default}.${classes.checked} & {
-        box-shadow: ${t.btnDefaultCheckedShadowArrow};
-      }
-      .${classes.root}.${classes.checked} & {
-        background: ${t.btnCheckedBg};
-        box-shadow: ${t.btnCheckedShadowArrowLeft};
-      }
-      .${classes.root}.${classes.checked}:hover & {
-        background: ${t.btnCheckedBg};
-        box-shadow: ${t.btnCheckedShadowArrowLeft};
-      }
-    `;
-  },
-
   arrow_warning(t: ITheme) {
     return css`
       .${classes.root} .${classes.arrow}& {
@@ -244,9 +220,6 @@ const jsClasses = {
       }
       .${classes.root}.${classes.focus} .${classes.arrow}& {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
-      }
-      .${classes.root}.${classes.checked} .${classes.arrow}& {
-        box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.borderColorWarning};
       }
       .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
@@ -265,9 +238,6 @@ const jsClasses = {
       .${classes.root}.${classes.focus} .${classes.arrow}& {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
       }
-      .${classes.root}.${classes.checked} .${classes.arrow}& {
-        box-shadow: inset 0 4px 2px -3px ${t.btnCheckedShadowColorArrow}, 2px -2px 0 0 ${t.borderColorError};
-      }
       .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {
         box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
       }
@@ -279,13 +249,6 @@ const jsClasses = {
 
   default(t: ITheme) {
     return css`
-      .${classes.root}.${classes.checked}& .${classes.arrow} {
-        box-shadow: ${t.btnDefaultCheckedShadowArrow};
-      }
-      .${classes.root}.${classes.checked}& .${classes.arrow_left} {
-        box-shadow: ${t.btnDefaultCheckedShadowArrow};
-      }
-
       ${buttonUseMixin(
         t.btnDefaultBg,
         t.btnDefaultBgStart,
@@ -319,6 +282,18 @@ const jsClasses = {
         t.btnDefaultActiveShadowArrow,
         t.btnDefaultActiveShadowArrowLeft,
       )};
+
+      &.${classes.root}.${classes.checked} {
+        &,
+        &:not(.${classes.focus}):hover {
+          .${classes.arrow} {
+            box-shadow: ${t.btnDefaultCheckedShadowArrow};
+          }
+          .${classes.arrow_left} {
+            box-shadow: ${t.btnDefaultCheckedShadowArrow};
+          }
+        }
+      }
     `;
   },
 
@@ -476,15 +451,27 @@ const jsClasses = {
 
   checked(t: ITheme) {
     return css`
-      .${classes.root}& {
-        background: ${t.btnCheckedBg};
-        color: ${t.btnCheckedTextColor};
-        box-shadow: ${t.btnCheckedShadow};
-      }
-      .${classes.root}&:not(.${classes.focus}):hover {
-        background: ${t.btnCheckedBg};
-        border-color: ${t.btnCheckedHoverBorderColor};
-        box-shadow: ${t.btnCheckedShadow};
+      &.${classes.root} {
+        &,
+        &:not(.${classes.focus}):hover {
+          background: ${t.btnCheckedBg};
+          color: ${t.btnCheckedTextColor};
+          box-shadow: ${t.btnCheckedShadow};
+
+          .${classes.arrow} {
+            background: ${t.btnCheckedBg};
+            box-shadow: ${t.btnCheckedShadowArrow};
+          }
+
+          .${classes.arrow_left} {
+            background: ${t.btnCheckedBg};
+            box-shadow: ${t.btnCheckedShadowArrowLeft};
+          }
+        }
+
+        &:not(.${classes.focus}):hover {
+          border-color: ${t.btnCheckedHoverBorderColor};
+        }
       }
     `;
   },
