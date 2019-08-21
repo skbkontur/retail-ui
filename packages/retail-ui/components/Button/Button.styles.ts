@@ -4,7 +4,7 @@ import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import { buttonUseMixin, buttonHoverMixin } from './Button.mixins';
+import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin } from './Button.mixins';
 
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {
   let paddingTop = paddingY;
@@ -338,33 +338,14 @@ const jsClasses = {
         t.btnDefaultHoverBorder,
       )};
 
-      &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
-        background: ${t.btnDefaultActiveBg};
-        box-shadow: ${t.btnDefaultActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnDefaultActiveBg};
-          box-shadow: ${t.btnDefaultActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnDefaultActiveShadowArrowLeft};
-        }
-      }
-
-      .${classes.active}&:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading})& {
-        background: ${t.btnDefaultActiveBg};
-        box-shadow: ${t.btnDefaultActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnDefaultActiveBg};
-          box-shadow: ${t.btnDefaultActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnDefaultActiveShadowArrowLeft};
-        }
-      }
+      ${buttonActiveMixin(
+        t.btnDefaultActiveBg,
+        t.btnDefaultActiveBg,
+        t.btnDefaultActiveBg,
+        t.btnDefaultActiveShadow,
+        t.btnDefaultActiveShadowArrow,
+        t.btnDefaultActiveShadowArrowLeft,
+      )};
     `;
   },
 
@@ -395,32 +376,14 @@ const jsClasses = {
         t.btnPrimaryHoverBorder,
       )};
 
-      &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
-        background: ${t.btnPrimaryActiveBg};
-        box-shadow: ${t.btnPrimaryActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnPrimaryActiveBg};
-          box-shadow: ${t.btnPrimaryActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnPrimaryActiveShadowArrowLeft};
-        }
-      }
-      .${classes.active}:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading})& {
-        background: ${t.btnPrimaryActiveBg};
-        box-shadow: ${t.btnPrimaryActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnPrimaryActiveBg};
-          box-shadow: ${t.btnPrimaryActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnPrimaryActiveShadowArrowLeft};
-        }
-      }
+      ${buttonActiveMixin(
+        t.btnPrimaryActiveBg,
+        t.btnPrimaryActiveBg,
+        t.btnPrimaryActiveBg,
+        t.btnPrimaryActiveShadow,
+        t.btnPrimaryActiveShadowArrow,
+        t.btnPrimaryActiveShadowArrowLeft,
+      )};
     `;
   },
 
@@ -451,32 +414,14 @@ const jsClasses = {
         t.btnSuccessHoverBorder,
       )};
 
-      &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
-        background: ${t.btnSuccessActiveBg};
-        box-shadow: ${t.btnSuccessActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnSuccessActiveBg};
-          box-shadow: ${t.btnSuccessActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnSuccessActiveShadowArrowLeft};
-        }
-      }
-      .${classes.active}:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading})& {
-        background: ${t.btnSuccessActiveBg};
-        box-shadow: ${t.btnSuccessActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnSuccessActiveBg};
-          box-shadow: ${t.btnSuccessActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnSuccessActiveShadowArrowLeft};
-        }
-      }
+      ${buttonActiveMixin(
+        t.btnSuccessActiveBg,
+        t.btnSuccessActiveBg,
+        t.btnSuccessActiveBg,
+        t.btnSuccessActiveShadow,
+        t.btnSuccessActiveShadowArrow,
+        t.btnSuccessActiveShadowArrowLeft,
+      )};
     `;
   },
 
@@ -507,32 +452,14 @@ const jsClasses = {
         t.btnDangerHoverBorder,
       )};
 
-      &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
-        background: ${t.btnDangerActiveBg};
-        box-shadow: ${t.btnDangerActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnDangerActiveBg};
-          box-shadow: ${t.btnDangerActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnDangerActiveShadowArrowLeft};
-        }
-      }
-      .${classes.active}:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading})& {
-        background: ${t.btnDangerActiveBg};
-        box-shadow: ${t.btnDangerActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnDangerActiveBg};
-          box-shadow: ${t.btnDangerActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnDangerActiveShadowArrowLeft};
-        }
-      }
+      ${buttonActiveMixin(
+        t.btnDangerActiveBg,
+        t.btnDangerActiveBg,
+        t.btnDangerActiveBg,
+        t.btnDangerActiveShadow,
+        t.btnDangerActiveShadowArrow,
+        t.btnDangerActiveShadowArrowLeft,
+      )};
     `;
   },
 
@@ -563,32 +490,14 @@ const jsClasses = {
         t.btnPayHoverBorder,
       )};
 
-      &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
-        background: ${t.btnPayActiveBg};
-        box-shadow: ${t.btnPayActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnPayActiveBg};
-          box-shadow: ${t.btnPayActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnPayActiveShadowArrowLeft};
-        }
-      }
-      .${classes.active}:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading})& {
-        background: ${t.btnPayActiveBg};
-        box-shadow: ${t.btnPayActiveShadow};
-
-        .${classes.arrow} {
-          background: ${t.btnPayActiveBg};
-          box-shadow: ${t.btnPayActiveShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          box-shadow: ${t.btnPayActiveShadowArrowLeft};
-        }
-      }
+      ${buttonActiveMixin(
+        t.btnPayActiveBg,
+        t.btnPayActiveBg,
+        t.btnPayActiveBg,
+        t.btnPayActiveShadow,
+        t.btnPayActiveShadowArrow,
+        t.btnPayActiveShadowArrowLeft,
+      )};
     `;
   },
 

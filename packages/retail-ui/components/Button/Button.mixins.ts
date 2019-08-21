@@ -73,3 +73,32 @@ export const buttonHoverMixin = (
   `;
 };
 
+export const buttonActiveMixin = (
+  btnBackground: string,
+  arrowBackground: string,
+  arrowLeftBackground: string,
+  btnShadow: string,
+  arrowShadow: string,
+  arrowLeftShadow: string,
+) => {
+  return css`
+    &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
+      &:active,
+      &.${classes.active} {
+        background: ${btnBackground};
+        box-shadow: ${btnShadow};
+
+        .${classes.arrow} {
+          background: ${arrowBackground};
+          box-shadow: ${arrowShadow};
+        }
+
+        .${classes.arrow_left} {
+          background: ${arrowLeftBackground};
+          box-shadow: ${arrowLeftShadow};
+        }
+      }
+    }
+  `;
+};
+
