@@ -26,17 +26,6 @@ const jsClasses = {
     `;
   },
 
-  warningRoot(t: ITheme) {
-    return css`
-      .${classes.root}.${classes.focus}& {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
-      }
-      .${classes.root}.${classes.checked}.${classes.focus}& {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
-      }
-    `;
-  },
-
   error(t: ITheme) {
     return css`
       .${classes.root}:not(.${classes.link}) & {
@@ -44,17 +33,6 @@ const jsClasses = {
       }
       .${classes.wrap} .${classes.root}.${classes.link} & {
         background: ${t.errorSecondary};
-      }
-    `;
-  },
-
-  errorRoot(t: ITheme) {
-    return css`
-      .${classes.root}.${classes.focus}& {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
-      }
-      .${classes.root}.${classes.checked}.${classes.focus}& {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
       }
     `;
   },
@@ -155,18 +133,34 @@ const jsClasses = {
         color: ${t.linkColor};
         text-decoration: ${t.linkHoverTextDecoration};
       }
-      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
+
+      &.${classes.root}:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
         border: ${t.btnFocusBorder};
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
-      }
-      .${classes.root}.${classes.checked}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
-      }
-      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.errorRoot} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
-      }
-      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.active} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
+
+        &,
+        &:hover,
+        &:active,
+        &.${classes.active},
+        &.${classes.checked} {
+          box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
+
+          &.${classes.warningRoot},
+          &.${classes.errorRoot} {
+            box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
+          }
+
+          .${classes.arrow} {
+            box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
+
+            &.${jsClasses.arrow_warning(t)} {
+              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
+            }
+
+            &.${jsClasses.arrow_error(t)} {
+              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
+            }
+          }
+        }
       }
     `;
   },
@@ -189,44 +183,14 @@ const jsClasses = {
           &.${classes.arrow_error} {
             box-shadow: 2px -2px 0 0 ${t.borderColorError};
           }
-      }
-      }
-    `;
-  },
-
-  arrow(t: ITheme) {
-    return css`
-      .${classes.root}.${classes.focus} & {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
-      }
-      .${classes.root}.${classes.focus}:hover & {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
-      }
-      .${classes.root}.${classes.focus}:active & {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
-      }
-      .${classes.root}.${classes.focus}.${classes.active} & {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
-      }
-
-      .${classes.root}.${classes.checked}.${classes.focus} & {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
+        }
       }
     `;
   },
 
   arrow_warning(t: ITheme) {
     return css`
-      .${classes.root} .${classes.arrow}& {
-        box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
-      }
-      .${classes.root}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
-      }
-      .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
-      }
-      .${classes.root}.${classes.disabled} .${classes.arrow}& {
+      .${classes.root}.${classes.warningRoot} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
       }
     `;
@@ -234,14 +198,8 @@ const jsClasses = {
 
   arrow_error(t: ITheme) {
     return css`
-      .${classes.root} .${classes.arrow}& {
+      .${classes.root}.${classes.errorRoot} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorError};
-      }
-      .${classes.root}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
-      }
-      .${classes.root}.${classes.checked}.${classes.focus} .${classes.arrow}& {
-        box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
       }
     `;
   },
