@@ -1,28 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
 import classes from './Button.less';
 import { ITheme } from '../../lib/theming/Theme';
-import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin } from './Button.mixins';
-
-const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {
-  let paddingTop = paddingY;
-  let paddingBottom = paddingY;
-
-  const shiftUp = (top: string, bottom: string, offset: number) => {
-    return [DimensionFunctions.shift(top, `${-offset}`), DimensionFunctions.shift(bottom, `${offset}`)];
-  };
-
-  if (fontSize === '16px') {
-    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, 1);
-  }
-  if (additionalOffset) {
-    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, additionalOffset);
-  }
-
-  return `${paddingTop} ${paddingX} ${paddingBottom}`;
-};
+import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
 
 const jsClasses = {
   root(t: ITheme) {
@@ -80,18 +61,16 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
-      font-size: ${t.btnFontSizeSmall};
       border-radius: ${t.btnSmallBorderRadius};
 
-      &:not(.${classes.link}) {
-        height: ${DimensionFunctions.shift(t.controlHeightSmall, t.btnHeightShift)};
-        padding: ${getBtnPadding(t.btnFontSizeSmall, t.controlPaddingYSmall, '15px')};
-        line-height: ${t.controlLineHeightSmall};
-
-        .rt-ie-any & {
-          padding: ${getBtnPadding(t.btnFontSizeSmall, t.controlPaddingYSmall, '15px', 1)};
-        }
-      }
+      ${buttonSizeMixin(
+        t.btnFontSizeSmall,
+        t.controlHeightSmall,
+        t.btnHeightShift,
+        t.controlLineHeightSmall,
+        '15px',
+        t.controlPaddingYSmall,
+      )};
 
       .${classes.arrow} {
         right: ${t.btnSmallArrowRight};
@@ -108,56 +87,50 @@ const jsClasses = {
 
   sizeMedium(t: ITheme) {
     return css`
-      font-size: ${t.btnFontSizeMedium};
+      ${buttonSizeMixin(
+        t.btnFontSizeMedium,
+        t.controlHeightMedium,
+        t.btnHeightShift,
+        t.controlLineHeightMedium,
+        '15px',
+        t.controlPaddingYMedium,
+      )};
 
-      &:not(.${classes.link}) {
-        padding: ${getBtnPadding(t.btnFontSizeMedium, t.controlPaddingYMedium, '15px')};
-        height: ${DimensionFunctions.shift(t.controlHeightMedium, t.btnHeightShift)};
-        line-height: ${t.controlLineHeightMedium};
+      .${classes.arrow} {
+        transform: ${t.btnMediumArrowTransform};
+      }
 
-        .rt-ie-any & {
-          padding: ${getBtnPadding(t.btnFontSizeMedium, t.controlPaddingYMedium, '15px', 1)};
-        }
+      .${classes.arrow_left} {
+        left: ${t.btnMediumArrowLeft};
+      }
 
-        .${classes.arrow} {
-          transform: ${t.btnMediumArrowTransform};
-        }
-
-        .${classes.arrow_left} {
-          left: ${t.btnMediumArrowLeft};
-        }
-
-        .${classes.arrow_left}.${classes.arrow_loading}::before {
-          left: ${t.btnMediumArrowLeftLoadingLeft};
-        }
+      .${classes.arrow_left}.${classes.arrow_loading}::before {
+        left: ${t.btnMediumArrowLeftLoadingLeft};
       }
     `;
   },
 
   sizeLarge(t: ITheme) {
     return css`
-      font-size: ${t.btnFontSizeLarge};
+      ${buttonSizeMixin(
+        t.btnFontSizeLarge,
+        t.controlHeightLarge,
+        t.btnHeightShift,
+        t.controlLineHeightLarge,
+        '20px',
+        t.controlPaddingYLarge,
+      )};
 
-      &:not(.${classes.link}) {
-        padding: ${getBtnPadding(t.btnFontSizeLarge, t.controlPaddingYLarge, '20px')};
-        height: ${DimensionFunctions.shift(t.controlHeightLarge, t.btnHeightShift)};
-        line-height: ${t.controlLineHeightLarge};
+      .${classes.arrow} {
+        transform: ${t.btnLargeArrowTransform};
+      }
 
-        .rt-ie-any & {
-          padding: ${getBtnPadding(t.btnFontSizeLarge, t.controlPaddingYLarge, '20px', 1)};
-        }
+      .${classes.arrow_left} {
+        left: ${t.btnLargeArrowLeft};
+      }
 
-        .${classes.arrow} {
-          transform: ${t.btnLargeArrowTransform};
-        }
-
-        .${classes.arrow_left} {
-          left: ${t.btnLargeArrowLeft};
-        }
-
-        .${classes.arrow}.${classes.arrow_loading}::before {
-          background: ${t.btnLargeArrowBg};
-        }
+      .${classes.arrow}.${classes.arrow_loading}::before {
+        background: ${t.btnLargeArrowBg};
       }
     `;
   },
