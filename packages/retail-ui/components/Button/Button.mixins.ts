@@ -37,3 +37,39 @@ export const buttonUseMixin = (
   `;
 };
 
+export const buttonHoverMixin = (
+  btnBackground: string,
+  btnBackgroundStart: string,
+  btnBackgroundEnd: string,
+  arrowBackgroundStart: string,
+  arrowBackgroundEnd: string,
+  btnShadow: string,
+  arrowShadow: string,
+  arrowLeftShadow: string,
+  btnBorder: string,
+) => {
+  return css`
+    &:hover {
+      background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
+        ? btnBackground
+        : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
+      box-shadow: ${btnShadow};
+      border-color: ${btnBorder};
+
+      .${classes.arrow} {
+        background: ${arrowBackgroundStart === arrowBackgroundEnd
+          ? arrowBackgroundStart
+          : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
+        box-shadow: ${arrowShadow};
+      }
+
+      .${classes.arrow_left} {
+        background: ${arrowBackgroundStart === arrowBackgroundEnd
+          ? arrowBackgroundStart
+          : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
+        box-shadow: ${arrowLeftShadow};
+      }
+    }
+  `;
+};
+

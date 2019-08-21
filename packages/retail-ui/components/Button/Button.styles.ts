@@ -4,7 +4,7 @@ import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import { buttonUseMixin } from './Button.mixins';
+import { buttonUseMixin, buttonHoverMixin } from './Button.mixins';
 
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {
   let paddingTop = paddingY;
@@ -326,33 +326,17 @@ const jsClasses = {
         t.btnDefaultBorder,
       )};
 
-      &:hover {
-        background: ${
-          t.btnDefaultHoverBgStart === t.btnDefaultHoverBgEnd
-            ? t.btnDefaultHoverBg
-            : `linear-gradient(${t.btnDefaultHoverBgStart}, ${t.btnDefaultHoverBgEnd})`
-        };
-        box-shadow: ${t.btnDefaultHoverShadow};
-        border-color: ${t.btnDefaultHoverBorderColor};
-
-        .${classes.arrow} {
-          background: ${
-            t.btnDefaultHoverBgStart === t.btnDefaultHoverBgEnd
-              ? t.btnDefaultHoverBgStart
-              : `linear-gradient(to bottom right, ${t.btnDefaultHoverBgStart}, ${t.btnDefaultHoverBgEnd})`
-          };
-          box-shadow: ${t.btnDefaultHoverShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          background: ${
-            t.btnDefaultHoverBgStart === t.btnDefaultHoverBgEnd
-              ? t.btnDefaultHoverBgStart
-              : `linear-gradient(to top left, ${t.btnDefaultHoverBgStart}, ${t.btnDefaultHoverBgEnd})`
-          };
-          box-shadow: ${t.btnDefaultHoverShadowArrowLeft};
-        }
-      }
+      ${buttonHoverMixin(
+        t.btnDefaultHoverBg,
+        t.btnDefaultHoverBgStart,
+        t.btnDefaultHoverBgEnd,
+        t.btnDefaultHoverBgStart,
+        t.btnDefaultHoverBgEnd,
+        t.btnDefaultHoverShadow,
+        t.btnDefaultHoverShadowArrow,
+        t.btnDefaultHoverShadowArrowLeft,
+        t.btnDefaultHoverBorder,
+      )};
 
       &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
         background: ${t.btnDefaultActiveBg};
@@ -399,33 +383,17 @@ const jsClasses = {
         t.btnPrimaryBorder,
       )};
 
-      &:hover {
-        background: ${
-          t.btnPrimaryHoverBgStart === t.btnPrimaryHoverBgEnd
-            ? t.btnPrimaryHoverBgStart
-            : `linear-gradient(${t.btnPrimaryHoverBgStart}, ${t.btnPrimaryHoverBgEnd})`
-        };
-        box-shadow: ${t.btnPrimaryHoverShadow};
-        border-color: ${t.btnPrimaryHoverBg};
-
-        .${classes.arrow} {
-          background: ${
-            t.btnPrimaryHoverBgStart === t.btnPrimaryHoverBgEnd
-              ? t.btnPrimaryHoverBgStart
-              : `linear-gradient(to bottom right, ${t.btnPrimaryHoverBgStart}, ${t.btnPrimaryHoverBgEnd})`
-          };
-          box-shadow: ${t.btnPrimaryHoverShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          background: ${
-            t.btnPrimaryHoverBgStart === t.btnPrimaryHoverBgEnd
-              ? t.btnPrimaryHoverBgStart
-              : `linear-gradient(to top left, ${t.btnPrimaryHoverBgStart}, ${t.btnPrimaryHoverBgEnd})`
-          };
-          box-shadow: ${t.btnPrimaryHoverShadowArrowLeft};
-        }
-      }
+      ${buttonHoverMixin(
+        t.btnPrimaryHoverBg,
+        t.btnPrimaryHoverBgStart,
+        t.btnPrimaryHoverBgEnd,
+        t.btnPrimaryHoverBgStart,
+        t.btnPrimaryHoverBgEnd,
+        t.btnPrimaryHoverShadow,
+        t.btnPrimaryHoverShadowArrow,
+        t.btnPrimaryHoverShadowArrowLeft,
+        t.btnPrimaryHoverBorder,
+      )};
 
       &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
         background: ${t.btnPrimaryActiveBg};
@@ -471,33 +439,17 @@ const jsClasses = {
         t.btnSuccessBorder,
       )};
 
-      &:hover {
-        background: ${
-          t.btnSuccessHoverBgStart === t.btnSuccessHoverBgEnd
-            ? t.btnSuccessHoverBgStart
-            : `linear-gradient(${t.btnSuccessHoverBgStart}, ${t.btnSuccessHoverBgEnd})`
-        };
-        box-shadow: ${t.btnSuccessHoverShadow};
-        border-color: ${t.btnSuccessHoverBg};
-
-        .${classes.arrow} {
-          background: ${
-            t.btnSuccessHoverBgStart === t.btnSuccessHoverBgEnd
-              ? t.btnSuccessHoverBgStart
-              : `linear-gradient(to bottom right, ${t.btnSuccessHoverBgStart}, ${t.btnSuccessHoverBgEnd})`
-          };
-          box-shadow: ${t.btnSuccessHoverShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          background: ${
-            t.btnSuccessHoverBgStart === t.btnSuccessHoverBgEnd
-              ? t.btnSuccessHoverBgStart
-              : `linear-gradient(to top left, ${t.btnSuccessHoverBgStart}, ${t.btnSuccessHoverBgEnd})`
-          };
-          box-shadow: ${t.btnSuccessHoverShadowArrowLeft};
-        }
-      }
+      ${buttonHoverMixin(
+        t.btnSuccessHoverBg,
+        t.btnSuccessHoverBgStart,
+        t.btnSuccessHoverBgEnd,
+        t.btnSuccessHoverBgStart,
+        t.btnSuccessHoverBgEnd,
+        t.btnSuccessHoverShadow,
+        t.btnSuccessHoverShadowArrow,
+        t.btnSuccessHoverShadowArrowLeft,
+        t.btnSuccessHoverBorder,
+      )};
 
       &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
         background: ${t.btnSuccessActiveBg};
@@ -543,33 +495,17 @@ const jsClasses = {
         t.btnDangerBorder,
       )};
 
-      &:hover {
-        background: ${
-          t.btnDangerBgStart === t.btnDangerBgEnd
-            ? t.btnDangerBgStart
-            : `linear-gradient(${t.btnDangerHoverBgStart}, ${t.btnDangerHoverBgEnd})`
-        };
-        box-shadow: ${t.btnDangerHoverShadow};
-        border-color: ${t.btnDangerHoverBg};
-
-        .${classes.arrow} {
-          background: ${
-            t.btnDangerBgStart === t.btnDangerBgEnd
-              ? t.btnDangerBgStart
-              : `linear-gradient(to bottom right, ${t.btnDangerHoverBgStart}, ${t.btnDangerHoverBgEnd})`
-          };
-          box-shadow: ${t.btnDangerHoverShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          background: ${
-            t.btnDangerBgStart === t.btnDangerBgEnd
-              ? t.btnDangerBgStart
-              : `linear-gradient(to top left, ${t.btnDangerHoverBgStart}, ${t.btnDangerHoverBgEnd})`
-          };
-          box-shadow: ${t.btnDangerHoverShadowArrowLeft};
-        }
-      }
+      ${buttonHoverMixin(
+        t.btnDangerHoverBg,
+        t.btnDangerHoverBgStart,
+        t.btnDangerHoverBgEnd,
+        t.btnDangerHoverBgStart,
+        t.btnDangerHoverBgEnd,
+        t.btnDangerHoverShadow,
+        t.btnDangerHoverShadowArrow,
+        t.btnDangerHoverShadowArrowLeft,
+        t.btnDangerHoverBorder,
+      )};
 
       &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
         background: ${t.btnDangerActiveBg};
@@ -615,33 +551,17 @@ const jsClasses = {
         t.btnPayBorder,
       )};
 
-      &:hover {
-        background: ${
-          t.btnPayHoverBgStart === t.btnPayHoverBgEnd
-            ? t.btnPayHoverBgStart
-            : `linear-gradient(${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`
-        };
-        box-shadow: ${t.btnPayHoverShadow};
-        border-color: ${t.btnPayHoverBg};
-
-        .${classes.arrow} {
-          background: ${
-            t.btnPayHoverBgStart === t.btnPayHoverBgEnd
-              ? t.btnPayHoverBgStart
-              : `linear-gradient(to bottom right, ${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`
-          };
-          box-shadow: ${t.btnPayHoverShadowArrow};
-        }
-
-        .${classes.arrow_left} {
-          background: ${
-            t.btnPayHoverBgStart === t.btnPayHoverBgEnd
-              ? t.btnPayHoverBgStart
-              : `linear-gradient(to top left, ${t.btnPayHoverBgStart}, ${t.btnPayHoverBgEnd})`
-          };
-          box-shadow: ${t.btnPayHoverShadowArrowLeft};
-        }
-      }
+      ${buttonHoverMixin(
+        t.btnPayHoverBg,
+        t.btnPayHoverBgStart,
+        t.btnPayHoverBgEnd,
+        t.btnPayHoverBgStart,
+        t.btnPayHoverBgEnd,
+        t.btnPayHoverShadow,
+        t.btnPayHoverShadowArrow,
+        t.btnPayHoverShadowArrowLeft,
+        t.btnPayHoverBorder,
+      )};
 
       &:not(.${classes.checked}):not(.${classes.disabled}):not(.${classes.loading}):active {
         background: ${t.btnPayActiveBg};
