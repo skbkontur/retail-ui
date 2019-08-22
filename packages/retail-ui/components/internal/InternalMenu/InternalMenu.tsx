@@ -7,8 +7,7 @@ import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContain
 
 import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
 import { isMenuHeader } from '../../MenuHeader';
-
-import styles from './InternalMenu.less';
+import styles from './InternalMenu.module.less';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
 

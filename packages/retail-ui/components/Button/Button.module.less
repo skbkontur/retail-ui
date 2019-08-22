@@ -1,0 +1,281 @@
+@import '../variables.module.less';
+@import (reference) '../Link/Link.module.less';
+@import './Button.common.module.less';
+
+:local {
+  .commonStyles();
+
+  @focus-shadow: 0 0 0 1px @border-color-focus, inset 0 0 0 1px @border-color-gray-lighter;
+
+  .wrap {
+    padding: 1px;
+
+    &_link {
+      padding: 0;
+    }
+  }
+
+  .sizeSmall {
+    &:not(.link) {
+      height: @control-height-small - 2;
+    }
+  }
+  .buttonSizeMixin(
+    sizeSmall,
+    16.8px,
+    7.5px,
+    -7.5px,
+    -9.6px,
+    -7.7px,
+    rotate(53deg) skewX(24deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0),
+    7px,
+    7px,
+    -207px,
+    441%
+  );
+
+  .sizeMedium {
+    &:not(.link) {
+      height: @control-height-medium - 2;
+    }
+  }
+  .buttonSizeMixin(
+    sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
+    -9.6px,
+    -9.5px,
+    rotate(53deg) skewX(24deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -208px,
+    441%
+  );
+
+  .DEPRECATED_sizeMedium {
+    font-size: 14px;
+
+    &:not(.link) {
+      height: @control-height-medium - 2;
+    }
+  }
+  .buttonSizeMixin(
+    DEPRECATED_sizeMedium,
+    20.2px,
+    9px,
+    -10.2px,
+    -9.6px,
+    -9.5px,
+    rotate(53deg) skewX(24deg) skewY(8deg),
+    linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0),
+    0,
+    0,
+    -208px,
+    441%
+  );
+
+  .sizeLarge {
+    &:not(.link) {
+      height: @control-height-large - 2;
+    }
+  }
+  .buttonSizeMixin(
+    sizeLarge,
+    21.7px,
+    10.2px,
+    -10.8px,
+    -10.6px,
+    -10.2px,
+    rotate(53deg) skewX(25deg) skewY(10deg),
+    linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0),
+    -32px,
+    -36px,
+    -198px,
+    700%
+  );
+
+  // Use Default
+  .buttonUseColorsMixin(
+    default,
+    linear-gradient(@btn-default-bg-start, @btn-default-bg-end),
+    linear-gradient(to bottom right, @btn-default-bg-start, @btn-default-bg-end),
+    linear-gradient(to top left, @btn-default-bg-start, @btn-default-bg-end),
+    @btn-default-shadow,
+    @btn-default-shadow-arrow,
+    @btn-default-shadow-arrow-left,
+    @btn-default-text-color,
+    none
+  );
+  .buttonUseHoverMixin(
+    default,
+    linear-gradient(@btn-default-hover-bg-start, @btn-default-hover-bg-end),
+    linear-gradient(to bottom right, @btn-default-hover-bg-start, @btn-default-hover-bg-end),
+    linear-gradient(to top left, @btn-default-hover-bg-start, @btn-default-hover-bg-end),
+    @btn-default-hover-shadow,
+    @btn-default-hover-shadow-arrow,
+    @btn-default-hover-shadow-arrow-left,
+    transparent
+  );
+  .buttonUseActiveMixin(
+    default,
+    @btn-default-active-bg,
+    @btn-default-active-shadow,
+    @btn-default-active-shadow-arrow,
+    @btn-default-active-shadow-arrow-left
+  );
+
+  // Use Primary
+  .buttonUseColorsMixin(
+    primary,
+    linear-gradient(@btn-primary-bg-start, @btn-primary-bg-end),
+    linear-gradient(to bottom right, @btn-primary-bg-start, @btn-primary-bg-end),
+    linear-gradient(to top left, @btn-primary-bg-start, @btn-primary-bg-end),
+    @btn-primary-shadow,
+    @btn-primary-shadow-arrow,
+    @btn-primary-shadow-arrow-left,
+    @btn-primary-text-color,
+    none
+  );
+  .buttonUseHoverMixin(
+    primary,
+    linear-gradient(@btn-primary-hover-bg-start, @btn-primary-hover-bg-end),
+    linear-gradient(to bottom right, @btn-primary-hover-bg-start, @btn-primary-hover-bg-end),
+    linear-gradient(to top left, @btn-primary-hover-bg-start, @btn-primary-hover-bg-end),
+    @btn-primary-hover-shadow,
+    @btn-primary-hover-shadow-arrow,
+    @btn-primary-hover-shadow-arrow-left,
+    transparent
+  );
+  .buttonUseActiveMixin(
+    primary,
+    @btn-primary-active-bg,
+    @btn-primary-active-shadow,
+    @btn-primary-active-shadow-arrow,
+    @btn-primary-active-shadow-arrow-left
+  );
+
+  // Use Success
+  .buttonUseColorsMixin(
+    success,
+    linear-gradient(@btn-success-bg-start, @btn-success-bg-end),
+    linear-gradient(to bottom right, @btn-success-bg-start, @btn-success-bg-end),
+    linear-gradient(to top left, @btn-success-bg-start, @btn-success-bg-end),
+    @btn-success-shadow,
+    @btn-success-shadow-arrow,
+    @btn-success-shadow-arrow-left,
+    @btn-success-text-color,
+    none
+  );
+  .buttonUseHoverMixin(
+    success,
+    linear-gradient(@btn-success-hover-bg-start, @btn-success-hover-bg-end),
+    linear-gradient(to bottom right, @btn-success-hover-bg-start, @btn-success-hover-bg-end),
+    linear-gradient(to top left, @btn-success-hover-bg-start, @btn-success-hover-bg-end),
+    @btn-success-hover-shadow,
+    @btn-success-hover-shadow-arrow,
+    @btn-success-hover-shadow-arrow-left,
+    transparent
+  );
+  .buttonUseActiveMixin(
+    success,
+    @btn-success-active-bg,
+    @btn-success-active-shadow,
+    @btn-success-active-shadow-arrow,
+    @btn-success-active-shadow-arrow-left
+  );
+
+  // Use Danger
+  .buttonUseColorsMixin(
+    danger,
+    linear-gradient(@btn-danger-bg-start, @btn-danger-bg-end),
+    linear-gradient(to bottom right, @btn-danger-bg-start, @btn-danger-bg-end),
+    linear-gradient(to top left, @btn-danger-bg-start, @btn-danger-bg-end),
+    @btn-danger-shadow,
+    @btn-danger-shadow-arrow,
+    @btn-danger-shadow-arrow-left,
+    @btn-danger-text-color,
+    none
+  );
+  .buttonUseHoverMixin(
+    danger,
+    linear-gradient(@btn-danger-hover-bg-start, @btn-danger-hover-bg-end),
+    linear-gradient(to bottom right, @btn-danger-hover-bg-start, @btn-danger-hover-bg-end),
+    linear-gradient(to top left, @btn-danger-hover-bg-start, @btn-danger-hover-bg-end),
+    @btn-danger-hover-shadow,
+    @btn-danger-hover-shadow-arrow,
+    @btn-danger-hover-shadow-arrow-left,
+    transparent
+  );
+  .buttonUseActiveMixin(
+    danger,
+    @btn-danger-active-bg,
+    @btn-danger-active-shadow,
+    @btn-danger-active-shadow-arrow,
+    @btn-danger-active-shadow-arrow-left
+  );
+
+  // Use Pay
+  .buttonUseColorsMixin(
+    pay,
+    linear-gradient(@btn-pay-bg-start, @btn-pay-bg-end),
+    linear-gradient(to bottom right, @btn-pay-bg-start, @btn-pay-bg-end),
+    linear-gradient(to top left, @btn-pay-bg-start, @btn-pay-bg-end),
+    @btn-pay-shadow,
+    @btn-pay-shadow-arrow,
+    @btn-pay-shadow-arrow-left,
+    @btn-pay-text-color,
+    none
+  );
+  .buttonUseHoverMixin(
+    pay,
+    linear-gradient(@btn-pay-hover-bg-start, @btn-pay-hover-bg-end),
+    linear-gradient(to bottom right, @btn-pay-hover-bg-start, @btn-pay-hover-bg-end),
+    linear-gradient(to top left, @btn-pay-hover-bg-start, @btn-pay-hover-bg-end),
+    @btn-pay-hover-shadow,
+    @btn-pay-hover-shadow-arrow,
+    @btn-pay-hover-shadow-arrow-left,
+    transparent
+  );
+  .buttonUseActiveMixin(
+    pay,
+    @btn-pay-active-bg,
+    @btn-pay-active-shadow,
+    @btn-pay-active-shadow-arrow,
+    @btn-pay-active-shadow-arrow-left
+  );
+
+  // End Use
+  .buttonFocusMixin(
+    2px,
+    none,
+    @border-color-focus,
+    @outline-color-focus
+  );
+
+  @btn-checked-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  .buttonStateColorsMixin(
+    @btn-checked-bg,
+    @btn-checked-shadow,
+    @btn-shadow-checked-arrow,
+    @btn-shadow-checked-arrow-left,
+    transparent,
+    2px,
+    @bg-disabled,
+    0 0 0 1px @border-color-gray-light,
+    1px -1px 0 0 @border-color-gray-light,
+    @btn-checked-text-color,
+    @outline-color-focus
+  );
+
+  .borderless {
+    box-shadow: none;
+
+    &:hover,
+    &:active {
+      box-shadow: none;
+    }
+  }
+}

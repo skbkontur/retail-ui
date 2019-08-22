@@ -4,7 +4,7 @@ import { ModalContext, CloseProps } from './ModalContext';
 import Sticky from '../Sticky';
 import Close from './ModalClose';
 
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 
 export interface HeaderProps {
   close?: boolean;

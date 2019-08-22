@@ -4,7 +4,7 @@ import Button from '../../Button';
 import { locale } from '../../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
-import styles from './FiasForm.less';
+import styles from './FiasForm.module.less';
 import {
   Fields,
   FormValidation,

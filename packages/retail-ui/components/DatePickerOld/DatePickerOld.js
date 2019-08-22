@@ -13,7 +13,7 @@ import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
 import Center from '../Center';
 
-import styles from './DatePicker.less';
+import styles from './DatePicker.module.less';
 import { isIE } from '../ensureOldIEClassName';
 
 const INPUT_PASS_PROPS = {

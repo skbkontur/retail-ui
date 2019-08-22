@@ -1,0 +1,40 @@
+@import '../variables.module.less';
+@import '../variables.flat.module.less';
+@import './Input.common.module.less';
+
+:local {
+  .commonStyles();
+
+  .root {
+    color: @input-flat-color;
+    background-color: @input-flat-bg;
+    border: 1px solid @border-color-gray-light;
+
+    &.focus {
+      border-color: @flat-border-color-focus;
+      box-shadow: 0 0 0 1px @flat-border-color-focus;
+    }
+
+    &.warning {
+      border-color: @border-color-warning;
+      box-shadow: 0 0 0 1px @border-color-warning;
+    }
+
+    &.error {
+      border-color: @border-color-error;
+      box-shadow: 0 0 0 1px @border-color-error;
+    }
+
+    &.disabled {
+      background: @input-flat-disabled-color;
+      border-color: @input-flat-disabled-color;
+    }
+
+    .leftIcon,
+    .rightIcon {
+      &.useDefaultColor {
+        color: @input-flat-icon-color;
+      }
+    }
+  }
+}

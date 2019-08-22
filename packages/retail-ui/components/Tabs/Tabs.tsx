@@ -7,7 +7,7 @@ import Indicator from './Indicator';
 import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
 
-import styles from './Tabs.less';
+import styles from './Tabs.module.less';
 
 export interface TabsProps {
   /**

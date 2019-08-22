@@ -6,7 +6,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 
-import styles from './Link.less';
+import styles from './Link.module.less';
 
 const useClasses = {
   default: styles.useDefault,

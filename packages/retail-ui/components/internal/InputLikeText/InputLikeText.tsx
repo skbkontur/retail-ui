@@ -7,11 +7,13 @@ import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { InputVisibilityState, IconType } from '../../Input/Input';
 import { InputProps } from '../../Input';
 
-import styles from './InputLikeText.less';
+import styles from './InputLikeText.module.less';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const inputStyles = isFlatDesign ? require('../../Input/Input.flat.less') : require('../../Input/Input.less');
+const inputStyles = isFlatDesign
+  ? require('../../Input/Input.flat.module.less')
+  : require('../../Input/Input.module.less');
 
 export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;

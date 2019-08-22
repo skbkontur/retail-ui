@@ -1,0 +1,45 @@
+@import '../variables.module.less';
+
+:local {
+  .cell {
+    .reset-button();
+
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    border: 1px solid transparent;
+    outline: none;
+    font-size: 14px;
+    padding: 0;
+    background: @calendar-cell-bg;
+    user-select: none;
+
+    &:hover {
+      background-color: @calendar-cell-hover-bg-color;
+      color: @calendar-cell-hover-color;
+      cursor: pointer;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    &:active:hover {
+      color: @calendar-cell-active-hover-color;
+    }
+  }
+
+  .selected {
+    background-color: @calendar-cell-selected-bg-color;
+    color: @calendar-cell-selected-font-color;
+  }
+
+  .weekend {
+    color: @calendar-cell-weekend-color;
+  }
+
+  .today {
+    border: @calendar-cell-today-border;
+  }
+}

@@ -16,7 +16,7 @@ import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from '
 import SidePageHeader from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 
 export interface SidePageProps {
   /**

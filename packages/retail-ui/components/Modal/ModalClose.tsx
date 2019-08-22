@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { CloseProps } from './ModalContext';
 
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 
 const Close: React.SFC<CloseProps> = (props: CloseProps) => {
   return (

@@ -6,7 +6,7 @@ import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import LayoutEvents from '../../lib/LayoutEvents';
-import styles from './TokenInput.less';
+import styles from './TokenInput.module.less';
 import cn from 'classnames';
 import Menu from '../Menu/Menu';
 import Token, { TokenProps } from '../Token';
@@ -74,10 +74,10 @@ const defaultRenderToken = <T extends any>(
   item: T,
   { isActive, onClick, onRemove, disabled }: Partial<TokenProps & TokenActions>,
 ) => (
-    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
-      {item}
-    </Token>
-  );
+  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
+    {item}
+  </Token>
+);
 
 export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static defaultProps: Partial<TokenInputProps<any>> = {

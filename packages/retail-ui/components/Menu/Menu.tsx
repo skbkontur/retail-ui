@@ -7,8 +7,7 @@ import ScrollContainer from '../ScrollContainer/ScrollContainer';
 
 import MenuItem, { MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
 import { isMenuHeader } from '../MenuHeader/MenuHeader';
-
-import styles from './Menu.less';
+import styles from './Menu.module.less';
 import { Nullable } from '../../typings/utility-types';
 
 interface MenuProps {

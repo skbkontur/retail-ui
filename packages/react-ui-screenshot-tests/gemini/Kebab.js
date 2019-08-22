@@ -2,7 +2,7 @@
 
 var renderStory = require('./utils').renderStory;
 
-const KEBAB_SELECTOR = '[class^="Kebab-kebab"]';
+const KEBAB_SELECTOR = '[data-comp-name~="Kebab"]';
 
 var applyTest = testSuite =>
   testSuite

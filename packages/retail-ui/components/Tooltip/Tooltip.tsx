@@ -3,7 +3,7 @@ import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
-import styles from './Tooltip.less';
+import styles from './Tooltip.module.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';

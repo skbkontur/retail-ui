@@ -1,8 +1,8 @@
 import * as React from 'react';
 import cn from 'classnames';
 import warningOutput from 'warning';
-import styles from './Token.less';
-import tokenColors from './Colors.less';
+import styles from './Token.module.less';
+import tokenColors from './Colors.module.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
 

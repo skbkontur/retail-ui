@@ -10,7 +10,7 @@ import tabListener from '../../lib/events/tabListener';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign ? require('./Checkbox.flat.less') : require('./Checkbox.less');
+const styles = isFlatDesign ? require('./Checkbox.flat.module.less') : require('./Checkbox.module.less');
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,

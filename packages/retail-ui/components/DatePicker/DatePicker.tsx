@@ -11,9 +11,7 @@ import DateInput from '../DateInput';
 import { DateInput as PureDateInput } from '../DateInput/DateInput';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
-
-import styles from './DatePicker.less';
-
+import styles from './DatePicker.module.less';
 import Picker from './Picker';
 
 const INPUT_PASS_PROPS = {

@@ -11,8 +11,7 @@ import { MonthViewModel } from './MonthViewModel';
 import CalendarScrollEvents from './CalendarScrollEvents';
 
 import { Month } from './Month';
-
-import styles from './Calendar.less';
+import styles from './Calendar.module.less';
 import { Nullable } from '../../typings/utility-types';
 
 export type CalendarDateShape = CDS.CalendarDateShape;

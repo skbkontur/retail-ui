@@ -4,7 +4,7 @@ import getScrollWidth from '../../lib/dom/getScrollWidth';
 import Sticky from '../Sticky/Sticky';
 import { ModalContext } from './ModalContext';
 
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 
 export interface FooterProps {
   /**

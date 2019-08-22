@@ -2,8 +2,7 @@ import cn from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import CapIcon, { IconProps } from '../Icon/20px';
-
-import styles from './TopBar.less';
+import styles from './TopBar.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 
 export interface ItemProps {

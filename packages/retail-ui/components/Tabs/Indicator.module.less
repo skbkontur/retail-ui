@@ -1,0 +1,28 @@
+@import '../variables.module.less';
+
+@easing: 0.2s ease-out;
+
+:local {
+  .root {
+    position: absolute;
+    height: 3px;
+    background: @tab-color-focus;
+    transition: all @easing;
+  }
+
+  .primary {
+    background: @tab-color-primary;
+  }
+
+  .success {
+    background: @tab-color-success;
+  }
+
+  .warning {
+    background: @tab-color-warning;
+  }
+
+  .error {
+    background: @tab-color-error;
+  }
+}

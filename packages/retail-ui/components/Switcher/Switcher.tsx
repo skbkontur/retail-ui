@@ -4,7 +4,7 @@ import * as PropTypes from 'prop-types';
 import Group from '../Group';
 import Button from '../Button';
 
-import styles from './Switcher.less';
+import styles from './Switcher.module.less';
 import { Nullable } from '../../typings/utility-types';
 
 export interface SwitcherProps {

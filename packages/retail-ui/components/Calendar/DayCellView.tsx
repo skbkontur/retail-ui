@@ -3,8 +3,7 @@ import * as React from 'react';
 import * as CDS from './CalendarDateShape';
 
 import config from './config';
-
-import styles from './DayCellView.less';
+import styles from './DayCellView.module.less';
 import { Nullable } from '../../typings/utility-types';
 
 interface DayCellViewProps {

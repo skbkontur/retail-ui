@@ -1,0 +1,67 @@
+@import '../variables.module.less';
+
+.rules() {
+  :local {
+    button.root {
+      min-width: 100%;
+    }
+
+    .root {
+      .reset-button();
+
+      display: block;
+      position: relative;
+      cursor: pointer;
+      line-height: 18px;
+      outline: none;
+      padding: 6px 18px 7px 8px;
+      text-decoration: none;
+    }
+
+    .hover {
+      background: @dropdown-menu-hover-bg;
+      color: @text-color-invert !important; /* To override `a:hover`. */
+    }
+
+    .loose {
+      padding-left: 15px;
+    }
+
+    .selected {
+      background: @dropdown-menu-selected-bg;
+    }
+
+    .disabled {
+      background: transparent;
+      color: @text-color-disabled;
+      cursor: default;
+    }
+
+    .link {
+      color: @link-color;
+    }
+
+    .withIcon {
+      padding-left: @menu-item-padding-for-icon;
+    }
+
+    .comment {
+      color: #a0a0a0;
+      white-space: normal;
+    }
+
+    .commentHover {
+      color: #fff;
+      opacity: 0.6;
+    }
+
+    .icon {
+      display: inline-block;
+      position: absolute;
+      left: 15px;
+      top: 5px;
+    }
+  }
+}
+
+.with-specificity({.rules() ;});

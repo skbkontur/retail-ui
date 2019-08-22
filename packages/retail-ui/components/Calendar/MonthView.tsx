@@ -3,9 +3,7 @@ import * as React from 'react';
 import * as CDS from './CalendarDateShape';
 
 import config from './config';
-
-import styles from './MonthView.less';
-
+import styles from './MonthView.module.less';
 import DateSelect from '../DateSelect';
 
 interface MonthViewProps {

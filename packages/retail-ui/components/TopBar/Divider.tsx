@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import styles from './TopBar.less';
+import styles from './TopBar.module.less';
 
 class Divider extends React.Component<{}> {
   public render() {

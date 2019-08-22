@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Sticky from '../Sticky';
 import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 import { isFunction } from '../../lib/utils';
 
 const REGULAR_HEADER_PADDING_TOP = 25;

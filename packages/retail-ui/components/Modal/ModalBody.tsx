@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { ModalContext } from './ModalContext';
 
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 
 export class Body extends React.Component {
   public render(): JSX.Element {

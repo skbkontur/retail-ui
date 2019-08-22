@@ -12,7 +12,7 @@ import { Nullable } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
 
-import styles from './Paging.less';
+import styles from './Paging.module.less';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 

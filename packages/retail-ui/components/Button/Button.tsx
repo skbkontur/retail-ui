@@ -9,9 +9,9 @@ import '../ensureOldIEClassName';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-import CssStyles from './Button.less';
+import CssStyles from './Button.module.less';
 
-const classes: typeof CssStyles = isFlatDesign ? require('./Button.flat.less') : require('./Button.less');
+const classes: typeof CssStyles = isFlatDesign ? require('./Button.flat.module.less') : require('./Button.module.less');
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 

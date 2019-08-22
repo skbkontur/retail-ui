@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import styles from './Calendar.less';
+import styles from './Calendar.module.less';
 
 const DAY_WIDTH = 26;
 const DAY_HEIGHT = 31;
