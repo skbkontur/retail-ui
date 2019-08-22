@@ -190,7 +190,7 @@ const jsClasses = {
 
   arrow_warning(t: ITheme) {
     return css`
-      .${classes.root}.${classes.warningRoot} .${classes.arrow}& {
+      .${classes.wrap} .${classes.root} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
       }
     `;
@@ -198,7 +198,7 @@ const jsClasses = {
 
   arrow_error(t: ITheme) {
     return css`
-      .${classes.root}.${classes.errorRoot} .${classes.arrow}& {
+      .${classes.wrap} .${classes.root} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorError};
       }
     `;
