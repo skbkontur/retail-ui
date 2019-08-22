@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './ResizeDetector.less';
+import styles from './ResizeDetector.module.less';
 
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;

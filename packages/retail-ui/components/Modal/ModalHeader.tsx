@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ModalContext, CloseProps } from './ModalContext';
 import Sticky from '../Sticky';
 import Close from './ModalClose';
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

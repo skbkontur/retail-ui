@@ -7,7 +7,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import TrashIcon from '@skbkontur/react-icons/Trash';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
-import styles from './styles.less';
+import styles from './styles.module.less';
 import jsStyles from './jsStyles';
 import Button, { ButtonProps } from '../../Button';
 import Tabs from '../../Tabs/Tabs';

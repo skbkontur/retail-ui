@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import classes from './Button.less';
+import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
@@ -193,7 +193,9 @@ const jsClasses = {
       .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.active} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
       }
-      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${classes.warningRoot} {
+      .${classes.root}&:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}).${
+      classes.warningRoot
+    } {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
       }
     `;

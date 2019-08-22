@@ -1,6 +1,6 @@
 import React from 'react';
 import warningOutput from 'warning';
-import styles from './Token.less';
+import styles from './Token.module.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';

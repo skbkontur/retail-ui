@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
-import styles from './Link.less';
+import styles from './Link.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';

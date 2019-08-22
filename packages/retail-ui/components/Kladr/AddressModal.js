@@ -12,7 +12,7 @@ import { search, verify } from './KladrAPI';
 import type { Address, Place, PlaceDescription, VerifyResult } from './Types';
 import * as util from './util';
 
-import styles from './AddressModal.less';
+import styles from './AddressModal.module.less';
 
 type Props = {
   address: Address,

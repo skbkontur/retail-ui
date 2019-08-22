@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
-import styles from './MaskedInput.less';
+import styles from './MaskedInput.module.less';
 import jsStyles from './MaskedInput.styles';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeContext';

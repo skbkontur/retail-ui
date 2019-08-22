@@ -2,7 +2,7 @@ import * as React from 'react';
 import Sticky from '../Sticky';
 import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
