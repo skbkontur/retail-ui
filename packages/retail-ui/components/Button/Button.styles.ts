@@ -176,11 +176,11 @@ const jsClasses = {
           background: ${t.btnDisabledBg};
           box-shadow: 1px -1px 0 0 ${t.btnDisabledShadowColor};
 
-          &.${classes.arrow_warning} {
+          &.${jsClasses.arrow_warning(t)} {
             box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
           }
 
-          &.${classes.arrow_error} {
+          &.${jsClasses.arrow_error(t)} {
             box-shadow: 2px -2px 0 0 ${t.borderColorError};
           }
         }
