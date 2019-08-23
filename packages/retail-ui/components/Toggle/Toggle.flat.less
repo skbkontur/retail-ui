@@ -73,12 +73,11 @@
   }
 
   .container {
-    box-sizing: border-box;
     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: @containerHeight / 2;
-    border: 1px solid @toggle-border-color;
+    box-shadow: inset 0 0 0 1px @toggle-border-color;
     overflow: hidden;
 
     .isDisabled & {
@@ -110,18 +109,18 @@
 
   .input:checked {
     & ~ .container {
-      border-color: @toggle-bg-checked;
+      box-shadow: inset 0 0 0 1px @toggle-bg-checked;
       background: @toggle-bg-checked;
       transition: background 0s @transition-delay;
 
       &.isLoading {
         background: @toggle-border-color;
-        border-color: @toggle-border-color;
+        box-shadow: inset 0 0 0 1px @toggle-border-color;
       }
 
       &.isWarning {
         background: @warning-color;
-        border-color: @warning-color;
+        box-shadow: inset 0 0 0 1px @warning-color;
 
         .activeBackground {
           background: @warning-color;
@@ -130,7 +129,7 @@
 
       &.isError {
         background: @error-color;
-        border-color: @error-color;
+        box-shadow: inset 0 0 0 1px @error-color;
 
         .activeBackground {
           background: @error-color;
