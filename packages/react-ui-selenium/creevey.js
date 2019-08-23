@@ -16,18 +16,27 @@ const config = {
   threshold: 0,
   maxRetries: 2,
   browsers: {
-    chrome: { browserName: 'chrome', limit: 2 },
+    chrome: {
+      browserName: 'chrome',
+      resolution: { width: 1040, height: 852 }, // 1024x720
+      limit: 2,
+    },
     chromeFlat: {
       browserName: 'chrome',
+      resolution: { width: 1040, height: 852 }, // 1024x720
       testRegex: flatRegex,
       address: {
         ...defaultAddress,
         port: 6061,
       },
     },
-    firefox: { browserName: 'firefox' },
+    firefox: {
+      browserName: 'firefox',
+      resolution: { width: 1036, height: 801 }, // 1024x720
+    },
     firefoxFlat: {
       browserName: 'firefox',
+      resolution: { width: 1036, height: 801 }, // 1024x720
       testRegex: flatRegex,
       address: {
         ...defaultAddress,
@@ -38,7 +47,7 @@ const config = {
       browserName: 'internet explorer',
       resolution: { width: 1040, height: 783 }, // 1024x720
       limit: 2,
-      // NOTE Enable after switch new separate pool for IE
+      // NOTE Enable after switch new separate pool for IE to allow test hover
       // 'se:ieOptions': {
       //   enablePersistentHover: true,
       //   nativeEvents: true,
@@ -50,6 +59,7 @@ const config = {
     },
     ie11Flat: {
       browserName: 'internet explorer',
+      resolution: { width: 1040, height: 783 }, // 1024x720
       testRegex: flatRegex,
       address: {
         ...defaultAddress,
