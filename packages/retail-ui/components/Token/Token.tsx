@@ -86,8 +86,8 @@ class Token extends React.Component<TokenProps & TokenActions, {}> {
       styles.token,
       {
         [activeTokenClassName]: isActive,
-        [styles.warning]: warning,
-        [styles.error]: error,
+        [tokenColors.warning]: warning,
+        [tokenColors.error]: error,
         [styles.disabled]: disabled,
       },
       tokenClassName,

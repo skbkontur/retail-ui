@@ -2,37 +2,25 @@
 
 :local {
   .token {
-    box-sizing: border-box;
     display: inline-flex;
-    justify-content: center;
     align-items: center;
-    border-radius: 2px;
+    border-radius: 1px;
     padding: 0 4px;
     line-height: 1.5;
     font-size: 14px;
-    margin: 2px;
+    margin: 3px;
     min-width: 0;
-    min-height: 24px;
-    word-break: break-all;
     word-break: break-word;
     user-select: none;
-
-    &.warning {
-      border: 1px solid @border-color-warning;
-      box-shadow: 0 0 0 1px @border-color-warning;
-    }
-
-    &.error {
-      border: 1px solid @border-color-error;
-      box-shadow: 0 0 0 1px @border-color-error;
-    }
 
     &:hover {
       cursor: pointer;
     }
 
     &.disabled {
-      border: none;
+      box-shadow: none;
+      margin: 2px;
+      padding: 1px 4px;
       color: @text-color-disabled;
       user-select: text;
       cursor: text;

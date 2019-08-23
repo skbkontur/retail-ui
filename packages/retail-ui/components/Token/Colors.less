@@ -3,7 +3,15 @@
 .makeColor(@color) {
   background-color: @color;
   color: contrast(@color);
-  border: 1px solid darken(@color, 5%);
+  box-shadow: 0 0 0 1px darken(@color, 5%), inset 0 0 0 1px @color;
+
+  &.warning {
+    box-shadow: 0 0 0 2px @border-color-warning, inset 0 0 0 1px @color;
+  }
+
+  &.error {
+    box-shadow: 0 0 0 2px @border-color-error, inset 0 0 0 1px @color;
+  }
 
   [data-name='RemoveIcon'] {
     transition: none;
