@@ -6,7 +6,7 @@ gemini.suite('DateInput', () => {
       .before(renderStory('DateInput', 'simple'))
       .setCaptureElements('#test-element')
       .capture('idle')
-      .capture('focus', actions => actions.click("[data-comp-name*='DateInput']"));
+      .capture('focus', actions => actions.focus("[data-comp-name*='DateInput']"));
   });
 
   gemini.suite('disabled', suite => {

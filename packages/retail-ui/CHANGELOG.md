@@ -3,6 +3,219 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.1...retail-ui@1.1.2) (2019-08-07)
+
+
+### Bug Fixes
+
+* **ComboBox:** keep focus after Enter key press on the list item ([a9b62dd](https://github.com/skbkontur/retail-ui/commit/a9b62dd)), closes [#1532](https://github.com/skbkontur/retail-ui/issues/1532)
+* **Group:** removed vertical-align ([2f8cad6](https://github.com/skbkontur/retail-ui/commit/2f8cad6))
+
+
+
+
+
+## [1.1.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.0...retail-ui@1.1.1) (2019-07-31)
+
+
+### Bug Fixes
+
+* **Button:** changed style 'color' for disabled button to '#a0a0a0' ([521a4e8](https://github.com/skbkontur/retail-ui/commit/521a4e8)), closes [#a0a0a0](https://github.com/skbkontur/retail-ui/issues/a0a0a0) [#1415](https://github.com/skbkontur/retail-ui/issues/1415)
+* **customization:** prevent js-styles from overriding by css-resets ([2a9c4ac](https://github.com/skbkontur/retail-ui/commit/2a9c4ac)), closes [#1514](https://github.com/skbkontur/retail-ui/issues/1514)
+* **Radio:** decrease types checking time ([f18c74b](https://github.com/skbkontur/retail-ui/commit/f18c74b)), closes [#1518](https://github.com/skbkontur/retail-ui/issues/1518)
+
+
+
+
+
+# [1.1.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.0.1...retail-ui@1.1.0) (2019-07-23)
+
+
+### Bug Fixes
+
+* **Button:** change 'background-color' and 'border-color' when hovering ([627b1e6](https://github.com/skbkontur/retail-ui/commit/627b1e6)), closes [#1416](https://github.com/skbkontur/retail-ui/issues/1416)
+* **TokenInput:** add input's box-shadow ([6f0789f](https://github.com/skbkontur/retail-ui/commit/6f0789f))
+* **TokenInput:** fix flat styles ([0fa0d52](https://github.com/skbkontur/retail-ui/commit/0fa0d52)), closes [#1493](https://github.com/skbkontur/retail-ui/issues/1493)
+* **TokenInput:** remove hardcoded dataTid ([9e5151f](https://github.com/skbkontur/retail-ui/commit/9e5151f))
+
+
+### Features
+
+* **Switcher:** add prop 'size' ([a5e16ae](https://github.com/skbkontur/retail-ui/commit/a5e16ae)), closes [#1492](https://github.com/skbkontur/retail-ui/issues/1492)
+
+
+
+
+
+## [1.0.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.0.0...retail-ui@1.0.1) (2019-07-16)
+
+
+### Bug Fixes
+
+* **Input:** add calling 'selectAll' via 'raf' ([#1496](https://github.com/skbkontur/retail-ui/issues/1496)) ([37b866d](https://github.com/skbkontur/retail-ui/commit/37b866d)), closes [#1413](https://github.com/skbkontur/retail-ui/issues/1413)
+* **Tab:** add error/warning/primary hover borders to vertical tabs ([29f4bc2](https://github.com/skbkontur/retail-ui/commit/29f4bc2))
+* **Tab:** remove hover border from disabled tabs ([2f98438](https://github.com/skbkontur/retail-ui/commit/2f98438)), closes [#1504](https://github.com/skbkontur/retail-ui/issues/1504)
+* **Textarea:** add blocking Enter after reaching 'maxLength' ([2a862f5](https://github.com/skbkontur/retail-ui/commit/2a862f5))
+* **ThemeShowcase:** make it fit enough to squize into styleguidist ([12f184b](https://github.com/skbkontur/retail-ui/commit/12f184b))
+* **ThemeShowcase:** source code tooltip contents in production mode ([89c5183](https://github.com/skbkontur/retail-ui/commit/89c5183))
+
+
+
+
+
+# [1.0.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.0...retail-ui@1.0.0) (2019-07-02)
+
+
+### Features
+
+* Customization ([#1333](https://github.com/skbkontur/retail-ui/issues/1333)) ([15e9e8f](https://github.com/skbkontur/retail-ui/commit/15e9e8f))
+
+
+### BREAKING CHANGES
+
+* Upgrades.enableSizeMedium16px is no longer working: redefine fontSizeMedium
+variable via ThemeProvider or by calling ThemeFactory.overrideDefaultTheme()
+
+* refactor(ColorObject): remove require call
+
+* style(Upgrades): fix lint error
+
+* chore(storybook): use ThemeProvider instead of overrideDefaultTheme
+
+* refactor(ThemeFactory): remove ThemesCache
+
+* refactor(ThemeEditor): clear timeout on unmount
+
+* refactor(variables.less): prepare for Date* controls convertion
+
+* feat(DateSelect): customize with css-in-js
+
+* refactor(DatePickerOld): rename less file to prevent confusion
+
+* feat(DatePicker): customize with css-in-js
+
+* refactor(DateInput): properly separate styles between components
+
+* feat(DateInput): customize with css-in-js
+
+* feat(Calendar): customize with css-in-js
+
+* refactor(TokenInput): add -webkit-text-fill-color
+
+* refactor(styles): remove rt-ie8, rt-ie9
+
+* refactor(Calendar): rename classnames to cx
+
+* refactor(variables.less): move mixins into separate file
+
+* style(CustomComboBox): specify px for padding-bottom
+
+* style(SidePage): fix variable typo
+
+* refactor(styles): remove unnecessary imports
+
+* refactor(FormatSourceCode): rewrite code in more readable way
+
+* test(ComboBoxView): approve screens with new spinner gray color
+
+* fix(Button): fix sizeMedium baseline regress
+
+* test(Button): approve screenshots with 14px medium font-size
+
+* test(ComboBox): approve darker spinner color while loading items
+
+* refactor(TokenInput): simplify styles
+
+* refactor(TokenInput): fix firefox placeholder opacity
+
+* refactor(DateSelect): make active prevail over selected
+
+* refactor(DatePicker): fix red color bug
+
+* refactor(DatePicker): make weekend prevail over today
+
+* refactor(DateFragmentsView): fix .delimiter.filled combination style
+
+* style(AnotherInputsPlayground): remove underscores from private methods
+
+* test(AnotherInputsPlayground): stable date for screenshots
+
+* test(Customization): approve actual screenshots
+
+* refactor(customization): separate ThemeProviderPlayground component
+
+* docs(ThemeProviderPlayground ): add README
+
+* docs(customization): add core README
+
+# copied from PR
+
+* build(styleguide): add customization section to config
+
+* chore(ThemeProviderPlayground): fix import
+
+* test(Button): approve 14px font-size for medium size in flat theme
+
+* refactor(customization): introduce derived font sizes for button/input
+
+* refactor(Button): use fontSize=16px for size=medium in flat theme
+
+* test(Button): approve 16px font-size for medium size in flat theme
+
+* test(Customization): approve 16px font-size in flat theme
+
+* refactor(DateInput): remove isSizeMedium16pxEnabled() in favor of theme
+
+* refactor(Upgrades): cleanup deprecated methods
+
+* docs(customization): fix styleguide's components and sections
+
+* docs(customization): hack-fix ordered lists
+
+* docs(customization): remove broken links
+
+* docs(customization): fix less formatting
+
+* docs(customization): add some line-breaks
+
+* docs(customization): emphasize inline <code> the way it's done at github
+
+* docs(customization): switch 'jsx static' to 'typescript' for some blocks
+
+* docs(customization): use monospace font for inline <code>
+
+* chore(Button): fix baseline of flat medium Button
+
+* docs(customization): fix typo
+
+* style: format with prettier
+
+* style: make stylelint ignore *.ts
+
+
+
+
+
+# [0.53.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.52.1...retail-ui@0.53.0) (2019-07-02)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** add 15-digit limit and warning about it ([b523ddf](https://github.com/skbkontur/retail-ui/commit/b523ddf))
+* **CurrencyLabel:** add warning about 15-digit limit for fractionDigits ([adba185](https://github.com/skbkontur/retail-ui/commit/adba185))
+* **DateInputFallback:** remove unnecessary call 'emitChange' ([cf28a56](https://github.com/skbkontur/retail-ui/commit/cf28a56)), closes [#1466](https://github.com/skbkontur/retail-ui/issues/1466)
+* **DropdownContainer:** change calculations for positioning up ([0e9460e](https://github.com/skbkontur/retail-ui/commit/0e9460e)), closes [#1471](https://github.com/skbkontur/retail-ui/issues/1471)
+* **Modal:** don't close by click on scrollbar ([d69fca6](https://github.com/skbkontur/retail-ui/commit/d69fca6)), closes [#757](https://github.com/skbkontur/retail-ui/issues/757) [#810](https://github.com/skbkontur/retail-ui/issues/810) [#1352](https://github.com/skbkontur/retail-ui/issues/1352) [#1456](https://github.com/skbkontur/retail-ui/issues/1456)
+
+
+### Features
+
+* **Fias:** expose FiasSearch ([075bd36](https://github.com/skbkontur/retail-ui/commit/075bd36))
+
+
+
+
+
 ## [0.52.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.52.0...retail-ui@0.52.1) (2019-06-18)
 
 **Note:** Version bump only for package retail-ui

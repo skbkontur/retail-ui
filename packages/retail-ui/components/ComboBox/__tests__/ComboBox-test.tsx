@@ -12,7 +12,6 @@ import Menu from '../../Menu/Menu';
 import { delay } from '../../../lib/utils';
 import CustomComboBox, { DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
 import ComboBoxView from '../../CustomComboBox/ComboBoxView';
-import { Effect } from '../../CustomComboBox/CustomComboBoxReducer';
 import { ComboBoxRequestStatus } from '../../CustomComboBox/CustomComboBoxTypes';
 
 function clickOutside() {
@@ -31,15 +30,6 @@ function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<
 }
 
 describe('ComboBox', () => {
-  const originalFocusNextElement = Effect.FocusNextElement;
-  beforeEach(() => {
-    Effect.FocusNextElement = jest.fn();
-  });
-
-  afterEach(() => {
-    Effect.FocusNextElement = originalFocusNextElement;
-  });
-
   it('renders', () => {
     mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
   });
@@ -419,36 +409,6 @@ describe('ComboBox', () => {
     expect(menuInstance.hasHighlightedItem()).toBe(true);
   });
 
-  it('calls `focusNextElement` after Enter keydown on empty input', async () => {
-    const items = ['one', 'two', 'three'];
-    const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} value={null} />);
-
-    wrapper.instance().focus();
-
-    await promise;
-
-    wrapper.update();
-
-    wrapper.find('input').simulate('keydown', { key: 'Enter' });
-    expect(Effect.FocusNextElement).toHaveBeenCalledTimes(1);
-  });
-
-  it('calls `focusNextElement` after Enter keydown if value not found', async () => {
-    const items = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }, { value: 3, label: 'three' }];
-    const [search, promise] = searchFactory(Promise.resolve(items));
-    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} value={{ value: 10, label: 'ten' }} />);
-
-    wrapper.instance().focus();
-
-    await promise;
-
-    wrapper.update();
-
-    wrapper.find('input').simulate('keydown', { key: 'Enter' });
-    expect(Effect.FocusNextElement).toHaveBeenCalledTimes(1);
-  });
-
   describe('update input text when value changes if there was no editing', () => {
     const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
     const check = (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
@@ -647,36 +607,66 @@ describe('ComboBox', () => {
     });
   });
 
-  it('keep focus in input after click on item', async () => {
+  describe('keeps focus in input after', () => {
     const ITEMS = ['one', 'two', 'three'];
-    const [search, promise] = searchFactory(Promise.resolve(ITEMS));
+    let search: jest.Mock<Promise<string[]>>;
+    let promise: Promise<{}>;
+    let wrapper: ReactWrapper<ComboBoxProps<string>, {}, ComboBox<string>>;
     const onFocus = jest.fn();
     const onBlur = jest.fn();
-    const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
-    );
-    wrapper.instance().focus();
-    await promise;
-    wrapper.update();
-    onFocus.mockClear();
 
-    const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    beforeEach(async () => {
+      [search, promise] = searchFactory(Promise.resolve(ITEMS));
+      wrapper = mount<ComboBox<string>>(
+        <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
+      );
+      wrapper.instance().focus();
 
-    inputNode.blur(); // simulate blur from real click
-    wrapper
-      .find(MenuItem)
-      .first()
-      .simulate('click');
+      await promise;
+      wrapper.update();
 
-    await delay(0); // await for restore focus
-    wrapper.update();
+      onFocus.mockClear();
+      onBlur.mockClear();
+    });
 
-    expect(inputNode).toBeTruthy();
-    expect(inputNode).toBe(document.activeElement); // input has focus
-    expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
+    it('click on item', async () => {
+      const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+      inputNode.blur(); // simulate blur from real click
 
-    expect(onFocus).toHaveBeenCalledTimes(0);
-    expect(onBlur).toHaveBeenCalledTimes(0);
+      wrapper
+        .find(MenuItem)
+        .first()
+        .simulate('click');
+
+      await delay(0); // await for restore focus
+      wrapper.update();
+
+      expect(inputNode).toBeTruthy();
+      expect(inputNode).toBe(document.activeElement); // input has focus
+      expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
+
+      expect(onFocus).toHaveBeenCalledTimes(0);
+      expect(onBlur).toHaveBeenCalledTimes(0);
+    });
+
+    it('Enter on item', async () => {
+      wrapper
+        .find('input')
+        .simulate('keydown', { key: 'ArrowDown' })
+        .simulate('keydown', { key: 'Enter' });
+
+      await delay(0);
+      wrapper.update();
+
+      const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
+      expect(inputNode).toBeTruthy();
+      expect(inputNode).toBe(document.activeElement); // input has focus
+      expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
+
+      expect(onFocus).toHaveBeenCalledTimes(0);
+      expect(onBlur).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('click on input', () => {

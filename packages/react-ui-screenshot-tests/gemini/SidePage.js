@@ -24,6 +24,7 @@ gemini.suite('SidePage', suite => {
       .capture('open internal side-page', (actions, find) => {
         actions.click(find('button'));
         actions.click(find('[class^="SidePage-body"] button'));
+        actions.click(find('body'))
       })
       .capture('close internal side-page', (action, find) => {
         action.click(find('.react-ui:last-child [class^="SidePage-footer"] button'));

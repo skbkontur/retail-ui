@@ -1,24 +1,17 @@
-import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
-
 import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
-
-import Upgrades from '../../lib/Upgrades';
-import CssStyles from './Textarea.less';
-
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-const styles: typeof CssStyles = isFlatDesign ? require('./Textarea.flat.less') : require('./Textarea.less');
-
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Textarea.styles';
+import styles from './Textarea.less';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 const DEFAULT_WIDTH = 250;
 
 export type TextareaProps = Override<
@@ -144,6 +137,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 1,
   };
 
+  private theme!: ITheme;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
@@ -168,77 +162,13 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public render() {
-    const {
-      width = DEFAULT_WIDTH,
-      error,
-      warning,
-      autoResize,
-      resize,
-      onCut,
-      onPaste,
-      maxRows,
-      onFocus,
-      selectAllOnFocus,
-      className,
-      style,
-      placeholder,
-      ...textareaProps
-    } = this.props;
-
-    const rootProps = {
-      style: {
-        width,
-      },
-    };
-
-    const textareaClassNames = classNames({
-      [styles.textarea]: true,
-      [styles.error]: error,
-      [styles.warning]: warning,
-    });
-
-    const textAreaStyle = {
-      resize: autoResize ? 'none' : resize,
-    };
-
-    let placeholderPolyfill = null;
-
-    if (this.state.polyfillPlaceholder && !textareaProps.value) {
-      placeholderPolyfill = <span className={styles.placeholder}>{placeholder}</span>;
-    }
-
-    let fakeTextarea = null;
-    if (autoResize) {
-      const fakeProps = {
-        value: this.props.value,
-        defaultValue: this.props.defaultValue,
-        className: classNames(textareaClassNames, styles.fake),
-        readOnly: true,
-      };
-      fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
-    }
-
     return (
-      <label
-        {...rootProps}
-        className={classNames(styles.root, {
-          [styles.size16]: Upgrades.isSizeMedium16pxEnabled(),
-        })}
-      >
-        {placeholderPolyfill}
-        <textarea
-          {...textareaProps}
-          className={textareaClassNames}
-          style={textAreaStyle}
-          placeholder={!placeholderPolyfill ? placeholder : undefined}
-          ref={this.ref}
-          onChange={this.handleChange}
-          onCut={this.handleCut}
-          onPaste={this.handlePaste}
-          onFocus={this.handleFocus}
-        />
-        {fakeTextarea}
-      </label>
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
     );
   }
 
@@ -281,6 +211,93 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
   public selectAll = () => {
     if (this.node) {
       this.setSelectionRange(0, this.node.value.length);
+    }
+  };
+
+  private renderMain() {
+    const {
+      width = DEFAULT_WIDTH,
+      error,
+      warning,
+      autoResize,
+      resize,
+      onCut,
+      onPaste,
+      maxRows,
+      onFocus,
+      selectAllOnFocus,
+      className,
+      style,
+      placeholder,
+      ...textareaProps
+    } = this.props;
+
+    const rootProps = {
+      style: {
+        width,
+      },
+    };
+
+    const textareaClassNames = cx({
+      [styles.textarea]: true,
+      [jsStyles.textarea(this.theme)]: true,
+      [jsStyles.error(this.theme)]: !!error,
+      [jsStyles.warning(this.theme)]: !!warning,
+    });
+
+    const textAreaStyle = {
+      resize: autoResize ? 'none' : resize,
+    };
+
+    let placeholderPolyfill = null;
+
+    if (this.state.polyfillPlaceholder && !textareaProps.value) {
+      placeholderPolyfill = <span className={styles.placeholder}>{placeholder}</span>;
+    }
+
+    let fakeTextarea = null;
+    if (autoResize) {
+      const fakeProps = {
+        value: this.props.value,
+        defaultValue: this.props.defaultValue,
+        className: cx(textareaClassNames, styles.fake),
+        readOnly: true,
+      };
+      fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
+    }
+
+    return (
+      <label {...rootProps} className={cx(styles.root, jsStyles.root(this.theme))}>
+        {placeholderPolyfill}
+        <textarea
+          {...textareaProps}
+          className={textareaClassNames}
+          style={textAreaStyle}
+          placeholder={!placeholderPolyfill ? placeholder : undefined}
+          ref={this.ref}
+          onChange={this.handleChange}
+          onCut={this.handleCut}
+          onPaste={this.handlePaste}
+          onFocus={this.handleFocus}
+          onKeyDown={this.handleKeyDown}
+        />
+        {fakeTextarea}
+      </label>
+    );
+  }
+
+  private handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Edge bug: textarea maxlength doesn't work after new line
+    // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/18833616/
+    const value = this.props.value !== undefined ? this.props.value.toString() : null;
+    const isBlockEnter = event.key === 'Enter' && value !== null && value.length === this.props.maxLength;
+
+    if (isBlockEnter) {
+      event.preventDefault();
+    }
+
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
     }
   };
 

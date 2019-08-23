@@ -1,14 +1,11 @@
 import CalendarIcon from '@skbkontur/react-icons/Calendar';
-import classNames from 'classnames';
 import * as React from 'react';
 import { InternalDate } from '../../lib/date/InternalDate';
 import InternalDateGetter from '../../lib/date/InternalDateGetter';
 import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
 import { InternalDateComponent, InternalDateComponentType, InternalDateValidateCheck } from '../../lib/date/types';
 import MouseDrag from '../../lib/events/MouseDrag';
-import Upgrades from '../../lib/Upgrades';
 import { isFirefox } from '../../lib/utils';
-
 import { Nullable } from '../../typings/utility-types';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { isEdge, isIE } from '../ensureOldIEClassName';
@@ -20,6 +17,10 @@ import { DateFragmentsView } from './DateFragmentsView';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { inputNumber } from './helpers/inputNumber';
 import { removeAllSelections, selectNodeContents } from './helpers/SelectionHelpers';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './DateInput.styles';
+import { ITheme } from '../../lib/theming/Theme';
+import ThemeConsumer from '../ThemeConsumer';
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
@@ -59,6 +60,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     width: 125,
   };
 
+  private theme!: ITheme;
   private locale!: DatePickerLocale;
   private inputLikeText: InputLikeText | null = null;
   private divInnerNode: HTMLDivElement | null = null;
@@ -110,42 +112,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   public render() {
-    const { internalDate, focused, selected, inputMode } = this.state;
-    const fragments =
-      internalDate && (focused || !internalDate.isEmpty())
-        ? internalDate.toFragments({
-            withSeparator: true,
-            withPad: true,
-          })
-        : [];
-
     return (
-      <InputLikeText
-        width={this.props.width}
-        ref={el => {
-          this.inputLikeText = el;
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
         }}
-        size={this.props.size}
-        disabled={this.props.disabled}
-        error={this.props.error}
-        warning={this.props.warning}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-        onKeyDown={this.handleKeyDown}
-        onMouseUp={this.handleMouseUp}
-        onMouseDown={this.handleMouseDown}
-        onPaste={this.handlePaste}
-        rightIcon={this.renderIcon()}
-        onDoubleClickCapture={this.handleDoubleClick}
-      >
-        <DateFragmentsView
-          nodeRef={this.divInnerNodeRef}
-          fragments={fragments}
-          onSelectDateComponent={this.handleSelectDateComponent}
-          selected={selected}
-          inputMode={inputMode}
-        />
-      </InputLikeText>
+      </ThemeConsumer>
     );
   }
 
@@ -171,6 +144,46 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         this.inputLikeText.blink();
       }
     }
+  }
+
+  private renderMain() {
+    const { internalDate, focused, selected, inputMode } = this.state;
+    const fragments =
+      internalDate && (focused || !internalDate.isEmpty())
+        ? internalDate.toFragments({
+            withSeparator: true,
+            withPad: true,
+          })
+        : [];
+
+    return (
+      <InputLikeText
+        width={this.props.width}
+        ref={el => {
+          this.inputLikeText = el;
+        }}
+        size={this.props.size}
+        disabled={this.props.disabled}
+        error={this.props.error}
+        warning={this.props.warning}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        onKeyDown={this.handleKeyDown}
+        onMouseUp={this.handleMouseUp}
+        onMouseDown={this.handleMouseDown}
+        onPaste={this.handlePaste}
+        rightIcon={this.renderIcon}
+        onDoubleClickCapture={this.handleDoubleClick}
+      >
+        <DateFragmentsView
+          nodeRef={this.divInnerNodeRef}
+          fragments={fragments}
+          onSelectDateComponent={this.handleSelectDateComponent}
+          selected={selected}
+          inputMode={inputMode}
+        />
+      </InputLikeText>
+    );
   }
 
   private divInnerNodeRef = (el: HTMLDivElement | null) => {
@@ -214,7 +227,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragStart = () => this.setState({ dragged: true, selected: null });
-
   private handleMouseDragEnd = () => this.setState({ dragged: false });
 
   private updateInternalDate = (
@@ -255,17 +267,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (isMod) {
       this.setState({ internalDate });
     }
-  };
-
-  private getIconSize = () => {
-    // FIXME: вынести значения в пиксилях
-    if (this.props.size === 'large') {
-      return '16px';
-    }
-    if (this.props.size === 'medium' && Upgrades.isSizeMedium16pxEnabled()) {
-      return '16px';
-    }
-    return '14px';
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
@@ -573,24 +574,32 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private getFirstDateComponentType = (): InternalDateComponentType => this.state.typesOrder[0];
+
   private getLastDateComponentType = (): InternalDateComponentType =>
     this.state.typesOrder[this.state.typesOrder.length - 1];
 
-  private renderIcon = (): (() => JSX.Element | null) => {
-    const iconStyles = classNames({
-      [styles.icon]: true,
-      [styles.disabled]: this.props.disabled,
-    });
+  private renderIcon = () => {
+    const { withIcon, size, disabled = false } = this.props;
 
-    if (this.props.withIcon) {
-      return () => (
+    if (withIcon) {
+      const theme = this.theme;
+      const iconStyles = cx({
+        [styles.icon]: true,
+        [jsStyles.icon(theme)]: true,
+        [jsStyles.iconSmall(theme)]: size === 'small',
+        [jsStyles.iconMedium(theme)]: size === 'medium',
+        [jsStyles.iconLarge(theme)]: size === 'large',
+        [styles.iconDisabled]: disabled,
+        [jsStyles.iconDisabled(theme)]: disabled,
+      });
+      return (
         <span className={iconStyles}>
-          <CalendarIcon size={this.getIconSize()} />
+          <CalendarIcon />
         </span>
       );
     }
-    return () => null;
+    return null;
   };
 }
 
-export default (isIE || isEdge ? DateInputFallback(DateInput) : DateInput);
+export default isIE || isEdge ? DateInputFallback(DateInput) : DateInput;

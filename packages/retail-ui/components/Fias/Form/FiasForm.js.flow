@@ -1,12 +1,10 @@
 /* @flow */
 import type { FormValidation, APIProvider } from '../types';
 import type { Address } from '../models/Address';
-import type { FiasLocale } from '../locale/types';
 
 type FiasFormProps = {|
   api: APIProvider,
   address: Address,
-  locale: FiasLocale,
   search?: boolean,
   limit?: number,
   validationLevel?: FormValidation,

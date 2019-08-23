@@ -1,4 +1,4 @@
-@import '../variables.less';
+@import (reference) '../mixins.less';
 
 .rules() {
   :local {
@@ -7,42 +7,19 @@
     }
 
     .root {
-      .reset-button();
-
       display: block;
       position: relative;
       cursor: pointer;
-      line-height: 18px;
-      outline: none;
-      padding: 6px 18px 7px 8px;
       text-decoration: none;
-    }
-
-    .hover {
-      background: @dropdown-menu-hover-bg;
-      color: @text-color-invert !important; /* To override `a:hover`. */
     }
 
     .loose {
       padding-left: 15px;
     }
 
-    .selected {
-      background: @dropdown-menu-selected-bg;
-    }
-
     .disabled {
       background: transparent;
-      color: @text-color-disabled;
       cursor: default;
-    }
-
-    .link {
-      color: @link-color;
-    }
-
-    .withIcon {
-      padding-left: @menu-item-padding-for-icon;
     }
 
     .comment {
@@ -64,4 +41,4 @@
   }
 }
 
-.with-specificity({.rules() ;});
+.with-specificity({.rules()});

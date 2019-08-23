@@ -13,7 +13,7 @@ import Textarea from 'retail-ui/components/Textarea';
 import styled from 'styled-components';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -141,46 +141,46 @@ export default class EditorsDemo extends React.Component<{}, State> {
       <Form>
         <ValidationContainer ref={this.refContainer}>
           <Form.Line title="Имя">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.name).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
               <Input
                 value={data.name}
                 onChange={(_, value) => this.handleChange({ name: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Email">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.email).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
               <Input
                 value={data.email}
                 onChange={(_, value) => this.handleChange({ email: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Телефон">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.phone).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.phone).get()}>
               <Input
                 mask={'+7 999 999-99-99'}
                 value={data.phone}
                 onChange={(_, value) => this.handleChange({ phone: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Пол">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.sex).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.sex).get()}>
               <RadioGroup
                 value={data.sex}
                 onChange={(_, value) => this.handleChange({ sex: value })}
                 items={['male', 'female']}
                 renderItem={x => <span>{x}</span>}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Город">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.city).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.city).get()}>
               <ComboBox
                 valueToString={x => x}
                 renderValue={x => x}
@@ -197,11 +197,11 @@ export default class EditorsDemo extends React.Component<{}, State> {
                     : cities;
                 }}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Вероисповедание">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.confession).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.confession).get()}>
               <Select
                 renderItem={x => x}
                 renderValue={x => x}
@@ -213,39 +213,39 @@ export default class EditorsDemo extends React.Component<{}, State> {
                 value={data.confession}
                 onChange={(_, value) => this.handleChange({ confession: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Согласен">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.confirmed).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.confirmed).get()}>
               <Checkbox
                 checked={data.confirmed}
                 onChange={(_, value) => this.handleChange({ confirmed: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="О себе">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.about).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.about).get()}>
               <Textarea
                 placeholder="Введите текст"
                 value={data.about}
                 onChange={(_, value) => this.handleChange({ about: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Дата рождения">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.born).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.born).get()}>
               <DatePicker
                 value={data.born}
                 onChange={(_, value) => this.handleChange({ born: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Ссылка">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.clicked).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.clicked).get()}>
               <LinkContainer>
                 <Link
                   icon={data.clicked ? <ThumbUpIcon /> : <ThumbDownIcon />}
@@ -254,7 +254,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
                   Нажми меня
                 </Link>
               </LinkContainer>
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>

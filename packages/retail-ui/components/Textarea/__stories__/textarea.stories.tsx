@@ -19,6 +19,7 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
         <label htmlFor={'textarea'}>click me</label>
         <br />
         <Textarea
+          spellCheck={false}
           autoResize
           id={'textarea'}
           placeholder={'type something'}
@@ -64,7 +65,7 @@ storiesOf('Textarea', module)
             <Textarea />
           </div>
           <div id="TextareaPlainFilled" style={cellStyles}>
-            <Textarea defaultValue={TEXT_SAMPLE} />
+            <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} />
           </div>
         </div>
         <div style={rowStyles}>
@@ -73,7 +74,7 @@ storiesOf('Textarea', module)
             <Textarea warning />
           </div>
           <div id="TextareaWarningFilled" style={cellStyles}>
-            <Textarea warning defaultValue={TEXT_SAMPLE} />
+            <Textarea spellCheck={false} warning defaultValue={TEXT_SAMPLE} />
           </div>
         </div>
         <div style={rowStyles}>
@@ -82,7 +83,7 @@ storiesOf('Textarea', module)
             <Textarea error />
           </div>
           <div id="TextareaErrorFilled" style={cellStyles}>
-            <Textarea error defaultValue={TEXT_SAMPLE} />
+            <Textarea spellCheck={false} error defaultValue={TEXT_SAMPLE} />
           </div>
         </div>
         <div style={rowStyles}>
@@ -91,7 +92,7 @@ storiesOf('Textarea', module)
             <Textarea disabled />
           </div>
           <div id="TextareaDisabledFilled" style={cellStyles}>
-            <Textarea disabled defaultValue={TEXT_SAMPLE} />
+            <Textarea spellCheck={false} disabled defaultValue={TEXT_SAMPLE} />
           </div>
         </div>
       </div>
@@ -110,14 +111,14 @@ storiesOf('Textarea', module)
   .add('Textarea in inline-flex and text', () => (
     <div>
       <div style={{ display: 'inline-flex' }}>
-        <Textarea value={TEXT_SAMPLE} />
+        <Textarea spellCheck={false} value={TEXT_SAMPLE} />
       </div>
       Lorem text
     </div>
   ))
   .add('Autoresizable textarea', () => <AutoresizableTextarea />)
-  .add('Textarea with custom width', () => <Textarea width={400} value={TEXT_SAMPLE} />)
-  .add('Select all by prop', () => <Textarea defaultValue={TEXT_SAMPLE} selectAllOnFocus />)
+  .add('Textarea with custom width', () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />)
+  .add('Select all by prop', () => <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />)
   .add('Select all by button', () => {
     let textarea: Textarea | null = null;
     const handleClick = () => {
@@ -131,6 +132,7 @@ storiesOf('Textarea', module)
         <Button onClick={handleClick}>Select All</Button>
         <div>
           <Textarea
+            spellCheck={false}
             defaultValue={TEXT_SAMPLE}
             ref={element => {
               textarea = element;
