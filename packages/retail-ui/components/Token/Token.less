@@ -11,6 +11,14 @@
     word-break: break-word;
     user-select: none;
 
+    &.warning {
+      visibility: visible;
+    }
+
+    &.error {
+      visibility: visible;
+    }
+
     &:hover {
       cursor: pointer;
     }
@@ -19,8 +27,8 @@
       box-shadow: none;
       margin: 2px;
       padding: 1px 4px;
-      user-select: text !important;
-      cursor: text !important;
+      user-select: text;
+      cursor: text;
     }
   }
 
