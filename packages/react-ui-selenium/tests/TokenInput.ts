@@ -13,7 +13,7 @@ describe('TokenInput', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[data-tid="TokenInput"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="TokenInput"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -23,7 +23,7 @@ describe('TokenInput', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[data-tid="TokenInput"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="TokenInput"]')))
         .sendKeys('a')
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('withMenu');

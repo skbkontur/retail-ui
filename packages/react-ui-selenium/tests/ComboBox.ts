@@ -125,7 +125,7 @@ describe('ComboBox', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[data-comp-name="InputLikeText"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name="Input"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('opened again');
     });
@@ -387,7 +387,7 @@ describe('ComboBox', function() {
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('after Enter on Item');
     });
-    it('after click back on the first field', async function() {
+    it('after tab to the next field', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await this.browser
         .actions({
@@ -399,9 +399,9 @@ describe('ComboBox', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Input-root"]')))
+        .sendKeys(Key.TAB)
         .perform();
-      await expect(await element.takeScreenshot()).to.matchImage('after click back on the first field');
+      await expect(await element.takeScreenshot()).to.matchImage('after tab to the next field');
     });
   });
 });

@@ -6,7 +6,17 @@ const defaultAddress = {
   path: '/iframe.html',
 };
 
-const flatComponents = ['Button', 'Checkbox', 'Input', 'Radio', 'Textarea', 'Toggle', 'InputLikeText', 'Switcher'];
+const flatComponents = [
+  'Button',
+  'Checkbox',
+  'Input',
+  'Radio',
+  'Textarea',
+  'Toggle',
+  'InputLikeText',
+  'Switcher',
+  'TokenInput',
+];
 const flatRegex = new RegExp(`(\\/|\\\\)(${flatComponents.join('|')})\\.ts$`);
 
 const config = {
