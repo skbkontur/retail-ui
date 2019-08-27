@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { By } from 'selenium-webdriver';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('ThemeProvider', function() {
   describe('playground', function() {
     // NOTE We scroll page because selenium don't take composite images, especialy for ie
@@ -18,6 +20,7 @@ describe('ThemeProvider', function() {
         .actions({ bridge: true })
         .click(this.browser.findElement(By.css('[data-prop-id="flat"]')))
         .perform();
+      await delay(500);
       await expect(await this.browser.takeScreenshot()).to.matchImage('flat theme top');
     });
     it('flat theme bottom', async function() {
@@ -35,6 +38,7 @@ describe('ThemeProvider', function() {
         .actions({ bridge: true })
         .click(this.browser.findElement(By.css('[data-prop-id="dark"]')))
         .perform();
+      await delay(500);
       await expect(await this.browser.takeScreenshot()).to.matchImage('dark theme top');
     });
     it('dark theme bottom', async function() {

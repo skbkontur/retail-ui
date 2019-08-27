@@ -24,7 +24,8 @@ const config = {
   address: defaultAddress,
   testRegex: /\.ts$/,
   threshold: 0,
-  maxRetries: 2,
+  // TODO decrease retries after PR #1567
+  maxRetries: 5,
   browsers: {
     chrome: {
       browserName: 'chrome',

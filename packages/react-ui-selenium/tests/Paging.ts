@@ -33,7 +33,8 @@ describe('Paging', function() {
     });
     it('change page by forwardLink', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
-      await delay(1000);
+      // NOTE Firefox bug if click send right after click from previous test it results as double click
+      await delay(500);
       await this.browser
         .actions({
           bridge: true,
@@ -44,7 +45,8 @@ describe('Paging', function() {
     });
     it('focused', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
-      await delay(1000);
+      // NOTE Firefox bug if click send right after click from previous test it results as double click
+      await delay(500);
       await this.browser
         .actions({
           bridge: true,

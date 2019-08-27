@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { By, Key } from 'selenium-webdriver';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('RadioGroup', function() {
   describe('vertical', function() {
     it('plain', async function() {
@@ -31,6 +33,8 @@ describe('RadioGroup', function() {
     });
     it('mouseLeave', async function() {
       const element = await this.browser.findElement(By.css('#RadioGroup-wrap'));
+      // NOTE Firefox bug if click send right after click from previous test it results as double click
+      await delay(500);
       await this.browser
         .actions({
           bridge: true,
