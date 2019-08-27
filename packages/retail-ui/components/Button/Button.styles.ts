@@ -46,8 +46,8 @@ const jsClasses = {
         t.controlHeightSmall,
         t.btnHeightShift,
         t.controlLineHeightSmall,
-        '15px',
-        t.controlPaddingYSmall,
+        t.btnPaddingXSmall,
+        t.btnPaddingYSmall,
       )};
 
       .${classes.arrow} {
@@ -70,8 +70,8 @@ const jsClasses = {
         t.controlHeightMedium,
         t.btnHeightShift,
         t.controlLineHeightMedium,
-        '15px',
-        t.controlPaddingYMedium,
+        t.btnPaddingXMedium,
+        t.btnPaddingYMedium,
       )};
 
       .${classes.arrow} {
@@ -95,8 +95,8 @@ const jsClasses = {
         t.controlHeightLarge,
         t.btnHeightShift,
         t.controlLineHeightLarge,
-        '20px',
-        t.controlPaddingYLarge,
+        t.btnPaddingXLarge,
+        t.btnPaddingYLarge,
       )};
 
       .${classes.arrow} {
