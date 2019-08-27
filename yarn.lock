@@ -5916,10 +5916,10 @@ create-react-context@^0.2.2:
     fbjs "^0.8.0"
     gud "^1.0.0"
 
-creevey@^0.0.19:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.0.19.tgz#e1b8ce28a9424039bdc1748de7be0073006bb5e7"
-  integrity sha512-zJ3CVZvZN7NF823DUlWYaXxDHwB3FqYSfDWmcCjbyvy7sjcE9109mPsBKwXhLYEHVIIBFJKh1RxQ1K3nANUfKw==
+creevey@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.0.20.tgz#e04a28a2f0494fc09b27a9044a914fbac6b9bca1"
+  integrity sha512-YLv4J2io9N3PIZTafpwxY3x+73lQtX0jXN5UxJtq8XXVkh362UA9W/SlYsGcNG2aeZ+afwmwjIi9Qde5Shodwg==
   dependencies:
     chalk "^2.4.2"
     koa "^2.8.1"
