@@ -7,13 +7,13 @@ gemini.suite('Paging', () => {
       .setCaptureElements('#test-element')
       .capture('plain')
       .capture('hover', (actions, find) => {
-        actions.mouseMove(find('[class^="Paging-pageLinkWrapper"]'));
+        actions.mouseMove(find('[class^="Paging-module-pageLinkWrapper"]'));
       })
       .capture('change page by number', (actions, find) => {
-        actions.click(find('[class^="Paging-pageLinkWrapper"]'));
+        actions.click(find('[class^="Paging-module-pageLinkWrapper"]'));
       })
       .capture('change page by forwardLink', (actions, find) => {
-        actions.click(find('[class^="Paging-forwardLink"]'));
+        actions.click(find('[class^="Paging-module-forwardLink"]'));
       });
   });
 
@@ -23,7 +23,7 @@ gemini.suite('Paging', () => {
         .before(renderStory('Paging', 'GoToAbsensePage'))
         .setCaptureElements('#test-element')
         .capture('focused', (actions, find) => {
-          actions.focus(find('[class^="Paging-paging"]'));
+          actions.focus(find('[data-comp-name~="Paging"]'));
         })
         .capture('Move focus right', actions => {
           actions.sendKeys(gemini.ARROW_RIGHT);
@@ -42,7 +42,7 @@ gemini.suite('Paging', () => {
         .before(renderStory('Paging', 'GoToAbsensePage'))
         .setCaptureElements('#test-element')
         .capture('focused', (actions, find) => {
-          actions.focus(find('[class^="Paging-paging"]'));
+          actions.focus(find('[data-comp-name~="Paging"]'));
         })
         .capture('Move focus right', actions => {
           actions.sendKeys(gemini.ARROW_RIGHT);

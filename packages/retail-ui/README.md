@@ -109,7 +109,7 @@ resolve: {
 
 ## <a name="FAQ"></a>FAQ
 
-### Сломались стили при использовании css-loader 2.x
+### Сломались стили при использовании css-loader 2.x (create-react-app/CRA 3.x)
 
 Во [2-й версии](https://github.com/webpack-contrib/css-loader/releases/tag/v2.0.0), `css-loader` отключили использование `css-modules` по умолчанию.
 **Решение**: В опциях к `css-loader` явно задать `modules: 'global'`.

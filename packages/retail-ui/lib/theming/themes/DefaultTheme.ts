@@ -1,4 +1,4 @@
-import DEFAULT_VARIABLES from '../../../components/variables.less';
+import DEFAULT_VARIABLES from '../../../components/variables.module.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 import ColorFunctions from '../../styles/ColorFunctions';
 
@@ -36,6 +36,21 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   btnFontSizeLarge: {
     get() {
       return this.fontSizeLarge;
+    },
+  },
+  btnPaddingYSmall: {
+    get() {
+      return this.controlPaddingYSmall;
+    },
+  },
+  btnPaddingYMedium: {
+    get() {
+      return this.controlPaddingYMedium;
+    },
+  },
+  btnPaddingYLarge: {
+    get() {
+      return this.controlPaddingYLarge;
     },
   },
   controlHeightSmall: {

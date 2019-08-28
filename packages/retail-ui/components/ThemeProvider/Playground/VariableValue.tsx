@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cx, css } from '../../../lib/theming/Emotion';
 import Input from '../../Input/index';
-import styles from './styles.less';
+import styles from './styles.module.less';
 import Gapped from '../../Gapped';
 import { ITheme } from '../../../lib/theming/Theme';
 import Link from '../../Link';

@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 
 import PopupHelper, { Rect, PositionObject } from './PopupHelper';
 
-import styles from './PopupPin.less';
+import styles from './PopupPin.module.less';
 import { Nullable } from '../../typings/utility-types';
 
 const borderStyles = {

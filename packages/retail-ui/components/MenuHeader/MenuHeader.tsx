@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './MenuHeader.less';
+import styles from './MenuHeader.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';

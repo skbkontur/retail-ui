@@ -3,7 +3,7 @@
 import classNames from 'classnames';
 import * as React from 'react';
 
-import styles from './Calendar.less';
+import styles from './Calendar.module.less';
 
 import Cell from './CalendarCell';
 

@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Link.less';
+import styles from './Link.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {

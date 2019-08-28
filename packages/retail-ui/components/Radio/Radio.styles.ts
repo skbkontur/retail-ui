@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Radio.less';
+import styles from './Radio.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {

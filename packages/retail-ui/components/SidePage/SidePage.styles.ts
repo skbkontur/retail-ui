@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
