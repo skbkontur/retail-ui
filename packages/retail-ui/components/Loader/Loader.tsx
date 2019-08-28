@@ -6,7 +6,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 // @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
 import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
 
-import styles from './Loader.less';
+import styles from './Loader.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Loader.styles';

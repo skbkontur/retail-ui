@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Checkbox.less';
+import styles from './Checkbox.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
 

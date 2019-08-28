@@ -5,7 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import ToastView, { ToastViewProps } from './ToastView';
 import ToastStatic from './ToastStatic';
 
-import './Toast.less';
+import './Toast.module.less';
 import { Nullable, TimeoutID } from '../../typings/utility-types';
 
 export interface Action {

@@ -5,7 +5,7 @@ import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import styles from './Checkbox.less';
+import styles from './Checkbox.module.less';
 import jsStyles from './Checkbox.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';

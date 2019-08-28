@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Group from '../Group';
 import Button, { ButtonSize } from '../Button';
-import styles from './Switcher.less';
+import styles from './Switcher.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Switcher.styles';

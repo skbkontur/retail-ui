@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import classes from './Input.less';
+import classes from './Input.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';

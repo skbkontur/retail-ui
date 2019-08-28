@@ -2,14 +2,12 @@
 
 var renderStory = require('./utils').renderStory;
 
-const DROPDOWN_MENU_SELECTOR = '[class^="TooltipMenu-container"]';
-const CAPTION_SELECTOR = '[class^="PopupMenu-caption"]';
+const CAPTION_SELECTOR = '[data-comp-name~="PopupMenu"]';
 
 var applyTest = testSuite =>
   testSuite
     .setCaptureElements('#test-element')
     .before((actions, find) => {
-      this.dropdownMenu = find(DROPDOWN_MENU_SELECTOR);
       this.captionElement = find(CAPTION_SELECTOR);
     })
     .capture('plain')

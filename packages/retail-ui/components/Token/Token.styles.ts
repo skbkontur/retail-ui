@@ -1,7 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
-import styles from './Token.less';
+import styles from './Token.module.less';
 
 export default {
   warning(t: ITheme) {

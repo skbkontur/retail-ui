@@ -1,7 +1,7 @@
 /* global gemini */
 const renderStory = require('./utils').renderStory;
 
-const ROOT_SELECTOR = '[class^="Select-root"]';
+const ROOT_SELECTOR = '[data-comp-name~="Select"]';
 const MENU_ITEM_SELECTOR = '[data-comp-name="MenuItem"]';
 
 const testScenario = suite => {

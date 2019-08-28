@@ -1,4 +1,4 @@
-import DEFAULT_VARIABLES from '../../../components/variables.less';
+import DEFAULT_VARIABLES from '../../../components/variables.module.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 import ColorFunctions from '../../styles/ColorFunctions';
 

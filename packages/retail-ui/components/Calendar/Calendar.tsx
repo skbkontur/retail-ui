@@ -8,7 +8,7 @@ import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
-import styles from './Calendar.less';
+import styles from './Calendar.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { ITheme } from '../../lib/theming/Theme';
 import jsStyles from './Calendar.styles';

@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import classes from './Button.less';
+import classes from './Button.module.less';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {

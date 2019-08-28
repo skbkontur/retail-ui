@@ -2,14 +2,12 @@
 
 var renderStory = require('./utils').renderStory;
 
-const DROPDOWN_MENU_SELECTOR = '[class^="DropdownMenu-container"]';
-const CAPTION_SELECTOR = '[class^="PopupMenu-caption"]';
+const CAPTION_SELECTOR = '[class^="PopupMenu-module-caption"]';
 
 var applyTest = testSuite =>
   testSuite
     .setCaptureElements('#test-element')
     .before((actions, find) => {
-      this.dropdownMenu = find(DROPDOWN_MENU_SELECTOR);
       this.captionElement = find(CAPTION_SELECTOR);
     })
     .capture('plain')
@@ -50,13 +48,13 @@ gemini.suite('DropdownMenu', suite => {
       })
       .capture('scrolled by 100', actions => {
         actions.executeJS(function(window) {
-          var scrollContainer = window.document.querySelector('[class^="ScrollContainer-inner"]');
+          var scrollContainer = window.document.querySelector('[class^="ScrollContainer-module-inner"]');
           scrollContainer.scrollTop += 100;
         });
       })
       .capture('scrolled down to bottom', actions => {
         actions.executeJS(function(window) {
-          var scrollContainer = window.document.querySelector('[class^="ScrollContainer-inner"]');
+          var scrollContainer = window.document.querySelector('[class^="ScrollContainer-module-inner"]');
           scrollContainer.scrollTop += scrollContainer.scrollHeight;
         });
       });

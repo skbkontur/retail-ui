@@ -76,16 +76,16 @@ gemini.suite('modal without sticky elements', suite => {
     .capture('top')
     .capture('middle', actions => {
       actions.executeJS(function(window) {
-        var modalContainer = window.document.querySelector('[class^="Modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
+        var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
 
         modalContainer.scrollTop = modalContent.offsetHeight / 2;
       });
     })
     .capture('bottom', actions => {
       actions.executeJS(function(window) {
-        var modalContainer = window.document.querySelector('[class^="Modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
+        var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
 
         modalContainer.scrollTop = modalContent.offsetHeight;
       });

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './MenuSeparator.less';
+import styles from './MenuSeparator.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './MenuSeparator.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

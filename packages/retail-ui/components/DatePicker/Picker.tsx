@@ -4,7 +4,7 @@ import InternalDateGetter from '../../lib/date/InternalDateGetter';
 import Calendar, { CalendarDateShape } from '../Calendar';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 import { locale } from '../LocaleProvider/decorators';
-import styles from './Picker.less';
+import styles from './Picker.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { isLess, isGreater } from '../Calendar/CalendarDateShape';
 import { DatePickerLocaleHelper, DatePickerLocale } from './locale';
