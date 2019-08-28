@@ -31,4 +31,3 @@ export const emptyDateComponents = {
 export const defaultDateComponentsOrder = InternalDateOrder.DMY;
 export const defaultDateComponentsSeparator = InternalDateSeparator.Dot;
 export const defaultFirstDayWeek = InternalDateFirstDayWeek.Monday;
-

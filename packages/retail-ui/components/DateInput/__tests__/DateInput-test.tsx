@@ -148,7 +148,9 @@ setups.forEach(({ name, getInput, getValue }) => {
       PasteCases.forEach(([order, pasted, expected]) => {
         it(`handles paste "${pasted}"`, () => {
           const onChange = jest.fn();
-          const input = getInput(render({ onChange }, { locale: { DatePicker: { order: order as InternalDateOrder } } }));
+          const input = getInput(
+            render({ onChange }, { locale: { DatePicker: { order: order as InternalDateOrder } } }),
+          );
           input.simulate('paste', { clipboardData: { getData: () => pasted } });
           const calls: any[] = onChange.mock.calls[onChange.mock.calls.length - 1][0];
           expect(calls).toMatchObject({ target: { value: expected } });
