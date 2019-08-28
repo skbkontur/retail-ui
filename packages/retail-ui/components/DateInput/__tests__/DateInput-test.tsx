@@ -92,9 +92,9 @@ setups.forEach(({ name, getInput, getValue }) => {
 
         // Year
         ['10.02.2017', ['ArrowRight', 'ArrowRight', 'ArrowUp'], '10.02.2018'],
-        ['10.02.9999', ['ArrowRight', 'ArrowRight', 'ArrowUp'], '10.02.1900'],
+        ['10.02.9999', ['ArrowRight', 'ArrowRight', 'ArrowUp'], '10.02.0000'],
         ['10.02.2017', ['ArrowRight', 'ArrowRight', 'ArrowDown'], '10.02.2016'],
-        ['10.02.0000', ['ArrowRight', 'ArrowRight', 'ArrowDown'], '10.02.2099'],
+        ['10.02.0000', ['ArrowRight', 'ArrowRight', 'ArrowDown'], '10.02.9999'],
         ['01.02.2017', ['ArrowRight', 'ArrowRight', '1'], '01.02.0001'],
         ['01.02.2017', ['ArrowRight', 'ArrowRight', '1', '2'], '01.02.0012'],
         ['01.02.2017', ['ArrowRight', 'ArrowRight', '1', '2', '3', '4'], '01.02.1234'],
