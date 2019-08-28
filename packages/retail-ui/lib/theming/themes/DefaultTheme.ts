@@ -38,6 +38,21 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.fontSizeLarge;
     },
   },
+  btnPaddingYSmall: {
+    get() {
+      return this.controlPaddingYSmall;
+    },
+  },
+  btnPaddingYMedium: {
+    get() {
+      return this.controlPaddingYMedium;
+    },
+  },
+  btnPaddingYLarge: {
+    get() {
+      return this.controlPaddingYLarge;
+    },
+  },
   controlHeightSmall: {
     get() {
       const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
