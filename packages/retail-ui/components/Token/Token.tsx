@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 import warningOutput from 'warning';
 import styles from './Token.less';
@@ -74,13 +74,17 @@ class Token extends React.Component<TokenProps & TokenActions, {}> {
       }
     }
 
-    const tokenClassName = disabled ?
-      tokenColors.defaultDisable :
-      colors ? tokenColors[colors.idle] : tokenColors.defaultIdle;
+    const tokenClassName = disabled
+      ? tokenColors.defaultDisable
+      : colors
+        ? tokenColors[colors.idle]
+        : tokenColors.defaultIdle;
 
-    const activeTokenClassName = disabled ?
-      tokenColors.defaultDisable :
-      colors ? tokenColors[colors.active || colors.idle] : tokenColors.defaultActive;
+    const activeTokenClassName = disabled
+      ? tokenColors.defaultDisable
+      : colors
+        ? tokenColors[colors.active || colors.idle]
+        : tokenColors.defaultActive;
 
     const tokenClassNames = cn(
       styles.token,
@@ -105,22 +109,19 @@ class Token extends React.Component<TokenProps & TokenActions, {}> {
         <span className={styles.text}>{children}</span>
         <TokenRemoveIcon className={styles.removeIcon} onClick={this.onRemoveClick} />
       </div>
-    )
+    );
   }
 
   private onRemoveClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
-    const {
-      disabled,
-      onRemove = emptyHandler,
-    } = this.props;
+    const { disabled, onRemove = emptyHandler } = this.props;
 
     if (disabled) {
-      event.preventDefault()
+      event.preventDefault();
       return;
     }
 
-    onRemove(event)
-  }
+    onRemove(event);
+  };
 }
 
 export default Token;
