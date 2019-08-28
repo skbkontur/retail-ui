@@ -179,9 +179,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [classes.disabled]: !!this.props.disabled || !!this.props.loading,
         [jsClasses.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
         [classes.errorRoot]: !!this.props.error,
-        [jsClasses.errorRoot(this.theme)]: !!this.props.error,
         [classes.warningRoot]: !!this.props.warning,
-        [jsClasses.warningRoot(this.theme)]: !!this.props.warning,
         [classes.error]: !!this.props.error,
         [classes.warning]: !!this.props.warning,
         [classes.narrow]: !!this.props.narrow,
@@ -245,8 +243,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={cx({
-            [cx(classes.arrow, jsClasses.arrow(this.theme)) || '']: true,
-            [cx(classes.arrow_left, jsClasses.arrow_left(this.theme)) || '']: this.props.arrow === 'left',
+            [classes.arrow]: true,
+            [classes.arrow_left]: this.props.arrow === 'left',
             [classes.arrow_loading || '']: !!this.props.loading,
             [jsClasses.arrow_error(this.theme)]: !!this.props.error,
             [jsClasses.arrow_warning(this.theme)]: !!this.props.warning,
