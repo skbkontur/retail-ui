@@ -32,6 +32,22 @@ const renderDatePickerLocale = ({
 const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
 describe('DatePicker', () => {
+  describe('validate', () => {
+    const { minDate, maxDate } = DatePicker.defaultProps;
+    it(`should validate by default range ${minDate} - ${maxDate}`, () => {
+      expect(DatePicker.validate(minDate)).toBe(true);
+      expect(DatePicker.validate(maxDate)).toBe(true);
+      expect(DatePicker.validate(new InternalDate({ value: minDate }).shiftYear(-1).toString())).toBe(false);
+      expect(DatePicker.validate(new InternalDate({ value: maxDate }).shiftYear(1).toString())).toBe(false);
+    });
+    it('should validate by limits', () => {
+      expect(DatePicker.validate('00.00.1900', { minDate: '01.01.1800' })).toBe(false);
+      expect(DatePicker.validate('99.99.2018', { maxDate: '01.01.2019' })).toBe(false);
+    });
+    it('should validate by number', () => {
+      expect(DatePicker.validate('01.ff.2019')).toBe(false);
+    });
+  });
   it('renders', () => {
     const datePicker = renderDatePicker();
     expect(datePicker.exists());

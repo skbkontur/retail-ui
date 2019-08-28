@@ -1,6 +1,7 @@
 import CalendarIcon from '@skbkontur/react-icons/Calendar';
 import classNames from 'classnames';
 import * as React from 'react';
+import { MIN_FULLDATE, MAX_FULLDATE } from '../../lib/date/constants';
 import { InternalDate } from '../../lib/date/InternalDate';
 import InternalDateGetter from '../../lib/date/InternalDateGetter';
 import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
@@ -8,8 +9,6 @@ import { InternalDateComponent, InternalDateComponentType, InternalDateValidateC
 import MouseDrag from '../../lib/events/MouseDrag';
 import Upgrades from '../../lib/Upgrades';
 import { isFirefox } from '../../lib/utils';
-
-import { Nullable } from '../../typings/utility-types';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { isEdge, isIE } from '../ensureOldIEClassName';
 import InputLikeText from '../internal/InputLikeText';
@@ -37,11 +36,27 @@ export interface DateInputProps {
   error?: boolean;
   warning?: boolean;
   disabled?: boolean;
-  minDate?: Nullable<string>;
-  maxDate?: Nullable<string>;
-  width?: string | number;
+  /**
+   * Минимальная дата.
+   * @default '01.01.1900'
+   */
+  minDate: string;
+  /**
+   * Максимальная дата
+   * @default '31.12.2099'
+   */
+  maxDate: string;
+  /**
+   * Ширина поля
+   * @default 125
+   */
+  width: string | number;
   withIcon?: boolean;
-  size?: 'small' | 'large' | 'medium';
+  /**
+   * Размер поля
+   * @default 'small'
+   */
+  size: 'small' | 'large' | 'medium';
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   /**
@@ -55,6 +70,8 @@ export interface DateInputProps {
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static defaultProps = {
+    minDate: MIN_FULLDATE,
+    maxDate: MAX_FULLDATE,
     size: 'small',
     width: 125,
   };
@@ -238,15 +255,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const { order, separator } = this.locale;
     if (this.props.minDate !== min) {
       isMod = true;
-      internalDate.setRangeStart(
-        this.props.minDate ? new InternalDate({ order, separator, value: this.props.minDate }) : null,
-      );
+      internalDate.setRangeStart(new InternalDate({ order, separator, value: this.props.minDate }));
     }
     if (this.props.maxDate !== max) {
       isMod = true;
-      internalDate.setRangeEnd(
-        this.props.maxDate ? new InternalDate({ order, separator, value: this.props.maxDate }) : null,
-      );
+      internalDate.setRangeEnd(new InternalDate({ order, separator, value: this.props.maxDate }));
     }
     if (!this.props.value || this.props.value !== internalDate.toInternalString()) {
       isMod = true;
