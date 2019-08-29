@@ -3,6 +3,7 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { InternalDate } from '../../lib/date/InternalDate';
 import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
+import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../Calendar';
@@ -21,9 +22,6 @@ const INPUT_PASS_PROPS = {
   size: true,
   onKeyDown: true,
 };
-
-const MIN_DATE = '01.01.1900';
-const MAX_DATE = '31.12.2099';
 
 export interface DatePickerProps<T> {
   autoFocus?: boolean;
@@ -120,8 +118,8 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
 
   public static defaultProps = {
     width: 120,
-    minDate: MIN_DATE,
-    maxDate: MAX_DATE,
+    minDate: MIN_FULLDATE,
+    maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
   };
 
@@ -130,7 +128,7 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
       return false;
     }
 
-    const { minDate = MIN_DATE, maxDate = MAX_DATE } = range;
+    const { minDate = MIN_FULLDATE, maxDate = MAX_FULLDATE } = range;
     const internalDate = new InternalDate({
       order: InternalDateOrder.DMY,
       separator: InternalDateSeparator.Dot,

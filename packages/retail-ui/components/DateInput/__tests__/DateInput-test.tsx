@@ -1,6 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { HTMLAttributes } from 'react';
+import { DefaultizeProps } from '../../../lib/utils';
 import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import LocaleProvider, { LocaleProviderProps } from '../../LocaleProvider';
@@ -10,7 +11,7 @@ const defaultOrder: InternalDateOrder = InternalDateOrder.DMY;
 const defaultSeparator: InternalDateSeparator = InternalDateSeparator.Dot;
 
 const render = (
-  props: DateInputProps,
+  props: DefaultizeProps<typeof DateInput, DateInputProps>,
   propsLocale: LocaleProviderProps = { locale: { DatePicker: { order: defaultOrder, separator: defaultSeparator } } },
 ) =>
   mount<LocaleProvider, LocaleProviderProps>(
