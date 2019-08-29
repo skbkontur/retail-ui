@@ -22,6 +22,9 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
+const MIN_DATE = '01.01.1900';
+const MAX_DATE = '31.12.2099';
+
 export interface DatePickerProps<T> {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -117,39 +120,34 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
 
   public static defaultProps = {
     width: 120,
-    minDate: '01.01.1900',
-    maxDate: '31.12.2099',
+    minDate: MIN_DATE,
+    maxDate: MAX_DATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
   };
 
-  public static validate = (
-    value: Nullable<string>,
-    range?: { minDate?: Nullable<string>; maxDate?: Nullable<string> },
-  ) => {
+  public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
       return false;
     }
 
+    const { minDate = MIN_DATE, maxDate = MAX_DATE } = range;
     const internalDate = new InternalDate({
       order: InternalDateOrder.DMY,
       separator: InternalDateSeparator.Dot,
-    }).parseValue(value);
+    })
+      .setRangeStart(new InternalDate({ value: minDate }))
+      .setRangeEnd(new InternalDate({ value: maxDate }))
+      .parseValue(value);
 
-    const checks = [
-      InternalDateValidateCheck.NotNull,
-      InternalDateValidateCheck.Number,
-      InternalDateValidateCheck.Native,
-      InternalDateValidateCheck.Limits,
-    ];
-
-    if (range !== undefined) {
-      internalDate
-        .setRangeStart(range.minDate ? new InternalDate({ value: range.minDate }) : null)
-        .setRangeEnd(range.maxDate ? new InternalDate({ value: range.maxDate }) : null);
-      checks.push(InternalDateValidateCheck.Range);
-    }
-
-    return internalDate.validate({ checks });
+    return internalDate.validate({
+      checks: [
+        InternalDateValidateCheck.NotNull,
+        InternalDateValidateCheck.Number,
+        InternalDateValidateCheck.Native,
+        InternalDateValidateCheck.Limits,
+        InternalDateValidateCheck.Range,
+      ],
+    });
   };
 
   public state: DatePickerState = { opened: false };
