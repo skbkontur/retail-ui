@@ -1,4 +1,4 @@
-import FLAT_VARIABLES from '../../../components/variables.flat.less';
+import FLAT_VARIABLES from '../../../components/variables.flat.module.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 
 const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Item, { ItemProps } from './Item';
 
-import styles from './TopBar.less';
+import styles from './TopBar.module.less';
 import { IconProps } from '../Icon/20px';
 
 export interface ButtonItemProps extends ItemProps {

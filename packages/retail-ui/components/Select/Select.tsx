@@ -15,7 +15,7 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
 import Item from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
-import styles from './Select.less';
+import styles from './Select.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';

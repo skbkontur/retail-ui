@@ -5,7 +5,7 @@ import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
 import { cx } from '../../lib/theming/Emotion';
-import classes from './Input.less';
+import classes from './Input.module.less';
 import jsClasses from './Input.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -215,7 +215,7 @@ class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): void => this.selectAllId = raf(this.selectAll);
+  private delaySelectAll = (): void => (this.selectAllId = raf(this.selectAll));
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {

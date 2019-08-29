@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import Calendar from '../Calendar';
 
-import styles from './Picker.less';
+import styles from './Picker.module.less';
 
 type Props = {
   maxYear?: number,

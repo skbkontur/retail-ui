@@ -4,7 +4,7 @@ import invariant from 'invariant';
 import tabListener from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
-import styles from './Tab.less';
+import styles from './Tab.module.less';
 import { TabsContextType, TabsContext } from './TabsContext';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Tab.styles';

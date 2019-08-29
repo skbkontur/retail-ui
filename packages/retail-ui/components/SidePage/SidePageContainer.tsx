@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 
 export default class SidePageContainer extends React.Component {
   public render(): JSX.Element {

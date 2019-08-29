@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Kebab.less';
+import styles from './Kebab.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {

@@ -23,11 +23,11 @@ gemini.suite('SidePage', suite => {
       .setCaptureElements('html')
       .capture('open internal side-page', (actions, find) => {
         actions.click(find('button'));
-        actions.click(find('[class^="SidePage-body"] button'));
-        actions.click(find('body'))
+        actions.click(find('[data-comp-name~="SidePageBody"] button'));
+        actions.click(find('body'));
       })
       .capture('close internal side-page', (action, find) => {
-        action.click(find('.react-ui:last-child [class^="SidePage-footer"] button'));
+        action.click(find('.react-ui:last-child [data-comp-name~="SidePageFooter"] button'));
       });
   });
 
@@ -57,8 +57,8 @@ gemini.suite('SidePage', suite => {
       .capture('not fixed')
       .capture('fixed close element', (actions, find) => {
         actions.executeJS(function(window) {
-          var sidePageContainer = window.document.querySelector('[class^="SidePage-container"]');
-          var sidePageHeader = window.document.querySelector('[class^="SidePage-header"]');
+          var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
+          var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           var fixedHeaderHeight = 50;
 
           sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
@@ -66,8 +66,8 @@ gemini.suite('SidePage', suite => {
       })
       .capture('fixed header', (actions, find) => {
         actions.executeJS(function(window) {
-          var sidePageContainer = window.document.querySelector('[class^="SidePage-container"]');
-          var sidePageHeader = window.document.querySelector('[class^="SidePage-header"]');
+          var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
+          var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           var fixedHeaderHeight = 50;
 
           sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;

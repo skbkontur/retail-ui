@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CHAR_MASK } from '../../lib/date/constants';
 import InternalDateValidator from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
-import styles from './DateFragmentsView.less';
+import styles from './DateFragmentsView.module.less';
 import { removeAllSelections } from './helpers/SelectionHelpers';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './DateFragmentsView.styles';
@@ -34,10 +34,11 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
   private renderMain() {
     return (
       <div ref={this.props.nodeRef} className={cx(styles.root, jsStyles.root(this.theme))}>
-        {this.props.fragments.map((fragment, index) =>
-          fragment.type === InternalDateComponentType.Separator
-            ? this.renderSeparator(fragment, index)
-            : this.renderDateComponent(fragment, index),
+        {this.props.fragments.map(
+          (fragment, index) =>
+            fragment.type === InternalDateComponentType.Separator
+              ? this.renderSeparator(fragment, index)
+              : this.renderDateComponent(fragment, index),
         )}
       </div>
     );

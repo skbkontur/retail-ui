@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './ThemeShowcase.less';
+import styles from './ThemeShowcase.module.less';
 import defaultVariables from '../../lib/theming/themes/DefaultTheme';
 import flatVariables from '../../lib/theming/themes/FlatTheme';
 import { ITheme } from '../../lib/theming/Theme';

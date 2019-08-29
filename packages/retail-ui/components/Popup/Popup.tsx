@@ -9,7 +9,7 @@ import raf from 'raf';
 import PopupHelper, { Offset, PositionObject, Rect } from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
-import styles from './Popup.less';
+import styles from './Popup.module.less';
 import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
