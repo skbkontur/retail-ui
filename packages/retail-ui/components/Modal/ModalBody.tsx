@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ModalContext } from './ModalContext';
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 
 export class Body extends React.Component {

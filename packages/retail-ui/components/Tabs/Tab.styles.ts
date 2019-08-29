@@ -1,6 +1,6 @@
 import { css } from '../../lib/theming/Emotion';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
-import styles from './Tab.less';
+import styles from './Tab.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {

@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import classes from './Button.less';
+import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 

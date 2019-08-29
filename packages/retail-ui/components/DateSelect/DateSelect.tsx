@@ -9,7 +9,7 @@ import RenderLayer from '../RenderLayer';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import styles from './DateSelect.less';
+import styles from './DateSelect.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './DateSelect.styles';
 import { ITheme } from '../../lib/theming/Theme';

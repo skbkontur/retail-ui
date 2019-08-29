@@ -5,7 +5,7 @@ import RenderLayer from '../../RenderLayer';
 import { Nullable } from '../../../typings/utility-types';
 import PopupMenuPositions from './PopupMenuPositions';
 import isValidPositions from './validatePositions';
-import styles from './PopupMenu.less';
+import styles from './PopupMenu.module.less';
 
 export interface PopupMenuCaptionProps {
   opened: boolean;

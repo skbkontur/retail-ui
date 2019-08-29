@@ -2,7 +2,7 @@
 
 var renderStory = require('./utils').renderStory;
 
-var TabSelector = '[class^="Tab-root"]';
+var TabSelector = '[data-comp-name~="Tab"]';
 
 var tabAtIndex = index => `${TabSelector}:nth-child(${index})`;
 

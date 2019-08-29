@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Toggle.less';
+import styles from './Toggle.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {

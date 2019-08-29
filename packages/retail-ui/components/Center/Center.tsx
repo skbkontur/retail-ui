@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import styles from './Center.less';
+import styles from './Center.module.less';
 import { Override } from '../../typings/utility-types';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';

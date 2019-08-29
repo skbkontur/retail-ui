@@ -1,6 +1,6 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import styles from './DateFragmentsView.less';
+import styles from './DateFragmentsView.module.less';
 
 const jsStyles = {
   root(t: ITheme) {

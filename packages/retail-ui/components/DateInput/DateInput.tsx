@@ -11,7 +11,7 @@ import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { isEdge, isIE } from '../ensureOldIEClassName';
 import InputLikeText from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
-import styles from './DateInput.less';
+import styles from './DateInput.module.less';
 import { DateInputFallback } from './DateInputFallback';
 import { DateFragmentsView } from './DateFragmentsView';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
@@ -602,4 +602,4 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 }
 
-export default isIE || isEdge ? DateInputFallback(DateInput) : DateInput;
+export default (isIE || isEdge ? DateInputFallback(DateInput) : DateInput);

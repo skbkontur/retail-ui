@@ -15,7 +15,7 @@ import { Body } from './ModalBody';
 import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

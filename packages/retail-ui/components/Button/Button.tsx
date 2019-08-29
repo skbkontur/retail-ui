@@ -3,7 +3,7 @@ import tabListener from '../../lib/events/tabListener';
 import Corners from './Corners';
 import '../ensureOldIEClassName';
 import { cx } from '../../lib/theming/Emotion';
-import classes from './Button.less';
+import classes from './Button.module.less';
 import jsClasses from './Button.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
