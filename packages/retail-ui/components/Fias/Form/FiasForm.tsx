@@ -402,7 +402,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   }
 
-  private createItemsSource = async (searchText: string, field?: Fields) => {
+  private createItemsSource = async (searchText: string, field: Fields) => {
     const { address } = this.state;
     const limit = this.props.limit || FiasForm.defaultProps.limit;
 
