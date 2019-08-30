@@ -371,7 +371,7 @@ object ReactUI_ScreenshotTests : BuildType({
         step {
             name = "Test UI"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-selenium test:ci")
+            param("yarn_commands", "workspace react-ui-selenium test")
         }
     }
 
