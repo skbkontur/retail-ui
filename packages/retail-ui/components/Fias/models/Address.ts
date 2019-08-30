@@ -209,17 +209,18 @@ export class Address {
     fieldsSettings: FieldsSettings,
   ): { [key in Fields]?: any } => {
     const filteredFields: { [key in Fields]?: any } = {};
-    const isFieldVisible = (f: Fields): boolean => {
-      const settings = fieldsSettings[f];
-      return Boolean(settings && settings.visible);
-    };
     let field: Fields;
     for (field in fields) {
-      if (isFieldVisible(field)) {
+      if (Address.isFieldVisible(field, fieldsSettings)) {
         filteredFields[field] = fields[field];
       }
     }
     return filteredFields;
+  };
+
+  public static isFieldVisible = (field: Fields | ExtraFields, fieldsSettings: FieldsSettings): boolean => {
+    const settings = fieldsSettings[field];
+    return Boolean(settings && settings.visible);
   };
 
   public static getParentFields = (field: Fields) => {
