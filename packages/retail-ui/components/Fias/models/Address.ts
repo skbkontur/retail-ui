@@ -378,7 +378,7 @@ export class Address {
     return substrings.filter(Boolean).join(', ');
   };
 
-  public isAllowedToFill = (field?: Fields): boolean => {
+  public isAllowedToFill = (field: Fields): boolean => {
     const { region, city, settlement, house } = this.fields;
     const hasCityOrSettlement = city || settlement || (region && region.isFederalCity);
     if (
@@ -390,8 +390,8 @@ export class Address {
     return true;
   };
 
-  public isAllowedToSearchFullAddress = (field?: Fields): boolean => {
-    if (field && Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field)) {
+  public isAllowedToSearchFullAddress = (field: Fields): boolean => {
+    if (Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field)) {
       if (!this.getClosestParentFiasId(field)) {
         return true;
       }
@@ -401,8 +401,8 @@ export class Address {
 
   // doesn't work on api side yet
   // @see https://yt.skbkontur.ru/issue/PS-1401
-  public isAllowedToSearchThroughChildrenOfDirectParent = (field?: Fields): boolean => {
-    return Boolean(field && Address.NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS.includes(field));
+  public isAllowedToSearchThroughChildrenOfDirectParent = (field: Fields): boolean => {
+    return Address.NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS.includes(field);
   };
 
   public hasOnlyIndirectParent = (field?: Fields): boolean => {
@@ -416,8 +416,8 @@ export class Address {
     return false;
   };
 
-  public getClosestParentFiasId = (field?: Fields): FiasId | undefined => {
-    if (field && !this.isEmpty) {
+  public getClosestParentFiasId = (field: Fields): FiasId | undefined => {
+    if (!this.isEmpty) {
       const parents = Address.getParentFields(field)
         .slice()
         .reverse();
