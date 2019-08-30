@@ -13,13 +13,13 @@ describe('DropdownMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await this.browser
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
     });
@@ -29,7 +29,7 @@ describe('DropdownMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -88,7 +88,7 @@ describe('DropdownMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await expect(await this.browser.takeScreenshot()).to.matchImage('clicked');
     });
@@ -97,12 +97,12 @@ describe('DropdownMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await this.browser.executeScript(function() {
         // tslint:disable
         // @ts-ignore
-        var scrollContainer: Element = window.document.querySelector('[class^="ScrollContainer-inner"]');
+        var scrollContainer: Element = window.document.querySelector('[class^="ScrollContainer-module-inner"]');
         scrollContainer.scrollTop += 100;
         // tslint:enable
       });
@@ -113,12 +113,12 @@ describe('DropdownMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await this.browser.executeScript(function() {
         // tslint:disable
         // @ts-ignore
-        var scrollContainer: Element = window.document.querySelector('[class^="ScrollContainer-inner"]');
+        var scrollContainer: Element = window.document.querySelector('[class^="ScrollContainer-module-inner"]');
         scrollContainer.scrollTop += scrollContainer.scrollHeight;
         // tslint:enable
       });

@@ -16,7 +16,7 @@ describe('Paging', function() {
           bridge: true,
         })
         .move({
-          origin: this.browser.findElement(By.css('[class^="Paging-pageLinkWrapper"]')),
+          origin: this.browser.findElement(By.css('[class^="Paging-module-pageLinkWrapper"]')),
         })
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hover');
@@ -27,7 +27,7 @@ describe('Paging', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Paging-pageLinkWrapper"]')))
+        .click(this.browser.findElement(By.css('[class^="Paging-module-pageLinkWrapper"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('change page by number');
     });
@@ -39,7 +39,7 @@ describe('Paging', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Paging-forwardLink"]')))
+        .click(this.browser.findElement(By.css('[class^="Paging-module-forwardLink"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('change page by forwardLink');
     });
@@ -51,7 +51,7 @@ describe('Paging', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Paging-pageLinkWrapper"]')))
+        .click(this.browser.findElement(By.css('[class^="Paging-module-pageLinkWrapper"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('focused');
     });
@@ -61,7 +61,7 @@ describe('Paging', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Paging-pageLinkWrapper"]')))
+        .click(this.browser.findElement(By.css('[class^="Paging-module-pageLinkWrapper"]')))
         .pause(100)
         .sendKeys(Key.ARROW_RIGHT)
         .perform();
@@ -73,7 +73,7 @@ describe('Paging', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Paging-pageLinkWrapper"]')))
+        .click(this.browser.findElement(By.css('[class^="Paging-module-pageLinkWrapper"]')))
         .pause(100)
         .sendKeys(Key.ARROW_RIGHT)
         .pause(100)

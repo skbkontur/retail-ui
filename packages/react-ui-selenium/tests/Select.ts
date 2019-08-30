@@ -13,7 +13,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -23,7 +23,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({
@@ -41,7 +41,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({
@@ -63,7 +63,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -73,7 +73,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({
@@ -91,7 +91,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({
@@ -113,7 +113,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -123,7 +123,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({
@@ -141,7 +141,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({
@@ -163,7 +163,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -173,7 +173,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({
@@ -191,7 +191,7 @@ describe('Select', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Select-root"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
         .perform();
       await this.browser
         .actions({

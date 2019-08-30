@@ -32,7 +32,7 @@ describe('SidePage', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="SidePage-body"] button')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="SidePageBody"] button')))
         .perform();
       await expect(await this.browser.takeScreenshot()).to.matchImage('open internal side-page');
     });
@@ -47,13 +47,13 @@ describe('SidePage', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="SidePage-body"] button')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="SidePageBody"] button')))
         .perform();
       await this.browser
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('.react-ui:last-child [class^="SidePage-footer"] button')))
+        .click(this.browser.findElement(By.css('.react-ui:last-child [data-comp-name~="SidePageFooter"] button')))
         .perform();
       await expect(await this.browser.takeScreenshot()).to.matchImage('close internal side-page');
     });
@@ -100,8 +100,8 @@ describe('SidePage', function() {
     it('fixed close element', async function() {
       await this.browser.executeScript(function() {
         // tslint:disable
-        var sidePageContainer = window.document.querySelector('[class^="SidePage-container"]');
-        var sidePageHeader = window.document.querySelector('[class^="SidePage-header"]');
+        var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
+        var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
         var fixedHeaderHeight = 50;
 
         // @ts-ignore
@@ -114,8 +114,8 @@ describe('SidePage', function() {
     it('fixed header', async function() {
       await this.browser.executeScript(function() {
         // tslint:disable
-        var sidePageContainer = window.document.querySelector('[class^="SidePage-container"]');
-        var sidePageHeader = window.document.querySelector('[class^="SidePage-header"]');
+        var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
+        var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
         var fixedHeaderHeight = 50;
 
         // @ts-ignore

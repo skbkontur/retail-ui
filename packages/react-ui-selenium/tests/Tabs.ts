@@ -16,7 +16,7 @@ describe('Tabs', function() {
           bridge: true,
         })
         .move({
-          origin: this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')),
+          origin: this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')),
         })
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -27,7 +27,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -37,7 +37,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
@@ -50,11 +50,11 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('focused');
     });
@@ -64,7 +64,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await delay(1000);
       await this.browser
@@ -81,7 +81,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await delay(1000);
       await this.browser
@@ -105,7 +105,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(1)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(1)')))
         .perform();
       await this.browser
         .actions({
@@ -123,7 +123,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(3)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(3)')))
         .perform();
       await delay(1000);
       await this.browser
@@ -147,7 +147,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(1)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(1)')))
         .perform();
       await this.browser
         .actions({
@@ -155,7 +155,7 @@ describe('Tabs', function() {
         })
         .sendKeys(Key.ARROW_RIGHT)
         .pause(500)
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(3)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(3)')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('reset focus after click');
     });
@@ -172,7 +172,7 @@ describe('Tabs', function() {
           bridge: true,
         })
         .move({
-          origin: this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')),
+          origin: this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')),
         })
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -183,7 +183,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -193,7 +193,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
@@ -206,11 +206,11 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('focused');
     });
@@ -220,7 +220,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await delay(1000);
       await this.browser
@@ -237,7 +237,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await delay(1000);
       await this.browser
@@ -268,7 +268,7 @@ describe('Tabs', function() {
           bridge: true,
         })
         .move({
-          origin: this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')),
+          origin: this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')),
         })
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -279,7 +279,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -289,7 +289,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
@@ -302,11 +302,11 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('focused');
     });
@@ -316,7 +316,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await delay(1000);
       await this.browser
@@ -333,7 +333,7 @@ describe('Tabs', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Tab-root"]:nth-child(2)')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Tab"]:nth-child(2)')))
         .perform();
       await delay(1000);
       await this.browser

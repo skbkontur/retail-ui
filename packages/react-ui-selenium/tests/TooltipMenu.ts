@@ -13,8 +13,8 @@ describe('TooltipMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="PopupMenu"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="PopupMenu"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
     });
@@ -24,7 +24,7 @@ describe('TooltipMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="PopupMenu"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -34,7 +34,7 @@ describe('TooltipMenu', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="PopupMenu-caption"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="PopupMenu"]')))
         .click(this.browser.findElement(By.css('body')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clickedOutside');

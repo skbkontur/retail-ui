@@ -105,10 +105,10 @@ describe('Modal', function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('top');
     });
     it('middle', async function() {
-      this.browser.executeScript(function() {
+      await this.browser.executeScript(function() {
         // tslint:disable
-        var modalContainer = window.document.querySelector('[class^="Modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
+        var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight / 2;
@@ -120,8 +120,8 @@ describe('Modal', function() {
     it('bottom', async function() {
       await this.browser.executeScript(function() {
         // tslint:disable
-        var modalContainer = window.document.querySelector('[class^="Modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-centerContainer"]');
+        var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight;

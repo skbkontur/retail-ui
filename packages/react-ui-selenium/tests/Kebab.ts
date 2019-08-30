@@ -14,7 +14,7 @@ describe('Kebab', function() {
           bridge: true,
         })
         .move({
-          origin: this.browser.findElement(By.css('[class^="Kebab-kebab"]')),
+          origin: this.browser.findElement(By.css('[data-comp-name~="Kebab"]')),
         })
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -25,7 +25,7 @@ describe('Kebab', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -35,8 +35,8 @@ describe('Kebab', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clickedOnButton2ndTime');
     });
@@ -91,7 +91,7 @@ describe('Kebab', function() {
           bridge: true,
         })
         .move({
-          origin: this.browser.findElement(By.css('[class^="Kebab-kebab"]')),
+          origin: this.browser.findElement(By.css('[data-comp-name~="Kebab"]')),
         })
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -102,7 +102,7 @@ describe('Kebab', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -112,8 +112,8 @@ describe('Kebab', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clickedOnButton2ndTime');
     });
@@ -168,7 +168,7 @@ describe('Kebab', function() {
           bridge: true,
         })
         .move({
-          origin: this.browser.findElement(By.css('[class^="Kebab-kebab"]')),
+          origin: this.browser.findElement(By.css('[data-comp-name~="Kebab"]')),
         })
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -179,7 +179,7 @@ describe('Kebab', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clicked');
     });
@@ -189,8 +189,8 @@ describe('Kebab', function() {
         .actions({
           bridge: true,
         })
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
-        .click(this.browser.findElement(By.css('[class^="Kebab-kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="Kebab"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('clickedOnButton2ndTime');
     });
