@@ -24,8 +24,8 @@ const config = {
   address: defaultAddress,
   testRegex: /\.ts$/,
   threshold: 0,
-  // TODO decrease retries after PR #1567
-  maxRetries: 5,
+  // NOTE Should refactor Button styles without 1px-border
+  maxRetries: 10,
   browsers: {
     chrome: {
       browserName: 'chrome',
