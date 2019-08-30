@@ -324,17 +324,18 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     const renderItem = (address: Address): string => {
       const element = address.fields[field];
-      const hasParents = Boolean(address.getClosestParentFiasId(field));
-
-      const fieldText = element ? element.getText(!hasParents && element.isTypeMatchField(field)) : '';
-
-      if (field === Fields.region && element && element.data) {
-        const regionCode = element.data.code.substr(0, 2);
-        return `${regionCode} ${fieldText}`;
+      if (!element) {
+        return '';
       }
-      // TODO: handle possible identical texts of elements
-      // while in the "not directParent" search mode
-      return hasParents ? [address.getText(field), fieldText].join(', ') : fieldText;
+
+      if (field === Fields.region && element.data) {
+        const regionCode = element.data.code.substr(0, 2);
+        return `${regionCode} ${element.getText()}`;
+      }
+
+      const diffAddress = new Address({ fields: this.state.address.getDiffFields(address, this.props.fieldsSettings) });
+      const hasParentFields = Boolean(diffAddress.getClosestParentFiasId(field));
+      return hasParentFields ? diffAddress.getText() : element.getText(element.isTypeMatchField(field));
     };
 
     const renderValue = (address: Address): React.ReactNode => {
@@ -412,7 +413,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
         field,
         parentFiasId: address.getClosestParentFiasId(field),
         fullAddress: address.isAllowedToSearchFullAddress(field),
-        directParent: !address.isAllowedToSearchThroughChildrenOfDirectParent(field),
+        directParent: !address.isAllowedToSearchThroughChildrenOfDirectParent(field, this.props.fieldsSettings),
         limit: limit + 1, // +1 to detect if there are more items
       };
       return this.props.api.search(options).then(result => {

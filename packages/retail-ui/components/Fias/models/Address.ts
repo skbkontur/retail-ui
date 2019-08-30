@@ -61,6 +61,7 @@ export class Address {
     Fields.intracityarea,
     Fields.settlement,
     Fields.planningstructure,
+    Fields.street,
   ];
 
   public static NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS = [
@@ -393,17 +394,19 @@ export class Address {
   };
 
   public isAllowedToSearchFullAddress = (field: Fields): boolean => {
-    if (Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field)) {
-      if (!this.getClosestParentFiasId(field)) {
-        return true;
-      }
-    }
-    return false;
+    return Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field);
   };
 
-  // doesn't work on api side yet
+  // doesn't fully work on api side yet
   // @see https://yt.skbkontur.ru/issue/PS-1401
-  public isAllowedToSearchThroughChildrenOfDirectParent = (field: Fields): boolean => {
+  public isAllowedToSearchThroughChildrenOfDirectParent = (field: Fields, fieldsSettings?: FieldsSettings): boolean => {
+    if (fieldsSettings) {
+      for (const parentField of Address.getParentFields(field)) {
+        if (!Address.isFieldVisible(parentField, fieldsSettings)) {
+          return false;
+        }
+      }
+    }
     return Address.NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS.includes(field);
   };
 
@@ -540,6 +543,21 @@ export class Address {
         },
       };
     }, {});
+  };
+
+  public getDiffFields = (address: Address, fieldsSettings?: FieldsSettings): AddressFields => {
+    const fields = fieldsSettings ? Address.filterVisibleFields(address.fields, fieldsSettings) : { ...address.fields };
+    for (const field of Address.MAIN_FIELDS) {
+      const element = fields[field];
+      if (element) {
+        if (element.isEqualTo(this.fields[field])) {
+          delete fields[field];
+        } else {
+          break;
+        }
+      }
+    }
+    return fields;
   };
 }
 
