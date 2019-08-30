@@ -8,6 +8,7 @@ import { fieldsToResponseTestCases } from './__fixtures__/fieldsToResponse';
 import { consistencyTestCases } from './__fixtures__/consistency';
 import { validationTestCases } from './__fixtures__/validation';
 import { verifyTestCases } from './__fixtures__/verify';
+import { getDiffFieldsTestCases } from './__fixtures__/getDiffFields';
 
 const getFieldsWithData = (fields: AddressFields): Fields[] => {
   const result: Fields[] = [];
@@ -20,6 +21,22 @@ const getFieldsWithData = (fields: AddressFields): Fields[] => {
       }
     }
   }
+  return result;
+};
+
+const deleteObjectMethods = (object: { [key: string]: any }): { [key: string]: any } => {
+  const result = { ...object };
+
+  Object.keys(result).forEach(key => {
+    if (result[key] !== null && typeof result[key] === 'object') {
+      result[key] = deleteObjectMethods(result[key]);
+    }
+    // anonymous functions break objects comparison
+    if (typeof result[key] === 'function') {
+      delete result[key];
+    }
+  });
+
   return result;
 };
 
@@ -145,6 +162,16 @@ describe('Address', () => {
             }
           }
         }
+      });
+    });
+  });
+
+  describe('getDiffFields', () => {
+    getDiffFieldsTestCases.forEach(({ label, address_1, address_2, diffFields, fieldsSettings }) => {
+      const result = address_1.getDiffFields(address_2, fieldsSettings);
+
+      it(label, () => {
+        expect(deleteObjectMethods(result)).toEqual(deleteObjectMethods(diffFields));
       });
     });
   });
