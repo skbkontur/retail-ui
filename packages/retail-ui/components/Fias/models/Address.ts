@@ -69,6 +69,7 @@ export class Address {
     Fields.intracityarea,
     Fields.settlement,
     Fields.planningstructure,
+    Fields.street,
   ];
 
   public static IS_RUSSIA = (country: FiasCountry): boolean => {
