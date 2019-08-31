@@ -13,10 +13,13 @@ const SCROLL_HIDDEN = isChrome || isOpera || isSafari;
 
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
+export type ScrollBehaviour = 'auto' | 'smooth';
+
 export interface ScrollContainerProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
+  scrollBehaviour?: ScrollBehaviour;
   onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
@@ -33,6 +36,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   public static propTypes = {
     invert: PropTypes.bool,
     maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    scrollBehaviour: PropTypes.oneOf(['auto', 'smooth']),
     preventWindowScroll: PropTypes.bool,
     onScrollStateChange: PropTypes.func,
   };
@@ -68,16 +72,19 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   }
 
   public render() {
+    const state = this.state;
+    const props = this.props;
     let scroll = null;
-    if (this.state.scrollActive) {
+
+    if (state.scrollActive) {
       const scrollClass = cx({
         [styles.scroll]: true,
-        [styles.scrollInvert]: !!this.props.invert,
-        [styles.scrollHover]: this.state.hover || this.state.scrolling,
+        [styles.scrollInvert]: !!props.invert,
+        [styles.scrollHover]: state.hover || state.scrolling,
       });
       const scrollStyle = {
-        top: this.state.scrollPos,
-        height: this.state.scrollSize,
+        top: state.scrollPos,
+        height: state.scrollSize,
       };
       scroll = (
         <div
@@ -89,17 +96,18 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       );
     }
 
-    const innerStyle = {
+    const innerStyle: React.CSSProperties = {
       marginRight: this.getMarginRight(),
-      maxHeight: this.props.maxHeight,
+      maxHeight: props.maxHeight,
       paddingRight: PADDING_RIGHT,
+      scrollBehavior: props.scrollBehaviour || 'auto',
     };
 
     return (
       <div className={styles.root} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
         {scroll}
         <div className={styles.inner} style={innerStyle} ref={this.refInner} onScroll={this.handleNativeScroll}>
-          {this.props.children}
+          {props.children}
         </div>
       </div>
     );
