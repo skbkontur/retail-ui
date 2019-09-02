@@ -107,7 +107,9 @@ class MoveControls extends React.Component {
           </button>
         </div>
         <br />
-        {React.cloneElement(React.Children.only(this.props.children), { ref: this.refMenu })}
+        <div data-tid="menu-container" style={{ padding: 10 }}>
+          {React.cloneElement(React.Children.only(this.props.children), { ref: this.refMenu })}
+        </div>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isFunctionalComponent } from '../../lib/utils';
+import { isFunctionalComponent, DefaultizeProps } from '../../lib/utils';
 
 // TODO We should output state too
 const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNode => {
@@ -27,15 +27,6 @@ const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNo
     ));
 };
 
-// NOTE: Copy-paste from @types/react
-export type Defaultize<P, D> = P extends any
-  ? string extends keyof P
-    ? P
-    : Pick<P, Exclude<keyof P, keyof D>> &
-        Partial<Pick<P, Extract<keyof P, keyof D>>> &
-        Partial<Pick<D, Exclude<keyof D, keyof P>>>
-  : never;
-
 export type StatePropsCombinations<P, S> = Array<{ props?: Partial<P>; state?: Partial<S> }>;
 
 export type StateType<C> = C extends React.Component<any, infer S> | React.ComponentClass<any, infer S> ? S : never;
@@ -43,7 +34,7 @@ export type StateType<C> = C extends React.Component<any, infer S> | React.Compo
 export interface ComponentTableProps<C, P, S> {
   rows?: StatePropsCombinations<P, S>;
   cols?: StatePropsCombinations<P, S>;
-  presetProps: C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
+  presetProps: DefaultizeProps<C, P>;
   presetState: Partial<S>;
   Component: C;
 }

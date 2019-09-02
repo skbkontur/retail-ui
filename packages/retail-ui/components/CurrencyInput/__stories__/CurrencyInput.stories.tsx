@@ -118,7 +118,7 @@ class Sample extends React.Component<
           value={this.state.value}
           onChange={this.handleChange}
         />
-        <div style={{ margin: '15px 0' }}>
+        <div style={{ margin: '15px 0', position: 'absolute' }}>
           <button onClick={this.handleClickButton}>focus</button>
         </div>
       </div>
