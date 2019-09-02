@@ -17,11 +17,5 @@ changeProject(DslContext.projectId) {
         update {
             all(days = 60)
         }
-        add {
-            history(days = 60)
-        }
-        add {
-            artifacts(days = 30)
-        }
     }
 }
