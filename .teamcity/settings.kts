@@ -356,13 +356,7 @@ object ReactUI_Publish : BuildType({
 object ReactUI_ScreenshotTests : BuildType({
     name = "Screenshot tests"
 
-    artifactRules = "packages/react-ui-screenshot-tests/html-report => html-report.zip"
-    maxRunningBuilds = 1
-
-    params {
-        password("env.SAUCE_ACCESS_KEY", "credentialsJSON:a904ff94-f240-4ebf-af85-84e605d62caa", display = ParameterDisplay.HIDDEN, readOnly = true)
-        password("env.SAUCE_USERNAME", "credentialsJSON:5e3c7241-13cd-4d36-ac4f-a8dceb001153", display = ParameterDisplay.HIDDEN, readOnly = true)
-    }
+    artifactRules = "packages/react-ui-selenium/report => report.zip"
 
     vcs {
         root(RetailUi)
@@ -377,7 +371,7 @@ object ReactUI_ScreenshotTests : BuildType({
         step {
             name = "Test UI"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-screenshot-tests test")
+            param("yarn_commands", "workspace react-ui-selenium test")
         }
     }
 

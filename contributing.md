@@ -75,8 +75,8 @@
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
   - `test` — интеграционные тесты с использованием `SeleniumTesting` (работает только во внутренней сети Контура)
-- `yarn workspace react-ui-screenshot-tests <command>` — скриншотные тесты
-  - `test:gui` - старт графического интерфейса для запуска тестов
+- `yarn workspace react-ui-selenium <command>` — скриншотные тесты
+  - `test:ui` - старт графического интерфейса для запуска тестов
   - `test:update` - approve всех новых/сломанных скриншотов
 - `yarn workspace react-ui-validations <command>` - валидации
   - `start:docs` — документация
@@ -201,7 +201,7 @@ Closes #1439
 ```
 packages/
 ├── ...
-├── react-ui-screenshot-tests/
+├── react-ui-selenium/
 ├── react-ui-validations/
 └── retail-ui/
     ├── .storybook/
@@ -221,7 +221,7 @@ packages/
 
 | Директория / Файл                              | Описание                                 |
 | ---------------------------------------------- | ---------------------------------------- |
-| `react-ui-screenshot-tests/`                   | [Скриншотные тесты](#скриншотные-тесты)  |
+| `react-ui-selenium/`                           | [Скриншотные тесты](#скриншотные-тесты)  |
 | `react-ui-validations/`                        | Библиотека валидаций                     |
 | `retail-ui/`                                   | Библиотека контролов                     |
 | `retail-ui/.storybook/`                        | Конфиг Storybook                         |
@@ -249,32 +249,32 @@ packages/
 
 ### Скриншотные тесты
 
-Скриншотные тесты пишут для проверки функциональности в различных браузерах (Chrome, Firefox, IE11). Они построены на основе [Gemini](https://gemini-testing.github.io/) и [Storybook](https://storybook.js.org/).
+Скриншотные тесты пишут для проверки функциональности в различных браузерах (Chrome, Firefox, IE11). Они построены на основе [Creevey](https://github.com/wKich/creevey) и [Storybook](https://storybook.js.org/).
 
 #### Запуск
 
-`yarn workspace react-ui-screenshot-tests test:gui`
+`yarn workspace react-ui-selenium test:ui`
 
 #### Создание скриншотного теста
 
 1. Создать или выбрать готовую [story](#создание-story)
-2. Добавить новый сценарий в `packages/react-ui-screenshot-tests/gemini/[componentName].js`, например:
+2. Добавить новый сценарий в `packages/react-ui-selenium/tests/[ComponentName].ts`, например (где `Button` и `playground`, это `kind` и `story` в `Storybook` соответственно):
 
 ```
-  gemini.suite('Button with width', suite => {
-    suite
-      .before(renderStory('Button', 'with width'))
-      .setCaptureElements('#test-element')
-      .capture('plain');
+describe('Button', function() {
+  describe('playground', function() {
+    it('idle', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('idle');
+    });
   });
+});
 ```
 
 3. Через [gui](#запуск) запустить добавленный тест
-4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace react-ui-screenshot-tests test:update`
+4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace react-ui-selenium test:update`
 
 Существующие тесты обновляются тем же образом (шаги 3 и 4).
-
-Для локального запуска тестов требуется ключ от сервиса [SauseLabs](https://saucelabs.com/). В разделе [помощь](#помощь) написано, как его получить.
 
 ### Storybook
 
