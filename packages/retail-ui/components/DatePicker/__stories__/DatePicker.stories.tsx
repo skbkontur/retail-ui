@@ -138,7 +138,7 @@ storiesOf('DatePicker', module)
       ),
   )
   .add('with mouseevent handlers', () => (
-    <div style={{ paddingTop: 200 }}>
+    <div style={{ padding: '200px 150px 350px 0px' }}>
       <DatePicker
         width={200}
         value="02.07.2017"
@@ -153,7 +153,7 @@ storiesOf('DatePicker', module)
   .add('DatePicker medium', () => <DatePickerWithError size="medium" />)
   .add('DatePicker large', () => <DatePickerWithError size="large" />)
   .add('DatePicker with min max date', () => (
-    <div style={{ paddingTop: 200 }}>
+    <div style={{ padding: '200px 150px 350px 0px' }}>
       <DatePickerWithMinMax />
     </div>
   ))

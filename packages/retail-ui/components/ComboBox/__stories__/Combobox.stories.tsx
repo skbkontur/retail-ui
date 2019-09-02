@@ -21,7 +21,7 @@ storiesOf('ComboBox', module)
     </div>
   ))
   .add('open to top', () => (
-    <div style={{ paddingTop: 600, paddingRight: 40 }}>
+    <div data-tid="container" style={{ padding: '250px 40px 4px 4px', position: 'absolute', bottom: 0 }}>
       <SimpleCombobox />
     </div>
   ))
@@ -164,7 +164,7 @@ storiesOf('ComboBox', module)
       <ComplexCombobox />
     </div>
   ))
-  .add("with add button", () => (
+  .add('with add button', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}

@@ -11,13 +11,13 @@ const jsStyles = {
 
   container(t: ITheme) {
     return css`
-      border: 1px solid ${t.toggleBorderColor};
+      box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
 
       .${styles.isDisabled} & {
         background: ${t.toggleBgDisabled};
       }
       .${styles.input}:checked ~ & {
-        border-color: ${t.toggleBgChecked};
+        box-shadow: inset 0 0 0 1px ${t.toggleBgChecked};
         background: ${t.toggleBgChecked};
       }
     `;
@@ -47,7 +47,7 @@ const jsStyles = {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
         background: ${t.toggleBorderColor};
-        border-color: ${t.toggleBorderColor};
+        box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
       }
     `;
   },
@@ -56,7 +56,7 @@ const jsStyles = {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
         background: ${t.toggleBgWarning};
-        border-color: ${t.toggleBgWarning};
+        box-shadow: inset 0 0 0 1px ${t.toggleBgWarning};
 
         .${styles.activeBackground} {
           background: ${t.toggleBgWarning};
@@ -69,7 +69,7 @@ const jsStyles = {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
         background: ${t.toggleBgError};
-        border-color: ${t.toggleBgError};
+        box-shadow: inset 0 0 0 1px ${t.toggleBgError};
 
         .${styles.activeBackground} {
           background: ${t.toggleBgError};
