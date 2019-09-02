@@ -1,6 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { HTMLAttributes } from 'react';
+import { DefaultizeProps } from '../../../lib/utils';
 import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import LocaleProvider, { LocaleProviderProps } from '../../LocaleProvider';
@@ -10,7 +11,7 @@ const defaultOrder: InternalDateOrder = InternalDateOrder.DMY;
 const defaultSeparator: InternalDateSeparator = InternalDateSeparator.Dot;
 
 const render = (
-  props: DateInputProps,
+  props: DefaultizeProps<typeof DateInput, DateInputProps>,
   propsLocale: LocaleProviderProps = { locale: { DatePicker: { order: defaultOrder, separator: defaultSeparator } } },
 ) =>
   mount<LocaleProvider, LocaleProviderProps>(
@@ -92,9 +93,9 @@ setups.forEach(({ name, getInput, getValue }) => {
 
         // Year
         ['10.02.2017', ['ArrowRight', 'ArrowRight', 'ArrowUp'], '10.02.2018'],
-        ['10.02.9999', ['ArrowRight', 'ArrowRight', 'ArrowUp'], '10.02.1900'],
+        ['10.02.9999', ['ArrowRight', 'ArrowRight', 'ArrowUp'], '31.12.2099'],
         ['10.02.2017', ['ArrowRight', 'ArrowRight', 'ArrowDown'], '10.02.2016'],
-        ['10.02.0000', ['ArrowRight', 'ArrowRight', 'ArrowDown'], '10.02.2099'],
+        ['10.02.0000', ['ArrowRight', 'ArrowRight', 'ArrowDown'], '01.01.1900'],
         ['01.02.2017', ['ArrowRight', 'ArrowRight', '1'], '01.02.0001'],
         ['01.02.2017', ['ArrowRight', 'ArrowRight', '1', '2'], '01.02.0012'],
         ['01.02.2017', ['ArrowRight', 'ArrowRight', '1', '2', '3', '4'], '01.02.1234'],
@@ -148,7 +149,9 @@ setups.forEach(({ name, getInput, getValue }) => {
       PasteCases.forEach(([order, pasted, expected]) => {
         it(`handles paste "${pasted}"`, () => {
           const onChange = jest.fn();
-          const input = getInput(render({ onChange }, { locale: { DatePicker: { order: order as InternalDateOrder } } }));
+          const input = getInput(
+            render({ onChange }, { locale: { DatePicker: { order: order as InternalDateOrder } } }),
+          );
           input.simulate('paste', { clipboardData: { getData: () => pasted } });
           const calls: any[] = onChange.mock.calls[onChange.mock.calls.length - 1][0];
           expect(calls).toMatchObject({ target: { value: expected } });

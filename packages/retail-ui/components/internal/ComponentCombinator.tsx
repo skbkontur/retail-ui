@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { ComponentTable, Defaultize, StatePropsCombinations, StateType } from './ComponentTable';
+import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
+import { DefaultizeProps } from '../../lib/utils';
 
 export interface ComponentCombinatorProps<C, P, S> {
   combinations: Array<StatePropsCombinations<P, S>>;
   Component: C;
-  presetProps: C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
+  presetProps: DefaultizeProps<C, P>;
   presetState: Partial<S>;
 }
 
