@@ -115,7 +115,7 @@ object RunAll : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
                 filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
@@ -231,7 +231,7 @@ object ReactUI_BuildRetailUi : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
                 filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
@@ -241,7 +241,7 @@ object ReactUI_BuildRetailUi : BuildType({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
             }
             param("github_oauth_user", "wKich")
@@ -287,7 +287,7 @@ object ReactUI_LintTest : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
                 filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
@@ -297,7 +297,7 @@ object ReactUI_LintTest : BuildType({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
             }
             param("github_oauth_user", "wKich")
@@ -390,7 +390,7 @@ object ReactUI_ScreenshotTests : BuildType({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
             }
             param("github_oauth_user", "wKich")
@@ -398,7 +398,7 @@ object ReactUI_ScreenshotTests : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
                 filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
@@ -519,7 +519,7 @@ object SeleniumTesting_Test : BuildType({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
             }
             param("github_oauth_user", "wKich")
@@ -527,7 +527,7 @@ object SeleniumTesting_Test : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
                 filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
@@ -599,7 +599,7 @@ object Validations_Build : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
                 filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
@@ -609,7 +609,7 @@ object Validations_Build : BuildType({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
             }
             param("github_oauth_user", "wKich")
@@ -665,7 +665,7 @@ object Validations_LintTest : BuildType({
             name = "Run tests"
             nunitPath = "%teamcity.tool.NUnit.Console.DEFAULT%"
             includeTests = """packages\react-ui-validations\selenium-tests\ValidationTests\bin\Debug\ValidationTests.dll"""
-            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")§
         }
     }
 
@@ -683,7 +683,7 @@ object Validations_LintTest : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
                 filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
@@ -693,7 +693,7 @@ object Validations_LintTest : BuildType({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:e85896f8-074d-433d-af0c-704bc784121e"
+                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
             }
             param("github_oauth_user", "wKich")
