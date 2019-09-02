@@ -671,7 +671,7 @@ object Validations_LintTest : BuildType({
             name = "Run tests"
             nunitPath = "%teamcity.tool.NUnit.Console.DEFAULT%"
             includeTests = """packages\react-ui-validations\selenium-tests\ValidationTests\bin\Debug\ValidationTests.dll"""
-            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")§
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
     }
 
