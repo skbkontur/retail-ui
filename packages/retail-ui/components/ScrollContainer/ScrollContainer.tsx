@@ -40,6 +40,11 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     preventWindowScroll: PropTypes.bool,
     onScrollStateChange: PropTypes.func,
   };
+
+  public static defaultProps = {
+    scrollBehaviour: 'auto'
+  };
+
   public state: ScrollContainerState = {
     scrollActive: false,
     scrollSize: 0,
@@ -100,7 +105,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       marginRight: this.getMarginRight(),
       maxHeight: props.maxHeight,
       paddingRight: PADDING_RIGHT,
-      scrollBehavior: props.scrollBehaviour || 'auto',
+      scrollBehavior: props.scrollBehaviour,
     };
 
     return (
