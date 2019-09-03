@@ -1,10 +1,9 @@
-import cn from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import CapIcon, { IconProps } from '../Icon/20px';
-
-import styles from './TopBar.less';
+import styles from './TopBar.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
+import { cx } from '../../lib/theming/Emotion';
 
 export interface ItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -37,7 +36,7 @@ class Item extends React.Component<ItemProps> {
 
     const classes = {
       [styles.item]: true,
-      [styles.buttonActive]: active,
+      [styles.buttonActive]: !!active,
       [className]: true,
     };
     if (use) {
@@ -46,14 +45,14 @@ class Item extends React.Component<ItemProps> {
     }
 
     const iconClasses = {
-      [styles.icon]: icon,
-      [styles.iconOnly]: iconOnly,
+      [styles.icon]: !!icon,
+      [styles.iconOnly]: !!iconOnly,
     };
 
     return (
-      <div {...rest} className={cn(classes)} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
+      <div {...rest} className={cx(classes)} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
         {icon && (
-          <span className={cn(iconClasses)}>
+          <span className={cx(iconClasses)}>
             <CapIcon color="#666" name={icon} />
           </span>
         )}

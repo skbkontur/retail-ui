@@ -3,7 +3,7 @@ import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   ValidationInfo,
 } from '../../../../src';
 import Form from '../../../Common/Form';
@@ -34,45 +34,45 @@ export default class ScrollToValidationDemo extends React.Component<{}, State> {
           <SpaceFiller height={200}>Пустое место 200px</SpaceFiller>
 
           <Form.Line title={'value0'}>
-            <ValidationWrapperV1 validationInfo={this.validate(this.state.value0)}>
+            <ValidationWrapper validationInfo={this.validate(this.state.value0)}>
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value0}
                 onChange={(_, value) => this.setState({ value0: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title={'value1'}>
-            <ValidationWrapperV1 validationInfo={this.validate(this.state.value1)}>
+            <ValidationWrapper validationInfo={this.validate(this.state.value1)}>
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value1}
                 onChange={(_, value) => this.setState({ value1: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <SpaceFiller height={1600}>Пустое место 1600px</SpaceFiller>
 
           <Form.Line title={'value2'}>
-            <ValidationWrapperV1 validationInfo={this.validate(this.state.value2)}>
+            <ValidationWrapper validationInfo={this.validate(this.state.value2)}>
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value2}
                 onChange={(_, value) => this.setState({ value2: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title={'value3'}>
-            <ValidationWrapperV1 validationInfo={this.validate(this.state.value3)}>
+            <ValidationWrapper validationInfo={this.validate(this.state.value3)}>
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value3}
                 onChange={(_, value) => this.setState({ value3: value })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>

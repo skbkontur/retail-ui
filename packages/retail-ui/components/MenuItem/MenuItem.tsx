@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
 import warning from 'warning';
 import { isFunction } from '../../lib/utils';
-
-import styles from './MenuItem.less';
-
+import styles from './MenuItem.module.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './MenuItem.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
@@ -62,9 +63,21 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     onClick: PropTypes.func,
   };
 
+  private theme!: ITheme;
   private mouseEntered: boolean = false;
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       alkoLink,
       link,
@@ -89,14 +102,16 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       iconElement = <div className={styles.icon}>{icon}</div>;
     }
 
-    const className = classNames({
+    const className = cx({
       [styles.root]: true,
-      [styles.disabled]: this.props.disabled,
-      [styles.hover]: hover,
-      [styles.loose]: loose,
-      [styles.selected]: state === 'selected',
-      [styles.link]: link || alkoLink,
-      [styles.withIcon]: Boolean(iconElement) || _enableIconPadding,
+      [jsStyles.root(this.theme)]: true,
+      [styles.disabled]: !!this.props.disabled,
+      [styles.loose]: !!loose,
+      [jsStyles.hover(this.theme)]: hover,
+      [jsStyles.selected(this.theme)]: state === 'selected',
+      [jsStyles.link(this.theme)]: !!link || !!alkoLink,
+      [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [jsStyles.disabled(this.theme)]: !!this.props.disabled,
     });
 
     let content = children;
@@ -118,7 +133,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
         {content}
         {this.props.comment && (
           <div
-            className={classNames({
+            className={cx({
               [styles.comment]: true,
               [styles.commentHover]: hover,
             })}

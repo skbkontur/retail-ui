@@ -4,7 +4,6 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import CalendarIcon from '@skbkontur/react-icons/Calendar';
-
 import filterProps from '../filterProps';
 import Picker from './Picker';
 import DateInput from './DateInput';
@@ -12,8 +11,8 @@ import dateParser from './dateParser';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import RenderLayer from '../RenderLayer';
 import Center from '../Center';
-
-import styles from './DatePicker.less';
+import warning from 'warning';
+import styles from './DatePickerOld.module.less';
 import { isIE } from '../ensureOldIEClassName';
 
 const INPUT_PASS_PROPS = {
@@ -35,6 +34,9 @@ const INPUT_PASS_PROPS = {
   onMouseOver: true,
 };
 
+/**
+ * @deprecated Компонент устарел и будет удален в версии 2.0.0. Используйте актульный [DatePicker](#/Components/DatePicker).
+ */
 class DatePickerOld extends React.Component {
   static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
 
@@ -115,6 +117,11 @@ class DatePickerOld extends React.Component {
       opened: false,
       textValue,
     };
+
+    warning(
+      false,
+      'DatePickerOld is deprecated and will be removed in v2.0.0. Please, use the actual DatePicker instead.',
+    );
   }
 
   /**

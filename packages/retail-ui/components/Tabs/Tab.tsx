@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
-import cn from 'classnames';
 import tabListener from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
-
-import styles from './Tab.less';
+import styles from './Tab.module.less';
 import { TabsContextType, TabsContext } from './TabsContext';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Tab.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface TabIndicators {
   error: boolean;
@@ -89,7 +91,7 @@ const KEYCODE_ARROW_LEFT = 37;
 const KEYCODE_ARROW_UP = 38;
 const KEYCODE_ARROW_RIGHT = 39;
 const KEYCODE_ARROW_DOWN = 40;
-
+const ARROW_KEYCODES = [KEYCODE_ARROW_LEFT, KEYCODE_ARROW_UP, KEYCODE_ARROW_RIGHT, KEYCODE_ARROW_DOWN];
 /**
  * Tab element of Tabs component
  *
@@ -135,6 +137,7 @@ export class Tab extends React.Component<TabProps, TabState> {
     focusedByKeyboard: false,
   };
 
+  private theme!: ITheme;
   private tabComponent: Nullable<React.ReactElement<Tab>> = null;
   private isArrowKeyPressed: boolean = false;
 
@@ -172,6 +175,29 @@ export class Tab extends React.Component<TabProps, TabState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  public getIndicators() {
+    return {
+      error: Boolean(this.props.error),
+      warning: Boolean(this.props.warning),
+      success: Boolean(this.props.success),
+      primary: Boolean(this.props.primary),
+      disabled: Boolean(this.props.disabled),
+    };
+  }
+
+  public getUnderlyingNode = () => this.tabComponent;
+
+  private renderMain() {
     const {
       context,
       children,
@@ -196,15 +222,18 @@ export class Tab extends React.Component<TabProps, TabState> {
 
     return (
       <Component
-        className={cn({
+        className={cx({
           [styles.root]: true,
-          [styles.vertical]: isVertical,
-          [styles.primary]: primary,
-          [styles.success]: success,
-          [styles.warning]: warning,
-          [styles.error]: error,
-          [styles.active]: isActive,
-          [styles.disabled]: disabled,
+          [jsStyles.root(this.theme)]: true,
+          [styles.vertical]: !!isVertical,
+          [jsStyles.vertical(this.theme)]: !!isVertical,
+          [jsStyles.primary(this.theme)]: !!primary,
+          [jsStyles.success(this.theme)]: !!success,
+          [jsStyles.warning(this.theme)]: !!warning,
+          [jsStyles.error(this.theme)]: !!error,
+          [styles.active]: !!isActive,
+          [styles.disabled]: !!disabled,
+          [jsStyles.disabled(this.theme)]: !!disabled,
         })}
         onBlur={this.handleBlur}
         onClick={this.switchTab}
@@ -217,22 +246,10 @@ export class Tab extends React.Component<TabProps, TabState> {
         style={style}
       >
         {children}
-        {this.state.focusedByKeyboard && <div className={styles.focus} />}
+        {this.state.focusedByKeyboard && <div className={cx(styles.focus, jsStyles.focus(this.theme))} />}
       </Component>
     );
   }
-
-  public getIndicators() {
-    return {
-      error: Boolean(this.props.error),
-      warning: Boolean(this.props.warning),
-      success: Boolean(this.props.success),
-      primary: Boolean(this.props.primary),
-      disabled: Boolean(this.props.disabled),
-    };
-  }
-
-  public getUnderlyingNode = () => this.tabComponent;
 
   private getId = () => this.props.id || this.props.href;
 
@@ -241,9 +258,7 @@ export class Tab extends React.Component<TabProps, TabState> {
   };
 
   private handleKeyDownGlobal = (event: KeyboardEvent) => {
-    this.isArrowKeyPressed = [KEYCODE_ARROW_LEFT, KEYCODE_ARROW_UP, KEYCODE_ARROW_RIGHT, KEYCODE_ARROW_DOWN].some(
-      keyCode => event.keyCode === keyCode,
-    );
+    this.isArrowKeyPressed = ARROW_KEYCODES.some(keyCode => event.keyCode === keyCode);
   };
 
   private getTabInstance = () => this;
@@ -321,6 +336,6 @@ export class Tab extends React.Component<TabProps, TabState> {
     this.setState({ focusedByKeyboard: false });
   };
 }
-export const TabWithContext = withContext(TabsContext.Consumer)(Tab);
 
+export const TabWithContext = withContext(TabsContext.Consumer)(Tab);
 export default TabWithContext;

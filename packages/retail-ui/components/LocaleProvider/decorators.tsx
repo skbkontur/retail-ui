@@ -5,7 +5,7 @@ import { LocaleHelper } from './LocaleHelper';
 import { LangCodes, LocaleControls } from './types';
 
 export function locale<C>(controlName: keyof LocaleControls, localeHelper: LocaleHelper<C>) {
-  return <T extends { new (...args: any[]): React.Component }>(constructor: T) => {
+  return <T extends new (...args: any[]) => React.Component>(constructor: T) => {
     const LocaleDecorator = class extends constructor {
       public controlName: keyof LocaleControls = controlName;
       public localeHelper: LocaleHelper<C> = localeHelper;

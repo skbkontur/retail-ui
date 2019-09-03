@@ -1,12 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Upgrades from '../../lib/Upgrades';
 import tabListener from '../../lib/events/tabListener';
-
-const isFlatDesign = Upgrades.isFlatDesignEnabled();
-
-const styles = isFlatDesign ? require('./Toggle.flat.less') : require('./Toggle.less');
+import { cx } from '../../lib/theming/Emotion';
+import styles from './Toggle.module.less';
+import jsStyles from './Toggle.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface ToggleProps {
   checked?: boolean;
@@ -44,6 +43,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
   };
 
+  private theme!: ITheme;
   private input: HTMLInputElement | null = null;
 
   constructor(props: ToggleProps) {
@@ -73,21 +73,33 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
   };
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { warning, error, loading, color } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
-    const containerClassNames = classNames(styles.container, {
-      [styles.isWarning]: !color && warning,
-      [styles.isError]: !color && error,
-      [styles.isLoading]: loading,
-      [styles.focused]: !disabled && this.state.focusByTab,
+    const containerClassNames = cx(styles.container, jsStyles.container(this.theme), {
+      [styles.isLoading]: !!loading,
+      [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
+      [jsStyles.isLoading(this.theme)]: !!loading,
+      [jsStyles.isWarning(this.theme)]: !color && !!warning,
+      [jsStyles.isError(this.theme)]: !color && !!error,
     });
 
     return (
       <label
-        className={classNames(styles.wrapper, {
-          [styles.isDisabled]: disabled,
+        className={cx(styles.wrapper, jsStyles.wrapper(this.theme), {
+          [styles.isDisabled]: !!disabled,
         })}
       >
         <input
@@ -111,9 +123,12 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
               : undefined
           }
         >
-          <div className={styles.activeBackground} style={checked && color ? { backgroundColor: color } : undefined} />
+          <div
+            className={cx(styles.activeBackground, jsStyles.activeBackground(this.theme))}
+            style={checked && color ? { backgroundColor: color } : undefined}
+          />
         </div>
-        <div className={styles.handle} />
+        <div className={cx(styles.handle, jsStyles.handle(this.theme))} />
       </label>
     );
   }

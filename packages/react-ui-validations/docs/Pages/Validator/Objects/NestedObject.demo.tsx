@@ -3,7 +3,7 @@ import Button from 'retail-ui/components/Button';
 import Input from 'retail-ui/components/Input';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
@@ -73,17 +73,17 @@ export default class NestedObjectDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="Имя">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.fullName.name).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.fullName.name).get()}>
               <Input
                 placeholder={'Любое'}
                 value={contactInfo.fullName.name}
                 onChange={(_, name) => this.handleFullNameChange({ name })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Фамилия">
-            <ValidationWrapperV1
+            <ValidationWrapper
               validationInfo={v.getNode(x => x.fullName.surname).get()}
             >
               <Input
@@ -91,17 +91,17 @@ export default class NestedObjectDemo extends React.Component<{}, State> {
                 value={contactInfo.fullName.surname}
                 onChange={(_, surname) => this.handleFullNameChange({ surname })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="E-mail">
-            <ValidationWrapperV1 validationInfo={v.getNode(x => x.email).get()}>
+            <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={contactInfo.email}
                 onChange={(_, email) => this.handleChange({ email })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>

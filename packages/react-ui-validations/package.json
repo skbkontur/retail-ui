@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "0.9.1",
+  "version": "1.0.1",
   "description": "Validations for retail-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -40,10 +40,9 @@
   "peerDependencies": {
     "react": ">=15 <=16",
     "react-dom": ">=15 <=16",
-    "retail-ui": "<1.0.0"
+    "retail-ui": ">=0.52.0 <2.0.0"
   },
   "dependencies": {
-    "lodash.isequal": "^4.5.0",
     "prop-types": "^15.5.10",
     "smoothscroll-polyfill": "^0.3.4",
     "warning": "^3.0.0"
@@ -52,7 +51,6 @@
     "@skbkontur/react-icons": "^3.1.8",
     "@storybook/react": "3.4.8",
     "@types/jest": "^23.3.0",
-    "@types/lodash.isequal": "^4.5.3",
     "@types/react": "16.7.18",
     "@types/react-dom": "16.0.11",
     "@types/react-helmet": "^5.0.8",

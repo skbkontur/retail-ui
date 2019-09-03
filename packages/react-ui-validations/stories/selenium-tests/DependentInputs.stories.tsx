@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import Input from 'retail-ui/components/Input';
-import { text, ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../../src';
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
 interface Example1State {
@@ -47,7 +47,7 @@ class Example1 extends React.Component<{}, Example1State> {
           >
             Click here
           </div>
-          <ValidationWrapperV1
+          <ValidationWrapper
             data-tid="ValidationWrapper1"
             validationInfo={this.validateValue1()}
             renderMessage={text('bottom')}
@@ -57,11 +57,11 @@ class Example1 extends React.Component<{}, Example1State> {
               value={this.state.value1}
               onChange={(e, value) => this.setState({ value1: value })}
             />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
           <br />
           <br />
           <br />
-          <ValidationWrapperV1
+          <ValidationWrapper
             data-tid="ValidationWrapper2"
             validationInfo={this.validateValue2()}
             renderMessage={text('bottom')}
@@ -71,7 +71,7 @@ class Example1 extends React.Component<{}, Example1State> {
               value={this.state.value2}
               onChange={(e, value) => this.setState({ value2: value })}
             />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
         </div>
       </ValidationContainer>
     );

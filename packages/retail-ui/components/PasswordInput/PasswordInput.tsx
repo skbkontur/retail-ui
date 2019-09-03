@@ -10,7 +10,7 @@ import PasswordInputFallback from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 
-import styles from './PasswordInput.less';
+import styles from './PasswordInput.module.less';
 
 export type PasswordInputProps = {
   detectCapsLock?: boolean;

@@ -1,16 +1,13 @@
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import { types, sizeMaps } from './settings';
-
 import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
 import { SpinnerType } from '.';
 
-import styles from './Spinner.less';
+import styles from './Spinner.module.less';
 
 export interface SpinnerFallbackProps {
   type: SpinnerType;

@@ -5,6 +5,7 @@ import Gapped from '../../Gapped';
 import Input from '../../Input';
 import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
 import Token, { TokenColors } from '../../Token';
+import { delay } from '../../../lib/utils';
 
 interface TokenModel {
   id?: string;
@@ -18,8 +19,9 @@ const FixedWidthDecorator = (storyFn: any) => (
 );
 
 async function getItems(query: string) {
-  const sleep = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
-  await sleep(400);
+  if (!process.env.enableReactTesting) {
+    await delay(400);
+  }
   return ['aaa', 'bbb'].filter(s => s.includes(query));
 }
 
@@ -63,7 +65,7 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
   }
 }
 
-class MyTokenInput extends TokenInput<TokenModel> { }
+class MyTokenInput extends TokenInput<TokenModel> {}
 
 class WrapperCustomModel extends React.Component<any, { selectedItems: TokenModel[] }> {
   constructor(props: any) {
@@ -88,9 +90,9 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
             colors={
               item.value.includes('aaa')
                 ? {
-                  idle: 'redIdle',
-                  active: 'redActive',
-                }
+                    idle: 'redIdle',
+                    active: 'redActive',
+                  }
                 : undefined
             }
             isActive={isActive}

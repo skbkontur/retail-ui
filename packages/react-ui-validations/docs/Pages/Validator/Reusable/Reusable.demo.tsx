@@ -5,7 +5,7 @@ import { Nullable } from '../../../../typings/Types';
 import Form from '../../../Common/Form';
 import {
   ValidationContainer,
-  ValidationWrapperV1,
+  ValidationWrapper,
   createValidator,
   ValidationBuilder,
   ValidationRule,
@@ -47,13 +47,13 @@ export default class ReusableDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="E-mail">
-            <ValidationWrapperV1 validationInfo={validation.get()}>
+            <ValidationWrapper validationInfo={validation.get()}>
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={this.state.email}
                 onChange={(_, email) => this.setState({ email })}
               />
-            </ValidationWrapperV1>
+            </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>

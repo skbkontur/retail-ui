@@ -34,7 +34,7 @@ if (!isCI) {
 const RetryCount = isCI ? 2 : 0;
 
 const testDirectoryFiles = fs.readdirSync(path.join(__dirname, 'gemini'));
-const flatComponents = ['Button', 'Checkbox', 'Input', 'Radio', 'Textarea', 'Toggle', 'InputLikeText', 'Switcher'].map(
+const flatComponents = ['Button', 'Checkbox', 'Input', 'Radio', 'Textarea', 'Toggle', 'InputLikeText', 'Switcher', 'TokenInput'].map(
   component => component.toLowerCase(),
 );
 

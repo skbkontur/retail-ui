@@ -45,14 +45,16 @@ class TestIcon extends React.Component<TestIconProps> {
   }
 }
 
-storiesOf('Icon', module).add('All icons', () => (
-  <div style={rootStyle}>
-    {(Object.keys(Icons) as IconName[])
-      .filter(name => !iconUpdates.some(update => update.includes(name)))
-      .sort()
-      .map(name => (
-        <TestIcon key={name} name={name} />
-      ))}
-    {iconUpdates.map(update => update.map(name => <TestIcon key={name} name={name} />))}
-  </div>
-));
+[...(Object.keys(Icons) as IconName[]).filter(name => !iconUpdates.some(update => update.includes(name))).sort()]
+  .concat(...iconUpdates)
+  .map(name => <TestIcon key={name} name={name} />)
+  .reduce(
+    ([head, ...tail]: JSX.Element[][], icon) =>
+      head.length < 40 ? [[...head, icon], ...tail] : [[icon], head, ...tail],
+    [[]],
+  )
+  .reverse()
+  .reduce(
+    (stories, icons, index) => stories.add(`Icons - ${index + 1}`, () => icons),
+    storiesOf('Icon', module).addDecorator(story => <div style={rootStyle}>{story()}</div>),
+  );

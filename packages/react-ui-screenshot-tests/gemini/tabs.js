@@ -2,7 +2,7 @@
 
 var renderStory = require('./utils').renderStory;
 
-var TabSelector = '[class^="Tab-root"]';
+var TabSelector = '[data-comp-name~="Tab"]';
 
 var tabAtIndex = index => `${TabSelector}:nth-child(${index})`;
 
@@ -54,5 +54,10 @@ gemini.suite('Tabs keyboard control', suite => {
     })
     .capture('reset focus after click', (actions, find) => {
       actions.click(find(tabAtIndex(3)));
-    })
+    });
+});
+
+gemini.suite('tabs disabled', suite => {
+  suite.before(renderStory('Tabs', 'with disabled tab'));
+  applyTest(suite);
 });

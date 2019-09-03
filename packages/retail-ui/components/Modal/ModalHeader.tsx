@@ -1,10 +1,12 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import { ModalContext, CloseProps } from './ModalContext';
 import Sticky from '../Sticky';
 import Close from './ModalClose';
-
-import styles from './Modal.less';
+import styles from './Modal.module.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Modal.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface HeaderProps {
   close?: boolean;
@@ -18,7 +20,20 @@ export class Header extends React.Component<HeaderProps> {
     sticky: true,
   };
 
+  private theme!: ITheme;
+
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     return (
       <ModalContext.Consumer>
         {({ close, additionalPadding }) => {
@@ -36,18 +51,25 @@ export class Header extends React.Component<HeaderProps> {
     );
   }
 
-  private renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => (
-    <div
-      className={classNames(styles.header, fixed && styles.fixedHeader, additionalPadding && styles.headerAddPadding)}
-    >
-      {close && (
-        <div className={styles.absoluteClose}>
-          <Close requestClose={close.requestClose} disableClose={close.disableClose} />
-        </div>
-      )}
-      {this.props.children}
-    </div>
-  );
+  private renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => {
+    return (
+      <div
+        className={cx({
+          [styles.header]: true,
+          [styles.fixedHeader]: fixed,
+          [jsStyles.fixedHeader(this.theme)]: fixed,
+          [styles.headerAddPadding]: !!additionalPadding,
+        })}
+      >
+        {close && (
+          <div className={styles.absoluteClose}>
+            <Close requestClose={close.requestClose} disableClose={close.disableClose} />
+          </div>
+        )}
+        {this.props.children}
+      </div>
+    );
+  };
 }
 
 export function isHeader(child: React.ReactChild): child is React.ReactElement<HeaderProps> {

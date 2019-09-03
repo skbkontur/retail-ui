@@ -1,15 +1,15 @@
-import cn from 'classnames';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
 import isActiveElement from './isActiveElement';
 import ScrollContainer from '../ScrollContainer/ScrollContainer';
-
 import MenuItem, { MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
 import { isMenuHeader } from '../MenuHeader/MenuHeader';
-
-import styles from './Menu.less';
+import styles from './Menu.module.less';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Menu.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 interface MenuProps {
   children: React.ReactNode;
@@ -36,9 +36,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     highlightedIndex: -1,
   };
 
+  private theme!: ITheme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
-
   private unmounted = false;
 
   public componentWillUnmount() {
@@ -46,6 +46,56 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  /**
+   * @public
+   */
+  public up() {
+    this.move(-1);
+  }
+
+  /**
+   * @public
+   */
+  public down() {
+    this.move(1);
+  }
+
+  /**
+   * @public
+   */
+  public enter(event: React.SyntheticEvent<HTMLElement>) {
+    return this.select(this.state.highlightedIndex, true, event);
+  }
+
+  /**
+   * @public
+   */
+  public reset() {
+    this.setState({ highlightedIndex: -1 });
+  }
+
+  /**
+   * @public
+   */
+  public hasHighlightedItem() {
+    return this.state.highlightedIndex !== -1;
+  }
+
+  public highlightItem(index: number) {
+    this.highlight(index);
+  }
+
+  private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => typeof x === 'object' && x.props.icon,
     );
@@ -56,7 +106,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn(styles.root, this.props.hasShadow && styles.shadow)}
+        className={cx(styles.root, jsStyles.root(this.theme), this.props.hasShadow && jsStyles.shadow(this.theme))}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer
@@ -98,45 +148,6 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         </ScrollContainer>
       </div>
     );
-  }
-
-  /**
-   * @public
-   */
-  public up() {
-    this.move(-1);
-  }
-
-  /**
-   * @public
-   */
-  public down() {
-    this.move(1);
-  }
-
-  /**
-   * @public
-   */
-  public enter(event: React.SyntheticEvent<HTMLElement>) {
-    return this.select(this.state.highlightedIndex, true, event);
-  }
-
-  /**
-   * @public
-   */
-  public reset() {
-    this.setState({ highlightedIndex: -1 });
-  }
-
-  /**
-   * @public
-   */
-  public hasHighlightedItem() {
-    return this.state.highlightedIndex !== -1;
-  }
-
-  public highlightItem(index: number) {
-    this.highlight(index);
   }
 
   private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {

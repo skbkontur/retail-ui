@@ -1,19 +1,29 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import classNames from 'classnames';
-
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
+import styles from './Link.module.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Link.styles';
+import { ITheme } from '../../lib/theming/Theme';
+import { ThemeConsumer } from '../internal/ThemeContext';
 
-import styles from './Link.less';
+interface UseClasses {
+  default: string;
+  success: string;
+  danger: string;
+  grayed: string;
+}
 
-const useClasses = {
-  default: styles.useDefault,
-  success: styles.useSuccess,
-  danger: styles.useDanger,
-  grayed: styles.useGrayed,
-};
+function getUseClasses(t: ITheme): UseClasses {
+  return {
+    default: cx(styles.useDefault, jsStyles.useDefault(t)),
+    success: cx(styles.useSuccess),
+    danger: cx(styles.useDanger),
+    grayed: cx(styles.useGrayed, jsStyles.useGrayed(t)),
+  };
+}
 
 export type LinkProps = Override<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
@@ -46,6 +56,7 @@ export interface LinkState {
  */
 class Link extends React.Component<LinkProps, LinkState> {
   public static __ADAPTER__: any;
+
   public static propTypes = {
     disabled: PropTypes.bool,
 
@@ -65,21 +76,25 @@ class Link extends React.Component<LinkProps, LinkState> {
     focusedByTab: false,
   };
 
+  private theme!: ITheme;
   private getProps = createPropsGetter(Link.defaultProps);
 
   public render(): JSX.Element {
-    const {
-      disabled,
-      href,
-      icon,
-      use,
-      _button,
-      _buttonOpened,
-      className,
-      style,
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
 
-      ...rest
-    } = this.getProps<LinkProps, Link>();
+  private renderMain() {
+    const { disabled, href, icon, use, _button, _buttonOpened, className, style, ...rest } = this.getProps<
+      LinkProps,
+      Link
+    >();
 
     let iconElement = null;
     if (icon) {
@@ -92,12 +107,13 @@ class Link extends React.Component<LinkProps, LinkState> {
     }
 
     const props = {
-      className: classNames({
-        [styles.disabled]: disabled,
-        [styles.button]: _button,
-        [styles.buttonOpened]: _buttonOpened,
-        [styles.focus]: !disabled && this.state.focusedByTab,
-        [useClasses[use as keyof typeof useClasses]]: !!use,
+      className: cx({
+        [styles.disabled]: !!disabled,
+        [jsStyles.disabled(this.theme)]: !!disabled,
+        [styles.button]: !!_button,
+        [styles.buttonOpened]: !!_buttonOpened,
+        [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
+        [getUseClasses(this.theme)[use as keyof UseClasses]]: !!use,
       }),
       href,
       onClick: this._handleClick,

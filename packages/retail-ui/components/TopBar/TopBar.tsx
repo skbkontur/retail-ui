@@ -1,7 +1,5 @@
-import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-
 import Logotype from '../Logotype';
 import ButtonItem from './ButtonItem';
 import Divider from './Divider';
@@ -9,12 +7,15 @@ import Item from './Item';
 import Organizations from './Organizations';
 import TopBarDropdown from './TopBarDropdown';
 import User from './User';
-
 import '../ensureOldIEClassName';
-import styles from './TopBar.less';
+import styles from './TopBar.module.less';
 import End from './TopBarEnd';
 import Start from './TopBarStart';
 import Logout from './TopBarLogout';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './TopBar.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface TopBarProps {
   children?: React.ReactNode;
@@ -131,7 +132,20 @@ class TopBar extends React.Component<TopBarProps> {
     onLogout: PropTypes.func,
   };
 
+  private theme!: ITheme;
+
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const {
       children,
       leftItems,
@@ -164,10 +178,11 @@ class TopBar extends React.Component<TopBarProps> {
 
     return (
       <div
-        className={classNames({
+        className={cx({
           [styles.root]: true,
-          [styles.noShadow]: noShadow,
-          [styles.noMargin]: noMargin,
+          [jsStyles.root(this.theme)]: true,
+          [styles.noShadow]: !!noShadow,
+          [styles.noMargin]: !!noMargin,
         })}
       >
         <div className={styles.center} style={{ maxWidth }}>

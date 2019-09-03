@@ -3,7 +3,7 @@ import * as React from 'react';
 import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 import TopBarDropdown from './TopBarDropdown';
 
-import styles from './TopBar.less';
+import styles from './TopBar.module.less';
 import { Nullable } from '../../typings/utility-types';
 
 export interface OrganizationsProps {

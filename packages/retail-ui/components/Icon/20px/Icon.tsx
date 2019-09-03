@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import * as PropTypes from 'prop-types';
 
-import styles from './Icon.less';
+import styles from './Icon.module.less';
 
 const MAP = {
   circle: '\ue001',
