@@ -19,7 +19,7 @@ describe('Switcher', function() {
     });
   });
   describe('errored', function() {
-    it('idle', async function() {
+    it.skip(['chromeFlat'], 'idle', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await expect(await element.takeScreenshot()).to.matchImage('idle');
     });
