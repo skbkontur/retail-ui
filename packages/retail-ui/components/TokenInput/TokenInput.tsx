@@ -140,7 +140,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     document.removeEventListener('copy', this.handleCopy);
   }
 
-  public render(): ReactNode {
+  public render() {
     return (
       <ThemeConsumer>
         {theme => {
