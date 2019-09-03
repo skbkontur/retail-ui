@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.1...retail-ui@0.53.2) (2019-09-03)
+
+
+### Features
+
+* **Fias:** render additional fields in the search results ([2ffcfe8](https://github.com/skbkontur/retail-ui/commit/2ffcfe8))
+* **Fias:** search streets through not only direct parent ([989bb98](https://github.com/skbkontur/retail-ui/commit/989bb98))
+
+
+
+
+
 ## [0.53.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.0...retail-ui@0.53.1) (2019-08-07)
 
 
