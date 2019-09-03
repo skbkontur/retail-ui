@@ -1743,10 +1743,10 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@skbkontur/react-icons@^3.1.5":
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.5.tgz#0f561f1a013322888df2d798446a2717200cb70d"
-  integrity sha512-Xio25lCJakjfKgWz3fuEkVu2IqwuNJuE9b5yZ3294ARJv/SHGT8RlW4PwIT4XYdDtJKoAX6yy2sF9tPITh2VBw==
+"@skbkontur/react-icons@^3.1.8":
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.10.tgz#699ce56f2ce650456bfdb8ae9e4f74634ebe3838"
+  integrity sha512-VIyRGiVCuihkJGQYvmoaIGQSwp4T004WkUFpy7gQ4Is8C2Z/yfJJ9uZRa9dF7un+8U8r77p1NRTlIuRSDYzv0Q==
   dependencies:
     tslib "^1.9.2"
 
