@@ -38,4 +38,10 @@ describe('Icon', function() {
       await expect(await element.takeScreenshot()).to.matchImage('idle');
     });
   });
+  describe('Icons - 7', function() {
+    it('idle', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('idle');
+    });
+  });
 });
