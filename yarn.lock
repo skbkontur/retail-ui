@@ -1744,9 +1744,9 @@
     url-template "^2.0.8"
 
 "@skbkontur/react-icons@^3.1.8":
-  version "3.1.9"
-  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.9.tgz#05d76becf70e16ac26c241cce1a71c1926720eb6"
-  integrity sha512-RtT6JmX//tufcQ4FVFFlIYVFqJ4r+8NJvbhsmhS0XaLa9LCuN+xSVaUOYzkTjHclGu5W24/VW2m+KRMphX/S3g==
+  version "3.1.10"
+  resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.10.tgz#699ce56f2ce650456bfdb8ae9e4f74634ebe3838"
+  integrity sha512-VIyRGiVCuihkJGQYvmoaIGQSwp4T004WkUFpy7gQ4Is8C2Z/yfJJ9uZRa9dF7un+8U8r77p1NRTlIuRSDYzv0Q==
   dependencies:
     tslib "^1.9.2"
 
