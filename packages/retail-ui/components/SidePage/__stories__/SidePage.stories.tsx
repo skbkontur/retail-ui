@@ -61,15 +61,17 @@ class Sample extends React.Component<SampleProps, SampleState> {
       </SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
-          {this.props.total && this.props.current && this.props.total > this.props.current && (
-            <Sample
-              current={this.props.current + 1}
-              total={this.props.total}
-              ignoreBackgroundClick={this.props.ignoreBackgroundClick}
-              withContent={this.props.withContent}
-              blockBackground={this.props.blockBackground}
-            />
-          )}
+          {this.props.total &&
+            this.props.current &&
+            this.props.total > this.props.current && (
+              <Sample
+                current={this.props.current + 1}
+                total={this.props.total}
+                ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+                withContent={this.props.withContent}
+                blockBackground={this.props.blockBackground}
+              />
+            )}
           <div>
             <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
@@ -466,15 +468,15 @@ class TestUpdateLayoutMethod extends React.Component {
         <SidePage.Footer>
           <div id="buttons">
             <Gapped gap={10}>
-              <button id="toggle-body-content" onClick={this.toggleBodyContent}>
+              <Button data-tid="toggle-body-content" onClick={this.toggleBodyContent}>
                 Toggle Body Content
-              </button>
-              <button id="toggle-child-component-content" onClick={this.toggleChildContent}>
+              </Button>
+              <Button data-tid="toggle-child-component-content" onClick={this.toggleChildContent}>
                 Toggle Child Component Content
-              </button>
-              <button id="update" onClick={this.updateLayout}>
+              </Button>
+              <Button data-tid="update" onClick={this.updateLayout}>
                 Update
-              </button>
+              </Button>
             </Gapped>
           </div>
         </SidePage.Footer>
@@ -487,7 +489,7 @@ class WithLongTitle extends React.Component {
   public state = {
     title: `On the other hand, we denounce with righteous indignation and dislike,
           who are so beguiled and demoralized by the charms of pleasure of the
-          moment.`
+          moment.`,
   };
 
   public render() {
@@ -506,30 +508,30 @@ class WithLongTitle extends React.Component {
                       #fafafa 20px,
                       #dfdede 20px,
                       #dfdede 40px
-                    )`
+                    )`,
             }}
           />
         </SidePage.Body>
         <SidePage.Footer>
           <Gapped gap={15}>
-            <button
+            <Button
               onClick={() =>
                 this.setState({
-                  title: title + title
+                  title: title + title,
                 })
               }
             >
               Increase Title
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() =>
                 this.setState({
-                  title: title.slice(title.length / 2)
+                  title: title.slice(title.length / 2),
                 })
               }
             >
               Decrease Title
-            </button>
+            </Button>
           </Gapped>
         </SidePage.Footer>
       </SidePage>

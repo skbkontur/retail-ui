@@ -4,20 +4,6 @@ import ColorFunctions from '../../lib/styles/ColorFunctions';
 import styles from './Token.module.less';
 
 export default {
-  warning(t: ITheme) {
-    return css`
-      border: 1px solid ${t.borderColorWarning};
-      box-shadow: 0 0 0 1px ${t.borderColorWarning};
-    `;
-  },
-
-  error(t: ITheme) {
-    return css`
-      border: 1px solid ${t.borderColorError};
-      box-shadow: 0 0 0 1px ${t.borderColorError};
-    `;
-  },
-
   disabled(t: ITheme) {
     return css`
       color: ${t.textColorDisabled};
@@ -25,185 +11,82 @@ export default {
   },
 };
 
-export const jsTokenColors = {
-  defaultIdle(t: ITheme) {
-    return css`
-      background-color: ${t.grayXLight};
-      color: ${ColorFunctions.contrast(t.grayXLight)};
-      border: 1px solid ${ColorFunctions.darken(t.grayXLight, '5%')};
+interface TokenColors {
+  defaultIdle: (t: ITheme) => string;
+  defaultActive: (t: ITheme) => string;
+  defaultDisabled: (t: ITheme) => string;
+  grayIdle: (t: ITheme) => string;
+  grayActive: (t: ITheme) => string;
+  blueIdle: (t: ITheme) => string;
+  blueActive: (t: ITheme) => string;
+  greenIdle: (t: ITheme) => string;
+  greenActive: (t: ITheme) => string;
+  yellowIdle: (t: ITheme) => string;
+  yellowActive: (t: ITheme) => string;
+  redIdle: (t: ITheme) => string;
+  redActive: (t: ITheme) => string;
+  white: (t: ITheme) => string;
+  black: (t: ITheme) => string;
+}
 
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.grayXLight)};
-      }
-    `;
-  },
+export const jsTokenColors = [
+  { name: 'defaultIdle', color: 'grayXLight' },
+  { name: 'defaultActive', color: 'brand' },
+  { name: 'grayIdle', color: 'grayXLight' },
+  { name: 'grayActive', color: 'grayDark' },
+  { name: 'blueIdle', color: 'blueLight' },
+  { name: 'blueActive', color: 'blueDark' },
+  { name: 'greenIdle', color: 'greenXxLight' },
+  { name: 'greenActive', color: 'greenDark' },
+  { name: 'yellowIdle', color: 'yellowXxLight' },
+  { name: 'yellowActive', color: 'yellowDark' },
+  { name: 'redIdle', color: 'redXxLight' },
+  { name: 'redActive', color: 'redDark' },
+  { name: 'white', color: 'white' },
+  { name: 'black', color: 'black' },
+].reduce(
+  (colors: TokenColors, { name, color }) => ({
+    ...colors,
+    [name](t: ITheme) {
+      return css`
+        background-color: ${t[color]};
+        color: ${ColorFunctions.contrast(t[color])};
+        box-shadow: 0 0 0 1px ${ColorFunctions.darken(t[color], '5%')}, inset 0 0 0 1px ${t[color]};
 
-  defaultActive(t: ITheme) {
-    return css`
-      background-color: ${t.brand};
-      color: ${ColorFunctions.contrast(t.brand)};
-      border: 1px solid ${ColorFunctions.darken(t.brand, '5%')};
+        & .${styles.removeIcon}:hover {
+          color: ${ColorFunctions.contrast(t[color])};
+        }
 
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.brand)};
-      }
-    `;
-  },
+        &.${styles.warning} {
+          box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${t[color]};
+        }
 
-  defaultDisabled(t: ITheme) {
-    return css`
-      background-color: ${t.tokenDisabledBg};
-      color: ${ColorFunctions.contrast(t.tokenDisabledBg)};
-      border: 1px solid ${t.tokenDisabledBg};
+        &.${styles.error} {
+          box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${t[color]};
+        }
+      `;
+    },
+  }),
+  {
+    defaultDisabled(t: ITheme) {
+      return css`
+        background-color: ${t.tokenDisabledBg};
+        color: ${ColorFunctions.contrast(t.tokenDisabledBg)};
+        box-shadow: 0 0 0 1px ${t.tokenDisabledBg};
 
-      & .${styles.removeIcon} {
-        fill: ${t.textColorDisabled};
-        opacity: 1;
-      }
-    `;
-  },
+        & .${styles.removeIcon} {
+          fill: ${t.textColorDisabled};
+          opacity: 1;
+        }
 
-  grayIdle(t: ITheme) {
-    return css`
-      background-color: ${t.grayXLight};
-      color: ${ColorFunctions.contrast(t.grayXLight)};
-      border: 1px solid ${ColorFunctions.darken(t.grayXLight, '5%')};
+        &.${styles.warning} {
+          box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        }
 
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.grayXLight)};
-      }
-    `;
-  },
-
-  grayActive(t: ITheme) {
-    return css`
-      background-color: ${t.grayDark};
-      color: ${ColorFunctions.contrast(t.grayDark)};
-      border: 1px solid ${ColorFunctions.darken(t.grayDark, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.grayDark)};
-      }
-    `;
-  },
-
-  blueIdle(t: ITheme) {
-    return css`
-      background-color: ${t.blueLight};
-      color: ${ColorFunctions.contrast(t.blueLight)};
-      border: 1px solid ${ColorFunctions.darken(t.blueLight, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.blueLight)};
-      }
-    `;
-  },
-
-  blueActive(t: ITheme) {
-    return css`
-      background-color: ${t.blueDark};
-      color: ${ColorFunctions.contrast(t.blueDark)};
-      border: 1px solid ${ColorFunctions.darken(t.blueDark, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.blueDark)};
-      }
-    `;
-  },
-
-  greenIdle(t: ITheme) {
-    return css`
-      background-color: ${t.greenXxLight};
-      color: ${ColorFunctions.contrast(t.greenXxLight)};
-      border: 1px solid ${ColorFunctions.darken(t.greenXxLight, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.greenXxLight)};
-      }
-    `;
-  },
-
-  greenActive(t: ITheme) {
-    return css`
-      background-color: ${t.greenDark};
-      color: ${ColorFunctions.contrast(t.greenDark)};
-      border: 1px solid ${ColorFunctions.darken(t.greenDark, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.greenDark)};
-      }
-    `;
-  },
-
-  yellowIdle(t: ITheme) {
-    return css`
-      background-color: ${t.yellowXxLight};
-      color: ${ColorFunctions.contrast(t.yellowXxLight)};
-      border: 1px solid ${ColorFunctions.darken(t.yellowXxLight, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.yellowXxLight)};
-      }
-    `;
-  },
-
-  yellowActive(t: ITheme) {
-    return css`
-      background-color: ${t.yellowDark};
-      color: ${ColorFunctions.contrast(t.yellowDark)};
-      border: 1px solid ${ColorFunctions.darken(t.yellowDark, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.yellowDark)};
-      }
-    `;
-  },
-
-  redIdle(t: ITheme) {
-    return css`
-      background-color: ${t.redXxLight};
-      color: ${ColorFunctions.contrast(t.redXxLight)};
-      border: 1px solid ${ColorFunctions.darken(t.redXxLight, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.redXxLight)};
-      }
-    `;
-  },
-
-  redActive(t: ITheme) {
-    return css`
-      background-color: ${t.redDark};
-      color: ${ColorFunctions.contrast(t.redDark)};
-      border: 1px solid ${ColorFunctions.darken(t.redDark, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.redDark)};
-      }
-    `;
-  },
-
-  white(t: ITheme) {
-    return css`
-      background-color: ${t.white};
-      color: ${ColorFunctions.contrast(t.white)};
-      border: 1px solid ${ColorFunctions.darken(t.white, '5%')};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.white)};
-      }
-    `;
-  },
-
-  black(t: ITheme) {
-    return css`
-      background-color: ${t.black};
-      color: ${ColorFunctions.contrast(t.black)};
-      border: 1px solid ${t.black};
-
-      & .${styles.removeIcon}:hover {
-        color: ${ColorFunctions.contrast(t.black)};
-      }
-    `;
-  },
-};
+        &.${styles.error} {
+          box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        }
+      `;
+    },
+  } as TokenColors,
+);
