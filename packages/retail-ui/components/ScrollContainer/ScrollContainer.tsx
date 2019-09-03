@@ -19,6 +19,10 @@ export interface ScrollContainerProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
+  /**
+   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+   * @default 'auto'
+   */
   scrollBehaviour?: ScrollBehaviour;
   onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
