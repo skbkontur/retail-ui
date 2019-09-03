@@ -102,10 +102,6 @@
 - [Yarn](https://yarnpkg.com)
 - [Git](https://git-scm.com/)
 - [Git LFS](https://git-lfs.github.com)
-- для Windows:
-  - `yarn global add windows-build-tools`
-- для OS X:
-  - `xcode-select --install`
 
 ### Репозиторий
 
