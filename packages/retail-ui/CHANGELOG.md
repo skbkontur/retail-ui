@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.2...retail-ui@1.2.0) (2019-09-03)
+
+
+### Bug Fixes
+
+* **Button:** add disabled color to the "link" use ([20c002b](https://github.com/skbkontur/retail-ui/commit/20c002b)), closes [#1563](https://github.com/skbkontur/retail-ui/issues/1563)
+* **Button:** fix arrow error/warning outline ([6a18b05](https://github.com/skbkontur/retail-ui/commit/6a18b05)), closes [#1531](https://github.com/skbkontur/retail-ui/issues/1531)
+* **ComboBox:** spinner position by baseline ([5f144e8](https://github.com/skbkontur/retail-ui/commit/5f144e8)), closes [#1333](https://github.com/skbkontur/retail-ui/issues/1333)
+* **DatePicker:** change year limits for better limit date validations ([1b552f3](https://github.com/skbkontur/retail-ui/commit/1b552f3)), closes [#1573](https://github.com/skbkontur/retail-ui/issues/1573)
+* **Icon20px:** prevent from selecting ([763b5b8](https://github.com/skbkontur/retail-ui/commit/763b5b8))
+* **react-ui:** support CRA css-modules convention: components ([c1d687a](https://github.com/skbkontur/retail-ui/commit/c1d687a)), closes [#1477](https://github.com/skbkontur/retail-ui/issues/1477)
+* **react-ui:** support CRA css-modules convention: variables ([aace330](https://github.com/skbkontur/retail-ui/commit/aace330))
+* **Token:** import react as namespace ([8b10014](https://github.com/skbkontur/retail-ui/commit/8b10014)), closes [#1519](https://github.com/skbkontur/retail-ui/issues/1519)
+
+
+### Features
+
+* **Fias:** render additional fields in the search results ([37fa2db](https://github.com/skbkontur/retail-ui/commit/37fa2db))
+* **Fias:** search streets through not only direct parent ([7729fd7](https://github.com/skbkontur/retail-ui/commit/7729fd7))
+* **ScrollContainer:** add scrollBehaviour prop ([ad4c7c9](https://github.com/skbkontur/retail-ui/commit/ad4c7c9))
+
+
+
+
+
 ## [1.1.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.1...retail-ui@1.1.2) (2019-08-07)
 
 

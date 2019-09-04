@@ -11,7 +11,7 @@ import jsStyles from './jsStyles';
 import Gapped from '../../Gapped';
 import ComboBox from '../../ComboBox';
 import Link from '../../Link';
-import styles from './styles.less';
+import styles from './styles.module.less';
 import { ThemeEditor } from './ThemeEditor';
 import ColorFunctions from '../../../lib/styles/ColorFunctions';
 

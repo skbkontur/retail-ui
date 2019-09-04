@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import warningOutput from 'warning';
-import styles from './Token.less';
+import styles from './Token.module.less';
 import TokenRemoveIcon from './TokenRemoveIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
@@ -106,8 +106,8 @@ export default class Token extends React.Component<TokenProps & TokenActions> {
     const tokenClassNames = cx(styles.token, tokenClassName, {
       [styles.disabled]: !!disabled,
       [activeTokenClassName]: !!isActive,
-      [jsStyles.warning(theme)]: !!warning,
-      [jsStyles.error(theme)]: !!error,
+      [styles.warning]: !!warning,
+      [styles.error]: !!error,
       [jsStyles.disabled(theme)]: !!disabled,
     });
 

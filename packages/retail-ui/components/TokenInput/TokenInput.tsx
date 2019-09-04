@@ -6,7 +6,7 @@ import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import LayoutEvents from '../../lib/LayoutEvents';
-import styles from './TokenInput.less';
+import styles from './TokenInput.module.less';
 import Menu from '../Menu/Menu';
 import Token, { TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
@@ -140,7 +140,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     document.removeEventListener('copy', this.handleCopy);
   }
 
-  public render(): ReactNode {
+  public render() {
     return (
       <ThemeConsumer>
         {theme => {

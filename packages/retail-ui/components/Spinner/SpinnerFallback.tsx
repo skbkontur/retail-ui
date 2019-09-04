@@ -7,7 +7,7 @@ import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
 import { SpinnerType } from '.';
 
-import styles from './Spinner.less';
+import styles from './Spinner.module.less';
 
 export interface SpinnerFallbackProps {
   type: SpinnerType;

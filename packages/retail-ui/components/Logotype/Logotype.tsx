@@ -6,7 +6,7 @@ import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';
-import styles from './Logotype.less';
+import styles from './Logotype.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Logotype.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

@@ -16,7 +16,7 @@ import MenuItem from '../MenuItem/MenuItem';
 import type { MenuItemState } from '../MenuItem/MenuItem';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
-import styles from './ComboBoxRenderer.less';
+import styles from './ComboBoxRenderer.module.less';
 
 const INPUT_PASS_PROPS = {
   borderless: true,

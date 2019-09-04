@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as CDS from './CalendarDateShape';
 import config from './config';
-import styles from './MonthView.less';
+import styles from './MonthView.module.less';
 import DateSelect from '../DateSelect';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
