@@ -19,8 +19,6 @@ reactUIpackageConfig.name = '@skbkontur/react-ui-validations';
 fs.writeFileSync('build/react-ui-dist/package.json', JSON.stringify(reactUIpackageConfig, null, '  '));
 
 function prepareCommonFiles(targetDir) {
-  shell.rm('-rf', targetDir + '/src/*');
-  shell.cp('-R', 'src/', targetDir);
   shell.cp('README.md', targetDir);
   shell.cp('CHANGELOG.md', targetDir);
 }
