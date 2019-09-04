@@ -140,6 +140,7 @@ class Logotype extends React.Component<LogotypeProps> {
       href,
       withWidget,
       locale: propLocale = this.locale,
+      onArrowClick,
     } = this.props;
     const dropdownClassName = cx(styles.dropdown, {
       [styles.inline]: !withWidget,
@@ -165,7 +166,7 @@ class Logotype extends React.Component<LogotypeProps> {
           {withWidget && <span className={cx(styles.divider, jsStyles.divider(this.theme))} />}
         </span>
         {withWidget && (
-          <button className={styles.button} onClick={this.props.onArrowClick}>
+          <button className={styles.button} onClick={onArrowClick}>
             <ArrowChevronDownIcon color="#aaa" size={20} />
           </button>
         )}
