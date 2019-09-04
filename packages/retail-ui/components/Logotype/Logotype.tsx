@@ -48,7 +48,7 @@ export interface LogotypeProps {
    * Размер шрифта логотипа в пикселях.
    * @default 22
    */
-  size?: number;
+  size: number;
   /**
    * Цвет логотипа Контура в rgb, rgba, hex
    */
@@ -141,10 +141,10 @@ class Logotype extends React.Component<LogotypeProps> {
             href={href}
             tabIndex="-1"
             className={cx(styles.root, jsStyles.root(this.theme))}
-            style={{ fontSize: `${size || 22}px` }}
+            style={{ fontSize: `${size}px` }}
           >
             <span style={{ color: textColor }}>{propLocale.prefix}</span>
-            <span style={{ color }}>{createCloud(size || 22, color)}</span>
+            <span style={{ color }}>{createCloud(size, color)}</span>
             <span style={{ color: textColor }}>
               {propLocale.suffix}
               {suffix && '.'}
