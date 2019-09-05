@@ -277,6 +277,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.btnDefaultActiveBg;
     },
   },
+  chbShadowActive: {
+    get() {
+      return this.btnDefaultActiveShadow;
+    },
+  },
   textareaLineHeight: {
     get() {
       const fontSize = this.fontSizeMedium;
