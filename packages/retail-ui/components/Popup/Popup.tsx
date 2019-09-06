@@ -468,20 +468,20 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const location = this.getLocation(popupElement, this.state.location);
-    if (!this.locationEquals(this.state.location, location)) {
-      this.setState({ location }, () => {
-        const isInconsistentLocation = this.locationUpdateCounter >= MAX_LOCATION_UPDATES;
-        warning(!isInconsistentLocation, '[Popup]: Cannot determine appropriate Popup location');
-        if (isInconsistentLocation) {
-          this.locationUpdateCounter = 0;
-          return;
-        }
-        this.locationUpdateCounter += 1;
-        this.delayUpdateLocation();
-      });
-    } else {
+    if (this.locationEquals(this.state.location, location)) {
       this.locationUpdateCounter = 0;
+      return;
     }
+    this.setState({ location }, () => {
+      const shouldTryUpdateLocation = this.locationUpdateCounter <= MAX_LOCATION_UPDATES;
+      warning(shouldTryUpdateLocation, '[Popup]: Cannot determine appropriate Popup location');
+      if (!shouldTryUpdateLocation) {
+        this.locationUpdateCounter = 0;
+        return;
+      }
+      this.locationUpdateCounter += 1;
+      this.delayUpdateLocation();
+    });
   };
 
   private resetLocation = () => {
