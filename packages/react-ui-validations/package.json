@@ -34,8 +34,7 @@
   },
   "files": [
     "index.d.ts",
-    "index.js",
-    "src/*"
+    "index.js"
   ],
   "peerDependencies": {
     "react": ">=15 <=16",
