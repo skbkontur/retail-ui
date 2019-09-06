@@ -170,6 +170,7 @@ storiesOf('Tooltip', module)
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
   .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />)
   .add('Tooltip with Input and switchable content', () => <TooltipWithInput />)
+  .add('Tooltip with Input and huge content', () => <TooltipWithHoverInput />)
   .add('dynamic triggers', () => <DynamicTriggers />);
 
 class TooltipWithInput extends React.Component {
@@ -189,6 +190,22 @@ class TooltipWithInput extends React.Component {
       return <span>{'Content'}</span>;
     }
     return null;
+  };
+}
+
+class TooltipWithHoverInput extends React.Component {
+  public render() {
+    return (
+      <div style={{ padding: '200px' }}>
+        <Tooltip render={this.renderContent} trigger="click">
+          <Input defaultValue="Click me!" />
+        </Tooltip>
+      </div>
+    );
+  }
+
+  public renderContent = () => {
+    return <span>{'Content '.repeat(100)}</span>;
   };
 }
 
@@ -469,7 +486,7 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
         <div>
           {triggers.map(trigger => (
             <button
-              id={trigger.replace("&", "_")}
+              id={trigger.replace('&', '_')}
               key={trigger}
               onClick={() => this.setTrigger(trigger)}
               disabled={this.state.trigger === trigger}

@@ -296,10 +296,10 @@ describe('Tooltip', function() {
         })
         .pause(500)
         .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
+      await this.browser
+        .actions({
+          bridge: true,
+        })
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
@@ -444,6 +444,15 @@ describe('Tooltip', function() {
         .click(this.browser.findElement(By.css('body')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hover&focus - blur');
+    });
+  });
+  describe('Tooltip with Input and huge content', function() {
+    it('idle', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Input"]')))
+        .perform();
+      await expect(await this.browser.takeScreenshot()).to.matchImage('idle');
     });
   });
 });

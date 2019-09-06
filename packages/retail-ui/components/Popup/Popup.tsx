@@ -20,6 +20,8 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Popup.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
+
+const MAX_LOCATION_UPDATES = 10;
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
@@ -178,9 +180,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private theme!: ITheme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
+  private locationUpdateCounter: number = 0;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
+  private contentObserver: Nullable<MutationObserver> =
+    typeof MutationObserver !== 'undefined' ? new MutationObserver(() => this.delayUpdateLocation()) : null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -393,6 +398,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private refPopupElement = (zIndex: ZIndex | null) => {
     if (zIndex) {
       this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
+      if (this.contentObserver) {
+        this.contentObserver.disconnect();
+        this.contentObserver.observe(this.lastPopupElement, { childList: true, subtree: true });
+      }
     }
   };
 
@@ -459,12 +468,24 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const location = this.getLocation(popupElement, this.state.location);
-    if (!this.locationEquals(this.state.location, location)) {
-      this.setState({ location });
+    if (this.locationEquals(this.state.location, location)) {
+      this.locationUpdateCounter = 0;
+      return;
     }
+    this.setState({ location }, () => {
+      const shouldTryUpdateLocation = this.locationUpdateCounter <= MAX_LOCATION_UPDATES;
+      warning(shouldTryUpdateLocation, '[Popup]: Cannot determine appropriate Popup location');
+      if (!shouldTryUpdateLocation) {
+        this.locationUpdateCounter = 0;
+        return;
+      }
+      this.locationUpdateCounter += 1;
+      this.delayUpdateLocation();
+    });
   };
 
   private resetLocation = () => {
+    this.locationUpdateCounter = 0;
     this.cancelDelayedUpdateLocation();
     this.setState({ location: null });
   };
