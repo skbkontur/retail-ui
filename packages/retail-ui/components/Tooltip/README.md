@@ -66,7 +66,7 @@ const Block = ({ pos, trigger, top, left, onMouseDown }) => (
   >
     <Tooltip render={() => pos} pos={pos} trigger={trigger}>
       <div
-        tabIndex={trigger === 'focus' ? 0 : null}
+        tabIndex={trigger === 'focus' || trigger === 'hover&focus' ? 0 : null}
         style={{
           height: S - 5,
           width: S - 5,
@@ -118,7 +118,7 @@ let initialState = {
         width={S * 2}
         size="small"
         value={state.trigger}
-        items={['click', 'hover', 'focus', 'opened', 'closed']}
+        items={['click', 'hover', 'focus', 'hover&focus', 'opened', 'closed']}
         onChange={(_, v) => setState({ trigger: v })}
       />
     </Gapped>

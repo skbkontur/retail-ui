@@ -1,11 +1,8 @@
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
-
-import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-
 import Button from '../Button';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
@@ -18,11 +15,14 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
 import Item from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
-
-import styles from './Select.less';
+import styles from './Select.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Select.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -187,6 +187,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
+
   public static static = (element: React.ReactNode | (() => React.ReactNode)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
@@ -200,11 +201,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     value: this.props.defaultValue,
   };
 
+  private theme!: ITheme;
   private readonly locale!: SelectLocale;
-
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
-
   private getProps = createPropsGetter(Select.defaultProps);
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
@@ -217,30 +217,13 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   }
 
   public render() {
-    const { label, isPlaceholder } = this.renderLabel();
-
-    const buttonParams: ButtonParams = {
-      opened: this.state.opened,
-      label,
-      isPlaceholder,
-      onClick: this.toggle,
-      onKeyDown: this.handleKey,
-    };
-
-    const style = {
-      width: this.props.width,
-      maxWidth: this.props.maxWidth || undefined,
-    };
-
-    const button = this.getButton(buttonParams);
-
     return (
-      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-        <span className={styles.root} style={style}>
-          {button}
-          {!this.props.disabled && this.state.opened && this.renderMenu()}
-        </span>
-      </RenderLayer>
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
     );
   }
 
@@ -273,10 +256,38 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   /**
    * @public
    */
-  public focus() {
+  public focus = () => {
     if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }
+  };
+
+  private renderMain() {
+    const { label, isPlaceholder } = this.renderLabel();
+
+    const buttonParams: ButtonParams = {
+      opened: this.state.opened,
+      label,
+      isPlaceholder,
+      onClick: this.toggle,
+      onKeyDown: this.handleKey,
+    };
+
+    const style = {
+      width: this.props.width,
+      maxWidth: this.props.maxWidth || undefined,
+    };
+
+    const button = this.getButton(buttonParams);
+
+    return (
+      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+        <span className={styles.root} style={style}>
+          {button}
+          {!this.props.disabled && this.state.opened && this.renderMenu()}
+        </span>
+      </RenderLayer>
+    );
   }
 
   private renderLabel() {
@@ -293,7 +304,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     return {
       label: (
         <span
-          className={classNames({
+          className={cx({
             [styles.customUsePlaceholder]: this.props.use !== 'default',
           })}
         >
@@ -329,10 +340,11 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     }
 
     const labelProps = {
-      className: classNames({
+      className: cx({
         [styles.label]: this.props.use !== 'link',
         [styles.labelWithLeftIcon]: !!this.props._icon,
         [styles.placeholder]: params.isPlaceholder,
+        [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
         [styles.customUsePlaceholder]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
@@ -348,7 +360,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           <span className={styles.labelText}>{params.label}</span>
         </span>
         <div className={styles.arrowWrap}>
-          <div className={classNames(styles.arrow, useIsCustom && styles.customUseArrow)} />
+          <div className={cx(styles.arrow, jsStyles.arrow(this.theme), useIsCustom && styles.customUseArrow)} />
         </div>
       </Button>
     );

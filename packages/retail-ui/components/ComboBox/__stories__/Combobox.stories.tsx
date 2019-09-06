@@ -21,7 +21,7 @@ storiesOf('ComboBox', module)
     </div>
   ))
   .add('open to top', () => (
-    <div style={{ paddingTop: 600, paddingRight: 40 }}>
+    <div data-tid="container" style={{ padding: '250px 40px 4px 4px', position: 'absolute', bottom: 0 }}>
       <SimpleCombobox />
     </div>
   ))
@@ -164,7 +164,7 @@ storiesOf('ComboBox', module)
       <ComplexCombobox />
     </div>
   ))
-  .add("with add button", () => (
+  .add('with add button', () => (
     <TestComboBox
       onSearch={search}
       renderItem={renderValue}
@@ -470,7 +470,7 @@ function searchWithCustomElements(query: string) {
     ...(_items.slice(0, 3).length ? [<MenuSeparator key={5} />] : []),
     ...(_items.slice(3).length ? _items.slice(3) : [disabled]),
     <MenuSeparator key={3} />,
-    <MenuItem key={4} alkoLink onClick={() => alert('Clicked')}>
+    <MenuItem key={4} link onClick={() => alert('Clicked')}>
       Ha ha
     </MenuItem>,
   ]);

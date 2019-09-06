@@ -44,11 +44,11 @@ describe('Logotype', () => {
 
     it('render correct locale when set langCode', () => {
       wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_EN}>
+        <LocaleProvider langCode={LangCodes.en_GB}>
           <Logotype />
         </LocaleProvider>,
       );
-      const { prefix, suffix } = LogotypeLocaleHelper.get(LangCodes.en_EN);
+      const { prefix, suffix } = LogotypeLocaleHelper.get(LangCodes.en_GB);
 
       const { actualPrefix, actualSuffix } = getActual();
       expect(prefix).toBe(actualPrefix);
@@ -80,9 +80,9 @@ describe('Logotype', () => {
           <Logotype />
         </LocaleProvider>,
       );
-      const { prefix, suffix } = LogotypeLocaleHelper.get(LangCodes.en_EN);
+      const { prefix, suffix } = LogotypeLocaleHelper.get(LangCodes.en_GB);
 
-      wrapper.setProps({ langCode: LangCodes.en_EN });
+      wrapper.setProps({ langCode: LangCodes.en_GB });
 
       const { actualPrefix, actualSuffix } = getActual();
       expect(prefix).toBe(actualPrefix);

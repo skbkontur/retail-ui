@@ -46,7 +46,7 @@ let contentStyle = {
 </div>;
 ```
 
-Старый вариант
+Старый вариант. (Продуктовый виджет работает только у первого Logotype на странице)
 
 ```jsx
 const BabyIcon = require('@skbkontur/react-icons/Baby').default;
@@ -102,7 +102,7 @@ const ru_RU = {
   logout: 'Выйти',
 };
 
-const en_EN = {
+const en_GB = {
   cabinetTitle: 'Personal account Kontur',
   cabinetSettings: 'Configure login services',
   cabinetCertificates: 'Certificates',

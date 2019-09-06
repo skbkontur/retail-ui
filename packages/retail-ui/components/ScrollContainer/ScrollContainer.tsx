@@ -1,26 +1,29 @@
-import classNames from 'classnames';
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import LayoutEvents from '../../lib/LayoutEvents';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-
-import styles from './ScrollContainer.less';
+import styles from './ScrollContainer.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
 const SCROLL_HIDDEN = isChrome || isOpera || isSafari;
-const SCROLL_WIDTH = SCROLL_HIDDEN ? 0 : getScrollWidth();
 
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
+
+export type ScrollBehaviour = 'auto' | 'smooth';
 
 export interface ScrollContainerProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
+  /**
+   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+   * @default 'auto'
+   */
+  scrollBehaviour?: ScrollBehaviour;
   onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
 }
 
@@ -37,9 +40,15 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   public static propTypes = {
     invert: PropTypes.bool,
     maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    scrollBehaviour: PropTypes.oneOf(['auto', 'smooth']),
     preventWindowScroll: PropTypes.bool,
     onScrollStateChange: PropTypes.func,
   };
+
+  public static defaultProps = {
+    scrollBehaviour: 'auto'
+  };
+
   public state: ScrollContainerState = {
     scrollActive: false,
     scrollSize: 0,
@@ -72,16 +81,19 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   }
 
   public render() {
+    const state = this.state;
+    const props = this.props;
     let scroll = null;
-    if (this.state.scrollActive) {
-      const scrollClass = classNames({
+
+    if (state.scrollActive) {
+      const scrollClass = cx({
         [styles.scroll]: true,
-        [styles.scrollInvert]: this.props.invert,
-        [styles.scrollHover]: this.state.hover || this.state.scrolling,
+        [styles.scrollInvert]: !!props.invert,
+        [styles.scrollHover]: state.hover || state.scrolling,
       });
       const scrollStyle = {
-        top: this.state.scrollPos,
-        height: this.state.scrollSize,
+        top: state.scrollPos,
+        height: state.scrollSize,
       };
       scroll = (
         <div
@@ -93,17 +105,18 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
       );
     }
 
-    const innerStyle = {
-      marginRight: -1 * (PADDING_RIGHT + SCROLL_WIDTH),
-      maxHeight: this.props.maxHeight,
+    const innerStyle: React.CSSProperties = {
+      marginRight: this.getMarginRight(),
+      maxHeight: props.maxHeight,
       paddingRight: PADDING_RIGHT,
+      scrollBehavior: props.scrollBehaviour,
     };
 
     return (
       <div className={styles.root} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
         {scroll}
         <div className={styles.inner} style={innerStyle} ref={this.refInner} onScroll={this.handleNativeScroll}>
-          {this.props.children}
+          {props.children}
         </div>
       </div>
     );
@@ -328,5 +341,9 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
     } else {
       return 'scroll';
     }
+  }
+
+  private getMarginRight(): number {
+    return -1 * (PADDING_RIGHT + (SCROLL_HIDDEN ? 0 : getScrollWidth()));
   }
 }

@@ -1,8 +1,19 @@
 import * as React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import Popup, { PopupProps, PopupState } from '../Popup';
-import toJson from 'enzyme-to-json';
 import { delay } from '../../../lib/utils';
+import RenderContainer from '../../RenderContainer/RenderContainer';
+import ZIndex from '../../ZIndex';
+import { Transition } from 'react-transition-group';
+import LifeCycleProxy from '../../internal/LifeCycleProxy';
+import ReactDOM from 'react-dom';
+import { RenderInnerContainer as RenderContainerNative } from '../../RenderContainer/RenderContainerNative';
+import { RenderInnerContainer as RenderContainerFallback } from '../../RenderContainer/RenderContainerFallback';
+import { Nullable } from '../../../typings/utility-types';
+import { ReactComponentLike } from 'prop-types';
+
+const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
+const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {
@@ -30,7 +41,8 @@ const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, Po
     <Popup
       positions={['bottom left', 'bottom right', 'top left', 'top right']}
       opened={false}
-      anchorElement={anchor as HTMLElement}
+      anchorElement={anchor}
+      disableAnimations={true}
       {...props}
     >
       Test content
@@ -48,11 +60,7 @@ describe('Popup', () => {
     anchor.innerHTML = 'test';
 
     const wrapper = mount<Popup>((
-      <Popup
-        positions={['bottom right', 'top left', 'top right', 'bottom left']}
-        opened={false}
-        anchorElement={anchor as HTMLElement}
-      >
+      <Popup positions={['bottom right', 'top left', 'top right', 'bottom left']} opened={false} anchorElement={anchor}>
         Test content
       </Popup>
     ) as React.ReactElement<PopupProps>);
@@ -108,20 +116,59 @@ describe('Popup', () => {
   });
 });
 
-describe('Popup snapshots: ', () => {
-  it('open and close popup', async () => {
-    const wrapper = renderWrapper();
+describe('properly renders opened/closed states ', () => {
+  const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];
+  const openedPopupTree: ReactComponentLike[] = [
+    RenderContainer,
+    RenderInnerContainer,
+    LifeCycleProxy,
+    Transition,
+    ZIndex,
+    'div.popup',
+    'div[data-tid="PopupContent"]',
+    'div[data-tid="PopupContentInner"]',
+  ];
 
-    expect(toJson(wrapper)).toMatchSnapshot('closed popup');
+  function traverseTree(root: ReactWrapper<any>, tree: ReactComponentLike[]): Nullable<ReactWrapper> {
+    return tree.reduce((found: Nullable<ReactWrapper>, toFind) => {
+      if (found) {
+        // NOTE: приходится кастовать к тайпингам Enzyme'а
+        // (https://github.com/skbkontur/retail-ui/pull/1434/files#r289259497)
+        const children = found.children(toFind as ComponentClass<any>);
+        return children.length > 0 ? children : null;
+      }
+      return null;
+    }, root);
+  }
 
+  const wrapper = renderWrapper();
+
+  it('01 - initially closed', () => {
+    const innerContainer = traverseTree(wrapper, closedPopupTree);
+    expect(innerContainer).toBeDefined();
+    expect(innerContainer).not.toBeNull();
+    expect(innerContainer).toHaveLength(1);
+    expect(innerContainer!.children()).toHaveLength(0);
+  });
+
+  it('02 - then opened', async () => {
     await openPopup(wrapper);
-    expect(toJson(wrapper)).toMatchSnapshot('opened popup');
+    wrapper.update();
 
+    const content = traverseTree(wrapper, openedPopupTree);
+    expect(content).toBeDefined();
+    expect(content).not.toBeNull();
+    expect(content).toHaveLength(1);
+    expect(content!.text()).toBe('Test content');
+  });
+
+  it('03 - and closed again', async () => {
     await closePopup(wrapper);
     wrapper.update();
-    /** Ждем когда кончится анимация react-transition-group и случится unmount */
-    await delay(300);
-    wrapper.update();
-    expect(toJson(wrapper)).toMatchSnapshot('closed popup again');
+
+    const innerContainer = traverseTree(wrapper, closedPopupTree);
+    expect(innerContainer).not.toBeNull();
+    expect(innerContainer).toHaveLength(1);
+    expect(innerContainer!.children()).toHaveLength(0);
   });
 });

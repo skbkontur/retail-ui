@@ -1,0 +1,4 @@
+bin/
+debug/
+packages/
+*.DotSettings.user

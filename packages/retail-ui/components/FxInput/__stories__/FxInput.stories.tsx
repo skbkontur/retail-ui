@@ -113,21 +113,23 @@ class WithWidth extends React.Component<
         </button>
         <br />
         <br />
-        <TestWrapper width={wrapperWidth} ruler>
-          <FxInput placeholder="no width" onChange={this.onChange} />
-        </TestWrapper>
+        <div data-tid="container">
+          <TestWrapper width={wrapperWidth} ruler>
+            <FxInput placeholder="no width" onChange={this.onChange} />
+          </TestWrapper>
 
-        <TestWrapper width={wrapperWidth} ruler>
-          <FxInput width="100%" placeholder="100%" onChange={this.onChange} />
-        </TestWrapper>
+          <TestWrapper width={wrapperWidth} ruler>
+            <FxInput width="100%" placeholder="100%" onChange={this.onChange} />
+          </TestWrapper>
 
-        <TestWrapper width={wrapperWidth} ruler>
-          <FxInput width={100} placeholder="100px" onChange={this.onChange} />
-        </TestWrapper>
+          <TestWrapper width={wrapperWidth} ruler>
+            <FxInput width={100} placeholder="100px" onChange={this.onChange} />
+          </TestWrapper>
 
-        <TestWrapper width={wrapperWidth} ruler>
-          <FxInput width={400} placeholder="400px" onChange={this.onChange} />
-        </TestWrapper>
+          <TestWrapper width={wrapperWidth} ruler>
+            <FxInput width={400} placeholder="400px" onChange={this.onChange} />
+          </TestWrapper>
+        </div>
       </div>
     );
   }

@@ -1,16 +1,19 @@
+import { FiasLocale } from '../locale';
 import {
   AddressErrors,
   AddressFields,
   AdditionalFields,
+  VerifyResponse,
   AddressResponse,
   AddressValue,
   FiasId,
   FiasValue,
   Fields,
   ExtraFields,
-  FiasLocale,
   FieldsSettings,
   FiasCountry,
+  SearchOptions,
+  APIProvider,
 } from '../types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
@@ -50,7 +53,6 @@ export class Address {
     Fields.settlement,
     Fields.planningstructure,
     Fields.street,
-    Fields.house,
   ];
 
   public static FULL_ADDRESS_SEARCH_FIELDS = [
@@ -59,14 +61,16 @@ export class Address {
     Fields.intracityarea,
     Fields.settlement,
     Fields.planningstructure,
+    Fields.street,
   ];
 
-  public static ALL_PARENTS_SEARCH_FIELDS = [
+  public static NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS = [
     Fields.district,
     Fields.city,
     Fields.intracityarea,
     Fields.settlement,
     Fields.planningstructure,
+    Fields.street,
   ];
 
   public static IS_RUSSIA = (country: FiasCountry): boolean => {
@@ -77,11 +81,7 @@ export class Address {
     });
   };
 
-  public static createFromResponse = (
-    response: AddressResponse,
-    additionalFields?: AdditionalFields,
-    country?: FiasCountry,
-  ) => {
+  public static responseToFields = (response: AddressResponse): AddressFields => {
     const fields: AddressFields = {};
     if (response) {
       Address.MAIN_FIELDS.forEach(field => {
@@ -92,7 +92,28 @@ export class Address {
         }
       });
     }
-    return new Address({ fields, additionalFields, country });
+    return fields;
+  };
+
+  public static fieldsToResponse = (fields: AddressFields): AddressResponse => {
+    const response: AddressResponse = {};
+    if (fields) {
+      Address.MAIN_FIELDS.forEach(field => {
+        const element = fields[field];
+        if (element && element.fiasData) {
+          response[field] = element.fiasData;
+        }
+      });
+    }
+    return response;
+  };
+
+  public static createFromResponse = (
+    response: AddressResponse,
+    additionalFields?: AdditionalFields,
+    country?: FiasCountry,
+  ) => {
+    return new Address({ fields: Address.responseToFields(response), additionalFields, country });
   };
 
   public static createFromAddressValue = (
@@ -125,33 +146,26 @@ export class Address {
     });
   };
 
-  public static verify = (address: Address, verifiedFields: AddressResponse, locale: FiasLocale): Address => {
+  public static validate = (address: Address, locale: FiasLocale): Address => {
     const { fields } = address;
     const errors: AddressErrors = {};
 
-    for (const field of Address.VERIFIABLE_FIELDS) {
-      const addressField = fields[field];
+    for (const field of Address.MAIN_FIELDS) {
+      const element = fields[field];
       let error = '';
 
-      if (addressField) {
-        if (field === Fields.house && !addressField.data) {
-          // force invalidate address
-          // if house wasn't chosen from the list
-          error = locale.addressSelectItemFromList;
+      if (element) {
+        if (!element.data) {
+          error = locale.addressNotVerified;
         }
+
         if (!address.isAllowedToFill(field)) {
-          error = locale[`${field}FillBefore`];
+          error = locale[`${field}FillBefore` as keyof FiasLocale];
         }
 
-        const fiasObject = verifiedFields[field];
-
-        if (Boolean(error) || !fiasObject) {
-          errors[field] = error || locale.addressNotVerified;
-          delete addressField.data;
+        if (Boolean(error)) {
+          errors[field] = error;
           break;
-        } else {
-          const fiasData = new FiasData(fiasObject);
-          fields[field] = new AddressElement(field, fiasData.name, fiasData);
         }
       }
     }
@@ -164,30 +178,121 @@ export class Address {
       }
     }
 
-    return Address.createFromAddress(address, { fields, errors });
+    return Address.createFromAddress(address, { errors });
   };
 
+  public static verify = (address: Address, response: VerifyResponse): Address => {
+    if (address.isEmpty) {
+      return address;
+    }
+
+    const { address: addressResponse, invalidLevel } = response;
+    const verifiedAddress = Address.createFromAddress(address, {
+      fields: {
+        ...address.fields,
+        ...Address.responseToFields(addressResponse),
+      },
+    });
+
+    const invalidField = invalidLevel || verifiedAddress.verifyConsistency().invalidLevel;
+
+    if (invalidField) {
+      return Address.removeFiasData(verifiedAddress, [invalidField, ...Address.getChildFields(invalidField)]);
+    }
+
+    return verifiedAddress;
+  };
+
+  // TODO: Hide invisible fields without removing them.
+  // (removing can break the verification)
   public static filterVisibleFields = (
     fields: { [key in Fields]?: any },
     fieldsSettings: FieldsSettings,
   ): { [key in Fields]?: any } => {
     const filteredFields: { [key in Fields]?: any } = {};
-    const isFieldVisible = (f: Fields): boolean => {
-      const settings = fieldsSettings[f];
-      return Boolean(settings && settings.visible);
-    };
     let field: Fields;
     for (field in fields) {
-      if (isFieldVisible(field)) {
+      if (Address.isFieldVisible(field, fieldsSettings)) {
         filteredFields[field] = fields[field];
       }
     }
     return filteredFields;
   };
 
+  public static isFieldVisible = (field: Fields | ExtraFields, fieldsSettings: FieldsSettings): boolean => {
+    const settings = fieldsSettings[field];
+    return Boolean(settings && settings.visible);
+  };
+
   public static getParentFields = (field: Fields) => {
     const index = Address.MAIN_FIELDS.indexOf(field);
     return index > -1 ? Address.MAIN_FIELDS.slice(0, index) : [];
+  };
+
+  public static getChildFields = (field: Fields) => {
+    const index = Address.MAIN_FIELDS.indexOf(field);
+    return index > -1 ? Address.MAIN_FIELDS.slice(index + 1) : [];
+  };
+
+  public static removeFiasData = (address: Address, fields: Fields[] = Address.MAIN_FIELDS): Address => {
+    const addressFields = { ...address.fields };
+    for (const field of fields) {
+      const element = addressFields[field];
+      if (element) {
+        element.removeData();
+      }
+    }
+    return Address.createFromAddress(address, { fields: addressFields });
+  };
+
+  public static getAddress = async (api: APIProvider, value?: Partial<FiasValue>, fieldsSettings?: FieldsSettings) => {
+    if (!value) {
+      return new Address();
+    }
+
+    const { address, addressString, fiasId, postalCode, country, foreignAddress } = value;
+    const additionalFields: AdditionalFields = {};
+    let searchOptions: SearchOptions = {};
+
+    if (postalCode) {
+      additionalFields[ExtraFields.postalcode] = postalCode;
+    }
+
+    if (country && !Address.IS_RUSSIA(country)) {
+      return new Address({
+        country,
+        foreignAddress,
+        additionalFields: { [ExtraFields.postalcode]: postalCode },
+      });
+    }
+
+    if (address) {
+      const addressValue = fieldsSettings ? Address.filterVisibleFields(address, fieldsSettings) : address;
+      return Address.createFromAddressValue(addressValue, additionalFields, country);
+    }
+
+    if (fiasId) {
+      searchOptions = {
+        fiasId,
+      };
+    }
+
+    if (addressString) {
+      searchOptions = {
+        searchText: addressString,
+        limit: 1,
+      };
+    }
+
+    if (api) {
+      const { success, data } = await api.search(searchOptions);
+      if (success && data && data.length) {
+        const addressResponse = fieldsSettings ? Address.filterVisibleFields(data[0], fieldsSettings) : data[0];
+        return Address.createFromResponse(addressResponse, additionalFields, country);
+      }
+    }
+
+    return new Address({ country });
   };
 
   public fields: AddressFields;
@@ -276,7 +381,7 @@ export class Address {
     return substrings.filter(Boolean).join(', ');
   };
 
-  public isAllowedToFill = (field?: Fields): boolean => {
+  public isAllowedToFill = (field: Fields): boolean => {
     const { region, city, settlement, house } = this.fields;
     const hasCityOrSettlement = city || settlement || (region && region.isFederalCity);
     if (
@@ -288,17 +393,21 @@ export class Address {
     return true;
   };
 
-  public isAllowedToSearchFullAddress = (field?: Fields): boolean => {
-    if (field && Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field)) {
-      if (!this.getClosestParentFiasId(field)) {
-        return true;
-      }
-    }
-    return false;
+  public isAllowedToSearchFullAddress = (field: Fields): boolean => {
+    return Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field);
   };
 
-  public isAllowedToSearchThroughAllParents = (field?: Fields): boolean => {
-    return Boolean(field && Address.ALL_PARENTS_SEARCH_FIELDS.includes(field));
+  // doesn't fully work on api side yet
+  // @see https://yt.skbkontur.ru/issue/PS-1401
+  public isAllowedToSearchThroughChildrenOfDirectParent = (field: Fields, fieldsSettings?: FieldsSettings): boolean => {
+    if (fieldsSettings) {
+      for (const parentField of Address.getParentFields(field)) {
+        if (!Address.isFieldVisible(parentField, fieldsSettings)) {
+          return false;
+        }
+      }
+    }
+    return Address.NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS.includes(field);
   };
 
   public hasOnlyIndirectParent = (field?: Fields): boolean => {
@@ -312,15 +421,15 @@ export class Address {
     return false;
   };
 
-  public getClosestParentFiasId = (field?: Fields): FiasId | undefined => {
-    if (field && !this.isEmpty) {
+  public getClosestParentFiasId = (field: Fields): FiasId | undefined => {
+    if (!this.isEmpty) {
       const parents = Address.getParentFields(field)
         .slice()
         .reverse();
       for (const parentField of parents) {
         const parent = this.fields[parentField];
-        if (parent && parent.data) {
-          return parent.data.fiasId;
+        if (parent) {
+          return parent.fiasId;
         }
       }
     }
@@ -331,20 +440,57 @@ export class Address {
       const fields = Address.MAIN_FIELDS.slice().reverse();
       for (const field of fields) {
         const element = this.fields[field];
-        if (element && element.data && element.data.fiasId) {
-          return element.data.fiasId;
+        if (element && element.fiasId) {
+          return element.fiasId;
         }
       }
     }
     return '';
   };
 
+  public getParent = (field: Fields): AddressElement | undefined => {
+    if (this.fields[field]) {
+      const parents = Address.getParentFields(field).filter(f => Boolean(this.fields[f]));
+      const closest = parents.pop();
+      if (closest) {
+        return this.fields[closest];
+      }
+    }
+  };
+
+  public verifyConsistency = (): VerifyResponse => {
+    const verifiedFields: AddressFields = { ...this.fields };
+
+    for (const field of Address.MAIN_FIELDS) {
+      const element = this.fields[field];
+      if (element) {
+        if (element.data) {
+          const expectedParentFiasId = element.data.parentFiasId;
+          const parent = this.getParent(field);
+          if (!parent || parent.fiasId === expectedParentFiasId) {
+            verifiedFields[field] = element;
+            continue;
+          }
+        }
+        return {
+          address: Address.fieldsToResponse(verifiedFields),
+          isValid: false,
+          invalidLevel: field,
+        };
+      }
+    }
+    return {
+      address: Address.fieldsToResponse(verifiedFields),
+      isValid: true,
+    };
+  };
+
   public getFiasPostalCode = (): string => {
     if (!this.isEmpty) {
-      const fields = Address.VERIFIABLE_FIELDS.slice().reverse();
+      const fields = Address.MAIN_FIELDS.slice().reverse();
       for (const field of fields) {
         const element = this.fields[field];
-        if (element && element.data) {
+        if (element && element.data && element.data.postalCode) {
           return element.data.postalCode;
         }
       }
@@ -359,19 +505,19 @@ export class Address {
       if (!element) {
         return value;
       }
-      const { name, data } = element;
+      const { name, fiasData } = element;
       return {
         ...value,
         [field]: {
           name,
-          ...(data ? { data: data.data } : {}),
+          ...(fiasData ? { data: fiasData } : {}),
         },
       };
     }, {});
   };
 
   // TODO: get fields usage from fieldsSettings
-  public getValue = (withPostalCode: boolean): FiasValue => {
+  public getValue = (withPostalCode: boolean = false): FiasValue => {
     const { country, foreignAddress } = this;
     return {
       address: this.getAddressValue(),
@@ -397,6 +543,21 @@ export class Address {
         },
       };
     }, {});
+  };
+
+  public getDiffFields = (address: Address, fieldsSettings?: FieldsSettings): AddressFields => {
+    const fields = fieldsSettings ? Address.filterVisibleFields(address.fields, fieldsSettings) : { ...address.fields };
+    for (const field of Address.MAIN_FIELDS) {
+      const element = fields[field];
+      if (element) {
+        if (element.isEqualTo(this.fields[field])) {
+          delete fields[field];
+        } else {
+          break;
+        }
+      }
+    }
+    return fields;
   };
 }
 

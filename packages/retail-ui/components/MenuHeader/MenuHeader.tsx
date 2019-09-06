@@ -1,9 +1,11 @@
 import * as React from 'react';
-import classNames from 'classnames';
-
-import styles from './MenuHeader.less';
+import styles from './MenuHeader.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './MenuHeader.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface MenuHeaderProps {
   children: React.ReactNode;
@@ -15,16 +17,29 @@ export interface MenuHeaderProps {
  */
 export default class MenuHeader extends React.Component<MenuHeaderProps> {
   public static __MENU_HEADER__ = true;
+
   public static defaultProps = {
     _enableIconPadding: false,
   };
 
+  private theme!: ITheme;
   private getProps = createPropsGetter(MenuHeader.defaultProps);
 
   public render() {
-    const classnames: string = classNames({
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
+    const classnames: string = cx({
       [styles.root]: true,
-      [styles.withLeftPadding]: this.getProps()._enableIconPadding,
+      [jsStyles.withLeftPadding(this.theme)]: this.getProps()._enableIconPadding,
     });
     return <div className={classnames}>{this.props.children}</div>;
   }

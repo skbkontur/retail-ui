@@ -1,17 +1,18 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import cn from 'classnames';
 import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
-
 import Icon20 from '../Icon/20px';
 import LayoutEvents from '../../lib/LayoutEvents';
 import tabListener from '../../lib/events/tabListener';
 import PopupMenu from '../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
-
-import styles from './Kebab.less';
+import styles from './Kebab.module.less';
 import { PopupPosition } from '../Popup';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Kebab.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface KebabProps {
   disabled?: boolean;
@@ -47,6 +48,7 @@ export interface KebabState {
 
 export default class Kebab extends React.Component<KebabProps, KebabState> {
   public static propTypes = {};
+
   public static defaultProps = {
     onOpen: () => undefined,
     onClose: () => undefined,
@@ -60,6 +62,8 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     focusedByTab: false,
     anchor: null,
   };
+
+  private theme!: ITheme;
 
   private listener: {
     remove: () => void;
@@ -77,6 +81,17 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { disabled, positions } = this.props;
 
     return (
@@ -115,11 +130,12 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cn(
+        className={cx(
           styles.kebab,
           captionProps.opened && styles.opened,
           disabled && styles.disabled,
           this.state.focusedByTab && styles.focused,
+          this.state.focusedByTab && jsStyles.focused(this.theme),
         )}
       >
         {this.renderIcon()}
@@ -172,7 +188,6 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
-          tabListener.isTabPressed = false;
         }
       });
     }

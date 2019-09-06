@@ -1,16 +1,13 @@
 import * as React from 'react';
-
 import * as PropTypes from 'prop-types';
-
 import { types, sizeMaps } from './settings';
-
 import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
 import { SpinnerType } from '.';
 
-import styles from './Spinner.less';
+import styles from './Spinner.module.less';
 
 export interface SpinnerFallbackProps {
   type: SpinnerType;
@@ -59,12 +56,15 @@ export default class SpinnerFallback extends React.Component<SpinnerFallbackProp
     const size = sizeMaps[type];
 
     const cssSet: React.CSSProperties = {
-      backgroundPosition: `0 -${frame * size.height}px`,
       backgroundImage: `url('${this._imageUrls[this.getSpriteSettingsKey()]}')`,
       height: size.height,
       top: type === 'mini' ? 2 : 0,
       width: size.width,
     };
+
+    if (!process.env.enableReactTesting) {
+      cssSet.backgroundPosition = `0 -${frame * size.height}px`;
+    }
 
     return <span className={styles.fallback} style={cssSet} />;
   }

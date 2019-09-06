@@ -84,6 +84,12 @@ storiesOf('Menu', module)
       <MenuItem>MenuItem2</MenuItem>
       <MenuItem>MenuItem3</MenuItem>
     </Menu>
+  ))
+  .add('with disabled MenuItem', () => (
+    <Menu hasShadow={false}>
+      <MenuItem disabled>MenuItem1</MenuItem>
+      <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>
+    </Menu>
   ));
 
 class MoveControls extends React.Component {
@@ -101,7 +107,9 @@ class MoveControls extends React.Component {
           </button>
         </div>
         <br />
-        {React.cloneElement(React.Children.only(this.props.children), { ref: this.refMenu })}
+        <div data-tid="menu-container" style={{ padding: 10 }}>
+          {React.cloneElement(React.Children.only(this.props.children), { ref: this.refMenu })}
+        </div>
       </div>
     );
   }

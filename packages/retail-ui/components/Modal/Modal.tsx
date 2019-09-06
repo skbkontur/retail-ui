@@ -1,9 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import cn from 'classnames';
 import FocusLock from 'react-focus-lock';
 import { EventSubscription } from 'fbemitter';
-import throttle from 'lodash/throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
@@ -17,9 +15,11 @@ import { Body } from './ModalBody';
 import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
-
-import styles from './Modal.less';
-
+import styles from './Modal.module.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Modal.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 let mountedModalsCount = 0;
 
 export interface ModalProps {
@@ -54,17 +54,7 @@ export interface ModalProps {
 export interface ModalState {
   stackPosition: number;
   horizontalScroll: boolean;
-  clickTrapHeight?: React.CSSProperties['height'];
 }
-
-/** Вынесено в компонет исключительно для того, чтобы искать enzyme'ом в тесте */
-type ModalClickTrap = React.HTMLAttributes<HTMLDivElement> & {
-  innerRef: (element: HTMLDivElement | null) => void;
-};
-
-const ModalClickTrap: React.SFC<ModalClickTrap> = ({ innerRef, ...props }) => (
-  <div ref={node => innerRef(node)} {...props} />
-);
 
 /**
  * Модальное окно
@@ -90,9 +80,11 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     horizontalScroll: false,
   };
 
+  private theme!: ITheme;
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
-  private clickTrapNode: HTMLDivElement | null = null;
+  private mouseDownTarget: EventTarget | null = null;
+  private mouseUpTarget: EventTarget | null = null;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -125,13 +117,20 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     if (this.containerNode) {
       this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
     }
-
-    if (this.throtteledResizeClickTrap) {
-      this.throtteledResizeClickTrap.cancel();
-    }
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     let hasHeader = false;
     let hasFooter = false;
     let hasPanel = false;
@@ -167,6 +166,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
+
     if (this.props.width) {
       style.width = this.props.width;
     } else {
@@ -177,23 +177,22 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={styles.bg} />}
-          <div ref={this.refContainer} className={cn(styles.container, styles.mobile)}>
-            <ModalClickTrap
-              className={styles.modalClickTrap}
-              onClick={this.handleContainerClick}
-              innerRef={this.refClickTrap}
-              style={{
-                height: this.state.clickTrapHeight,
-              }}
-            />
+          {this.state.stackPosition === 0 && <div className={cx(styles.bg, jsStyles.bg(this.theme))} />}
+          <div
+            ref={this.refContainer}
+            className={styles.container}
+            onMouseDown={this.handleContainerMouseDown}
+            onMouseUp={this.handleContainerMouseUp}
+            onClick={this.handleContainerClick}
+            data-tid="modal-container"
+          >
             <div
-              className={cn(styles.centerContainer, {
-                [styles.alignTop]: this.props.alignTop,
+              className={cx(styles.centerContainer, jsStyles.centerContainer(this.theme), {
+                [styles.alignTop]: !!this.props.alignTop,
               })}
               style={containerStyle}
             >
-              <div className={styles.window} style={style}>
+              <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
@@ -232,9 +231,20 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     this.setState({ stackPosition: stack.indexOf(this) });
   };
 
+  private handleContainerMouseDown = (event: React.MouseEvent) => {
+    this.mouseDownTarget = event.target;
+  };
+
+  private handleContainerMouseUp = (event: React.MouseEvent) => {
+    this.mouseUpTarget = event.target;
+  };
+
   private handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!this.props.ignoreBackgroundClick) {
-      this.requestClose();
+      const { target, currentTarget } = event;
+      if (target === currentTarget && this.mouseDownTarget === currentTarget && this.mouseUpTarget === currentTarget) {
+        this.requestClose();
+      }
     }
   };
 
@@ -269,29 +279,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     return !ReactDOM.createPortal || isIE;
   };
 
-  private refClickTrap = (node: HTMLDivElement | null) => {
-    this.clickTrapNode = node;
-  };
-
-  private resizeClickTrap = (height?: number) => {
-    if (this.clickTrapNode) {
-      this.setState({
-        clickTrapHeight: height,
-      });
-    }
-  };
-
-  // tslint:disable-next-line:member-ordering
-  private throtteledResizeClickTrap = throttle(this.resizeClickTrap, 300);
-
   private handleResize = (event: UIEvent) => {
     LayoutEvents.emit();
-
-    if (this.containerNode) {
-      const height = (event.target as Window).innerHeight;
-      const containerHeight = this.containerNode.offsetHeight;
-
-      this.throtteledResizeClickTrap(height > containerHeight ? height : undefined);
-    }
   };
 }

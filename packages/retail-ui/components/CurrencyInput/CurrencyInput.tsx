@@ -1,7 +1,9 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import warning from 'warning';
 
 import Input, { InputProps } from '../Input';
+import { MAX_SAFE_DIGITS } from './constants';
 
 import SelectionHelper, { Selection, SelectionDirection } from './SelectionHelper';
 import CurrencyHelper from './CurrencyHelper';
@@ -18,6 +20,11 @@ export type CurrencyInputProps = Override<
     fractionDigits?: Nullable<number>;
     /** Отрицательные значения */
     signed?: boolean;
+    /**
+     * Допустимое кол-во цифр целой части.
+     * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
+     */
+    integerDigits?: Nullable<number>;
     /** onChange */
     onChange: (e: { target: { value: Nullable<number> } }, value: Nullable<number>) => void;
     /** onSubmit */
@@ -33,7 +40,11 @@ export interface CurrencyInputState {
 
 /**
  * Поле для денежных сумм (и других числовых значений).
- * Принимает любые свойства `Input`
+ * Принимает любые свойства `Input`.
+ *
+ * Максимальная длина числа - **15 цифр** (с десятичным разделителем в любом месте).
+ * <br/>
+ * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
 export default class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
   public static propTypes = {
@@ -73,6 +84,19 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   private input: Nullable<Input>;
   private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
 
+  public componentDidMount(): void {
+    const { maxLength, integerDigits, fractionDigits } = this.props;
+    warning(
+      maxLength === undefined,
+      `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
+    );
+    warning(
+      (integerDigits || 0) + (fractionDigits || 0) <= MAX_SAFE_DIGITS,
+      `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
+        `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
+    );
+  }
+
   public componentWillReceiveProps(nextProps: CurrencyInputProps) {
     const { value, fractionDigits } = nextProps;
     if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
@@ -90,7 +114,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, mainInGroup, integerDigits, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
@@ -253,14 +277,11 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   };
 
   private inputValue = (start: number, end: number, value: string) => {
-    const result = CurrencyInputHelper.safeInsert(
-      this.state.formatted,
-      start,
-      end,
-      value,
-      this.props.fractionDigits,
-      !this.props.signed,
-    );
+    const result = CurrencyInputHelper.safeInsert(this.state.formatted, start, end, value, {
+      integerDigits: this.props.integerDigits,
+      fractionDigits: this.props.fractionDigits,
+      unsigned: !this.props.signed,
+    });
     if (result) {
       const formatted = result.value;
       const selection = SelectionHelper.fromPosition(result.position);
@@ -271,6 +292,10 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
         }
       });
       return true;
+    }
+
+    if (this.input) {
+      this.input.blink();
     }
     return false;
   };

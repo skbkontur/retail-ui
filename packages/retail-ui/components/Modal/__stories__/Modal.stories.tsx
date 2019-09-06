@@ -372,6 +372,40 @@ class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: bo
   };
 }
 
+class SmallModalOnTop extends Component<{}, {}> {
+  public state = {
+    opened: false,
+  };
+
+  public renderModal() {
+    return (
+      <Modal onClose={this.close} alignTop>
+        <Modal.Header>Modal</Modal.Header>
+        <Modal.Body>
+          <Button data-tid="modal-content-button">Content Button</Button>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  public render() {
+    return (
+      <div>
+        {this.state.opened && this.renderModal()}
+        <Button onClick={this.open}>Open modal</Button>
+      </div>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+}
+
 storiesOf('Modal', module)
   .add('With scrollable parent content', () => <ModalWithScrollableContent />)
   .add('With Icon Input', () => <ModalWithIconInput />)
@@ -418,4 +452,5 @@ storiesOf('Modal', module)
         <p>Use rxjs operators with react hooks.</p>
       </Modal.Body>
     </Modal>
-  ));
+  ))
+  .add('Small modal on the Top', () => <SmallModalOnTop />);

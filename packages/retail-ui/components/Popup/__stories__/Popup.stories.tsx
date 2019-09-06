@@ -389,7 +389,7 @@ const renderPopupContent = () => {
 };
 
 const COMBOBOX_ITEMS = [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }];
-const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => [i.value, i.label]);
+const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
 interface IDropdownValue {

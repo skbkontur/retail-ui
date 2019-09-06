@@ -1,11 +1,15 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
 import Group from '../Group';
-import Button from '../Button';
-
-import styles from './Switcher.less';
+import Button, { ButtonSize } from '../Button';
+import styles from './Switcher.module.less';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Switcher.styles';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
+
+export type SwitcherSize = ButtonSize;
 
 export interface SwitcherProps {
   /**
@@ -20,6 +24,9 @@ export interface SwitcherProps {
   label?: string;
 
   error?: boolean;
+
+  /** Размер */
+  size?: SwitcherSize;
 }
 
 export interface SwitcherState {
@@ -52,9 +59,23 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     focusedIndex: null,
   };
 
+  private theme!: ITheme;
+
   public render() {
-    const listClassNames = classNames({
-      [styles.error]: this.props.error,
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
+    const listClassNames = cx({
+      [styles.error]: !!this.props.error,
+      [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
     const inputProps = {
@@ -166,6 +187,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
           this._selectItem(value);
         },
         disableFocus: true,
+        size: this.props.size,
       };
       return (
         <Button key={value} {...buttonProps}>

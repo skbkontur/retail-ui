@@ -5,6 +5,7 @@ import Gapped from '../../Gapped';
 import Input from '../../Input';
 import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
 import Token, { TokenColors } from '../../Token';
+import { delay } from '../../../lib/utils';
 
 interface TokenModel {
   id?: string;
@@ -18,8 +19,9 @@ const FixedWidthDecorator = (storyFn: any) => (
 );
 
 async function getItems(query: string) {
-  const sleep = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
-  await sleep(400);
+  if (!process.env.enableReactTesting) {
+    await delay(400);
+  }
   return ['aaa', 'bbb'].filter(s => s.includes(query));
 }
 
@@ -42,8 +44,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
+        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+        : [];
     this.state = { selectedItems };
   }
 
@@ -53,8 +55,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
         {...this.props}
         selectedItems={this.state.selectedItems}
         onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
-        renderToken={(item, { isActive, onClick, onRemove }) => (
-          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+        renderToken={(item, { isActive, onClick, onRemove, disabled }) => (
+          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
             {item}
           </Token>
         )}
@@ -121,8 +123,8 @@ class ColoredWrapper extends React.Component<any, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
+        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+        : [];
     this.state = { selectedItems };
   }
 
@@ -249,6 +251,7 @@ storiesOf('TokenInput', module)
     return (
       <Gapped vertical gap={10}>
         <FilledWrapper getItems={getItems} disabled={true} />
+        <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
       </Gapped>
     );
   });

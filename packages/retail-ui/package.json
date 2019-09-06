@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.47.0",
+  "version": "1.2.0",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -11,16 +11,20 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "prepublishOnly": "yarn clean && yarn build",
+    "prepublishOnly": "yarn clean && node scripts/publish/prepublish && yarn build",
     "clean": "git clean -fdxqe node_modules",
     "build": "yarn tsc -p prod.tsconfig.json && node scripts/build",
-    "postpublish": "yarn deploy && yarn publish:react-ui",
-    "predeploy": "rimraf styleguide && yarn run styleguide:build",
-    "deploy": "gh-pages -a -d styleguide -r git@github.com:skbkontur/react-ui.git",
-    "publish:react-ui": "yarn --cwd ./build publish --non-interactive",
+    "postpublish": "yarn deploy && npm run publish:react-ui",
+    "predeploy": "rimraf .styleguide/build && yarn run styleguide:build",
+    "deploy": "gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git",
+    "publish:react-ui": "npm publish ./build",
     "storybook": "start-storybook -p 6060",
-    "styleguide": "styleguidist server",
-    "styleguide:build": "styleguidist build && styleguidist build --config styleguide.prod.config.js",
+    "storybook:flat": "cross-env STORYBOOK_FLAT_UI=true start-storybook -p 6060",
+    "storybook:test": "npm-run-all --parallel storybook:test:*",
+    "storybook:test:default": "cross-env enableReactTesting=true start-storybook -p 6060",
+    "storybook:test:flat": "cross-env enableReactTesting=true STORYBOOK_FLAT_UI=true start-storybook -p 6061",
+    "styleguide": "styleguidist server --config .styleguide/config/dev.config.js",
+    "styleguide:build": "node .styleguide/build",
     "lint:flow": "flow check",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit",
@@ -33,6 +37,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.6",
+    "create-emotion": "^10.0.9",
     "create-react-context": "^0.2.2",
     "csstype": "^2.6.1",
     "exenv": "^1.2.2",
@@ -49,13 +54,14 @@
     "react-focus-lock": "^1.11.2",
     "react-input-mask": "2.0.4",
     "react-transition-group": "^2.4.0",
+    "stylis-plugin-extra-scope": "^0.1.1",
     "tabbable": "^3.1.1",
     "tslib": "^1.9.3",
     "uuid": "^3.3.2",
     "warning": "^3.0.0"
   },
   "devDependencies": {
-    "@skbkontur/react-icons": "^3.1.5",
+    "@skbkontur/react-icons": "^3.1.8",
     "@skbkontur/typed-css-modules-loader": "^0.1.4",
     "@storybook/addon-actions": "3.4.8",
     "@storybook/addon-knobs": "3.4.8",
@@ -64,7 +70,6 @@
     "@storybook/react": "3.4.8",
     "@types/classnames": "^2.2.5",
     "@types/enzyme": "^3.1.12",
-    "@types/enzyme-to-json": "^1.5.1",
     "@types/exenv": "^1.2.0",
     "@types/fbemitter": "^2.0.32",
     "@types/invariant": "^2.2.29",
@@ -103,7 +108,6 @@
     "css-loader": "^0.28.11",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "enzyme-to-json": "^3.3.4",
     "eslint": "^4.19.1",
     "eslint-plugin-flowtype": "^2.46.1",
     "eslint-plugin-react": "^7.7.0",
@@ -111,6 +115,7 @@
     "flow-bin": "^0.91.0",
     "flow-typed": "^2.5.1",
     "fork-ts-checker-webpack-plugin": "^0.4.9",
+    "fs-extra": "^8.0.1",
     "fs-readdir-recursive": "^1.1.0",
     "gh-pages": "^1.2.0",
     "identity-obj-proxy": "^3.0.0",
@@ -167,6 +172,10 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__fixtures__/"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -179,7 +188,8 @@
     "roots": [
       "components",
       "lib",
-      "testing"
+      "testing",
+      "scripts"
     ]
   }
 }

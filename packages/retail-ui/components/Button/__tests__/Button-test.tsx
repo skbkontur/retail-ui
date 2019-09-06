@@ -1,7 +1,6 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-
-import Button, { ButtonUse, ButtonType } from '../Button';
+import Button, { ButtonType } from '../Button';
 
 describe('Button', () => {
   it('has correct label', () => {
@@ -17,13 +16,6 @@ describe('Button', () => {
     wrapper.find('button').simulate('click');
 
     expect(onClick.mock.calls.length).toBe(1);
-  });
-
-  (['default', 'primary', 'pay', 'success', 'danger', 'link'] as ButtonUse[]).forEach(use => {
-    it(`sets class ${use} when use=${use} specified`, () => {
-      const wrapper = mount(<Button use={use} />);
-      expect(wrapper.find(`.${use}`)).toHaveLength(1);
-    });
   });
 
   (['submit', 'button', 'reset'] as ButtonType[]).forEach(type => {

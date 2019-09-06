@@ -12,7 +12,7 @@ export type SidePageProps = {|
   onClose?: () => void,
   fromLeft?: boolean,
   disableAnimations?: boolean,
-  children: React$Node,
+  children?: React$Node,
 |};
 
 export type SidePageState = {|

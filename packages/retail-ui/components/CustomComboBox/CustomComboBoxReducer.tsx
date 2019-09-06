@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
@@ -7,7 +6,6 @@ import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState 
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { getFirstFocusableElement, getNextFocusableElement } from '../../lib/dom/getFocusableElements';
 
 export type CustomComboBoxAction<T> =
   | { type: 'TextClear' }
@@ -30,7 +28,6 @@ export type CustomComboBoxAction<T> =
   | { type: 'RequestItems' }
   | { type: 'ReceiveItems'; items: T[] }
   | { type: 'RequestFailure'; repeatRequest: () => void }
-  | { type: 'FocusNextElement' }
   | { type: 'CancelRequest' };
 
 export type CustomComboBoxEffect<T> = (
@@ -62,7 +59,6 @@ interface EffectFactory {
   ResetHighlightedMenuItem: Effect;
   Reflow: Effect;
   SelectInputText: Effect;
-  FocusNextElement: Effect;
 }
 
 const DEBOUNCE_DELAY = 300;
@@ -181,18 +177,9 @@ export const Effect: EffectFactory = {
     }
   },
   SelectMenuItem: event => (dispatch, getState, getProps, getInstance) => {
-    const instance = getInstance();
-    const { requestStatus } = getState();
-    const { menu } = instance;
-    const eventType = event.type;
-    const eventIsProperToFocusNextElement =
-      (eventType === 'keyup' || eventType === 'keydown' || eventType === 'keypress') && event.key === 'Enter';
-
+    const { menu } = getInstance();
     if (menu) {
       menu.enter(event);
-      if (eventIsProperToFocusNextElement && requestStatus !== ComboBoxRequestStatus.Failed) {
-        dispatch({ type: 'FocusNextElement' });
-      }
     }
   },
   MoveMenuHighlight: direction => (dispatch, getState, getProps, getInstance) => {
@@ -214,19 +201,6 @@ export const Effect: EffectFactory = {
   SelectInputText: (dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
     combobox.selectInputText();
-  },
-  FocusNextElement: (dispatch, getState, getProps, getInstance) => {
-    const node = ReactDOM.findDOMNode(getInstance());
-
-    if (node instanceof Element) {
-      const currentFocusable = getFirstFocusableElement(node);
-      if (currentFocusable) {
-        const nextFocusable = getNextFocusableElement(currentFocusable, currentFocusable.parentElement);
-        if (nextFocusable) {
-          nextFocusable.focus();
-        }
-      }
-    }
   },
 };
 
@@ -406,9 +380,6 @@ export function reducer<T>(
         },
         [Effect.HighlightMenuItem],
       ];
-    }
-    case 'FocusNextElement': {
-      return [state, [Effect.FocusNextElement]];
     }
     case 'CancelRequest': {
       return {

@@ -3,12 +3,15 @@ import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
-import styles from './Tooltip.less';
+import styles from './Tooltip.module.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-
+import jsStyles from './Tooltip.styles';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../internal/ThemeContext';
+import { ITheme } from '../../lib/theming/Theme';
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
 
@@ -34,6 +37,8 @@ export type TooltipTrigger =
   | 'click'
   /** Фокус на children */
   | 'focus'
+  /** Наведение на children и на тултип и фокус на children */
+  | 'hover&focus'
   /** Просто открыт */
   | 'opened'
   /** Просто закрыт */
@@ -70,6 +75,19 @@ export interface TooltipProps {
 
   pos: PopupPosition;
 
+  /**
+   * Триггер открытия тултипа
+   * ```ts
+   * type TooltipTrigger =
+   * | 'hover'
+   * | 'click'
+   * | 'focus'
+   * | 'hover&focus'
+   * | 'opened'
+   * | 'closed'
+   * | 'hoverAnchor';
+   * ```
+   */
   trigger: TooltipTrigger;
 
   /**
@@ -123,6 +141,7 @@ export interface TooltipProps {
 
 export interface TooltipState {
   opened: boolean;
+  focused: boolean;
 }
 
 class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
@@ -150,11 +169,10 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   public static closeDelay = 100;
+  private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
-  private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus'];
-
-  public state: TooltipState = { opened: false };
-
+  public state: TooltipState = { opened: false, focused: false };
+  private theme!: ITheme;
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
@@ -174,13 +192,14 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   }
 
   public render() {
-    const props = this.props;
-    const content = this.renderContent();
-    const { popupProps, layerProps = { active: false } } = this.getProps();
-    const anchorElement = props.children || props.anchorElement;
-    const popup = this.renderPopup(anchorElement, popupProps, content);
-
-    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
   }
 
   public renderContent = () => {
@@ -208,10 +227,20 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <span className={styles.cross} onClick={this.handleCloseButtonClick}>
+      <span className={cx(styles.cross, jsStyles.cross(this.theme))} onClick={this.handleCloseButtonClick}>
         {CROSS}
       </span>
     );
+  }
+
+  private renderMain() {
+    const props = this.props;
+    const content = this.renderContent();
+    const { popupProps, layerProps = { active: false } } = this.getProps();
+    const anchorElement = props.children || props.anchorElement;
+    const popup = this.renderPopup(anchorElement, popupProps, content);
+
+    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
   private renderPopup(
@@ -314,6 +343,17 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           },
         };
 
+      case 'hover&focus':
+        return {
+          popupProps: {
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur,
+            onMouseEnter: this.handleMouseEnter,
+            onMouseLeave: this.handleMouseLeave,
+            useWrapper,
+          },
+        };
+
       default:
         throw new Error('Unknown trigger specified: ' + props.trigger);
     }
@@ -341,8 +381,11 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
-    const triggerIsHover = this.props.trigger === 'hover';
-    if (triggerIsHover && event.relatedTarget === this.contentElement) {
+    if (this.props.trigger === 'hover&focus' && this.state.focused) {
+      return;
+    }
+
+    if (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement) {
       return;
     }
 
@@ -380,11 +423,13 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   }
 
   private handleFocus = () => {
+    this.setState({ focused: true });
     this.open();
   };
 
   private handleBlur = () => {
     this.close();
+    this.setState({ focused: false });
   };
 
   private handleCloseButtonClick = (event: React.MouseEvent<HTMLElement>) => {

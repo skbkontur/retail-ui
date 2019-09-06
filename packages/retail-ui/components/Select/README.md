@@ -17,7 +17,7 @@ const ru_RU = {
   placeholder: 'ничего не выбрано',
 };
 
-const en_EN = {
+const en_GB = {
   placeholder: 'nothing selected',
 };
 ```
