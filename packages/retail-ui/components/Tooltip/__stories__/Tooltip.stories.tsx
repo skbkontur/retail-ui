@@ -197,8 +197,8 @@ class TooltipWithHoverInput extends React.Component {
   public render() {
     return (
       <div style={{ padding: '200px' }}>
-        <Tooltip render={this.renderContent} trigger="hover">
-          <Input />
+        <Tooltip render={this.renderContent} trigger="click">
+          <Input defaultValue="Click me!" />
         </Tooltip>
       </div>
     );
@@ -486,7 +486,7 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
         <div>
           {triggers.map(trigger => (
             <button
-              id={trigger.replace("&", "_")}
+              id={trigger.replace('&', '_')}
               key={trigger}
               onClick={() => this.setTrigger(trigger)}
               disabled={this.state.trigger === trigger}
