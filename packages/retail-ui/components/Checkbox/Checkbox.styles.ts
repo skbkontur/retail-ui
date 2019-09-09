@@ -41,6 +41,7 @@ const jsStyles = {
   indeterminate(t: ITheme) {
     return css`
       background: ${t.chbIndeterminateBg};
+      border-radius: ${t.chbIndeterminateBorderRadius};
 
       .${styles.disabled} & {
         background: ${t.textColorDisabled};

@@ -262,6 +262,26 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.borderColorFocus;
     },
   },
+  chbBg: {
+    get() {
+      return `linear-gradient(${this.chbBgStart}, ${this.chbBgEnd})`;
+    },
+  },
+  chbHoverBg: {
+    get() {
+      return `linear-gradient(-180deg, ${this.btnDefaultHoverBgStart} 0, ${this.btnDefaultHoverBgEnd} 100%)`;
+    },
+  },
+  chbActiveBg: {
+    get() {
+      return this.btnDefaultActiveBg;
+    },
+  },
+  chbShadowActive: {
+    get() {
+      return this.btnDefaultActiveShadow;
+    },
+  },
   textareaLineHeight: {
     get() {
       const fontSize = this.fontSizeMedium;
