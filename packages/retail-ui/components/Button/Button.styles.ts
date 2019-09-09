@@ -152,11 +152,11 @@ const jsClasses = {
           .${classes.arrow} {
             box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
 
-            &.${jsClasses.arrow_warning(t)} {
+            &.${classes.arrow_warning} {
               box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
             }
 
-            &.${jsClasses.arrow_error(t)} {
+            &.${classes.arrow_error} {
               box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
             }
           }
