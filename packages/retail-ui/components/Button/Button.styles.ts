@@ -168,7 +168,7 @@ const jsClasses = {
   disabled(t: ITheme) {
     return css`
       .${classes.wrap} .${classes.root}&:not(.${classes.link}) {
-        background: ${t.bgDisabled};
+        background: ${t.btnDisabledBg};
         color: ${t.btnDisabledTextColor};
         box-shadow: ${t.btnDisabledShadow};
 

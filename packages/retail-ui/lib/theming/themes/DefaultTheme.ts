@@ -53,6 +53,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.controlPaddingYLarge;
     },
   },
+  btnDisabledBg: {
+    get() {
+      return this.bgDisabled;
+    },
+  },
   controlHeightSmall: {
     get() {
       const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
