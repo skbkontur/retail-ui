@@ -74,6 +74,7 @@ export default {
   loaderBg: '#333',
   loaderOpacity: '0.9',
   btnDisabledBg: 'rgba(255, 255, 255, 0.05)',
+  btnDisabledShadowColor: 'rgba(0, 0, 0, 0.15)',
   btnCheckedBg: '#737373',
   btnCheckedTextColor: '#fff',
   btnCheckedShadowColorArrow: 'rgba(0, 0, 0, 0.3)',

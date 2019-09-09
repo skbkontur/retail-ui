@@ -174,7 +174,7 @@ const jsClasses = {
 
         .${classes.arrow} {
           background: ${t.btnDisabledBg};
-          box-shadow: 1px -1px 0 0 ${t.btnDisabledShadowColor};
+          box-shadow: ${t.btnDisabledShadowArrow};
 
           &.${classes.arrow_warning} {
             box-shadow: 2px -2px 0 0 ${t.borderColorWarning};

@@ -102,6 +102,16 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.borderColorGrayLight;
     },
   },
+  btnDisabledShadow: {
+    get() {
+      return `0 0 0 1px ${this.btnDisabledShadowColor}`;
+    },
+  },
+  btnDisabledShadowArrow: {
+    get() {
+      return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
+    },
+  },
   tabColorFocus: {
     get() {
       return this.borderColorFocus;
