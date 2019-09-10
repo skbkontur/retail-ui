@@ -12,7 +12,7 @@
 
 - [ ] Шаблон проекта для быстрого старта (Анисимов)
 - [ ] Встраивание метрик [#1555](https://github.com/skbkontur/retail-ui/issues/1555)
-- [ ] Дизайн решения по отправке телеметрии [#1131](https://github.com/skbkontur/retail-ui/issues/1131)
+- [ ] Дизайн решения по отправке телеметрии [#1566](https://github.com/skbkontur/retail-ui/issues/1566)
 
 ### Октябрь 2019
 
