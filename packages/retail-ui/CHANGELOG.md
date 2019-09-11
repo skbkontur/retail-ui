@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.2.0...retail-ui@1.3.0) (2019-09-11)
+
+
+### Bug Fixes
+
+* **Button:** change disabled bg & shadow for the FlatTheme ([765e9d4](https://github.com/skbkontur/retail-ui/commit/765e9d4))
+* **Button:** fix emotion className interpolation warning ([ad5d2a2](https://github.com/skbkontur/retail-ui/commit/ad5d2a2))
+* **Checkbox:** prevent styles reset, caused by code-splitting ([2161a4d](https://github.com/skbkontur/retail-ui/commit/2161a4d)), closes [#1556](https://github.com/skbkontur/retail-ui/issues/1556)
+* **Select:** prevent arrow color reset, caused by code-splitting ([e7a6dc3](https://github.com/skbkontur/retail-ui/commit/e7a6dc3)), closes [#1568](https://github.com/skbkontur/retail-ui/issues/1568)
+
+
+### Features
+
+* **Logotype:** add props size and onArrowClick ([94fc027](https://github.com/skbkontur/retail-ui/commit/94fc027))
+
+
+
+
+
 # [1.2.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.2...retail-ui@1.2.0) (2019-09-03)
 
 

@@ -152,11 +152,11 @@ const jsClasses = {
           .${classes.arrow} {
             box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
 
-            &.${jsClasses.arrow_warning(t)} {
+            &.${classes.arrow_warning} {
               box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
             }
 
-            &.${jsClasses.arrow_error(t)} {
+            &.${classes.arrow_error} {
               box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
             }
           }
@@ -168,19 +168,19 @@ const jsClasses = {
   disabled(t: ITheme) {
     return css`
       .${classes.wrap} .${classes.root}&:not(.${classes.link}) {
-        background: ${t.bgDisabled};
+        background: ${t.btnDisabledBg};
         color: ${t.btnDisabledTextColor};
         box-shadow: ${t.btnDisabledShadow};
 
         .${classes.arrow} {
           background: ${t.btnDisabledBg};
-          box-shadow: 1px -1px 0 0 ${t.btnDisabledShadowColor};
+          box-shadow: ${t.btnDisabledShadowArrow};
 
-          &.${jsClasses.arrow_warning(t)} {
+          &.${classes.arrow_warning} {
             box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
           }
 
-          &.${jsClasses.arrow_error(t)} {
+          &.${classes.arrow_error} {
             box-shadow: 2px -2px 0 0 ${t.borderColorError};
           }
         }

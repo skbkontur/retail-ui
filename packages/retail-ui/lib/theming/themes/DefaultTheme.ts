@@ -53,6 +53,11 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
       return this.controlPaddingYLarge;
     },
   },
+  btnDisabledBg: {
+    get() {
+      return this.bgDisabled;
+    },
+  },
   controlHeightSmall: {
     get() {
       const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
@@ -95,6 +100,16 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   btnDisabledShadowColor: {
     get() {
       return this.borderColorGrayLight;
+    },
+  },
+  btnDisabledShadow: {
+    get() {
+      return `0 0 0 1px ${this.btnDisabledShadowColor}`;
+    },
+  },
+  btnDisabledShadowArrow: {
+    get() {
+      return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
     },
   },
   tabColorFocus: {
