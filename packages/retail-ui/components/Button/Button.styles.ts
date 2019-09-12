@@ -670,6 +670,13 @@ const jsClasses = {
     `;
   },
 
+  buttonWithIcon(t: ITheme) {
+    return css`
+      padding-right: 15px;
+      padding-left: 15px;
+    `;
+  },
+
   loading(t: ITheme) {
     return css`
       position: absolute;
