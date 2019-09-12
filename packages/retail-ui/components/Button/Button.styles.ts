@@ -3,7 +3,7 @@ import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
+import { buttonLinkMixin, buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
 
 const jsClasses = {
   root(t: ITheme) {
@@ -242,6 +242,8 @@ const jsClasses = {
 
   link(t: ITheme) {
     return css`
+      ${buttonLinkMixin()};
+
       color: ${t.linkColor};
 
       &:hover {

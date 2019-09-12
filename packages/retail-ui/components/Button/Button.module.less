@@ -1,5 +1,4 @@
 @import (reference) '../mixins.less';
-@import (reference) '../Link/Link.module.less';
 @import './Button.mixins.less';
 
 :local {
@@ -8,6 +7,7 @@
   .wrap_arrow,
   .wrap_arrow_left,
   .root,
+  .link,
   .errorRoot,
   .warningRoot,
   .error,
@@ -62,8 +62,6 @@
     padding-right: 15px;
     padding-left: 15px;
   }
-
-  .linkMixin(link);
 
   .loading {
     position: absolute;

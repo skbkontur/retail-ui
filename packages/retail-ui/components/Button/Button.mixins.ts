@@ -20,6 +20,27 @@ const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, add
   return `${paddingTop} ${paddingX} ${paddingBottom}`;
 };
 
+export const buttonLinkMixin = () => {
+  return css`
+    outline: none;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    &.${classes.disabled} {
+      box-shadow: none;
+      cursor: default;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  `;
+};
+
 export const buttonUseMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
