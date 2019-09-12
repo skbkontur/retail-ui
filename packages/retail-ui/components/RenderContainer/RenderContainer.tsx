@@ -5,7 +5,6 @@ import { RenderInnerContainer as RenderContainerFallback } from './RenderContain
 import { RenderInnerContainer as RenderContainerNative } from './RenderContainerNative';
 import { RenderContainerProps } from './RenderContainerTypes';
 
-let rootId = 0;
 const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
 const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
