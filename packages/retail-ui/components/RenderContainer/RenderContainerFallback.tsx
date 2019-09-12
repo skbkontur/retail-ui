@@ -5,7 +5,7 @@ import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
 interface RenderContainerFallbackProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
-  rootId: number;
+  rootId: string;
 }
 
 export function RootContainer(props: { children?: React.ReactNode; rt_portalID: number }) {
