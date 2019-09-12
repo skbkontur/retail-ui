@@ -12,7 +12,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   private static getRootId = () => Math.random().toString(16).slice(2, 6);
   private domContainer: Nullable<HTMLElement> = null;
 
-  private readonly rootId: number = RenderContainer.getRootId();
+  private readonly rootId: string = RenderContainer.getRootId();
 
   constructor(props: RenderContainerProps) {
     super(props);
