@@ -1,4 +1,4 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, keyframes } from '../../lib/theming/Emotion';
 import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
@@ -192,6 +192,12 @@ const jsClasses = {
 
   sizeMedium(t: ITheme) {
     return css`
+      .${classes.arrow}.${classes.arrow_loading} {
+        &::before {
+          background: linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0);
+        }
+      }
+
       ${buttonSizeMixin(
         t.btnFontSizeMedium,
         t.controlHeightMedium,
@@ -217,6 +223,12 @@ const jsClasses = {
 
   sizeLarge(t: ITheme) {
     return css`
+      .${classes.arrow}.${classes.arrow_loading} {
+        &::before {
+          background: linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0);
+        }
+      }
+
       ${buttonSizeMixin(
         t.btnFontSizeLarge,
         t.controlHeightLarge,
@@ -642,8 +654,51 @@ const jsClasses = {
     `;
   },
 
+  loading(t: ITheme) {
+    return css`
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: inherit;
+      overflow: hidden;
+
+      &:before {
+        content: '';
+        height: 100%;
+        position: absolute;
+        opacity: 0.2;
+        background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
+        background-size: 30px 100%;
+        top: 0;
+        left: 0;
+        right: -30px;
+
+        animation: ${loadingAnimation} 1s linear infinite;
+
+        transform: rotateY(180deg) skewX(0deg) skewY(0deg);
+      }
     `;
   },
 };
+
+const loadingAnimation = keyframes`
+  0% {
+    transform: translateX(0) rotateY(180deg);
+  }
+  100% {
+    transform: translateX(-30px) rotateY(180deg);
+  }
+`;
+
+const loadingAnimationArrow = keyframes`
+  0% {
+    transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+  }
+  100% {
+    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+  }
+`;
 
 export default jsClasses;

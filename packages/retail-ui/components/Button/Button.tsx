@@ -232,7 +232,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
     let loading = null;
     if (this.props.loading) {
-      loading = <div className={classes.loading} />;
+      loading = <div className={jsClasses.loading(this.theme)} />;
     }
 
     let icon = this.props.icon;
