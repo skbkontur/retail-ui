@@ -15,6 +15,10 @@
   .arrow_warning,
   .loading,
   .arrow_loading,
+  .active,
+  .checked,
+  .focus,
+  .disabled,
   .caption,
   .icon,
   .narrow,
@@ -26,14 +30,5 @@
   .buttonWithIcon {
     padding-right: 15px;
     padding-left: 15px;
-  }
-
-  .borderless:not(.focus):not(.disabled):not(.active):not(.checked) {
-    box-shadow: none !important; /* to override dynamic styles */
-
-    &:hover,
-    &:active {
-      box-shadow: none !important; /* to override dynamic style */
-    }
   }
 }

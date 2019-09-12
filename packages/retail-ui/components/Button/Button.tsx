@@ -191,7 +191,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [sizeClass]: true,
         [classes.focus]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [classes.borderless]: !!this.props.borderless,
+        [jsClasses.borderless(this.theme)]: !!this.props.borderless,
       }),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,

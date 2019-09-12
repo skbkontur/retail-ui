@@ -697,6 +697,19 @@ const jsClasses = {
       }
     `;
   },
+
+  borderless(t: ITheme) {
+    return css`
+      &:not(.${classes.focus}):not(.${classes.disabled}):not(.${classes.active}):not(.${classes.checked}) {
+        box-shadow: none !important; /* to override dynamic styles */
+
+        &:hover,
+        &:active {
+          box-shadow: none !important; /* to override dynamic style */
+        }
+      }
+    `;
+  },
 };
 
 const loadingAnimation = keyframes`
