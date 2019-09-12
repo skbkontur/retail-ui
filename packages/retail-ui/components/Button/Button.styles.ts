@@ -15,6 +15,133 @@ const jsClasses = {
       text-align: center;
       color: ${t.textColorDefault};
       border-radius: ${t.btnBorderRadius};
+
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-clip: border-box;
+
+      &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+      }
+
+      &:active,
+      &.${classes.active}, &.${classes.checked} {
+        &:not(.${classes.link}):not(.${classes.disabled}) {
+          .${classes.caption} {
+            transform: translateY(1px);
+          }
+        }
+      }
+
+      &::after {
+        content: '';
+        display: inline-block;
+        vertical-align: baseline;
+        width: 0;
+      }
+
+      &:not(.${classes.link}) {
+        .rt-ie-any & {
+          line-height: normal;
+        }
+      }
+
+      .${classes.warning}, .${classes.error} {
+        border-radius: inherit;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .${classes.arrow} {
+        position: absolute;
+        border-radius: 2px 2px 2px 16px;
+        box-sizing: border-box;
+        z-index: 1;
+
+        &.${classes.arrow_loading} {
+          overflow: hidden;
+
+          &::before {
+            background: linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0);
+            background-size: 41px 100%;
+            content: '';
+            display: block;
+            position: absolute;
+            opacity: 0.2;
+            left: -207px;
+            right: -72px;
+            transform: rotate(-47deg) skewX(0deg) skewY(0deg);
+
+            animation: ${loadingAnimationArrow} 1s linear infinite;
+          }
+        }
+      }
+
+      .${classes.arrow_left} {
+        transform: rotate(232deg) skewX(25deg) skewY(8deg) !important; /* to override '.arrow' dynamic styles */
+
+        &.${classes.arrow_loading} {
+          &::before {
+            animation: ${loadingAnimationArrow} 1s linear infinite;
+            animation-direction: reverse;
+          }
+        }
+      }
+
+      .${classes.caption} {
+        position: relative;
+        white-space: nowrap;
+        display: inline-block;
+        width: 100%;
+        vertical-align: top;
+      }
+
+      .${classes.icon} {
+        display: inline-block;
+        padding-right: 7px;
+      }
+
+      &.${classes.focus} {
+        position: relative;
+        z-index: 2;
+
+        &:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
+          border: none;
+        }
+
+        &.${classes.errorRoot}, &.${classes.warningRoot} {
+          border-color: transparent !important;
+        }
+      }
+
+      &.${classes.checked} {
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+
+        &:not(.${classes.focus}):hover {
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        &.${classes.focus} {
+          position: relative;
+          z-index: 2;
+
+          &.${classes.errorRoot}, &.${classes.warningRoot} {
+            border-color: transparent !important;
+          }
+        }
+      }
+
+      &.${classes.disabled} {
+        border-color: transparent;
+      }
     `;
   },
 
