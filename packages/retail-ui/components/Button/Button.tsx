@@ -300,12 +300,12 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cx(classes.sizeLarge, jsClasses.sizeLarge(this.theme));
+        return jsClasses.sizeLarge(this.theme);
       case 'medium':
-        return cx(classes.sizeMedium, jsClasses.sizeMedium(this.theme));
+        return jsClasses.sizeMedium(this.theme);
       case 'small':
       default:
-        return cx(classes.sizeSmall, jsClasses.sizeSmall(this.theme));
+        return jsClasses.sizeSmall(this.theme);
     }
   }
 
