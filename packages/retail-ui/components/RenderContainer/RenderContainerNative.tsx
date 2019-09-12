@@ -5,7 +5,7 @@ import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
 interface RenderContainerNativeProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
-  rootId: number;
+  rootId: string;
 }
 
 export function Portal(props: PortalProps) {
