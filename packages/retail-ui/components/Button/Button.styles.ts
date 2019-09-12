@@ -3,7 +3,15 @@ import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import { buttonLinkMixin, buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
+import {
+  buttonLinkMixin,
+  buttonUseMixin,
+  buttonArrowMixin,
+  buttonLoadingArrowMixin,
+  buttonHoverMixin,
+  buttonActiveMixin,
+  buttonSizeMixin,
+} from './Button.mixins';
 
 const jsClasses = {
   root(t: ITheme) {
@@ -166,6 +174,9 @@ const jsClasses = {
 
   sizeSmall(t: ITheme) {
     return css`
+      ${buttonArrowMixin('7.5px', '-9.6px', '-7.5px', '16.8px', 'rotate(53deg) skewX(24deg) skewY(10deg)')};
+      ${buttonLoadingArrowMixin('7px', '7px', '-207px', '441%')};
+
       border-radius: ${t.btnSmallBorderRadius};
 
       ${buttonSizeMixin(
@@ -192,6 +203,8 @@ const jsClasses = {
 
   sizeMedium(t: ITheme) {
     return css`
+      ${buttonArrowMixin('9px', '-9.6px', '-10.2px', '20.2px', 'rotate(53deg) skewX(24deg) skewY(8deg)')};
+      ${buttonLoadingArrowMixin('0', '0', '-208px', '441%')};
       .${classes.arrow}.${classes.arrow_loading} {
         &::before {
           background: linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0);
@@ -223,6 +236,9 @@ const jsClasses = {
 
   sizeLarge(t: ITheme) {
     return css`
+      ${buttonArrowMixin('10.2px', '-10.6px', '-10.8px', '21.7px', 'rotate(53deg) skewX(25deg) skewY(10deg)')};
+      ${buttonLoadingArrowMixin('-32px', '-36px', '-198px', '700%')};
+
       .${classes.arrow}.${classes.arrow_loading} {
         &::before {
           background: linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0);

@@ -41,6 +41,44 @@ export const buttonLinkMixin = () => {
   `;
 };
 
+export const buttonArrowMixin = (top: string, left: string, right: string, size: string, transform: string) => {
+  return css`
+    .${classes.arrow} {
+      top: ${top};
+      right: ${right};
+      height: ${size};
+      width: ${size};
+      transform: ${transform};
+    }
+
+    .${classes.arrow_left} {
+      left: ${left};
+    }
+  `;
+};
+
+export const buttonLoadingArrowMixin = (top: string, leftArrowTop: string, left: string, height: string) => {
+  return css`
+    .${classes.arrow} {
+      &.${classes.arrow_loading} {
+        &::before {
+          top: ${top};
+          height: ${height};
+        }
+      }
+    }
+
+    .${classes.arrow_left} {
+      &.${classes.arrow_loading} {
+        &::before {
+          top: ${leftArrowTop};
+          left: ${left};
+        }
+      }
+    }
+  `;
+};
+
 export const buttonUseMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
