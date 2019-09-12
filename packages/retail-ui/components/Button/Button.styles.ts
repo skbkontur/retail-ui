@@ -566,7 +566,80 @@ const jsClasses = {
 
   wrap(t: ITheme) {
     return css`
+      box-sizing: border-box;
+      display: inline-block;
+      padding: 1px;
       padding: ${t.btnWrapPadding};
+
+      /*
+      * common styles with
+      * increased specificity
+      */
+
+      &.${classes.wrap_link} {
+        padding: 0;
+      }
+
+      &.${classes.wrap_arrow} {
+        margin-right: 10px;
+      }
+
+      &.${classes.wrap_arrow_left} {
+        margin-right: 0;
+        margin-left: 10px;
+      }
+
+      .${classes.root} {
+        &.${classes.disabled} {
+          cursor: default;
+          pointer-events: none;
+
+          .rt-ie-any & {
+            outline-color: transparent;
+          }
+        }
+
+        &.${classes.link} {
+          display: inline;
+          padding: 0;
+          margin: 0;
+          background: none;
+          border: none;
+          box-shadow: none;
+          line-height: inherit;
+
+          .${classes.caption} {
+            display: inline;
+          }
+
+          .${classes.icon} {
+            padding-right: ${t.linkIconPadding};
+          }
+
+          .${classes.warning}, .${classes.error} {
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+          }
+        }
+      }
+
+      .${classes.narrow} {
+        padding-left: 5px !important; /* to override dynamic styles */
+        padding-right: 5px !important; /* to override dynamic styles */
+      }
+
+      .${classes.noPadding} {
+        padding-left: 0 !important; /* to override dynamic styles */
+        padding-right: 0 !important; /* to override dynamic styles */
+      }
+
+      .${classes.noRightPadding} {
+        padding-right: 0 !important; /* to override dynamic styles */
+      }
+    `;
+  },
+
     `;
   },
 };

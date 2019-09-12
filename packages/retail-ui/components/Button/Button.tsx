@@ -272,7 +272,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [jsClasses.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
       });
       Object.assign(wrapProps, {
-        className: cx(classes.wrap, {
+        className: cx(classes.wrap, jsClasses.wrap(this.theme), {
           [classes.wrap_link]: this.props.use === 'link',
         }),
         style: { width: wrapProps.style.width },

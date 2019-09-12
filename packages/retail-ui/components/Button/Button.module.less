@@ -3,11 +3,22 @@
 @import './Button.mixins.less';
 
 :local {
+  .wrap,
+  .wrap_link,
+  .wrap_arrow,
+  .wrap_arrow_left,
   .root,
   .errorRoot,
   .warningRoot,
+  .error,
+  .warning,
   .arrow_error,
-  .arrow_warning {
+  .arrow_warning,
+  .caption,
+  .icon,
+  .narrow,
+  .noPadding,
+  .noRightPadding {
     visibility: visible;
   }
 
@@ -53,80 +64,6 @@
   }
 
   .linkMixin(link);
-
-  /*
- * common styles with
- * increased specificity
- */
-
-  .wrap {
-    box-sizing: border-box;
-    display: inline-block;
-    padding: 1px;
-
-    &_link {
-      padding: 0;
-    }
-
-    &_arrow {
-      margin-right: 10px;
-
-      &_left {
-        margin-right: 0;
-        margin-left: 10px;
-      }
-    }
-
-    .root {
-      &.disabled {
-        cursor: default;
-        pointer-events: none;
-
-        :global(.rt-ie-any) & {
-          outline-color: transparent;
-        }
-      }
-
-      &.link {
-        display: inline;
-        padding: 0;
-        margin: 0;
-        background: none;
-        border: none;
-        box-shadow: none;
-        line-height: inherit;
-
-        .caption {
-          display: inline;
-        }
-
-        .icon {
-          padding-right: @linkIconPadding;
-        }
-
-        .warning,
-        .error {
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-        }
-      }
-    }
-
-    .narrow {
-      padding-left: 5px !important; /* to override dynamic styles */
-      padding-right: 5px !important; /* to override dynamic styles */
-    }
-
-    .noPadding {
-      padding-left: 0 !important; /* to override dynamic styles */
-      padding-right: 0 !important; /* to override dynamic styles */
-    }
-
-    .noRightPadding {
-      padding-right: 0 !important; /* to override dynamic styles */
-    }
-  }
 
   .loading {
     position: absolute;
