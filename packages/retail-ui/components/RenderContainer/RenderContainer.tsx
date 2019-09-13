@@ -5,15 +5,14 @@ import { RenderInnerContainer as RenderContainerFallback } from './RenderContain
 import { RenderInnerContainer as RenderContainerNative } from './RenderContainerNative';
 import { RenderContainerProps } from './RenderContainerTypes';
 
-let rootId = 0;
 const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
 const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
 export class RenderContainer extends React.Component<RenderContainerProps> {
-  private static getRootId = () => (rootId += 1);
+  private static getRootId = () => Math.random().toString(16).slice(2, 6);
   private domContainer: Nullable<HTMLElement> = null;
 
-  private readonly rootId: number = RenderContainer.getRootId();
+  private readonly rootId: string = RenderContainer.getRootId();
 
   constructor(props: RenderContainerProps) {
     super(props);
