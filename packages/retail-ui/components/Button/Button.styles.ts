@@ -1,4 +1,4 @@
-import { css, keyframes } from '../../lib/theming/Emotion';
+import { css } from '../../lib/theming/Emotion';
 import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
@@ -87,21 +87,12 @@ const jsClasses = {
             left: -207px;
             right: -72px;
             transform: rotate(-47deg) skewX(0deg) skewY(0deg);
-
-            animation: ${loadingAnimationArrow} 1s linear infinite;
           }
         }
       }
 
       .${classes.arrow_left} {
         transform: rotate(232deg) skewX(25deg) skewY(8deg) !important; /* to override '.arrow' dynamic styles */
-
-        &.${classes.arrow_loading} {
-          &::before {
-            animation: ${loadingAnimationArrow} 1s linear infinite;
-            animation-direction: reverse;
-          }
-        }
       }
 
       .${classes.caption} {
@@ -698,8 +689,6 @@ const jsClasses = {
         left: 0;
         right: -30px;
 
-        animation: ${loadingAnimation} 1s linear infinite;
-
         transform: rotateY(180deg) skewX(0deg) skewY(0deg);
       }
     `;
@@ -718,23 +707,5 @@ const jsClasses = {
     `;
   },
 };
-
-const loadingAnimation = keyframes`
-  0% {
-    transform: translateX(0) rotateY(180deg);
-  }
-  100% {
-    transform: translateX(-30px) rotateY(180deg);
-  }
-`;
-
-const loadingAnimationArrow = keyframes`
-  0% {
-    transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
-  }
-  100% {
-    transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
-  }
-`;
 
 export default jsClasses;

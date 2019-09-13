@@ -1,3 +1,5 @@
+@import './Button.mixins.less';
+
 :local {
   .wrap,
   .wrap_link,
@@ -25,5 +27,23 @@
   .noPadding,
   .noRightPadding {
     visibility: visible;
+  }
+
+  .arrow.arrow_loading::before {
+    :global {
+      animation: btn_loading_arrow 1s linear infinite;
+    }
+  }
+
+  .arrow.arrow_left.arrow_loading::before {
+    :global {
+      animation-direction: reverse;
+    }
+  }
+
+  .loading::before {
+    :global {
+      animation: btn_loading 1s linear infinite;
+    }
   }
 }
