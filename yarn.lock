@@ -5628,12 +5628,13 @@ create-react-context@^0.2.2:
     fbjs "^0.8.0"
     gud "^1.0.0"
 
-creevey@^0.0.22:
-  version "0.0.22"
-  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.0.22.tgz#88a6fa93cbf7b8b6f035a8ff409ba50d725270ce"
-  integrity sha512-cVFQEXyeDaxsIlQ09oYJmbb3hqtQzowGVs2fvOU0qNv3+B+GerYicjubxuiIbfNaSiRQoQHBF0god2TT9zq5zw==
+creevey@^0.0.24:
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.0.24.tgz#8e7a66217faa51269217b692112b08016af7e49f"
+  integrity sha512-wKQfUapynmFCCyAzcxKHl7Q43Zy3qJl5YoGh1PK+lwkd56Kg1GWv6q0PCmpodlGUpg0/wc4dZo3F84ISp07alA==
   dependencies:
     chalk "^2.4.2"
+    interpret "^1.2.0"
     koa "^2.8.1"
     koa-mount "^4.0.0"
     koa-static "^5.0.0"
@@ -8939,6 +8940,11 @@ interpret@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
   integrity sha1-ftGxQQxqDg94z5XTuEQMY/eLhhQ=
+
+interpret@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.2.0.tgz#d5061a6224be58e8083985f5014d844359576296"
+  integrity sha512-mT34yGKMNceBQUoVn7iCDKDntA7SC6gycMAWzGx1z/CMCTV7b2AAtXlo3nRyHZ1FelRkQbQjprHSYGwzLtkVbw==
 
 invariant@2.2.4, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
