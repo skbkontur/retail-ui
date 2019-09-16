@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface PortalProps {
-  rt_rootID: number;
+  rt_rootID: string;
 }
 
 export interface RenderContainerProps {
