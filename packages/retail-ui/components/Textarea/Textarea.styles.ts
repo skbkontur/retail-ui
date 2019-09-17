@@ -30,6 +30,7 @@ const jsStyles = {
         color: ${t.textColorDisabled};
         background: ${t.textareaDisabledBg};
         border-color: ${t.textareaDisabledBorderColor};
+        box-shadow: none;
       }
 
       &::placeholder {
