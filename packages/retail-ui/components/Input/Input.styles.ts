@@ -1,8 +1,14 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, keyframes } from '../../lib/theming/Emotion';
 import classes from './Input.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
+
+const getBlinkAnimation = (color: string) => keyframes`
+  0% {
+    background-color: ${color};
+  }
+`;
 
 const jsClasses = {
   root(t: ITheme) {
@@ -121,7 +127,7 @@ const jsClasses = {
   blink(t: ITheme) {
     return css`
       .${classes.root}& {
-        background-color: ${t.blinkColor};
+        animation: ${getBlinkAnimation(t.blinkColor)} 0.15s ease-in;
       }
     `;
   },
