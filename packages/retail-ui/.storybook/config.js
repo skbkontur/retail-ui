@@ -1,33 +1,11 @@
 import 'babel-polyfill';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { configure, addDecorator, storiesOf, getStorybook } from '@storybook/react';
+import { configure, addDecorator } from '@storybook/react';
+import { withCreeveyOld } from 'creevey';
 import FlatTheme from '../lib/theming/themes/FlatTheme';
 import ThemeProvider from '../components/ThemeProvider';
 
-let stories = null;
-
-function renderStory({ kind, story }) {
-  const root = document.getElementById('root');
-
-  ReactDOM.unmountComponentAtNode(root);
-  ReactDOM.render(stories[kind][story](), root);
-}
-
-storiesOf('All', module).add('Stories', () => {
-  if (!stories) {
-    stories = {};
-    getStorybook().forEach(kind => {
-      stories[kind.kind] = {};
-      kind.stories.forEach(story => {
-        stories[kind.kind][story.name] = story.render;
-      });
-    });
-  }
-  window.renderStory = renderStory;
-  window.getStorybook = getStorybook;
-  return <div />;
-});
+addDecorator(withCreeveyOld());
 
 addDecorator(story => (
   <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
