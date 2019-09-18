@@ -222,6 +222,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
             backgroundColor={'#fff'}
             pinSize={10}
             pinOffset={7}
+            disableAnimations={Boolean(process.env.enableReactTesting)}
           >
             <div
               style={{
