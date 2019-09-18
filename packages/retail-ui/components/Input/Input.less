@@ -37,7 +37,6 @@
     text-overflow: clip;
     background: white;
     background-clip: padding-box;
-    transition: background-color 0.15s ease-in;
 
     &:before {
       content: '\a0';
@@ -45,7 +44,9 @@
   }
 
   .blink {
-    background-color: @blink-color;
+    :global {
+      animation: input_blink 0.15s ease-in;
+    }
   }
 
   .input::placeholder {
@@ -260,5 +261,11 @@
   .borderless {
     box-shadow: none;
     border-color: transparent;
+  }
+}
+
+@keyframes input_blink {
+  0% {
+    background-color: @blink-color;
   }
 }
