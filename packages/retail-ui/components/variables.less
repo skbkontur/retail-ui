@@ -93,6 +93,7 @@
 @loader-opacity: 0.8;
 
 // Button
+@btn-wrap-padding: 1px;
 @btn-height-shift: -2;
 @btn-focus-shadow-width: 2px;
 @btn-border-radius: 2px;
@@ -345,6 +346,7 @@
 @btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
 
 // Toggle
+@toggle-bg: linear-gradient(-180deg, #fff, #ebebeb);
 @toggle-bg-checked: #3072c4;
 @toggle-bg-warning: '__COMPUTED__';
 @toggle-bg-error: '__COMPUTED__';
@@ -378,6 +380,28 @@
 @chb-border: none;
 @chb-border-radius: 2px;
 @chb-shadow-width: 2px;
+
+// Textarea
+@textarea-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
+@textarea-border-top-color: '__COMPUTED__';
+@textarea-disabled-color: '__COMPUTED__';
+@textarea-disabled-border-color: '__COMPUTED__';
+
+// Radio
+@radio-size: 16px;
+@radio-vertical-align: -2px;
+@radio-bg-image: linear-gradient(-180deg, #fff 0, #ebebeb 100%);
+@radio-hover-bg: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
+@radio-active-bg: linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%);
+@radio-box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
+@radio-border: 0 none;
+@radio-hover-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2);
+@radio-active-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+@radio-focus-shadow: none;
+@radio-checked-bg-color: transparent;
+@radio-checked-bullet-color: #404040;
+@radio-disabled-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+@radio-label-display: inline-table;
 
 // Specificity
 @specificity-level: 0;
@@ -445,6 +469,7 @@
 @value tokenDisabledBg: @token-disabled-bg;
 @value loaderBg: @loader-bg;
 @value loaderOpacity: @loader-opacity;
+@value btnWrapPadding: @btn-wrap-padding;
 @value btnHeightShift: @btn-height-shift;
 @value btnFocusShadowWidth: @btn-focus-shadow-width;
 @value btnDisabledBg: @btn-disabled-bg;
@@ -617,6 +642,7 @@
 @value menuItemPaddingForIcon: @menu-item-padding-for-icon;
 @value menuBorder: @menu-border;
 @value menuShadow: @menu-shadow;
+@value toggleBg: @toggle-bg;
 @value toggleBgChecked: @toggle-bg-checked;
 @value toggleBgActive: @toggle-bg-active;
 @value toggleBorderColor: @toggle-border-color;
@@ -669,3 +695,21 @@
 @value toggleBgWarning: @toggle-bg-warning;
 @value toggleBgError: @toggle-bg-error;
 @value toggleFocusShadowColor: @toggle-focus-shadow-color;
+@value textareaShadow: @textarea-shadow;
+@value textareaBorderTopColor: @textarea-border-top-color;
+@value textareaDisabledBg: @textarea-disabled-color;
+@value textareaDisabledBorderColor: @textarea-disabled-border-color;
+@value radioSize: @radio-size;
+@value radioVerticalAlign: @radio-vertical-align;
+@value radioBgImage: @radio-bg-image;
+@value radioHoverBg: @radio-hover-bg;
+@value radioActiveBg: @radio-active-bg;
+@value radioBoxShadow: @radio-box-shadow;
+@value radioBorder: @radio-border;
+@value radioHoverShadow: @radio-hover-shadow;
+@value radioActiveShadow: @radio-active-shadow;
+@value radioFocusShadow: @radio-focus-shadow;
+@value radioCheckedBgColor: @radio-checked-bg-color;
+@value radioCheckedBulletColor: @radio-checked-bullet-color;
+@value radioDisabledShadow: @radio-disabled-shadow;
+@value radioLabelDisplay: @radio-label-display;
