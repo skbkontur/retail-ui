@@ -163,7 +163,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: true,
     closeOnChildrenMouseLeave: false,
   };

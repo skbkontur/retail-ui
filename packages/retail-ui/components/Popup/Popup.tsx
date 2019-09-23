@@ -170,7 +170,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: false,
   };
 
@@ -331,7 +331,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         <Transition
           timeout={TRANSITION_TIMEOUT}
           appear={!disableAnimations}
-          in={opened}
+          in={Boolean(opened && children)}
           mountOnEnter
           unmountOnExit
           enter={!disableAnimations}
