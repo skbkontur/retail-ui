@@ -190,7 +190,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   public componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
     const isGoingToOpen = !this.props.opened && nextProps.opened;
     const isGoingToUpdate = this.props.opened && nextProps.opened;
-    const isGoingToClose = this.props.opened && !nextProps.opened;
 
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
@@ -200,9 +199,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      */
     if (isGoingToOpen || isGoingToUpdate) {
       this.delayUpdateLocation();
-    }
-    if (isGoingToClose) {
-      this.resetLocation();
     }
   }
 
@@ -324,10 +320,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
     const children = this.renderChildren();
 
-    if (!opened || !children) {
-      return null;
-    }
-
     const location = this.state.location || DUMMY_LOCATION;
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
@@ -339,7 +331,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         <Transition
           timeout={TRANSITION_TIMEOUT}
           appear={!disableAnimations}
-          in
+          in={opened}
           mountOnEnter
           unmountOnExit
           enter={!disableAnimations}
@@ -355,10 +347,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
                 [jsStyles.popup(this.theme)]: true,
                 [jsStyles.shadow(this.theme)]: hasShadow,
                 [styles['popup-ignore-hover']]: !!ignoreHover,
-                [styles['transition-enter']]: state === 'entering',
-                [styles['transition-enter-active']]: state === 'entered',
-                [styles['transition-exit']]: state === 'exiting',
-                [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                ...(disableAnimations
+                  ? {}
+                  : {
+                      [styles['transition-enter']]: state === 'entering',
+                      [styles['transition-enter-active']]: state === 'entered',
+                      [styles['transition-exit']]: state === 'exiting',
+                      [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                    }),
               })}
               style={rootStyle}
               onMouseEnter={this.handleMouseEnter}
@@ -457,11 +453,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     if (!this.locationEquals(this.state.location, location)) {
       this.setState({ location });
     }
-  };
-
-  private resetLocation = () => {
-    this.cancelDelayedUpdateLocation();
-    this.setState({ location: null });
   };
 
   private locationEquals(x: Nullable<PopupLocation>, y: Nullable<PopupLocation>) {
