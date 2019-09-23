@@ -321,21 +321,16 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent() {
-    const props = this.props;
+    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
     const children = this.renderChildren();
 
-    if (!props.opened || !children) {
+    if (!opened || !children) {
       return null;
     }
 
     const location = this.state.location || DUMMY_LOCATION;
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const { backgroundColor, disableAnimations } = props;
-    const rootStyle: React.CSSProperties = {
-      top: location.coordinates.top,
-      left: location.coordinates.left,
-      maxWidth: props.maxWidth,
-    };
+    const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
     // This need to correct handle order of lifecycle hooks with portal and react@15
     // For more details see issue #1257
@@ -358,8 +353,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               className={cx({
                 [styles.popup]: true,
                 [jsStyles.popup(this.theme)]: true,
-                [jsStyles.shadow(this.theme)]: props.hasShadow,
-                [styles['popup-ignore-hover']]: !!props.ignoreHover,
+                [jsStyles.shadow(this.theme)]: hasShadow,
+                [styles['popup-ignore-hover']]: !!ignoreHover,
                 [styles['transition-enter']]: state === 'entering',
                 [styles['transition-enter-active']]: state === 'entered',
                 [styles['transition-exit']]: state === 'exiting',
