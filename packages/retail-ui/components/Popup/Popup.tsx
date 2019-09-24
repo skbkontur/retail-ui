@@ -342,9 +342,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               key={this.state.location ? 'real' : 'dummy'}
               delta={1000}
               ref={this.refPopupElement}
-              className={cx({
-                [styles.popup]: true,
-                [jsStyles.popup(this.theme)]: true,
+              className={cx([styles.popup, jsStyles.popup(this.theme)], {
                 [jsStyles.shadow(this.theme)]: hasShadow,
                 [styles['popup-ignore-hover']]: !!ignoreHover,
                 ...(disableAnimations
