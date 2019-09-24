@@ -347,10 +347,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
                 [jsStyles.popup(this.theme)]: true,
                 [jsStyles.shadow(this.theme)]: hasShadow,
                 [styles['popup-ignore-hover']]: !!ignoreHover,
-                [styles['transition-enter']]: state === 'entering',
-                [styles['transition-enter-active']]: state === 'entered',
-                [styles['transition-exit']]: state === 'exiting',
-                [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                ...(disableAnimations
+                  ? {}
+                  : {
+                      [styles['transition-enter']]: state === 'entering',
+                      [styles['transition-enter-active']]: state === 'entered',
+                      [styles['transition-exit']]: state === 'exiting',
+                      [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                    }),
               })}
               style={rootStyle}
               onMouseEnter={this.handleMouseEnter}
