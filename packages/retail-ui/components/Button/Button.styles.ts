@@ -115,14 +115,17 @@ const jsClasses = {
 
   link(t: ITheme) {
     return css`
-      color: ${t.linkColor};
+      &.${classes.link} {
+        color: ${t.linkColor};
+        border-radius: ${t.btnLinkBorderRadius};
 
-      &:hover {
-        color: ${t.linkHoverColor};
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
-      &:active {
-        color: ${t.linkActiveColor};
+        &:hover {
+          color: ${t.linkHoverColor};
+          text-decoration: ${t.linkHoverTextDecoration};
+        }
+        &:active {
+          color: ${t.linkActiveColor};
+        }
       }
     `;
   },
