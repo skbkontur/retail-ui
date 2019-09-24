@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.1.1...react-ui-selenium@1.1.2) (2019-09-24)
+
+
+### Bug Fixes
+
+* **TokenInput:** make height equal to the Input ([92e9d8b](https://github.com/skbkontur/retail-ui/commit/92e9d8b)), closes [#1589](https://github.com/skbkontur/retail-ui/issues/1589)
+
+
+
+
+
 ## [1.1.1](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.1.0...react-ui-selenium@1.1.1) (2019-09-11)
 
 
