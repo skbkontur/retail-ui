@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.30.1"></a>
+## [0.30.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.30.0...retail-ui@0.30.1) (2019-09-24)
+
+
+### Bug Fixes
+
+* **Input:** avoid bug with transition in IE ([96ea162](https://github.com/skbkontur/retail-ui/commit/96ea162)), closes [#1614](https://github.com/skbkontur/retail-ui/issues/1614)
+
+
+
+
 <a name="0.30.0"></a>
 # [0.30.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.29.0...retail-ui@0.30.0) (2018-11-20)
 
