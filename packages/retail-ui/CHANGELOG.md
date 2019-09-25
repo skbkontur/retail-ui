@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.2...retail-ui@0.53.3) (2019-09-25)
+
+
+### Bug Fixes
+
+* **RenderContainer:** getRootId changed ([065215b](https://github.com/skbkontur/retail-ui/commit/065215b))
+
+
+
+
+
 ## [0.53.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.1...retail-ui@0.53.2) (2019-09-03)
 
 
