@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.3.0...retail-ui@1.3.1) (2019-09-24)
+
+
+### Bug Fixes
+
+* **Dropdown:** sync type of `width` prop type with proptypes checks ([47a5612](https://github.com/skbkontur/retail-ui/commit/47a5612))
+* **Input:** avoid bug with transition in IE ([45f45d5](https://github.com/skbkontur/retail-ui/commit/45f45d5)), closes [#1614](https://github.com/skbkontur/retail-ui/issues/1614)
+* **Popup:** deterministic open/close animation ([0415fa4](https://github.com/skbkontur/retail-ui/commit/0415fa4)), closes [#1372](https://github.com/skbkontur/retail-ui/issues/1372)
+* **RenderContainer:** getRootId changed ([b0ce223](https://github.com/skbkontur/retail-ui/commit/b0ce223))
+* **TokenInput:** make height equal to the Input ([92e9d8b](https://github.com/skbkontur/retail-ui/commit/92e9d8b)), closes [#1589](https://github.com/skbkontur/retail-ui/issues/1589)
+
+
+
+
+
 # [1.3.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.2.0...retail-ui@1.3.0) (2019-09-11)
 
 

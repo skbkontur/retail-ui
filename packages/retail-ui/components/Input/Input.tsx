@@ -169,8 +169,18 @@ class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public blink() {
+    if (this.blinkTimeout) {
+      this.cancelBlink(() => {
+        // trigger reflow to restart animation
+        // @see https://css-tricks.com/restart-css-animation/#article-header-id-0
+        // tslint:disable-next-line:no-unused-expression
+        void (this.input && this.input.offsetWidth);
+        this.blink();
+      });
+      return;
+    }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
+      this.blinkTimeout = window.setTimeout(this.cancelBlink, 150);
     });
   }
 
@@ -221,6 +231,20 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.selectAllId) {
       raf.cancel(this.selectAllId);
       this.selectAllId = null;
+    }
+  };
+
+  private cancelBlink = (callback?: () => void): void => {
+    if (this.blinkTimeout) {
+      clearTimeout(this.blinkTimeout);
+      this.blinkTimeout = 0;
+      if (this.state.blinking) {
+        this.setState({ blinking: false }, callback);
+        return;
+      }
+    }
+    if (callback) {
+      callback();
     }
   };
 

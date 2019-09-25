@@ -170,7 +170,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: false,
   };
 
@@ -190,7 +190,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   public componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
     const isGoingToOpen = !this.props.opened && nextProps.opened;
     const isGoingToUpdate = this.props.opened && nextProps.opened;
-    const isGoingToClose = this.props.opened && !nextProps.opened;
 
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
@@ -200,9 +199,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      */
     if (isGoingToOpen || isGoingToUpdate) {
       this.delayUpdateLocation();
-    }
-    if (isGoingToClose) {
-      this.resetLocation();
     }
   }
 
@@ -321,21 +317,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent() {
-    const props = this.props;
+    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
     const children = this.renderChildren();
-
-    if (!props.opened || !children) {
-      return null;
-    }
 
     const location = this.state.location || DUMMY_LOCATION;
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const { backgroundColor, disableAnimations } = props;
-    const rootStyle: React.CSSProperties = {
-      top: location.coordinates.top,
-      left: location.coordinates.left,
-      maxWidth: props.maxWidth,
-    };
+    const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
     // This need to correct handle order of lifecycle hooks with portal and react@15
     // For more details see issue #1257
@@ -344,7 +331,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         <Transition
           timeout={TRANSITION_TIMEOUT}
           appear={!disableAnimations}
-          in
+          in={Boolean(opened && children)}
           mountOnEnter
           unmountOnExit
           enter={!disableAnimations}
@@ -355,15 +342,17 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               key={this.state.location ? 'real' : 'dummy'}
               delta={1000}
               ref={this.refPopupElement}
-              className={cx({
-                [styles.popup]: true,
-                [jsStyles.popup(this.theme)]: true,
-                [jsStyles.shadow(this.theme)]: props.hasShadow,
-                [styles['popup-ignore-hover']]: !!props.ignoreHover,
-                [styles['transition-enter']]: state === 'entering',
-                [styles['transition-enter-active']]: state === 'entered',
-                [styles['transition-exit']]: state === 'exiting',
-                [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+              className={cx([styles.popup, jsStyles.popup(this.theme)], {
+                [jsStyles.shadow(this.theme)]: hasShadow,
+                [styles['popup-ignore-hover']]: !!ignoreHover,
+                ...(disableAnimations
+                  ? {}
+                  : {
+                      [styles['transition-enter']]: state === 'entering',
+                      [styles['transition-enter-active']]: state === 'entered',
+                      [styles['transition-exit']]: state === 'exiting',
+                      [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                    }),
               })}
               style={rootStyle}
               onMouseEnter={this.handleMouseEnter}
@@ -462,11 +451,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     if (!this.locationEquals(this.state.location, location)) {
       this.setState({ location });
     }
-  };
-
-  private resetLocation = () => {
-    this.cancelDelayedUpdateLocation();
-    this.setState({ location: null });
   };
 
   private locationEquals(x: Nullable<PopupLocation>, y: Nullable<PopupLocation>) {
