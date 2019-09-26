@@ -7,6 +7,7 @@ import Gapped from '../../Gapped/Gapped';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 import { action } from '@storybook/addon-actions';
+import Tooltip from '../../Tooltip';
 
 class Playground extends Component<any, any> {
   public state = {
@@ -130,4 +131,11 @@ class Simple extends React.Component<any, any> {
 storiesOf('Toggle', module)
   .add('plain', () => <Simple />)
   .add('uncontrolled', () => <Toggle onChange={action('toggle')} />)
-  .add('playground', () => <Playground />);
+  .add('playground', () => <Playground />)
+  .add('disabled with Tooltip', () => (
+    <div style={{ padding: '50px' }}>
+      <Tooltip render={() => 'Hello'}>
+        <Toggle disabled />
+      </Tooltip>
+    </div>
+  ));
