@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import warningOutput from 'warning';
 import * as ReactDOM from 'react-dom';
+import Keyboard from '../../lib/events/keyboard/Keyboard';
 import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
@@ -419,45 +420,38 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     }
   };
 
-  private handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    event.stopPropagation();
+  private handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && (event.key === 'Enter' || this.delimiters.includes(event.key))) {
-      event.preventDefault();
+    if (this.type !== TokenInputType.WithReference && (Keyboard.isKeyEnter(e) || this.delimiters.includes(e.key))) {
+      e.preventDefault();
       const newValue = this.state.inputValue as any;
       if (newValue !== '') {
         this.handleAddItem(newValue);
       }
     }
 
-    switch (event.key) {
-      case 'Enter':
-        if (this.menuRef) {
-          this.menuRef.enter(event);
+    if (Keyboard.isKeyEnter(e)) {
+      if (this.menuRef) {
+        this.menuRef.enter(e);
+      }
+    } else if (Keyboard.isKeyArrowVertical(e)) {
+      e.preventDefault();
+      if (this.menuRef) {
+        if (Keyboard.isKeyArrowUp(e)) {
+          this.menuRef.up();
+        } else {
+          this.menuRef.down();
         }
-        break;
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault();
-        if (this.menuRef) {
-          if (event.key === 'ArrowUp') {
-            this.menuRef.up();
-          } else {
-            this.menuRef.down();
-          }
-        }
-        break;
-      case 'Escape':
-        this.input!.blur();
-        break;
-      case 'Backspace':
+      }
+    } else if (Keyboard.isKeyEscape(e)) {
+      this.input!.blur();
+    } else if (Keyboard.isKeyBackspace(e)) {
+      this.moveFocusToLastToken();
+    } else if (Keyboard.isKeyArrowLeft(e)) {
+      if (this.input!.selectionStart === 0) {
         this.moveFocusToLastToken();
-        break;
-      case 'ArrowLeft':
-        if (this.input!.selectionStart === 0) {
-          this.moveFocusToLastToken();
-        }
-        break;
+      }
     }
   };
 
@@ -472,44 +466,35 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     process.nextTick(() => this.input!.focus());
   };
 
-  private handleWrapperKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    switch (event.key) {
-      case 'Backspace':
-      case 'Delete':
-        const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
-        this.props.onChange(itemsNew);
-        this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
-          LayoutEvents.emit();
-          this.input!.focus();
-        });
-        break;
-      case 'ArrowLeft':
-      case 'ArrowRight':
-        this.handleWrapperArrows(event);
-        break;
-      case 'Escape':
-        this.wrapper!.blur();
-        break;
-      case 'a':
-        if (event.ctrlKey) {
-          event.preventDefault();
-          this.dispatch({
-            type: 'SET_ACTIVE_TOKENS',
-            payload: this.props.selectedItems,
-          });
-        }
-        break;
+  private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    if (Keyboard.isKeyBackspace(e) || Keyboard.isKeyDelete(e)) {
+      const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
+      this.props.onChange(itemsNew);
+      this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
+        LayoutEvents.emit();
+        this.input!.focus();
+      });
+    } else if (Keyboard.isKeyArrowHorizontal(e)) {
+      this.handleWrapperArrows(e);
+    } else if (Keyboard.isKeyEscape(e)) {
+      this.wrapper!.blur();
+    } else if (Keyboard.isShortcutSelectAll(e)) {
+      e.preventDefault();
+      this.dispatch({
+        type: 'SET_ACTIVE_TOKENS',
+        payload: this.props.selectedItems,
+      });
     }
   };
 
-  private handleWrapperArrows = (event: KeyboardEvent<HTMLElement>) => {
-    event.preventDefault();
+  private handleWrapperArrows = (e: KeyboardEvent<HTMLElement>) => {
+    e.preventDefault();
     const activeTokens = this.state.activeTokens;
     const activeItemIndex = this.props.selectedItems.indexOf(activeTokens[0]);
-    const newItemIndex = activeItemIndex + (event.key === 'ArrowLeft' ? -1 : +1);
-    const isLeftEdge = activeItemIndex === 0 && event.key === 'ArrowLeft';
-    const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && event.key === 'ArrowRight';
-    if (!event.shiftKey && activeTokens.length === 1) {
+    const newItemIndex = activeItemIndex + (Keyboard.isKeyArrowLeft(e) ? -1 : +1);
+    const isLeftEdge = activeItemIndex === 0 && Keyboard.isKeyArrowLeft(e);
+    const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && Keyboard.isKeyArrowRight(e);
+    if (!e.shiftKey && activeTokens.length === 1) {
       this.handleWrapperArrowsWithoutShift(isLeftEdge, isRightEdge, newItemIndex);
     } else {
       this.handleWrapperArrowsWithShift(isLeftEdge, isRightEdge, newItemIndex);
