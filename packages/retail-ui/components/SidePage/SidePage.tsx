@@ -18,6 +18,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
+import Keyboard from '../../lib/events/keyboard/Keyboard';
 
 export interface SidePageProps {
   /**
@@ -276,12 +277,12 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
+  private handleKeyDown = (e: KeyboardEvent) => {
     if (this.state.stackPosition !== 0) {
       return;
     }
-    if (event.keyCode === 27) {
-      stopPropagation(event);
+    if (Keyboard.isKeyEscape(e)) {
+      stopPropagation(e);
       this.requestClose();
     }
   };
