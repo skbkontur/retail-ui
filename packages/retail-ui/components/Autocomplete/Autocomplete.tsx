@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
+import Keyboard from '../../lib/events/keyboard/Keyboard';
 
 import Input, { InputProps } from '../Input';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -228,35 +229,28 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     this.handleBlur();
   };
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.props.onKeyDown) {
-      this.props.onKeyDown(event);
+      this.props.onKeyDown(e);
     }
-    switch (event.key) {
-      case 'Escape':
-        event.preventDefault();
-        this.setState({ items: null });
-        return;
-      case 'ArrowUp':
-        event.preventDefault();
-        if (this.menu) {
-          this.menu.up();
-        }
-        return;
-      case 'ArrowDown':
-        event.preventDefault();
-        if (this.menu) {
-          this.menu.down();
-        }
-        return;
-      case 'Enter':
-        event.preventDefault(); // To prevent form submission.
-        if (this.menu) {
-          this.menu.enter(event);
-        }
-        return;
-      default:
-        return;
+    if (Keyboard.isKeyEscape(e)) {
+      e.preventDefault();
+      this.setState({ items: null });
+    } else if (Keyboard.isKeyArrowUp(e)) {
+      e.preventDefault();
+      if (this.menu) {
+        this.menu.up();
+      }
+    } else if (Keyboard.isKeyArrowDown(e)) {
+      e.preventDefault();
+      if (this.menu) {
+        this.menu.down();
+      }
+    } else if (Keyboard.isKeyEnter(e)) {
+      e.preventDefault(); // To prevent form submission.
+      if (this.menu) {
+        this.menu.enter(e);
+      }
     }
   };
 
