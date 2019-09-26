@@ -1,9 +1,9 @@
-const KEYCODE_TAB = 9;
+import Keyboard from './keyboard/Keyboard';
 
 class TabListener {
   public isTabPressed: boolean = false;
   constructor() {
-    window.addEventListener('keydown', event => (this.isTabPressed = event.keyCode === KEYCODE_TAB));
+    window.addEventListener('keydown', e => (this.isTabPressed = Keyboard.isKeyTab(e)));
     window.addEventListener('mousedown', () => (this.isTabPressed = false));
   }
 }
