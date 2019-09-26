@@ -2,6 +2,7 @@ import * as React from 'react';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+import Keyboard from '../../lib/events/keyboard/Keyboard';
 import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -259,27 +260,26 @@ export function reducer<T>(
       return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
     }
     case 'KeyPress': {
-      const { event } = action;
-      switch (event.key) {
-        case 'Enter':
-          event.preventDefault();
-          return [state, [Effect.SelectMenuItem(event as React.KeyboardEvent<HTMLElement>)]];
-        case 'ArrowUp':
-        case 'ArrowDown':
-          event.preventDefault();
-          const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down')];
-          if (!state.opened) {
-            effects.push(Effect.Search(state.textValue));
-          }
-          return [state, effects];
-        case 'Escape':
-          return {
-            items: null,
-            opened: false,
-          };
-        default:
-          return state;
+      const e = action.event as React.KeyboardEvent<HTMLElement>;
+      if (Keyboard.isKeyEnter(e)) {
+        e.preventDefault();
+        return [state, [Effect.SelectMenuItem(e)]];
       }
+      if (Keyboard.isKeyArrowVertical(e)) {
+        e.preventDefault();
+        const effects = [Effect.MoveMenuHighlight(Keyboard.isKeyArrowUp(e) ? 'up' : 'down')];
+        if (!state.opened) {
+          effects.push(Effect.Search(state.textValue));
+        }
+        return [state, effects];
+      }
+      if (Keyboard.isKeyEscape(e)) {
+        return {
+          items: null,
+          opened: false,
+        };
+      }
+      return state;
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
