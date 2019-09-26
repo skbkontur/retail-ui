@@ -1,7 +1,22 @@
 // @ts-ignore noUnusedVar
 import * as React from 'react';
-import { DELIMITERS } from '../../../lib/date/constants';
-import { KeyboardActionExctracterBuilder, isModified, isFKeys } from '../../internal/extractKeyboardAction';
+import { SEPARATOR } from '../../../lib/date/constants';
+import Keyboard from '../../../lib/events/keyboard/Keyboard';
+import { KeyboardActionExctracterBuilder } from '../../internal/extractKeyboardAction';
+
+const delimiters = [
+  (e: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => new RegExp(SEPARATOR).test(e.key),
+  Keyboard.isCodeMinus,
+  Keyboard.isKeySpace,
+  Keyboard.isCodeComma,
+  Keyboard.isCodePeriod,
+  Keyboard.isCodeSlash,
+  Keyboard.isCodeBackslash,
+  Keyboard.isCodeIntlBackslash,
+  Keyboard.isCodeNumpadDecimal,
+  Keyboard.isCodeNumpadDivide,
+  Keyboard.isCodeNumpadSubtract,
+];
 
 export enum Actions {
   Unknown,
@@ -23,21 +38,21 @@ export enum Actions {
 }
 
 const extractAction = new KeyboardActionExctracterBuilder()
-  .add(Actions.PasteValue, e => (e.ctrlKey || e.metaKey) && e.key === 'v')
-  .add(Actions.CopyValue, e => (e.ctrlKey || e.metaKey) && e.key === 'c')
-  .add(Actions.FullSelection, e => (e.ctrlKey || e.metaKey) && e.key === 'a')
-  .add(Actions.Ignore, e => isModified(e) || isFKeys(e) || e.key === 'Tab')
-  .add(Actions.MoveSelectionLeft, e => e.key === 'ArrowLeft')
-  .add(Actions.MoveSelectionRight, e => e.key === 'ArrowRight')
-  .add(Actions.MoveSelectionFirst, e => e.key === 'Home')
-  .add(Actions.MoveSelectionLast, e => e.key === 'End')
-  .add(Actions.Separator, e => DELIMITERS.includes(e.key))
-  .add(Actions.Increment, e => e.key === 'ArrowUp')
-  .add(Actions.Decrement, e => e.key === 'ArrowDown')
-  .add(Actions.ClearSelection, e => e.key === 'Delete')
-  .add(Actions.ClearOneChar, e => e.key === 'Backspace')
-  .add(Actions.Digit, e => /^\d$/.test(e.key))
-  .add(Actions.WrongInput, e => e.key === ' ' || /^[A-Za-zА-Яа-я]$/.test(e.key))
+  .add(Actions.PasteValue, Keyboard.isShortcutPaste)
+  .add(Actions.CopyValue, Keyboard.isShortcutCopy)
+  .add(Actions.FullSelection, Keyboard.isShortcutSelectAll)
+  .add(Actions.Ignore, Keyboard.some(Keyboard.isModified(), Keyboard.isKeyFs, Keyboard.isKeyTab))
+  .add(Actions.MoveSelectionLeft, Keyboard.isKeyArrowLeft)
+  .add(Actions.MoveSelectionRight, Keyboard.isKeyArrowRight)
+  .add(Actions.MoveSelectionFirst, Keyboard.isKeyHome)
+  .add(Actions.MoveSelectionLast, Keyboard.isKeyEnd)
+  .add(Actions.Separator, Keyboard.some(...delimiters))
+  .add(Actions.Increment, Keyboard.isKeyArrowUp)
+  .add(Actions.Decrement, Keyboard.isKeyArrowDown)
+  .add(Actions.ClearSelection, e => Keyboard.isKeyDelete(e))
+  .add(Actions.ClearOneChar, Keyboard.isKeyBackspace)
+  .add(Actions.Digit, Keyboard.isKeyNumber)
+  .add(Actions.WrongInput, e => !Keyboard.isKeyNumber(e))
   .build(Actions.Unknown);
 
 export { extractAction };

@@ -56,6 +56,7 @@ export default class Keyboard {
 
   public static isKeyNumber: IS = e => /^\d+$/.test(e.key);
   public static isKeyChar: IS = e => e.key.trim().length === 1;
+  public static isKeyFs: IS = e => /^(?:F[1-9]|F1[0-2]|Soft[1-4])$/.test(e.key);
 
   public static isModified: ISMod = is => e =>
     (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) && (is ? is(e) : true);
