@@ -2,13 +2,14 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
 import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
+import Codes from '../../lib/events/keyboard/KeyboardEventCodes';
 
-import getCharHelper from './getCharHelper';
 import Input from '../Input';
 import { InputProps } from '../Input/Input';
 import PasswordInputFallback from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
+import Keyboard from '../../lib/events/keyboard/Keyboard';
 
 import styles from './PasswordInput.module.less';
 
@@ -82,48 +83,37 @@ export default class PasswordInput extends React.Component<PasswordInputProps, P
     this.handleBlur();
   };
 
-  private handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { onKeyPress, detectCapsLock } = this.props;
 
     if (onKeyPress) {
-      onKeyPress(event);
+      onKeyPress(e);
     }
 
     if (!detectCapsLock) {
       return;
     }
 
-    const chr = getCharHelper(event);
-
-    if (!chr) {
-      return;
-    }
-
-    if (chr.toLowerCase() === chr.toUpperCase()) {
-      return;
-    }
-
-    const capsLockEnabled =
-      (chr.toLowerCase() === chr && event.shiftKey) || (chr.toUpperCase() === chr && !event.shiftKey);
+    const capsLockEnabled = e.getModifierState(Codes.CapsLock);
 
     this.setState({ capsLockEnabled });
   };
 
-  private handleKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const {
       props: { detectCapsLock, onKeyDown },
       state: { capsLockEnabled },
     } = this;
 
     if (onKeyDown) {
-      onKeyDown(event);
+      onKeyDown(e);
     }
 
     if (!detectCapsLock) {
       return;
     }
 
-    if (event.keyCode === 20 && capsLockEnabled != null) {
+    if (Keyboard.isKeyCapsLock(e) && capsLockEnabled != null) {
       this.setState({ capsLockEnabled: !capsLockEnabled });
     }
   };
