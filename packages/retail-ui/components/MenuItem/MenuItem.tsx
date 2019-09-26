@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import warning from 'warning';
 import { isFunction } from '../../lib/utils';
-import styles from './MenuItem.less';
+import styles from './MenuItem.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './MenuItem.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

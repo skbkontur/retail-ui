@@ -53,6 +53,11 @@ storiesOf('Button', module)
       </Button>
     </Gapped>
   ))
+  .add('arrow with error', () => (
+    <Button arrow error>
+      Arrow
+    </Button>
+  ))
   .add('text styles reset', () => {
     return (
       <div

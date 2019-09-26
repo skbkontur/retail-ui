@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
@@ -18,6 +18,8 @@ const jsStyles = {
   },
   centerContainer(t: ITheme) {
     return css`
+      margin: 40px 20px;
+
       @media screen and (max-width: ${t.modalAdaptiveThreshold}) {
         margin: 0;
         width: 100%;
@@ -29,6 +31,7 @@ const jsStyles = {
     return css`
       ${resetButton()};
 
+      background: none;
       margin: 2px 2px 0 0;
       width: 76px;
       height: 65px;

@@ -8,14 +8,15 @@
 @btn-flat-checked-bg: #7e7e7e;
 @btn-flat-checked-shadow: none;
 @btn-flat-wrap-padding: 0;
+@btn-flat-link-border-radius: 2px;
 @btn-flat-small-border-radius: 2px;
 
 @btn-flat-shadow-checked-arrow: '__COMPUTED__';
 @btn-flat-shadow-checked-arrow-left: '__COMPUTED__';
 @btn-flat-checked-text-color: #fff;
-@btn-flat-disabled-bg: #f4f4f4;
+@btn-flat-disabled-bg: #f2f2f2;
 @btn-flat-disabled-shadow: none;
-@btn-flat-disabled-shadow-color: #f4f4f4;
+@btn-flat-disabled-shadow-color: #f2f2f2;
 @btn-flat-focus-shadow-width: 1px;
 @btn-flat-focus-border: '__COMPUTED__';
 
@@ -148,10 +149,13 @@
 // Checkbox
 @chb-flat-shadow: none;
 @chb-flat-bg: none;
+@chb-flat-bg-hover: '__COMPUTED__';
+@chb-flat-bg-active: '__COMPUTED__';
 @chb-flat-indeterminate-bg: #fff;
 @chb-flat-shadow-disabled: none;
 @chb-flat-shadow-active: none;
 @chb-flat-shadow-width: 1px;
+@chb-flat-border: '__COMPUTED__';
 @chb-flat-checked-color: #fff;
 
 // Radio
@@ -163,6 +167,7 @@
 @radio-flat-hover-shadow: none;
 @radio-flat-active-shadow: none;
 @radio-flat-focus-shadow: '__COMPUTED__';
+@radio-flat-checked-bg-color: transparent;
 @radio-flat-checked-bullet-color: #fff;
 @radio-flat-disabled-shadow: none;
 @radio-flat-label-display: inline-block;
@@ -208,6 +213,7 @@
 @value blinkColor: @blink-color;
 @value btnHeightShift: @btn-flat-height-shift;
 @value btnWrapPadding: @btn-flat-wrap-padding;
+@value btnLinkBorderRadius: @btn-flat-link-border-radius;
 @value btnSmallBorderRadius: @btn-flat-small-border-radius;
 @value btnFocusShadowWidth: @btn-flat-focus-shadow-width;
 @value btnFocusBorder: @btn-flat-focus-border;
@@ -339,10 +345,13 @@
 @value btnLargeArrowBg: @btn-flat-large-arrow-bg;
 @value chbShadow: @chb-flat-shadow;
 @value chbBg: @chb-flat-bg;
+@value chbHoverBg: @chb-flat-bg-hover;
+@value chbActiveBg: @chb-flat-bg-active;
 @value chbIndeterminateBg: @chb-flat-indeterminate-bg;
 @value chbShadowDisabled: @chb-flat-shadow-disabled;
 @value chbShadowActive: @chb-flat-shadow-active;
 @value chbShadowWidth: @chb-flat-shadow-width;
+@value chbBorder: @chb-flat-border;
 @value chbCheckedColor: @chb-flat-checked-color;
 @value inputBg: @input-flat-bg;
 @value inputIconColor: @input-flat-icon-color;

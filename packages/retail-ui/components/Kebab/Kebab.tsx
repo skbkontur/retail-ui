@@ -7,7 +7,7 @@ import tabListener from '../../lib/events/tabListener';
 import PopupMenu from '../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
-import styles from './Kebab.less';
+import styles from './Kebab.module.less';
 import { PopupPosition } from '../Popup';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Kebab.styles';
@@ -54,7 +54,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
   };
 
   public state = {

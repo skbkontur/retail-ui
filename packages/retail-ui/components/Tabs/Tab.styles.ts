@@ -1,11 +1,14 @@
 import { css } from '../../lib/theming/Emotion';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
-import styles from './Tab.less';
+import styles from './Tab.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
   root(t: ITheme) {
     return css`
+      color: inherit;
+      border-bottom: 3px solid transparent;
+
       &:hover {
         border-bottom: 3px solid ${t.tabColorHover};
       }
@@ -14,6 +17,9 @@ const jsStyles = {
 
   vertical(t: ITheme) {
     return css`
+      border-bottom: none;
+      border-left: 3px solid transparent;
+
       .${styles.root}&:hover {
         border-left: 3px solid ${t.tabColorHover};
       }

@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Select.less';
+import styles from './Select.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
@@ -12,6 +12,8 @@ const jsStyles = {
   arrow(t: ITheme) {
     return css`
       .${styles.arrowWrap} & {
+        border: 4px solid transparent;
+        border-bottom-width: 0;
         border-top-color: ${t.btnMenuArrowColor};
       }
     `;

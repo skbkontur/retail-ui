@@ -10,7 +10,7 @@ import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import ArrowTriangleDown from '@skbkontur/react-icons/ArrowTriangleDown';
-import styles from './CustomComboBox.less';
+import styles from './CustomComboBox.module.less';
 import ComboBoxMenu from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 

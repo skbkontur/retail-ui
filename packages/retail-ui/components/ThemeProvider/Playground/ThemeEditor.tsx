@@ -5,7 +5,7 @@ import { VariableValue } from './VariableValue';
 import { ITheme } from '../../../lib/theming/Theme';
 import Gapped from '../../Gapped';
 import Loader from '../../Loader/Loader';
-import styles from './styles.less';
+import styles from './styles.module.less';
 import { VARIABLES_GROUPS } from './constants';
 import { PlaygroundTheme, ThemeErrorsType } from './ThemeProviderPlayground';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import warning from 'warning';
-import styles from '../ThemeShowcase.less';
+import styles from '../ThemeShowcase.module.less';
 import { Nullable } from '../../../typings/utility-types';
 import { isDevelopmentEnv } from '../../internal/currentEnvironment';
 

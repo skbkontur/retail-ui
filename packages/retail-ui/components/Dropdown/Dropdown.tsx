@@ -140,7 +140,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
      */
     warning: PropTypes.bool,
 
-    width: PropTypes.number,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     /**
      * Вызывается при закрытии меню.

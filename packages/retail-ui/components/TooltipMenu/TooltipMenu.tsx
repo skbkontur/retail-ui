@@ -40,7 +40,7 @@ export interface TooltipMenuProps {
  */
 export default class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static defaultProps = {
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
   };
   constructor(props: TooltipMenuProps) {
     super(props);

@@ -9,7 +9,7 @@ import NavigationHelper from './NavigationHelper';
 import { Nullable } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
-import styles from './Paging.less';
+import styles from './Paging.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Paging.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

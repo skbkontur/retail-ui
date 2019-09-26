@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
-import styles from './Radio.less';
+import styles from './Radio.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Radio.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';

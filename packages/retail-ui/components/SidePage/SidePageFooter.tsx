@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';

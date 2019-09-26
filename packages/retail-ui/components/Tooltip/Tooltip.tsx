@@ -3,7 +3,7 @@ import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
-import styles from './Tooltip.less';
+import styles from './Tooltip.module.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
@@ -163,7 +163,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: true,
     closeOnChildrenMouseLeave: false,
   };

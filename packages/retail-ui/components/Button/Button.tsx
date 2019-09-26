@@ -3,7 +3,7 @@ import tabListener from '../../lib/events/tabListener';
 import Corners from './Corners';
 import '../ensureOldIEClassName';
 import { cx } from '../../lib/theming/Emotion';
-import classes from './Button.less';
+import classes from './Button.module.less';
 import jsClasses from './Button.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -163,6 +163,8 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
     const { corners = 0 } = this.props;
     const sizeClass = this.getSizeClassName();
 
+    const isError = !!this.props.error;
+    const isWarning = !!this.props.warning;
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -178,12 +180,10 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         [jsClasses.checked(this.theme)]: !!this.props.checked,
         [classes.disabled]: !!this.props.disabled || !!this.props.loading,
         [jsClasses.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
-        [classes.errorRoot]: !!this.props.error,
-        [jsClasses.errorRoot(this.theme)]: !!this.props.error,
-        [classes.warningRoot]: !!this.props.warning,
-        [jsClasses.warningRoot(this.theme)]: !!this.props.warning,
-        [classes.error]: !!this.props.error,
-        [classes.warning]: !!this.props.warning,
+        [classes.errorRoot]: isError,
+        [classes.warningRoot]: isWarning,
+        [classes.error]: isError,
+        [classes.warning]: isWarning,
         [classes.narrow]: !!this.props.narrow,
         [classes.noPadding]: !!this.props._noPadding,
         [classes.noRightPadding]: !!this.props._noRightPadding,
@@ -245,11 +245,13 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={cx({
-            [cx(classes.arrow, jsClasses.arrow(this.theme)) || '']: true,
-            [cx(classes.arrow_left, jsClasses.arrow_left(this.theme)) || '']: this.props.arrow === 'left',
+            [classes.arrow]: true,
+            [classes.arrow_left]: this.props.arrow === 'left',
             [classes.arrow_loading || '']: !!this.props.loading,
-            [jsClasses.arrow_error(this.theme)]: !!this.props.error,
-            [jsClasses.arrow_warning(this.theme)]: !!this.props.warning,
+            [classes.arrow_warning || '']: isWarning,
+            [classes.arrow_error || '']: isError,
+            [jsClasses.arrow_warning(this.theme)]: isWarning,
+            [jsClasses.arrow_error(this.theme)]: isError,
           })}
         />
       );

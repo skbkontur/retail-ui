@@ -5,7 +5,7 @@ import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
 import { cx } from '../../lib/theming/Emotion';
-import classes from './Input.less';
+import classes from './Input.module.less';
 import jsClasses from './Input.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
@@ -169,8 +169,18 @@ class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public blink() {
+    if (this.blinkTimeout) {
+      this.cancelBlink(() => {
+        // trigger reflow to restart animation
+        // @see https://css-tricks.com/restart-css-animation/#article-header-id-0
+        // tslint:disable-next-line:no-unused-expression
+        void (this.input && this.input.offsetWidth);
+        this.blink();
+      });
+      return;
+    }
     this.setState({ blinking: true }, () => {
-      this.blinkTimeout = window.setTimeout(() => this.setState({ blinking: false }), 150);
+      this.blinkTimeout = window.setTimeout(this.cancelBlink, 150);
     });
   }
 
@@ -215,12 +225,26 @@ class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): void => this.selectAllId = raf(this.selectAll);
+  private delaySelectAll = (): void => (this.selectAllId = raf(this.selectAll));
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
       raf.cancel(this.selectAllId);
       this.selectAllId = null;
+    }
+  };
+
+  private cancelBlink = (callback?: () => void): void => {
+    if (this.blinkTimeout) {
+      clearTimeout(this.blinkTimeout);
+      this.blinkTimeout = 0;
+      if (this.state.blinking) {
+        this.setState({ blinking: false }, callback);
+        return;
+      }
+    }
+    if (callback) {
+      callback();
     }
   };
 

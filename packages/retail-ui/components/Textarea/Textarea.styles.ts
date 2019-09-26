@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Textarea.less';
+import styles from './Textarea.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
@@ -30,6 +30,7 @@ const jsStyles = {
         color: ${t.textColorDisabled};
         background: ${t.textareaDisabledBg};
         border-color: ${t.textareaDisabledBorderColor};
+        box-shadow: none;
       }
 
       &::placeholder {

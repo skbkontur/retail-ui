@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, cx } from '../../../lib/theming/Emotion';
-import styles from './styles.less';
+import styles from './styles.module.less';
 import Gapped from '../../Gapped';
 import { ITheme } from '../../../lib/theming/Theme';
 

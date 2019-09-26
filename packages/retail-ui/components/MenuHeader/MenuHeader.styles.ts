@@ -1,5 +1,5 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './MenuHeader.less';
+import styles from './MenuHeader.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {

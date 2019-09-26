@@ -39,7 +39,7 @@ export interface DropdownMenuProps {
  */
 export default class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static defaultProps = {
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };
 

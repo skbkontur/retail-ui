@@ -170,4 +170,11 @@ export class AddressElement {
   public removeData = () => {
     delete this.data;
   };
+
+  public isEqualTo = (element: AddressElement | undefined): boolean => {
+    if (element && element.fiasId) {
+      return this.fiasId === element.fiasId;
+    }
+    return false;
+  };
 }

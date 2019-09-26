@@ -1,4 +1,4 @@
-import DEFAULT_VARIABLES from '../../../components/variables.less';
+import DEFAULT_VARIABLES from '../../../components/variables.module.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 import ColorFunctions from '../../styles/ColorFunctions';
 
@@ -36,6 +36,26 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   btnFontSizeLarge: {
     get() {
       return this.fontSizeLarge;
+    },
+  },
+  btnPaddingYSmall: {
+    get() {
+      return this.controlPaddingYSmall;
+    },
+  },
+  btnPaddingYMedium: {
+    get() {
+      return this.controlPaddingYMedium;
+    },
+  },
+  btnPaddingYLarge: {
+    get() {
+      return this.controlPaddingYLarge;
+    },
+  },
+  btnDisabledBg: {
+    get() {
+      return this.bgDisabled;
     },
   },
   controlHeightSmall: {
@@ -80,6 +100,16 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   btnDisabledShadowColor: {
     get() {
       return this.borderColorGrayLight;
+    },
+  },
+  btnDisabledShadow: {
+    get() {
+      return `0 0 0 1px ${this.btnDisabledShadowColor}`;
+    },
+  },
+  btnDisabledShadowArrow: {
+    get() {
+      return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
     },
   },
   tabColorFocus: {
@@ -245,6 +275,26 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   chbBorderColorFocus: {
     get() {
       return this.borderColorFocus;
+    },
+  },
+  chbBg: {
+    get() {
+      return `linear-gradient(${this.chbBgStart}, ${this.chbBgEnd})`;
+    },
+  },
+  chbHoverBg: {
+    get() {
+      return `linear-gradient(-180deg, ${this.btnDefaultHoverBgStart} 0, ${this.btnDefaultHoverBgEnd} 100%)`;
+    },
+  },
+  chbActiveBg: {
+    get() {
+      return this.btnDefaultActiveBg;
+    },
+  },
+  chbShadowActive: {
+    get() {
+      return this.btnDefaultActiveShadow;
     },
   },
   textareaLineHeight: {

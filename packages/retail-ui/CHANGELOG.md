@@ -3,6 +3,65 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.3.0...retail-ui@1.3.1) (2019-09-24)
+
+
+### Bug Fixes
+
+* **Dropdown:** sync type of `width` prop type with proptypes checks ([47a5612](https://github.com/skbkontur/retail-ui/commit/47a5612))
+* **Input:** avoid bug with transition in IE ([45f45d5](https://github.com/skbkontur/retail-ui/commit/45f45d5)), closes [#1614](https://github.com/skbkontur/retail-ui/issues/1614)
+* **Popup:** deterministic open/close animation ([0415fa4](https://github.com/skbkontur/retail-ui/commit/0415fa4)), closes [#1372](https://github.com/skbkontur/retail-ui/issues/1372)
+* **RenderContainer:** getRootId changed ([b0ce223](https://github.com/skbkontur/retail-ui/commit/b0ce223))
+* **TokenInput:** make height equal to the Input ([92e9d8b](https://github.com/skbkontur/retail-ui/commit/92e9d8b)), closes [#1589](https://github.com/skbkontur/retail-ui/issues/1589)
+
+
+
+
+
+# [1.3.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.2.0...retail-ui@1.3.0) (2019-09-11)
+
+
+### Bug Fixes
+
+* **Button:** change disabled bg & shadow for the FlatTheme ([765e9d4](https://github.com/skbkontur/retail-ui/commit/765e9d4))
+* **Button:** fix emotion className interpolation warning ([ad5d2a2](https://github.com/skbkontur/retail-ui/commit/ad5d2a2))
+* **Checkbox:** prevent styles reset, caused by code-splitting ([2161a4d](https://github.com/skbkontur/retail-ui/commit/2161a4d)), closes [#1556](https://github.com/skbkontur/retail-ui/issues/1556)
+* **Select:** prevent arrow color reset, caused by code-splitting ([e7a6dc3](https://github.com/skbkontur/retail-ui/commit/e7a6dc3)), closes [#1568](https://github.com/skbkontur/retail-ui/issues/1568)
+
+
+### Features
+
+* **Logotype:** add props size and onArrowClick ([94fc027](https://github.com/skbkontur/retail-ui/commit/94fc027))
+
+
+
+
+
+# [1.2.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.2...retail-ui@1.2.0) (2019-09-03)
+
+
+### Bug Fixes
+
+* **Button:** add disabled color to the "link" use ([20c002b](https://github.com/skbkontur/retail-ui/commit/20c002b)), closes [#1563](https://github.com/skbkontur/retail-ui/issues/1563)
+* **Button:** fix arrow error/warning outline ([6a18b05](https://github.com/skbkontur/retail-ui/commit/6a18b05)), closes [#1531](https://github.com/skbkontur/retail-ui/issues/1531)
+* **ComboBox:** spinner position by baseline ([5f144e8](https://github.com/skbkontur/retail-ui/commit/5f144e8)), closes [#1333](https://github.com/skbkontur/retail-ui/issues/1333)
+* **DatePicker:** change year limits for better limit date validations ([1b552f3](https://github.com/skbkontur/retail-ui/commit/1b552f3)), closes [#1573](https://github.com/skbkontur/retail-ui/issues/1573)
+* **Icon20px:** prevent from selecting ([763b5b8](https://github.com/skbkontur/retail-ui/commit/763b5b8))
+* **react-ui:** support CRA css-modules convention: components ([c1d687a](https://github.com/skbkontur/retail-ui/commit/c1d687a)), closes [#1477](https://github.com/skbkontur/retail-ui/issues/1477)
+* **react-ui:** support CRA css-modules convention: variables ([aace330](https://github.com/skbkontur/retail-ui/commit/aace330))
+* **Token:** import react as namespace ([8b10014](https://github.com/skbkontur/retail-ui/commit/8b10014)), closes [#1519](https://github.com/skbkontur/retail-ui/issues/1519)
+
+
+### Features
+
+* **Fias:** render additional fields in the search results ([37fa2db](https://github.com/skbkontur/retail-ui/commit/37fa2db))
+* **Fias:** search streets through not only direct parent ([7729fd7](https://github.com/skbkontur/retail-ui/commit/7729fd7))
+* **ScrollContainer:** add scrollBehaviour prop ([ad4c7c9](https://github.com/skbkontur/retail-ui/commit/ad4c7c9))
+
+
+
+
+
 ## [1.1.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.1.1...retail-ui@1.1.2) (2019-08-07)
 
 
