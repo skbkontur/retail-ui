@@ -54,7 +54,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
   };
 
   public state = {
