@@ -4,12 +4,6 @@ import { ITheme } from '../../lib/theming/Theme';
 import DimensionFunctions from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-const getBlinkAnimation = (color: string) => keyframes`
-  0% {
-    background-color: ${color};
-  }
-`;
-
 const jsClasses = {
   root(t: ITheme) {
     return css`
@@ -125,9 +119,14 @@ const jsClasses = {
   },
 
   blink(t: ITheme) {
+    const blinkAnimation = keyframes`
+    0% {
+      background-color: ${t.blinkColor};
+    }
+  `;
     return css`
       .${classes.root}& {
-        animation: ${getBlinkAnimation(t.blinkColor)} 0.15s ease-in;
+        animation: ${blinkAnimation} 0.15s ease-in;
       }
     `;
   },
