@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Keyboard from '../../lib/events/keyboard/Keyboard';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import { Override, Nullable } from '../../typings/utility-types';
@@ -10,10 +11,6 @@ import jsClasses from './Input.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
 import raf from 'raf';
-
-const isDeleteKey = (key: string) => {
-  return key === 'Backspace' || key === 'Delete';
-};
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -447,12 +444,14 @@ class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.props.onKeyDown) {
-      this.props.onKeyDown(event);
+      this.props.onKeyDown(e);
     }
 
-    if (!event.currentTarget.value && isDeleteKey(event.key) && !event.repeat) {
+    const isDeleteKey = Keyboard.some(Keyboard.isKeyBackspace, Keyboard.isKeyDelete)(e);
+
+    if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
       this.handleUnexpectedInput();
     }
   };
