@@ -62,11 +62,11 @@ describe('PasswordInput', () => {
   it('should at first render CapsLock label then hide it', () => {
     const component = setup({ detectCapsLock: true });
 
-    component.find('input').simulate('keyPress', { keyCode: 65 }); // a
-    component.find('input').simulate('keyPress', { keyCode: 20 }); // CapsLock
+    component.find('input').simulate('keypress', { key: 'a', getModifierState: () => false });
+    component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => true });
     expect(component.find(`.${styles.capsLockDetector}`)).toHaveLength(1);
 
-    component.find('input').simulate('keydown', { keyCode: 20 }); // CapsLock
+    component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => false  });
 
     expect(component.find(`.${styles.capsLockDetector}`)).toHaveLength(0);
   });
