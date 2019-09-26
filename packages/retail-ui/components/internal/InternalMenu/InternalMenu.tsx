@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+import Keyboard from '../../../lib/events/keyboard/Keyboard';
 import isActiveElement from './isActiveElement';
 import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
 import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
@@ -344,33 +345,25 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
     if (typeof this.props.onKeyDown === 'function') {
-      this.props.onKeyDown(event);
+      this.props.onKeyDown(e);
     }
 
-    if (event.defaultPrevented) {
+    if (e.defaultPrevented) {
       return;
     }
 
-    switch (event.key) {
-      case 'ArrowUp':
-        event.preventDefault();
-        this.moveUp();
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        this.moveDown();
-        break;
-
-      case 'Enter':
-        if (this.highlighted && this.highlighted.props.onClick) {
-          this.highlighted.props.onClick(event);
-        }
-        break;
-
-      default:
-        break;
+    if (Keyboard.isKeyArrowUp(e)) {
+      e.preventDefault();
+      this.moveUp();
+    } else if (Keyboard.isKeyArrowDown(e)) {
+      e.preventDefault();
+      this.moveDown();
+    } else if (Keyboard.isKeyEnter(e)) {
+      if (this.highlighted && this.highlighted.props.onClick) {
+        this.highlighted.props.onClick(e);
+      }
     }
   };
 
