@@ -33,14 +33,13 @@
     height: @containerHeight;
     cursor: pointer;
 
-    &:hover {
+    &:hover:not(.isDisabled) {
       .handle {
         background: linear-gradient(-180deg, #f1f1f1, #dedede);
       }
     }
 
     &.isDisabled {
-      pointer-events: none;
       opacity: 0.3;
       cursor: default;
     }
@@ -50,7 +49,7 @@
       display: inline-block;
     }
 
-    &:active {
+    &:active:not(.isDisabled) {
       .handle {
         width: @handleActiveSize;
       }
