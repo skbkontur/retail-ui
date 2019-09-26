@@ -59,13 +59,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     size: 'small',
     width: 125,
   };
-  protected locale!: DatePickerLocale;
-  protected inputLikeText: InputLikeText | null = null;
-  protected isMouseDown: boolean = false;
-  protected isFirstFocus: boolean = false;
 
   private theme!: ITheme;
+  private locale!: DatePickerLocale;
+  private inputLikeText: InputLikeText | null = null;
   private divInnerNode: HTMLDivElement | null = null;
+  private isMouseDown: boolean = false;
+  private isFirstFocus: boolean = false;
 
   constructor(props: DateInputProps) {
     super(props);
@@ -80,6 +80,26 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       dragged: false,
       autoMoved: false,
     };
+  }
+
+  public componentDidUpdate(prevProps: DateInputProps, prevState: DateInputState) {
+    if (
+      prevProps.value !== this.props.value ||
+      prevProps.minDate !== this.props.minDate ||
+      prevProps.maxDate !== this.props.maxDate ||
+      prevState.internalDate.getOrder() !== this.locale.order ||
+      prevState.internalDate.getSeparator() !== this.locale.separator
+    ) {
+      this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
+    }
+
+    if (this.state.focused && prevState.selected !== this.state.selected) {
+      this.selection();
+    }
+
+    if (this.state.notify && !prevState.notify) {
+      this.notify();
+    }
   }
 
   public componentDidMount(): void {
@@ -126,31 +146,72 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   }
 
-  public componentDidUpdate(prevProps: DateInputProps, prevState: DateInputState) {
-    if (
-      prevProps.value !== this.props.value ||
-      prevProps.minDate !== this.props.minDate ||
-      prevProps.maxDate !== this.props.maxDate ||
-      prevState.internalDate.getOrder() !== this.locale.order ||
-      prevState.internalDate.getSeparator() !== this.locale.separator
-    ) {
-      this.updateInternalDate(undefined, {}, this.updateInternalDateFromProps);
-    }
+  private renderMain() {
+    const { internalDate, focused, selected, inputMode } = this.state;
+    const fragments =
+      internalDate && (focused || !internalDate.isEmpty())
+        ? internalDate.toFragments({
+            withSeparator: true,
+            withPad: true,
+          })
+        : [];
 
-    if (this.state.focused && prevState.selected !== this.state.selected) {
-      this.selection();
-    }
-
-    if (this.state.notify && !prevState.notify) {
-      this.notify();
-    }
+    return (
+      <InputLikeText
+        width={this.props.width}
+        ref={el => {
+          this.inputLikeText = el;
+        }}
+        size={this.props.size}
+        disabled={this.props.disabled}
+        error={this.props.error}
+        warning={this.props.warning}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        onKeyDown={this.handleKeyDown}
+        onMouseUp={this.handleMouseUp}
+        onMouseDown={this.handleMouseDown}
+        onPaste={this.handlePaste}
+        rightIcon={this.renderIcon}
+        onDoubleClickCapture={this.handleDoubleClick}
+      >
+        <DateFragmentsView
+          nodeRef={this.divInnerNodeRef}
+          fragments={fragments}
+          onSelectDateComponent={this.handleSelectDateComponent}
+          selected={selected}
+          inputMode={inputMode}
+        />
+      </InputLikeText>
+    );
   }
 
-  protected handleMouseDown = (event: React.MouseEvent<HTMLElement>): void => {
+  private divInnerNodeRef = (el: HTMLDivElement | null) => {
+    this.divInnerNode = el;
+  };
+
+  private handleMouseDown = (): void => {
     this.isMouseDown = true;
   };
 
-  protected changeSelectedDateComponent = (type?: InternalDateComponentType | null): void => {
+  private handleMouseUp = (): void => {
+    this.isMouseDown = false;
+    this.setState({ selected: this.getFirstDateComponentType() });
+  };
+
+  private handleSelectDateComponent = (type: InternalDateComponentType, event: React.MouseEvent<HTMLElement>): void => {
+    this.isMouseDown = false;
+    if (this.isFirstFocus && this.state.internalDate && this.state.internalDate.isEmpty()) {
+      this.isFirstFocus = false;
+      return;
+    }
+    this.selectDateComponent(type);
+    event.preventDefault();
+    event.stopPropagation();
+    this.isFirstFocus = false;
+  };
+
+  private changeSelectedDateComponent = (type?: InternalDateComponentType | null): void => {
     type = type || this.state.selected;
     if (type === null) {
       return;
@@ -165,7 +226,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  protected updateInternalDate = (
+  private handleMouseDragStart = () => this.setState({ dragged: true, selected: null });
+  private handleMouseDragEnd = () => this.setState({ dragged: false });
+
+  private updateInternalDate = (
     _internalDate?: InternalDate,
     state: Partial<DateInputState> = {},
     callback: (...any: any[]) => void = this.emitChange,
@@ -176,7 +240,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.setState({ ...state, typesOrder, internalDate } as DateInputState, callback);
   };
 
-  protected updateInternalDateFromProps = (): void => {
+  private updateInternalDateFromProps = (): void => {
     let isMod: boolean = false;
     const internalDate = this.state.internalDate.clone();
     const start = internalDate.getRangeStart();
@@ -205,36 +269,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  protected selection() {
-    this.changeSelectedDateComponent(this.state.selected);
-  }
-
-  protected getFirstDateComponentType = (): InternalDateComponentType => this.state.typesOrder[0];
-
-  protected handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
-    event.persist();
-
-    this.setState({ focused: false, selected: null, inputMode: false }, () => {
-      removeAllSelections();
-      if (this.state.internalDate && this.state.internalDate.isIncomplete()) {
-        this.updateInternalDate(this.state.internalDate.restore());
-      }
-      if (this.props.onBlur) {
-        this.props.onBlur(event);
-      }
-    });
-  };
-
-  protected notify(): void {
-    this.blink();
-    this.setState({ notify: false });
-  }
-
-  protected selectDateComponent = (selected: InternalDateComponentType | null): void => {
-    this.setState({ selected, inputMode: false });
-  };
-
-  protected handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
+  private handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
     if (this.props.disabled) {
       return;
     }
@@ -252,71 +287,20 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  private renderMain() {
-    const { internalDate, focused, selected, inputMode } = this.state;
-    const fragments =
-      internalDate && (focused || !internalDate.isEmpty())
-        ? internalDate.toFragments({
-            withSeparator: true,
-            withPad: true,
-          })
-        : [];
+  private handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
+    event.persist();
 
-    return (
-      <InputLikeText
-        width={this.props.width}
-        ref={this.inputLikeTextRef}
-        size={this.props.size}
-        disabled={this.props.disabled}
-        error={this.props.error}
-        warning={this.props.warning}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-        onKeyDown={this.handleKeyDown}
-        onMouseUp={this.handleMouseUp}
-        onMouseDown={this.handleMouseDown}
-        onPaste={this.handlePaste}
-        rightIcon={this.renderIcon}
-        onDoubleClickCapture={this.handleDoubleClick}
-      >
-        <DateFragmentsView
-          nodeRef={this.divInnerNodeRef}
-          fragments={fragments}
-          onSelectDateComponent={this.handleSelectDateComponent}
-          selected={selected}
-          inputMode={inputMode}
-        />
-      </InputLikeText>
-    );
-  }
-
-  private inputLikeTextRef = (el: InputLikeText | null) => {
-    this.inputLikeText = el;
+    this.setState({ focused: false, selected: null, inputMode: false }, () => {
+      const { internalDate } = this.state;
+      removeAllSelections();
+      if (internalDate && internalDate.isIncomplete()) {
+        this.updateInternalDate(this.state.internalDate.restore());
+      }
+      if (this.props.onBlur) {
+        this.props.onBlur(event);
+      }
+    });
   };
-
-  private divInnerNodeRef = (el: HTMLDivElement | null) => {
-    this.divInnerNode = el;
-  };
-
-  private handleMouseUp = (): void => {
-    this.isMouseDown = false;
-    this.setState({ selected: this.getFirstDateComponentType() });
-  };
-
-  private handleSelectDateComponent = (type: InternalDateComponentType, event: React.MouseEvent<HTMLElement>): void => {
-    this.isMouseDown = false;
-    if (this.isFirstFocus && this.state.internalDate && this.state.internalDate.isEmpty()) {
-      this.isFirstFocus = false;
-      return;
-    }
-    this.selectDateComponent(type);
-    event.preventDefault();
-    event.stopPropagation();
-    this.isFirstFocus = false;
-  };
-
-  private handleMouseDragStart = () => this.setState({ dragged: true, selected: null });
-  private handleMouseDragEnd = () => this.setState({ dragged: false });
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
     if (this.props.disabled) {
@@ -401,6 +385,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       event.preventDefault();
     }
   };
+
+  private selection() {
+    this.changeSelectedDateComponent(this.state.selected);
+  }
 
   private pressDelimiter = () => {
     const value = this.state.internalDate.get(this.state.selected);
@@ -518,6 +506,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   }
 
+  private notify(): void {
+    this.blink();
+    this.setState({ notify: false });
+  }
+
   private inputValue(event: React.KeyboardEvent<HTMLElement>): void {
     event.persist();
     let { selected: type } = this.state;
@@ -569,9 +562,15 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
+  private selectDateComponent = (selected: InternalDateComponentType | null): void => {
+    this.setState({ selected, inputMode: false });
+  };
+
   private handleDoubleClick = (): void => {
     this.selectDateComponent(InternalDateComponentType.All);
   };
+
+  private getFirstDateComponentType = (): InternalDateComponentType => this.state.typesOrder[0];
 
   private getLastDateComponentType = (): InternalDateComponentType =>
     this.state.typesOrder[this.state.typesOrder.length - 1];

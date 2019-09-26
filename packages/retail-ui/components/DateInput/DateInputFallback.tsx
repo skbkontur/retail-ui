@@ -6,8 +6,14 @@ import debounce from 'lodash.debounce';
 
 export const CreateDateInputFallback = () => {
   return class DateInputFallback extends DateInput {
+    // Костыль для возможности выделить компоненты даты
+    // В IE и Edge, при вызове range.selectNodeContents(node)
+    // снимается фокус у текущего элемента, т.е. вызывается handleBlur
+    // в handleBlur вызывается window.getSelection().removeAllRanges() и выделение пропадает.
+    // Этот флаг "замораживаниет" колбэки onBlur и onFocus, для возможности вернуть выделение сегмента.
+    public frozen: boolean = false;
 
-    protected selection = debounce(() => {
+    public selection = debounce(() => {
       const node = this.inputLikeText && this.inputLikeText.getNode();
       if (this.inputLikeText && node && node.contains(document.activeElement)) {
         this.frozen = true;
@@ -18,13 +24,6 @@ export const CreateDateInputFallback = () => {
       }
     }, 10);
 
-    // Костыль для возможности выделить компоненты даты
-    // В IE и Edge, при вызове range.selectNodeContents(node)
-    // снимается фокус у текущего элемента, т.е. вызывается handleBlur
-    // в handleBlur вызывается window.getSelection().removeAllRanges() и выделение пропадает.
-    // Этот флаг "замораживаниет" колбэки onBlur и onFocus, для возможности вернуть выделение сегмента.
-    private frozen: boolean = false;
-
     protected handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
       this.isMouseDown = true;
       if (this.state.focused && !this.frozen) {
@@ -33,7 +32,7 @@ export const CreateDateInputFallback = () => {
       }
     };
 
-    protected handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
+    public handleFocus = (event: React.FocusEvent<HTMLElement>): void => {
       if (this.props.disabled) {
         return;
       }
@@ -56,7 +55,7 @@ export const CreateDateInputFallback = () => {
       }
     };
 
-    protected handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
+    public handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
       if (this.frozen) {
         event.preventDefault();
         return;
@@ -75,7 +74,7 @@ export const CreateDateInputFallback = () => {
       });
     };
 
-    protected selectDateComponent = (selected: InternalDateComponentType | null): void => {
+    public selectDateComponent = (selected: InternalDateComponentType | null): void => {
       if (this.frozen) {
         return;
       }
