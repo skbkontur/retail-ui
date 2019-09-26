@@ -80,7 +80,7 @@ const jsStyles = {
 
   wrapper(t: ITheme) {
     return css`
-      &:hover {
+      &:hover:not(.${styles.isDisabled}) {
         .${styles.handle} {
           background: ${t.toggleBgHover};
         }
