@@ -70,7 +70,6 @@ export interface DateInputProps {
 }
 
 const IS_IE = isIE || isEdge;
-console.log(IS_IE);
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
@@ -423,7 +422,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   // tslint:disable:member-ordering
   private selectionNotIe = () => {
-    console.log("selection", this.state.selected);
     this.changeSelectedDateComponent(this.state.selected)
   };
   private selectionIe = debounce(() => {
