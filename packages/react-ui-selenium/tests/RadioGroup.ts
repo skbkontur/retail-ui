@@ -79,4 +79,10 @@ describe('RadioGroup', function() {
       await expect(await element.takeScreenshot()).to.matchImage('RadioGroup inline');
     });
   });
+  describe('disabled', function() {
+    it('all Radio disabled', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('all Radio disabled');
+    });
+  });
 });
