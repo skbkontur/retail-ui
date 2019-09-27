@@ -56,6 +56,7 @@ interface EffectFactory {
   InputFocus: Effect;
   HighlightMenuItem: Effect;
   SelectMenuItem: (event: React.KeyboardEvent<HTMLElement>) => Effect;
+  InputKeyDown: (event: React.KeyboardEvent<HTMLElement>) => Effect;
   MoveMenuHighlight: (direction: 'up' | 'down') => Effect;
   ResetHighlightedMenuItem: Effect;
   Reflow: Effect;
@@ -203,6 +204,12 @@ export const Effect: EffectFactory = {
     const combobox = getInstance();
     combobox.selectInputText();
   },
+  InputKeyDown: event => (dispatch, getState, getProps, getInstance) => {
+    const { onInputKeyDown } = getProps();
+    if (onInputKeyDown) {
+      onInputKeyDown(event);
+    }
+  },
 };
 
 const never = (_: never) => null;
@@ -261,25 +268,26 @@ export function reducer<T>(
     }
     case 'KeyPress': {
       const e = action.event as React.KeyboardEvent<HTMLElement>;
+      const effects = [];
+      let nextState = state;
+
       if (Keyboard.isKeyEnter(e)) {
         e.preventDefault();
-        return [state, [Effect.SelectMenuItem(e)]];
-      }
-      if (Keyboard.isKeyArrowVertical(e)) {
+        effects.push(Effect.SelectMenuItem(e));
+      } else if (Keyboard.isKeyArrowVertical(e)) {
         e.preventDefault();
-        const effects = [Effect.MoveMenuHighlight(Keyboard.isKeyArrowUp(e) ? 'up' : 'down')];
+        effects.push(Effect.MoveMenuHighlight(Keyboard.isKeyArrowUp(e) ? 'up' : 'down'));
         if (!state.opened) {
           effects.push(Effect.Search(state.textValue));
         }
-        return [state, effects];
-      }
-      if (Keyboard.isKeyEscape(e)) {
-        return {
+      } else if (Keyboard.isKeyEscape(e)) {
+        nextState = {
+          ...state,
           items: null,
           opened: false,
         };
       }
-      return state;
+      return [nextState, [...effects, Effect.InputKeyDown(e)]]
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {

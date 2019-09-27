@@ -29,6 +29,7 @@ export interface CustomComboBoxProps<T> {
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
+  onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
   size?: 'small' | 'medium' | 'large';
   totalCount?: number;

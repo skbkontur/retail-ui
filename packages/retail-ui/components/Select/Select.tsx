@@ -68,6 +68,7 @@ export interface SelectProps<TValue, TItem> {
   onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
   onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   onOpen?: () => void;
   placeholder?: React.ReactNode;
   renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
@@ -176,6 +177,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     onMouseLeave: PropTypes.func,
 
     onMouseOver: PropTypes.func,
+
+    onKeyDown: PropTypes.func,
   };
 
   public static defaultProps = {
@@ -467,7 +470,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
       }
     } else {
       if (Keyboard.isKeyEscape(e)) {
-        this.setState({ opened: false }, this.focus);
+        this.focus();
+        this.setState({ opened: false });
       } else if (Keyboard.isKeyArrowUp(e)) {
         e.preventDefault();
         if (this.menu) {
@@ -485,6 +489,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         }
       }
     }
+
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
+    }
   };
 
   private handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -492,15 +500,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   };
 
   private select(value: TValue) {
-    this.setState(
-      {
-        opened: false,
-        value,
-      },
-      () => {
-        setTimeout(this.focus, 0);
-      },
-    );
+    this.focus();
+    this.setState({ opened: false, value });
 
     if (this.props.onChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
       this.props.onChange({ target: { value } }, value);
