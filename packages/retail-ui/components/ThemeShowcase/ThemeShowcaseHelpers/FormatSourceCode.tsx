@@ -5,7 +5,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { isDevelopmentEnv } from '../../internal/currentEnvironment';
 
 export function formatSourceCode(input: string, componentName: string) {
-  const regEx = /\.__makeTemplateObject\((\[[\S\s]+\]),\s*(\[[\S\s]+\])\)\),\s*([\s\S]+)\)/gm;
+  const regEx = /\.css\(.*\.__makeTemplateObject\((\[[\S\s]+\]),\s*(\[[\S\s]+\])\)\),\s*([\s\S]+)\)/gm;
 
   const sourceParts = regEx.exec(input);
   if (!sourceParts) {
@@ -78,9 +78,9 @@ function renderVariables(variableString: string, componentName: string) {
 function getClassName(variableString: string, componentName: string) {
   let classNameRegExp: RegExp;
   if (isDevelopmentEnv) {
-    classNameRegExp = new RegExp(componentName + '_less_[\\d]+\\.default\\.', 'i');
+    classNameRegExp = new RegExp(componentName + '_module_less_[\\d]+\\.default\\.', 'i');
   } else {
-    classNameRegExp = /[a-z0-9]+\.default\./;
+    classNameRegExp = /[\w]+\.default\./;
   }
 
   if (classNameRegExp.test(variableString)) {
