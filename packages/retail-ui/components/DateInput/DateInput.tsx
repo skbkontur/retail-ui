@@ -12,7 +12,6 @@ import { isEdge, isIE } from '../ensureOldIEClassName';
 import InputLikeText from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
 import styles from './DateInput.module.less';
-import { CreateDateInputFallback } from './DateInputFallback';
 import { DateFragmentsView } from './DateFragmentsView';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { inputNumber } from './helpers/inputNumber';
@@ -21,6 +20,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './DateInput.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import ThemeConsumer from '../ThemeConsumer';
+import debounce from 'lodash.debounce';
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
@@ -69,6 +69,9 @@ export interface DateInputProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
+const IS_IE = isIE || isEdge;
+console.log(IS_IE);
+
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static defaultProps = {
@@ -84,6 +87,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private divInnerNode: HTMLDivElement | null = null;
   private isMouseDown: boolean = false;
   private isFirstFocus: boolean = false;
+  private ieFrozen: boolean = false;
 
   constructor(props: DateInputProps) {
     super(props);
@@ -208,8 +212,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.divInnerNode = el;
   };
 
-  private handleMouseDown = (): void => {
+  private handleMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     this.isMouseDown = true;
+
+    if (IS_IE && this.state.focused && !this.ieFrozen) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
   };
 
   private handleMouseUp = (): void => {
@@ -287,6 +296,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (this.props.disabled) {
       return;
     }
+
+    if (IS_IE && this.ieFrozen) {
+      this.ieFrozen = false;
+      event.preventDefault();
+      return;
+    }
+
     this.setState(prevState => {
       this.isFirstFocus = !prevState.focused;
       return {
@@ -302,13 +318,18 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLElement>): void => {
+    if (IS_IE && this.ieFrozen) {
+      event.preventDefault();
+      return;
+    }
+
     event.persist();
 
     this.setState({ focused: false, selected: null, inputMode: false }, () => {
       const { internalDate } = this.state;
       removeAllSelections();
       if (internalDate && internalDate.isIncomplete()) {
-        this.updateInternalDate(this.state.internalDate.restore());
+        this.updateInternalDate(internalDate.restore());
       }
       if (this.props.onBlur) {
         this.props.onBlur(event);
@@ -400,9 +421,23 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  private selection() {
-    this.changeSelectedDateComponent(this.state.selected);
-  }
+  // tslint:disable:member-ordering
+  private selectionNotIe = () => {
+    console.log("selection", this.state.selected);
+    this.changeSelectedDateComponent(this.state.selected)
+  };
+  private selectionIe = debounce(() => {
+    const node = this.inputLikeText && this.inputLikeText.getNode();
+    if (this.inputLikeText && node && node.contains(document.activeElement)) {
+      this.ieFrozen = true;
+      this.changeSelectedDateComponent(this.state.selected);
+      if (this.inputLikeText) {
+        this.inputLikeText.focus();
+      }
+    }
+  }, 10);
+  private selection = IS_IE ? this.selectionIe : this.selectionNotIe;
+  // tslint:enable:member-ordering
 
   private pressDelimiter = () => {
     const value = this.state.internalDate.get(this.state.selected);
@@ -451,8 +486,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const nextType =
       prevType === InternalDateComponentType.All
         ? internalDate
-            .toFragments({ withSeparator: false })
-            .reduce((_type, { value, type }) => (value !== null ? type : _type), this.getLastDateComponentType())
+          .toFragments({ withSeparator: false })
+          .reduce((_type, { value, type }) => (value !== null ? type : _type), this.getLastDateComponentType())
         : prevType;
     let prev = internalDate.get(nextType);
     if (prev === null) {
@@ -577,6 +612,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private selectDateComponent = (selected: InternalDateComponentType | null): void => {
+    if (IS_IE && this.ieFrozen) {
+      return;
+    }
     this.setState({ selected, inputMode: false });
   };
 
@@ -605,7 +643,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       });
       return (
         <span className={iconStyles}>
-          <CalendarIcon />
+          <CalendarIcon/>
         </span>
       );
     }
@@ -613,4 +651,4 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 }
 
-export default (isIE || isEdge ? CreateDateInputFallback() : DateInput);
+export default DateInput;
