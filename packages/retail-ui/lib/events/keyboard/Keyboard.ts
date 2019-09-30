@@ -1,4 +1,4 @@
-import { isWindows } from '../../utils';
+import { isMac, isWindows } from '../../utils';
 import extractCode from './extractCode';
 import Codes from './KeyboardEventCodes';
 
@@ -9,17 +9,18 @@ type ISSome = (...is: IS[]) => IS;
 
 export default class Keyboard {
   public static isShortcutCopy: IS = e =>
-    ((e.metaKey || e.ctrlKey) && extractCode(e) === Codes.KeyC) ||
+    ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||
     (isWindows && e.ctrlKey && Keyboard.isKeyInsert(e)) ||
     e.key === 'Copy';
 
   public static isShortcutPaste: IS = e =>
-    ((e.metaKey || e.ctrlKey) && extractCode(e) === Codes.KeyV) ||
+    ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyV) ||
     (isWindows && e.shiftKey && Keyboard.isKeyInsert(e)) ||
     e.key === 'Paste';
 
-  public static isShortcutCut: IS = e => ((e.metaKey || e.ctrlKey) && extractCode(e) === Codes.KeyX) || e.key === 'Cut';
-  public static isShortcutSelectAll: IS = e => (e.metaKey || e.ctrlKey) && extractCode(e) === Codes.KeyA;
+  public static isShortcutCut: IS = e =>
+    ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyX) || e.key === 'Cut';
+  public static isShortcutSelectAll: IS = e => (isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyA;
 
   public static isKeyEscape: IS = e => e.key === 'Escape' || e.key === 'Esc';
   public static isKeyHome: IS = e => e.key === 'Home';
