@@ -431,27 +431,33 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       }
     }
 
-    if (Keyboard.isKeyEnter(e)) {
-      if (this.menuRef) {
-        this.menuRef.enter(e);
-      }
-    } else if (Keyboard.isKeyArrowVertical(e)) {
-      e.preventDefault();
-      if (this.menuRef) {
-        if (Keyboard.isKeyArrowUp(e)) {
-          this.menuRef.up();
-        } else {
-          this.menuRef.down();
+    switch (true) {
+      case Keyboard.isKeyEnter(e):
+        if (this.menuRef) {
+          this.menuRef.enter(e);
         }
-      }
-    } else if (Keyboard.isKeyEscape(e)) {
-      this.input!.blur();
-    } else if (Keyboard.isKeyBackspace(e)) {
-      this.moveFocusToLastToken();
-    } else if (Keyboard.isKeyArrowLeft(e)) {
-      if (this.input!.selectionStart === 0) {
+        break;
+      case Keyboard.isKeyArrowVertical(e):
+        e.preventDefault();
+        if (this.menuRef) {
+          if (Keyboard.isKeyArrowUp(e)) {
+            this.menuRef.up();
+          } else {
+            this.menuRef.down();
+          }
+        }
+        break;
+      case Keyboard.isKeyEscape(e):
+        this.input!.blur();
+        break;
+      case Keyboard.isKeyBackspace(e):
         this.moveFocusToLastToken();
-      }
+        break;
+      case Keyboard.isKeyArrowLeft(e):
+        if (this.input!.selectionStart === 0) {
+          this.moveFocusToLastToken();
+        }
+        break;
     }
   };
 
@@ -467,23 +473,29 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
   };
 
   private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
-    if (Keyboard.isKeyBackspace(e) || Keyboard.isKeyDelete(e)) {
-      const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
-      this.props.onChange(itemsNew);
-      this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
-        LayoutEvents.emit();
-        this.input!.focus();
-      });
-    } else if (Keyboard.isKeyArrowHorizontal(e)) {
-      this.handleWrapperArrows(e);
-    } else if (Keyboard.isKeyEscape(e)) {
-      this.wrapper!.blur();
-    } else if (Keyboard.isShortcutSelectAll(e)) {
-      e.preventDefault();
-      this.dispatch({
-        type: 'SET_ACTIVE_TOKENS',
-        payload: this.props.selectedItems,
-      });
+    switch (true) {
+      case Keyboard.isKeyBackspace(e):
+      case Keyboard.isKeyDelete(e):
+        const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
+        this.props.onChange(itemsNew);
+        this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
+          LayoutEvents.emit();
+          this.input!.focus();
+        });
+        break;
+      case Keyboard.isKeyArrowHorizontal(e):
+        this.handleWrapperArrows(e);
+        break;
+      case Keyboard.isKeyEscape(e):
+        this.wrapper!.blur();
+        break;
+      case Keyboard.isShortcutSelectAll(e):
+        e.preventDefault();
+        this.dispatch({
+          type: 'SET_ACTIVE_TOKENS',
+          payload: this.props.selectedItems,
+        });
+        break;
     }
   };
 
