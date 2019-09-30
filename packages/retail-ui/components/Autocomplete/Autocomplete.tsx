@@ -233,24 +233,29 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e);
     }
-    if (Keyboard.isKeyEscape(e)) {
-      e.preventDefault();
-      this.setState({ items: null });
-    } else if (Keyboard.isKeyArrowUp(e)) {
-      e.preventDefault();
-      if (this.menu) {
-        this.menu.up();
-      }
-    } else if (Keyboard.isKeyArrowDown(e)) {
-      e.preventDefault();
-      if (this.menu) {
-        this.menu.down();
-      }
-    } else if (Keyboard.isKeyEnter(e)) {
-      e.preventDefault(); // To prevent form submission.
-      if (this.menu) {
-        this.menu.enter(e);
-      }
+    switch (true) {
+      case Keyboard.isKeyEscape(e):
+        e.preventDefault();
+        this.setState({ items: null });
+        return;
+      case Keyboard.isKeyArrowUp(e):
+        e.preventDefault();
+        if (this.menu) {
+          this.menu.up();
+        }
+        return;
+      case Keyboard.isKeyArrowDown(e):
+        e.preventDefault();
+        if (this.menu) {
+          this.menu.down();
+        }
+        return;
+      case Keyboard.isKeyEnter(e):
+        e.preventDefault(); // To prevent form submission.
+        if (this.menu) {
+          this.menu.enter(e);
+        }
+        return;
     }
   };
 
