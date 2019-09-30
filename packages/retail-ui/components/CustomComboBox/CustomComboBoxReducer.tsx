@@ -271,21 +271,25 @@ export function reducer<T>(
       const effects = [];
       let nextState = state;
 
-      if (Keyboard.isKeyEnter(e)) {
-        e.preventDefault();
-        effects.push(Effect.SelectMenuItem(e));
-      } else if (Keyboard.isKeyArrowVertical(e)) {
-        e.preventDefault();
-        effects.push(Effect.MoveMenuHighlight(Keyboard.isKeyArrowUp(e) ? 'up' : 'down'));
-        if (!state.opened) {
-          effects.push(Effect.Search(state.textValue));
-        }
-      } else if (Keyboard.isKeyEscape(e)) {
-        nextState = {
-          ...state,
-          items: null,
-          opened: false,
-        };
+      switch (true) {
+        case Keyboard.isKeyEnter(e):
+          e.preventDefault();
+          effects.push(Effect.SelectMenuItem(e));
+          break;
+        case Keyboard.isKeyArrowVertical(e):
+          e.preventDefault();
+          effects.push(Effect.MoveMenuHighlight(Keyboard.isKeyArrowUp(e) ? 'up' : 'down'));
+          if (!state.opened) {
+            effects.push(Effect.Search(state.textValue));
+          }
+          break;
+        case Keyboard.isKeyEscape(e):
+          nextState = {
+            ...state,
+            items: null,
+            opened: false,
+          };
+          break;
       }
       return [nextState, [...effects, Effect.InputKeyDown(e)]]
     }
