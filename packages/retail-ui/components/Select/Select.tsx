@@ -468,26 +468,31 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         e.preventDefault();
         this.open();
       }
-    } else {
-      if (Keyboard.isKeyEscape(e)) {
+      return;
+    }
+    switch (true) {
+      case Keyboard.isKeyEscape(e):
         this.focus();
         this.setState({ opened: false });
-      } else if (Keyboard.isKeyArrowUp(e)) {
+        return;
+      case Keyboard.isKeyArrowUp(e):
         e.preventDefault();
         if (this.menu) {
           this.menu.up();
         }
-      } else if (Keyboard.isKeyArrowDown(e)) {
+        return;
+      case Keyboard.isKeyArrowDown(e):
         e.preventDefault();
         if (this.menu) {
           this.menu.down();
         }
-      } else if (Keyboard.isKeyEnter(e)) {
+        return;
+      case Keyboard.isKeyEnter(e):
         e.preventDefault(); // To prevent form submission.
         if (this.menu) {
           this.menu.enter(e);
         }
-      }
+        return;
     }
 
     if (this.props.onKeyDown) {
