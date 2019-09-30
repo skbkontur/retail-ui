@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/Keyboard';
 import Icon20 from '../Icon/20px';
 import LayoutEvents from '../../lib/LayoutEvents';
 import tabListener from '../../lib/events/tabListener';
@@ -148,7 +148,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
     e: React.KeyboardEvent<HTMLDivElement>,
     openMenu: PopupMenuCaptionProps['openMenu'],
   ) => {
-    if (Keyboard.some(Keyboard.isKeyEnter, Keyboard.isKeySpace, Keyboard.isKeyArrowVertical)(e)) {
+    if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
       e.preventDefault();
       openMenu(true);
     }

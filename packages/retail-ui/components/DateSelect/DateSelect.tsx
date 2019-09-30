@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import ArrowTriangleUpDownIcon from '@skbkontur/react-icons/ArrowTriangleUpDown';
 import ArrowTriangleUpIcon from '@skbkontur/react-icons/ArrowTriangleUp';
 import ArrowTriangleDownIcon from '@skbkontur/react-icons/ArrowTriangleDown';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyEscape } from '../../lib/events/keyboard/Keyboard';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { locale } from '../LocaleProvider/decorators';
 import RenderLayer from '../RenderLayer';
@@ -394,7 +394,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
   };
 
   private handleKey = (e: KeyboardEvent) => {
-    if (this.state.opened && Keyboard.isKeyEscape(e)) {
+    if (this.state.opened && isKeyEscape(e)) {
       e.preventDefault();
       this.close();
       e.stopPropagation();

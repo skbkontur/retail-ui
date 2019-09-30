@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import Keyboard from '../../../lib/events/keyboard/Keyboard';
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../../lib/events/keyboard/Keyboard';
 import isActiveElement from './isActiveElement';
 import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
 import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
@@ -354,13 +354,13 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
       return;
     }
 
-    if (Keyboard.isKeyArrowUp(e)) {
+    if (isKeyArrowUp(e)) {
       e.preventDefault();
       this.moveUp();
-    } else if (Keyboard.isKeyArrowDown(e)) {
+    } else if (isKeyArrowDown(e)) {
       e.preventDefault();
       this.moveDown();
-    } else if (Keyboard.isKeyEnter(e)) {
+    } else if (isKeyEnter(e)) {
       if (this.highlighted && this.highlighted.props.onClick) {
         this.highlighted.props.onClick(e);
       }

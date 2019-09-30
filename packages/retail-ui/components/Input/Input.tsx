@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/Keyboard';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import { Override, Nullable } from '../../typings/utility-types';
@@ -449,7 +449,7 @@ class Input extends React.Component<InputProps, InputState> {
       this.props.onKeyDown(e);
     }
 
-    const isDeleteKey = Keyboard.some(Keyboard.isKeyBackspace, Keyboard.isKeyDelete)(e);
+    const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
 
     if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
       this.handleUnexpectedInput();

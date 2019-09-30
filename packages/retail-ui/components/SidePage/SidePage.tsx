@@ -1,5 +1,6 @@
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
+import { isKeyEscape } from '../../lib/events/keyboard/Keyboard';
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
@@ -18,7 +19,6 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
 
 export interface SidePageProps {
   /**
@@ -281,7 +281,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.state.stackPosition !== 0) {
       return;
     }
-    if (Keyboard.isKeyEscape(e)) {
+    if (isKeyEscape(e)) {
       stopPropagation(e);
       this.requestClose();
     }

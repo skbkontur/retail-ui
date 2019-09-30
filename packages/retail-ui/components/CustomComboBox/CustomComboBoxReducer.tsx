@@ -2,7 +2,7 @@ import * as React from 'react';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/Keyboard';
 import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -272,18 +272,18 @@ export function reducer<T>(
       let nextState = state;
 
       switch (true) {
-        case Keyboard.isKeyEnter(e):
+        case isKeyEnter(e):
           e.preventDefault();
           effects.push(Effect.SelectMenuItem(e));
           break;
-        case Keyboard.isKeyArrowVertical(e):
+        case isKeyArrowVertical(e):
           e.preventDefault();
-          effects.push(Effect.MoveMenuHighlight(Keyboard.isKeyArrowUp(e) ? 'up' : 'down'));
+          effects.push(Effect.MoveMenuHighlight(isKeyArrowUp(e) ? 'up' : 'down'));
           if (!state.opened) {
             effects.push(Effect.Search(state.textValue));
           }
           break;
-        case Keyboard.isKeyEscape(e):
+        case isKeyEscape(e):
           nextState = {
             ...state,
             items: null,

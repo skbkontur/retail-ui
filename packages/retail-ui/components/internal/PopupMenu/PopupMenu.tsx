@@ -1,5 +1,11 @@
 import * as React from 'react';
-import Keyboard from '../../../lib/events/keyboard/Keyboard';
+import {
+  isKeyArrowVertical,
+  isKeyEnter,
+  isKeyEscape,
+  isKeySpace,
+  someKeys,
+} from '../../../lib/events/keyboard/Keyboard';
 import InternalMenu from '../InternalMenu/InternalMenu';
 import Popup, { PopupPosition } from '../../Popup';
 import RenderLayer from '../../RenderLayer';
@@ -201,14 +207,14 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   };
 
   private handleCaptionKeyDown = (e: React.KeyboardEvent<HTMLElement>): void => {
-    if (Keyboard.some(Keyboard.isKeyEnter, Keyboard.isKeySpace, Keyboard.isKeyArrowVertical)(e)) {
+    if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
       e.preventDefault();
       this.showMenu(true);
     }
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (Keyboard.isKeyEscape(e)) {
+    if (isKeyEscape(e)) {
       const restoreFocus = true;
       this.hideMenu(restoreFocus);
     }

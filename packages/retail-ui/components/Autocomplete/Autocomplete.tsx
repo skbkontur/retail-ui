@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/Keyboard';
 
 import Input, { InputProps } from '../Input';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
@@ -234,23 +234,23 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
       this.props.onKeyDown(e);
     }
     switch (true) {
-      case Keyboard.isKeyEscape(e):
+      case isKeyEscape(e):
         e.preventDefault();
         this.setState({ items: null });
         return;
-      case Keyboard.isKeyArrowUp(e):
+      case isKeyArrowUp(e):
         e.preventDefault();
         if (this.menu) {
           this.menu.up();
         }
         return;
-      case Keyboard.isKeyArrowDown(e):
+      case isKeyArrowDown(e):
         e.preventDefault();
         if (this.menu) {
           this.menu.down();
         }
         return;
-      case Keyboard.isKeyEnter(e):
+      case isKeyEnter(e):
         e.preventDefault(); // To prevent form submission.
         if (this.menu) {
           this.menu.enter(e);

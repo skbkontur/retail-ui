@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
+import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/Keyboard';
 import tabListener from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
 import styles from './Tab.module.less';
 import { TabsContextType, TabsContext } from './TabsContext';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Tab.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
@@ -254,7 +254,7 @@ export class Tab extends React.Component<TabProps, TabState> {
   };
 
   private handleKeyDownGlobal = (e: KeyboardEvent) => {
-    this.isArrowKeyPressed = Keyboard.isKeyArrow(e);
+    this.isArrowKeyPressed = isKeyArrow(e);
   };
 
   private getTabInstance = () => this;
@@ -294,11 +294,11 @@ export class Tab extends React.Component<TabProps, TabState> {
     if (!(context && typeof id === 'string')) {
       return;
     }
-    if (!Keyboard.isKeyArrow(e)) {
+    if (!isKeyArrow(e)) {
       return;
     }
     e.preventDefault();
-    const delta = Keyboard.isKeyArrowLeft(e) || Keyboard.isKeyArrowUp(e) ? -1 : 1;
+    const delta = isKeyArrowLeft(e) || isKeyArrowUp(e) ? -1 : 1;
     context.shiftFocus(id, delta);
   };
 

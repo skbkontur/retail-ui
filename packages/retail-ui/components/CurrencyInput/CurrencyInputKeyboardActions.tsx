@@ -1,4 +1,4 @@
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import * as Keyboard from '../../lib/events/keyboard/Keyboard';
 import { KeyboardActionExctracterBuilder } from '../internal/extractKeyboardAction';
 
 export const CURRENCY_INPUT_ACTIONS = {

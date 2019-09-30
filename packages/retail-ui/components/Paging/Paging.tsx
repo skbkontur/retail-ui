@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/Keyboard';
 import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
@@ -256,8 +256,8 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
     const target = e.target;
 
-    const isArrowLeft = Keyboard.isKeyArrowLeft(e);
-    const isArrowRight = Keyboard.isKeyArrowRight(e);
+    const isArrowLeft = isKeyArrowLeft(e);
+    const isArrowRight = isKeyArrowRight(e);
 
     if (
       target instanceof Element &&
@@ -284,7 +284,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         this.setState({ focusedByTab: true }, this.moveFocusRight);
         return;
       }
-      if (Keyboard.isKeyEnter(e)) {
+      if (isKeyEnter(e)) {
         this.executeItemAction(this.getFocusedItem());
         return;
       }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/Keyboard';
 import Group from '../Group';
 import Button, { ButtonSize } from '../Button';
 import styles from './Switcher.module.less';
@@ -147,7 +147,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       return;
     }
 
-    if (Keyboard.isKeyEnter(e)) {
+    if (isKeyEnter(e)) {
       if (this.props.onChange) {
         const { value } = this._extractPropsFromItem(this.props.items[focusedIndex]);
         this.selectItem(value);
@@ -155,9 +155,9 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       return;
     }
 
-    if (Keyboard.isKeyArrowHorizontal(e)) {
+    if (isKeyArrowHorizontal(e)) {
       e.preventDefault();
-      this.move(Keyboard.isKeyArrowLeft(e) ? -1 : 1);
+      this.move(isKeyArrowLeft(e) ? -1 : 1);
     }
   };
 

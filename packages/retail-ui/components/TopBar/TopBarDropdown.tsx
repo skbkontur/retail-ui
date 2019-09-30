@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/Keyboard';
 import { Nullable } from '../../typings/utility-types';
 import ButtonItem from './ButtonItem';
 import { IconProps } from '../Icon/20px';
@@ -69,7 +69,7 @@ class TopBarDropdown extends React.Component<TopBarDropdownProps> {
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>, openMenu: PopupMenuCaptionProps['openMenu']) => {
-    if (Keyboard.some(Keyboard.isKeyEnter, Keyboard.isKeySpace, Keyboard.isKeyArrowVertical)(e)) {
+    if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
       e.preventDefault();
       openMenu(true);
     }

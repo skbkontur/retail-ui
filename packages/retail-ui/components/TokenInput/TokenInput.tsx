@@ -2,7 +2,15 @@ import * as React from 'react';
 import { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import warningOutput from 'warning';
 import * as ReactDOM from 'react-dom';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import {
+  isKeyArrowHorizontal,
+  isKeyArrowLeft, isKeyArrowRight,
+  isKeyArrowUp,
+  isKeyArrowVertical,
+  isKeyBackspace, isKeyDelete,
+  isKeyEnter,
+  isKeyEscape, isShortcutSelectAll,
+} from '../../lib/events/keyboard/Keyboard';
 import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
@@ -423,7 +431,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
   private handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && (Keyboard.isKeyEnter(e) || this.delimiters.includes(e.key))) {
+    if (this.type !== TokenInputType.WithReference && (isKeyEnter(e) || this.delimiters.includes(e.key))) {
       e.preventDefault();
       const newValue = this.state.inputValue as any;
       if (newValue !== '') {
@@ -432,28 +440,28 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     }
 
     switch (true) {
-      case Keyboard.isKeyEnter(e):
+      case isKeyEnter(e):
         if (this.menuRef) {
           this.menuRef.enter(e);
         }
         break;
-      case Keyboard.isKeyArrowVertical(e):
+      case isKeyArrowVertical(e):
         e.preventDefault();
         if (this.menuRef) {
-          if (Keyboard.isKeyArrowUp(e)) {
+          if (isKeyArrowUp(e)) {
             this.menuRef.up();
           } else {
             this.menuRef.down();
           }
         }
         break;
-      case Keyboard.isKeyEscape(e):
+      case isKeyEscape(e):
         this.input!.blur();
         break;
-      case Keyboard.isKeyBackspace(e):
+      case isKeyBackspace(e):
         this.moveFocusToLastToken();
         break;
-      case Keyboard.isKeyArrowLeft(e):
+      case isKeyArrowLeft(e):
         if (this.input!.selectionStart === 0) {
           this.moveFocusToLastToken();
         }
@@ -474,8 +482,8 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
 
   private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     switch (true) {
-      case Keyboard.isKeyBackspace(e):
-      case Keyboard.isKeyDelete(e):
+      case isKeyBackspace(e):
+      case isKeyDelete(e):
         const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
         this.props.onChange(itemsNew);
         this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
@@ -483,13 +491,13 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
           this.input!.focus();
         });
         break;
-      case Keyboard.isKeyArrowHorizontal(e):
+      case isKeyArrowHorizontal(e):
         this.handleWrapperArrows(e);
         break;
-      case Keyboard.isKeyEscape(e):
+      case isKeyEscape(e):
         this.wrapper!.blur();
         break;
-      case Keyboard.isShortcutSelectAll(e):
+      case isShortcutSelectAll(e):
         e.preventDefault();
         this.dispatch({
           type: 'SET_ACTIVE_TOKENS',
@@ -503,9 +511,9 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     e.preventDefault();
     const activeTokens = this.state.activeTokens;
     const activeItemIndex = this.props.selectedItems.indexOf(activeTokens[0]);
-    const newItemIndex = activeItemIndex + (Keyboard.isKeyArrowLeft(e) ? -1 : +1);
-    const isLeftEdge = activeItemIndex === 0 && Keyboard.isKeyArrowLeft(e);
-    const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && Keyboard.isKeyArrowRight(e);
+    const newItemIndex = activeItemIndex + (isKeyArrowLeft(e) ? -1 : +1);
+    const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
+    const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && isKeyArrowRight(e);
     if (!e.shiftKey && activeTokens.length === 1) {
       this.handleWrapperArrowsWithoutShift(isLeftEdge, isRightEdge, newItemIndex);
     } else {

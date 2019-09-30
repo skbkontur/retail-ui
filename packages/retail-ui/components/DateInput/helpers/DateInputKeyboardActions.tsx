@@ -1,7 +1,7 @@
 // @ts-ignore noUnusedVar
 import * as React from 'react';
 import { SEPARATOR } from '../../../lib/date/constants';
-import Keyboard from '../../../lib/events/keyboard/Keyboard';
+import * as Keyboard from '../../../lib/events/keyboard/Keyboard';
 import { KeyboardActionExctracterBuilder } from '../../internal/extractKeyboardAction';
 
 const delimiters = [
@@ -41,12 +41,12 @@ const extractAction = new KeyboardActionExctracterBuilder()
   .add(Actions.PasteValue, Keyboard.isShortcutPaste)
   .add(Actions.CopyValue, Keyboard.isShortcutCopy)
   .add(Actions.FullSelection, Keyboard.isShortcutSelectAll)
-  .add(Actions.Ignore, Keyboard.some(Keyboard.isModified(), Keyboard.isKeyFs, Keyboard.isKeyTab))
+  .add(Actions.Ignore, Keyboard.someKeys(Keyboard.isModified(), Keyboard.isKeyFs, Keyboard.isKeyTab))
   .add(Actions.MoveSelectionLeft, Keyboard.isKeyArrowLeft)
   .add(Actions.MoveSelectionRight, Keyboard.isKeyArrowRight)
   .add(Actions.MoveSelectionFirst, Keyboard.isKeyHome)
   .add(Actions.MoveSelectionLast, Keyboard.isKeyEnd)
-  .add(Actions.Separator, Keyboard.some(...delimiters))
+  .add(Actions.Separator, Keyboard.someKeys(...delimiters))
   .add(Actions.Increment, Keyboard.isKeyArrowUp)
   .add(Actions.Decrement, Keyboard.isKeyArrowDown)
   .add(Actions.ClearSelection, e => Keyboard.isKeyDelete(e))

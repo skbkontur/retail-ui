@@ -7,62 +7,59 @@ type IS = (e: E) => boolean;
 type ISMod = (is?: IS) => IS;
 type ISSome = (...is: IS[]) => IS;
 
-export default class Keyboard {
-  public static isShortcutCopy: IS = e =>
-    ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||
-    (isWindows && e.ctrlKey && Keyboard.isKeyInsert(e)) ||
-    e.key === 'Copy';
+export const isShortcutCopy: IS = e =>
+  ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||
+  (isWindows && e.ctrlKey && isKeyInsert(e)) ||
+  e.key === 'Copy';
 
-  public static isShortcutPaste: IS = e =>
-    ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyV) ||
-    (isWindows && e.shiftKey && Keyboard.isKeyInsert(e)) ||
-    e.key === 'Paste';
+export const isShortcutPaste: IS = e =>
+  ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyV) ||
+  (isWindows && e.shiftKey && isKeyInsert(e)) ||
+  e.key === 'Paste';
 
-  public static isShortcutCut: IS = e =>
-    ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyX) || e.key === 'Cut';
-  public static isShortcutSelectAll: IS = e => (isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyA;
+export const isShortcutCut: IS = e =>
+  ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyX) || e.key === 'Cut';
 
-  public static isKeyEscape: IS = e => e.key === 'Escape' || e.key === 'Esc';
-  public static isKeyHome: IS = e => e.key === 'Home';
-  public static isKeyEnd: IS = e => e.key === 'End';
-  public static isKeyMeta: IS = e => e.key === 'Meta' || e.key === 'Win';
-  public static isKeyControl: IS = e => e.key === 'Control';
-  public static isKeyShift: IS = e => e.key === 'Shift';
-  public static isKeyAlt: IS = e => e.key === 'Alt';
-  public static isKeyDelete: IS = e => e.key === 'Delete' || e.key === 'Del';
-  public static isKeyBackspace: IS = e => e.key === 'Backspace';
-  public static isKeyCapsLock: IS = e => e.key === 'CapsLock';
-  public static isKeyInsert: IS = e => e.key === 'Insert';
-  public static isKeyTab: IS = e => e.key === 'Tab';
-  public static isKeyEnter: IS = e => e.key === 'Enter';
-  public static isKeyArrowUp: IS = e => e.key === 'ArrowUp' || e.key === 'Up';
-  public static isKeyArrowRight: IS = e => e.key === 'ArrowRight' || e.key === 'Right';
-  public static isKeyArrowDown: IS = e => e.key === 'ArrowDown' || e.key === 'Down';
-  public static isKeyArrowLeft: IS = e => e.key === 'ArrowLeft' || e.key === 'Left';
-  public static isKeySpace: IS = e => e.key === 'Space' || e.key === 'Spacebar';
+export const isShortcutSelectAll: IS = e => (isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyA;
 
-  public static isCodeMinus: IS = e => extractCode(e) === Codes.Minus;
-  public static isCodeNumpadDecimal: IS = e => extractCode(e) === Codes.NumpadDecimal;
-  public static isCodeNumpadDivide: IS = e => extractCode(e) === Codes.NumpadDivide;
-  public static isCodeNumpadSubtract: IS = e => extractCode(e) === Codes.NumpadSubtract;
-  public static isCodeSlash: IS = e => extractCode(e) === Codes.Slash;
-  public static isCodeBackslash: IS = e => extractCode(e) === Codes.Backslash;
-  public static isCodeIntlBackslash: IS = e => extractCode(e) === Codes.IntlBackslash;
-  public static isCodeComma: IS = e => extractCode(e) === Codes.Comma;
-  public static isCodePeriod: IS = e => extractCode(e) === Codes.Period;
+export const isKeyEscape: IS = e => e.key === 'Escape' || e.key === 'Esc';
+export const isKeyHome: IS = e => e.key === 'Home';
+export const isKeyEnd: IS = e => e.key === 'End';
+export const isKeyMeta: IS = e => e.key === 'Meta' || e.key === 'Win';
+export const isKeyControl: IS = e => e.key === 'Control';
+export const isKeyShift: IS = e => e.key === 'Shift';
+export const isKeyAlt: IS = e => e.key === 'Alt';
+export const isKeyDelete: IS = e => e.key === 'Delete' || e.key === 'Del';
+export const isKeyBackspace: IS = e => e.key === 'Backspace';
+export const isKeyCapsLock: IS = e => e.key === 'CapsLock';
+export const isKeyInsert: IS = e => e.key === 'Insert';
+export const isKeyTab: IS = e => e.key === 'Tab';
+export const isKeyEnter: IS = e => e.key === 'Enter';
+export const isKeyArrowUp: IS = e => e.key === 'ArrowUp' || e.key === 'Up';
+export const isKeyArrowRight: IS = e => e.key === 'ArrowRight' || e.key === 'Right';
+export const isKeyArrowDown: IS = e => e.key === 'ArrowDown' || e.key === 'Down';
+export const isKeyArrowLeft: IS = e => e.key === 'ArrowLeft' || e.key === 'Left';
+export const isKeySpace: IS = e => e.key === 'Space' || e.key === 'Spacebar';
 
-  public static isKeyArrowHorizontal: IS = e => Keyboard.isKeyArrowRight(e) || Keyboard.isKeyArrowLeft(e);
-  public static isKeyArrowVertical: IS = e => Keyboard.isKeyArrowUp(e) || Keyboard.isKeyArrowDown(e);
-  public static isKeyArrow: IS = e => Keyboard.isKeyArrowHorizontal(e) || Keyboard.isKeyArrowVertical(e);
+export const isCodeMinus: IS = e => extractCode(e) === Codes.Minus;
+export const isCodeNumpadDecimal: IS = e => extractCode(e) === Codes.NumpadDecimal;
+export const isCodeNumpadDivide: IS = e => extractCode(e) === Codes.NumpadDivide;
+export const isCodeNumpadSubtract: IS = e => extractCode(e) === Codes.NumpadSubtract;
+export const isCodeSlash: IS = e => extractCode(e) === Codes.Slash;
+export const isCodeBackslash: IS = e => extractCode(e) === Codes.Backslash;
+export const isCodeIntlBackslash: IS = e => extractCode(e) === Codes.IntlBackslash;
+export const isCodeComma: IS = e => extractCode(e) === Codes.Comma;
+export const isCodePeriod: IS = e => extractCode(e) === Codes.Period;
 
-  public static isKeyNumber: IS = e => /^\d+$/.test(e.key);
-  public static isKeyChar: IS = e => e.key.trim().length === 1;
-  public static isKeyFs: IS = e => /^(?:F[1-9]|F1[0-2]|Soft[1-4])$/.test(e.key);
+export const isKeyArrowHorizontal: IS = e => isKeyArrowRight(e) || isKeyArrowLeft(e);
+export const isKeyArrowVertical: IS = e => isKeyArrowUp(e) || isKeyArrowDown(e);
+export const isKeyArrow: IS = e => isKeyArrowHorizontal(e) || isKeyArrowVertical(e);
+export const isKeyNumber: IS = e => /^\d+$/.test(e.key);
+export const isKeyChar: IS = e => e.key.trim().length === 1;
+export const isKeyFs: IS = e => /^(?:F[1-9]|F1[0-2]|Soft[1-4])$/.test(e.key);
 
-  public static isModified: ISMod = is => e =>
-    (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) && (is ? is(e) : true);
-  public static isUnmodified: ISMod = is => e => !Keyboard.isModified()(e) && (!!is ? is(e) : true);
-  public static isModShift: ISMod = is => e => e.shiftKey && (!!is ? is(e) : true);
+export const isModified: ISMod = is => e => (e.shiftKey || e.metaKey || e.ctrlKey || e.altKey) && (is ? is(e) : true);
+export const isUnmodified: ISMod = is => e => !isModified()(e) && (is ? is(e) : true);
+export const isModShift: ISMod = is => e => e.shiftKey && (is ? is(e) : true);
 
-  public static some: ISSome = (...iss) => e => iss.some(is => is(e));
-}
+export const someKeys: ISSome = (...iss) => e => iss.some(is => is(e));

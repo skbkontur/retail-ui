@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import Keyboard from '../../lib/events/keyboard/Keyboard';
+import { isKeyEnter } from '../../lib/events/keyboard/Keyboard';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import throttle from 'lodash.throttle';
@@ -291,7 +291,7 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     // Edge bug: textarea maxlength doesn't work after new line
     // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/18833616/
     const value = this.props.value !== undefined ? this.props.value.toString() : null;
-    const isBlockEnter = Keyboard.isKeyEnter(e) && value !== null && value.length === this.props.maxLength;
+    const isBlockEnter = isKeyEnter(e) && value !== null && value.length === this.props.maxLength;
 
     if (isBlockEnter) {
       e.preventDefault();
