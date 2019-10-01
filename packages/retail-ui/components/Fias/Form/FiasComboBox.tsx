@@ -120,7 +120,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
       };
       return <mark style={style}>{children}</mark>;
     };
-    const result = mismatches.reduce((elements: Array<React.ReactElement<any>>, text: string, i: number) => {
+    const result = mismatches.reduce((elements: JSX.Element[], text: string, i: number) => {
       elements.push(<span>{text}</span>);
       const match = matches[i];
       if (match) {
