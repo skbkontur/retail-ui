@@ -19,6 +19,8 @@ const userAgent = ((navigator && navigator.userAgent) || '').toLowerCase();
 const vendor = ((navigator && navigator.vendor) || '').toLowerCase();
 
 export const isMac = /mac/.test(platform);
+export const isWindows = /win/.test(platform);
+
 export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
 export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
 export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
