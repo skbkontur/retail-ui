@@ -59,3 +59,6 @@ export function withContext<C>(ContextConsumer: React.ComponentClass<ConsumerPro
     <ContextConsumer>{(context: C) => <BaseComponent {...props} context={context} />}</ContextConsumer>
   );
 }
+export function escapeRegExpSpecChars(s: string): string {
+  return s.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
+}

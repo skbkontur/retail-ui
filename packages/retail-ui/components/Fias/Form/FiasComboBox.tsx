@@ -2,6 +2,7 @@ import * as React from 'react';
 import ComboBox, { ComboBoxProps } from '../../ComboBox';
 import { Address } from '../models/Address';
 import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
+import { escapeRegExpSpecChars } from '../../../lib/utils';
 
 export interface FiasComboBoxProps extends ComboBoxProps<Address> {
   limit?: number;
@@ -105,7 +106,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
 
   private highlight(str: string, lastMatchOnly: boolean = true) {
     const { searchText } = this.state;
-    const regex = new RegExp(searchText, 'ig');
+    const regex = new RegExp(escapeRegExpSpecChars(searchText), 'ig');
     const matches = str.match(regex);
     if (!matches || str === searchText) {
       return str;
