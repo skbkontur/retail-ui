@@ -330,6 +330,10 @@ export class InternalDate {
     return this;
   }
 
+  public isIncomplete(): boolean {
+    return !this.isEmpty() && Object.values(this.components).some(component => component === null);
+  }
+
   public isEmpty(): boolean {
     return Object.values(this.components).every(component => component === null);
   }
