@@ -66,10 +66,22 @@ describe('CurrencyHelper', () => {
         expect(actual).toBe(expected);
       });
     });
-    [{ value: 1.1, fractionDigits: 0 }, { value: 1.6789, fractionDigits: 3 }].forEach(x => {
+    [
+      { value: 1.1, fractionDigits: 0, expected: '1,1' },
+      { value: 1.6789, fractionDigits: 3, expected: '1,6789' },
+    ].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
-      it(`format(${x.value}, ${JSON.stringify(options)}) throw`, () => {
-        expect(() => CurrencyHelper.format(x.value, options)).toThrow();
+
+      it(`format(${x.value}, ${JSON.stringify(options)}) doesn't change value`, () => {
+        expect(CurrencyHelper.format(x.value, options)).toBe(x.expected);
+      });
+    });
+    [
+      { value: 1.23, fractionDigits: 4.123, expected: '1,2300' },
+      { value: 1.23, fractionDigits: 0.123, expected: '1,23' },
+    ].forEach(x => {
+      it(`fraction part will not be used`, () => {
+        expect(CurrencyHelper.format(x.value, { fractionDigits: x.fractionDigits })).toBe(x.expected);
       });
     });
   });
@@ -141,10 +153,21 @@ describe('CurrencyHelper', () => {
         expect(actual).toBe(expected);
       });
     });
-    [{ value: '1.1', fractionDigits: 0 }, { value: '1.6789', fractionDigits: 3 }].forEach(x => {
+    [
+      { value: '1.1', fractionDigits: 0, expected: '1,1' },
+      { value: '1.6789', fractionDigits: 3, expected: '1,6789' },
+    ].forEach(x => {
       const options = { fractionDigits: x.fractionDigits };
-      it(`formatString('${x.value}', ${JSON.stringify(options)}) throw`, () => {
-        expect(() => CurrencyHelper.formatString(x.value, options)).toThrow();
+      it(`formatString('${x.value}', ${JSON.stringify(options)}) doesn't change value`, () => {
+        expect(CurrencyHelper.formatString(x.value, options)).toBe(x.expected);
+      });
+    });
+    [
+      { value: '1.23', fractionDigits: 4.123, expected: '1,2300' },
+      { value: '1.23', fractionDigits: 0.123, expected: '1,23' },
+    ].forEach(x => {
+      it(`fraction part will not be used`, () => {
+        expect(CurrencyHelper.formatString(x.value, { fractionDigits: x.fractionDigits })).toBe(x.expected);
       });
     });
   });
