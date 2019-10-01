@@ -1,4 +1,4 @@
-import { isMac, isWindows } from '../../utils';
+import { isMac } from '../../utils';
 import extractCode from './extractCode';
 import Codes from './KeyboardEventCodes';
 
@@ -9,16 +9,18 @@ type ISSome = (...is: IS[]) => IS;
 
 export const isShortcutCopy: IS = e =>
   ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||
-  (isWindows && e.ctrlKey && isKeyInsert(e)) ||
+  (!isMac && e.ctrlKey && isKeyInsert(e)) ||
   e.key === 'Copy';
 
 export const isShortcutPaste: IS = e =>
   ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyV) ||
-  (isWindows && e.shiftKey && isKeyInsert(e)) ||
+  (!isMac && e.shiftKey && isKeyInsert(e)) ||
   e.key === 'Paste';
 
 export const isShortcutCut: IS = e =>
-  ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyX) || e.key === 'Cut';
+  ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyX) ||
+  (!isMac && e.shiftKey && isKeyDelete(e)) ||
+  e.key === 'Cut';
 
 export const isShortcutSelectAll: IS = e => (isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyA;
 
