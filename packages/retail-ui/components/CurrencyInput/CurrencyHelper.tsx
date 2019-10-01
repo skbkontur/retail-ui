@@ -103,19 +103,11 @@ export default class CurrencyHelper {
   public static formatString(value: string, formattingOptions?: Nullable<DecimalFormattingOptions>): string {
     const options = CurrencyHelper.getOptions(formattingOptions);
     value = CurrencyHelper.unformatString(value);
-    const destructed = CurrencyHelper.destructString(value);
-
-    if (!destructed) {
-      throw new Error('Error');
-    }
+    const destructed = CurrencyHelper.destructString(value) || { sign: '', integer: '', delimiter: '', fraction: '' };
 
     const { sign, integer, delimiter, fraction } = destructed;
 
     const fractionDigits = options.fractionDigits == null ? fraction.length : options.fractionDigits;
-
-    if (fraction.length > fractionDigits) {
-      throw new Error('Error');
-    }
 
     const parts = [];
 
@@ -129,9 +121,6 @@ export default class CurrencyHelper {
 
     if (delimiter || fractionDigits) {
       result += ',';
-    }
-
-    if (fractionDigits) {
       result += fraction.padEnd(Math.min(fractionDigits, MAX_SAFE_DIGITS), '0');
     }
 
