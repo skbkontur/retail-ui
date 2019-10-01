@@ -1,4 +1,4 @@
-import { isKeyTab } from './keyboard/Keyboard';
+import { isKeyTab } from './keyboard/identifiers';
 
 class TabListener {
   public isTabPressed: boolean = false;

@@ -5,7 +5,7 @@ import {
   isKeyEscape,
   isKeySpace,
   someKeys,
-} from '../../../lib/events/keyboard/Keyboard';
+} from '../../../lib/events/keyboard/identifiers';
 import InternalMenu from '../InternalMenu/InternalMenu';
 import Popup, { PopupPosition } from '../../Popup';
 import RenderLayer from '../../RenderLayer';

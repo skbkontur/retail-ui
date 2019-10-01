@@ -2,7 +2,7 @@ import * as React from 'react';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
-import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';

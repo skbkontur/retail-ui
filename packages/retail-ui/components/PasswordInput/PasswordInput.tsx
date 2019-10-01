@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
 import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
-import { isKeyCapsLock } from '../../lib/events/keyboard/Keyboard';
+import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import Codes from '../../lib/events/keyboard/KeyboardEventCodes';
 
 import Input from '../Input';

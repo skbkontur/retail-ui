@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
-import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';

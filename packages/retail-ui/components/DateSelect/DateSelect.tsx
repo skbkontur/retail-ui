@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import ArrowTriangleUpDownIcon from '@skbkontur/react-icons/ArrowTriangleUpDown';
 import ArrowTriangleUpIcon from '@skbkontur/react-icons/ArrowTriangleUp';
 import ArrowTriangleDownIcon from '@skbkontur/react-icons/ArrowTriangleDown';
-import { isKeyEscape } from '../../lib/events/keyboard/Keyboard';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { locale } from '../LocaleProvider/decorators';
 import RenderLayer from '../RenderLayer';

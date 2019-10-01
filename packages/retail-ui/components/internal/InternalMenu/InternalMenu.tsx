@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../../lib/events/keyboard/Keyboard';
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import isActiveElement from './isActiveElement';
 import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
 import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
-import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import tabListener from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { isKeyEnter } from '../../lib/events/keyboard/Keyboard';
+import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import throttle from 'lodash.throttle';

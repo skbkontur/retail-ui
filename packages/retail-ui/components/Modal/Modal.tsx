@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import { EventSubscription } from 'fbemitter';
-import { isKeyEscape } from '../../lib/events/keyboard/Keyboard';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';

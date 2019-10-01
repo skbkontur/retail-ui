@@ -1,6 +1,6 @@
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
-import { isKeyEscape } from '../../lib/events/keyboard/Keyboard';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';

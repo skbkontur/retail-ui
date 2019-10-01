@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/Keyboard';
+import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import { Override, Nullable } from '../../typings/utility-types';

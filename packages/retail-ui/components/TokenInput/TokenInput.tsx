@@ -10,7 +10,7 @@ import {
   isKeyBackspace, isKeyDelete,
   isKeyEnter,
   isKeyEscape, isShortcutSelectAll,
-} from '../../lib/events/keyboard/Keyboard';
+} from '../../lib/events/keyboard/identifiers';
 import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';

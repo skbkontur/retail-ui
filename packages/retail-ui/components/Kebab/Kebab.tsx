@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
-import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/Keyboard';
+import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import Icon20 from '../Icon/20px';
 import LayoutEvents from '../../lib/LayoutEvents';
 import tabListener from '../../lib/events/tabListener';

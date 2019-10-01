@@ -4,7 +4,7 @@ import {
   isKeyArrowVertical, isKeyEnter,
   isKeyEscape,
   isKeySpace,
-} from '../../lib/events/keyboard/Keyboard';
+} from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 import * as React from 'react';
