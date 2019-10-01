@@ -108,25 +108,31 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     const { searchText } = this.state;
     const regex = new RegExp(escapeRegExpSpecChars(searchText), 'ig');
     const matches = str.match(regex);
-    if (!matches || str === searchText) {
+    if (!searchText || !matches || str === searchText) {
       return str;
     }
     const mismatches = str.split(regex);
-    const highlightStyle = {
-      fontWeight: 'bold',
+    const HighlightedText: React.FunctionComponent = ({ children }) => {
+      const style: React.CSSProperties = {
+        backgroundColor: 'transparent',
+        fontWeight: 'bold',
+        color: 'inherit',
+      };
+      return <mark style={style}>{children}</mark>;
     };
-    const result = mismatches.reduce((spans: Array<React.ReactElement<HTMLSpanElement>>, text: string, i: number) => {
-      spans.push(<span>{text}</span>);
-      if (matches[i]) {
-        const style = lastMatchOnly && matches[i + 1] ? {} : highlightStyle;
-        spans.push(<span style={style}>{matches[i]}</span>);
+    const result = mismatches.reduce((elements: Array<React.ReactElement<any>>, text: string, i: number) => {
+      elements.push(<span>{text}</span>);
+      const match = matches[i];
+      if (match) {
+        const isHighlighted = lastMatchOnly && !Boolean(matches[i + 1]);
+        elements.push(isHighlighted ? <HighlightedText>{match}</HighlightedText> : <span>{match}</span>);
       }
-      return spans;
+      return elements;
     }, []);
     return (
       <div>
-        {result.map((span, i) => {
-          return React.cloneElement(span, { key: `${i}` });
+        {result.map((element, i) => {
+          return React.cloneElement(element, { key: i });
         })}
       </div>
     );
