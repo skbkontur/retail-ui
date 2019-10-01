@@ -25,6 +25,3 @@ export class KeyboardActionExctracterBuilder<T> {
     };
   }
 }
-
-export const isModified: ActionCheck = e => e.shiftKey || e.metaKey || e.ctrlKey || e.altKey;
-export const isFKeys: ActionCheck = e => e.keyCode >= 112 && e.keyCode <= 123;

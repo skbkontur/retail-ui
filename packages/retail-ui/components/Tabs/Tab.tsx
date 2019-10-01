@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
+import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import tabListener from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
@@ -87,11 +88,6 @@ export interface TabState {
   focusedByKeyboard: boolean;
 }
 
-const KEYCODE_ARROW_LEFT = 37;
-const KEYCODE_ARROW_UP = 38;
-const KEYCODE_ARROW_RIGHT = 39;
-const KEYCODE_ARROW_DOWN = 40;
-const ARROW_KEYCODES = [KEYCODE_ARROW_LEFT, KEYCODE_ARROW_UP, KEYCODE_ARROW_RIGHT, KEYCODE_ARROW_DOWN];
 /**
  * Tab element of Tabs component
  *
@@ -257,8 +253,8 @@ export class Tab extends React.Component<TabProps, TabState> {
     this.tabComponent = instance;
   };
 
-  private handleKeyDownGlobal = (event: KeyboardEvent) => {
-    this.isArrowKeyPressed = ARROW_KEYCODES.some(keyCode => event.keyCode === keyCode);
+  private handleKeyDownGlobal = (e: KeyboardEvent) => {
+    this.isArrowKeyPressed = isKeyArrow(e);
   };
 
   private getTabInstance = () => this;
@@ -282,14 +278,14 @@ export class Tab extends React.Component<TabProps, TabState> {
 
   private handleMouseDown = () => (this.isArrowKeyPressed = false);
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (this.props.disabled) {
       return;
     }
 
     if (this.props.onKeyDown) {
-      this.props.onKeyDown(event);
-      if (event.defaultPrevented) {
+      this.props.onKeyDown(e);
+      if (e.defaultPrevented) {
         return;
       }
     }
@@ -298,20 +294,12 @@ export class Tab extends React.Component<TabProps, TabState> {
     if (!(context && typeof id === 'string')) {
       return;
     }
-    switch (event.keyCode) {
-      case KEYCODE_ARROW_LEFT:
-      case KEYCODE_ARROW_UP:
-        event.preventDefault();
-        context.shiftFocus(id, -1);
-        return;
-      case KEYCODE_ARROW_RIGHT:
-      case KEYCODE_ARROW_DOWN:
-        event.preventDefault();
-        context.shiftFocus(id, 1);
-        return;
-      default:
-        return;
+    if (!isKeyArrow(e)) {
+      return;
     }
+    e.preventDefault();
+    const delta = isKeyArrowLeft(e) || isKeyArrowUp(e) ? -1 : 1;
+    context.shiftFocus(id, delta);
   };
 
   private handleFocus = () => {

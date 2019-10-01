@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import { EventSubscription } from 'fbemitter';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
@@ -20,6 +21,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
+
 let mountedModalsCount = 0;
 
 export interface ModalProps {
@@ -248,12 +250,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
+  private handleKeyDown = (e: KeyboardEvent) => {
     if (this.state.stackPosition !== 0) {
       return;
     }
-    if (event.keyCode === 27) {
-      stopPropagation(event);
+    if (isKeyEscape(e)) {
+      stopPropagation(e);
       this.requestClose();
     }
   };

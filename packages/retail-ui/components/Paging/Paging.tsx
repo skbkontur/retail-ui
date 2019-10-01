@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
+import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
@@ -248,16 +249,15 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {
-    if (event.shiftKey) {
+  private handleKeyDown = (e: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {
+    if (e.shiftKey) {
       return;
     }
 
-    const target = event.target;
-    const key = event.key;
+    const target = e.target;
 
-    const isArrowLeft = key === 'ArrowLeft' || key === 'Left';
-    const isArrowRight = key === 'ArrowRight' || key === 'Right';
+    const isArrowLeft = isKeyArrowLeft(e);
+    const isArrowRight = isKeyArrowRight(e);
 
     if (
       target instanceof Element &&
@@ -266,16 +266,16 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return;
     }
 
-    if (NavigationHelper.checkKeyPressed(event) && isArrowLeft) {
+    if (NavigationHelper.checkKeyPressed(e) && isArrowLeft) {
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
-    if (NavigationHelper.checkKeyPressed(event) && isArrowRight) {
+    if (NavigationHelper.checkKeyPressed(e) && isArrowRight) {
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
 
-    if (this.container && this.container === event.target) {
+    if (this.container && this.container === e.target) {
       if (isArrowLeft) {
         this.setState({ focusedByTab: true }, this.moveFocusLeft);
         return;
@@ -284,7 +284,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         this.setState({ focusedByTab: true }, this.moveFocusRight);
         return;
       }
-      if (event.key === 'Enter') {
+      if (isKeyEnter(e)) {
         this.executeItemAction(this.getFocusedItem());
         return;
       }

@@ -1,3 +1,10 @@
+import {
+  isKeyArrowDown,
+  isKeyArrowUp,
+  isKeyArrowVertical, isKeyEnter,
+  isKeyEscape,
+  isKeySpace,
+} from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 import * as React from 'react';
@@ -461,37 +468,41 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     }
   };
 
-  private handleKey = (event: React.KeyboardEvent<HTMLElement>) => {
-    const key = event.key;
+  private handleKey = (e: React.KeyboardEvent<HTMLElement>) => {
     if (!this.state.opened) {
-      if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
-        event.preventDefault();
+      if (isKeySpace(e) || isKeyArrowVertical(e)) {
+        e.preventDefault();
         this.open();
       }
-    } else {
-      if (key === 'Escape') {
+      return;
+    }
+    switch (true) {
+      case isKeyEscape(e):
         this.focus();
         this.setState({ opened: false });
-      } else if (event.key === 'ArrowUp') {
-        event.preventDefault();
+        return;
+      case isKeyArrowUp(e):
+        e.preventDefault();
         if (this.menu) {
           this.menu.up();
         }
-      } else if (event.key === 'ArrowDown') {
-        event.preventDefault();
+        return;
+      case isKeyArrowDown(e):
+        e.preventDefault();
         if (this.menu) {
           this.menu.down();
         }
-      } else if (event.key === 'Enter') {
-        event.preventDefault(); // To prevent form submission.
+        return;
+      case isKeyEnter(e):
+        e.preventDefault(); // To prevent form submission.
         if (this.menu) {
-          this.menu.enter(event);
+          this.menu.enter(e);
         }
-      }
+        return;
     }
 
     if (this.props.onKeyDown) {
-      this.props.onKeyDown(event);
+      this.props.onKeyDown(e);
     }
   };
 
