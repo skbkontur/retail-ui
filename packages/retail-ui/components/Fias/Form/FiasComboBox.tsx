@@ -19,6 +19,15 @@ interface FiasComboBoxState {
   totalCount: number;
 }
 
+const HighlightedText: React.FunctionComponent = ({ children }) => {
+  const style: React.CSSProperties = {
+    backgroundColor: 'transparent',
+    fontWeight: 'bold',
+    color: 'inherit',
+  };
+  return <mark style={style}>{children}</mark>;
+};
+
 export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBoxState> {
   public static defaultProps = ComboBox.defaultProps;
   public state: FiasComboBoxState = {
@@ -112,14 +121,6 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
       return str;
     }
     const mismatches = str.split(regex);
-    const HighlightedText: React.FunctionComponent = ({ children }) => {
-      const style: React.CSSProperties = {
-        backgroundColor: 'transparent',
-        fontWeight: 'bold',
-        color: 'inherit',
-      };
-      return <mark style={style}>{children}</mark>;
-    };
     const result = mismatches.reduce((elements: JSX.Element[], text: string, i: number) => {
       elements.push(<span>{text}</span>);
       const match = matches[i];
