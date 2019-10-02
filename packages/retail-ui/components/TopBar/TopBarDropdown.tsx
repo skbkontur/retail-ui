@@ -17,7 +17,7 @@ export interface ButtonParams {
 export interface TopBarDropdownProps {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
-  use?: 'danger' | 'pay';
+  use?: 'danger' | 'pay' | 'default';
   label: React.ReactNode;
   onOpen?: () => void;
   onClose?: () => void;

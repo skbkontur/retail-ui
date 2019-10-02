@@ -13,7 +13,7 @@ export interface ButtonItemProps extends ItemProps {
   minWidth?: string | number;
   onClick?: () => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
-  use?: 'danger' | 'pay';
+  use?: 'danger' | 'pay' | 'default';
 }
 
 class ButtonItem extends React.Component<ButtonItemProps> {

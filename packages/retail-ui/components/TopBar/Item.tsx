@@ -14,13 +14,13 @@ export interface ItemProps {
   icon?: IconProps['name'];
   iconOnly?: boolean;
   minWidth?: string | number;
-  use?: 'danger' | 'pay';
+  use?: 'danger' | 'pay' | 'default';
   tabIndex?: number;
 }
 
 class Item extends React.Component<ItemProps> {
   public static propTypes = {
-    use: PropTypes.oneOf(['danger', 'pay']),
+    use: PropTypes.oneOf(['danger', 'pay', 'default']),
   };
 
   public static defaultProps = {
@@ -39,7 +39,7 @@ class Item extends React.Component<ItemProps> {
       [styles.buttonActive]: !!active,
       [className]: true,
     };
-    if (use) {
+    if (use && use !== 'default') {
       const useClassName = ('use-' + use) as keyof typeof styles;
       classes[styles[useClassName]] = true;
     }
