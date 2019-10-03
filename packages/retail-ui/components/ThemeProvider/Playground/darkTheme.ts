@@ -48,7 +48,7 @@ export default {
   outlineColorFocus: '#fff',
   placeholderColor: '#aaa',
   placeholderColorLight: '#bbb',
-  blinkColor: 'rgba(0,136,255, .4)',
+  blinkColor: 'rgba(0, 136, 255, .4)',
   controlBorderWidth: '1px',
   controlLineHeightSmall: '20px',
   controlLineHeightMedium: '20px',
