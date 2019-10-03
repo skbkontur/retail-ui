@@ -5,8 +5,7 @@ import * as PropTypes from 'prop-types';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
-
-import styles from './ScrollContainer.less';
+import styles from './ScrollContainer.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
 

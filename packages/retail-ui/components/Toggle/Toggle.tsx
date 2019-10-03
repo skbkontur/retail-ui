@@ -6,7 +6,7 @@ import tabListener from '../../lib/events/tabListener';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign ? require('./Toggle.flat.less') : require('./Toggle.less');
+const styles = isFlatDesign ? require('./Toggle.flat.module.less') : require('./Toggle.module.less');
 
 export interface ToggleProps {
   checked?: boolean;

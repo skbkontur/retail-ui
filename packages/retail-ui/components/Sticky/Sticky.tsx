@@ -5,7 +5,7 @@ import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import styles from './Sticky.less';
+import styles from './Sticky.module.less';
 import classNames from 'classnames';
 import { isFunction } from '../../lib/utils';
 

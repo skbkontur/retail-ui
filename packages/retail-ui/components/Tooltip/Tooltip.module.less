@@ -1,0 +1,57 @@
+@import '../variables.module.less';
+
+:local {
+  .root {
+    display: block !important; /* https://github.com/skbkontur/retail-ui/issues/22 */
+    box-sizing: border-box;
+    font-size: 14px;
+    position: absolute;
+  }
+
+  .inner {
+    background: @tooltip-bg;
+    border-radius: @tooltip-border-raduis;
+    box-shadow: @tooltip-box-shadow;
+    padding: 15px 20px;
+  }
+
+  :global(.rt-ie8) {
+    .inner {
+      border: 1px solid @tooltip-border;
+    }
+  }
+
+  .cross {
+    color: @tooltip-close-btn-color;
+    cursor: pointer;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 11px;
+    right: 0;
+    padding: 8px;
+    height: 11px;
+    white-space: nowrap;
+    line-height: 10px;
+    box-sizing: content-box;
+  }
+
+  .cross:hover {
+    color: @tooltip-close-btn-hover-color;
+  }
+
+  .pin {
+    border: 9px solid @tooltip-border;
+    position: absolute;
+  }
+
+  .pinInner {
+    border: 8px solid @tooltip-bg;
+    position: absolute;
+  }
+
+  .tooltipContent {
+    position: relative;
+    padding: 15px 20px;
+  }
+}

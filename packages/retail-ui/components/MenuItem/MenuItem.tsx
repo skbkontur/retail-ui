@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import warning from 'warning';
 import { isFunction } from '../../lib/utils';
 
-import styles from './MenuItem.less';
+import styles from './MenuItem.module.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;

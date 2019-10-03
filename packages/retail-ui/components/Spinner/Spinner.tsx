@@ -5,8 +5,7 @@ import * as PropTypes from 'prop-types';
 import { locale } from '../LocaleProvider/decorators';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 import { sizeMaps, svgAnimateSupport, types } from './settings';
-
-import styles from './Spinner.less';
+import styles from './Spinner.module.less';
 import SpinnerFallback from './SpinnerFallback';
 
 export const SpinnerConfig = {

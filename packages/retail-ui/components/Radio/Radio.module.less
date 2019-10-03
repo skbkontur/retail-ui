@@ -1,0 +1,119 @@
+@import '../variables.module.less';
+
+:local {
+  .root {
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .radio {
+    position: relative;
+    border-radius: 50%;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    vertical-align: -2px;
+    background-image: linear-gradient(-180deg, #fff 0, #ebebeb 100%);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
+  }
+
+  .placeholder {
+    display: inline-block;
+  }
+
+  .input {
+    display: inline-block;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+  }
+
+  :global(.rt-ie8) {
+    .radio {
+      background-color: #fdfdfd;
+      border: 1px solid #ededed;
+    }
+  }
+
+  .root:hover .radio {
+    background: linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2);
+  }
+
+  .root:active .radio {
+    background: #e1e1e1;
+    box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .input:focus + .radio::after,
+  .focus::after,
+  .warning::after,
+  .error::after {
+    content: ' ';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 50%;
+    box-sizing: border-box;
+  }
+
+  .input:focus + .radio::after,
+  .focus::after {
+    border-color: @border-color-focus;
+  }
+
+  .warning::after {
+    border-color: @border-color-warning;
+  }
+
+  .error::after {
+    border-color: @border-color-error;
+  }
+
+  .checked {
+    position: relative;
+  }
+
+  .checked::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    height: 8px;
+    width: 8px;
+    background: @text-color-default;
+    border-radius: 50%;
+  }
+
+  .disabled {
+    background: #f2f2f2 !important; /* to overide hover and active */
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .disabled.checked::before {
+    background: #808080;
+  }
+
+  .label {
+    display: inline-table;
+    margin-left: 9px;
+    white-space: normal;
+    line-height: 20px;
+  }
+
+  .labelDisabled {
+    color: #a0a0a0;
+  }
+}

@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import styles from './MenuSeparator.less';
+import styles from './MenuSeparator.module.less';
 
 /**
  * Разделитель в меню.

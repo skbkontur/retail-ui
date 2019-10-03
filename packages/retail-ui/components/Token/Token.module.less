@@ -1,0 +1,56 @@
+@import '../variables.module.less';
+
+:local {
+  .token {
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    padding: 0 4px;
+    line-height: 1.5;
+    font-size: 14px;
+    margin: 2px;
+    min-width: 0;
+    min-height: 24px;
+    word-break: break-all;
+    word-break: break-word;
+    user-select: none;
+
+    &.warning {
+      border: 1px solid @border-color-warning;
+      box-shadow: 0 0 0 1px @border-color-warning;
+    }
+
+    &.error {
+      border: 1px solid @border-color-error;
+      box-shadow: 0 0 0 1px @border-color-error;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.disabled {
+      border: none;
+      color: @text-color-disabled;
+      user-select: text;
+      cursor: text;
+    }
+  }
+
+  .text {
+    display: inline-block;
+    padding-bottom: 1px;
+  }
+
+  .removeIcon {
+    height: 1em;
+    width: 1em;
+    flex-shrink: 0;
+    padding: 2px;
+    box-sizing: border-box;
+    margin-left: 4px;
+    transition: fill 0.2s ease-out;
+  }
+}

@@ -1,0 +1,62 @@
+@import '../variables.module.less';
+
+:local {
+  .fillContainerPosition() {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .loader {
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    z-index: inherit;
+
+    &.active::after {
+      background: @loader-bg;
+      content: ' ';
+      filter: 'alpha(opacity = (@{loader-opacity} * 100 + ))';
+      opacity: @loader-opacity;
+      z-index: 500;
+      .fillContainerPosition;
+    }
+  }
+
+  .spinnerContainer {
+    display: block;
+    margin: auto;
+    text-align: center;
+    z-index: 501;
+  }
+
+  .spinnerContainerCenter {
+    .spinnerContainer;
+    .fillContainerPosition;
+
+    &::before {
+      content: ' ';
+      display: inline-block;
+      height: 100%;
+      min-height: 100%;
+      vertical-align: middle;
+    }
+  }
+
+  .spinnerContainerSticky {
+    .spinnerContainer;
+
+    position: fixed;
+
+    &::before {
+      content: ' ';
+      display: inline-block;
+      height: 100%;
+      min-height: 100%;
+      vertical-align: middle;
+    }
+  }
+}

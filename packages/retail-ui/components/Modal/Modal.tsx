@@ -17,7 +17,7 @@ import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 
-import styles from './Modal.less';
+import styles from './Modal.module.less';
 
 let mountedModalsCount = 0;
 

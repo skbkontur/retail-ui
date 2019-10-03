@@ -13,11 +13,13 @@ import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
 
 import Upgrades from '../../lib/Upgrades';
-import CssStyles from './Textarea.less';
+import CssStyles from './Textarea.module.less';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles: typeof CssStyles = isFlatDesign ? require('./Textarea.flat.less') : require('./Textarea.less');
+const styles: typeof CssStyles = isFlatDesign
+  ? require('./Textarea.flat.module.less')
+  : require('./Textarea.module.less');
 
 const DEFAULT_WIDTH = 250;
 

@@ -5,7 +5,7 @@ import polyfillPlaceholder from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
 import Upgrades from '../../lib/Upgrades';
 
-import CssStyles from './Input.less';
+import CssStyles from './Input.module.less';
 import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
 import MaskedInput from '../internal/MaskedInput/MaskedInput';
@@ -13,7 +13,7 @@ import raf from 'raf';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const classes: typeof CssStyles = isFlatDesign ? require('./Input.flat.less') : require('./Input.less');
+const classes: typeof CssStyles = isFlatDesign ? require('./Input.flat.module.less') : require('./Input.module.less');
 
 const isDeleteKey = (key: string) => {
   return key === 'Backspace' || key === 'Delete';
@@ -302,7 +302,7 @@ class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): void => this.selectAllId = raf(this.selectAll);
+  private delaySelectAll = (): void => (this.selectAllId = raf(this.selectAll));
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {

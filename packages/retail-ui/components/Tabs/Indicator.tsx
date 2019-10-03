@@ -4,8 +4,7 @@ import cn from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
 import { TabIndicators } from './Tab';
-
-import styles from './Indicator.less';
+import styles from './Indicator.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';

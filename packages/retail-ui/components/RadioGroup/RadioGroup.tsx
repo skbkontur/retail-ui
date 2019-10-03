@@ -7,7 +7,7 @@ import Prevent from './Prevent';
 
 import Radio, { SyntheticRadioEvent } from '../Radio';
 
-import styles from './RadioGroup.less';
+import styles from './RadioGroup.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 

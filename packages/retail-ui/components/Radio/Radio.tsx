@@ -9,7 +9,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 
 const isFlatDesign = Upgrades.isFlatDesignEnabled();
 
-const styles = isFlatDesign ? require('./Radio.flat.less') : require('./Radio.less');
+const styles = isFlatDesign ? require('./Radio.flat.module.less') : require('./Radio.module.less');
 
 export interface SyntheticRadioEvent<T> {
   target: {

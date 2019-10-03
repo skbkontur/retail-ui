@@ -13,7 +13,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 
 import { Nullable } from '../../typings/utility-types';
 
-import styles from './DateSelect.less';
+import styles from './DateSelect.module.less';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
