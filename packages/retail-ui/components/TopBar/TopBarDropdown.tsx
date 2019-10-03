@@ -17,13 +17,17 @@ export interface ButtonParams {
 export interface TopBarDropdownProps {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
-  use?: 'danger' | 'pay' | 'default';
+  use: 'danger' | 'pay' | 'default';
   label: React.ReactNode;
   onOpen?: () => void;
   onClose?: () => void;
 }
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
+  public static defaultProps = {
+    use: 'default',
+  };
+
   private dropdownMenu: Nullable<DropdownMenu> = null;
 
   public render() {
