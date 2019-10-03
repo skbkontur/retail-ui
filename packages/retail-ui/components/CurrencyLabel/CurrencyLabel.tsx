@@ -3,17 +3,17 @@ import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 
 import CurrencyHelper from '../CurrencyInput/CurrencyHelper';
 
-export interface CurrencyLabelProps {
+export type CurrencyLabelProps = {
   fractionDigits: number;
   value: number;
-  currencySymbol: React.ReactNode | null;
-}
+  currencySymbol?: React.ReactNode;
+} & typeof defaultProps;
 
-export const CurrencyLabel: React.FunctionComponent<CurrencyLabelProps> = ({
-  value,
-  fractionDigits,
-  currencySymbol,
-}): JSX.Element => (
+export const defaultProps = {
+  fractionDigits: 2,
+};
+
+export const CurrencyLabel = ({ value, fractionDigits, currencySymbol }: CurrencyLabelProps): JSX.Element => (
   <span>
     {CurrencyHelper.format(value, { fractionDigits })}
     {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
@@ -21,14 +21,11 @@ export const CurrencyLabel: React.FunctionComponent<CurrencyLabelProps> = ({
   </span>
 );
 
-CurrencyLabel.defaultProps = {
-  fractionDigits: 2,
-  currencySymbol: null,
-};
+CurrencyLabel.defaultProps = defaultProps;
 
 CurrencyLabel.propTypes = {
-  fractionDigits: props => {
-    const labelProps = props as CurrencyLabelProps;
+  fractionDigits: (props: CurrencyLabelProps) => {
+    const labelProps = props;
 
     if (labelProps.fractionDigits > MAX_SAFE_DIGITS) {
       return new Error(
