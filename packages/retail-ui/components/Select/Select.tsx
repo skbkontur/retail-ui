@@ -469,6 +469,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   };
 
   private handleKey = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
+    }
+
     if (!this.state.opened) {
       if (isKeySpace(e) || isKeyArrowVertical(e)) {
         e.preventDefault();
@@ -499,10 +503,6 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           this.menu.enter(e);
         }
         return;
-    }
-
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e);
     }
   };
 
