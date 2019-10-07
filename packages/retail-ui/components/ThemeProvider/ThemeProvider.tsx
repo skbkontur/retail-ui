@@ -11,7 +11,7 @@ interface ThemeProviderProps {
   value: IThemeIn | ITheme;
 }
 
-export default class ThemeProvider extends React.Component<ThemeProviderProps> {
+export class ThemeProvider extends React.Component<ThemeProviderProps> {
   private theme: ITheme;
 
   constructor(props: ThemeProviderProps) {
@@ -45,3 +45,5 @@ export default class ThemeProvider extends React.Component<ThemeProviderProps> {
     return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create(theme);
   }
 }
+
+export default ThemeProvider;
