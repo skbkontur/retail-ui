@@ -1,4 +1,11 @@
 import * as React from 'react';
+import {
+  isKeyArrowVertical,
+  isKeyEnter,
+  isKeyEscape,
+  isKeySpace,
+  someKeys,
+} from '../../../lib/events/keyboard/identifiers';
 import InternalMenu from '../InternalMenu/InternalMenu';
 import Popup, { PopupPosition } from '../../Popup';
 import RenderLayer from '../../RenderLayer';
@@ -199,30 +206,17 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
     this.toggleMenu();
   };
 
-  private handleCaptionKeyDown = (event: React.KeyboardEvent<HTMLElement>): void => {
-    switch (event.key) {
-      case 'Enter':
-      case ' ':
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault();
-        this.showMenu(true);
-        break;
-
-      default:
-        break;
+  private handleCaptionKeyDown = (e: React.KeyboardEvent<HTMLElement>): void => {
+    if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
+      e.preventDefault();
+      this.showMenu(true);
     }
   };
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    switch (event.key) {
-      case 'Escape':
-        const restoreFocus = true;
-        this.hideMenu(restoreFocus);
-        break;
-
-      default:
-        break;
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (isKeyEscape(e)) {
+      const restoreFocus = true;
+      this.hideMenu(restoreFocus);
     }
   };
 

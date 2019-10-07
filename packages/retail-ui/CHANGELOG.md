@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.3.1...retail-ui@1.4.0) (2019-10-02)
+
+
+### Bug Fixes
+
+* **Button:** isButton is undefined when use adapter ([0e41da9](https://github.com/skbkontur/retail-ui/commit/0e41da9))
+* **CurrencyInput:** don't throw error if fractionDigits is zero/float ([3c70c20](https://github.com/skbkontur/retail-ui/commit/3c70c20)), closes [#1558](https://github.com/skbkontur/retail-ui/issues/1558)
+* **DatePicker:** prepare PR to fork ([832fb7b](https://github.com/skbkontur/retail-ui/commit/832fb7b))
+* **DatePicker:** remove console.log ([67951d7](https://github.com/skbkontur/retail-ui/commit/67951d7))
+* **DatePicker:** simplify fallback structure for ie ([f9e27ed](https://github.com/skbkontur/retail-ui/commit/f9e27ed))
+* **DatePicker:** Баг с кликом на день календаря в Edge [#1557](https://github.com/skbkontur/retail-ui/issues/1557) ([7b24f69](https://github.com/skbkontur/retail-ui/commit/7b24f69))
+* **DatePicker:** Привел в порядок типизацию в DateInputFallback [#1557](https://github.com/skbkontur/retail-ui/issues/1557) ([dcebd76](https://github.com/skbkontur/retail-ui/commit/dcebd76))
+* **docs:** fix code formatter of the ThemeShowcase ([42b99c2](https://github.com/skbkontur/retail-ui/commit/42b99c2))
+* **Fias:** escape regexp spec chars ([cace4b6](https://github.com/skbkontur/retail-ui/commit/cace4b6)), closes [#1636](https://github.com/skbkontur/retail-ui/issues/1636)
+* **Radio:** show label as disabled if context.disabled is true ([de64b32](https://github.com/skbkontur/retail-ui/commit/de64b32)), closes [#1275](https://github.com/skbkontur/retail-ui/issues/1275)
+* **Toggle:** show tooltip on disabled toggle in ie ([3db9565](https://github.com/skbkontur/retail-ui/commit/3db9565)), closes [#1630](https://github.com/skbkontur/retail-ui/issues/1630)
+
+
+### Features
+
+* **Combobox:** add prop onInputKeyDown ([b804b84](https://github.com/skbkontur/retail-ui/commit/b804b84))
+* **lib:** add key identification tools ([73479fe](https://github.com/skbkontur/retail-ui/commit/73479fe)), closes [#1429](https://github.com/skbkontur/retail-ui/issues/1429)
+* **Select:** add prop onKeyDown ([ba41e73](https://github.com/skbkontur/retail-ui/commit/ba41e73))
+
+
+
+
+
 ## [1.3.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.3.0...retail-ui@1.3.1) (2019-09-24)
 
 

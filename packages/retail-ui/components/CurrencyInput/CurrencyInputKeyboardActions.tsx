@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { KeyboardActionExctracterBuilder, isModified } from '../internal/extractKeyboardAction';
+import * as Keyboard from '../../lib/events/keyboard/identifiers';
+import { KeyboardActionExctracterBuilder } from '../internal/extractKeyboardAction';
 
 export const CURRENCY_INPUT_ACTIONS = {
   Unknown: 0,
@@ -22,17 +22,17 @@ export const CURRENCY_INPUT_ACTIONS = {
 };
 
 export const extractAction = new KeyboardActionExctracterBuilder()
-  .add(CURRENCY_INPUT_ACTIONS.Submit, (e: React.KeyboardEvent<HTMLElement>) => e.key === 'Enter')
-  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft, e => e.shiftKey && e.key === 'ArrowLeft')
-  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionRight, e => e.shiftKey && e.key === 'ArrowRight')
-  .add(CURRENCY_INPUT_ACTIONS.FullSelection, e => e.ctrlKey && e.key === 'a')
-  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionToStart, e => e.shiftKey && e.key === 'Home')
-  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionToEnd, e => e.shiftKey && e.key === 'End')
-  .add(CURRENCY_INPUT_ACTIONS.MoveCursorLeft, e => e.key === 'ArrowLeft')
-  .add(CURRENCY_INPUT_ACTIONS.MoveCursorRight, e => e.key === 'ArrowRight')
-  .add(CURRENCY_INPUT_ACTIONS.Home, e => !isModified(e) && e.key === 'Home')
-  .add(CURRENCY_INPUT_ACTIONS.End, e => !isModified(e) && e.key === 'End')
-  .add(CURRENCY_INPUT_ACTIONS.Backspace, e => e.key === 'Backspace')
-  .add(CURRENCY_INPUT_ACTIONS.Delete, e => e.key === 'Delete')
-  .add(CURRENCY_INPUT_ACTIONS.Ignore, e => isModified(e) || e.key === 'Tab')
+  .add(CURRENCY_INPUT_ACTIONS.Submit, Keyboard.isKeyEnter)
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft, Keyboard.isModShift(Keyboard.isKeyArrowLeft))
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionRight, Keyboard.isModShift(Keyboard.isKeyArrowRight))
+  .add(CURRENCY_INPUT_ACTIONS.FullSelection, Keyboard.isShortcutSelectAll)
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionToStart, Keyboard.isModShift(Keyboard.isKeyHome))
+  .add(CURRENCY_INPUT_ACTIONS.ExtendSelectionToEnd, Keyboard.isModShift(Keyboard.isKeyEnd))
+  .add(CURRENCY_INPUT_ACTIONS.MoveCursorLeft, Keyboard.isKeyArrowLeft)
+  .add(CURRENCY_INPUT_ACTIONS.MoveCursorRight, Keyboard.isKeyArrowRight)
+  .add(CURRENCY_INPUT_ACTIONS.Home, Keyboard.isUnmodified(Keyboard.isKeyHome))
+  .add(CURRENCY_INPUT_ACTIONS.End, Keyboard.isUnmodified(Keyboard.isKeyEnd))
+  .add(CURRENCY_INPUT_ACTIONS.Backspace, Keyboard.isKeyBackspace)
+  .add(CURRENCY_INPUT_ACTIONS.Delete, Keyboard.isKeyDelete)
+  .add(CURRENCY_INPUT_ACTIONS.Ignore, e => Keyboard.isModified()(e) || Keyboard.isKeyTab(e))
   .build(CURRENCY_INPUT_ACTIONS.Unknown);

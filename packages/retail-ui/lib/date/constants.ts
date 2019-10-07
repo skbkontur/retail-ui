@@ -14,7 +14,6 @@ export const LENGTH_DATE = 2;
 export const LENGTH_SEPARATOR = 1;
 export const CHAR_PAD = '0';
 export const CHAR_MASK = '_';
-export const DELIMITERS = ['.', '-', '/', ' ', ',', '\\', 'б', 'ю'];
 export const SEPARATOR = `(?:\\.|\\/|\\-|\\s|\\,)`;
 export const RE_ORDER_MDY = new RegExp(
   `^(\\d{1,${LENGTH_MONTH}})?${SEPARATOR}?(\\d{1,${LENGTH_DATE}})?${SEPARATOR}?(\\d{1,${LENGTH_YEAR}})?$`,

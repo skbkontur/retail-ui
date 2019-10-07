@@ -1,5 +1,6 @@
 import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
@@ -276,12 +277,12 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
+  private handleKeyDown = (e: KeyboardEvent) => {
     if (this.state.stackPosition !== 0) {
       return;
     }
-    if (event.keyCode === 27) {
-      stopPropagation(event);
+    if (isKeyEscape(e)) {
+      stopPropagation(e);
       this.requestClose();
     }
   };

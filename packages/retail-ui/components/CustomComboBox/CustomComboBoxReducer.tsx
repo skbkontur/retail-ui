@@ -2,6 +2,7 @@ import * as React from 'react';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -266,24 +267,23 @@ export function reducer<T>(
       return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
     }
     case 'KeyPress': {
-      const event = action.event as React.KeyboardEvent<HTMLElement>;
+      const e = action.event as React.KeyboardEvent<HTMLElement>;
       const effects = [];
       let nextState = state;
 
-      switch (event.key) {
-        case 'Enter':
-          event.preventDefault();
-          effects.push(Effect.SelectMenuItem(event));
+      switch (true) {
+        case isKeyEnter(e):
+          e.preventDefault();
+          effects.push(Effect.SelectMenuItem(e));
           break;
-        case 'ArrowUp':
-        case 'ArrowDown':
-          event.preventDefault();
-          effects.push(Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down'));
+        case isKeyArrowVertical(e):
+          e.preventDefault();
+          effects.push(Effect.MoveMenuHighlight(isKeyArrowUp(e) ? 'up' : 'down'));
           if (!state.opened) {
             effects.push(Effect.Search(state.textValue));
           }
           break;
-        case 'Escape':
+        case isKeyEscape(e):
           nextState = {
             ...state,
             items: null,
@@ -291,8 +291,7 @@ export function reducer<T>(
           };
           break;
       }
-
-      return [nextState, [...effects, Effect.InputKeyDown(event)]]
+      return [nextState, [...effects, Effect.InputKeyDown(e)]]
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
