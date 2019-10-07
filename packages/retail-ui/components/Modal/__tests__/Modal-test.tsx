@@ -179,7 +179,7 @@ describe('Modal', () => {
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
-  it.each([
+  it.each<[React.ComponentType<any>, boolean]>([
     [Modal, false],
     [Modal.Footer, false],
     [
@@ -199,7 +199,7 @@ describe('Modal', () => {
     expect(isHeader(child)).toBe(expected);
   });
 
-  it.each([
+  it.each<[React.ComponentType<any>, boolean]>([
     [Modal, false],
     [Modal.Footer, true],
     [
