@@ -6,7 +6,7 @@ import styles from './ToastView.module.less';
 import { Nullable } from '../../typings/utility-types';
 import jsStyles from './ToastView.styles';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface ToastViewProps {

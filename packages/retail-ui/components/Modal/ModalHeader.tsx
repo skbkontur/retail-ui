@@ -5,7 +5,7 @@ import Close from './ModalClose';
 import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface HeaderProps {

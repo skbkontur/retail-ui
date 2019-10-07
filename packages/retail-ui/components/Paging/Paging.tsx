@@ -13,7 +13,7 @@ import { emptyHandler } from '../../lib/utils';
 import styles from './Paging.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Paging.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 

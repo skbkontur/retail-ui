@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ThemeProvider as ThemeProviderInternal } from '../internal/ThemeContext';
+import { ThemeProvider as ThemeProviderInternal } from '../../lib/theming/ThemeContext';
 import { ITheme, IThemeIn } from '../../lib/theming/Theme';
 import ThemeFactory from '../../lib/theming/ThemeFactory';
 import { isDevelopmentEnv } from '../internal/currentEnvironment';
