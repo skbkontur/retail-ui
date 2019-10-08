@@ -1,1 +1,1 @@
-export { ThemeConsumer as default } from '../internal/ThemeContext';
+export { ThemeConsumer, ThemeConsumer as default } from '../../lib/theming/ThemeContext';

@@ -9,7 +9,7 @@ import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Indicator.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface IndicatorProps {

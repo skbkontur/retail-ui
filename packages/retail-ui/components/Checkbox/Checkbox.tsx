@@ -7,7 +7,7 @@ import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
 import styles from './Checkbox.module.less';
 import jsStyles from './Checkbox.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export type CheckboxProps = Override<

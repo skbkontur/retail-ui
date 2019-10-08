@@ -5,7 +5,7 @@ import { isFunction } from '../../lib/utils';
 import styles from './MenuItem.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './MenuItem.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
