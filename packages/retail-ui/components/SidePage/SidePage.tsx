@@ -17,7 +17,7 @@ import { CSSTransition } from 'react-transition-group';
 import styles from './SidePage.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface SidePageProps {

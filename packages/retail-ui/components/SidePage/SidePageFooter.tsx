@@ -5,7 +5,7 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface SidePageFooterProps {

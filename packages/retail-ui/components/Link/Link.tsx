@@ -7,7 +7,7 @@ import styles from './Link.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 
 interface UseClasses {
   default: string;

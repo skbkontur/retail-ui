@@ -8,7 +8,7 @@ import SpinnerFallback from './SpinnerFallback';
 import jsStyles from './Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 
 export const SpinnerConfig = {
   hasSvgAnimationSupport: svgAnimateSupport(),
