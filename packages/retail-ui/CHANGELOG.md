@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.4](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.3...retail-ui@0.53.4) (2019-10-08)
+
+
+### Bug Fixes
+
+* **DatePicker:** change year limits for better limit date validations ([cc76adf](https://github.com/skbkontur/retail-ui/commit/cc76adf)), closes [#1577](https://github.com/skbkontur/retail-ui/issues/1577)
+* **react-ui:** support CRA css-modules convention ([d62cbbf](https://github.com/skbkontur/retail-ui/commit/d62cbbf)), closes [#1572](https://github.com/skbkontur/retail-ui/issues/1572)
+* **Token:** import react as namespace ([356bc21](https://github.com/skbkontur/retail-ui/commit/356bc21)), closes [#1576](https://github.com/skbkontur/retail-ui/issues/1576)
+
+
+
+
+
 ## [0.53.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.2...retail-ui@0.53.3) (2019-09-25)
 
 
