@@ -5,6 +5,7 @@ import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
 @locale('TopBar', TopBarLocaleHelper)
 class Logout extends React.Component<ButtonItemProps> {
+  public static defaultProps = ButtonItem.defaultProps;
   private readonly locale!: TopBarLocale;
 
   public render() {
