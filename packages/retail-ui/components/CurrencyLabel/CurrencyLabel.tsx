@@ -25,24 +25,22 @@ CurrencyLabel.defaultProps = defaultProps;
 
 CurrencyLabel.propTypes = {
   fractionDigits: (props: CurrencyLabelProps) => {
-    const labelProps = props;
-
-    if (labelProps.fractionDigits > MAX_SAFE_DIGITS) {
+    if (props.fractionDigits > MAX_SAFE_DIGITS) {
       return new Error(
         `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
           `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
       );
     }
 
-    const { fraction } = CurrencyHelper.destructString(String(labelProps.value)) || { fraction: '' };
-    if (fraction.length > labelProps.fractionDigits) {
+    const { fraction } = CurrencyHelper.destructString(String(props.value)) || { fraction: '' };
+    if (fraction.length > props.fractionDigits) {
       return new Error(
         `[CurrencyLabel]: Prop 'fractionDigits' less than fractional part of the 'value' property,` +
           `'value' will not be cutted`,
       );
     }
 
-    if (!Number.isInteger(labelProps.fractionDigits)) {
+    if (!Number.isInteger(props.fractionDigits)) {
       return new Error(
         `[CurrencyLabel]: Prop 'fractionDigits' is not integer, fraction part of these property will not be used`,
       );
