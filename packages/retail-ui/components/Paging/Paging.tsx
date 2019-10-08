@@ -36,6 +36,7 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
+  strings?: { forward: string };
   /**
    * Отключает навигационные подсказки.
    * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
@@ -173,8 +174,8 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.disabled]: disabled,
       [jsStyles.disabled(this.theme)]: disabled,
     });
-    const { component: Component, caption } = this.props;
-    const { forward } = this.locale
+    const { component: Component, strings: { forward = this.locale.forward } = {}, caption } = this.props;
+
     return (
       <Component
         key={'forward'}
