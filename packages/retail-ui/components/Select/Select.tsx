@@ -1,7 +1,8 @@
 import {
   isKeyArrowDown,
   isKeyArrowUp,
-  isKeyArrowVertical, isKeyEnter,
+  isKeyArrowVertical,
+  isKeyEnter,
   isKeyEscape,
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers';
@@ -469,40 +470,38 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   };
 
   private handleKey = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e);
-    }
-
     if (!this.state.opened) {
       if (isKeySpace(e) || isKeyArrowVertical(e)) {
         e.preventDefault();
         this.open();
       }
-      return;
+    } else {
+      switch (true) {
+        case isKeyEscape(e):
+          this.focus();
+          this.setState({ opened: false });
+          break;
+        case isKeyArrowUp(e):
+          e.preventDefault();
+          if (this.menu) {
+            this.menu.up();
+          }
+          break;
+        case isKeyArrowDown(e):
+          e.preventDefault();
+          if (this.menu) {
+            this.menu.down();
+          }
+          break;
+        case isKeyEnter(e):
+          e.preventDefault(); // To prevent form submission.
+          if (this.menu) {
+            this.menu.enter(e);
+          }
+      }
     }
-    switch (true) {
-      case isKeyEscape(e):
-        this.focus();
-        this.setState({ opened: false });
-        return;
-      case isKeyArrowUp(e):
-        e.preventDefault();
-        if (this.menu) {
-          this.menu.up();
-        }
-        return;
-      case isKeyArrowDown(e):
-        e.preventDefault();
-        if (this.menu) {
-          this.menu.down();
-        }
-        return;
-      case isKeyEnter(e):
-        e.preventDefault(); // To prevent form submission.
-        if (this.menu) {
-          this.menu.enter(e);
-        }
-        return;
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
     }
   };
 
