@@ -12,7 +12,7 @@ export type ButtonParams = {|
 export type TopBarDropdownProps = {|
   icon?: $PropertyType<IconProps, 'name'>,
   minWidth?: string | number | null,
-  use?: 'danger' | 'pay',
+  use?: 'danger' | 'pay' | 'default',
   label: React$Node,
   onOpen?: () => void,
   onClose?: () => void,
