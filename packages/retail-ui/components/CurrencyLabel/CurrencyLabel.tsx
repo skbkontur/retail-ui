@@ -4,6 +4,10 @@ import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import CurrencyHelper from '../CurrencyInput/CurrencyHelper';
 
 export type CurrencyLabelProps = {
+  /**
+   * Количество отображаемых знаков после запятой
+   * @default 2
+   */
   fractionDigits: number;
   value: number;
   currencySymbol?: React.ReactNode;
