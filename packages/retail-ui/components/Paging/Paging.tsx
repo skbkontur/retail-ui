@@ -15,6 +15,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Paging.styles';
 import { ThemeConsumer } from '../internal/ThemeContext';
 import { ITheme } from '../../lib/theming/Theme';
+import warning from 'warning';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 interface ItemComponentProps {
@@ -36,6 +37,9 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
+  /**
+   * @deprecated используйте проп `caption` или `LocaleProvider`
+   */
   strings?: { forward: string };
   /**
    * Отключает навигационные подсказки.
@@ -88,9 +92,14 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
-    if (this.props.useGlobalListener) {
+    const { useGlobalListener, strings } = this.props;
+    if (useGlobalListener) {
       this.addGlobalListener();
     }
+    warning(
+      strings === undefined,
+      '[Paging]: `strings` prop is deprecated, please use `caption` or `LocaleProvider` instead',
+    );
   }
 
   public componentWillReceiveProps(nextProps: PagingProps) {
