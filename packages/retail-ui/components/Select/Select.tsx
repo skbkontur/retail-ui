@@ -498,6 +498,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           if (this.menu) {
             this.menu.enter(e);
           }
+          break;
       }
     }
     if (this.props.onKeyDown) {
