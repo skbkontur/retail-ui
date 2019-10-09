@@ -5,7 +5,7 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import RenderContainer from './components/RenderContainer';
-import { ZIndexStorage } from './components/ZIndex';
+import ZIndexStorage from './components/ZIndex/ZIndexStorage';
 import ThemeFactory from './lib/theming/ThemeFactory';
 
 process.env.enableReactTesting = true;

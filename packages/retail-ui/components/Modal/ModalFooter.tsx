@@ -7,6 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import ZIndex from '../ZIndex';
 
 export interface FooterProps {
   /**
@@ -42,19 +43,21 @@ export class Footer extends React.Component<FooterProps> {
 
   private renderMain() {
     return (
-      <ModalContext.Consumer>
-        {({ horizontalScroll }) => {
-          if (this.props.sticky) {
-            return (
-              <Sticky side="bottom" offset={horizontalScroll ? this.scrollbarWidth : 0} allowChildWithMargins>
-                {this.renderContent(horizontalScroll)}
-              </Sticky>
-            );
-          }
+      <ZIndex style={{ position: 'relative' }} priority={1}>
+        <ModalContext.Consumer>
+          {({ horizontalScroll }) => {
+            if (this.props.sticky) {
+              return (
+                <Sticky side="bottom" offset={horizontalScroll ? this.scrollbarWidth : 0} allowChildWithMargins>
+                  {this.renderContent(horizontalScroll)}
+                </Sticky>
+              );
+            }
 
-          return this.renderContent(horizontalScroll)();
-        }}
-      </ModalContext.Consumer>
+            return this.renderContent(horizontalScroll)();
+          }}
+        </ModalContext.Consumer>
+      </ZIndex>
     );
   }
 
