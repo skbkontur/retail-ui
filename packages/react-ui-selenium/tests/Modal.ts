@@ -21,7 +21,7 @@ describe('Modal', function() {
         .perform();
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement(By.css('[data-comp-name="Body"] button')))
+        .click(this.browser.findElement(By.css('[data-comp-name*="Body"] button')))
         .perform();
       await expect(await this.browser.takeScreenshot()).to.matchImage('open second modal');
     });

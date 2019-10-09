@@ -16,6 +16,8 @@ import Button from '../../Button';
 import Toggle from '../../Toggle';
 import Popup from '../../Popup/Popup';
 import Toast from '../../Toast';
+import Input from '../../Input';
+import SidePage from '../../SidePage';
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -211,7 +213,201 @@ class Demo extends React.Component<{}> {
   }
 }
 
+class TooltipInLoader extends React.Component<{}> {
+  public render() {
+    return (
+      <div style={{ width: '500px' }}>
+        <Loader type="big" active>
+          <div style={{ height: 100 }} />
+          <Tooltip render={() => 'Hello'} trigger="opened" pos="top right">
+            <Input />
+          </Tooltip>
+        </Loader>
+      </div>
+    );
+  }
+}
+
+class HintAndModal extends React.Component<{}> {
+  public state = {
+    modalOpened: false,
+    hintOpened: false,
+  };
+
+  public renderModal() {
+    return (
+      <Modal onClose={this.close}>
+        <Modal.Header>Title</Modal.Header>
+        <Modal.Body>
+          <div className="modalBody">
+            <p>
+              Use rxjs operators with react hooks. Use rxjs operators with react hooksUse rxjs operators with react
+              hooksUse rxjs operators with react hooksUse rxjs operators with react hooksUse rxjs operators with react
+              hooksUse rxjs operators with react hooksUse rxjs operators with react hooksUse rxjs operators with react
+              hooks
+            </p>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <Button onClick={() => this.setState({ hintOpened: true })}>Show Hint</Button>
+          </div>
+        </Modal.Body>
+        <Modal.Footer panel={true}>
+          <Button onClick={this.close}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  public open = () => {
+    this.setState({ modalOpened: true });
+  };
+
+  public close = () => {
+    this.setState({ modalOpened: false });
+  };
+
+  public render() {
+    return (
+      <div style={{ padding: '100px' }}>
+        {this.state.modalOpened && this.renderModal()}
+        <Hint text="Text" opened={this.state.hintOpened} manual={true}>
+          <Button onClick={this.open}>Open</Button>
+        </Hint>
+      </div>
+    );
+  }
+}
+
+class LoaderInModal extends React.Component<{}> {
+  public render() {
+    return (
+      <Modal>
+        <Modal.Header>Title</Modal.Header>
+        <Modal.Body>
+          <Loader active type="big">
+            Body
+          </Loader>
+        </Modal.Body>
+        <Modal.Footer panel={true}>Footer</Modal.Footer>
+      </Modal>
+    );
+  }
+}
+interface TooltipAndDropdownMenuState {
+  tooltipTrigger: 'closed' | 'opened';
+}
+
+class TooltipAndDropdownMenu extends React.Component<{}> {
+  public state: TooltipAndDropdownMenuState = {
+    tooltipTrigger: 'closed',
+  };
+
+  public render() {
+    const tooltipRender = () => (
+      <div
+        style={{
+          width: 250,
+          fontSize: 14,
+          fontFamily: 'Segoe UI',
+        }}
+      >
+        Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и
+        модернизации форм развития.
+      </div>
+    );
+
+    return (
+      <div className="container" style={{ height: '300px', width: '300px' }}>
+        <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.tooltipTrigger}>
+          <Select
+            onKeyDown={() => this.setState({ tooltipTrigger: 'opened' })}
+            width={120}
+            value={'small'}
+            items={['small', 'medium', 'large']}
+            size={'small'}
+          />
+        </Tooltip>
+      </div>
+    );
+  }
+}
+
+class SidePageAndSelect extends React.Component<{}> {
+  public state = {
+    opened: false,
+  };
+  public renderSidePage() {
+    return (
+      <SidePage onClose={close} blockBackground fromLeft={true}>
+        <SidePage.Header>Title</SidePage.Header>
+        <SidePage.Body>
+          <div
+            style={{
+              background: `repeating-linear-gradient(
+                      60deg,
+                      #fafafa,
+                      #fafafa 20px,
+                      #dfdede 20px,
+                      #dfdede 40px
+                    )`,
+              height: 600,
+              padding: '20px 0',
+            }}
+          >
+            <SidePage.Container>
+              <div className="sidepage-select-continer" style={{ display: 'flex', justifyContent: 'center' }}>
+                <TooltipAndDropdownMenu />
+              </div>
+            </SidePage.Container>
+          </div>
+        </SidePage.Body>
+        <SidePage.Footer panel>
+          <Button onClick={this.close}>Close</Button>
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+
+  public render() {
+    return (
+      <div>
+        <div className="select-container">
+          <TooltipAndDropdownMenu />
+        </div>
+        {this.state.opened && this.renderSidePage()}
+        <div className="open-sidepage-container">
+          <Button onClick={this.open}>Open</Button>
+        </div>
+      </div>
+    );
+  }
+}
+
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
-  .add('Demo', () => <Demo />);
+  .add('Demo', () => <Demo />)
+  .add('Tooltip in Loader', () => <TooltipInLoader />)
+  .add('Hint and modal', () => <HintAndModal />)
+  .add('Loader in Modal', () => <LoaderInModal />)
+  .add('Tooltip and DropdownMenu', () => <TooltipAndDropdownMenu />)
+  .add('Sidepage and Select', () => <SidePageAndSelect />);
