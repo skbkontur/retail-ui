@@ -479,7 +479,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
       switch (true) {
         case isKeyEscape(e):
           this.focus();
-          this.setState({ opened: false });
+          this.close();
           break;
         case isKeyArrowUp(e):
           e.preventDefault();
