@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { By } from 'selenium-webdriver';
+import { By, Key } from 'selenium-webdriver';
 
 describe('Select', function() {
   describe('Simple', function() {
@@ -200,6 +200,21 @@ describe('Select', function() {
         .click(this.browser.findElement(By.css('[data-comp-name="MenuItem"]')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('selected item');
+    });
+  });
+  describe('using onKeyDown', function() {
+    it('press Enter', async function() {
+      const element = await this.browser.findElement(By.css('.dropdown-test-container'));
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .sendKeys(Key.TAB)
+        .sendKeys(Key.ENTER)
+        .sendKeys(Key.ARROW_DOWN)
+        .sendKeys(Key.ENTER)
+        .perform();
+      await expect(await element.takeScreenshot()).to.matchImage('press Enter');
     });
   });
 });

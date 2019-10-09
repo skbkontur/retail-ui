@@ -41,7 +41,7 @@ export const isKeyArrowUp: IS = e => e.key === 'ArrowUp' || e.key === 'Up';
 export const isKeyArrowRight: IS = e => e.key === 'ArrowRight' || e.key === 'Right';
 export const isKeyArrowDown: IS = e => e.key === 'ArrowDown' || e.key === 'Down';
 export const isKeyArrowLeft: IS = e => e.key === 'ArrowLeft' || e.key === 'Left';
-export const isKeySpace: IS = e => e.key === 'Space' || e.key === 'Spacebar';
+export const isKeySpace: IS = e => e.key === ' ' || e.key === 'Spacebar';
 
 export const isCodeMinus: IS = e => extractCode(e) === Codes.Minus;
 export const isCodeNumpadDecimal: IS = e => extractCode(e) === Codes.NumpadDecimal;
