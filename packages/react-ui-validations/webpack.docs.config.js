@@ -12,7 +12,7 @@ const libraryVersion = readVersionFromPackageJson(path.resolve('package.json'));
 function createConfig(publicPath, output) {
   return {
     entry: {
-      index: [require.resolve('babel-polyfill'), require.resolve('react-hot-loader/patch'), './docs/index.tsx'],
+      index: [require.resolve('core-js/stable'), require.resolve('react-hot-loader/patch'), './docs/index.tsx'],
     },
     output: {
       path: output,
