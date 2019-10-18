@@ -1,0 +1,33 @@
+import { expect } from 'chai';
+import { By } from 'selenium-webdriver';
+
+describe('Loader', function() {
+  describe('Active loader', function() {
+    it('covers children', async function() {
+      const element = await this.browser.findElement(By.css('[data-comp-name~="Loader"]'));
+      const button = await this.browser.findElement(By.css('[data-comp-name~="Button"]'));
+
+      await this.browser
+        .actions({ bridge: true })
+        .move({ origin: button })
+        .click()
+        .perform();
+
+      await expect(await element.takeScreenshot()).to.matchImage('cover children');
+    });
+  });
+  describe('Inactive loader', function() {
+    it("doesn't cover children", async function() {
+      const element = await this.browser.findElement(By.css('[data-comp-name~="Loader"]'));
+      const button = await this.browser.findElement(By.css('[data-comp-name~="Button"]'));
+
+      await this.browser
+        .actions({ bridge: true })
+        .move({ origin: button })
+        .click()
+        .perform();
+
+      await expect(await element.takeScreenshot()).to.matchImage("doesn't cover children");
+    });
+  });
+});
