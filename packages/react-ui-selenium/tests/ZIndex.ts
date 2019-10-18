@@ -61,6 +61,22 @@ describe('ZIndex', function() {
       await expect(await element.takeScreenshot()).to.matchImage('Modal covers hint');
     });
   });
+  describe('Loader in SidePage.Body', function() {
+    it('is covered by Header and Footer', async function() {
+      const element = await this.browser.findElement(By.css('[class^="SidePage-module-container"]'));
+
+      await this.browser.executeScript(function() {
+        // tslint:disable
+        const sidePage = window.document.querySelector('[class^="SidePage-module-container"]');
+
+        // @ts-ignore
+        sidePage.scrollTop = sidePage.offsetHeight;
+        // tslint:enable
+      });
+
+      await expect(await element.takeScreenshot()).to.matchImage('is covered by Header and Footer');
+    });
+  });
   describe('Sidepage and Select', function() {
     it('SidePage covers Select and Tooltip', async function() {
       await this.browser

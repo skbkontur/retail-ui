@@ -417,6 +417,49 @@ class TooltipAndDropdownMenu extends React.Component<{}> {
   }
 }
 
+class LoaderInSidePage extends React.Component<{}> {
+  public state = {
+    opened: false,
+  };
+  public render() {
+    return (
+      <SidePage onClose={close} blockBackground fromLeft={true}>
+        <SidePage.Header>Title</SidePage.Header>
+        <SidePage.Body>
+          <div
+            style={{
+              background: `repeating-linear-gradient(
+                      60deg,
+                      #fafafa,
+                      #fafafa 20px,
+                      #dfdede 20px,
+                      #dfdede 40px
+                    )`,
+              height: 600,
+              padding: '20px 0',
+            }}
+          >
+            <SidePage.Container>
+              <ZLoader size={800} />
+            </SidePage.Container>
+          </div>
+        </SidePage.Body>
+        <SidePage.Footer panel>
+          <Button onClick={this.close}>Close</Button>
+        </SidePage.Footer>
+      </SidePage>
+    );
+  }
+
+  public open = () => {
+    this.setState({ opened: true });
+  };
+
+  public close = () => {
+    this.setState({ opened: false });
+  };
+}
+
 class SidePageAndSelect extends React.Component<{}> {
   public state = {
     opened: false,
@@ -487,4 +530,5 @@ storiesOf('ZIndex', module)
   .add('Hint and modal', () => <HintAndModal />)
   .add('Loader in Modal', () => <LoaderInModal />)
   .add('Tooltip and DropdownMenu', () => <TooltipAndDropdownMenu />)
+  .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
   .add('Sidepage and Select', () => <SidePageAndSelect />);
