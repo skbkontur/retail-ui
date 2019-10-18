@@ -2,10 +2,28 @@ import { expect } from 'chai';
 import { By } from 'selenium-webdriver';
 
 describe('ZIndex', function() {
-  describe('Tooltip in Loader', function() {
+  describe('Loader covers tooltip', function() {
     it('Loader covers Tooltip', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await expect(await element.takeScreenshot()).to.matchImage('Loader covers Tooltip');
+    });
+  });
+  describe('Modal With Tooltip In Loader', function() {
+    it('Loader covers children', async function() {
+      const element = await this.browser.findElement(By.css('[data-prop-value*="hasHeader"]'));
+      await expect(await element.takeScreenshot()).to.matchImage('Loader covers children');
+    });
+  });
+  describe('Nested elements in loader', function() {
+    it('Loader covers children', async function() {
+      const element = await this.browser.findElement(By.css('[data-prop-value*="hasHeader"]'));
+      await expect(await element.takeScreenshot()).to.matchImage('Loader covers children');
+    });
+  });
+  describe('Tooltip near Loader', function() {
+    it('Tooltip covers Loader', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('Tooltip covers Loader');
     });
   });
   describe('Hint and modal', function() {

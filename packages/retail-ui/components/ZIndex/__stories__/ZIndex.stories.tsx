@@ -18,6 +18,7 @@ import Popup from '../../Popup/Popup';
 import Toast from '../../Toast';
 import Input from '../../Input';
 import SidePage from '../../SidePage';
+import { PopupPosition } from '../../Popup';
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -96,6 +97,11 @@ interface ZSampleProps {
 interface ZSampleState {
   modal: boolean;
   popup: boolean;
+}
+
+interface InputWithTooltipProps {
+  text?: string;
+  pos?: PopupPosition;
 }
 
 class ZSample extends React.Component<ZSampleProps, ZSampleState> {
@@ -213,17 +219,85 @@ class Demo extends React.Component<{}> {
   }
 }
 
-class TooltipInLoader extends React.Component<{}> {
+const InputWithTooltip = ({ text = 'Hello', pos = 'top right' }: InputWithTooltipProps) => (
+  <Tooltip render={() => text} trigger="opened" pos={pos}>
+    <Input />
+  </Tooltip>
+);
+
+const ModalWrapper = ({ caption = 'Title', ...props }: { caption?: string; children?: React.ReactChild }) => (
+  <Modal>
+    <Modal.Header>{caption}</Modal.Header>
+    <Modal.Body>{props.children}</Modal.Body>
+    <Modal.Footer panel={true} />
+  </Modal>
+);
+
+class LoaderCoversTooltip extends React.Component<{}> {
   public render() {
     return (
       <div style={{ width: '500px' }}>
         <Loader type="big" active>
           <div style={{ height: 100 }} />
-          <Tooltip render={() => 'Hello'} trigger="opened" pos="top right">
-            <Input />
-          </Tooltip>
+          <InputWithTooltip />
         </Loader>
       </div>
+    );
+  }
+}
+
+class ModalWithTooltipInLoader extends React.Component<{}> {
+  public render() {
+    return (
+      <Loader type="big" active>
+        <div style={{ width: '100vw', height: '100vh' }}>
+          <ModalWrapper>
+            <InputWithTooltip />
+          </ModalWrapper>
+        </div>
+      </Loader>
+    );
+  }
+}
+
+class TooltipNearLoader extends React.Component<{}> {
+  public render() {
+    return (
+      <div style={{ display: 'flex', width: 500, paddingBottom: 10 }}>
+        <Loader type="normal" active>
+          <div style={{ height: 100, width: 250 }} />
+          <InputWithTooltip />
+        </Loader>
+        <div style={{ marginTop: 100 }}>
+          <InputWithTooltip text={'World'} pos="left middle" />
+        </div>
+      </div>
+    );
+  }
+}
+
+class NestedElementsInLoader extends React.Component<{}> {
+  public renderNestedModal() {
+    return (
+      <ModalWrapper caption="Second Modal Title">
+        <InputWithTooltip text={'World'} pos="top right" />
+      </ModalWrapper>
+    );
+  }
+
+  public render() {
+    return (
+      <Loader type="big" active>
+        <div style={{ width: '100vw', height: '100vh' }}>
+          <ModalWrapper caption="First Modal Title">
+            <div>
+              <InputWithTooltip text={'World'} pos="top right" />
+              {this.renderNestedModal()}
+              <Button>Open modal</Button>
+            </div>
+          </ModalWrapper>
+        </div>
+      </Loader>
     );
   }
 }
@@ -406,7 +480,10 @@ storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
   .add('Demo', () => <Demo />)
-  .add('Tooltip in Loader', () => <TooltipInLoader />)
+  .add('Loader covers tooltip', () => <LoaderCoversTooltip />)
+  .add('Modal With Tooltip In Loader', () => <ModalWithTooltipInLoader />)
+  .add('Nested elements in loader', () => <NestedElementsInLoader />)
+  .add('Tooltip near Loader', () => <TooltipNearLoader />)
   .add('Hint and modal', () => <HintAndModal />)
   .add('Loader in Modal', () => <LoaderInModal />)
   .add('Tooltip and DropdownMenu', () => <TooltipAndDropdownMenu />)
