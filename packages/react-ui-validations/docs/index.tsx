@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 
+import { hot } from 'react-hot-loader/root';
+
 import { Router, IndexRoute, Route, useRouterHistory } from 'react-router';
 import createHashHistory from 'history/lib/createHashHistory';
 
@@ -17,7 +19,7 @@ import 'docs/styles/typography.less';
 
 const history = useRouterHistory(createHashHistory)();
 
-ReactDom.render(
+const App = hot(() => (
   <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
     <Route path="/" component={Layout}>
       <IndexRoute component={GettingStarted} />
@@ -29,6 +31,7 @@ ReactDom.render(
         <Route path="*" />
       </Route>
     </Route>
-  </Router>,
-  document.getElementById('content'),
-);
+  </Router>
+));
+
+ReactDom.render(<App />, document.getElementById('content'));
