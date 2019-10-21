@@ -262,60 +262,9 @@ storiesOf('Input', module)
 
     return <Sample />;
   })
-  .add('Prefix and suffix', () => (
-    <div>
-      {(['small', 'medium', 'large'] as InputSize[]).map(size => (
-        <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
-          <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
-          <div>
-            <div style={{ ...styles, width: 100 }}>Prefix</div>
-            <div style={styles}>
-              <Input size={size} prefix="Prefix" placeholder="Placeholder" />
-            </div>
-            <div style={styles}>
-              <Input size={size} prefix="Prefix" defaultValue="Value" />
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'baseline' }}>
-            <div style={{ ...styles, width: 100 }}>Suffix</div>
-            <div style={styles}>
-              <Input size={size} suffix="suffix" placeholder="Placeholder" />
-            </div>
-            <div style={styles}>
-              <Input size={size} suffix="suffix" defaultValue="Value" />
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'baseline' }}>
-            <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
-            <div style={styles}>
-              <Input size={size} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-            </div>
-            <div style={styles}>
-              <Input size={size} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'baseline' }}>
-            <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
-            <div style={styles}>
-              <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-            </div>
-            <div style={styles}>
-              <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'baseline' }}>
-            <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
-            <div style={styles}>
-              <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
-            </div>
-            <div style={styles}>
-              <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  ))
+  .add('Prefix and suffix small', () => <InputWithPrefixSuffix size="small" />)
+  .add('Prefix and suffix medium', () => <InputWithPrefixSuffix size="medium" />)
+  .add('Prefix and suffix large', () => <InputWithPrefixSuffix size="large" />)
   .add('text styles reset', () => (
     <div
       style={{
@@ -341,3 +290,56 @@ storiesOf('Input', module)
       </Gapped>
     </div>
   ));
+
+function InputWithPrefixSuffix({ size }: { size: InputSize }) {
+  return (
+    <div style={{ padding: 4 }} id={`inputWithPrefixOrSuffx-${size}`}>
+      <div style={{ margin: '20px 10px 10px', fontSize: '1.5em' }}>Size {size}</div>
+      <div>
+        <div style={{ ...styles, width: 100 }}>Prefix</div>
+        <div style={styles}>
+          <Input size={size} prefix="Prefix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input size={size} prefix="Prefix" defaultValue="Value" />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>Suffix</div>
+        <div style={styles}>
+          <Input size={size} suffix="suffix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input size={size} suffix="suffix" defaultValue="Value" />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>Both preffix and suffix</div>
+        <div style={styles}>
+          <Input size={size} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input size={size} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
+        <div style={styles}>
+          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
+        <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
+        <div style={styles}>
+          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+        </div>
+        <div style={styles}>
+          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+        </div>
+      </div>
+    </div>
+  );
+}

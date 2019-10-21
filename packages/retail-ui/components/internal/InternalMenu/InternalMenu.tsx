@@ -1,16 +1,17 @@
-import cn from 'classnames';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
+import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import isActiveElement from './isActiveElement';
 import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
-
 import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
 import { isMenuHeader } from '../../MenuHeader';
-
-import styles from './InternalMenu.less';
+import styles from './InternalMenu.module.less';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
+import { cx } from '../../../lib/theming/Emotion';
+import jsStyles from './InternalMenu.styles';
+import { ThemeConsumer } from '../../ThemeConsumer';
+import { ITheme } from '../../../lib/theming/Theme';
 
 interface MenuProps {
   children?: React.ReactNode;
@@ -51,12 +52,12 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     scrollState: 'top',
   };
 
+  private theme!: ITheme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private rootElement: Nullable<HTMLDivElement>;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
-
   private getProps = createPropsGetter(InternalMenu.defaultProps);
 
   public componentDidMount() {
@@ -83,6 +84,17 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => typeof x === 'object' && x.props.icon,
     );
@@ -93,7 +105,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
 
     return (
       <div
-        className={cn(styles.root, this.props.hasShadow && styles.shadow)}
+        className={cx(styles.root, jsStyles.root(this.theme), this.props.hasShadow && styles.shadow)}
         style={{
           width: this.props.width,
           maxHeight: this.state.maxHeight,
@@ -155,7 +167,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     return (
       <div
         ref={el => (this.header = el)}
-        className={cn({
+        className={cx({
           [styles.header]: true,
           [styles.fixedHeader]: this.state.scrollState !== 'top',
         })}
@@ -169,7 +181,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     return (
       <div
         ref={el => (this.footer = el)}
-        className={cn({
+        className={cx({
           [styles.footer]: true,
           [styles.fixedFooter]: this.state.scrollState !== 'bottom',
         })}
@@ -333,33 +345,25 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
     if (typeof this.props.onKeyDown === 'function') {
-      this.props.onKeyDown(event);
+      this.props.onKeyDown(e);
     }
 
-    if (event.defaultPrevented) {
+    if (e.defaultPrevented) {
       return;
     }
 
-    switch (event.key) {
-      case 'ArrowUp':
-        event.preventDefault();
-        this.moveUp();
-        break;
-      case 'ArrowDown':
-        event.preventDefault();
-        this.moveDown();
-        break;
-
-      case 'Enter':
-        if (this.highlighted && this.highlighted.props.onClick) {
-          this.highlighted.props.onClick(event);
-        }
-        break;
-
-      default:
-        break;
+    if (isKeyArrowUp(e)) {
+      e.preventDefault();
+      this.moveUp();
+    } else if (isKeyArrowDown(e)) {
+      e.preventDefault();
+      this.moveDown();
+    } else if (isKeyEnter(e)) {
+      if (this.highlighted && this.highlighted.props.onClick) {
+        this.highlighted.props.onClick(e);
+      }
     }
   };
 

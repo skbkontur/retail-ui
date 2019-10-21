@@ -4,7 +4,7 @@ import Button from 'retail-ui/components/Button';
 import Center from 'retail-ui/components/Center';
 import Input from 'retail-ui/components/Input';
 import Modal from 'retail-ui/components/Modal';
-import { text, ValidationContainer, ValidationInfo, ValidationWrapperV1 } from '../src';
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 storiesOf('ModalWithSingleInput', module)
@@ -60,7 +60,7 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
               >
                 Click here
               </div>
-              <ValidationWrapperV1
+              <ValidationWrapper
                 data-tid="ValidationWrapper"
                 validationInfo={this.validateValue1()}
                 renderMessage={text('bottom')}
@@ -70,7 +70,7 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
                   value={this.state.value}
                   onChange={(_, value) => this.setState({ value })}
                 />
-              </ValidationWrapperV1>
+              </ValidationWrapper>
               <div
                 style={{
                   height: 1000,
@@ -143,13 +143,13 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
             }}
           />
 
-          <ValidationWrapperV1
+          <ValidationWrapper
             data-tid="ValidationWrapper"
             validationInfo={this.validateValue()}
             renderMessage={text('bottom')}
           >
             <Input data-tid="SingleInput" value={this.state.value} onChange={(_, value) => this.setState({ value })} />
-          </ValidationWrapperV1>
+          </ValidationWrapper>
           <h2>
             <Center>Footer</Center>
           </h2>
@@ -171,7 +171,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
                 >
                   Click here
                 </div>
-                <ValidationWrapperV1
+                <ValidationWrapper
                   data-tid="ValidationWrapper"
                   validationInfo={this.validateValue()}
                   renderMessage={text('bottom')}
@@ -181,7 +181,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
                     value={this.state.value}
                     onChange={(_, value) => this.setState({ value })}
                   />
-                </ValidationWrapperV1>
+                </ValidationWrapper>
               </div>
             </Modal.Body>
             <Modal.Footer>

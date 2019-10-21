@@ -1,0 +1,24 @@
+{
+  "name": "react-ui-selenium",
+  "version": "1.1.4",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "node start",
+    "test:ui": "node start --ui",
+    "test:update": "node update"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/selenium-webdriver": "^4.0.0",
+    "chai": "^4.2.0",
+    "creevey": "^0.0.24",
+    "mocha": "^6.0.2",
+    "selenium-webdriver": "^4.0.0-alpha.1",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.3.3333",
+    "wait-on": "^3.2.0"
+  }
+}

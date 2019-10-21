@@ -1,11 +1,13 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import Sticky from '../Sticky';
 import { SVGCross } from '../internal/cross';
 import { SidePageContext } from './SidePageContext';
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 import { isFunction } from '../../lib/utils';
-
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './SidePage.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
 const FONT_FAMILY_CORRECTION = 1;
@@ -25,6 +27,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
     isReadyToFix: false,
   };
 
+  private theme!: ITheme;
   private wrapper: HTMLElement | null = null;
   private lastRegularHeight: number = 0;
 
@@ -52,6 +55,17 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
   };
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { isReadyToFix } = this.state;
     return (
       <div ref={this.wrapperRef}>
@@ -62,9 +76,9 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
 
   private renderHeader = (fixed: boolean = false) => {
     return (
-      <div className={classNames(styles.header, { [styles.fixed]: fixed })}>
+      <div className={cx(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
         {this.renderClose()}
-        <div className={classNames(styles.title, { [styles.fixed]: fixed })}>
+        <div className={cx(styles.title, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
@@ -79,7 +93,10 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
             {({ requestClose }) => (
               <a
                 href="javascript:"
-                className={classNames(styles.close, { [styles.fixed]: fixed })}
+                className={cx(styles.close, jsStyles.close(this.theme), {
+                  [styles.fixed]: fixed,
+                  [jsStyles.fixed(this.theme)]: fixed,
+                })}
                 onClick={requestClose}
                 data-tid="SidePage-Close"
               >

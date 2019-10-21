@@ -2,18 +2,30 @@ import * as React from 'react';
 import { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import warningOutput from 'warning';
 import * as ReactDOM from 'react-dom';
+import {
+  isKeyArrowHorizontal,
+  isKeyArrowLeft, isKeyArrowRight,
+  isKeyArrowUp,
+  isKeyArrowVertical,
+  isKeyBackspace, isKeyDelete,
+  isKeyEnter,
+  isKeyEscape, isShortcutSelectAll,
+} from '../../lib/events/keyboard/identifiers';
 import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import LayoutEvents from '../../lib/LayoutEvents';
-import styles from './TokenInput.less';
-import cn from 'classnames';
+import styles from './TokenInput.module.less';
 import Menu from '../Menu/Menu';
 import Token, { TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './TokenInput.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 
 export enum TokenInputType {
   WithReference,
@@ -74,10 +86,10 @@ const defaultRenderToken = <T extends any>(
   item: T,
   { isActive, onClick, onRemove, disabled }: Partial<TokenProps & TokenActions>,
 ) => (
-    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
-      {item}
-    </Token>
-  );
+  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
+    {item}
+  </Token>
+);
 
 export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static defaultProps: Partial<TokenInputProps<any>> = {
@@ -101,6 +113,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     activeTokens: [],
   };
 
+  private theme!: ITheme;
   private input: HTMLInputElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -136,7 +149,18 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     document.removeEventListener('copy', this.handleCopy);
   }
 
-  public render(): ReactNode {
+  public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       throw Error('Missed getItems for type ' + this.type);
     }
@@ -172,19 +196,26 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
+    const theme = this.theme;
+    const labelClassName = cx(styles.label, jsStyles.label(theme), {
+      [jsStyles.labelFocused(theme)]: !!inFocus,
+      [jsStyles.error(theme)]: !!error,
+      [jsStyles.warning(theme)]: !!warning,
+      [styles.labelDisabled]: !!disabled,
+      [jsStyles.labelDisabled(theme)]: !!disabled,
+    });
+    const inputClassName = cx(styles.input, jsStyles.input(theme), {
+      [styles.inputDisabled]: !!disabled,
+      [jsStyles.inputDisabled(theme)]: !!disabled,
+    });
     return (
-      <div data-tid="TokenInput" className={styles.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <div className={styles.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         {/* расчёт ширины текста с последующим обновлением ширины input */}
         <TextWidthHelper ref={this.textHelperRef} text={inputValue} />
         <label
           ref={this.wrapperRef}
           style={{ width }}
-          className={cn(styles.label, {
-            [styles.focus]: inFocus,
-            [styles.error]: error,
-            [styles.warning]: warning,
-            [styles.disabled]: disabled,
-          })}
+          className={labelClassName}
           onMouseDown={this.handleWrapperMouseDown}
           onMouseUp={this.handleWrapperMouseUp}
         >
@@ -197,7 +228,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
             autoComplete="off"
             spellCheck={false}
             disabled={disabled}
-            className={styles.input}
+            className={inputClassName}
             placeholder={selectedItems.length > 0 ? undefined : placeholder}
             onFocus={this.handleInputFocus}
             onBlur={this.handleInputBlur}
@@ -397,41 +428,40 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     }
   };
 
-  private handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    event.stopPropagation();
+  private handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && (event.key === 'Enter' || this.delimiters.includes(event.key))) {
-      event.preventDefault();
+    if (this.type !== TokenInputType.WithReference && (isKeyEnter(e) || this.delimiters.includes(e.key))) {
+      e.preventDefault();
       const newValue = this.state.inputValue as any;
       if (newValue !== '') {
         this.handleAddItem(newValue);
       }
     }
 
-    switch (event.key) {
-      case 'Enter':
+    switch (true) {
+      case isKeyEnter(e):
         if (this.menuRef) {
-          this.menuRef.enter(event);
+          this.menuRef.enter(e);
         }
         break;
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault();
+      case isKeyArrowVertical(e):
+        e.preventDefault();
         if (this.menuRef) {
-          if (event.key === 'ArrowUp') {
+          if (isKeyArrowUp(e)) {
             this.menuRef.up();
           } else {
             this.menuRef.down();
           }
         }
         break;
-      case 'Escape':
+      case isKeyEscape(e):
         this.input!.blur();
         break;
-      case 'Backspace':
+      case isKeyBackspace(e):
         this.moveFocusToLastToken();
         break;
-      case 'ArrowLeft':
+      case isKeyArrowLeft(e):
         if (this.input!.selectionStart === 0) {
           this.moveFocusToLastToken();
         }
@@ -450,10 +480,10 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     process.nextTick(() => this.input!.focus());
   };
 
-  private handleWrapperKeyDown = (event: KeyboardEvent<HTMLElement>) => {
-    switch (event.key) {
-      case 'Backspace':
-      case 'Delete':
+  private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    switch (true) {
+      case isKeyBackspace(e):
+      case isKeyDelete(e):
         const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
         this.props.onChange(itemsNew);
         this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
@@ -461,33 +491,30 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
           this.input!.focus();
         });
         break;
-      case 'ArrowLeft':
-      case 'ArrowRight':
-        this.handleWrapperArrows(event);
+      case isKeyArrowHorizontal(e):
+        this.handleWrapperArrows(e);
         break;
-      case 'Escape':
+      case isKeyEscape(e):
         this.wrapper!.blur();
         break;
-      case 'a':
-        if (event.ctrlKey) {
-          event.preventDefault();
-          this.dispatch({
-            type: 'SET_ACTIVE_TOKENS',
-            payload: this.props.selectedItems,
-          });
-        }
+      case isShortcutSelectAll(e):
+        e.preventDefault();
+        this.dispatch({
+          type: 'SET_ACTIVE_TOKENS',
+          payload: this.props.selectedItems,
+        });
         break;
     }
   };
 
-  private handleWrapperArrows = (event: KeyboardEvent<HTMLElement>) => {
-    event.preventDefault();
+  private handleWrapperArrows = (e: KeyboardEvent<HTMLElement>) => {
+    e.preventDefault();
     const activeTokens = this.state.activeTokens;
     const activeItemIndex = this.props.selectedItems.indexOf(activeTokens[0]);
-    const newItemIndex = activeItemIndex + (event.key === 'ArrowLeft' ? -1 : +1);
-    const isLeftEdge = activeItemIndex === 0 && event.key === 'ArrowLeft';
-    const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && event.key === 'ArrowRight';
-    if (!event.shiftKey && activeTokens.length === 1) {
+    const newItemIndex = activeItemIndex + (isKeyArrowLeft(e) ? -1 : +1);
+    const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
+    const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && isKeyArrowRight(e);
+    if (!e.shiftKey && activeTokens.length === 1) {
       this.handleWrapperArrowsWithoutShift(isLeftEdge, isRightEdge, newItemIndex);
     } else {
       this.handleWrapperArrowsWithShift(isLeftEdge, isRightEdge, newItemIndex);

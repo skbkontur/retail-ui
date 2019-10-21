@@ -3,12 +3,15 @@ import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
 import CROSS from '../internal/cross';
 import { Nullable } from '../../typings/utility-types';
-import styles from './Tooltip.less';
+import styles from './Tooltip.module.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-
+import jsStyles from './Tooltip.styles';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
 
@@ -160,17 +163,16 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: true,
     closeOnChildrenMouseLeave: false,
   };
 
   public static closeDelay = 100;
-
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
-
+  private theme!: ITheme;
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
@@ -190,13 +192,14 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   }
 
   public render() {
-    const props = this.props;
-    const content = this.renderContent();
-    const { popupProps, layerProps = { active: false } } = this.getProps();
-    const anchorElement = props.children || props.anchorElement;
-    const popup = this.renderPopup(anchorElement, popupProps, content);
-
-    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
   }
 
   public renderContent = () => {
@@ -224,10 +227,20 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <span className={styles.cross} onClick={this.handleCloseButtonClick}>
+      <span className={cx(styles.cross, jsStyles.cross(this.theme))} onClick={this.handleCloseButtonClick}>
         {CROSS}
       </span>
     );
+  }
+
+  private renderMain() {
+    const props = this.props;
+    const content = this.renderContent();
+    const { popupProps, layerProps = { active: false } } = this.getProps();
+    const anchorElement = props.children || props.anchorElement;
+    const popup = this.renderPopup(anchorElement, popupProps, content);
+
+    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
   private renderPopup(

@@ -1,6 +1,8 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
+import Button from '../../Button';
 import Select from '../Select';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
@@ -88,6 +90,47 @@ storiesOf('Select', module)
       private handleClick = () => {
         if (this.selectElem) {
           this.selectElem.focus();
+        }
+      };
+    }
+
+    return <Sample />;
+  })
+  .add('using onKeyDown', () => {
+    class Sample extends React.Component {
+      public state = {
+        opened: false,
+        text: 'wait...',
+      };
+      private button: Button | null = null;
+      public render() {
+        return (
+          <div>
+            <Select
+              items={['one', 'two', 'three']}
+              onKeyDown={this.onKeyDown}
+              onOpen={this.onOpen}
+              onClose={this.onClose}
+            />
+            <br />
+            <Button
+              onFocus={this.onFocus}
+              ref={el => {
+                this.button = el;
+              }}
+            >
+              {this.state.text}
+            </Button>
+          </div>
+        );
+      }
+
+      private onOpen = () => this.setState({ opened: true });
+      private onClose = () => this.setState({ opened: false });
+      private onFocus = () => this.setState({ text: 'focused!' });
+      private onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+        if (this.button && isKeyEnter(e) && this.state.opened) {
+          this.button.focus();
         }
       };
     }

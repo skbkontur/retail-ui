@@ -59,9 +59,6 @@ const styles = {
     },
   },
   ComponentsList: {
-    list: {
-      paddingBottom: 100,
-    },
     item: {
       fontSize: '16px',
       margin: 0,
@@ -113,6 +110,17 @@ const styles = {
       marginBottom: 10,
     },
   },
+  Code: {
+    code: {
+      ':not(pre) > &': {
+        fontFamily: 'Consolas, "Liberation Mono", Menlo, monospace',
+        fontSize: '90%',
+        background: '#f5f5f5',
+        borderRadius: '2px',
+        padding: '.12em .3em',
+      },
+    },
+  },
 };
 
 const webpackConfig = {
@@ -130,6 +138,7 @@ const webpackConfig = {
           {
             loader: 'babel-loader',
             options: {
+              babelrc: false,
               presets: ['env', 'react'],
               plugins: [
                 'transform-object-rest-spread',

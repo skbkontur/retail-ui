@@ -1,13 +1,12 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { getFirstFocusableElement, getNextFocusableElement } from '../../lib/dom/getFocusableElements';
 
 export type CustomComboBoxAction<T> =
   | { type: 'TextClear' }
@@ -30,7 +29,6 @@ export type CustomComboBoxAction<T> =
   | { type: 'RequestItems' }
   | { type: 'ReceiveItems'; items: T[] }
   | { type: 'RequestFailure'; repeatRequest: () => void }
-  | { type: 'FocusNextElement' }
   | { type: 'CancelRequest' };
 
 export type CustomComboBoxEffect<T> = (
@@ -58,11 +56,11 @@ interface EffectFactory {
   InputFocus: Effect;
   HighlightMenuItem: Effect;
   SelectMenuItem: (event: React.KeyboardEvent<HTMLElement>) => Effect;
+  InputKeyDown: (event: React.KeyboardEvent<HTMLElement>) => Effect;
   MoveMenuHighlight: (direction: 'up' | 'down') => Effect;
   ResetHighlightedMenuItem: Effect;
   Reflow: Effect;
   SelectInputText: Effect;
-  FocusNextElement: Effect;
 }
 
 const DEBOUNCE_DELAY = 300;
@@ -181,18 +179,9 @@ export const Effect: EffectFactory = {
     }
   },
   SelectMenuItem: event => (dispatch, getState, getProps, getInstance) => {
-    const instance = getInstance();
-    const { requestStatus } = getState();
-    const { menu } = instance;
-    const eventType = event.type;
-    const eventIsProperToFocusNextElement =
-      (eventType === 'keyup' || eventType === 'keydown' || eventType === 'keypress') && event.key === 'Enter';
-
+    const { menu } = getInstance();
     if (menu) {
       menu.enter(event);
-      if (eventIsProperToFocusNextElement && requestStatus !== ComboBoxRequestStatus.Failed) {
-        dispatch({ type: 'FocusNextElement' });
-      }
     }
   },
   MoveMenuHighlight: direction => (dispatch, getState, getProps, getInstance) => {
@@ -215,17 +204,10 @@ export const Effect: EffectFactory = {
     const combobox = getInstance();
     combobox.selectInputText();
   },
-  FocusNextElement: (dispatch, getState, getProps, getInstance) => {
-    const node = ReactDOM.findDOMNode(getInstance());
-
-    if (node instanceof Element) {
-      const currentFocusable = getFirstFocusableElement(node);
-      if (currentFocusable) {
-        const nextFocusable = getNextFocusableElement(currentFocusable, currentFocusable.parentElement);
-        if (nextFocusable) {
-          nextFocusable.focus();
-        }
-      }
+  InputKeyDown: event => (dispatch, getState, getProps, getInstance) => {
+    const { onInputKeyDown } = getProps();
+    if (onInputKeyDown) {
+      onInputKeyDown(event);
     }
   },
 };
@@ -285,27 +267,31 @@ export function reducer<T>(
       return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
     }
     case 'KeyPress': {
-      const { event } = action;
-      switch (event.key) {
-        case 'Enter':
-          event.preventDefault();
-          return [state, [Effect.SelectMenuItem(event as React.KeyboardEvent<HTMLElement>)]];
-        case 'ArrowUp':
-        case 'ArrowDown':
-          event.preventDefault();
-          const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down')];
+      const e = action.event as React.KeyboardEvent<HTMLElement>;
+      const effects = [];
+      let nextState = state;
+
+      switch (true) {
+        case isKeyEnter(e):
+          e.preventDefault();
+          effects.push(Effect.SelectMenuItem(e));
+          break;
+        case isKeyArrowVertical(e):
+          e.preventDefault();
+          effects.push(Effect.MoveMenuHighlight(isKeyArrowUp(e) ? 'up' : 'down'));
           if (!state.opened) {
             effects.push(Effect.Search(state.textValue));
           }
-          return [state, effects];
-        case 'Escape':
-          return {
+          break;
+        case isKeyEscape(e):
+          nextState = {
+            ...state,
             items: null,
             opened: false,
           };
-        default:
-          return state;
+          break;
       }
+      return [nextState, [...effects, Effect.InputKeyDown(e)]]
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
@@ -406,9 +392,6 @@ export function reducer<T>(
         },
         [Effect.HighlightMenuItem],
       ];
-    }
-    case 'FocusNextElement': {
-      return [state, [Effect.FocusNextElement]];
     }
     case 'CancelRequest': {
       return {

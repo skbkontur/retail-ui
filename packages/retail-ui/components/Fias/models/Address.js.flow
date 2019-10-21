@@ -1,5 +1,5 @@
 /* @flow */
-import type { AddressErrors, AddressFields, AddressResponse, AddressValue, FiasValue, Fields } from '../types';
+import type { AddressErrors, AddressFields, AddressResponse, AddressValue, FiasValue, Fields, FieldsSettings, APIProvider } from '../types';
 
 declare export class Address {
   static ALL_FIELDS: Fields[],
@@ -14,6 +14,13 @@ declare export class Address {
     invalidLevel?: string | void,
   |}[], notVerifiedMessage: string) => Address,
   static getParentFields: (field: Fields) => Fields[],
+  static filterVisibleFields: (
+    fields: {| [key: Fields]: any |},
+    fieldsSettings: FieldsSettings,
+  ) => {| [key: Fields]: any |},
+  static getChildFields: (field: Fields) => Fields[],
+  static removeFiasData: (address: Address, fields: Fields[]) => Address,
+  static getAddress: (api: APIProvider, value?: FiasValue, fieldsSettings?: FieldsSettings) => Promise<Address>,
 
   +isEmpty: boolean,
   +hasErrors: boolean,
@@ -43,7 +50,7 @@ declare export class Address {
   getClosestParentFiasId: (field?: Fields | void) => string | void,
   getFiasId: () => string,
   getAddressValue: () => AddressValue,
-  getValue: () => FiasValue,
+  getValue: (withPostalCode?: boolean) => FiasValue,
   convertForVerification: () => {},
 }
 

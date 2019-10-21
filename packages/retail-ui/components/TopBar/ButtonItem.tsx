@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Item, { ItemProps } from './Item';
 
-import styles from './TopBar.less';
+import styles from './TopBar.module.less';
 import { IconProps } from '../Icon/20px';
 
 export interface ButtonItemProps extends ItemProps {
@@ -13,10 +13,13 @@ export interface ButtonItemProps extends ItemProps {
   minWidth?: string | number;
   onClick?: () => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
-  use?: 'danger' | 'pay';
+  use: 'danger' | 'pay' | 'default';
 }
 
 class ButtonItem extends React.Component<ButtonItemProps> {
+  public static defaultProps = {
+    use: 'default',
+  };
   public render() {
     const { onClick, children, onKeyDown, ...rest } = this.props;
     return (

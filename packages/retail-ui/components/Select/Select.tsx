@@ -1,11 +1,16 @@
+import {
+  isKeyArrowDown,
+  isKeyArrowUp,
+  isKeyArrowVertical,
+  isKeyEnter,
+  isKeyEscape,
+  isKeySpace,
+} from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
-
-import classNames from 'classnames';
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-
 import Button from '../Button';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
@@ -18,11 +23,14 @@ import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
 import Item from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
-
-import styles from './Select.less';
+import styles from './Select.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Select.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -67,6 +75,7 @@ export interface SelectProps<TValue, TItem> {
   onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
   onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   onOpen?: () => void;
   placeholder?: React.ReactNode;
   renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
@@ -175,6 +184,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     onMouseLeave: PropTypes.func,
 
     onMouseOver: PropTypes.func,
+
+    onKeyDown: PropTypes.func,
   };
 
   public static defaultProps = {
@@ -187,6 +198,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
+
   public static static = (element: React.ReactNode | (() => React.ReactNode)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
@@ -200,11 +212,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     value: this.props.defaultValue,
   };
 
+  private theme!: ITheme;
   private readonly locale!: SelectLocale;
-
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
-
   private getProps = createPropsGetter(Select.defaultProps);
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
@@ -217,30 +228,13 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   }
 
   public render() {
-    const { label, isPlaceholder } = this.renderLabel();
-
-    const buttonParams: ButtonParams = {
-      opened: this.state.opened,
-      label,
-      isPlaceholder,
-      onClick: this.toggle,
-      onKeyDown: this.handleKey,
-    };
-
-    const style = {
-      width: this.props.width,
-      maxWidth: this.props.maxWidth || undefined,
-    };
-
-    const button = this.getButton(buttonParams);
-
     return (
-      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-        <span className={styles.root} style={style}>
-          {button}
-          {!this.props.disabled && this.state.opened && this.renderMenu()}
-        </span>
-      </RenderLayer>
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
     );
   }
 
@@ -277,6 +271,34 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     if (this.buttonElement && this.buttonElement.focus) {
       this.buttonElement.focus();
     }
+  };
+
+  private renderMain() {
+    const { label, isPlaceholder } = this.renderLabel();
+
+    const buttonParams: ButtonParams = {
+      opened: this.state.opened,
+      label,
+      isPlaceholder,
+      onClick: this.toggle,
+      onKeyDown: this.handleKey,
+    };
+
+    const style = {
+      width: this.props.width,
+      maxWidth: this.props.maxWidth || undefined,
+    };
+
+    const button = this.getButton(buttonParams);
+
+    return (
+      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+        <span className={styles.root} style={style}>
+          {button}
+          {!this.props.disabled && this.state.opened && this.renderMenu()}
+        </span>
+      </RenderLayer>
+    );
   }
 
   private renderLabel() {
@@ -293,7 +315,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     return {
       label: (
         <span
-          className={classNames({
+          className={cx({
             [styles.customUsePlaceholder]: this.props.use !== 'default',
           })}
         >
@@ -329,10 +351,11 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     }
 
     const labelProps = {
-      className: classNames({
+      className: cx({
         [styles.label]: this.props.use !== 'link',
         [styles.labelWithLeftIcon]: !!this.props._icon,
         [styles.placeholder]: params.isPlaceholder,
+        [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
         [styles.customUsePlaceholder]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
@@ -348,7 +371,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
           <span className={styles.labelText}>{params.label}</span>
         </span>
         <div className={styles.arrowWrap}>
-          <div className={classNames(styles.arrow, useIsCustom && styles.customUseArrow)} />
+          <div className={cx(styles.arrow, jsStyles.arrow(this.theme), useIsCustom && styles.customUseArrow)} />
         </div>
       </Button>
     );
@@ -446,32 +469,40 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     }
   };
 
-  private handleKey = (event: React.KeyboardEvent<HTMLElement>) => {
-    const key = event.key;
+  private handleKey = (e: React.KeyboardEvent<HTMLElement>) => {
     if (!this.state.opened) {
-      if (key === ' ' || key === 'ArrowUp' || key === 'ArrowDown') {
-        event.preventDefault();
+      if (isKeySpace(e) || isKeyArrowVertical(e)) {
+        e.preventDefault();
         this.open();
       }
     } else {
-      if (key === 'Escape') {
-        this.setState({ opened: false }, this.focus);
-      } else if (event.key === 'ArrowUp') {
-        event.preventDefault();
-        if (this.menu) {
-          this.menu.up();
-        }
-      } else if (event.key === 'ArrowDown') {
-        event.preventDefault();
-        if (this.menu) {
-          this.menu.down();
-        }
-      } else if (event.key === 'Enter') {
-        event.preventDefault(); // To prevent form submission.
-        if (this.menu) {
-          this.menu.enter(event);
-        }
+      switch (true) {
+        case isKeyEscape(e):
+          this.focus();
+          this.close();
+          break;
+        case isKeyArrowUp(e):
+          e.preventDefault();
+          if (this.menu) {
+            this.menu.up();
+          }
+          break;
+        case isKeyArrowDown(e):
+          e.preventDefault();
+          if (this.menu) {
+            this.menu.down();
+          }
+          break;
+        case isKeyEnter(e):
+          e.preventDefault(); // To prevent form submission.
+          if (this.menu) {
+            this.menu.enter(e);
+          }
+          break;
       }
+    }
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
     }
   };
 
@@ -480,15 +511,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   };
 
   private select(value: TValue) {
-    this.setState(
-      {
-        opened: false,
-        value,
-      },
-      () => {
-        setTimeout(this.focus, 0);
-      },
-    );
+    this.focus();
+    this.setState({ opened: false, value });
 
     if (this.props.onChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
       this.props.onChange({ target: { value } }, value);

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../typings/utility-types';
 import ButtonItem from './ButtonItem';
 import { IconProps } from '../Icon/20px';
@@ -16,13 +17,17 @@ export interface ButtonParams {
 export interface TopBarDropdownProps {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
-  use?: 'danger' | 'pay';
+  use: 'danger' | 'pay' | 'default';
   label: React.ReactNode;
   onOpen?: () => void;
   onClose?: () => void;
 }
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
+  public static defaultProps = {
+    use: 'default',
+  };
+
   private dropdownMenu: Nullable<DropdownMenu> = null;
 
   public render() {
@@ -67,18 +72,10 @@ class TopBarDropdown extends React.Component<TopBarDropdownProps> {
     );
   };
 
-  private handleKeyDown = (event: React.KeyboardEvent<HTMLElement>, openMenu: PopupMenuCaptionProps['openMenu']) => {
-    switch (event.key) {
-      case 'Enter':
-      case ' ':
-      case 'ArrowUp':
-      case 'ArrowDown':
-        event.preventDefault();
-        openMenu(true);
-        break;
-
-      default:
-        break;
+  private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>, openMenu: PopupMenuCaptionProps['openMenu']) => {
+    if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
+      e.preventDefault();
+      openMenu(true);
     }
   };
 }

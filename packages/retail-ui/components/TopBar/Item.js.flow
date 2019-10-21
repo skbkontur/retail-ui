@@ -10,7 +10,7 @@ export type ItemProps = {|
   icon?: $PropertyType<IconProps, 'name'>,
   iconOnly?: boolean,
   minWidth?: string | number,
-  use?: 'danger' | 'pay',
+  use?: 'danger' | 'pay' | 'default',
   tabIndex?: number,
 |};
 

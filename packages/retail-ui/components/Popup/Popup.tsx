@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
@@ -10,16 +9,20 @@ import raf from 'raf';
 import PopupHelper, { Offset, PositionObject, Rect } from './PopupHelper';
 import PopupPin from './PopupPin';
 import LayoutEvents from '../../lib/LayoutEvents';
-import styles from './Popup.less';
+import styles from './Popup.module.less';
 import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
 import LifeCycleProxy from '../internal/LifeCycleProxy';
-
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Popup.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
+
 const DUMMY_LOCATION: PopupLocation = {
   position: 'top left',
   coordinates: {
@@ -167,12 +170,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: false,
   };
 
   public state: PopupState = { location: null };
-
+  private theme!: ITheme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
@@ -187,7 +190,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   public componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
     const isGoingToOpen = !this.props.opened && nextProps.opened;
     const isGoingToUpdate = this.props.opened && nextProps.opened;
-    const isGoingToClose = this.props.opened && !nextProps.opened;
 
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
@@ -197,9 +199,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      */
     if (isGoingToOpen || isGoingToUpdate) {
       this.delayUpdateLocation();
-    }
-    if (isGoingToClose) {
-      this.resetLocation();
     }
   }
 
@@ -213,6 +212,17 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { anchorElement, useWrapper } = this.props;
 
     let child: Nullable<React.ReactNode> = null;
@@ -281,21 +291,25 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       this.props.onMouseEnter(event);
     }
   };
+
   private handleMouseLeave = (event: MouseEventType) => {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(event);
     }
   };
+
   private handleClick = (event: MouseEventType) => {
     if (this.props.onClick) {
       this.props.onClick(event);
     }
   };
+
   private handleFocus = (event: FocusEventType) => {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
+
   private handleBlur = (event: FocusEventType) => {
     if (this.props.onBlur) {
       this.props.onBlur(event);
@@ -303,21 +317,12 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent() {
-    const props = this.props;
+    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
     const children = this.renderChildren();
-
-    if (!props.opened || !children) {
-      return null;
-    }
 
     const location = this.state.location || DUMMY_LOCATION;
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const { backgroundColor, disableAnimations } = props;
-    const rootStyle: React.CSSProperties = {
-      top: location.coordinates.top,
-      left: location.coordinates.left,
-      maxWidth: props.maxWidth,
-    };
+    const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
     // This need to correct handle order of lifecycle hooks with portal and react@15
     // For more details see issue #1257
@@ -326,7 +331,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         <Transition
           timeout={TRANSITION_TIMEOUT}
           appear={!disableAnimations}
-          in
+          in={Boolean(opened && children)}
           mountOnEnter
           unmountOnExit
           enter={!disableAnimations}
@@ -337,21 +342,28 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               key={this.state.location ? 'real' : 'dummy'}
               delta={1000}
               ref={this.refPopupElement}
-              className={cn({
-                [styles.popup]: true,
-                [styles['popup-ignore-hover']]: props.ignoreHover,
-                [styles.shadow]: props.hasShadow,
-                [styles['transition-enter']]: state === 'entering',
-                [styles['transition-enter-active']]: state === 'entered',
-                [styles['transition-exit']]: state === 'exiting',
-                [styles[('transition-enter-' + direction) as keyof typeof styles]]: true,
+              className={cx([styles.popup, jsStyles.popup(this.theme)], {
+                [jsStyles.shadow(this.theme)]: hasShadow,
+                [styles['popup-ignore-hover']]: !!ignoreHover,
+                ...(disableAnimations
+                  ? {}
+                  : {
+                      [styles['transition-enter']]: state === 'entering',
+                      [styles['transition-enter-active']]: state === 'entered',
+                      [styles['transition-exit']]: state === 'exiting',
+                      [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                    }),
               })}
               style={rootStyle}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={styles.content} data-tid={'PopupContent'}>
-                <div className={styles.contentInner} style={{ backgroundColor }} data-tid={'PopupContentInner'}>
+              <div className={cx(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
+                <div
+                  className={jsStyles.contentInner(this.theme)}
+                  style={{ backgroundColor }}
+                  data-tid={'PopupContentInner'}
+                >
                   {children}
                 </div>
               </div>
@@ -376,11 +388,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private renderPin(position: string): React.ReactNode {
     /**
      * Box-shadow does not appear under the pin. Borders are used instead.
-     * In non-ie browsers drop-shodow filter is used. It is applying
-     * shadow to pin too.
+     * In non-ie browsers drop-shadow filter is used. It is applying
+     * shadow to the pin too.
      */
-    const pinBorder =
-      styles.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR && isIE ? 'rgba(0, 0, 0, 0.09)' : styles.popupBorderColor;
+    const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
+    const pinBorder = isIE && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
     const { pinSize, pinOffset, hasShadow, backgroundColor, borderColor } = this.props;
 
@@ -392,7 +404,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
           size={pinSize}
           offset={pinOffset}
           borderWidth={hasShadow ? 1 : 0}
-          backgroundColor={backgroundColor || styles.popupBackground}
+          backgroundColor={backgroundColor || this.theme.popupBackground}
           borderColor={borderColor || pinBorder}
         />
       )
@@ -441,11 +453,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private resetLocation = () => {
-    this.cancelDelayedUpdateLocation();
-    this.setState({ location: null });
-  };
-
   private locationEquals(x: Nullable<PopupLocation>, y: Nullable<PopupLocation>) {
     if (x === y) {
       return true;
@@ -459,6 +466,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
     );
   }
+
   private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
     const positions = this.props.positions;
     const anchorElement = this.anchorElement;

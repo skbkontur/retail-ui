@@ -1,27 +1,21 @@
 import * as React from 'react';
-import cn from 'classnames';
 import warningOutput from 'warning';
 import Link from '../Link';
+import LocaleProvider from '../LocaleProvider';
 import { locale } from '../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from './locale';
-import {
-  Fields,
-  ExtraFields,
-  FiasValue,
-  FormValidation,
-  APIProvider,
-  AdditionalFields,
-  FieldsSettings,
-  SearchOptions,
-} from './types';
+import { Fields, ExtraFields, FiasValue, FormValidation, APIProvider, FieldsSettings } from './types';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import FiasModal from './FiasModal';
 import FiasForm from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
-import styles from './Fias.less';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Fias.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface FiasProps {
   /**
@@ -152,6 +146,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     fieldsSettings: this.fieldsSettings,
   };
 
+  private theme!: ITheme;
   private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: FiasForm | null = null;
 
@@ -208,11 +203,21 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   public isFieldVisible(field: Fields | ExtraFields): boolean {
-    const settings = this.state.fieldsSettings[field];
-    return Boolean(settings && settings.visible);
+    return Address.isFieldVisible(field, this.state.fieldsSettings);
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { showAddressText, label, icon, error, warning, feedback } = this.props;
     const { opened, address } = this.state;
 
@@ -220,22 +225,26 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
     const validation =
       (error || warning) && feedback ? (
-        <span className={cn({ [styles.error]: error, [styles.warning]: warning })}>{feedback}</span>
+        <span className={cx({ [jsStyles.error(this.theme)]: !!error, [jsStyles.warning(this.theme)]: !!warning })}>
+          {feedback}
+        </span>
       ) : null;
 
     return (
-      <div>
-        {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
-        {!this.props.readonly && (
-          <div>
-            <Link icon={icon} onClick={this.handleOpen}>
-              {linkText}
-            </Link>
-          </div>
-        )}
-        {validation}
-        {opened && this.renderModal()}
-      </div>
+      <LocaleProvider locale={{ Fias: this.state.locale }}>
+        <div>
+          {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
+          {!this.props.readonly && (
+            <div>
+              <Link icon={icon} onClick={this.handleOpen}>
+                {linkText}
+              </Link>
+            </div>
+          )}
+          {validation}
+          {opened && this.renderModal()}
+        </div>
+      </LocaleProvider>
     );
   }
 
@@ -250,14 +259,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     const { address, fieldsSettings } = this.state;
     const { search, limit, formValidation, countrySelector } = this.props;
     return (
-      <FiasModal locale={this.state.locale} onClose={this.handleClose} onSave={this.handleSave}>
+      <FiasModal onClose={this.handleClose} onSave={this.handleSave}>
         <FiasForm
           ref={this.refForm}
           address={address}
           api={this.api}
           search={search}
           limit={limit}
-          locale={this.state.locale}
           validationLevel={formValidation}
           fieldsSettings={fieldsSettings}
           countrySelector={countrySelector}
@@ -274,7 +282,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   private updateAddress = async (): Promise<Address> => {
-    const address = await this.getAddress(this.props.value);
+    const address = await Address.getAddress(this.api, this.props.value, this.state.fieldsSettings);
     this.setState({
       address,
     });
@@ -289,55 +297,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     this.setState({
       fieldsSettings: this.fieldsSettings,
     });
-  };
-
-  private getAddress = async (value: Partial<FiasValue> | undefined) => {
-    if (value) {
-      const { address, addressString, fiasId, postalCode, country, foreignAddress } = value;
-      const additionalFields: AdditionalFields = {};
-      const { fieldsSettings } = this.state;
-      let searchOptions: SearchOptions = {};
-
-      if (postalCode) {
-        additionalFields[ExtraFields.postalcode] = postalCode;
-      }
-
-      if (country && !Address.IS_RUSSIA(country)) {
-        return new Address({
-          country,
-          foreignAddress,
-          additionalFields: { [ExtraFields.postalcode]: postalCode },
-        });
-      }
-
-      if (address) {
-        const addressValue = Address.filterVisibleFields(address, fieldsSettings);
-        return Address.createFromAddressValue(addressValue, additionalFields, country);
-      }
-
-      if (fiasId) {
-        searchOptions = {
-          fiasId,
-        };
-      }
-
-      if (addressString) {
-        searchOptions = {
-          searchText: addressString,
-          limit: 1,
-        };
-      }
-
-      const { success, data } = await this.api.search(searchOptions);
-      if (success && data && data.length) {
-        const addressResponse = Address.filterVisibleFields(data[0], fieldsSettings);
-        return Address.createFromResponse(addressResponse, additionalFields, country);
-      } else {
-        return new Address({ country });
-      }
-    }
-
-    return new Address();
   };
 
   private handleOpen = () => {

@@ -1,15 +1,21 @@
 import { Effect } from '../CustomComboBoxReducer';
+import { CustomComboBoxProps } from '../CustomComboBox';
 
 interface ItemType {
   value: number;
   label: string;
 }
 
-const createGetPropsMock = (valueToString: (item: ItemType) => string) =>
-  jest.fn(() => ({
-    onUnexpectedInput: null,
-    valueToString,
+const createGetPropsMock = (props: Partial<CustomComboBoxProps<ItemType>>) => {
+  return jest.fn(() => ({
+    itemToValue: (item: ItemType) => item.value,
+    valueToString: (item: ItemType) => item.label,
+    renderValue: (item: ItemType) => item.label,
+    renderItem: (item: ItemType) => item.label,
+    getItems: () => Promise.resolve([]),
+    ...props,
   }));
+};
 
 const testCase = [
   {
@@ -54,7 +60,7 @@ const testCase = [
 describe('Default combobox reducer', () => {
   testCase.forEach(({ inputValue, items, valueToString, expectedDispatch }, index) => {
     it(`ValueChange after UnexpectedInput (test ${index + 1})`, () => {
-      const mockedGetProps = createGetPropsMock(valueToString);
+      const mockedGetProps = createGetPropsMock({ valueToString });
       const mockedDispatch = jest.fn();
       const mockedGetState = jest.fn();
       const mockedGetInstance = jest.fn();
@@ -74,7 +80,7 @@ describe('Default combobox reducer', () => {
   });
 
   it('UnexpectedInput with single item should call `ValueChange` action once', () => {
-    const mockedGetProps = jest.fn(() => ({ onUnexpectedInput: (x: any) => x, valueToString: (x: any) => x }));
+    const mockedGetProps = createGetPropsMock({ onUnexpectedInput: (x: any) => x, valueToString: (x: any) => x });
     const mockedDispatch = jest.fn();
     const mockedGetState = jest.fn();
     const mockedGetInstance = jest.fn();

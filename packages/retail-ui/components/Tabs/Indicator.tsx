@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import cn from 'classnames';
 import LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
 import { TabIndicators } from './Tab';
-
-import styles from './Indicator.less';
+import styles from './Indicator.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Indicator.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface IndicatorProps {
   className?: string;
@@ -28,9 +30,12 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     styles: {},
   };
 
+  private theme!: ITheme;
+
   private eventListener: Nullable<{
     remove: () => void;
   }> = null;
+
   private removeTabUpdatesListener: Nullable<() => void> = null;
 
   public componentDidMount() {
@@ -55,6 +60,17 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     const { context } = this.props;
     const node = context ? context.getTab(context.activeTab) : null;
     const indicators: TabIndicators = (node && node.getIndicators && node.getIndicators()) || {
@@ -66,12 +82,13 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     };
     return (
       <div
-        className={cn(
+        className={cx(
           styles.root,
-          indicators.primary && styles.primary,
-          indicators.success && styles.success,
-          indicators.warning && styles.warning,
-          indicators.error && styles.error,
+          jsStyles.root(this.theme),
+          indicators.primary && jsStyles.primary(this.theme),
+          indicators.success && jsStyles.success(this.theme),
+          indicators.warning && jsStyles.warning(this.theme),
+          indicators.error && jsStyles.error(this.theme),
           this.props.className,
         )}
         style={this.state.styles}
@@ -122,5 +139,4 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
 }
 
 export const IndicatorWithContext = withContext(TabsContext.Consumer)(Indicator);
-
 export default IndicatorWithContext;

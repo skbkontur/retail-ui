@@ -1,28 +1,42 @@
-### Будущее
+### 2020
 
-- [ ] Встраивание метрик
+- [ ] Поддержка мобилок
 - [ ] Приватная библиотека с компонентами, использующими фирменый стиль
 - [ ] Реализация компонента списка уведомлений
 - [ ] Реализация компонента загрузки файлов
 - [ ] Поддержка онлайн IDE (codesandbox)
 - [ ] Поддержка мобильной версии компонентов
+- [ ] Компонент Grid Layout
 
 ### 2019
 
-- [ ] Шаблон проекта для быстрого старта
-- [ ] Интеграция скриншотных тестов КЭвеба в релизный цикл
+- [ ] Шаблон проекта для быстрого старта (Анисимов)
+- [ ] Встраивание метрик [#1555](https://github.com/skbkontur/retail-ui/issues/1555)
+- [ ] Дизайн решения по отправке телеметрии [#1566](https://github.com/skbkontur/retail-ui/issues/1566)
+
+### Октябрь 2019
+
+- [ ] Дизайн решения по сбору телеметрии [#1539](https://github.com/skbkontur/retail-ui/issues/1539)
+- [ ] Интеграция скриншотных тестов CandyForms в релизный цикл
+
+### Сентябрь 2019
+
+- [ ] Интеграция скриншотных тестов КЭвеба в релизный цикл 
+- [ ] Переезд всех стилей с Less на CSS-in-JS
+
+### Август 2019
+
+- [x] Отказ от SauceLabs в пользу SeleniumGrid для скриншотных тестов [#1131](https://github.com/skbkontur/retail-ui/issues/1131)
 
 ### Июль 2019
 
-- [ ] Интеграция скриншотных тестов CandyForms в релизный цикл
-- [ ] Отказ от SauceLabs в пользу SeleniumGrid КЭвеба для скриншотных тестов
+- [x] Гайдлайн для контрибьюторов [#1274](https://github.com/skbkontur/retail-ui/pull/1274)
 
 ### Июнь 2019
 
-- [ ] Гайдлайн для контрибьюторов [#1274](https://github.com/skbkontur/retail-ui/pull/1274)
-- [ ] Старт поддержки `LTS` версии библиотеки [#1295](https://github.com/skbkontur/retail-ui/issues/1295) 
-- [ ] Локализация DateInput и DatePicker [#1278](https://github.com/skbkontur/retail-ui/pull/1278)
-- [ ] Реализация механизма кастомизации на `css-in-js` [#1318](https://github.com/skbkontur/retail-ui/issues/1318) 
+- [x] Старт поддержки `LTS` версии библиотеки [#1295](https://github.com/skbkontur/retail-ui/issues/1295) 
+- [x] Локализация DateInput и DatePicker [#1278](https://github.com/skbkontur/retail-ui/pull/1278)
+- [x] Реализация механизма кастомизации на `css-in-js` [#1318](https://github.com/skbkontur/retail-ui/issues/1318) 
 
 ### Май 2019
 

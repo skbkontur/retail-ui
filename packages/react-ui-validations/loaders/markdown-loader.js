@@ -102,7 +102,7 @@ function Header({ level, children }) {
 }
 
 export default class GettingStarted extends React.Component {
-    render(): React.Node {
+    render() {
         return (
             <div>
                 ${header}

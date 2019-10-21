@@ -1,5 +1,5 @@
 import { MouseEvent } from 'react';
-import Button from './Button.js';
+import Button, {isButton} from './Button.js';
 
 const ButtonAdapter = {
   click(inst: Button) {
@@ -15,4 +15,5 @@ const ButtonAdapter = {
 
 (Button as any).__ADAPTER__ = ButtonAdapter;
 
+export { isButton };
 export default Button;

@@ -222,6 +222,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
             backgroundColor={'#fff'}
             pinSize={10}
             pinOffset={7}
+            disableAnimations={Boolean(process.env.enableReactTesting)}
           >
             <div
               style={{
@@ -389,7 +390,7 @@ const renderPopupContent = () => {
 };
 
 const COMBOBOX_ITEMS = [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }];
-const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => [i.value, i.label]);
+const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
 interface IDropdownValue {

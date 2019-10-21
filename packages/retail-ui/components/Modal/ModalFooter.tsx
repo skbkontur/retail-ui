@@ -1,10 +1,12 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 import Sticky from '../Sticky/Sticky';
 import { ModalContext } from './ModalContext';
-
-import styles from './Modal.less';
+import styles from './Modal.module.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Modal.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface FooterProps {
   /**
@@ -24,9 +26,21 @@ export class Footer extends React.Component<FooterProps> {
     sticky: true,
   };
 
+  private theme!: ITheme;
   private scrollbarWidth = getScrollWidth();
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     return (
       <ModalContext.Consumer>
         {({ horizontalScroll }) => {
@@ -45,9 +59,10 @@ export class Footer extends React.Component<FooterProps> {
   }
 
   private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
-    const className = classNames(styles.footer, {
-      [styles.panel]: this.props.panel,
+    const className = cx(styles.footer, jsStyles.footer(this.theme), {
+      [styles.panel]: !!this.props.panel,
       [styles.fixedFooter]: fixed,
+      [jsStyles.fixedFooter(this.theme)]: fixed,
     });
 
     return <div className={className}>{this.props.children}</div>;

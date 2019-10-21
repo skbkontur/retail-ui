@@ -12,6 +12,8 @@ import {
   ExtraFields,
   FieldsSettings,
   FiasCountry,
+  SearchOptions,
+  APIProvider,
 } from '../types';
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
@@ -59,6 +61,7 @@ export class Address {
     Fields.intracityarea,
     Fields.settlement,
     Fields.planningstructure,
+    Fields.street,
   ];
 
   public static NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS = [
@@ -67,6 +70,7 @@ export class Address {
     Fields.intracityarea,
     Fields.settlement,
     Fields.planningstructure,
+    Fields.street,
   ];
 
   public static IS_RUSSIA = (country: FiasCountry): boolean => {
@@ -206,17 +210,18 @@ export class Address {
     fieldsSettings: FieldsSettings,
   ): { [key in Fields]?: any } => {
     const filteredFields: { [key in Fields]?: any } = {};
-    const isFieldVisible = (f: Fields): boolean => {
-      const settings = fieldsSettings[f];
-      return Boolean(settings && settings.visible);
-    };
     let field: Fields;
     for (field in fields) {
-      if (isFieldVisible(field)) {
+      if (Address.isFieldVisible(field, fieldsSettings)) {
         filteredFields[field] = fields[field];
       }
     }
     return filteredFields;
+  };
+
+  public static isFieldVisible = (field: Fields | ExtraFields, fieldsSettings: FieldsSettings): boolean => {
+    const settings = fieldsSettings[field];
+    return Boolean(settings && settings.visible);
   };
 
   public static getParentFields = (field: Fields) => {
@@ -238,6 +243,56 @@ export class Address {
       }
     }
     return Address.createFromAddress(address, { fields: addressFields });
+  };
+
+  public static getAddress = async (api: APIProvider, value?: Partial<FiasValue>, fieldsSettings?: FieldsSettings) => {
+    if (!value) {
+      return new Address();
+    }
+
+    const { address, addressString, fiasId, postalCode, country, foreignAddress } = value;
+    const additionalFields: AdditionalFields = {};
+    let searchOptions: SearchOptions = {};
+
+    if (postalCode) {
+      additionalFields[ExtraFields.postalcode] = postalCode;
+    }
+
+    if (country && !Address.IS_RUSSIA(country)) {
+      return new Address({
+        country,
+        foreignAddress,
+        additionalFields: { [ExtraFields.postalcode]: postalCode },
+      });
+    }
+
+    if (address) {
+      const addressValue = fieldsSettings ? Address.filterVisibleFields(address, fieldsSettings) : address;
+      return Address.createFromAddressValue(addressValue, additionalFields, country);
+    }
+
+    if (fiasId) {
+      searchOptions = {
+        fiasId,
+      };
+    }
+
+    if (addressString) {
+      searchOptions = {
+        searchText: addressString,
+        limit: 1,
+      };
+    }
+
+    if (api) {
+      const { success, data } = await api.search(searchOptions);
+      if (success && data && data.length) {
+        const addressResponse = fieldsSettings ? Address.filterVisibleFields(data[0], fieldsSettings) : data[0];
+        return Address.createFromResponse(addressResponse, additionalFields, country);
+      }
+    }
+
+    return new Address({ country });
   };
 
   public fields: AddressFields;
@@ -326,7 +381,7 @@ export class Address {
     return substrings.filter(Boolean).join(', ');
   };
 
-  public isAllowedToFill = (field?: Fields): boolean => {
+  public isAllowedToFill = (field: Fields): boolean => {
     const { region, city, settlement, house } = this.fields;
     const hasCityOrSettlement = city || settlement || (region && region.isFederalCity);
     if (
@@ -338,19 +393,21 @@ export class Address {
     return true;
   };
 
-  public isAllowedToSearchFullAddress = (field?: Fields): boolean => {
-    if (field && Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field)) {
-      if (!this.getClosestParentFiasId(field)) {
-        return true;
-      }
-    }
-    return false;
+  public isAllowedToSearchFullAddress = (field: Fields): boolean => {
+    return Address.FULL_ADDRESS_SEARCH_FIELDS.includes(field);
   };
 
-  // doesn't work on api side yet
+  // doesn't fully work on api side yet
   // @see https://yt.skbkontur.ru/issue/PS-1401
-  public isAllowedToSearchThroughChildrenOfDirectParent = (field?: Fields): boolean => {
-    return Boolean(field && Address.NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS.includes(field));
+  public isAllowedToSearchThroughChildrenOfDirectParent = (field: Fields, fieldsSettings?: FieldsSettings): boolean => {
+    if (fieldsSettings) {
+      for (const parentField of Address.getParentFields(field)) {
+        if (!Address.isFieldVisible(parentField, fieldsSettings)) {
+          return false;
+        }
+      }
+    }
+    return Address.NOT_ONLY_DIRECT_PARENT_SEARCH_FIELDS.includes(field);
   };
 
   public hasOnlyIndirectParent = (field?: Fields): boolean => {
@@ -364,8 +421,8 @@ export class Address {
     return false;
   };
 
-  public getClosestParentFiasId = (field?: Fields): FiasId | undefined => {
-    if (field && !this.isEmpty) {
+  public getClosestParentFiasId = (field: Fields): FiasId | undefined => {
+    if (!this.isEmpty) {
       const parents = Address.getParentFields(field)
         .slice()
         .reverse();
@@ -460,7 +517,7 @@ export class Address {
   };
 
   // TODO: get fields usage from fieldsSettings
-  public getValue = (withPostalCode: boolean): FiasValue => {
+  public getValue = (withPostalCode: boolean = false): FiasValue => {
     const { country, foreignAddress } = this;
     return {
       address: this.getAddressValue(),
@@ -486,6 +543,21 @@ export class Address {
         },
       };
     }, {});
+  };
+
+  public getDiffFields = (address: Address, fieldsSettings?: FieldsSettings): AddressFields => {
+    const fields = fieldsSettings ? Address.filterVisibleFields(address.fields, fieldsSettings) : { ...address.fields };
+    for (const field of Address.MAIN_FIELDS) {
+      const element = fields[field];
+      if (element) {
+        if (element.isEqualTo(this.fields[field])) {
+          delete fields[field];
+        } else {
+          break;
+        }
+      }
+    }
+    return fields;
   };
 }
 

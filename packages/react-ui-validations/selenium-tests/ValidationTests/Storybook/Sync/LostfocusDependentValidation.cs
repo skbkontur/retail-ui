@@ -42,8 +42,8 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputB.InputValue("b");
-            page.InputA.WaitNoError();
-            page.InputAValidation.Label.WaitAbsent();
+            page.InputA.WaitError();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputB.TabOut();
             page.InputA.WaitNoError();
@@ -79,7 +79,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 
             page.InputA.InputValue("b");
             page.InputA.WaitNoError();
-            page.InputAValidation.Label.WaitAbsent();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputA.TabOut();
             page.InputA.WaitNoError();
@@ -97,7 +97,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 
             page.InputA.InputValue("ba");
             page.InputA.WaitNoError();
-            page.InputAValidation.Label.WaitAbsent();
+            page.InputAValidation.Label.WaitText("duplicate value");
 
             page.InputA.TabOut();
             page.InputA.WaitError();

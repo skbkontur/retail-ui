@@ -1,9 +1,12 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
-import styles from './SidePage.less';
+import styles from './SidePage.module.less';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './SidePage.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 
 export interface SidePageFooterProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -23,10 +26,9 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     fixed: false,
   };
 
+  private theme!: ITheme;
   private content: HTMLElement | null = null;
-
   private wrapper: HTMLElement | null = null;
-
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
 
   public componentDidMount() {
@@ -50,6 +52,21 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   public render(): JSX.Element {
     return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  public update = () => {
+    this.setProperStyles();
+  };
+
+  private renderMain() {
+    return (
       <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
         <SidePageContext.Consumer>
           {({ getWidth }) => (
@@ -60,9 +77,11 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
               }}
             >
               <div
-                className={classNames(styles.footerContent, {
-                  [styles.panel]: this.props.panel,
+                className={cx(styles.footerContent, {
+                  [styles.panel]: !!this.props.panel,
+                  [jsStyles.panel(this.theme)]: !!this.props.panel,
                   [styles.fixed]: this.state.fixed,
+                  [jsStyles.fixed(this.theme)]: this.state.fixed,
                 })}
                 ref={this.refContent}
               >
@@ -74,10 +93,6 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
       </div>
     );
   }
-
-  public update = () => {
-    this.setProperStyles();
-  };
 
   private refContent = (node: HTMLElement | null) => {
     this.content = node;
@@ -105,5 +120,4 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 }
 
 export const SidePageFooterWithContext = withContext(SidePageContext.Consumer)(SidePageFooter);
-
 export default SidePageFooterWithContext;

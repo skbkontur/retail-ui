@@ -29,6 +29,7 @@ export interface CustomComboBoxProps<T> {
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
+  onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
   size?: 'small' | 'medium' | 'large';
   totalCount?: number;
@@ -312,13 +313,11 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
 
   private getState = () => this.state;
 
-  private handleChange = (value: T, event: React.SyntheticEvent) => {
-    const eventType = event.type;
-
+  private handleChange = (value: T) => {
     this.dispatch({
       type: 'ValueChange',
       value,
-      keepFocus: eventType === 'click',
+      keepFocus: true,
     });
   };
 

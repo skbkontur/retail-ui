@@ -48,6 +48,8 @@ export type FiasObject = AddressObject | Stead | House | Room;
 
 export type Fields = "region" | "district" | "city" | "intracityarea" | "settlement" | "planningstructure" | "street" | "stead" | "house" | "room";
 
+export type ExtraFields = "postalcode";
+
 export type AddressFields = {
   [key: Fields]: ?AddressElement,
 };
@@ -117,3 +119,15 @@ export type FetchResponse = {|
   // eslint-disable-next-line flowtype/no-weak-types
   json: () => Promise<any>,
 |};
+
+export type FieldsSettings = {|
+  [field: Fields | ExtraFields]: {|
+    visible?: boolean,
+  |} | void,
+|};
+
+export type FiasCountry = {|
+  shortName: string,
+  fullName: string,
+  code: string,
+|}

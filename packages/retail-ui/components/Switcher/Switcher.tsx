@@ -1,11 +1,16 @@
 import * as React from 'react';
-import classNames from 'classnames';
 import * as PropTypes from 'prop-types';
+import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import Group from '../Group';
-import Button from '../Button';
-
-import styles from './Switcher.less';
+import Button, { ButtonSize } from '../Button';
+import styles from './Switcher.module.less';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Switcher.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
+
+export type SwitcherSize = ButtonSize;
 
 export interface SwitcherProps {
   /**
@@ -20,6 +25,9 @@ export interface SwitcherProps {
   label?: string;
 
   error?: boolean;
+
+  /** Размер */
+  size?: SwitcherSize;
 }
 
 export interface SwitcherState {
@@ -52,14 +60,28 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     focusedIndex: null,
   };
 
+  private theme!: ITheme;
+
   public render() {
-    const listClassNames = classNames({
-      [styles.error]: this.props.error,
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
+    const listClassNames = cx({
+      [styles.error]: !!this.props.error,
+      [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
     const inputProps = {
       type: 'checkbox',
-      onKeyDown: this._handleKey,
+      onKeyDown: this.handleKey,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
       className: styles.input,
@@ -78,7 +100,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     );
   }
 
-  private _selectItem = (value: string) => {
+  private selectItem = (value: string) => {
     if (this.props.onChange) {
       this.props.onChange({ target: { value } }, value);
     }
@@ -95,7 +117,7 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     });
   };
 
-  private _move = (step: number) => {
+  private move = (step: number) => {
     let selectedIndex = this.state.focusedIndex;
 
     if (typeof selectedIndex !== 'number') {
@@ -119,26 +141,23 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     this.setState({ focusedIndex: index });
   };
 
-  private _handleKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  private handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const focusedIndex = this.state.focusedIndex;
     if (typeof focusedIndex !== 'number') {
       return;
     }
 
-    if (event.key === 'Enter') {
+    if (isKeyEnter(e)) {
       if (this.props.onChange) {
         const { value } = this._extractPropsFromItem(this.props.items[focusedIndex]);
-        this._selectItem(value);
+        this.selectItem(value);
       }
       return;
     }
 
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      this._move(-1);
-    } else if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      this._move(1);
+    if (isKeyArrowHorizontal(e)) {
+      e.preventDefault();
+      this.move(isKeyArrowLeft(e) ? -1 : 1);
     }
   };
 
@@ -163,9 +182,10 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         checked: this.props.value === value,
         visuallyFocused: this.state.focusedIndex === i,
         onClick: () => {
-          this._selectItem(value);
+          this.selectItem(value);
         },
         disableFocus: true,
+        size: this.props.size,
       };
       return (
         <Button key={value} {...buttonProps}>

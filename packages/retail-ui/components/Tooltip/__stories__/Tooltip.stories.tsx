@@ -479,7 +479,7 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
           ))}
         </div>
         <TestTooltip trigger={this.state.trigger} disableAnimations>
-          <button id="anchor">Anchor</button>
+          <Button type={'button'}>Anchor</Button>
         </TestTooltip>
       </div>
     );

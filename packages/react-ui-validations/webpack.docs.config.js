@@ -12,7 +12,7 @@ const libraryVersion = readVersionFromPackageJson(path.resolve('package.json'));
 function createConfig(publicPath, output) {
   return {
     entry: {
-      index: [require.resolve('babel-polyfill'), './docs/index.tsx'],
+      index: [require.resolve('core-js/stable'), require.resolve('react-hot-loader/patch'), './docs/index.tsx'],
     },
     output: {
       path: output,
@@ -32,7 +32,7 @@ function createConfig(publicPath, output) {
         {
           test: /\.md$/,
           exclude: /node_modules/,
-          use: ['react-hot-loader', 'babel-loader', './loaders/markdown-loader'],
+          use: ['babel-loader', './loaders/markdown-loader'],
         },
         {
           test: /\.(woff|woff2|eot|svg|ttf|gif|png)$/,

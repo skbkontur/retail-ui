@@ -10,7 +10,7 @@ import RenderLayer from '../RenderLayer';
 import Spinner from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import ArrowTriangleDown from '@skbkontur/react-icons/ArrowTriangleDown';
-import styles from './CustomComboBox.less';
+import styles from './CustomComboBox.module.less';
 import ComboBoxMenu from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 
@@ -147,6 +147,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
               // tslint:disable-next-line:jsx-no-lambda
               getParent={() => findDOMNode(this)}
               offsetY={1}
+              offsetX={-1}
               disablePortal={this.props.disablePortal}
             >
               <ComboBoxMenu

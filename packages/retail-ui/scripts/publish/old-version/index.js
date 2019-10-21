@@ -13,6 +13,7 @@ const checkoutFiles = () => {
     'packages/retail-ui/scripts/publish/',
     'packages/retail-ui/scripts/package/',
     'packages/retail-ui/scripts/git/',
+    'packages/retail-ui/scripts/build/',
     'packages/retail-ui/.styleguide/',
     '.gitignore',
     'packages/retail-ui/.gitignore',

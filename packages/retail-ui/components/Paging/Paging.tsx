@@ -1,19 +1,21 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
-import cn from 'classnames';
 import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
+import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
-
 import PagingHelper from './PagingHelper';
 import NavigationHelper from './NavigationHelper';
 import { Nullable } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
-
-import styles from './Paging.less';
-
+import styles from './Paging.module.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Paging.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
+import warning from 'warning';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 interface ItemComponentProps {
@@ -35,6 +37,9 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
+  /**
+   * @deprecated используйте проп `caption` или `LocaleProvider`
+   */
   strings?: { forward: string };
   /**
    * Отключает навигационные подсказки.
@@ -81,15 +86,20 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     keyboardControl: this.props.useGlobalListener,
   };
 
+  private theme!: ITheme;
   private readonly locale!: PagingLocale;
-
   private addedGlobalListener: boolean = false;
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
-    if (this.props.useGlobalListener) {
+    const { useGlobalListener, strings } = this.props;
+    if (useGlobalListener) {
       this.addGlobalListener();
     }
+    warning(
+      strings === undefined,
+      '[Paging]: `strings` prop is deprecated, please use `caption` or `LocaleProvider` instead',
+    );
   }
 
   public componentWillReceiveProps(nextProps: PagingProps) {
@@ -115,6 +125,17 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   }
 
   public render() {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     return (
       <span
         tabIndex={0}
@@ -147,17 +168,20 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
   private renderDots = (key: string) => {
     return (
-      <span key={key} className={styles.dots}>
+      <span key={key} className={cx(styles.dots, jsStyles.dots(this.theme))}>
         {'...'}
       </span>
     );
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = cn({
+    const classes = cx({
       [styles.forwardLink]: true,
+      [jsStyles.forwardLink(this.theme)]: true,
       [styles.focused]: focused,
+      [jsStyles.focused(this.theme)]: focused,
       [styles.disabled]: disabled,
+      [jsStyles.disabled(this.theme)]: disabled,
     });
     const { component: Component, strings: { forward = this.locale.forward } = {}, caption } = this.props;
 
@@ -179,10 +203,13 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
-    const classes = cn({
+    const classes = cx({
       [styles.pageLink]: true,
+      [jsStyles.pageLink(this.theme)]: true,
       [styles.focused]: focused,
+      [jsStyles.focused(this.theme)]: focused,
       [styles.active]: active,
+      [jsStyles.active(this.theme)]: active,
     });
     const Component = this.props.component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -208,7 +235,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
     if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
-        <span className={styles.pageLinkHint}>
+        <span className={cx(styles.pageLinkHint, jsStyles.pageLinkHint(this.theme))}>
           <span className={canGoBackward ? '' : styles.transparent}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
           <span className={canGoForward ? '' : styles.transparent}>{'→'}</span>
@@ -231,16 +258,15 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {
-    if (event.shiftKey) {
+  private handleKeyDown = (e: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => {
+    if (e.shiftKey) {
       return;
     }
 
-    const target = event.target;
-    const key = event.key;
+    const target = e.target;
 
-    const isArrowLeft = key === 'ArrowLeft' || key === 'Left';
-    const isArrowRight = key === 'ArrowRight' || key === 'Right';
+    const isArrowLeft = isKeyArrowLeft(e);
+    const isArrowRight = isKeyArrowRight(e);
 
     if (
       target instanceof Element &&
@@ -249,16 +275,16 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       return;
     }
 
-    if (NavigationHelper.checkKeyPressed(event) && isArrowLeft) {
+    if (NavigationHelper.checkKeyPressed(e) && isArrowLeft) {
       this.setState({ focusedItem: null }, this.goBackward);
       return;
     }
-    if (NavigationHelper.checkKeyPressed(event) && isArrowRight) {
+    if (NavigationHelper.checkKeyPressed(e) && isArrowRight) {
       this.setState({ focusedItem: null }, this.goForward);
       return;
     }
 
-    if (this.container && this.container === event.target) {
+    if (this.container && this.container === e.target) {
       if (isArrowLeft) {
         this.setState({ focusedByTab: true }, this.moveFocusLeft);
         return;
@@ -267,7 +293,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
         this.setState({ focusedByTab: true }, this.moveFocusRight);
         return;
       }
-      if (event.key === 'Enter') {
+      if (isKeyEnter(e)) {
         this.executeItemAction(this.getFocusedItem());
         return;
       }

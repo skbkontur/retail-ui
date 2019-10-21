@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import cn from 'classnames';
 import FocusLock from 'react-focus-lock';
 import { EventSubscription } from 'fbemitter';
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
@@ -16,8 +16,11 @@ import { Body } from './ModalBody';
 import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
-
-import styles from './Modal.less';
+import styles from './Modal.module.less';
+import { cx } from '../../lib/theming/Emotion';
+import jsStyles from './Modal.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ITheme } from '../../lib/theming/Theme';
 
 let mountedModalsCount = 0;
 
@@ -79,6 +82,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     horizontalScroll: false,
   };
 
+  private theme!: ITheme;
   private stackSubscription: EventSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
@@ -118,6 +122,17 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   public render(): JSX.Element {
+    return (
+      <ThemeConsumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeConsumer>
+    );
+  }
+
+  private renderMain() {
     let hasHeader = false;
     let hasFooter = false;
     let hasPanel = false;
@@ -153,6 +168,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     const style: { width?: number | string } = {};
     const containerStyle: { width?: number | string } = {};
+
     if (this.props.width) {
       style.width = this.props.width;
     } else {
@@ -163,22 +179,22 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       <RenderContainer>
         <ZIndex delta={1000} className={styles.root}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={styles.bg} />}
+          {this.state.stackPosition === 0 && <div className={cx(styles.bg, jsStyles.bg(this.theme))} />}
           <div
             ref={this.refContainer}
-            className={cn(styles.container, styles.mobile)}
+            className={styles.container}
             onMouseDown={this.handleContainerMouseDown}
             onMouseUp={this.handleContainerMouseUp}
             onClick={this.handleContainerClick}
             data-tid="modal-container"
           >
             <div
-              className={cn(styles.centerContainer, {
-                [styles.alignTop]: this.props.alignTop,
+              className={cx(styles.centerContainer, jsStyles.centerContainer(this.theme), {
+                [styles.alignTop]: !!this.props.alignTop,
               })}
               style={containerStyle}
             >
-              <div className={styles.window} style={style}>
+              <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
@@ -234,12 +250,12 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     }
   };
 
-  private handleKeyDown = (event: KeyboardEvent) => {
+  private handleKeyDown = (e: KeyboardEvent) => {
     if (this.state.stackPosition !== 0) {
       return;
     }
-    if (event.keyCode === 27) {
-      stopPropagation(event);
+    if (isKeyEscape(e)) {
+      stopPropagation(e);
       this.requestClose();
     }
   };

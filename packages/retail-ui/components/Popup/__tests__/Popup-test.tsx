@@ -60,11 +60,7 @@ describe('Popup', () => {
     anchor.innerHTML = 'test';
 
     const wrapper = mount<Popup>((
-      <Popup
-        positions={['bottom right', 'top left', 'top right', 'bottom left']}
-        opened={false}
-        anchorElement={anchor}
-      >
+      <Popup positions={['bottom right', 'top left', 'top right', 'bottom left']} opened={false} anchorElement={anchor}>
         Test content
       </Popup>
     ) as React.ReactElement<PopupProps>);
@@ -105,8 +101,6 @@ describe('Popup', () => {
 
         await closePopup(wrapper);
 
-        expect(wrapper.state('location')).toBeNull();
-
         resolve();
       });
 
@@ -120,12 +114,18 @@ describe('Popup', () => {
   });
 });
 
-
 describe('properly renders opened/closed states ', () => {
-  const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];
+  const closedPopupTree: ReactComponentLike[] = [
+    RenderContainer,
+    RenderInnerContainer,
+    'Portal',
+    LifeCycleProxy,
+    Transition,
+  ];
   const openedPopupTree: ReactComponentLike[] = [
     RenderContainer,
     RenderInnerContainer,
+    'Portal',
     LifeCycleProxy,
     Transition,
     ZIndex,
@@ -150,6 +150,7 @@ describe('properly renders opened/closed states ', () => {
 
   it('01 - initially closed', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
+    expect(innerContainer).toBeDefined();
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
     expect(innerContainer!.children()).toHaveLength(0);
@@ -160,6 +161,7 @@ describe('properly renders opened/closed states ', () => {
     wrapper.update();
 
     const content = traverseTree(wrapper, openedPopupTree);
+    expect(content).toBeDefined();
     expect(content).not.toBeNull();
     expect(content).toHaveLength(1);
     expect(content!.text()).toBe('Test content');
