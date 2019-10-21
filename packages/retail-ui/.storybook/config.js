@@ -1,4 +1,4 @@
-import 'babel-polyfill';
+import 'core-js/stable';
 import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { withCreeveyOld } from 'creevey';

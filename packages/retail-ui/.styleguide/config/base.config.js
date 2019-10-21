@@ -138,6 +138,7 @@ const webpackConfig = {
           {
             loader: 'babel-loader',
             options: {
+              babelrc: false,
               presets: ['env', 'react'],
               plugins: [
                 'transform-object-rest-spread',

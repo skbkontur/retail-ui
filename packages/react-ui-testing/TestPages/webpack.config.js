@@ -51,6 +51,7 @@ function createConfig(reactVersion, retailUIVersion) {
           exclude: /node_modules/,
           loader: 'babel-loader',
           query: {
+            babelrc: false,
             presets: [
               require.resolve('babel-preset-react'),
               require.resolve('babel-preset-es2015'),
@@ -64,6 +65,7 @@ function createConfig(reactVersion, retailUIVersion) {
           loader: 'babel-loader',
           exclude: /(react\-input\-mask)/,
           query: {
+            babelrc: false,
             presets: [
               require.resolve('babel-preset-react'),
               require.resolve('babel-preset-es2015'),
