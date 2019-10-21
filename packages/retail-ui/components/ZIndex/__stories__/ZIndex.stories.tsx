@@ -418,9 +418,6 @@ class TooltipAndDropdownMenu extends React.Component<{}> {
 }
 
 class LoaderInSidePage extends React.Component<{}> {
-  public state = {
-    opened: false,
-  };
   public render() {
     return (
       <SidePage onClose={close} blockBackground fromLeft={true}>
@@ -445,19 +442,11 @@ class LoaderInSidePage extends React.Component<{}> {
           </div>
         </SidePage.Body>
         <SidePage.Footer panel>
-          <Button onClick={this.close}>Close</Button>
+          <Button>Close</Button>
         </SidePage.Footer>
       </SidePage>
     );
   }
-
-  public open = () => {
-    this.setState({ opened: true });
-  };
-
-  public close = () => {
-    this.setState({ opened: false });
-  };
 }
 
 class SidePageAndSelect extends React.Component<{}> {
@@ -519,6 +508,26 @@ class SidePageAndSelect extends React.Component<{}> {
   }
 }
 
+class BigModalWithLoader extends React.Component<{}> {
+  public render() {
+    return (
+      <Modal>
+        <Modal.Header>Header</Modal.Header>
+        <Modal.Body>
+          <ZLoader size={800} />
+          <p style={{ height: 2000 }}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab fuga, officia magnam dolore quas debitis tenetur
+            animi iste ea sunt atque nobis velit rerum dolor voluptatibus sit? Facere, doloribus modi!
+          </p>
+        </Modal.Body>
+        <Modal.Footer panel>
+          <Button>Ок</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
@@ -529,6 +538,7 @@ storiesOf('ZIndex', module)
   .add('Tooltip near Loader', () => <TooltipNearLoader />)
   .add('Hint and modal', () => <HintAndModal />)
   .add('Loader in Modal', () => <LoaderInModal />)
+  .add('Big modal with Loader', () => <BigModalWithLoader />)
   .add('Tooltip and DropdownMenu', () => <TooltipAndDropdownMenu />)
   .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
   .add('Sidepage and Select', () => <SidePageAndSelect />);

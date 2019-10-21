@@ -48,6 +48,21 @@ describe('ZIndex', function() {
       await expect(await modal.takeScreenshot()).to.matchImage('Footer covers loader');
     });
   });
+  describe('Big modal with Loader', function() {
+    it('Header covers Loader', async function() {
+      const modal = await this.browser.findElement(By.css('[class^="Modal-module-root"]'));
+
+      await this.browser.executeScript(function() {
+        const sidePage = window.document.querySelector('[class^="Modal-module-container"]') as HTMLElement;
+
+        if (sidePage) {
+          sidePage.scrollTop = sidePage.offsetHeight / 3;
+        }
+      });
+
+      await expect(await modal.takeScreenshot()).to.matchImage('Header covers Loader');
+    });
+  });
   describe('Tooltip and DropdownMenu', function() {
     it('Menu covers tooltip', async function() {
       const element = await this.browser.findElement(By.css('.container'));
@@ -63,15 +78,14 @@ describe('ZIndex', function() {
   });
   describe('Loader in SidePage.Body', function() {
     it('is covered by Header and Footer', async function() {
-      const element = await this.browser.findElement(By.css('[class^="SidePage-module-container"]'));
+      const element = await this.browser.findElement(By.css('[class^="SidePage-module-root"]'));
 
       await this.browser.executeScript(function() {
-        // tslint:disable
-        const sidePage = window.document.querySelector('[class^="SidePage-module-container"]');
+        const sidePage = window.document.querySelector('[class^="SidePage-module-container"]') as HTMLElement;
 
-        // @ts-ignore
-        sidePage.scrollTop = sidePage.offsetHeight;
-        // tslint:enable
+        if (sidePage) {
+          sidePage.scrollTop = sidePage.offsetHeight;
+        }
       });
 
       await expect(await element.takeScreenshot()).to.matchImage('is covered by Header and Footer');
