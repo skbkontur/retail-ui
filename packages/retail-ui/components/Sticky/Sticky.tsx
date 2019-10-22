@@ -6,6 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import styles from './Sticky.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
+import warning from 'warning';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
@@ -14,9 +15,7 @@ export interface StickyProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 
   /**
-   *
-   * Если `false`, вызывает `Maximum update depth exceeded error` когда у потомка определены марджины.
-   * Если `true` - добавляет контейнеру `overflow: auto`, тем самым предотвращая схлопывание марджинов
+   * @deprecated работа с margin у детей возможна без указания этого флага
    * @default false
    */
   allowChildWithMargins?: boolean;
@@ -49,10 +48,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     allowChildWithMargins: PropTypes.bool,
   };
 
-  public static defaultProps = {
-    offset: 0,
-    allowChildWithMargins: false,
-  };
+  public static defaultProps = { offset: 0 };
 
   public state: StickyState = {
     fixed: false,
@@ -73,6 +69,10 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private getProps = createPropsGetter(Sticky.defaultProps);
 
   public componentDidMount() {
+    warning(
+      this.props.allowChildWithMargins === undefined,
+      '"allowChildWithMargins" prop is deprecated. Component "Sticky" work correctly without it.',
+    );
     this.reflow();
 
     this.layoutSubscription = LayoutEvents.addListener(this.reflow);
