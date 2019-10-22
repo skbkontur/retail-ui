@@ -24,9 +24,9 @@ export interface StickyProps {
 
 export interface StickyState {
   fixed: boolean;
+  deltaHeight: number;
   height: number;
-  left: number | string;
-  width: number | string;
+  width: number;
   stopped: boolean;
   relativeTop: number;
 }
@@ -56,10 +56,9 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
   public state: StickyState = {
     fixed: false,
+    deltaHeight: 0,
     height: -1,
-    left: 'auto',
-    width: 'auto',
-
+    width: -1,
     stopped: false,
     relativeTop: 0,
   };
@@ -69,7 +68,6 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
   private _scheduled: boolean = false;
   private _reflowing: boolean = false;
-  private _lastInnerHeight: number = -1;
   private _layoutSubscription: { remove: Nullable<() => void> } = {
     remove: null,
   };
@@ -93,7 +91,6 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   }
 
   public render() {
-    let wrapperStyle: React.CSSProperties = {};
     let innerStyle: React.CSSProperties = {};
 
     if (this.state.fixed) {
@@ -101,13 +98,13 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
         innerStyle = {
           top: this.state.relativeTop,
         };
+        if (this.props.side === 'top') {
+          innerStyle.marginTop = this.state.deltaHeight;
+        } else {
+          innerStyle.marginBottom = this.state.deltaHeight;
+        }
       } else {
-        wrapperStyle = {
-          height: this.state.height === -1 ? 'auto' : this.state.height,
-        };
-
         innerStyle = {
-          left: this.state.left,
           width: this.state.width,
         };
 
@@ -124,12 +121,10 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
       children = children(this.state.fixed);
     }
 
-    if (this.props.allowChildWithMargins) {
-      innerStyle.overflow = 'auto';
-    }
+    innerStyle.display = 'flex';
 
     return (
-      <div style={wrapperStyle} ref={this._refWrapper}>
+      <div ref={this._refWrapper}>
         <div
           className={cx({
             [styles.innerFixed]: this.state.fixed,
@@ -140,6 +135,9 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
         >
           {children}
         </div>
+        {this.state.fixed && !this.state.stopped ? (
+          <div style={{ width: this.state.width, height: this.state.height }} />
+        ) : null}
       </div>
     );
   }
@@ -183,62 +181,44 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     const windowHeight = window.innerHeight || documentElement.clientHeight;
-    if (!this._wrapper) {
+    if (!this._wrapper || !this._inner) {
       return;
     }
-    const wrapRect = this._wrapper.getBoundingClientRect();
-    const wrapLeft = wrapRect.left;
-    const wrapTop = wrapRect.top;
+    const { top, bottom } = this._wrapper.getBoundingClientRect();
+    const { width, height } = this._inner.getBoundingClientRect();
     const fixed =
       this.props.side === 'top'
-        ? Math.round(wrapRect.top) < this.getProps().offset
-        : Math.round(wrapRect.bottom) > windowHeight - this.getProps().offset;
+        ? Math.round(top) < this.getProps().offset
+        : Math.round(bottom) > windowHeight - this.getProps().offset;
 
     const wasFixed = this.state.fixed;
 
+    if (fixed && !wasFixed) {
+      yield { width, height, fixed };
+    }
+    if (!fixed && wasFixed) {
+      yield { fixed };
+    }
+
     if (fixed) {
-      const width = wrapRect.width;
-      const inner = this._inner;
-      let height = this.state.height;
-      if (!inner) {
-        return;
-      }
-      if (!wasFixed || this.state.width !== width || this._lastInnerHeight !== inner.offsetHeight) {
-        yield {
-          fixed: false,
-          height,
-        };
-        height = inner.offsetHeight;
-      }
-
-      yield {
-        width,
-        height,
-        fixed: true,
-        left: wrapLeft,
-      };
-
-      this._lastInnerHeight = inner.offsetHeight;
-
       const stop = this.props.getStop && this.props.getStop();
       if (stop) {
+        const deltaHeight = this.state.height - height;
         const stopRect = stop.getBoundingClientRect();
         const outerHeight = height + this.getProps().offset;
 
         if (this.props.side === 'top') {
           const stopped = stopRect.top - outerHeight < 0;
-          const relativeTop = stopRect.top - height - wrapTop;
+          const relativeTop = stopRect.top - height - top;
 
-          yield { relativeTop, stopped };
+          yield { relativeTop, stopped, deltaHeight };
         } else {
           const stopped = stopRect.bottom + outerHeight > windowHeight;
-          const relativeTop = stopRect.bottom - wrapTop;
+          const relativeTop = stopRect.bottom - top;
 
-          yield { relativeTop, stopped };
+          yield { relativeTop, stopped, deltaHeight };
         }
       }
-    } else {
-      yield { fixed: false };
     }
   }
 
