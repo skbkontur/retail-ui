@@ -9,8 +9,7 @@ describe('Loader', function() {
 
       await this.browser
         .actions({ bridge: true })
-        .move({ origin: button })
-        .click()
+        .click(button)
         .perform();
 
       await expect(await element.takeScreenshot()).to.matchImage('cover children');
@@ -23,8 +22,7 @@ describe('Loader', function() {
 
       await this.browser
         .actions({ bridge: true })
-        .move({ origin: button })
-        .click()
+        .click(button)
         .perform();
 
       await expect(await element.takeScreenshot()).to.matchImage("doesn't cover children");

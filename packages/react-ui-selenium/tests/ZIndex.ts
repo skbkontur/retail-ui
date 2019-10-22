@@ -113,7 +113,7 @@ describe('ZIndex', function() {
         .perform();
 
       const element = await this.browser.findElement(By.css('[class^="SidePage-module-container"]'));
-      await expect(await element.takeScreenshot()).to.matchImage('Loader covers Tooltip');
+      await expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
     });
   });
 });
