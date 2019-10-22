@@ -27,7 +27,7 @@ export function incrementZIndex(priority: number | LayerComponentName, delta: nu
   const zIndexes = getZIndexes();
 
   let prevIndexId = zIndexes.length - 1;
-  while (zIndexes[prevIndexId] >= maxAllowedValue && prevIndexId >= 0) {
+  while (zIndexes[prevIndexId] > maxAllowedValue && prevIndexId > 0) {
     prevIndexId--;
   }
 
@@ -44,5 +44,8 @@ export function incrementZIndex(priority: number | LayerComponentName, delta: nu
 export function removeZIndex(zIndex: number): void {
   const zIndexes = getZIndexes();
   const i = zIndexes.indexOf(zIndex);
-  zIndexes.splice(i, 1);
+
+  if (i !== -1) {
+    zIndexes.splice(i, 1);
+  }
 }
