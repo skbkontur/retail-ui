@@ -1,16 +1,16 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Sticky.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import warning from 'warning';
+import shallowEqual from 'fbjs/lib/shallowEqual';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
-  offset?: number;
+  offset: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 
@@ -61,12 +61,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
   private wrapper: Nullable<HTMLElement>;
   private inner: Nullable<HTMLElement>;
-
-  private scheduled: boolean = false;
-  private reflowing: boolean = false;
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
-
-  private getProps = createPropsGetter(Sticky.defaultProps);
 
   public componentDidMount() {
     warning(
@@ -84,58 +79,45 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     }
   }
 
-  public componentDidUpdate() {
-    this.reflow();
+  public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
+    if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
+      this.reflow();
+    }
   }
 
   public render() {
-    let innerStyle: React.CSSProperties = {};
+    let { children } = this.props;
+    const { side, offset } = this.props;
+    const { fixed, stopped, relativeTop, deltaHeight, width, height } = this.state;
+    const innerStyle: React.CSSProperties = {};
 
-    if (this.state.fixed) {
-      if (this.state.stopped) {
-        innerStyle = {
-          top: this.state.relativeTop,
-        };
-        if (this.props.side === 'top') {
-          innerStyle.marginTop = this.state.deltaHeight;
-        } else {
-          innerStyle.marginBottom = this.state.deltaHeight;
-        }
+    if (fixed) {
+      if (stopped) {
+        innerStyle.top = relativeTop;
+        innerStyle[side === 'top' ? 'marginTop' : 'marginBottom'] = deltaHeight;
       } else {
-        innerStyle = {
-          width: this.state.width,
-        };
-
-        if (this.props.side === 'top') {
-          innerStyle.top = this.props.offset;
-        } else {
-          innerStyle.bottom = this.props.offset;
-        }
+        innerStyle.width = width;
+        innerStyle[side] = offset;
       }
     }
 
-    let children = this.props.children;
     if (isFunction(children)) {
-      children = children(this.state.fixed);
+      children = children(fixed);
     }
-
-    innerStyle.display = 'flex';
 
     return (
       <div ref={this.refWrapper}>
         <div
-          className={cx({
-            [styles.innerFixed]: this.state.fixed,
-            [styles.innerStopped]: this.state.stopped,
+          className={cx(styles.inner, {
+            [styles.fixed]: fixed,
+            [styles.stopped]: stopped,
           })}
           style={innerStyle}
           ref={this.refInner}
         >
-          <div style={{ flex: 'auto' }}>{children}</div>
+          <div className={cx(styles.container)}>{children}</div>
         </div>
-        {this.state.fixed && !this.state.stopped ? (
-          <div style={{ width: this.state.width, height: this.state.height }} />
-        ) : null}
+        {fixed && !stopped ? <div style={{ width, height }} /> : null}
       </div>
     );
   }
@@ -145,29 +127,6 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
   private reflow = () => {
-    if (this.reflowing) {
-      this.scheduled = true;
-      return;
-    }
-
-    this.scheduled = false;
-    this.reflowing = true;
-    const generator = this.doReflow();
-    const check = () => {
-      const next = generator.next();
-      if (next.done) {
-        this.reflowing = false;
-        if (this.scheduled) {
-          this.reflow();
-        }
-      } else {
-        this.setStateIfChanged(next.value, check);
-      }
-    };
-    check();
-  };
-
-  private *doReflow(): Generator {
     const { documentElement } = document;
 
     if (!documentElement) {
@@ -178,54 +137,38 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     if (!this.wrapper || !this.inner) {
       return;
     }
+    const { offset, getStop, side } = this.props;
+    const { fixed: prevFixed, height: prevHeight } = this.state;
     const { top, bottom } = this.wrapper.getBoundingClientRect();
     const { width, height } = this.inner.getBoundingClientRect();
-    const fixed =
-      this.props.side === 'top'
-        ? Math.round(top) < this.getProps().offset
-        : Math.round(bottom) > windowHeight - this.getProps().offset;
+    const fixed = side === 'top' ? Math.round(top) < offset : Math.round(bottom) > windowHeight - offset;
 
-    const wasFixed = this.state.fixed;
-
-    if (fixed && !wasFixed) {
-      yield { width, height, fixed };
+    if (fixed && !prevFixed) {
+      this.setState({ width, height, fixed });
     }
-    if (!fixed && wasFixed) {
-      yield { fixed };
+    if (!fixed && prevFixed) {
+      this.setState({ fixed });
     }
 
     if (fixed) {
-      const stop = this.props.getStop && this.props.getStop();
+      const stop = getStop && getStop();
       if (stop) {
-        const deltaHeight = this.state.height - height;
+        const deltaHeight = prevHeight - height;
         const stopRect = stop.getBoundingClientRect();
-        const outerHeight = height + this.getProps().offset;
+        const outerHeight = height + offset;
 
-        if (this.props.side === 'top') {
+        if (side === 'top') {
           const stopped = stopRect.top - outerHeight < 0;
           const relativeTop = stopRect.top - height - top;
 
-          yield { relativeTop, stopped, deltaHeight };
+          this.setState({ relativeTop, stopped, deltaHeight });
         } else {
           const stopped = stopRect.bottom + outerHeight > windowHeight;
           const relativeTop = stopRect.bottom - top;
 
-          yield { relativeTop, stopped, deltaHeight };
+          this.setState({ relativeTop, stopped, deltaHeight });
         }
       }
     }
-  }
-
-  private setStateIfChanged(state: StickyState, callback?: () => void) {
-    for (const key in state) {
-      if (this.state[key as keyof StickyState] !== state[key as keyof StickyState]) {
-        this.setState(state, callback);
-        return;
-      }
-    }
-
-    if (callback) {
-      callback();
-    }
-  }
+  };
 }
