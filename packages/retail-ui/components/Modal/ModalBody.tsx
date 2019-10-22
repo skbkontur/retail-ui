@@ -10,6 +10,7 @@ export class Body extends React.Component {
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
           <ZIndex
+            priority={'ModalBody'}
             shouldCreateStackingContext
             className={cx(
               styles.body,

@@ -36,7 +36,7 @@ export class Header extends React.Component<HeaderProps> {
 
   private renderMain() {
     return (
-      <ZIndex style={{ position: 'relative' }} priority={1}>
+      <ZIndex style={{ position: 'relative' }} priority={'ModalHeader'}>
         <ModalContext.Consumer>
           {({ close, additionalPadding }) => {
             if (this.props.sticky) {

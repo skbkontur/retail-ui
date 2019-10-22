@@ -43,7 +43,7 @@ export class Footer extends React.Component<FooterProps> {
 
   private renderMain() {
     return (
-      <ZIndex style={{ position: 'relative' }} priority={1}>
+      <ZIndex style={{ position: 'relative' }} priority={'ModalFooter'}>
         <ModalContext.Consumer>
           {({ horizontalScroll }) => {
             if (this.props.sticky) {

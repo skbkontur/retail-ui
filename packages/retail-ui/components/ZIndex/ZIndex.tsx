@@ -1,6 +1,6 @@
 import * as React from 'react';
 import createReactContext from 'create-react-context';
-import ZIndexStorage, { LayerComponentName } from './ZIndexStorage';
+import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
 const ZIndexContext = createReactContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
 
@@ -30,15 +30,26 @@ export default class ZIndex extends React.Component<ZIndexProps> {
     shouldCreateStackingContext: false,
   };
 
+  public static propTypes = {
+    delta(props: ZIndexProps) {
+      if (props.delta <= 0) {
+        return new Error(`[ZIndex]: Prop 'delta' must be greater than 0, received ${props.delta}`);
+      }
+      if (Math.trunc(props.delta) !== props.delta) {
+        return new Error(`[ZIndex]: Prop 'delta' must be integer, received ${props.delta}`);
+      }
+    },
+  };
+
   private zIndex: number = 0;
 
   constructor(props: ZIndexProps) {
     super(props);
-    this.zIndex = ZIndexStorage.incrementZIndex(props.priority, props.delta);
+    this.zIndex = incrementZIndex(props.priority, props.delta);
   }
 
   public componentWillUnmount() {
-    ZIndexStorage.removeZIndex(this.zIndex);
+    removeZIndex(this.zIndex);
   }
 
   public render(): JSX.Element {
@@ -64,8 +75,8 @@ export default class ZIndex extends React.Component<ZIndexProps> {
 
           if (Number.isFinite(maxZIndex)) {
             const allowedValuesIntervalLength = maxZIndex - parentLayerZIndex;
-            const scale = ZIndexStorage.upperBorder / allowedValuesIntervalLength;
-            summaryZIndex = Math.ceil(this.zIndex / scale);
+            const scale = upperBorder / allowedValuesIntervalLength;
+            summaryZIndex = Math.ceil(summaryZIndex / scale);
           }
 
           summaryZIndex += parentLayerZIndex;
@@ -73,7 +84,7 @@ export default class ZIndex extends React.Component<ZIndexProps> {
           return (
             <ZIndexContext.Provider
               value={{
-                parentLayerZIndex: this.props.shouldResetZIndexFromContext ? 0 : summaryZIndex,
+                parentLayerZIndex: shouldResetZIndexFromContext ? 0 : summaryZIndex,
                 maxZIndex: sholudCoverChildren || Number.isFinite(maxZIndex) ? summaryZIndex : Infinity,
               }}
             >
