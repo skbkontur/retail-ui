@@ -26,6 +26,7 @@ class SampleTop extends React.Component {
         <Sticky side="top" getStop={this.getStickyStopElement}>
           {fixed => (
             <div
+              data-tid="stickyContent"
               style={{
                 padding: 10,
                 background: '#f99',
@@ -38,6 +39,7 @@ class SampleTop extends React.Component {
         </Sticky>
         {TEXT}
         <div
+          data-tid="stickyStop"
           style={{
             height: 2,
             background: '#999',
@@ -66,6 +68,7 @@ class SampleBottom extends React.Component {
         {TEXT}
         {TEXT}
         <div
+          data-tid="stickyStop"
           style={{
             height: 2,
             background: '#999',
@@ -76,6 +79,7 @@ class SampleBottom extends React.Component {
         <Sticky side="bottom" getStop={this.getStickyStopElement}>
           {fixed => (
             <div
+              data-tid="stickyContent"
               style={{
                 padding: 10,
                 background: '#f99',
