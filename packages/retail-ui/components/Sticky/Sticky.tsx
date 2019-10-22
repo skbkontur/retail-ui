@@ -63,31 +63,29 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     relativeTop: 0,
   };
 
-  private _wrapper: Nullable<HTMLElement>;
-  private _inner: Nullable<HTMLElement>;
+  private wrapper: Nullable<HTMLElement>;
+  private inner: Nullable<HTMLElement>;
 
-  private _scheduled: boolean = false;
-  private _reflowing: boolean = false;
-  private _layoutSubscription: { remove: Nullable<() => void> } = {
-    remove: null,
-  };
+  private scheduled: boolean = false;
+  private reflowing: boolean = false;
+  private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
 
   private getProps = createPropsGetter(Sticky.defaultProps);
 
   public componentDidMount() {
-    this._reflow();
+    this.reflow();
 
-    this._layoutSubscription = LayoutEvents.addListener(() => this._reflow());
+    this.layoutSubscription = LayoutEvents.addListener(this.reflow);
   }
 
   public componentWillUnmount() {
-    if (this._layoutSubscription.remove) {
-      this._layoutSubscription.remove();
+    if (this.layoutSubscription.remove) {
+      this.layoutSubscription.remove();
     }
   }
 
   public componentDidUpdate() {
-    this._reflow();
+    this.reflow();
   }
 
   public render() {
@@ -124,16 +122,16 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     innerStyle.display = 'flex';
 
     return (
-      <div ref={this._refWrapper}>
+      <div ref={this.refWrapper}>
         <div
           className={cx({
             [styles.innerFixed]: this.state.fixed,
             [styles.innerStopped]: this.state.stopped,
           })}
           style={innerStyle}
-          ref={this._refInner}
+          ref={this.refInner}
         >
-          {children}
+          <div style={{ flex: 'auto' }}>{children}</div>
         </div>
         {this.state.fixed && !this.state.stopped ? (
           <div style={{ width: this.state.width, height: this.state.height }} />
@@ -142,38 +140,34 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     );
   }
 
-  private _refWrapper = (ref: Nullable<HTMLElement>) => {
-    this._wrapper = ref;
-  };
+  private refWrapper = (ref: Nullable<HTMLElement>) => (this.wrapper = ref);
 
-  private _refInner = (ref: Nullable<HTMLElement>) => {
-    this._inner = ref;
-  };
+  private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
-  private _reflow = () => {
-    if (this._reflowing) {
-      this._scheduled = true;
+  private reflow = () => {
+    if (this.reflowing) {
+      this.scheduled = true;
       return;
     }
 
-    this._scheduled = false;
-    this._reflowing = true;
-    const generator = this._doReflow();
+    this.scheduled = false;
+    this.reflowing = true;
+    const generator = this.doReflow();
     const check = () => {
       const next = generator.next();
       if (next.done) {
-        this._reflowing = false;
-        if (this._scheduled) {
-          this._reflow();
+        this.reflowing = false;
+        if (this.scheduled) {
+          this.reflow();
         }
       } else {
-        this._setStateIfChanged(next.value, check);
+        this.setStateIfChanged(next.value, check);
       }
     };
     check();
   };
 
-  private *_doReflow(): Generator {
+  private *doReflow(): Generator {
     const { documentElement } = document;
 
     if (!documentElement) {
@@ -181,11 +175,11 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     const windowHeight = window.innerHeight || documentElement.clientHeight;
-    if (!this._wrapper || !this._inner) {
+    if (!this.wrapper || !this.inner) {
       return;
     }
-    const { top, bottom } = this._wrapper.getBoundingClientRect();
-    const { width, height } = this._inner.getBoundingClientRect();
+    const { top, bottom } = this.wrapper.getBoundingClientRect();
+    const { width, height } = this.inner.getBoundingClientRect();
     const fixed =
       this.props.side === 'top'
         ? Math.round(top) < this.getProps().offset
@@ -222,7 +216,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     }
   }
 
-  private _setStateIfChanged(state: StickyState, callback?: () => void) {
+  private setStateIfChanged(state: StickyState, callback?: () => void) {
     for (const key in state) {
       if (this.state[key as keyof StickyState] !== state[key as keyof StickyState]) {
         this.setState(state, callback);

@@ -46,7 +46,7 @@ export class Footer extends React.Component<FooterProps> {
         {({ horizontalScroll }) => {
           if (this.props.sticky) {
             return (
-              <Sticky side="bottom" offset={horizontalScroll ? this.scrollbarWidth : 0} allowChildWithMargins>
+              <Sticky side="bottom" offset={horizontalScroll ? this.scrollbarWidth : 0}>
                 {this.renderContent(horizontalScroll)}
               </Sticky>
             );

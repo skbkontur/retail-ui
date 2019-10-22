@@ -38,11 +38,7 @@ export class Header extends React.Component<HeaderProps> {
       <ModalContext.Consumer>
         {({ close, additionalPadding }) => {
           if (this.props.sticky) {
-            return (
-              <Sticky side="top" allowChildWithMargins>
-                {this.renderContent(close, additionalPadding)}
-              </Sticky>
-            );
+            return <Sticky side="top">{this.renderContent(close, additionalPadding)}</Sticky>;
           }
 
           return this.renderContent(close, additionalPadding)();
