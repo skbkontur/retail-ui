@@ -88,6 +88,8 @@ describe('ZIndex', function() {
         }
       });
 
+      await new Promise(res => setTimeout(res, 500));
+
       await expect(await element.takeScreenshot()).to.matchImage('is covered by Header and Footer');
     });
   });
