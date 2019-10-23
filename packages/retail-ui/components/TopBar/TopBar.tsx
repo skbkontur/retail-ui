@@ -181,7 +181,7 @@ class TopBar extends React.Component<TopBarProps> {
         className={cx({
           [styles.root]: true,
           [jsStyles.root(this.theme)]: true,
-          [styles.noShadow]: !!noShadow,
+          [jsStyles.noShadow()]: !!noShadow,
           [styles.noMargin]: !!noMargin,
         })}
       >

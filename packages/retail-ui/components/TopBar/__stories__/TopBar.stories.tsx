@@ -87,4 +87,28 @@ storiesOf('TopBar', module)
       </End>
     </TopBar>
   ))
+  .add('TopBar noShadow', () => (
+    <TopBar noShadow={true}>
+      <Start>
+        <ItemStatic>
+          <Logotype suffix="ui" withWidget />
+        </ItemStatic>
+        <Item>
+          <BabyIcon color="#666" />
+        </Item>
+        <Item icon="gear" iconOnly>
+          Only icon
+        </Item>
+        <Item icon="gear">Not only icon</Item>
+      </Start>
+      <End>
+        <Item>
+          <BabyIcon color="#666" />
+        </Item>
+        <User userName="Alexander The Great" />
+        <Divider />
+        <Logout onClick={() => alert('Logout!')} />
+      </End>
+    </TopBar>
+  ))
   .add('TopBar.Dropdown Controlled', () => <TopBarDropdownWithButton />);
