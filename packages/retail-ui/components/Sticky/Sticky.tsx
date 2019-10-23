@@ -10,6 +10,10 @@ import shallowEqual from 'fbjs/lib/shallowEqual';
 
 export interface StickyProps {
   side: 'top' | 'bottom';
+  /**
+   * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
+   * @default 0
+   */
   offset: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
