@@ -4,7 +4,7 @@ import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
 import styles from './Toggle.module.less';
 import jsStyles from './Toggle.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface ToggleProps {

@@ -18,7 +18,7 @@ import { isFunction } from '../../lib/utils';
 import LifeCycleProxy from '../internal/LifeCycleProxy';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Popup.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };

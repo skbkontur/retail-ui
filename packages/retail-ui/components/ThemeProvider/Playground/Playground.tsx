@@ -21,7 +21,7 @@ import { TogglePlayground } from './TogglePlayground';
 import { SwitcherPlayground } from './SwitcherPlayground';
 import { FxInputPlayground } from './FxInputPlayground';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground';
-import { ThemeConsumer } from '../../internal/ThemeContext';
+import { ThemeConsumer } from '../../ThemeConsumer';
 import { SelectPlayground } from './SelectPlayground';
 import { getComponentsFromPropsList } from './helpers';
 import { CheckboxPlayground } from './CheckboxPlayground';

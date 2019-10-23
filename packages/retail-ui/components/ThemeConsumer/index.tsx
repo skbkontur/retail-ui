@@ -1,1 +1,1 @@
-export { default } from './ThemeConsumer';
+export { default, ThemeConsumer } from './ThemeConsumer';

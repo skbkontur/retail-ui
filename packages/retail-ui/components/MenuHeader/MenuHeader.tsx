@@ -4,7 +4,7 @@ import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './MenuHeader.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface MenuHeaderProps {

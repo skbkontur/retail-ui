@@ -14,6 +14,12 @@ const jsStyles = {
       background-color: ${t.tdDividerBg};
     `;
   },
+
+  noShadow() {
+    return css`
+      box-shadow: none;
+    `;
+  },
 };
 
 export default jsStyles;

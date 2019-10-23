@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.4.0...retail-ui@1.5.0) (2019-10-09)
+
+
+### Bug Fixes
+
+* **ComboBox:** add offsetX for DropDownContainer ([6cbea25](https://github.com/skbkontur/retail-ui/commit/6cbea25)), closes [#1005](https://github.com/skbkontur/retail-ui/issues/1005)
+* **CurrencyLabel:** fix defaultProps definition ([2794e1a](https://github.com/skbkontur/retail-ui/commit/2794e1a))
+* **customization:** change 'blinkColor' ([03fd81f](https://github.com/skbkontur/retail-ui/commit/03fd81f)), closes [#1646](https://github.com/skbkontur/retail-ui/issues/1646)
+* **Select:** fix calls prop onKeyDown ([6720eff](https://github.com/skbkontur/retail-ui/commit/6720eff)), closes [#1665](https://github.com/skbkontur/retail-ui/issues/1665)
+* **TopBarDropDown:** make 'use' prop required ([fcea8b1](https://github.com/skbkontur/retail-ui/commit/fcea8b1))
+
+
+### Features
+
+* **Paging:** deprecate 'strings' prop ([6c84288](https://github.com/skbkontur/retail-ui/commit/6c84288))
+* **Paging:** remove 'strings' prop ([58cabb7](https://github.com/skbkontur/retail-ui/commit/58cabb7)), closes [#1232](https://github.com/skbkontur/retail-ui/issues/1232)
+* **ThemeContext:** exports ThemeContext ([ef0579b](https://github.com/skbkontur/retail-ui/commit/ef0579b)), closes [#1656](https://github.com/skbkontur/retail-ui/issues/1656)
+* **TopBarDropDown:** added "default" "use" option ([74ef3b3](https://github.com/skbkontur/retail-ui/commit/74ef3b3))
+* **TopBarDropDown:** added flow types ([f3909be](https://github.com/skbkontur/retail-ui/commit/f3909be))
+
+
+
+
+
 # [1.4.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.3.1...retail-ui@1.4.0) (2019-10-02)
 
 

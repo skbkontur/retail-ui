@@ -11,7 +11,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Textarea.styles';
 import styles from './Textarea.module.less';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 const DEFAULT_WIDTH = 250;
 

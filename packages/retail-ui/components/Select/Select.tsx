@@ -1,7 +1,8 @@
 import {
   isKeyArrowDown,
   isKeyArrowUp,
-  isKeyArrowVertical, isKeyEnter,
+  isKeyArrowVertical,
+  isKeyEnter,
   isKeyEscape,
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers';
@@ -28,7 +29,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Select.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface ButtonParams {
@@ -474,33 +475,32 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         e.preventDefault();
         this.open();
       }
-      return;
+    } else {
+      switch (true) {
+        case isKeyEscape(e):
+          this.focus();
+          this.close();
+          break;
+        case isKeyArrowUp(e):
+          e.preventDefault();
+          if (this.menu) {
+            this.menu.up();
+          }
+          break;
+        case isKeyArrowDown(e):
+          e.preventDefault();
+          if (this.menu) {
+            this.menu.down();
+          }
+          break;
+        case isKeyEnter(e):
+          e.preventDefault(); // To prevent form submission.
+          if (this.menu) {
+            this.menu.enter(e);
+          }
+          break;
+      }
     }
-    switch (true) {
-      case isKeyEscape(e):
-        this.focus();
-        this.setState({ opened: false });
-        return;
-      case isKeyArrowUp(e):
-        e.preventDefault();
-        if (this.menu) {
-          this.menu.up();
-        }
-        return;
-      case isKeyArrowDown(e):
-        e.preventDefault();
-        if (this.menu) {
-          this.menu.down();
-        }
-        return;
-      case isKeyEnter(e):
-        e.preventDefault(); // To prevent form submission.
-        if (this.menu) {
-          this.menu.enter(e);
-        }
-        return;
-    }
-
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e);
     }

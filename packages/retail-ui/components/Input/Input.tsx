@@ -8,7 +8,7 @@ import MaskedInput from '../internal/MaskedInput/MaskedInput';
 import { cx } from '../../lib/theming/Emotion';
 import classes from './Input.module.less';
 import jsClasses from './Input.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import raf from 'raf';
 

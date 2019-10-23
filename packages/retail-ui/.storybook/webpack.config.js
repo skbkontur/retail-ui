@@ -42,7 +42,7 @@ module.exports = (baseConfig, env) => {
     { test: /\.less$/, loader: 'less-loader' },
     { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
     { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
-    { test: /\.json/, loader: 'json-loader' },
+    { test: /\.json$/, loader: 'json-loader' },
   );
 
   if (enableReactTesting) {
@@ -52,8 +52,8 @@ module.exports = (baseConfig, env) => {
       use: {
         loader: 'babel-loader',
         options: {
-          presets: ['env'],
-          plugins: ['transform-object-assign', 'transform-es2015-typeof-symbol', 'transform-runtime'],
+          babelrc: false,
+          extends: path.join(__dirname, '.babelrc'),
         },
       },
     });

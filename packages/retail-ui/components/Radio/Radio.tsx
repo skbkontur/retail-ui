@@ -5,7 +5,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 import styles from './Radio.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Radio.styles';
-import { ThemeConsumer } from '../internal/ThemeContext';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface SyntheticRadioEvent<T> {

@@ -21,9 +21,9 @@ function clickOutside() {
   document.body.dispatchEvent(event);
 }
 
-function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<{}>] {
+function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<T>] {
   let searchCalled: () => void;
-  const searchPromise = new Promise(resolve => (searchCalled = async () => (await delay(0), resolve())));
+  const searchPromise = new Promise<T>(resolve => (searchCalled = async () => (await delay(0), resolve())));
   const search = jest.fn(() => (searchCalled(), promise));
 
   return [search, searchPromise];
@@ -57,7 +57,7 @@ describe('ComboBox', () => {
 
     expect(search).toBeCalled();
     expect(search).toHaveBeenCalledTimes(2);
-    expect(search.mock.calls[1][0]).toBe('world');
+    expect((search.mock.calls as string[][])[1][0]).toBe('world');
   });
 
   it('opens menu in dropdown container on search resolve', async () => {
@@ -351,7 +351,7 @@ describe('ComboBox', () => {
   });
 
   it("shouldn't open on receive items if not focused", async () => {
-    const [search] = searchFactory(Promise.resolve(delay(500)));
+    const [search] = searchFactory(delay(500).then(() => []));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
 
     wrapper.instance().focus();
@@ -577,12 +577,12 @@ describe('ComboBox', () => {
 
   describe('search by method', () => {
     const VALUE = { value: 1, label: 'one' };
-    let getItems: jest.Mock<Promise<string[]>>;
+    let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
     let promise: Promise<{}>;
     let wrapper: ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
 
     beforeEach(() => {
-      [getItems, promise] = searchFactory(Promise.resolve(['one']));
+      [getItems, promise] = searchFactory(Promise.resolve([VALUE]));
       wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox getItems={getItems} value={VALUE} />);
     });
 
@@ -676,13 +676,13 @@ describe('ComboBox', () => {
       comboboxWrapper.update();
       comboboxWrapper.find('input').simulate('click');
     };
-    let getItems: jest.Mock<Promise<string[]>>;
+    let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
     let promise: Promise<{}>;
     let wrapper: TComboBoxWrapper;
 
     describe('in default mode', () => {
       beforeEach(async () => {
-        [getItems, promise] = searchFactory(Promise.resolve(['one']));
+        [getItems, promise] = searchFactory(Promise.resolve([VALUE]));
         wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox getItems={getItems} value={VALUE} />);
         wrapper.instance().focus();
         await promise;

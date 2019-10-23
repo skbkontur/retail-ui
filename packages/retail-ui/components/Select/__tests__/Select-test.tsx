@@ -54,6 +54,17 @@ describe('Select', () => {
     expect(selectedMenuItem.text()).toBe(defaultValueText);
   });
 
+  it('calls onKeyDown', () => {
+    const onKeyDown = jest.fn();
+    const wrapper = mount(<Select onKeyDown={onKeyDown} />);
+
+    wrapper.find('button').simulate('keydown', { key: 'k' });
+    const [event] = onKeyDown.mock.calls[0];
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+    expect(event.key).toBe('k');
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       const wrapper = mount(<Select />);
