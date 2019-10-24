@@ -336,6 +336,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
           unmountOnExit
           enter={!disableAnimations}
           exit={!disableAnimations}
+          onExited={this.resetLocation}
         >
           {(state: string) => (
             <ZIndex
@@ -374,6 +375,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       </LifeCycleProxy>
     );
   }
+
+  private resetLocation = () => {
+    this.cancelDelayedUpdateLocation();
+    this.setState({ location: null });
+  };
 
   private renderChildren() {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
