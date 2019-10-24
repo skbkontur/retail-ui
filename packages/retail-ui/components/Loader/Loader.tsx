@@ -12,6 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Loader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import ZIndex from '../ZIndex';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -113,18 +114,24 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     });
 
     return (
-      <div
+      <ZIndex
         className={loaderClassName}
-        ref={element => {
-          this.containerNode = element;
-        }}
+        wrapperRef={this.wrapperRef}
+        priority={'Loader'}
+        shouldResetZIndexFromContext
+        sholudCoverChildren={this.props.active}
+        style={{ position: 'relative' }}
       >
         {this.props.children}
 
         {active && this.renderSpinner(type, caption)}
-      </div>
+      </ZIndex>
     );
   }
+
+  private wrapperRef = (element: HTMLDivElement | null) => {
+    this.containerNode = element;
+  };
 
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode) {
     return (
