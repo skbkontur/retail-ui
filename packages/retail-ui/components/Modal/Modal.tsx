@@ -177,7 +177,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <ZIndex delta={1000} className={styles.root}>
+        <ZIndex priority={'Modal'} className={styles.root}>
           <HideBodyVerticalScroll />
           {this.state.stackPosition === 0 && <div className={cx(styles.bg, jsStyles.bg(this.theme))} />}
           <div
