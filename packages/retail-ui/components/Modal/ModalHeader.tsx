@@ -7,6 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import ZIndex from '../ZIndex';
 
 export interface HeaderProps {
   close?: boolean;
@@ -35,15 +36,17 @@ export class Header extends React.Component<HeaderProps> {
 
   private renderMain() {
     return (
-      <ModalContext.Consumer>
-        {({ close, additionalPadding }) => {
-          if (this.props.sticky) {
-            return <Sticky side="top">{this.renderContent(close, additionalPadding)}</Sticky>;
-          }
+      <ZIndex style={{ position: 'relative' }} priority={'ModalHeader'}>
+        <ModalContext.Consumer>
+          {({ close, additionalPadding }) => {
+            if (this.props.sticky) {
+              return <Sticky side="top">{this.renderContent(close, additionalPadding)}</Sticky>;
+            }
 
-          return this.renderContent(close, additionalPadding)();
-        }}
-      </ModalContext.Consumer>
+            return this.renderContent(close, additionalPadding)();
+          }}
+        </ModalContext.Consumer>
+      </ZIndex>
     );
   }
 

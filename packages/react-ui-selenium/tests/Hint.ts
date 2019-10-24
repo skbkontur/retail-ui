@@ -47,6 +47,9 @@ describe('Hint', function() {
   describe('Hints without wrapper around inline-block with 50% width', function() {
     it('mouseOver', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
+
+      await new Promise(res => setTimeout(res, 100));
+
       await expect(await element.takeScreenshot()).to.matchImage('mouseOver');
     });
   });

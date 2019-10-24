@@ -70,7 +70,6 @@ export interface SidePageState {
 const TRANSITION_TIMEOUT = 200;
 
 interface ZIndexPropsType {
-  delta: number;
   classes?: string;
   style?: React.CSSProperties;
 }
@@ -157,7 +156,6 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   private getZIndexProps(): ZIndexPropsType {
     const { fromLeft, blockBackground } = this.props;
     return {
-      delta: 1000,
       classes: cx(styles.root, {
         [styles.leftSide]: !!fromLeft,
       }),
@@ -166,10 +164,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(): JSX.Element {
-    const { delta, classes, style } = this.getZIndexProps();
+    const { classes, style } = this.getZIndexProps();
 
     return (
-      <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
+      <ZIndex
+        priority={'Sidepage'}
+        className={classes}
+        onScroll={LayoutEvents.emit}
+        style={style}
+        shouldCreateStackingContext
+      >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
             className={cx(
@@ -206,11 +210,11 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private renderShadow(): JSX.Element {
-    const { delta, classes, style } = this.getZIndexProps();
+    const { classes, style } = this.getZIndexProps();
     const { blockBackground } = this.props;
 
     return (
-      <ZIndex delta={delta} className={classes} onScroll={LayoutEvents.emit} style={style}>
+      <ZIndex className={classes} onScroll={LayoutEvents.emit} style={style}>
         {blockBackground && [
           <HideBodyVerticalScroll key="hbvs" />,
           <div key="overlay" className={cx(styles.background, this.state.hasBackground && styles.gray)} />,

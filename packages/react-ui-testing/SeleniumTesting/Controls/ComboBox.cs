@@ -74,7 +74,7 @@ namespace SKBKontur.SeleniumTesting.Controls
             try
             {
                 var renderContainer = GetRenderContainer();
-                return renderContainer.FindElements(By.CssSelector($"[data-comp-name='{"MenuItem"}']")).Select(x => (object)x.Text).ToList();
+                return renderContainer.FindElements(By.CssSelector($"[data-comp-name~='{"MenuItem"}']")).Select(x => (object)x.Text).ToList();
             }
             catch(NoSuchElementException)
             {
