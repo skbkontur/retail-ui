@@ -259,4 +259,16 @@ describe('<RadioGroup />', () => {
         .prop('checked'),
     ).toBeTruthy();
   });
+
+  it('calls onBlur after radio click', () => {
+    const items = ['one', 'two', 'three'];
+    const onBlur = jest.fn();
+    render({ items, onBlur })
+      .find(Radio)
+      .at(0)
+      .find('input')
+      .simulate('blur');
+
+    expect(onBlur).toHaveBeenCalled();
+  });
 });
