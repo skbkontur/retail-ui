@@ -28,8 +28,8 @@ export interface StickyProps {
 export interface StickyState {
   fixed: boolean;
   deltaHeight: number;
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
   stopped: boolean;
   relativeTop: number;
 }
@@ -57,8 +57,6 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   public state: StickyState = {
     fixed: false,
     deltaHeight: 0,
-    height: -1,
-    width: -1,
     stopped: false,
     relativeTop: 0,
   };
@@ -141,10 +139,10 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     if (!this.wrapper || !this.inner) {
       return;
     }
-    const { offset, getStop, side } = this.props;
-    const { fixed: prevFixed, height: prevHeight } = this.state;
     const { top, bottom } = this.wrapper.getBoundingClientRect();
     const { width, height } = this.inner.getBoundingClientRect();
+    const { offset, getStop, side } = this.props;
+    const { fixed: prevFixed, height: prevHeight = height } = this.state;
     const fixed = side === 'top' ? Math.round(top) < offset : Math.round(bottom) > windowHeight - offset;
 
     if (fixed && !prevFixed) {
