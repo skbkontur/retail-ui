@@ -23,6 +23,7 @@ export interface RadioGroupProps<T> {
   width?: React.CSSProperties['width'];
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
   onChange?: (event: SyntheticRadioEvent<T>, value: T) => any;
+  onBlur?: (event: React.FocusEvent) => void;
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
   onMouseEnter?: () => any;
@@ -122,6 +123,8 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
      * `(event: SyntheticInputEvent<HTMLInputElement>, value: Value) => any`
      */
     onChange: PropTypes.func,
+
+    onBlur: PropTypes.func,
 
     onMouseEnter: PropTypes.func,
 
@@ -230,7 +233,9 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem(itemValue, data)}</Radio>
+        <Radio onBlur={this.props.onBlur} value={itemValue}>
+          {this.getProps().renderItem(itemValue, data)}
+        </Radio>
       </span>
     );
   };
