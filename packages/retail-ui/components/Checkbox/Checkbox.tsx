@@ -27,9 +27,8 @@ export type CheckboxProps = Override<
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     /** onChange */
     onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: boolean) => void;
-
     /** onBlur */
-    onBlur?: () => void;
+    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     /** Состояние частичного выделения */
     initialIndeterminate?: boolean;
   }
@@ -209,9 +208,9 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  private _handleBlur = () => {
+  private _handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (this.props.onBlur) {
-      this.props.onBlur();
+      this.props.onBlur(e);
     }
     this.setState({ focusedByTab: false });
   };

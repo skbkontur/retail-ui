@@ -20,7 +20,7 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
 
   public validateSex(): Nullable<ValidationInfo> {
     const { checked } = this.state;
-    if (checked == false) {
+    if (checked === false) {
       return { message: 'Поле обязательно', type: 'submit' };
     }
     return null;
