@@ -1,21 +1,28 @@
-import { css } from '../../lib/theming/Emotion';
-import styles from './Checkbox.module.less';
+import { css, prefixer } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import ColorFunctions from '../../lib/styles/ColorFunctions';
 
 const jsStyles = {
   root(t: ITheme) {
     return css`
-      &:hover .${styles.box} {
+      display: inline-flex;
+      vertical-align: top;
+      align-items: start;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+      line-height: 20px;
+
+      &:hover .${classes.box} {
         background: ${t.chbHoverBg};
       }
 
-      &:active .${styles.box} {
+      &:active .${classes.box} {
         box-shadow: ${t.chbShadowActive};
         background: ${t.chbActiveBg};
       }
 
-      &.${styles.disabled} {
+      &.${classes.disabled} {
         color: ${t.textColorDisabled};
       }
     `;
@@ -23,27 +30,51 @@ const jsStyles = {
 
   box(t: ITheme) {
     return css`
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      max-width: 16px;
+      max-height: 16px;
+      margin-top: 2px;
+      font-size: 14px;
       color: ${t.textColorDefault};
       border: ${t.chbBorder};
       border-radius: ${t.chbBorderRadius};
       box-shadow: ${t.chbShadow};
       background: ${t.chbBg};
 
-      .${styles.disabled} & {
+      .${classes.disabled} & {
         box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
         background: ${t.bgDisabled} !important;
         color: ${t.textColorDisabled} !important;
-        border-color: transparent;
       }
+    `;
+  },
+
+  input(t: ITheme) {
+    return css`
+      display: inline-block;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+      z-index: -1;
     `;
   },
 
   indeterminate(t: ITheme) {
     return css`
+      width: 8px;
+      height: 8px;
       background: ${t.chbIndeterminateBg};
       border-radius: ${t.chbIndeterminateBorderRadius};
 
-      .${styles.disabled} & {
+      .${classes.disabled} & {
         background: ${t.textColorDisabled};
       }
     `;
@@ -51,34 +82,33 @@ const jsStyles = {
 
   warning(t: ITheme) {
     return css`
-      & .${styles.box} {
+      & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning};
-        border-color: ${t.borderColorWarning};
       }
     `;
   },
 
   error(t: ITheme) {
     return css`
-      & .${styles.box} {
+      & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError};
-        border-color: ${t.borderColorError};
       }
     `;
   },
 
   checked(t: ITheme) {
     return css`
-      & .${styles.box} {
+      & .${classes.box} {
         background: ${t.chbCheckedBg};
         color: ${t.chbCheckedColor};
+        box-shadow: ${t.chbCheckedShadow};
       }
 
-      &:hover .${styles.box} {
+      &:hover .${classes.box} {
           background: ${ColorFunctions.darken(t.chbCheckedBg, '5%')};
       }
 
-      &:active .${styles.box} {
+      &:active .${classes.box} {
           background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
         }
       }
@@ -87,25 +117,63 @@ const jsStyles = {
 
   focus(t: ITheme): string {
     return css`
-      & .${styles.box} {
-        border-color: ${t.chbBorderColorFocus};
+      & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus};
       }
+    `;
+  },
+
+  disabled(t: ITheme): string {
+    return css`
+      cursor: default;
     `;
   },
 
   boxIndeterminate(t: ITheme) {
     return css`
       background: ${t.chbBoxIndeterminateBg};
+      box-shadow: ${t.chbCheckedShadow};
 
-      .${styles.root}:hover & {
+      .${classes.root}:hover & {
         background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
       }
-      .${styles.root}:active & {
+      .${classes.root}:active & {
         background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
       }
     `;
   },
+
+  caption(t: ITheme) {
+    return css`
+      padding-left: 10px;
+    `;
+  },
+
+  rootIE11(t: ITheme) {
+    return css`
+      display: inline-table;
+    `;
+  },
+
+  boxWrapperIE11(t: ITheme) {
+    return css`
+      display: table-cell;
+      vertical-align: top;
+      text-align: center;
+    `;
+  },
+
+  captionIE11(t: ITheme) {
+    return css`
+      display: table-cell;
+    `;
+  },
 };
+
+export const classes = prefixer({
+  root: 'root',
+  box: 'box',
+  disabled: 'disabled',
+});
 
 export default jsStyles;
