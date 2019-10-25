@@ -28,37 +28,25 @@ describe('<FocusTrap>', () => {
     );
   });
 
-  it.only('Blur not be called', () => {
-    focusTrap
-      .find('button')
-      .at(0)
-      .simulate('focus');
-    focusTrap
-      .find('button')
-      .at(0)
-      .simulate('blur');
-    focusTrap
-      .find('button')
-      .at(1)
-      .simulate('blur');
+  it('Blur not be called', () => {
+    const firstButton = focusTrap.find('button').at(0);
+    const secondButton = focusTrap.find('button').at(1);
+
+    firstButton.simulate('focus');
+    firstButton.simulate('blur');
+    secondButton.simulate('blur');
 
     expect(onButtonBlur).toHaveBeenCalledTimes(2);
     expect(onBlur).not.toHaveBeenCalled();
   });
 
-  it.only('Blur called one time with clickOutside', () => {
-    focusTrap
-      .find('button')
-      .at(0)
-      .simulate('focus');
-    focusTrap
-      .find('button')
-      .at(0)
-      .simulate('blur');
-    focusTrap
-      .find('button')
-      .at(1)
-      .simulate('blur');
+  it('Blur called one time with clickOutside', () => {
+    const firstButton = focusTrap.find('button').at(0);
+    const secondButton = focusTrap.find('button').at(1);
+
+    firstButton.simulate('focus');
+    firstButton.simulate('blur');
+    secondButton.simulate('blur');
 
     clickOutside();
 

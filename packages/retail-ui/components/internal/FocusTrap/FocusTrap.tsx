@@ -7,9 +7,7 @@ export interface FocusTrapProps {
   onBlur?: (event: FocusEvent) => void;
 }
 
-interface FocusTrapState {}
-
-export default class FocusTrap extends React.PureComponent<FocusTrapProps, FocusTrapState> {
+export default class FocusTrap extends React.PureComponent<FocusTrapProps> {
   private focusOutsideListenerToken: {
     remove: () => void;
   } | null = null;
@@ -21,10 +19,10 @@ export default class FocusTrap extends React.PureComponent<FocusTrapProps, Focus
   }
 
   public render() {
-    const { children } = this.props;
+    const { children, onBlur } = this.props;
     return React.cloneElement(React.Children.only(children), {
       onFocus: (...args: any[]) => {
-        this.attachListeners();
+        onBlur && this.attachListeners();
         if (children.props && children.props.onFocus) {
           children.props.onFocus(...args);
         }
@@ -41,9 +39,7 @@ export default class FocusTrap extends React.PureComponent<FocusTrapProps, Focus
 
   private attachListeners = () => {
     if (!this.focusOutsideListenerToken) {
-      this.focusOutsideListenerToken = listenFocusOutside([findDOMNode(this) as HTMLElement], e => {
-        this.onClickOutside(e);
-      });
+      this.focusOutsideListenerToken = listenFocusOutside([findDOMNode(this) as HTMLElement], this.onClickOutside);
 
       document.addEventListener(
         'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
