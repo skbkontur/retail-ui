@@ -8,6 +8,8 @@ import { cx } from '../../lib/theming/Emotion';
 import warning from 'warning';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 
+const MAX_REFLOW_RETRIES = 5;
+
 export interface StickyProps {
   side: 'top' | 'bottom';
   /**
@@ -64,6 +66,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private wrapper: Nullable<HTMLElement>;
   private inner: Nullable<HTMLElement>;
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
+  private reflowCounter: number = 0;
 
   public componentDidMount() {
     warning(
@@ -83,8 +86,13 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
   public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
     if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
-      this.reflow();
+      if (this.reflowCounter < MAX_REFLOW_RETRIES) {
+        this.reflow();
+        this.reflowCounter += 1;
+        return;
+      }
     }
+    this.reflowCounter = 0;
   }
 
   public render() {
@@ -143,13 +151,12 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     const { width, height } = this.inner.getBoundingClientRect();
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed = side === 'top' ? Math.round(top) < offset : Math.round(bottom) > windowHeight - offset;
+    const fixed = side === 'top' ? top < offset : bottom > windowHeight - offset;
+
+    this.setState({ fixed });
 
     if (fixed && !prevFixed) {
-      this.setState({ width, height, fixed });
-    }
-    if (!fixed && prevFixed) {
-      this.setState({ fixed });
+      this.setState({ width, height });
     }
 
     if (fixed) {
@@ -158,18 +165,18 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
         const deltaHeight = prevHeight - height;
         const stopRect = stop.getBoundingClientRect();
         const outerHeight = height + offset;
+        let stopped = false;
+        let relativeTop = 0;
 
         if (side === 'top') {
-          const stopped = stopRect.top - outerHeight < 0;
-          const relativeTop = stopRect.top - height - top;
-
-          this.setState({ relativeTop, stopped, deltaHeight });
+          stopped = stopRect.top - outerHeight < 0;
+          relativeTop = stopRect.top - height - top;
         } else {
-          const stopped = stopRect.bottom + outerHeight > windowHeight;
-          const relativeTop = stopRect.bottom - top;
-
-          this.setState({ relativeTop, stopped, deltaHeight });
+          stopped = stopRect.bottom + outerHeight > windowHeight;
+          relativeTop = stopRect.bottom - top;
         }
+
+        this.setState({ relativeTop, deltaHeight, stopped });
       }
     }
   };
