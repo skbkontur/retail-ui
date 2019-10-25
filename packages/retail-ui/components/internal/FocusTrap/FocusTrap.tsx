@@ -22,7 +22,9 @@ export default class FocusTrap extends React.PureComponent<FocusTrapProps> {
     const { children, onBlur } = this.props;
     return React.cloneElement(React.Children.only(children), {
       onFocus: (...args: any[]) => {
-        onBlur && this.attachListeners();
+        if (onBlur) {
+          this.attachListeners();
+        }
         if (children.props && children.props.onFocus) {
           children.props.onFocus(...args);
         }
