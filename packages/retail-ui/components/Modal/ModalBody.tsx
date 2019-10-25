@@ -2,13 +2,16 @@ import * as React from 'react';
 import { ModalContext } from './ModalContext';
 import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
+import ZIndex from '../ZIndex';
 
 export class Body extends React.Component {
   public render(): JSX.Element {
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
-          <div
+          <ZIndex
+            priority={'ModalBody'}
+            shouldCreateStackingContext
             className={cx(
               styles.body,
               !hasHeader && styles.bodyWithoutHeader,
@@ -16,7 +19,7 @@ export class Body extends React.Component {
             )}
           >
             {this.props.children}
-          </div>
+          </ZIndex>
         )}
       </ModalContext.Consumer>
     );
