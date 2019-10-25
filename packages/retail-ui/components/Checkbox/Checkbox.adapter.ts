@@ -8,7 +8,7 @@ const CheckboxAdapter = {
 
   setChecked(inst: Checkbox, checked: boolean) {
     // tslint:disable-next-line:no-string-literal
-    inst['_handleChange']({
+    inst['handleChange']({
       currentTarget: { checked },
     } as ChangeEvent<HTMLInputElement>);
   },

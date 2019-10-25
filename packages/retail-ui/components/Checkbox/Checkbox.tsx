@@ -159,10 +159,10 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       ...rest,
       type: 'checkbox',
       className: jsStyles.input(this.theme),
-      onChange: this._handleChange,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
-      ref: this._inputRef,
+      onChange: this.handleChange,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+      ref: this.inputRef,
     };
 
     let caption = null;
@@ -193,7 +193,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
   }
 
-  private _handleFocus = (e: React.FocusEvent<any>) => {
+  private handleFocus = (e: React.FocusEvent<any>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -205,15 +205,15 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this.setState({ focusedByTab: false });
   };
 
-  private _inputRef = (ref: HTMLInputElement | null) => {
+  private inputRef = (ref: HTMLInputElement | null) => {
     this.input = ref;
   };
 
-  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
     if (this.props.onChange) {
       this.props.onChange(event, checked);
