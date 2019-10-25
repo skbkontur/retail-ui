@@ -175,7 +175,7 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
     };
 
     return (
-      <FocusTrap onBlur={onBlur ? onBlur : () => {}}>
+      <FocusTrap onBlur={onBlur}>
         <span ref={this._ref} style={style} className={styles.root} {...handlers}>
           {this._renderChildren()}
         </span>

@@ -4,7 +4,7 @@ import listenFocusOutside, { containsTargetOrRenderContainer } from '../../../li
 
 export interface FocusTrapProps {
   children: React.ReactElement<any>;
-  onBlur: (event: FocusEvent) => void;
+  onBlur?: (event: FocusEvent) => void;
 }
 
 interface FocusTrapState {}
@@ -22,7 +22,7 @@ export default class FocusTrap extends React.PureComponent<FocusTrapProps, Focus
 
   public render() {
     const { children } = this.props;
-    return React.cloneElement(children, {
+    return React.cloneElement(React.Children.only(children), {
       onFocus: (...args: any[]) => {
         this.attachListeners();
         if (children.props && children.props.onFocus) {
@@ -33,7 +33,9 @@ export default class FocusTrap extends React.PureComponent<FocusTrapProps, Focus
   }
 
   private onClickOutside = (e: Event) => {
-    this.props.onBlur(e as FocusEvent);
+    if (this.props.onBlur) {
+      this.props.onBlur(e as FocusEvent);
+    }
     this.detachListeners();
   };
 
