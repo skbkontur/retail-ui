@@ -35,6 +35,7 @@ interface ComboBoxViewProps<T> {
   warning?: boolean;
   width?: string | number;
   maxLength?: number;
+  menuWidth?: number | string;
   maxMenuHeight?: number | string;
 
   onChange?: (item: T, e: React.SyntheticEvent) => void;
@@ -114,6 +115,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       totalCount,
       size,
       width,
+      menuWidth,
     } = this.props;
 
     const input = this.renderInput();
@@ -148,6 +150,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
               getParent={() => findDOMNode(this)}
               offsetY={1}
               offsetX={-1}
+              width={menuWidth}
               disablePortal={this.props.disablePortal}
             >
               <ComboBoxMenu

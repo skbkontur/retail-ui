@@ -55,6 +55,8 @@ export interface ComboBoxProps<T> {
    */
   itemToValue: (item: T) => string | number;
 
+  menuWidth?: number | string;
+
   maxLength?: number;
 
   menuAlign?: 'left' | 'right';

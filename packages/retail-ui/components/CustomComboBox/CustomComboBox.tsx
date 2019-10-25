@@ -37,6 +37,7 @@ export interface CustomComboBoxProps<T> {
   warning?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
+  menuWidth?: number | string;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
@@ -225,6 +226,7 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
       value: this.props.value,
       warning: this.props.warning,
       width: this.props.width,
+      menuWidth: this.props.menuWidth,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
 
