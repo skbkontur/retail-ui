@@ -213,6 +213,7 @@ export default {
   calendarCellSelectedFontColor: 'inherit',
   calendarMonthHeaderStickedBgColor: '#333333',
   calendarMonthTitleBorderBottom: '0px solid #333333',
+  calendarMonthTitleBorderBottomColor: '#333333',
   dateSelectMenuBg: '#333333',
   dateSelectMenuItemBgActive: '#5199db',
   dateSelectMenuItemBgSelected: '#5199db',

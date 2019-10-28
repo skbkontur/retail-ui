@@ -10,7 +10,7 @@ const jsStyles = {
 
   monthTitle(t: ITheme) {
     return css`
-      border-bottom: ${t.calendarMonthTitleBorderBottom};
+      border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
     `;
   },
 };
