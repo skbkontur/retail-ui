@@ -15,6 +15,7 @@ const jsStyles = {
 
       &:hover .${classes.box} {
         background: ${t.chbHoverBg};
+        box-shadow: ${t.chbShadowHover};
       }
 
       &:active .${classes.box} {
@@ -84,7 +85,7 @@ const jsStyles = {
   warning(t: ITheme) {
     return css`
       & .${classes.box} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning};
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning} !important;
       }
     `;
   },
@@ -92,7 +93,7 @@ const jsStyles = {
   error(t: ITheme) {
     return css`
       & .${classes.box} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError};
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError} !important;
       }
     `;
   },
@@ -106,7 +107,8 @@ const jsStyles = {
       }
 
       &:hover .${classes.box} {
-          background: ${ColorFunctions.darken(t.chbCheckedBg, '5%')};
+        box-shadow: ${t.chbCheckedHoverShadow};
+        background: ${ColorFunctions.darken(t.chbCheckedBg, '5%')};
       }
 
       &:active .${classes.box} {
@@ -119,7 +121,7 @@ const jsStyles = {
   focus(t: ITheme): string {
     return css`
       & .${classes.box} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus};
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus} !important;
       }
     `;
   },
@@ -137,6 +139,7 @@ const jsStyles = {
 
       .${classes.root}:hover & {
         background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
+        box-shadow: ${t.chbCheckedHoverShadow};
       }
       .${classes.root}:active & {
         background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
