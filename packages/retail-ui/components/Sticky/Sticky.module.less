@@ -1,10 +1,19 @@
 :local {
-  .innerFixed {
-    position: fixed;
-    z-index: 100;
+  .inner {
+    display: flex;
 
-    &.innerStopped {
+    &.fixed {
+      position: fixed;
+      z-index: 100;
+    }
+
+    &.stopped {
       position: relative;
+    }
+
+    .container {
+      flex: auto;
+      width: 100%;
     }
   }
 }
