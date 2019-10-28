@@ -7,7 +7,7 @@
   "scripts": {
     "test": "node start",
     "test:ui": "node start --ui",
-    "test:update": "node update"
+    "test:update": "creevey --update"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

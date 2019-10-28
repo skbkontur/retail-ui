@@ -56,4 +56,38 @@ describe('Menu', () => {
 
     expect(onClick.mock.calls.length).toBe(0);
   });
+
+  it('calls onMouseEnter', () => {
+    const onMouseEnter = jest.fn();
+    const wrapper = mount(
+      <InternalMenu>
+        <MenuItem onMouseEnter={onMouseEnter} />
+      </InternalMenu>,
+    );
+
+    const props = wrapper.find(MenuItem).props();
+
+    if (props.onMouseEnter) {
+      props.onMouseEnter({} as React.MouseEvent);
+    }
+
+    expect(onMouseEnter.mock.calls.length).toBe(1);
+  });
+
+  it('calls onMouseLeave', () => {
+    const onMouseLeave = jest.fn();
+    const wrapper = mount(
+      <InternalMenu>
+        <MenuItem onMouseLeave={onMouseLeave} />
+      </InternalMenu>,
+    );
+
+    const props = wrapper.find(MenuItem).props();
+
+    if (props.onMouseLeave) {
+      props.onMouseLeave({} as React.MouseEvent);
+    }
+
+    expect(onMouseLeave.mock.calls.length).toBe(1);
+  });
 });
