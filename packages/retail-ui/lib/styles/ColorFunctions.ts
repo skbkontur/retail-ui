@@ -1,6 +1,6 @@
 import { clamp, floatFromPercent } from './ColorHelpers';
 import { ColorFactory } from './ColorFactory';
-import { ColorObject } from './ColorObject';
+import { ColorObject, ColorType } from './ColorObject';
 
 type SignType = '+' | '-';
 type MethodType = 'absolute' | 'relative';
@@ -71,6 +71,12 @@ const ColorFunctions = {
       return false;
     }
   },
+  fade(colorString: string, alpha: number, type: ColorType = 'rgba') {
+    const color = ColorFactory.create(colorString);
+    color.alpha = Math.round(alpha);
+    color.type = type;
+    return toColorString(color);
+  },
 };
 
 const ColorFunctionsCache: { [key: string]: string } = Object.create(null);
@@ -113,17 +119,21 @@ function shiftColor(colorString: string, a: number | string, sign: SignType, met
     newColor = ColorFactory.create(`hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`);
   }
 
+  return toColorString(newColor);
+}
+
+function toColorString(color: ColorObject) {
   switch (color.type) {
     case 'rgb':
     case 'rgba': {
-      return newColor.toRGBString();
+      return color.toRGBString();
     }
     case 'hsl':
     case 'hsla': {
-      return newColor.toHSLString();
+      return color.toHSLString();
     }
     default:
-      return newColor.toHEXString();
+      return color.toHEXString();
   }
 }
 
