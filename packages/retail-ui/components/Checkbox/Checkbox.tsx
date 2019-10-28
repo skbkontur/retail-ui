@@ -148,7 +148,6 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const rootClass = cx(classes.root, jsStyles.root(this.theme), {
       [classes.disabled]: !!props.disabled,
       [jsStyles.disabled(this.theme)]: !!props.disabled,
-      [jsStyles.rootIE11(this.theme)]: isIE11,
       [jsStyles.checked(this.theme)]: !!props.checked,
       [jsStyles.focus(this.theme)]: this.state.focusedByTab,
       [jsStyles.warning(this.theme)]: !!props.warning,
@@ -167,10 +166,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     let caption = null;
     if (children) {
-      const captionClass = cx(jsStyles.caption(this.theme), {
-        [jsStyles.captionIE11(this.theme)]: isIE11,
-      });
-      caption = <div className={captionClass}>{children}</div>;
+      caption = <div className={jsStyles.caption(this.theme)}>{children}</div>;
     }
 
     const isIndeterminate = this.state.indeterminate;

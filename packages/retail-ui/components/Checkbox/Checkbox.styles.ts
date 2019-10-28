@@ -25,6 +25,10 @@ const jsStyles = {
       &.${classes.disabled} {
         color: ${t.textColorDisabled};
       }
+
+      .rt-ie-any & {
+        display: inline-table;
+      }
     `;
   },
 
@@ -36,10 +40,7 @@ const jsStyles = {
       box-sizing: border-box;
       width: 16px;
       height: 16px;
-      min-width: 16px;
-      min-height: 16px;
-      max-width: 16px;
-      max-height: 16px;
+      flex: none;
       margin-top: 2px;
       font-size: 14px;
       color: ${t.textColorDefault};
@@ -146,12 +147,10 @@ const jsStyles = {
   caption(t: ITheme) {
     return css`
       padding-left: 10px;
-    `;
-  },
 
-  rootIE11(t: ITheme) {
-    return css`
-      display: inline-table;
+      .rt-ie-any & {
+        display: table-cell;
+      }
     `;
   },
 
@@ -160,12 +159,6 @@ const jsStyles = {
       display: table-cell;
       vertical-align: top;
       text-align: center;
-    `;
-  },
-
-  captionIE11(t: ITheme) {
-    return css`
-      display: table-cell;
     `;
   },
 };
