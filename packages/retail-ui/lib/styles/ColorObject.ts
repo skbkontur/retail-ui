@@ -117,6 +117,8 @@ export class ColorObject implements ColorObjectType {
 
   public toHSLString() {
     const hsl = this.toHSL();
-    return hsl.a < 1 ? `hsla(${hsl.h}, ${hsl.s}, ${hsl.l}, ${hsl.a})` : `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
+    return hsl.a < 1
+      ? `hsla(${hsl.h}, ${hsl.s * 100}%, ${hsl.l * 100}%, ${hsl.a})`
+      : `hsl(${hsl.h}, ${hsl.s * 100}%, ${hsl.l * 100}%)`;
   }
 }
