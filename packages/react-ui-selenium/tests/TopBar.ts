@@ -14,4 +14,10 @@ describe('TopBar', function() {
       await expect(await element.takeScreenshot()).to.matchImage('TopBar New');
     });
   });
+  describe('TopBar noShadow', function() {
+    it('TopBar noShadow', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('TopBar noShadow');
+    });
+  });
 });

@@ -91,7 +91,7 @@ export default class DropdownContainer extends React.Component<DropdownContainer
     }
 
     const content = (
-      <ZIndex delta={1000} ref={this.ref} style={style}>
+      <ZIndex priority={'DropdownContainer'} ref={this.ref} style={style}>
         {this.props.children}
       </ZIndex>
     );

@@ -16,7 +16,7 @@ const getRevisionRefs = (revId = getRevisionID()) => {
     .forEach(str => {
       const match = str.match(/refs\/(heads|tags)\/(.+)$/);
       if (match) {
-        const [str, type, name] = match;
+        const [, type, name] = match;
         refs[type].push(name.replace('^{}', ''));
       }
     });

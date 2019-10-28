@@ -1,12 +1,9 @@
 /* tslint:disable:object-literal-sort-keys */
 /* eslint-disable max-len */
-import 'regenerator-runtime/runtime';
-import 'babel-polyfill';
+import 'core-js/stable';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
-import RenderContainer from './components/RenderContainer';
-import { ZIndexStorage } from './components/ZIndex';
 import ThemeFactory from './lib/theming/ThemeFactory';
 
 process.env.enableReactTesting = true;
@@ -41,12 +38,6 @@ delete React.PropTypes;
 // than write "__mock__" implementation and call
 // ```jest.mock(...)``` in every test (including indirect ones)
 beforeAll(() => {
-  // Stable data-rendered-container-id / keys for every test
-  RenderContainer.getRootId = () => 1;
-
-  // Stable zIndex for every test
-  ZIndexStorage.incrementZIndex = () => 1000;
-
   // Add variables used by tests by hand as those are not read from the variables.less file
   ThemeFactory.overrideDefaultTheme({
     textColorDefault: '#404040',
