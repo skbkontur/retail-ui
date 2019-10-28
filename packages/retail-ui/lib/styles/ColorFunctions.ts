@@ -72,10 +72,14 @@ const ColorFunctions = {
     }
   },
   fade(colorString: string, alpha: number, type: ColorType = 'rgba') {
-    const color = ColorFactory.create(colorString);
-    color.alpha = Math.round(alpha);
-    color.type = type;
-    return toColorString(color);
+    const key = buildCacheKey('fade', colorString, alpha);
+
+    if (ColorFunctionsCache[key] === undefined) {
+      const color = ColorFactory.create(colorString);
+      color.type = type;
+      ColorFunctionsCache[key] = color.toColorString();
+    }
+    return ColorFunctionsCache[key];
   },
 };
 
@@ -118,23 +122,7 @@ function shiftColor(colorString: string, a: number | string, sign: SignType, met
   } else {
     newColor = ColorFactory.create(`hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`);
   }
-
-  return toColorString(newColor);
-}
-
-function toColorString(color: ColorObject) {
-  switch (color.type) {
-    case 'rgb':
-    case 'rgba': {
-      return color.toRGBString();
-    }
-    case 'hsl':
-    case 'hsla': {
-      return color.toHSLString();
-    }
-    default:
-      return color.toHEXString();
-  }
+  return newColor.toColorString(color.type);
 }
 
 export default ColorFunctions;

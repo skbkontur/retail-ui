@@ -119,4 +119,19 @@ export class ColorObject implements ColorObjectType {
     const hsl = this.toHSL();
     return hsl.a < 1 ? `hsla(${hsl.h}, ${hsl.s}, ${hsl.l}, ${hsl.a})` : `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
   }
+
+  public toColorString(type?: ColorType) {
+    switch (type ? type : this.type) {
+      case 'rgb':
+      case 'rgba': {
+        return this.toRGBString();
+      }
+      case 'hsl':
+      case 'hsla': {
+        return this.toHSLString();
+      }
+      default:
+        return this.toHEXString();
+    }
+  }
 }
