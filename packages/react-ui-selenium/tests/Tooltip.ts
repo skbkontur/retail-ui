@@ -296,10 +296,10 @@ describe('Tooltip', function() {
         })
         .pause(500)
         .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
+      await this.browser
+        .actions({
+          bridge: true,
+        })
         .move({
           origin: this.browser.findElement(By.css('body')),
         })
@@ -444,6 +444,32 @@ describe('Tooltip', function() {
         .click(this.browser.findElement(By.css('body')))
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hover&focus - blur');
+    });
+  });
+  describe('Render in first available position', function() {
+    it('render in available position', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Button"]')))
+        .perform();
+      await expect(await element.takeScreenshot()).to.matchImage('render in available position');
+    });
+    it('relocate on new available position', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Button"]')))
+        .perform();
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Button"]')))
+        .perform();
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Button"]')))
+        .perform();
+      await expect(await element.takeScreenshot()).to.matchImage('relocate on new available position');
     });
   });
 });
