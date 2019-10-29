@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
