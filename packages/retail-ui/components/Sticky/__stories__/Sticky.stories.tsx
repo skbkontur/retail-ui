@@ -26,6 +26,7 @@ class SampleTop extends React.Component {
         <Sticky side="top" getStop={this.getStickyStopElement}>
           {fixed => (
             <div
+              data-tid="stickyContent"
               style={{
                 padding: 10,
                 background: '#f99',
@@ -38,6 +39,7 @@ class SampleTop extends React.Component {
         </Sticky>
         {TEXT}
         <div
+          data-tid="stickyStop"
           style={{
             height: 2,
             background: '#999',
@@ -66,6 +68,7 @@ class SampleBottom extends React.Component {
         {TEXT}
         {TEXT}
         <div
+          data-tid="stickyStop"
           style={{
             height: 2,
             background: '#999',
@@ -76,6 +79,7 @@ class SampleBottom extends React.Component {
         <Sticky side="bottom" getStop={this.getStickyStopElement}>
           {fixed => (
             <div
+              data-tid="stickyContent"
               style={{
                 padding: 10,
                 background: '#f99',
@@ -99,7 +103,22 @@ class SampleBottom extends React.Component {
   private getStickyStopElement = () => this.stopElement;
 }
 
+function SampleFlex() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div>top text</div>
+      <div style={{ minHeight: '100vh', display: 'flex' }}>
+        Content
+        <Sticky side="bottom">
+          <div style={{ boxShadow: '0px -2px 6px rgba(0, 0, 0, 0.2)', background: '#ccc' }}>Sticky Sticky Sticky</div>
+        </Sticky>
+      </div>
+    </div>
+  );
+}
+
 storiesOf('Sticky', module)
   .addDecorator(story => <div style={{ width: 200 }}>{story()}</div>)
   .add('Top', () => <SampleTop />)
-  .add('Bottom', () => <SampleBottom />);
+  .add('Bottom', () => <SampleBottom />)
+  .add('Flex container', () => <SampleFlex />);

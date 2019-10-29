@@ -1,22 +1,27 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Sticky.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
+import warning from 'warning';
+import shallowEqual from 'fbjs/lib/shallowEqual';
+
+const MAX_REFLOW_RETRIES = 5;
 
 export interface StickyProps {
   side: 'top' | 'bottom';
-  offset?: number;
+  /**
+   * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
+   * @default 0
+   */
+  offset: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 
   /**
-   *
-   * Если `false`, вызывает `Maximum update depth exceeded error` когда у потомка определены марджины.
-   * Если `true` - добавляет контейнеру `overflow: auto`, тем самым предотвращая схлопывание марджинов
+   * @deprecated работа с margin у детей возможна без указания этого флага
    * @default false
    */
   allowChildWithMargins?: boolean;
@@ -24,9 +29,9 @@ export interface StickyProps {
 
 export interface StickyState {
   fixed: boolean;
-  height: number;
-  left: number | string;
-  width: number | string;
+  deltaHeight: number;
+  height?: number;
+  width?: number;
   stopped: boolean;
   relativeTop: number;
 }
@@ -49,137 +54,89 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     allowChildWithMargins: PropTypes.bool,
   };
 
-  public static defaultProps = {
-    offset: 0,
-    allowChildWithMargins: false,
-  };
+  public static defaultProps = { offset: 0 };
 
   public state: StickyState = {
     fixed: false,
-    height: -1,
-    left: 'auto',
-    width: 'auto',
-
+    deltaHeight: 0,
     stopped: false,
     relativeTop: 0,
   };
 
-  private _wrapper: Nullable<HTMLElement>;
-  private _inner: Nullable<HTMLElement>;
-
-  private _scheduled: boolean = false;
-  private _reflowing: boolean = false;
-  private _lastInnerHeight: number = -1;
-  private _layoutSubscription: { remove: Nullable<() => void> } = {
-    remove: null,
-  };
-
-  private getProps = createPropsGetter(Sticky.defaultProps);
+  private wrapper: Nullable<HTMLElement>;
+  private inner: Nullable<HTMLElement>;
+  private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
+  private reflowCounter: number = 0;
 
   public componentDidMount() {
-    this._reflow();
+    warning(
+      this.props.allowChildWithMargins === undefined,
+      '"allowChildWithMargins" prop is deprecated. Component "Sticky" work correctly without it.',
+    );
+    this.reflow();
 
-    this._layoutSubscription = LayoutEvents.addListener(() => this._reflow());
+    this.layoutSubscription = LayoutEvents.addListener(this.reflow);
   }
 
   public componentWillUnmount() {
-    if (this._layoutSubscription.remove) {
-      this._layoutSubscription.remove();
+    if (this.layoutSubscription.remove) {
+      this.layoutSubscription.remove();
     }
   }
 
-  public componentDidUpdate() {
-    this._reflow();
+  public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
+    if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
+      if (this.reflowCounter < MAX_REFLOW_RETRIES) {
+        this.reflow();
+        this.reflowCounter += 1;
+        return;
+      }
+    }
+    this.reflowCounter = 0;
   }
 
   public render() {
-    let wrapperStyle: React.CSSProperties = {};
-    let innerStyle: React.CSSProperties = {};
+    let { children } = this.props;
+    const { side, offset } = this.props;
+    const { fixed, stopped, relativeTop, deltaHeight, width, height } = this.state;
+    const innerStyle: React.CSSProperties = {};
 
-    if (this.state.fixed) {
-      if (this.state.stopped) {
-        innerStyle = {
-          top: this.state.relativeTop,
-        };
+    if (fixed) {
+      if (stopped) {
+        innerStyle.top = relativeTop;
+        innerStyle[side === 'top' ? 'marginTop' : 'marginBottom'] = deltaHeight;
       } else {
-        wrapperStyle = {
-          height: this.state.height === -1 ? 'auto' : this.state.height,
-        };
-
-        innerStyle = {
-          left: this.state.left,
-          width: this.state.width,
-        };
-
-        if (this.props.side === 'top') {
-          innerStyle.top = this.props.offset;
-        } else {
-          innerStyle.bottom = this.props.offset;
-        }
+        innerStyle.width = width;
+        innerStyle[side] = offset;
       }
     }
 
-    let children = this.props.children;
     if (isFunction(children)) {
-      children = children(this.state.fixed);
-    }
-
-    if (this.props.allowChildWithMargins) {
-      innerStyle.overflow = 'auto';
+      children = children(fixed);
     }
 
     return (
-      <div style={wrapperStyle} ref={this._refWrapper}>
+      <div ref={this.refWrapper}>
         <div
-          className={cx({
-            [styles.innerFixed]: this.state.fixed,
-            [styles.innerStopped]: this.state.stopped,
+          className={cx(styles.inner, {
+            [styles.fixed]: fixed,
+            [styles.stopped]: stopped,
           })}
           style={innerStyle}
-          ref={this._refInner}
+          ref={this.refInner}
         >
-          {children}
+          <div className={cx(styles.container)}>{children}</div>
         </div>
+        {fixed && !stopped ? <div style={{ width, height }} /> : null}
       </div>
     );
   }
 
-  private _refWrapper = (ref: Nullable<HTMLElement>) => {
-    this._wrapper = ref;
-  };
+  private refWrapper = (ref: Nullable<HTMLElement>) => (this.wrapper = ref);
 
-  private _refInner = (ref: Nullable<HTMLElement>) => {
-    this._inner = ref;
-  };
+  private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
-  private lesserThan(a: number, b: number) {
-    return b - a > 0.0001;
-  }
-
-  private _reflow = () => {
-    if (this._reflowing) {
-      this._scheduled = true;
-      return;
-    }
-
-    this._scheduled = false;
-    this._reflowing = true;
-    const generator = this._doReflow();
-    const check = () => {
-      const next = generator.next();
-      if (next.done) {
-        this._reflowing = false;
-        if (this._scheduled) {
-          this._reflow();
-        }
-      } else {
-        this._setStateIfChanged(next.value, check);
-      }
-    };
-    check();
-  };
-
-  private *_doReflow(): Generator {
+  private reflow = () => {
     const { documentElement } = document;
 
     if (!documentElement) {
@@ -187,76 +144,40 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     const windowHeight = window.innerHeight || documentElement.clientHeight;
-    if (!this._wrapper) {
+    if (!this.wrapper || !this.inner) {
       return;
     }
-    const wrapRect = this._wrapper.getBoundingClientRect();
-    const wrapLeft = wrapRect.left;
-    const wrapTop = wrapRect.top;
-    const fixed =
-      // NOTE Fix safari issue when `wrapTop` is around -1e-13 in some cases
-      this.props.side === 'top'
-        ? this.lesserThan(wrapTop, this.getProps().offset)
-        : this.lesserThan(windowHeight - this.getProps().offset, wrapRect.bottom);
+    const { top, bottom } = this.wrapper.getBoundingClientRect();
+    const { width, height } = this.inner.getBoundingClientRect();
+    const { offset, getStop, side } = this.props;
+    const { fixed: prevFixed, height: prevHeight = height } = this.state;
+    const fixed = side === 'top' ? top < offset : bottom > windowHeight - offset;
 
-    const wasFixed = this.state.fixed;
+    this.setState({ fixed });
+
+    if (fixed && !prevFixed) {
+      this.setState({ width, height });
+    }
 
     if (fixed) {
-      const width = wrapRect.width;
-      const inner = this._inner;
-      let height = this.state.height;
-      if (!inner) {
-        return;
-      }
-      if (!wasFixed || this.state.width !== width || this._lastInnerHeight !== inner.offsetHeight) {
-        yield {
-          fixed: false,
-          height,
-        };
-        height = inner.offsetHeight;
-      }
-
-      yield {
-        width,
-        height,
-        fixed: true,
-        left: wrapLeft,
-      };
-
-      this._lastInnerHeight = inner.offsetHeight;
-
-      const stop = this.props.getStop && this.props.getStop();
+      const stop = getStop && getStop();
       if (stop) {
+        const deltaHeight = prevHeight - height;
         const stopRect = stop.getBoundingClientRect();
-        const outerHeight = height + this.getProps().offset;
+        const outerHeight = height + offset;
+        let stopped = false;
+        let relativeTop = 0;
 
-        if (this.props.side === 'top') {
-          const stopped = stopRect.top - outerHeight < 0;
-          const relativeTop = stopRect.top - height - wrapTop;
-
-          yield { relativeTop, stopped };
+        if (side === 'top') {
+          stopped = stopRect.top - outerHeight < 0;
+          relativeTop = stopRect.top - height - top;
         } else {
-          const stopped = stopRect.bottom + outerHeight > windowHeight;
-          const relativeTop = stopRect.bottom - wrapTop;
-
-          yield { relativeTop, stopped };
+          stopped = stopRect.bottom + outerHeight > windowHeight;
+          relativeTop = stopRect.bottom - top;
         }
-      }
-    } else {
-      yield { fixed: false };
-    }
-  }
 
-  private _setStateIfChanged(state: StickyState, callback?: () => void) {
-    for (const key in state) {
-      if (this.state[key as keyof StickyState] !== state[key as keyof StickyState]) {
-        this.setState(state, callback);
-        return;
+        this.setState({ relativeTop, deltaHeight, stopped });
       }
     }
-
-    if (callback) {
-      callback();
-    }
-  }
+  };
 }
