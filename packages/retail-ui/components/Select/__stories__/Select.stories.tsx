@@ -32,14 +32,14 @@ class SelectWrapper extends React.Component<{}, any> {
 }
 
 class ItemsWithComments extends React.Component<{}, any> {
-  private items = [
+  private static items = [
     [1, "ООО Эльбрус", "8387666415 - 113445852"],
     [2, "ИП Иванов Петр", "583662338391"],
-    [3, "ЗАО Текстильщики"],
+    [3, "ЗАО Текстильщики"]
   ];
 
   public state = {
-    value: this.items[0][0],
+    value: ItemsWithComments.items[0][0],
   };
 
   public render() {
@@ -48,7 +48,7 @@ class ItemsWithComments extends React.Component<{}, any> {
         <Select
           width={200}
           value={this.state.value}
-          items={this.items}
+          items={ItemsWithComments.items}
           onChange={(_, value) => this.setState({ value })}
         />
       </div>
