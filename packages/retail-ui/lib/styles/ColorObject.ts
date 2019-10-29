@@ -120,8 +120,8 @@ export class ColorObject implements ColorObjectType {
     return hsl.a < 1 ? `hsla(${hsl.h}, ${hsl.s}, ${hsl.l}, ${hsl.a})` : `hsl(${hsl.h}, ${hsl.s}, ${hsl.l})`;
   }
 
-  public toColorString(type?: ColorType) {
-    switch (type ? type : this.type) {
+  public toColorString(type: ColorType = this.type) {
+    switch (type) {
       case 'rgb':
       case 'rgba': {
         return this.toRGBString();
@@ -129,6 +129,9 @@ export class ColorObject implements ColorObjectType {
       case 'hsl':
       case 'hsla': {
         return this.toHSLString();
+      }
+      case 'transparent': {
+        return `transparent`;
       }
       default:
         return this.toHEXString();
