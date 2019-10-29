@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import '../ensureOldIEClassName';
-import { isIE11 } from '../../lib/utils';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
+import { isEdge, isIE } from '../ensureOldIEClassName';
 import jsStyles, { classes } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
@@ -183,7 +183,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     return (
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
-        {isIE11 ? <span className={jsStyles.boxWrapperIE11(this.theme)}>{box}</span> : box}
+        {isIE || isEdge ? <span className={jsStyles.boxWrapperIE11(this.theme)}>{box}</span> : box}
         {caption}
       </label>
     );
