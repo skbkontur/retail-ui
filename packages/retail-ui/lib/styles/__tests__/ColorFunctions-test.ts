@@ -340,7 +340,7 @@ describe('ColorFunctions', () => {
     });
   });
 
-  describe.only('fade', () => {
+  describe('fade', () => {
     test('from hex', () => {
       expect(ColorFunctions.fade('#80e619', 0.2)).toBe('rgba(128, 230, 25, 0.2)');
     });
