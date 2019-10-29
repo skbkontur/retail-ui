@@ -65,7 +65,7 @@ export interface SelectProps<TValue, TItem> {
   disabled?: boolean;
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
-  items?: Array<[TValue, TItem] | TItem | React.ReactElement<any> | (() => React.ReactElement<any>)>;
+  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement<any> | (() => React.ReactElement<any>)>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
