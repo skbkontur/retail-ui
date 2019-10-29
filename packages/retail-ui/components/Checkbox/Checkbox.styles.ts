@@ -55,6 +55,10 @@ const jsStyles = {
         background: ${t.bgDisabled} !important;
         color: ${t.textColorDisabled} !important;
       }
+
+      .rt-ie-any & {
+        margin-top: 3px;
+      }
     `;
   },
 
