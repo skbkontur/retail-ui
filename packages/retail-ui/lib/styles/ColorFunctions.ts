@@ -1,6 +1,6 @@
 import { clamp, floatFromPercent } from './ColorHelpers';
 import { ColorFactory } from './ColorFactory';
-import { ColorObject, ColorType } from './ColorObject';
+import { ColorObject } from './ColorObject';
 
 type SignType = '+' | '-';
 type MethodType = 'absolute' | 'relative';
@@ -71,13 +71,13 @@ const ColorFunctions = {
       return false;
     }
   },
-  fade(colorString: string, alpha: number, type: ColorType = 'rgba') {
+  fade(colorString: string, alpha: number) {
     const key = buildCacheKey('fade', colorString, alpha);
 
     if (ColorFunctionsCache[key] === undefined) {
       const color = ColorFactory.create(colorString);
-      color.type = type;
-      ColorFunctionsCache[key] = color.toColorString();
+      color.alpha = alpha;
+      ColorFunctionsCache[key] = color.toColorString(color.type === 'hex' ? 'rgba' : color.type);
     }
     return ColorFunctionsCache[key];
   },
