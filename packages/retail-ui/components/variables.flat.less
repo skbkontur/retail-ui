@@ -147,16 +147,20 @@
 @btn-flat-large-arrow-bg: linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0);
 
 // Checkbox
-@chb-flat-shadow: none;
 @chb-flat-bg: none;
 @chb-flat-bg-hover: '__COMPUTED__';
 @chb-flat-bg-active: '__COMPUTED__';
 @chb-flat-indeterminate-bg: #fff;
-@chb-flat-shadow-disabled: none;
-@chb-flat-shadow-active: none;
-@chb-flat-shadow-width: 1px;
-@chb-flat-border: '__COMPUTED__';
+@chb-flat-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+@chb-flat-shadow-disabled: 0 0 0 1px #f2f2f2;
+@chb-flat-shadow-active: 0 0 0 1px #c3c3c3;
+@chb-flat-shadow-hover: 0 0 0 1px #c3c3c3;
+@chb-flat-shadow-width: 2px;
+@chb-flat-border: none;
 @chb-flat-checked-color: #fff;
+@chb-flat-checked-shadow: 0 0 0 1px #1768a3;
+@chb-flat-checked-hover-shadow: 0 0 0 1px #175590;
+@chb-flat-border-radius: 1px;
 
 // Radio
 @radio-flat-size: 18px;
@@ -350,9 +354,13 @@
 @value chbIndeterminateBg: @chb-flat-indeterminate-bg;
 @value chbShadowDisabled: @chb-flat-shadow-disabled;
 @value chbShadowActive: @chb-flat-shadow-active;
+@value chbShadowHover: @chb-flat-shadow-hover;
 @value chbShadowWidth: @chb-flat-shadow-width;
 @value chbBorder: @chb-flat-border;
 @value chbCheckedColor: @chb-flat-checked-color;
+@value chbCheckedShadow: @chb-flat-checked-shadow;
+@value chbCheckedHoverShadow: @chb-flat-checked-hover-shadow;
+@value chbBorderRadius: @chb-flat-border-radius;
 @value inputBg: @input-flat-bg;
 @value inputIconColor: @input-flat-icon-color;
 @value inputColor: @input-flat-color;
