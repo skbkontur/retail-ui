@@ -351,10 +351,10 @@ describe('ColorFunctions', () => {
       expect(ColorFunctions.fade('rgba(122, 122, 122, 0.5)', 0.2)).toBe('rgba(122, 122, 122, 0.2)');
     });
     test('from hsl', () => {
-      expect(ColorFunctions.fade('hsl(30, 20%, 10%)', 0.2)).toBe('hsla(33, 0.22, 0.1, 0.2)');
+      expect(ColorFunctions.fade('hsl(30, 20%, 10%)', 0.2)).toBe('hsla(33, 22%, 10%, 0.2)');
     });
     test('from hsla', () => {
-      expect(ColorFunctions.fade('hsla(30, 20%, 10%, 0.5)', 0.2)).toBe('hsla(33, 0.22, 0.1, 0.2)');
+      expect(ColorFunctions.fade('hsla(30, 20%, 10%, 0.5)', 0.2)).toBe('hsla(33, 22%, 10%, 0.2)');
     });
     test('from transparent', () => {
       expect(ColorFunctions.fade('transparent', 0.2)).toBe('transparent');
