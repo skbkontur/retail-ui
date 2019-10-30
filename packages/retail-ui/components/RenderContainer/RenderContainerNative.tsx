@@ -13,7 +13,7 @@ export function Portal(props: PortalProps) {
 }
 
 export class RenderInnerContainer extends React.Component<RenderContainerNativeProps> {
-  private portalsIsAllowed = typeof document !== 'undefined' && !document.isStub;
+  private portalsIsAllowed = typeof document !== 'undefined' && !document.hasOwnProperty('isStub');
 
   public render() {
     if (this.props.children) {
