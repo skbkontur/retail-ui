@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.5.0...retail-ui@1.6.0) (2019-10-30)
+
+
+### Bug Fixes
+
+* **Checkbox:** add calling onBlur in handleBlur ([47791d9](https://github.com/skbkontur/retail-ui/commit/47791d9)), closes [#1565](https://github.com/skbkontur/retail-ui/issues/1565)
+* **ColorObject:** fix returning string from hsl color ([3d83c48](https://github.com/skbkontur/retail-ui/commit/3d83c48)), closes [#1695](https://github.com/skbkontur/retail-ui/issues/1695)
+* **DatePicker:** fix color border-bottom of month ([89e69cf](https://github.com/skbkontur/retail-ui/commit/89e69cf)), closes [#1605](https://github.com/skbkontur/retail-ui/issues/1605)
+* **MenuItem:** call onMouseEnter/Leave in cloned element ([ff397c9](https://github.com/skbkontur/retail-ui/commit/ff397c9))
+* **RadioGroup:** pass onBlur into Radio ([20f9dcb](https://github.com/skbkontur/retail-ui/commit/20f9dcb)), closes [#1670](https://github.com/skbkontur/retail-ui/issues/1670)
+* **Select:** add missing comment type ([bf89513](https://github.com/skbkontur/retail-ui/commit/bf89513))
+* **Select:** fix color placeholder ([5e35c59](https://github.com/skbkontur/retail-ui/commit/5e35c59))
+* **Sticky:** infinity render loop in IE ([85180dd](https://github.com/skbkontur/retail-ui/commit/85180dd))
+* **Sticky:** maximum update depth exceeded ([75fb581](https://github.com/skbkontur/retail-ui/commit/75fb581)), closes [#1485](https://github.com/skbkontur/retail-ui/issues/1485)
+* **Tooltip:** reset position on close ([4d03a22](https://github.com/skbkontur/retail-ui/commit/4d03a22)), closes [#1673](https://github.com/skbkontur/retail-ui/issues/1673)
+* **TopBar:** fix noShadow prop ([1af4648](https://github.com/skbkontur/retail-ui/commit/1af4648)), closes [#1672](https://github.com/skbkontur/retail-ui/issues/1672)
+
+
+### Features
+
+* **ColorFunctions:** add fade function ([a10dcb9](https://github.com/skbkontur/retail-ui/commit/a10dcb9))
+* **DefaultTheme:** add variable 'chbCheckedShadow' ([b2531b3](https://github.com/skbkontur/retail-ui/commit/b2531b3))
+* **Emotion:** add 'prefixer' for classes ([6043228](https://github.com/skbkontur/retail-ui/commit/6043228))
+* **FlatTheme:** add variables 'chbCheckedShadow' and 'chbBorderRadius' ([e3424e7](https://github.com/skbkontur/retail-ui/commit/e3424e7))
+* **FlatTheme:** add vars 'chbShadowHover' and 'chbCheckedHoverShadow' ([62dad9c](https://github.com/skbkontur/retail-ui/commit/62dad9c))
+* **FocusTrap:** add component FocusTrap ([1baf0c3](https://github.com/skbkontur/retail-ui/commit/1baf0c3))
+* **Theme:** remove calendarMonthTitleBorderBottom ([3dcfb6f](https://github.com/skbkontur/retail-ui/commit/3dcfb6f))
+* **ZIndex:** add layers priority ([68ea45b](https://github.com/skbkontur/retail-ui/commit/68ea45b)), closes [#776](https://github.com/skbkontur/retail-ui/issues/776)
+
+
+
+
+
 # [1.5.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.4.0...retail-ui@1.5.0) (2019-10-09)
 
 

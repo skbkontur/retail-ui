@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.1.4...react-ui-selenium@1.2.0) (2019-10-30)
+
+
+### Bug Fixes
+
+* **Tooltip:** reset position on close ([4d03a22](https://github.com/skbkontur/retail-ui/commit/4d03a22)), closes [#1673](https://github.com/skbkontur/retail-ui/issues/1673)
+* **TopBar:** fix noShadow prop ([1af4648](https://github.com/skbkontur/retail-ui/commit/1af4648)), closes [#1672](https://github.com/skbkontur/retail-ui/issues/1672)
+
+
+### Features
+
+* **FlatTheme:** add vars 'chbShadowHover' and 'chbCheckedHoverShadow' ([62dad9c](https://github.com/skbkontur/retail-ui/commit/62dad9c))
+
+
+
+
+
 ## [1.1.4](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.1.3...react-ui-selenium@1.1.4) (2019-10-09)
 
 **Note:** Version bump only for package react-ui-selenium
