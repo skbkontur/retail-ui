@@ -7,6 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import jsStyles from './MonthView.styles';
 import ThemeConsumer from '../ThemeConsumer';
+import ColorFunctions from 'retail-ui/lib/styles/ColorFunctions';
 
 interface MonthViewProps {
   children: React.ReactNode;
@@ -60,7 +61,7 @@ export class MonthView extends React.Component<MonthViewProps> {
     const isHeaderSticky = isTopNegative && height >= -top;
     const headerTop = isHeaderSticky ? Math.min(-top, height - config.MONTH_TITLE_HEIGHT) : 0;
     const alpha = isHeaderSticky ? (height + top - config.MONTH_TITLE_HEIGHT) / 10 : 1;
-    const borderBottomColor = `rgba(223, 222, 222, ${alpha})`;
+    const borderBottomColor = ColorFunctions.fade(this.theme.calendarMonthTitleBorderBottomColor, alpha);
     const isYearVisible = isFirstInYear || isHeaderSticky;
     const yearTop = isHeaderSticky && !isLastInYear ? -headerTop - top : 0;
     const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - config.MONTH_TITLE_HEIGHT;
