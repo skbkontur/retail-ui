@@ -7,7 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import jsStyles from './MonthView.styles';
 import ThemeConsumer from '../ThemeConsumer';
-import ColorFunctions from 'retail-ui/lib/styles/ColorFunctions';
+import ColorFunctions from '../../lib/styles/ColorFunctions';
 
 interface MonthViewProps {
   children: React.ReactNode;
