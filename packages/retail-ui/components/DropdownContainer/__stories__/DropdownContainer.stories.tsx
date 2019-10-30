@@ -7,10 +7,58 @@ import DropdownContainer, { DropdownContainerProps } from '../DropdownContainer'
 import { findDOMNode } from 'react-dom';
 import Menu from '../../Menu/Menu';
 import Button from '../../Button/Button';
+import Input from '../../Input';
+import { Nullable } from '../../../typings/utility-types';
+
+// default
+//  - short item < minWidth (container + 30px)
+//  - lond item < maxWidth (450px)
+//  - very long item > maxWidth (450px)
+// with width
+//  - short item < width
+//  - lond item > width
+
+storiesOf('DropdownContainer/defaultWidth', module)
+  .add('short items', () => <DropdownContainerDefaultWidth type="short" />)
+  .add('medium items', () => <DropdownContainerDefaultWidth type="medium" />)
+  .add('long items', () => <DropdownContainerDefaultWidth type="long" />);
+
+storiesOf('DropdownContainer/customWidth', module)
+  .add('short items', () => <div />)
+  .add('long items', () => <div />);
 
 storiesOf('DropdownContainer', module).add('various aligns, portals, items and scrolls', () => (
   <VariousAlignsPortalsItemsAndScrolls />
 ));
+
+class DropdownContainerDefaultWidth extends React.Component<
+  { type: 'short' | 'medium' | 'long' },
+  { input: Nullable<Input> }
+> {
+  public state: { input: Nullable<Input> } = { input: null };
+  private items = {
+    short: 'Lorem ipsum',
+    medium: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    long:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+  };
+  public render() {
+    const { type } = this.props;
+    const { input } = this.state;
+    return (
+      <div>
+        <Input ref={el => input !== el && this.setState({ input: el })} />
+        {input && (
+          <DropdownContainer getParent={() => findDOMNode(input)}>
+            <Menu>
+              <MenuItem>{this.items[type]}</MenuItem>
+            </Menu>
+          </DropdownContainer>
+        )}
+      </div>
+    );
+  }
+}
 
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public aligns: Array<'left' | 'right'> = ['left', 'right'];
