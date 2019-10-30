@@ -101,17 +101,17 @@ describe('ColorFunctions', () => {
     });
 
     test('from hsl number', () => {
-      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', 0.2)).toBe('hsl(90, 0.8, 0.7)');
+      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', 0.2)).toBe('hsl(90, 80%, 70%)');
     });
     test('from hsl %', () => {
-      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', '20%')).toBe('hsl(90, 0.8, 0.7)');
+      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', '20%')).toBe('hsl(90, 80%, 70%)');
     });
 
     test('from hsla number', () => {
-      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 33%)', 0.2)).toBe('hsla(90, 0.8, 0.7, 0.33)');
+      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 33%)', 0.2)).toBe('hsla(90, 80%, 70%, 0.33)');
     });
     test('from hsla %', () => {
-      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 0.33)', '20%')).toBe('hsla(90, 0.8, 0.7, 0.33)');
+      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 0.33)', '20%')).toBe('hsla(90, 80%, 70%, 0.33)');
     });
   });
 
@@ -138,17 +138,17 @@ describe('ColorFunctions', () => {
     });
 
     test('from hsl number', () => {
-      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', 0.2, 'relative')).toBe('hsl(90, 0.8, 0.6)');
+      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', 0.2, 'relative')).toBe('hsl(90, 80%, 60%)');
     });
     test('from hsl %', () => {
-      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', '20%', 'relative')).toBe('hsl(90, 0.8, 0.6)');
+      expect(ColorFunctions.lighten('hsl(90, 80%, 50%)', '20%', 'relative')).toBe('hsl(90, 80%, 60%)');
     });
 
     test('from hsla number', () => {
-      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 33%)', 0.2, 'relative')).toBe('hsla(90, 0.8, 0.6, 0.33)');
+      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 33%)', 0.2, 'relative')).toBe('hsla(90, 80%, 60%, 0.33)');
     });
     test('from hsla %', () => {
-      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 0.33)', '20%', 'relative')).toBe('hsla(90, 0.8, 0.6, 0.33)');
+      expect(ColorFunctions.lighten('hsla(90, 80%, 50%, 0.33)', '20%', 'relative')).toBe('hsla(90, 80%, 60%, 0.33)');
     });
   });
 
@@ -175,17 +175,17 @@ describe('ColorFunctions', () => {
     });
 
     test('from hsl number', () => {
-      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', 0.2)).toBe('hsl(90, 0.8, 0.3)');
+      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', 0.2)).toBe('hsl(90, 80%, 30%)');
     });
     test('from hsl %', () => {
-      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', '20%')).toBe('hsl(90, 0.8, 0.3)');
+      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', '20%')).toBe('hsl(90, 80%, 30%)');
     });
 
     test('from hsla number', () => {
-      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 33%)', 0.2)).toBe('hsla(90, 0.8, 0.3, 0.33)');
+      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 33%)', 0.2)).toBe('hsla(90, 80%, 30%, 0.33)');
     });
     test('from hsla %', () => {
-      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 0.33)', '20%')).toBe('hsla(90, 0.8, 0.3, 0.33)');
+      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 0.33)', '20%')).toBe('hsla(90, 80%, 30%, 0.33)');
     });
   });
 
@@ -212,17 +212,17 @@ describe('ColorFunctions', () => {
     });
 
     test('from hsl number', () => {
-      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', 0.2, 'relative')).toBe('hsl(90, 0.8, 0.4)');
+      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', 0.2, 'relative')).toBe('hsl(90, 80%, 40%)');
     });
     test('from hsl %', () => {
-      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', '20%', 'relative')).toBe('hsl(90, 0.8, 0.4)');
+      expect(ColorFunctions.darken('hsl(90, 80%, 50%)', '20%', 'relative')).toBe('hsl(90, 80%, 40%)');
     });
 
     test('from hsla number', () => {
-      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 33%)', 0.2, 'relative')).toBe('hsla(90, 0.8, 0.4, 0.33)');
+      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 33%)', 0.2, 'relative')).toBe('hsla(90, 80%, 40%, 0.33)');
     });
     test('from hsla %', () => {
-      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 0.33)', '20%', 'relative')).toBe('hsla(90, 0.8, 0.4, 0.33)');
+      expect(ColorFunctions.darken('hsla(90, 80%, 50%, 0.33)', '20%', 'relative')).toBe('hsla(90, 80%, 40%, 0.33)');
     });
   });
 
@@ -351,10 +351,10 @@ describe('ColorFunctions', () => {
       expect(ColorFunctions.fade('rgba(122, 122, 122, 0.5)', 0.2)).toBe('rgba(122, 122, 122, 0.2)');
     });
     test('from hsl', () => {
-      expect(ColorFunctions.fade('hsl(30, 20%, 10%)', 0.2)).toBe('hsla(33, 0.22, 0.1, 0.2)');
+      expect(ColorFunctions.fade('hsl(30, 20%, 10%)', 0.2)).toBe('hsla(33, 22%, 10%, 0.2)');
     });
     test('from hsla', () => {
-      expect(ColorFunctions.fade('hsla(30, 20%, 10%, 0.5)', 0.2)).toBe('hsla(33, 0.22, 0.1, 0.2)');
+      expect(ColorFunctions.fade('hsla(30, 20%, 10%, 0.5)', 0.2)).toBe('hsla(33, 22%, 10%, 0.2)');
     });
     test('from transparent', () => {
       expect(ColorFunctions.fade('transparent', 0.2)).toBe('transparent');
