@@ -1,12 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import styles from './Checkbox.module.less';
-import jsStyles from './Checkbox.styles';
+import { isEdge, isIE } from '../ensureOldIEClassName';
+import jsStyles, { classes } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -147,14 +146,11 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       initialIndeterminate,
       ...rest
     } = props;
-    const hasCaption = !!children;
 
-    const rootClass = cx({
-      [styles.root]: true,
-      [styles.withoutCaption]: !hasCaption,
-      [styles.disabled]: !!props.disabled,
-      [jsStyles.root(this.theme)]: true,
-      [jsStyles.checked(this.theme) || '']: !!props.checked,
+    const rootClass = cx(classes.root, jsStyles.root(this.theme), {
+      [classes.disabled]: !!props.disabled,
+      [jsStyles.disabled(this.theme)]: !!props.disabled,
+      [jsStyles.checked(this.theme)]: !!props.checked,
       [jsStyles.focus(this.theme)]: this.state.focusedByTab,
       [jsStyles.warning(this.theme)]: !!props.warning,
       [jsStyles.error(this.theme)]: !!props.error,
@@ -163,40 +159,39 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: styles.input,
-      onChange: this._handleChange,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
-      ref: this._inputRef,
+      className: jsStyles.input(this.theme),
+      onChange: this.handleChange,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+      ref: this.inputRef,
     };
 
     let caption = null;
-    if (hasCaption) {
-      caption = <div className={styles.caption}>{children}</div>;
+    if (children) {
+      caption = <div className={jsStyles.caption(this.theme)}>{children}</div>;
     }
 
     const isIndeterminate = this.state.indeterminate;
-    const boxClass = cx(styles.box, jsStyles.box(this.theme), isIndeterminate && jsStyles.boxIndeterminate(this.theme));
+    const boxClass = cx(classes.box, jsStyles.box(this.theme), {
+      [jsStyles.boxIndeterminate(this.theme)]: isIndeterminate,
+    });
+
+    const box = (
+      <span className={boxClass}>
+        {(isIndeterminate && <span className={jsStyles.indeterminate(this.theme)} />) || (props.checked && <OkIcon />)}
+      </span>
+    );
+
     return (
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
-        <span className={boxClass}>
-          {isIndeterminate ? (
-            <span className={cx(styles.indeterminate, jsStyles.indeterminate(this.theme))} />
-          ) : (
-            props.checked && (
-              <div className={styles.ok}>
-                <OkIcon />
-              </div>
-            )
-          )}
-        </span>
+        {isIE || isEdge ? <span className={jsStyles.boxWrapperIE11(this.theme)}>{box}</span> : box}
         {caption}
       </label>
     );
   }
 
-  private _handleFocus = (e: React.FocusEvent<any>) => {
+  private handleFocus = (e: React.FocusEvent<any>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -208,18 +203,18 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  private _handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
     this.setState({ focusedByTab: false });
   };
 
-  private _inputRef = (ref: HTMLInputElement | null) => {
+  private inputRef = (ref: HTMLInputElement | null) => {
     this.input = ref;
   };
 
-  private _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
     if (this.props.onChange) {
       this.props.onChange(event, checked);
