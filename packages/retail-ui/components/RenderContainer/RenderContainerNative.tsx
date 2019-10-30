@@ -13,11 +13,7 @@ export function Portal(props: PortalProps) {
 }
 
 export class RenderInnerContainer extends React.Component<RenderContainerNativeProps> {
-  private _allowedCreatePortal = false;
-  
-  public componentDidMount() {
-     this._allowedCreatePortal = true;
-  }
+  private portalsIsAllowed = typeof document !== 'undefined' && !document.isStub;
 
   public render() {
     if (this.props.children) {
@@ -28,7 +24,7 @@ export class RenderInnerContainer extends React.Component<RenderContainerNativeP
       return (
         <React.Fragment>
           {this.props.anchor}
-          {this._allowedCreatePortal && ReactDOM.createPortal(this.props.children, this.props.domContainer)}
+          {this.portalsIsAllowed && ReactDOM.createPortal(this.props.children, this.props.domContainer)}
           <Portal key="portal-ref" rt_rootID={this.props.rootId} />
         </React.Fragment>
       );
