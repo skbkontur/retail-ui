@@ -174,7 +174,7 @@ export default {
     '1px -1px 0 0 rgba(210, 144, 0, 0.7), 0 -2px 0 -1px rgba(0, 0, 0, 0.44), inset 0 4px 5px -4px rgba(0, 0, 0, 0.05)',
   btnPayActiveShadowArrowLeft:
     '1px -1px 0 0 rgba(210, 144, 0, 0.7), 2px -0.3px 0 -1px rgba(0, 0, 0, 0.44), inset -4px 0 5px -4px rgba(0, 0, 0, 0.05)',
-  sltPlaceholderColor: '#888',
+  sltPlaceholderColor: '#a0a0a0',
   tabColorFocus: '#5199db',
   tabColorError: '#e14c30',
   tabColorWarning: '#ffc943',

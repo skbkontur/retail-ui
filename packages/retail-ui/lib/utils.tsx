@@ -25,6 +25,9 @@ export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
 export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
 export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
 export const isChrome = /google inc/.test(vendor) && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
+export const isEdge = /edge\//.test(userAgent);
+export const isIE11 = /trident\//.test(userAgent);
+export const isIENot11 = !isIE11 && /msie /.test(userAgent);
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
