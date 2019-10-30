@@ -31,6 +31,31 @@ class SelectWrapper extends React.Component<{}, any> {
   }
 }
 
+class ItemsWithComments extends React.Component<{}, any> {
+  private static items = [
+    [1, "ООО Эльбрус", "8387666415 - 113445852"],
+    [2, "ИП Иванов Петр", "583662338391"],
+    [3, "ЗАО Текстильщики"]
+  ];
+
+  public state = {
+    value: ItemsWithComments.items[0][0],
+  };
+
+  public render() {
+    return (
+      <div>
+        <Select
+          width={200}
+          value={this.state.value}
+          items={ItemsWithComments.items}
+          onChange={(_, value) => this.setState({ value })}
+        />
+      </div>
+    );
+  }
+}
+
 class SelectWithNull extends React.Component<any, any> {
   public state = {
     value: null,
@@ -60,6 +85,7 @@ storiesOf('Select', module)
   ))
   .add('Simple', () => <Select items={['one', 'two', 'three']} />)
   .add('Complex values', () => <SelectWrapper />)
+  .add('Items with comments', () => <ItemsWithComments />)
   .add('With null', () => <SelectWithNull />)
   .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
   .add('use link with icon', () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />)
