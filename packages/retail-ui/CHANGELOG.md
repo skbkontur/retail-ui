@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.0...retail-ui@1.6.1) (2019-10-30)
+
+
+### Bug Fixes
+
+* **MonthView:** wrong import colorFunctions ([24eeb1e](https://github.com/skbkontur/retail-ui/commit/24eeb1e))
+
+
+
+
+
 # [1.6.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.5.0...retail-ui@1.6.0) (2019-10-30)
 
 
