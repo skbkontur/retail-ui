@@ -5,25 +5,42 @@ import LayoutEvents from '../../lib/LayoutEvents';
 import getComputedStyle from '../../lib/dom/getComputedStyle';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex';
-import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
 type DOMNode = Element | Text | null;
 
+export interface PageScroll {
+  scrollX: number;
+  scrollY: number;
+}
+
 export interface DropdownContainerPosition {
-  top: Nullable<number>;
-  bottom: Nullable<number>;
-  left: Nullable<number>;
-  right: Nullable<number>;
+  top: number;
+  left: number;
+}
+
+export interface DropdownContainerSize {
+  width: number;
+  height: number;
+}
+
+export interface DropdownContainerOffset {
+  top: number;
+  left: number;
+}
+
+export interface DropdownContainerAlign {
+  alignY: 'top' | 'bottom';
+  alignX: 'left' | 'right';
 }
 
 export interface DropdownContainerProps {
-  align?: 'left' | 'right';
+  align: DropdownContainerAlign['alignX'];
   getParent: () => DOMNode;
-  children?: React.ReactNode;
-  disablePortal?: boolean;
-  offsetY?: number;
-  offsetX?: number;
+  children: React.ReactNode;
+  disablePortal: boolean;
+  offsetY: number;
+  offsetX: number;
 }
 
 export interface DropdownContainerState {
@@ -46,25 +63,12 @@ export default class DropdownContainer extends React.Component<DropdownContainer
     isDocumentElementRoot: true,
   };
 
-  private getProps = createPropsGetter(DropdownContainer.defaultProps);
-
   private dom: DOMNode = null;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
 
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
-  }
-
-  public componentWillMount() {
-    const { body, documentElement: docEl } = document;
-    const htmlPosition = getComputedStyle(docEl).position;
-    const bodyPosition = getComputedStyle(body).position;
-
-    const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
-    const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
-
-    this.setState({ isDocumentElementRoot: hasLimitedHeightRoot || hasStaticRoot });
   }
 
   public componentWillUnmount() {
@@ -79,13 +83,11 @@ export default class DropdownContainer extends React.Component<DropdownContainer
       top: '0',
     };
     if (this.state.position) {
-      const { top, bottom, left, right } = this.state.position;
+      const { top, left } = this.state.position;
       style = {
         ...style,
-        top: top !== null ? top : undefined,
-        bottom: bottom !== null ? bottom : undefined,
-        left: left !== null ? left : undefined,
-        right: right !== null ? right : undefined,
+        top,
+        left,
         minWidth: this.state.minWidth,
       };
     }
@@ -112,63 +114,116 @@ export default class DropdownContainer extends React.Component<DropdownContainer
     const dom = this.dom;
 
     if (this.isElement(target) && dom) {
-      const targetRect = target.getBoundingClientRect();
-      const { body, documentElement: docEl } = document;
+      const { documentElement } = document;
 
-      if (!docEl) {
+      if (!documentElement) {
         throw Error('There is no "documentElement" in "document"');
       }
 
-      const scrollX = window.pageXOffset || docEl.scrollLeft || 0;
-      const scrollY = window.pageYOffset || docEl.scrollTop || 0;
-
-      let left = null;
-      let right = null;
-
-      if (this.props.align === 'right') {
-        const docWidth = docEl.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
-      } else {
-        left = targetRect.left + scrollX + this.getProps().offsetX;
-      }
-
-      const { offsetY = 0 } = this.props;
-      let bottom = null;
-      let top: number | null = targetRect.bottom + scrollY + offsetY;
-
-      const distanceToBottom = docEl.clientHeight - targetRect.bottom;
-      const dropdownHeight = this.getHeight();
-
-      if (distanceToBottom < dropdownHeight && targetRect.top > dropdownHeight) {
-        const clientHeight = this.state.isDocumentElementRoot ? docEl.clientHeight : body.scrollHeight;
-
-        top = null;
-        bottom = clientHeight + offsetY - scrollY - targetRect.top;
-      }
-
-      const position = {
-        top,
-        left,
-        right,
-        bottom,
-      };
+      const targetRect = target.getBoundingClientRect();
+      const dropdownSize = this.getDropdownSize();
+      const dropdownOffset = this.getDropdownOffset();
+      const dropdownAlign = this.getDropdownAlign();
+      const pageScroll = this.getPageScroll();
 
       this.setState({
         minWidth: this.getMinWidth(),
-        position: this.props.disablePortal ? this.convertToRelativePosition(position) : position,
+        position: !this.props.disablePortal
+          ? this.getAbsolutePosition(targetRect, dropdownSize, dropdownOffset, dropdownAlign, pageScroll)
+          : this.getRelativePosition(targetRect, dropdownSize, dropdownOffset, dropdownAlign),
       });
     }
   };
 
-  private getHeight = () => {
+  private getDropdownSize = () => {
+    const size = { width: 0, height: 0 };
     if (!this.isElement(this.dom)) {
-      return 0;
+      return size;
     }
     const child = this.dom.children.item(0);
     if (!child) {
-      return 0;
+      return size;
     }
-    return child.getBoundingClientRect().height;
+    const { width, height } = child.getBoundingClientRect();
+    return {
+      width,
+      height,
+    };
+  };
+
+  private getDropdownOffset = (): DropdownContainerOffset => {
+    const parentOffset = this.getAbsoluteParentOffset();
+    const { alignX, alignY } = this.getDropdownAlign();
+    const { offsetX, offsetY } = this.props;
+    return {
+      top: alignY === 'top' ? -offsetY - parentOffset.top : offsetY - parentOffset.top,
+      left: alignX === 'right' ? -offsetX - parentOffset.left : offsetX - parentOffset.left,
+    };
+  };
+
+  private getDropdownAlign = (): DropdownContainerAlign => {
+    let alignY: DropdownContainerAlign['alignY'] = 'bottom';
+    const target = this.props.getParent();
+    if (this.isElement(target)) {
+      const targetRect = target.getBoundingClientRect();
+      const dropdownSize = this.getDropdownSize();
+      const distanceToBottom = document.documentElement.clientHeight - targetRect.bottom;
+      if (distanceToBottom < dropdownSize.height && targetRect.top > dropdownSize.height) {
+        alignY = 'top';
+      }
+    }
+    return {
+      alignY,
+      alignX: this.props.align,
+    };
+  };
+
+  /**
+   * Returns parent relative to which the dropdown in a portal gets positioned
+   */
+  private getAbsoluteParent = (): HTMLElement | null => {
+    if (!this.props.disablePortal) {
+      const { body, documentElement: html } = document;
+      const htmlPosition = getComputedStyle(html).position;
+      const bodyPosition = getComputedStyle(body).position;
+      if (bodyPosition !== 'static') {
+        return body;
+      }
+      if (htmlPosition !== 'static') {
+        return html;
+      }
+    }
+    return null;
+  };
+
+  /**
+   * Returns offset of the AbsoluteParent from the document
+   */
+  private getAbsoluteParentOffset = (): {
+    top: number;
+    left: number;
+  } => {
+    const absoluteParent = this.getAbsoluteParent();
+    if (!absoluteParent) {
+      return {
+        top: 0,
+        left: 0,
+      };
+    }
+    const rect = absoluteParent.getBoundingClientRect();
+    const { scrollX, scrollY } = this.getPageScroll();
+    return {
+      top: rect.top + absoluteParent.clientTop + scrollY,
+      left: rect.left + absoluteParent.clientLeft + scrollX,
+    };
+  };
+
+  private getPageScroll = (): PageScroll => {
+    const { documentElement } = document;
+    return {
+      scrollX: window.pageXOffset || documentElement.scrollLeft || 0,
+      scrollY: window.pageYOffset || documentElement.scrollTop || 0,
+    };
   };
 
   private getMinWidth = () => {
@@ -179,24 +234,40 @@ export default class DropdownContainer extends React.Component<DropdownContainer
     return target.getBoundingClientRect().width;
   };
 
-  private convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
-    const target = this.props.getParent();
-    const { offsetX = 0, offsetY = 0 } = this.props;
-    const { top, bottom, left, right } = position;
-    if (this.isElement(target)) {
-      const targetHeight = target.getBoundingClientRect().height;
-      return {
-        top: top !== null ? targetHeight + offsetY : null,
-        bottom: bottom !== null ? targetHeight + offsetY : null,
-        left: left !== null ? offsetX : null,
-        right: right !== null ? offsetX : null,
-      };
-    }
+  private getRelativePosition = (
+    targetRect: ClientRect,
+    dropdownSize: DropdownContainerSize,
+    dropdownOffset: DropdownContainerOffset,
+    dropdownAlign: DropdownContainerAlign,
+  ): DropdownContainerPosition => {
     return {
-      top: offsetY,
-      bottom: null,
-      left: offsetX,
-      right: null,
+      top:
+        dropdownAlign.alignY === 'top'
+          ? -dropdownSize.height + dropdownOffset.top
+          : targetRect.height + dropdownOffset.top,
+      left:
+        dropdownAlign.alignX === 'left'
+          ? dropdownOffset.left
+          : targetRect.width - dropdownSize.width + dropdownOffset.left,
+    };
+  };
+
+  private getAbsolutePosition = (
+    targetRect: ClientRect,
+    dropdownSize: DropdownContainerSize,
+    dropdownOffset: DropdownContainerOffset,
+    dropdownAlign: DropdownContainerAlign,
+    pageScroll: PageScroll,
+  ): DropdownContainerPosition => {
+    return {
+      top:
+        dropdownAlign.alignY === 'top'
+          ? targetRect.top - dropdownSize.height + pageScroll.scrollY + dropdownOffset.top
+          : targetRect.bottom + pageScroll.scrollY + dropdownOffset.top,
+      left:
+        dropdownAlign.alignX === 'left'
+          ? targetRect.left + pageScroll.scrollX + dropdownOffset.left
+          : targetRect.right - dropdownSize.width + pageScroll.scrollX + dropdownOffset.left,
     };
   };
 }
