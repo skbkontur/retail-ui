@@ -37,7 +37,7 @@ describe('Sticky', function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('stoped');
     });
   });
-  describe('Bottom', async function() {
+  describe('Bottom', function() {
     it('bottom', async function() {
       await this.browser.executeScript(function() {
         // tslint:disable
@@ -78,7 +78,7 @@ describe('Sticky', function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
     });
   });
-  describe('Flex container', async function() {
+  describe('Flex container', function() {
     it('idle', async function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('idle');
     });

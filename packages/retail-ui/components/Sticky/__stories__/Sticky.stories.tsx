@@ -2,6 +2,20 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import Sticky from '../Sticky';
 
+const stickyContent = (fixed: boolean) => (
+  <div
+    data-tid="stickyContent"
+    style={{
+      padding: 10,
+      background: '#f99',
+      margin: 20,
+    }}
+  >
+    Small loan of a million dollars
+    {fixed ? ' fixed' : <div>not fixed</div>}
+  </div>
+);
+
 const TEXT = (
   <div>
     On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the
@@ -24,28 +38,10 @@ class SampleTop extends React.Component {
       <div>
         {TEXT}
         <Sticky side="top" getStop={this.getStickyStopElement}>
-          {fixed => (
-            <div
-              data-tid="stickyContent"
-              style={{
-                padding: 10,
-                background: '#f99',
-              }}
-            >
-              Small loan of a million dollars
-              {fixed ? ' fixed' : <div>not fixed</div>}
-            </div>
-          )}
+          {stickyContent}
         </Sticky>
         {TEXT}
-        <div
-          data-tid="stickyStop"
-          style={{
-            height: 2,
-            background: '#999',
-          }}
-          ref={this.refStop}
-        />
+        <div data-tid="stickyStop" style={{ height: 2, background: '#999' }} ref={this.refStop} />
         {TEXT}
         {TEXT}
       </div>
@@ -67,29 +63,10 @@ class SampleBottom extends React.Component {
       <div>
         {TEXT}
         {TEXT}
-        <div
-          data-tid="stickyStop"
-          style={{
-            height: 2,
-            background: '#999',
-          }}
-          ref={this.refStop}
-        />
+        <div data-tid="stickyStop" style={{ height: 2, background: '#999' }} ref={this.refStop} />
         {TEXT}
         <Sticky side="bottom" getStop={this.getStickyStopElement}>
-          {fixed => (
-            <div
-              data-tid="stickyContent"
-              style={{
-                padding: 10,
-                background: '#f99',
-                margin: 20,
-              }}
-            >
-              Small loan of a million dollars
-              {fixed ? ' fixed' : <div>not fixed</div>}
-            </div>
-          )}
+          {stickyContent}
         </Sticky>
         {TEXT}
       </div>
