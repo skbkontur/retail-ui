@@ -94,7 +94,19 @@ function SampleFlex() {
   );
 }
 
+function StickyWithWideContainer() {
+  return (
+    <div style={{ width: '110vw' }}>
+      <Sticky side="top">{stickyContent}</Sticky>
+      <div data-tid="nonStickyText" style={{ width: 200 }}>
+        {TEXT}
+      </div>
+    </div>
+  );
+}
+
 storiesOf('Sticky', module)
+  .add('Wide Container', () => <StickyWithWideContainer />)
   .addDecorator(story => <div style={{ width: 200 }}>{story()}</div>)
   .add('Top', () => <SampleTop />)
   .add('Bottom', () => <SampleBottom />)

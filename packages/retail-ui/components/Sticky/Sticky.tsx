@@ -32,6 +32,7 @@ export interface StickyState {
   deltaHeight: number;
   height?: number;
   width?: number;
+  left?: number;
   stopped: boolean;
   relativeTop: number;
 }
@@ -98,7 +99,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   public render() {
     let { children } = this.props;
     const { side, offset } = this.props;
-    const { fixed, stopped, relativeTop, deltaHeight, width, height } = this.state;
+    const { fixed, stopped, relativeTop, deltaHeight, width, height, left } = this.state;
     const innerStyle: React.CSSProperties = {};
 
     if (fixed) {
@@ -108,6 +109,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
       } else {
         innerStyle.width = width;
         innerStyle[side] = offset;
+        innerStyle.left = left;
       }
     }
 
@@ -147,13 +149,13 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     if (!this.wrapper || !this.inner) {
       return;
     }
-    const { top, bottom } = this.wrapper.getBoundingClientRect();
+    const { top, bottom, left } = this.wrapper.getBoundingClientRect();
     const { width, height } = this.inner.getBoundingClientRect();
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
     const fixed = side === 'top' ? top < offset : bottom > windowHeight - offset;
 
-    this.setState({ fixed });
+    this.setState({ fixed, left });
 
     if (fixed && !prevFixed) {
       this.setState({ width, height });
