@@ -88,15 +88,6 @@ describe('Sticky', function() {
       await this.browser.executeScript(function() {
         // tslint:disable
         var stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
-        // @ts-ignore
-        var scrollOffset = stickyContent.getBoundingClientRect().height / 2;
-
-        window.scrollTo(0, scrollOffset);
-        // tslint:enable
-      });
-      await this.browser.executeScript(function() {
-        // tslint:disable
-        var stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
         var nonStickyText = window.document.querySelector('[data-tid="nonStickyText"]');
         // @ts-ignore
         var scrollXOffset = nonStickyText.getBoundingClientRect().width / 2;
