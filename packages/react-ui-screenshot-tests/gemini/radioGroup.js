@@ -32,3 +32,10 @@ gemini.suite('RadioGroup inline', suite => {
     .setCaptureElements('#RadioGroup-wrap')
     .capture('RadioGroup inline');
 });
+
+gemini.suite('RadioGroup disabled', suite => {
+  suite
+    .before(renderStory('RadioGroup', 'disabled'))
+    .setCaptureElements('#test-element')
+    .capture('disabled');
+});
