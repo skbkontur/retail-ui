@@ -1,6 +1,7 @@
 export type LayerComponentName = keyof typeof componentPriorities;
 
 const componentPriorities = {
+  Toast: 10,
   Sidepage: 9,
   Modal: 9,
   DropdownContainer: 5,
