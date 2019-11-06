@@ -9,6 +9,13 @@ const render = (
   },
 ) => mount<RadioGroup<any>>(<RadioGroup {...props} />);
 
+function clickOutside() {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
+
+  document.body.dispatchEvent(event);
+}
+
 describe('<RadioGroup />', () => {
   it('renders radios inside for items prop', () => {
     const items = ['one', 'two', 'three'];
@@ -258,5 +265,51 @@ describe('<RadioGroup />', () => {
         .find('input')
         .prop('checked'),
     ).toBeTruthy();
+  });
+
+  it('calls onBlur after radio click', async () => {
+    const items = ['one', 'two', 'three'];
+    const onBlur = jest.fn();
+    const wrapper = mount<RadioGroup<any>>(<RadioGroup items={items} onBlur={onBlur} />);
+    wrapper
+      .find(Radio)
+      .at(0)
+      .simulate('focus')
+      .simulate('blur')
+      .simulate('blur');
+
+    clickOutside();
+
+    expect(onBlur).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onBlur after radio click', async () => {
+    const onBlur = jest.fn();
+    const onRadioBlur = jest.fn();
+    const wrapper = mount<RadioGroup<any>>(
+      <RadioGroup onBlur={onBlur}>
+        <Radio value="one" onBlur={onRadioBlur} />
+        <Radio value="two" onBlur={onRadioBlur} />
+      </RadioGroup>,
+    );
+    const radioOne = wrapper
+      .find(Radio)
+      .at(0)
+      .find('input')
+      .at(0);
+    const radioTwo = wrapper
+      .find(Radio)
+      .at(1)
+      .find('input')
+      .at(0);
+
+    radioOne.simulate('focus');
+    radioOne.simulate('blur');
+    radioTwo.simulate('blur');
+
+    clickOutside();
+
+    expect(onRadioBlur).toHaveBeenCalledTimes(2);
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 });

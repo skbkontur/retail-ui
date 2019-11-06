@@ -2,7 +2,7 @@
 
 var renderStory = require('./utils').renderStory;
 
-const FIRST_RADIO_SELECTOR = '[data-comp-name="RadioGroup"] > span > label';
+const FIRST_RADIO_SELECTOR = '[data-comp-name~="RadioGroup"] > span > label';
 
 gemini.suite('RadioGroup', suite => {
   suite
