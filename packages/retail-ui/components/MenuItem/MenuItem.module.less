@@ -38,6 +38,21 @@
       left: 15px;
       top: 5px;
     }
+
+    .content {
+      display: inline-block;
+    }
+
+    .overflowed {
+      max-width: 100%;
+
+      .content {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
   }
 }
 

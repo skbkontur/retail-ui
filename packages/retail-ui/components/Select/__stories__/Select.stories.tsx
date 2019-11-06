@@ -35,7 +35,7 @@ class ItemsWithComments extends React.Component<{}, any> {
   private static items = [
     [1, "ООО Эльбрус", "8387666415 - 113445852"],
     [2, "ИП Иванов Петр", "583662338391"],
-    [3, "ЗАО Текстильщики"]
+    [3, "Государственное учреждение муниципального образования «Текстильщики»", "6672228920"]
   ];
 
   public state = {
@@ -46,6 +46,7 @@ class ItemsWithComments extends React.Component<{}, any> {
     return (
       <div>
         <Select
+          overflowItems
           width={200}
           value={this.state.value}
           items={ItemsWithComments.items}
