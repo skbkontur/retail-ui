@@ -35,6 +35,7 @@ export interface MenuItemProps {
   onMouseLeave?: React.MouseEventHandler;
 
   component?: React.ComponentType<any>;
+  overflowContent?: boolean;
 }
 
 /**
@@ -90,6 +91,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       component,
       onMouseEnter,
       onMouseLeave,
+      overflowContent,
       ...rest
     } = this.props;
 
@@ -107,11 +109,12 @@ export default class MenuItem extends React.Component<MenuItemProps> {
       [jsStyles.root(this.theme)]: true,
       [styles.disabled]: !!this.props.disabled,
       [styles.loose]: !!loose,
+      [styles.overflowed]: !!overflowContent,
       [jsStyles.hover(this.theme)]: hover,
       [jsStyles.selected(this.theme)]: state === 'selected',
       [jsStyles.link(this.theme)]: !!link || !!alkoLink,
       [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
-      [jsStyles.disabled(this.theme)]: !!this.props.disabled,
+      [jsStyles.disabled(this.theme)]: !!this.props.disabled
     });
 
     let content = children;
@@ -130,7 +133,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
         tabIndex={-1}
       >
         {iconElement}
-        {content}
+        <span className={styles.content}>{content}</span>
         {this.props.comment && (
           <div
             className={cx({

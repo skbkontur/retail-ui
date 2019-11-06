@@ -24,6 +24,7 @@ export interface DropdownContainerProps {
   disablePortal?: boolean;
   offsetY?: number;
   offsetX?: number;
+  width?: number | string;
 }
 
 export interface DropdownContainerState {
@@ -87,6 +88,7 @@ export default class DropdownContainer extends React.Component<DropdownContainer
         left: left !== null ? left : undefined,
         right: right !== null ? right : undefined,
         minWidth: this.state.minWidth,
+        width: this.props.width || "initial"
       };
     }
 
