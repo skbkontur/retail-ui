@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.1...retail-ui@1.6.2) (2019-11-06)
+
+
+### Bug Fixes
+
+* **Sticky:** move fixed element on horizontal scroll ([85882e3](https://github.com/skbkontur/retail-ui/commit/85882e3)), closes [#1705](https://github.com/skbkontur/retail-ui/issues/1705)
+* **Toast:** show above Loader ([5b6ccf7](https://github.com/skbkontur/retail-ui/commit/5b6ccf7)), closes [#1706](https://github.com/skbkontur/retail-ui/issues/1706)
+
+
+
+
+
 ## [1.6.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.0...retail-ui@1.6.1) (2019-10-30)
 
 
