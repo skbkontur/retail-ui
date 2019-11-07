@@ -170,7 +170,46 @@ storiesOf('Tooltip', module)
   .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
   .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />)
   .add('Tooltip with Input and switchable content', () => <TooltipWithInput />)
-  .add('dynamic triggers', () => <DynamicTriggers />);
+  .add('dynamic triggers', () => <DynamicTriggers />)
+  .add('Render in first available position', () => (
+    <div style={{ padding: '150px' }}>
+      <DynamicContentTooltip />
+    </div>
+  ));
+
+class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNode; opened: boolean }> {
+  public state = {
+    content: SMALL_CONTENT,
+    opened: false,
+  };
+
+  public render() {
+    return (
+      <Tooltip
+        allowedPositions={['top left', 'left middle', 'right middle', 'bottom left']}
+        render={this.tooltipContentGetter}
+        trigger={this.state.opened ? 'opened' : 'closed'}
+        closeButton={false}
+        useWrapper={false}
+      >
+        <Button size={'small'} width={'100%'} onClick={this.buttonClickHandler}>
+          Toggle content
+        </Button>
+      </Tooltip>
+    );
+  }
+
+  private buttonClickHandler = () => {
+    this.setState(state => ({
+      content: state.opened ? state.content : state.content === SMALL_CONTENT ? LARGE_CONTENT : SMALL_CONTENT,
+      opened: !state.opened,
+    }));
+  };
+
+  private tooltipContentGetter = () => {
+    return this.state.content;
+  };
+}
 
 class TooltipWithInput extends React.Component {
   public state = { show: false };

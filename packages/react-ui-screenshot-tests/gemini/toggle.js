@@ -21,3 +21,13 @@ gemini.suite('disabled toggle', suite => {
     .setCaptureElements('#test-element')
     .capture('plain');
 });
+
+gemini.suite('disabled toggle with tooltip', suite => {
+  suite
+    .before(renderStory('Toggle', 'disabled with Tooltip'))
+    .setCaptureElements('#test-element')
+    .capture('hovered', (actions, find) => {
+      actions.mouseMove(find('label'));
+      actions.wait(500);
+    });
+});

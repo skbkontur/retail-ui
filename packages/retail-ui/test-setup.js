@@ -8,6 +8,8 @@ import React from 'react';
 import RenderContainer from './components/RenderContainer';
 import { ZIndexStorage } from './components/ZIndex';
 
+process.env.enableReactTesting = true;
+
 configure({ adapter: new Adapter() });
 
 jest.mock('react-focus-lock', () => props => <div>{props.children}</div>);

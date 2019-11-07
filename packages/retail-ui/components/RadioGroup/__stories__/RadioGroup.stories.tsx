@@ -142,4 +142,13 @@ storiesOf('RadioGroup', module)
         <Radio value="Five">Fifth element</Radio>
       </Gapped>
     </RadioGroup>
+  ))
+  .add('disabled', () => (
+    <RadioGroup defaultValue="One" disabled>
+      <Gapped gap={10} vertical>
+        <Radio value="One">First element</Radio>
+        <Radio value="Two">Second element</Radio>
+        <Radio value="Three">Third element</Radio>
+      </Gapped>
+    </RadioGroup>
   ));

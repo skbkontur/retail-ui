@@ -40,7 +40,6 @@
     cursor: pointer;
 
     &.isDisabled {
-      pointer-events: none;
       opacity: 0.3;
       cursor: default;
     }
@@ -50,13 +49,13 @@
       display: inline-block;
     }
 
-    &:hover {
+    &:hover:not(.isDisabled) {
       .handle {
         background-image: linear-gradient(-180deg, #f1f1f1, #dedede);
       }
     }
 
-    &:active {
+    &:active:not(.isDisabled) {
       .handle {
         width: @handleActiveSize;
       }

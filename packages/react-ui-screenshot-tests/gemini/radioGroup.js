@@ -2,7 +2,7 @@
 
 var renderStory = require('./utils').renderStory;
 
-const FIRST_RADIO_SELECTOR = '[data-comp-name="RadioGroup"] > span > label';
+const FIRST_RADIO_SELECTOR = '[data-comp-name~="RadioGroup"] > span > label';
 
 gemini.suite('RadioGroup', suite => {
   suite
@@ -31,4 +31,11 @@ gemini.suite('RadioGroup inline', suite => {
     .before(renderStory('RadioGroup', 'inline'))
     .setCaptureElements('#RadioGroup-wrap')
     .capture('RadioGroup inline');
+});
+
+gemini.suite('RadioGroup disabled', suite => {
+  suite
+    .before(renderStory('RadioGroup', 'disabled'))
+    .setCaptureElements('#test-element')
+    .capture('disabled');
 });

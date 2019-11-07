@@ -105,8 +105,6 @@ describe('Popup', () => {
 
         await closePopup(wrapper);
 
-        expect(wrapper.state('location')).toBeNull();
-
         resolve();
       });
 
@@ -122,7 +120,7 @@ describe('Popup', () => {
 
 
 describe('properly renders opened/closed states ', () => {
-  const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];
+  const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer, LifeCycleProxy, Transition];
   const openedPopupTree: ReactComponentLike[] = [
     RenderContainer,
     RenderInnerContainer,

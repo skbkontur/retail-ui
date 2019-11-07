@@ -10,6 +10,7 @@ import Radio, { SyntheticRadioEvent } from '../Radio';
 import styles from './RadioGroup.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import FocusTrap from '../internal/FocusTrap/FocusTrap';
 
 export type ItemType<T> = T | [T, React.ReactNode];
 
@@ -25,6 +26,7 @@ export interface RadioGroupProps<T> {
   width?: React.CSSProperties['width'];
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
   onChange?: (event: SyntheticRadioEvent<T>, value: T) => any;
+  onBlur?: (event: FocusEvent) => void;
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
   onMouseEnter?: () => any;
@@ -125,6 +127,8 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
      */
     onChange: PropTypes.func,
 
+    onBlur: PropTypes.func,
+
     onMouseEnter: PropTypes.func,
 
     onMouseLeave: PropTypes.func,
@@ -162,7 +166,7 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
   }
 
   public render() {
-    const { width, onMouseLeave, onMouseOver, onMouseEnter } = this.props;
+    const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
     const style = {
       width: width != null ? width : 'auto',
     };
@@ -171,10 +175,13 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
       onMouseEnter,
       onMouseLeave,
     };
+
     return (
-      <span ref={this._ref} style={style} className={styles.root} {...handlers}>
-        {this._renderChildren()}
-      </span>
+      <FocusTrap onBlur={onBlur}>
+        <span ref={this._ref} style={style} className={styles.root} {...handlers}>
+          {this._renderChildren()}
+        </span>
+      </FocusTrap>
     );
   }
 

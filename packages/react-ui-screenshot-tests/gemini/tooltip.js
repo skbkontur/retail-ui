@@ -192,4 +192,20 @@ gemini.suite('Tooltip', () => {
         actions.focus(find('body'));
       });
   });
+
+  gemini.suite('Render in first available position', suite => {
+    suite
+      .before(renderStory('Tooltip', 'Render in first available position'))
+      .before((actions, find) => {
+        this.button = find('[data-comp-name~="Button"]');
+      })
+      .setCaptureElements('#test-element')
+      .capture('render in available position', (actions, find) => {
+        actions.click(this.button);
+      })
+      .capture('relocate on new available position', (actions, find) => {
+        actions.click(this.button);
+        actions.click(this.button);
+      });
+  });
 });

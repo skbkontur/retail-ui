@@ -45,7 +45,6 @@
     cursor: pointer;
 
     &.isDisabled {
-      pointer-events: none;
       opacity: 0.3;
       cursor: default;
     }
@@ -55,13 +54,13 @@
       display: inline-block;
     }
 
-    &:hover {
+    &:hover:not(.isDisabled) {
       .handle {
         background: #f3f3f2;
       }
     }
 
-    &:active {
+    &:active:not(.isDisabled) {
       .handle {
         width: @handleActiveSize;
       }
