@@ -8,9 +8,86 @@ import { findDOMNode } from 'react-dom';
 import Menu from '../../Menu/Menu';
 import Button from '../../Button/Button';
 
-storiesOf('DropdownContainer', module).add('various aligns, portals, items and scrolls', () => (
-  <VariousAlignsPortalsItemsAndScrolls />
-));
+storiesOf('DropdownContainer', module)
+  .add('various aligns, portals, items and scrolls', () => <VariousAlignsPortalsItemsAndScrolls />)
+  .add('various relative parents', () => {
+    const StoryInFrame = ({ kind, story }: { kind: string; story: string }) => (
+      <iframe
+        src={`//${location.host}/iframe.html?selectedKind=${kind}&selectedStory=${story}`}
+        width="250"
+        height="200"
+        scrolling="no"
+        style={{ margin: 5, border: '1px solid lightgray' }}
+      />
+    );
+    return (
+      <div style={{ margin: 10 }}>
+        <StoryInFrame kind="DropdownContainer/relative%20parents" story="viewport" />
+        <StoryInFrame kind="DropdownContainer/relative%20parents" story="body" />
+        <StoryInFrame kind="DropdownContainer/relative%20parents" story="html" />
+      </div>
+    );
+  });
+
+storiesOf('DropdownContainer/relative parents', module)
+  .addDecorator(story => {
+    document.body.style.margin = '10px';
+    document.body.style.border = '10px solid transparent';
+    document.documentElement.style.margin = '10px';
+    document.documentElement.style.border = '10px solid transparent';
+    return <div style={{ position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, margin: 10 }}>{story()}</div>;
+  })
+  .add('viewport', () => {
+    return <VariousPositions />;
+  })
+  .add('body', () => {
+    document.body.style.position = 'relative';
+    return <VariousPositions />;
+  })
+  .add('html', () => {
+    document.documentElement.style.position = 'relative';
+    return <VariousPositions />;
+  });
+
+class VariousPositions extends React.Component {
+  public state = {
+    show: false,
+  };
+
+  public componentDidMount() {
+    this.setState({ show: true });
+  }
+  public render() {
+    const dropdownStates: Array<Partial<DropdownContainerProps>> = [
+      { align: 'right' },
+      { disablePortal: true, align: 'right' },
+      {},
+      { disablePortal: true },
+    ];
+    const dropdowns = dropdownStates.map((props, index) => (
+      <div style={{ display: 'inline-block', width: 55 }}>
+        <DropdownWithToggle show={this.state.show} dropdownProps={props} key={index}>
+          <Menu>
+            <MenuItem>Hey</MenuItem>
+          </Menu>
+        </DropdownWithToggle>
+      </div>
+    ));
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexFlow: 'column',
+          justifyContent: 'space-between',
+          height: '100%',
+        }}
+      >
+        <div>{dropdowns}</div>
+        <div>{dropdowns}</div>
+      </div>
+    );
+  }
+}
 
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public aligns: Array<'left' | 'right'> = ['left', 'right'];
@@ -228,13 +305,13 @@ class Grid extends React.Component<{
 }
 
 class DropdownWithToggle extends React.Component<{
-  show: boolean;
-  onToggle: (value: boolean) => void;
-  dropdownProps: {
-    align: DropdownContainerProps['align'];
-    disablePortal: DropdownContainerProps['disablePortal'];
-  };
+  show?: boolean;
+  onToggle?: (value: boolean) => void;
+  dropdownProps: Partial<DropdownContainerProps>;
 }> {
+  public static defaultProps = {
+    dropdownProps: DropdownContainer.defaultProps,
+  };
   private DOMNode: Element | Text | null = null;
 
   public componentDidMount(): void {
