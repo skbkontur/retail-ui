@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.5](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.4...retail-ui@0.53.5) (2019-11-07)
+
+
+### Bug Fixes
+
+* **Checkbox:** add calling onBlur in handleBlur ([e78f154](https://github.com/skbkontur/retail-ui/commit/e78f154)), closes [#1683](https://github.com/skbkontur/retail-ui/issues/1683)
+* **CurrencyLabel:** don't throw error if fractionDigits is zero/float ([4cfaabd](https://github.com/skbkontur/retail-ui/commit/4cfaabd)), closes [#1637](https://github.com/skbkontur/retail-ui/issues/1637)
+* **Fias:** escape regexp spec chars in address ([affb22b](https://github.com/skbkontur/retail-ui/commit/affb22b)), closes [#1645](https://github.com/skbkontur/retail-ui/issues/1645)
+* **Popup:** deterministic open/close animation ([60463e1](https://github.com/skbkontur/retail-ui/commit/60463e1)), closes [#1632](https://github.com/skbkontur/retail-ui/issues/1632) [#1688](https://github.com/skbkontur/retail-ui/issues/1688)
+* **Radio:** show label as disabled if context.disabled is true ([e5e1d63](https://github.com/skbkontur/retail-ui/commit/e5e1d63)), closes [#1642](https://github.com/skbkontur/retail-ui/issues/1642)
+* **RadioGroup:** pass onBlur into Radio ([084d45e](https://github.com/skbkontur/retail-ui/commit/084d45e)), closes [#1681](https://github.com/skbkontur/retail-ui/issues/1681)
+* **Toggle:** show tooltip on disabled toggle in ie ([24dcf84](https://github.com/skbkontur/retail-ui/commit/24dcf84)), closes [#1633](https://github.com/skbkontur/retail-ui/issues/1633)
+* **TokenInput:** make height equal to the Input ([f25c82e](https://github.com/skbkontur/retail-ui/commit/f25c82e)), closes [#1628](https://github.com/skbkontur/retail-ui/issues/1628)
+
+
+
+
+
 ## [0.53.4](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.3...retail-ui@0.53.4) (2019-10-08)
 
 
