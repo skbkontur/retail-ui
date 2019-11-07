@@ -161,4 +161,22 @@ describe('Tooltip', () => {
       expect(onCloseRequest).toHaveBeenCalledTimes(1);
     });
   });
+
+  it('clears hoverTimeout timer after unmount', () => {
+    jest.useFakeTimers();
+    const wrapper = mount<Tooltip, TooltipProps, TooltipState>(
+      <Tooltip disableAnimations={true} render={() => <div />}>
+        <Button>Anchor</Button>
+      </Tooltip>,
+    );
+    const instance = wrapper.instance();
+    // @ts-ignore: private property
+    const timer = (instance.hoverTimeout = setTimeout());
+
+    wrapper.unmount();
+
+    expect(clearTimeout).toHaveBeenCalledWith(timer);
+    // @ts-ignore: private property
+    expect(instance.hoverTimeout).toBeNull();
+  });
 });
