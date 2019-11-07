@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.2.0...react-ui-selenium@1.2.1) (2019-11-06)
+
+
+### Bug Fixes
+
+* **Sticky:** move fixed element on horizontal scroll ([85882e3](https://github.com/skbkontur/retail-ui/commit/85882e3)), closes [#1705](https://github.com/skbkontur/retail-ui/issues/1705)
+
+
+
+
+
 # [1.2.0](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.1.4...react-ui-selenium@1.2.0) (2019-10-30)
 
 

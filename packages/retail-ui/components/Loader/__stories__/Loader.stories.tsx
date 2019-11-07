@@ -35,7 +35,7 @@ class ContentComponent extends React.Component<{
   }
 }
 
-class LoaderAndButton extends React.Component<{ active: boolean }> {
+export class LoaderAndButton extends React.Component<{ active: boolean }> {
   public state = {
     isTooltipOpened: false,
   };

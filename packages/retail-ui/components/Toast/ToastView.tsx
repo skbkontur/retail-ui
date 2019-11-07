@@ -65,7 +65,7 @@ class ToastView extends React.Component<ToastViewProps> {
     ) : null;
 
     return (
-      <ZIndex className={styles.wrapper}>
+      <ZIndex priority="Toast" className={styles.wrapper}>
         <div className={cx(styles.root, jsStyles.root(this.theme))} {...rest}>
           <span>{children}</span>
           {link}

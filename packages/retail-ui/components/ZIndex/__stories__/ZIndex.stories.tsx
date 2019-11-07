@@ -19,6 +19,8 @@ import Toast from '../../Toast';
 import Input from '../../Input';
 import SidePage from '../../SidePage';
 import { PopupPosition } from '../../Popup';
+import ToastView from '../../Toast/ToastView';
+import { LoaderAndButton } from '../../Loader/__stories__/Loader.stories';
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -528,6 +530,15 @@ class BigModalWithLoader extends React.Component<{}> {
   }
 }
 
+function ToastAndLoader() {
+  return (
+    <div>
+      <ToastView>Changes saved</ToastView>
+      <LoaderAndButton active />
+    </div>
+  );
+}
+
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
@@ -541,4 +552,5 @@ storiesOf('ZIndex', module)
   .add('Big modal with Loader', () => <BigModalWithLoader />)
   .add('Tooltip and DropdownMenu', () => <TooltipAndDropdownMenu />)
   .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
-  .add('Sidepage and Select', () => <SidePageAndSelect />);
+  .add('Sidepage and Select', () => <SidePageAndSelect />)
+  .add('Toast and Loader', () => <ToastAndLoader />);
