@@ -1,5 +1,5 @@
 import path from 'path';
-import * as Creevey from 'creevey';
+import { CreeveyConfig } from 'creevey';
 
 const flatComponents = [
   'Button',
@@ -14,10 +14,10 @@ const flatComponents = [
 ];
 const flatRegex = new RegExp(`(\\/|\\\\)(${flatComponents.join('|')})\\.ts$`);
 
-const config: Creevey.CreeveyConfig = {
-  testDir: path.join(__dirname, '.creevey', 'tests'),
-  reportDir: path.join(__dirname, '.creevey', 'report'),
-  screenDir: path.join(__dirname, '.creevey', 'images'),
+const config: CreeveyConfig = {
+  testDir: path.join(__dirname, 'tests'),
+  reportDir: path.join(__dirname, 'report'),
+  screenDir: path.join(__dirname, 'images'),
   gridUrl: 'http://screen:shot@grid.testkontur.ru/wd/hub',
   storybookUrl: 'http://localhost:6060',
   threshold: 0,
