@@ -377,10 +377,17 @@ object ReactUI_ScreenshotTests : BuildType({
             type = "jonnyzzz.yarn"
             param("yarn_commands", "workspace retail-ui storybook:build")
         }
+        script {
+            name = "Start"
+            scriptContent = """
+                start /b yarn workspace retail-ui storybook:serve
+                ping 127.0.0.1 -n 11
+            """.trimIndent()
+        }
         step {
             name = "Test UI"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui test:ui:ci")
+            param("yarn_commands", "workspace retail-ui test:ui")
         }
     }
 
