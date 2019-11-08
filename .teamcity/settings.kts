@@ -161,6 +161,10 @@ object RetailUi : GitVcsRoot({
         +:refs/tags/*
     """.trimIndent()
     useTagsAsBranches = true
+    authMethod = password {
+        userName = "skbkontur-bot"
+        password = "credentialsJSON:8159ccad-3d3e-43fa-9684-5cd8d9e83d0e"
+    }
 })
 
 object RetailUiTags : GitVcsRoot({
