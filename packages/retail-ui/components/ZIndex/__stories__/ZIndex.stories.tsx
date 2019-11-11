@@ -19,6 +19,7 @@ import Toast from '../../Toast';
 import Input from '../../Input';
 import SidePage from '../../SidePage';
 import { PopupPosition } from '../../Popup';
+import DropdownMenu from '../../DropdownMenu';
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -558,6 +559,35 @@ class ElementsInLoaderInModal extends React.Component {
 
   private setActive = (active: boolean) => this.setState({ active });
 }
+
+class LoaderAndSidePage extends React.Component {
+  public state = { active: false };
+  public render() {
+    const { active } = this.state;
+    return (
+      <div>
+        <SidePage blockBackground>
+          <SidePage.Header>Title</SidePage.Header>
+          <SidePage.Body>
+            <SidePage.Container>
+              <p>Use rxjs operators with react hooks</p>
+            </SidePage.Container>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Toggle checked={active} onChange={this.setActive} /> Активировать
+          </SidePage.Footer>
+        </SidePage>
+        <Loader active={active}>
+          <div style={{ padding: '100px' }}>
+            <Button>Open</Button>
+          </div>
+        </Loader>
+      </div>
+    );
+  }
+  private setActive = (active: boolean) => this.setState({ active });
+}
+
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
@@ -572,4 +602,5 @@ storiesOf('ZIndex', module)
   .add('Tooltip and Select', () => <TooltipAndSelect />)
   .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
   .add('Sidepage and Select', () => <SidePageAndSelect />)
-  .add('Elements in Loader in Modal', () => <ElementsInLoaderInModal />);
+  .add('Elements in Loader in Modal', () => <ElementsInLoaderInModal />)
+  .add('Loader and SidePage', () => <LoaderAndSidePage />);

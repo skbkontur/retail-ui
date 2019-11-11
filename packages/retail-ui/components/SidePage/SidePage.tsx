@@ -214,7 +214,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { blockBackground } = this.props;
 
     return (
-      <ZIndex className={classes} onScroll={LayoutEvents.emit} style={style}>
+      <ZIndex priority={'Sidepage'} className={classes} onScroll={LayoutEvents.emit} style={style}>
         {blockBackground && [
           <HideBodyVerticalScroll key="hbvs" />,
           <div key="overlay" className={cx(styles.background, this.state.hasBackground && styles.gray)} />,

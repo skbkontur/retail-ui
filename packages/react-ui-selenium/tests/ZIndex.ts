@@ -134,4 +134,14 @@ describe('ZIndex', function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
     });
   });
+  describe('Loader and SidePage', function() {
+    it('SidePage shadow cover Loader', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Toggle"]')))
+        .perform();
+
+      await expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
+    });
+  });
 });
