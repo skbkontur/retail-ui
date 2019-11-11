@@ -382,7 +382,7 @@ interface TooltipAndDropdownMenuState {
   tooltipTrigger: 'closed' | 'opened';
 }
 
-class TooltipAndDropdownMenu extends React.Component<{}> {
+class TooltipAndSelect extends React.Component<{}> {
   public state: TooltipAndDropdownMenuState = {
     tooltipTrigger: 'closed',
   };
@@ -473,7 +473,7 @@ class SidePageAndSelect extends React.Component<{}> {
           >
             <SidePage.Container>
               <div className="sidepage-select-continer" style={{ display: 'flex', justifyContent: 'center' }}>
-                <TooltipAndDropdownMenu />
+                <TooltipAndSelect />
               </div>
             </SidePage.Container>
           </div>
@@ -497,7 +497,7 @@ class SidePageAndSelect extends React.Component<{}> {
     return (
       <div>
         <div className="select-container">
-          <TooltipAndDropdownMenu />
+          <TooltipAndSelect />
         </div>
         {this.state.opened && this.renderSidePage()}
         <div className="open-sidepage-container">
@@ -539,6 +539,6 @@ storiesOf('ZIndex', module)
   .add('Hint and modal', () => <HintAndModal />)
   .add('Loader in Modal', () => <LoaderInModal />)
   .add('Big modal with Loader', () => <BigModalWithLoader />)
-  .add('Tooltip and DropdownMenu', () => <TooltipAndDropdownMenu />)
+  .add('Tooltip and Select', () => <TooltipAndSelect />)
   .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
   .add('Sidepage and Select', () => <SidePageAndSelect />);

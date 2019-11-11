@@ -63,7 +63,7 @@ describe('ZIndex', function() {
       await expect(await modal.takeScreenshot()).to.matchImage('Header covers Loader');
     });
   });
-  describe('Tooltip and DropdownMenu', function() {
+  describe('Tooltip and Select', function() {
     it('Menu covers tooltip', async function() {
       const element = await this.browser.findElement(By.css('.container'));
 
