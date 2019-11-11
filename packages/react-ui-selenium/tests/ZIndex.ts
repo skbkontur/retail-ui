@@ -116,4 +116,22 @@ describe('ZIndex', function() {
       await expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
     });
   });
+  describe('Elements in Loader in Modal', function() {
+    it('Open Dropdown while Loader is inactive', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
+        .perform();
+
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
+    });
+    it('Hide Hint on active Loader', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Toggle"]')))
+        .perform();
+
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
+    });
+  });
 });

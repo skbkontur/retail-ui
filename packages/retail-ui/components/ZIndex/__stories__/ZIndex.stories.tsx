@@ -528,6 +528,36 @@ class BigModalWithLoader extends React.Component<{}> {
   }
 }
 
+class ElementsInLoaderInModal extends React.Component {
+  public state = { active: false };
+  public render() {
+    const { active } = this.state;
+    return (
+      <Modal>
+        <Modal.Header>Title</Modal.Header>
+        <Modal.Body>
+          <Loader active={active}>
+            <Hint text={'Test'} manual opened>
+              <Gapped gap={10}>
+                <Select placeholder="Выбрать..." items={['Раз', 'Два', 'Три']} />
+                <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+                  <MenuItem>Раз</MenuItem>
+                  <MenuItem>Два</MenuItem>
+                  <MenuItem>Три</MenuItem>
+                </DropdownMenu>
+              </Gapped>
+            </Hint>
+          </Loader>
+        </Modal.Body>
+        <Modal.Footer>
+          <Toggle checked={active} onChange={this.setActive} /> Активировать
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  private setActive = (active: boolean) => this.setState({ active });
+}
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
@@ -541,4 +571,5 @@ storiesOf('ZIndex', module)
   .add('Big modal with Loader', () => <BigModalWithLoader />)
   .add('Tooltip and Select', () => <TooltipAndSelect />)
   .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
-  .add('Sidepage and Select', () => <SidePageAndSelect />);
+  .add('Sidepage and Select', () => <SidePageAndSelect />)
+  .add('Elements in Loader in Modal', () => <ElementsInLoaderInModal />);
