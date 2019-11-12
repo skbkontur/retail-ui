@@ -116,6 +116,12 @@ describe('ZIndex', function() {
       await expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
     });
   });
+  describe('Toast and Loader', function() {
+    it('Toast covers Loader', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('Toast covers Loader');
+    });
+  });
   describe('Elements in Loader in Modal', function() {
     it('Open Dropdown while Loader is inactive', async function() {
       await this.browser
