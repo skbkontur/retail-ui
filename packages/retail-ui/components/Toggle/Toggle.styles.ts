@@ -25,9 +25,7 @@ const jsStyles = {
 
   focused(t: ITheme) {
     return css`
-      .${styles.container}& {
-        box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 3px ${t.toggleFocusShadowColor};
-      }
+      .${styles.container}&,
       .${styles.input}:checked ~ & {
         box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 3px ${t.toggleFocusShadowColor};
       }
