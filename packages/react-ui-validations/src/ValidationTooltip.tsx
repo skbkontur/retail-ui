@@ -27,7 +27,6 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
     const onlyChild = React.Children.only(this.props.children);
     const radioChild = onlyChild && onlyChild.props ? onlyChild.props.children : null;
     if (ReactUiDetection.isRadioGroup(radioChild)) {
-      const width = radioChild.props.width;
       return (
         <Tooltip
           useWrapper={false}
@@ -35,9 +34,7 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
           render={this.props.error && this.props.render}
           trigger={'hover&focus'}
         >
-          <div style={{ display: 'inline-block', width: width ? width : 'auto' }}>
-            {React.cloneElement(radioChild, { ...radioChild.props, width: '100%' })}
-          </div>
+          {radioChild}
         </Tooltip>
       );
     }
