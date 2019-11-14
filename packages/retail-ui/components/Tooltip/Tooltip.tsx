@@ -191,6 +191,10 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
   }
 
+  public componentWillUnmount() {
+    this.clearHoverTimeout();
+  }
+
   public render() {
     return (
       <ThemeConsumer>
@@ -367,16 +371,20 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     this.setState({ opened: false });
   }
 
+  private clearHoverTimeout() {
+    if (this.hoverTimeout) {
+      clearTimeout(this.hoverTimeout);
+      this.hoverTimeout = null;
+    }
+  }
+
   private handleMouseEnter = (event: MouseEventType) => {
     const isHoverAnchor = this.props.trigger === 'hoverAnchor';
     if (isHoverAnchor && event.target === this.contentElement) {
       return;
     }
 
-    if (this.hoverTimeout) {
-      clearTimeout(this.hoverTimeout);
-      this.hoverTimeout = null;
-    }
+    this.clearHoverTimeout();
     this.open();
   };
 
@@ -389,9 +397,8 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       return;
     }
 
-    if (this.hoverTimeout) {
-      clearTimeout(this.hoverTimeout);
-    }
+    this.clearHoverTimeout();
+
     if (this.props.trigger === 'hoverAnchor') {
       this.close();
     } else {
