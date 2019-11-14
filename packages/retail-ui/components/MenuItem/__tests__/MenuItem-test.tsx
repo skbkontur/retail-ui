@@ -48,7 +48,7 @@ describe('MenuItem', () => {
       const button = wrapper.find('button');
 
       button.simulate('mouseover');
-      wrapper.find('span').simulate('mouseover');
+      wrapper.find('span.content').simulate('mouseover');
       button.simulate('mouseover');
 
       expect(onMouseEnter.mock.calls.length).toBe(1);

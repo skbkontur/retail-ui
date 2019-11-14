@@ -80,7 +80,7 @@ class SelectWithNull extends React.Component<any, any> {
 
 storiesOf('Select', module)
   .addDecorator(story => (
-    <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+    <div className="dropdown-test-container" style={{ height: 200, width: 200, padding: 4 }}>
       {story()}
     </div>
   ))
