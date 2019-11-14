@@ -70,7 +70,7 @@
           right: -72px;
           transform: rotate(-47deg) skewX(0deg) skewY(0deg);
 
-          :global {
+          :local {
             animation: btn_loading_arrow 1s linear infinite;
           }
         }
@@ -82,7 +82,7 @@
 
       &.arrow_loading {
         &::before {
-          :global {
+          :local {
             animation: btn_loading_arrow 1s linear infinite;
             animation-direction: reverse;
           }
@@ -271,7 +271,7 @@
     left: 0;
     right: -30px;
 
-    :global {
+    :local {
       animation: btn_loading 1s linear infinite;
     }
 
