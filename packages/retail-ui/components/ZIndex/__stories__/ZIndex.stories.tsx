@@ -549,16 +549,18 @@ class ElementsInLoaderInModal extends React.Component {
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           <Loader active={active}>
-            <Hint text={'Test'} manual opened>
-              <Gapped gap={10}>
-                <Select placeholder="Выбрать..." items={['Раз', 'Два', 'Три']} />
-                <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-                  <MenuItem>Раз</MenuItem>
-                  <MenuItem>Два</MenuItem>
-                  <MenuItem>Три</MenuItem>
-                </DropdownMenu>
-              </Gapped>
-            </Hint>
+            <div style={{ padding: '100px' }}>
+              <Hint text={'Test'} manual opened>
+                <Gapped gap={10}>
+                  <Select placeholder="Выбрать..." items={['Раз', 'Два', 'Три']} />
+                  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+                    <MenuItem>Раз</MenuItem>
+                    <MenuItem>Два</MenuItem>
+                    <MenuItem>Три</MenuItem>
+                  </DropdownMenu>
+                </Gapped>
+              </Hint>
+            </div>
           </Loader>
         </Modal.Body>
         <Modal.Footer>
