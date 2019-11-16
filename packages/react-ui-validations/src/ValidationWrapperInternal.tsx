@@ -116,10 +116,10 @@ export default class ValidationWrapperInternal extends React.Component<
         },
         error: !this.isChanging && getLevel(validation) === 'error',
         warning: !this.isChanging && getLevel(validation) === 'warning',
-        onBlur: () => {
+        onBlur: (...args: any[]) => {
           this.handleBlur();
           if (children.props && children.props.onBlur) {
-            children.props.onBlur();
+            children.props.onBlur(...args);
           }
         },
         onChange: (...args: any[]) => {
