@@ -25,19 +25,18 @@ export interface ValidationTooltipProps {
 export default class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public render() {
     const onlyChild = React.Children.only(this.props.children);
-    if (ReactUiDetection.isRadioGroup(onlyChild)) {
-      const prevRenderItem = onlyChild.props.renderItem;
-      const items = onlyChild.props.items;
-      const renderItem = (value: any, data: any, ...rest: any[]) => {
-        return items[0] === value ? (
-          <Tooltip pos={this.props.pos} render={this.props.error && this.props.render} trigger={'hover&focus'}>
-            {React.cloneElement(prevRenderItem(value, data, ...rest))}
-          </Tooltip>
-        ) : (
-          prevRenderItem(value, data, ...rest)
-        );
-      };
-      return React.cloneElement(onlyChild, { renderItem });
+    const radioChild = onlyChild && onlyChild.props ? onlyChild.props.children : null;
+    if (ReactUiDetection.isRadioGroup(radioChild)) {
+      return (
+        <Tooltip
+          useWrapper={false}
+          pos={this.props.pos}
+          render={this.props.error && this.props.render}
+          trigger={'hover&focus'}
+        >
+          {radioChild}
+        </Tooltip>
+      );
     }
     return (
       <Tooltip pos={this.props.pos} render={this.props.error && this.props.render} trigger={'hover&focus'}>
