@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.2...retail-ui@1.6.3) (2019-11-18)
+
+
+### Bug Fixes
+
+* **Loader:** reset z-index only in active state ([8f1d936](https://github.com/skbkontur/retail-ui/commit/8f1d936)), closes [#1716](https://github.com/skbkontur/retail-ui/issues/1716) [#1722](https://github.com/skbkontur/retail-ui/issues/1722)
+* **SidePage:** shadow always cover loader content ([eea3782](https://github.com/skbkontur/retail-ui/commit/eea3782)), closes [#1718](https://github.com/skbkontur/retail-ui/issues/1718)
+* **Toggle:** checked and focused view ([#1727](https://github.com/skbkontur/retail-ui/issues/1727)) ([945d3cb](https://github.com/skbkontur/retail-ui/commit/945d3cb)), closes [#1682](https://github.com/skbkontur/retail-ui/issues/1682)
+* **Tooltip:** added clear timeout to unmount method ([37fb81a](https://github.com/skbkontur/retail-ui/commit/37fb81a))
+
+
+
+
+
 ## [1.6.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.1...retail-ui@1.6.2) (2019-11-06)
 
 

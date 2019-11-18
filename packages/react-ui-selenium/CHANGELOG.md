@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.2.1...react-ui-selenium@1.2.2) (2019-11-18)
+
+
+### Bug Fixes
+
+* **Loader:** reset z-index only in active state ([8f1d936](https://github.com/skbkontur/retail-ui/commit/8f1d936)), closes [#1716](https://github.com/skbkontur/retail-ui/issues/1716) [#1722](https://github.com/skbkontur/retail-ui/issues/1722)
+* **SidePage:** shadow always cover loader content ([eea3782](https://github.com/skbkontur/retail-ui/commit/eea3782)), closes [#1718](https://github.com/skbkontur/retail-ui/issues/1718)
+
+
+
+
+
 ## [1.2.1](https://github.com/skbkontur/retail-ui/compare/react-ui-selenium@1.2.0...react-ui-selenium@1.2.1) (2019-11-06)
 
 
