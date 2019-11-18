@@ -63,7 +63,7 @@ describe('ZIndex', function() {
       await expect(await modal.takeScreenshot()).to.matchImage('Header covers Loader');
     });
   });
-  describe('Tooltip and DropdownMenu', function() {
+  describe('Tooltip and Select', function() {
     it('Menu covers tooltip', async function() {
       const element = await this.browser.findElement(By.css('.container'));
 
@@ -120,6 +120,34 @@ describe('ZIndex', function() {
     it('Toast covers Loader', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await expect(await element.takeScreenshot()).to.matchImage('Toast covers Loader');
+    });
+  });
+  describe('Elements in Loader in Modal', function() {
+    it('Open Dropdown while Loader is inactive', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
+        .perform();
+
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
+    });
+    it('Hide Hint on active Loader', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Toggle"]')))
+        .perform();
+
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
+    });
+  });
+  describe('Loader and SidePage', function() {
+    it('SidePage shadow cover Loader', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Toggle"]')))
+        .perform();
+
+      await expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
     });
   });
 });

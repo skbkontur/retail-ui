@@ -21,6 +21,7 @@ import SidePage from '../../SidePage';
 import { PopupPosition } from '../../Popup';
 import ToastView from '../../Toast/ToastView';
 import { LoaderAndButton } from '../../Loader/__stories__/Loader.stories';
+import DropdownMenu from '../../DropdownMenu';
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -384,7 +385,7 @@ interface TooltipAndDropdownMenuState {
   tooltipTrigger: 'closed' | 'opened';
 }
 
-class TooltipAndDropdownMenu extends React.Component<{}> {
+class TooltipAndSelect extends React.Component<{}> {
   public state: TooltipAndDropdownMenuState = {
     tooltipTrigger: 'closed',
   };
@@ -475,7 +476,7 @@ class SidePageAndSelect extends React.Component<{}> {
           >
             <SidePage.Container>
               <div className="sidepage-select-continer" style={{ display: 'flex', justifyContent: 'center' }}>
-                <TooltipAndDropdownMenu />
+                <TooltipAndSelect />
               </div>
             </SidePage.Container>
           </div>
@@ -499,7 +500,7 @@ class SidePageAndSelect extends React.Component<{}> {
     return (
       <div>
         <div className="select-container">
-          <TooltipAndDropdownMenu />
+          <TooltipAndSelect />
         </div>
         {this.state.opened && this.renderSidePage()}
         <div className="open-sidepage-container">
@@ -539,6 +540,67 @@ function ToastAndLoader() {
   );
 }
 
+class ElementsInLoaderInModal extends React.Component {
+  public state = { active: false };
+  public render() {
+    const { active } = this.state;
+    return (
+      <Modal>
+        <Modal.Header>Title</Modal.Header>
+        <Modal.Body>
+          <Loader active={active}>
+            <div style={{ padding: '100px' }}>
+              <Hint text={'Test'} manual opened>
+                <Gapped gap={10}>
+                  <Select placeholder="Выбрать..." items={['Раз', 'Два', 'Три']} />
+                  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+                    <MenuItem>Раз</MenuItem>
+                    <MenuItem>Два</MenuItem>
+                    <MenuItem>Три</MenuItem>
+                  </DropdownMenu>
+                </Gapped>
+              </Hint>
+            </div>
+          </Loader>
+        </Modal.Body>
+        <Modal.Footer>
+          <Toggle checked={active} onChange={this.setActive} /> Активировать
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  private setActive = (active: boolean) => this.setState({ active });
+}
+
+class LoaderAndSidePage extends React.Component {
+  public state = { active: false };
+  public render() {
+    const { active } = this.state;
+    return (
+      <div>
+        <SidePage blockBackground>
+          <SidePage.Header>Title</SidePage.Header>
+          <SidePage.Body>
+            <SidePage.Container>
+              <p>Use rxjs operators with react hooks</p>
+            </SidePage.Container>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Toggle checked={active} onChange={this.setActive} /> Активировать
+          </SidePage.Footer>
+        </SidePage>
+        <Loader active={active}>
+          <div style={{ padding: '100px' }}>
+            <Button>Open</Button>
+          </div>
+        </Loader>
+      </div>
+    );
+  }
+  private setActive = (active: boolean) => this.setState({ active });
+}
+
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
@@ -550,7 +612,9 @@ storiesOf('ZIndex', module)
   .add('Hint and modal', () => <HintAndModal />)
   .add('Loader in Modal', () => <LoaderInModal />)
   .add('Big modal with Loader', () => <BigModalWithLoader />)
-  .add('Tooltip and DropdownMenu', () => <TooltipAndDropdownMenu />)
+  .add('Tooltip and Select', () => <TooltipAndSelect />)
   .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
   .add('Sidepage and Select', () => <SidePageAndSelect />)
-  .add('Toast and Loader', () => <ToastAndLoader />);
+  .add('Toast and Loader', () => <ToastAndLoader />)
+  .add('Elements in Loader in Modal', () => <ElementsInLoaderInModal />)
+  .add('Loader and SidePage', () => <LoaderAndSidePage />);

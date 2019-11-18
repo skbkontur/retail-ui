@@ -84,7 +84,7 @@ export default class ZIndex extends React.Component<ZIndexProps> {
           return (
             <ZIndexContext.Provider
               value={{
-                parentLayerZIndex: shouldResetZIndexFromContext ? 0 : summaryZIndex,
+                parentLayerZIndex: shouldResetZIndexFromContext ? parentLayerZIndex : summaryZIndex,
                 maxZIndex: sholudCoverChildren || Number.isFinite(maxZIndex) ? summaryZIndex : Infinity,
               }}
             >
