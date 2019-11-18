@@ -32,7 +32,8 @@
     "lint:tslint": "tslint --project tsconfig.json",
     "lint:stylelint": "stylelint \"./**/*.less\"",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:ui": "wait-on -t 300000 http-get://localhost:6060/ http-get://localhost:6061/ && creevey"
   },
   "license": "MIT",
   "dependencies": {
@@ -90,6 +91,7 @@
     "@types/react-dom": "16.0.11",
     "@types/react-input-mask": "2.0.1",
     "@types/react-transition-group": "^2.0.11",
+    "@types/selenium-webdriver": "^4.0.5",
     "@types/storybook__addon-actions": "^3.0.3",
     "@types/storybook__addon-knobs": "^3.3.1",
     "@types/storybook__addon-links": "^3.3.1",
@@ -110,6 +112,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "core-js": "^3.2.1",
+    "creevey": "^0.1.4",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "enzyme": "^3.10.0",
@@ -141,6 +144,7 @@
     "react-styleguidist": "^7.3.11",
     "react-test-renderer": "16.3.1",
     "rimraf": "^2.6.2",
+    "selenium-webdriver": "^4.0.0-alpha.5",
     "semver": "^5.6.0",
     "serve": "^9.2.0",
     "style-loader": "^0.21.0",
@@ -149,11 +153,13 @@
     "stylelint-config-standard": "^18.2.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "3.5.0",
+    "ts-node": "^8.5.2",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.13.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.3.3333",
     "url-loader": "^1.0.1",
+    "wait-on": "^3.3.0",
     "webpack": "^3.11.0",
     "webpack-watch-files-plugin": "^1.0.2"
   },
