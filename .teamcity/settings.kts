@@ -360,7 +360,7 @@ object ReactUI_Publish : BuildType({
 object ReactUI_ScreenshotTests : BuildType({
     name = "Screenshot tests"
 
-    artifactRules = "packages/react-ui-selenium/report => report.zip"
+    artifactRules = "packages/retail-ui/.creevey/report => report.zip"
 
     vcs {
         root(RetailUi)
