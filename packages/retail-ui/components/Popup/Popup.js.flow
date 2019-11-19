@@ -41,6 +41,7 @@ export type PopupProps = {|
   popupOffset: number,
   positions: string[],
   onCloseRequest?: () => void,
+  disablePortal: boolean,
 |};
 
 type PopupLocation = {|

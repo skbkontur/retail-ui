@@ -18,6 +18,7 @@ export type PopupMenuProps = {|
   popupPinOffset?: number,
   type?: 'dropdown' | 'tooltip',
   disableAnimations: boolean,
+  disablePortal?: boolean,
 |};
 
 type PopupMenuState = {|

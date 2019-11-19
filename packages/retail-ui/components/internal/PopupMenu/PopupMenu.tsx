@@ -49,6 +49,7 @@ export interface PopupMenuProps {
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
+  disablePortal?: boolean;
 }
 
 interface PopupMenuState {
@@ -102,6 +103,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
                 positions={this.getPositions()}
                 disableAnimations={this.props.disableAnimations}
                 onOpen={this.handleOpen}
+                disablePortal={this.props.disablePortal}
               >
                 <InternalMenu
                   hasShadow={false}

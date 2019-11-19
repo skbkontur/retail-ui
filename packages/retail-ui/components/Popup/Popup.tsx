@@ -86,6 +86,7 @@ export interface PopupProps extends PopupHandlerProps {
   positions: PopupPosition[];
   useWrapper: boolean;
   ignoreHover: boolean;
+  disablePortal?: boolean;
 }
 
 interface PopupLocation {
@@ -161,6 +162,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      * Игнорировать ли события hover/click
      */
     ignoreHover: PropTypes.bool,
+
+    /**
+     * Отключает использование портала
+     */
+    disablePortal: PropTypes.bool,
   };
 
   public static defaultProps = {
@@ -173,6 +179,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: false,
     ignoreHover: false,
+    disablePortal: false,
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
@@ -182,6 +189,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
+  private wrapperElement: Nullable<HTMLElement> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -224,7 +232,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderMain() {
-    const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
 
     let child: Nullable<React.ReactNode> = null;
@@ -236,12 +243,31 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       child = <span>{anchorElement}</span>;
     }
 
+    return this.props.disablePortal ? this.renderWithoutPortal(child) : this.renderInPortal(child);
+  }
+
+  private renderInPortal = (child: React.ReactElement<any> | null | {}) => {
+    const { location } = this.state;
     return (
       <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
         {location && this.renderContent(location)}
       </RenderContainer>
     );
-  }
+  };
+
+  private renderWithoutPortal = (child: React.ReactElement<any> | null | {}) => {
+    const { location } = this.state;
+    return (
+      <EmptyWrapper ref={child ? this.refAnchorElement : undefined}>
+        {React.isValidElement(child) && <child.type {...child.props} />}
+        {location && (
+          <div className={styles['popup-content-wrapper']} ref={this.refWrapperElement}>
+            {this.renderContent(location)}
+          </div>
+        )}
+      </EmptyWrapper>
+    );
+  };
 
   private refAnchorElement = (instance: React.ReactInstance | null) => {
     this.anchorInstance = instance;
@@ -385,6 +411,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
+  private refWrapperElement = (element: HTMLDivElement) => {
+    this.wrapperElement = element;
+  };
+
   private refPopupElement = (zIndex: ZIndex | null) => {
     if (zIndex) {
       this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
@@ -495,25 +525,38 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
     if (location && location !== DUMMY_LOCATION && location.position) {
       position = location.position;
-      coordinates = this.getCoordinates(anchorRect, popupRect, position);
+      coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
 
       const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
       const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
       if (isFullyVisible || canBecomeVisible) {
+        this.patchCoordinates(coordinates);
         return { coordinates, position };
       }
     }
 
     for (position of positions) {
-      coordinates = this.getCoordinates(anchorRect, popupRect, position);
+      coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
       if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
+        this.patchCoordinates(coordinates);
         return { coordinates, position };
       }
     }
 
     position = positions[0];
-    coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
+    this.patchCoordinates(coordinates);
     return { coordinates, position };
+  }
+
+  private patchCoordinates(coordinates: { top: number; left: number }) {
+    if (!this.props.disablePortal || !this.wrapperElement) {
+      return;
+    }
+    const wrapperRect = this.wrapperElement && PopupHelper.getElementAbsoluteRect(this.wrapperElement);
+
+    coordinates.top -= wrapperRect.top;
+    coordinates.left -= wrapperRect.left;
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
@@ -527,7 +570,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
-  private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
+  private getAbsoluteCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
     const margin = this.props.margin;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
@@ -582,5 +625,13 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       default:
         throw new Error(`Unxpected align '${align}'`);
     }
+  }
+}
+
+// нужно чтобы получать по рефу dom-элемент, в который зарендерится anchor
+// в задаче с MutationObserver хорошо бы выпилить этот хак
+class EmptyWrapper extends React.Component {
+  public render() {
+    return this.props.children;
   }
 }
