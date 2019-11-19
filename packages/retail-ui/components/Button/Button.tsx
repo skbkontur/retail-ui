@@ -232,7 +232,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
 
     let loading = null;
     if (this.props.loading) {
-      loading = <div className={classes.loading} />;
+      loading = <div className={cx(jsClasses.loading())} />;
     }
 
     let icon = this.props.icon;
@@ -247,7 +247,9 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
           className={cx({
             [classes.arrow]: true,
             [classes.arrow_left]: this.props.arrow === 'left',
+            [jsClasses.animationReverse()]: this.props.arrow === 'left',
             [classes.arrow_loading || '']: !!this.props.loading,
+            [jsClasses.loadingArrow()]: !!this.props.loading,
             [classes.arrow_warning || '']: isWarning,
             [classes.arrow_error || '']: isError,
             [jsClasses.arrow_warning(this.theme)]: isWarning,
@@ -300,12 +302,12 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cx(classes.sizeLarge, jsClasses.sizeLarge(this.theme));
+        return cx(jsClasses.sizeLarge(this.theme));
       case 'medium':
-        return cx(classes.sizeMedium, jsClasses.sizeMedium(this.theme));
+        return cx(jsClasses.sizeMedium(this.theme));
       case 'small':
       default:
-        return cx(classes.sizeSmall, jsClasses.sizeSmall(this.theme));
+        return cx(jsClasses.sizeSmall(this.theme));
     }
   }
 

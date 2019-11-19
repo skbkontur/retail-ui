@@ -1,9 +1,16 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, keyframes } from '../../lib/theming/Emotion';
 import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
+import {
+  buttonUseMixin,
+  buttonHoverMixin,
+  buttonActiveMixin,
+  buttonSizeMixin,
+  buttonArrowMixin,
+  buttonLoadingArrowMixin,
+} from './Button.mixins';
 
 const jsClasses = {
   root(t: ITheme) {
@@ -60,6 +67,10 @@ const jsClasses = {
       .${classes.arrow_left} {
         left: ${t.btnSmallArrowLeft};
       }
+
+      ${buttonArrowMixin('7.5px', '-9.6px', '-7.5px', '16.8px', 'rotate(53deg) skewX(24deg) skewY(10deg)')};
+
+      ${buttonLoadingArrowMixin('7px', '7px', '-207px', '441%')};
     `;
   },
 
@@ -85,6 +96,15 @@ const jsClasses = {
       .${classes.arrow_left}.${classes.arrow_loading}::before {
         left: ${t.btnMediumArrowLeftLoadingLeft};
       }
+
+      ${buttonArrowMixin('9px', '-9.6px', '-10.2px', '20.2px', 'rotate(53deg) skewX(24deg) skewY(8deg)')};
+      ${buttonLoadingArrowMixin('0', '0', '-208px', '441%')};
+
+      .${classes.arrow}.${classes.arrow_loading} {
+        &::before {
+          background: linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0);
+        }
+      }
     `;
   },
 
@@ -109,6 +129,16 @@ const jsClasses = {
 
       .${classes.arrow}.${classes.arrow_loading}::before {
         background: ${t.btnLargeArrowBg};
+      }
+
+      ${buttonArrowMixin('10.2px', '-10.6px', '-10.8px', '21.7px', 'rotate(53deg) skewX(25deg) skewY(10deg)')};
+
+      ${buttonLoadingArrowMixin('-32px', '-36px', ' -198px', '700%')};
+
+      .${classes.arrow}.${classes.arrow_loading} {
+        &::before {
+          background: linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0);
+        }
       }
     `;
   },
@@ -443,6 +473,76 @@ const jsClasses = {
   wrap(t: ITheme) {
     return css`
       padding: ${t.btnWrapPadding};
+    `;
+  },
+
+  loading() {
+    const btn_loading = keyframes`
+    0% {
+      transform: translateX(0) rotateY(180deg);
+    }
+
+    100% {
+      transform: translateX(-30px) rotateY(180deg);
+    }
+  `;
+    return css`
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: inherit;
+      overflow: hidden;
+      &::before {
+        content: '';
+        height: 100%;
+        position: absolute;
+        opacity: 0.2;
+        background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
+        background-size: 30px 100%;
+        top: 0;
+        left: 0;
+        right: -30px;
+        animation: ${btn_loading} 1s linear infinite;
+        transform: rotateY(180deg) skewX(0deg) skewY(0deg);
+      }
+    `;
+  },
+
+  loadingArrow() {
+    const btn_loading_arrow = keyframes`
+    0% {
+      transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+    }
+
+    100% {
+      transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+    }
+  `;
+    return css`
+      overflow: hidden;
+
+      &::before {
+        background: linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0);
+        background-size: 41px 100%;
+        content: '';
+        display: block;
+        position: absolute;
+        opacity: 0.2;
+        left: -207px;
+        right: -72px;
+        transform: rotate(-47deg) skewX(0deg) skewY(0deg);
+        animation: ${btn_loading_arrow} 1s linear infinite;
+      }
+    `;
+  },
+
+  animationReverse() {
+    return css`
+       {
+        animation-direction: reverse;
+      }
     `;
   },
 };
