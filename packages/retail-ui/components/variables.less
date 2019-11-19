@@ -233,8 +233,26 @@
 @btn-pay-active-shadow-arrow-left: 1px -1px 0 0 rgba(210, 144, 0, 0.7), 2px -0.3px 0 -1px rgba(0, 0, 0, 0.44),
   inset -4px 0 5px -4px rgba(0, 0, 0, 0.05);
 
-// size medium
+//Button size small
+
+@btn-small-arrow-length: 18px;
+@btn-small-arrow-right: -8.8px;
+@btn-small-arrow-left: -8.8px;
+@btn-small-arrow-border-radius: 2px 2px 4px 16px;
+
+//Button size medium
+@btn-medium-arrow-left: -9.6px;
+@btn-medium-arrow-left-loading-left: -208px;
+@btn-medium-arrow-transform: rotate(53deg) skewX(24deg) skewY(8deg);
+@btn-medium-arrow-bg: linear-gradient(-56deg, transparent 46.9%, #ccc 0, #ccc 69.5%, transparent 0);
 @btn-deprecated-size-medium-padding-shift-ie: 1;
+@btn-deprecated-size-medium-font-size: 16px;
+@btn-deprecated-size-medium-padding-shift: 1;
+
+//Button size large
+@btn-large-arrow-left: -10.4px;
+@btn-large-arrow-transform: rotate(53deg) skewX(25deg) skewY(10deg);
+@btn-large-arrow-bg: linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0);
 
 // Select
 @slt-placeholder-color: #a0a0a0;
@@ -581,6 +599,20 @@
 @value btnPayActiveShadowArrow: @btn-pay-active-shadow-arrow;
 @value btnPayActiveShadowArrowLeft: @btn-pay-active-shadow-arrow-left;
 @value btnDeprecatedSizeMediumPaddingShiftIe: @btn-deprecated-size-medium-padding-shift-ie;
+@value btnSmallArrowLength: @btn-small-arrow-length;
+@value btnSmallArrowRight: @btn-small-arrow-right;
+@value btnSmallArrowLeft: @btn-small-arrow-left;
+@value btnSmallArrowBorderRadius: @btn-small-arrow-border-radius;
+@value btnMediumArrowLeft: @btn-medium-arrow-left;
+@value btnMediumArrowLeftLoadingLeft: @btn-medium-arrow-left-loading-left;
+@value btnMediumArrowTransform: @btn-medium-arrow-transform;
+@value btnMediumArrowBg: @btn-medium-arrow-bg;
+@value btnDeprecatedSizeMediumFontSize: @btn-deprecated-size-medium-font-size;
+@value btnDeprecatedSizeMediumPaddingShift: @btn-deprecated-size-medium-padding-shift;
+@value btnDeprecatedSizeMediumPaddingShiftIe: @btn-deprecated-size-medium-padding-shift-ie;
+@value btnLargeArrowLeft: @btn-large-arrow-left;
+@value btnLargeArrowTransform: @btn-large-arrow-transform;
+@value btnLargeArrowBg: @btn-large-arrow-bg;
 @value sltPlaceholderColor: @slt-placeholder-color;
 @value tooltipCloseBtnColor: @tooltip-close-btn-color;
 @value tooltipCloseBtnHoverColor: @tooltip-close-btn-hover-color;
