@@ -3,23 +3,56 @@ const webpack = require('webpack');
 const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const isProd = process.env.NODE_ENV === 'production';
 const enableReactTesting = process.env.enableReactTesting;
 const REACT_SELENIUM_TESTING_PATH = path.resolve(__dirname, '../../react-ui-testing/react-selenium-testing.js');
 const SCREENSHOT_TESTS_STYLES_PATH = path.resolve(__dirname, 'screenshotTestStyles.less');
 
-module.exports = (baseConfig, env) => {
-  const config = baseConfig;
+module.exports = async ({ config, mode }) => {
+  const isProd = mode === 'PRODUCTION';
 
   config.devtool = 'eval-source-map';
 
   if (enableReactTesting) {
-    config.entry.preview.unshift(REACT_SELENIUM_TESTING_PATH, SCREENSHOT_TESTS_STYLES_PATH);
+    // needs to be inserted before React (i.e. config.js)
+    config.entry.unshift(REACT_SELENIUM_TESTING_PATH);
+    config.entry.push(SCREENSHOT_TESTS_STYLES_PATH);
   }
 
   config.resolve.extensions.unshift('.ts', '.tsx');
 
-  config.module.rules.push(
+  config.module.rules = [
+    {
+      test: /\.jsx?$/,
+      loader: 'babel-loader',
+      exclude: /node_modules/,
+      options: {
+        babelrc: false,
+        presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-flow'],
+        plugins: [
+          '@babel/plugin-proposal-class-properties',
+          '@babel/plugin-proposal-object-rest-spread',
+          '@babel/plugin-transform-runtime',
+        ],
+      },
+    },
+    {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      include: REACT_SELENIUM_TESTING_PATH,
+      options: {
+        babelrc: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              useBuiltIns: 'usage',
+              corejs: 3,
+            },
+          ],
+        ],
+        plugins: [],
+      },
+    },
     {
       test: /\.tsx?$/,
       loader: 'ts-loader',
@@ -34,7 +67,7 @@ module.exports = (baseConfig, env) => {
         'style-loader',
         'css-loader?localIdentName=[name]-[local]-[hash:base64:4]',
         {
-          loader: '@skbkontur/typed-css-modules-loader',
+          loader: 'typed-css-modules-loader',
           options: {
             noEmit: isProd,
           },
@@ -44,26 +77,10 @@ module.exports = (baseConfig, env) => {
     { test: /\.less$/, loader: 'less-loader' },
     { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
     { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
-    { test: /\.json$/, loader: 'json-loader' },
-  );
-
-  if (enableReactTesting) {
-    config.module.rules.push({
-      test: /\.js$/,
-      include: REACT_SELENIUM_TESTING_PATH,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          babelrc: false,
-          extends: path.join(__dirname, '.babelrc'),
-        },
-      },
-    });
-  }
+  ];
 
   config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS': JSON.stringify(process.env.REACT_APP_EXPERIMENTAL_CSS_IN_JS),
       'process.env.enableReactTesting': JSON.stringify(enableReactTesting),
     }),
     new WatchExternalFilesPlugin({
