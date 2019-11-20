@@ -3,7 +3,6 @@ import '../../ensureOldIEClassName';
 import { Nullable, TimeoutID } from '../../../typings/utility-types';
 import { IconType, InputVisibilityState } from '../../Input/Input';
 import { InputProps } from '../../Input';
-import styles from './InputLikeText.module.less';
 import { cx } from '../../../lib/theming/Emotion';
 import inputStyles from '../../Input/Input.module.less';
 import jsInputStyles from '../../Input/Input.styles';
@@ -131,7 +130,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
           {prefix && <span className={jsInputStyles.prefix(this.theme)}>{prefix}</span>}
         </span>
         <span className={inputStyles.wrapper}>
-          <span className={cx(inputStyles.input, styles.input, jsInputStyles.input(this.theme))}>{children}</span>
+          <span className={cx(inputStyles.input, jsInputStyles.input(this.theme))}>{children}</span>
           {this.renderPlaceholder()}
         </span>
         <span className={cx(inputStyles.sideContainer, inputStyles.rightContainer)}>
