@@ -62,14 +62,14 @@ const jsClasses = {
       }
 
       ${buttonArrowMixin(
-        '7px',
+        t.btnSmallArrowTop,
         t.btnSmallArrowLeft,
         t.btnSmallArrowRight,
         t.btnSmallArrowLength,
         'rotate(53deg) skewX(24deg) skewY(10deg)',
       )};
 
-      ${buttonLoadingArrowMixin('7px', '7px', '-207px', '441%')};
+      ${buttonLoadingArrowMixin(t.btnSmallArrowTop, t.btnSmallArrowTop, '-207px', '441%')};
     `;
   },
 
