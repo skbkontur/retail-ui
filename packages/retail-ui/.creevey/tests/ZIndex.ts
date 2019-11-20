@@ -150,4 +150,9 @@ describe('ZIndex', function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
     });
   });
+  describe('Modal in Loader and Modal', function() {
+    it('Modal cover Loader in Modal', async function() {
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Modal cover Loader in Modal');
+    });
+  });
 });

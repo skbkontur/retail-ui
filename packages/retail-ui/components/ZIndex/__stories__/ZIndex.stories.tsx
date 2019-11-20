@@ -189,11 +189,11 @@ class Demo extends React.Component<{}> {
         {this.renderDiv('red', 200, 0, 0)}
         {this.renderDiv('green', 100, 20, 20)}
         {
-          <ZIndex delta={500} render={false}>
+          <ZIndex delta={500} applyZIndex={false}>
             {this.renderDiv('blue', 100, 40, 40)}
           </ZIndex>
         }
-        <ZIndex delta={400} render={false}>
+        <ZIndex delta={400} applyZIndex={false}>
           <ZIndex delta={200} style={{ position: 'absolute' }}>
             {this.renderDiv('orange', 100, 40, 40)}
           </ZIndex>
@@ -601,6 +601,37 @@ class LoaderAndSidePage extends React.Component {
   private setActive = (active: boolean) => this.setState({ active });
 }
 
+function ModalInLoaderAndModal() {
+  return (
+    <div>
+      <Loader active={false}>
+        <Modal>
+          <Modal.Header>1</Modal.Header>
+          <Modal.Body>
+            <p>Ехал модал через реку</p>
+            <p>Видит модал в реке модал</p>
+            <p>Cунул модал модал в модал</p>
+            <p>Модал модал модал модал</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </Loader>
+
+      <Modal>
+        <Modal.Header>2</Modal.Header>
+        <Modal.Body>
+          Ехал модал через реку, видит модал в реке модал, сунул модал модал в модал, модал модал модал модал
+        </Modal.Body>
+        <Modal.Footer>
+          <Button>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+}
+
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
@@ -617,4 +648,5 @@ storiesOf('ZIndex', module)
   .add('Sidepage and Select', () => <SidePageAndSelect />)
   .add('Toast and Loader', () => <ToastAndLoader />)
   .add('Elements in Loader in Modal', () => <ElementsInLoaderInModal />)
-  .add('Loader and SidePage', () => <LoaderAndSidePage />);
+  .add('Loader and SidePage', () => <LoaderAndSidePage />)
+  .add('Modal in Loader and Modal', () => <ModalInLoaderAndModal />);

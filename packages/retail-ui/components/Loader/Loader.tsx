@@ -118,8 +118,8 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
         className={loaderClassName}
         wrapperRef={this.wrapperRef}
         priority={'Loader'}
-        shouldResetZIndexFromContext={this.props.active}
-        sholudCoverChildren={this.props.active}
+        applyZIndex={this.props.active}
+        coverChildren={this.props.active}
         style={{ position: 'relative' }}
       >
         {this.props.children}

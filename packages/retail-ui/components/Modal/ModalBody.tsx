@@ -11,7 +11,7 @@ export class Body extends React.Component {
         {({ additionalPadding, hasHeader }) => (
           <ZIndex
             priority={'ModalBody'}
-            shouldCreateStackingContext
+            createStackingContext
             className={cx(
               styles.body,
               !hasHeader && styles.bodyWithoutHeader,
