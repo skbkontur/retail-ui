@@ -56,37 +56,12 @@
       z-index: 1;
 
       &.arrow_loading {
-        overflow: hidden;
-
-        &::before {
-          background: linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0);
-          background-size: 41px 100%;
-          content: '';
-          display: block;
-          position: absolute;
-          opacity: 0.2;
-          left: -207px;
-          right: -72px;
-          transform: rotate(-47deg) skewX(0deg) skewY(0deg);
-
-          :local {
-            animation: btn_loading_arrow 1s linear infinite;
-          }
-        }
+        visibility: visible;
       }
     }
 
     .arrow_left {
       transform: rotate(232deg) skewX(25deg) skewY(8deg) !important; /* to override `.arrow` dynamic styles */
-
-      &.arrow_loading {
-        &::before {
-          :local {
-            animation: btn_loading_arrow 1s linear infinite;
-            animation-direction: reverse;
-          }
-        }
-      }
     }
 
     .default,
@@ -222,31 +197,7 @@
   }
 
   .loading {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: inherit;
-    overflow: hidden;
-  }
-
-  .loading::before {
-    content: '';
-    height: 100%;
-    position: absolute;
-    opacity: 0.2;
-    background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
-    background-size: 30px 100%;
-    top: 0;
-    left: 0;
-    right: -30px;
-
-    :local {
-      animation: btn_loading 1s linear infinite;
-    }
-
-    transform: rotateY(180deg) skewX(0deg) skewY(0deg);
+    visibility: visible;
   }
 
   .borderless:not(.focus):not(.disabled):not(.active):not(.checked) {
