@@ -1,58 +1,50 @@
+const path = require('path');
 const webpack = require('webpack');
 
-module.exports = function(sourceConfig, env, defaultConfig) {
-  return {
-    ...defaultConfig,
-    entry: {
-      ...defaultConfig.entry,
-      preview: [
-        require.resolve('babel-polyfill'),
-        require.resolve('react-ui-testing/react-selenium-testing'),
-        require.resolve('../stories/styles/reset.less'),
-        require.resolve('../stories/styles/typography.less'),
-        ...defaultConfig.entry.preview,
-      ],
+module.exports = async ({ config, mode }) => {
+  config.resolve.extensions.unshift('.ts', '.tsx');
+
+  config.entry.unshift('react-ui-testing/react-selenium-testing');
+
+  config.entry.push(
+    path.join(__dirname, '../stories/styles/reset.less'),
+    path.join(__dirname, '../stories/styles/typography.less'),
+  );
+
+  config.module.rules = [
+    {
+      test: /\.(ts|tsx)$/,
+      exclude: /node_moduels/,
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
     },
-    module: {
-      ...defaultConfig.module,
-      rules: [
+    {
+      test: /\.(css|less)$/,
+      loaders: [
+        'style-loader',
         {
-          test: /\.(ts|tsx)$/,
-          exclude: /node_moduels/,
-          loader: 'ts-loader',
+          loader: 'css-loader',
           options: {
-            transpileOnly: true,
+            localIdentName: '[name]-[local]-[hash:base64:4]',
           },
         },
-        {
-          test: /\.(css|less)$/,
-          loaders: [
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                localIdentName: '[name]-[local]-[hash:base64:4]',
-              },
-            },
-            'less-loader',
-          ],
-        },
-        {
-          test: /\.(png|woff|woff2|eot)$/,
-          loader: 'file-loader',
-        },
+        'less-loader',
       ],
     },
-    resolve: {
-      ...defaultConfig.resolve,
-      extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    {
+      test: /\.(png|woff|woff2|eot)$/,
+      loader: 'file-loader',
     },
-    plugins: [
-      ...defaultConfig.plugins,
-      new webpack.DefinePlugin({
-        'process.env.enableReactTesting': JSON.stringify(true),
-        REACT_UI_PACKAGE: JSON.stringify('retail-ui'),
-      }),
-    ],
-  };
+  ];
+
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.enableReactTesting': JSON.stringify(true),
+      REACT_UI_PACKAGE: JSON.stringify('retail-ui'),
+    }),
+  );
+
+  return config;
 };
