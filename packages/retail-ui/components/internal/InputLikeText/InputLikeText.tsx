@@ -182,7 +182,9 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
         <input type="hidden" value={value} />
         {leftSide}
         <span className={cx(inputStyles.wrapper, jsStyles.userSelectContain(this.theme))}>
-          <span className={cx(inputStyles.input, jsInputStyles.input(this.theme))}>{children}</span>
+          <span className={cx(inputStyles.input, jsStyles.input(this.theme), jsInputStyles.input(this.theme))}>
+            {children}
+          </span>
           {this.renderPlaceholder()}
         </span>
         {rightSide}

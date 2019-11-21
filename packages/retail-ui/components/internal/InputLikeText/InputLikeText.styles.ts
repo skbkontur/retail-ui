@@ -8,6 +8,13 @@ const jsStyles = {
     `;
   },
 
+  input(t: ITheme) {
+    return css`
+      position: absolute;
+      top: 0;
+    `;
+  },
+
   userSelectContain(t: ITheme) {
     return css`
       user-select: text;
