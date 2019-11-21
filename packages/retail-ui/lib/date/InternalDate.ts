@@ -338,6 +338,17 @@ export class InternalDate {
     return Object.values(this.components).every(component => component === null);
   }
 
+  public isEqualComponentDate(type: InternalDateComponentType | null, compared: InternalDate): boolean {
+    return this.get(type) === compared.get(type);
+  }
+
+  public isEqual(compared: InternalDate): boolean {
+    return (
+      InternalDateValidator.isEqualDateValues(this, compared) &&
+      InternalDateValidator.isEqualDateFormats(this, compared)
+    );
+  }
+
   private getMinValue(type: InternalDateComponentType, isRange?: boolean): number {
     if (isRange === true && this.start !== null) {
       return Number(
