@@ -2,23 +2,28 @@ import * as React from 'react';
 import { CHAR_MASK } from '../../lib/date/constants';
 import InternalDateValidator from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
-import styles from './DateFragmentsView.module.less';
-import { removeAllSelections } from './helpers/SelectionHelpers';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './DateFragmentsView.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import ThemeConsumer from '../ThemeConsumer';
+import jsStyles from './DateFragmentsView.styles';
 
 interface DateFragmentViewProps {
   nodeRef: (el: HTMLDivElement | null) => void;
   selected: InternalDateComponentType | null;
   fragments: InternalDateFragment[];
   inputMode: boolean;
-  onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLElement>) => void;
+  onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
+  onMouseDown: React.MouseEventHandler;
+  onLoadedFragmentNodes: (fragmentNodes: Set<HTMLSpanElement>) => void;
 }
 
 export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}> {
   private theme!: ITheme;
+  private fragmentNodes: Set<HTMLElement> = new Set();
+
+  public componentDidMount(): void {
+    this.props.onLoadedFragmentNodes(this.fragmentNodes);
+  }
 
   public render() {
     return (
@@ -65,13 +70,23 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
       ? Math.max(length - valueMask!.toString().length, 0)
       : length;
 
-    const handleMouseUp = (e: React.MouseEvent<HTMLElement>) => onSelectDateComponent(type, e);
+    const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {
+      if (document.activeElement && document.activeElement.contains(e.currentTarget)) {
+        onSelectDateComponent(type, e);
+      }
+    };
 
     return (
-      <span key={index} onMouseUp={handleMouseUp} onMouseDown={removeAllSelections}>
+      <span ref={this.fragmentRef} key={index} onMouseDown={this.props.onMouseDown} onMouseUp={handleMouseUp}>
         {valueMask}
         <span className={jsStyles.mask(this.theme)}>{CHAR_MASK.repeat(lengthMask)}</span>
       </span>
     );
   }
+
+  private fragmentRef = (el: HTMLSpanElement | null) => {
+    if (el !== null) {
+      this.fragmentNodes.add(el);
+    }
+  };
 }
