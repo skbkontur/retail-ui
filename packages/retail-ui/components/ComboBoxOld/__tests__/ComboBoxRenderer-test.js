@@ -2,12 +2,13 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import ComboBoxRenderer from '../ComboBoxRenderer';
+import InputLikeText from "../../internal/InputLikeText";
 
 const source = text => Promise.resolve([]);
 
 describe('ComboBoxRenderer', () => {
   function editAndBlur(wrapper, text = 'foo') {
-    const valueElement = wrapper.find('[tabIndex]');
+    const valueElement = wrapper.find(InputLikeText);
     valueElement.simulate('click');
     wrapper.update();
     wrapper
@@ -18,7 +19,7 @@ describe('ComboBoxRenderer', () => {
 
   it('opens on click', () => {
     const wrapper = mount(<ComboBoxRenderer value={null} source={source} />);
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     expect(wrapper.state().opened).toBeTruthy();
     expect(wrapper.state().isEditing).toBeTruthy();
     expect(wrapper.find('input').length).toBe(1);
@@ -35,7 +36,7 @@ describe('ComboBoxRenderer', () => {
 
     expect(wrapper.state().isEditing).toBeFalsy();
 
-    const value = wrapper.find('InputLikeText');
+    const value = wrapper.find(InputLikeText);
     expect(value.text('value')).toBe('');
   });
 
@@ -49,7 +50,7 @@ describe('ComboBoxRenderer', () => {
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');
-    expect(wrapper.find('InputLikeText').length).toBe(1);
+    expect(wrapper.find(InputLikeText).length).toBe(1);
   });
 
   it('calls onError when value was not recovered', () => {
@@ -78,7 +79,7 @@ describe('ComboBoxRenderer', () => {
     const onChange = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value="" source={source} onChange={onChange} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     wrapper
       .find('input')
       .simulate('change', { currentTarget: { value: '123' } })
@@ -95,7 +96,7 @@ describe('ComboBoxRenderer', () => {
     const onChange = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onChange={onChange} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     await promise;
     wrapper
       .find('input')
@@ -107,7 +108,7 @@ describe('ComboBoxRenderer', () => {
     expect(onChange.mock.calls[0][1]).toBe('foo');
 
     // Ensure that ComboBox is closed.
-    expect(wrapper.find('InputLikeText').length).toBe(1);
+    expect(wrapper.find(InputLikeText).length).toBe(1);
   });
 
   it('calls onOpen when opening', () => {
@@ -116,7 +117,7 @@ describe('ComboBoxRenderer', () => {
     const onOpen = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onOpen={onOpen} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     expect(onOpen.mock.calls.length).toBe(1);
 
     wrapper
@@ -132,7 +133,7 @@ describe('ComboBoxRenderer', () => {
     const onClose = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onClose={onClose} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     expect(onClose.mock.calls.length).toBe(0);
 
     wrapper.find('input').simulate('keydown', { key: 'Escape' });
@@ -145,7 +146,7 @@ describe('ComboBoxRenderer', () => {
     const onFocus = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onFocus={onFocus} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     expect(onFocus.mock.calls.length).toBe(1);
 
     wrapper
@@ -162,7 +163,7 @@ describe('ComboBoxRenderer', () => {
     const onBlur = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value="" source={() => promise} onBlur={onBlur} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     await promise;
     wrapper
       .find('input')
@@ -176,7 +177,7 @@ describe('ComboBoxRenderer', () => {
     const onInputChange = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value="" source={() => Promise.resolve()} onInputChange={onInputChange} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
     expect(onInputChange.mock.calls[0][0]).toBe('hello');
   });
@@ -185,7 +186,7 @@ describe('ComboBoxRenderer', () => {
     const onInputChange = v => v.toUpperCase();
     const wrapper = mount(<ComboBoxRenderer value="" source={() => Promise.resolve()} onInputChange={onInputChange} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
 
     expect(wrapper.find('input').instance().value).toBe('HELLO');
@@ -195,7 +196,7 @@ describe('ComboBoxRenderer', () => {
     const onInputChange = v => {};
     const wrapper = mount(<ComboBoxRenderer value="" source={() => Promise.resolve()} onInputChange={onInputChange} />);
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
     expect(wrapper.find('input').instance().value).toBe('hello');
   });
@@ -206,7 +207,7 @@ describe('ComboBoxRenderer', () => {
       <ComboBoxRenderer value="" source={() => Promise.resolve()} onInputKeyDown={onInputKeyDown} />,
     );
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     wrapper.find('input').simulate('keydown', { key: 'h' });
     expect(onInputKeyDown.mock.calls[0][0]).toMatchObject({ key: 'h' });
   });
@@ -217,7 +218,7 @@ describe('ComboBoxRenderer', () => {
       <ComboBoxRenderer value="" source={() => Promise.resolve()} onInputKeyDown={onInputKeyDown} />,
     );
 
-    wrapper.find('[tabIndex]').simulate('click');
+    wrapper.find(InputLikeText).simulate('click');
     wrapper.find('input').simulate('keydown', { key: 'Escape' });
     expect(wrapper.find('input').length).toBe(1);
   });
