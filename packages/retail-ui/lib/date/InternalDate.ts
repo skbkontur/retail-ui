@@ -305,13 +305,25 @@ export class InternalDate {
             ? Number(prev.year) + 2000
             : prev.year
         : today.year;
-    if ((type === null && restoreYear !== prev.year) || type === InternalDateComponentType.Year) {
+    if (
+      (type === null && restoreYear !== prev.year) ||
+      type === InternalDateComponentType.Year ||
+      type === InternalDateComponentType.All
+    ) {
       this.setYear(restoreYear);
     }
-    if ((type === null && prev.month === null) || type === InternalDateComponentType.Month) {
+    if (
+      (type === null && prev.month === null) ||
+      type === InternalDateComponentType.Month ||
+      type === InternalDateComponentType.All
+    ) {
       this.setMonth(today.month);
     }
-    if ((type === null && prev.date === null) || type === InternalDateComponentType.Date) {
+    if (
+      (type === null && prev.date === null) ||
+      type === InternalDateComponentType.Date ||
+      type === InternalDateComponentType.All
+    ) {
       this.setDate(today.date);
     }
     return this;
