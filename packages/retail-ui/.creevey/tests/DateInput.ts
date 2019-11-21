@@ -9,12 +9,13 @@ describe('DateInput', function() {
     });
     it('focus', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement(By.css("[data-comp-name*='DateInput']")))
-        .perform();
+      await this.browser.executeScript(() => {
+        const el: HTMLElement | null = window.document.querySelector("[data-comp-name*='DateInput InputLikeText']");
+        if (el) {
+          el.focus();
+        }
+      });
+      await this.browser.wait(new Promise(resolve => setTimeout(resolve, 100)));
       await expect(await element.takeScreenshot()).to.matchImage('focus');
     });
   });
