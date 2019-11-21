@@ -5,6 +5,7 @@ describe('DateInput', function() {
   describe('simple', function() {
     it('idle', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
+      await new Promise(res => setTimeout(res, 500));
       await expect(await element.takeScreenshot()).to.matchImage('idle');
     });
     it('focus', async function() {
