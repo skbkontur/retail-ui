@@ -174,7 +174,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     useWrapper: false,
   };
 
-  public state: PopupState = { location: null };
+  public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: ITheme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
@@ -198,6 +198,9 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
      * Delaying updateLocation to ensure that ref is set
      */
     if (isGoingToOpen || isGoingToUpdate) {
+      if (!this.state.location) {
+        this.setState({ location: DUMMY_LOCATION });
+      }
       this.delayUpdateLocation();
     }
   }
@@ -223,6 +226,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderMain() {
+    const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
 
     let child: Nullable<React.ReactNode> = null;
@@ -236,7 +240,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
-        {this.renderContent()}
+        {location && this.renderContent(location)}
       </RenderContainer>
     );
   }
@@ -316,11 +320,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private renderContent() {
+  private renderContent(location: PopupLocation) {
     const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
     const children = this.renderChildren();
 
-    const location = this.state.location || DUMMY_LOCATION;
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
@@ -340,12 +343,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
         >
           {(state: string) => (
             <ZIndex
-              key={this.state.location ? 'real' : 'dummy'}
               ref={this.refPopupElement}
               priority={'Popup'}
               className={cx([styles.popup, jsStyles.popup(this.theme)], {
                 [jsStyles.shadow(this.theme)]: hasShadow,
-                [styles['popup-ignore-hover']]: !!ignoreHover,
+                [styles['popup-ignore-hover']]: Boolean(ignoreHover),
                 ...(disableAnimations
                   ? {}
                   : {
@@ -427,8 +429,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private handleDidUpdate = (prevProps: PopupState, props: PopupState) => {
-    const hadNoLocation = prevProps.location === null;
-    const hasLocation = props.location !== null;
+    const hadNoLocation = prevProps.location === DUMMY_LOCATION;
+    const hasLocation = props.location !== DUMMY_LOCATION;
     if (hadNoLocation && hasLocation && this.props.onOpen) {
       this.props.onOpen();
     }
@@ -492,7 +494,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     let position: PopupPosition;
     let coordinates: Offset;
 
-    if (location && location.position) {
+    if (location && location !== DUMMY_LOCATION && location.position) {
       position = location.position;
       coordinates = this.getCoordinates(anchorRect, popupRect, position);
 
