@@ -285,6 +285,10 @@ export class InternalDate {
       .setRangeEnd(this.end && this.end.clone());
   }
 
+  public duplicateOf(pattern: InternalDate): InternalDate {
+    return this.setComponents(pattern.getComponentsRaw());
+  }
+
   public restore(type: InternalDateComponentType | null = null): InternalDate {
     const prev = this.getComponentsRaw();
     const today = InternalDateGetter.getTodayComponents();
