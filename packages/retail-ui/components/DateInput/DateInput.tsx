@@ -11,7 +11,6 @@ import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { isEdge, isIE } from '../ensureOldIEClassName';
 import InputLikeText from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
-import styles from './DateInput.module.less';
 import { DateFragmentsView } from './DateFragmentsView';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { inputNumber } from './helpers/inputNumber';
