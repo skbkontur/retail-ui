@@ -453,4 +453,9 @@ storiesOf('Modal', module)
       </Modal.Body>
     </Modal>
   ))
-  .add('Small modal on the Top', () => <SmallModalOnTop />);
+  .add('Small modal on the Top', () => <SmallModalOnTop />)
+  .add('Modal with veryLongHeaderWithoutSpaces', () => (
+    <Modal width={350}>
+      <Modal.Header>VeryLongAndStrangeHeaderWithoutMeaningAndSpaces</Modal.Header>
+    </Modal>
+  ));
