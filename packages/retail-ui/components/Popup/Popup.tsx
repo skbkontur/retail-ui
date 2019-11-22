@@ -85,7 +85,7 @@ export interface PopupProps extends PopupHandlerProps {
   popupOffset: number;
   positions: PopupPosition[];
   useWrapper: boolean;
-  ignoreHover?: boolean;
+  ignoreHover: boolean;
 }
 
 interface PopupLocation {
@@ -172,6 +172,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     hasShadow: false,
     disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: false,
+    ignoreHover: false,
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
@@ -347,7 +348,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
               priority={'Popup'}
               className={cx([styles.popup, jsStyles.popup(this.theme)], {
                 [jsStyles.shadow(this.theme)]: hasShadow,
-                [styles['popup-ignore-hover']]: Boolean(ignoreHover),
+                [styles['popup-ignore-hover']]: ignoreHover,
                 ...(disableAnimations
                   ? {}
                   : {
