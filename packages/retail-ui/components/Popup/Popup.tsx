@@ -189,16 +189,13 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   public componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
-    const isGoingToOpen = !this.props.opened && nextProps.opened;
-    const isGoingToUpdate = this.props.opened && nextProps.opened;
-
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
      * used. It causes refs callbacks to call after componentDidUpdate.
      *
      * Delaying updateLocation to ensure that ref is set
      */
-    if (isGoingToOpen || isGoingToUpdate) {
+    if (nextProps.opened) {
       if (!this.state.location) {
         this.setState({ location: DUMMY_LOCATION });
       }
