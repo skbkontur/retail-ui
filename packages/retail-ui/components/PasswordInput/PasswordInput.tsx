@@ -22,12 +22,6 @@ export interface PasswordInputState {
   capsLockEnabled?: boolean | null;
 }
 
-export type InputProps = {
-  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onKeyPress: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  rightIcon: () => React.ReactNode;
-} & PasswordInputProps;
-
 /**
  * **DRAFT**
  */
