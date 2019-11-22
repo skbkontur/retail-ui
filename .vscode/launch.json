@@ -5,6 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Debug Storybook",
+      "url": "http://localhost:6060",
+      "webRoot": "${workspaceFolder}",
+      "sourceMapPathOverrides": {
+        "webpack:///./*": "${webRoot}/packages/retail-ui/*"
+      },
+      "sourceMaps": true
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "creevey:ui",
@@ -12,7 +23,7 @@
       "runtimeArgs": ["--node-arg", "--inspect=9229"],
       "args": ["creevey", "--ui"],
       "autoAttachChildProcesses": true,
-      "cwd": "${workspaceFolder}/packages/react-ui-selenium",
+      "cwd": "${workspaceFolder}/packages/retail-ui",
       "sourceMaps": true,
       "port": 9229
     }
