@@ -247,8 +247,8 @@ packages/
 
 #### Запуск
 
-`yarn workspace retail-ui storybook:test`
-`yarn workspace retail-ui test:ui --ui`
+`yarn workspace retail-ui storybook:test` - запуск storybook со стилями для тестов  
+`yarn workspace retail-ui test:ui --ui` - запуск creevey
 
 #### Создание скриншотного теста
 
