@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { By } from 'selenium-webdriver';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('ZIndex', function() {
   describe('Loader covers tooltip', function() {
     it('Loader covers Tooltip', async function() {
@@ -88,7 +90,7 @@ describe('ZIndex', function() {
         }
       });
 
-      await new Promise(res => setTimeout(res, 500));
+      await delay(500);
 
       await expect(await element.takeScreenshot()).to.matchImage('is covered by Header and Footer');
     });
@@ -137,6 +139,8 @@ describe('ZIndex', function() {
         .click(this.browser.findElement(By.css('[data-comp-name~="Toggle"]')))
         .perform();
 
+      await delay(500);
+
       await expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
     });
   });
@@ -148,6 +152,11 @@ describe('ZIndex', function() {
         .perform();
 
       await expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
+    });
+  });
+  describe('Modal in Loader and Modal', function() {
+    it('Modal cover Loader in Modal', async function() {
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Modal cover Loader in Modal');
     });
   });
 });
