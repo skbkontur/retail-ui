@@ -16,6 +16,10 @@ import ZIndex from '../ZIndex';
 
 export interface LoaderProps {
   children?: React.ReactNode;
+  /**
+   * Флаг переключения состояния лоадера
+   * @default false
+   */
   active: boolean;
   caption?: SpinnerProps['caption'];
   className?: string;
@@ -33,13 +37,14 @@ export interface LoaderState {
 class Loader extends React.Component<LoaderProps, LoaderState> {
   public static defaultProps = {
     type: Spinner.Types.normal,
+    active: false,
   };
 
   public static propTypes = {
     /**
      * показываем лоадер или нет
      */
-    active: PropTypes.bool.isRequired,
+    active: PropTypes.bool,
 
     /**
      * Текст рядом с лоадером.
@@ -118,8 +123,8 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
         className={loaderClassName}
         wrapperRef={this.wrapperRef}
         priority={'Loader'}
-        shouldResetZIndexFromContext={this.props.active}
-        sholudCoverChildren={this.props.active}
+        applyZIndex={this.props.active}
+        coverChildren={this.props.active}
         style={{ position: 'relative' }}
       >
         {this.props.children}
