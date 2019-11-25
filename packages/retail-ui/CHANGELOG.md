@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.4](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.3...retail-ui@1.6.4) (2019-11-25)
+
+
+### Bug Fixes
+
+* **Loader:** don't apply zIndex context in inactive state ([b170cd2](https://github.com/skbkontur/retail-ui/commit/b170cd2)), closes [#1746](https://github.com/skbkontur/retail-ui/issues/1746)
+* **Popup:** don't render portal container on closed state ([bee3a28](https://github.com/skbkontur/retail-ui/commit/bee3a28))
+
+
+
+
+
 ## [1.6.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.2...retail-ui@1.6.3) (2019-11-18)
 
 
