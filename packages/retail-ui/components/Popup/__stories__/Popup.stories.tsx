@@ -565,6 +565,8 @@ interface OverflowHiddenContainerState {
 }
 
 class OverflowHiddenContainer extends Component<{}, OverflowHiddenContainerState> {
+  public state: OverflowHiddenContainerState = {};
+
   private containerStyle = {
     margin: '10px',
     border: '1px solid black',
@@ -572,8 +574,6 @@ class OverflowHiddenContainer extends Component<{}, OverflowHiddenContainerState
     overflow: 'hidden',
     position: 'relative' as PositionProperty,
   };
-
-  public state: OverflowHiddenContainerState = {};
 
   public render() {
     return [false, true].map(disablePortal => this.renderBlock(disablePortal));
