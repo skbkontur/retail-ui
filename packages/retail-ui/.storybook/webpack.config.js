@@ -11,6 +11,8 @@ const SCREENSHOT_TESTS_STYLES_PATH = path.resolve(__dirname, 'screenshotTestStyl
 module.exports = (baseConfig, env) => {
   const config = baseConfig;
 
+  config.devtool = 'eval-source-map';
+
   if (enableReactTesting) {
     config.entry.preview.unshift(REACT_SELENIUM_TESTING_PATH, SCREENSHOT_TESTS_STYLES_PATH);
   }
