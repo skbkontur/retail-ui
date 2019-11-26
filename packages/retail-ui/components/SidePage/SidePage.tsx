@@ -172,7 +172,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
         className={classes}
         onScroll={LayoutEvents.emit}
         style={style}
-        shouldCreateStackingContext
+        createStackingContext
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
