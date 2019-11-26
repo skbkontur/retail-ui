@@ -23,6 +23,10 @@ const jsClasses = {
       .${classes.root}:not(.${classes.link}) & {
         box-shadow: 0 0 0 2px ${t.borderColorWarning};
       }
+
+      .${classes.wrap} .${classes.root}.${classes.link} & {
+        background: ${t.warningSecondary};
+      }
     `;
   },
 
