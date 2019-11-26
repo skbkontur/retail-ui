@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.0.5...react-ui-validations@1.0.6) (2019-11-18)
+
+
+### Bug Fixes
+
+* **ValidationTooltip:** detection radiogroup, add inline-block wrapper ([b65227d](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/b65227d)), closes [#1616](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/1616)
+* **ValidationWrapperInternal:** pass down focus event ([8cfc707](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/8cfc707)), closes [#1735](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/1735)
+
+
+
+
+
 ## [1.0.5](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.0.4...react-ui-validations@1.0.5) (2019-10-30)
 
 **Note:** Version bump only for package react-ui-validations

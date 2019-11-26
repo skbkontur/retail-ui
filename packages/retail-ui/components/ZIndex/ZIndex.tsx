@@ -11,23 +11,21 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   delta: number;
   priority: number | LayerComponentName;
   style: React.CSSProperties;
-  render?: boolean;
-  shouldResetZIndexFromContext?: boolean;
-  shouldCreateStackingContext?: boolean;
-  sholudCoverChildren?: boolean;
+  createStackingContext?: boolean;
+  coverChildren?: boolean;
+  applyZIndex?: boolean;
   className?: string;
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
 }
 
 export default class ZIndex extends React.Component<ZIndexProps> {
   public static defaultProps = {
-    render: true,
     delta: 10,
     priority: 0,
     style: {},
-    shouldResetZIndexFromContext: false,
-    sholudCoverChildren: false,
-    shouldCreateStackingContext: false,
+    applyZIndex: true,
+    coverChildren: false,
+    createStackingContext: false,
   };
 
   public static propTypes = {
@@ -52,51 +50,68 @@ export default class ZIndex extends React.Component<ZIndexProps> {
     removeZIndex(this.zIndex);
   }
 
-  public render(): JSX.Element {
+  public render() {
     const {
-      render,
       style,
       children,
       delta,
       priority,
-      shouldResetZIndexFromContext,
-      sholudCoverChildren,
-      shouldCreateStackingContext,
+      applyZIndex,
+      coverChildren,
+      createStackingContext,
       wrapperRef,
       ...props
     } = this.props;
-    if (shouldCreateStackingContext) {
-      'isolation' in document.body.style ? (style.isolation = 'isolate') : (style.transform = 'rotate(0)');
+
+    const wrapperStyle: React.CSSProperties = {};
+
+    if (createStackingContext) {
+      'isolation' in document.body.style
+        ? (wrapperStyle.isolation = 'isolate')
+        : (wrapperStyle.transform = 'rotate(0)');
     }
-    return (render ? (
+
+    return (
       <ZIndexContext.Consumer>
         {({ parentLayerZIndex, maxZIndex }) => {
-          let summaryZIndex = this.zIndex;
+          if (applyZIndex) {
+            const newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
+            wrapperStyle.zIndex = newZIndex;
 
-          if (Number.isFinite(maxZIndex)) {
-            const allowedValuesIntervalLength = maxZIndex - parentLayerZIndex;
-            const scale = upperBorder / allowedValuesIntervalLength;
-            summaryZIndex = Math.ceil(summaryZIndex / scale);
+            const zIndexContexValue = coverChildren
+              ? { parentLayerZIndex, maxZIndex: newZIndex }
+              : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
+
+            return (
+              <ZIndexContext.Provider value={zIndexContexValue}>
+                <div style={{ ...style, ...wrapperStyle }} ref={wrapperRef} {...props}>
+                  {children}
+                </div>
+              </ZIndexContext.Provider>
+            );
           }
 
-          summaryZIndex += parentLayerZIndex;
-
           return (
-            <ZIndexContext.Provider
-              value={{
-                parentLayerZIndex: shouldResetZIndexFromContext ? 0 : summaryZIndex,
-                maxZIndex: sholudCoverChildren || Number.isFinite(maxZIndex) ? summaryZIndex : Infinity,
-              }}
-            >
-              <div style={{ ...style, zIndex: summaryZIndex }} ref={wrapperRef} {...props}>
-                {children}
-              </div>
-            </ZIndexContext.Provider>
+            <div style={style} ref={wrapperRef} {...props}>
+              {children}
+            </div>
           );
         }}
       </ZIndexContext.Consumer>
-    ) : (
-      children
-    )) as JSX.Element;
+    );
+  }
+
+  private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
+    let newZIndex = this.zIndex;
+
+    if (Number.isFinite(maxZIndex)) {
+      const allowedValuesIntervalLength = maxZIndex - parentLayerZIndex;
+      const scale = upperBorder / allowedValuesIntervalLength;
+      newZIndex = Math.ceil(newZIndex / scale);
+    }
+
+    newZIndex += parentLayerZIndex;
+
+    return newZIndex;
   }
 }

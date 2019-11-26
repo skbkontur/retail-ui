@@ -5,7 +5,7 @@ import { withCreeveyOld } from 'creevey';
 import FlatTheme from '../lib/theming/themes/FlatTheme';
 import ThemeProvider from '../components/ThemeProvider';
 
-addDecorator(withCreeveyOld());
+addDecorator(withCreeveyOld({ skip: 'Story tests migration process' }));
 
 addDecorator(story => (
   <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
