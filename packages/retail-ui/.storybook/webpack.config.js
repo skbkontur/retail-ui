@@ -5,7 +5,6 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const enableReactTesting = process.env.enableReactTesting;
 const REACT_SELENIUM_TESTING_PATH = path.resolve(__dirname, '../../react-ui-testing/react-selenium-testing.js');
-const SCREENSHOT_TESTS_STYLES_PATH = path.resolve(__dirname, 'screenshotTestStyles.less');
 
 module.exports = async ({ config, mode }) => {
   const isProd = mode === 'PRODUCTION';
@@ -15,7 +14,6 @@ module.exports = async ({ config, mode }) => {
   if (enableReactTesting) {
     // needs to be inserted before React (i.e. config.js)
     config.entry.unshift(REACT_SELENIUM_TESTING_PATH);
-    config.entry.push(SCREENSHOT_TESTS_STYLES_PATH);
   }
 
   config.resolve.extensions.unshift('.ts', '.tsx');
