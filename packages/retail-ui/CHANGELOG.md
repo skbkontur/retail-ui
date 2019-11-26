@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.5](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.4...retail-ui@1.6.5) (2019-11-26)
+
+
+### Bug Fixes
+
+* **Popup:** disable call findDOMNode when location is null ([da7cd1c](https://github.com/skbkontur/retail-ui/commit/da7cd1c))
+
+
+
+
+
 ## [1.6.4](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.3...retail-ui@1.6.4) (2019-11-25)
 
 
