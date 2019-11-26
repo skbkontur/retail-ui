@@ -22,6 +22,20 @@ module.exports = async ({ config, mode }) => {
 
   config.module.rules = [
     {
+      test: /\.js$/,
+      loader: 'babel-loader',
+      include: REACT_SELENIUM_TESTING_PATH,
+      options: {
+        babelrc: false,
+        presets: ['@babel/preset-env'],
+        plugins: [
+          '@babel/plugin-transform-object-assign',
+          '@babel/plugin-transform-typeof-symbol',
+          '@babel/plugin-transform-runtime',
+        ],
+      },
+    },
+    {
       test: /\.jsx?$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
@@ -33,24 +47,6 @@ module.exports = async ({ config, mode }) => {
           '@babel/plugin-proposal-object-rest-spread',
           '@babel/plugin-transform-runtime',
         ],
-      },
-    },
-    {
-      test: /\.js$/,
-      loader: 'babel-loader',
-      include: REACT_SELENIUM_TESTING_PATH,
-      options: {
-        babelrc: false,
-        presets: [
-          [
-            '@babel/preset-env',
-            {
-              useBuiltIns: 'usage',
-              corejs: 3,
-            },
-          ],
-        ],
-        plugins: [],
       },
     },
     {
