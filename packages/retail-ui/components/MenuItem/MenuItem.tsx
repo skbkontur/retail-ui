@@ -133,7 +133,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
         tabIndex={-1}
       >
         {iconElement}
-        <span className={styles.content}>{content}</span>
+        <div className={styles.content}>{content}</div>
         {this.props.comment && (
           <div
             className={cx({

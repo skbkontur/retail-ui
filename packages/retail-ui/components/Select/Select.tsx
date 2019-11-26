@@ -407,7 +407,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
-        width={this.props.overflowItems ? this.props.width : "initial"}
+        width={this.props.width}
       >
         <Menu
           ref={this.refMenu}
