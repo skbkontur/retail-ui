@@ -418,12 +418,13 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private handleLayoutEvent = () => {
+    if (!this.state.location) {
+      return;
+    }
     if (this.anchorInstance) {
       this.updateAnchorElement(this.extractElement(this.anchorInstance));
     }
-    if (this.state.location) {
-      this.updateLocation();
-    }
+    this.updateLocation();
   };
 
   private handleDidUpdate = (prevProps: PopupState, props: PopupState) => {
