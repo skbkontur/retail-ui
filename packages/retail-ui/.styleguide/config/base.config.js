@@ -133,29 +133,17 @@ const webpackConfig = {
       },
       {
         test: /\.jsx?$/,
-        exclude: /node_modules(\/|\\)(?!buble)/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              babelrc: false,
-              presets: ['env', 'react'],
-              plugins: [
-                'transform-object-rest-spread',
-                'transform-class-properties',
-                [
-                  'transform-runtime',
-                  {
-                    helpers: false,
-                    polyfill: false,
-                    regenerator: true,
-                    moduleName: 'babel-runtime',
-                  },
-                ],
-              ],
-            },
-          },
-        ],
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          babelrc: false,
+          presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-flow'],
+          plugins: [
+            '@babel/plugin-proposal-class-properties',
+            '@babel/plugin-proposal-object-rest-spread',
+            '@babel/plugin-transform-runtime',
+          ],
+        },
       },
       {
         test: /\.(css|less)$/,
