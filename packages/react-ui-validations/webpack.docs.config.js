@@ -8,17 +8,17 @@ function readVersionFromPackageJson(packageJsonPath) {
 }
 
 const libraryVersion = readVersionFromPackageJson(path.resolve('package.json'));
+const isProd = process.env.NODE_ENV === 'production';
 
 function createConfig(publicPath, output) {
   return {
-    entry: {
-      index: [require.resolve('core-js/stable'), require.resolve('react-hot-loader/patch'), './docs/index.tsx'],
-    },
+    entry: ['core-js/stable', './docs/index.tsx'],
     output: {
       path: output,
       publicPath: publicPath,
       filename: '[name].js',
     },
+    mode: isProd ? 'production' : 'development',
     module: {
       rules: [
         {
@@ -60,6 +60,7 @@ function createConfig(publicPath, output) {
         SourceCode: path.resolve(__dirname, './docs/Common/SourceCode.tsx'),
         src: path.resolve(__dirname, './src'),
         docs: path.resolve(__dirname, './docs'),
+        'react-dom': '@hot-loader/react-dom',
       },
     },
     plugins: [
@@ -81,7 +82,7 @@ function createConfig(publicPath, output) {
   };
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (isProd) {
   module.exports = [
     createConfig(
       'http://tech.skbkontur.ru/react-ui-validations/' + libraryVersion + '/',

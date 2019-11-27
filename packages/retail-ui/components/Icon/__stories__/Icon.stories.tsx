@@ -56,6 +56,6 @@ class TestIcon extends React.Component<TestIconProps> {
   )
   .reverse()
   .reduce(
-    (stories, icons, index) => stories.add(`Icons - ${index + 1}`, () => icons),
+    (stories, icons, index) => stories.add(`Icons - ${index + 1}`, () => <>{icons}</>),
     storiesOf('Icon', module).addDecorator(story => <div style={rootStyle}>{story()}</div>),
   );
