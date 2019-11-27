@@ -22,6 +22,7 @@ import { PopupPosition } from '../../Popup';
 import ToastView from '../../Toast/ToastView';
 import { LoaderAndButton } from '../../Loader/__stories__/Loader.stories';
 import DropdownMenu from '../../DropdownMenu';
+import Sticky from '../../Sticky';
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -632,6 +633,48 @@ function ModalInLoaderAndModal() {
   );
 }
 
+function StickyAndLoader() {
+  return (
+    <div>
+      <Loader type="big" active>
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i}>
+            <p>Ехал лоадер через реку</p>
+            <p>Видит лоадер в реке стики</p>
+            <p>Cунул лоадер лоадер в стики</p>
+            <p>Стики лоадер лоадер стики</p>
+            <hr />
+          </div>
+        ))}
+      </Loader>
+      <Sticky side="bottom">
+        <p style={{ background: '#f99' }}>Use rxjs operators with react hooks</p>
+      </Sticky>
+    </div>
+  );
+}
+
+function StickyAndTooltips() {
+  return (
+    <div style={{ width: '500px' }}>
+      <div style={{ height: '120vh', position: 'relative', padding: '20px' }}>
+        <div style={{ position: 'absolute', bottom: '50vh' }}>
+          <Tooltip trigger="opened" pos="right top" render={() => <div style={{ lineHeight: '20vh' }}>Click me!</div>}>
+            <Select placeholder="Choose..." items={['One', 'Two', 'Three']} />
+          </Tooltip>
+        </div>
+      </div>
+      <Sticky side="bottom">
+        <div style={{ padding: '4vh 20px', width: '100%', background: '#e9e9e9' }}>
+          <Tooltip trigger="opened" pos="right middle" render={() => "I'm inside Sticky"}>
+            <Button>Close</Button>
+          </Tooltip>
+        </div>
+      </Sticky>
+    </div>
+  );
+}
+
 storiesOf('ZIndex', module)
   .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
   .add('ZSample', () => <ZSample total={3} />)
@@ -649,4 +692,6 @@ storiesOf('ZIndex', module)
   .add('Toast and Loader', () => <ToastAndLoader />)
   .add('Elements in Loader in Modal', () => <ElementsInLoaderInModal />)
   .add('Loader and SidePage', () => <LoaderAndSidePage />)
-  .add('Modal in Loader and Modal', () => <ModalInLoaderAndModal />);
+  .add('Modal in Loader and Modal', () => <ModalInLoaderAndModal />)
+  .add('Sticky and Loader', () => <StickyAndLoader />)
+  .add('Sticky and Tooltips', () => <StickyAndTooltips />);
