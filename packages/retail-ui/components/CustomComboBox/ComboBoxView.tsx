@@ -147,7 +147,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
               // tslint:disable-next-line:jsx-no-lambda
               getParent={() => findDOMNode(this)}
               offsetY={1}
-              offsetX={-1}
               disablePortal={this.props.disablePortal}
             >
               <ComboBoxMenu

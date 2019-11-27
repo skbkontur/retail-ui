@@ -67,6 +67,7 @@
 
 - `yarn workspace retail-ui <command>` - контролы
   - `test` — unit-тесты `Jest` + `Enzyme`
+  - `test:ui` — скриншотные тесты `Creevey`
   - `lint` — `tsc --noEmit` + `tslint` + `eslint` + `stylelint` + `flow --check`
   - `build` — сборка библиотеки
   - `storybook` — Storybook
@@ -75,9 +76,6 @@
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
   - `test` — интеграционные тесты с использованием `SeleniumTesting` (работает только во внутренней сети Контура)
-- `yarn workspace react-ui-selenium <command>` — скриншотные тесты
-  - `test:ui` - старт графического интерфейса для запуска тестов
-  - `test:update` - approve всех новых/сломанных скриншотов
 - `yarn workspace react-ui-validations <command>` - валидации
   - `start:docs` — документация
   - `test` — unit-тесты
@@ -197,9 +195,9 @@ Closes #1439
 ```
 packages/
 ├── ...
-├── react-ui-selenium/
 ├── react-ui-validations/
 └── retail-ui/
+    ├── .creevey/
     ├── .storybook/
     ├── .styleguide/
     ├── ...
@@ -217,9 +215,9 @@ packages/
 
 | Директория / Файл                              | Описание                                 |
 | ---------------------------------------------- | ---------------------------------------- |
-| `react-ui-selenium/`                           | [Скриншотные тесты](#скриншотные-тесты)  |
 | `react-ui-validations/`                        | Библиотека валидаций                     |
 | `retail-ui/`                                   | Библиотека контролов                     |
+| `retail-ui/.creevey/`                          | [Скриншотные тесты](#скриншотные-тесты)  |
 | `retail-ui/.storybook/`                        | Конфиг Storybook                         |
 | `retail-ui/.styleguide/`                       | Конфиг React Styleguidist                |
 | `retail-ui/components/`                        | Компоненты контролов                     |
@@ -249,12 +247,13 @@ packages/
 
 #### Запуск
 
-`yarn workspace react-ui-selenium test:ui`
+`yarn workspace retail-ui storybook:test` - запуск storybook со стилями для тестов  
+`yarn workspace retail-ui test:ui --ui` - запуск creevey
 
 #### Создание скриншотного теста
 
 1. Создать или выбрать готовую [story](#создание-story)
-2. Добавить новый сценарий в `packages/react-ui-selenium/tests/[ComponentName].ts`, например (где `Button` и `playground`, это `kind` и `story` в `Storybook` соответственно):
+2. Добавить новый сценарий в `packages/retail-ui/.creevey/tests/[ComponentName].ts`, например (где `Button` и `playground`, это `kind` и `story` в `Storybook` соответственно):
 
 ```
 describe('Button', function() {
@@ -268,7 +267,7 @@ describe('Button', function() {
 ```
 
 3. Через [gui](#запуск) запустить добавленный тест
-4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace react-ui-selenium test:update`
+4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace retail-ui test:ui --update`
 
 Существующие тесты обновляются тем же образом (шаги 3 и 4).
 

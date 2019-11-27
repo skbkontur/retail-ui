@@ -161,6 +161,10 @@ object RetailUi : GitVcsRoot({
         +:refs/tags/*
     """.trimIndent()
     useTagsAsBranches = true
+    authMethod = password {
+        userName = "skbkontur-bot"
+        password = "credentialsJSON:8159ccad-3d3e-43fa-9684-5cd8d9e83d0e"
+    }
 })
 
 object RetailUiTags : GitVcsRoot({
@@ -356,7 +360,7 @@ object ReactUI_Publish : BuildType({
 object ReactUI_ScreenshotTests : BuildType({
     name = "Screenshot tests"
 
-    artifactRules = "packages/react-ui-selenium/report => report.zip"
+    artifactRules = "packages/retail-ui/.creevey/report => report.zip"
 
     vcs {
         root(RetailUi)
@@ -369,9 +373,21 @@ object ReactUI_ScreenshotTests : BuildType({
             param("yarn_commands", "install")
         }
         step {
+            name = "Build Storybook"
+            type = "jonnyzzz.yarn"
+            param("yarn_commands", "workspace retail-ui storybook:build")
+        }
+        script {
+            name = "Start"
+            scriptContent = """
+                start /b yarn workspace retail-ui storybook:serve
+                ping 127.0.0.1 -n 11
+            """.trimIndent()
+        }
+        step {
             name = "Test UI"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace react-ui-selenium test")
+            param("yarn_commands", "workspace retail-ui test:ui")
         }
     }
 
