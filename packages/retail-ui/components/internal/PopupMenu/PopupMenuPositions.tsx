@@ -15,4 +15,9 @@ const PopupMenuPositions: PopupPosition[] = [
   'left bottom',
 ];
 
+export const positionsByAlign: { [key in 'left' | 'right']: PopupPosition[] } = {
+  left: ['bottom left', 'top left'],
+  right: ['bottom right', 'top right'],
+};
+
 export default PopupMenuPositions;

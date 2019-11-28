@@ -1,6 +1,5 @@
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import { InternalDate } from '../../lib/date/InternalDate';
 import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -9,10 +8,12 @@ import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../Calendar';
 import DateInput from '../DateInput';
 import { DateInput as PureDateInput } from '../DateInput/DateInput';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
 import styles from './DatePicker.module.less';
 import Picker from './Picker';
+import Popup from '../Popup';
+import { positionsByAlign } from '../internal/PopupMenu/PopupMenuPositions';
+import { findDOMNode } from 'react-dom';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -30,7 +31,7 @@ export interface DatePickerProps<T> {
   error?: boolean;
   minDate: T;
   maxDate: T;
-  menuAlign?: 'left' | 'right';
+  menuAlign: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
   warning?: boolean;
@@ -121,6 +122,7 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
+    menuAlign: 'left',
   };
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
@@ -151,6 +153,7 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
   public state: DatePickerState = { opened: false };
 
   private input: PureDateInput | null = null;
+  private inputDomNode?: Element;
   private focused: boolean = false;
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
@@ -199,29 +202,6 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
   }
 
   public render(): JSX.Element {
-    let picker = null;
-    const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
-    if (this.state.opened) {
-      picker = (
-        <DropdownContainer
-          // tslint:disable-next-line:jsx-no-lambda
-          getParent={() => findDOMNode(this)}
-          offsetY={2}
-          align={this.props.menuAlign}
-        >
-          <Picker
-            value={date}
-            minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
-            maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
-            onPick={this.handlePick}
-            onSelect={this.handleSelect}
-            enableTodayLink={this.props.enableTodayLink}
-            isHoliday={this.isHoliday}
-          />
-        </DropdownContainer>
-      );
-    }
-
     return (
       <label
         className={styles.root}
@@ -242,13 +222,47 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
           onFocus={this.handleFocus}
           onChange={this.props.onChange}
         />
-        {picker}
+        {this.renderPicker()}
       </label>
+    );
+  }
+
+  private renderPicker() {
+    if (!this.input) {
+      return null;
+    }
+    const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
+    return (
+      <Popup
+        anchorElement={this.inputDomNode}
+        opened={this.state.opened}
+        positions={positionsByAlign[this.props.menuAlign]}
+        hasPin={false}
+        hasShadow={true}
+        margin={2}
+        disableAnimations
+      >
+        <Picker
+          value={date}
+          minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
+          maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
+          onPick={this.handlePick}
+          onSelect={this.handleSelect}
+          enableTodayLink={this.props.enableTodayLink}
+          isHoliday={this.isHoliday}
+        />
+      </Popup>
     );
   }
 
   private getInputRef = (ref: PureDateInput | null) => {
     this.input = ref;
+    if (ref instanceof React.Component) {
+      const inputDomNode = findDOMNode(ref);
+      if (inputDomNode instanceof Element) {
+        this.inputDomNode = inputDomNode;
+      }
+    }
   };
 
   private parseValueToDate(value?: Nullable<string>): InternalDate | undefined {
