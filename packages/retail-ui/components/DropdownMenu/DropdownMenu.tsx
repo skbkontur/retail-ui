@@ -32,6 +32,11 @@ export interface DropdownMenuProps {
    * Не показывать анимацию
    */
   disableAnimations: boolean;
+
+  /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean,
 }
 
 /**
@@ -68,6 +73,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
         popupMargin={0}
         positions={this.props.positions}
         disableAnimations={this.props.disableAnimations}
+        disablePortal={this.props.disablePortal}
         header={this.props.header}
         footer={this.props.footer}
       >

@@ -16,6 +16,7 @@ export type TooltipProps = {|
   onCloseRequest?: () => void,
   allowedPositions?: PopupPosition[],
   disableAnimations?: boolean,
+  disablePortal?: boolean,
   useWrapper?: boolean,
 |};
 

@@ -24,6 +24,7 @@ export type HintProps = {|
   text: React$Node,
   disableAnimations?: boolean,
   useWrapper?: boolean,
+  disablePortal?: boolean,
   onMouseEnter?: (event: SyntheticMouseEvent<HTMLElement> | MouseEvent) => void,
   onMouseLeave?: (event: SyntheticMouseEvent<HTMLElement> | MouseEvent) => void,
 |};

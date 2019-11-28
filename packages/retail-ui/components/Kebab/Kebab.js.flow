@@ -9,6 +9,7 @@ export type KebabProps = {|
   positions?: PopupPosition[],
   menuMaxHeight?: number | string,
   disableAnimations?: boolean,
+  disablePortal?: boolean,
   children?: React$Node,
 |};
 
