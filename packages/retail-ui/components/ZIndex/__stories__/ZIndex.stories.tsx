@@ -635,7 +635,7 @@ function ModalInLoaderAndModal() {
 
 function StickyAndLoader() {
   return (
-    <div>
+    <>
       <Loader type="big" active>
         {Array.from({ length: 8 }).map((_, i) => (
           <div key={i}>
@@ -646,11 +646,14 @@ function StickyAndLoader() {
             <hr />
           </div>
         ))}
+        <Sticky side="bottom" offset={40}>
+          <p style={{ background: '#f99' }}>I'm Sticky inside Loader</p>
+        </Sticky>
       </Loader>
       <Sticky side="bottom">
-        <p style={{ background: '#f99' }}>Use rxjs operators with react hooks</p>
+        <p style={{ background: '#f99' }}>Sticky outsider</p>
       </Sticky>
-    </div>
+    </>
   );
 }
 
