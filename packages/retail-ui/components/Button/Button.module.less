@@ -54,19 +54,13 @@
       border-radius: 2px 2px 2px 16px;
       box-sizing: border-box;
       z-index: 1;
-
-      &.arrow_loading {
-        visibility: visible;
-      }
-    }
-
-    .arrow_left {
-      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important; /* to override `.arrow` dynamic styles */
     }
 
     .default,
     .arrow_warning,
-    .arrow_error {
+    .arrow_error,
+    .arrow_loading,
+    .arrow_left {
       visibility: visible;
     }
 
@@ -194,10 +188,6 @@
     .noRightPadding {
       padding-right: 0 !important; /* to override dynamic styles */
     }
-  }
-
-  .loading {
-    visibility: visible;
   }
 
   .borderless:not(.focus):not(.disabled):not(.active):not(.checked) {

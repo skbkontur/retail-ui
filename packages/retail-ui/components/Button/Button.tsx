@@ -247,9 +247,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
           className={cx({
             [classes.arrow]: true,
             [classes.arrow_left]: this.props.arrow === 'left',
-            [jsClasses.animationReverse()]: this.props.arrow === 'left',
             [classes.arrow_loading || '']: !!this.props.loading,
-            [jsClasses.loadingArrow()]: !!this.props.loading,
             [classes.arrow_warning || '']: isWarning,
             [classes.arrow_error || '']: isError,
             [jsClasses.arrow_warning(this.theme)]: isWarning,

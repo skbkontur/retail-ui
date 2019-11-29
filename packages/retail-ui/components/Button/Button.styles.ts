@@ -3,6 +3,16 @@ import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
+const btn_loading_arrow = keyframes`
+0% {
+  transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+}
+
+100% {
+  transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+}
+`;
+
 import {
   buttonUseMixin,
   buttonHoverMixin,
@@ -69,7 +79,15 @@ const jsClasses = {
         'rotate(53deg) skewX(24deg) skewY(10deg)',
       )};
 
-      ${buttonLoadingArrowMixin(t.btnSmallArrowTop, t.btnSmallArrowTop, '-207px', '441%')};
+      ${buttonLoadingArrowMixin(
+        t.btnSmallArrowTop,
+        t.btnSmallArrowTop,
+        '-207px',
+        '441%',
+        t.btnSmallArrowBg,
+        t.btnSmallArrowLeftLoadingDelay,
+        btn_loading_arrow,
+      )};
     `;
   },
 
@@ -84,12 +102,16 @@ const jsClasses = {
         t.btnPaddingYMedium,
       )};
 
-      ${buttonArrowMixin('9px', t.btnMediumArrowLeft, '-10.2px', '20.2px', t.btnMediumArrowTransform)};
-      ${buttonLoadingArrowMixin('0', '0', t.btnMediumArrowLeftLoadingLeft, '441%')};
-
-      .${classes.arrow}.${classes.arrow_loading}::before {
-        background: ${t.btnMediumArrowBg};
-      }
+      ${buttonArrowMixin('9px', t.btnMediumArrowLeft, t.btnMediumArrowRight, '20.2px', t.btnMediumArrowTransform)};
+      ${buttonLoadingArrowMixin(
+        '0',
+        '0',
+        t.btnMediumArrowLeftLoadingLeft,
+        '441%',
+        t.btnMediumArrowBg,
+        t.btnMediumArrowLeftLoadingDelay,
+        btn_loading_arrow,
+      )};
     `;
   },
 
@@ -106,11 +128,15 @@ const jsClasses = {
 
       ${buttonArrowMixin('10.2px', t.btnLargeArrowLeft, '-10.8px', '22.2px', t.btnLargeArrowTransform)};
 
-      ${buttonLoadingArrowMixin('-32px', '-36px', ' -198px', '700%')};
-
-      .${classes.arrow}.${classes.arrow_loading}::before {
-        background: ${t.btnLargeArrowBg};
-      }
+      ${buttonLoadingArrowMixin(
+        '-32px',
+        '-36px',
+        ' -198px',
+        '700%',
+        t.btnLargeArrowBg,
+        t.btnLargeArrowLeftLoadingDelay,
+        btn_loading_arrow,
+      )};
     `;
   },
 
@@ -138,7 +164,7 @@ const jsClasses = {
         text-decoration: ${t.linkHoverTextDecoration};
       }
 
-      &.${classes.root}:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
+      &.${classes.root}:not(.${classes.disabled}):not(.${classes.link}) {
         border: ${t.btnFocusBorder};
 
         &,
@@ -477,42 +503,6 @@ const jsClasses = {
         right: -30px;
         animation: ${btn_loading} 1s linear infinite;
         transform: rotateY(180deg) skewX(0deg) skewY(0deg);
-      }
-    `;
-  },
-
-  loadingArrow() {
-    const btn_loading_arrow = keyframes`
-    0% {
-      transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
-    }
-
-    100% {
-      transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
-    }
-  `;
-    return css`
-      overflow: hidden;
-
-      &::before {
-        background: linear-gradient(-56deg, transparent 47.5%, #ccc 0, #ccc 73.5%, transparent 0);
-        background-size: 41px 100%;
-        content: '';
-        display: block;
-        position: absolute;
-        opacity: 0.2;
-        left: -207px;
-        right: -72px;
-        transform: rotate(-47deg) skewX(0deg) skewY(0deg);
-        animation: ${btn_loading_arrow} 1s linear infinite;
-      }
-    `;
-  },
-
-  animationReverse() {
-    return css`
-       {
-        animation-direction: reverse;
       }
     `;
   },

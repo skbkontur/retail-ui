@@ -150,32 +150,46 @@ export const buttonArrowMixin = (top: string, left: string, right: string, size:
       height: ${size};
       width: ${size};
       transform: ${transform};
+      overflow: hidden;
     }
 
     .${classes.arrow_left} {
       left: ${left};
+      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
     }
   `;
 };
 
-export const buttonLoadingArrowMixin = (top: string, leftArrowTop: string, left: string, height: string) => {
+export const buttonLoadingArrowMixin = (
+  top: string,
+  leftArrowTop: string,
+  left: string,
+  height: string,
+  background: string,
+  delay: string,
+  btn_loading_arrow: string,
+) => {
   return css`
-    .${classes.arrow} {
-      &.${classes.arrow_loading} {
-        &::before {
-          top: ${top};
-          height: ${height};
-        }
-      }
+    .${classes.arrow}.${classes.arrow_loading}::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: ${top};
+      left: -207px;
+      right: -72px;
+      height: ${height};
+      background: ${background};
+      background-size: 41px 100%;
+      opacity: 0.2;
+      transform: rotate(-47deg) skewX(0deg) skewY(0deg);
+      animation: ${btn_loading_arrow} 1s linear infinite;
     }
 
-    .${classes.arrow_left} {
-      &.${classes.arrow_loading} {
-        &::before {
-          top: ${leftArrowTop};
-          left: ${left};
-        }
-      }
+    .${classes.arrow_left}.${classes.arrow_loading}::before {
+      top: ${leftArrowTop};
+      left: ${left};
+      animation-direction: reverse;
+      animation-delay: ${delay};
     }
   `;
 };
