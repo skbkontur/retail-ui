@@ -17,7 +17,6 @@
       {
         "helpers": false
       }
-    ],
-    "./scripts/babel/imports-less-to-css.js"
+    ]
   ]
 }
