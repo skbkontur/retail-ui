@@ -49,8 +49,8 @@ module: {
         {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'react'],
-            plugins: ['proposal-object-rest-spread', 'proposal-class-properties'],
+            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-flow'],
+            plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-object-rest-spread'],
           },
         },
       ],

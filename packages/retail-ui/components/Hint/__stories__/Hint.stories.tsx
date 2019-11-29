@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, select, text } from '@storybook/addon-knobs';
 
 import Hint from '../Hint';
 import Gapped from '../../Gapped';
@@ -8,16 +7,9 @@ import Input from '../../Input';
 import { PopupPositions } from '../../Popup';
 import Textarea from '../../Textarea';
 
-const getKnobs = () => ({
-  text: text('text', 'Hello!'),
-  pos: select('position', ['top', 'right', 'bottom', 'left'], 'top'),
-  maxWidth: text('max-width', '200'),
-});
-
 storiesOf('Hint', module)
   .addDecorator(story => <div style={{ padding: '100px 300px' }}>{story()}</div>)
-  .addDecorator(withKnobs)
-  .add('playground', () => <Hint {...getKnobs()}>Plain hint with knobs</Hint>)
+  .add('playground', () => <Hint text="Hello!">Plain hint with knobs</Hint>)
   .add('too much hints', () => (
     <Gapped gap={5}>
       {new Array(252).fill(null).map((_el, i) => (
