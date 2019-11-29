@@ -31,6 +31,7 @@ function transform(filename, code, opts) {
     filename,
     sourceMaps: true,
     retainLines: true,
+    plugins: ['./scripts/babel/imports-less-to-css.js'],
   });
   result.filename = filename;
   result.actual = code;
