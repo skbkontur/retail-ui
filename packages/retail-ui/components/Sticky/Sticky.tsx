@@ -89,7 +89,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
     if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
       if (this.reflowCounter < MAX_REFLOW_RETRIES) {
-        this.reflow();
+        LayoutEvents.emit();
         this.reflowCounter += 1;
         return;
       }
