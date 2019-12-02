@@ -4,6 +4,7 @@ const componentPriorities = {
   Toast: 10,
   Sidepage: 9,
   Modal: 9,
+  Sticky: 7,
   DropdownContainer: 5,
   Popup: 3,
   Loader: 1,
