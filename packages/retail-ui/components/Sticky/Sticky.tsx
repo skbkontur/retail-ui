@@ -7,6 +7,7 @@ import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import warning from 'warning';
 import shallowEqual from 'fbjs/lib/shallowEqual';
+import ZIndex from '../ZIndex';
 
 const MAX_REFLOW_RETRIES = 5;
 
@@ -88,7 +89,7 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   public componentDidUpdate(prevProps: StickyProps, prevState: StickyState) {
     if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
       if (this.reflowCounter < MAX_REFLOW_RETRIES) {
-        this.reflow();
+        LayoutEvents.emit();
         this.reflowCounter += 1;
         return;
       }
@@ -119,16 +120,18 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <div ref={this.refWrapper}>
-        <div
+        <ZIndex
+          priority="Sticky"
+          applyZIndex={fixed}
           className={cx(styles.inner, {
             [styles.fixed]: fixed,
             [styles.stopped]: stopped,
           })}
           style={innerStyle}
-          ref={this.refInner}
+          wrapperRef={this.refInner}
         >
           <div className={cx(styles.container)}>{children}</div>
-        </div>
+        </ZIndex>
         {fixed && !stopped ? <div style={{ width, height }} /> : null}
       </div>
     );

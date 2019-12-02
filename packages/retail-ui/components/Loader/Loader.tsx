@@ -113,24 +113,25 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private renderMain() {
     const { active, type, caption, className } = this.props;
-    const loaderClassName = cx(styles.loader, className, {
-      [styles.active]: active,
-      [jsStyles.active(this.theme)]: active,
-    });
 
     return (
-      <ZIndex
-        className={loaderClassName}
-        wrapperRef={this.wrapperRef}
-        priority={'Loader'}
-        applyZIndex={this.props.active}
-        coverChildren={this.props.active}
-        style={{ position: 'relative' }}
-      >
-        {this.props.children}
-
-        {active && this.renderSpinner(type, caption)}
-      </ZIndex>
+      <div style={{ position: 'relative' }} className={cx(styles.loader, className)}>
+        <ZIndex priority={'Loader'} applyZIndex={this.props.active} coverChildren={this.props.active}>
+          {this.props.children}
+        </ZIndex>
+        {active && (
+          <ZIndex
+            wrapperRef={this.wrapperRef}
+            priority={'Loader'}
+            className={cx({
+              [styles.active]: active,
+              [jsStyles.active(this.theme)]: active,
+            })}
+          >
+            {this.renderSpinner(type, caption)}
+          </ZIndex>
+        )}
+      </div>
     );
   }
 
