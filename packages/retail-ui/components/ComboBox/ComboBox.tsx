@@ -149,6 +149,8 @@ export interface ComboBoxProps<T> {
   onMouseOver?: (e: React.MouseEvent) => void;
 
   onMouseLeave?: (e: React.MouseEvent) => void;
+
+  onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
 }
 
 export interface ComboBoxItem {
