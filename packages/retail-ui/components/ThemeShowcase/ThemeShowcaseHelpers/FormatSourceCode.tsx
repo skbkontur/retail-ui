@@ -146,7 +146,6 @@ function renderTheme(children: React.ReactNode) {
 }
 
 function renderUnknown(unknown: string) {
-  warning(false, 'Could not parse variable content');
   return <span>{unknown}</span>;
 }
 
