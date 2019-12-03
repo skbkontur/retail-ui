@@ -189,7 +189,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
-  private wrapperElement: Nullable<HTMLElement> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -259,12 +258,8 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const { location } = this.state;
     return (
       <EmptyWrapper ref={child ? this.refAnchorElement : undefined}>
-        {React.isValidElement(child) && <child.type {...child.props} />}
-        {location && (
-          <div className={styles['popup-content-wrapper']} ref={this.refWrapperElement}>
-            {this.renderContent(location)}
-          </div>
-        )}
+        {child}
+        {location && <div className={styles['popup-content-wrapper']}>{this.renderContent(location)}</div>}
       </EmptyWrapper>
     );
   };
@@ -411,10 +406,6 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refWrapperElement = (element: HTMLDivElement) => {
-    this.wrapperElement = element;
-  };
-
   private refPopupElement = (zIndex: ZIndex | null) => {
     if (zIndex) {
       this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
@@ -530,7 +521,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
       const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
       if (isFullyVisible || canBecomeVisible) {
-        this.patchCoordinates(coordinates);
+        this.patchCoordinates(coordinates, anchorRect);
         return { coordinates, position };
       }
     }
@@ -538,25 +529,29 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     for (position of positions) {
       coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
       if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
-        this.patchCoordinates(coordinates);
+        this.patchCoordinates(coordinates, anchorRect);
         return { coordinates, position };
       }
     }
 
     position = positions[0];
     coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
-    this.patchCoordinates(coordinates);
+    this.patchCoordinates(coordinates, anchorRect);
     return { coordinates, position };
   }
 
-  private patchCoordinates(coordinates: { top: number; left: number }) {
-    if (!this.props.disablePortal || !this.wrapperElement) {
+  private patchCoordinates(coordinates: { top: number; left: number }, anchorRect: Rect) {
+    if (!this.props.disablePortal || !this.anchorElement) {
       return;
     }
-    const wrapperRect = this.wrapperElement && PopupHelper.getElementAbsoluteRect(this.wrapperElement);
+    const anchorStyle = getComputedStyle(this.anchorElement);
 
-    coordinates.top -= wrapperRect.top;
-    coordinates.left -= wrapperRect.left;
+    const anchorMarginLeft = parseInt(anchorStyle.getPropertyValue("margin-left"), 10);
+    const anchorMarginBottom = parseInt(anchorStyle.getPropertyValue("margin-bottom"), 10);
+
+    const anchorBottom = anchorRect.top + anchorRect.height;
+    coordinates.top -= anchorBottom + anchorMarginBottom;
+    coordinates.left -= anchorRect.left - anchorMarginLeft;
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
