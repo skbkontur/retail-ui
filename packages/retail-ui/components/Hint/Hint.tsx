@@ -37,6 +37,7 @@ export interface HintProps {
   text: React.ReactNode;
   disableAnimations: boolean;
   useWrapper: boolean;
+  disablePortal?: boolean;
 }
 
 export interface HintState {
@@ -106,6 +107,7 @@ class Hint extends React.Component<HintProps, HintState> {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         useWrapper={this.props.useWrapper}
+        disablePortal={this.props.disablePortal}
       >
         {this.renderContent()}
       </Popup>
