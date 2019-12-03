@@ -9,6 +9,7 @@ export type DropdownMenuProps = {|
   onOpen?: () => void,
   onClose?: () => void,
   disableAnimations?: boolean,
+  disablePortal?: boolean,
   children?: React$Node,
   header?: React$Node,
   footer?: React$Node,
