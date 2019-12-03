@@ -133,6 +133,11 @@ export interface TooltipProps {
   disableAnimations: boolean;
 
   /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean;
+
+  /**
    * Использовать обертку над children в виде <span />
    * @default true
    */
@@ -262,6 +267,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         opened={this.state.opened}
         pinOffset={POPUP_PIN_OFFSET}
         disableAnimations={this.props.disableAnimations}
+        disablePortal={this.props.disablePortal}
         positions={this.getPositions()}
         ignoreHover={this.props.trigger === 'hoverAnchor'}
         {...popupProps}
