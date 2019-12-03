@@ -11,6 +11,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   inputValue: string;
   showAddItemHint?: boolean;
   onAddItem: (item: string) => void;
+  disablePortal?: boolean;
 }
 
 @locale('TokenInput', TokenInputLocaleHelper)
@@ -39,6 +40,7 @@ export default class TokenInputMenu<T = string> extends React.Component<TokenInp
         anchorElement={this.props.anchorElement}
         margin={6}
         popupOffset={5}
+        disablePortal={this.props.disablePortal}
       >
         <ComboBoxMenu
           items={items}
