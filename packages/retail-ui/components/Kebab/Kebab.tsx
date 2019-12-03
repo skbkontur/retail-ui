@@ -39,6 +39,11 @@ export interface KebabProps {
    * Не показывать анимацию
    */
   disableAnimations: boolean;
+
+  /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean,
 }
 
 export interface KebabState {
@@ -104,6 +109,7 @@ export default class Kebab extends React.Component<KebabProps, KebabState> {
         onChangeMenuState={this.handleChangeMenuState}
         caption={this.renderCaption}
         disableAnimations={this.props.disableAnimations}
+        disablePortal={this.props.disablePortal}
       >
         {!disabled && this.props.children}
       </PopupMenu>
