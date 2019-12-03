@@ -186,4 +186,9 @@ describe('Modal', function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('closes by click on the background');
     });
   });
+  describe('Modal with veryLongHeaderWithoutSpaces', function() {
+    it('withLongHeader', async function() {
+      await expect(await this.browser.takeScreenshot()).to.matchImage('withLongHeader');
+    });
+  });
 });

@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.6](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.5...retail-ui@1.6.6) (2019-12-02)
+
+
+### Bug Fixes
+
+* **Loader:** correctly work with Sticky ([493cd18](https://github.com/skbkontur/retail-ui/commit/493cd18))
+* **Modal:** added word-break: break-word to Modal.Header ([#1754](https://github.com/skbkontur/retail-ui/issues/1754)) ([96f5bc5](https://github.com/skbkontur/retail-ui/commit/96f5bc5))
+* **Sticky:** correct work with other ZIndex components ([d198ee1](https://github.com/skbkontur/retail-ui/commit/d198ee1)), closes [#1750](https://github.com/skbkontur/retail-ui/issues/1750) [#1764](https://github.com/skbkontur/retail-ui/issues/1764)
+* **ZIndex:** don't call remount children components ([5db3a29](https://github.com/skbkontur/retail-ui/commit/5db3a29)), closes [#1761](https://github.com/skbkontur/retail-ui/issues/1761)
+
+
+
+
+
 ## [1.6.5](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.4...retail-ui@1.6.5) (2019-11-26)
 
 
