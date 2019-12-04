@@ -5,17 +5,17 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "ast-types": "0.12.1",
+    "ast-types": "0.13.2",
     "easy-renamer": "^0.3.1",
     "glob": "^7.1.2",
-    "jest": "^23.1.0",
-    "jscodeshift": "^0.6.3",
-    "shelljs": "^0.8.2"
+    "jest": "^24.9.0",
+    "jscodeshift": "^0.6.4",
+    "shelljs": "^0.8.3"
   },
   "scripts": {
     "test": "jest"
   },
   "devDependencies": {
-    "@types/jscodeshift": "^0.6.0"
+    "@types/jscodeshift": "^0.6.3"
   }
 }
