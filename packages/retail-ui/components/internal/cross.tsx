@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ExecutionEnvironment from 'exenv';
+import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
 
 // Windows XP fonts don't include the cross character used for the close button.
 // So we use another one on XP only, because it looks ugly on modern systems.
