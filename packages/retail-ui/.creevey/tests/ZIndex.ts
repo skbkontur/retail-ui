@@ -159,4 +159,21 @@ describe('ZIndex', function() {
       await expect(await this.browser.takeScreenshot()).to.matchImage('Modal cover Loader in Modal');
     });
   });
+  describe('Sticky and Loader', function() {
+    it('Sticky covers sibling Loader', async function() {
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Sticky covers sibling Loader');
+    });
+  });
+  describe('Sticky and Tooltips', function() {
+    it('Sticky covers outside Popup and DropdownContainer', async function() {
+      await this.browser
+        .actions({ bridge: true })
+        .click(this.browser.findElement(By.css('[data-comp-name~="Select"]')))
+        .perform();
+
+      await expect(await this.browser.takeScreenshot()).to.matchImage(
+        'Sticky covers outside Popup and DropdownContainer',
+      );
+    });
+  });
 });
