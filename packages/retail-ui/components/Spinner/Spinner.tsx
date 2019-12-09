@@ -82,15 +82,15 @@ class Spinner extends React.Component<SpinnerProps> {
     return (
       <div className={styles.spinner}>
         <span className={styles.inner}>
-          {hasSvgAnimationSupport && this._renderSpinner(type)}
+          {hasSvgAnimationSupport && this.renderSpinner(type)}
           {!hasSvgAnimationSupport && <SpinnerFallback type={type} dimmed={dimmed} />}
         </span>
-        {caption && this._renderCaption(type, caption)}
+        {caption && this.renderCaption(type, caption)}
       </div>
     );
   }
 
-  private _renderCloud = (type: Exclude<SpinnerType, 'mini'>) => {
+  private renderCloud = (type: Exclude<SpinnerType, 'mini'>) => {
     const bgClassName = jsStyles.cloudBg(this.theme);
     const strokeClassName = cx(
       styles.cloudStroke,
@@ -104,7 +104,7 @@ class Spinner extends React.Component<SpinnerProps> {
     );
   };
 
-  private _renderCircle = () => {
+  private renderCircle = () => {
     const theme = this.theme;
     const strokeClassName = this.props.dimmed ? jsStyles.circleStrokeDimmed(theme) : jsStyles.circleStroke(theme);
 
@@ -115,11 +115,11 @@ class Spinner extends React.Component<SpinnerProps> {
     );
   };
 
-  private _renderSpinner = (type: SpinnerType) => {
-    return type === 'mini' ? this._renderCircle() : this._renderCloud(type);
+  private renderSpinner = (type: SpinnerType) => {
+    return type === 'mini' ? this.renderCircle() : this.renderCloud(type);
   };
 
-  private _renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
+  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
     const captionClassName = cx(
       styles.caption,
       jsStyles.caption(this.theme),
