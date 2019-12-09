@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Popup, { PopupPosition, PopupProps } from '../Popup';
 import RenderLayer, { RenderLayerProps } from '../RenderLayer';
-import CROSS from '../internal/cross';
+import CrossIcon from '../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Tooltip.module.less';
 import warning from 'warning';
@@ -232,7 +232,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
     return (
       <span className={cx(styles.cross, jsStyles.cross(this.theme))} onClick={this.handleCloseButtonClick}>
-        {CROSS}
+        <CrossIcon />
       </span>
     );
   }
