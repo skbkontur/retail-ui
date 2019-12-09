@@ -19,6 +19,7 @@ interface MenuProps {
   maxHeight?: number | string;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
+  minWidth?: number | string;
   preventWindowScroll?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 
@@ -108,6 +109,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
         className={cx(styles.root, jsStyles.root(this.theme), this.props.hasShadow && styles.shadow)}
         style={{
           width: this.props.width,
+          minWidth: this.props.minWidth,
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}

@@ -34,10 +34,13 @@ export interface PopupMenuProps {
    * в таком случае управлять открытием и закрытием меню
    * придется в этой функции
    */
-  caption: React.ReactNode | ((props: PopupMenuCaptionProps) => React.ReactNode);
+  caption: Element | React.ReactNode | ((props: PopupMenuCaptionProps) => React.ReactNode);
 
   header?: React.ReactNode;
   footer?: React.ReactNode;
+
+  // onItemSelection?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
 
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: PopupPosition[];
@@ -46,6 +49,7 @@ export interface PopupMenuProps {
   /** Пропсы, передающиеся в Popup */
   popupHasPin?: boolean;
   popupMargin?: number;
+  popupOffset?: number;
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
@@ -83,6 +87,8 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   private menu: Nullable<InternalMenu> = null;
 
   public render() {
+    const minWidth = this.props.caption instanceof Element && this.props.caption.getBoundingClientRect().width;
+    const captionIsElement = this.props.caption instanceof Element;
     return (
       <RenderLayer
         onClickOutside={this.hideMenuWithoutFocusing}
@@ -90,14 +96,16 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
         active={this.state.menuVisible}
       >
         <div className={styles.container}>
-          {this.renderCaption()}
-          {this.captionWrapper &&
+          {!captionIsElement && this.renderCaption()}
+          {(captionIsElement || this.captionWrapper) &&
             this.props.children && (
               <Popup
-                anchorElement={this.captionWrapper}
+                anchorElement={captionIsElement ? this.props.caption : this.captionWrapper}
+                useWrapper={true}
                 opened={this.state.menuVisible}
                 hasShadow
                 margin={this.props.popupMargin}
+                popupOffset={this.props.popupOffset}
                 hasPin={this.props.popupHasPin}
                 pinOffset={this.props.popupPinOffset}
                 positions={this.getPositions()}
@@ -110,6 +118,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
+                  minWidth={minWidth || undefined}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
@@ -216,6 +225,10 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(e);
+    }
+
     if (isKeyEscape(e)) {
       const restoreFocus = true;
       this.hideMenu(restoreFocus);

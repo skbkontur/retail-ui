@@ -1,23 +1,14 @@
-import {
-  isKeyArrowDown,
-  isKeyArrowUp,
-  isKeyArrowVertical,
-  isKeyEnter,
-  isKeyEscape,
-  isKeySpace,
-} from '../../lib/events/keyboard/identifiers';
+import { isKeyArrowVertical, isKeySpace } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
 import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import Button from '../Button';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
 import Input from '../Input';
 import invariant from 'invariant';
 import Link from '../Link';
-import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem/MenuItem';
 import MenuSeparator from '../MenuSeparator/MenuSeparator';
 import RenderLayer from '../RenderLayer';
@@ -31,6 +22,8 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Select.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import PopupMenu from '../internal/PopupMenu';
+import { positionsByAlign } from '../internal/PopupMenu/PopupMenuPositions';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -214,9 +207,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
   private theme!: ITheme;
   private readonly locale!: SelectLocale;
-  private menu: Nullable<Menu>;
+  private popupMenu: Nullable<PopupMenu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
+  private buttonDomElement?: Element;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -245,6 +239,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     if (!this.state.opened) {
       this.setState({ opened: true });
 
+      if (this.popupMenu) {
+        this.popupMenu.open();
+      }
+
       if (this.props.onOpen) {
         this.props.onOpen();
       }
@@ -257,6 +255,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
   public close = () => {
     if (this.state.opened) {
       this.setState({ opened: false });
+
+      if (this.popupMenu) {
+        this.popupMenu.close();
+      }
 
       if (this.props.onClose) {
         this.props.onClose();
@@ -295,7 +297,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
       <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
         <span className={styles.root} style={style}>
           {button}
-          {!this.props.disabled && this.state.opened && this.renderMenu()}
+          {this.renderMenu()}
         </span>
       </RenderLayer>
     );
@@ -401,55 +403,49 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     const value = this.getValue();
 
     return (
-      <DropdownContainer
-        getParent={this.dropdownContainerGetParent}
-        offsetY={-1}
-        align={this.props.menuAlign}
+      <PopupMenu
+        caption={this.buttonDomElement}
         disablePortal={this.props.disablePortal}
+        positions={positionsByAlign[this.props.menuAlign || 'left']}
+        popupHasPin={false}
+        onKeyDown={this.handleKey}
+        disableAnimations
+        menuMaxHeight={this.props.maxMenuHeight}
+        menuWidth={this.props.menuWidth}
+        ref={this.refMenu}
       >
-        <Menu
-          ref={this.refMenu}
-          width={this.props.menuWidth}
-          onItemClick={this.close}
-          maxHeight={this.props.maxMenuHeight}
-        >
-          {search}
-          {this.mapItems(
-            (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
-              if (isFunction(item)) {
-                const element = item();
+        {search}
+        {this.mapItems(
+          (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
+            if (isFunction(item)) {
+              const element = item();
 
-                if (React.isValidElement(element)) {
-                  return React.cloneElement(element, { key: i });
-                }
-
-                return null;
+              if (React.isValidElement(element)) {
+                return React.cloneElement(element, { key: i });
               }
 
-              if (React.isValidElement(item)) {
-                return React.cloneElement(item, { key: i });
-              }
+              return null;
+            }
 
-              return (
-                <MenuItem
-                  key={i}
-                  state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
-                  onClick={this.select.bind(this, iValue)}
-                  comment={comment}
-                >
-                  {this.getProps().renderItem(iValue, item)}
-                </MenuItem>
-              );
-            },
-          )}
-        </Menu>
-      </DropdownContainer>
+            if (React.isValidElement(item)) {
+              return React.cloneElement(item, { key: i });
+            }
+
+            return (
+              <MenuItem
+                key={i}
+                state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
+                onClick={this.select.bind(this, iValue)}
+                comment={comment}
+              >
+                {this.getProps().renderItem(iValue, item)}
+              </MenuItem>
+            );
+          },
+        )}
+      </PopupMenu>
     );
   }
-
-  private dropdownContainerGetParent = () => {
-    return ReactDOM.findDOMNode(this);
-  };
 
   private focusInput = (input: Input) => {
     if (input) {
@@ -457,8 +453,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     }
   };
 
-  private refMenu = (menu: Menu) => {
-    this.menu = menu;
+  private refMenu = (menu: PopupMenu) => {
+    this.popupMenu = menu;
   };
 
   private toggle = () => {
@@ -475,32 +471,8 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         e.preventDefault();
         this.open();
       }
-    } else {
-      switch (true) {
-        case isKeyEscape(e):
-          this.focus();
-          this.close();
-          break;
-        case isKeyArrowUp(e):
-          e.preventDefault();
-          if (this.menu) {
-            this.menu.up();
-          }
-          break;
-        case isKeyArrowDown(e):
-          e.preventDefault();
-          if (this.menu) {
-            this.menu.down();
-          }
-          break;
-        case isKeyEnter(e):
-          e.preventDefault(); // To prevent form submission.
-          if (this.menu) {
-            this.menu.enter(e);
-          }
-          break;
-      }
     }
+
     if (this.props.onKeyDown) {
       this.props.onKeyDown(e);
     }
@@ -566,6 +538,12 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
   private buttonRef = (element: FocusableReactElement | null) => {
     this.buttonElement = element;
+    if (this.buttonElement instanceof React.Component) {
+      const elementDomNode = findDOMNode(this.buttonElement);
+      if (elementDomNode instanceof Element) {
+        this.buttonDomElement = elementDomNode;
+      }
+    }
   };
 
   private getButton = (buttonParams: ButtonParams) => {
@@ -576,9 +554,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     const buttonElement = React.Children.only(button);
 
     return React.cloneElement(buttonElement, {
-      ref: (element: FocusableReactElement) => {
-        this.buttonRef(element);
-      },
+      ref: this.buttonRef,
       onFocus: this.props.onFocus,
       onBlur: this.props.onBlur,
     });
