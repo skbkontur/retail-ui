@@ -4,12 +4,13 @@ import { Nullable } from '../../typings/utility-types';
 import { RenderInnerContainer as RenderContainerFallback } from './RenderContainerFallback';
 import { RenderInnerContainer as RenderContainerNative } from './RenderContainerNative';
 import { RenderContainerProps } from './RenderContainerTypes';
+import { getRandomID } from '../../lib/utils';
 
 const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
 const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
 export class RenderContainer extends React.Component<RenderContainerProps> {
-  private static getRootId = () => Math.random().toString(16).slice(2, 6);
+  private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
 
   private readonly rootId: string = RenderContainer.getRootId();

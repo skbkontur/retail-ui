@@ -64,7 +64,6 @@
     "stylis-plugin-extra-scope": "^0.1.1",
     "tabbable": "^4.0.0",
     "tslib": "^1.10.0",
-    "uuid": "^3.3.2",
     "warning": "^4.0.3"
   },
   "devDependencies": {
