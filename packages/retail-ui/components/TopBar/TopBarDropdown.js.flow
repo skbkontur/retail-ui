@@ -1,5 +1,5 @@
 /* @flow */
-import type { IconProps } from '../Icon/20px';
+import type { IconProps } from '../internal/icons/20px';
 
 export type ButtonParams = {|
   disabled?: boolean,

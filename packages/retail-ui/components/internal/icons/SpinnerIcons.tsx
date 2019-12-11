@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const CircleIcon = ({ strokeClassName }: { strokeClassName: string }) => (
   <svg width="16" height="16">
     <circle cx="8" cy="8" r="6" strokeWidth="1.5" className={strokeClassName} />
@@ -13,19 +15,9 @@ const CLOUD_SVG_PATH = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
       20.0862989 C43,14.3602091 38.493302,9.5769573 32.7403918,
       9.19661922 L32.0297086,9.1495774 Z`;
 
-const CLOUD_SIZE_MAP = {
-  normal: {
-    height: 35,
-    width: 47,
-    viewBox: undefined,
-    strokeWidth: 2,
-  },
-  big: {
-    height: 70,
-    width: 94,
-    viewBox: '0 0 47 35',
-    strokeWidth: 2,
-  },
+export const CLOUD_SIZE = {
+  height: 35,
+  width: 47,
 };
 
 export const CloudIcon = ({
@@ -37,11 +29,11 @@ export const CloudIcon = ({
   bgClassName: string;
   strokeClassName: string;
 }) => {
-  const params = CLOUD_SIZE_MAP[size];
+  const multiply = size === 'big' ? 2 : 1;
   return (
-    <svg width={params.width} height={params.height} viewBox={params.viewBox}>
-      <path d={CLOUD_SVG_PATH} strokeWidth={params.strokeWidth} className={bgClassName} />
-      <path d={CLOUD_SVG_PATH} strokeWidth={params.strokeWidth} className={strokeClassName} />
+    <svg width={CLOUD_SIZE.width * multiply} height={CLOUD_SIZE.height * multiply} viewBox="0 0 47 35">
+      <path d={CLOUD_SVG_PATH} strokeWidth="2" className={bgClassName} />
+      <path d={CLOUD_SVG_PATH} strokeWidth="2" className={strokeClassName} />
     </svg>
   );
 };

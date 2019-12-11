@@ -1,5 +1,4 @@
 /* @flow */
-import { types } from './settings';
 
 declare export var SpinnerConfig: {|
   hasSvgAnimationSupport: boolean,
@@ -14,7 +13,9 @@ export type SpinnerProps = {|
 |};
 
 declare class Spinner extends React$Component<SpinnerProps> {
-  static Types: typeof types;
+  static Types: {
+    [key: string]: SpinnerType,
+  };
 }
 
 export default Spinner;

@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { locale } from '../LocaleProvider/decorators';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 import styles from './Spinner.module.less';
-import SpinnerFallback from './SpinnerFallback';
+import SpinnerFallback, { types } from './SpinnerFallback';
 import jsStyles from './Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
@@ -12,14 +12,6 @@ import { hasSvgAnimationSupport } from '../../lib/utils';
 import { CloudIcon, CircleIcon } from '../internal/icons/SpinnerIcons';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
-
-export const types: {
-  [key: string]: SpinnerType;
-} = {
-  big: 'big',
-  mini: 'mini',
-  normal: 'normal',
-};
 
 export interface SpinnerProps {
   caption?: React.ReactNode;
@@ -57,7 +49,7 @@ class Spinner extends React.Component<SpinnerProps> {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  public static defaultProps = {
+  public static defaultProps: SpinnerProps = {
     type: 'normal',
   };
 
