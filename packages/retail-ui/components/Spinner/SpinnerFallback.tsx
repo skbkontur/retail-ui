@@ -69,8 +69,10 @@ export default class SpinnerFallback extends React.Component<SpinnerFallbackProp
     const cssSet: React.CSSProperties = {
       backgroundImage: `url('${this.imageUrls[dimmed ? 'dimmed' : 'mini']}')`,
       height: 16,
-      top: 2,
       width: 16,
+      marginBottom: -3,
+      marginLeft: -1,
+      marginRight: -1,
     };
 
     if (!process.env.enableReactTesting) {

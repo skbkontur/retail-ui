@@ -1,9 +1,21 @@
 import React from 'react';
+import { cx } from '../../../lib/theming/Emotion';
+import styles from './SpinnerIcons.module.less';
 
-export const CircleIcon = ({ strokeClassName }: { strokeClassName: string }) => (
-  <svg width="16" height="16">
-    <circle cx="8" cy="8" r="6" strokeWidth="1.5" className={strokeClassName} />
-  </svg>
+export const CircleIcon = ({ className }: { className: string }) => (
+  <span className={styles.root}>
+    <svg
+      className={cx(styles.icon, className)}
+      width="16"
+      height="16"
+      fill="none"
+      strokeDasharray="10, 27"
+      strokeDashoffset="0"
+      strokeWidth="1.5px"
+    >
+      <circle cx="8" cy="8" r="6" />
+    </svg>
+  </span>
 );
 
 const CLOUD_SVG_PATH = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
@@ -22,18 +34,18 @@ export const CLOUD_SIZE = {
 
 export const CloudIcon = ({
   size,
-  bgClassName,
   strokeClassName,
+  className,
 }: {
   size: 'normal' | 'big';
-  bgClassName: string;
   strokeClassName: string;
+  className: string;
 }) => {
   const multiply = size === 'big' ? 2 : 1;
   return (
     <svg width={CLOUD_SIZE.width * multiply} height={CLOUD_SIZE.height * multiply} viewBox="0 0 47 35">
-      <path d={CLOUD_SVG_PATH} strokeWidth="2" className={bgClassName} />
       <path d={CLOUD_SVG_PATH} strokeWidth="2" className={strokeClassName} />
+      <path d={CLOUD_SVG_PATH} strokeWidth="2" className={className} />
     </svg>
   );
 };

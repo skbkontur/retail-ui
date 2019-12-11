@@ -83,28 +83,23 @@ class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderCloud = (type: Exclude<SpinnerType, 'mini'>) => {
-    const bgClassName = jsStyles.cloudBg(this.theme);
-    const strokeClassName = cx(
+    const cloudClassName = cx(
       styles.cloudStroke,
-      this.props.dimmed ? jsStyles.cloudStrokeDimmed(this.theme) : jsStyles.cloudStroke(this.theme),
+      this.props.dimmed ? jsStyles.cloudDimmed(this.theme) : jsStyles.cloud(this.theme),
     );
 
     return (
       <span className={styles.cloud}>
-        <CloudIcon size={type} bgClassName={bgClassName} strokeClassName={strokeClassName} />
+        <CloudIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
       </span>
     );
   };
 
   private renderCircle = () => {
     const theme = this.theme;
-    const strokeClassName = this.props.dimmed ? jsStyles.circleStrokeDimmed(theme) : jsStyles.circleStroke(theme);
+    const circleClassName = this.props.dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
 
-    return (
-      <span className={cx(styles.circle, jsStyles.circle(theme))}>
-        <CircleIcon strokeClassName={strokeClassName} />
-      </span>
-    );
+    return <CircleIcon className={circleClassName} />;
   };
 
   private renderSpinner = (type: SpinnerType) => {
