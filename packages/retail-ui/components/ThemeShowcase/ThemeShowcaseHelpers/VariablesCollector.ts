@@ -53,48 +53,51 @@ if (IS_PROXY_SUPPORTED) {
       const themes = baseThemes.map(t => new Proxy(t, elementProxyHandler));
       themes.forEach(t => jsStyle(t));
 
-      const contents = formatSourceCode(jsStyle.toString(), componentName);
       const variables = Array.from(variablesAccumulator);
 
-      componentDescription[elementName] = { contents, variables, dependencies };
+      if (variables.length > 0) {
+        const contents = formatSourceCode(jsStyle.toString(), componentName);
 
-      variables.forEach(variableName => {
-        if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
-          COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName] = {};
-        }
+        componentDescription[elementName] = { contents, variables, dependencies };
 
-        const variableNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName];
-        if (!variableNode[componentName]) {
-          variableNode[componentName] = {};
-        }
+        variables.forEach(variableName => {
+          if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
+            COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName] = {};
+          }
 
-        const componentNode = variableNode[componentName];
-        if (!componentNode[elementName]) {
-          componentNode[elementName] = {
-            contents,
-            dependencies,
-            variables: [variableName],
-          };
-        } else if (!componentNode[elementName].variables.includes(variableName)) {
-          componentNode[elementName].contents = contents;
-          componentNode[elementName].dependencies = dependencies;
-          componentNode[elementName].variables.push(variableName);
-        }
+          const variableNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName];
+          if (!variableNode[componentName]) {
+            variableNode[componentName] = {};
+          }
 
-        const dependenciesList = dependencies[variableName];
-        if (dependenciesList) {
-          dependenciesList.forEach(dependencyName => {
-            if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
-              COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
-            }
+          const componentNode = variableNode[componentName];
+          if (!componentNode[elementName]) {
+            componentNode[elementName] = {
+              contents,
+              dependencies,
+              variables: [variableName],
+            };
+          } else if (!componentNode[elementName].variables.includes(variableName)) {
+            componentNode[elementName].contents = contents;
+            componentNode[elementName].dependencies = dependencies;
+            componentNode[elementName].variables.push(variableName);
+          }
 
-            const dependencyNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName];
-            if (!dependencyNode[componentName]) {
-              dependencyNode[componentName] = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName][componentName];
-            }
-          });
-        }
-      });
+          const dependenciesList = dependencies[variableName];
+          if (dependenciesList) {
+            dependenciesList.forEach(dependencyName => {
+              if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
+                COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
+              }
+
+              const dependencyNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName];
+              if (!dependencyNode[componentName]) {
+                dependencyNode[componentName] = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName][componentName];
+              }
+            });
+          }
+        });
+      }
     });
 
     COMPONENT_DESCRIPTIONS[componentName] = componentDescription;

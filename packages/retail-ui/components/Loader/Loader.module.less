@@ -13,19 +13,16 @@
     position: relative;
     width: 100%;
     z-index: inherit;
+  }
 
-    &.active::after {
-      content: ' ';
-      z-index: 500;
-      .fillContainerPosition;
-    }
+  .active {
+    .fillContainerPosition;
   }
 
   .spinnerContainer {
     display: block;
     margin: auto;
     text-align: center;
-    z-index: 501;
   }
 
   .spinnerContainerCenter {
