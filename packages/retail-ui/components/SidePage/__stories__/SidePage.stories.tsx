@@ -64,14 +64,14 @@ class Sample extends React.Component<SampleProps, SampleState> {
           {this.props.total &&
             this.props.current &&
             this.props.total > this.props.current && (
-              <Sample
-                current={this.props.current + 1}
-                total={this.props.total}
-                ignoreBackgroundClick={this.props.ignoreBackgroundClick}
-                withContent={this.props.withContent}
-                blockBackground={this.props.blockBackground}
-              />
-            )}
+            <Sample
+              current={this.props.current + 1}
+              total={this.props.total}
+              ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+              withContent={this.props.withContent}
+              blockBackground={this.props.blockBackground}
+            />
+          )}
           <div>
             <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
@@ -342,8 +342,10 @@ class WithVariableContent extends React.Component<{}, WithVariableContentState> 
     return (
       <div>
         {this.state.opened && this.renderSidePage()}
-        {this.state.pageText.map(() => (
-          <div style={{ height: '400px' }}>Use rxjs operators with react hooks</div>
+        {this.state.pageText.map((t, i) => (
+          <div key={i} style={{ height: '400px' }}>
+            Use rxjs operators with react hooks
+          </div>
         ))}
         <Button onClick={this.open}>Open</Button>
       </div>

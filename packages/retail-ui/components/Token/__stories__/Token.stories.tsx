@@ -82,18 +82,24 @@ storiesOf('Token', module)
       <>
         <Gapped vertical={true}>
           <Gapped>
-            {default_colors.map(c => (
-              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
+            {default_colors.map((c, i) => (
+              <Token key={i} colors={c}>
+                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+              </Token>
             ))}
           </Gapped>
           <Gapped>
-            {l_colors.map(c => (
-              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
+            {l_colors.map((c, i) => (
+              <Token key={i} colors={c}>
+                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+              </Token>
             ))}
           </Gapped>
           <Gapped>
-            {d_colors.map(c => (
-              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
+            {d_colors.map((c, i) => (
+              <Token key={i} colors={c}>
+                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+              </Token>
             ))}
           </Gapped>
         </Gapped>
