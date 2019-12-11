@@ -145,7 +145,7 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.1.0",
     "typed-css-modules-loader": "^0.0.18",
-    "typescript": "^3.3.3333",
+    "typescript": "^3.7.3",
     "url-loader": "^3.0.0",
     "wait-on": "^3.3.0",
     "webpack": "^4.41.2",

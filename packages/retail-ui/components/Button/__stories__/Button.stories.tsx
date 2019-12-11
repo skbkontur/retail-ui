@@ -185,5 +185,5 @@ function getProps<TKey extends keyof ButtonProps>(
   key: TKey,
   values: Array<ButtonProps[TKey]>,
 ): Array<{ props: Pick<ButtonProps, TKey> }> {
-  return values.map(x => ({ props: { [key]: x } }));
+  return values.map(x => ({ props: { [key]: x } as Pick<ButtonProps, TKey> }));
 }
