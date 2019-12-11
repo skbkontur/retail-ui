@@ -188,6 +188,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
+  private wrapperElement: Nullable<HTMLDivElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
 
   public componentDidMount() {
@@ -259,7 +260,11 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     return (
       <EmptyWrapper ref={child ? this.refAnchorElement : undefined}>
         {child}
-        {location && <div className={styles['popup-content-wrapper']}>{this.renderContent(location)}</div>}
+        {location && (
+          <div ref={this.refWrapperElement} className={styles['popup-content-wrapper']}>
+            {this.renderContent(location)}
+          </div>
+        )}
       </EmptyWrapper>
     );
   };
@@ -269,6 +274,10 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     const element = this.extractElement(instance);
     this.updateAnchorElement(element);
     this.anchorElement = element;
+  };
+
+  private refWrapperElement = (element: HTMLDivElement) => {
+    this.wrapperElement = element;
   };
 
   private extractElement(instance: React.ReactInstance | null) {
@@ -521,7 +530,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
       const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
       const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
       if (isFullyVisible || canBecomeVisible) {
-        this.patchCoordinates(coordinates, anchorRect);
+        this.patchCoordinates(coordinates);
         return { coordinates, position };
       }
     }
@@ -529,29 +538,25 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     for (position of positions) {
       coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
       if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
-        this.patchCoordinates(coordinates, anchorRect);
+        this.patchCoordinates(coordinates);
         return { coordinates, position };
       }
     }
 
     position = positions[0];
     coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
-    this.patchCoordinates(coordinates, anchorRect);
+    this.patchCoordinates(coordinates);
     return { coordinates, position };
   }
 
-  private patchCoordinates(coordinates: { top: number; left: number }, anchorRect: Rect) {
-    if (!this.props.disablePortal || !this.anchorElement) {
+  private patchCoordinates(coordinates: { top: number; left: number }) {
+    if (!this.props.disablePortal || !this.wrapperElement) {
       return;
     }
-    const anchorStyle = getComputedStyle(this.anchorElement);
+    const wrapperRect = PopupHelper.getElementAbsoluteRect(this.wrapperElement);
 
-    const anchorMarginLeft = parseInt(anchorStyle.getPropertyValue("margin-left"), 10);
-    const anchorMarginBottom = parseInt(anchorStyle.getPropertyValue("margin-bottom"), 10);
-
-    const anchorBottom = anchorRect.top + anchorRect.height;
-    coordinates.top -= anchorBottom + anchorMarginBottom;
-    coordinates.left -= anchorRect.left - anchorMarginLeft;
+    coordinates.left -= wrapperRect.left;
+    coordinates.top -= wrapperRect.top;
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
