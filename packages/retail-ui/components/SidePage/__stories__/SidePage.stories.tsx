@@ -64,14 +64,14 @@ class Sample extends React.Component<SampleProps, SampleState> {
           {this.props.total &&
             this.props.current &&
             this.props.total > this.props.current && (
-            <Sample
-              current={this.props.current + 1}
-              total={this.props.total}
-              ignoreBackgroundClick={this.props.ignoreBackgroundClick}
-              withContent={this.props.withContent}
-              blockBackground={this.props.blockBackground}
-            />
-          )}
+              <Sample
+                current={this.props.current + 1}
+                total={this.props.total}
+                ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+                withContent={this.props.withContent}
+                blockBackground={this.props.blockBackground}
+              />
+            )}
           <div>
             <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
