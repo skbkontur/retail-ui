@@ -4,10 +4,10 @@ import { ITheme } from '../../lib/theming/Theme';
 const jsStyles = {
   cross(t: ITheme) {
     return css`
-      fill: ${t.tooltipCloseBtnColor};
+      color: ${t.tooltipCloseBtnColor};
 
       &:hover {
-        fill: ${t.tooltipCloseBtnHoverColor};
+        color: ${t.tooltipCloseBtnHoverColor};
       }
     `;
   },
