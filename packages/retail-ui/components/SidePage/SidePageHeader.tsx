@@ -92,7 +92,6 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
           <SidePageContext.Consumer>
             {({ requestClose }) => (
               <a
-                href="javascript:"
                 className={cx(styles.close, jsStyles.close(this.theme), {
                   [styles.fixed]: fixed,
                   [jsStyles.fixed(this.theme)]: fixed,
