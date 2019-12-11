@@ -231,9 +231,9 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <span className={cx(styles.cross, jsStyles.cross(this.theme))} onClick={this.handleCloseButtonClick}>
-        <CrossIcon />
-      </span>
+      <div className={cx(styles.cross)} onClick={this.handleCloseButtonClick}>
+        <CrossIcon className={jsStyles.cross(this.theme)} />
+      </div>
     );
   }
 
