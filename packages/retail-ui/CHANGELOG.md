@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.7](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.6...retail-ui@1.6.7) (2019-12-10)
+
+
+### Bug Fixes
+
+* **TokenInput:** fix module import ([440d199](https://github.com/skbkontur/retail-ui/commit/440d199))
+
+
+
+
+
 ## [1.6.6](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.5...retail-ui@1.6.6) (2019-12-02)
 
 
