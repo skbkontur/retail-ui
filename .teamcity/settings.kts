@@ -387,7 +387,7 @@ object ReactUI_ScreenshotTests : BuildType({
         step {
             name = "Test UI"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui test:ui")
+            param("yarn_commands", "workspace retail-ui creevey")
         }
     }
 
