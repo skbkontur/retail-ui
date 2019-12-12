@@ -1,16 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 
 import Input, { InputProps } from '../Input';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import Menu from '../Menu/Menu';
 import MenuItem from '../MenuItem';
 import RenderLayer from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
+import PopupMenu from '../internal/PopupMenu';
+import { positionsByAlign } from '../internal/PopupMenu/PopupMenuPositions';
 
 export interface AutocompleteProps extends InputProps {
   /** Функция отрисовки элемента меню */
@@ -90,12 +89,13 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
 
   private opened: boolean = false;
   private input: Nullable<Input> = null;
-  private menu: Nullable<Menu>;
+  private popupMenu: Nullable<PopupMenu>;
 
   private focused: boolean = false;
   private requestId: number = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
+  private inputDomNode?: HTMLElement;
 
   /**
    * @public
@@ -116,6 +116,9 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
   public componentDidUpdate(prevProps: AutocompleteProps) {
     if (prevProps.value !== this.props.value) {
       this.updateItems(this.props.value || '');
+    }
+    if (this.opened && this.state.items && this.state.items.length > 0) {
+      this.popupMenu && this.popupMenu.open();
     }
   }
 
@@ -141,6 +144,7 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
       ref: this.refInput,
+      innerRef: this.refInputDomNode,
     };
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
@@ -154,34 +158,33 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const menuProps = {
-      ref: this.refMenu,
-      maxHeight: this.props.menuMaxHeight,
-      hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || this.props.width,
-      preventWindowScroll: this.props.preventWindowScroll,
-    };
+
     if (!items || items.length === 0) {
       return null;
     }
 
     return (
-      <DropdownContainer
-        offsetY={1}
-        getParent={this.getAnchor}
-        align={this.props.menuAlign}
+      <PopupMenu
+        caption={this.inputDomNode}
         disablePortal={this.props.disablePortal}
+        positions={positionsByAlign[this.props.menuAlign || 'left']}
+        popupHasPin={false}
+        preventWindowScroll={this.props.preventWindowScroll}
+        disableAnimations
+        focusMenuOnOpen={false}
+        hasShadow={this.props.hasShadow}
+        menuMaxHeight={this.props.menuMaxHeight}
+        menuWidth={this.props.menuWidth}
+        ref={this.refPopupMenu}
       >
-        <Menu {...menuProps}>
-          {items.map((item, i) => {
-            return (
-              <MenuItem onClick={this.handleMenuItemClick(i)} key={i}>
-                {this.getProps().renderItem(item)}
-              </MenuItem>
-            );
-          })}
-        </Menu>
-      </DropdownContainer>
+        {items.map((item, i) => {
+          return (
+            <MenuItem onClick={this.handleMenuItemClick(i)} key={i}>
+              {this.getProps().renderItem(item)}
+            </MenuItem>
+          );
+        })}
+      </PopupMenu>
     );
   }
 
@@ -213,6 +216,10 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
 
     this.focused = false;
     this.opened = false;
+
+    if (this.popupMenu) {
+      this.popupMenu.close();
+    }
     this.setState({ items: null });
 
     if (this.input) {
@@ -240,20 +247,20 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
         return;
       case isKeyArrowUp(e):
         e.preventDefault();
-        if (this.menu) {
-          this.menu.up();
+        if (this.popupMenu) {
+          this.popupMenu.moveUp();
         }
         return;
       case isKeyArrowDown(e):
         e.preventDefault();
-        if (this.menu) {
-          this.menu.down();
+        if (this.popupMenu) {
+          this.popupMenu.moveDown();
         }
         return;
       case isKeyEnter(e):
         e.preventDefault(); // To prevent form submission.
-        if (this.menu) {
-          this.menu.enter(e);
+        if (this.popupMenu) {
+          this.popupMenu.enter(e);
         }
         return;
     }
@@ -262,10 +269,6 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
   private handleMenuItemClick(i: number) {
     return (event: React.SyntheticEvent<HTMLElement>) => this.handleItemClick(event, i);
   }
-
-  private getAnchor = () => {
-    return findDOMNode(this);
-  };
 
   private handleItemClick(event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>, index: number) {
     if ((event as React.MouseEvent<HTMLElement>).button) {
@@ -282,7 +285,11 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     }
 
     const value = this.state.items[index];
+
     this.opened = false;
+    if (this.popupMenu) {
+      this.popupMenu.close();
+    }
     this.setState({
       selected: -1,
       items: null,
@@ -330,8 +337,12 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     this.input = el;
   };
 
-  private refMenu = (menu: Menu | null) => {
-    this.menu = menu;
+  private refInputDomNode = (input: HTMLElement) => {
+    this.inputDomNode = input;
+  };
+
+  private refPopupMenu = (menu: PopupMenu) => {
+    this.popupMenu = menu;
   };
 }
 
