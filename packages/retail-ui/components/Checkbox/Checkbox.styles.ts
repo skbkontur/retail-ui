@@ -6,8 +6,7 @@ const jsStyles = {
   root(t: ITheme) {
     return css`
       display: inline-flex;
-      vertical-align: top;
-      align-items: start;
+      align-items: baseline;
       cursor: pointer;
       position: relative;
       user-select: none;
@@ -26,10 +25,12 @@ const jsStyles = {
       &.${classes.disabled} {
         color: ${t.textColorDisabled};
       }
+    `;
+  },
 
-      .rt-ie-any & {
-        display: inline-table;
-      }
+  rootWrapperIE11() {
+    return css`
+      display: inline;
     `;
   },
 
@@ -42,22 +43,18 @@ const jsStyles = {
       width: 16px;
       height: 16px;
       flex: none;
-      margin-top: 2px;
       font-size: 14px;
       color: ${t.textColorDefault};
       border: ${t.chbBorder};
       border-radius: ${t.chbBorderRadius};
       box-shadow: ${t.chbShadow};
       background: ${t.chbBg};
+      align-self: baseline;
 
       .${classes.disabled} & {
         box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
         background: ${t.bgDisabled} !important;
         color: ${t.textColorDisabled} !important;
-      }
-
-      .rt-ie-any & {
-        margin-top: 3px;
       }
     `;
   },
@@ -70,19 +67,6 @@ const jsStyles = {
       height: 0;
       position: absolute;
       z-index: -1;
-    `;
-  },
-
-  indeterminate(t: ITheme) {
-    return css`
-      width: 8px;
-      height: 8px;
-      background: ${t.chbIndeterminateBg};
-      border-radius: ${t.chbIndeterminateBorderRadius};
-
-      .${classes.disabled} & {
-        background: ${t.textColorDisabled};
-      }
     `;
   },
 
@@ -122,6 +106,24 @@ const jsStyles = {
     `;
   },
 
+  indeterminate(t: ITheme) {
+    return css`
+      & .${classes.box} {
+        background: ${t.chbBoxIndeterminateBg};
+        color: ${t.chbCheckedColor};
+        box-shadow: ${t.chbCheckedShadow};
+      }
+
+      &:hover .${classes.box} {
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
+        box-shadow: ${t.chbCheckedHoverShadow};
+      }
+      &:active .${classes.box} {
+        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
+      }
+    `;
+  },
+
   focus(t: ITheme): string {
     return css`
       & .${classes.box} {
@@ -136,36 +138,27 @@ const jsStyles = {
     `;
   },
 
-  boxIndeterminate(t: ITheme) {
+  iconFixBaseline() {
     return css`
-      background: ${t.chbBoxIndeterminateBg};
-      box-shadow: ${t.chbCheckedShadow};
+      margin-top: -2px;
+    `;
+  },
 
-      .${classes.root}:hover & {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
-        box-shadow: ${t.chbCheckedHoverShadow};
-      }
-      .${classes.root}:active & {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
-      }
+  iconUnchecked() {
+    return css`
+      color: transparent;
     `;
   },
 
   caption(t: ITheme) {
     return css`
       padding-left: 10px;
-
-      .rt-ie-any & {
-        display: table-cell;
-      }
     `;
   },
 
-  boxWrapperIE11(t: ITheme) {
+  captionIE11() {
     return css`
-      display: table-cell;
-      vertical-align: top;
-      text-align: center;
+      padding: 3px 0 3px 10px;
     `;
   },
 };

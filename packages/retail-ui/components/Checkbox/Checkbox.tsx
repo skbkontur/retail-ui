@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import Square from '@skbkontur/react-icons/Square';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import { isEdge, isIE } from '../ensureOldIEClassName';
 import jsStyles, { classes } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -146,11 +147,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       initialIndeterminate,
       ...rest
     } = props;
+    const isIndeterminate = this.state.indeterminate;
 
     const rootClass = cx(classes.root, jsStyles.root(this.theme), {
       [classes.disabled]: !!props.disabled,
       [jsStyles.disabled(this.theme)]: !!props.disabled,
       [jsStyles.checked(this.theme)]: !!props.checked,
+      [jsStyles.indeterminate(this.theme)]: isIndeterminate,
       [jsStyles.focus(this.theme)]: this.state.focusedByTab,
       [jsStyles.warning(this.theme)]: !!props.warning,
       [jsStyles.error(this.theme)]: !!props.error,
@@ -168,24 +171,44 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     let caption = null;
     if (children) {
-      caption = <div className={jsStyles.caption(this.theme)}>{children}</div>;
+      const captionClass = cx(jsStyles.caption(this.theme), {
+        [jsStyles.captionIE11()]: isIE11 || isEdge,
+      });
+      caption = <span className={captionClass}>{children}</span>;
     }
 
-    const isIndeterminate = this.state.indeterminate;
-    const boxClass = cx(classes.box, jsStyles.box(this.theme), {
-      [jsStyles.boxIndeterminate(this.theme)]: isIndeterminate,
+    const iconClass = cx({
+      [jsStyles.iconUnchecked()]: !props.checked && !isIndeterminate,
+      [jsStyles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (
-      <span className={boxClass}>
-        {(isIndeterminate && <span className={jsStyles.indeterminate(this.theme)} />) || (props.checked && <OkIcon />)}
+      <span className={cx(classes.box, jsStyles.box(this.theme))}>
+        {(isIndeterminate && <Square className={iconClass} />) || <OkIcon className={iconClass} />}
       </span>
     );
+
+    if (isIE11 || isEdge) {
+      return (
+        <label
+          className={cx(rootClass, jsStyles.rootWrapperIE11())}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseOver={onMouseOver}
+        >
+          <span className={rootClass}>
+            <input {...inputProps} />
+            {box}
+          </span>
+          {caption}
+        </label>
+      );
+    }
 
     return (
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
-        {isIE || isEdge ? <span className={jsStyles.boxWrapperIE11(this.theme)}>{box}</span> : box}
+        {box}
         {caption}
       </label>
     );
