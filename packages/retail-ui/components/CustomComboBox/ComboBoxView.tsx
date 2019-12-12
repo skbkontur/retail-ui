@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
-
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import Input from '../Input';
 import InputLikeText from '../internal/InputLikeText';
 import Menu from '../Menu/Menu';
@@ -13,6 +10,8 @@ import ArrowTriangleDown from '@skbkontur/react-icons/ArrowTriangleDown';
 import styles from './CustomComboBox.module.less';
 import ComboBoxMenu from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
+import Popup from '../Popup';
+import { positionsByAlign } from '../internal/PopupMenu/PopupMenuPositions';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -24,7 +23,7 @@ interface ComboBoxViewProps<T> {
   error?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
-  menuAlign?: 'left' | 'right';
+  menuAlign: 'left' | 'right';
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
@@ -76,9 +75,11 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     },
     size: 'small',
     width: 250 as string | number,
+    menuAlign: 'left',
   };
 
   private input: Nullable<Input>;
+  private inputDomNode?: HTMLElement | null;
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -97,7 +98,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const {
       items,
       loading,
-      menuAlign,
       onClickOutside,
       onFocusOutside,
       onMouseEnter,
@@ -142,11 +142,12 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         >
           {input}
           {opened && (
-            <DropdownContainer
-              align={menuAlign}
-              // tslint:disable-next-line:jsx-no-lambda
-              getParent={() => findDOMNode(this)}
-              offsetY={1}
+            <Popup
+              anchorElement={this.inputDomNode}
+              opened
+              positions={positionsByAlign[this.props.menuAlign]}
+              margin={1}
+              hasPin={false}
               disablePortal={this.props.disablePortal}
             >
               <ComboBoxMenu
@@ -154,7 +155,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
                 loading={loading}
                 maxMenuHeight={maxMenuHeight}
                 onChange={this.handleItemSelect}
-                opened={opened}
+                opened
                 refMenu={refMenu}
                 renderTotalCount={renderTotalCount}
                 renderItem={renderItem!}
@@ -164,7 +165,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
                 requestStatus={requestStatus}
                 totalCount={totalCount}
               />
-            </DropdownContainer>
+            </Popup>
           )}
         </span>
       </RenderLayer>
@@ -173,6 +174,10 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
   private renderAddButton = (): React.ReactNode => {
     return this.props.renderAddButton(this.props.textValue);
+  };
+
+  private refInputDomNode = (e: HTMLElement | null) => {
+    this.inputDomNode = e;
   };
 
   private renderInput(): React.ReactNode {
@@ -218,6 +223,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           width="100%"
           size={size}
           ref={this.refInput}
+          innerRef={this.refInputDomNode}
           warning={warning}
         />
       );
@@ -235,6 +241,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         placeholder={placeholder}
         size={size}
         width="100%"
+        innerRef={this.refInputDomNode}
         ref={refInputLikeText}
       >
         {value ? renderValue!(value) : null}
