@@ -39,6 +39,11 @@ export interface PopupMenuProps {
   header?: React.ReactNode;
   footer?: React.ReactNode;
 
+  /** Отключить скролл окна, когда меню открыто */
+  preventWindowScroll?: boolean;
+
+  focusMenuOnOpen?: boolean;
+
   // onItemSelection?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
 
@@ -54,6 +59,7 @@ export interface PopupMenuProps {
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
   disablePortal?: boolean;
+  hasShadow: boolean;
 }
 
 interface PopupMenuState {
@@ -73,6 +79,8 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
     popupHasPin: true,
     popupMargin: 0,
     disableAnimations: false,
+    hasShadow: true,
+    focusMenuOnOpen: true,
   };
 
   public static Type = PopupMenuType;
@@ -103,7 +111,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
                 anchorElement={captionIsElement ? this.props.caption : this.captionWrapper}
                 useWrapper={true}
                 opened={this.state.menuVisible}
-                hasShadow
+                hasShadow={this.props.hasShadow}
                 margin={this.props.popupMargin}
                 popupOffset={this.props.popupOffset}
                 hasPin={this.props.popupHasPin}
@@ -118,13 +126,14 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   width={this.props.menuWidth || 'auto'}
-                  minWidth={minWidth || undefined}
+                  minWidth={minWidth || 'auto'}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
                   header={this.props.header}
                   footer={this.props.footer}
+                  preventWindowScroll={this.props.preventWindowScroll}
                 >
                   {this.props.children}
                 </InternalMenu>
@@ -141,7 +150,7 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
   private refInternalMenu = (element: Nullable<InternalMenu>) => (this.menu = element);
 
   private handleOpen = () => {
-    if (this.menu) {
+    if (this.menu && this.props.focusMenuOnOpen) {
       this.menu.focus();
     }
   };
