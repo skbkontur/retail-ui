@@ -95,6 +95,20 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     );
   }
 
+  public moveUp = () => {
+    this.move(-1);
+  };
+
+  public moveDown = () => {
+    this.move(1);
+  };
+
+  public enter = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (this.highlighted && this.highlighted.props.onClick) {
+      this.highlighted.props.onClick(e);
+    }
+  };
+
   private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       x => typeof x === 'object' && x.props.icon,
@@ -343,14 +357,6 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
       return null;
     }, this.scrollToSelected);
   }
-
-  private moveUp = () => {
-    this.move(-1);
-  };
-
-  private moveDown = () => {
-    this.move(1);
-  };
 
   private isEmpty() {
     const { children } = this.props;
