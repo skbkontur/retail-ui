@@ -60,11 +60,7 @@ export class Header extends React.Component<HeaderProps> {
           [styles.headerAddPadding]: !!additionalPadding,
         })}
       >
-        {close && (
-          <div className={styles.absoluteClose}>
-            <Close requestClose={close.requestClose} disableClose={close.disableClose} />
-          </div>
-        )}
+        {close && <Close requestClose={close.requestClose} disableClose={close.disableClose} />}
         {this.props.children}
       </div>
     );

@@ -22,13 +22,15 @@ export default class Close extends React.Component<CloseProps> {
 
   private renderMain() {
     return (
-      <button
-        className={cx(styles.close, jsStyles.close(this.theme), this.props.disableClose && styles.disabled)}
-        onClick={this.props.requestClose}
-        data-tid="modal-close"
-      >
-        <span className={styles.closeOutline} />
-      </button>
+      <div className={styles.absoluteClose}>
+        <button
+          className={cx(styles.close, jsStyles.close(this.theme), this.props.disableClose && styles.disabled)}
+          onClick={this.props.requestClose}
+          data-tid="modal-close"
+        >
+          <span className={styles.closeOutline} />
+        </button>
+      </div>
     );
   }
 }

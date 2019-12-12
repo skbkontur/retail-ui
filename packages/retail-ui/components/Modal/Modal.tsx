@@ -13,7 +13,6 @@ import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer, isFooter } from './ModalFooter';
 import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
-import Close from './ModalClose';
 import ResizeDetector from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 import styles from './Modal.module.less';
@@ -153,7 +152,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       hasHeader,
       horizontalScroll: this.state.horizontalScroll,
     };
-    if (hasHeader && !this.props.noClose) {
+    if (!this.props.noClose) {
       modalContextProps.close = {
         disableClose: this.props.disableClose,
         requestClose: this.requestClose,
@@ -197,9 +196,6 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
               <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
-                    {!hasHeader && !this.props.noClose ? (
-                      <Close requestClose={this.requestClose} disableClose={this.props.disableClose} />
-                    ) : null}
                     <ModalContext.Provider value={modalContextProps}>
                       <div>
                         {/* React <= 15. ModalContext.Provider can only receive a single child element. */}

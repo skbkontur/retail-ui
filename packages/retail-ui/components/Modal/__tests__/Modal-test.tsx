@@ -63,7 +63,7 @@ describe('Modal', () => {
 
   it('onClose handler works', () => {
     const onCloseHandler = jest.fn();
-    const wrapper = mount(<Modal onClose={onCloseHandler}>Modal content</Modal>);
+    const wrapper = mount(<Modal onClose={onCloseHandler}><Modal.Body>Modal content</Modal.Body></Modal>);
 
     expect(onCloseHandler).not.toHaveBeenCalled();
     wrapper.find('button').simulate('click');
@@ -74,7 +74,7 @@ describe('Modal', () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(
       <Modal onClose={onCloseHandler} disableClose>
-        Modal content
+        <Modal.Body>Modal content</Modal.Body>
       </Modal>,
     );
 
@@ -84,20 +84,20 @@ describe('Modal', () => {
   });
 
   it('Close button show without header', () => {
-    const wrapper = mount(<Modal>Modal content</Modal>);
+    const wrapper = mount(<Modal><Modal.Body>Modal content</Modal.Body></Modal>);
 
     expect(wrapper.find('Close')).toHaveLength(1);
   });
 
   it('noClose prop works', () => {
-    const wrapper = mount(<Modal noClose>Modal content</Modal>);
+    const wrapper = mount(<Modal noClose><Modal.Body>Modal content</Modal.Body></Modal>);
 
     expect(wrapper.find('Close')).toHaveLength(0);
   });
 
   it('direct click on background calls onClose', () => {
     const onCloseHandler = jest.fn();
-    const wrapper = mount(<Modal onClose={onCloseHandler}>Modal content</Modal>);
+    const wrapper = mount(<Modal onClose={onCloseHandler}><Modal.Body>Modal content</Modal.Body></Modal>);
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
     emulateRealClick(wrapper.find('[data-tid="modal-container"]').getDOMNode());
@@ -108,7 +108,9 @@ describe('Modal', () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(
       <Modal onClose={onCloseHandler}>
-        <div data-tid="modal-content" />
+        <Modal.Body>
+          <div data-tid="modal-content" />
+        </Modal.Body>
       </Modal>,
     );
     const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
@@ -127,7 +129,9 @@ describe('Modal', () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(
       <Modal onClose={onCloseHandler}>
-        <div data-tid="modal-content" />
+        <Modal.Body>
+          <div data-tid="modal-content" />
+        </Modal.Body>
       </Modal>,
     );
     const contentNode = wrapper.find('[data-tid="modal-content"]').getDOMNode();
@@ -141,7 +145,7 @@ describe('Modal', () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(
       <Modal noClose onClose={onCloseHandler}>
-        Modal content
+        <Modal.Body>Modal content</Modal.Body>
       </Modal>,
     );
     const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
@@ -155,7 +159,7 @@ describe('Modal', () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(
       <Modal disableClose onClose={onCloseHandler}>
-        Modal content
+        <Modal.Body>Modal content</Modal.Body>
       </Modal>,
     );
     const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
@@ -169,7 +173,7 @@ describe('Modal', () => {
     const onCloseHandler = jest.fn();
     const wrapper = mount(
       <Modal ignoreBackgroundClick onClose={onCloseHandler}>
-        Modal content
+        <Modal.Body>Modal content</Modal.Body>
       </Modal>,
     );
     const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
