@@ -146,7 +146,7 @@ class Logotype extends React.Component<LogotypeProps> {
           >
             <span style={{ color: textColor }}>{propLocale.prefix}</span>
             <span className={styles.cloud} style={cloudStyle}>
-              <CloudIcon color={color} />
+              <CloudIcon />
             </span>
             <span style={{ color: textColor }}>
               {propLocale.suffix}
