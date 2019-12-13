@@ -39,7 +39,8 @@
     "lint:stylelint": "stylelint \"./**/*.less\"",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ui": "wait-on -t 300000 http-get://localhost:6060/ http-get://localhost:6061/ && creevey -c .creevey/config.ts"
+    "creevey": "wait-on -t 300000 http-get://localhost:6060/ http-get://localhost:6061/ && creevey -c .creevey/config.ts",
+    "creevey:ui": "npm run creevey -- --ui"
   },
   "license": "MIT",
   "dependencies": {
@@ -105,7 +106,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "8.0.6",
     "core-js": "^3.2.1",
-    "creevey": "^0.2.0",
+    "creevey": "^0.2.2",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "enzyme": "^3.10.0",
