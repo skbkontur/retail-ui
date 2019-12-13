@@ -117,7 +117,11 @@ object RunAll : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
+                filterTargetBranch = """
+                    +:refs/heads/master
+                    +:refs/heads/next
+                    +:refs/heads/lts
+                """.trimIndent()
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
