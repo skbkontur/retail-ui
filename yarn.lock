@@ -6420,7 +6420,7 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@0.2.2:
+creevey@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.2.2.tgz#4d8737bd3430b5e1091760fccba6016c0d1e7ac9"
   integrity sha512-c3L/R0CEa76M3yRXJQUZqSPKMQEVPLnDV7n0vEFnmWjVrNVP3ar8UibZtfzS3qCCY2av+ars61JF+AqMFcsUBA==
