@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 import TopBarDropdown from './TopBarDropdown';
 
 import styles from './TopBar.module.less';
 import { Nullable } from '../../typings/utility-types';
+import { ArrowChevronDownIcon } from '../internal/icons/16px';
 
 export interface OrganizationsProps {
   caption: React.ReactNode;

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import LocaleProvider, { LangCodes } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
-import { CLOUD_SIZE } from '../../internal/icons/SpinnerIcons';
+import { CLOUD_SIZE, CircleIcon } from '../../internal/icons/SpinnerIcons';
 
 import Spinner from '../Spinner';
 import styles from '../Spinner.less';
@@ -47,7 +47,7 @@ describe('Spinner', () => {
 
     it('should render mini Spinner', () => {
       const component = render({ type: 'mini' });
-      const circle = component.find(generateSelector('circle'));
+      const circle = component.find(CircleIcon);
       const captionRight = component.find(generateSelector('captionRight'));
 
       expect(circle).toHaveLength(1);
@@ -98,7 +98,9 @@ describe('Spinner', () => {
       expect(cloudStyle).toMatchObject({
         width: 16,
         height: 16,
-        top: 2,
+        marginBottom: -3,
+        marginLeft: -1,
+        marginRight: -1,
       });
     });
   });

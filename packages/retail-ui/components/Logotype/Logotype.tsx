@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import ArrowChevronDownIcon from '@skbkontur/react-icons/ArrowChevronDown';
 import stopPropagation from '../../lib/events/stopPropagation';
 import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
@@ -12,6 +11,7 @@ import jsStyles from './Logotype.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import CloudIcon from '../internal/icons/CloudIcon';
+import { ArrowChevronDownIcon } from '../internal/icons/16px';
 
 const INITIAL_WIDTH = 23;
 const INITIAL_HEIGHT = 17;

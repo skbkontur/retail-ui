@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import OkIcon from '@skbkontur/react-icons/Ok';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
@@ -8,6 +7,7 @@ import { isEdge, isIE } from '../ensureOldIEClassName';
 import jsStyles, { classes } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { OkIcon } from '../internal/icons/16px';
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
