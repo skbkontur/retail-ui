@@ -32,6 +32,7 @@ export type InputProps = {
   mainInGroup?: boolean,
   selectAllOnFocus?: boolean,
   onUnexpectedInput?: () => void,
+  innerRef?: (element: HTMLLabelElement) => void,
 };
 
 export type InputVisibilityState = {|

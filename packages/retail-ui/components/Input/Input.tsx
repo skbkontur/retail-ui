@@ -93,6 +93,8 @@ export type InputProps = Override<
      * публичным методом инстанса `blink()`
      */
     onUnexpectedInput?: () => void;
+
+    innerRef?: (element: HTMLLabelElement) => void;
   }
 >;
 
@@ -275,6 +277,7 @@ class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
+      innerRef,
       ...rest
     } = this.props;
 
@@ -297,6 +300,7 @@ class Input extends React.Component<InputProps, InputState> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      ref: innerRef,
     };
 
     const inputProps = {
