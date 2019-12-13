@@ -20,7 +20,10 @@ export const TokenActions = {
 
 export type TokenInputActionType = keyof typeof TokenActions;
 
-export function tokenInputReducer<T = string>(state: TokenInputState<T>, action: TokenInputAction) {
+export function tokenInputReducer<T = string>(
+  state: TokenInputState<T>,
+  action: TokenInputAction,
+): Pick<TokenInputState<T>, never> {
   const payload = action.payload;
   switch (action.type) {
     case TokenActions.SET_INPUT_VALUE_WIDTH: {

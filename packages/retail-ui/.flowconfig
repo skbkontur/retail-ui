@@ -5,6 +5,7 @@
 .*/node_modules/radium/src/.*
 .*/node_modules/findup/test/.*
 .*/docs/node_modules/fbjs/.*
+.*/react-ui-testing
 
 [untyped]
 .*/components/DatePickerOld/.*
@@ -12,11 +13,9 @@
 .*/components/Kladr/.*
 
 [include]
+../../node_modules/
 
 [libs]
-flow/testing.js
-flow/cssom.js
-# node_modules/jss/flow-typed
 
 [options]
 esproposal.class_static_fields=enable
@@ -30,4 +29,3 @@ suppress_comment=.*\\$FlowIgnore.*
 
 module.file_ext=.js
 module.file_ext=.less
-module.name_mapper='^.*\.png+$' -> '<PROJECT_ROOT>/packages/react-ui/flow/StringStub'

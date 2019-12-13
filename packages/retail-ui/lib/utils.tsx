@@ -67,3 +67,8 @@ export function withContext<C>(ContextConsumer: React.ComponentClass<ConsumerPro
 export function escapeRegExpSpecChars(s: string): string {
   return s.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 }
+
+export const getRandomID = (): string =>
+  Math.random()
+    .toString(16)
+    .slice(2);

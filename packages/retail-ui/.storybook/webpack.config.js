@@ -50,7 +50,15 @@ module.exports = async ({ config, mode }) => {
       test: /\.(css|less)$/,
       loaders: [
         'style-loader',
-        'css-loader?localIdentName=[name]-[local]-[hash:base64:4]',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              mode: 'global',
+              localIdentName: '[name]-[local]-[hash:base64:4]',
+            },
+          },
+        },
         {
           loader: 'typed-css-modules-loader',
           options: {
