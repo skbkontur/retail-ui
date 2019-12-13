@@ -18,6 +18,7 @@ import {
   InternalDateSeparator,
   InternalDateToFragmentsSettings,
   InternalDateValidateCheck,
+  isInternalDateValidateCheck,
 } from './types';
 
 export class InternalDate {
@@ -178,7 +179,7 @@ export class InternalDate {
   public validate({
     type,
     nextValue,
-    checks = Object.values(InternalDateValidateCheck),
+    checks = Object.values(InternalDateValidateCheck).filter<InternalDateValidateCheck>(isInternalDateValidateCheck),
   }: {
     type?: InternalDateComponentType;
     nextValue?: InternalDateComponentRaw;

@@ -138,7 +138,16 @@ const webpackConfig = {
       },
       {
         test: /\.(css|less)$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: 'global',
+            },
+          },
+          'less-loader',
+        ],
       },
       {
         test: /\.(png|woff|woff2|eot)$/,

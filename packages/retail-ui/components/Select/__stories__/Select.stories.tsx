@@ -32,10 +32,10 @@ class SelectWrapper extends React.Component<{}, any> {
 }
 
 class ItemsWithComments extends React.Component<{}, any> {
-  private static items = [
-    [1, "ООО Эльбрус", "8387666415 - 113445852"],
-    [2, "ИП Иванов Петр", "583662338391"],
-    [3, "ЗАО Текстильщики"]
+  private static items: Array<[React.ReactText, React.ReactText, React.ReactNode?]> = [
+    [1, 'ООО Эльбрус', '8387666415 - 113445852'],
+    [2, 'ИП Иванов Петр', '583662338391'],
+    [3, 'ЗАО Текстильщики'],
   ];
 
   public state = {

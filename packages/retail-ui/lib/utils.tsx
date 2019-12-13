@@ -70,6 +70,11 @@ export function escapeRegExpSpecChars(s: string): string {
   return s.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
+export const getRandomID = (): string =>
+  Math.random()
+    .toString(16)
+    .slice(2);
+
 export const hasSvgAnimationSupport = (() => {
   if (document.createElementNS) {
     const namespaceURI = 'http://www.w3.org/2000/svg';
