@@ -117,7 +117,6 @@ object RunAll : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
@@ -237,7 +236,6 @@ object ReactUI_BuildRetailUi : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
@@ -293,7 +291,6 @@ object ReactUI_LintTest : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
@@ -387,7 +384,7 @@ object ReactUI_ScreenshotTests : BuildType({
         step {
             name = "Test UI"
             type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui test:ui")
+            param("yarn_commands", "workspace retail-ui creevey")
         }
     }
 
@@ -416,7 +413,6 @@ object ReactUI_ScreenshotTests : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
@@ -545,7 +541,6 @@ object SeleniumTesting_Test : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
@@ -617,7 +612,6 @@ object Validations_Build : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
@@ -701,7 +695,6 @@ object Validations_LintTest : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterTargetBranch = "refs/heads/master"
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
             }
         }
