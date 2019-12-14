@@ -76,6 +76,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private locale!: DatePickerLocale;
   private divInnerNode: HTMLDivElement | null = null;
   private fragmentNodes: Set<HTMLSpanElement> = new Set();
+  private blurEvent: React.FocusEvent<HTMLElement> | null = null;
   private theme!: ITheme;
   private conditionalHandler = new ConditionalHandler<Actions, [React.KeyboardEvent<HTMLElement>]>()
     .add(Actions.MoveSelectionLeft, () => this.shiftSelection(-1))
@@ -237,11 +238,17 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    this.iDateMediator.blur();
+    const restored = this.iDateMediator.restore();
     this.updateValue({ focused: false, selected: null, inputMode: false });
 
     if (this.props.onBlur) {
-      this.props.onBlur(e);
+      if (restored) {
+        e.persist();
+        this.blurEvent = e;
+      }
+      else {
+        this.props.onBlur(e);
+      }
     }
   };
 
@@ -345,6 +352,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
     if (this.props.onChange) {
       this.props.onChange({ target: { value } }, value);
+    }
+    if (this.blurEvent && this.props.onBlur) {
+      this.props.onBlur(this.blurEvent);
+      this.blurEvent = null;
     }
   };
 

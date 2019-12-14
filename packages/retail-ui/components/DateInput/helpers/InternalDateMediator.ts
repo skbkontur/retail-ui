@@ -52,14 +52,15 @@ export default class InternalDateMediator {
     return this;
   };
 
-  public blur = (): InternalDateMediator => {
+  public restore = (): boolean => {
     if (this.iDate.isIncomplete()) {
       const restored = this.iDate.clone().restore();
       if (!this.iDate.isEqual(restored)) {
         this.iDate.duplicateOf(restored);
       }
+      return true;
     }
-    return this;
+    return false;
   };
 
   public shiftDateComponent(type: InternalDateComponentType | null, step: number): boolean {
