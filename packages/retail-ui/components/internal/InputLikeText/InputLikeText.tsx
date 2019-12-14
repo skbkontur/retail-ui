@@ -38,6 +38,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   private frozen: boolean = false;
   private frozenBlur: boolean = false;
   private dragging: boolean = false;
+  private focusTimeout: Nullable<TimeoutID>;
   private blinkTimeout: Nullable<TimeoutID>;
   private manualBlur: boolean = false;
 
@@ -83,10 +84,14 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       return;
     }
     this.frozen = true;
+    this.frozenBlur = true;
 
     this.lastSelectedInnerNode = [node, start, end];
     setTimeout(() => selectNodeContents(node, start, end), 0);
-    setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
+    if (this.focusTimeout) {
+      clearInterval(this.focusTimeout);
+    }
+    this.focusTimeout = setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
   };
 
   public componentDidMount() {
