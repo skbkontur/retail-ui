@@ -110,7 +110,7 @@ const jsStyles = {
     return css`
       & .${classes.box} {
         background: ${t.chbBoxIndeterminateBg};
-        color: ${t.chbCheckedColor};
+        color: ${t.chbIndeterminateBg};
         box-shadow: ${t.chbCheckedShadow};
       }
 
