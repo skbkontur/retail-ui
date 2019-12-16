@@ -25,6 +25,10 @@ const jsStyles = {
       &.${classes.disabled} {
         color: ${t.textColorDisabled};
       }
+
+      .rt-ie-any & {
+        display: inline-table;
+      }
     `;
   },
 
@@ -36,7 +40,7 @@ const jsStyles = {
 
   box(t: ITheme) {
     return css`
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
@@ -158,7 +162,7 @@ const jsStyles = {
 
   captionIE11() {
     return css`
-      padding: 3px 0 3px 10px;
+      display: table-cell;
     `;
   },
 };

@@ -188,23 +188,6 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       </span>
     );
 
-    if (isIE11 || isEdge) {
-      return (
-        <label
-          className={cx(rootClass, jsStyles.rootWrapperIE11())}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onMouseOver={onMouseOver}
-        >
-          <span className={rootClass}>
-            <input {...inputProps} />
-            {box}
-          </span>
-          {caption}
-        </label>
-      );
-    }
-
     return (
       <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
