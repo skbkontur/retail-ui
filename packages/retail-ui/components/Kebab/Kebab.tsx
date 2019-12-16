@@ -13,7 +13,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Kebab.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
-import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
+import { MenuKebabIcon } from '../internal/icons/16px';
 
 export interface KebabProps {
   disabled?: boolean;
