@@ -9,7 +9,7 @@ import TopBarDropdown from './TopBarDropdown';
 import User from './User';
 import '../ensureOldIEClassName';
 import styles from './TopBar.module.less';
-import End from './TopBarEnd';
+import { End } from './TopBarEnd';
 import { Start } from './TopBarStart';
 import Logout from './TopBarLogout';
 import { cx } from '../../lib/theming/Emotion';
