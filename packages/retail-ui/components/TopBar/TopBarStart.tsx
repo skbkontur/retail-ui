@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styles from './TopBar.module.less';
 
-const Start: React.SFC = ({ children }) => <div className={styles.startItems}>{children}</div>;
+/**
+ * @visibleName TopBar.Start
+ */
 
-export default Start;
+export const Start: React.SFC = ({ children }) => <div className={styles.startItems}>{children}</div>;

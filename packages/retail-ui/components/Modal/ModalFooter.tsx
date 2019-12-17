@@ -19,6 +19,9 @@ export interface FooterProps {
 
 /**
  * Футер модального окна.
+ *
+ * @visibleName Modal.Footer
+ *
  */
 export class Footer extends React.Component<FooterProps> {
   public static __MODAL_FOOTER__ = true;
@@ -70,8 +73,4 @@ export class Footer extends React.Component<FooterProps> {
 
     return <div className={className}>{this.props.children}</div>;
   };
-}
-
-export function isFooter(child: React.ReactNode): child is React.ReactElement<FooterProps> {
-  return React.isValidElement<FooterProps>(child) && child.type.hasOwnProperty('__MODAL_FOOTER__');
 }

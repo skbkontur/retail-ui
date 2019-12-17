@@ -7,7 +7,9 @@ export interface SidePageBodyProps {
   children?: React.ReactNode;
   context?: SidePageContextType;
 }
-
+/**
+ * @visibleName SidePage.Body
+ */
 export class SidePageBody extends React.Component<SidePageBodyProps> {
   public componentDidUpdate() {
     const { context } = this.props;
@@ -22,5 +24,3 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
 }
 
 export const SidePageBodyWithContext = withContext(SidePageContext.Consumer)(SidePageBody);
-
-export default SidePageBodyWithContext;

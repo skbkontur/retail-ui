@@ -23,6 +23,9 @@ export interface SidePageHeaderState {
   isReadyToFix: boolean;
 }
 
+/**
+ * @visibleName SidePage.Header
+ */
 export default class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public state = {
     isReadyToFix: false,
