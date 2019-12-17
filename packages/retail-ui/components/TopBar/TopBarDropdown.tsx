@@ -23,6 +23,10 @@ export interface TopBarDropdownProps {
   onClose?: () => void;
 }
 
+/**
+ * @visibleName TopBar.Dropdown
+ */
+
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
   public static defaultProps = {
     use: 'default',

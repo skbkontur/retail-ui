@@ -3,6 +3,9 @@ import { locale } from '../LocaleProvider/decorators';
 import ButtonItem, { ButtonItemProps } from './ButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
+/**
+ * @visibleName TopBar.Logout
+ */
 @locale('TopBar', TopBarLocaleHelper)
 class Logout extends React.Component<ButtonItemProps> {
   public static defaultProps = ButtonItem.defaultProps;

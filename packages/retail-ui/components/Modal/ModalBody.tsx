@@ -4,6 +4,9 @@ import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import ZIndex from '../ZIndex';
 
+/**
+ * @visibleName Modal.Body
+ */
 export class Body extends React.Component {
   public render(): JSX.Element {
     return (
