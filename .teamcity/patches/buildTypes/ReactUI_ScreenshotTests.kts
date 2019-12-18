@@ -5,6 +5,7 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPu
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -13,6 +14,14 @@ To apply the patch, change the buildType with id = 'ReactUI_ScreenshotTests'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
+    triggers {
+        remove {
+            vcs {
+                branchFilter = "+:pull/*"
+            }
+        }
+    }
+
     failureConditions {
         add {
             failOnMetricChange {
