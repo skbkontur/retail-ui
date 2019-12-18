@@ -20,12 +20,6 @@ create(RelativeId("ReactUI"), Template({
 
     steps {
         step {
-            name = "Install"
-            id = "RUNNER_1"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "install")
-        }
-        step {
             name = "Lint"
             id = "RUNNER_2"
             type = "jonnyzzz.yarn"
