@@ -17,10 +17,6 @@ changeBuildType(RelativeId("ReactUI_LintTest")) {
     expectTemplates()
     templates = arrayListOf(RelativeId("ReactUI_GitHubFeatures"))
 
-    vcs {
-        remove(DslContext.settingsRoot.id!!)
-    }
-
     expectSteps {
         step {
             name = "Install"
