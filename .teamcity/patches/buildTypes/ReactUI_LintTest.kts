@@ -2,7 +2,9 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
@@ -25,6 +27,16 @@ changeBuildType(RelativeId("ReactUI_LintTest")) {
         remove {
             swabra {
                 forceCleanCheckout = true
+            }
+        }
+        remove {
+            pullRequests {
+                provider = github {
+                    authType = token {
+                        token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    }
+                    filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+                }
             }
         }
         val feature1 = find<CommitStatusPublisher> {
