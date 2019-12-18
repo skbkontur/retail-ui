@@ -10,5 +10,5 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_Publish")) {
     expectDisabledSettings()
-    updateDisabledSettings("BUILD_EXT_2")
+    updateDisabledSettings("BUILD_EXT_2", "BUILD_EXT_3")
 }
