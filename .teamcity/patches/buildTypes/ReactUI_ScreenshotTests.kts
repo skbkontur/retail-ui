@@ -1,7 +1,6 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
@@ -37,7 +36,7 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
     }
 
     features {
-        val feature1 = find<CommitStatusPublisher> {
+        remove {
             commitStatusPublisher {
                 publisher = github {
                     githubUrl = "https://api.github.com"
@@ -47,15 +46,6 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
                 }
                 param("github_oauth_user", "wKich")
             }
-        }
-        feature1.apply {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:2e60a13b-65b3-4f80-b342-2cb770ad7a7d"
-                }
-            }
-            param("github_oauth_user", "")
         }
     }
 }
