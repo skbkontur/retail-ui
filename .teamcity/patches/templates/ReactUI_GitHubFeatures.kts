@@ -43,11 +43,11 @@ create(DslContext.projectId, Template({
             id = "BUILD_EXT_3"
             publisher = github {
                 githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:2e60a13b-65b3-4f80-b342-2cb770ad7a7d"
+                authType = password {
+                    userName = "skbkontur-bot"
+                    password = "credentialsJSON:8159ccad-3d3e-43fa-9684-5cd8d9e83d0e"
                 }
             }
-            param("github_oauth_user", "")
         }
     }
 }))
