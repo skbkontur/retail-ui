@@ -18,15 +18,6 @@ create(RelativeId("ReactUI"), Template({
     id("ReactUI_GitHubFeatures")
     name = "GitHub Features"
 
-    steps {
-        step {
-            name = "Test"
-            id = "RUNNER_3"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui test")
-        }
-    }
-
     triggers {
         vcs {
             id = "TRIGGER_1"
