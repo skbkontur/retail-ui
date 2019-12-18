@@ -3,6 +3,7 @@ package patches.buildTypes
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
@@ -21,6 +22,11 @@ changeBuildType(RelativeId("Validations_Build")) {
     }
 
     features {
+        remove {
+            swabra {
+                forceCleanCheckout = true
+            }
+        }
         val feature1 = find<CommitStatusPublisher> {
             commitStatusPublisher {
                 publisher = github {
