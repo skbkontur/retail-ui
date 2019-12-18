@@ -5,7 +5,6 @@ import jetbrains.buildServer.configs.kotlin.v2018_2.Template
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.pullRequests
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.swabra
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
@@ -26,10 +25,6 @@ create(RelativeId("ReactUI"), Template({
     }
 
     features {
-        swabra {
-            id = "BUILD_EXT_1"
-            forceCleanCheckout = true
-        }
         pullRequests {
             id = "BUILD_EXT_2"
             provider = github {
