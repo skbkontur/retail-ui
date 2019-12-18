@@ -7,7 +7,7 @@ import fallbackImage_normal from './fallback_cloud_normal.png';
 
 import styles from './Spinner.module.less';
 import { SpinnerType } from './Spinner';
-import { CLOUD_SIZE } from '../internal/icons/SpinnerIcons';
+import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerIcon';
 
 export const types: {
   [key: string]: SpinnerType;
@@ -88,13 +88,13 @@ export default class SpinnerFallback extends React.Component<SpinnerFallbackProp
     const multiply = type === 'big' ? 2 : 1;
     const cssSet: React.CSSProperties = {
       backgroundImage: `url('${this.imageUrls[type]}')`,
-      height: CLOUD_SIZE.height * multiply,
+      height: SPINNER_CLOUD_SIZE.height * multiply,
       top: 0,
-      width: CLOUD_SIZE.width * multiply,
+      width: SPINNER_CLOUD_SIZE.width * multiply,
     };
 
     if (!process.env.enableReactTesting) {
-      cssSet.backgroundPosition = `0 -${frame * CLOUD_SIZE.height * multiply}px`;
+      cssSet.backgroundPosition = `0 -${frame * SPINNER_CLOUD_SIZE.height * multiply}px`;
     }
 
     return <span className={styles.fallback} style={cssSet} />;

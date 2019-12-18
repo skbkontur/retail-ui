@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
-import { CloudIcon, CircleIcon } from '../internal/icons/SpinnerIcons';
+import SpinnerIcon from '../internal/icons/SpinnerIcon';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
@@ -90,7 +90,7 @@ class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <span className={styles.cloud}>
-        <CloudIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
+        <SpinnerIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
       </span>
     );
   };
@@ -99,7 +99,7 @@ class Spinner extends React.Component<SpinnerProps> {
     const theme = this.theme;
     const circleClassName = this.props.dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
 
-    return <CircleIcon className={circleClassName} />;
+    return <SpinnerIcon size="mini" className={circleClassName} />;
   };
 
   private renderSpinner = (type: SpinnerType) => {
