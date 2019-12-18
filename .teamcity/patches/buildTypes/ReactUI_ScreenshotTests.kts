@@ -1,7 +1,9 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
@@ -45,6 +47,16 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
                     }
                 }
                 param("github_oauth_user", "wKich")
+            }
+        }
+        remove {
+            pullRequests {
+                provider = github {
+                    authType = token {
+                        token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    }
+                    filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+                }
             }
         }
     }
