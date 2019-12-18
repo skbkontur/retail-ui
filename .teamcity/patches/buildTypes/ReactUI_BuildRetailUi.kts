@@ -3,6 +3,7 @@ package patches.buildTypes
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -11,6 +12,14 @@ To apply the patch, change the buildType with id = 'ReactUI_BuildRetailUi'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_BuildRetailUi")) {
+    triggers {
+        remove {
+            vcs {
+                branchFilter = "+:pull/*"
+            }
+        }
+    }
+
     features {
         val feature1 = find<CommitStatusPublisher> {
             commitStatusPublisher {
