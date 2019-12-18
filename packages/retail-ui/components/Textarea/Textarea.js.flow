@@ -1,8 +1,6 @@
 /* @flow */
 import * as CSS from 'csstype';
 
-import { TextareaAdapter } from './Textarea.adapter';
-
 export type TextareaProps = {
   error?: boolean,
   warning?: boolean,
@@ -22,8 +20,6 @@ export type TextareaState = {|
 |};
 
 declare class Textarea extends React$Component<TextareaProps, TextareaState> {
-  static __ADAPTER__: typeof TextareaAdapter,
-
   focus(): void,
   blur(): void,
   setSelectionRange: (start: number, end: number) => void,
