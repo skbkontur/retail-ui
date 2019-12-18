@@ -6,7 +6,6 @@ import '../ensureOldIEClassName';
 import throttle from 'lodash.throttle';
 import LayoutEvents from '../../lib/LayoutEvents';
 import { getTextAreaHeight } from './TextareaHelpers';
-import { TextareaAdapter } from './Textarea.adapter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Textarea.styles';
@@ -130,8 +129,6 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 3,
     maxRows: 15,
   };
-
-  public static __ADAPTER__: typeof TextareaAdapter;
 
   public state = {
     polyfillPlaceholder,

@@ -17,9 +17,6 @@ export type LinkState = {|
   focusedByTab: boolean,
 |};
 
-declare class Link extends React$Component<LinkProps, LinkState> {
-  // eslint-disable-next-line flowtype/no-weak-types
-  static __ADAPTER__: any;
-}
+declare class Link extends React$Component<LinkProps, LinkState> {}
 
 export default Link;

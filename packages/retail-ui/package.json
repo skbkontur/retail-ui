@@ -56,7 +56,6 @@
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
     "normalize-wheel": "^1.0.1",
-    "object-assign": "^4.1.1",
     "prop-types": "^15.7.2",
     "raf": "^3.4.1",
     "react-focus-lock": "^1.11.2",
@@ -164,34 +163,16 @@
       }
     },
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/testing/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/components/__mocks__/fileMock.ts",
       "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/__fixtures__/"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
+    "testRegex": "__tests__(\\\\|/).*(\\.|-)test\\.(j|t)sx?$",
     "setupFilesAfterEnv": [
       "<rootDir>/test-setup.js"
-    ],
-    "roots": [
-      "components",
-      "lib",
-      "testing",
-      "scripts"
     ]
   }
 }
