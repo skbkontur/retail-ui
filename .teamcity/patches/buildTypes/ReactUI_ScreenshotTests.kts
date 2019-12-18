@@ -49,7 +49,7 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
                 param("github_oauth_user", "wKich")
             }
         }
-        remove {
+        val feature1 = find<PullRequests> {
             pullRequests {
                 provider = github {
                     authType = token {
@@ -58,6 +58,16 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
                     filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
                 }
             }
+        }
+        feature1.apply {
+            vcsRootExtId = "${DslContext.settingsRoot.id}"
+            provider = github {
+                serverUrl = ""
+                authType = vcsRoot()
+                filterTargetBranch = ""
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+            }
+            param("secure:accessToken", "")
         }
     }
 }
