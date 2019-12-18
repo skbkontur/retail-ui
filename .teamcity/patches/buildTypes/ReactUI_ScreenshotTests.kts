@@ -1,12 +1,10 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.PullRequests
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.BuildFailureOnMetric
 import jetbrains.buildServer.configs.kotlin.v2018_2.failureConditions.failOnMetricChange
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -15,22 +13,9 @@ To apply the patch, change the buildType with id = 'ReactUI_ScreenshotTests'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
-    expectTemplates()
-    templates = arrayListOf(RelativeId("ReactUI_GitHubFeatures"))
-
-    triggers {
-        remove {
-            vcs {
-                id = "TRIGGER_1"
-                branchFilter = "+:pull/*"
-            }
-        }
-    }
-
     failureConditions {
         add {
             failOnMetricChange {
-                id = "BUILD_EXT_4"
                 metric = BuildFailureOnMetric.MetricType.BUILD_DURATION
                 threshold = 3600
                 units = BuildFailureOnMetric.MetricUnit.DEFAULT_UNIT
@@ -43,9 +28,8 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
     }
 
     features {
-        remove {
+        val feature1 = find<CommitStatusPublisher> {
             commitStatusPublisher {
-                id = "BUILD_EXT_2"
                 publisher = github {
                     githubUrl = "https://api.github.com"
                     authType = personalToken {
@@ -55,16 +39,14 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
                 param("github_oauth_user", "wKich")
             }
         }
-        remove {
-            pullRequests {
-                id = "BUILD_EXT_3"
-                provider = github {
-                    authType = token {
-                        token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
-                    }
-                    filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+        feature1.apply {
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:2e60a13b-65b3-4f80-b342-2cb770ad7a7d"
                 }
             }
+            param("github_oauth_user", "")
         }
     }
 }
