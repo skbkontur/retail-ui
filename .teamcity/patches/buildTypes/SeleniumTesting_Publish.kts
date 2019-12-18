@@ -10,5 +10,5 @@ accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("SeleniumTesting_Publish")) {
     expectDisabledSettings()
-    updateDisabledSettings("BUILD_EXT_2", "BUILD_EXT_3")
+    updateDisabledSettings("BUILD_EXT_1", "BUILD_EXT_2", "BUILD_EXT_3")
 }
