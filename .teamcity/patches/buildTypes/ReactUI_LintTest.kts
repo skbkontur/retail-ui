@@ -1,8 +1,11 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.CommitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.pullRequests
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.swabra
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -11,9 +14,39 @@ To apply the patch, change the buildType with id = 'ReactUI_LintTest'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_LintTest")) {
+    expectTemplates()
+    templates = arrayListOf(RelativeId("ReactUI_GitHubFeatures"))
+
+    triggers {
+        remove {
+            vcs {
+                id = "TRIGGER_1"
+                branchFilter = "+:pull/*"
+            }
+        }
+    }
+
     features {
-        val feature1 = find<CommitStatusPublisher> {
+        remove {
+            swabra {
+                id = "BUILD_EXT_1"
+                forceCleanCheckout = true
+            }
+        }
+        remove {
+            pullRequests {
+                id = "BUILD_EXT_2"
+                provider = github {
+                    authType = token {
+                        token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    }
+                    filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+                }
+            }
+        }
+        remove {
             commitStatusPublisher {
+                id = "BUILD_EXT_3"
                 publisher = github {
                     githubUrl = "https://api.github.com"
                     authType = personalToken {
@@ -22,15 +55,6 @@ changeBuildType(RelativeId("ReactUI_LintTest")) {
                 }
                 param("github_oauth_user", "wKich")
             }
-        }
-        feature1.apply {
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "credentialsJSON:2e60a13b-65b3-4f80-b342-2cb770ad7a7d"
-                }
-            }
-            param("github_oauth_user", "")
         }
     }
 }
