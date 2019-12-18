@@ -18,10 +18,6 @@ create(RelativeId("ReactUI"), Template({
     id("ReactUI_GitHubFeatures")
     name = "GitHub Features"
 
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-
     steps {
         step {
             name = "Install"
