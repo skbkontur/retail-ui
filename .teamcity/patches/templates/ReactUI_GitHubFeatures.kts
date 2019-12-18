@@ -20,12 +20,6 @@ create(RelativeId("ReactUI"), Template({
 
     steps {
         step {
-            name = "Lint"
-            id = "RUNNER_2"
-            type = "jonnyzzz.yarn"
-            param("yarn_commands", "workspace retail-ui lint")
-        }
-        step {
             name = "Test"
             id = "RUNNER_3"
             type = "jonnyzzz.yarn"
