@@ -30,15 +30,22 @@
     }
   }
 
-  .close {
+  .closeWrapper {
     display: inline-block;
     position: absolute;
     top: 0;
     bottom: 0;
+    line-height: 40px;
+  }
+
+  .close {
+    display: inline-block;
     width: 8px;
     height: 8px;
-    line-height: 38px;
+    line-height: 0;
     text-align: center;
     cursor: pointer;
+    margin: -12px -8px;
+    padding: 12px 8px;
   }
 }
