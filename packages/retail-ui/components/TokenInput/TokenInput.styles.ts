@@ -46,6 +46,7 @@ const jsStyles = {
       .${styles.root} & {
         background: ${t.inputDisabledBg};
         border-color: ${t.inputDisabledBorderColor};
+        box-shadow: none;
       }
     `;
   },
