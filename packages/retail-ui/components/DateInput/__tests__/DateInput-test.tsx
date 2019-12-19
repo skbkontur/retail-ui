@@ -1,6 +1,5 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import { HTMLAttributes } from 'react';
 import { DefaultizeProps } from '../../../lib/utils';
 import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -23,10 +22,8 @@ const render = (
 const setups = [
   {
     name: 'DateInput as InputlikeText',
-    getInput: (
-      root: ReactWrapper<LocaleProviderProps, {}, LocaleProvider>,
-    ): ReactWrapper<HTMLAttributes<HTMLInputElement>> => root.find('.input'),
-    getValue: (input: ReactWrapper<HTMLAttributes<HTMLInputElement>>) => input.text(),
+    getInput: (root: ReactWrapper<LocaleProviderProps, {}, LocaleProvider>): ReactWrapper => root.find('.input'),
+    getValue: (input: ReactWrapper) => input.text(),
   },
 ];
 
