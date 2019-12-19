@@ -4,12 +4,15 @@ import warningOutput from 'warning';
 import * as ReactDOM from 'react-dom';
 import {
   isKeyArrowHorizontal,
-  isKeyArrowLeft, isKeyArrowRight,
+  isKeyArrowLeft,
+  isKeyArrowRight,
   isKeyArrowUp,
   isKeyArrowVertical,
-  isKeyBackspace, isKeyDelete,
+  isKeyBackspace,
+  isKeyDelete,
   isKeyEnter,
-  isKeyEscape, isShortcutSelectAll,
+  isKeyEscape,
+  isShortcutSelectAll,
 } from '../../lib/events/keyboard/identifiers';
 import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
@@ -201,7 +204,6 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       [jsStyles.labelFocused(theme)]: !!inFocus,
       [jsStyles.error(theme)]: !!error,
       [jsStyles.warning(theme)]: !!warning,
-      [styles.labelDisabled]: !!disabled,
       [jsStyles.labelDisabled(theme)]: !!disabled,
     });
     const inputClassName = cx(styles.input, jsStyles.input(theme), {
