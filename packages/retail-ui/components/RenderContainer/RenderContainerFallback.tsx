@@ -8,8 +8,10 @@ interface RenderContainerFallbackProps extends RenderContainerProps {
   rootId: string;
 }
 
-export function RootContainer(props: { children?: React.ReactNode; rt_portalID: string }) {
-  return React.Children.only(props.children);
+export class RootContainer extends React.Component<{ rt_portalID: string }> {
+  public render() {
+    return React.Children.only(this.props.children);
+  }
 }
 
 export class Portal extends React.Component<PortalProps> {

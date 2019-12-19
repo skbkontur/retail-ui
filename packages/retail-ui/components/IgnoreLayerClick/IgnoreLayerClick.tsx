@@ -36,7 +36,7 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
     }
   }
 
-  public render(): JSX.Element {
+  public render() {
     return React.Children.only(this.props.children);
   }
 

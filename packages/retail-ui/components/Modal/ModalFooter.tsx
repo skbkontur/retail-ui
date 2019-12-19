@@ -72,6 +72,6 @@ export class Footer extends React.Component<FooterProps> {
   };
 }
 
-export function isFooter(child: React.ReactChild): child is React.ReactElement<FooterProps> {
+export function isFooter(child: React.ReactNode): child is React.ReactElement<FooterProps> {
   return React.isValidElement<FooterProps>(child) && child.type.hasOwnProperty('__MODAL_FOOTER__');
 }

@@ -96,7 +96,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
 
   private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => typeof x === 'object' && x.props.icon,
+      x => React.isValidElement(x) && x.props.icon,
     );
 
     if (this.isEmpty()) {
@@ -127,7 +127,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
             if (typeof child === 'string' || typeof child === 'number' || child == null) {
               return child;
             }
-            if (typeof child.type === 'string') {
+            if (React.isValidElement(child) && typeof child.type === 'string') {
               return child;
             }
 
@@ -388,8 +388,8 @@ function isExist(value: any): value is any {
   return value !== null && value !== undefined;
 }
 
-function childrenToArray(children: React.ReactNode): React.ReactChild[] {
-  const ret: React.ReactChild[] = [];
+function childrenToArray(children: React.ReactNode): React.ReactNode[] {
+  const ret: React.ReactNode[] = [];
   // Use forEach instead of map to avoid cloning for key unifying.
   React.Children.forEach(children, child => {
     ret.push(child);
