@@ -8,7 +8,14 @@ export class SelectPlayground extends React.Component<SelectProps<string, string
   private readonly selectItems = ['Small', 'Medium', 'Large'];
 
   public render() {
-    return <Select {...this.props} value={this.state.value} items={this.selectItems} onChange={this.handleChange} />;
+    return (
+      <Select<string, string>
+        {...this.props}
+        value={this.state.value}
+        items={this.selectItems}
+        onChange={this.handleChange}
+      />
+    );
   }
 
   private handleChange = (_: any, value: string) => {
