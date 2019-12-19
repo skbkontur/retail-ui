@@ -10,6 +10,7 @@ const componentPriorities = {
   Loader: 1,
   ModalHeader: 1,
   ModalFooter: 1,
+  ModalCross: 1,
   ModalBody: 0,
 };
 const priorityStep = 1000;
