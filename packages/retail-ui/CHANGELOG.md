@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.8](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.7...retail-ui@1.6.8) (2019-12-16)
+
+
+### Bug Fixes
+
+* **SidePageHeader:** fix maximum update depth ([548b894](https://github.com/skbkontur/retail-ui/commit/548b894))
+
+
+
+
+
 ## [1.6.7](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.6...retail-ui@1.6.7) (2019-12-10)
 
 
