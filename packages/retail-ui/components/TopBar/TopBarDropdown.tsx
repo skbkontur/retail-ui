@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../typings/utility-types';
-import ButtonItem from './ButtonItem';
 import { IconProps } from '../internal/icons/20px';
+import ButtonItem from './TopBarButtonItem';
 import DropdownMenu from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 

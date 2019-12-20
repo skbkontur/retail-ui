@@ -1,6 +1,6 @@
 /* @flow */
-import type { ItemProps } from './Item';
 import type { IconProps } from '../internal/icons/20px';
+import type { ItemProps } from './TopBarItem';
 
 export type IconName = $PropertyType<IconProps, 'name'>;
 

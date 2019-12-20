@@ -11,7 +11,15 @@ const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
 const { npmVersions, npmTags, publishVersion } = getPackageInfo();
 
-const excludeComponents = ['ThemeProvider', 'ThemeConsumer', 'ThemeShowcase', 'LocaleProvider', 'Playground'];
+const excludeComponents = [
+  'ThemeProvider',
+  'ThemeConsumer',
+  'ThemeShowcase',
+  'LocaleProvider',
+  'Playground',
+  'ModalContext',
+  'SidePageContext',
+];
 
 const sectionComponents = ['Modal', 'TopBar', 'SidePage'];
 
@@ -22,7 +30,7 @@ const findComponentsInSection = dir => {
     .map(item => {
       const itemPath = path.join(dir, item);
       const reg = new RegExp(`/${name}[a-zA-Z]*.tsx`);
-      if (itemPath.match(reg)) {
+      if (itemPath.match(reg) && !excludeComponents.includes(path.basename(item, '.tsx'))) {
         return fs.existsSync(itemPath) ? itemPath : null;
       }
       return null;

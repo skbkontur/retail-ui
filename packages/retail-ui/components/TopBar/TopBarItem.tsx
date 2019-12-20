@@ -17,6 +17,9 @@ export interface ItemProps {
   use: 'danger' | 'pay' | 'default';
   tabIndex?: number;
 }
+/**
+ * @visibleName TopBar.StaticItem
+ */
 
 class Item extends React.Component<ItemProps> {
   public static propTypes = {
