@@ -1,4 +1,3 @@
-import ColorFunctions from '../../lib/styles/ColorFunctions';
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -16,7 +15,7 @@ const jsStyles = {
       cursor: text;
 
       & ::selection {
-        background: ${ColorFunctions.fade(t.dateInputComponentSelectedBgColor, 0.99)};
+        background: ${t.dateInputComponentSelectedBgColor};
       }
       & ::-moz-selection {
         background: ${t.dateInputComponentSelectedBgColor};
@@ -26,7 +25,7 @@ const jsStyles = {
 
   selected(t: ITheme) {
     return css`
-      border-color: ${ColorFunctions.fade(t.dateInputComponentSelectedBgColor, 0.99)};
+      border-color: ${t.dateInputComponentSelectedBgColor};
       background-color: ${t.dateInputComponentSelectedBgColor};
     `;
   },
