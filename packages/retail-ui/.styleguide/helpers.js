@@ -13,11 +13,32 @@ const { npmVersions, npmTags, publishVersion } = getPackageInfo();
 
 const excludeComponents = ['ThemeProvider', 'ThemeConsumer', 'ThemeShowcase', 'LocaleProvider', 'Playground'];
 
+const sectionComponents = ['Modal', 'TopBar', 'SidePage'];
+
+const findComponentsInSection = dir => {
+  const name = path.basename(dir);
+  const components = fs
+    .readdirSync(dir)
+    .map(item => {
+      const itemPath = path.join(dir, item);
+      const reg = new RegExp(`/${name}[a-zA-Z]*.tsx`);
+      if (itemPath.match(reg)) {
+        return fs.existsSync(itemPath) ? itemPath : null;
+      }
+      return null;
+    })
+    .filter(Boolean);
+  return {
+    name,
+    components,
+  };
+};
+
 const findComponent = dir => {
   const name = path.basename(dir);
   const ts = path.join(dir, `${name}.tsx`);
   const js = path.join(dir, `${name}.js`);
-  const readme = path.join(dir, `README.md`);
+  const readme = path.join(dir, `${name}.md`);
   if (!fs.existsSync(readme) || excludeComponents.includes(name)) {
     return null;
   }
@@ -28,33 +49,47 @@ const findComponentsRecursively = dir => {
   if (!fs.statSync(dir).isDirectory()) {
     return [];
   }
+  const sections = [null];
   const components = [findComponent(dir)];
   fs.readdirSync(dir).forEach(name => {
+    if (sectionComponents.indexOf(name) >= 0) {
+      sections.push(findComponentsInSection(path.join(dir, name)));
+    }
     components.push(...findComponentsRecursively(path.join(dir, name)));
   });
-  return components.filter(Boolean);
+  return [...components.filter(Boolean), ...sections.filter(Boolean)];
 };
 
-const components = findComponentsRecursively(COMPONENTS_DIR);
-
+const sections = findComponentsRecursively(COMPONENTS_DIR).filter(item => item.name);
+const components = findComponentsRecursively(COMPONENTS_DIR)
+  .filter(item => !item.name)
+  .filter(
+    item =>
+      sections.reduce((prev, cur) => {
+        return prev || cur.components.indexOf(item) !== -1;
+      }, false) !== true,
+  );
 const getCommonSections = () => {
   return [
     { name: 'Readme', content: path.join(__dirname, '../README.md'), exampleMode: 'expand' },
     { name: 'Changelog', content: path.join(__dirname, '../CHANGELOG.md') },
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
-    { name: 'Icons', content: path.join(__dirname, '../components/Icon/README.md') },
+    { name: 'Icons', content: path.join(__dirname, '../components/Icon/Icon.md') },
     { name: 'LocaleProvider', content: path.join(__dirname, '../LOCALEPROVIDER.md') },
     {
       content: path.join(__dirname, '../CUSTOMIZATION.md'),
       name: 'Customization',
       sectionDepth: 1,
       sections: [
-        { name: 'ThemeProvider', content: path.join(__dirname, '../components/ThemeProvider/README.md') },
-        { name: 'ThemeShowcase', content: path.join(__dirname, '../components/ThemeShowcase/README.md') },
-        { name: 'ThemePlayground', content: path.join(__dirname, '../components/ThemeProvider/Playground/README.md') },
+        { name: 'ThemeProvider', content: path.join(__dirname, '../components/ThemeProvider/ThemeProvider.md') },
+        { name: 'ThemeShowcase', content: path.join(__dirname, '../components/ThemeShowcase/ThemeShowcase.md') },
+        {
+          name: 'ThemePlayground',
+          content: path.join(__dirname, '../components/ThemeProvider/Playground/Playground.md'),
+        },
       ],
     },
-    { name: 'Components', components, sectionDepth: 1 },
+    { name: 'Components', components, sectionDepth: 2, sections },
   ].filter(section => !section.content || fs.existsSync(section.content));
 };
 
