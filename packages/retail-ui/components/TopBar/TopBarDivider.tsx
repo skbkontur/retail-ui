@@ -6,6 +6,7 @@ import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 /**
+ * разделитель в топбаре
  * @visibleName TopBar.Divider
  */
 class Divider extends React.Component<{}> {

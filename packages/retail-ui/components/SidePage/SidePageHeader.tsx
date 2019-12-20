@@ -24,6 +24,8 @@ export interface SidePageHeaderState {
 }
 
 /**
+ * Шапка сайдпейдж
+ *
  * @visibleName SidePage.Header
  */
 export default class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {

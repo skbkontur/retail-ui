@@ -4,6 +4,7 @@ import ButtonItem, { ButtonItemProps } from './TopBarButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
 /**
+ * Кнопка выхода
  * @visibleName TopBar.Logout
  */
 @locale('TopBar', TopBarLocaleHelper)

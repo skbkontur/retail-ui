@@ -14,6 +14,8 @@ export interface HeaderProps {
   sticky: boolean;
 }
 /**
+ * Шапка модального окна
+ *
  * @visibleName Modal.Header
  */
 export class Header extends React.Component<HeaderProps> {

@@ -18,6 +18,7 @@ export interface ItemProps {
   tabIndex?: number;
 }
 /**
+ * Статичный элемент топбара
  * @visibleName TopBar.StaticItem
  */
 

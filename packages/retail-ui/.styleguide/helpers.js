@@ -18,6 +18,7 @@ const excludeComponents = [
   'LocaleProvider',
   'Playground',
   'ModalContext',
+  'ModalClose',
   'SidePageContext',
 ];
 

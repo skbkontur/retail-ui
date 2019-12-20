@@ -11,6 +11,7 @@ export interface UserProps {
   cabinetUrl?: string;
 }
 /**
+ * Меню работы с кабинетом пользователя
  * @visibleName TopBar.User
  */
 

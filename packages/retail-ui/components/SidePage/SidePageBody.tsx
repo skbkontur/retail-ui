@@ -8,6 +8,7 @@ export interface SidePageBodyProps {
   context?: SidePageContextType;
 }
 /**
+ * Тело для сайдпейджа
  * @visibleName SidePage.Body
  */
 export class SidePageBody extends React.Component<SidePageBodyProps> {

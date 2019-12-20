@@ -18,7 +18,7 @@ export interface SidePageFooterProps {
 }
 
 /**
- * Футер модального окна.
+ * Футер сайдпейджа.
  * @visibleName SidePage.Footer
  */
 

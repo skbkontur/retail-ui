@@ -16,6 +16,7 @@ export interface OrganizationsState {
   minWidth: Nullable<number>;
 }
 /**
+ * Дропдаун с организациями
  * @visibleName TopBar.OrganizationsDropdown
  */
 
