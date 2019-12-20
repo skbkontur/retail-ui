@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Sticky from '../Sticky';
-import { SVGCross } from '../internal/cross';
+import CrossIcon from '../internal/icons/CrossIcon';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.module.less';
 import { isFunction } from '../../lib/utils';
@@ -92,7 +92,6 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
           <SidePageContext.Consumer>
             {({ requestClose }) => (
               <a
-                href="javascript:"
                 className={cx(styles.close, jsStyles.close(this.theme), {
                   [styles.fixed]: fixed,
                   [jsStyles.fixed(this.theme)]: fixed,
@@ -100,7 +99,9 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
                 onClick={requestClose}
                 data-tid="SidePage-Close"
               >
-                <SVGCross className={styles.closeIcon} />
+                <span className={styles.closeIcon}>
+                  <CrossIcon />
+                </span>
               </a>
             )}
           </SidePageContext.Consumer>

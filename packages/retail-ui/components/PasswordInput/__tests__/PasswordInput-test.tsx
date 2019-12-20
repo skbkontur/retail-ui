@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
-import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
 
 import PasswordInput, { PasswordInputProps } from '../PasswordInput';
+import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import Input from '../../Input';
 
 import styles from '../PasswordInput.less';
@@ -66,7 +65,7 @@ describe('PasswordInput', () => {
     component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => true });
     expect(component.find(`.${styles.capsLockDetector}`)).toHaveLength(1);
 
-    component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => false  });
+    component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => false });
 
     expect(component.find(`.${styles.capsLockDetector}`)).toHaveLength(0);
   });

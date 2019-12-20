@@ -152,7 +152,6 @@
     "webpack-watch-files-plugin": "^1.0.3"
   },
   "peerDependencies": {
-    "@skbkontur/react-icons": "^3.0.0",
     "react": ">=15 <=16",
     "react-dom": ">=15 <=16"
   },

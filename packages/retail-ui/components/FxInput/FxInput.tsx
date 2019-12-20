@@ -1,7 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import FunctionIcon from '@skbkontur/react-icons/Function';
-import UndoIcon from '@skbkontur/react-icons/Undo';
 
 import Button from '../Button';
 import Group from '../Group';
@@ -10,6 +8,7 @@ import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { InputType } from '../Input/Input';
 import { Override } from '../../typings/utility-types';
+import { FunctionIcon, UndoIcon } from '../internal/icons/16px';
 
 export type FxInputProps = Override<
   CurrencyInputProps,
