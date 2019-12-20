@@ -71,6 +71,6 @@ export class Header extends React.Component<HeaderProps> {
   };
 }
 
-export function isHeader(child: React.ReactChild): child is React.ReactElement<HeaderProps> {
+export function isHeader(child: React.ReactNode): child is React.ReactElement<HeaderProps> {
   return React.isValidElement<HeaderProps>(child) && child.type.hasOwnProperty('__MODAL_HEADER__');
 }

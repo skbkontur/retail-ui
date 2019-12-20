@@ -575,13 +575,13 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
     const buttonElement = React.Children.only(button);
 
-    return React.cloneElement(buttonElement, {
-      ref: (element: FocusableReactElement) => {
-        this.buttonRef(element);
-      },
-      onFocus: this.props.onFocus,
-      onBlur: this.props.onBlur,
-    });
+    return React.isValidElement(buttonElement)
+      ? React.cloneElement(buttonElement as React.ReactElement, {
+          ref: this.buttonRef,
+          onFocus: this.props.onFocus,
+          onBlur: this.props.onBlur,
+        })
+      : buttonElement;
   };
 }
 

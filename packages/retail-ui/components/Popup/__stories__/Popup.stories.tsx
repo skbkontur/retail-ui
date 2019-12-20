@@ -451,7 +451,7 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
         {this.props.useText ? (
           'Sample text'
         ) : (
-          <Select
+          <Select<IDropdownValue>
             size={'large'}
             items={SELECT_ITEMS}
             value={this.state.selected}
