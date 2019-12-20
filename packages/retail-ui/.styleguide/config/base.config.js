@@ -4,6 +4,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   path.join(__dirname, '../../tsconfig.json'),
   {
     propFilter: prop => !(prop.parent && /node_modules/.test(prop.parent.fileName)),
+    savePropValueAsString: true,
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
