@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
 const FONT_FAMILY_CORRECTION = 1;
@@ -85,30 +86,30 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
     );
   };
 
-  private renderClose = () => {
-    return (
-      <Sticky side="top" offset={CLOSE_ELEMENT_OFFSET}>
-        {fixed => (
-          <SidePageContext.Consumer>
-            {({ requestClose }) => (
-              <a
-                className={cx(styles.close, jsStyles.close(this.theme), {
-                  [styles.fixed]: fixed,
-                  [jsStyles.fixed(this.theme)]: fixed,
-                })}
-                onClick={requestClose}
-                data-tid="SidePage-Close"
-              >
-                <span className={styles.closeIcon}>
-                  <CrossIcon />
-                </span>
-              </a>
-            )}
-          </SidePageContext.Consumer>
-        )}
-      </Sticky>
-    );
-  };
+  private renderCloseContent = (fixed: boolean) => (
+    <SidePageContext.Consumer>
+      {({ requestClose }) => (
+        <a
+          className={cx(styles.close, jsStyles.close(this.theme), {
+            [styles.fixed]: fixed,
+            [jsStyles.fixed(this.theme)]: fixed,
+          })}
+          onClick={requestClose}
+          data-tid="SidePage-Close"
+        >
+          <span className={styles.closeIcon}>
+            <CrossIcon />
+          </span>
+        </a>
+      )}
+    </SidePageContext.Consumer>
+  );
+
+  private renderClose = () => (
+    <Sticky side="top" offset={CLOSE_ELEMENT_OFFSET}>
+      {this.renderCloseContent}
+    </Sticky>
+  );
 
   private updateReadyToFix = () => {
     if (this.wrapper) {

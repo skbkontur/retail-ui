@@ -141,6 +141,14 @@ export const OkIcon = (props: SvgIconProps) => (
   </SvgIcon>
 );
 
+export const SquareIcon = (props: SvgIconProps) => (
+  <SvgIcon {...props}>
+    <svg viewBox="0 0 16 16">
+      <rect width={8} height={8} x={4} y={5} fillRule="evenodd" rx={1} />
+    </svg>
+  </SvgIcon>
+);
+
 export const UndoIcon = (props: SvgIconProps) => (
   <SvgIcon {...props}>
     <svg viewBox="0 0 16 16">

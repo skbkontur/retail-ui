@@ -68,4 +68,10 @@ describe('Baseline', function() {
       await expect(await element.takeScreenshot()).to.matchImage('simple');
     });
   });
+  describe('Checkbox', function() {
+    it('simple', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('simple');
+    });
+  });
 });
