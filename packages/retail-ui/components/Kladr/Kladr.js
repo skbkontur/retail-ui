@@ -2,13 +2,13 @@
 /* eslint-disable flowtype/no-weak-types */
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import EditIcon from '@skbkontur/react-icons/Edit';
 import warning from 'warning';
 import AddressModal from './AddressModal';
 import Colors from '../../lib/Colors';
 import Link from '../Link';
 import type { Address } from './Types';
 import * as util from './util';
+import { EditIcon } from '../internal/icons/16px';
 
 type Props = {
   error?: ?string,

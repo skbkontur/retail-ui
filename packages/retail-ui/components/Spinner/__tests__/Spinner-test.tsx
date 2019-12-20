@@ -3,9 +3,9 @@ import * as React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import LocaleProvider, { LangCodes } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
-import { sizeMaps } from '../settings';
+import SpinnerIcon, { SPINNER_CLOUD_SIZE } from '../../internal/icons/SpinnerIcon';
 
-import Spinner, { SpinnerConfig } from '../Spinner';
+import Spinner from '../Spinner';
 import styles from '../Spinner.less';
 import SpinnerFallback from '../SpinnerFallback';
 
@@ -15,7 +15,7 @@ const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 describe('Spinner', () => {
   describe('SVG animation', () => {
     beforeEach(() => {
-      SpinnerConfig.hasSvgAnimationSupport = true;
+      require('../../../lib/utils').__setSvgAnimationSupport(true);
     });
 
     it('renders default Spinner', () => {
@@ -24,12 +24,11 @@ describe('Spinner', () => {
 
     it('renders correct size of default Spinner', () => {
       const component = render();
-      const cloudProps = component.find(generateSelector('cloud')).props();
+      const cloudProps = component.find('svg').props();
       const { width, height } = cloudProps;
-      const defaultType = Spinner.defaultProps.type;
 
-      expect(width).toEqual(sizeMaps[defaultType].width);
-      expect(height).toEqual(sizeMaps[defaultType].height);
+      expect(width).toEqual(SPINNER_CLOUD_SIZE.width);
+      expect(height).toEqual(SPINNER_CLOUD_SIZE.height);
     });
 
     it('renders correct default Spinner caption text', () => {
@@ -48,7 +47,7 @@ describe('Spinner', () => {
 
     it('should render mini Spinner', () => {
       const component = render({ type: 'mini' });
-      const circle = component.find(generateSelector('circle'));
+      const circle = component.find(SpinnerIcon);
       const captionRight = component.find(generateSelector('captionRight'));
 
       expect(circle).toHaveLength(1);
@@ -57,17 +56,17 @@ describe('Spinner', () => {
 
     it('should render big Spinner', () => {
       const component = render({ type: 'big' });
-      const cloud = component.find(generateSelector('cloud'));
+      const cloud = component.find('svg');
       const { width, height } = cloud.props();
 
-      expect(width).toEqual(sizeMaps.big.width);
-      expect(height).toEqual(sizeMaps.big.height);
+      expect(width).toEqual(SPINNER_CLOUD_SIZE.width * 2);
+      expect(height).toEqual(SPINNER_CLOUD_SIZE.height * 2);
     });
   });
 
   describe('Fallback animation', () => {
     beforeEach(() => {
-      SpinnerConfig.hasSvgAnimationSupport = false;
+      require('../../../lib/utils').__setSvgAnimationSupport(false);
     });
 
     it('renders default Spinner', () => {
@@ -81,10 +80,9 @@ describe('Spinner', () => {
         .find('span')
         .prop('style');
 
-      const type = Spinner.defaultProps.type;
       expect(cloudStyle).toMatchObject({
-        width: sizeMaps[type].width,
-        height: sizeMaps[type].height,
+        width: SPINNER_CLOUD_SIZE.width,
+        height: SPINNER_CLOUD_SIZE.height,
         top: 0,
       });
     });
@@ -98,9 +96,11 @@ describe('Spinner', () => {
         .prop('style');
 
       expect(cloudStyle).toMatchObject({
-        width: sizeMaps[type].width,
-        height: sizeMaps[type].height,
-        top: 2,
+        width: 16,
+        height: 16,
+        marginBottom: -3,
+        marginLeft: -1,
+        marginRight: -1,
       });
     });
   });

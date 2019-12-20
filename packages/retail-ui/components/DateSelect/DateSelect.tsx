@@ -1,8 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import ArrowTriangleUpDownIcon from '@skbkontur/react-icons/ArrowTriangleUpDown';
-import ArrowTriangleUpIcon from '@skbkontur/react-icons/ArrowTriangleUp';
-import ArrowTriangleDownIcon from '@skbkontur/react-icons/ArrowTriangleDown';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { locale } from '../LocaleProvider/decorators';
@@ -15,6 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './DateSelect.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import ThemeConsumer from '../ThemeConsumer';
+import { ArrowTriangleUpDownIcon, ArrowTriangleUpIcon, ArrowTriangleDownIcon } from '../internal/icons/16px';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;

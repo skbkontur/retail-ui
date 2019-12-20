@@ -430,7 +430,8 @@ class ComboBoxRenderer extends React.Component<Props, State> {
   };
 
   _close = (endEdit?: boolean) => {
-    this.setState(() => ({ isEditing: !endEdit, opened: false, result: null }));
+    this.setState({ opened: false, result: null });
+    setTimeout(() => this.setState({ isEditing: !endEdit }), 0);
     safelyCall(this.props.onClose);
   };
 
