@@ -99,7 +99,7 @@
     "@types/warning": "^3.0.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
-    "babel-loader": "8.0.6",
+    "babel-loader": "^8.0.6",
     "core-js": "^3.4.8",
     "creevey": "^0.2.2",
     "cross-env": "^6.0.3",
