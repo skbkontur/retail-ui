@@ -1,8 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import MenuKebabIcon from '@skbkontur/react-icons/MenuKebab';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
-import Icon20 from '../Icon/20px';
+import Icon20 from '../internal/icons/20px';
 import LayoutEvents from '../../lib/LayoutEvents';
 import tabListener from '../../lib/events/tabListener';
 import PopupMenu from '../internal/PopupMenu';
@@ -14,6 +13,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Kebab.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { MenuKebabIcon } from '../internal/icons/16px';
 
 export interface KebabProps {
   disabled?: boolean;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
-import uuidv1 from 'uuid/v1';
+import { getRandomID } from '../../lib/utils';
 import Prevent from './Prevent';
 import Radio, { SyntheticRadioEvent } from '../Radio';
 import styles from './RadioGroup.module.less';
@@ -141,7 +141,7 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
   public static Prevent = Prevent;
 
   private _node: Nullable<HTMLSpanElement>;
-  private _name = uuidv1();
+  private _name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
 
   constructor(props: RadioGroupProps<T>) {

@@ -141,7 +141,12 @@ export default class MaskedInput extends React.Component<MaskedInputProps, Maske
     }
   };
 
-  private preprocess = (newState: InputState, oldState: InputState, userInput: string, options: MaskOptions) => {
+  private preprocess = (
+    newState: InputState,
+    oldState: InputState,
+    userInput: string,
+    options: MaskOptions & Pick<MaskedInputProps, 'mask'>,
+  ) => {
     const visibleMaskChars = new Array(options.mask.length).fill(this.props.maskChar);
 
     if (newState.value !== oldState.value && userInput === null) {

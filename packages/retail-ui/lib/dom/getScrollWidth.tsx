@@ -1,4 +1,4 @@
-import ExecutionEnvironment from 'exenv';
+import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
 
 let scrollbarWidth: number | null = null;
 

@@ -180,6 +180,6 @@ export default class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = (child: React.ReactChild): child is React.ReactElement<MenuItemProps> => {
+export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
   return React.isValidElement<MenuItemProps>(child) ? child.type.hasOwnProperty('__MENU_ITEM__') : false;
 };

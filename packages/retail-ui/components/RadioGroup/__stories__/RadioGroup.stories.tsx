@@ -21,7 +21,7 @@ class Component extends React.Component<any, any> {
       <Gapped vertical>
         <Button data-tid={'JustButton'}>Just button</Button>
         <div id="RadioGroup-wrap" style={{ padding: 10 }}>
-          <RadioGroup
+          <RadioGroup<string>
             ref={element => (this._radioGroup = element)}
             value={this.state.value}
             onChange={el => this.handleChange(el)}
@@ -51,7 +51,7 @@ storiesOf('RadioGroup', module)
     return <Component items={['One', 'Two', 'Three']} />;
   })
   .add('inline', () => <Component inline items={['One', 'Two', 'Three']} />)
-  .add('with renderItem', () => <RadioGroup items={['One', 'Two']} renderItem={x => <div>Value: {x}</div>} />)
+  .add('with renderItem', () => <RadioGroup<string> items={['One', 'Two']} renderItem={x => <div>Value: {x}</div>} />)
   .add('multiple groups', () => (
     <div>
       <Component items={['One', 'Two', 'Three']} />

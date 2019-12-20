@@ -1,4 +1,3 @@
-import CalendarIcon from '@skbkontur/react-icons/Calendar';
 import * as React from 'react';
 import { MIN_FULLDATE, MAX_FULLDATE } from '../../lib/date/constants';
 import { InternalDate } from '../../lib/date/InternalDate';
@@ -21,6 +20,7 @@ import jsStyles from './DateInput.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import ThemeConsumer from '../ThemeConsumer';
 import debounce from 'lodash.debounce';
+import { CalendarIcon } from '../internal/icons/16px';
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
@@ -422,7 +422,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   // tslint:disable:member-ordering
   private selectionNotIe = () => {
-    this.changeSelectedDateComponent(this.state.selected)
+    this.changeSelectedDateComponent(this.state.selected);
   };
   private selectionIe = debounce(() => {
     const node = this.inputLikeText && this.inputLikeText.getNode();
@@ -484,8 +484,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const nextType =
       prevType === InternalDateComponentType.All
         ? internalDate
-          .toFragments({ withSeparator: false })
-          .reduce((_type, { value, type }) => (value !== null ? type : _type), this.getLastDateComponentType())
+            .toFragments({ withSeparator: false })
+            .reduce((_type, { value, type }) => (value !== null ? type : _type), this.getLastDateComponentType())
         : prevType;
     let prev = internalDate.get(nextType);
     if (prev === null) {
@@ -641,7 +641,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       });
       return (
         <span className={iconStyles}>
-          <CalendarIcon/>
+          <CalendarIcon />
         </span>
       );
     }

@@ -37,15 +37,6 @@ module.exports = async ({ config, mode }) => {
       test: /\.jsx?$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
-      options: {
-        babelrc: false,
-        presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-flow'],
-        plugins: [
-          '@babel/plugin-proposal-class-properties',
-          '@babel/plugin-proposal-object-rest-spread',
-          '@babel/plugin-transform-runtime',
-        ],
-      },
     },
     {
       test: /\.tsx?$/,
@@ -59,7 +50,15 @@ module.exports = async ({ config, mode }) => {
       test: /\.(css|less)$/,
       loaders: [
         'style-loader',
-        'css-loader?localIdentName=[name]-[local]-[hash:base64:4]',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              mode: 'global',
+              localIdentName: '[name]-[local]-[hash:base64:4]',
+            },
+          },
+        },
         {
           loader: 'typed-css-modules-loader',
           options: {

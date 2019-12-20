@@ -15,8 +15,12 @@ class SelectWrapper extends React.Component<{}, any> {
   public render() {
     return (
       <div>
-        <Select
-          items={[{ label: 'One', value: 1 }, { label: 'Two', value: 2 }, { label: 'Three', value: 3 }]}
+        <Select<{ label: string; value: number }>
+          items={[
+            { label: 'One', value: 1 },
+            { label: 'Two', value: 2 },
+            { label: 'Three', value: 3 },
+          ]}
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}
           renderItem={x => x.label}
@@ -32,10 +36,10 @@ class SelectWrapper extends React.Component<{}, any> {
 }
 
 class ItemsWithComments extends React.Component<{}, any> {
-  private static items = [
-    [1, "ООО Эльбрус", "8387666415 - 113445852"],
-    [2, "ИП Иванов Петр", "583662338391"],
-    [3, "ЗАО Текстильщики"]
+  private static items: Array<[number, string, React.ReactNode?]> = [
+    [1, 'ООО Эльбрус', '8387666415 - 113445852'],
+    [2, 'ИП Иванов Петр', '583662338391'],
+    [3, 'ЗАО Текстильщики'],
   ];
 
   public state = {
@@ -45,7 +49,7 @@ class ItemsWithComments extends React.Component<{}, any> {
   public render() {
     return (
       <div>
-        <Select
+        <Select<number, string>
           width={200}
           value={this.state.value}
           items={ItemsWithComments.items}
@@ -67,7 +71,7 @@ class SelectWithNull extends React.Component<any, any> {
         <div>
           value: <b>{JSON.stringify(this.state.value)}</b>
         </div>
-        <Select
+        <Select<number | null>
           items={[[null, 'Any'], Select.SEP, [1, 'First'], [2, 'Second'], [3, 'Third']]}
           value={this.state.value}
           onChange={(_, value) => this.setState({ value })}

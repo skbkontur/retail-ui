@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import CROSS from '../internal/cross';
+import CrossIcon from '../internal/icons/CrossIcon';
 import ZIndex from '../ZIndex/ZIndex';
 import styles from './ToastView.module.less';
 import { Nullable } from '../../typings/utility-types';
@@ -59,8 +59,10 @@ class ToastView extends React.Component<ToastViewProps> {
     ) : null;
 
     const close = action ? (
-      <span className={cx(styles.close, jsStyles.close(this.theme))} onClick={onClose}>
-        {CROSS}
+      <span className={styles.closeWrapper}>
+        <span className={cx(styles.close, jsStyles.close(this.theme))} onClick={onClose}>
+          <CrossIcon />
+        </span>
       </span>
     ) : null;
 

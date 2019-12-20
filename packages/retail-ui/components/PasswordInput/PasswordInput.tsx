@@ -1,7 +1,5 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
-import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import Codes from '../../lib/events/keyboard/KeyboardEventCodes';
 
@@ -12,6 +10,7 @@ import { ieVerison, isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 
 import styles from './PasswordInput.module.less';
+import { EyeOpenedIcon, EyeClosedIcon } from '../internal/icons/16px';
 
 export type PasswordInputProps = {
   detectCapsLock?: boolean;

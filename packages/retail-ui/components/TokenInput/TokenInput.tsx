@@ -642,7 +642,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
 
     const { renderValue, toKey, disabled } = this.props;
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
-    const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
+    const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
       event.stopPropagation();
       this.handleRemoveToken(item);
     };
@@ -681,7 +681,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
 
     // TODO useCallback
-    const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
+    const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
       event.stopPropagation();
       this.handleRemoveToken(item);
     };

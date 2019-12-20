@@ -79,6 +79,10 @@ export enum InternalDateValidateCheck {
   Range,
 }
 
+export function isInternalDateValidateCheck(value: unknown): value is InternalDateValidateCheck {
+  return typeof value === 'number' && Object.values(InternalDateValidateCheck).includes(value);
+}
+
 export enum InternalDateFirstDayWeek {
   Monday = 0,
   Sunday = 1,
