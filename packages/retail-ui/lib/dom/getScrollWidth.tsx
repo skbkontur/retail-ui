@@ -1,9 +1,8 @@
-import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
-
 let scrollbarWidth: number | null = null;
+const canUseDOM = typeof window !== 'undefined' && window.document && window.document.createElement;
 
 export default function getScrollWidth() {
-  if (!ExecutionEnvironment.canUseDOM) {
+  if (!canUseDOM) {
     return 0;
   }
   const { body } = document;
