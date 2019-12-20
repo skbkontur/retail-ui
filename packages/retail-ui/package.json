@@ -50,7 +50,6 @@
     "create-react-context": "^0.3.0",
     "csstype": "2.6.7",
     "eventemitter3": "^4.0.0",
-    "fbjs": "^1.0.0",
     "invariant": "2.2.4",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
