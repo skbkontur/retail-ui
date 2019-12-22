@@ -15,24 +15,19 @@ export class ConditionalHandler<T, K extends any[] = any[]> {
   }
 
   /**
-   * @param defaultHandler
-   * @returns {Boolean} isDone - был ли вызван хоть один обработчик
+   * @returns {Boolean} found - был ли найден и вызван хоть один обработчик
    */
-  public build(defaultHandler?: Handler<K>): (reference: T, ...args: K) => boolean {
+  public build(): (reference: T, ...args: K) => boolean {
     return (reference, ...args) => {
-      let isFound: boolean = false;
+      let found: boolean = false;
       this.actions.forEach(({ condition, handler }) => {
         if (isFunction(condition) ? condition(reference) : condition === reference) {
           handler(...args);
-          isFound = true;
+          found = true;
         }
       });
 
-      if (!isFound && defaultHandler) {
-        defaultHandler(...args);
-      }
-
-      return isFound || !!defaultHandler;
+      return found;
     };
   }
 }
