@@ -40,7 +40,6 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   private dragging: boolean = false;
   private focusTimeout: Nullable<TimeoutID>;
   private blinkTimeout: Nullable<TimeoutID>;
-  private manualBlur: boolean = false;
 
   /**
    * @public
@@ -55,9 +54,6 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
    * @public
    */
   public blur() {
-    this.manualBlur = true;
-    setTimeout(() => (this.manualBlur = false), 0);
-
     if (this.node) {
       this.node.blur();
     }
@@ -80,7 +76,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   }
 
   public selectInnerNode = (node: any, start: number = 0, end: number = 1) => {
-    if (this.dragging || this.manualBlur) {
+    if (this.dragging) {
       return;
     }
     this.frozen = true;
