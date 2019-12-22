@@ -72,6 +72,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
   private inputLikeText: InputLikeText | null = null;
   private isMouseDown: boolean = false;
+  private isMouseFocus: boolean = false;
   private ignoringDelimiter: boolean = false;
   private locale!: DatePickerLocale;
   private divInnerNode: HTMLDivElement | null = null;
@@ -90,7 +91,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     .add(Actions.ClearSelection, () => this.clearSelected())
     .add(Actions.ClearOneChar, () => this.clearOneChar())
     .add(Actions.FullSelection, () => this.fullSelection())
-    .add(Actions.WrongInput, () => this.notify())
+    .add(Actions.WrongInput, () => this.blink())
     .build();
 
   constructor(props: DateInputProps) {
@@ -192,7 +193,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           nodeRef={this.divInnerNodeRef}
           fragments={fragments}
           onSelectDateComponent={this.handleSelectDateComponent}
-          onMouseDown={this.handleFragmentMouseDown}
           selected={selected}
           inputMode={inputMode}
           onLoadedFragmentNodes={this.handleLoadedFragmentNodes}
@@ -222,14 +222,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     return null;
   };
 
-  private handleFragmentMouseDown = () => {
-    this.isMouseDown = !this.state.focused;
-  };
-
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
     this.setState(prevState => ({
       focused: true,
-      selected: this.isMouseDown ? prevState.selected : this.iDateMediator.getLeftmostType(),
+      selected: this.isMouseDown && !prevState.focused ? prevState.selected : this.iDateMediator.getLeftmostType(),
     }));
 
     if (this.props.onFocus) {
@@ -245,17 +241,22 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       if (restored) {
         e.persist();
         this.blurEvent = e;
-      }
-      else {
+      } else {
         this.props.onBlur(e);
       }
     }
   };
 
   private handleMouseDownCapture = (e: React.MouseEvent<HTMLSpanElement>) => {
-    if (this.state.focused && !this.fragmentNodes.has(e.target as HTMLSpanElement)) {
+    let isFragment: boolean = false;
+    this.fragmentNodes.forEach(fragment => {
+      isFragment = fragment === e.target || fragment.contains(e.target as HTMLSpanElement);
+    });
+    if (this.state.focused && !isFragment) {
       e.preventDefault();
     }
+    this.isMouseFocus = !this.state.focused;
+    this.isMouseDown = isFragment;
   };
 
   private handleLoadedFragmentNodes = (fragmentNodes: Set<HTMLSpanElement>) => {
@@ -263,8 +264,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleSelectDateComponent = (type: InternalDateComponentType) => {
+    if (!(this.isMouseFocus && this.iDateMediator.isEmpty())) {
+      this.selectDateComponent(type);
+    }
+    this.isMouseFocus = false;
     this.isMouseDown = false;
-    this.selectDateComponent(type);
   };
 
   private handleMouseDragStart = () => {
@@ -282,7 +286,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-    e.persist();
     if (this.conditionalHandler(extractAction(e), e)) {
       e.preventDefault();
     }
@@ -325,10 +328,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.iDateMediator.update(this.props, this.locale);
 
     this.updateValue();
-  };
-
-  private notify = (): void => {
-    this.blink();
   };
 
   private fullSelection = (): void => {
@@ -391,7 +390,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const { selected } = this.state;
     const changed = this.iDateMediator.shiftDateComponent(selected, step);
     if (!changed) {
-      this.notify();
+      this.blink();
       return;
     }
     this.updateValue({
