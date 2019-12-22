@@ -17,7 +17,15 @@ export default class InternalDateMediator {
     const { order, separator } = locale;
     this.iDate.setOrder(order).setSeparator(separator);
     if (props.minDate !== min) {
-      this.iDate.setRangeStart(props.minDate ? new InternalDate({ order, separator, value: props.minDate }) : null);
+      this.iDate.setRangeStart(
+        props.minDate
+          ? new InternalDate({
+              order,
+              separator,
+              value: props.minDate,
+            })
+          : null,
+      );
     }
     if (props.maxDate !== max) {
       this.iDate.setRangeEnd(
@@ -131,6 +139,8 @@ export default class InternalDateMediator {
     locale.order !== this.iDate.getOrder() || locale.separator !== this.iDate.getSeparator();
 
   public isNull = (type: InternalDateComponentType | null): boolean => this.iDate.get(type) === null;
+
+  public isEmpty = (): boolean => this.iDate.isEmpty();
 
   public get = (type: InternalDateComponentType | null) => this.iDate.get(type);
 
