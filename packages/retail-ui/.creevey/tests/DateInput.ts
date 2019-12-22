@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { By, Key } from 'selenium-webdriver';
 
-async function focus($: any) {
-  await $.browser.executeScript(() => {
+async function focus(ctx: Mocha.Context) {
+  await ctx.browser.executeScript(() => {
     (window.document.querySelector("[data-comp-name*='DateInput InputLikeText']") as HTMLElement).focus();
   });
 }
@@ -73,10 +73,13 @@ describe('DateInput', function() {
       await expect(await element.takeScreenshot()).to.matchImage('value changed');
     });
     it('value restored', async function() {
+      let oldDate: DateConstructor;
       this.browser.executeScript(() => {
-        const oldDate = Date;
+        oldDate = Date;
         // @ts-ignore
-        window.Date = function(){return new oldDate(2000,0,1)}
+        window.Date = function() {
+          return new oldDate(2000, 0, 1);
+        };
       });
       const element = await this.browser.findElement(By.css('#test-element'));
       await focus(this);
@@ -87,6 +90,8 @@ describe('DateInput', function() {
         .sendKeys(Key.DELETE)
         .click(this.browser.findElement(By.css('body')))
         .perform();
+      // @ts-ignore
+      this.browser.executeScript(() => (window.Date = oldDate));
       await expect(await element.takeScreenshot()).to.matchImage('value restored');
     });
   });
