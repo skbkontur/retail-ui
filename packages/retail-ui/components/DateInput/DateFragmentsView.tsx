@@ -13,7 +13,6 @@ interface DateFragmentViewProps {
   fragments: InternalDateFragment[];
   inputMode: boolean;
   onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
-  onMouseDown: React.MouseEventHandler;
   onLoadedFragmentNodes: (fragmentNodes: Set<HTMLSpanElement>) => void;
 }
 
@@ -77,7 +76,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
     };
 
     return (
-      <span ref={this.fragmentRef} key={index} onMouseDown={this.props.onMouseDown} onMouseUp={handleMouseUp}>
+      <span ref={this.fragmentRef} key={index} onMouseUp={handleMouseUp}>
         {valueMask}
         <span className={jsStyles.mask(this.theme)}>{CHAR_MASK.repeat(lengthMask)}</span>
       </span>
