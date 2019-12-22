@@ -3,6 +3,7 @@ import React from 'react';
 
 import ComboBoxRenderer from '../ComboBoxRenderer';
 import InputLikeText from "../../internal/InputLikeText";
+import { delay } from '../../../lib/utils';
 
 const source = text => Promise.resolve([]);
 
@@ -25,11 +26,14 @@ describe('ComboBoxRenderer', () => {
     expect(wrapper.find('input').length).toBe(1);
   });
 
-  it('closes if not recovered', () => {
+  it('closes if not recovered', async () => {
     const onChange = jest.fn();
     const wrapper = mount(<ComboBoxRenderer value={null} source={source} onChange={onChange} />);
 
     editAndBlur(wrapper);
+
+    await delay(100);
+    wrapper.update();
 
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe(null);
@@ -40,7 +44,7 @@ describe('ComboBoxRenderer', () => {
     expect(value.text('value')).toBe('');
   });
 
-  it('closes when value was recovered', () => {
+  it('closes when value was recovered', async () => {
     const onChange = jest.fn();
     const wrapper = mount(
       <ComboBoxRenderer value="bar" source={source} recover={x => ({ value: x })} onChange={onChange} />,
@@ -48,12 +52,15 @@ describe('ComboBoxRenderer', () => {
 
     editAndBlur(wrapper);
 
+    await delay(100);
+    wrapper.update();
+
     expect(onChange.mock.calls.length).toBe(1);
     expect(onChange.mock.calls[0][1]).toBe('foo');
     expect(wrapper.find(InputLikeText).length).toBe(1);
   });
 
-  it('calls onError when value was not recovered', () => {
+  it('calls onError when value was not recovered', async () => {
     const onError = jest.fn();
     const wrapper = mount(
       <ComboBoxRenderer
@@ -66,10 +73,16 @@ describe('ComboBoxRenderer', () => {
 
     editAndBlur(wrapper);
 
+    await delay(100);
+    wrapper.update();
+
     expect(onError.mock.calls.length).toBe(1);
     expect(onError.mock.calls[0][0]).toBe('not_recovered');
 
     editAndBlur(wrapper, 'bar');
+
+    await delay(100);
+    wrapper.update();
 
     expect(onError.mock.calls.length).toBe(2);
     expect(onError.mock.calls[1][0]).toBe(null);
