@@ -6,7 +6,7 @@ import styles from './Sticky.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import warning from 'warning';
-import shallowEqual from 'fbjs/lib/shallowEqual';
+import shallowEqual from 'shallowequal';
 import ZIndex from '../ZIndex';
 
 const MAX_REFLOW_RETRIES = 5;
