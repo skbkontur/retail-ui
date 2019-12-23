@@ -10,11 +10,33 @@ interface MouseDragEvent extends MouseEvent {}
 type HandlerNative<E = MouseEvent> = (e: E) => void;
 type Handler = (e: MouseDragEvent) => void;
 type On = (handler: Handler) => MouseDrag;
-
-const items: WeakMap<HTMLElement, MouseDrag> = new WeakMap();
-
 export type MouseDragEventHandler = (e: MouseDragEvent) => void;
 
+const items: Map<HTMLElement, MouseDrag> = new Map();
+
+const documentHandleMouseUp: HandlerNative = e => items.forEach(mouseDrag => mouseDrag.handleMouseUp(e));
+
+document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
+
+/**
+ * Класс для отслеживания эффекта перетаскивания мышкой
+ *
+ * Публичные методы detach и handleMouseUp нельзя использовать!
+ *
+ * Начало прослушивания и добавление обработчиков:
+ * ```
+ *   MouseDrag.listen(HTMLElement)
+ *     .onMouseDragStart(start)
+ *     .onMouseDragMove(move)
+ *     .onMouseDragLeave(leave)
+ *     .onMouseDragEnd(end);
+ * ```
+ *
+ * Остановка прослушивания:
+ * ```
+ *   MouseDrag.stop(HTMLElement)
+ * ```
+ */
 export default class MouseDrag {
   // Радиус окружности, который необходимо преодолеть мышью, чтобы вызвалось событие `MouseDragStart`
   public static readonly RADIUS: number = 5; // px
@@ -52,7 +74,6 @@ export default class MouseDrag {
     this.elem = elem;
     this.elem.addEventListener('mousedown', this.handleMouseDown);
     this.elem.addEventListener('mousemove', this.handleMouseMove);
-    document.documentElement.addEventListener('mouseup', this.handleMouseUp);
     this.elem.addEventListener('mouseleave', this.handleMouseLeave);
     items.set(this.elem, this);
   }
@@ -60,7 +81,6 @@ export default class MouseDrag {
   public detach = (): void => {
     this.elem.removeEventListener('mousedown', this.handleMouseDown);
     this.elem.removeEventListener('mousemove', this.handleMouseMove);
-    document.documentElement.removeEventListener('mouseup', this.handleMouseUp);
     this.elem.removeEventListener('mouseleave', this.handleMouseLeave);
   };
 
@@ -69,12 +89,17 @@ export default class MouseDrag {
   public onMouseDragLeave: On = handler => this.on(MouseDragEventType.Leave, handler);
   public onMouseDragEnd: On = handler => this.on(MouseDragEventType.End, handler);
 
+  public handleMouseUp: HandlerNative = e => {
+    this.clicked = false;
+    if (this.dragging) {
+      this.dragging = false;
+      this.dispatchEvent(this.createEvent(MouseDragEventType.End, e));
+    }
+  };
+
   private on = (type: MouseDragEventType, handler: Handler): MouseDrag => {
     this.elem.removeEventListener(type, handler as HandlerNative<Event>);
-    this.elem.addEventListener(type, e => {
-      e.stopPropagation();
-      handler(e as MouseDragEvent);
-    });
+    this.elem.addEventListener(type, handler as HandlerNative<Event>);
     return this;
   };
 
@@ -97,14 +122,6 @@ export default class MouseDrag {
       if (this.mouseDragStartEvent) {
         this.dispatchEvent(this.mouseDragStartEvent);
       }
-    }
-  };
-
-  private handleMouseUp: HandlerNative = e => {
-    this.clicked = false;
-    if (this.dragging) {
-      this.dragging = false;
-      this.dispatchEvent(this.createEvent(MouseDragEventType.End, e));
     }
   };
 
