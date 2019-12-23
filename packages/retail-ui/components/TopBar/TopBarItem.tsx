@@ -19,6 +19,7 @@ export interface ItemProps {
 }
 /**
  * Статичный элемент топбара
+ *
  * @visibleName TopBar.StaticItem
  */
 

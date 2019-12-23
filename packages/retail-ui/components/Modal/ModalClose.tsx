@@ -6,11 +6,6 @@ import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
-/**
- *
- * @visibleName Modal.Close
- *
- */
 export default class Close extends React.Component<CloseProps> {
   private theme!: ITheme;
 

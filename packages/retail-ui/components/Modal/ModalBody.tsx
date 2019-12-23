@@ -6,6 +6,7 @@ import ZIndex from '../ZIndex';
 
 /**
  * Контейнер с отступами от края модалки
+ *
  * @visibleName Modal.Body
  */
 export class Body extends React.Component {

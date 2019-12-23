@@ -24,7 +24,8 @@ export interface TopBarDropdownProps {
 }
 
 /**
- * дропдаун в топбаре
+ * Дропдаун в топбаре
+ *
  * @visibleName TopBar.Dropdown
  */
 

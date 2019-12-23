@@ -17,6 +17,7 @@ export interface OrganizationsState {
 }
 /**
  * Дропдаун с организациями
+ *
  * @visibleName TopBar.OrganizationsDropdown
  */
 

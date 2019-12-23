@@ -24,7 +24,7 @@ export interface SidePageHeaderState {
 }
 
 /**
- * Шапка сайдпейдж
+ * Шапка сайдпейджа
  *
  * @visibleName SidePage.Header
  */

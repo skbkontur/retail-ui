@@ -12,6 +12,7 @@ export interface UserProps {
 }
 /**
  * Меню работы с кабинетом пользователя
+ *
  * @visibleName TopBar.User
  */
 

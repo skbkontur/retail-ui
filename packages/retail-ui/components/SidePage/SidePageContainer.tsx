@@ -4,6 +4,7 @@ import styles from './SidePage.module.less';
 
 /**
  * Контейнер с отступами
+ *
  * @visibleName SidePage.Container
  */
 export default class SidePageContainer extends React.Component {

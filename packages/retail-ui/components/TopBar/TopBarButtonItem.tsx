@@ -16,7 +16,8 @@ export interface ButtonItemProps extends ItemProps {
   use: 'danger' | 'pay' | 'default';
 }
 /**
- * интерактивный элемент топбара
+ * Интерактивный элемент топбара
+ *
  * @visibleName TopBar.ButtonItem
  */
 class ButtonItem extends React.Component<ButtonItemProps> {

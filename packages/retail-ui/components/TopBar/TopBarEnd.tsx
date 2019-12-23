@@ -2,7 +2,8 @@ import * as React from 'react';
 import styles from './TopBar.module.less';
 
 /**
- * контейнер для смещения к концу
+ * Контейнер для смещения к концу
+ *
  * @visibleName TopBar.End
  */
 
