@@ -2,6 +2,14 @@ import { css, keyframes } from '../../lib/theming/Emotion';
 import classes from './Button.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
+import {
+  buttonUseMixin,
+  buttonHoverMixin,
+  buttonActiveMixin,
+  buttonSizeMixin,
+  buttonArrowMixin,
+  buttonLoadingArrowMixin,
+} from './Button.mixins';
 
 const btn_loading_arrow = keyframes`
 0% {
@@ -12,15 +20,6 @@ const btn_loading_arrow = keyframes`
   transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
 }
 `;
-
-import {
-  buttonUseMixin,
-  buttonHoverMixin,
-  buttonActiveMixin,
-  buttonSizeMixin,
-  buttonArrowMixin,
-  buttonLoadingArrowMixin,
-} from './Button.mixins';
 
 const jsClasses = {
   root(t: ITheme) {
