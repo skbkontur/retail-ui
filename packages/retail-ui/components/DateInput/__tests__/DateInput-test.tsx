@@ -2,17 +2,16 @@ import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { HTMLAttributes } from 'react';
 import { DefaultizeProps } from '../../../lib/utils';
-import { CHAR_MASK } from '../../../lib/date/constants';
-import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
+import { CHAR_MASK, defaultDateComponentsOrder, defaultDateComponentsSeparator } from '../../../lib/date/constants';
+import { InternalDateOrder } from '../../../lib/date/types';
 import LocaleProvider, { LocaleProviderProps } from '../../LocaleProvider';
 import DateInput, { DateInputProps } from '../DateInput';
 
-const defaultOrder: InternalDateOrder = InternalDateOrder.DMY;
-const defaultSeparator: InternalDateSeparator = InternalDateSeparator.Dot;
+const defaultDatePickerLocale = { order: defaultDateComponentsOrder, separator: defaultDateComponentsSeparator };
 
 const render = (
   props: DefaultizeProps<typeof DateInput, DateInputProps>,
-  propsLocale: LocaleProviderProps = { locale: { DatePicker: { order: defaultOrder, separator: defaultSeparator } } },
+  propsLocale: LocaleProviderProps = { locale: { DatePicker: defaultDatePickerLocale } },
 ) =>
   mount<LocaleProvider, LocaleProviderProps>(
     <LocaleProvider {...propsLocale}>
@@ -25,6 +24,11 @@ const getInput = (
 ): ReactWrapper<HTMLAttributes<HTMLInputElement>> => root.find('.input');
 
 const getValue = (input: ReactWrapper<HTMLAttributes<HTMLInputElement>>) => input.text();
+
+const setValue = (dateInput: React.Component, value: string) => {
+  (dateInput as any).iDateMediator.update({ value }, defaultDatePickerLocale);
+  dateInput.forceUpdate();
+};
 
 describe('DateInput as InputlikeText', () => {
   describe('without min/max date', () => {
@@ -40,13 +44,17 @@ describe('DateInput as InputlikeText', () => {
 
     it('updates when value changes', () => {
       const root = render({ value: '10.02.2017' });
-      root.setProps({ children: <DateInput value="11.02.2017" /> });
+
+      setValue(root.find(DateInput).instance(), '11.02.2017');
+
       expect(getValue(getInput(root))).toBe('11.02.2017');
     });
 
     it('handles invalid date strings', () => {
       const root = render({ value: '10.02.2017' });
-      root.setProps({ children: <DateInput value="99.9" /> });
+
+      setValue(root.find(DateInput).instance(), '99.9');
+
       expect(getValue(getInput(root))).toBe(`99.09.${CHAR_MASK.repeat(4)}`);
     });
 
