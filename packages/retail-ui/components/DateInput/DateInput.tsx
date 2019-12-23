@@ -250,7 +250,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private handleMouseDownCapture = (e: React.MouseEvent<HTMLSpanElement>) => {
     let isFragment: boolean = false;
     this.fragmentNodes.forEach(fragment => {
-      isFragment = fragment === e.target || fragment.contains(e.target as HTMLSpanElement);
+      isFragment = isFragment || fragment === e.target || fragment.contains(e.target as HTMLSpanElement);
     });
     if (this.state.focused && !isFragment) {
       e.preventDefault();
