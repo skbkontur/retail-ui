@@ -186,5 +186,5 @@ module.exports = {
   getComponentPathLine(path) {
     return path.substring(path.indexOf('components')) || path;
   },
-  defaultExample: '../README.md',
+  defaultExample: '../MockReadme.md',
 };
