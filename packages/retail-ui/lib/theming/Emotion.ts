@@ -1,7 +1,18 @@
-import createEmotion from 'create-emotion';
-import extraScopePlugin from 'stylis-plugin-extra-scope';
+import createEmotion, { Options } from 'create-emotion';
 import Upgrade from '../Upgrades';
 import LESS_VARIABLES from '../../components/variables.module.less';
+
+// NOTE Copy-paste from https://github.com/Andarist/stylis-plugin-extra-scope
+function extraScopePlugin(extra: string): Options['stylisPlugins'] {
+  return (context, _content, selectors, _parents, _line, _column, _length, type) => {
+    if (context !== 2 || type === 107) {
+      return;
+    }
+    for (let i = 0; i < selectors.length; i++) {
+      selectors[i] = `${extra} ${selectors[i]}`;
+    }
+  };
+}
 
 const PREFIX = 'react-ui';
 
@@ -26,7 +37,7 @@ export const {
   cache,
 } = createEmotion({
   key: PREFIX,
-  stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
+  stylisPlugins: scope ? extraScopePlugin(scope) : undefined,
 });
 
 export function prefixer<T = { [key: string]: string }>(classes: T): T {
