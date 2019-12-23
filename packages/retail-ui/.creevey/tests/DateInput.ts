@@ -73,12 +73,13 @@ describe('DateInput', function() {
       await expect(await element.takeScreenshot()).to.matchImage('value changed');
     });
     it('value restored', async function() {
-      let oldDate: DateConstructor;
-      this.browser.executeScript(() => {
-        oldDate = Date;
+      await this.browser.executeScript(() => {
+        // @ts-ignore
+        window.OldDate = window.Date;
         // @ts-ignore
         window.Date = function() {
-          return new oldDate(2000, 0, 1);
+          // @ts-ignore
+          return new window.OldDate(2000, 0, 1);
         };
       });
       const element = await this.browser.findElement(By.css('#test-element'));
@@ -91,7 +92,13 @@ describe('DateInput', function() {
         .click(this.browser.findElement(By.css('body')))
         .perform();
       // @ts-ignore
-      this.browser.executeScript(() => (window.Date = oldDate));
+      await this.browser.executeScript(() => {
+        // @ts-ignore
+        if (window.OldDate) {
+          // @ts-ignore
+          window.Date = window.OldDate;
+        }
+      });
       await expect(await element.takeScreenshot()).to.matchImage('value restored');
     });
   });
