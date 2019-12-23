@@ -168,6 +168,10 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       },
     );
 
+    const wrapperClass = cx(inputStyles.wrapper, {
+      [jsStyles.userSelectContain(this.theme)]: focused,
+    });
+
     return (
       <span
         {...rest}
@@ -182,7 +186,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
       >
         <input type="hidden" value={value} />
         {leftSide}
-        <span className={cx(inputStyles.wrapper, jsStyles.userSelectContain(this.theme))}>
+        <span className={wrapperClass}>
           <span className={cx(inputStyles.input, jsStyles.input(this.theme), jsInputStyles.input(this.theme))}>
             {children}
           </span>
