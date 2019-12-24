@@ -21,6 +21,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { isBody } from './helpers';
 
 let mountedModalsCount = 0;
 
@@ -76,6 +77,18 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   public static Header = Header;
   public static Body = Body;
   public static Footer = Footer;
+
+  public static propTypes = {
+    children(props: ModalProps, propName: keyof ModalProps, componentName: string) {
+      if (
+        React.Children.toArray(props[propName]).some(child => !isHeader(child) && !isBody(child) && !isFooter(child))
+      ) {
+        return new Error(
+          `Only 'Header/Body/Footer' components are allowed for '${propName}' prop of '${componentName}' component`,
+        );
+      }
+    },
+  };
 
   public state: ModalState = {
     stackPosition: 0,
