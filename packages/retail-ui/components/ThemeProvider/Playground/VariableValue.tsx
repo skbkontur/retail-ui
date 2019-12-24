@@ -8,7 +8,7 @@ import Link from '../../Link';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import Hint from '../../Hint';
-import { EventEmitter, EventSubscription } from 'fbemitter';
+import EventEmitter from 'eventemitter3';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
 
 const emitter = new EventEmitter();
@@ -32,7 +32,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     value: this.props.value,
     editing: false,
   };
-  private subscription: EventSubscription | null = null;
+  private subscription: { remove: () => void } | null = null;
   private inputInstance: Input | null = null;
   private readonly debounceTimeout = 500;
   private debounceInterval: number | undefined = undefined;
@@ -55,7 +55,11 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
 
   public componentDidMount(): void {
     if (!this.subscription) {
-      this.subscription = emitter.addListener('clicked', this.emitterEventHandler);
+      this.subscription = {
+        remove: () => {
+          emitter.removeListener('clicked', this.emitterEventHandler);
+        },
+      };
     }
   }
 
