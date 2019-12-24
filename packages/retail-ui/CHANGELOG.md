@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.9](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.8...retail-ui@1.6.9) (2019-12-24)
+
+
+### Bug Fixes
+
+* **Checkbox:** adjust baseline if row is high ([52a71b0](https://github.com/skbkontur/retail-ui/commit/52a71b0))
+* **ComboBoxOld:** close tooltip on blur ([94a5630](https://github.com/skbkontur/retail-ui/commit/94a5630)), closes [#1669](https://github.com/skbkontur/retail-ui/issues/1669)
+* **Gapped:** don't cover other elements with horizontal layout ([e622933](https://github.com/skbkontur/retail-ui/commit/e622933))
+* **Modal:** fix issue with cross ([e599455](https://github.com/skbkontur/retail-ui/commit/e599455)), closes [#180](https://github.com/skbkontur/retail-ui/issues/180)
+
+
+
+
+
 ## [1.6.8](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.7...retail-ui@1.6.8) (2019-12-16)
 
 
