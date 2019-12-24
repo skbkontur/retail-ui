@@ -181,7 +181,7 @@ export const buttonLoadingArrowMixin = (
       background: ${background};
       background-size: 41px 100%;
       opacity: 0.2;
-      transform: rotate(-47deg) skewX(0deg) skewY(0deg);
+      transform: translateX(50px) rotate(-44.3deg);
       animation: ${btn_loading_arrow} 1s linear infinite;
     }
 
@@ -189,6 +189,7 @@ export const buttonLoadingArrowMixin = (
       top: ${leftArrowTop};
       left: ${left};
       animation-direction: reverse;
+      transform: translateX(42px) rotate(-44.3deg);
       animation-delay: ${delay};
     }
   `;

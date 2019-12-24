@@ -13,11 +13,11 @@ import {
 
 const btn_loading_arrow = keyframes`
 0% {
-  transform: translateX(50px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+  transform: translateX(50px) rotate(-44.3deg);
 }
 
 100% {
-  transform: translateX(21px) translateY(30px) rotate(-44.3deg) skewX(0deg) skewY(0deg);
+  transform: translateX(21px) translateY(30px) rotate(-44.3deg);
 }
 `;
 
@@ -501,7 +501,7 @@ const jsClasses = {
         left: 0;
         right: -30px;
         animation: ${btn_loading} 1s linear infinite;
-        transform: rotateY(180deg) skewX(0deg) skewY(0deg);
+        transform: rotateY(180deg);
       }
     `;
   },
