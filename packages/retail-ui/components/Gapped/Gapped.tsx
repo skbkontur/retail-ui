@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export interface GappedProps {
   /**
-   * Расстояние между элементави в пикселях
+   * Расстояние между элементами в пикселях
    * @default 10
    */
   gap: number;

@@ -1,11 +1,15 @@
-import createEmotion, { Options } from 'create-emotion';
+import createEmotion from 'create-emotion';
+import { Context, Plugin } from '@emotion/stylis';
 import Upgrade from '../Upgrades';
 import LESS_VARIABLES from '../../components/variables.module.less';
 
+// NOTE Type according by https://github.com/thysultan/stylis.js
+const KEYFRAME = 107;
+
 // NOTE Copy-paste from https://github.com/Andarist/stylis-plugin-extra-scope
-function extraScopePlugin(extra: string): Options['stylisPlugins'] {
+function extraScopePlugin(extra: string): Plugin {
   return (context, _content, selectors, _parents, _line, _column, _length, type) => {
-    if (context !== 2 || type === 107) {
+    if (context !== Context.BLCKS || type === KEYFRAME) {
       return;
     }
     for (let i = 0; i < selectors.length; i++) {
@@ -22,7 +26,7 @@ if (specificityLevel) {
   Upgrade.setSpecificityLevel(specificityLevel);
 }
 
-const scope = new Array(Upgrade.getSpecificityLevel()).fill('.retail-ui').join('');
+const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${PREFIX}`).join('');
 
 export const {
   flush,
