@@ -22,7 +22,6 @@ export interface FooterProps {
  *
  * @visibleName Modal.Footer
  */
-
 export class Footer extends React.Component<FooterProps> {
   public static __MODAL_FOOTER__ = true;
 

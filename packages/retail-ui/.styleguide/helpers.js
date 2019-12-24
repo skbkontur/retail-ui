@@ -28,12 +28,8 @@ const findComponentsInSection = dirPath => {
   const name = path.basename(dirPath);
   const components = fs
     .readdirSync(dirPath)
-    .map(item =>
-      item.match(`${name}[a-zA-Z]*.tsx`) && !excludedComponents.includes(path.basename(item, '.tsx'))
-        ? path.join(dirPath, item)
-        : null,
-    )
-    .filter(Boolean);
+    .filter(item => item.match(`${name}[a-zA-Z]*\.tsx`) && !excludedComponents.includes(path.basename(item, '.tsx')))
+    .map(item => path.join(dirPath, item));
   return {
     name,
     components,
@@ -75,9 +71,7 @@ const findInComponents = dir => {
   return { components, sections };
 };
 
-const all = findInComponents(COMPONENTS_DIR);
-const sections = all.sections;
-const components = all.components;
+const { sections, components } = findInComponents(COMPONENTS_DIR);
 
 const getCommonSections = () => {
   return [
