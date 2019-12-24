@@ -204,7 +204,6 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       [jsStyles.labelFocused(theme)]: !!inFocus,
       [jsStyles.error(theme)]: !!error,
       [jsStyles.warning(theme)]: !!warning,
-      [styles.labelDisabled]: !!disabled,
       [jsStyles.labelDisabled(theme)]: !!disabled,
     });
     const inputClassName = cx(styles.input, jsStyles.input(theme), {
