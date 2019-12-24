@@ -1,14 +1,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FocusLock from 'react-focus-lock';
-import { EventSubscription } from 'fbemitter';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import LayoutEvents from '../../lib/LayoutEvents';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import ZIndex from '../ZIndex/ZIndex';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
-import ModalStack from '../ModalStack';
+import ModalStack, { StackSubscription } from '../ModalStack';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer } from './ModalFooter';
 import { Header } from './ModalHeader';
@@ -84,7 +83,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private theme!: ITheme;
-  private stackSubscription: EventSubscription | null = null;
+  private stackSubscription: StackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
   private mouseUpTarget: EventTarget | null = null;

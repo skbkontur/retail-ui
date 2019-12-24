@@ -233,8 +233,32 @@
 @btn-pay-active-shadow-arrow-left: 1px -1px 0 0 rgba(210, 144, 0, 0.7), 2px -0.3px 0 -1px rgba(0, 0, 0, 0.44),
   inset -4px 0 5px -4px rgba(0, 0, 0, 0.05);
 
-// size medium
+//Button size small
+
+@btn-small-arrow-length: 18px;
+@btn-small-arrow-top: 7px;
+@btn-small-arrow-right: -8.8px;
+@btn-small-arrow-left: -8px;
+@btn-small-arrow-border-radius: 2px 2px 2px 16px;
+@btn-small-arrow-bg: linear-gradient(-54deg, transparent 48%, #ccc 0, #ccc 72%, transparent 0);
+@btn-small-arrow-left-loading-delay: 0.23s;
+
+//Button size medium
+@btn-medium-arrow-left: -9.8px;
+@btn-medium-arrow-right: -10px;
+@btn-medium-arrow-left-loading-left: -208px;
+@btn-medium-arrow-transform: rotate(53deg) skewX(24deg) skewY(8deg);
+@btn-medium-arrow-bg: linear-gradient(-58deg, transparent 47.5%, #ccc 0, #ccc 70.5%, transparent 0);
 @btn-deprecated-size-medium-padding-shift-ie: 1;
+@btn-deprecated-size-medium-font-size: 16px;
+@btn-deprecated-size-medium-padding-shift: 1;
+@btn-medium-arrow-left-loading-delay: 0.2s;
+
+//Button size large
+@btn-large-arrow-left: -10px;
+@btn-large-arrow-transform: rotate(53deg) skewX(25deg) skewY(10deg);
+@btn-large-arrow-bg: linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0);
+@btn-large-arrow-left-loading-delay: 0s;
 
 // Select
 @slt-placeholder-color: #a0a0a0;
@@ -348,6 +372,7 @@
 // Toggle
 @toggle-bg: linear-gradient(-180deg, #fff, #ebebeb);
 @toggle-bg-checked: #3072c4;
+@toggle-bg-focus: linear-gradient(-180deg, #f1f1f1, #dedede);
 @toggle-bg-warning: '__COMPUTED__';
 @toggle-bg-error: '__COMPUTED__';
 @toggle-bg-active: '__COMPUTED__';
@@ -365,6 +390,7 @@
 @input-text-color: none;
 @input-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
 @input-bg: white;
+@input-disabled-border-color: '__COMPUTED__';
 
 // Checkbox
 @chb-bg: '__COMPUTED__';
@@ -581,6 +607,26 @@
 @value btnPayActiveShadowArrow: @btn-pay-active-shadow-arrow;
 @value btnPayActiveShadowArrowLeft: @btn-pay-active-shadow-arrow-left;
 @value btnDeprecatedSizeMediumPaddingShiftIe: @btn-deprecated-size-medium-padding-shift-ie;
+@value btnSmallArrowLength: @btn-small-arrow-length;
+@value btnSmallArrowTop: @btn-small-arrow-top;
+@value btnSmallArrowRight: @btn-small-arrow-right;
+@value btnSmallArrowLeft: @btn-small-arrow-left;
+@value btnSmallArrowLeftLoadingDelay: @btn-small-arrow-left-loading-delay;
+@value btnSmallArrowBorderRadius: @btn-small-arrow-border-radius;
+@value btnSmallArrowBg: @btn-small-arrow-bg;
+@value btnMediumArrowLeft: @btn-medium-arrow-left;
+@value btnMediumArrowRight: @btn-medium-arrow-right;
+@value btnMediumArrowLeftLoadingLeft: @btn-medium-arrow-left-loading-left;
+@value btnMediumArrowTransform: @btn-medium-arrow-transform;
+@value btnMediumArrowBg: @btn-medium-arrow-bg;
+@value btnMediumArrowLeftLoadingDelay: @btn-medium-arrow-left-loading-delay;
+@value btnDeprecatedSizeMediumFontSize: @btn-deprecated-size-medium-font-size;
+@value btnDeprecatedSizeMediumPaddingShift: @btn-deprecated-size-medium-padding-shift;
+@value btnDeprecatedSizeMediumPaddingShiftIe: @btn-deprecated-size-medium-padding-shift-ie;
+@value btnLargeArrowLeft: @btn-large-arrow-left;
+@value btnLargeArrowTransform: @btn-large-arrow-transform;
+@value btnLargeArrowBg: @btn-large-arrow-bg;
+@value btnLargeArrowLeftLoadingDelay: @btn-large-arrow-left-loading-delay;
 @value sltPlaceholderColor: @slt-placeholder-color;
 @value tooltipCloseBtnColor: @tooltip-close-btn-color;
 @value tooltipCloseBtnHoverColor: @tooltip-close-btn-hover-color;
@@ -657,6 +703,7 @@
 @value inputTextColor: @input-text-color;
 @value inputShadow: @input-shadow;
 @value inputBg: @input-bg;
+@value inputDisabledBorderColor: @input-disabled-border-color;
 @value chbBg: @chb-bg;
 @value chbBgStart: @chb-bg-start;
 @value chbBgEnd: @chb-bg-end;
@@ -694,6 +741,7 @@
 @value tabColorHoverPrimary: @tab-color-hover-primary;
 @value pagingForwardLinkColor: @paging-forward-link-color;
 @value pagingForwardLinkDisabledColor: @paging-forward-link-disabled-color;
+@value toggleBgHover: @toggle-bg-focus;
 @value toggleBgWarning: @toggle-bg-warning;
 @value toggleBgError: @toggle-bg-error;
 @value toggleFocusShadowColor: @toggle-focus-shadow-color;
