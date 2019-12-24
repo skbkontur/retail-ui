@@ -22,7 +22,7 @@ export interface PasswordInputState {
 }
 
 /**
- * **DRAFT**
+ * Компонент для ввода пароля
  */
 export default class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
   public static propTypes = {
