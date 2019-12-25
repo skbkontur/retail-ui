@@ -34,7 +34,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   private theme!: ITheme;
   private node: HTMLElement | null = null;
   private hiddenInput: HTMLInputElement | null = null;
-  private lastSelectedInnerNode: [HTMLInputElement, number, number] | null = null;
+  private lastSelectedInnerNode: [HTMLElement, number, number] | null = null;
   private frozen: boolean = false;
   private frozenBlur: boolean = false;
   private dragging: boolean = false;
@@ -75,8 +75,8 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     return this.node;
   }
 
-  public selectInnerNode = (node: any, start: number = 0, end: number = 1) => {
-    if (this.dragging) {
+  public selectInnerNode = (node: HTMLElement | null, start: number = 0, end: number = 1) => {
+    if (this.dragging || !node) {
       return;
     }
     this.frozen = true;
@@ -87,7 +87,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
     if (this.focusTimeout) {
       clearInterval(this.focusTimeout);
     }
-    this.focusTimeout = setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
+    this.focusTimeout = window.setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
   };
 
   public componentDidMount() {

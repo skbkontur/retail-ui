@@ -8,21 +8,26 @@ import ThemeConsumer from '../ThemeConsumer';
 import jsStyles from './DateFragmentsView.styles';
 
 interface DateFragmentViewProps {
-  nodeRef: (el: HTMLDivElement | null) => void;
   selected: InternalDateComponentType | null;
   fragments: InternalDateFragment[];
   inputMode: boolean;
   onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
-  onLoadedFragmentNodes: (fragmentNodes: Set<HTMLSpanElement>) => void;
 }
 
 export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}> {
   private theme!: ITheme;
-  private fragmentNodes: Set<HTMLElement> = new Set();
+  private rootNode: HTMLSpanElement | null = null;
 
-  public componentDidMount(): void {
-    this.props.onLoadedFragmentNodes(this.fragmentNodes);
-  }
+  public isFragment = (el: HTMLElement | EventTarget): boolean => {
+    if (this.rootNode) {
+      // NOTE: NodeList doesn't support method 'forEach' in IE11
+      const fragments: HTMLSpanElement[] = Array.from(this.rootNode.querySelectorAll('[data-fragment]'));
+      return fragments.some(fragment => fragment === el || fragment.contains(el as HTMLSpanElement));
+    }
+    return false;
+  };
+
+  public getRootNode = () => this.rootNode;
 
   public render() {
     return (
@@ -37,7 +42,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
 
   private renderMain() {
     return (
-      <span ref={this.props.nodeRef} className={jsStyles.root(this.theme)}>
+      <span ref={this.rootRef} className={jsStyles.root(this.theme)}>
         {this.props.fragments.map(
           (fragment, index) =>
             fragment.type === InternalDateComponentType.Separator
@@ -76,16 +81,14 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
     };
 
     return (
-      <span ref={this.fragmentRef} key={index} onMouseUp={handleMouseUp}>
+      <span key={index} data-fragment="" onMouseUp={handleMouseUp}>
         {valueMask}
         <span className={jsStyles.mask(this.theme)}>{CHAR_MASK.repeat(lengthMask)}</span>
       </span>
     );
   }
 
-  private fragmentRef = (el: HTMLSpanElement | null) => {
-    if (el !== null) {
-      this.fragmentNodes.add(el);
-    }
+  private rootRef = (el: HTMLSpanElement | null) => {
+    this.rootNode = el;
   };
 }

@@ -1,7 +1,7 @@
 import CalendarIcon from '@skbkontur/react-icons/Calendar';
 import * as React from 'react';
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
-import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
+import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateComponentType } from '../../lib/date/types';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
@@ -71,12 +71,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
   private inputLikeText: InputLikeText | null = null;
+  private dateFragmentsView: DateFragmentsView | null = null;
   private isMouseDown: boolean = false;
   private isMouseFocus: boolean = false;
   private ignoringDelimiter: boolean = false;
   private locale!: DatePickerLocale;
-  private divInnerNode: HTMLDivElement | null = null;
-  private fragmentNodes: Set<HTMLSpanElement> = new Set();
   private blurEvent: React.FocusEvent<HTMLElement> | null = null;
   private theme!: ITheme;
   private conditionalHandler = new ConditionalHandler<Actions, [React.KeyboardEvent<HTMLElement>]>()
@@ -120,16 +119,17 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   public selectNode = () => {
     const type = this.state.selected;
-    if (type === null || !this.inputLikeText) {
+    const dateFragmentsView = this.dateFragmentsView && this.dateFragmentsView.getRootNode();
+    if (type === null || !this.inputLikeText || !dateFragmentsView) {
       return;
     }
     if (type === InternalDateComponentType.All) {
-      this.inputLikeText.selectInnerNode(this.divInnerNode, 0, 5);
+      this.inputLikeText.selectInnerNode(dateFragmentsView, 0, 5);
       return;
     }
     const index = this.iDateMediator.getTypesOrder().indexOf(type);
     if (index > -1) {
-      this.inputLikeText.selectInnerNode(this.divInnerNode, index * 2, index * 2 + 1);
+      this.inputLikeText.selectInnerNode(dateFragmentsView, index * 2, index * 2 + 1);
     }
   };
 
@@ -190,12 +190,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         value={this.iDateMediator.getInternalString()}
       >
         <DateFragmentsView
-          nodeRef={this.divInnerNodeRef}
+          ref={this.dateFragmentsViewRef}
           fragments={fragments}
           onSelectDateComponent={this.handleSelectDateComponent}
           selected={selected}
           inputMode={inputMode}
-          onLoadedFragmentNodes={this.handleLoadedFragmentNodes}
         />
       </InputLikeText>
     );
@@ -248,19 +247,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDownCapture = (e: React.MouseEvent<HTMLSpanElement>) => {
-    let isFragment: boolean = false;
-    this.fragmentNodes.forEach(fragment => {
-      isFragment = isFragment || fragment === e.target || fragment.contains(e.target as HTMLSpanElement);
-    });
+    const isFragment = this.dateFragmentsView ? this.dateFragmentsView.isFragment(e.target) : false;
     if (this.state.focused && !isFragment) {
       e.preventDefault();
     }
     this.isMouseFocus = !this.state.focused;
     this.isMouseDown = isFragment;
-  };
-
-  private handleLoadedFragmentNodes = (fragmentNodes: Set<HTMLSpanElement>) => {
-    this.fragmentNodes = fragmentNodes;
   };
 
   private handleSelectDateComponent = (type: InternalDateComponentType) => {
@@ -276,11 +268,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragEnd = () => {
-    if (
-      this.divInnerNode &&
-      this.state.selected !== InternalDateComponentType.All &&
-      getSelection().toString() === this.divInnerNode.innerText
-    ) {
+    if (this.state.selected !== InternalDateComponentType.All && getSelection().toString().length === LENGTH_FULLDATE) {
       this.selectDateComponent(InternalDateComponentType.All);
     }
   };
@@ -306,12 +294,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.selectDateComponent(InternalDateComponentType.All);
   };
 
-  private divInnerNodeRef = (el: HTMLDivElement | null) => {
-    this.divInnerNode = el;
-  };
-
   private inputLikeTextRef = (el: InputLikeText | null) => {
     this.inputLikeText = el;
+  };
+
+  private dateFragmentsViewRef = (el: DateFragmentsView | null) => {
+    this.dateFragmentsView = el;
   };
 
   private selectDateComponent = (selected: InternalDateComponentType | null): void => {

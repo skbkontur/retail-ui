@@ -12,6 +12,7 @@ export const LENGTH_YEAR = 4;
 export const LENGTH_MONTH = 2;
 export const LENGTH_DATE = 2;
 export const LENGTH_SEPARATOR = 1;
+export const LENGTH_FULLDATE = LENGTH_YEAR + LENGTH_MONTH + LENGTH_DATE + LENGTH_SEPARATOR * 2;
 export const CHAR_PAD = '0';
 export const CHAR_MASK = '_';
 export const SEPARATOR = `(?:\\.|\\/|\\-|\\s|\\,)`;
