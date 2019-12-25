@@ -222,7 +222,7 @@ class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): void => (this.selectAllId = raf(this.selectAll));
+  private delaySelectAll = (): number => (this.selectAllId = raf(this.selectAll));
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
