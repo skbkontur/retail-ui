@@ -6,7 +6,7 @@ import ToastView, { ToastViewProps } from './ToastView';
 import ToastStatic from './ToastStatic';
 
 import './Toast.module.less';
-import { Nullable, TimeoutID } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 
 export interface Action {
   label: string;
@@ -43,7 +43,7 @@ class Toast extends React.Component<ToastProps, ToastState> {
   }
 
   public _toast: Nullable<ToastView>;
-  private _timeout: Nullable<TimeoutID> = null;
+  private _timeout: Nullable<number> = null;
 
   constructor(props: ToastProps) {
     super(props);
