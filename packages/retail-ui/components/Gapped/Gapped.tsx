@@ -1,10 +1,17 @@
-import * as React from 'react';
-
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export interface GappedProps {
-  gap?: number;
-  verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
+  /**
+   * Расстояние между элементами в пикселях
+   * @default 10
+   */
+  gap: number;
+  /**
+   * Вертикальное выравнивание
+   * @default "middle"
+   */
+  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
   vertical?: boolean;
   children: React.ReactNode;
 }
@@ -37,12 +44,12 @@ class Gapped extends React.Component<GappedProps> {
 
   public render() {
     if (this.props.vertical) {
-      return this._renderVertical();
+      return this.renderVertical();
     }
-    return this._renderHorizontal();
+    return this.renderHorizontal();
   }
 
-  private _renderVertical() {
+  private renderVertical() {
     const subsequentItemStyle: React.CSSProperties = {
       paddingTop: this.props.gap,
     };
@@ -61,11 +68,10 @@ class Gapped extends React.Component<GappedProps> {
     return <div>{children}</div>;
   }
 
-  private _renderHorizontal() {
+  private renderHorizontal() {
     const itemStyle = {
       display: 'inline-block',
       marginLeft: this.props.gap,
-      marginTop: this.props.gap,
       verticalAlign: this.props.verticalAlign,
     };
     const children = React.Children.map(this.props.children, (child, index) => {
@@ -74,18 +80,10 @@ class Gapped extends React.Component<GappedProps> {
       }
       return <span style={itemStyle}>{child}</span>;
     });
-    const rootStyle = {
-      paddingTop: 1,
-    };
     const contStyle = {
-      marginTop: -this.props.gap! - 1,
       marginLeft: -this.props.gap!,
     };
-    return (
-      <div style={rootStyle}>
-        <div style={contStyle}>{children}</div>
-      </div>
-    );
+    return <div style={contStyle}>{children}</div>;
   }
 }
 

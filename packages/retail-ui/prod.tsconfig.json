@@ -1,4 +1,4 @@
 {
-  "extends": "./tsconfig.json",
-  "exclude": ["**/__mocks__/**/*", "**/__tests__/**/*", "**/__stories__/**/*", ".styleguide", "creevey.config.ts"]
+  "extends": "../../tsconfig.json",
+  "exclude": ["**/__mocks__/**/*", "**/__tests__/**/*", "**/__stories__/**/*", ".styleguide"]
 }

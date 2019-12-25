@@ -5,6 +5,8 @@ import { cx } from '../../lib/theming/Emotion';
 import ZIndex from '../ZIndex';
 
 export class Body extends React.Component {
+  public static __MODAL_BODY__ = true;
+
   public render(): JSX.Element {
     return (
       <ModalContext.Consumer>

@@ -42,7 +42,7 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
   }
 
   public componentDidMount() {
-    this.updateTimeout = setTimeout(() => {
+    this.updateTimeout = window.setTimeout(() => {
       this.setState({ groups: VARIABLES_GROUPS, isLoading: false });
     }, 500);
   }
