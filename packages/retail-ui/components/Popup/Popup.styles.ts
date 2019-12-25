@@ -17,6 +17,8 @@ const jsStyles = {
 
   contentInner(t: ITheme) {
     return css`
+      max-width: 100%;
+      display: inline-block;
       color: ${t.popupTextColor};
       background: ${t.popupBackground};
     `;

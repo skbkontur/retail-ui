@@ -96,6 +96,7 @@ class Hint extends React.Component<HintProps, HintState> {
     return (
       <Popup
         hasPin
+        maxWidth={this.props.maxWidth}
         margin={POPUP_MARGIN}
         opened={this.state.opened}
         anchorElement={this.props.children}

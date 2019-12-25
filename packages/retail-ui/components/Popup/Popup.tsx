@@ -349,11 +349,14 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent(location: PopupLocation) {
-    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
+    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, disablePortal } = this.props;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
+    const rootStyle: React.CSSProperties = {
+      ...location.coordinates,
+      ...(disablePortal ? { width: maxWidth } : { maxWidth }),
+    };
 
     // This need to correct handle order of lifecycle hooks with portal and react@15
     // For more details see issue #1257
