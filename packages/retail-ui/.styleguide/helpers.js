@@ -24,11 +24,11 @@ const excludedComponents = [
 
 const sectionComponents = ['Modal', 'TopBar', 'SidePage'];
 
-const findComponentsInSection = dirPath => {
-  const name = path.basename(dirPath);
+const findComponentsInSection = (dirPath, name) => {
+  const reg = new RegExp(`${name}[a-zA-Z]*\.tsx`);
   const components = fs
     .readdirSync(dirPath)
-    .filter(item => item.match(`${name}[a-zA-Z]*\.tsx`) && !excludedComponents.includes(path.basename(item, '.tsx')))
+    .filter(item => reg.test(item) && !excludedComponents.includes(path.basename(item, '.tsx')))
     .map(item => path.join(dirPath, item));
   return {
     name,
@@ -36,24 +36,24 @@ const findComponentsInSection = dirPath => {
   };
 };
 
-const findComponent = dir => {
-  const name = path.basename(dir);
-  const ts = path.join(dir, `${name}.tsx`);
-  const js = path.join(dir, `${name}.js`);
-  const readme = path.join(dir, `${name}.md`);
+const findComponent = dirPath => {
+  const name = path.basename(dirPath);
+  const ts = path.join(dirPath, `${name}.tsx`);
+  const js = path.join(dirPath, `${name}.js`);
+  const readme = path.join(dirPath, `${name}.md`);
   if (!fs.existsSync(readme) || excludedComponents.includes(name)) {
     return null;
   }
   return fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null;
 };
 
-const findComponentsRecursively = dir => {
-  if (!fs.statSync(dir).isDirectory()) {
+const findComponentsRecursively = dirPath => {
+  if (!fs.statSync(dirPath).isDirectory()) {
     return [];
   }
-  const components = [findComponent(dir)];
-  fs.readdirSync(dir).forEach(name => {
-    components.push(...findComponentsRecursively(path.join(dir, name)));
+  const components = [findComponent(dirPath)];
+  fs.readdirSync(dirPath).forEach(name => {
+    components.push(...findComponentsRecursively(path.join(dirPath, name)));
   });
   return components.filter(Boolean);
 };
@@ -62,10 +62,11 @@ const findInComponents = dir => {
   const sections = [];
   const components = [];
   fs.readdirSync(dir).forEach(name => {
+    const dirPath = path.join(dir, name);
     if (sectionComponents.includes(name)) {
-      sections.push(findComponentsInSection(path.join(dir, name)));
+      sections.push(findComponentsInSection(dirPath, name));
     } else {
-      components.push(...findComponentsRecursively(path.join(dir, name)));
+      components.push(...findComponentsRecursively(dirPath));
     }
   });
   return { components, sections };
