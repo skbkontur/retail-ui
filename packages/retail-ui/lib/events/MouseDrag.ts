@@ -19,22 +19,30 @@ const documentHandleMouseUp: HandlerNative = e => items.forEach(mouseDrag => mou
 document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
 
 /**
- * Класс для отслеживания эффекта перетаскивания мышкой
+ * ## Класс для отслеживания эффекта перетаскивания мышкой
  *
- * Публичные методы detach и handleMouseUp нельзя использовать!
+ * _Публичный метод `handleMouseUp` нельзя использовать!_
  *
- * Начало прослушивания и добавление обработчиков:
+ * ### Начало прослушивания и добавление обработчиков:
  * ```
- *   MouseDrag.listen(HTMLElement)
+ *   MouseDrag.listen(HTMLElement_1)
  *     .onMouseDragStart(start)
  *     .onMouseDragMove(move)
  *     .onMouseDragLeave(leave)
  *     .onMouseDragEnd(end);
+ *
+ * - - ИЛИ - -
+ *
+ *  const mouseDrag_1 = MouseDrag.listen(HTMLElement)...
  * ```
  *
- * Остановка прослушивания:
+ * ### Остановка прослушивания:
  * ```
- *   MouseDrag.stop(HTMLElement)
+ *   MouseDrag.stop(HTMLElement_1)
+ *
+ * - - ИЛИ - -
+ *
+ *   mouseDrag_1.stop();
  * ```
  */
 export default class MouseDrag {
@@ -51,13 +59,12 @@ export default class MouseDrag {
     return new MouseDrag(elem);
   };
 
-  public static stop = (elem?: HTMLElement | null): void => {
+  public static stop = (elem: HTMLElement | null): void => {
     if (elem && items.has(elem)) {
       const mouseDrag = items.get(elem);
       if (mouseDrag) {
-        mouseDrag.detach();
+        mouseDrag.stop();
       }
-      items.delete(elem);
     }
   };
 
@@ -68,7 +75,7 @@ export default class MouseDrag {
   private x1?: number;
   private y1?: number;
 
-  private readonly elem: HTMLElement;
+  private elem: HTMLElement | null;
 
   public constructor(elem: HTMLElement) {
     this.elem = elem;
@@ -78,10 +85,14 @@ export default class MouseDrag {
     items.set(this.elem, this);
   }
 
-  public detach = (): void => {
-    this.elem.removeEventListener('mousedown', this.handleMouseDown);
-    this.elem.removeEventListener('mousemove', this.handleMouseMove);
-    this.elem.removeEventListener('mouseleave', this.handleMouseLeave);
+  public stop = (): void => {
+    if (this.elem !== null) {
+      this.elem.removeEventListener('mousedown', this.handleMouseDown);
+      this.elem.removeEventListener('mousemove', this.handleMouseMove);
+      this.elem.removeEventListener('mouseleave', this.handleMouseLeave);
+      items.delete(this.elem);
+    }
+    this.elem = null;
   };
 
   public onMouseDragStart: On = handler => this.on(MouseDragEventType.Start, handler);
@@ -98,8 +109,10 @@ export default class MouseDrag {
   };
 
   private on = (type: MouseDragEventType, handler: Handler): MouseDrag => {
-    this.elem.removeEventListener(type, handler as HandlerNative<Event>);
-    this.elem.addEventListener(type, handler as HandlerNative<Event>);
+    if (this.elem !== null) {
+      this.elem.removeEventListener(type, handler as HandlerNative<Event>);
+      this.elem.addEventListener(type, handler as HandlerNative<Event>);
+    }
     return this;
   };
 
@@ -146,6 +159,8 @@ export default class MouseDrag {
   };
 
   private dispatchEvent = (mouseDragEvent: MouseDragEvent): void => {
-    this.elem.dispatchEvent(mouseDragEvent);
+    if (this.elem !== null) {
+      this.elem.dispatchEvent(mouseDragEvent);
+    }
   };
 }
