@@ -42,6 +42,10 @@ function isLess(filename) {
   return /\.less$/.test(filename);
 }
 
+function isLessDts(filename) {
+  return /\.less\.d\.ts$/.test(filename);
+}
+
 function compileLess(src, relative) {
   function handleError(error) {
     console.error(relative + ' can not be transpiled');
@@ -123,6 +127,10 @@ function handleFile(src, filename) {
     compileLess(src, filename);
   } else if (isTypeScriptSource(filename)) {
     // do nothing
+  } else if (isLessDts(filename)) {
+    const dest = path.join(OutDir, filename.replace(/\.less/, '.css'));
+    outputFileSync(dest, fs.readFileSync(src));
+    chmod(src, dest);
   } else {
     const dest = path.join(OutDir, filename);
     outputFileSync(dest, fs.readFileSync(src));

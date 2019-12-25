@@ -13,6 +13,7 @@
   "scripts": {
     "prepublishOnly": "yarn clean && node scripts/publish/prepublish && yarn build",
     "clean": "git clean -fdxqe node_modules",
+    "prebuild": "yarn storybook:build:default",
     "build": "tsc -p ./prod.tsconfig.json && node scripts/build",
     "postpublish": "yarn deploy && npm run publish:react-ui",
     "predeploy": "rimraf .styleguide/build && yarn run styleguide:build",
