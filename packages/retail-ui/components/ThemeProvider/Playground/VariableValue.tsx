@@ -164,7 +164,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     });
 
     if (this.debounceInterval === undefined) {
-      this.debounceInterval = setInterval(this.debounceHandler, this.debounceTimeout);
+      this.debounceInterval = window.setInterval(this.debounceHandler, this.debounceTimeout);
     }
   };
 
