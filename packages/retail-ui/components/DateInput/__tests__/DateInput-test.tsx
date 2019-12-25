@@ -2,33 +2,30 @@ import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { HTMLAttributes } from 'react';
 import { DefaultizeProps } from '../../../lib/utils';
-import { CHAR_MASK, defaultDateComponentsOrder, defaultDateComponentsSeparator } from '../../../lib/date/constants';
+import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder } from '../../../lib/date/types';
 import LocaleProvider, { LocaleProviderProps } from '../../LocaleProvider';
 import DateInput, { DateInputProps } from '../DateInput';
 
-const defaultDatePickerLocale = { order: defaultDateComponentsOrder, separator: defaultDateComponentsSeparator };
+interface LocaleDateInputProps {
+  propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>;
+  propsLocale: LocaleProviderProps;
+}
+const LocaleDateInput: React.FunctionComponent<LocaleDateInputProps> = ({ propsDateInput, propsLocale }) => (
+  <LocaleProvider {...propsLocale}>
+    <DateInput {...propsDateInput} />
+  </LocaleProvider>
+);
 
 const render = (
-  props: DefaultizeProps<typeof DateInput, DateInputProps>,
-  propsLocale: LocaleProviderProps = { locale: { DatePicker: defaultDatePickerLocale } },
-) =>
-  mount<LocaleProvider, LocaleProviderProps>(
-    <LocaleProvider {...propsLocale}>
-      <DateInput {...props} />
-    </LocaleProvider>,
-  );
+  propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>,
+  propsLocale: LocaleProviderProps = {},
+) => mount<LocaleDateInputProps>(<LocaleDateInput {...{ propsDateInput, propsLocale }} />);
 
-const getInput = (
-  root: ReactWrapper<LocaleProviderProps, {}, LocaleProvider>,
-): ReactWrapper<HTMLAttributes<HTMLInputElement>> => root.find('.input');
+const getInput = (root: ReactWrapper<LocaleDateInputProps, {}>): ReactWrapper<HTMLAttributes<HTMLInputElement>> =>
+  root.find('.input');
 
 const getValue = (input: ReactWrapper<HTMLAttributes<HTMLInputElement>>) => input.text();
-
-const setValue = (dateInput: React.Component, value: string) => {
-  (dateInput as any).iDateMediator.update({ value }, defaultDatePickerLocale);
-  dateInput.forceUpdate();
-};
 
 describe('DateInput as InputlikeText', () => {
   describe('without min/max date', () => {
@@ -45,7 +42,7 @@ describe('DateInput as InputlikeText', () => {
     it('updates when value changes', () => {
       const root = render({ value: '10.02.2017' });
 
-      setValue(root.find(DateInput).instance(), '11.02.2017');
+      root.setProps({ propsDateInput: { value: '11.02.2017' } });
 
       expect(getValue(getInput(root))).toBe('11.02.2017');
     });
@@ -53,7 +50,7 @@ describe('DateInput as InputlikeText', () => {
     it('handles invalid date strings', () => {
       const root = render({ value: '10.02.2017' });
 
-      setValue(root.find(DateInput).instance(), '99.9');
+      root.setProps({ propsDateInput: { value: '99.9' } });
 
       expect(getValue(getInput(root))).toBe(`99.09.${CHAR_MASK.repeat(4)}`);
     });
