@@ -1,4 +1,4 @@
-parser: babel-eslint
+parser: "@typescript-eslint/parser"
 root: true
 
 extends:

@@ -51,18 +51,20 @@ module.exports = async ({ config, mode }) => {
       loaders: [
         'style-loader',
         {
+          loader: 'dts-css-modules-loader',
+          options: {
+            namedExport: false,
+          },
+        },
+        {
           loader: 'css-loader',
           options: {
             modules: {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
             },
-          },
-        },
-        {
-          loader: 'typed-css-modules-loader',
-          options: {
-            noEmit: isProd,
+            onlyLocals: true,
+            esModule: false
           },
         },
       ],

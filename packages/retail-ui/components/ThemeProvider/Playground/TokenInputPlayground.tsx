@@ -1,4 +1,3 @@
-/* tslint:disable jsx-no-lambda */
 import * as React from 'react';
 import TokenInput from '../../TokenInput';
 import Token, { TokenColors } from '../../Token';

@@ -1,5 +1,4 @@
 /* @ts-ignore */
-/* tslint:disable */
 // imported from https://github.com/Financial-Times/polyfill-service
 
 export default (function(): (elt: Element, pseudoElt?: string | null | undefined) => CSSStyleDeclaration {

@@ -1,6 +1,0 @@
-/* @flow */
-import type { ButtonItemProps } from './ButtonItem';
-
-declare class Logout extends React$Component<ButtonItemProps> {}
-
-export default Logout;

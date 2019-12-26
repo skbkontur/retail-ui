@@ -1,4 +1,3 @@
-/* tslint:disable jsx-no-lambda */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 

@@ -1,9 +1,0 @@
-/* @flow */
-
-export type PreventProps = {|
-  children?: React$Node,
-|};
-
-declare class Prevent extends React$Component<PreventProps> {}
-
-export default Prevent;

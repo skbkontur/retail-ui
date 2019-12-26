@@ -1,22 +1,59 @@
 {
+  "env": {
+    "module": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "loose": true,
+            "modules": false
+          }
+        ]
+      ]
+    },
+    "common": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "loose": true,
+            "modules": true
+          }
+        ]
+      ]
+    }
+  },
   "presets": [
     [
       "@babel/preset-env",
       {
+        "loose": true,
+        "modules": false
+      }
+    ],
+    "@babel/typescript",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
         "loose": true
       }
     ],
-    "@babel/preset-react",
-    "@babel/preset-flow"
-  ],
-  "plugins": [
-    "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-object-rest-spread",
     [
       "@babel/plugin-transform-runtime",
       {
         "helpers": false
       }
-    ]
+    ],
+    "./scripts/babel/imports-less-to-css.js"
   ]
 }

@@ -1,5 +1,4 @@
-/* tslint:disable:object-literal-sort-keys */
-/* eslint-disable max-len */
+/* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';

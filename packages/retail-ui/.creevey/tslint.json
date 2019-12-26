@@ -1,5 +1,7 @@
 {
-  "extends": ["../../../tslint.json"],
+  "extends": [
+    "../../react-ui-validations/tslint.json"
+  ],
   "rules": {
     "only-arrow-functions": false
   }

@@ -1,7 +1,0 @@
-/* @flow */
-
-type Props = {|
-  children?: React$Node,
-|};
-
-declare export class Body extends React$Component<Props> {}

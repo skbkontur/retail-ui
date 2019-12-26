@@ -14,3 +14,4 @@ components/**/*.js
 !components/ComboBoxOld/**/*.js
 !components/DatePickerOld/**/*.js
 !components/PhoneInput/**/*.js
+*.d.ts

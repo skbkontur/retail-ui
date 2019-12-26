@@ -1,4 +1,0 @@
-/* @flow */
-declare var End: React$ComponentType<{||}>;
-
-export default End;

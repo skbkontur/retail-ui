@@ -1,4 +1,3 @@
-/* tslint:disable jsx-no-lambda */
 import * as React from 'react';
 import Gapped from '../../Gapped/index';
 import Tooltip from '../../Tooltip/index';

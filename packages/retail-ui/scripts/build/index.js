@@ -11,6 +11,8 @@ const FoldersToTransform = ['components', 'lib', 'typings'];
 const IgnoreTemplates = [/__tests__/, /\.stories.js$/];
 const OutDir = path.resolve(process.cwd(), 'build');
 
+const BABEL_EXTENSIONS = ['js', '.jsx', '.ts', '.tsx'];
+
 build();
 
 function build() {
@@ -19,7 +21,7 @@ function build() {
     handle(folderPath, dirName);
   });
 
-  collectExports(path.join(process.cwd(), 'components'));
+  // collectExports(path.join(process.cwd(), 'components'));
 
   generatePackageJson();
 
@@ -31,7 +33,6 @@ function transform(filename, code, opts) {
     filename,
     sourceMaps: true,
     retainLines: true,
-    plugins: ['./scripts/babel/imports-less-to-css.js'],
   });
   result.filename = filename;
   result.actual = code;
@@ -44,6 +45,10 @@ function isLess(filename) {
 
 function isLessDts(filename) {
   return /\.less\.d\.ts$/.test(filename);
+}
+
+function isTsDts(filename) {
+  return /\.d\.ts$/.test(filename);
 }
 
 function compileLess(src, relative) {
@@ -113,7 +118,7 @@ function shouldIgnore(loc) {
 }
 
 function canCompile(filename) {
-  return babel.DEFAULT_EXTENSIONS.includes(path.extname(filename));
+  return BABEL_EXTENSIONS.includes(path.extname(filename));
 }
 
 function handleFile(src, filename) {
@@ -121,12 +126,10 @@ function handleFile(src, filename) {
     return;
   }
 
-  if (canCompile(filename)) {
+  if (canCompile(filename) && !isTsDts(filename)) {
     write(src, filename);
   } else if (isLess(filename)) {
     compileLess(src, filename);
-  } else if (isTypeScriptSource(filename)) {
-    // do nothing
   } else if (isLessDts(filename)) {
     const dest = path.join(OutDir, filename.replace(/\.less/, '.css'));
     outputFileSync(dest, fs.readFileSync(src));

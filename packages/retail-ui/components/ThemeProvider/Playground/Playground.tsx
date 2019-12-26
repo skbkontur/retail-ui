@@ -57,7 +57,6 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
     );
   }
 
-  /* tslint:disable jsx-key */
   private renderMain() {
     const wrapperClassName = cx(styles.playground, jsStyles.playgroundWrapper(this.theme));
     return (
