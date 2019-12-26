@@ -7,7 +7,7 @@ import BabyIcon from '@skbkontur/react-icons/Baby';
 import ComboBox, { ComboBoxProps } from '../ComboBox';
 import MenuItem from '../../MenuItem';
 import MenuSeparator from '../../MenuSeparator';
-import { Nullable, Omit } from '../../../typings/utility-types';
+import { Nullable } from '../../../typings/utility-types';
 import Toggle from '../../Toggle';
 import Button from '../../Button';
 import Gapped from '../../Gapped';

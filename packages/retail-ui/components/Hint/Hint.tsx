@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Popup, { PopupPosition } from '../Popup';
 import styles from './HintBox.module.less';
-import { Nullable, TimeoutID } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { cx } from '../../lib/theming/Emotion';
 
@@ -72,7 +72,7 @@ class Hint extends React.Component<HintProps, HintState> {
     opened: this.props.manual ? !!this.props.opened : false,
   };
 
-  private timer: Nullable<TimeoutID> = null;
+  private timer: Nullable<number> = null;
 
   public componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {

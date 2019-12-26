@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../../ensureOldIEClassName';
-import { Nullable, TimeoutID } from '../../../typings/utility-types';
+import { Nullable } from '../../../typings/utility-types';
 import { IconType, InputVisibilityState } from '../../Input/Input';
 import { InputProps } from '../../Input';
 import styles from './InputLikeText.module.less';
@@ -31,7 +31,7 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
 
   private theme!: ITheme;
   private node: HTMLElement | null = null;
-  private blinkTimeout: Nullable<TimeoutID>;
+  private blinkTimeout: Nullable<number>;
 
   /**
    * @public
