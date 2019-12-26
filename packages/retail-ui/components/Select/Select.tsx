@@ -409,6 +409,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         positions={positionsByAlign[this.props.menuAlign || 'left']}
         popupHasPin={false}
         onKeyDown={this.handleKey}
+        onClose={this.close}
         disableAnimations
         menuMaxHeight={this.props.maxMenuHeight}
         menuWidth={this.props.menuWidth}

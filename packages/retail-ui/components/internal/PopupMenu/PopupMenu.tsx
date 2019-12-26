@@ -47,6 +47,8 @@ export interface PopupMenuProps {
   // onItemSelection?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
 
+  onClose?: () => void;
+
   /**  Массив разрешенных положений меню относительно caption'а. */
   positions?: PopupPosition[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
@@ -219,6 +221,10 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
         this.handleChangeMenuVisible(!!restoreFocus);
       },
     );
+
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
   };
 
   private toggleMenu = (): void => {
