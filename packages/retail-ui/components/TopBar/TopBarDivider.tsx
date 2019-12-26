@@ -5,6 +5,11 @@ import jsStyles from './TopBar.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
+/**
+ * Разделитель в топбаре
+ *
+ * @visibleName TopBar.Divider
+ */
 class Divider extends React.Component<{}> {
   private theme!: ITheme;
 

@@ -15,6 +15,11 @@ export interface OrganizationsState {
   captionWhiteSpace: React.CSSProperties['whiteSpace'];
   minWidth: Nullable<number>;
 }
+/**
+ * Дропдаун с организациями
+ *
+ * @visibleName TopBar.OrganizationsDropdown
+ */
 
 class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
   public state = {

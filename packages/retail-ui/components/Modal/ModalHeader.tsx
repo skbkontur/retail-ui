@@ -13,7 +13,11 @@ export interface HeaderProps {
   close?: boolean;
   sticky: boolean;
 }
-
+/**
+ * Шапка модального окна
+ *
+ * @visibleName Modal.Header
+ */
 export class Header extends React.Component<HeaderProps> {
   public static __MODAL_HEADER__ = true;
 
@@ -69,8 +73,4 @@ export class Header extends React.Component<HeaderProps> {
       </div>
     );
   };
-}
-
-export function isHeader(child: React.ReactNode): child is React.ReactElement<HeaderProps> {
-  return React.isValidElement<HeaderProps>(child) && child.type.hasOwnProperty('__MODAL_HEADER__');
 }
