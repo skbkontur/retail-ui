@@ -72,6 +72,7 @@ class Gapped extends React.Component<GappedProps> {
     const itemStyle = {
       display: 'inline-block',
       marginLeft: this.props.gap,
+      marginTop: this.props.gap,
       verticalAlign: this.props.verticalAlign,
     };
     const children = React.Children.map(this.props.children, (child, index) => {
@@ -80,10 +81,13 @@ class Gapped extends React.Component<GappedProps> {
       }
       return <span style={itemStyle}>{child}</span>;
     });
-    const contStyle = {
-      marginLeft: -this.props.gap!,
-    };
-    return <div style={contStyle}>{children}</div>;
+    const rootStyle = { paddingTop: 1 };
+    const contStyle = { marginTop: -this.props.gap! - 1, marginLeft: -this.props.gap! };
+    return (
+      <div style={rootStyle}>
+        <div style={contStyle}>{children}</div>
+      </div>
+    );
   }
 }
 
