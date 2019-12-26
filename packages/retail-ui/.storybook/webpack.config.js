@@ -84,5 +84,8 @@ module.exports = async ({ config, mode }) => {
     }),
   );
 
+  // NOTE Need to allow write tests inside stories for Creevey
+  config.node = { __filename: true };
+
   return config;
 };

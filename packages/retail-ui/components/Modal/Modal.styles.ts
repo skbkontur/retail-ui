@@ -60,6 +60,12 @@ const jsStyles = {
     `;
   },
 
+  closeWrapper() {
+    return css`
+      position: relative;
+    `;
+  },
+
   footer(t: ITheme) {
     return css`
       &.${styles.panel} {

@@ -10,6 +10,8 @@ import ZIndex from '../ZIndex';
  * @visibleName Modal.Body
  */
 export class Body extends React.Component {
+  public static __MODAL_BODY__ = true;
+
   public render(): JSX.Element {
     return (
       <ModalContext.Consumer>

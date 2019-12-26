@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -62,7 +62,6 @@
     "react-input-mask": "2.0.4",
     "react-transition-group": "^2.4.0",
     "shallowequal": "^1.1.0",
-    "stylis-plugin-extra-scope": "^0.1.1",
     "tabbable": "^4.0.0",
     "tslib": "^1.10.0",
     "warning": "^4.0.3"
@@ -104,7 +103,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "core-js": "^3.4.8",
-    "creevey": "^0.2.2",
+    "creevey": "^0.2.4",
     "cross-env": "^6.0.3",
     "css-loader": "^3.3.0",
     "enzyme": "^3.10.0",

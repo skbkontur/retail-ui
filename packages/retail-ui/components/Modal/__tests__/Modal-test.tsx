@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
+import { ReactComponentLike } from 'prop-types';
 import Modal from '../Modal';
 import { isFooter, isHeader } from '../helpers';
 
@@ -178,7 +179,7 @@ describe('Modal', () => {
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
   });
 
-  it.each<[React.ComponentType<any>, boolean]>([
+  it.each<[ReactComponentLike, boolean]>([
     [Modal, false],
     [Modal.Footer, false],
     [
@@ -198,7 +199,7 @@ describe('Modal', () => {
     expect(isHeader(child)).toBe(expected);
   });
 
-  it.each<[React.ComponentType<any>, boolean]>([
+  it.each<[ReactComponentLike, boolean]>([
     [Modal, false],
     [Modal.Footer, true],
     [
