@@ -42,10 +42,8 @@ export class Footer extends React.Component<FooterProps> {
   }
 
   private renderMain() {
-    // TODO Use position: relative or stacking context for ZIndex to allow cover other zindex elements from body
-    // Also remove `overflow: hidden` for ModalBody. It should be done after fix https://github.com/skbkontur/retail-ui/issues/1624
     return (
-      <ZIndex priority={'ModalFooter'}>
+      <ZIndex style={{ position: 'relative' }} priority={'ModalFooter'}>
         <ModalContext.Consumer>
           {({ horizontalScroll }) => {
             if (this.props.sticky) {
