@@ -45,6 +45,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.6.2",
+    "@emotion/stylis": "0.8.4",
     "classnames": "^2.2.6",
     "create-emotion": "^10.0.9",
     "create-react-context": "^0.2.2",
