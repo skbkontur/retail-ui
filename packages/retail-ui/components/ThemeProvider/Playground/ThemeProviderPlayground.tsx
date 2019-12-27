@@ -95,7 +95,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
           <div className={jsStyles.editorHeaderWrapper(currentTheme)}>
-            <Gapped>
+            <Gapped wrap verticalAlign="middle">
               <span>Тема для редактирования:</span>
               <ComboBox
                 getItems={this.getEditableThemesItems}

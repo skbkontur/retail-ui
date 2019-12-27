@@ -8,6 +8,6 @@ export function isFooter(child: React.ReactNode): child is React.ReactElement<Fo
 export function isHeader(child: React.ReactNode): child is React.ReactElement<HeaderProps> {
   return React.isValidElement<HeaderProps>(child) && child.type.hasOwnProperty('__MODAL_HEADER__');
 }
-export function isBody(child: React.ReactChild): child is React.ReactElement<{}> {
+export function isBody(child: React.ReactNode): child is React.ReactElement<{}> {
   return React.isValidElement(child) && child.type.hasOwnProperty('__MODAL_BODY__');
 }

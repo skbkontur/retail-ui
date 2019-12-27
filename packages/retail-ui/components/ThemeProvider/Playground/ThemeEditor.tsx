@@ -56,7 +56,7 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
     const keys = ThemeFactory.getKeys(editingTheme);
 
     return (
-      <Gapped verticalAlign={'middle'}>
+      <Gapped wrap verticalAlign="middle">
         {this.state.groups.map((i: IGroup) => (
           <Group
             editingTheme={editingTheme}
@@ -94,7 +94,7 @@ const Group = (props: IGroupProps) => {
   return variables.length > 0 ? (
     <React.Fragment>
       <h2 className={headerClassname}>{title}</h2>
-      <Gapped gap={16}>
+      <Gapped gap={16} wrap verticalAlign="middle">
         {variables.map(variable => {
           const value = editingTheme[variable as keyof ITheme];
           const isError = currentErrors[variable];

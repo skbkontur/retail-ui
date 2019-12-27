@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "1.6.9",
+  "version": "1.7.0",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -40,12 +40,13 @@
     "lint:stylelint": "stylelint \"./**/*.less\"",
     "test": "jest",
     "test:watch": "jest --watch",
-    "creevey": "wait-on -t 300000 http-get://localhost:6060/ http-get://localhost:6061/ && creevey -c .creevey/config.ts",
+    "creevey": "creevey -c .creevey/config.ts",
     "creevey:ui": "npm run creevey -- --ui"
   },
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.6",
+    "@emotion/stylis": "0.8.4",
     "classnames": "^2.2.6",
     "create-emotion": "^10.0.14",
     "create-react-context": "^0.3.0",

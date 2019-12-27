@@ -80,7 +80,7 @@ storiesOf('Token', module)
 
     return (
       <>
-        <Gapped vertical={true}>
+        <Gapped vertical>
           <Gapped>
             {default_colors.map((c, i) => (
               <Token key={i} colors={c}>
