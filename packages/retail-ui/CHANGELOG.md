@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.9...retail-ui@1.7.0) (2019-12-27)
+
+
+### Bug Fixes
+
+* **Modal:** don't create stacking context inside Footer ([3b314a8](https://github.com/skbkontur/retail-ui/commit/3b314a8))
+
+
+### Features
+
+* **Gapped:** add `wrap` prop, change default prop values ([2ac9e8b](https://github.com/skbkontur/retail-ui/commit/2ac9e8b))
+
+
+### Reverts
+
+* **Gapped:** don't cover other elements with horizontal layout ([652983d](https://github.com/skbkontur/retail-ui/commit/652983d))
+
+
+
+
+
 ## [1.6.9](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.8...retail-ui@1.6.9) (2019-12-24)
 
 

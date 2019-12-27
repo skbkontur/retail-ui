@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Validations for retail-ui",
   "scripts": {
     "prebuild": "yarn clean",
