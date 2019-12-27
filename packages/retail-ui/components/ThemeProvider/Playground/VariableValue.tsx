@@ -86,7 +86,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
         <div className={styles.baseLinkWrapper}>
           <Gapped>
             <div style={{ textAlign: 'right' }}>
-              <Gapped vertical={true} verticalAlign={'top'}>
+              <Gapped vertical>
                 {baseVariables.map(v => (
                   <BaseVariableLink key={v} baseVariable={v} emitClickEvent={this.emitClickEvent} />
                 ))}

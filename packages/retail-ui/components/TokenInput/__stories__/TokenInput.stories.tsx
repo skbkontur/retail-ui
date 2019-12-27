@@ -242,7 +242,7 @@ storiesOf('TokenInput', module)
     </Gapped>
   ))
   .add('identical alignment with other controls', () => (
-    <Gapped gap={10} vertical={true}>
+    <Gapped gap={10} vertical>
       <Wrapper getItems={getItems} width={'100%'} />
       <Input value={'value'} width={'100%'} size={'medium'} />
     </Gapped>

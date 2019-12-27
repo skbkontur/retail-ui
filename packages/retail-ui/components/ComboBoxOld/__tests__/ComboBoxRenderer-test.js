@@ -2,7 +2,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import ComboBoxRenderer from '../ComboBoxRenderer';
-import InputLikeText from "../../internal/InputLikeText";
+import InputLikeText from '../../internal/InputLikeText';
 import { delay } from '../../../lib/utils';
 
 const source = text => Promise.resolve([]);
