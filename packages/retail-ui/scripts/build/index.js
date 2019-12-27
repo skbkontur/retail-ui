@@ -1,14 +1,13 @@
-const { isTypeScriptSource } = require('./isTypeScriptSource');
-
 const outputFileSync = require('output-file-sync');
 const readdir = require('fs-readdir-recursive');
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 const babel = require('@babel/core');
 const less = require('less');
 
 const FoldersToTransform = ['components', 'lib', 'typings'];
-const IgnoreTemplates = [/__tests__/, /\.stories.js$/];
+const IgnoreTemplates = [/__tests__/, /__mocks__/, /\.stories.tsx?$/];
 const OutDir = path.resolve(process.cwd(), 'build');
 
 const BABEL_EXTENSIONS = ['js', '.jsx', '.ts', '.tsx'];
@@ -30,9 +29,10 @@ function build() {
 
 function transform(filename, code, opts) {
   const result = babel.transform(code, {
+    cwd: process.cwd(),
     filename,
     sourceMaps: true,
-    retainLines: true,
+    retainLines: true
   });
   result.filename = filename;
   result.actual = code;
@@ -110,7 +110,12 @@ function write(src, relative) {
 }
 
 function logTransform(src, dest) {
-  console.log(`Transformed: ${path.relative(process.cwd(), src)} => ${path.relative(process.cwd(), dest)}`);
+  console.log(
+    chalk`{grey ${'Transformed: '}}{cyan ${path.relative(process.cwd(), src)}}{grey ${' => '}}{green ${path.relative(
+      process.cwd(),
+      dest,
+    )}}`,
+  );
 }
 
 function shouldIgnore(loc) {
@@ -244,9 +249,7 @@ function generatePackageJson() {
     name: '@skbkontur/react-ui',
     version: packageJson.version,
     license: 'MIT',
-    dependencies: Object.assign({}, packageJson.dependencies, {
-      'babel-runtime': '^6.26.0',
-    }),
+    dependencies: packageJson.dependencies,
     homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
     repository: {
       type: 'git',

@@ -1,41 +1,30 @@
 import * as React from 'react';
-import * as PropTypes from 'prop-types';
 import CrossIcon from '../internal/icons/CrossIcon';
 import ZIndex from '../ZIndex/ZIndex';
 import styles from './ToastView.module.less';
-import { Nullable } from '../../typings/utility-types';
 import jsStyles from './ToastView.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface ToastViewProps {
+  /**
+   * Toast content
+   */
   children?: string;
-  action?: Nullable<{
+  /**
+   * Adds action handling and close icon for toast
+   */
+  action?: {
     label: string;
     handler: () => void;
-  }>;
+  } | null;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
 
 class ToastView extends React.Component<ToastViewProps> {
-  public static propTypes = {
-    /**
-     * Adds action handling and close icon for toast
-     */
-    action: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      handler: PropTypes.func.isRequired,
-    }),
-    /**
-     * Toast content
-     */
-    children: PropTypes.string.isRequired,
-    onClose: PropTypes.func,
-  };
-
   private theme!: ITheme;
 
   public render() {

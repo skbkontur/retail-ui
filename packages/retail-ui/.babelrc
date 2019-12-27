@@ -36,6 +36,14 @@
   ],
   "plugins": [
     [
+      "@babel/plugin-transform-runtime",
+      {
+        "helpers": true,
+        "useESModules": true,
+        "version": "7.7.0"
+      }
+    ],
+    [
       "@babel/plugin-proposal-decorators",
       {
         "legacy": true
@@ -48,12 +56,6 @@
       }
     ],
     "@babel/plugin-proposal-object-rest-spread",
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "helpers": false
-      }
-    ],
     "./scripts/babel/imports-less-to-css.js"
   ]
 }
