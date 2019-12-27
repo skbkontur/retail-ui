@@ -75,11 +75,11 @@ export default class ThemeShowcase extends React.Component<ShowcaseProps, Showca
     const executionTime = isDebugMode ? `Сгенерировано за ${EXECUTION_TIME.toFixed(3)}ms` : '';
 
     return (
-      <Gapped gap={30} vertical={false} verticalAlign={'top'}>
+      <Gapped wrap gap={30} verticalAlign={'top'}>
         <div>
           <Sticky side={'top'}>
             <div className={styles.searchBar} data-perf-info={`${executionTime} ${callsCount}`}>
-              <Gapped gap={15} vertical={false}>
+              <Gapped gap={15}>
                 <ComboBox
                   getItems={this.getItems}
                   value={selectedVariable}

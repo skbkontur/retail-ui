@@ -9,10 +9,19 @@ export interface GappedProps {
   gap: number;
   /**
    * Вертикальное выравнивание
-   * @default "middle"
+   * @default "baseline"
    */
   verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
-  vertical?: boolean;
+  /**
+   * Расположение элементов по вертикали
+   * @default false
+   */
+  vertical: boolean;
+  /**
+   * Перенос элементов на новую строку при горизонтальном расположении
+   * @default false
+   */
+  wrap: boolean;
   children: React.ReactNode;
 }
 
@@ -39,7 +48,9 @@ class Gapped extends React.Component<GappedProps> {
 
   public static defaultProps = {
     gap: 10,
-    verticalAlign: 'middle',
+    wrap: false,
+    vertical: false,
+    verticalAlign: 'baseline',
   };
 
   public render() {
@@ -69,23 +80,26 @@ class Gapped extends React.Component<GappedProps> {
   }
 
   private renderHorizontal() {
-    const itemStyle = {
+    const { gap, children, verticalAlign, wrap } = this.props;
+    const itemStyle: React.CSSProperties = {
       display: 'inline-block',
-      marginLeft: this.props.gap,
-      marginTop: this.props.gap,
-      verticalAlign: this.props.verticalAlign,
+      verticalAlign,
+      ...(wrap ? { marginLeft: gap, marginTop: gap } : {}),
     };
-    const children = React.Children.map(this.props.children, (child, index) => {
-      if (!child) {
-        return child;
-      }
-      return <span style={itemStyle}>{child}</span>;
-    });
-    const rootStyle = { paddingTop: 1 };
-    const contStyle = { marginTop: -this.props.gap! - 1, marginLeft: -this.props.gap! };
+    const rootStyle: React.CSSProperties = wrap ? { paddingTop: 1 } : {};
+    const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
+
     return (
       <div style={rootStyle}>
-        <div style={contStyle}>{children}</div>
+        <div style={contStyle}>
+          {React.Children.map(children, (child, index) => {
+            if (!child) {
+              return child;
+            }
+            const marginLeft = index === 0 ? undefined : gap;
+            return <span style={{ marginLeft, ...itemStyle }}>{child}</span>;
+          })}
+        </div>
       </div>
     );
   }

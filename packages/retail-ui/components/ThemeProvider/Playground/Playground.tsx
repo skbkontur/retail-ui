@@ -100,7 +100,7 @@ export class Playground extends React.Component<IComponentsListProps, {}> {
 
     return (
       <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
-        <Gapped vertical={false} verticalAlign={'middle'} gap={40}>
+        <Gapped gap={40}>
           <Tabs value={currentThemeType} onChange={onThemeChange} vertical={false}>
             <div className={jsStyles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
