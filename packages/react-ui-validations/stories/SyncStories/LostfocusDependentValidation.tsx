@@ -62,7 +62,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
       <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 30 }}>
           <Gapped vertical>
-            <Gapped>
+            <Gapped wrap verticalAlign="middle">
               <b>A</b>
               <ValidationWrapper data-tid="InputAValidation" validationInfo={this.validateA()} renderMessage={text()}>
                 <Input
@@ -72,7 +72,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
                 />
               </ValidationWrapper>
             </Gapped>
-            <Gapped>
+            <Gapped wrap verticalAlign="middle">
               <b>B</b>
               <ValidationWrapper data-tid="InputBValidation" validationInfo={this.validateB()} renderMessage={text()}>
                 <Input
@@ -82,7 +82,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
                 />
               </ValidationWrapper>
             </Gapped>
-            <Gapped>
+            <Gapped wrap verticalAlign="middle">
               <Button data-tid={'SubmitButton'} loading={this.state.sending} onClick={this.handleSubmit}>
                 Submit
               </Button>

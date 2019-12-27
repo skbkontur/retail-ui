@@ -80,7 +80,7 @@ storiesOf('Token', module)
 
     return (
       <>
-        <Gapped vertical={true}>
+        <Gapped vertical>
           <Gapped>
             {default_colors.map(c => (
               <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
