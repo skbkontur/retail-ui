@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { number, func } from 'prop-types';
-import ArrowChevronRightIcon from '@skbkontur/react-icons/ArrowChevronRight';
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
@@ -16,6 +15,7 @@ import jsStyles from './Paging.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import warning from 'warning';
+import { ArrowChevronRightIcon } from '../internal/icons/16px';
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 interface ItemComponentProps {

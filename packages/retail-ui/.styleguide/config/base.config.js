@@ -4,6 +4,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   path.join(__dirname, '../../tsconfig.json'),
   {
     propFilter: prop => !(prop.parent && /node_modules/.test(prop.parent.fileName)),
+    savePropValueAsString: true,
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
@@ -138,7 +139,16 @@ const webpackConfig = {
       },
       {
         test: /\.(css|less)$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: 'global',
+            },
+          },
+          'less-loader',
+        ],
       },
       {
         test: /\.(png|woff|woff2|eot)$/,
@@ -152,7 +162,7 @@ const webpackConfig = {
 };
 
 module.exports = {
-  skipComponentsWithoutExample: true,
+  skipComponentsWithoutExample: false,
   pagePerSection: true,
   styles,
   title: 'React UI',
@@ -176,4 +186,5 @@ module.exports = {
   getComponentPathLine(path) {
     return path.substring(path.indexOf('components')) || path;
   },
+  defaultExample: '../MockReadme.md',
 };

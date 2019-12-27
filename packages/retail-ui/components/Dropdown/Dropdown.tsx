@@ -86,7 +86,7 @@ export interface DropdownProps {
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-type DropdownSelectType = Select<React.ReactNode, React.ReactChild>;
+type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 
 /**
  * Выпадающее меню.
@@ -165,7 +165,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
-      <Select<React.ReactNode, React.ReactChild>
+      <Select<React.ReactNode, React.ReactNode>
         ref={this._refSelect}
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}

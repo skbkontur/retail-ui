@@ -3,7 +3,7 @@ import { By, Key } from 'selenium-webdriver';
 
 async function focus(ctx: Mocha.Context) {
   await ctx.browser.executeScript(() => {
-    (window.document.querySelector("[data-comp-name*='DateInput InputLikeText']") as HTMLElement).focus();
+    (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
   });
 }
 

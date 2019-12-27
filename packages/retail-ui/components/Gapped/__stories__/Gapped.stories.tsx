@@ -1,7 +1,7 @@
-import 'creevey';
+// import 'creevey';
 import React from 'react';
 import Chai from 'chai';
-import Mocha from 'mocha';
+// import Mocha from 'mocha';
 import Selenium from 'selenium-webdriver';
 import Gapped from '../Gapped';
 import Toggle from '../../Toggle';
@@ -64,6 +64,10 @@ export const DontCoverOtherElements = () => (
   </div>
 );
 
+interface WithMatchImage extends Chai.Assertion {
+  matchImage: () => Promise<void>;
+}
+
 DontCoverOtherElements.story = {
   parameters: {
     creevey: {
@@ -76,7 +80,8 @@ DontCoverOtherElements.story = {
               .click(this.browser.findElement(By.css('[data-comp-name~="Toggle"]')))
               .perform();
 
-            await expect(await this.browser.findElement(By.css('#test-element')).takeScreenshot()).to.matchImage();
+            await (expect(await this.browser.findElement(By.css('#test-element')).takeScreenshot())
+              .to as WithMatchImage).matchImage();
           },
         };
       },

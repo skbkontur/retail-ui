@@ -10,7 +10,6 @@ export { default as FxInput } from './FxInput/FxInput';
 export { default as Gapped } from './Gapped/Gapped';
 export { default as Group } from './Group/Group';
 export { default as Hint } from './Hint/Hint';
-export { default as Icon20 } from './Icon/20px/Icon';
 export { default as Input } from './Input/Input';
 export { default as Kebab } from './Kebab/Kebab';
 export { default as Link } from './Link/Link';

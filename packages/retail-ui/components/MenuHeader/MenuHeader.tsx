@@ -8,7 +8,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
 export interface MenuHeaderProps {
-  children: React.ReactNode;
   _enableIconPadding?: Nullable<boolean>;
 }
 
@@ -45,6 +44,6 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
   }
 }
 
-export const isMenuHeader = (child: React.ReactChild): child is React.ReactElement<MenuHeaderProps> => {
+export const isMenuHeader = (child: React.ReactNode): child is React.ReactElement<MenuHeaderProps> => {
   return React.isValidElement<MenuHeaderProps>(child) ? child.type.hasOwnProperty('__MENU_HEADER__') : false;
 };

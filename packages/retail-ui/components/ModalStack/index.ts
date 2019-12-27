@@ -1,1 +1,1 @@
-export { default } from './ModalStack';
+export { default, StackSubscription } from './ModalStack';

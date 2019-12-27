@@ -3,7 +3,6 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import CalendarIcon from '@skbkontur/react-icons/Calendar';
 import filterProps from '../filterProps';
 import Picker from './Picker';
 import DateInput from './DateInput';
@@ -14,6 +13,7 @@ import Center from '../Center';
 import warning from 'warning';
 import styles from './DatePickerOld.module.less';
 import { isIE } from '../ensureOldIEClassName';
+import { CalendarIcon } from '../internal/icons/16px';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,

@@ -141,3 +141,56 @@ export const buttonSizeMixin = (
     }
   `;
 };
+
+export const buttonArrowMixin = (top: string, left: string, right: string, size: string, transform: string) => {
+  return css`
+    .${classes.arrow} {
+      top: ${top};
+      right: ${right};
+      height: ${size};
+      width: ${size};
+      transform: ${transform};
+      overflow: hidden;
+    }
+
+    .${classes.arrow_left} {
+      left: ${left};
+      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
+    }
+  `;
+};
+
+export const buttonLoadingArrowMixin = (
+  top: string,
+  leftArrowTop: string,
+  left: string,
+  height: string,
+  background: string,
+  delay: string,
+  btn_loading_arrow: string,
+) => {
+  return css`
+    .${classes.arrow}.${classes.arrow_loading}::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: ${top};
+      left: -207px;
+      right: -72px;
+      height: ${height};
+      background: ${background};
+      background-size: 41px 100%;
+      opacity: 0.2;
+      transform: translateX(50px) rotate(-44.3deg);
+      animation: ${btn_loading_arrow} 1s linear infinite;
+    }
+
+    .${classes.arrow_left}.${classes.arrow_loading}::before {
+      top: ${leftArrowTop};
+      left: ${left};
+      animation-direction: reverse;
+      transform: translateX(42px) rotate(-44.3deg);
+      animation-delay: ${delay};
+    }
+  `;
+};

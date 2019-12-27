@@ -3,7 +3,7 @@ import '../../ensureOldIEClassName';
 import { isKeyTab, isShortcutPaste } from '../../../lib/events/keyboard/identifiers';
 import MouseDrag, { MouseDragEventHandler } from '../../../lib/events/MouseDrag';
 import { isEdge, isIE11 } from '../../../lib/utils';
-import { Nullable, TimeoutID } from '../../../typings/utility-types';
+import { Nullable } from '../../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../DateInput/helpers/SelectionHelpers';
 import { IconType, InputVisibilityState } from '../../Input/Input';
 import { InputProps } from '../../Input';
@@ -38,8 +38,8 @@ export default class InputLikeText extends React.Component<InputLikeTextProps, I
   private frozen: boolean = false;
   private frozenBlur: boolean = false;
   private dragging: boolean = false;
-  private focusTimeout: Nullable<TimeoutID>;
-  private blinkTimeout: Nullable<TimeoutID>;
+  private focusTimeout: Nullable<number>;
+  private blinkTimeout: Nullable<number>;
 
   /**
    * @public

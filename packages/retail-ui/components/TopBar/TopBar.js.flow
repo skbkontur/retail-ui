@@ -1,10 +1,10 @@
 /* @flow */
-import ButtonItem from './ButtonItem';
-import Divider from './Divider';
-import Item from './Item';
-import Organizations from './Organizations';
+import ButtonItem from './TopBarButtonItem';
+import Divider from './TopBarDivider';
+import Item from './TopBarItem';
+import Organizations from './TopBarOrganizations';
 import TopBarDropdown from './TopBarDropdown';
-import User from './User';
+import User from './TopBarUser';
 import Logout from './TopBarLogout';
 
 export type TopBarProps = {|

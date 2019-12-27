@@ -31,7 +31,9 @@ export const isIENot11 = !isIE11 && /msie /.test(userAgent);
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const emptyHandler = () => undefined;
+export const emptyHandler = () => {
+  /* noop */
+};
 
 export class CancelationError extends Error {
   public code = 'CancelationError';
@@ -67,3 +69,21 @@ export function withContext<C>(ContextConsumer: React.ComponentClass<ConsumerPro
 export function escapeRegExpSpecChars(s: string): string {
   return s.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 }
+
+export const getRandomID = (): string =>
+  Math.random()
+    .toString(16)
+    .slice(2);
+
+export const hasSvgAnimationSupport = (() => {
+  if (document.createElementNS) {
+    const namespaceURI = 'http://www.w3.org/2000/svg';
+    const element = document.createElementNS(namespaceURI, 'animate');
+
+    if (element) {
+      return /SVGAnimate/.test(element.toString());
+    }
+  }
+
+  return false;
+})();

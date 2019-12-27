@@ -1,13 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import OkIcon from '@skbkontur/react-icons/Ok';
-import Square from '@skbkontur/react-icons/Square';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
 import jsStyles, { classes } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { OkIcon, SquareIcon } from '../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
 
 export type CheckboxProps = Override<
@@ -184,7 +183,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     const box = (
       <span className={cx(classes.box, jsStyles.box(this.theme))}>
-        {(isIndeterminate && <Square className={iconClass} />) || <OkIcon className={iconClass} />}
+        {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
       </span>
     );
 

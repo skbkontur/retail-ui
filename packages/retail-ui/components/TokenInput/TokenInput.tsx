@@ -4,12 +4,15 @@ import warningOutput from 'warning';
 import * as ReactDOM from 'react-dom';
 import {
   isKeyArrowHorizontal,
-  isKeyArrowLeft, isKeyArrowRight,
+  isKeyArrowLeft,
+  isKeyArrowRight,
   isKeyArrowUp,
   isKeyArrowVertical,
-  isKeyBackspace, isKeyDelete,
+  isKeyBackspace,
+  isKeyDelete,
   isKeyEnter,
-  isKeyEscape, isShortcutSelectAll,
+  isKeyEscape,
+  isShortcutSelectAll,
 } from '../../lib/events/keyboard/identifiers';
 import TextWidthHelper from './TextWidthHelper';
 import TokenInputMenu from './TokenInputMenu';
@@ -201,7 +204,6 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       [jsStyles.labelFocused(theme)]: !!inFocus,
       [jsStyles.error(theme)]: !!error,
       [jsStyles.warning(theme)]: !!warning,
-      [styles.labelDisabled]: !!disabled,
       [jsStyles.labelDisabled(theme)]: !!disabled,
     });
     const inputClassName = cx(styles.input, jsStyles.input(theme), {
@@ -640,7 +642,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
 
     const { renderValue, toKey, disabled } = this.props;
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
-    const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
+    const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
       event.stopPropagation();
       this.handleRemoveToken(item);
     };
@@ -679,7 +681,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const isActive = this.state.activeTokens.indexOf(item) !== -1;
 
     // TODO useCallback
-    const handleIconClick: React.MouseEventHandler<SVGElement> = event => {
+    const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
       event.stopPropagation();
       this.handleRemoveToken(item);
     };

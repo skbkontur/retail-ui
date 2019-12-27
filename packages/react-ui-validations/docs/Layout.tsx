@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Helmet from 'react-helmet';
-import { Link } from 'react-router';
+import { NavLink, withRouter, RouteComponentProps } from 'react-router-dom';
 import Logotype from 'retail-ui/components/Logotype';
 import styled from 'styled-components';
 import Displaying from './Pages/Displaying';
@@ -8,7 +8,8 @@ import Validator from './Pages/Validator';
 import Examples from './Pages/Examples';
 import Concepts from './Pages/Concepts';
 
-const Layout: React.FunctionComponent = props => {
+const Layout: React.FunctionComponent<RouteComponentProps> = props => {
+  window.scrollTo(0, 0);
   return (
     <Root>
       <Helmet defaultTitle="React-UI Validations" titleTemplate="%s | React-UI Validations" />
@@ -40,7 +41,7 @@ const Layout: React.FunctionComponent = props => {
   );
 };
 
-export default Layout;
+export default withRouter(Layout);
 
 const navigationBarSize = '290px';
 const sidebarColor = '#41464e';
@@ -135,7 +136,7 @@ const LogoContainer = styled.div`
   padding: 30px 20px;
 `;
 
-const NavigationLink = styled(Link)`
+const NavigationLink = styled(NavLink)`
   display: block;
   padding: 10px 0 10px 30px;
   color: ${sidebarTextColor};

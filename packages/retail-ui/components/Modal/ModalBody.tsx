@@ -4,6 +4,11 @@ import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import ZIndex from '../ZIndex';
 
+/**
+ * Контейнер с отступами от края модалки
+ *
+ * @visibleName Modal.Body
+ */
 export class Body extends React.Component {
   public static __MODAL_BODY__ = true;
 

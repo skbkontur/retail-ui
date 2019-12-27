@@ -170,7 +170,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
 
           <Form.Line title="Пол">
             <ValidationWrapper validationInfo={v.getNode(x => x.sex).get()}>
-              <RadioGroup
+              <RadioGroup<ContactInfo['sex']>
                 value={data.sex}
                 onChange={(_, value) => this.handleChange({ sex: value })}
                 items={['male', 'female']}
@@ -202,7 +202,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
 
           <Form.Line title="Вероисповедание">
             <ValidationWrapper validationInfo={v.getNode(x => x.confession).get()}>
-              <Select
+              <Select<ContactInfo['confession'], string>
                 renderItem={x => x}
                 renderValue={x => x}
                 items={[

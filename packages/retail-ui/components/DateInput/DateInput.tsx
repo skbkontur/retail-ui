@@ -1,4 +1,3 @@
-import CalendarIcon from '@skbkontur/react-icons/Calendar';
 import * as React from 'react';
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -14,6 +13,7 @@ import jsStyles from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import InternalDateMediator from './helpers/InternalDateMediator';
 import { IconType } from '../Input/Input';
+import { CalendarIcon } from '../internal/icons/16px';
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
@@ -268,7 +268,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleMouseDragEnd = () => {
-    if (this.state.selected !== InternalDateComponentType.All && getSelection().toString().length === LENGTH_FULLDATE) {
+    const selection = getSelection();
+    if (
+      selection &&
+      selection.toString().length === LENGTH_FULLDATE &&
+      this.state.selected !== InternalDateComponentType.All
+    ) {
       this.selectDateComponent(InternalDateComponentType.All);
     }
   };

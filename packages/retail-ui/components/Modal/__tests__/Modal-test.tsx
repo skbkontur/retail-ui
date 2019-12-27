@@ -2,8 +2,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import { ReactComponentLike } from 'prop-types';
 import Modal from '../Modal';
-import { isHeader } from '../ModalHeader';
-import { isFooter } from '../ModalFooter';
+import { isFooter, isHeader } from '../helpers';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,

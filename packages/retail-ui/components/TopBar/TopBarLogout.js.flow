@@ -1,5 +1,5 @@
 /* @flow */
-import type { ButtonItemProps } from './ButtonItem';
+import type { ButtonItemProps } from './TopBarButtonItem';
 
 declare class Logout extends React$Component<ButtonItemProps> {}
 
