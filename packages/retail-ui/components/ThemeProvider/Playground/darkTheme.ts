@@ -222,7 +222,6 @@ export default {
   dateSelectMenuItemFontDisabled: '#a0a0a0',
   datePickerOpenBtnColor: '#333',
   pickerBg: '#333333',
-  pickerShadow: '0 0 0 1px #4d4d4d, 0 3px 10px 0 rgba(0, 0, 0, 0.2)',
   pickerTodayWrapperBgColor: '#333333',
   pickerTodayWrapperBorderTop: '1px solid #4D4D4D',
   pickerTodayWrapperHoverBgColor: '#5199db',

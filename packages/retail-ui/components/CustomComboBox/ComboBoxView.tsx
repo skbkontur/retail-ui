@@ -144,6 +144,7 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           {opened && (
             <Popup
               anchorElement={this.inputDomNode}
+              hasShadow
               opened
               positions={positionsByAlign[this.props.menuAlign]}
               margin={1}

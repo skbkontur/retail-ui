@@ -5,7 +5,6 @@ const jsStyles = {
   root(t: ITheme) {
     return css`
       background: ${t.pickerBg};
-      box-shadow: ${t.pickerShadow};
     `;
   },
 

@@ -60,7 +60,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if (loading && (!items || !items.length)) {
       return (
-        <Menu ref={refMenu}>
+        <Menu ref={refMenu} hasShadow={false}>
           <MenuItem disabled>
             <Spinner type="mini" dimmed />
           </MenuItem>
@@ -70,7 +70,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if (items === null && requestStatus === ComboBoxRequestStatus.Failed) {
       return (
-        <Menu ref={refMenu} maxHeight={maxMenuHeight}>
+        <Menu ref={refMenu} maxHeight={maxMenuHeight} hasShadow={false}>
           <MenuItem disabled key="message">
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
@@ -83,7 +83,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if ((items == null || items.length === 0) && renderNotFound) {
       return (
-        <Menu ref={refMenu}>
+        <Menu ref={refMenu} hasShadow={false}>
           {renderAddButton ? renderAddButton : <MenuItem disabled>{renderNotFound()}</MenuItem>}
         </Menu>
       );
@@ -99,7 +99,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     return (
-      <Menu ref={refMenu} maxHeight={maxMenuHeight}>
+      <Menu ref={refMenu} maxHeight={maxMenuHeight} hasShadow={false}>
         {items && items.map(this.renderItem)}
         {total}
         {renderAddButton && [<MenuSeparator key="separator" />, renderAddButton]}

@@ -37,6 +37,7 @@ export default class TokenInputMenu<T = string> extends React.Component<TokenInp
       <Popup
         opened={opened!}
         positions={['bottom left']}
+        hasShadow
         anchorElement={this.props.anchorElement}
         margin={6}
         popupOffset={5}
