@@ -14,7 +14,7 @@ interface ComponentsGroupProps {
 export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement<ComponentsGroupProps> => {
   const { title, components, style, theme } = props;
   return (
-    <Gapped verticalAlign={'top'} gap={40}>
+    <Gapped wrap verticalAlign="top" gap={40}>
       <div
         className={cx(
           styles.title,
@@ -34,7 +34,7 @@ export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement
           `,
         )}
       >
-        <Gapped verticalAlign={'middle'} gap={10}>
+        <Gapped wrap verticalAlign="middle" gap={10}>
           {components.map((element, index) => React.cloneElement(element, { key: index }))}
         </Gapped>
       </div>

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Logotype } from '../Logotype';
-import { ButtonItem } from './ButtonItem';
-import { Divider } from './Divider';
-import { Item } from './Item';
-import { Organizations } from './Organizations';
+import { ButtonItem } from './TopBarButtonItem';
+import { Divider } from './TopBarDivider';
+import { Item } from './TopBarItem';
+import { Organizations } from './TopBarOrganizations';
 import { TopBarDropdown } from './TopBarDropdown';
-import { User } from './User';
+import { User } from './TopBarUser';
 import '../ensureOldIEClassName';
 import styles from './TopBar.module.less';
 import { TopBarEnd } from './TopBarEnd';

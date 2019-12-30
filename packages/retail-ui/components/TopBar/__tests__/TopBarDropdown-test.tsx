@@ -2,7 +2,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { MenuItem } from '../../MenuItem';
 import { TopBarDropdown, TopBarDropdownProps } from '../TopBarDropdown';
-import { Item } from '../Item';
+import { Item } from '../TopBarItem';
 
 describe('TopBarDropdown', () => {
   describe('open/close methods', () => {

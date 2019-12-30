@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Gapped } from '../../Gapped/index';
 import { Tooltip } from '../../Tooltip/index';
 import { DatePicker } from '../../DatePicker/index';
 
@@ -12,25 +11,23 @@ export class DatePickerPlayground extends React.Component<any, any> {
 
   public render() {
     return (
-      <Gapped>
-        <Tooltip
-          trigger={this.state.tooltip ? 'opened' : 'closed'}
-          render={() => 'Такой даты не существует'}
-          onCloseClick={this.removeTooltip}
-        >
-          <DatePicker
-            {...this.props}
-            disabled={this.props.disabled}
-            size={this.props.size}
-            error={this.state.error}
-            value={this.state.value}
-            onChange={this.handleChange}
-            onFocus={this.invalidate}
-            onBlur={this.validate}
-            enableTodayLink
-          />
-        </Tooltip>
-      </Gapped>
+      <Tooltip
+        trigger={this.state.tooltip ? 'opened' : 'closed'}
+        render={() => 'Такой даты не существует'}
+        onCloseClick={this.removeTooltip}
+      >
+        <DatePicker
+          {...this.props}
+          disabled={this.props.disabled}
+          size={this.props.size}
+          error={this.state.error}
+          value={this.state.value}
+          onChange={this.handleChange}
+          onFocus={this.invalidate}
+          onBlur={this.validate}
+          enableTodayLink
+        />
+      </Tooltip>
     );
   }
 

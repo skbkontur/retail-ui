@@ -18,7 +18,9 @@ export interface SidePageFooterProps {
 }
 
 /**
- * Футер модального окна.
+ * Футер сайдпейджа.
+ *
+ * @visibleName SidePage.Footer
  */
 
 export class SidePageFooter extends React.Component<SidePageFooterProps> {

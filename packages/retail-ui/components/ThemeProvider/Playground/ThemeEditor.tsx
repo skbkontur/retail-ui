@@ -42,7 +42,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
   }
 
   public componentDidMount() {
-    this.updateTimeout = setTimeout(() => {
+    this.updateTimeout = window.setTimeout(() => {
       this.setState({ groups: VARIABLES_GROUPS, isLoading: false });
     }, 500);
   }
@@ -56,7 +56,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
     const keys = ThemeFactory.getKeys(editingTheme);
 
     return (
-      <Gapped verticalAlign={'middle'}>
+      <Gapped wrap verticalAlign="middle">
         {this.state.groups.map((i: Group) => (
           <Group
             editingTheme={editingTheme}
@@ -94,7 +94,7 @@ const Group = (props: GroupProps) => {
   return variables.length > 0 ? (
     <React.Fragment>
       <h2 className={headerClassname}>{title}</h2>
-      <Gapped gap={16}>
+      <Gapped gap={16} wrap verticalAlign="middle">
         {variables.map(variable => {
           const value = editingTheme[variable as keyof Theme];
           const isError = currentErrors[variable];

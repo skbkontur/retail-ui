@@ -9,8 +9,9 @@ import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ModalStack, StackSubscription } from '../ModalStack';
 import { ModalContext, ModalContextProps } from './ModalContext';
-import { Footer, isFooter } from './ModalFooter';
-import { Header, isHeader } from './ModalHeader';
+import { Footer } from './ModalFooter';
+import { Header } from './ModalHeader';
+import { isFooter, isHeader } from './helpers';
 import { Body } from './ModalBody';
 import { ModalClose } from './ModalClose';
 import { ResizeDetector } from '../internal/ResizeDetector';
@@ -20,6 +21,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+import { isBody } from './helpers';
 
 let mountedModalsCount = 0;
 
@@ -75,6 +77,18 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Header = Header;
   public static Body = Body;
   public static Footer = Footer;
+
+  public static propTypes = {
+    children(props: ModalProps, propName: keyof ModalProps, componentName: string) {
+      if (
+        React.Children.toArray(props[propName]).some(child => !isHeader(child) && !isBody(child) && !isFooter(child))
+      ) {
+        return new Error(
+          `Only 'Header/Body/Footer' components are allowed for '${propName}' prop of '${componentName}' component`,
+        );
+      }
+    },
+  };
 
   public state: ModalState = {
     stackPosition: 0,
@@ -197,7 +211,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
-                      <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
+                      <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
+                        <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
+                      </ZIndex>
                     ) : null}
                     <ModalContext.Provider value={modalContextProps}>
                       <div>

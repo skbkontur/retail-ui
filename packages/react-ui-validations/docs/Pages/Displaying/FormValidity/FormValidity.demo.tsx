@@ -64,7 +64,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
           </Form.Line>
 
           <Form.ActionsBar>
-            <Gapped>
+            <Gapped wrap={true} verticalAlign="middle">
               <Button use={'primary'} onClick={this.handleSubmit}>
                 Submit
               </Button>

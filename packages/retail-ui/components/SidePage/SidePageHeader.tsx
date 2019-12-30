@@ -23,6 +23,11 @@ export interface SidePageHeaderState {
   isReadyToFix: boolean;
 }
 
+/**
+ * Шапка сайдпейджа
+ *
+ * @visibleName SidePage.Header
+ */
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public state = {
     isReadyToFix: false,

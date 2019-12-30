@@ -60,6 +60,12 @@ export const jsStyles = {
     `;
   },
 
+  closeWrapper() {
+    return css`
+      position: relative;
+    `;
+  },
+
   footer(t: Theme) {
     return css`
       &.${styles.panel} {

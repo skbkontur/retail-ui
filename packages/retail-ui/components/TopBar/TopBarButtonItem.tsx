@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Item, ItemProps } from './Item';
+import { Item, ItemProps } from './TopBarItem';
 
 import styles from './TopBar.module.less';
 import { IconProps } from '../internal/icons/20px';
@@ -15,7 +15,11 @@ export interface ButtonItemProps extends ItemProps {
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
   use: 'danger' | 'pay' | 'default';
 }
-
+/**
+ * Интерактивный элемент топбара
+ *
+ * @visibleName TopBar.ButtonItem
+ */
 export class ButtonItem extends React.Component<ButtonItemProps> {
   public static defaultProps = {
     use: 'default',

@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "1.6.8",
+  "version": "1.7.0",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -47,6 +47,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.6",
+    "@emotion/stylis": "0.8.4",
     "classnames": "^2.2.6",
     "create-emotion": "^10.0.14",
     "create-react-context": "^0.3.0",
@@ -63,7 +64,6 @@
     "react-input-mask": "2.0.4",
     "react-transition-group": "^2.4.0",
     "shallowequal": "^1.1.0",
-    "stylis-plugin-extra-scope": "^0.1.1",
     "tabbable": "^4.0.0",
     "warning": "^4.0.3"
   },
@@ -108,7 +108,7 @@
     "babel-loader": "^8.0.6",
     "chalk": "3.0.0",
     "core-js": "^3.4.8",
-    "creevey": "^0.2.2",
+    "creevey": "^0.2.4",
     "cross-env": "^6.0.3",
     "css-loader": "3.4.0",
     "dts-css-modules-loader": "1.0.1",

@@ -86,7 +86,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
         <div className={styles.baseLinkWrapper}>
           <Gapped>
             <div style={{ textAlign: 'right' }}>
-              <Gapped vertical={true} verticalAlign={'top'}>
+              <Gapped vertical>
                 {baseVariables.map(v => (
                   <BaseVariableLink key={v} baseVariable={v} emitClickEvent={this.emitClickEvent} />
                 ))}
@@ -168,7 +168,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     });
 
     if (this.debounceInterval === undefined) {
-      this.debounceInterval = setInterval(this.debounceHandler, this.debounceTimeout);
+      this.debounceInterval = window.setInterval(this.debounceHandler, this.debounceTimeout);
     }
   };
 

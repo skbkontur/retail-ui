@@ -10,6 +10,11 @@ export interface UserProps {
   userName: string;
   cabinetUrl?: string;
 }
+/**
+ * Меню работы с кабинетом пользователя
+ *
+ * @visibleName TopBar.User
+ */
 
 @locale('TopBar', TopBarLocaleHelper)
 export class User extends React.Component<UserProps> {

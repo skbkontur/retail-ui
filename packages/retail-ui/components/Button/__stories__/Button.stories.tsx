@@ -14,7 +14,7 @@ storiesOf('Button', module)
   })
   .add('different content', () => {
     return (
-      <Gapped vertical={true}>
+      <Gapped vertical>
         <Button icon={<OkIcon />}>text with icon</Button>
         <Button>{<OkIcon />}</Button>
         <Button icon={<OkIcon />} use={'primary'}>

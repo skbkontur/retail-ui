@@ -36,7 +36,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
       <ValidationContainer>
         <div style={{ padding: 30 }}>
           <Gapped vertical>
-            <Gapped>
+            <Gapped wrap verticalAlign="middle">
               <b>A</b>
               <ValidationWrapper data-tid="InputAValidation" validationInfo={this.validateA()} renderMessage={text()}>
                 <Input
@@ -46,7 +46,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
                 />
               </ValidationWrapper>
             </Gapped>
-            <Gapped>
+            <Gapped wrap verticalAlign="middle">
               <b>B</b>
               <ValidationWrapper
                 data-tid="InputBValidation"
