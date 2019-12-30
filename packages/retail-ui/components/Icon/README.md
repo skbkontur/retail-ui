@@ -39,7 +39,7 @@ const { default: Icon } = require('@skbkontur/react-icons');
 
 <Gapped vertical>
   <div>Имя показывается при наведении:</div>
-  <Gapped>
+  <Gapped wrap>
     {Object.keys(Icon).map(name => (
       <Tooltip key={name} render={() => name}>
         <Icon name={name} />
