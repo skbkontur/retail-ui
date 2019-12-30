@@ -21,7 +21,7 @@ export interface FormattingInfo {
   cursorMap: CursorMap;
 }
 
-export default class CurrencyHelper {
+export class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     thousandsDelimiter: String.fromCharCode(0x2009),

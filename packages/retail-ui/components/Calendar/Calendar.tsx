@@ -1,19 +1,19 @@
 import * as React from 'react';
 import normalizeWheel from 'normalize-wheel';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
-import config from './config';
+import { config } from './config';
 import * as CalendarUtils from './CalendarUtils';
 import { Animation } from './Animation';
 import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
-import CalendarScrollEvents from './CalendarScrollEvents';
+import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import styles from './Calendar.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { ITheme } from '../../lib/theming/Theme';
-import jsStyles from './Calendar.styles';
+import { jsStyles } from './Calendar.styles';
 import { cx } from '../../lib/theming/Emotion';
-import ThemeConsumer from '../ThemeConsumer';
+import { ThemeConsumer } from '../ThemeConsumer';
 
 export type CalendarDateShape = CDS.CalendarDateShape;
 
@@ -46,7 +46,7 @@ const getTodayDate = () => {
 
 const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 
-class Calendar extends React.Component<CalendarProps, CalendarState> {
+export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static defaultProps = {
     holidays: [],
     minDate: {
@@ -324,5 +324,3 @@ class Calendar extends React.Component<CalendarProps, CalendarState> {
     );
   };
 }
-
-export default Calendar;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import Corners from '../Button/Corners';
+import { Corners } from '../Button/Corners';
 import '../ensureOldIEClassName';
 import styles from './Group.module.less';
 import { Nullable } from '../../typings/utility-types';
@@ -22,7 +22,7 @@ export interface GroupChildProps {
  * Главному *Input*, который должен занимать всю доступную ширину, нужно
  * передать свойство `mainInGroup`;
  */
-class Group extends React.Component<GroupProps> {
+export class Group extends React.Component<GroupProps> {
   public static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };
@@ -96,5 +96,3 @@ class Group extends React.Component<GroupProps> {
     );
   }
 }
-
-export default Group;

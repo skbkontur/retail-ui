@@ -1,14 +1,14 @@
 import * as React from 'react';
 import styles from './ThemeShowcase.module.less';
-import defaultVariables from '../../lib/theming/themes/DefaultTheme';
-import flatVariables from '../../lib/theming/themes/FlatTheme';
+import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
+import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
 import { ITheme } from '../../lib/theming/Theme';
-import ComboBox, { ComboBoxItem } from '../ComboBox';
-import Gapped from '../Gapped';
-import Link from '../Link';
-import Sticky from '../Sticky';
-import ColorFunctions from '../../lib/styles/ColorFunctions';
-import Tooltip from '../Tooltip';
+import { ComboBox, ComboBoxItem } from '../ComboBox';
+import { Gapped } from '../Gapped';
+import { Link } from '../Link';
+import { Sticky } from '../Sticky';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { Tooltip } from '../Tooltip';
 import { PopupPosition } from '../Popup';
 import {
   ALL_USED_VARIABLES,
@@ -35,7 +35,7 @@ interface ShowcaseState {
   selectedVariable?: ComboBoxItem;
 }
 
-export default class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState> {
+export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState> {
   public state: ShowcaseState = {};
 
   private isUnmounting = false;

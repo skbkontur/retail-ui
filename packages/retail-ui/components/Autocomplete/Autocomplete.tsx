@@ -3,14 +3,28 @@ import * as PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 
-import Input, { InputProps } from '../Input';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem';
-import RenderLayer from '../RenderLayer';
+import { Input, InputProps } from '../Input';
+import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
+import { Menu } from '../Menu/Menu';
+import { MenuItem } from '../MenuItem';
+import { RenderLayer } from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
+
+function match(pattern: string, items: string[]) {
+  if (!pattern || !items) {
+    return Promise.resolve([]);
+  }
+
+  pattern = pattern.toLowerCase();
+  const filteredItems = items.filter(item => item.toLowerCase().includes(pattern));
+  return Promise.resolve(filteredItems);
+}
+
+function renderItem(item: any) {
+  return item;
+}
 
 export interface AutocompleteProps extends InputProps {
   /** Функция отрисовки элемента меню */
@@ -39,7 +53,7 @@ export interface AutocompleteProps extends InputProps {
   value: string;
 }
 
-export interface AutocomplpeteState {
+export interface AutocompleteState {
   items: Nullable<string[]>;
   selected: number;
 }
@@ -49,7 +63,7 @@ export interface AutocomplpeteState {
  *
  * Все свойства передаются во внутренний *Input*.
  */
-class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState> {
+export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static propTypes = {
     /**
      * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
@@ -83,17 +97,17 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     preventWindowScroll: true,
   };
 
-  public state: AutocomplpeteState = {
+  public state: AutocompleteState = {
     items: null,
     selected: -1,
   };
 
-  private opened: boolean = false;
+  private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
 
-  private focused: boolean = false;
-  private requestId: number = 0;
+  private focused = false;
+  private requestId = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
 
@@ -334,19 +348,3 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
     this.menu = menu;
   };
 }
-
-function match(pattern: string, items: string[]) {
-  if (!pattern || !items) {
-    return Promise.resolve([]);
-  }
-
-  pattern = pattern.toLowerCase();
-  const filteredItems = items.filter(item => item.toLowerCase().includes(pattern));
-  return Promise.resolve(filteredItems);
-}
-
-function renderItem(item: any) {
-  return item;
-}
-
-export default Autocomplete;

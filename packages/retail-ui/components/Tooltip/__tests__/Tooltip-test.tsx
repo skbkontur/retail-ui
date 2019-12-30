@@ -1,8 +1,7 @@
-// tslint:disable:jsx-no-lambda
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
-import Button from '../../Button';
-import Tooltip, { TooltipProps, TooltipState } from '../Tooltip';
+import { Button } from '../../Button';
+import { Tooltip, TooltipProps, TooltipState } from '../Tooltip';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -75,7 +74,7 @@ describe('Tooltip', () => {
 
   it('renders stateless children component without errors', () => {
     function PureComponent() {
-      return <div>i'm pure component!</div>;
+      return <div>i&apos;m pure component!</div>;
     }
 
     const wrapper = mount<TooltipProps>(

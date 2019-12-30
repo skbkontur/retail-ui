@@ -14,7 +14,7 @@ export interface StackSubscription {
   remove: () => void;
 }
 
-export default class ModalStack {
+export class ModalStack {
   public static add(
     component: React.Component,
     onChange: (stack: ReadonlyArray<React.Component>) => void,

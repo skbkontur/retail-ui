@@ -1,6 +1,6 @@
 let calledLoad = false;
 
-export default {
+export const ProductWidget = {
   init() {
     const loadWidget = () => {
       if (calledLoad) {

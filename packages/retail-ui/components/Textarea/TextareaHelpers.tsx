@@ -1,4 +1,4 @@
-import getComputedStyle from '../../lib/dom/getComputedStyle';
+import { getComputedStyle } from '../../lib/dom/getComputedStyle';
 
 export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, maxRows: number) {
   const style: CSSStyleDeclaration = getComputedStyle(node);

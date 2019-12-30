@@ -2,9 +2,9 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import Input, { InputSize } from '../Input';
-import Button from '../../Button';
-import Gapped from '../../Gapped';
+import { Input, InputSize } from '../Input';
+import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
 
 const styles = {
   display: 'inline-block',

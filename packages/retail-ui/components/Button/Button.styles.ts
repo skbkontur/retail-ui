@@ -21,7 +21,7 @@ const btn_loading_arrow = keyframes`
 }
 `;
 
-const jsClasses = {
+export const jsClasses = {
   root(t: ITheme) {
     return css`
       ${resetButton()};
@@ -506,5 +506,3 @@ const jsClasses = {
     `;
   },
 };
-
-export default jsClasses;

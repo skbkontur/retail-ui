@@ -1,10 +1,9 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Menu from '../Menu';
-import MenuItem from '../../MenuItem';
-import MenuHeader from '../../MenuHeader';
-import MenuSeparator from '../../MenuSeparator';
+import { Menu } from '../Menu';
+import { MenuItem } from '../../MenuItem';
+import { MenuHeader } from '../../MenuHeader';
+import { MenuSeparator } from '../../MenuSeparator';
 
 storiesOf('Menu', module)
   .addDecorator(story => (

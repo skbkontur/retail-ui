@@ -1,7 +1,7 @@
 import { css } from '../../../lib/theming/Emotion';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
 
-const jsStyles = {
+export const jsStyles = {
   stickyTabsWrapper(t: PlaygroundTheme) {
     return css`
       &:after {
@@ -25,5 +25,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

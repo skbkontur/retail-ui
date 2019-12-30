@@ -1,15 +1,15 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../../lib/events/keyboard/identifiers';
-import isActiveElement from './isActiveElement';
-import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
-import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
+import { isActiveElement } from './isActiveElement';
+import { ScrollContainer, ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
+import { isMenuItem, MenuItem, MenuItemProps } from '../../MenuItem';
 import { isMenuHeader } from '../../MenuHeader';
 import styles from './InternalMenu.module.less';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
 import { cx } from '../../../lib/theming/Emotion';
-import jsStyles from './InternalMenu.styles';
+import { jsStyles } from './InternalMenu.styles';
 import { ThemeConsumer } from '../../ThemeConsumer';
 import { ITheme } from '../../../lib/theming/Theme';
 
@@ -36,7 +36,7 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
-export default class InternalMenu extends React.Component<MenuProps, MenuState> {
+export class InternalMenu extends React.Component<MenuProps, MenuState> {
   public static defaultProps = {
     width: 'auto',
     maxHeight: 300,

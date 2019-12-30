@@ -1,10 +1,9 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Gapped from '../../Gapped';
-import Input from '../../Input';
-import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
-import Token, { TokenColors } from '../../Token';
+import { Gapped } from '../../Gapped';
+import { Input } from '../../Input';
+import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
+import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
 
 interface TokenModel {
@@ -155,7 +154,6 @@ class ColoredWrapper extends React.Component<any, any> {
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
-// tslint:disable jsx-no-lambda
 storiesOf('TokenInput', module)
   .addDecorator(FixedWidthDecorator)
   .add('validations', () => {

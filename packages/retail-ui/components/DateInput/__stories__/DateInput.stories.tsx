@@ -2,10 +2,10 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
-import Gapped from '../../Gapped';
-import LocaleProvider from '../../LocaleProvider';
-import Select from '../../Select';
-import DateInput from '../DateInput';
+import { Gapped } from '../../Gapped';
+import { LocaleProvider } from '../../LocaleProvider';
+import { Select } from '../../Select';
+import { DateInput } from '../DateInput';
 
 interface DateInputFormattingState {
   order: InternalDateOrder;
@@ -69,7 +69,7 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
       <table>
         <thead>
           <tr>
-            <td>{' '}</td>
+            <td> </td>
             <td>YMD</td>
             <td>MDY</td>
             <td>DMY</td>

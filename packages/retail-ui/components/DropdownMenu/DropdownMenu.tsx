@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Nullable } from '../../typings/utility-types';
-import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
+import { PopupMenu, PopupMenuProps } from '../internal/PopupMenu';
 import { isProductionEnv } from '../internal/currentEnvironment';
 import { PopupPosition } from '../Popup';
 
@@ -37,7 +37,7 @@ export interface DropdownMenuProps {
 /**
  * Меню, раскрывающееся по клику на переданный в ```caption``` элемент
  */
-export default class DropdownMenu extends React.Component<DropdownMenuProps> {
+export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static defaultProps = {
     disableAnimations: Boolean(process.env.enableReactTesting),
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],

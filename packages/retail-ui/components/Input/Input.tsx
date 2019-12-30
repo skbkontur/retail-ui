@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
-import polyfillPlaceholder from '../polyfillPlaceholder';
+import { polyfillPlaceholder } from '../polyfillPlaceholder';
 import '../ensureOldIEClassName';
-import { Override, Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import invariant from 'invariant';
-import MaskedInput from '../internal/MaskedInput/MaskedInput';
+import { MaskedInput } from '../internal/MaskedInput';
 import { cx } from '../../lib/theming/Emotion';
 import classes from './Input.module.less';
-import jsClasses from './Input.styles';
+import { jsClasses } from './Input.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import raf from 'raf';
@@ -109,7 +109,7 @@ export interface InputState extends InputVisibilityState {
  * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
-class Input extends React.Component<InputProps, InputState> {
+export class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: {
     size: InputSize;
   } = {
@@ -124,7 +124,7 @@ class Input extends React.Component<InputProps, InputState> {
 
   private selectAllId: number | null = null;
   private theme!: ITheme;
-  private blinkTimeout: number = 0;
+  private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
 
   public componentDidMount() {
@@ -170,7 +170,6 @@ class Input extends React.Component<InputProps, InputState> {
       this.cancelBlink(() => {
         // trigger reflow to restart animation
         // @see https://css-tricks.com/restart-css-animation/#article-header-id-0
-        // tslint:disable-next-line:no-unused-expression
         void (this.input && this.input.offsetWidth);
         this.blink();
       });
@@ -502,5 +501,3 @@ class Input extends React.Component<InputProps, InputState> {
     return <span className={jsClasses.suffix(this.theme)}>{suffix}</span>;
   };
 }
-
-export default Input;

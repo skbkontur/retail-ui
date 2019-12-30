@@ -6,7 +6,7 @@ export interface IgnoreLayerClickProps {
   active: boolean;
 }
 
-export default class IgnoreLayerClick extends React.Component<IgnoreLayerClickProps> {
+export class IgnoreLayerClick extends React.Component<IgnoreLayerClickProps> {
   public render() {
     const child = React.Children.only(this.props.children);
     return this.props.active ? <IgnoreLayerClickWrapper>{child}</IgnoreLayerClickWrapper> : child;

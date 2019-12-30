@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import tabListener from '../../lib/events/tabListener';
+import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
 import styles from './Toggle.module.less';
-import jsStyles from './Toggle.styles';
+import { jsStyles } from './Toggle.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -27,7 +27,7 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
-export default class Toggle extends React.Component<ToggleProps, ToggleState> {
+export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static propTypes = {
     checked: PropTypes.bool,
     defaultChecked: PropTypes.bool,

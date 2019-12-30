@@ -1,1 +1,1 @@
-export { default, SidePageProps, SidePageState } from './SidePage';
+export { SidePage, SidePageProps, SidePageState } from './SidePage';

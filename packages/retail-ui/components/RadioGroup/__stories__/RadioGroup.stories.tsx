@@ -1,12 +1,10 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import RadioGroup from '../RadioGroup';
-import Radio from '../../Radio';
-import Gapped from '../../Gapped';
-import Button from '../../Button';
-import { SyntheticRadioEvent } from '../../Radio/Radio';
+import { RadioGroup } from '../RadioGroup';
+import { Radio, SyntheticRadioEvent } from '../../Radio';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
 import { Nullable } from '../../../typings/utility-types';
 
 class Component extends React.Component<any, any> {

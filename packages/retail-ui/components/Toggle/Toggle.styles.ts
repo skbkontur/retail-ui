@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './Toggle.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   handle(t: ITheme) {
     return css`
       background: ${t.toggleBg};
@@ -89,5 +89,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

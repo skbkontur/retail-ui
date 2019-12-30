@@ -1,6 +1,6 @@
 import { PopupPosition } from '../../Popup';
 
-const PopupMenuPositions: PopupPosition[] = [
+export const PopupMenuPositions: PopupPosition[] = [
   'top left',
   'top center',
   'top right',
@@ -14,5 +14,3 @@ const PopupMenuPositions: PopupPosition[] = [
   'left middle',
   'left bottom',
 ];
-
-export default PopupMenuPositions;

@@ -1,30 +1,29 @@
 import * as React from 'react';
-import Gapped from '../../Gapped';
-import Button from '../../Button';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
 import { locale } from '../../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
 import styles from './FiasForm.module.less';
 import {
-  Fields,
-  FormValidation,
   AddressResponse,
-  VerifyResponse,
   APIProvider,
-  SearchOptions,
   APIResult,
   ExtraFields,
-  FieldsSettings,
   FiasCountry,
+  Fields,
+  FieldsSettings,
+  FormValidation,
+  SearchOptions,
+  VerifyResponse,
 } from '../types';
-import { Address } from '../models/Address';
+import { Address } from '..';
 import { AddressElement } from '../models/AddressElement';
-import Tooltip from '../../Tooltip/Tooltip';
-import { InputProps } from '../../Input';
-import Input from '../../Input/Input';
+import { Tooltip } from '../../Tooltip';
+import { Input, InputProps } from '../../Input';
 import { FiasSearch, FiasSearchChangeEvent } from '../FiasSearch/FiasSearch';
 import { FiasCountrySelector } from './FiasCountrySelector';
-import Textarea from '../../Textarea';
+import { Textarea } from '../../Textarea';
 
 interface FiasFormProps {
   api: APIProvider;
@@ -44,7 +43,7 @@ type FiasFormFields = {
   [field in Fields | ExtraFields]?: {
     meta: FiasFormFieldMeta;
     render: () => React.ReactNode;
-  }
+  };
 };
 
 interface FieldMeta<C, P> {
@@ -535,5 +534,3 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     }
   };
 }
-
-export default FiasForm;

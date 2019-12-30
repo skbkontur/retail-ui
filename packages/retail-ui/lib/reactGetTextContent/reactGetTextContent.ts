@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default function reactGetTextContent(rootReactNode: React.ReactNode) {
+export function reactGetTextContent(rootReactNode: React.ReactNode) {
   let result = '';
 
   const getText = (reactNode: React.ReactNode) => {

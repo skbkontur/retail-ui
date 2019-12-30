@@ -3,8 +3,8 @@ import * as React from 'react';
 import { DefaultizeProps } from '../../../lib/utils';
 import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
-import LocaleProvider, { LocaleProviderProps } from '../../LocaleProvider';
-import DateInput, { DateInputProps } from '../DateInput';
+import { LocaleProvider, LocaleProviderProps } from '../../LocaleProvider';
+import { DateInput, DateInputProps } from '../DateInput';
 
 const defaultOrder: InternalDateOrder = InternalDateOrder.DMY;
 const defaultSeparator: InternalDateSeparator = InternalDateSeparator.Dot;

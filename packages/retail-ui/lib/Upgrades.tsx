@@ -3,7 +3,7 @@ import warning from 'warning';
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
 
-const Upgrade = {
+export const Upgrade = {
   enableFlatDesign() {
     warning(
       false,
@@ -49,5 +49,3 @@ const Upgrade = {
     }
   },
 };
-
-export default Upgrade;

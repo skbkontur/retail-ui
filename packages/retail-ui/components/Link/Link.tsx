@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
-import tabListener from '../../lib/events/tabListener';
+import { tabListener } from '../../lib/events/tabListener';
 import styles from './Link.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Link.styles';
+import { jsStyles } from './Link.styles';
 import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 
@@ -54,7 +54,7 @@ export interface LinkState {
  * Все свойства передаются в элемент `<a>`.
  * `className` и `style` не поддерживаются
  */
-class Link extends React.Component<LinkProps, LinkState> {
+export class Link extends React.Component<LinkProps, LinkState> {
   public static propTypes = {
     disabled: PropTypes.bool,
 
@@ -154,5 +154,3 @@ class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 }
-
-export default Link;

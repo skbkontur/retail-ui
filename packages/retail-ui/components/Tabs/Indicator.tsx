@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import LayoutEvents from '../../lib/LayoutEvents';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
 import { TabIndicators } from './Tab';
 import styles from './Indicator.module.less';
@@ -8,7 +8,7 @@ import { Nullable } from '../../typings/utility-types';
 import { withContext } from '../../lib/utils';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Indicator.styles';
+import { jsStyles } from './Indicator.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -108,7 +108,6 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     }
   };
 
-  // tslint:disable-next-line:member-ordering
   private throttledReflow = throttle(this.reflow, 100);
 
   private getStyles(node: any): React.CSSProperties {
@@ -139,4 +138,3 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
 }
 
 export const IndicatorWithContext = withContext(TabsContext.Consumer)(Indicator);
-export default IndicatorWithContext;

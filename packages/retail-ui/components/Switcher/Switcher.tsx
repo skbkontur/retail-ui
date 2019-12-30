@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import Group from '../Group';
-import Button, { ButtonSize } from '../Button';
+import { Group } from '../Group';
+import { Button, ButtonSize } from '../Button';
 import styles from './Switcher.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Switcher.styles';
+import { jsStyles } from './Switcher.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -39,7 +39,7 @@ interface SwitcherItem {
   value: string;
 }
 
-class Switcher extends React.Component<SwitcherProps, SwitcherState> {
+export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static propTypes = {
     error: PropTypes.bool,
     items: PropTypes.oneOfType([
@@ -195,5 +195,3 @@ class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     });
   };
 }
-
-export default Switcher;

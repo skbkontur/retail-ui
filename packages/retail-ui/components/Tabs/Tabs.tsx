@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
-import Indicator from './Indicator';
+import { IndicatorWithContext as Indicator } from './Indicator';
 import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
 import styles from './Tabs.module.less';
@@ -45,7 +45,7 @@ export interface TabsProps {
  *
  * contains static property `Tab`
  */
-class Tabs extends React.Component<TabsProps> {
+export class Tabs extends React.Component<TabsProps> {
   public static propTypes = {
     children: PropTypes.node,
     indicatorClassName: PropTypes.string,
@@ -148,5 +148,3 @@ class Tabs extends React.Component<TabsProps> {
     return { target: { value } };
   }
 }
-
-export default Tabs;

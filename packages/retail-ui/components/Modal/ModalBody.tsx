@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ModalContext } from './ModalContext';
 import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import ZIndex from '../ZIndex';
+import { ZIndex } from '../ZIndex';
 
 export class Body extends React.Component {
   public render(): JSX.Element {

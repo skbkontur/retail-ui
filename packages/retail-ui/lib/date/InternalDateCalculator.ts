@@ -1,7 +1,12 @@
-import InternalDateGetter from './InternalDateGetter';
-import { InternalDateComponentType, InternalDateComponent, InternalDateComponentRaw, InternalDateComponents } from './types';
+import { InternalDateGetter } from './InternalDateGetter';
+import {
+  InternalDateComponent,
+  InternalDateComponentRaw,
+  InternalDateComponents,
+  InternalDateComponentType,
+} from './types';
 
-export default class InternalDateCalculator {
+export class InternalDateCalculator {
   public static calcRangeStartDateComponent(
     type: InternalDateComponentType,
     { year, month, date }: InternalDateComponents,
@@ -35,10 +40,10 @@ export default class InternalDateCalculator {
     prevValue: InternalDateComponentRaw,
     start: number,
     end: number,
-    isLoop: boolean = true,
+    isLoop = true,
   ): InternalDateComponent {
     const value = step + Number(prevValue);
-    if (step !==0 && (start - value > Math.abs(step) || value - end > Math.abs(step))) {
+    if (step !== 0 && (start - value > Math.abs(step) || value - end > Math.abs(step))) {
       return step < 0 ? end : start;
     }
     if (isLoop) {

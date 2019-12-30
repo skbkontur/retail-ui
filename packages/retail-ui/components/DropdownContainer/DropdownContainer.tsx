@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 
-import LayoutEvents from '../../lib/LayoutEvents';
-import getComputedStyle from '../../lib/dom/getComputedStyle';
-import RenderContainer from '../RenderContainer/RenderContainer';
-import ZIndex from '../ZIndex';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { getComputedStyle } from '../../lib/dom/getComputedStyle';
+import { RenderContainer } from '../RenderContainer';
+import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
@@ -32,7 +32,7 @@ export interface DropdownContainerState {
   isDocumentElementRoot?: boolean;
 }
 
-export default class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
+export class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
   public static defaultProps = {
     align: 'left',
     disablePortal: false,

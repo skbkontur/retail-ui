@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { cx, css } from '../../../lib/theming/Emotion';
-import Input from '../../Input/index';
+import { Input } from '../../Input/index';
 import styles from './styles.module.less';
-import Gapped from '../../Gapped';
+import { Gapped } from '../../Gapped';
 import { ITheme } from '../../../lib/theming/Theme';
-import Link from '../../Link';
+import { Link } from '../../Link';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
-import Hint from '../../Hint';
+import { Hint } from '../../Hint';
 import EventEmitter from 'eventemitter3';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
 

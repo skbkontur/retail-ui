@@ -84,5 +84,3 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
     }
   };
 }
-
-export default FiasCountrySelector;

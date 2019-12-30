@@ -24,7 +24,7 @@ export interface IconProps {
   color: React.CSSProperties['color'];
 }
 
-class Icon extends React.Component<IconProps> {
+export class Icon extends React.Component<IconProps> {
   public static propTypes = {
     color: PropTypes.string,
 
@@ -49,5 +49,3 @@ class Icon extends React.Component<IconProps> {
     );
   }
 }
-
-export default Icon;

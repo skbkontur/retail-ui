@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 
-import MenuItem from '../MenuItem';
+import { MenuItem } from '../MenuItem';
 
 describe('MenuItem', () => {
   it('renders multiple children', () => {

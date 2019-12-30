@@ -27,7 +27,7 @@ export interface CenterState {}
  * Контейнер для вертикального центрирования. В компонент можно передавать
  * свойства как в любой *div* (кроме `className`)
  */
-export default class Center extends React.Component<CenterProps, CenterState> {
+export class Center extends React.Component<CenterProps, CenterState> {
   public static defaultProps = {
     align: 'center',
   };

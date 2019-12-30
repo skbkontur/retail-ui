@@ -1,8 +1,8 @@
 import { mount, render } from 'enzyme';
 import * as React from 'react';
-import Group from '../';
-import Input from '../../Input';
-import Button from '../../Button';
+import { Group } from '../';
+import { Input } from '../../Input';
+import { Button } from '../../Button';
 
 describe('Group', () => {
   it('It renders', () => {

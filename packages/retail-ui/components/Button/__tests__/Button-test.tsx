@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import Button, { ButtonType } from '../Button';
+import { Button, ButtonType } from '../Button';
 
 describe('Button', () => {
   it('has correct label', () => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Gapped from '../../Gapped/index';
-import Tooltip from '../../Tooltip/index';
-import DatePicker from '../../DatePicker/index';
+import { Gapped } from '../../Gapped/index';
+import { Tooltip } from '../../Tooltip/index';
+import { DatePicker } from '../../DatePicker/index';
 
 export class DatePickerPlayground extends React.Component<any, any> {
   public state = {

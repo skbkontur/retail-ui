@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import CapIcon, { IconProps } from '../internal/icons/20px';
+import { Icon as  CapIcon, IconProps } from '../internal/icons/20px';
 import styles from './TopBar.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { cx } from '../../lib/theming/Emotion';
@@ -18,7 +18,7 @@ export interface ItemProps {
   tabIndex?: number;
 }
 
-class Item extends React.Component<ItemProps> {
+export class Item extends React.Component<ItemProps> {
   public static propTypes = {
     use: PropTypes.oneOf(['danger', 'pay', 'default']),
   };
@@ -62,5 +62,3 @@ class Item extends React.Component<ItemProps> {
     );
   }
 }
-
-export default Item;

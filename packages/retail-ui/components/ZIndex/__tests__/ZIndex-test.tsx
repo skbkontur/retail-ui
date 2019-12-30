@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import ZIndex from '../ZIndex';
+import { ZIndex } from '../ZIndex';
 
 describe('ZIndex', () => {
   it("shouldn't call unmoun/mount child component while switch `active` prop", () => {

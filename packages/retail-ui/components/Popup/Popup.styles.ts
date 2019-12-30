@@ -1,7 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   popup(t: ITheme) {
     return css`
       border-radius: ${t.popupBorderRadius};
@@ -33,5 +33,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

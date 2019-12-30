@@ -1,8 +1,8 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 
-import Menu from '../Menu';
-import MenuItem from '../../MenuItem/MenuItem';
+import { Menu } from '../Menu';
+import { MenuItem } from '../../MenuItem/MenuItem';
 
 describe('Menu', () => {
   it('calls existing refs of children when highlighted', () => {

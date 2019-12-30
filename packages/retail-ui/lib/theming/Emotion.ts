@@ -1,6 +1,6 @@
 import createEmotion from 'create-emotion';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
-import Upgrade from '../Upgrades';
+import { Upgrade } from '../Upgrades';
 import LESS_VARIABLES from '../../components/variables.module.less';
 
 const PREFIX = 'react-ui';

@@ -1,14 +1,13 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Tooltip, { TooltipProps, TooltipTrigger } from '../Tooltip';
-import Button from '../../Button';
+import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
+import { Button } from '../../Button';
 import { PopupPosition, PopupPositions } from '../../Popup';
 import { createPropsGetter } from '../../internal/createPropsGetter';
-import Textarea from '../../Textarea';
-import Checkbox from '../../Checkbox';
-import Gapped from '../../Gapped';
-import Input from '../../Input';
+import { Textarea } from '../../Textarea';
+import { Checkbox } from '../../Checkbox';
+import { Gapped } from '../../Gapped';
+import { Input } from '../../Input';
 
 interface TestTooltipProps {
   pos?: PopupPosition;
@@ -137,7 +136,7 @@ storiesOf('Tooltip', module)
   .add('hover on child only', () => (
     <TestTooltip trigger="hoverAnchor">
       <Button>
-        <code>trigger="hoverAnchor"</code>
+        <code>trigger=&quot;hoverAnchor&quot;</code>
       </Button>
     </TestTooltip>
   ))

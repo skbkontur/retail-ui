@@ -1,14 +1,14 @@
 import * as React from 'react';
-import getComputedStyle from '../../lib/dom/getComputedStyle';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
+import { getComputedStyle } from '../../lib/dom/getComputedStyle';
+import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 
-export default class HideBodyVerticalScroll extends React.Component {
+export class HideBodyVerticalScroll extends React.Component {
   public static hash = Math.random()
     .toString(16)
     .slice(2, 6);
   private disposeDocumentStyle: (() => void) | null = null;
-  private initialScroll: number = 0;
-  private master: boolean = false;
+  private initialScroll = 0;
+  private master = false;
 
   public componentDidMount() {
     const counter = VerticalScrollCounter.increment();

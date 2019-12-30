@@ -1,8 +1,6 @@
-// tslint:disable:jsx-no-lambda
-
 import { mount } from 'enzyme';
 import * as React from 'react';
-import Tabs from '../Tabs';
+import { Tabs } from '../Tabs';
 import { Indicator } from '../Indicator';
 
 describe('Tabs', () => {

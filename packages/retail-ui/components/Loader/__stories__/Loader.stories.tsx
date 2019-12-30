@@ -1,9 +1,8 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Loader from '../Loader';
-import Tooltip from '../../Tooltip';
-import Button from '../../Button';
+import { Loader } from '../Loader';
+import { Tooltip } from '../../Tooltip';
+import { Button } from '../../Button';
 
 function getItems(count: number) {
   const items = [];

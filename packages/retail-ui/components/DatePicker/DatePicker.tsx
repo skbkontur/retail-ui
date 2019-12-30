@@ -2,17 +2,16 @@ import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import { InternalDate } from '../../lib/date/InternalDate';
-import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
+import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../Calendar';
-import DateInput from '../DateInput';
-import { DateInput as PureDateInput } from '../DateInput/DateInput';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import filterProps from '../filterProps';
+import { DateInput } from '../DateInput';
+import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
+import { filterProps } from '../filterProps';
 import styles from './DatePicker.module.less';
-import Picker from './Picker';
+import { Picker } from './Picker';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -64,8 +63,7 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
-// eslint-disable-next-line flowtype/no-weak-types
-class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
+export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static propTypes = {
     autoFocus: PropTypes.bool,
 
@@ -150,8 +148,8 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
 
   public state: DatePickerState = { opened: false };
 
-  private input: PureDateInput | null = null;
-  private focused: boolean = false;
+  private input: DateInput | null = null;
+  private focused = false;
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
@@ -204,7 +202,6 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
     if (this.state.opened) {
       picker = (
         <DropdownContainer
-          // tslint:disable-next-line:jsx-no-lambda
           getParent={() => findDOMNode(this)}
           offsetY={2}
           align={this.props.menuAlign}
@@ -247,7 +244,7 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
     );
   }
 
-  private getInputRef = (ref: PureDateInput | null) => {
+  private getInputRef = (ref: DateInput | null) => {
     this.input = ref;
   };
 
@@ -306,5 +303,3 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
     return this.props.isHoliday(dateString, isWeekend);
   };
 }
-
-export default DatePicker;

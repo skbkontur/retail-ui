@@ -1,4 +1,4 @@
-enum KeyboardEventCodes {
+export enum KeyboardEventCodes {
   Unidentified = 'Unidentified',
   Escape = 'Escape',
   KeyA = 'KeyA',
@@ -28,5 +28,3 @@ enum KeyboardEventCodes {
   NumpadDecimal = 'NumpadDecimal',
   NumpadEnter = 'NumpadEnter',
 }
-
-export default KeyboardEventCodes;

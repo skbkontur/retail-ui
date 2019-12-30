@@ -106,27 +106,23 @@ describe('Modal', function() {
     });
     it('middle', async function() {
       await this.browser.executeScript(function() {
-        // tslint:disable
         var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
         var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight / 2;
-        // tslint:enable
-      });
+        });
       await this.browser.wait(new Promise(resolve => setTimeout(resolve, 100)));
       await expect(await this.browser.takeScreenshot()).to.matchImage('middle');
     });
     it('bottom', async function() {
       await this.browser.executeScript(function() {
-        // tslint:disable
         var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
         var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight;
-        // tslint:enable
-      });
+        });
       await this.browser.wait(new Promise(resolve => setTimeout(resolve, 100)));
       await expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
     });

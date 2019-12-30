@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Hint from '../Hint';
-import Gapped from '../../Gapped';
-import Input from '../../Input';
+import { Hint } from '../Hint';
+import { Gapped } from '../../Gapped';
+import { Input } from '../../Input';
 import { PopupPositions } from '../../Popup';
-import Textarea from '../../Textarea';
+import { Textarea } from '../../Textarea';
 
 storiesOf('Hint', module)
   .addDecorator(story => <div style={{ padding: '100px 300px' }}>{story()}</div>)

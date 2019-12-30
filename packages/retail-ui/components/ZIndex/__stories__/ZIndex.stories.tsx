@@ -1,27 +1,26 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Gapped from '../../Gapped';
-import Modal from '../../Modal';
-import Loader from '../../Loader';
-import Select from '../../Select';
-import Kebab from '../../Kebab';
-import MenuItem from '../../MenuItem';
-import Center from '../../Center';
-import Hint from '../../Hint';
-import Tooltip from '../../Tooltip';
-import ZIndex from '../ZIndex';
-import Button from '../../Button';
-import Toggle from '../../Toggle';
-import Popup from '../../Popup/Popup';
-import Toast from '../../Toast';
-import Input from '../../Input';
-import SidePage from '../../SidePage';
-import { PopupPosition } from '../../Popup';
-import ToastView from '../../Toast/ToastView';
+import { Gapped } from '../../Gapped';
+import { Modal } from '../../Modal';
+import { Loader } from '../../Loader';
+import { Select } from '../../Select';
+import { Kebab } from '../../Kebab';
+import { MenuItem } from '../../MenuItem';
+import { Center } from '../../Center';
+import { Hint } from '../../Hint';
+import { Tooltip } from '../../Tooltip';
+import { ZIndex } from '../ZIndex';
+import { Button } from '../../Button';
+import { Toggle } from '../../Toggle';
+import { Popup, PopupPosition } from '../../Popup';
+import { Toast } from '../../Toast';
+import { Input } from '../../Input';
+import { SidePage } from '../../SidePage';
+import { ToastView } from '../../Toast/ToastView';
 import { LoaderAndButton } from '../../Loader/__stories__/Loader.stories';
-import DropdownMenu from '../../DropdownMenu';
-import Sticky from '../../Sticky';
+import { DropdownMenu } from '../../DropdownMenu';
+import { Sticky } from '../../Sticky';
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -646,7 +645,7 @@ function StickyAndLoader() {
           </div>
         ))}
         <Sticky side="bottom" offset={40}>
-          <p style={{ background: '#f99' }}>I'm Sticky inside Loader</p>
+          <p style={{ background: '#f99' }}>I&apos;m Sticky inside Loader</p>
         </Sticky>
       </Loader>
       <Sticky side="bottom">

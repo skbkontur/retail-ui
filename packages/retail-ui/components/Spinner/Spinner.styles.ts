@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 
-const jsStyles = {
+export const jsStyles = {
   cloudStroke(t: ITheme) {
     return css`
       stroke: ${t.spinnerBgColor};
@@ -47,5 +47,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import warning from 'warning';
 
-import CustomComboBox from '../CustomComboBox';
+import { CustomComboBox } from '../CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 
@@ -158,7 +158,7 @@ export interface ComboBoxItem {
   label: string;
 }
 
-class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
+export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static defaultProps = {
     itemToValue: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,
@@ -273,5 +273,3 @@ class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
     );
   }
 }
-
-export default ComboBox;

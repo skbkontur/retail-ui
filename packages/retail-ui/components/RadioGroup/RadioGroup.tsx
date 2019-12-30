@@ -2,13 +2,13 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
 import { getRandomID } from '../../lib/utils';
-import Prevent from './Prevent';
-import Radio, { SyntheticRadioEvent } from '../Radio';
+import { Prevent } from './Prevent';
+import { Radio, SyntheticRadioEvent } from '../Radio';
 import styles from './RadioGroup.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import FocusTrap from '../internal/FocusTrap/FocusTrap';
+import { FocusTrap } from '../internal/FocusTrap';
 
 export type ItemType<T> = T | [T, React.ReactNode];
 
@@ -34,7 +34,7 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
-class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
+export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static childContextTypes = {
     error: PropTypes.bool,
     name: PropTypes.string,
@@ -246,8 +246,6 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
     this._node = element;
   };
 }
-
-export default RadioGroup;
 
 function renderItem(_value: any, data: React.ReactNode) {
   return data;

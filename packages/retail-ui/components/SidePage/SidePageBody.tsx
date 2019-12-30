@@ -22,5 +22,3 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
 }
 
 export const SidePageBodyWithContext = withContext(SidePageContext.Consumer)(SidePageBody);
-
-export default SidePageBodyWithContext;

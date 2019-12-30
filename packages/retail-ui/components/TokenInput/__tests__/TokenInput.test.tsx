@@ -1,11 +1,11 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider, { LangCodes, LocaleProviderProps } from '../../LocaleProvider';
+import { LangCodes, LocaleProvider, LocaleProviderProps } from '../../LocaleProvider';
 import { delay } from '../../../lib/utils';
 import styles from '../../MenuItem/MenuItem.less';
 import { TokenInputLocaleHelper } from '../locale';
-import TokenInput, { TokenInputType } from '../TokenInput';
+import { TokenInput, TokenInputType } from '../TokenInput';
 
 async function getItems(query: string) {
   return ['aaa', 'bbb', 'ccc'].filter(s => s.includes(query));
@@ -32,7 +32,7 @@ describe('<TokenInput />', () => {
       await delay(0);
       wrapper.update();
     };
-    const contextMount = (props: LocaleProviderProps = {}, wrappedLocale: boolean = true) => {
+    const contextMount = (props: LocaleProviderProps = {}, wrappedLocale = true) => {
       const tokeninput = <TokenInput type={TokenInputType.Combined} getItems={getItems} />;
       wrapper =
         wrappedLocale === false ? mount(tokeninput) : mount(<LocaleProvider {...props}>{tokeninput}</LocaleProvider>);

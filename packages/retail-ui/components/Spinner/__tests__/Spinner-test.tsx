@@ -1,13 +1,13 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider, { LangCodes } from '../../LocaleProvider';
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
-import SpinnerIcon, { SPINNER_CLOUD_SIZE } from '../../internal/icons/SpinnerIcon';
+import { SPINNER_CLOUD_SIZE, SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 
-import Spinner from '../Spinner';
+import { Spinner } from '../Spinner';
 import styles from '../Spinner.less';
-import SpinnerFallback from '../SpinnerFallback';
+import { SpinnerFallback } from '../SpinnerFallback';
 
 const render = (props = {}) => mount(<Spinner {...props} />);
 const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;

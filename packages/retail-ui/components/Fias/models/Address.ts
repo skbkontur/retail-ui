@@ -351,7 +351,7 @@ export class Address {
     };
   };
 
-  public getText = (minField?: Fields, skipTypes: boolean = false, connector: string = ', '): string => {
+  public getText = (minField?: Fields, skipTypes = false, connector = ', '): string => {
     if (this.isEmpty) {
       return '';
     }
@@ -365,7 +365,7 @@ export class Address {
       .join(connector);
   };
 
-  public getFullText = (withPostalCode: boolean = false) => {
+  public getFullText = (withPostalCode = false) => {
     const substrings: string[] = [];
 
     if (withPostalCode) {
@@ -517,7 +517,7 @@ export class Address {
   };
 
   // TODO: get fields usage from fieldsSettings
-  public getValue = (withPostalCode: boolean = false): FiasValue => {
+  public getValue = (withPostalCode = false): FiasValue => {
     const { country, foreignAddress } = this;
     return {
       address: this.getAddressValue(),
@@ -560,5 +560,3 @@ export class Address {
     return fields;
   };
 }
-
-export default Address;

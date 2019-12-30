@@ -18,7 +18,7 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
 }
 
-export default class ZIndex extends React.Component<ZIndexProps> {
+export class ZIndex extends React.Component<ZIndexProps> {
   public static defaultProps = {
     delta: 10,
     priority: 0,
@@ -39,7 +39,7 @@ export default class ZIndex extends React.Component<ZIndexProps> {
     },
   };
 
-  private zIndex: number = 0;
+  private zIndex = 0;
 
   constructor(props: ZIndexProps) {
     super(props);

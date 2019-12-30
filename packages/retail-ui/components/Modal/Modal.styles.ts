@@ -3,7 +3,7 @@ import styles from './Modal.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const jsStyles = {
+export const jsStyles = {
   bg(t: ITheme) {
     return css`
       background: ${t.modalBackBg};
@@ -88,5 +88,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

@@ -1,8 +1,8 @@
-import Codes from './KeyboardEventCodes';
+import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
 
 type KeyCodes = number[];
 
-const KeyboardMapKeys: {
+export const KeyboardMapKeys: {
   [code in Codes]: KeyCodes;
 } = {
   [Codes.Unidentified]: [0],
@@ -34,5 +34,3 @@ const KeyboardMapKeys: {
   [Codes.IntlBackslash]: [226],
   [Codes.Space]: [32],
 };
-
-export default KeyboardMapKeys;

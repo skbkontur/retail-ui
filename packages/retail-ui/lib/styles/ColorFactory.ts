@@ -87,11 +87,11 @@ export class ColorFactory {
     return new ColorObject(rgb, 1.0, type);
   }
 
-  private static fromRGB(r: number, g: number, b: number, a: number = 1.0) {
+  private static fromRGB(r: number, g: number, b: number, a = 1.0) {
     return new ColorObject([r, g, b], a, a < 1 ? 'rgba' : 'rgb');
   }
 
-  private static fromHSL(h: number, s: number, l: number, a: number = 1.0) {
+  private static fromHSL(h: number, s: number, l: number, a = 1.0) {
     if (s === 0) {
       const gray = Math.round(l * 255);
       return new ColorObject([gray, gray, gray], a, a < 1 ? 'hsla' : 'hsl');

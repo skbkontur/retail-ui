@@ -1,8 +1,8 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 
-import MenuItem from '../../MenuItem/MenuItem';
-import ScrollContainer from '../ScrollContainer';
+import { MenuItem } from '../../MenuItem';
+import { ScrollContainer } from '../ScrollContainer';
 
 describe('ScrollContainer', () => {
   test('renders with proper scroll state', () => {

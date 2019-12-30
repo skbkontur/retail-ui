@@ -22,7 +22,7 @@ export interface SpinnerFallbackProps {
   dimmed?: boolean;
 }
 
-export default class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
+export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
   public static propTypes = {
     type: PropTypes.oneOf(Object.keys(types)),
 

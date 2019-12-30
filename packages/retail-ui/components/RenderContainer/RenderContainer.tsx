@@ -82,5 +82,3 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 }
-
-export default RenderContainer;

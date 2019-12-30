@@ -1,13 +1,13 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import isActiveElement from './isActiveElement';
-import ScrollContainer from '../ScrollContainer/ScrollContainer';
-import MenuItem, { MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
-import { isMenuHeader } from '../MenuHeader/MenuHeader';
+import { isActiveElement } from './isActiveElement';
+import { ScrollContainer } from '../ScrollContainer';
+import { isMenuItem, MenuItem, MenuItemProps } from '../MenuItem';
+import { isMenuHeader } from '../MenuHeader';
 import styles from './Menu.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Menu.styles';
+import { jsStyles } from './Menu.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -24,7 +24,7 @@ interface MenuState {
   highlightedIndex: number;
 }
 
-export default class Menu extends React.Component<MenuProps, MenuState> {
+export class Menu extends React.Component<MenuProps, MenuState> {
   public static defaultProps = {
     width: 'auto',
     maxHeight: 300,

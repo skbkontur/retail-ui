@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { ModalContext, CloseProps } from './ModalContext';
-import Sticky from '../Sticky';
-import Close from './ModalClose';
+import { CloseProps, ModalContext } from './ModalContext';
+import { Sticky } from '../Sticky';
+import { ModalClose } from './ModalClose';
 import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Modal.styles';
+import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
-import ZIndex from '../ZIndex';
+import { ZIndex } from '../ZIndex';
 
 export interface HeaderProps {
   close?: boolean;
@@ -62,7 +62,7 @@ export class Header extends React.Component<HeaderProps> {
       >
         {close && (
           <div className={styles.absoluteClose}>
-            <Close requestClose={close.requestClose} disableClose={close.disableClose} />
+            <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />
           </div>
         )}
         {this.props.children}

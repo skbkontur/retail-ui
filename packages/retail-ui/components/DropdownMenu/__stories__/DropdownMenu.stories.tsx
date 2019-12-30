@@ -1,16 +1,15 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
-import MenuItem from '../../MenuItem';
-import MenuHeader from '../../MenuHeader';
-import MenuSeparator from '../../MenuSeparator';
-import DropdownMenu, { DropdownMenuProps } from '../DropdownMenu';
-import Button from '../../Button';
-import Toast from '../../Toast';
+import { MenuItem } from '../../MenuItem';
+import { MenuHeader } from '../../MenuHeader';
+import { MenuSeparator } from '../../MenuSeparator';
+import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
+import { Button } from '../../Button';
+import { Toast } from '../../Toast';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
-import Input from '../../Input/Input';
+import { Input } from '../../Input';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import AddIcon from '@skbkontur/react-icons/Add';
 import DeleteIcon from '@skbkontur/react-icons/Delete';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ThemeProvider as ThemeProviderInternal } from '../../lib/theming/ThemeContext';
 import { ITheme, IThemeIn } from '../../lib/theming/Theme';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDevelopmentEnv } from '../internal/currentEnvironment';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
@@ -45,5 +45,3 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
     return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create(theme);
   }
 }
-
-export default ThemeProvider;

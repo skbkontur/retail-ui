@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import config from './config';
+import { config } from './config';
 
 import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
@@ -8,8 +8,8 @@ import { DayCellViewModel } from './DayCellViewModel';
 
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
-import CalendarScrollEvents from './CalendarScrollEvents';
-import DateSelect from '../DateSelect/DateSelect';
+import * as CalendarScrollEvents from './CalendarScrollEvents';
+import { DateSelect } from '../DateSelect';
 import { Nullable } from '../../typings/utility-types';
 
 interface MonthProps {

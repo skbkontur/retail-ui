@@ -1,16 +1,16 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import stopPropagation from '../../lib/events/stopPropagation';
+import { stopPropagation } from '../../lib/events/stopPropagation';
 import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
-import ProductWidget from './ProductWidget';
+import { ProductWidget } from './ProductWidget';
 import styles from './Logotype.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Logotype.styles';
+import { jsStyles } from './Logotype.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
-import CloudIcon from '../internal/icons/CloudIcon';
+import { CloudIcon } from '../internal/icons/CloudIcon';
 import { ArrowChevronDownIcon } from '../internal/icons/16px';
 
 const INITIAL_WIDTH = 23;
@@ -62,7 +62,7 @@ export interface LogotypeProps {
 }
 
 @locale('Logotype', LogotypeLocaleHelper)
-class Logotype extends React.Component<LogotypeProps> {
+export class Logotype extends React.Component<LogotypeProps> {
   public static propTypes = {
     color: PropTypes.string,
     href: PropTypes.string,
@@ -87,7 +87,7 @@ class Logotype extends React.Component<LogotypeProps> {
   private theme!: ITheme;
   private readonly locale!: LogotypeLocale;
   private logoWrapper: Nullable<HTMLElement> = null;
-  private isWidgetInited: boolean = false;
+  private isWidgetInited = false;
 
   public componentDidMount() {
     if (this.props.withWidget) {
@@ -188,5 +188,3 @@ class Logotype extends React.Component<LogotypeProps> {
     }
   };
 }
-
-export default Logotype;

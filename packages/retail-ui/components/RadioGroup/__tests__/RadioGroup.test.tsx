@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import RadioGroup, { RadioGroupProps } from '../RadioGroup';
-import Radio from '../../Radio';
+import { RadioGroup, RadioGroupProps } from '../RadioGroup';
+import { Radio } from '../../Radio';
 
 const render = (
   props: Partial<RadioGroupProps<any>> & {

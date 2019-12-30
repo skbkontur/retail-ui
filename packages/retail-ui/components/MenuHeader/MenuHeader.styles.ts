@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './MenuHeader.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   withLeftPadding(t: ITheme) {
     return css`
       .${styles.root}& {
@@ -11,5 +11,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

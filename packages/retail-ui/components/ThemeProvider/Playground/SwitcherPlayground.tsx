@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Switcher from '../../Switcher';
+import { Switcher } from '../../Switcher';
 
 const defaultItems = ['Default', 'Error'];
 

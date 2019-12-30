@@ -10,7 +10,7 @@ export const inputNumber = (
 ) => {
   let nextInputMode = false;
   let next: any;
-  let first: number = 10;
+  let first = 10;
   let length: number = LENGTH_YEAR;
   if (type === InternalDateComponentType.Month) {
     first = 1;

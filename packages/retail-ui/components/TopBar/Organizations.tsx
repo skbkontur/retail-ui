@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import TopBarDropdown from './TopBarDropdown';
+import { TopBarDropdown } from './TopBarDropdown';
 
 import styles from './TopBar.module.less';
 import { Nullable } from '../../typings/utility-types';
@@ -16,7 +16,7 @@ export interface OrganizationsState {
   minWidth: Nullable<number>;
 }
 
-class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
+export class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
   public state = {
     captionWhiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
     minWidth: null,
@@ -98,5 +98,3 @@ class Organizations extends React.Component<OrganizationsProps, OrganizationsSta
     }
   }
 }
-
-export default Organizations;

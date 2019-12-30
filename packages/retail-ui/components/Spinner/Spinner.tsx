@@ -3,13 +3,13 @@ import * as PropTypes from 'prop-types';
 import { locale } from '../LocaleProvider/decorators';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 import styles from './Spinner.module.less';
-import SpinnerFallback, { types } from './SpinnerFallback';
-import jsStyles from './Spinner.styles';
+import { SpinnerFallback, types } from './SpinnerFallback';
+import { jsStyles } from './Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
-import SpinnerIcon from '../internal/icons/SpinnerIcon';
+import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
@@ -28,7 +28,7 @@ export interface SpinnerProps {
  */
 
 @locale('Spinner', SpinnerLocaleHelper)
-class Spinner extends React.Component<SpinnerProps> {
+export class Spinner extends React.Component<SpinnerProps> {
   public static propTypes = {
     /**
      * Текст рядом с мини-лоадером.
@@ -115,5 +115,3 @@ class Spinner extends React.Component<SpinnerProps> {
     return <span className={captionClassName}>{caption}</span>;
   };
 }
-
-export default Spinner;

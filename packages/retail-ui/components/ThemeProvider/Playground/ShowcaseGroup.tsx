@@ -1,10 +1,10 @@
 import React from 'react';
-import Checkbox from '../../Checkbox/index';
-import Gapped from '../../Gapped/index';
-import Button from '../../Button/index';
-import Input from '../../Input/index';
-import Toggle from '../../Toggle/index';
-import Radio from '../../Radio/index';
+import { Checkbox } from '../../Checkbox';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
+import { Input } from '../../Input';
+import { Toggle } from '../../Toggle';
+import { Radio } from '../../Radio';
 
 interface IShowcaseGroupProps {
   title?: string;

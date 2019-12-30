@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import Button from 'retail-ui/components/Button';
+import { Button } from 'retail-ui/components/Button';
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
-import Checkbox from 'retail-ui/components/Checkbox/Checkbox';
+import { Checkbox } from 'retail-ui/components/Checkbox/Checkbox';
 
 storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
 

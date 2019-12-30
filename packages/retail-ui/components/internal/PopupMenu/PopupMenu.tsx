@@ -6,12 +6,12 @@ import {
   isKeySpace,
   someKeys,
 } from '../../../lib/events/keyboard/identifiers';
-import InternalMenu from '../InternalMenu/InternalMenu';
-import Popup, { PopupPosition } from '../../Popup';
-import RenderLayer from '../../RenderLayer';
+import { InternalMenu } from '../InternalMenu/InternalMenu';
+import { Popup, PopupPosition } from '../../Popup';
+import { RenderLayer } from '../../RenderLayer';
 import { Nullable } from '../../../typings/utility-types';
-import PopupMenuPositions from './PopupMenuPositions';
-import isValidPositions from './validatePositions';
+import { PopupMenuPositions } from './PopupMenuPositions';
+import { isValidPositions } from './validatePositions';
 import styles from './PopupMenu.module.less';
 
 export interface PopupMenuCaptionProps {
@@ -61,7 +61,7 @@ export const PopupMenuType = {
   Tooltip: 'tooltip',
 };
 
-export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
+export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static defaultProps = {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
@@ -90,35 +90,34 @@ export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenu
       >
         <div className={styles.container}>
           {this.renderCaption()}
-          {this.captionWrapper &&
-            this.props.children && (
-              <Popup
-                anchorElement={this.captionWrapper}
-                opened={this.state.menuVisible}
-                hasShadow
-                margin={this.props.popupMargin}
-                hasPin={this.props.popupHasPin}
-                pinOffset={this.props.popupPinOffset}
-                positions={this.getPositions()}
-                disableAnimations={this.props.disableAnimations}
-                onOpen={this.handleOpen}
+          {this.captionWrapper && this.props.children && (
+            <Popup
+              anchorElement={this.captionWrapper}
+              opened={this.state.menuVisible}
+              hasShadow
+              margin={this.props.popupMargin}
+              hasPin={this.props.popupHasPin}
+              pinOffset={this.props.popupPinOffset}
+              positions={this.getPositions()}
+              disableAnimations={this.props.disableAnimations}
+              onOpen={this.handleOpen}
+            >
+              <InternalMenu
+                hasShadow={false}
+                maxHeight={this.props.menuMaxHeight || 'none'}
+                onKeyDown={this.handleKeyDown}
+                width={this.props.menuWidth || 'auto'}
+                onItemClick={this.handleItemSelection}
+                cyclicSelection={false}
+                ref={this.refInternalMenu}
+                initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
+                header={this.props.header}
+                footer={this.props.footer}
               >
-                <InternalMenu
-                  hasShadow={false}
-                  maxHeight={this.props.menuMaxHeight || 'none'}
-                  onKeyDown={this.handleKeyDown}
-                  width={this.props.menuWidth || 'auto'}
-                  onItemClick={this.handleItemSelection}
-                  cyclicSelection={false}
-                  ref={this.refInternalMenu}
-                  initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
-                  header={this.props.header}
-                  footer={this.props.footer}
-                >
-                  {this.props.children}
-                </InternalMenu>
-              </Popup>
-            )}
+                {this.props.children}
+              </InternalMenu>
+            </Popup>
+          )}
         </div>
       </RenderLayer>
     );

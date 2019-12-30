@@ -1,8 +1,8 @@
 import * as React from 'react';
-import CrossIcon from '../internal/icons/CrossIcon';
-import ZIndex from '../ZIndex/ZIndex';
+import { CrossIcon } from '../internal/icons/CrossIcon';
+import { ZIndex } from '../ZIndex';
 import styles from './ToastView.module.less';
-import jsStyles from './ToastView.styles';
+import { jsStyles } from './ToastView.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
@@ -24,7 +24,7 @@ export interface ToastViewProps {
   onMouseLeave?: () => void;
 }
 
-class ToastView extends React.Component<ToastViewProps> {
+export class ToastView extends React.Component<ToastViewProps> {
   private theme!: ITheme;
 
   public render() {
@@ -66,5 +66,3 @@ class ToastView extends React.Component<ToastViewProps> {
     );
   }
 }
-
-export default ToastView;

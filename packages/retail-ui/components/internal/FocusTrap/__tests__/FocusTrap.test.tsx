@@ -1,7 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 
-import FocusTrap, { FocusTrapProps } from '../FocusTrap';
+import { FocusTrap, FocusTrapProps } from '../FocusTrap';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');

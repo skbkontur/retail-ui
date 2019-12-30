@@ -1,6 +1,6 @@
 import React from 'react';
-import Gapped from '../../Gapped';
-import Radio, { RadioProps } from '../../Radio';
+import { Gapped } from '../../Gapped';
+import { Radio, RadioProps } from '../../Radio';
 import { getComponentsFromPropsList } from './helpers';
 
 const propsList: Array<RadioProps<string>> = [

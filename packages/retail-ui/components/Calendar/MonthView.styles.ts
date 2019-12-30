@@ -1,7 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   headerSticky(t: ITheme) {
     return css`
       background-color: ${t.calendarMonthHeaderStickedBgColor};
@@ -14,5 +14,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

@@ -8,7 +8,7 @@ function getEmitter() {
   return emitterCache;
 }
 
-function addListener(callback: () => void) {
+export function addListener(callback: () => void) {
   const emitter = getEmitter();
   emitter.addListener('CalendarScroll', callback);
   return {
@@ -18,11 +18,6 @@ function addListener(callback: () => void) {
   };
 }
 
-function emit() {
+export function emit() {
   getEmitter().emit('CalendarScroll');
 }
-
-export default {
-  addListener,
-  emit,
-};

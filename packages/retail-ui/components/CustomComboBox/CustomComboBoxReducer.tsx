@@ -3,8 +3,8 @@ import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
-import LayoutEvents from '../../lib/LayoutEvents';
+import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 
@@ -291,7 +291,7 @@ export function reducer<T>(
           };
           break;
       }
-      return [nextState, [...effects, Effect.InputKeyDown(e)]]
+      return [nextState, [...effects, Effect.InputKeyDown(e)]];
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {

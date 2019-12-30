@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './Link.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   useDefault(t: ITheme) {
     return css`
       color: ${t.linkColor};
@@ -83,5 +83,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

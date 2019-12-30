@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 import styles from './SidePage.module.less';
-import LayoutEvents from '../../lib/LayoutEvents';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './SidePage.styles';
+import { jsStyles } from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -120,4 +120,3 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 }
 
 export const SidePageFooterWithContext = withContext(SidePageContext.Consumer)(SidePageFooter);
-export default SidePageFooterWithContext;

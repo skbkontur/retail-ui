@@ -1,8 +1,7 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Token, { TokenColors } from '../Token';
-import Gapped from '../../Gapped/Gapped';
+import { Token, TokenColors } from '../Token';
+import { Gapped } from '../../Gapped';
 
 // Color name string is passed as Token child (See `colored` story)
 // The map keeps old names to pass in story, which prevents screenshot tests failure.
@@ -28,7 +27,6 @@ const FixedWidthDecorator = (storyFn: any) => (
   </div>
 );
 
-// tslint:disable jsx-no-lambda
 storiesOf('Token', module)
   .addDecorator(FixedWidthDecorator)
   .add('default', () => {

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { MIN_FULLDATE, MAX_FULLDATE } from '../../lib/date/constants';
+import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDate } from '../../lib/date/InternalDate';
-import InternalDateGetter from '../../lib/date/InternalDateGetter';
-import InternalDateTransformer from '../../lib/date/InternalDateTransformer';
+import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
+import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { InternalDateComponent, InternalDateComponentType, InternalDateValidateCheck } from '../../lib/date/types';
-import MouseDrag from '../../lib/events/MouseDrag';
+import { MouseDrag } from '../../lib/events/MouseDrag';
 import { isFirefox } from '../../lib/utils';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { isEdge, isIE } from '../ensureOldIEClassName';
-import InputLikeText from '../internal/InputLikeText';
+import { InputLikeText } from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
 import styles from './DateInput.module.less';
 import { DateFragmentsView } from './DateFragmentsView';
@@ -16,9 +16,9 @@ import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { inputNumber } from './helpers/inputNumber';
 import { removeAllSelections, selectNodeContents } from './helpers/SelectionHelpers';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './DateInput.styles';
+import { jsStyles } from './DateInput.styles';
 import { ITheme } from '../../lib/theming/Theme';
-import ThemeConsumer from '../ThemeConsumer';
+import { ThemeConsumer } from '../ThemeConsumer';
 import debounce from 'lodash.debounce';
 import { CalendarIcon } from '../internal/icons/16px';
 
@@ -84,9 +84,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private locale!: DatePickerLocale;
   private inputLikeText: InputLikeText | null = null;
   private divInnerNode: HTMLDivElement | null = null;
-  private isMouseDown: boolean = false;
-  private isFirstFocus: boolean = false;
-  private ieFrozen: boolean = false;
+  private isMouseDown = false;
+  private isFirstFocus = false;
+  private ieFrozen = false;
 
   constructor(props: DateInputProps) {
     super(props);
@@ -267,7 +267,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private updateInternalDateFromProps = (): void => {
-    let isMod: boolean = false;
+    let isMod = false;
     const internalDate = this.state.internalDate.clone();
     const start = internalDate.getRangeStart();
     const min = start && start.toInternalString();
@@ -420,7 +420,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  // tslint:disable:member-ordering
   private selectionNotIe = () => {
     this.changeSelectedDateComponent(this.state.selected);
   };
@@ -435,8 +434,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   }, 10);
   private selection = IS_IE ? this.selectionIe : this.selectionNotIe;
-  // tslint:enable:member-ordering
-
   private pressDelimiter = () => {
     const value = this.state.internalDate.get(this.state.selected);
     if (value !== null && value !== '') {
@@ -527,7 +524,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     });
   }
 
-  private moveSelection(step: number, isAutoMoved: boolean = false): void {
+  private moveSelection(step: number, isAutoMoved = false): void {
     const { internalDate, typesOrder, selected } = this.state;
     const index = selected === null ? 0 : typesOrder.indexOf(selected);
     if (
@@ -648,5 +645,3 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     return null;
   };
 }
-
-export default DateInput;

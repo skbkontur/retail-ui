@@ -1,7 +1,7 @@
 import * as React from 'react';
-import ComboBox, { ComboBoxProps } from '../../ComboBox';
+import { ComboBox, ComboBoxProps } from '../../ComboBox';
 import { Address } from '../models/Address';
-import reactGetTextContent from '../../../lib/reactGetTextContent/reactGetTextContent';
+import { reactGetTextContent } from '../../../lib/reactGetTextContent/reactGetTextContent';
 import { escapeRegExpSpecChars } from '../../../lib/utils';
 
 export interface FiasComboBoxProps extends ComboBoxProps<Address> {
@@ -113,7 +113,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     }
   };
 
-  private highlight(str: string, lastMatchOnly: boolean = true) {
+  private highlight(str: string, lastMatchOnly = true) {
     const { searchText } = this.state;
     const regex = new RegExp(escapeRegExpSpecChars(searchText), 'ig');
     const matches = str.match(regex);
@@ -139,5 +139,3 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     );
   }
 }
-
-export default FiasComboBox;

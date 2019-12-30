@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Paging from '../Paging';
+import { Paging } from '../Paging';
 import { action } from '@storybook/addon-actions';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores

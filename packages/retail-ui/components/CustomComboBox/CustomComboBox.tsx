@@ -1,13 +1,13 @@
 import * as React from 'react';
-import ComboBoxView from './ComboBoxView';
+import { ComboBoxView } from './ComboBoxView';
 import { Nullable } from '../../typings/utility-types';
-import Input from '../Input';
-import Menu from '../Menu/Menu';
-import InputLikeText from '../internal/InputLikeText';
+import { Input } from '../Input';
+import { Menu } from '../Menu/Menu';
+import { InputLikeText } from '../internal/InputLikeText';
 import { MenuItemState } from '../MenuItem';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
-import { reducer, CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
+import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
 export interface CustomComboBoxProps<T> {
@@ -74,14 +74,14 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
-class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
+export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
   public state: CustomComboBoxState<T> = DefaultState;
   public input: Nullable<Input>;
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
   public loaderShowDelay: Nullable<Promise<never>>;
-  private focused: boolean = false;
+  private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
 
   private reducer = reducer;
@@ -361,5 +361,3 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
     }
   };
 }
-
-export default CustomComboBox;

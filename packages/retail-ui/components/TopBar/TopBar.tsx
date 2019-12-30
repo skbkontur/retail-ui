@@ -1,19 +1,19 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import Logotype from '../Logotype';
-import ButtonItem from './ButtonItem';
-import Divider from './Divider';
-import Item from './Item';
-import Organizations from './Organizations';
-import TopBarDropdown from './TopBarDropdown';
-import User from './User';
+import { Logotype } from '../Logotype';
+import { ButtonItem } from './ButtonItem';
+import { Divider } from './Divider';
+import { Item } from './Item';
+import { Organizations } from './Organizations';
+import { TopBarDropdown } from './TopBarDropdown';
+import { User } from './User';
 import '../ensureOldIEClassName';
 import styles from './TopBar.module.less';
-import End from './TopBarEnd';
-import Start from './TopBarStart';
-import Logout from './TopBarLogout';
+import { TopBarEnd } from './TopBarEnd';
+import { TopBarStart } from './TopBarStart';
+import { Logout } from './TopBarLogout';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './TopBar.styles';
+import { jsStyles } from './TopBar.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -48,20 +48,20 @@ export interface TopBarDefaultProps {
  *
  * `Divider()` – разделитель
  *
- * `Start({children: node})` – контейнер для элементов в начале шапки
+ * `TopBarStart({children: node})` – контейнер для элементов в начале шапки
  *
- * `End({children: node})` – контейнер для элементов в конце шапки
+ * `TopBarEnd({children: node})` – контейнер для элементов в конце шапки
  *
  * `Logout({children?: node})` – обёртка над `Item`. По умолчанию выводит локализованный текст
  *
  */
-class TopBar extends React.Component<TopBarProps> {
+export class TopBar extends React.Component<TopBarProps> {
   public static Divider = Divider;
   public static Item = ButtonItem;
   public static Dropdown = TopBarDropdown;
   public static OrganizationsDropdown = Organizations;
-  public static Start = Start;
-  public static End = End;
+  public static Start = TopBarStart;
+  public static End = TopBarEnd;
   public static ItemStatic = Item;
   public static User = User;
   public static Logout = Logout;
@@ -221,5 +221,3 @@ class TopBar extends React.Component<TopBarProps> {
     });
   }
 }
-
-export default TopBar;

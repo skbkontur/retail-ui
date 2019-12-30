@@ -1,12 +1,9 @@
-// tslint:disable:jsx-no-lambda
-
 import { mount } from 'enzyme';
 import * as React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider, { LangCodes } from '../../LocaleProvider';
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { SelectLocaleHelper } from '../locale';
-
-import Select from '../Select';
+import { Select } from '../Select';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {

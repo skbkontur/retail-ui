@@ -1,8 +1,8 @@
 import { css, prefixer } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import ColorFunctions from '../../lib/styles/ColorFunctions';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-const jsStyles = {
+export const jsStyles = {
   root(t: ITheme) {
     return css`
       display: inline-flex;
@@ -172,5 +172,3 @@ export const classes = prefixer({
   box: 'box',
   disabled: 'disabled',
 });
-
-export default jsStyles;

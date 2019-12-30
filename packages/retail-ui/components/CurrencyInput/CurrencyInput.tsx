@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import warning from 'warning';
 
-import Input, { InputProps } from '../Input';
+import { Input, InputProps } from '../Input';
 import { MAX_SAFE_DIGITS } from './constants';
 
-import SelectionHelper, { Selection, SelectionDirection } from './SelectionHelper';
-import CurrencyHelper from './CurrencyHelper';
-import CurrencyInputHelper from './CurrencyInputHelper';
+import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
+import { CurrencyHelper } from './CurrencyHelper';
+import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
 import { Nullable, Override } from '../../typings/utility-types';
 
@@ -46,7 +46,7 @@ export interface CurrencyInputState {
  * <br/>
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
-export default class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
+export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
   public static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     autoFocus: PropTypes.bool,

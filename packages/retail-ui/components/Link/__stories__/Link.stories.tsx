@@ -1,9 +1,8 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import Link from '../Link';
-import Toast from '../../Toast';
+import { Link } from '../Link';
+import { Toast } from '../../Toast';
 
 storiesOf('Link', module)
   .add('Simple', () => <Link>Simple Link</Link>)

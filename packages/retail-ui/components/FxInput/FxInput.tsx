@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
-import Button from '../Button';
-import Group from '../Group';
-import Input, { InputProps } from '../Input';
-import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
+import { Button } from '../Button';
+import { Group } from '../Group';
+import { Input, InputProps } from '../Input';
+import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { InputType } from '../Input/Input';
 import { Override } from '../../typings/utility-types';
@@ -34,7 +34,7 @@ export interface FxInputDefaultProps {
 }
 
 /** Принимает все свойства `Input`'a */
-class FxInput extends React.Component<FxInputProps> {
+export class FxInput extends React.Component<FxInputProps> {
   public static propTypes = {
     auto: PropTypes.bool,
     type: PropTypes.string,
@@ -119,5 +119,3 @@ class FxInput extends React.Component<FxInputProps> {
     }
   };
 }
-
-export default FxInput;

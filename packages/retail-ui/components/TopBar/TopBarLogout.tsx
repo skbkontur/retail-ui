@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { locale } from '../LocaleProvider/decorators';
-import ButtonItem, { ButtonItemProps } from './ButtonItem';
+import { ButtonItem, ButtonItemProps } from './ButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
 @locale('TopBar', TopBarLocaleHelper)
-class Logout extends React.Component<ButtonItemProps> {
+export class Logout extends React.Component<ButtonItemProps> {
   public static defaultProps = ButtonItem.defaultProps;
   private readonly locale!: TopBarLocale;
 
@@ -12,5 +12,3 @@ class Logout extends React.Component<ButtonItemProps> {
     return <ButtonItem {...this.props}>{this.props.children || this.locale.logout}</ButtonItem>;
   }
 }
-
-export default Logout;

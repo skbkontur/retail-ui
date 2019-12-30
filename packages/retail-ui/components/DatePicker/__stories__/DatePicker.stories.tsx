@@ -2,14 +2,12 @@ import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
-// tslint:disable:jsx-no-lambda no-console
-import Button from '../../Button/index';
-import Gapped from '../../Gapped/index';
-import MockDate from '../../internal/MockDate';
-import { LangCodes } from '../../LocaleProvider';
-import LocaleProvider from '../../LocaleProvider/LocaleProvider';
-import Tooltip from '../../Tooltip/index';
-import DatePicker from '../DatePicker';
+import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
+import { MockDate } from '../../internal/MockDate';
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
+import { Tooltip } from '../../Tooltip';
+import { DatePicker } from '../DatePicker';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
@@ -36,16 +34,16 @@ class DatePickerWithError extends React.Component<any, any> {
               minDate="15.08.2003"
               maxDate="21.10.2006"
               onChange={this._handleChange}
-              onFocus={this._unvalidate}
+              onFocus={this._invalidate}
               onBlur={this._validate}
               enableTodayLink
             />
           </LocaleProvider>
         </Tooltip>
         <Button onClick={() => this.setState({ value: null, error: null, tooltip: false })}>Clear</Button>
-        <Button onClick={() => this.setState({ value: '99.99.9999' })}>Set "99.99.9999"</Button>
-        <Button onClick={() => this.setState({ value: '99.hello' })}>Set "99.hello"</Button>
-        <Button onClick={() => this.setState({ value: '10.3' })}>Set "10.3"</Button>
+        <Button onClick={() => this.setState({ value: '99.99.9999' })}>Set &quot;99.99.9999&quot;</Button>
+        <Button onClick={() => this.setState({ value: '99.hello' })}>Set &quot;99.hello&quot;</Button>
+        <Button onClick={() => this.setState({ value: '10.3' })}>Set &quot;10.3&quot;</Button>
       </Gapped>
     );
   }
@@ -55,7 +53,7 @@ class DatePickerWithError extends React.Component<any, any> {
     this.setState({ value });
   };
 
-  private _unvalidate = () => {
+  private _invalidate = () => {
     this.setState({ error: false, tooltip: false });
   };
 
@@ -125,17 +123,16 @@ class DatePickerWithMinMax extends React.Component<any, any> {
 const dateForMock = new Date('2017-01-02');
 
 storiesOf('DatePicker', module)
-  .addDecorator(
-    story =>
-      process.env.NODE_ENV === 'test' ? (
-        <div>
-          <h2>Mocked date {dateForMock.toDateString()}</h2>
-          <MockDate date={dateForMock} />
-          {story()}
-        </div>
-      ) : (
-        <div>{story()}</div>
-      ),
+  .addDecorator(story =>
+    process.env.NODE_ENV === 'test' ? (
+      <div>
+        <h2>Mocked date {dateForMock.toDateString()}</h2>
+        <MockDate date={dateForMock} />
+        {story()}
+      </div>
+    ) : (
+      <div>{story()}</div>
+    ),
   )
   .add('with mouseevent handlers', () => (
     <div style={{ padding: '200px 150px 350px 0px' }}>

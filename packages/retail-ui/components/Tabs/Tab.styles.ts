@@ -1,9 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
-import ColorFunctions from '../../lib/styles/ColorFunctions';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import styles from './Tab.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   root(t: ITheme) {
     return css`
       color: inherit;
@@ -87,5 +87,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

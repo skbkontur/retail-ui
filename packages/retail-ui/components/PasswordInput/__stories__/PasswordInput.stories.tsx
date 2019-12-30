@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import PasswordInput from '../PasswordInput';
+import { PasswordInput } from '../PasswordInput';
 import { Nullable } from '../../../typings/utility-types';
 
 interface ComponentProps {

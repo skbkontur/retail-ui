@@ -19,7 +19,7 @@ yarn add @skbkontur/react-ui
 
 ```jsx static
 import Button from '@skbkontur/react-ui/Button';
-import Toast from '@skbkontur/react-ui/Toast';
+import { Toast } from '@skbkontur/react-ui/Toast';
 
 const MyApp = () => (
   <div>

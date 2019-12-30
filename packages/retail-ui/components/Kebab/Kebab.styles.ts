@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './Kebab.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   focused(t: ITheme) {
     return css`
       .${styles.kebab}& {
@@ -17,5 +17,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

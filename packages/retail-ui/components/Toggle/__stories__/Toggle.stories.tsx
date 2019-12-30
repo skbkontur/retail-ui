@@ -1,13 +1,11 @@
-// tslint:disable:jsx-no-bind jsx-no-lambda
-
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Toggle from '../Toggle';
-import Gapped from '../../Gapped/Gapped';
-import Button from '../../Button/Button';
-import Checkbox from '../../Checkbox/Checkbox';
+import { Toggle } from '../Toggle';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
+import { Checkbox } from '../../Checkbox';
 import { action } from '@storybook/addon-actions';
-import Tooltip from '../../Tooltip';
+import { Tooltip } from '../../Tooltip';
 
 class Playground extends Component<any, any> {
   public state = {

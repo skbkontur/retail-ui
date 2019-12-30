@@ -1,21 +1,22 @@
 import * as React from 'react';
-import { number, func } from 'prop-types';
+import { func, number } from 'prop-types';
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { PagingLocale, PagingLocaleHelper } from './locale';
-import PagingHelper from './PagingHelper';
-import NavigationHelper from './NavigationHelper';
+import { getItems } from './PagingHelper';
+import * as NavigationHelper from './NavigationHelper';
 import { Nullable } from '../../typings/utility-types';
-import tabListener from '../../lib/events/tabListener';
+import { tabListener } from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
 import styles from './Paging.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Paging.styles';
+import { jsStyles } from './Paging.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import warning from 'warning';
 import { ArrowChevronRightIcon } from '../internal/icons/16px';
+
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 interface ItemComponentProps {
@@ -66,7 +67,7 @@ export interface PagingState {
 export type ItemType = number | '.' | 'forward';
 
 @locale('Paging', PagingLocaleHelper)
-export default class Paging extends React.Component<PagingProps, PagingState> {
+export class Paging extends React.Component<PagingProps, PagingState> {
   public static defaultProps = {
     component: ({ className, onClick, children }: any) => (
       <span className={className} onClick={onClick} children={children} />
@@ -88,7 +89,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
 
   private theme!: ITheme;
   private readonly locale!: PagingLocale;
-  private addedGlobalListener: boolean = false;
+  private addedGlobalListener = false;
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
@@ -324,7 +325,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private getItems = (): ItemType[] => {
-    return PagingHelper.getItems(this.props.activePage, this.props.pagesCount).concat('forward');
+    return getItems(this.props.activePage, this.props.pagesCount).concat('forward');
   };
 
   private getFocusedItem = (): Nullable<ItemType> => {

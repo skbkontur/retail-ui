@@ -1,9 +1,9 @@
-import DefaultTheme from './themes/DefaultTheme';
+import { DEFAULT_THEME as DefaultTheme } from './themes/DefaultTheme';
 import { ITheme, IThemeIn } from './Theme';
 
 const IS_THEME_KEY = '__IS_REACT_UI_THEME__';
 
-export default class ThemeFactory {
+export class ThemeFactory {
   public static create(theme: IThemeIn) {
     const newTheme = Object.create(DefaultTheme) as ITheme;
     this.constructTheme(newTheme, theme);

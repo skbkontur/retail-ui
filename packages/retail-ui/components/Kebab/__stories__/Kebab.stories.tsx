@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Kebab from '../Kebab';
-import MenuItem from '../../MenuItem';
-import { manyItemsList, defaultItemsList } from './Kebab.items';
+import { Kebab } from '../Kebab';
+import { MenuItem } from '../../MenuItem';
+import { defaultItemsList, manyItemsList } from './Kebab.items';
 
 interface KebabItem {
   text: string;

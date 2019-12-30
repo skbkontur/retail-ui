@@ -3,16 +3,16 @@ import * as PropTypes from 'prop-types';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { locale } from '../LocaleProvider/decorators';
-import RenderLayer from '../RenderLayer';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import LayoutEvents from '../../lib/LayoutEvents';
+import { RenderLayer } from '../RenderLayer';
+import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import styles from './DateSelect.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './DateSelect.styles';
+import { jsStyles } from './DateSelect.styles';
 import { ITheme } from '../../lib/theming/Theme';
-import ThemeConsumer from '../ThemeConsumer';
-import { ArrowTriangleUpDownIcon, ArrowTriangleUpIcon, ArrowTriangleDownIcon } from '../internal/icons/16px';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ArrowTriangleDownIcon, ArrowTriangleUpDownIcon, ArrowTriangleUpIcon } from '../internal/icons/16px';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -43,7 +43,7 @@ export interface DateSelectState {
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export default class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
+export class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static propTypes = {
     disabled: PropTypes.bool,
 
@@ -84,9 +84,9 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
   private itemsContainer: HTMLElement | null = null;
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private timeout: number | undefined;
-  private longClickTimer: number = 0;
-  private setPositionRepeatTimer: number = 0;
-  private yearStep: number = 3;
+  private longClickTimer = 0;
+  private setPositionRepeatTimer = 0;
+  private yearStep = 3;
 
   public componentWillReceiveProps() {
     this.setNodeTop();
@@ -247,9 +247,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
         <div
           key={i}
           className={className}
-          // tslint:disable-next-line:jsx-no-lambda
           onMouseEnter={() => this.setState({ current: i })}
-          // tslint:disable-next-line:jsx-no-lambda
           onMouseLeave={() => this.setState({ current: null })}
           {...clickHandler}
         >

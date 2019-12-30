@@ -1,9 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import ColorFunctions from '../../lib/styles/ColorFunctions';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import styles from './Token.module.less';
 
-export default {
+export const jsStyles = {
   disabled(t: ITheme) {
     return css`
       color: ${t.textColorDisabled};

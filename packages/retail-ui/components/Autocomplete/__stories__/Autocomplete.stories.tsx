@@ -1,9 +1,8 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Gapped from '../../Gapped/index';
-import Autocomplete from '../Autocomplete';
+import { Gapped } from '../../Gapped/index';
+import { Autocomplete } from '../Autocomplete';
 
 storiesOf('Autocomplete', module)
   .add('simple', () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />)

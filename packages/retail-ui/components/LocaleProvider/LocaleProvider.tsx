@@ -14,7 +14,7 @@ export interface LocaleProviderProps {
 
 export const LocaleConsumer = LocaleContext.Consumer;
 
-export default class LocaleProvider extends React.Component<LocaleProviderProps> {
+export class LocaleProvider extends React.Component<LocaleProviderProps> {
   public static defaultProps = {
     locale: {},
     langCode: defaultLangCode,

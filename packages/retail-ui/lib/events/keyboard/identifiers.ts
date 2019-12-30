@@ -1,6 +1,6 @@
 import { isMac } from '../../utils';
-import extractCode from './extractCode';
-import Codes from './KeyboardEventCodes';
+import { extractCode } from './extractCode';
+import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
 
 type E = React.KeyboardEvent<HTMLElement> | KeyboardEvent;
 type IS = (e: E) => boolean;

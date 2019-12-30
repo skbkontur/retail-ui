@@ -153,7 +153,7 @@ const MyComponent = (props: {ok: ButtonProps, cancel: ButtonProps}) => {
 5. Для каждого компонента, в less стилях которого использовались (напрямую или косвенно) переменные из variables.less, с помощью codemode создан файл динамических стилей. Например (_ToastView.styles.ts_):
 
 ```typescript
-const jsStyles = {
+export const jsStyles = {
   root(t: ITheme) {
     return css`
       background: ${t.toastBg};
@@ -207,7 +207,7 @@ const jsStyles = {
 
 ```jsx static
 import styles from './Spinner.less';
-import jsStyles from './Spinner.styles';
+import { jsStyles } from './Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
 
 private _renderCloud = (type) => {
@@ -270,7 +270,7 @@ const App = <ThemeProvider value={FlatTheme}>
 Должно получиться:
 
 ```typescript
-import ThemeFactory from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 import FlatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
 // вместо:

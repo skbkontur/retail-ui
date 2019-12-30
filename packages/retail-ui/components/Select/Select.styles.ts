@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './Select.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   placeholder(t: ITheme) {
     return css`
       color: ${t.sltPlaceholderColor};
@@ -19,5 +19,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

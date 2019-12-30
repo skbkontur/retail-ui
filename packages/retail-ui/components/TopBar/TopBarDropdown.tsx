@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../typings/utility-types';
-import ButtonItem from './ButtonItem';
+import { ButtonItem } from './ButtonItem';
 import { IconProps } from '../internal/icons/20px';
-import DropdownMenu from '../DropdownMenu';
+import { DropdownMenu } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 export interface ButtonParams {
@@ -23,7 +23,7 @@ export interface TopBarDropdownProps {
   onClose?: () => void;
 }
 
-class TopBarDropdown extends React.Component<TopBarDropdownProps> {
+export class TopBarDropdown extends React.Component<TopBarDropdownProps> {
   public static defaultProps = {
     use: 'default',
   };
@@ -79,5 +79,3 @@ class TopBarDropdown extends React.Component<TopBarDropdownProps> {
     }
   };
 }
-
-export default TopBarDropdown;

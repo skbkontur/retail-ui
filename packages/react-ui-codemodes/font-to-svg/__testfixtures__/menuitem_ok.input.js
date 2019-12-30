@@ -1,3 +1,3 @@
-import MenuItem from "retail-ui/MenuItem";
+import { MenuItem } from "retail-ui/MenuItem";
 
 () => <MenuItem icon="Ok" />;

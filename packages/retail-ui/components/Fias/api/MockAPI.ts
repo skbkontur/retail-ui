@@ -63,5 +63,3 @@ export class MockAPI implements APIProvider {
     );
   };
 }
-
-export default MockAPI;

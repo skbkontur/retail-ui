@@ -8,7 +8,6 @@ export function tooltip(pos: TooltipPosition): RenderErrorMessage {
       <ValidationTooltip
         pos={pos}
         error={hasError}
-        // tslint:disable-next-line:jsx-no-lambda
         render={() => {
           if (!validation || !validation.message) {
             return null;

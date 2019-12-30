@@ -21,11 +21,5 @@ const createKeyDescription = () =>
         checkPressed: (event: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => event.ctrlKey,
       };
 
-export default {
-  getKeyName() {
-    return getKeyDescription().name;
-  },
-  checkKeyPressed(event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) {
-    return getKeyDescription().checkPressed(event);
-  },
-};
+export const getKeyName = () => getKeyDescription().name;
+export const checkKeyPressed = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => getKeyDescription().checkPressed(event);

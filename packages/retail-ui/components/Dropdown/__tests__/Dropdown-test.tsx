@@ -1,8 +1,8 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import Dropdown from '../';
-import MenuItem from '../../MenuItem';
-import Select, { SelectState } from '../../Select';
+import { Dropdown } from '../';
+import { MenuItem } from '../../MenuItem';
+import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
   it('It renders', () => {

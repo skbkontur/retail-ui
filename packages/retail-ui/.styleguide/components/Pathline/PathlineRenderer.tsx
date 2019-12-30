@@ -15,5 +15,3 @@ export const PathlineRenderer = (props: Props) => {
     </div>
   );
 };
-
-export default PathlineRenderer;

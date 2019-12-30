@@ -1,13 +1,13 @@
 import * as React from 'react';
 import * as CDS from './CalendarDateShape';
-import config from './config';
+import { config } from './config';
 import styles from './MonthView.module.less';
-import DateSelect from '../DateSelect';
+import { DateSelect } from '../DateSelect';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import jsStyles from './MonthView.styles';
-import ThemeConsumer from '../ThemeConsumer';
-import ColorFunctions from '../../lib/styles/ColorFunctions';
+import { jsStyles } from './MonthView.styles';
+import { ThemeConsumer } from '../ThemeConsumer';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 interface MonthViewProps {
   children: React.ReactNode;

@@ -1,12 +1,13 @@
 import * as React from 'react';
-import tabListener from '../../lib/events/tabListener';
-import Corners from './Corners';
+import { tabListener } from '../../lib/events/tabListener';
+import { Corners } from './Corners';
 import '../ensureOldIEClassName';
 import { cx } from '../../lib/theming/Emotion';
 import classes from './Button.module.less';
-import jsClasses from './Button.styles';
+import { jsClasses } from './Button.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonArrow = boolean | 'left';
@@ -24,7 +25,6 @@ export interface ButtonProps {
    */
   active?: boolean;
 
-  // tslint:disable-next-line:max-line-length
   /** `type TextAlignProperty = "inherit" | "initial" | "unset" | "center" | "end" | "justify" | "left" | "match-parent" | "right" | "start"` */
   align?: React.CSSProperties['textAlign'];
 
@@ -103,7 +103,7 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-export default class Button extends React.Component<ButtonProps, ButtonState> {
+export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __BUTTON__ = true;
   public static TOP_LEFT = Corners.TOP_LEFT;
   public static TOP_RIGHT = Corners.TOP_RIGHT;

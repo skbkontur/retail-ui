@@ -8,7 +8,7 @@ export class APIResultFactory {
     };
   };
 
-  public static fail = <Data>(message: string = ''): APIResult<Data> => {
+  public static fail = <Data>(message = ''): APIResult<Data> => {
     return {
       success: false,
       error: new Error(message),

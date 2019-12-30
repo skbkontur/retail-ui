@@ -142,7 +142,7 @@ export default {
 ```typescript
 import ReactDOM from 'react-dom';
 import React from 'react';
-import ThemeProvider from '${retail-ui|@skbkontur/react-ui}/components/ThemeProvider';
+import { ThemeProvider } from '${retail-ui|@skbkontur/react-ui}/components/ThemeProvider';
 
 import App from './components/App';
 import theme from './theme/theme';
@@ -161,7 +161,7 @@ ReactDOM.render(
 // точка входа в приложение
 ...
 import theme from './theme/theme';
-import ThemeFactory from '${retail-ui|@skbkontur/react-ui}/lib/theming/ThemeFactory';
+import { ThemeFactory } from '${retail-ui|@skbkontur/react-ui}/lib/theming/ThemeFactory';
 
 ThemeFactory.overrideDefaultTheme(theme);
 ...

@@ -10,5 +10,3 @@ export const CloudIcon = () => {
     </svg>
   );
 };
-
-export default CloudIcon;

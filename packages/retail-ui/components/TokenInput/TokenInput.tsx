@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
+import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import warningOutput from 'warning';
 import * as ReactDOM from 'react-dom';
 import {
@@ -14,19 +13,19 @@ import {
   isKeyEscape,
   isShortcutSelectAll,
 } from '../../lib/events/keyboard/identifiers';
-import TextWidthHelper from './TextWidthHelper';
-import TokenInputMenu from './TokenInputMenu';
+import { TextWidthHelper } from './TextWidthHelper';
+import { TokenInputMenu } from './TokenInputMenu';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
-import LayoutEvents from '../../lib/LayoutEvents';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import styles from './TokenInput.module.less';
-import Menu from '../Menu/Menu';
-import Token, { TokenProps } from '../Token';
+import { Menu } from '..';
+import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './TokenInput.styles';
+import { jsStyles } from './TokenInput.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -94,7 +93,7 @@ const defaultRenderToken = <T extends any>(
   </Token>
 );
 
-export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
+export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static defaultProps: Partial<TokenInputProps<any>> = {
     selectedItems: [],
     renderItem: identity,
@@ -404,7 +403,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     }
   };
 
-  private tryGetItems = async (query: string = '') => {
+  private tryGetItems = async (query = '') => {
     if (this.props.getItems && (this.state.inputValue !== '' || !this.props.hideMenuIfEmptyInputValue)) {
       this.dispatch({ type: 'SET_LOADING', payload: true });
       const autocompleteItems = await this.props.getItems(query);

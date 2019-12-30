@@ -1,1 +1,1 @@
-export { default, CenterProps, CenterState } from './Center';
+export { Center, CenterProps, CenterState } from './Center';

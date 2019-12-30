@@ -1,10 +1,10 @@
 import { css, keyframes } from '../../lib/theming/Emotion';
 import classes from './Input.module.less';
 import { ITheme } from '../../lib/theming/Theme';
-import DimensionFunctions from '../../lib/styles/DimensionFunctions';
+import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-const jsClasses = {
+export const jsClasses = {
   root(t: ITheme) {
     return css`
       ${resetText()};
@@ -140,8 +140,8 @@ const jsClasses = {
       height: ${t.controlHeightSmall};
 
       .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
+        padding-top: ${shift(t.controlPaddingYSmall, '-1')};
+        padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
         line-height: normal;
       }
     `;
@@ -156,8 +156,8 @@ const jsClasses = {
       height: ${t.controlHeightMedium};
 
       .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
+        padding-top: ${shift(t.controlPaddingYMedium, '-1')};
+        padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
         line-height: normal;
       }
     `;
@@ -168,12 +168,12 @@ const jsClasses = {
       font-size: ${t.inputFontSizeLarge};
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
-      padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};
-      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};
+      padding-top: ${shift(t.controlPaddingYLarge, '-1')};
+      padding-bottom: ${shift(t.controlPaddingYLarge, '1')};
 
       .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
+        padding-top: ${shift(t.controlPaddingYLarge, '-2')};
+        padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
         line-height: normal;
       }
     `;
@@ -191,5 +191,3 @@ const jsClasses = {
     `;
   },
 };
-
-export default jsClasses;

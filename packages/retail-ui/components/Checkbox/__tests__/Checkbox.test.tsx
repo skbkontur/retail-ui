@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import Checkbox, { CheckboxProps } from '../Checkbox';
+import { Checkbox, CheckboxProps } from '../Checkbox';
 
 const render = (props: CheckboxProps) => mount<Checkbox>(<Checkbox {...props} />);
 

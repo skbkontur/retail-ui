@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Button from '../Button';
-import Gapped from '../Gapped';
-import Modal from '../Modal';
+import { Button } from '../Button';
+import { Gapped } from '../Gapped';
+import { Modal } from '../Modal';
 import { FiasLocale, FiasLocaleHelper } from './locale';
 import { locale } from '../LocaleProvider/decorators';
 
@@ -39,5 +39,3 @@ export class FiasModal extends React.Component<FiasModalProps> {
     );
   }
 }
-
-export default FiasModal;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 import styles from './MaskedInput.module.less';
-import jsStyles from './MaskedInput.styles';
+import { jsStyles } from './MaskedInput.styles';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeConsumer } from '../../ThemeConsumer';
 import { ITheme } from '../../../lib/theming/Theme';
@@ -22,7 +22,7 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-export default class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
+export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
   public input: HTMLInputElement | null = null;
   private theme!: ITheme;
   private reactInputMask: ReactInputMask | null = null;

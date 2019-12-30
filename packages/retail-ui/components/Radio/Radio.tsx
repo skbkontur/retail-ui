@@ -4,7 +4,7 @@ import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
 import styles from './Radio.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Radio.styles';
+import { jsStyles } from './Radio.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -65,7 +65,7 @@ export type RadioProps<T> = Override<
  * };
  * ```
  */
-class Radio<T> extends React.Component<RadioProps<T>> {
+export class Radio<T> extends React.Component<RadioProps<T>> {
   public static contextTypes = {
     activeItem: PropTypes.any,
     onSelect: PropTypes.func,
@@ -264,5 +264,3 @@ function createSyntheticEvent<T>({ value, id, name, checked, disabled }: RadioPr
   };
   return syntheticEvent;
 }
-
-export default Radio;

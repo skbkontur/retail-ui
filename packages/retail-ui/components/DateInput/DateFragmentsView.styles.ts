@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import styles from './DateFragmentsView.module.less';
 
-const jsStyles = {
+export const jsStyles = {
   root(t: ITheme) {
     return css`
       & ::selection {
@@ -31,5 +31,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

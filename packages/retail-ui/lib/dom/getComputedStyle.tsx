@@ -1,14 +1,14 @@
 /* @ts-ignore */
+/* eslint-disable */
 // imported from https://github.com/Financial-Times/polyfill-service
-
-export default (function(): (elt: Element, pseudoElt?: string | null | undefined) => CSSStyleDeclaration {
+export const getComputedStyle = (function(): (elt: Element, pseudoElt?: string | null | undefined) => CSSStyleDeclaration {
   if (document.defaultView && document.defaultView.getComputedStyle) {
     return document.defaultView.getComputedStyle.bind(document.defaultView);
   }
 
   // @ts-ignore
   function getComputedStylePixel(element, property, fontSize) {
-    var // Internet Explorer sometimes struggles to read currentStyle until the element's document is accessed.
+    let // Internet Explorer sometimes struggles to read currentStyle until the element's document is accessed.
       value = (element.document && element.currentStyle[property].match(/([\d\.]+)(%|cm|em|in|mm|pc|pt|)/)) || [
         0,
         0,
@@ -21,30 +21,30 @@ export default (function(): (elt: Element, pseudoElt?: string | null | undefined
     fontSize = !fontSize
       ? fontSize
       : /%|em/.test(suffix) && element.parentElement
-        ? getComputedStylePixel(element.parentElement, 'fontSize', null)
-        : 16;
+      ? getComputedStylePixel(element.parentElement, 'fontSize', null)
+      : 16;
     rootSize = property == 'fontSize' ? fontSize : /width/i.test(property) ? element.clientWidth : element.clientHeight;
 
     return suffix == '%'
       ? (size / 100) * rootSize
       : suffix == 'cm'
-        ? size * 0.3937 * 96
-        : suffix == 'em'
-          ? size * fontSize
-          : suffix == 'in'
-            ? size * 96
-            : suffix === 'mm'
-              ? (size * 0.3937 * 96) / 10
-              : suffix == 'pc'
-                ? (size * 12 * 96) / 72
-                : suffix == 'pt'
-                  ? (size * 96) / 72
-                  : size;
+      ? size * 0.3937 * 96
+      : suffix == 'em'
+      ? size * fontSize
+      : suffix == 'in'
+      ? size * 96
+      : suffix === 'mm'
+      ? (size * 0.3937 * 96) / 10
+      : suffix == 'pc'
+      ? (size * 12 * 96) / 72
+      : suffix == 'pt'
+      ? (size * 96) / 72
+      : size;
   }
 
   // @ts-ignore
   function setShortStyleProperty(style, property) {
-    var borderSuffix = property == 'border' ? 'Width' : '',
+    const borderSuffix = property == 'border' ? 'Width' : '',
       t = property + 'Top' + borderSuffix,
       r = property + 'Right' + borderSuffix,
       b = property + 'Bottom' + borderSuffix,
@@ -53,10 +53,10 @@ export default (function(): (elt: Element, pseudoElt?: string | null | undefined
     style[property] = (style[t] == style[r] && style[t] == style[b] && style[t] == style[l]
       ? [style[t]]
       : style[t] == style[b] && style[l] == style[r]
-        ? [style[t], style[r]]
-        : style[l] == style[r]
-          ? [style[t], style[r], style[b]]
-          : [style[t], style[r], style[b], style[l]]
+      ? [style[t], style[r]]
+      : style[l] == style[r]
+      ? [style[t], style[r], style[b]]
+      : [style[t], style[r], style[b], style[l]]
     ).join(' ');
   }
 

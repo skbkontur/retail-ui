@@ -3,7 +3,7 @@ import styles from './MenuHeader.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './MenuHeader.styles';
+import { jsStyles } from './MenuHeader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -14,7 +14,7 @@ export interface MenuHeaderProps {
 /**
  * Заголовок в меню.
  */
-export default class MenuHeader extends React.Component<MenuHeaderProps> {
+export class MenuHeader extends React.Component<MenuHeaderProps> {
   public static __MENU_HEADER__ = true;
 
   public static defaultProps = {

@@ -48,4 +48,3 @@ export const SpinnerIcon = ({ size, strokeClassName, className }: SpinnerIconPro
     </svg>
   );
 };
-export default SpinnerIcon;

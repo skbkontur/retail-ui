@@ -8,7 +8,7 @@ export interface LifeCycleProxyProps<T> {
 }
 
 // NOTE You can extends props and arguments if necessary
-export default class LifeCycleProxy<T> extends React.Component<LifeCycleProxyProps<T>> {
+export class LifeCycleProxy<T> extends React.Component<LifeCycleProxyProps<T>> {
   public componentDidMount() {
     if (this.props.onDidMount) {
       this.props.onDidMount(this.props.props);

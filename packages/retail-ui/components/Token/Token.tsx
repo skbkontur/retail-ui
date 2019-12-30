@@ -1,10 +1,10 @@
 import * as React from 'react';
 import warningOutput from 'warning';
 import styles from './Token.module.less';
-import CrossIcon from '../internal/icons/CrossIcon';
+import { CrossIcon } from '../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles, { jsTokenColors } from './Token.styles';
+import { jsStyles, jsTokenColors } from './Token.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -47,7 +47,7 @@ export interface TokenProps {
   disabled?: boolean;
 }
 
-export default class Token extends React.Component<TokenProps & TokenActions> {
+export class Token extends React.Component<TokenProps & TokenActions> {
   private theme!: ITheme;
 
   public render() {

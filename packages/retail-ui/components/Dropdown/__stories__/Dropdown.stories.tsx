@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 
-import Dropdown from '../Dropdown';
-import MenuItem from '../../MenuItem';
+import { Dropdown } from '../Dropdown';
+import { MenuItem } from '../../MenuItem';
 
 storiesOf('Dropdown', module)
   .addDecorator(story => (

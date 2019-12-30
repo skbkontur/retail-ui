@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import FxInput, { FxInputProps } from '../FxInput';
+import { FxInput, FxInputProps } from '../FxInput';
 
 const render = (
   props: FxInputProps = {

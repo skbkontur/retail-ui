@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Input, { InputProps } from '../Input';
+import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 
 export type PasswordInputFallbackProps = {
@@ -8,7 +8,7 @@ export type PasswordInputFallbackProps = {
   refInput: (element: Input) => void;
 } & InputProps;
 
-export default class PasswordInputFallback extends React.Component<PasswordInputFallbackProps> {
+export class PasswordInputFallback extends React.Component<PasswordInputFallbackProps> {
   public static defaultProps = {
     size: 'small',
   };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import Textarea from '../Textarea';
+import { Textarea } from '../Textarea';
 
 describe('Textarea', () => {
   afterEach(() => {

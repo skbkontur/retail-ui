@@ -1,15 +1,15 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import { InternalDate } from '../../../lib/date/InternalDate';
-import InternalDateGetter from '../../../lib/date/InternalDateGetter';
+import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
-import Calendar from '../../Calendar';
+import { Calendar } from '../../Calendar';
 import styles from '../../DatePicker/Picker.less';
-import DateSelect from '../../DateSelect';
-import DropdownContainer from '../../DropdownContainer/DropdownContainer';
-import LocaleProvider, { LangCodes, LocaleControls } from '../../LocaleProvider';
+import { DateSelect } from '../../DateSelect';
+import { DropdownContainer } from '../../DropdownContainer/DropdownContainer';
+import { LangCodes, LocaleControls, LocaleProvider } from '../../LocaleProvider';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-import DatePicker, { DatePickerProps } from '../DatePicker';
+import { DatePicker, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 
 const handleChange = () => undefined;

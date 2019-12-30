@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Sticky from '../Sticky';
-import CrossIcon from '../internal/icons/CrossIcon';
+import { Sticky } from '../Sticky';
+import { CrossIcon } from '../internal/icons/CrossIcon';
 import { SidePageContext } from './SidePageContext';
 import styles from './SidePage.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './SidePage.styles';
+import { jsStyles } from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -23,14 +23,14 @@ export interface SidePageHeaderState {
   isReadyToFix: boolean;
 }
 
-export default class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
+export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public state = {
     isReadyToFix: false,
   };
 
   private theme!: ITheme;
   private wrapper: HTMLElement | null = null;
-  private lastRegularHeight: number = 0;
+  private lastRegularHeight = 0;
 
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
@@ -75,7 +75,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
     );
   }
 
-  private renderHeader = (fixed: boolean = false) => {
+  private renderHeader = (fixed = false) => {
     return (
       <div className={cx(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
         {this.renderClose()}

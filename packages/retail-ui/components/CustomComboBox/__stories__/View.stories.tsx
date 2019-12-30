@@ -1,24 +1,24 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import View from '../ComboBoxView';
-import Gapped from '../../Gapped';
-import Modal from '../../Modal';
+import { ComboBoxView } from '../ComboBoxView';
+import { Gapped } from '../../Gapped';
+import { Modal } from '../../Modal';
 
 storiesOf('ComboBoxView', module)
   .add('input like text', () => (
     <Gapped vertical>
-      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} />
-      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="center" />
-      <View renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="right" />
-      <View value={{ id: 1, name: 'hello' }} renderValue={complexRenderValue} />
-      <View value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} />
+      <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} />
+      <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="center" />
+      <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="right" />
+      <ComboBoxView value={{ id: 1, name: 'hello' }} renderValue={complexRenderValue} />
+      <ComboBoxView value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} />
       <div>
-        <View value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} /> hello
+        <ComboBoxView value={{ id: 1, name: 'looooooooooooooooooooooong hello' }} renderValue={complexRenderValue} />{' '}
+        hello
       </div>
       <div>
-        <View
+        <ComboBoxView
           size="medium"
           value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
           renderValue={complexRenderValue}
@@ -26,25 +26,25 @@ storiesOf('ComboBoxView', module)
         hello
       </div>
       <div>
-        <View
+        <ComboBoxView
           size="large"
           value={{ id: 1, name: 'looooooooooooooooooooooong hello' }}
           renderValue={complexRenderValue}
         />{' '}
         hello
       </div>
-      <View placeholder="placeholder" disabled />
-      <View error textValue="error" />
-      <View drawArrow />
-      <View loading items={new Array(2)} value="Hello" />
+      <ComboBoxView placeholder="placeholder" disabled />
+      <ComboBoxView error textValue="error" />
+      <ComboBoxView drawArrow />
+      <ComboBoxView loading items={new Array(2)} value="Hello" />
     </Gapped>
   ))
   .add('input like text with placeholder', () => (
     <Gapped vertical>
-      <View placeholder="placeholder" />
-      <View placeholder="looooooooooooooooooooooong placeholder" />
+      <ComboBoxView placeholder="placeholder" />
+      <ComboBoxView placeholder="looooooooooooooooooooooong placeholder" />
       <div>
-        <View placeholder="looooooooooooooooooooooong placeholder" />
+        <ComboBoxView placeholder="looooooooooooooooooooooong placeholder" />
         Hello
       </div>
     </Gapped>
@@ -54,22 +54,25 @@ storiesOf('ComboBoxView', module)
       <tbody>
         <tr>
           <td style={{ paddingBottom: 60, paddingRight: 10 }}>
-            <View editing opened />
+            <ComboBoxView editing opened />
           </td>
           <td style={{ paddingBottom: 60 }}>
-            <View editing loading opened textValue="loading" />
+            <ComboBoxView editing loading opened textValue="loading" />
           </td>
         </tr>
         <tr>
           <td style={{ paddingBottom: 120, paddingRight: 10 }}>
-            <View editing items={[]} opened textValue="nothing" renderNotFound={() => 'Не найдено'} />
+            <ComboBoxView editing items={[]} opened textValue="nothing" renderNotFound={() => 'Не найдено'} />
           </td>
           <td style={{ paddingBottom: 120 }}>
-            <View
+            <ComboBoxView
               editing
               textValue="one"
               opened
-              items={[{ id: 2, name: 'two' }, { id: 3, name: 'three' }]}
+              items={[
+                { id: 2, name: 'two' },
+                { id: 3, name: 'three' },
+              ]}
               renderItem={complexRenderValue}
               totalCount={221}
               renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
@@ -81,7 +84,7 @@ storiesOf('ComboBoxView', module)
   ))
   .add('with items', () => (
     <div style={{ paddingBottom: 400 }}>
-      <View
+      <ComboBoxView
         editing
         textValue="one"
         opened
@@ -107,7 +110,7 @@ storiesOf('ComboBoxView', module)
       <Modal.Body>
         <div style={{ display: 'flex' }}>
           <div style={{ flexGrow: 2 }}>
-            <View value={'Hello world! '.repeat(5)} width="100%" />
+            <ComboBoxView value={'Hello world! '.repeat(5)} width="100%" />
           </div>
         </div>
       </Modal.Body>

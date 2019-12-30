@@ -1,4 +1,4 @@
-import InternalDateGetter from './InternalDateGetter';
+import { InternalDateGetter } from './InternalDateGetter';
 import {
   InternalDateComponentRaw,
   InternalDateComponentsNumber,
@@ -6,7 +6,7 @@ import {
   InternalDateComponentType,
 } from './types';
 
-export default class InternalDateValidator {
+export class InternalDateValidator {
   public static checkForNull({ year, month, date }: InternalDateComponentsRaw, type?: InternalDateComponentType) {
     if (type !== undefined) {
       if (type === InternalDateComponentType.Year) {
@@ -21,9 +21,13 @@ export default class InternalDateValidator {
     return !(year === null || month === null || date === null);
   }
 
-  public static checkLimits({ year, month, date }: InternalDateComponentsNumber, type?: InternalDateComponentType): boolean {
+  public static checkLimits(
+    { year, month, date }: InternalDateComponentsNumber,
+    type?: InternalDateComponentType,
+  ): boolean {
     if (type !== undefined) {
-      const value = type === InternalDateComponentType.Year ? year : type === InternalDateComponentType.Month ? month : date;
+      const value =
+        type === InternalDateComponentType.Year ? year : type === InternalDateComponentType.Month ? month : date;
 
       return value >= InternalDateGetter.getDefaultMin(type) && value <= InternalDateGetter.getDefaultMax(type);
     }

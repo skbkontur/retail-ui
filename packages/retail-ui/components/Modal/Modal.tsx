@@ -2,22 +2,22 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import LayoutEvents from '../../lib/LayoutEvents';
-import RenderContainer from '../RenderContainer/RenderContainer';
-import ZIndex from '../ZIndex/ZIndex';
-import stopPropagation from '../../lib/events/stopPropagation';
-import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
-import ModalStack, { StackSubscription } from '../ModalStack';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { RenderContainer } from '../RenderContainer';
+import { ZIndex } from '../ZIndex/ZIndex';
+import { stopPropagation } from '../../lib/events/stopPropagation';
+import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
+import { ModalStack, StackSubscription } from '../ModalStack';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer, isFooter } from './ModalFooter';
 import { Header, isHeader } from './ModalHeader';
 import { Body } from './ModalBody';
-import Close from './ModalClose';
-import ResizeDetector from '../internal/ResizeDetector';
+import { ModalClose } from './ModalClose';
+import { ResizeDetector } from '../internal/ResizeDetector';
 import { isIE } from '../ensureOldIEClassName';
 import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Modal.styles';
+import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -71,7 +71,7 @@ export interface ModalState {
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
-export default class Modal extends React.Component<ModalProps, ModalState> {
+export class Modal extends React.Component<ModalProps, ModalState> {
   public static Header = Header;
   public static Body = Body;
   public static Footer = Footer;
@@ -197,7 +197,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
-                      <Close requestClose={this.requestClose} disableClose={this.props.disableClose} />
+                      <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
                     ) : null}
                     <ModalContext.Provider value={modalContextProps}>
                       <div>

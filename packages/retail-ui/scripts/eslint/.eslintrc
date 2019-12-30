@@ -56,5 +56,18 @@ rules:
   # TODO enforce to error after migration to import
   "@typescript-eslint/no-var-requires": 0
   "react/prop-types": 0
+  "import/no-unresolved": 0
+  "import/no-default-export": 2
+
+  #TODO should be enforced before v2.0.0 release
+  "react/no-find-dom-node": 0
+  "react/display-name": 0
+  "react/no-children-prop": 0
+  "@typescript-eslint/no-unused-vars": 0
+  "@typescript-eslint/no-explicit-any": 0
+  "@typescript-eslint/ban-ts-ignore": 0
+  "@typescript-eslint/no-use-before-define": 0
+  "@typescript-eslint/camelcase": 0
+  "@typescript-eslint/no-non-null-assertion": 0
 
 

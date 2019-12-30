@@ -99,29 +99,25 @@ describe('SidePage', function() {
     });
     it('fixed close element', async function() {
       await this.browser.executeScript(function() {
-        // tslint:disable
         var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
         var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
         var fixedHeaderHeight = 50;
 
         // @ts-ignore
         sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
-        // tslint:enable
-      });
+        });
       await delay(1000);
       await expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
     });
     it('fixed header', async function() {
       await this.browser.executeScript(function() {
-        // tslint:disable
         var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
         var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
         var fixedHeaderHeight = 50;
 
         // @ts-ignore
         sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
-        // tslint:enable
-      });
+        });
       await delay(1000);
       await expect(await this.browser.takeScreenshot()).to.matchImage('fixed header');
     });

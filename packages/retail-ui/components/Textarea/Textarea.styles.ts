@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './Textarea.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   root(t: ITheme) {
     return css`
       font-size: ${t.fontSizeMedium};
@@ -73,5 +73,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

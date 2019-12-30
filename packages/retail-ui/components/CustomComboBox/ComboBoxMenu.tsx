@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { locale } from '../LocaleProvider/decorators';
-import Menu from '../Menu/Menu';
-import MenuItem, { MenuItemState } from '../MenuItem/MenuItem';
-import Spinner from '../Spinner/Spinner';
+import { Menu } from '..';
+import { MenuItem, MenuItemState } from '../MenuItem';
+import { Spinner } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
-import MenuSeparator from '../MenuSeparator/MenuSeparator';
+import { MenuSeparator } from '../MenuSeparator';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { CustomComboBoxLocaleHelper, ComboBoxLocale } from './locale';
+import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
 
 export interface ComboBoxMenuProps<T> {
   opened?: boolean;
@@ -26,7 +26,7 @@ export interface ComboBoxMenuProps<T> {
 }
 
 @locale('ComboBox', CustomComboBoxLocaleHelper)
-class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
+export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static defaultProps = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
@@ -125,12 +125,9 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     return (
-      // tslint:disable-next-line:jsx-no-lambda
       <MenuItem onClick={event => onChange(item, event)} key={index}>
         {state => renderItem(item, state)}
       </MenuItem>
     );
   };
 }
-
-export default ComboBoxMenu;

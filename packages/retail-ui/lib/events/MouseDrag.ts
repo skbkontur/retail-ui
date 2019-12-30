@@ -4,7 +4,7 @@ enum MouseDragEventType {
   MouseDragEnd = 'mousedragend',
 }
 
-export default class MouseDrag {
+export class MouseDrag {
   // Радиус окружности, который необходимо преодолеть мышью, чтобы вызвалось событие `MouseDragStart`
   public static readonly RADIUS: number = 5; // px
 

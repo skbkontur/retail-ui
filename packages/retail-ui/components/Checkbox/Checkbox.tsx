@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Nullable, Override } from '../../typings/utility-types';
-import tabListener from '../../lib/events/tabListener';
+import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles, { classes } from './Checkbox.styles';
+import { classes, jsStyles } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import { OkIcon, SquareIcon } from '../internal/icons/16px';
@@ -41,7 +41,7 @@ export interface CheckboxState {
 /**
  * Все свойства, кроме перечисленных, `className` и `style` передаются в `input`.
  */
-class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static propTypes = {
     checked: PropTypes.bool,
     disabled: PropTypes.bool,
@@ -228,5 +228,3 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.resetIndeterminate();
   };
 }
-
-export default Checkbox;

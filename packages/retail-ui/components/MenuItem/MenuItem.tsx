@@ -4,9 +4,10 @@ import warning from 'warning';
 import { isFunction } from '../../lib/utils';
 import styles from './MenuItem.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './MenuItem.styles';
+import { jsStyles } from './MenuItem.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
@@ -40,7 +41,7 @@ export interface MenuItemProps {
 /**
  * Элемент меню.
  */
-export default class MenuItem extends React.Component<MenuItemProps> {
+export class MenuItem extends React.Component<MenuItemProps> {
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {
@@ -64,7 +65,7 @@ export default class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private theme!: ITheme;
-  private mouseEntered: boolean = false;
+  private mouseEntered = false;
 
   public render() {
     return (

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Button from 'retail-ui/components/Button';
+import { Button } from 'retail-ui/components/Button';
 import { ValidationContainer } from '../../../../src';
 import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';
 import Form from '../../../Common/Form';

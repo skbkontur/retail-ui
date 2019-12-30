@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Item, { ItemProps } from './Item';
+import { Item, ItemProps } from './Item';
 
 import styles from './TopBar.module.less';
 import { IconProps } from '../internal/icons/20px';
@@ -16,7 +16,7 @@ export interface ButtonItemProps extends ItemProps {
   use: 'danger' | 'pay' | 'default';
 }
 
-class ButtonItem extends React.Component<ButtonItemProps> {
+export class ButtonItem extends React.Component<ButtonItemProps> {
   public static defaultProps = {
     use: 'default',
   };
@@ -29,5 +29,3 @@ class ButtonItem extends React.Component<ButtonItemProps> {
     );
   }
 }
-
-export default ButtonItem;

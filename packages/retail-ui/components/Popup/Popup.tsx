@@ -2,24 +2,25 @@ import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
-import RenderContainer from '../RenderContainer';
-import ZIndex from '../ZIndex';
+import { RenderContainer } from '../RenderContainer';
+import { ZIndex } from '../ZIndex';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
-import PopupHelper, { Offset, PositionObject, Rect } from './PopupHelper';
-import PopupPin from './PopupPin';
-import LayoutEvents from '../../lib/LayoutEvents';
+import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
+import { PopupPin } from './PopupPin';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import styles from './Popup.module.less';
 import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import warning from 'warning';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
-import LifeCycleProxy from '../internal/LifeCycleProxy';
+import { LifeCycleProxy } from '../internal/LifeCycleProxy';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Popup.styles';
+import { jsStyles } from './Popup.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
@@ -100,7 +101,7 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
-export default class Popup extends React.Component<PopupProps, PopupState> {
+export class Popup extends React.Component<PopupProps, PopupState> {
   public static propTypes = {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап

@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import Input from '../Input';
-import InputLikeText from '../internal/InputLikeText';
-import Menu from '../Menu/Menu';
+import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
+import { Input } from '../Input';
+import { InputLikeText } from '../internal/InputLikeText';
+import { Menu } from '../Menu/Menu';
 import { MenuItemState } from '../MenuItem';
-import RenderLayer from '../RenderLayer';
-import Spinner from '../Spinner';
+import { RenderLayer } from '../RenderLayer';
+import { Spinner } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import styles from './CustomComboBox.module.less';
-import ComboBoxMenu from './ComboBoxMenu';
+import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ArrowTriangleDownIcon } from '../internal/icons/16px';
 
@@ -61,7 +61,7 @@ interface ComboBoxViewProps<T> {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
-class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
+export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static defaultProps = {
     renderItem: (item: any) => item,
     renderValue: (item: any) => item,
@@ -144,7 +144,6 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           {opened && (
             <DropdownContainer
               align={menuAlign}
-              // tslint:disable-next-line:jsx-no-lambda
               getParent={() => findDOMNode(this)}
               offsetY={1}
               disablePortal={this.props.disablePortal}
@@ -280,5 +279,3 @@ class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     return null;
   };
 }
-
-export default ComboBoxView;

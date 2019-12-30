@@ -2,9 +2,8 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
-import Button, {} from '../../Button';
-import Gapped from '../../Gapped';
-import { ButtonProps } from '../Button';
+import { Button, ButtonProps } from '../Button';
+import { Gapped } from '../../Gapped';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import { ComponentTable } from '../../internal/ComponentTable';
 import { ComponentCombinator } from '../../internal/ComponentCombinator';
@@ -16,12 +15,12 @@ storiesOf('Button', module)
   .add('different content', () => {
     return (
       <Gapped vertical={true}>
-        <Button icon={<OkIcon/>}>text with icon</Button>
-        <Button>{<OkIcon/>}</Button>
-        <Button icon={<OkIcon/>} use={'primary'}>
+        <Button icon={<OkIcon />}>text with icon</Button>
+        <Button>{<OkIcon />}</Button>
+        <Button icon={<OkIcon />} use={'primary'}>
           icon with long text and color
         </Button>
-        <Button icon={<OkIcon/>} width="200px">
+        <Button icon={<OkIcon />} width="200px">
           with icon, fixed width and long-lon-long text
         </Button>
       </Gapped>
@@ -29,16 +28,16 @@ storiesOf('Button', module)
   })
   .add('use link', () => <Button use="link">Use Link</Button>)
   .add('use link with icon', () => (
-    <Button use="link" icon={<ArchivePackIcon/>}>
+    <Button use="link" icon={<ArchivePackIcon />}>
       With Icon
     </Button>
   ))
   .add('multiline text with link button', () => (
     <div>
-      "You can't keep boogieing like this. <br/>
-      You'll come <Button use="link">down</Button> <br/>
-      with a fever of some sort."
-      <br/>
+      &quot;You can&apos;t keep boogieing like this. <br />
+      You&apos;ll come <Button use="link">down</Button> <br />
+      with a fever of some sort.&quot;
+      <br />
       <i>Leela</i>
     </div>
   ))
@@ -77,7 +76,7 @@ storiesOf('Button', module)
         <Gapped>
           <span>Inherited Styles</span>
           <Button>
-            <SearchIcon/>
+            <SearchIcon />
           </Button>
           <Button>Button</Button>
           <Button visuallyFocused>Focused</Button>
@@ -177,9 +176,11 @@ const widthStates = getProps('width', [100, 'auto']);
 
 const visualStates = [{ narrow: true }, { borderless: true }].map(x => ({ props: x }));
 
-const contentStates = [{ icon: <SearchIcon/> }, { children: 'long-long-long text' }, { children: <SearchIcon/> }].map(
-  x => ({ props: x }),
-);
+const contentStates = [
+  { icon: <SearchIcon /> },
+  { children: 'long-long-long text' },
+  { children: <SearchIcon /> },
+].map(x => ({ props: x }));
 
 function getProps<TKey extends keyof ButtonProps>(
   key: TKey,

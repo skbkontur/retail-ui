@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { InternalDate } from '../../lib/date/InternalDate';
-import InternalDateGetter from '../../lib/date/InternalDateGetter';
-import Calendar, { CalendarDateShape } from '../Calendar';
+import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
+import { Calendar, CalendarDateShape } from '../Calendar';
 import shallowEqual from 'shallowequal';
 import { locale } from '../LocaleProvider/decorators';
 import styles from './Picker.module.less';
 import { Nullable } from '../../typings/utility-types';
-import { isLess, isGreater } from '../Calendar/CalendarDateShape';
-import { DatePickerLocaleHelper, DatePickerLocale } from './locale';
-import jsStyles from './Picker.styles';
+import { isGreater, isLess } from '../Calendar/CalendarDateShape';
+import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
+import { jsStyles } from './Picker.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import ThemeConsumer from '../ThemeConsumer';
+import { ThemeConsumer } from '../ThemeConsumer';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -38,7 +38,7 @@ const getTodayCalendarDate = () => {
 };
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export default class Picker extends React.Component<Props, State> {
+export class Picker extends React.Component<Props, State> {
   private theme!: ITheme;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
@@ -73,7 +73,6 @@ export default class Picker extends React.Component<Props, State> {
   private renderMain() {
     const { date } = this.state;
     return (
-      // tslint:disable-next-line:jsx-no-lambda
       <div className={cx(styles.root, jsStyles.root(this.theme))} onMouseDown={e => e.preventDefault()}>
         <Calendar
           ref={c => (this.calendar = c)}

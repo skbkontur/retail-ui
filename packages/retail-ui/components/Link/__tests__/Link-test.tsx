@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import Link from '../Link';
+import { Link } from '../Link';
 
 describe('', () => {
   it('calls `onClick`', () => {

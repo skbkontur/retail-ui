@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import listenFocusOutside, { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
 export interface RenderLayerProps {
   children: JSX.Element;
@@ -9,7 +9,7 @@ export interface RenderLayerProps {
   active?: boolean;
 }
 
-class RenderLayer extends React.Component<RenderLayerProps> {
+export class RenderLayer extends React.Component<RenderLayerProps> {
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
       const { active, onClickOutside, onFocusOutside } = props;
@@ -99,5 +99,3 @@ class RenderLayer extends React.Component<RenderLayerProps> {
     }
   };
 }
-
-export default RenderLayer;

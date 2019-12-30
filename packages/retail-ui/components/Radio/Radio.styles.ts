@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './Radio.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   radio(t: ITheme) {
     return css`
       width: ${t.radioSize};
@@ -77,5 +77,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

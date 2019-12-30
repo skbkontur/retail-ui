@@ -12,7 +12,7 @@ const styles: React.CSSProperties = {
   fontSize: 14,
 };
 
-export default class TextWidthHelper extends React.Component<TextWidthHelperProps> {
+export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
   public render() {

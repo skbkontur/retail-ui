@@ -1,21 +1,21 @@
 import * as React from 'react';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import LayoutEvents from '../../lib/LayoutEvents';
-import stopPropagation from '../../lib/events/stopPropagation';
-import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
-import ModalStack, { StackSubscription } from '../ModalStack';
-import RenderContainer from '../RenderContainer/RenderContainer';
-import RenderLayer from '../RenderLayer';
-import ZIndex from '../ZIndex';
-import { SidePageBodyWithContext, SidePageBodyProps } from './SidePageBody';
-import SidePageContainer from './SidePageContainer';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { stopPropagation } from '../../lib/events/stopPropagation';
+import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
+import { ModalStack, StackSubscription } from '../ModalStack';
+import { RenderContainer } from '../RenderContainer';
+import { RenderLayer } from '../RenderLayer';
+import { ZIndex } from '../ZIndex';
+import { SidePageBodyProps, SidePageBodyWithContext } from './SidePageBody';
+import { SidePageContainer } from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
-import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from './SidePageFooter';
-import SidePageHeader from './SidePageHeader';
+import { SidePageFooter, SidePageFooterProps, SidePageFooterWithContext } from './SidePageFooter';
+import { SidePageHeader } from './SidePageHeader';
 import { CSSTransition } from 'react-transition-group';
 import styles from './SidePage.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './SidePage.styles';
+import { jsStyles } from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 
@@ -82,7 +82,7 @@ interface ZIndexPropsType {
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-class SidePage extends React.Component<SidePageProps, SidePageState> {
+export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Header = SidePageHeader;
   public static Body: (props: SidePageBodyProps) => JSX.Element = SidePageBodyWithContext;
   public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
@@ -303,5 +303,3 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.footer = ref;
   };
 }
-
-export default SidePage;

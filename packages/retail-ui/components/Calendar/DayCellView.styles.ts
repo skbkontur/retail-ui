@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const jsStyles = {
+export const jsStyles = {
   cell(t: ITheme) {
     return css`
       ${resetButton()};
@@ -40,5 +40,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

@@ -12,7 +12,7 @@ export interface GappedProps {
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
-class Gapped extends React.Component<GappedProps> {
+export class Gapped extends React.Component<GappedProps> {
   public static propTypes = {
     /**
      * Расстояние между элементами.
@@ -88,5 +88,3 @@ class Gapped extends React.Component<GappedProps> {
     );
   }
 }
-
-export default Gapped;

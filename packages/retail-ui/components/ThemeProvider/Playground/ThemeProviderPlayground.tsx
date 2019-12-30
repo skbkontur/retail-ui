@@ -1,19 +1,19 @@
 import { ThemeType } from './constants';
 import { ITheme, IThemeIn } from '../../../lib/theming/Theme';
 import * as React from 'react';
-import ThemeFactory from '../../../lib/theming/ThemeFactory';
-import darkThemeVariables from './darkTheme';
-import flatThemeVariables from '../../../lib/theming/themes/FlatTheme';
-import ThemeProvider from '../ThemeProvider';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { darkTheme as darkThemeVariables } from './darkTheme';
+import { FLAT_THEME as flatThemeVariables } from '../../../lib/theming/themes/FlatTheme';
+import { ThemeProvider } from '../ThemeProvider';
 import { Playground } from './Playground';
-import SidePage from '../../SidePage';
-import jsStyles from './jsStyles';
-import Gapped from '../../Gapped';
-import ComboBox from '../../ComboBox';
-import Link from '../../Link';
+import { SidePage } from '../../SidePage';
+import { jsStyles } from './jsStyles';
+import { Gapped } from '../../Gapped';
+import { ComboBox } from '../../ComboBox';
+import { Link } from '../../Link';
 import styles from './styles.module.less';
 import { ThemeEditor } from './ThemeEditor';
-import ColorFunctions from '../../../lib/styles/ColorFunctions';
+import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
 
 interface IState {
   editorOpened: boolean;
@@ -133,7 +133,6 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       }
     });
 
-    // tslint:disable-next-line:no-console
     console.log(JSON.stringify(themeObject));
   };
 

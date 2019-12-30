@@ -1,18 +1,18 @@
 import * as React from 'react';
 import warningOutput from 'warning';
-import Link from '../Link';
-import LocaleProvider from '../LocaleProvider';
+import { Link } from '../Link';
+import { LocaleProvider } from '../LocaleProvider';
 import { locale } from '../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from './locale';
-import { Fields, ExtraFields, FiasValue, FormValidation, APIProvider, FieldsSettings } from './types';
-import FiasModal from './FiasModal';
-import FiasForm from './Form/FiasForm';
+import { APIProvider, ExtraFields, FiasValue, Fields, FieldsSettings, FormValidation } from './types';
+import { FiasModal } from './FiasModal';
+import { FiasForm } from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
 import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Fias.styles';
+import { jsStyles } from './Fias.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import { EditIcon } from '../internal/icons/16px';
@@ -332,5 +332,3 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     this.form = element;
   };
 }
-
-export default Fias;

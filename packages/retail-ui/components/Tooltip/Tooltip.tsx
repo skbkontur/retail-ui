@@ -1,17 +1,18 @@
 import * as React from 'react';
-import Popup, { PopupPosition, PopupProps } from '../Popup';
-import RenderLayer, { RenderLayerProps } from '../RenderLayer';
-import CrossIcon from '../internal/icons/CrossIcon';
+import { Popup, PopupPosition, PopupProps } from '../Popup';
+import { RenderLayer, RenderLayerProps } from '../RenderLayer';
+import { CrossIcon } from '../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
 import styles from './Tooltip.module.less';
 import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import jsStyles from './Tooltip.styles';
+import { jsStyles } from './Tooltip.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
 
@@ -144,7 +145,7 @@ export interface TooltipState {
   focused: boolean;
 }
 
-class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
       const children = props[propName];
@@ -457,5 +458,3 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     this.close();
   };
 }
-
-export default Tooltip;

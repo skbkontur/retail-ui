@@ -1,1 +1,1 @@
-export { default } from './RenderContainer';
+export { RenderContainer } from './RenderContainer';

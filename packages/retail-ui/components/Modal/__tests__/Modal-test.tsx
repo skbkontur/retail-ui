@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import Modal from '../Modal';
+import { Modal } from '../Modal';
 import { isHeader } from '../ModalHeader';
 import { isFooter } from '../ModalFooter';
 

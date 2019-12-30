@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Popup, { PopupPosition } from '../Popup';
+import { Popup, PopupPosition } from '../Popup';
 import styles from './HintBox.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
@@ -58,7 +58,7 @@ const Positions: PopupPosition[] = [
   'right bottom',
 ];
 
-class Hint extends React.Component<HintProps, HintState> {
+export class Hint extends React.Component<HintProps, HintState> {
   public static defaultProps = {
     pos: 'top',
     manual: false,
@@ -159,5 +159,3 @@ class Hint extends React.Component<HintProps, HintState> {
     this.setState({ opened: true });
   };
 }
-
-export default Hint;

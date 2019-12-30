@@ -1,8 +1,7 @@
-// tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { mount } from 'enzyme';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import Autocomplete, { AutocompleteProps } from '../Autocomplete';
+import { Autocomplete, AutocompleteProps } from '../Autocomplete';
 import { delay } from '../../../lib/utils';
 
 describe('<Autocomplete />', () => {

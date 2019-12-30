@@ -19,7 +19,7 @@ function unlistenBrowserEvents() {
   window.removeEventListener('resize', emit);
 }
 
-function addListener(callback: () => void) {
+export function addListener(callback: () => void) {
   const emitter = getEmitter();
   if (emitter.listeners('layout').length === 0) {
     listenBrowserEvents();
@@ -35,13 +35,8 @@ function addListener(callback: () => void) {
   };
 }
 
-function emit() {
+export function emit() {
   unstable_batchedUpdates(() => {
     getEmitter().emit('layout');
   });
 }
-
-export default {
-  addListener,
-  emit,
-};

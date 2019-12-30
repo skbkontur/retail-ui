@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import LayoutEvents from '../../lib/LayoutEvents';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import styles from './ScrollContainer.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
@@ -36,7 +36,7 @@ export interface ScrollContainerState {
   scrollState: string;
 }
 
-export default class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static propTypes = {
     invert: PropTypes.bool,
     maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -46,7 +46,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   };
 
   public static defaultProps = {
-    scrollBehaviour: 'auto'
+    scrollBehaviour: 'auto',
   };
 
   public state: ScrollContainerState = {

@@ -1,6 +1,6 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import Button from 'retail-ui/components/Button';
+import { Button } from 'retail-ui/components/Button';
 import RadioGroup from 'retail-ui/components/RadioGroup';
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';

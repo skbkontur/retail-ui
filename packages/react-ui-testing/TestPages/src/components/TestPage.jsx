@@ -1,17 +1,17 @@
 import React from 'react';
-import Input from 'retail-ui/components/Input';
-import ComboBox from 'retail-ui/components/ComboBox';
-import Link from 'retail-ui/components/Link';
-import Button from 'retail-ui/components/Button';
-import Checkbox from 'retail-ui/components/Checkbox';
-import Select from 'retail-ui/components/Select';
-import Textarea from 'retail-ui/components/Textarea';
-import Modal from 'retail-ui/components/Modal';
-import Autocomplete from 'retail-ui/components/Autocomplete';
+import { Autocomplete } from 'retail-ui/components/Autocomplete';
+import { Button } from 'retail-ui/components/Button';
+import { Checkbox } from 'retail-ui/components/Checkbox';
+import { ComboBox } from 'retail-ui/components/ComboBox';
+import { DatePicker } from 'retail-ui/components/DatePicker';
+import { FxInput } from 'retail-ui/components/FxInput';
+import { Input } from 'retail-ui/components/Input';
+import { Link } from 'retail-ui/components/Link';
+import { Modal } from 'retail-ui/components/Modal';
 import RadioGroup from 'retail-ui/components/RadioGroup';
-import DatePicker from 'retail-ui/components/DatePicker';
-import Tooltip from 'retail-ui/components/Tooltip';
-import FxInput from 'retail-ui/components/FxInput';
+import { Select } from 'retail-ui/components/Select';
+import { Textarea } from 'retail-ui/components/Textarea';
+import { Tooltip } from 'retail-ui/components/Tooltip';
 import Label from '../common/Label';
 
 function bind(name) {
@@ -23,7 +23,11 @@ function bind(name) {
   };
 }
 
-var items = [{ id: 1, name: 'Kappa' }, { id: 2, name: 'Keepo' }, { id: 3, name: 'ResidentSleeper' }];
+var items = [
+  { id: 1, name: 'Kappa' },
+  { id: 2, name: 'Keepo' },
+  { id: 3, name: 'ResidentSleeper' },
+];
 
 var loader = id => {
   return Promise.resolve(items.find(item => item.id === id));
@@ -31,9 +35,16 @@ var loader = id => {
 
 var selectItems = ['EdiXml', 'Edifact', 'EancomXml', 'KorusXml', 'CISLinkXml'];
 
-var doubleSelectItems = [['Item1Key', 'Item1Value'], ['Item2Key', 'Item2Value']];
+var doubleSelectItems = [
+  ['Item1Key', 'Item1Value'],
+  ['Item2Key', 'Item2Value'],
+];
 
-var radioItems = [['1', 'One'], ['2', 'Two'], ['3', 'Three']];
+var radioItems = [
+  ['1', 'One'],
+  ['2', 'Two'],
+  ['3', 'Three'],
+];
 
 var autocompleteValue = ['EdiXml', 'Edifact', 'EancomXml', 'KorusXml', 'CISLinkXml'];
 

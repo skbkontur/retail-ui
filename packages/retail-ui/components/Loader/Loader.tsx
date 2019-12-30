@@ -1,18 +1,17 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import LayoutEvents from '../../lib/LayoutEvents';
-
+import * as LayoutEvents from '../../lib/LayoutEvents';
 // Note SpinnerType нужен для генерации правильного .d.ts файла
 // @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
-import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
+import Spinner, { SpinnerProps } from '../Spinner';
 
 import styles from './Loader.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Loader.styles';
+import { jsStyles } from './Loader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
-import ZIndex from '../ZIndex';
+import { ZIndex } from '../ZIndex';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -34,7 +33,7 @@ export interface LoaderState {
 /**
  * DRAFT - лоадер-контейнер
  */
-class Loader extends React.Component<LoaderProps, LoaderState> {
+export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static defaultProps = {
     type: Spinner.Types.normal,
     active: false,
@@ -225,5 +224,3 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     });
   };
 }
-
-export default Loader;

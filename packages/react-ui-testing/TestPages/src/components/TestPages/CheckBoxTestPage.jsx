@@ -1,6 +1,6 @@
 import React from 'react';
-import Checkbox from 'retail-ui/components/Checkbox';
-import { CaseSuite, Case } from '../Case';
+import { Checkbox } from 'retail-ui/components/Checkbox';
+import { Case, CaseSuite } from '../Case';
 
 export default class CheckboxTestPage extends React.Component {
   state = {

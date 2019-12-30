@@ -79,7 +79,7 @@ module.exports = function(content) {
 import React from 'react';
 import Helmet from 'react-helmet';
 import Code from 'react-syntax-highlighter';
-import Link from 'retail-ui/components/Link';
+import { Link } from 'retail-ui/components/Link';
 import styled from 'styled-components';
 
 const InlineCode = styled.span\`

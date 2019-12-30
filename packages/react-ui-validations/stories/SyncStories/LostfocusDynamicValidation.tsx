@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Gapped from 'retail-ui/components/Gapped';
-import Input from 'retail-ui/components/Input';
+import { Gapped } from 'retail-ui/components/Gapped';
+import { Input } from 'retail-ui/components/Input';
 import { text, ValidationInfo } from '../../src';
 import ValidationContainer from '../../src/ValidationContainer';
 import ValidationWrapper from '../../src/ValidationWrapper';

@@ -1,12 +1,11 @@
-// tslint:disable:jsx-no-lambda
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import InternalDateTransformer from '../../../lib/date/InternalDateTransformer';
+import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
 import { Nullable } from '../../../typings/utility-types';
-import Button from '../../Button';
-import Gapped from '../../Gapped';
-import LocaleProvider, { LangCodes } from '../../LocaleProvider';
-import Calendar from '../Calendar';
+import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
+import { Calendar } from '../Calendar';
 
 storiesOf('Calendar', module)
   .add('simple', () => (

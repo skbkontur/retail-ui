@@ -2,7 +2,7 @@ import { css } from '../../lib/theming/Emotion';
 import styles from './TokenInput.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
-const jsStyles = {
+export const jsStyles = {
   label(t: ITheme) {
     return css`
       .${styles.root} & {
@@ -72,5 +72,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;
