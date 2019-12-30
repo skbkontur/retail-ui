@@ -37,13 +37,13 @@ import { PlaygroundTheme } from './ThemeProviderPlayground';
 const enableReactTesting = process.env.enableReactTesting === 'true';
 const useSticky = !enableReactTesting;
 
-export interface IComponentsListProps {
+export interface ComponentsListProps {
   currentThemeType: ThemeType;
   onThemeChange: (ev: { target: { value: string } }, value: string) => void;
   onEditLinkClick: () => void;
 }
 
-export class Playground extends React.Component<IComponentsListProps, {}> {
+export class Playground extends React.Component<ComponentsListProps, {}> {
   private theme!: PlaygroundTheme;
   private stickyStop: HTMLElement | null = null;
 

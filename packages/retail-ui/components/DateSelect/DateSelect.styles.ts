@@ -1,8 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  root(t: ITheme) {
+  root(t: Theme) {
     return css`
       color: ${t.textColorDefault};
 
@@ -12,13 +12,13 @@ export const jsStyles = {
     `;
   },
 
-  arrow(t: ITheme) {
+  arrow(t: Theme) {
     return css`
       color: ${t.textColorDisabled};
     `;
   },
 
-  menuHolder(t: ITheme) {
+  menuHolder(t: Theme) {
     return css`
       background: ${t.dateSelectMenuBg};
       box-shadow: ${t.popupBoxShadow};
@@ -26,34 +26,34 @@ export const jsStyles = {
     `;
   },
 
-  menuItem(t: ITheme) {
+  menuItem(t: Theme) {
     return css`
       color: ${t.textColorDefault};
     `;
   },
 
-  menuItemSelected(t: ITheme) {
+  menuItemSelected(t: Theme) {
     return css`
       background: ${t.dateSelectMenuItemBgSelected};
       color: ${t.dateSelectMenuItemFontSelected};
     `;
   },
 
-  menuItemActive(t: ITheme) {
+  menuItemActive(t: Theme) {
     return css`
       background: ${t.dateSelectMenuItemBgActive};
       color: ${t.dateSelectMenuItemFontActive};
     `;
   },
 
-  menuItemDisabled(t: ITheme) {
+  menuItemDisabled(t: Theme) {
     return css`
       color: ${t.textColorDisabled};
       background: ${t.dateSelectMenuItemBgDisabled};
     `;
   },
 
-  menuUp(t: ITheme) {
+  menuUp(t: Theme) {
     return css`
       background: ${t.dateSelectMenuBg};
       color: ${t.textColorDefault};
@@ -65,7 +65,7 @@ export const jsStyles = {
     `;
   },
 
-  menuDown(t: ITheme) {
+  menuDown(t: Theme) {
     return css`
       background: ${t.dateSelectMenuBg};
       color: ${t.textColorDefault};

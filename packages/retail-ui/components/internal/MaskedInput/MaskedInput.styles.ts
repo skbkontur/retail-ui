@@ -1,8 +1,8 @@
 import { css } from '../../../lib/theming/Emotion';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 
 export const jsStyles = {
-  inputMask(t: ITheme) {
+  inputMask(t: Theme) {
     return css`
       color: ${t.placeholderColor};
     `;

@@ -6,7 +6,7 @@ import styles from './Radio.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Radio.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface SyntheticRadioEvent<T> {
   target: {
@@ -79,7 +79,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     focused: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private _node: Nullable<HTMLInputElement> = null;
 
   public render() {

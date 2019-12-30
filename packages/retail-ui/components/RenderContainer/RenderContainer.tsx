@@ -23,7 +23,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 
-  public componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
     if (!this.props.children && nextProps.children) {
       this.mountContainer();
     }

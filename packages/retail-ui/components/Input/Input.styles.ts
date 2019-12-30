@@ -1,11 +1,11 @@
 import { css, keyframes } from '../../lib/theming/Emotion';
 import classes from './Input.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
 export const jsClasses = {
-  root(t: ITheme) {
+  root(t: Theme) {
     return css`
       ${resetText()};
 
@@ -18,7 +18,7 @@ export const jsClasses = {
     `;
   },
 
-  useDefaultColor(t: ITheme) {
+  useDefaultColor(t: Theme) {
     return css`
       .${classes.leftIcon}&, .${classes.rightIcon}& {
         color: ${t.inputIconColor};
@@ -26,7 +26,7 @@ export const jsClasses = {
     `;
   },
 
-  focus(t: ITheme) {
+  focus(t: Theme) {
     return css`
       .${classes.root}& {
         border-color: ${t.borderColorFocus};
@@ -38,7 +38,7 @@ export const jsClasses = {
     `;
   },
 
-  placeholder(t: ITheme) {
+  placeholder(t: Theme) {
     return css`
       color: ${t.placeholderColor};
 
@@ -48,7 +48,7 @@ export const jsClasses = {
     `;
   },
 
-  input(t: ITheme) {
+  input(t: Theme) {
     return css`
       color: ${t.inputTextColor};
 
@@ -85,7 +85,7 @@ export const jsClasses = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       .${classes.root}& {
         border-color: ${t.borderColorWarning};
@@ -97,7 +97,7 @@ export const jsClasses = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       .${classes.root}& {
         border-color: ${t.borderColorError};
@@ -109,7 +109,7 @@ export const jsClasses = {
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       .${classes.root}& {
         background: ${t.inputDisabledBg};
@@ -118,7 +118,7 @@ export const jsClasses = {
     `;
   },
 
-  blink(t: ITheme) {
+  blink(t: Theme) {
     const blinkAnimation = keyframes`
     0% {
       background-color: ${t.blinkColor};
@@ -131,7 +131,7 @@ export const jsClasses = {
     `;
   },
 
-  sizeSmall(t: ITheme) {
+  sizeSmall(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeSmall};
       line-height: ${t.controlLineHeightSmall};
@@ -147,7 +147,7 @@ export const jsClasses = {
     `;
   },
 
-  sizeMedium(t: ITheme) {
+  sizeMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
       line-height: ${t.controlLineHeightMedium};
@@ -163,7 +163,7 @@ export const jsClasses = {
     `;
   },
 
-  sizeLarge(t: ITheme) {
+  sizeLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
       line-height: ${t.controlLineHeightLarge};
@@ -179,13 +179,13 @@ export const jsClasses = {
     `;
   },
 
-  prefix(t: ITheme) {
+  prefix(t: Theme) {
     return css`
       color: ${t.placeholderColor};
     `;
   },
 
-  suffix(t: ITheme) {
+  suffix(t: Theme) {
     return css`
       color: ${t.placeholderColor};
     `;

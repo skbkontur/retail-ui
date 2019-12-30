@@ -74,7 +74,7 @@ export class Hint extends React.Component<HintProps, HintState> {
 
   private timer: Nullable<number> = null;
 
-  public componentWillReceiveProps(nextProps: HintProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
       return;
     }

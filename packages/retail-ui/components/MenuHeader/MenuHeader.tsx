@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './MenuHeader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface MenuHeaderProps {
   _enableIconPadding?: Nullable<boolean>;
@@ -21,7 +21,7 @@ export class MenuHeader extends React.Component<MenuHeaderProps> {
     _enableIconPadding: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private getProps = createPropsGetter(MenuHeader.defaultProps);
 
   public render() {

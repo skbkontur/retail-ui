@@ -6,7 +6,7 @@ import styles from './MenuItem.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './MenuItem.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
@@ -64,7 +64,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     onClick: PropTypes.func,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private mouseEntered = false;
 
   public render() {

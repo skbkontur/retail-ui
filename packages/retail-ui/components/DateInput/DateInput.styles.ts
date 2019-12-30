@@ -1,32 +1,32 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  icon(t: ITheme) {
+  icon(t: Theme) {
     return css`
       color: ${t.dateInputIconColor};
     `;
   },
 
-  iconSmall(t: ITheme) {
+  iconSmall(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeSmall};
     `;
   },
 
-  iconMedium(t: ITheme) {
+  iconMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
     `;
   },
 
-  iconLarge(t: ITheme) {
+  iconLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
     `;
   },
 
-  iconDisabled(t: ITheme) {
+  iconDisabled(t: Theme) {
     return css`
       color: ${t.textColorDisabled};
     `;

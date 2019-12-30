@@ -14,7 +14,7 @@ import { Logger } from './logger/Logger';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Fias.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { EditIcon } from '../internal/icons/16px';
 
 export interface FiasProps {
@@ -146,7 +146,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     fieldsSettings: this.fieldsSettings,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: FiasForm | null = null;
 

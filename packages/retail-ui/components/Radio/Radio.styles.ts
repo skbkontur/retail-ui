@@ -1,9 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
 import styles from './Radio.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  radio(t: ITheme) {
+  radio(t: Theme) {
     return css`
       width: ${t.radioSize};
       height: ${t.radioSize};
@@ -27,7 +27,7 @@ export const jsStyles = {
     `;
   },
 
-  focus(t: ITheme) {
+  focus(t: Theme) {
     return css`
       &::after {
         box-shadow: ${t.radioFocusShadow};
@@ -36,7 +36,7 @@ export const jsStyles = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       &::after {
         box-shadow: ${t.radioFocusShadow};
@@ -45,7 +45,7 @@ export const jsStyles = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       &::after {
         box-shadow: ${t.radioFocusShadow};
@@ -54,7 +54,7 @@ export const jsStyles = {
     `;
   },
 
-  checked(t: ITheme) {
+  checked(t: Theme) {
     return css`
       .${styles.root} .${styles.radio}& {
         background-color: ${t.radioCheckedBgColor};
@@ -65,13 +65,13 @@ export const jsStyles = {
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       box-shadow: ${t.radioDisabledShadow} !important;
     `;
   },
 
-  label(t: ITheme) {
+  label(t: Theme) {
     return css`
       display: ${t.radioLabelDisplay};
     `;

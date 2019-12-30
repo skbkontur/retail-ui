@@ -5,7 +5,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
 import { classes, jsStyles } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { OkIcon, SquareIcon } from '../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
 
@@ -59,7 +59,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     indeterminate: this.props.initialIndeterminate || false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private input: Nullable<HTMLInputElement>;
 
   public componentDidMount = () => {
@@ -68,7 +68,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  public componentWillReceiveProps(nextProps: CheckboxProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: CheckboxProps) {
     if (nextProps.checked !== this.props.checked) {
       this.resetIndeterminate();
     }

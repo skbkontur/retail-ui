@@ -12,7 +12,7 @@ import { PopupPosition } from '../Popup';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Kebab.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../internal/icons/16px';
 
 export interface KebabProps {
@@ -64,7 +64,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     anchor: null,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   private listener: {
     remove: () => void;

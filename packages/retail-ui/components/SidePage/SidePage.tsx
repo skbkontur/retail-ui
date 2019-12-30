@@ -17,7 +17,7 @@ import styles from './SidePage.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface SidePageProps {
   /**
@@ -88,7 +88,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
   public static Container = SidePageContainer;
   public state: SidePageState = {};
-  private theme!: ITheme;
+  private theme!: Theme;
   private stackSubscription: StackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;

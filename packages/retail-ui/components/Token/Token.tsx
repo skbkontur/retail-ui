@@ -6,7 +6,7 @@ import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles, jsTokenColors } from './Token.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -48,7 +48,7 @@ export interface TokenProps {
 }
 
 export class Token extends React.Component<TokenProps & TokenActions> {
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

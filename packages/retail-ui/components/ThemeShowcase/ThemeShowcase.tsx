@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './ThemeShowcase.module.less';
 import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ComboBox, ComboBoxItem } from '../ComboBox';
 import { Gapped } from '../Gapped';
 import { Link } from '../Link';
@@ -41,7 +41,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
   private isUnmounting = false;
   private variablesDiff: string[] = [];
 
-  public componentWillMount(): void {
+  public UNSAFE_componentWillMount(): void {
     if (this.props.isDebugMode) {
       ALL_VARIABLES.forEach(variable => {
         const found = ALL_USED_VARIABLES.includes(variable);
@@ -219,8 +219,8 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
         </tr>
         {row.variables.map(varName => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
-          const variableDefault = (defaultVariables as ITheme)[varName];
-          const variableFlat = (flatVariables as ITheme)[varName];
+          const variableDefault = (defaultVariables as Theme)[varName];
+          const variableFlat = (flatVariables as Theme)[varName];
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
@@ -315,8 +315,8 @@ class DependencyName extends React.Component<DependencyNameProps> {
 
   private getValues = () => {
     const dependencyName = this.props.dependencyName;
-    const dependencyDefault = (defaultVariables as ITheme)[dependencyName];
-    const dependencyFlat = (flatVariables as ITheme)[dependencyName];
+    const dependencyDefault = (defaultVariables as Theme)[dependencyName];
+    const dependencyFlat = (flatVariables as Theme)[dependencyName];
     return (
       <React.Fragment>
         <span>Default value: {<VariableValue value={dependencyDefault} />}</span>

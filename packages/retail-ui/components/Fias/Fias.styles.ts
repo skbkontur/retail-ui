@@ -1,14 +1,14 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       color: ${t.warningText};
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       color: ${t.errorText};
     `;

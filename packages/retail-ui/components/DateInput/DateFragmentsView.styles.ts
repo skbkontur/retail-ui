@@ -1,9 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import styles from './DateFragmentsView.module.less';
 
 export const jsStyles = {
-  root(t: ITheme) {
+  root(t: Theme) {
     return css`
       & ::selection {
         background: ${t.dateInputComponentSelectedBgColor};
@@ -14,13 +14,13 @@ export const jsStyles = {
     `;
   },
 
-  mask(t: ITheme) {
+  mask(t: Theme) {
     return css`
       color: ${t.dateInputMaskColor};
     `;
   },
 
-  delimiter(t: ITheme) {
+  delimiter(t: Theme) {
     return css`
       color: ${t.dateInputMaskColor};
 

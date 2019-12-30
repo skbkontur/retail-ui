@@ -1,8 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  active(t: ITheme) {
+  active(t: Theme) {
     return css`
       background: ${t.loaderBg};
     `;

@@ -27,7 +27,7 @@ import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './TokenInput.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export enum TokenInputType {
   WithReference,
@@ -115,7 +115,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     activeTokens: [],
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private input: HTMLInputElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;

@@ -4,7 +4,7 @@ import FocusLock from 'react-focus-lock';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
-import { ZIndex } from '../ZIndex/ZIndex';
+import { ZIndex } from '../ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ModalStack, StackSubscription } from '../ModalStack';
@@ -19,7 +19,7 @@ import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 let mountedModalsCount = 0;
 
@@ -81,7 +81,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     horizontalScroll: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private stackSubscription: StackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;

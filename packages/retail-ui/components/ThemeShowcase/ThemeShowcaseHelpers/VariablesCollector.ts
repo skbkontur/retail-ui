@@ -1,4 +1,4 @@
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
 import { IS_PROXY_SUPPORTED } from '../../internal/Supports';
@@ -14,7 +14,7 @@ export interface ComponentDescriptionType {
 
 export interface ComponentRowDescriptionType {
   contents: JSX.Element;
-  variables: Array<keyof ITheme>;
+  variables: Array<keyof Theme>;
   dependencies: VariableDependencies;
 }
 
@@ -34,7 +34,7 @@ export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
 export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
 
 if (IS_PROXY_SUPPORTED) {
-  const baseThemes: ITheme[] = [];
+  const baseThemes: Theme[] = [];
   baseThemes.push(ThemeFactory.getDefaultTheme());
   baseThemes.push(ThemeFactory.create(FLAT_THEME));
 
@@ -104,7 +104,7 @@ if (IS_PROXY_SUPPORTED) {
   });
 }
 
-function getProxyHandler(accumulator: Set<string>, dependencies: VariableDependencies): ProxyHandler<ITheme> {
+function getProxyHandler(accumulator: Set<string>, dependencies: VariableDependencies): ProxyHandler<Theme> {
   let accessLevel = 0;
   let rootProp = '';
   return {

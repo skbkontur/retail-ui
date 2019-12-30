@@ -9,7 +9,7 @@ import styles from './Logotype.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Logotype.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { CloudIcon } from '../internal/icons/CloudIcon';
 import { ArrowChevronDownIcon } from '../internal/icons/16px';
 
@@ -84,7 +84,7 @@ export class Logotype extends React.Component<LogotypeProps> {
     href: '/',
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: LogotypeLocale;
   private logoWrapper: Nullable<HTMLElement> = null;
   private isWidgetInited = false;

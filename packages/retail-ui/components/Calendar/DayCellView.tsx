@@ -4,7 +4,7 @@ import { config } from './config';
 import styles from './DayCellView.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './DayCellView.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 
@@ -28,7 +28,7 @@ const cellStyle = {
 };
 
 export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

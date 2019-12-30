@@ -10,7 +10,7 @@ import { Nullable } from '../../typings/utility-types';
 import styles from './DateSelect.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './DateSelect.styles';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ArrowTriangleDownIcon, ArrowTriangleUpDownIcon, ArrowTriangleUpIcon } from '../internal/icons/16px';
 
@@ -78,7 +78,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     nodeTop: Infinity,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: DatePickerLocale;
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
@@ -88,7 +88,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private setPositionRepeatTimer = 0;
   private yearStep = 3;
 
-  public componentWillReceiveProps() {
+  public UNSAFE_componentWillReceiveProps() {
     this.setNodeTop();
   }
 
@@ -375,6 +375,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     } else if (event.deltaMode === 2) {
       deltaY *= itemHeight * 4;
     }
+    // eslint-disable-next-line react/no-direct-mutation-state
     const pos = (this.state.pos += deltaY);
     this.setPosition(pos);
   };

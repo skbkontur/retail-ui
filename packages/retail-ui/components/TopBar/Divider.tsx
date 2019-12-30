@@ -3,10 +3,10 @@ import { cx } from '../../lib/theming/Emotion';
 import styles from './TopBar.module.less';
 import { jsStyles } from './TopBar.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export class Divider extends React.Component<{}> {
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

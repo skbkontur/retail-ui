@@ -4,7 +4,7 @@ import { config } from './config';
 import styles from './MonthView.module.less';
 import { DateSelect } from '../DateSelect';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './MonthView.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
@@ -27,7 +27,7 @@ interface MonthViewProps {
 }
 
 export class MonthView extends React.Component<MonthViewProps> {
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

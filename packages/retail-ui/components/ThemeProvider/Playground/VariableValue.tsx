@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { cx, css } from '../../../lib/theming/Emotion';
-import { Input } from '../../Input/index';
+import { Input } from '../../Input';
 import styles from './styles.module.less';
 import { Gapped } from '../../Gapped';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 import { Link } from '../../Link';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
@@ -13,21 +13,21 @@ import { PlaygroundTheme } from './ThemeProviderPlayground';
 
 const emitter = new EventEmitter();
 
-export interface IVariableValueProps {
+export interface VariableValueProps {
   onChange: (variable: keyof PlaygroundTheme, value: string) => void;
   value: string;
   isError: boolean;
   variable: string;
   theme: PlaygroundTheme;
-  baseVariables: Array<keyof ITheme>;
+  baseVariables: Array<keyof Theme>;
 }
 
-export interface IVariableValueState {
+export interface VariableValueState {
   value: string;
   editing: boolean;
 }
 
-export class VariableValue extends React.Component<IVariableValueProps, IVariableValueState> {
+export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
   public state = {
     value: this.props.value,
     editing: false,
@@ -63,7 +63,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     }
   }
 
-  public componentDidUpdate(prevProps: IVariableValueProps) {
+  public componentDidUpdate(prevProps: VariableValueProps) {
     if (prevProps.value !== this.props.value) {
       this.setState({ value: this.props.value });
     }
@@ -186,7 +186,7 @@ export class VariableValue extends React.Component<IVariableValueProps, IVariabl
     });
   };
 
-  private emitterEventHandler = (name: keyof ITheme) => {
+  private emitterEventHandler = (name: keyof Theme) => {
     if (name === this.props.variable && this.inputInstance) {
       this.inputInstance.focus();
     }

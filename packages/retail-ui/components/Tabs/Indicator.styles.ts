@@ -1,32 +1,32 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  root(t: ITheme) {
+  root(t: Theme) {
     return css`
       background: ${t.tabColorFocus};
     `;
   },
 
-  primary(t: ITheme) {
+  primary(t: Theme) {
     return css`
       background: ${t.tabColorPrimary};
     `;
   },
 
-  success(t: ITheme) {
+  success(t: Theme) {
     return css`
       background: ${t.tabColorSuccess};
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       background: ${t.tabColorWarning};
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       background: ${t.tabColorError};
     `;

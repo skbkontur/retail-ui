@@ -1,22 +1,22 @@
 import { css } from '../../lib/theming/Emotion';
 import styles from './Modal.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
 export const jsStyles = {
-  bg(t: ITheme) {
+  bg(t: Theme) {
     return css`
       background: ${t.modalBackBg};
       opacity: ${t.modalBackOpacity};
     `;
   },
 
-  window(t: ITheme) {
+  window(t: Theme) {
     return css`
       background: ${t.bgDefault};
     `;
   },
-  centerContainer(t: ITheme) {
+  centerContainer(t: Theme) {
     return css`
       margin: 40px 20px;
 
@@ -27,7 +27,7 @@ export const jsStyles = {
     `;
   },
 
-  close(t: ITheme) {
+  close(t: Theme) {
     return css`
       ${resetButton()};
 
@@ -60,7 +60,7 @@ export const jsStyles = {
     `;
   },
 
-  footer(t: ITheme) {
+  footer(t: Theme) {
     return css`
       &.${styles.panel} {
         background: ${t.modalFooterBg};
@@ -68,7 +68,7 @@ export const jsStyles = {
     `;
   },
 
-  fixedHeader(t: ITheme) {
+  fixedHeader(t: Theme) {
     return css`
       background: ${t.modalFixedHeaderBg};
 
@@ -78,7 +78,7 @@ export const jsStyles = {
     `;
   },
 
-  fixedFooter(t: ITheme) {
+  fixedFooter(t: Theme) {
     return css`
       background: ${t.modalFixedHeaderBg};
 

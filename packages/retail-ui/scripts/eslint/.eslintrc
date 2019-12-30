@@ -57,6 +57,7 @@ rules:
   "@typescript-eslint/no-var-requires": 0
   "react/prop-types": 0
   "import/no-unresolved": 0
+  "import/no-duplicates": 2
   "import/no-default-export": 2
 
   #TODO should be enforced before v2.0.0 release

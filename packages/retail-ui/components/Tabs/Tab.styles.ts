@@ -1,10 +1,10 @@
 import { css } from '../../lib/theming/Emotion';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import styles from './Tab.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  root(t: ITheme) {
+  root(t: Theme) {
     return css`
       color: inherit;
       border-bottom: 3px solid transparent;
@@ -15,7 +15,7 @@ export const jsStyles = {
     `;
   },
 
-  vertical(t: ITheme) {
+  vertical(t: Theme) {
     return css`
       border-bottom: none;
       border-left: 3px solid transparent;
@@ -26,13 +26,13 @@ export const jsStyles = {
     `;
   },
 
-  focus(t: ITheme) {
+  focus(t: Theme) {
     return css`
       border: 2px solid ${t.tabColorFocus};
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       color: rgba(
         ${ColorFunctions.red(t.textColorDefault)},
@@ -43,7 +43,7 @@ export const jsStyles = {
     `;
   },
 
-  primary(t: ITheme) {
+  primary(t: Theme) {
     return css`
       &:hover {
         border-bottom-color: ${t.tabColorHoverPrimary};
@@ -54,7 +54,7 @@ export const jsStyles = {
     `;
   },
 
-  success(t: ITheme) {
+  success(t: Theme) {
     return css`
       &:hover {
         border-bottom-color: ${t.tabColorHoverSuccess};
@@ -65,7 +65,7 @@ export const jsStyles = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       &:hover {
         border-bottom-color: ${t.tabColorHoverWarning};
@@ -76,7 +76,7 @@ export const jsStyles = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       &:hover {
         border-bottom-color: ${t.tabColorHoverError};

@@ -6,10 +6,10 @@ import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { Radio } from '../../Radio';
 
-interface IShowcaseGroupProps {
+interface ShowcaseGroupProps {
   title?: string;
 }
-export const ShowcaseGroup = (props: IShowcaseGroupProps) => (
+export const ShowcaseGroup = (props: ShowcaseGroupProps) => (
   <div>
     {props.title && <h2>{props.title}</h2>}
     <Gapped gap={10}>

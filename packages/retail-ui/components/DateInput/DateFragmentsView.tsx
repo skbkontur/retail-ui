@@ -6,7 +6,7 @@ import styles from './DateFragmentsView.module.less';
 import { removeAllSelections } from './helpers/SelectionHelpers';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './DateFragmentsView.styles';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 
 interface DateFragmentViewProps {
@@ -18,7 +18,7 @@ interface DateFragmentViewProps {
 }
 
 export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}> {
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

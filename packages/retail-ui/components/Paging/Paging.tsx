@@ -13,7 +13,7 @@ import styles from './Paging.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Paging.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import warning from 'warning';
 import { ArrowChevronRightIcon } from '../internal/icons/16px';
 
@@ -87,7 +87,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     keyboardControl: this.props.useGlobalListener,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: PagingLocale;
   private addedGlobalListener = false;
   private container: HTMLSpanElement | null = null;
@@ -103,7 +103,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     );
   }
 
-  public componentWillReceiveProps(nextProps: PagingProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: PagingProps) {
     if (this.props.useGlobalListener !== nextProps.useGlobalListener) {
       this.setState({
         keyboardControl: nextProps.useGlobalListener,

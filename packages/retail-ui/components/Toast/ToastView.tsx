@@ -5,7 +5,7 @@ import styles from './ToastView.module.less';
 import { jsStyles } from './ToastView.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface ToastViewProps {
   /**
@@ -25,7 +25,7 @@ export interface ToastViewProps {
 }
 
 export class ToastView extends React.Component<ToastViewProps> {
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

@@ -5,7 +5,7 @@ import { cx } from '../../lib/theming/Emotion';
 import styles from './Toggle.module.less';
 import { jsStyles } from './Toggle.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface ToggleProps {
   checked?: boolean;
@@ -43,7 +43,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private input: HTMLInputElement | null = null;
 
   constructor(props: ToggleProps) {

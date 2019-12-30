@@ -3,13 +3,13 @@ import styles from './MenuSeparator.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './MenuSeparator.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 /**
  * Разделитель в меню.
  */
 export class MenuSeparator extends React.Component<{}> {
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

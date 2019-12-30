@@ -42,7 +42,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
 
   private input: Nullable<Input>;
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
     }

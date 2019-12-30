@@ -11,7 +11,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Textarea.styles';
 import styles from './Textarea.module.less';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 const DEFAULT_WIDTH = 250;
 
@@ -136,7 +136,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 1,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;

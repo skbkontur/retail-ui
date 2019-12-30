@@ -8,7 +8,7 @@ import { cx } from '../../../lib/theming/Emotion';
 import inputStyles from '../../Input/Input.module.less';
 import { jsClasses as jsInputStyles } from '../../Input/Input.styles';
 import { ThemeConsumer } from '../../ThemeConsumer';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 
 export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;
@@ -29,7 +29,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     focused: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private node: HTMLElement | null = null;
   private blinkTimeout: Nullable<number>;
 

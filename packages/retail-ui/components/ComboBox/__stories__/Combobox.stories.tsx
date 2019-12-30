@@ -135,7 +135,7 @@ storiesOf('ComboBox', module)
           <button onClick={() => combobox && combobox.open()}>open</button>{' '}
           <button onClick={() => combobox && combobox.search('')}>empty search</button>{' '}
           <button onClick={() => combobox && combobox.search()}>search current value</button>{' '}
-          <button onClick={() => combobox && combobox.search('two')}>search "two"</button>{' '}
+          <button onClick={() => combobox && combobox.search('two')}>search &quot;two&quot;</button>{' '}
           <button onClick={() => combobox && combobox.close()}>close</button>
         </span>
       </div>

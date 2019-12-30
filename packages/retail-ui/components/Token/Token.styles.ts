@@ -1,10 +1,10 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import styles from './Token.module.less';
 
 export const jsStyles = {
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       color: ${t.textColorDisabled};
     `;
@@ -12,21 +12,21 @@ export const jsStyles = {
 };
 
 interface TokenColors {
-  defaultIdle: (t: ITheme) => string;
-  defaultActive: (t: ITheme) => string;
-  defaultDisabled: (t: ITheme) => string;
-  grayIdle: (t: ITheme) => string;
-  grayActive: (t: ITheme) => string;
-  blueIdle: (t: ITheme) => string;
-  blueActive: (t: ITheme) => string;
-  greenIdle: (t: ITheme) => string;
-  greenActive: (t: ITheme) => string;
-  yellowIdle: (t: ITheme) => string;
-  yellowActive: (t: ITheme) => string;
-  redIdle: (t: ITheme) => string;
-  redActive: (t: ITheme) => string;
-  white: (t: ITheme) => string;
-  black: (t: ITheme) => string;
+  defaultIdle: (t: Theme) => string;
+  defaultActive: (t: Theme) => string;
+  defaultDisabled: (t: Theme) => string;
+  grayIdle: (t: Theme) => string;
+  grayActive: (t: Theme) => string;
+  blueIdle: (t: Theme) => string;
+  blueActive: (t: Theme) => string;
+  greenIdle: (t: Theme) => string;
+  greenActive: (t: Theme) => string;
+  yellowIdle: (t: Theme) => string;
+  yellowActive: (t: Theme) => string;
+  redIdle: (t: Theme) => string;
+  redActive: (t: Theme) => string;
+  white: (t: Theme) => string;
+  black: (t: Theme) => string;
 }
 
 export const jsTokenColors = [
@@ -47,7 +47,7 @@ export const jsTokenColors = [
 ].reduce(
   (colors: TokenColors, { name, color }) => ({
     ...colors,
-    [name](t: ITheme) {
+    [name](t: Theme) {
       return css`
         background-color: ${t[color]};
         color: ${ColorFunctions.contrast(t[color])};
@@ -68,7 +68,7 @@ export const jsTokenColors = [
     },
   }),
   {
-    defaultDisabled(t: ITheme) {
+    defaultDisabled(t: Theme) {
       return css`
         background-color: ${t.tokenDisabledBg};
         color: ${ColorFunctions.contrast(t.tokenDisabledBg)};

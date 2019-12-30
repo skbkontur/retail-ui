@@ -10,7 +10,7 @@ import { isGreater, isLess } from '../Calendar/CalendarDateShape';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 import { jsStyles } from './Picker.styles';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 
 interface Props {
@@ -39,7 +39,7 @@ const getTodayCalendarDate = () => {
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class Picker extends React.Component<Props, State> {
-  private theme!: ITheme;
+  private theme!: Theme;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 

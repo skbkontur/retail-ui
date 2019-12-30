@@ -1,15 +1,15 @@
 import { css } from '../../lib/theming/Emotion';
 import styles from './Toggle.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  handle(t: ITheme) {
+  handle(t: Theme) {
     return css`
       background: ${t.toggleBg};
     `;
   },
 
-  container(t: ITheme) {
+  container(t: Theme) {
     return css`
       box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
 
@@ -23,7 +23,7 @@ export const jsStyles = {
     `;
   },
 
-  focused(t: ITheme) {
+  focused(t: Theme) {
     return css`
       .${styles.container}&,
       .${styles.input}:checked ~ & {
@@ -32,7 +32,7 @@ export const jsStyles = {
     `;
   },
 
-  activeBackground(t: ITheme) {
+  activeBackground(t: Theme) {
     return css`
       .${styles.isLoading} & {
         background: ${t.toggleBgActive};
@@ -44,7 +44,7 @@ export const jsStyles = {
     `;
   },
 
-  isLoading(t: ITheme) {
+  isLoading(t: Theme) {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
         background: ${t.toggleBorderColor};
@@ -53,7 +53,7 @@ export const jsStyles = {
     `;
   },
 
-  isWarning(t: ITheme) {
+  isWarning(t: Theme) {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
         background: ${t.toggleBgWarning};
@@ -66,7 +66,7 @@ export const jsStyles = {
     `;
   },
 
-  isError(t: ITheme) {
+  isError(t: Theme) {
     return css`
       .${styles.input}:checked ~ .${styles.container}& {
         background: ${t.toggleBgError};
@@ -79,7 +79,7 @@ export const jsStyles = {
     `;
   },
 
-  wrapper(t: ITheme) {
+  wrapper(t: Theme) {
     return css`
       &:hover:not(.${styles.isDisabled}) {
         .${styles.handle} {

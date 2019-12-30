@@ -6,7 +6,7 @@ import { cx } from '../../lib/theming/Emotion';
 import classes from './Button.module.less';
 import { jsClasses } from './Button.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -120,7 +120,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     focusedByTab: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private _node: HTMLButtonElement | null = null;
 
   public componentDidMount() {

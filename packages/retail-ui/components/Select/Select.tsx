@@ -29,7 +29,7 @@ import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Select.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -211,7 +211,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     value: this.props.defaultValue,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;

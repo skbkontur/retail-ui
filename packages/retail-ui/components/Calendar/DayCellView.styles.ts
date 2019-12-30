@@ -1,9 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
 export const jsStyles = {
-  cell(t: ITheme) {
+  cell(t: Theme) {
     return css`
       ${resetButton()};
 
@@ -21,20 +21,20 @@ export const jsStyles = {
     `;
   },
 
-  selected(t: ITheme) {
+  selected(t: Theme) {
     return css`
       background-color: ${t.calendarCellSelectedBgColor};
       color: ${t.calendarCellSelectedFontColor};
     `;
   },
 
-  weekend(t: ITheme) {
+  weekend(t: Theme) {
     return css`
       color: ${t.calendarCellWeekendColor};
     `;
   },
 
-  today(t: ITheme) {
+  today(t: Theme) {
     return css`
       border: ${t.calendarCellTodayBorder};
     `;

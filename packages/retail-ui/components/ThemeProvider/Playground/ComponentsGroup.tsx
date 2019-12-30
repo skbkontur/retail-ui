@@ -2,16 +2,16 @@ import React from 'react';
 import { css, cx } from '../../../lib/theming/Emotion';
 import styles from './styles.module.less';
 import { Gapped } from '../../Gapped';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 
-interface IComponentsGroupProps {
+interface ComponentsGroupProps {
   title: string;
   components: Array<React.ReactElement<any>>;
   style?: React.CSSProperties;
-  theme: ITheme;
+  theme: Theme;
 }
 
-export const ComponentsGroup = (props: IComponentsGroupProps): React.ReactElement<IComponentsGroupProps> => {
+export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement<ComponentsGroupProps> => {
   const { title, components, style, theme } = props;
   return (
     <Gapped verticalAlign={'top'} gap={40}>

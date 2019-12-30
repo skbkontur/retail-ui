@@ -11,7 +11,7 @@ import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { jsStyles } from './Tooltip.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -173,12 +173,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
-  private theme!: ITheme;
+  private theme!: Theme;
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
 
-  public componentWillReceiveProps(nextProps: TooltipProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
       this.close();
     }

@@ -128,7 +128,7 @@ storiesOf('Input', module)
       <table style={{ borderSpacing: 10 }}>
         <tr>
           <td />
-          <td>width: "auto"</td>
+          <td>width: &quot;auto&quot;</td>
           <td>width: 100px</td>
           <td>width: 350px</td>
         </tr>

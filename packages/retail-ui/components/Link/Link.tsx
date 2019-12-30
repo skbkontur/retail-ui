@@ -6,7 +6,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import styles from './Link.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Link.styles';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 
 interface UseClasses {
@@ -16,7 +16,7 @@ interface UseClasses {
   grayed: string;
 }
 
-function getUseClasses(t: ITheme): UseClasses {
+function getUseClasses(t: Theme): UseClasses {
   return {
     default: cx(styles.useDefault, jsStyles.useDefault(t)),
     success: cx(styles.useSuccess),
@@ -74,7 +74,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     focusedByTab: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private getProps = createPropsGetter(Link.defaultProps);
 
   public render(): JSX.Element {

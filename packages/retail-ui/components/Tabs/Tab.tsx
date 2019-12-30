@@ -10,7 +10,7 @@ import { TabsContextType, TabsContext } from './TabsContext';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Tab.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface TabIndicators {
   error: boolean;
@@ -133,11 +133,11 @@ export class Tab extends React.Component<TabProps, TabState> {
     focusedByKeyboard: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab>> = null;
   private isArrowKeyPressed = false;
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     invariant(
       this.props.context && typeof this.props.context.addTab === 'function',
       'Tab should be placed inside Tabs component',

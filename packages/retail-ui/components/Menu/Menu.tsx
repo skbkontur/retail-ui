@@ -9,7 +9,7 @@ import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Menu.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 interface MenuProps {
   children: React.ReactNode;
@@ -36,7 +36,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     highlightedIndex: -1,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;

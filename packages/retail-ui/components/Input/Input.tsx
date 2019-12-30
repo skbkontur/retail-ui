@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import classes from './Input.module.less';
 import { jsClasses } from './Input.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import raf from 'raf';
 
 export type InputSize = 'small' | 'medium' | 'large';
@@ -123,7 +123,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private selectAllId: number | null = null;
-  private theme!: ITheme;
+  private theme!: Theme;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
 
@@ -140,7 +140,7 @@ export class Input extends React.Component<InputProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  public componentWillReceiveProps(nextProps: InputProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: InputProps) {
     if (polyfillPlaceholder && !nextProps.value) {
       this.setState({ polyfillPlaceholder: true });
     }

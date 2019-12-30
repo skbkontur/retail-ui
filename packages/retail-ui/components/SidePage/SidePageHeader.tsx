@@ -7,7 +7,7 @@ import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
@@ -28,7 +28,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     isReadyToFix: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private wrapper: HTMLElement | null = null;
   private lastRegularHeight = 0;
 

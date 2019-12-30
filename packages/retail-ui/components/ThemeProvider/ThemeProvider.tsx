@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ThemeProvider as ThemeProviderInternal } from '../../lib/theming/ThemeContext';
-import { ITheme, IThemeIn } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDevelopmentEnv } from '../internal/currentEnvironment';
 import isEqual from 'lodash.isequal';
@@ -8,18 +8,18 @@ import warning from 'warning';
 
 interface ThemeProviderProps {
   children: React.ReactNode;
-  value: IThemeIn | ITheme;
+  value: ThemeIn | Theme;
 }
 
 export class ThemeProvider extends React.Component<ThemeProviderProps> {
-  private theme: ITheme;
+  private theme: Theme;
 
   constructor(props: ThemeProviderProps) {
     super(props);
     this.theme = this.makeFullTheme(props.value);
   }
 
-  public componentWillReceiveProps(nextProps: Readonly<ThemeProviderProps>): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<ThemeProviderProps>): void {
     if (nextProps.value !== this.props.value) {
       if (isDevelopmentEnv) {
         const hasSameShape = isEqual(nextProps.value, this.props.value);
@@ -41,7 +41,7 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
     return <ThemeProviderInternal value={this.theme}>{this.props.children}</ThemeProviderInternal>;
   }
 
-  private makeFullTheme(theme: IThemeIn | ITheme): ITheme {
+  private makeFullTheme(theme: ThemeIn | Theme): Theme {
     return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create(theme);
   }
 }

@@ -1,9 +1,9 @@
 import { css, prefixer } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 export const jsStyles = {
-  root(t: ITheme) {
+  root(t: Theme) {
     return css`
       display: inline-flex;
       align-items: baseline;
@@ -38,7 +38,7 @@ export const jsStyles = {
     `;
   },
 
-  box(t: ITheme) {
+  box(t: Theme) {
     return css`
       display: inline-flex;
       align-items: center;
@@ -63,7 +63,7 @@ export const jsStyles = {
     `;
   },
 
-  input(t: ITheme) {
+  input(t: Theme) {
     return css`
       display: inline-block;
       opacity: 0;
@@ -74,7 +74,7 @@ export const jsStyles = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning} !important;
@@ -82,7 +82,7 @@ export const jsStyles = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError} !important;
@@ -90,7 +90,7 @@ export const jsStyles = {
     `;
   },
 
-  checked(t: ITheme) {
+  checked(t: Theme) {
     return css`
       & .${classes.box} {
         background: ${t.chbCheckedBg};
@@ -110,7 +110,7 @@ export const jsStyles = {
     `;
   },
 
-  indeterminate(t: ITheme) {
+  indeterminate(t: Theme) {
     return css`
       & .${classes.box} {
         background: ${t.chbBoxIndeterminateBg};
@@ -128,7 +128,7 @@ export const jsStyles = {
     `;
   },
 
-  focus(t: ITheme): string {
+  focus(t: Theme): string {
     return css`
       & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus} !important;
@@ -136,7 +136,7 @@ export const jsStyles = {
     `;
   },
 
-  disabled(t: ITheme): string {
+  disabled(t: Theme): string {
     return css`
       cursor: default;
     `;
@@ -154,7 +154,7 @@ export const jsStyles = {
     `;
   },
 
-  caption(t: ITheme) {
+  caption(t: Theme) {
     return css`
       padding-left: 10px;
     `;

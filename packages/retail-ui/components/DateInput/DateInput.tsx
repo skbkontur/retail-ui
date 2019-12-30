@@ -17,7 +17,7 @@ import { inputNumber } from './helpers/inputNumber';
 import { removeAllSelections, selectNodeContents } from './helpers/SelectionHelpers';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './DateInput.styles';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import debounce from 'lodash.debounce';
 import { CalendarIcon } from '../internal/icons/16px';
@@ -80,7 +80,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     width: 125,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private locale!: DatePickerLocale;
   private inputLikeText: InputLikeText | null = null;
   private divInnerNode: HTMLDivElement | null = null;

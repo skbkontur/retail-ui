@@ -15,7 +15,7 @@ import { Logout } from './TopBarLogout';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './TopBar.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface TopBarProps {
   children?: React.ReactNode;
@@ -132,7 +132,7 @@ export class TopBar extends React.Component<TopBarProps> {
     onLogout: PropTypes.func,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render(): JSX.Element {
     return (

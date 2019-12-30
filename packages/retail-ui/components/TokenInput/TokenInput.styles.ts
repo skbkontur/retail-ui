@@ -1,9 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
 import styles from './TokenInput.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  label(t: ITheme) {
+  label(t: Theme) {
     return css`
       .${styles.root} & {
         background-color: ${t.inputBg};
@@ -14,7 +14,7 @@ export const jsStyles = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       .${styles.root} & {
         border: 1px solid ${t.borderColorWarning};
@@ -23,7 +23,7 @@ export const jsStyles = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       .${styles.root} & {
         border: 1px solid ${t.borderColorError};
@@ -32,7 +32,7 @@ export const jsStyles = {
     `;
   },
 
-  labelFocused(t: ITheme) {
+  labelFocused(t: Theme) {
     return css`
       .${styles.root} & {
         border: 1px solid ${t.borderColorFocus};
@@ -41,7 +41,7 @@ export const jsStyles = {
     `;
   },
 
-  labelDisabled(t: ITheme) {
+  labelDisabled(t: Theme) {
     return css`
       .${styles.root} & {
         background: ${t.inputDisabledBg};
@@ -51,7 +51,7 @@ export const jsStyles = {
     `;
   },
 
-  input(t: ITheme) {
+  input(t: Theme) {
     return css`
       .${styles.root} &::placeholder {
         color: ${t.placeholderColor};
@@ -64,7 +64,7 @@ export const jsStyles = {
     `;
   },
 
-  inputDisabled(t: ITheme) {
+  inputDisabled(t: Theme) {
     return css`
       .${styles.root} & {
         color: ${t.textColorDisabled};

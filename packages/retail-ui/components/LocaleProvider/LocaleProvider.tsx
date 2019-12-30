@@ -1,6 +1,5 @@
 import createReactContext from 'create-react-context';
-import { ReactNode } from 'react';
-import * as React from 'react';
+import React, { ReactNode } from 'react';
 import { defaultLangCode } from './constants';
 import { LangCodes, LocaleControls } from './types';
 

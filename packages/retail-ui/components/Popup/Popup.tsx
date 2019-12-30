@@ -19,7 +19,7 @@ import { LifeCycleProxy } from '../internal/LifeCycleProxy';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Popup.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -177,7 +177,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
-  private theme!: ITheme;
+  private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
@@ -189,7 +189,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
-  public componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
+  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
     /**
      * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
      * used. It causes refs callbacks to call after componentDidUpdate.

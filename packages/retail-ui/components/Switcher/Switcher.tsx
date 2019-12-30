@@ -8,7 +8,7 @@ import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Switcher.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export type SwitcherSize = ButtonSize;
 
@@ -60,7 +60,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     focusedIndex: null,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

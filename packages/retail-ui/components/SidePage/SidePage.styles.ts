@@ -1,15 +1,15 @@
 import { css } from '../../lib/theming/Emotion';
 import styles from './SidePage.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  container(t: ITheme) {
+  container(t: Theme) {
     return css`
       background: ${t.bgDefault};
     `;
   },
 
-  shadow(t: ITheme) {
+  shadow(t: Theme) {
     return css`
       .${styles.container}& {
         box-shadow: ${t.sidePageContainerShadow};
@@ -17,7 +17,7 @@ export const jsStyles = {
     `;
   },
 
-  close(t: ITheme) {
+  close(t: Theme) {
     return css`
       color: ${t.sidePageCloseButtonColor};
 
@@ -27,7 +27,7 @@ export const jsStyles = {
     `;
   },
 
-  panel(t: ITheme) {
+  panel(t: Theme) {
     return css`
       .${styles.footerContent}& {
         background: ${t.sidePageFooterPanelBg};
@@ -38,7 +38,7 @@ export const jsStyles = {
     `;
   },
 
-  fixed(t: ITheme) {
+  fixed(t: Theme) {
     return css`
       .${styles.header}& {
         background: ${t.bgDefault};

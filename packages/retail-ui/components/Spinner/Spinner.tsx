@@ -6,7 +6,7 @@ import styles from './Spinner.module.less';
 import { SpinnerFallback, types } from './SpinnerFallback';
 import { jsStyles } from './Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
 import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
@@ -54,7 +54,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   };
 
   public static Types: typeof types = types;
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   public render() {

@@ -10,7 +10,7 @@ import { TabsContext, TabsContextType } from './TabsContext';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Indicator.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export interface IndicatorProps {
   className?: string;
@@ -30,7 +30,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     styles: {},
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   private eventListener: Nullable<{
     remove: () => void;

@@ -6,7 +6,7 @@ import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
 
 export interface HeaderProps {
@@ -21,7 +21,7 @@ export class Header extends React.Component<HeaderProps> {
     sticky: true,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render(): JSX.Element {
     return (

@@ -11,7 +11,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { cx } from '../../../lib/theming/Emotion';
 import { jsStyles } from './InternalMenu.styles';
 import { ThemeConsumer } from '../../ThemeConsumer';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 
 interface MenuProps {
   children?: React.ReactNode;
@@ -52,7 +52,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     scrollState: 'top',
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private rootElement: Nullable<HTMLDivElement>;
@@ -71,7 +71,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     }
   }
 
-  public componentWillReceiveProps(nextProps: MenuProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: MenuProps) {
     if (nextProps.maxHeight !== this.props.maxHeight) {
       this.setState({
         maxHeight: nextProps.maxHeight || 'none',
@@ -225,7 +225,6 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private calculateMaxHeight = () => {
     const { maxHeight } = this.props;
     let parsedMaxHeight = maxHeight;
-    let calculatedMaxHeight;
 
     if (typeof maxHeight === 'string' && typeof window !== 'undefined' && this.rootElement) {
       const rootElementMaxHeight = window.getComputedStyle(this.rootElement).maxHeight;
@@ -235,7 +234,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
       }
     }
 
-    calculatedMaxHeight =
+    const calculatedMaxHeight =
       typeof parsedMaxHeight === 'number'
         ? parsedMaxHeight +
           ((this.header && this.header.getBoundingClientRect().height) || 0) +

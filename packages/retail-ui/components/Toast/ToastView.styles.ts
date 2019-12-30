@@ -1,21 +1,21 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  root(t: ITheme) {
+  root(t: Theme) {
     return css`
       background: ${t.toastBg};
       color: ${t.toastColor};
     `;
   },
 
-  link(t: ITheme) {
+  link(t: Theme) {
     return css`
       color: ${t.toastLinkColor};
     `;
   },
 
-  close(t: ITheme) {
+  close(t: Theme) {
     return css`
       color: ${t.toastCloseColor};
 

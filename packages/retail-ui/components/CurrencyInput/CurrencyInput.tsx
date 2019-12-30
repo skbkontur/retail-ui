@@ -97,7 +97,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     );
   }
 
-  public componentWillReceiveProps(nextProps: CurrencyInputProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: CurrencyInputProps) {
     const { value, fractionDigits } = nextProps;
     if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
       const state = this.getState(value, fractionDigits);

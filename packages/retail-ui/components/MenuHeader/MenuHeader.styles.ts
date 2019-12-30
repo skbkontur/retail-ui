@@ -1,9 +1,9 @@
 import { css } from '../../lib/theming/Emotion';
 import styles from './MenuHeader.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
 export const jsStyles = {
-  withLeftPadding(t: ITheme) {
+  withLeftPadding(t: Theme) {
     return css`
       .${styles.root}& {
         padding-left: ${t.menuItemPaddingForIcon};

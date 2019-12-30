@@ -10,7 +10,7 @@ import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import styles from './Calendar.module.less';
 import { Nullable } from '../../typings/utility-types';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './Calendar.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
@@ -61,7 +61,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     },
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
   private animation = Animation();

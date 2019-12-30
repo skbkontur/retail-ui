@@ -56,7 +56,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     this.layoutSub = LayoutEvents.addListener(this.position);
   }
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     const { body, documentElement: docEl } = document;
     const htmlPosition = getComputedStyle(docEl).position;
     const bodyPosition = getComputedStyle(body).position;

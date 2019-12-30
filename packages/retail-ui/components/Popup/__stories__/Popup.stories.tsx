@@ -395,12 +395,12 @@ const COMBOBOX_ITEMS = [
 const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
-interface IDropdownValue {
+interface DropdownValue {
   value: number;
   label: string;
 }
 interface HasDropdownState {
-  selected?: IDropdownValue;
+  selected?: DropdownValue;
 }
 
 interface HoverTestProps {
@@ -437,7 +437,7 @@ class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
       </Tooltip>
     );
   }
-  private handleOnChange = (event: any, value: IDropdownValue) => {
+  private handleOnChange = (event: any, value: DropdownValue) => {
     this.setState({ selected: value });
   };
 }
@@ -453,7 +453,7 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
         {this.props.useText ? (
           'Sample text'
         ) : (
-          <Select<IDropdownValue>
+          <Select<DropdownValue>
             size={'large'}
             items={SELECT_ITEMS}
             value={this.state.selected}
@@ -464,7 +464,7 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
       </Hint>
     );
   }
-  private handleOnChange = (event: any, value: IDropdownValue) => {
+  private handleOnChange = (event: any, value: DropdownValue) => {
     this.setState({ selected: value });
   };
 }

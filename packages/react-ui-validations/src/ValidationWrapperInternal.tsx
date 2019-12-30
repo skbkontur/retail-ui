@@ -60,7 +60,7 @@ export default class ValidationWrapperInternal extends React.Component<
   public isChanging: boolean = false;
   private child: any; // todo type
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this.applyValidation(this.props.validation);
   }
 
@@ -81,7 +81,7 @@ export default class ValidationWrapperInternal extends React.Component<
     }
   }
 
-  public componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
     this.applyValidation(nextProps.validation);
   }
 

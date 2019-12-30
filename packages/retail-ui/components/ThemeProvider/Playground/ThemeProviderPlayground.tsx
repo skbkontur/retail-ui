@@ -1,6 +1,6 @@
 import { ThemeType } from './constants';
-import { ITheme, IThemeIn } from '../../../lib/theming/Theme';
-import * as React from 'react';
+import { Theme, ThemeIn } from '../../../lib/theming/Theme';
+import React, { ReactNode } from 'react';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { darkTheme as darkThemeVariables } from './darkTheme';
 import { FLAT_THEME as flatThemeVariables } from '../../../lib/theming/themes/FlatTheme';
@@ -15,45 +15,47 @@ import styles from './styles.module.less';
 import { ThemeEditor } from './ThemeEditor';
 import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
 
-interface IState {
+interface PlaygroundState {
   editorOpened: boolean;
-  editingThemeItem?: IEditingThemeItem;
-  themes: IThemes;
-  themesErrors: IThemesErrors;
+  editingThemeItem?: EditingThemeItem;
+  themes: Themes;
+  themesErrors: ThemesErrors;
   currentTheme: PlaygroundTheme;
   currentThemeType: ThemeType;
 }
-interface IThemes {
-  default: ITheme;
-  dark: ITheme;
-  flat: ITheme;
+interface Themes {
+  default: Theme;
+  dark: Theme;
+  flat: Theme;
 }
-interface IThemesErrors {
+interface ThemesErrors {
   default: ThemeErrorsType;
   dark: ThemeErrorsType;
   flat: ThemeErrorsType;
 }
-interface IEditingThemeItem {
+interface EditingThemeItem {
   value: ThemeType;
   label: string;
 }
-interface IProps {}
+interface PlaygroundProps {
+  children?: ReactNode;
+}
 
-interface IThemeExtension {
+interface ThemeExtension {
   backgroundMain: string;
   textColorMain: string;
 }
-export type PlaygroundTheme = ITheme & IThemeExtension;
+export type PlaygroundTheme = Theme & ThemeExtension;
 export type ThemeErrorsType = { [key in keyof PlaygroundTheme]?: boolean };
 
-export class ThemeProviderPlayground extends React.Component<IProps, IState> {
+export class ThemeProviderPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
     { value: ThemeType.Flat, label: 'Плоская' },
     { value: ThemeType.Dark, label: 'Темная' },
   ];
 
-  constructor(props: IProps) {
+  constructor(props: PlaygroundProps) {
     super(props);
     this.state = {
       currentTheme: ThemeFactory.getDefaultTheme() as PlaygroundTheme,
@@ -125,7 +127,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   private handelGetTheme = () => {
     const currentTheme = this.state.currentTheme;
     const defaultTheme = ThemeFactory.getDefaultTheme();
-    const themeObject: IThemeIn = {};
+    const themeObject: ThemeIn = {};
     ThemeFactory.getKeys(currentTheme).forEach(key => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
       if (descriptor && !descriptor.get && defaultTheme[key] && currentTheme[key] !== defaultTheme[key]) {
@@ -170,7 +172,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
       themesErrors[editingThemeType][variable] = !canSetVariable;
     }
 
-    const nextThemeErrors: IThemesErrors = { ...themesErrors };
+    const nextThemeErrors: ThemesErrors = { ...themesErrors };
     nextThemeErrors[editingThemeType][variable] = !canSetVariable;
     const stateUpdate = { themes, currentTheme, themesErrors: nextThemeErrors };
 
@@ -189,11 +191,11 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
     return Promise.resolve(this.editableThemesItems.filter(i => i.label.toLowerCase().includes(query.toLowerCase())));
   };
 
-  private handleEditingThemeSwitch = (_: any, item: IEditingThemeItem) => {
+  private handleEditingThemeSwitch = (_: any, item: EditingThemeItem) => {
     this.setState({ editingThemeItem: item });
   };
 
-  private changeThemeVariable = (theme: ITheme, variableName: keyof ITheme, variableValue: string): ITheme => {
+  private changeThemeVariable = (theme: Theme, variableName: keyof Theme, variableValue: string): Theme => {
     const result = {} as PlaygroundTheme;
     ThemeFactory.getKeys(theme).forEach(key => {
       const descriptor = findPropertyDescriptor(theme, key);
@@ -211,7 +213,7 @@ export class ThemeProviderPlayground extends React.Component<IProps, IState> {
   };
 }
 
-function findPropertyDescriptor(theme: ITheme, propName: keyof ITheme) {
+function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
     if (theme.hasOwnProperty(propName)) {
       return Object.getOwnPropertyDescriptor(theme, propName) || {};

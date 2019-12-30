@@ -26,7 +26,7 @@ storiesOf('Hint', module)
   ))
   .add('left', () => (
     <Hint pos="left" text="Something will never be changed" manual opened>
-      <span className="hint-content">Je t'aime</span>
+      <span className="hint-content">Je t&apos;aime</span>
     </Hint>
   ))
   .add('right', () => (
