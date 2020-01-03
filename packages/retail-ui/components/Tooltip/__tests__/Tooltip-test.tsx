@@ -73,6 +73,16 @@ describe('Tooltip', () => {
     expect(onClose.mock.calls.length).toBe(1);
   });
 
+  it('calls `onOpen` with `trigger="opened"`', () => {
+    const onOpen = jest.fn();
+    mount<TooltipProps>(
+      <Tooltip trigger="opened" render={render} onOpen={onOpen}>
+        <div />
+      </Tooltip>,
+    );
+    expect(onOpen.mock.calls.length).toBe(1);
+  });
+
   it('renders stateless children component without errors', () => {
     function PureComponent() {
       return <div>i'm pure component!</div>;
