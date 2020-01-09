@@ -80,7 +80,7 @@ describe('Tooltip', () => {
         <div />
       </Tooltip>,
     );
-    expect(onOpen.mock.calls.length).toBe(1);
+    expect(onOpen).toBeCalledTimes(1);
   });
 
   it('renders stateless children component without errors', () => {
