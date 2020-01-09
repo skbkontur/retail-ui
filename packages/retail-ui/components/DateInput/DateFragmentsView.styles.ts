@@ -1,16 +1,32 @@
 import { css } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
-import styles from './DateFragmentsView.module.less';
 
 const jsStyles = {
   root(t: ITheme) {
     return css`
+      @font-face {
+        font-family: kontur-mask-char;
+        src: url('mask-char-font/font.eot'); /* For IE11 in IE8 mode. */
+        src: url('mask-char-font/font.eot?#iefix') format('embedded-opentype'),
+          url('mask-char-font/font.woff2') format('woff2'), url('mask-char-font/font.woff') format('woff');
+      }
+
+      font-family: kontur-mask-char, Segoe UI, Helevetica Neue, sans-serif;
+      cursor: text;
+
       & ::selection {
         background: ${t.dateInputComponentSelectedBgColor};
       }
       & ::-moz-selection {
         background: ${t.dateInputComponentSelectedBgColor};
       }
+    `;
+  },
+
+  selected(t: ITheme) {
+    return css`
+      border-color: ${t.dateInputComponentSelectedBgColor};
+      background-color: ${t.dateInputComponentSelectedBgColor};
     `;
   },
 
@@ -23,11 +39,12 @@ const jsStyles = {
   delimiter(t: ITheme) {
     return css`
       color: ${t.dateInputMaskColor};
+    `;
+  },
 
-      &.${styles.filled} {
-        color: inherit;
-        line-height: 1.34;
-      }
+  delimiterFilled(t: ITheme) {
+    return css`
+      color: inherit;
     `;
   },
 };

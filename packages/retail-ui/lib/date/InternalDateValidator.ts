@@ -1,3 +1,4 @@
+import { InternalDate } from './InternalDate';
 import InternalDateGetter from './InternalDateGetter';
 import {
   InternalDateComponentRaw,
@@ -21,9 +22,13 @@ export default class InternalDateValidator {
     return !(year === null || month === null || date === null);
   }
 
-  public static checkLimits({ year, month, date }: InternalDateComponentsNumber, type?: InternalDateComponentType): boolean {
+  public static checkLimits(
+    { year, month, date }: InternalDateComponentsNumber,
+    type?: InternalDateComponentType,
+  ): boolean {
     if (type !== undefined) {
-      const value = type === InternalDateComponentType.Year ? year : type === InternalDateComponentType.Month ? month : date;
+      const value =
+        type === InternalDateComponentType.Year ? year : type === InternalDateComponentType.Month ? month : date;
 
       return value >= InternalDateGetter.getDefaultMin(type) && value <= InternalDateGetter.getDefaultMax(type);
     }
@@ -81,5 +86,13 @@ export default class InternalDateValidator {
 
   public static testParseToNumber(value: InternalDateComponentRaw): boolean {
     return value !== null && (typeof value === 'number' || !Number.isNaN(parseInt(value, 10)));
+  }
+
+  public static isEqualDateValues(a: InternalDate, b: InternalDate): boolean {
+    return a.toInternalString() === b.toInternalString();
+  }
+
+  public static isEqualDateFormats(a: InternalDate, b: InternalDate): boolean {
+    return a.getOrder() === b.getOrder() && a.getSeparator() === b.getSeparator();
   }
 }

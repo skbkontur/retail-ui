@@ -8,7 +8,6 @@ import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } f
 import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../Calendar';
 import DateInput from '../DateInput';
-import { DateInput as PureDateInput } from '../DateInput/DateInput';
 import DropdownContainer from '../DropdownContainer/DropdownContainer';
 import filterProps from '../filterProps';
 import styles from './DatePicker.module.less';
@@ -150,7 +149,7 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
 
   public state: DatePickerState = { opened: false };
 
-  private input: PureDateInput | null = null;
+  private input: DateInput | null = null;
   private focused: boolean = false;
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
@@ -247,7 +246,7 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
     );
   }
 
-  private getInputRef = (ref: PureDateInput | null) => {
+  private getInputRef = (ref: DateInput | null) => {
     this.input = ref;
   };
 
