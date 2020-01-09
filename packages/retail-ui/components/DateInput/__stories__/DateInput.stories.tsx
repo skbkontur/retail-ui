@@ -6,7 +6,7 @@ import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/type
 import { Gapped } from '../../Gapped';
 import { LocaleProvider } from '../../LocaleProvider';
 import { Select } from '../../Select';
-import { DateInput } from '../DateInput';
+import { DateInput, DateInputProps } from '../DateInput';
 
 interface DateInputFormattingState {
   order: InternalDateOrder;
@@ -17,7 +17,7 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
   public state: DateInputFormattingState = {
     order: InternalDateOrder.YMD,
     separator: 'Dot',
-    value: '2012.12.30',
+    value: '21.12.2012',
   };
 
   public handleChangeOrder = (fakeEvent: any, order: any) => this.setState({ order });
@@ -179,9 +179,54 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
   }
 }
 
+interface DateInputSimpleProps extends DateInputProps {
+  defaultValue?: string;
+}
+
+class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
+  public state: { value: string } = {
+    value: this.props.defaultValue || '',
+  };
+
+  public handleChange = (fakeEvent: any, value: any) => {
+    this.setState({ value });
+    if (this.props.onChange) {
+      this.props.onChange(fakeEvent, value);
+    }
+  };
+
+  public render() {
+    return <DateInput {...this.props} onChange={this.handleChange} value={this.state.value} />;
+  }
+}
+
+class DateInputLastEvent extends React.Component {
+  public state: { lastEvent: string } = {
+    lastEvent: 'none',
+  };
+
+  public handleBlur = () => {
+    this.setState({ lastEvent: 'blur' });
+  };
+
+  public handleChange = () => {
+    this.setState({ lastEvent: 'change' });
+  };
+
+  public render() {
+    return (
+      <Gapped>
+        <DateInputSimple onChange={this.handleChange} onBlur={this.handleBlur} defaultValue="21.12.2012" />
+        <div>{this.state.lastEvent}</div>
+      </Gapped>
+    );
+  }
+}
+
 storiesOf('DateInput', module)
-  .add('simple', () => <DateInput value="01.02.2017" />)
+  .add('simple', () => <DateInputSimple defaultValue="01.02.2017" />)
   .add('formatting', () => <DateInputFormatting />)
   .add('different formatting', () => <DateInputDifferentFormatting />)
-  .add('disabled', () => <DateInput disabled value="01.02.2017" />)
-  .add('with width', () => <DateInput width="50px" value="01.02.2017" />);
+  .add('disabled', () => <DateInputSimple disabled defaultValue="01.02.2017" />)
+  .add('with width', () => <DateInputSimple width="50px" defaultValue="01.02.2017" />)
+  .add('blur always after change', () => <DateInputLastEvent />);

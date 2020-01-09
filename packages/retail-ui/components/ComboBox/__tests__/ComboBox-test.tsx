@@ -330,7 +330,7 @@ describe('ComboBox', () => {
     wrapper.setProps({ value: { label: '1' }, error: true });
     wrapper.update();
 
-    expect(wrapper.find('input').exists()).toBe(false);
+    expect(wrapper.find(InputLikeText).exists()).toBe(true);
   });
 
   it('clear value if onUnexpectedInput return null', async () => {

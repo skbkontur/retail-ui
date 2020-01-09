@@ -21,6 +21,7 @@ export enum InternalDateComponentType {
   Separator = 4,
 }
 
+export type InternalDateTypesOrder = [InternalDateComponentType, InternalDateComponentType, InternalDateComponentType];
 export type InternalDateComponent = number | null;
 export type InternalDateComponentRaw = number | string | null;
 

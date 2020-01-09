@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const jsStyles = {
   icon(t: Theme) {
     return css`
+      cursor: pointer;
       color: ${t.dateInputIconColor};
     `;
   },
@@ -28,6 +29,7 @@ export const jsStyles = {
 
   iconDisabled(t: Theme) {
     return css`
+      cursor: default;
       color: ${t.textColorDisabled};
     `;
   },
