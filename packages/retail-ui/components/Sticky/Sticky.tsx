@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Nullable } from '../../typings/utility-types';
-import styles from './Sticky.module.less';
-import { isFunction } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import warning from 'warning';
 import shallowEqual from 'shallowequal';
+
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { Nullable } from '../../typings/utility-types';
+import { isFunction } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../ZIndex';
+
+import styles from './Sticky.module.less';
 
 const MAX_REFLOW_RETRIES = 5;
 

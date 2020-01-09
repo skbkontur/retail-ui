@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import HomeOfficeIcon from '@skbkontur/react-icons/HomeOffice';
+
 import { Fias } from '../Fias';
 import { FiasForm } from '../Form/FiasForm';
 import { FiasModal } from '../FiasModal';

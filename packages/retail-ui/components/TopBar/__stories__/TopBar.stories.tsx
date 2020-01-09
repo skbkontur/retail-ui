@@ -1,6 +1,7 @@
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
+
 import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../Button';
 import { Logotype } from '../../Logotype';

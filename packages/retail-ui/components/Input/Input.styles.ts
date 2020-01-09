@@ -1,10 +1,11 @@
 import { css, keyframes } from '../../lib/theming/Emotion';
-import classes from './Input.module.less';
 import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-export const jsClasses = {
+import classes from './Input.module.less';
+
+export const jsStyles = {
   root(t: Theme) {
     return css`
       ${resetText()};

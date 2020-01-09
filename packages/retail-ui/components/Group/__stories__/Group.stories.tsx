@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import UserIcon from '@skbkontur/react-icons/User';
+import SearchIcon from '@skbkontur/react-icons/Search';
+import DeleteIcon from '@skbkontur/react-icons/Delete';
+
 import { BGRuler } from '../../../lib/BGRuler';
 import { Group } from '../Group';
 import { Input } from '../../Input';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
-import UserIcon from '@skbkontur/react-icons/User';
-import SearchIcon from '@skbkontur/react-icons/Search';
-import DeleteIcon from '@skbkontur/react-icons/Delete';
 
 storiesOf('Group', module)
   .add('Simple Group with Input and Button', () => (

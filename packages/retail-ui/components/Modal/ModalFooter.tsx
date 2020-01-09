@@ -1,13 +1,15 @@
 import * as React from 'react';
+
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
-import { ModalContext } from './ModalContext';
-import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './Modal.styles';
+import styles from './Modal.module.less';
+import { ModalContext } from './ModalContext';
 
 export interface FooterProps {
   /**

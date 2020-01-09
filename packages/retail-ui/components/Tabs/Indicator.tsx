@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
-import * as LayoutEvents from '../../lib/LayoutEvents';
 import throttle from 'lodash.throttle';
-import { TabIndicators } from './Tab';
-import styles from './Indicator.module.less';
+
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { withContext } from '../../lib/utils';
-import { TabsContext, TabsContextType } from './TabsContext';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Indicator.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './Indicator.styles';
+import { TabsContext, TabsContextType } from './TabsContext';
+import { TabIndicators } from './Tab';
+import styles from './Indicator.module.less';
 
 export interface IndicatorProps {
   className?: string;

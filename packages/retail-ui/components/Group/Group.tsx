@@ -1,11 +1,14 @@
+import '../ensureOldIEClassName';
+
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { Corners } from '../Button/Corners';
-import '../ensureOldIEClassName';
-import styles from './Group.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
 import { cx } from '../../lib/theming/Emotion';
+
+import styles from './Group.module.less';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];

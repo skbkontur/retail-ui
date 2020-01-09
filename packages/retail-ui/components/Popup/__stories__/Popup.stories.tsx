@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import { Tooltip } from '../../Tooltip';

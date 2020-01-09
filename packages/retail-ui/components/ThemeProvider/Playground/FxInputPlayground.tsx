@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { FxInput } from '../../FxInput';
 
 export class FxInputPlayground extends React.Component<{}, { value: string; auto: boolean }> {

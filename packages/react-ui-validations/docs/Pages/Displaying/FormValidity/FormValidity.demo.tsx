@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button } from 'retail-ui/components/Button';
 import { Input } from 'retail-ui/components/Input';
 import { Gapped } from 'retail-ui/components/Gapped';
+
 import {
   ValidationBehaviour,
   ValidationContainer,
@@ -64,7 +65,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
           </Form.Line>
 
           <Form.ActionsBar>
-            <Gapped wrap={true} verticalAlign="middle">
+            <Gapped wrap verticalAlign="middle">
               <Button use={'primary'} onClick={this.handleSubmit}>
                 Submit
               </Button>

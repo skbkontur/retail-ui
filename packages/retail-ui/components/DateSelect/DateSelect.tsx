@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { locale } from '../LocaleProvider/decorators';
@@ -7,12 +8,13 @@ import { RenderLayer } from '../RenderLayer';
 import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import styles from './DateSelect.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './DateSelect.styles';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ArrowTriangleDownIcon, ArrowTriangleUpDownIcon, ArrowTriangleUpIcon } from '../internal/icons/16px';
+
+import { jsStyles } from './DateSelect.styles';
+import styles from './DateSelect.module.less';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;

@@ -1,5 +1,4 @@
 import { config } from './config';
-
 import { MonthViewModel } from './MonthViewModel';
 import { CalendarProps, CalendarState } from './Calendar';
 

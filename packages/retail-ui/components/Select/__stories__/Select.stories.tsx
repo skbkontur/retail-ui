@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import AddIcon from '@skbkontur/react-icons/Add';
+import { action } from '@storybook/addon-actions';
+
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select } from '../Select';
-import AddIcon from '@skbkontur/react-icons/Add';
-import { action } from '@storybook/addon-actions';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {

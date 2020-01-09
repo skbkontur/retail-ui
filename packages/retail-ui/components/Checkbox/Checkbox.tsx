@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { Nullable, Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import { classes, jsStyles } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { OkIcon, SquareIcon } from '../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
+
+import { classes, jsStyles } from './Checkbox.styles';
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,

@@ -9,10 +9,11 @@ import { MenuItemState } from '../MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
+import { ArrowTriangleDownIcon } from '../internal/icons/16px';
+
 import styles from './CustomComboBox.module.less';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { ArrowTriangleDownIcon } from '../internal/icons/16px';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';

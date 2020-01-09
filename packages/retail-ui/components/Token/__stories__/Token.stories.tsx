@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Token, TokenColors } from '../Token';
 import { Gapped } from '../../Gapped';
 

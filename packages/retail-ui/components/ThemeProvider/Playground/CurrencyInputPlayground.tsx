@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { CurrencyInput, CurrencyInputProps } from '../../CurrencyInput';
 
 export class CurrencyInputPlayground extends React.Component<

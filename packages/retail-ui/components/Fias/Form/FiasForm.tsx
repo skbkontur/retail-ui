@@ -1,10 +1,9 @@
 import * as React from 'react';
+
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { locale } from '../../LocaleProvider/decorators';
 import { FiasLocale, FiasLocaleHelper } from '../locale';
-import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
-import styles from './FiasForm.module.less';
 import {
   AddressResponse,
   APIProvider,
@@ -17,13 +16,17 @@ import {
   SearchOptions,
   VerifyResponse,
 } from '../types';
-import { Address } from '..';
 import { AddressElement } from '../models/AddressElement';
 import { Tooltip } from '../../Tooltip';
 import { Input, InputProps } from '../../Input';
 import { FiasSearch, FiasSearchChangeEvent } from '../FiasSearch/FiasSearch';
-import { FiasCountrySelector } from './FiasCountrySelector';
 import { Textarea } from '../../Textarea';
+
+import { FiasCountrySelector } from './FiasCountrySelector';
+import styles from './FiasForm.module.less';
+import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
+
+import { Address } from '..';
 
 interface FiasFormProps {
   api: APIProvider;

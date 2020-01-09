@@ -1,7 +1,9 @@
 import * as React from 'react';
+
+import { withContext } from '../../lib/utils';
+
 import styles from './SidePage.module.less';
 import { SidePageContextType, SidePageContext } from './SidePageContext';
-import { withContext } from '../../lib/utils';
 
 export interface SidePageBodyProps {
   children?: React.ReactNode;

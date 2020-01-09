@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped/Gapped';
 import { Nullable } from '../../../typings/utility-types';

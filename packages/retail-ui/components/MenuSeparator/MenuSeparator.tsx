@@ -1,9 +1,11 @@
 import * as React from 'react';
-import styles from './MenuSeparator.module.less';
+
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './MenuSeparator.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './MenuSeparator.styles';
+import styles from './MenuSeparator.module.less';
 
 /**
  * Разделитель в меню.

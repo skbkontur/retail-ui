@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from '../Button';
 import ReactDOM from 'react-dom';
+
+import { Button } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { Spinner } from '../Spinner';
 

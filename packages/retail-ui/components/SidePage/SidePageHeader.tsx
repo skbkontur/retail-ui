@@ -1,13 +1,15 @@
 import * as React from 'react';
+
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../internal/icons/CrossIcon';
-import { SidePageContext } from './SidePageContext';
-import styles from './SidePage.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './SidePage.styles';
+import styles from './SidePage.module.less';
+import { SidePageContext } from './SidePageContext';
 
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;

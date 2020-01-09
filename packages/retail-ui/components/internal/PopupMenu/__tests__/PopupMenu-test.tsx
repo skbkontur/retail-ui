@@ -1,8 +1,8 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { PopupMenu } from '../';
+
+import { PopupMenu, PopupMenuCaptionProps } from '../PopupMenu';
 import { MenuItem } from '../../../MenuItem';
-import { PopupMenuCaptionProps } from '../PopupMenu';
 
 const renderCaption = (captionProps: PopupMenuCaptionProps) => (
   <button

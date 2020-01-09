@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { CloseProps } from './ModalContext';
-import styles from './Modal.module.less';
+
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { CloseProps } from './ModalContext';
+import styles from './Modal.module.less';
+import { jsStyles } from './Modal.styles';
+
 
 export class ModalClose extends React.Component<CloseProps> {
   private theme!: Theme;

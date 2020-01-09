@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
 import * as React from 'react';
-import { cx } from '../../../lib/theming/Emotion';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';
@@ -8,30 +7,33 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import TrashIcon from '@skbkontur/react-icons/Trash';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
-import styles from './styles.module.less';
-import { jsStyles } from './jsStyles';
+
+import { cx } from '../../../lib/theming/Emotion';
 import { Button, ButtonProps } from '../../Button';
 import { Tabs } from '../../Tabs';
-import { ThemeType } from './constants';
 import { Gapped } from '../../Gapped';
 import { Link, LinkProps } from '../../Link';
 import { Input, InputProps } from '../../Input';
+import { ThemeConsumer } from '../../ThemeConsumer';
+import { Tooltip } from '../../Tooltip';
+import { Sticky } from '../../Sticky';
+
+import styles from './styles.module.less';
+import { jsStyles } from './jsStyles';
+import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
 import { DatePickerPlayground } from './AnotherInputsPlayground';
 import { TogglePlayground } from './TogglePlayground';
 import { SwitcherPlayground } from './SwitcherPlayground';
 import { FxInputPlayground } from './FxInputPlayground';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground';
-import { ThemeConsumer } from '../../ThemeConsumer';
 import { SelectPlayground } from './SelectPlayground';
 import { getComponentsFromPropsList } from './helpers';
 import { CheckboxPlayground } from './CheckboxPlayground';
 import { RadioPlayground } from './RadioPlayground';
-import { Tooltip } from '../../Tooltip';
 import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
-import { Sticky } from '../../Sticky';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
 
 const enableReactTesting = process.env.enableReactTesting === 'true';

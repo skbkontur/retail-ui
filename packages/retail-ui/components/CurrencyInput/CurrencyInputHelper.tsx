@@ -1,7 +1,8 @@
+import { Nullable } from '../../typings/utility-types';
+
 import { Selection } from './SelectionHelper';
 import { CurrencyHelper } from './CurrencyHelper';
 import { CursorHelper } from './CursorHelper';
-import { Nullable } from '../../typings/utility-types';
 
 export interface DecimalOptions {
   integerDigits?: Nullable<number>;

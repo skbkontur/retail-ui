@@ -1,4 +1,5 @@
 import createReactContext from 'create-react-context';
+
 import { SidePageFooter } from './SidePageFooter';
 
 export interface SidePageContextType {

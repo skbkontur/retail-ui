@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Paging.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Paging.module.less';
 
 export const jsStyles = {
   dots(t: Theme) {

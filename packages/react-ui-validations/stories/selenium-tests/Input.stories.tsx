@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
 import { Input } from 'retail-ui/components/Input';
+
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 

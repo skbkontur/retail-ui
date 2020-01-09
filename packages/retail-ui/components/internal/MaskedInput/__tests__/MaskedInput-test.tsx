@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
+
 import { MaskedInput, MaskedInputProps } from '../MaskedInput';
 
 describe('MaskedInput', () => {

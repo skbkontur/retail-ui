@@ -1,17 +1,19 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
-import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
-import { ProductWidget } from './ProductWidget';
-import styles from './Logotype.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Logotype.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { CloudIcon } from '../internal/icons/CloudIcon';
 import { ArrowChevronDownIcon } from '../internal/icons/16px';
+
+import { jsStyles } from './Logotype.styles';
+import styles from './Logotype.module.less';
+import { ProductWidget } from './ProductWidget';
+import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 
 const INITIAL_WIDTH = 23;
 const INITIAL_HEIGHT = 17;

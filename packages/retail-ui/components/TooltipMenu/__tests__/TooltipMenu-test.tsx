@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { mount, shallow } from 'enzyme';
+
 import { TooltipMenu } from '../TooltipMenu';
 import { MenuItem } from '../../MenuItem';
 

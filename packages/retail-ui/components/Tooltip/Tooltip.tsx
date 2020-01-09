@@ -1,17 +1,19 @@
 import * as React from 'react';
+import warning from 'warning';
+import isEqual from 'lodash.isequal';
+
 import { Popup, PopupPosition, PopupProps } from '../Popup';
 import { RenderLayer, RenderLayerProps } from '../RenderLayer';
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
-import styles from './Tooltip.module.less';
-import warning from 'warning';
 import { MouseEventType } from '../../typings/event-types';
-import isEqual from 'lodash.isequal';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import { jsStyles } from './Tooltip.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './Tooltip.styles';
+import styles from './Tooltip.module.less';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;

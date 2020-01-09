@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './ThemeShowcase.module.less';
+
 import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
 import { Theme } from '../../lib/theming/Theme';
@@ -10,6 +10,8 @@ import { Sticky } from '../Sticky';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Tooltip } from '../Tooltip';
 import { PopupPosition } from '../Popup';
+import { IS_PROXY_SUPPORTED } from '../internal/Supports';
+
 import {
   ALL_USED_VARIABLES,
   CALLS_COUNT,
@@ -19,7 +21,7 @@ import {
   ComponentRowDescriptionType,
   EXECUTION_TIME,
 } from './ThemeShowcaseHelpers/VariablesCollector';
-import { IS_PROXY_SUPPORTED } from '../internal/Supports';
+import styles from './ThemeShowcase.module.less';
 
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 const EMPTY_ARRAY: string[] = [];

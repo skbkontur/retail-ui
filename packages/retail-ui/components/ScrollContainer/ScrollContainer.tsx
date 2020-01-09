@@ -1,11 +1,13 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-import styles from './ScrollContainer.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
+
+import styles from './ScrollContainer.module.less';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;

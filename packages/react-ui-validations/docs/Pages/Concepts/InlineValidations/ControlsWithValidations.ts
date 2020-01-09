@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DatePicker } from 'retail-ui/components/DatePicker';
 import { Input } from 'retail-ui/components/Input';
+
 import { RenderErrorMessage, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 

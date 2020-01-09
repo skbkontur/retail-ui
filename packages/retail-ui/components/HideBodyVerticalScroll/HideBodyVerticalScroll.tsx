@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { getComputedStyle } from '../../lib/dom/getComputedStyle';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 

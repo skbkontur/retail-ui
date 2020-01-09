@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './TokenInput.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './TokenInput.module.less';
 
 export const jsStyles = {
   label(t: Theme) {

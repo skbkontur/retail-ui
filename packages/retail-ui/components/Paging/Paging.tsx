@@ -1,21 +1,23 @@
 import * as React from 'react';
 import { func, number } from 'prop-types';
+import warning from 'warning';
+
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
-import { PagingLocale, PagingLocaleHelper } from './locale';
-import { getItems } from './PagingHelper';
-import * as NavigationHelper from './NavigationHelper';
 import { Nullable } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
-import styles from './Paging.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Paging.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
-import warning from 'warning';
 import { ArrowChevronRightIcon } from '../internal/icons/16px';
+
+import { jsStyles } from './Paging.styles';
+import styles from './Paging.module.less';
+import * as NavigationHelper from './NavigationHelper';
+import { getItems } from './PagingHelper';
+import { PagingLocale, PagingLocaleHelper } from './locale';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 

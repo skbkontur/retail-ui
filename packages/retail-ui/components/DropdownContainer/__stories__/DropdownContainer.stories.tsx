@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import { findDOMNode } from 'react-dom';
+
 import { MenuItem } from '../../MenuItem';
 import { Toggle } from '../../Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
-import { findDOMNode } from 'react-dom';
 import { Menu } from '../../Menu/Menu';
 import { Button } from '../../Button';
 

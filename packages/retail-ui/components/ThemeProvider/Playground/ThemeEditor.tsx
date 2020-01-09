@@ -1,10 +1,12 @@
 import * as React from 'react';
+
 import { css } from '../../../lib/theming/Emotion';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { VariableValue } from './VariableValue';
 import { Theme } from '../../../lib/theming/Theme';
 import { Gapped } from '../../Gapped';
 import { Loader } from '../../Loader';
+
+import { VariableValue } from './VariableValue';
 import styles from './styles.module.less';
 import { VARIABLES_GROUPS } from './constants';
 import { PlaygroundTheme, ThemeErrorsType } from './ThemeProviderPlayground';

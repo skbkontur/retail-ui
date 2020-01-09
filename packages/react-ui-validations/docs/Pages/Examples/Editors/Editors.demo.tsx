@@ -7,10 +7,11 @@ import { ComboBox } from 'retail-ui/components/ComboBox';
 import { DatePicker } from 'retail-ui/components/DatePicker';
 import { Input } from 'retail-ui/components/Input';
 import { Link } from 'retail-ui/components/Link';
-import RadioGroup from 'retail-ui/components/RadioGroup';
+import { RadioGroup } from 'retail-ui/components/RadioGroup';
 import { Select } from 'retail-ui/components/Select';
 import { Textarea } from 'retail-ui/components/Textarea';
 import styled from 'styled-components';
+
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import Form from '../../../Common/Form';

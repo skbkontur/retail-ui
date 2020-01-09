@@ -1,4 +1,5 @@
 import { isMac } from '../../utils';
+
 import { extractCode } from './extractCode';
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
 

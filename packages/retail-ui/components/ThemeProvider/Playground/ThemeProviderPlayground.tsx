@@ -1,19 +1,21 @@
-import { ThemeType } from './constants';
-import { Theme, ThemeIn } from '../../../lib/theming/Theme';
 import React, { ReactNode } from 'react';
+
+import { Theme, ThemeIn } from '../../../lib/theming/Theme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { darkTheme as darkThemeVariables } from './darkTheme';
 import { FLAT_THEME as flatThemeVariables } from '../../../lib/theming/themes/FlatTheme';
 import { ThemeProvider } from '../ThemeProvider';
-import { Playground } from './Playground';
 import { SidePage } from '../../SidePage';
-import { jsStyles } from './jsStyles';
 import { Gapped } from '../../Gapped';
 import { ComboBox } from '../../ComboBox';
 import { Link } from '../../Link';
+import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
+
 import styles from './styles.module.less';
 import { ThemeEditor } from './ThemeEditor';
-import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
+import { jsStyles } from './jsStyles';
+import { Playground } from './Playground';
+import { darkTheme as darkThemeVariables } from './darkTheme';
+import { ThemeType } from './constants';
 
 interface PlaygroundState {
   editorOpened: boolean;

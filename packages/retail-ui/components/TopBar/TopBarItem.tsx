@@ -1,9 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { Icon as  CapIcon, IconProps } from '../internal/icons/20px';
-import styles from './TopBar.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { cx } from '../../lib/theming/Emotion';
+
+import styles from './TopBar.module.less';
 
 export interface ItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;

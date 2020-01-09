@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Paging } from '../../Paging';
 
 export class PagingPlayground extends React.Component<{}, { active: number }> {

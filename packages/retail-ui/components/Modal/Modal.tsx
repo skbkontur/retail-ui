@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import FocusLock from 'react-focus-lock';
+
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
@@ -8,20 +9,21 @@ import { ZIndex } from '../ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ModalStack, StackSubscription } from '../ModalStack';
+import { ResizeDetector } from '../internal/ResizeDetector';
+import { isIE } from '../ensureOldIEClassName';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer } from './ModalFooter';
 import { Header } from './ModalHeader';
-import { isFooter, isHeader } from './helpers';
+import { isBody, isFooter, isHeader } from './helpers';
 import { Body } from './ModalBody';
 import { ModalClose } from './ModalClose';
-import { ResizeDetector } from '../internal/ResizeDetector';
-import { isIE } from '../ensureOldIEClassName';
 import styles from './Modal.module.less';
-import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Modal.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { Theme } from '../../lib/theming/Theme';
-import { isBody } from './helpers';
+
 
 let mountedModalsCount = 0;
 

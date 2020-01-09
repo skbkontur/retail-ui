@@ -1,15 +1,17 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { locale } from '../LocaleProvider/decorators';
-import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
-import styles from './Spinner.module.less';
-import { SpinnerFallback, types } from './SpinnerFallback';
-import { jsStyles } from './Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
 import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
+
+import { jsStyles } from './Spinner.styles';
+import { SpinnerFallback, types } from './SpinnerFallback';
+import styles from './Spinner.module.less';
+import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 

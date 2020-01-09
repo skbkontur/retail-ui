@@ -1,5 +1,6 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
+
 import { DefaultizeProps } from '../../../lib/utils';
 import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';

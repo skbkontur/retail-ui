@@ -1,5 +1,6 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
+
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LangCodes, LocaleProvider, LocaleProviderProps } from '../../LocaleProvider';
 import { delay } from '../../../lib/utils';

@@ -3,10 +3,11 @@ import Helmet from 'react-helmet';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Logotype } from 'retail-ui/components/Logotype';
 import styled from 'styled-components';
-import Displaying from './Pages/Displaying';
-import Validator from './Pages/Validator';
-import Examples from './Pages/Examples';
-import Concepts from './Pages/Concepts';
+
+import { Displaying } from './Pages/Displaying';
+import { Validator } from './Pages/Validator';
+import { Examples } from './Pages/Examples';
+import { Concepts } from './Pages/Concepts';
 
 const Layout: React.FunctionComponent<RouteComponentProps> = props => {
   window.scrollTo(0, 0);

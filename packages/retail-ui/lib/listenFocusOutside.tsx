@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
+
 import { isFirefox } from './utils';
 
 interface FocusOutsideEventHandler {

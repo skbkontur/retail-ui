@@ -1,14 +1,16 @@
 import * as React from 'react';
+import EditIcon from '@skbkontur/react-icons/Edit';
+import DeleteIcon from '@skbkontur/react-icons/Delete';
+import EventEmitter from 'eventemitter3';
+
 import { cx, css } from '../../../lib/theming/Emotion';
 import { Input } from '../../Input';
-import styles from './styles.module.less';
 import { Gapped } from '../../Gapped';
 import { Theme } from '../../../lib/theming/Theme';
 import { Link } from '../../Link';
-import EditIcon from '@skbkontur/react-icons/Edit';
-import DeleteIcon from '@skbkontur/react-icons/Delete';
 import { Hint } from '../../Hint';
-import EventEmitter from 'eventemitter3';
+
+import styles from './styles.module.less';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
 
 const emitter = new EventEmitter();

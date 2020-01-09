@@ -1,17 +1,21 @@
+import '../ensureOldIEClassName';
+
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import throttle from 'lodash.throttle';
+
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../polyfillPlaceholder';
-import '../ensureOldIEClassName';
-import throttle from 'lodash.throttle';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { getTextAreaHeight } from './TextareaHelpers';
 import { Nullable, Override } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Textarea.styles';
-import styles from './Textarea.module.less';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { getTextAreaHeight } from './TextareaHelpers';
+import { jsStyles } from './Textarea.styles';
+import styles from './Textarea.module.less';
+
 
 const DEFAULT_WIDTH = 250;
 

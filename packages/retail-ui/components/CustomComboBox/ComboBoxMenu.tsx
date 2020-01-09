@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+
 import { locale } from '../LocaleProvider/decorators';
-import { Menu } from '..';
+import { Menu } from '../Menu';
 import { MenuItem, MenuItemState } from '../MenuItem';
 import { Spinner } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../MenuSeparator';
+
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
 

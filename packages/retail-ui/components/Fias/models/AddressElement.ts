@@ -1,5 +1,6 @@
 import { EstateStatuses, FiasId, Fields, StructureStatuses, FiasObject } from '../types';
 import { abbreviations } from '../constants/abbreviations';
+
 import { FiasData } from './FiasData';
 
 export class AddressElement {

@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Toggle.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Toggle.module.less';
 
 export const jsStyles = {
   handle(t: Theme) {

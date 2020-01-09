@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Radio.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Radio.module.less';
 
 export const jsStyles = {
   radio(t: Theme) {

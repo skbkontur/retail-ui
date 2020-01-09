@@ -1,10 +1,12 @@
 import * as React from 'react';
+
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from '../Form/FiasComboBox';
-import { Address } from '..';
 import { AddressResponse, APIProvider, Fields, SearchOptions } from '../types';
 import { locale } from '../../LocaleProvider/decorators';
 import { filterProps } from '../../filterProps';
+
+import { Address } from '..';
 
 const COMBOBOX_PASS_PROPS = {
   limit: true,

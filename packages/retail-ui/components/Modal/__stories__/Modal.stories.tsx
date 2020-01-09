@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
+import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
-import { Modal } from '../';
+import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
-import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 const basicFontStyle = {
   fontSize: '14px',

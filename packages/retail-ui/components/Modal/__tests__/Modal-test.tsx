@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { ReactComponentLike } from 'prop-types';
+
 import { Modal } from '../Modal';
 import { isFooter, isHeader } from '../helpers';
 

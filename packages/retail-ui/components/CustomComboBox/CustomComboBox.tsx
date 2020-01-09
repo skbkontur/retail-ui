@@ -1,14 +1,16 @@
 import * as React from 'react';
-import { ComboBoxView } from './ComboBoxView';
+
 import { Nullable } from '../../typings/utility-types';
 import { Input } from '../Input';
 import { Menu } from '../Menu/Menu';
 import { InputLikeText } from '../internal/InputLikeText';
 import { MenuItemState } from '../MenuItem';
-import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
-import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
+
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
+import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
+import { ComboBoxView } from './ComboBoxView';
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';

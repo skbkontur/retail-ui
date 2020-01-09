@@ -1,12 +1,13 @@
+import './Toast.module.less';
 import * as React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { RenderContainer } from '../RenderContainer';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { Nullable } from '../../typings/utility-types';
+
 import { ToastView, ToastViewProps } from './ToastView';
 import { ToastStatic } from './ToastStatic';
 
-import './Toast.module.less';
-import { Nullable } from '../../typings/utility-types';
 
 export interface Action {
   label: string;

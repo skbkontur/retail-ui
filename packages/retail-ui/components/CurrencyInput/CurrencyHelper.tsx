@@ -1,6 +1,7 @@
+import { Nullable } from '../../typings/utility-types';
+
 import { DecimalOptions } from './CurrencyInputHelper';
 import { CursorMap } from './CursorHelper';
-import { Nullable } from '../../typings/utility-types';
 import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
 
 export interface DecimalFormattingOptions {

@@ -1,5 +1,6 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
+
 import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LogotypeLocaleHelper } from '../locale';

@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './SidePage.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './SidePage.module.less';
 
 export const jsStyles = {
   container(t: Theme) {

@@ -1,6 +1,8 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import warningOutput from 'warning';
 import * as ReactDOM from 'react-dom';
+import isEqual from 'lodash.isequal';
+
 import {
   isKeyArrowHorizontal,
   isKeyArrowLeft,
@@ -13,21 +15,21 @@ import {
   isKeyEscape,
   isShortcutSelectAll,
 } from '../../lib/events/keyboard/identifiers';
-import { TextWidthHelper } from './TextWidthHelper';
-import { TokenInputMenu } from './TokenInputMenu';
-import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import styles from './TokenInput.module.less';
-import { Menu } from '..';
+import { Menu } from '../Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
-import isEqual from 'lodash.isequal';
 import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './TokenInput.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './TokenInput.styles';
+import styles from './TokenInput.module.less';
+import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
+import { TokenInputMenu } from './TokenInputMenu';
+import { TextWidthHelper } from './TextWidthHelper';
 
 export enum TokenInputType {
   WithReference,

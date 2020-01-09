@@ -1,14 +1,16 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import invariant from 'invariant';
+
 import { getRandomID } from '../../lib/utils';
-import { Prevent } from './Prevent';
 import { Radio, SyntheticRadioEvent } from '../Radio';
-import styles from './RadioGroup.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { FocusTrap } from '../internal/FocusTrap';
+
+import styles from './RadioGroup.module.less';
+import { Prevent } from './Prevent';
 
 export type ItemType<T> = T | [T, React.ReactNode];
 

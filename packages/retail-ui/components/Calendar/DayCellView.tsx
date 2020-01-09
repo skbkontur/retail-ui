@@ -1,12 +1,15 @@
 import * as React from 'react';
-import * as CDS from './CalendarDateShape';
-import { config } from './config';
-import styles from './DayCellView.module.less';
+
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { jsStyles } from './DayCellView.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
+
+import * as CDS from './CalendarDateShape';
+import { config } from './config';
+import styles from './DayCellView.module.less';
+import { jsStyles } from './DayCellView.styles';
+
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;

@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Kebab.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Kebab.module.less';
 
 export const jsStyles = {
   focused(t: Theme) {

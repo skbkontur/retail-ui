@@ -1,11 +1,13 @@
 import * as React from 'react';
-import styles from './MenuHeader.module.less';
+
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './MenuHeader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './MenuHeader.styles';
+import styles from './MenuHeader.module.less';
 
 export interface MenuHeaderProps {
   _enableIconPadding?: Nullable<boolean>;

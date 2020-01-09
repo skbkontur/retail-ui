@@ -1,6 +1,7 @@
 {
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/@skbkontur/*"
   ],
   "private": true,
   "devDependencies": {

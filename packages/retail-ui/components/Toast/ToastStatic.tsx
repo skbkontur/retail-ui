@@ -1,9 +1,10 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
+import { Nullable } from '../../typings/utility-types';
+
 import { Toast, Action } from './Toast';
 
-import { Nullable } from '../../typings/utility-types';
 
 export class ToastStatic {
   public static push = (notification: string, action?: Action) => {

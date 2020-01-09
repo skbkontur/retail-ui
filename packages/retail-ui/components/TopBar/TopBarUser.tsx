@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { locale } from '../LocaleProvider/decorators';
-import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
-import { TopBarDropdown } from './TopBarDropdown';
+import { locale } from '../LocaleProvider/decorators';
 import { MenuItem } from '../MenuItem';
+
+import { TopBarLocale, TopBarLocaleHelper } from './locale';
+import { TopBarDropdown } from './TopBarDropdown';
 
 export interface UserProps {
   userName: string;

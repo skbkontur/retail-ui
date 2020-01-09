@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import React from 'react';
+
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
 import { LocaleProvider } from '../../LocaleProvider';

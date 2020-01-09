@@ -1,12 +1,14 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';
-import styles from './Radio.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Radio.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './Radio.styles';
+import styles from './Radio.module.less';
 
 export interface SyntheticRadioEvent<T> {
   target: {

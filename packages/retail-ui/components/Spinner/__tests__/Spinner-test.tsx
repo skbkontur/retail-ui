@@ -1,10 +1,10 @@
 import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
+
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
 import { SPINNER_CLOUD_SIZE, SpinnerIcon } from '../../internal/icons/SpinnerIcon';
-
 import { Spinner } from '../Spinner';
 import styles from '../Spinner.less';
 import { SpinnerFallback } from '../SpinnerFallback';

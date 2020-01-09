@@ -9,7 +9,7 @@ const OkIcon = require('@skbkontur/react-icons/Ok').default;
 Button has different use styles
 
 ```js
-const Gapped = require('../Gapped').default;
+const Gapped = require('../Gapped').Gapped;
 
 <Gapped>
   <Button use="default">Default</Button>
@@ -24,7 +24,7 @@ const Gapped = require('../Gapped').default;
 Button can have different sizes
 
 ```js
-const Gapped = require('../Gapped').default;
+const Gapped = require('../Gapped').Gapped;
 
 <Gapped>
   <Button size="small">Small</Button>

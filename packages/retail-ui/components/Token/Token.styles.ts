@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+
 import styles from './Token.module.less';
 
 export const jsStyles = {

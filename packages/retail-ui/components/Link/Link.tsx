@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
-import styles from './Link.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Link.styles';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
+
+import { jsStyles } from './Link.styles';
+import styles from './Link.module.less';
 
 interface UseClasses {
   default: string;

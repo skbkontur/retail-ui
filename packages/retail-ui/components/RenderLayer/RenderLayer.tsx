@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
+
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
 export interface RenderLayerProps {

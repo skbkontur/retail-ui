@@ -1,13 +1,16 @@
 import * as React from 'react';
+
 import { CHAR_MASK } from '../../lib/date/constants';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
-import styles from './DateFragmentsView.module.less';
-import { removeAllSelections } from './helpers/SelectionHelpers';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './DateFragmentsView.styles';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
+
+import styles from './DateFragmentsView.module.less';
+import { removeAllSelections } from './helpers/SelectionHelpers';
+import { jsStyles } from './DateFragmentsView.styles';
+
 
 interface DateFragmentViewProps {
   nodeRef: (el: HTMLDivElement | null) => void;

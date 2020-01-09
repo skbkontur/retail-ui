@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import { PasswordInput, PasswordInputProps } from '../PasswordInput';
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { Input } from '../../Input';
-
 import styles from '../PasswordInput.less';
 
 const setup = (props?: PasswordInputProps) => {

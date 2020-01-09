@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Link.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Link.module.less';
 
 export const jsStyles = {
   useDefault(t: Theme) {

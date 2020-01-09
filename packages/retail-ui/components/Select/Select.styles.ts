@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Select.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Select.module.less';
 
 export const jsStyles = {
   placeholder(t: Theme) {

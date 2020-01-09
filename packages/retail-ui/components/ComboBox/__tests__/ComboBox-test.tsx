@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { mount, ReactWrapper } from 'enzyme';
+
 import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
 import { LangCodes , LocaleProvider } from '../../LocaleProvider';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-
 import { ComboBox, ComboBoxProps } from '../ComboBox';
-import { mount, ReactWrapper } from 'enzyme';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem/MenuItem';
 import { Menu } from '../../Menu/Menu';

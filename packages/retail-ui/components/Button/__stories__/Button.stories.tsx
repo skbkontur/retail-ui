@@ -2,9 +2,10 @@ import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
+import SearchIcon from '@skbkontur/react-icons/Search';
+
 import { Button, ButtonProps } from '../Button';
 import { Gapped } from '../../Gapped';
-import SearchIcon from '@skbkontur/react-icons/Search';
 import { ComponentTable } from '../../internal/ComponentTable';
 import { ComponentCombinator } from '../../internal/ComponentCombinator';
 

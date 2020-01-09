@@ -1,12 +1,14 @@
 import * as React from 'react';
 import warningOutput from 'warning';
-import styles from './Token.module.less';
+
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles, jsTokenColors } from './Token.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles, jsTokenColors } from './Token.styles';
+import styles from './Token.module.less';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',

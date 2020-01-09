@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-
 import Icons, { IconName } from '@skbkontur/react-icons';
 
 const rootStyle: Partial<React.CSSProperties> = {

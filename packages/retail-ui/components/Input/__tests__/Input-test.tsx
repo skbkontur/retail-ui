@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { Input, InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
+
+import { Input, InputProps } from '../Input';
 
 const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Select, SelectProps } from '../../Select';
 
 export class SelectPlayground extends React.Component<SelectProps<string, string>, { value: string | undefined }> {

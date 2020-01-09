@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { MenuItem } from '../MenuItem/MenuItem';
 
 export class Item extends React.Component<{ children?: React.ReactNode }> {

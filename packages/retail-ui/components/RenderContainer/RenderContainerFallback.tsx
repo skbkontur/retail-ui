@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { Nullable } from '../../typings/utility-types';
+
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
 interface RenderContainerFallbackProps extends RenderContainerProps {

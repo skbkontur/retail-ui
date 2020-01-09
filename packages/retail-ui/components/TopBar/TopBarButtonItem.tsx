@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Item, ItemProps } from './TopBarItem';
 
-import styles from './TopBar.module.less';
 import { IconProps } from '../internal/icons/20px';
+
+import { Item, ItemProps } from './TopBarItem';
+import styles from './TopBar.module.less';
 
 export interface ButtonItemProps extends ItemProps {
   active?: boolean;

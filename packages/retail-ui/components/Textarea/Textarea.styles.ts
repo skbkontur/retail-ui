@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Textarea.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Textarea.module.less';
 
 export const jsStyles = {
   root(t: Theme) {

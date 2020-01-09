@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { storiesOf, DecoratorFn } from '@storybook/react';
+
 import { Sticky } from '../Sticky';
 
 const stickyContent = (fixed: boolean) => (

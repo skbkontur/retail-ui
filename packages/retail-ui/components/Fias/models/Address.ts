@@ -1,3 +1,5 @@
+import isEqual from 'lodash.isequal';
+
 import { FiasLocale } from '../locale';
 import {
   AddressErrors,
@@ -15,9 +17,9 @@ import {
   SearchOptions,
   APIProvider,
 } from '../types';
+
 import { AddressElement } from './AddressElement';
 import { FiasData } from './FiasData';
-import isEqual from 'lodash.isequal';
 
 export interface AddressOptions {
   fields?: AddressFields;

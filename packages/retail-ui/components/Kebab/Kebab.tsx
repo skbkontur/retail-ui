@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Icon as Icon20 } from '../internal/icons/20px';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -7,13 +8,14 @@ import { tabListener } from '../../lib/events/tabListener';
 import { PopupMenu } from '../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
-import styles from './Kebab.module.less';
 import { PopupPosition } from '../Popup';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Kebab.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../internal/icons/16px';
+
+import { jsStyles } from './Kebab.styles';
+import styles from './Kebab.module.less';
 
 export interface KebabProps {
   disabled?: boolean;

@@ -3,13 +3,13 @@ import * as PropTypes from 'prop-types';
 import warning from 'warning';
 
 import { Input, InputProps } from '../Input';
-import { MAX_SAFE_DIGITS } from './constants';
+import { Nullable, Override } from '../../typings/utility-types';
 
+import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
 import { CurrencyHelper } from './CurrencyHelper';
 import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
-import { Nullable, Override } from '../../typings/utility-types';
 
 export type CurrencyInputProps = Override<
   InputProps,

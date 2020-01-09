@@ -2,9 +2,8 @@ import * as React from 'react';
 import { Button } from 'retail-ui/components/Button';
 import { Gapped } from 'retail-ui/components/Gapped';
 import { Input } from 'retail-ui/components/Input';
-import { text, ValidationInfo } from '../../src';
-import ValidationContainer from '../../src/ValidationContainer';
-import ValidationWrapper from '../../src/ValidationWrapper';
+
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
@@ -15,7 +14,7 @@ interface LostfocusDependentValidationState {
   validation: ValidationState;
 }
 
-export default class LostfocusDependentValidation extends React.Component<{}, LostfocusDependentValidationState> {
+export class LostfocusDependentValidation extends React.Component<{}, LostfocusDependentValidationState> {
   public state: LostfocusDependentValidationState = {
     sending: false,
     valueA: '',

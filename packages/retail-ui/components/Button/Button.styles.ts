@@ -1,7 +1,8 @@
 import { css, keyframes } from '../../lib/theming/Emotion';
-import classes from './Button.module.less';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
+
+import classes from './Button.module.less';
 import {
   buttonUseMixin,
   buttonHoverMixin,
@@ -21,7 +22,7 @@ const btn_loading_arrow = keyframes`
 }
 `;
 
-export const jsClasses = {
+export const jsStyles = {
   root(t: Theme) {
     return css`
       ${resetButton()};

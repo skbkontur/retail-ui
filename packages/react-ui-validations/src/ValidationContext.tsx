@@ -1,18 +1,20 @@
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
-import ValidationWrapperInternal from './ValidationWrapperInternal';
+
+import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { ScrollOffset } from './ValidationContainer';
 
-export interface IValidationContextSettings {
+export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
 }
 
+// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IValidationContext {
   register(wrapper: ValidationWrapperInternal): void;
   unregister(wrapper: ValidationWrapperInternal): void;
   instanceProcessBlur(wrapper: ValidationWrapperInternal): void;
   onValidationUpdated(wrapper: ValidationWrapperInternal, isValid: boolean): void;
-  getSettings(): IValidationContextSettings;
+  getSettings(): ValidationContextSettings;
   isAnyWrapperInChangingMode(): boolean;
 }
 
@@ -22,7 +24,7 @@ export interface ValidationContextProps {
   scrollOffset?: number | ScrollOffset;
 }
 
-export default class ValidationContext extends React.Component<ValidationContextProps> implements IValidationContext {
+export class ValidationContext extends React.Component<ValidationContextProps> implements IValidationContext {
   public static childContextTypes = {
     validationContext: PropTypes.any,
   };
@@ -34,7 +36,7 @@ export default class ValidationContext extends React.Component<ValidationContext
     };
   }
 
-  public getSettings(): IValidationContextSettings {
+  public getSettings(): ValidationContextSettings {
     let scrollOffset: ScrollOffset = {};
 
     if (typeof this.props.scrollOffset === 'number') {

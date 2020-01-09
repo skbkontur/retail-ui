@@ -8,8 +8,9 @@ import {
   APIResult,
   FiasCountry,
 } from '../types';
-import { APIResultFactory } from './APIResultFactory';
 import { Address } from '../models/Address';
+
+import { APIResultFactory } from './APIResultFactory';
 
 const addresses: SearchResponse = require('./data.json');
 

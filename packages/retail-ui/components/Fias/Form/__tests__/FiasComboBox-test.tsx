@@ -1,7 +1,8 @@
 import React from 'react';
+import { mount } from 'enzyme';
+
 import { FiasComboBox } from '../FiasComboBox';
 import { delay } from '../../../../lib/utils';
-import { mount } from 'enzyme';
 import { Menu } from '../../../Menu/Menu';
 import { Address } from '../../models/Address';
 

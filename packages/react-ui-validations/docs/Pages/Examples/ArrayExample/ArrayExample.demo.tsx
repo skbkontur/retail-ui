@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button } from 'retail-ui/components/Button';
 import { Input } from 'retail-ui/components/Input';
 import { Group } from 'retail-ui/components/Group';
+
 import {
   createValidator,
   text,

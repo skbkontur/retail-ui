@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { SidePage } from '../../SidePage';
 import { IgnoreLayerClick } from '../IgnoreLayerClick';
 import { Button } from '../../Button';

@@ -2,8 +2,10 @@ import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import warning from 'warning';
+
 import { Nullable } from '../typings/Types';
-import smoothScrollIntoView from './smoothScrollIntoView';
+
+import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 
@@ -43,7 +45,7 @@ interface Point {
   y: number;
 }
 
-export default class ValidationWrapperInternal extends React.Component<
+export class ValidationWrapperInternal extends React.Component<
   ValidationWrapperInternalProps,
   ValidationWrapperInternalState
 > {
@@ -57,7 +59,7 @@ export default class ValidationWrapperInternal extends React.Component<
     validationContext: IValidationContext;
   };
 
-  public isChanging: boolean = false;
+  public isChanging = false;
   private child: any; // todo type
 
   public UNSAFE_componentWillMount() {

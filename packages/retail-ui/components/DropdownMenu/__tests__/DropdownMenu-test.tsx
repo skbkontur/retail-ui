@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { mount, shallow } from 'enzyme';
-import { DropdownMenu } from '../';
+
+import { DropdownMenu } from '../DropdownMenu';
 import { MenuItem } from '../../MenuItem';
 
 describe('<DropdownMenu />', () => {

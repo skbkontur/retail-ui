@@ -1,4 +1,6 @@
 import * as React from 'react';
+import debounce from 'lodash.debounce';
+
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
@@ -10,17 +12,18 @@ import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { isEdge, isIE } from '../ensureOldIEClassName';
 import { InputLikeText } from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
+import { cx } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { CalendarIcon } from '../internal/icons/16px';
+
 import styles from './DateInput.module.less';
 import { DateFragmentsView } from './DateFragmentsView';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { inputNumber } from './helpers/inputNumber';
 import { removeAllSelections, selectNodeContents } from './helpers/SelectionHelpers';
-import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './DateInput.styles';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
-import debounce from 'lodash.debounce';
-import { CalendarIcon } from '../internal/icons/16px';
+
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;

@@ -1,14 +1,16 @@
 import * as React from 'react';
+
 import '../../ensureOldIEClassName';
 import { Nullable } from '../../../typings/utility-types';
 import { IconType, InputVisibilityState } from '../../Input/Input';
 import { InputProps } from '../../Input';
-import styles from './InputLikeText.module.less';
 import { cx } from '../../../lib/theming/Emotion';
 import inputStyles from '../../Input/Input.module.less';
-import { jsClasses as jsInputStyles } from '../../Input/Input.styles';
+import { jsStyles as jsInputStyles } from '../../Input/Input.styles';
 import { ThemeConsumer } from '../../ThemeConsumer';
 import { Theme } from '../../../lib/theming/Theme';
+
+import styles from './InputLikeText.module.less';
 
 export interface InputLikeTextProps extends InputProps {
   children?: React.ReactNode;

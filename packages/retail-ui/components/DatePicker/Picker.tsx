@@ -1,17 +1,19 @@
 import * as React from 'react';
+import shallowEqual from 'shallowequal';
+
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { Calendar, CalendarDateShape } from '../Calendar';
-import shallowEqual from 'shallowequal';
 import { locale } from '../LocaleProvider/decorators';
-import styles from './Picker.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { isGreater, isLess } from '../Calendar/CalendarDateShape';
-import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
-import { jsStyles } from './Picker.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
+
+import { jsStyles } from './Picker.styles';
+import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
+import styles from './Picker.module.less';
 
 interface Props {
   maxDate?: CalendarDateShape;

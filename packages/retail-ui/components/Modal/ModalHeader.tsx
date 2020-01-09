@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { CloseProps, ModalContext } from './ModalContext';
+
 import { Sticky } from '../Sticky';
-import { ModalClose } from './ModalClose';
-import styles from './Modal.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './Modal.styles';
+import styles from './Modal.module.less';
+import { ModalClose } from './ModalClose';
+import { CloseProps, ModalContext } from './ModalContext';
 
 export interface HeaderProps {
   close?: boolean;

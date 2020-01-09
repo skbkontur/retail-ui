@@ -1,6 +1,7 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { Dropdown } from '../';
+
+import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
 import { Select, SelectState } from '../../Select';
 

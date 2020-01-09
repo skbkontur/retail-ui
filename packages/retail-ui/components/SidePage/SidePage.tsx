@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { CSSTransition } from 'react-transition-group';
+
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
@@ -7,17 +9,18 @@ import { ModalStack, StackSubscription } from '../ModalStack';
 import { RenderContainer } from '../RenderContainer';
 import { RenderLayer } from '../RenderLayer';
 import { ZIndex } from '../ZIndex';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+
 import { SidePageBodyProps, SidePageBodyWithContext } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
 import { SidePageFooter, SidePageFooterProps, SidePageFooterWithContext } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
-import { CSSTransition } from 'react-transition-group';
 import styles from './SidePage.module.less';
-import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './SidePage.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { Theme } from '../../lib/theming/Theme';
+
 
 export interface SidePageProps {
   /**

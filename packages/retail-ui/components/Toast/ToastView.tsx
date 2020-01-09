@@ -1,11 +1,13 @@
 import * as React from 'react';
+
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { ZIndex } from '../ZIndex';
-import styles from './ToastView.module.less';
-import { jsStyles } from './ToastView.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './ToastView.styles';
+import styles from './ToastView.module.less';
 
 export interface ToastViewProps {
   /**

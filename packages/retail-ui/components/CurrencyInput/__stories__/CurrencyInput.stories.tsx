@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';

@@ -17,9 +17,10 @@ import {
 } from '../types';
 import { abbreviations } from '../constants/abbreviations';
 import { Logger } from '../logger/Logger';
-import { APIResultFactory } from './APIResultFactory';
 import { fetch } from '../../../lib/net/fetch-cors';
 import { Address } from '../models/Address';
+
+import { APIResultFactory } from './APIResultFactory';
 
 interface SearchQuery {
   [key: string]: string | number | boolean | FiasId | Fields[] | undefined;

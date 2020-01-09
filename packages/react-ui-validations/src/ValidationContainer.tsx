@@ -1,6 +1,8 @@
 import * as React from 'react';
+
 import { Nullable } from '../typings/Types';
-import ValidationContext from './ValidationContext';
+
+import { ValidationContext } from './ValidationContext';
 
 export interface ScrollOffset {
   top?: number;
@@ -13,7 +15,7 @@ export interface ValidationContainerProps {
   scrollOffset?: number | ScrollOffset;
 }
 
-export default class ValidationContainer extends React.Component<ValidationContainerProps> {
+export class ValidationContainer extends React.Component<ValidationContainerProps> {
   public static propTypes = {
     scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
       const { scrollOffset } = props;
@@ -27,14 +29,14 @@ export default class ValidationContainer extends React.Component<ValidationConta
 
   private childContext: ValidationContext | null = null;
 
-  public async submit(withoutFocus: boolean = false): Promise<void> {
+  public async submit(withoutFocus = false): Promise<void> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
     await this.childContext.validate(withoutFocus);
   }
 
-  public validate(withoutFocus: boolean = false): Promise<boolean> {
+  public validate(withoutFocus = false): Promise<boolean> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }

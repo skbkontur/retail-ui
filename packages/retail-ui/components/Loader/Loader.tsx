@@ -1,15 +1,16 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
-
-import styles from './Loader.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Loader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './Loader.styles';
+import styles from './Loader.module.less';
 
 export interface LoaderProps {
   children?: React.ReactNode;

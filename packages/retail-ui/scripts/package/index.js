@@ -1,8 +1,10 @@
 const path = require('path');
 const { execSync } = require('child_process');
+
 const { eq, gt, gte, valid, diff } = require('semver');
-const { getRevisionID, getRevisionRefs } = require('../git');
 const { readJsonSync, writeJsonSync } = require('fs-extra');
+
+const { getRevisionID, getRevisionRefs } = require('../git');
 
 const TAGS = {
   UNSTABLE: 'unstable',

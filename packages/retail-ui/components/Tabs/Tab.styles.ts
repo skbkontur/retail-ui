@@ -1,7 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import styles from './Tab.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Tab.module.less';
 
 export const jsStyles = {
   root(t: Theme) {

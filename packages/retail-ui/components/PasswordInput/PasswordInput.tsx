@@ -1,15 +1,15 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
-
 import { Input, InputProps } from '../Input';
-import { PasswordInputFallback } from './PasswordInputFallback';
 import { ieVerison, isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
+import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
 
 import styles from './PasswordInput.module.less';
-import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
+import { PasswordInputFallback } from './PasswordInputFallback';
 
 export type PasswordInputProps = {
   detectCapsLock?: boolean;

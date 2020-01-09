@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {
   isKeyArrowVertical,
   isKeyEnter,
@@ -10,6 +11,7 @@ import { InternalMenu } from '../InternalMenu/InternalMenu';
 import { Popup, PopupPosition } from '../../Popup';
 import { RenderLayer } from '../../RenderLayer';
 import { Nullable } from '../../../typings/utility-types';
+
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
 import styles from './PopupMenu.module.less';

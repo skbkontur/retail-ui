@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styles from './icon.module.less';
 
 // NOTE Icons copy-pasted from @skbkontur/react-icons package, because it's not fully opensource

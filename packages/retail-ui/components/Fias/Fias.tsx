@@ -1,21 +1,24 @@
 import * as React from 'react';
 import warningOutput from 'warning';
+import isEqual from 'lodash.isequal';
+
 import { Link } from '../Link';
 import { LocaleProvider } from '../LocaleProvider';
 import { locale } from '../LocaleProvider/decorators';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+import { EditIcon } from '../internal/icons/16px';
+
 import { FiasLocale, FiasLocaleHelper } from './locale';
 import { APIProvider, ExtraFields, FiasValue, Fields, FieldsSettings, FormValidation } from './types';
 import { FiasModal } from './FiasModal';
 import { FiasForm } from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
-import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
-import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './Fias.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { Theme } from '../../lib/theming/Theme';
-import { EditIcon } from '../internal/icons/16px';
+
 
 export interface FiasProps {
   /**

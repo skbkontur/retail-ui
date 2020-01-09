@@ -1,6 +1,12 @@
 import * as React from 'react';
 import normalizeWheel from 'normalize-wheel';
+
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
+import { Nullable } from '../../typings/utility-types';
+import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+
 import { config } from './config';
 import * as CalendarUtils from './CalendarUtils';
 import { Animation } from './Animation';
@@ -9,11 +15,8 @@ import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import styles from './Calendar.module.less';
-import { Nullable } from '../../typings/utility-types';
-import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './Calendar.styles';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+
 
 export type CalendarDateShape = CDS.CalendarDateShape;
 

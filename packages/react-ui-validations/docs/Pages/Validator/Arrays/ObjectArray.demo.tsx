@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button } from 'retail-ui/components/Button';
 import { Input } from 'retail-ui/components/Input';
+
 import {
   createValidator,
   ValidationContainer,

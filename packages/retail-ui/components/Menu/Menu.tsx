@@ -1,15 +1,17 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { isActiveElement } from './isActiveElement';
+
 import { ScrollContainer } from '../ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../MenuItem';
 import { isMenuHeader } from '../MenuHeader';
-import styles from './Menu.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Menu.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './Menu.styles';
+import styles from './Menu.module.less';
+import { isActiveElement } from './isActiveElement';
 
 interface MenuProps {
   children: React.ReactNode;

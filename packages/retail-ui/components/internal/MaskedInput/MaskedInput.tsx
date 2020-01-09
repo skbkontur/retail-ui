@@ -1,10 +1,12 @@
 import * as React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
-import styles from './MaskedInput.module.less';
-import { jsStyles } from './MaskedInput.styles';
+
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeConsumer } from '../../ThemeConsumer';
 import { Theme } from '../../../lib/theming/Theme';
+
+import { jsStyles } from './MaskedInput.styles';
+import styles from './MaskedInput.module.less';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;

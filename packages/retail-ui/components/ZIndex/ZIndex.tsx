@@ -1,5 +1,6 @@
 import * as React from 'react';
 import createReactContext from 'create-react-context';
+
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
 const ZIndexContext = createReactContext({ parentLayerZIndex: 0, maxZIndex: Infinity });

@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { isFunctionalComponent, DefaultizeProps } from '../../lib/utils';
 
 // TODO We should output state too

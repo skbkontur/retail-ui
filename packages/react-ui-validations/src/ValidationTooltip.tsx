@@ -1,5 +1,6 @@
 import * as React from 'react';
-import ReactUiDetection, { Tooltip } from './ReactUiDetection';
+
+import { ReactUiDetection, Tooltip } from './ReactUiDetection';
 
 export type TooltipPosition =
   | 'top left'
@@ -22,7 +23,7 @@ export interface ValidationTooltipProps {
   render?: () => React.ReactNode;
 }
 
-export default class ValidationTooltip extends React.Component<ValidationTooltipProps> {
+export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public render() {
     const onlyChild = React.Children.only(this.props.children);
     const radioChild = onlyChild && onlyChild.props ? onlyChild.props.children : null;

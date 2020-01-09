@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { SidePageContext, SidePageContextType } from './SidePageContext';
-import styles from './SidePage.module.less';
+
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './SidePage.styles';
+import styles from './SidePage.module.less';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageFooterProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);

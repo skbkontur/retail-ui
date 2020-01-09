@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+import SpinnerIcon from '@skbkontur/react-icons/Spinner';
 
 import { Button } from '../Button';
 import { Link } from '../Link';
 import { Input } from '../Input';
 import { ComboBox } from '../ComboBox';
 import { Spinner } from '../Spinner';
-import SpinnerIcon from '@skbkontur/react-icons/Spinner';
 import { Checkbox } from '../Checkbox';
 
 storiesOf('Baseline', module)

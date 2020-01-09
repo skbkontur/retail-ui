@@ -2,6 +2,7 @@ import { Theme } from '../../../lib/theming/Theme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
 import { IS_PROXY_SUPPORTED } from '../../internal/Supports';
+
 import { formatSourceCode } from './FormatSourceCode';
 
 export interface DescriptionsType {
@@ -43,7 +44,7 @@ if (IS_PROXY_SUPPORTED) {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
     const componentDescription: ComponentDescriptionType = {};
-    const jsStyles = componentsContext(fileName).default;
+    const jsStyles = componentsContext(fileName).jsStyles;
 
     Object.keys(jsStyles).forEach(elementName => {
       const jsStyle = jsStyles[elementName];

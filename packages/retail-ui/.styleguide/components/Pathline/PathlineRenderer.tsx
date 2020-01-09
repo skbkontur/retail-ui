@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import IssueList from '../IssueList/IssueList';
 import OriginalPathlineRenderer from 'react-styleguidist/lib/rsg-components/Pathline/PathlineRenderer';

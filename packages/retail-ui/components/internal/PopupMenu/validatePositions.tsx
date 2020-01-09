@@ -1,6 +1,7 @@
-import { PopupMenuPositions } from './PopupMenuPositions';
 import { isProductionEnv } from '../currentEnvironment';
 import { PopupPosition } from '../../Popup';
+
+import { PopupMenuPositions } from './PopupMenuPositions';
 
 const isValidPosition = (position: PopupPosition): boolean => {
   return PopupMenuPositions.includes(position);

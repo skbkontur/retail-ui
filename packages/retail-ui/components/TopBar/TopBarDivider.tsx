@@ -1,9 +1,11 @@
 import * as React from 'react';
+
 import { cx } from '../../lib/theming/Emotion';
-import styles from './TopBar.module.less';
-import { jsStyles } from './TopBar.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './TopBar.module.less';
+import { jsStyles } from './TopBar.styles';
 
 /**
  * Разделитель в топбаре

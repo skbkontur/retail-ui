@@ -1,10 +1,12 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
+
 import { Nullable } from '../../typings/utility-types';
+import { getRandomID } from '../../lib/utils';
+
 import { RenderInnerContainer as RenderContainerFallback } from './RenderContainerFallback';
 import { RenderInnerContainer as RenderContainerNative } from './RenderContainerNative';
 import { RenderContainerProps } from './RenderContainerTypes';
-import { getRandomID } from '../../lib/utils';
 
 const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
 const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;

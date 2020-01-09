@@ -1,6 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './MenuHeader.module.less';
 import { Theme } from '../../lib/theming/Theme';
+
+import styles from './MenuHeader.module.less';
 
 export const jsStyles = {
   withLeftPadding(t: Theme) {

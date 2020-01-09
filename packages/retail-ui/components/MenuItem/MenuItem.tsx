@@ -1,12 +1,14 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import warning from 'warning';
+
 import { isFunction } from '../../lib/utils';
-import styles from './MenuItem.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './MenuItem.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './MenuItem.styles';
+import styles from './MenuItem.module.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;

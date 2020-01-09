@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { reactGetTextContent } from '../reactGetTextContent';
 
 class SimpleComponent extends React.Component {

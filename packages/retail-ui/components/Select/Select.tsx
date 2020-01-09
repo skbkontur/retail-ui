@@ -1,3 +1,8 @@
+import * as React from 'react';
+import * as PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import invariant from 'invariant';
+
 import {
   isKeyArrowDown,
   isKeyArrowUp,
@@ -8,28 +13,26 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
 import { filterProps } from '../filterProps';
 import { Input } from '../Input';
-import invariant from 'invariant';
 import { Link } from '../Link';
 import { Menu } from '../Menu/Menu';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { MenuSeparator } from '../MenuSeparator/MenuSeparator';
 import { RenderLayer } from '../RenderLayer';
-import { Item } from './Item';
-import { SelectLocale, SelectLocaleHelper } from './locale';
-import styles from './Select.module.less';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import { jsStyles } from './Select.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+
+import { Item } from './Item';
+import { SelectLocale, SelectLocaleHelper } from './locale';
+import styles from './Select.module.less';
+import { jsStyles } from './Select.styles';
+
 
 export interface ButtonParams {
   disabled?: boolean;

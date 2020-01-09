@@ -1,6 +1,11 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+
 import { Logotype } from '../Logotype';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+
 import { ButtonItem } from './TopBarButtonItem';
 import { Divider } from './TopBarDivider';
 import { Item } from './TopBarItem';
@@ -12,10 +17,8 @@ import styles from './TopBar.module.less';
 import { TopBarEnd } from './TopBarEnd';
 import { TopBarStart } from './TopBarStart';
 import { Logout } from './TopBarLogout';
-import { cx } from '../../lib/theming/Emotion';
 import { jsStyles } from './TopBar.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { Theme } from '../../lib/theming/Theme';
+
 
 export interface TopBarProps {
   children?: React.ReactNode;

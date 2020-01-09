@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
+
 import { Link } from '../Link';
 import { Toast } from '../../Toast';
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import warning from 'warning';
+
 import styles from '../ThemeShowcase.module.less';
 import { Nullable } from '../../../typings/utility-types';
 import { isDevelopmentEnv } from '../../internal/currentEnvironment';
@@ -42,6 +43,7 @@ export function formatSourceCode(input: string, componentName: string) {
 }
 
 function renderVariables(variableString: string, componentName: string) {
+  console.log(componentName, variableString);
   if (isDevelopmentEnv) {
     variableString = variableString
       .replace(/ColorFunctions_[\d]+\.default\./g, 'ColorFunctions.')

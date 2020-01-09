@@ -1,7 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Modal.module.less';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
+
+import styles from './Modal.module.less';
 
 export const jsStyles = {
   bg(t: Theme) {

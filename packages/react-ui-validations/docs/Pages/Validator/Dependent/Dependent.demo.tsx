@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Input } from 'retail-ui/components/Input';
+import { Toggle } from 'retail-ui/components/Toggle';
+
 import {
   ValidationContainer,
   ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import Form from '../../../Common/Form';
-import { Toggle } from 'retail-ui/components/Toggle';
 
 interface Data {
   onlyDigits: boolean;

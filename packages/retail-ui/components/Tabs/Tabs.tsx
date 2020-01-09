@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import * as PropTypes from 'prop-types';
+
+import { cx } from '../../lib/theming/Emotion';
+
 import { IndicatorWithContext as Indicator } from './Indicator';
 import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
 import styles from './Tabs.module.less';
-import { cx } from '../../lib/theming/Emotion';
 
 export interface TabsProps {
   /**

@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { PopupMenu, PopupMenuProps } from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
 import { isProductionEnv } from '../internal/currentEnvironment';

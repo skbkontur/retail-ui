@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';

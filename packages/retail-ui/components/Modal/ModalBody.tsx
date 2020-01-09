@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { ModalContext } from './ModalContext';
-import styles from './Modal.module.less';
+
 import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../ZIndex';
+
+import { ModalContext } from './ModalContext';
+import styles from './Modal.module.less';
 
 /**
  * Контейнер с отступами от края модалки

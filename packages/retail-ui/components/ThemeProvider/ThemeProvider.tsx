@@ -1,10 +1,11 @@
 import * as React from 'react';
+import isEqual from 'lodash.isequal';
+import warning from 'warning';
+
 import { ThemeProvider as ThemeProviderInternal } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDevelopmentEnv } from '../internal/currentEnvironment';
-import isEqual from 'lodash.isequal';
-import warning from 'warning';
 
 interface ThemeProviderProps {
   children: React.ReactNode;

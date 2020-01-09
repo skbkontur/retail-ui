@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { Gapped } from '../../Gapped';
 import { Checkbox, CheckboxProps } from '../../Checkbox';
+
 import { getComponentsFromPropsList } from './helpers';
 
 const propsList: Array<CheckboxProps & { focused?: boolean }> = [
