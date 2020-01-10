@@ -47,7 +47,7 @@ module.exports = async ({ config, mode }) => {
       },
     },
     {
-      test: /\.(css|less)$/,
+      test: /\.less/,
       loaders: [
         'style-loader',
         {
@@ -63,13 +63,36 @@ module.exports = async ({ config, mode }) => {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
             },
-            onlyLocals: true,
-            esModule: false
+            onlyLocals: false,
+            esModule: false,
+          },
+        },
+        'less-loader',
+      ],
+    },
+    {
+      test: /\.css/,
+      loaders: [
+        'style-loader',
+        {
+          loader: 'dts-css-modules-loader',
+          options: {
+            namedExport: false,
+          },
+        },
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              mode: 'global',
+              localIdentName: '[name]-[local]-[hash:base64:4]',
+            },
+            onlyLocals: false,
+            esModule: false,
           },
         },
       ],
     },
-    { test: /\.less$/, loader: 'less-loader' },
     { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },
     { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
   ];

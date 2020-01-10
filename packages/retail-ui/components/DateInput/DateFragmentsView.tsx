@@ -9,7 +9,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 
 import { jsStyles } from './DateFragmentsView.styles';
 
-
 interface DateFragmentViewProps {
   selected: InternalDateComponentType | null;
   fragments: InternalDateFragment[];
