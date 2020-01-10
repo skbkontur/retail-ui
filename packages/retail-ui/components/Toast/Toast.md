@@ -1,7 +1,7 @@
 Вызов статических методов
 
-```js
-const { default: Button } = require('../Button');
+```jsx
+import Button from '@skbkontur/react-ui/Button';
 
 function showComplexNotification() {
   Toast.push('Successfully saved', {
@@ -15,7 +15,9 @@ function showComplexNotification() {
 
 Использование `ref`
 
-```js
+```jsx
+import Button from '@skbkontur/react-ui/Button';
+
 class Toaster extends React.Component {
   showNotification() {
     this.notifier.push('Successfully');

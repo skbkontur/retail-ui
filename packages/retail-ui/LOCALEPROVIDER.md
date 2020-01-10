@@ -2,7 +2,7 @@
 
 ### Props
 
-```typescript jsx
+```typescript
 interface LocaleProviderProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
@@ -11,7 +11,7 @@ interface LocaleProviderProps {
 
 Доступные языки
 
-```typescript jsx
+```typescript
 enum LangCodes {
   ru_RU = 'ru_RU',
   en_GB = 'en_GB',
@@ -20,7 +20,7 @@ enum LangCodes {
 
 <details><summary>LocaleControls</summary>
 
-```typescript jsx
+```typescript
 interface LocaleControls {
   Spinner?: SpinnerLocale;
   TokenInput?: TokenInputLocale;
@@ -41,8 +41,8 @@ interface LocaleControls {
 Дефолтная локализация `<TokenInput />`
 
 ```jsx
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
-const { TokenInputType } = require('./components/TokenInput');
+import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
+import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 <LocaleProvider langCode={LangCodes.en_GB}>
@@ -53,8 +53,8 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 Кастомная локализация `<TokenInput />`
 
 ```jsx
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
-const { TokenInputType } = require('./components/TokenInput');
+import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
+import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -73,8 +73,11 @@ const customLocale = {
 Для инкапсуляции локализации можно использовать несколько контекстов.
 
 ```jsx
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
-const { TokenInputType } = require('./components/TokenInput');
+import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
+import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Spinner from '@skbkontur/react-ui/Spinner';
+
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -97,12 +100,26 @@ const customLocale = {
 ### Обзор всех доступных контролов
 
 ```jsx
-const { TokenInputType } = require('./components/TokenInput');
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
+import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
+import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Select from '@skbkontur/react-ui/Select';
+import ComboBox from '@skbkontur/react-ui/ComboBox';
+import Spinner from '@skbkontur/react-ui/Spinner';
+import TopBar from '@skbkontur/react-ui/TopBar';
+import Paging from '@skbkontur/react-ui/Paging';
+import Logotype from '@skbkontur/react-ui/Logotype';
+import DatePicker from '@skbkontur/react-ui/DatePicker';
+import DateInput from '@skbkontur/react-ui/DateInput';
+import Fias from '@skbkontur/react-ui/Fias';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-const items = [{ label: 'aaa', value: 1 }, { label: 'bbb', value: 2 }, { label: 'ccc', value: 3 }];
+const items = [
+  { label: 'aaa', value: 1 },
+  { label: 'bbb', value: 2 },
+  { label: 'ccc', value: 3 },
+];
 
 const LocalizationControlNames = {
   ComboBox: 'ComboBox',

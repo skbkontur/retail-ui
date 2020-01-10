@@ -1,4 +1,4 @@
-```js
+```jsx
 let intialState = {};
 
 <Switcher

@@ -1,4 +1,4 @@
-```js
+```jsx
 let initialState = { auto: false };
 
 function handleChange(event) {

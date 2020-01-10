@@ -33,9 +33,9 @@ type IconName =
 Все иконки
 
 ```jsx
-const { default: Gapped } = require('retail-ui/components/Gapped');
-const { default: Tooltip } = require('retail-ui/components/Tooltip');
-const { default: Icon } = require('@skbkontur/react-icons');
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+import Icon from '@skbkontur/react-icons';
 
 <Gapped vertical>
   <div>Имя показывается при наведении:</div>
@@ -53,8 +53,9 @@ const { default: Icon } = require('@skbkontur/react-icons');
 Для уменьшения размера бандла рекомендуется использовать компонент с конкретной иконкой
 
 ```jsx
-const { default: OkIcon } = require('@skbkontur/react-icons/Ok');
-const { default: Icon } = require('@skbkontur/react-icons');
+import Gapped from '@skbkontur/react-ui/Gapped';
+import OkIcon from '@skbkontur/react-icons/Ok';
+import Icon from '@skbkontur/react-icons';
 
 <Gapped gap={20}>
   <OkIcon size={16} color="red" />

@@ -3,7 +3,9 @@
 Рекомендуемое
 
 ```jsx
-const BabyIcon = require('@skbkontur/react-icons/Baby').default;
+import Logotype from '@skbkontur/react-ui/Logotype';
+import Loader from '@skbkontur/react-ui/Loader';
+import BabyIcon from '@skbkontur/react-icons/Baby';
 
 let pageStyle = {
   background: '#e6e6e6',
@@ -49,7 +51,8 @@ let contentStyle = {
 Старый вариант. (Продуктовый виджет работает только у первого Logotype на странице)
 
 ```jsx
-const BabyIcon = require('@skbkontur/react-icons/Baby').default;
+import Loader from '@skbkontur/react-ui/Loader';
+import BabyIcon from '@skbkontur/react-icons/Baby';
 
 let Item = TopBar.Item;
 

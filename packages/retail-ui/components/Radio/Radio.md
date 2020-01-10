@@ -1,5 +1,5 @@
-```js
-const { default: Gapped } = require('../Gapped');
+```jsx
+import Gapped from '@skbkontur/react-ui/Gapped';
 
 <Gapped gap={20}>
   <Radio value="value" />

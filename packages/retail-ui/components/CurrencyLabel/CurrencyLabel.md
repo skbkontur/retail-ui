@@ -1,23 +1,23 @@
 To render rubles
 
-```js
+```jsx
 <CurrencyLabel value={12356.1} currencySymbol={'₽'} />
 ```
 
 ...or dollars
 
-```js
+```jsx
 <CurrencyLabel value={12356.1} currencySymbol={'$'} />
 ```
 
 ...or nothing
 
-```js
+```jsx
 <CurrencyLabel value={12356.1} />
 ```
 
 Count of fraction digits can be changed
 
-```js
+```jsx
 <CurrencyLabel value={3562001.1} fractionDigits={3} currencySymbol={'₽'} />
 ```

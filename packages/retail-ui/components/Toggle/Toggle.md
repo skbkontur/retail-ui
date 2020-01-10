@@ -1,4 +1,4 @@
-```js
+```jsx
 let initialState = { checked: false };
 
 let toggle = () => setState(state => ({ checked: !state.checked }));

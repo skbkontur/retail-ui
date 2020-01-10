@@ -1,6 +1,6 @@
-```js
-const { default: Toggle } = require('../Toggle');
-const { default: Button } = require('../Button');
+```jsx
+import Toggle from '@skbkontur/react-ui/Toggle';
+import Button from '@skbkontur/react-ui/Button';
 
 let initialState = { opened: false };
 

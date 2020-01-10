@@ -1,9 +1,14 @@
 Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов
 
 ```jsx
-const SearchIcon = require('@skbkontur/react-icons/Search').default;
-const MenuIcon = require('@skbkontur/react-icons/Menu').default;
-const HelpDotIcon = require('@skbkontur/react-icons/HelpDot').default;
+import SearchIcon from '@skbkontur/react-icons/Search';
+import MenuIcon from '@skbkontur/react-icons/Menu';
+import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Select from '@skbkontur/react-ui/Select';
+import Input from '@skbkontur/react-ui/Input';
+import Button from '@skbkontur/react-ui/Button';
 
 const initialState = {
   size: 'small',
@@ -52,6 +57,11 @@ const render = () => (
 Тултип может располагаться в одной из 12 позиции и триггериться одним из 5 способов
 
 ```jsx
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Center from '@skbkontur/react-ui/Center';
+import Select from '@skbkontur/react-ui/Select';
+
 const S = 60;
 
 const Block = ({ pos, trigger, top, left, onMouseDown }) => (
@@ -133,6 +143,8 @@ let initialState = {
 Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендерится в совершенно другом месте приложения
 
 ```jsx
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+
 const S = 60;
 const blockStyle = {
   height: S - 5,
