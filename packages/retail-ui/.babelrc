@@ -17,7 +17,17 @@
           "@babel/preset-env",
           {
             "loose": true,
-            "modules": true
+            "modules": "commonjs"
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "helpers": true,
+            "useESModules": false,
+            "version": "7.7.0"
           }
         ]
       ]

@@ -38,11 +38,11 @@
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:stylelint": "stylelint \"./**/*.less\"",
     "eslint:fix": "yarn lint:eslint --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "cross-env BABEL_ENV=common jest",
+    "test:watch": "yarn test --watch",
     "creevey": "wait-on -t 300000 http-get://localhost:6060/ http-get://localhost:6061/ && creevey -c .creevey/config.ts",
-    "creevey:ui": "npm run creevey -- --ui",
-    "report:eslint": "eslint . --ext .js,.jsx,.ts,.tsx -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
+    "creevey:ui": "yarn creevey --ui",
+    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
   },
   "license": "MIT",
   "dependencies": {
@@ -166,7 +166,7 @@
     },
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.tsx?$": "babel-jest"
     },
     "testRegex": "__tests__(\\\\|/).*(\\.|-)test\\.(j|t)sx?$",
     "setupFilesAfterEnv": [

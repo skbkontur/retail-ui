@@ -33,6 +33,10 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
         return Object.assign({}, this.localeHelper.get(langCode), localeFromContext);
       }
 
+      public set locale(l: C) {
+        // TODO альтернативная транспиляция декораторов ломает тесты
+      }
+
       public get langCode(): LangCodes {
         return this._localeContext.langCode || defaultLangCode;
       }
