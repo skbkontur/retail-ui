@@ -83,6 +83,9 @@ const styles = {
         },
       },
     },
+    isSelected: {
+      fontWeight: 'normal',
+    },
   },
   SectionHeading: {
     wrapper: {
@@ -187,4 +190,11 @@ module.exports = {
     return path.substring(path.indexOf('components')) || path;
   },
   defaultExample: '../MockReadme.md',
+  moduleAliases: {
+    '@skbkontur/react-ui/lib': path.resolve(__dirname, '../../lib'),
+    '@skbkontur/react-ui': path.resolve(__dirname, '../../components'),
+  },
+  getExampleFilename(componentPath) {
+    return componentPath.replace(path.extname(componentPath), '.md');
+  },
 };

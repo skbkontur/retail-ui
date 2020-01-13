@@ -1,6 +1,6 @@
 ```jsx
-const { default: Gapped } = require('../Gapped');
-const { default: Radio } = require('../Radio');
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Radio from '@skbkontur/react-ui/Radio';
 
 let items = ['One', 'Two', 'Three', 'Four'];
 

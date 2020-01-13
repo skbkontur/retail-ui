@@ -76,8 +76,8 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
 Так же создаются 2 интерфейса (_lib/theming/Theme.ts_):
 
 ```typescript
-import DEFAULT_THEME from './themes/DefaultTheme';
-import FLAT_THEME from './themes/FlatTheme';
+import DEFAULT_THEME from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
+import FLAT_THEME from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
 type ThemeType = typeof DEFAULT_THEME & typeof FLAT_THEME;
 type ThemeInType = Partial<ThemeType>;
@@ -86,7 +86,7 @@ export interface ITheme extends ThemeType {}
 export interface IThemeIn extends ThemeInType {}
 ```
 
-***ВАЖНО:** файл FlatTheme.ts не используется напрямую ни в одном компоненте и не попадет в итоговый bundle, если не будет использован в явном виде (см. *Использование плоской темы\_).
+**\*ВАЖНО:** файл FlatTheme.ts не используется напрямую ни в одном компоненте и не попадет в итоговый bundle, если не будет использован в явном виде (см. \*Использование плоской темы\_).
 
 3. В статическом классе `ThemeFactory` (_lib/theming/ThemeFactory.ts_) определяется `defaultTheme`.
    `ThemeFactory` так же предоставляет следующие методы:
@@ -251,7 +251,7 @@ private _renderCircle = (type) => {
    В начале времен, где-то в _App.(j|t)sx_
 
 ```typescript
-import ThemeProvider from '@skbkontur/react-ui/components/ThemeProvider';
+import ThemeProvider from '@skbkontur/react-ui/ThemeProvider';
 import FlatTheme from "@skbkontur/react-ui/lib/theming/themes/FlatTheme";
 
 const App = <ThemeProvider value={FlatTheme}>
