@@ -1,4 +1,4 @@
-```js
+```jsx
 let items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
 let initialState = { value: 'Kappa' };

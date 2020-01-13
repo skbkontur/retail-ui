@@ -453,11 +453,11 @@ variable via ThemeProvider or by calling ThemeFactory.overrideDefaultTheme()
 
 * docs(customization): add some line-breaks
 
-* docs(customization): emphasize inline <code> the way it's done at github
+* docs(customization): emphasize inline &lt;code&gt; the way it's done at github
 
 * docs(customization): switch 'jsx static' to 'typescript' for some blocks
 
-* docs(customization): use monospace font for inline <code>
+* docs(customization): use monospace font for inline &lt;code&gt;
 
 * chore(Button): fix baseline of flat medium Button
 

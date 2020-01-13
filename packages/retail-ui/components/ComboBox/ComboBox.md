@@ -1,6 +1,8 @@
 Combobox with error handling
 
 ```jsx
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+
 let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 let maybeReject = x => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
@@ -46,7 +48,10 @@ let handleFocus = () => setState({ error: false });
 ComboBox with popular values, complex menu items and total count message
 
 ```jsx
-const getCities = require('./__mocks__/getCities.js').default;
+import getCities from './__mocks__/getCities';
+import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
+import MenuHeader from '@skbkontur/react-ui/MenuHeader';
+import Gapped from '@skbkontur/react-ui/Gapped';
 
 let popularItems = [
   { Id: 956, City: 'Махачкала' },
@@ -114,8 +119,10 @@ let renderItem = item => (
 
 Переопределение renderValue и renderItem:
 
-```js
-const OkIcon = require('@skbkontur/react-icons/Ok').default;
+```jsx
+import OkIcon from '@skbkontur/react-icons/Ok';
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const getItems = q =>
@@ -224,6 +231,8 @@ const customRenderValue = item => (
 С подсветкой результата поиска:
 
 ```jsx
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const getItems = query =>
@@ -298,6 +307,8 @@ const renderItem = item => {
 Добавление элементов в меню
 
 ```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 class ComboboxExample extends React.Component {

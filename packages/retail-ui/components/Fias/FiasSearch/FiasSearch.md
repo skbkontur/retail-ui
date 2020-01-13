@@ -1,9 +1,9 @@
 Компонент поиска может использоваться отдельно.
 
 ```jsx
-const isEqual = require('lodash.isequal');
-const { Component } = require('react');
-const { FiasSearch, FiasAPI, Address } = require('../index');
+import isEqual from 'lodash.isequal';
+import { Component } from 'react';
+import { FiasSearch, FiasAPI, Address } from '../index';
 
 class MyCustomFias extends Component {
   constructor(props) {

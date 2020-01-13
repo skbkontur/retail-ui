@@ -1,7 +1,7 @@
-```js
-const { default: MenuItem } = require('../MenuItem');
-const { default: MenuSeparator } = require('../MenuSeparator');
-const { default: MenuHeader } = require('../MenuHeader');
+```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
+import MenuHeader from '@skbkontur/react-ui/MenuHeader';
 
 <Dropdown caption="Click">
   <MenuItem onClick={() => alert('Clack')}>Clack</MenuItem>

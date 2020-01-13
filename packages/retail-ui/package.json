@@ -131,7 +131,7 @@
     "react": "^16.12.0",
     "react-docgen-typescript": "^1.16.1",
     "react-dom": "^16.12.0",
-    "react-styleguidist": "^7.3.11",
+    "react-styleguidist": "^10.4.1",
     "rimraf": "^3.0.0",
     "selenium-webdriver": "^4.0.0-alpha.5",
     "semver": "^6.3.0",

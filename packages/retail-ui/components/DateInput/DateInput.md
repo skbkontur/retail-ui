@@ -13,7 +13,9 @@
 ### Форматирование даты при смене локали
 
 ```jsx
-const { default: LocaleProvider, LangCodes } = require('../LocaleProvider');
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Select from '@skbkontur/react-ui/Select';
+import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
 
 class DateInputFormatting2 extends React.Component {
   constructor() {
@@ -51,7 +53,9 @@ class DateInputFormatting2 extends React.Component {
 ### Ручное форматирование даты
 
 ```jsx
-const { default: LocaleProvider, DateOrder, DateSeparator } = require('../LocaleProvider');
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Select from '@skbkontur/react-ui/Select';
+import LocaleProvider, { DateOrder, DateSeparator } from '@skbkontur/react-ui/LocaleProvider';
 
 class DateInputFormatting extends React.Component {
   constructor() {

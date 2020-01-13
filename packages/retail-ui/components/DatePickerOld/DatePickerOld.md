@@ -1,4 +1,4 @@
-```js
+```jsx
 <DatePickerOld
   value={state.date}
   onChange={(_, date) => setState({ date })}

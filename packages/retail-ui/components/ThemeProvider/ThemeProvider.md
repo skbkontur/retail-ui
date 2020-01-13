@@ -20,9 +20,9 @@ interface IThemeIn extends ThemeInType {}
 Объект плоской темы можно импортировать и передавать в ThemeProvider:
 
 ```jsx
-const { default: ThemeProvider } = require('./ThemeProvider');
-const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
-const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
+import ThemeProvider from '@skbkontur/react-ui/ThemeProvider';
+import flatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+import { ShowcaseGroup } from './Playground/ShowcaseGroup';
 
 const FlatComponents = () => (
   <ThemeProvider value={flatTheme}>
@@ -39,9 +39,9 @@ const FlatComponents = () => (
 <br/>
 
 ```jsx
-const { default: ThemeProvider } = require('./ThemeProvider');
-const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
-const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
+import ThemeProvider from '@skbkontur/react-ui/ThemeProvider';
+import flatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+import { ShowcaseGroup } from './Playground/ShowcaseGroup';
 
 const CombinedComponents = () => (
   <>
@@ -61,11 +61,11 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx
-const { default: ThemeProvider } = require('./ThemeProvider');
-const { default: flatTheme } = require('../../lib/theming/themes/FlatTheme');
-const { default: defaultTheme } = require('../../lib/theming/themes/DefaultTheme');
-const { default: darkTheme } = require('./Playground/darkTheme');
-const { ShowcaseGroup } = require('./Playground/ShowcaseGroup');
+import ThemeProvider from '@skbkontur/react-ui/ThemeProvider';
+import flatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+import defaultTheme from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
+import darkTheme from './Playground/darkTheme';
+import { ShowcaseGroup } from './Playground/ShowcaseGroup';
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',

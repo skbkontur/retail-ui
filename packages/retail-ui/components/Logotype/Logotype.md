@@ -1,5 +1,6 @@
-```js
-const { default: Gapped } = require('../Gapped');
+```jsx
+import Gapped from '@skbkontur/react-ui/Gapped';
+
 <Gapped vertical>
   <Logotype suffix="edi" color="#1E79BE" />
   <Logotype suffix="бухгалтерия" color="#A23A99" />

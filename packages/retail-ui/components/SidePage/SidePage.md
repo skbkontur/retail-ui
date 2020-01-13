@@ -1,4 +1,6 @@
 ```jsx
+import Button from '@skbkontur/react-ui/Button';
+
 let initialState = { opened: false };
 
 function renderSidePage() {
