@@ -3,6 +3,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import * as React from 'react';
 import Button from '../../Button';
 import Tooltip, { TooltipProps, TooltipState } from '../Tooltip';
+import Popup from '../../Popup';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -73,14 +74,27 @@ describe('Tooltip', () => {
     expect(onClose.mock.calls.length).toBe(1);
   });
 
-  it('calls `onOpen` with `trigger="opened"`', () => {
-    const onOpen = jest.fn();
-    mount<TooltipProps>(
-      <Tooltip trigger="opened" render={render} onOpen={onOpen}>
-        <div />
-      </Tooltip>,
-    );
-    expect(onOpen).toBeCalledTimes(1);
+  describe('calls `onOpen`', () => {
+    it('with "opened" trigger', () => {
+      const onOpen = jest.fn();
+      mount<TooltipProps>(
+        <Tooltip trigger="opened" render={render} onOpen={onOpen}>
+          <div />
+        </Tooltip>,
+      );
+      expect(onOpen).toBeCalledTimes(1);
+    });
+
+    it('with "focus" trigger', async () => {
+      const onOpen = jest.fn();
+      const wrapper = mount<TooltipProps>(
+        <Tooltip trigger="focus" render={render} onOpen={onOpen}>
+          <div />
+        </Tooltip>,
+      );
+      await wrapper.find(Popup).invoke('onOpen')!();
+      expect(onOpen).toBeCalledTimes(1);
+    });
   });
 
   it('renders stateless children component without errors', () => {
