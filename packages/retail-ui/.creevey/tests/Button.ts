@@ -247,7 +247,7 @@ describe('Button', function() {
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hover');
     });
-    it('pressed', async function() {
+    it.skip(['chrome'], 'pressed', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await this.browser
         .actions({
@@ -266,7 +266,7 @@ describe('Button', function() {
         .release()
         .perform();
     });
-    it('clicked', async function() {
+    it.skip(['chrome'], 'clicked', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await this.browser
         .actions({
@@ -304,7 +304,7 @@ describe('Button', function() {
         .perform();
       await expect(await element.takeScreenshot()).to.matchImage('hover');
     });
-    it('pressed', async function() {
+    it.skip(['chrome'], 'pressed', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await this.browser
         .actions({
@@ -323,7 +323,7 @@ describe('Button', function() {
         .release()
         .perform();
     });
-    it('clicked', async function() {
+    it.skip(['chrome'], 'clicked', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await this.browser
         .actions({
