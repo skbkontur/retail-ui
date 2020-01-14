@@ -15,6 +15,8 @@ export interface LocaleProviderProps {
 export const LocaleConsumer = LocaleContext.Consumer;
 
 export default class LocaleProvider extends React.Component<LocaleProviderProps> {
+  public static __KONTUR_REACT_UI__ = 'LocaleProvider';
+
   public static defaultProps = {
     locale: {},
     langCode: defaultLangCode,

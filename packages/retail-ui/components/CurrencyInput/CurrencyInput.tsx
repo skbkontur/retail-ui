@@ -47,6 +47,8 @@ export interface CurrencyInputState {
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
 export default class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
+  public static __KONTUR_REACT_UI__ = 'CurrencyInput';
+
   public static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     autoFocus: PropTypes.bool,

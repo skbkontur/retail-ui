@@ -5,6 +5,7 @@ import { cx } from '../../lib/theming/Emotion';
 import ZIndex from '../ZIndex';
 
 export class Body extends React.Component {
+  public static __KONTUR_REACT_UI__ = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
   public render(): JSX.Element {

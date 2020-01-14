@@ -145,6 +145,8 @@ export interface TooltipState {
 }
 
 class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+  public static __KONTUR_REACT_UI__ = 'Tooltip';
+
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
       const children = props[propName];

@@ -37,6 +37,8 @@ interface MenuState {
 }
 
 export default class InternalMenu extends React.Component<MenuProps, MenuState> {
+  public static __KONTUR_REACT_UI__ = 'InternalMenu';
+
   public static defaultProps = {
     width: 'auto',
     maxHeight: 300,

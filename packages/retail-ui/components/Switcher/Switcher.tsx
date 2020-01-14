@@ -40,6 +40,8 @@ interface SwitcherItem {
 }
 
 class Switcher extends React.Component<SwitcherProps, SwitcherState> {
+  public static __KONTUR_REACT_UI__ = 'Switcher';
+
   public static propTypes = {
     error: PropTypes.bool,
     items: PropTypes.oneOfType([

@@ -24,6 +24,8 @@ export interface TopBarDropdownProps {
 }
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
+  public static __KONTUR_REACT_UI__ = 'TopBarDropdown';
+
   public static defaultProps = {
     use: 'default',
   };

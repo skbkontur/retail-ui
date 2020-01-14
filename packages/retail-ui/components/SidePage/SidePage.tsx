@@ -84,6 +84,8 @@ interface ZIndexPropsType {
  * **Footer** необходимо передать пропс **panel**
  */
 class SidePage extends React.Component<SidePageProps, SidePageState> {
+  public static __KONTUR_REACT_UI__ = 'SidePage';
+
   public static Header = SidePageHeader;
   public static Body: (props: SidePageBodyProps) => JSX.Element = SidePageBodyWithContext;
   public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;

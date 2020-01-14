@@ -16,6 +16,8 @@ type Props = BaseProps & {
  * @deprecated Компонент устарел и будет удален в версии 2.0.0. Используйте актульный [ComboBox](#/Components/ComboBox).
  */
 export default class ComboBoxOld extends React.Component<Props, $FlowFixMeState> {
+  static __KONTUR_REACT_UI__ = 'ComboBoxOld';
+
   static propTypes = {
     autoFocus: PropTypes.bool,
 

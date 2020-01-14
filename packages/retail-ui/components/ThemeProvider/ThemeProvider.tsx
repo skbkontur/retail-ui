@@ -12,6 +12,8 @@ interface ThemeProviderProps {
 }
 
 export class ThemeProvider extends React.Component<ThemeProviderProps> {
+  public static __KONTUR_REACT_UI__ = 'ThemeProvider';
+
   private theme: ITheme;
 
   constructor(props: ThemeProviderProps) {
