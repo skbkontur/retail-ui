@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { TooltipPosition, ValidationTooltip } from './ValidationTooltip';
 import { RenderErrorMessage } from './ValidationWrapperInternal';

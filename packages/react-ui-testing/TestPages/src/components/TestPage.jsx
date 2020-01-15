@@ -8,7 +8,7 @@ import { FxInput } from 'retail-ui/components/FxInput';
 import { Input } from 'retail-ui/components/Input';
 import { Link } from 'retail-ui/components/Link';
 import { Modal } from 'retail-ui/components/Modal';
-import RadioGroup from 'retail-ui/components/RadioGroup';
+import { RadioGroup } from 'retail-ui/components/RadioGroup';
 import { Select } from 'retail-ui/components/Select';
 import { Textarea } from 'retail-ui/components/Textarea';
 import { Tooltip } from 'retail-ui/components/Tooltip';

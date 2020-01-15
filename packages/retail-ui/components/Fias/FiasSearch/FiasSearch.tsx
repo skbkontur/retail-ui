@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from '../Form/FiasComboBox';

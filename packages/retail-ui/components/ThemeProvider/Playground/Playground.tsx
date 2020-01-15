@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-key */
-import * as React from 'react';
+import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';

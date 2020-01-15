@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import { createPortal } from 'react-dom';
 import FocusLock from 'react-focus-lock';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -23,7 +23,6 @@ import { Body } from './ModalBody';
 import { ModalClose } from './ModalClose';
 import styles from './Modal.module.less';
 import { jsStyles } from './Modal.styles';
-
 
 let mountedModalsCount = 0;
 
@@ -295,7 +294,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   // TODO: без порталов ломается сохранение фокуса внутри модалки
   // NOTE: в ie нормально не работает
   private isDisableFocusLock = () => {
-    return !ReactDOM.createPortal || isIE;
+    return !createPortal || isIE;
   };
 
   private handleResize = (event: UIEvent) => {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Prism as Code } from 'react-syntax-highlighter';
 import darcula from 'react-syntax-highlighter/dist/esm/styles/prism/darcula';
 

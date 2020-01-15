@@ -1,6 +1,6 @@
 import '../ensureOldIEClassName';
 
-import * as React from 'react';
+import React from 'react';
 import * as PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 

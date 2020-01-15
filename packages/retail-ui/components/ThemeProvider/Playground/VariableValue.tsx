@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import EventEmitter from 'eventemitter3';

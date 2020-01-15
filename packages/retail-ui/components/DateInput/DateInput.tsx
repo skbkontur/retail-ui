@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';

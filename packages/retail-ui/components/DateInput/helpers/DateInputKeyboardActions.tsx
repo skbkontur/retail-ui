@@ -1,5 +1,5 @@
 // @ts-ignore noUnusedVar
-import * as React from 'react';
+import React from 'react';
 
 import { SEPARATOR } from '../../../lib/date/constants';
 import * as Keyboard from '../../../lib/events/keyboard/identifiers';

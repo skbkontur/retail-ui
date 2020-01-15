@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';

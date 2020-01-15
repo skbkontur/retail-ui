@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { PopupMenu, PopupMenuProps } from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';

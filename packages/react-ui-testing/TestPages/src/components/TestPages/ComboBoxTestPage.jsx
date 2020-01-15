@@ -1,16 +1,10 @@
 import React from 'react';
-import { CaseSuite, Case } from '../Case';
+import {
+  Case,
+  CaseSuite,
+} from '../Case';
 
-function __import_default__(requireResult) {
-  return requireResult.__esModule ? requireResult.default : requireResult;
-}
-
-let ComboBox;
-if (process.env.newCombobox) {
-  ComboBox = __import_default__(require('retail-ui/components/ComboBoxOld'));
-} else {
-  ComboBox = __import_default__(require('retail-ui/components/ComboBox'));
-}
+const ComboBox = require('retail-ui/components/ComboBox').ComboBox;
 
 function withDelay(timeout, result) {
   return (...args) => new Promise(resolve => setTimeout(() => resolve(result(...args)), timeout));

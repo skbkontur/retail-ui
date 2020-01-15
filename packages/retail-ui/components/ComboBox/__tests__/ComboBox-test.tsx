@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
 import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
@@ -6,8 +6,8 @@ import { LangCodes , LocaleProvider } from '../../LocaleProvider';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText } from '../../internal/InputLikeText';
-import { MenuItem } from '../../MenuItem/MenuItem';
-import { Menu } from '../../Menu/Menu';
+import { MenuItem } from '../../MenuItem';
+import { Menu } from '../../Menu';
 import { delay } from '../../../lib/utils';
 import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
 import { ComboBoxView } from '../../CustomComboBox/ComboBoxView';

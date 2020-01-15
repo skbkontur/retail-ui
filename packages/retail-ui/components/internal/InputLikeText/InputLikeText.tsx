@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import '../../ensureOldIEClassName';
 import { isKeyTab, isShortcutPaste } from '../../../lib/events/keyboard/identifiers';

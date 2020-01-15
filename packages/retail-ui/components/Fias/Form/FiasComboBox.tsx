@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { ComboBox, ComboBoxProps } from '../../ComboBox';
 import { Address } from '../models/Address';

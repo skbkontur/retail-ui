@@ -52,6 +52,12 @@ globals:
   ReactTesting: true
 
 rules:
+  no-restricted-syntax:
+    - 2
+    - selector: ImportNamespaceSpecifier[local.name='React']
+      message: Use `import React from 'react'`
+    - selector: ImportNamespaceSpecifier[local.name='ReactDOM']
+      message: Use `import { ... } from 'react-dom'`
   # typescript rules
   '@typescript-eslint/explicit-function-return-type': 0
   # TODO enforce to error after migration to import

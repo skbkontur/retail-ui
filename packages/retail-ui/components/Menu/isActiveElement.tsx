@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { MenuItem, MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
 

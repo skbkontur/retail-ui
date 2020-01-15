@@ -12,7 +12,8 @@
     "declaration": true,
     "esModuleInterop": true,
     "noUnusedLocals": true,
-    "skipLibCheck": true
+    "types": ["@types/jest", "@types/mocha"],
+    "typeRoots": ["node_modules/creevey/types", "node_modules/@types"]
   },
   "exclude": ["node_modules", "**/node_modules/*", "**/styleguide", "**/build"]
 }

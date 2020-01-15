@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { CHAR_MASK } from '../../lib/date/constants';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';

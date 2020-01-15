@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import EventEmitter from 'eventemitter3';
 
 interface StackInfo {

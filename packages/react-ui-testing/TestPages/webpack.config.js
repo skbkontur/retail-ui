@@ -2,8 +2,8 @@ const path = require('path');
 const semver = require('semver');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const retailUiPath = path.resolve(__dirname, '../../retail-ui');
-var { versions, retailUiLocalVersionStub } = require('./versions');
+const retailUiPath = path.resolve(__dirname, '../../retail-ui/build');
+const { versions, retailUiLocalVersionStub } = require('./versions');
 
 const versionsDependencies = versions.map(x => Object.keys(x.dependencies)).reduce((a, c) => a.concat(c), []);
 

@@ -1,5 +1,5 @@
 import { mount, ReactWrapper } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 
 import { Button } from '../../Button';
 import { Tooltip, TooltipProps, TooltipState } from '../Tooltip';

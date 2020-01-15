@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../internal/icons/CrossIcon';

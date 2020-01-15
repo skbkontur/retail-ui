@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';

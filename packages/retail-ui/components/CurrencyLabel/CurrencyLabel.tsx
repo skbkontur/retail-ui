@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';

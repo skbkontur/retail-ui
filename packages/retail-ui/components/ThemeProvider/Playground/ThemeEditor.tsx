@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { css } from '../../../lib/theming/Emotion';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';

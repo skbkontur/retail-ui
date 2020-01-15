@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
 

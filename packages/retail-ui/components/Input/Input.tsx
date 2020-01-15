@@ -1,7 +1,7 @@
 import '../ensureOldIEClassName';
 
 import invariant from 'invariant';
-import * as React from 'react';
+import React from 'react';
 import raf from 'raf';
 
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';

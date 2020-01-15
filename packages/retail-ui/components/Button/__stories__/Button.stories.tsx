@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';

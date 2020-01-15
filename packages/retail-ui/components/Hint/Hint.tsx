@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../typings/utility-types';

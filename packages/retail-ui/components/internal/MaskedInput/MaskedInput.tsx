@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
 import { cx } from '../../../lib/theming/Emotion';

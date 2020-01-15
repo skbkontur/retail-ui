@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import shallowEqual from 'shallowequal';
 
 import { InternalDate } from '../../lib/date/InternalDate';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 import { Logotype } from 'retail-ui/components/Logotype';

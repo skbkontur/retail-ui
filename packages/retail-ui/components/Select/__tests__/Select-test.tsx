@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LangCodes, LocaleProvider } from '../../LocaleProvider';

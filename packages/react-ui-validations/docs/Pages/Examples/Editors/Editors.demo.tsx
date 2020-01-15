@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
 import { Button } from 'retail-ui/components/Button';

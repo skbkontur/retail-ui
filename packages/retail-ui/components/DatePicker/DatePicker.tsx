@@ -1,5 +1,5 @@
 import * as PropTypes from 'prop-types';
-import * as React from 'react';
+import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { InternalDate } from '../../lib/date/InternalDate';

@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react';
-import * as React from 'react';
+import React from 'react';
 import { Button } from 'retail-ui/components/Button';
 import { DatePicker } from 'retail-ui/components/DatePicker';
 

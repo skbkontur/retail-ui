@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import UserIcon from '@skbkontur/react-icons/User';
 import SearchIcon from '@skbkontur/react-icons/Search';

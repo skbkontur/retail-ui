@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import ReactDOM from 'react-dom';

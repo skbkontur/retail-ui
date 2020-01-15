@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';

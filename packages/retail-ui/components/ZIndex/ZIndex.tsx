@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import createReactContext from 'create-react-context';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';

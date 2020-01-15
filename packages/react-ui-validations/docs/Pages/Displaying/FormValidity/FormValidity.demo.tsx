@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Button } from 'retail-ui/components/Button';
 import { Input } from 'retail-ui/components/Input';
 import { Gapped } from 'retail-ui/components/Gapped';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';

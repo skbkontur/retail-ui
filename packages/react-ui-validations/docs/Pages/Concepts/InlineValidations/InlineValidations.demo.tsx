@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Button } from 'retail-ui/components/Button';
 
 import { ValidationContainer } from '../../../../src';

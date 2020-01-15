@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import * as ReactDom from 'react-dom';
 import { hot } from 'react-hot-loader/root';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';

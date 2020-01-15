@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { func, number } from 'prop-types';
 import warning from 'warning';
 

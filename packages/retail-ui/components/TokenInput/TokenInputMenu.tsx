@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { locale } from '../LocaleProvider/decorators';
 import { Popup } from '../Popup';

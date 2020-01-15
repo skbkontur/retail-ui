@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import MockDateMock from 'mockdate';
 
 export class MockDate extends React.Component<{ date: Date }> {

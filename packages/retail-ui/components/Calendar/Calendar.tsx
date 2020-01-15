@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import normalizeWheel from 'normalize-wheel';
 
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';

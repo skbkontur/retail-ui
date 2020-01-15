@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { ZIndex } from '../ZIndex';

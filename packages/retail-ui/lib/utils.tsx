@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { ConsumerProps } from 'create-react-context';
 import { ReactComponentLike } from 'prop-types';
 

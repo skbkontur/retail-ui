@@ -79,7 +79,7 @@ module.exports = function(content) {
   }
 
   return `
-import * as React from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'retail-ui/components/Link';
 import styled from 'styled-components';

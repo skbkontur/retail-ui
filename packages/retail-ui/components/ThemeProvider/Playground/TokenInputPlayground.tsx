@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import { TokenInput } from '../../TokenInput';
 import { Token, TokenColors } from '../../Token';
