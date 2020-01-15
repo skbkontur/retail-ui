@@ -1,20 +1,6 @@
 let customAcceptAttribute = prevResult => prevResult;
 let attributeWhiteList = null;
 
-const ReactTypeOfWork = {
-  IndeterminateComponent: 0,
-  FunctionalComponent: 1,
-  ClassComponent: 2,
-  HostRoot: 3,
-  HostPortal: 4,
-  HostComponent: 5,
-  HostText: 6,
-  CoroutineComponent: 7,
-  CoroutineHandlerPhase: 8,
-  YieldComponent: 9,
-  Fragment: 10,
-};
-
 // Inlined from ReactTypeOfSideEffect
 var PerformedWork = 1;
 
@@ -150,6 +136,57 @@ function stringifySafe(value) {
 // ==================== FIBER =========================
 // ====================================================
 
+const ReactWorkTypes = {
+  FunctionComponent: 'FunctionComponent',
+  ClassComponent: 'ClassComponent',
+  HostPortal: 'HostPortal',
+  HostComponent: 'HostComponent',
+  Fragment: 'Fragment',
+  ContextConsumer: 'ContextConsumer',
+  ContextProvider: 'ContextProvider',
+};
+
+const WorkTagsByReactVersion = {
+  ['<16.5']: {
+    [ReactWorkTypes.FunctionComponent]: 1,
+    [ReactWorkTypes.ClassComponent]: 2,
+    [ReactWorkTypes.HostPortal]: 4,
+    [ReactWorkTypes.HostComponent]: 5,
+    [ReactWorkTypes.Fragment]: 10,
+    [ReactWorkTypes.ContextConsumer]: 12,
+    [ReactWorkTypes.ContextProvider]: 13,
+  },
+  ['>=16.5 <16.6']: {
+    [ReactWorkTypes.FunctionComponent]: 0,
+    [ReactWorkTypes.ClassComponent]: 2,
+    [ReactWorkTypes.HostPortal]: 6,
+    [ReactWorkTypes.HostComponent]: 7,
+    [ReactWorkTypes.Fragment]: 9,
+    [ReactWorkTypes.ContextConsumer]: 11,
+    [ReactWorkTypes.ContextProvider]: 12,
+  },
+  ['>=16.6']: {
+    [ReactWorkTypes.FunctionComponent]: 0,
+    [ReactWorkTypes.ClassComponent]: 1,
+    [ReactWorkTypes.HostPortal]: 4,
+    [ReactWorkTypes.HostComponent]: 5,
+    [ReactWorkTypes.Fragment]: 7,
+    [ReactWorkTypes.ContextConsumer]: 9,
+    [ReactWorkTypes.ContextProvider]: 10,
+  },
+};
+
+function isFiberNodeOfType(node, type) {
+  if (!node) return false;
+  const reactVersion = node.hasOwnProperty('elementType')
+    ? '>=16.6'
+    : node.hasOwnProperty('firstContextDependency')
+    ? '>=16.5 <16.6'
+    : '<16.5';
+  const ReactWorkTags = WorkTagsByReactVersion[reactVersion];
+  const tag = ReactWorkTags ? ReactWorkTags[type] : null;
+  return node.tag === tag;
+}
 function injectFiberHanlers(hook) {
   extendStaticObject(hook, {
     onCommitFiberRoot: base => (...args) => {
@@ -256,7 +293,7 @@ function updateIfNecessaryFiberNode(node, hasChildOrderChanged) {
 function syncDomNodeWithFiberNode(node) {
   const attrs = {};
   const visitedNodes = [];
-  if (node.tag === 4 && node.sibling) {
+  if (isFiberNodeOfType(node, ReactWorkTypes.HostPortal) && node.sibling) {
     const domElement = findDomElementByFiberNode(node.sibling);
     const targetDomElement = findDomElementByFiberNode(node.sibling.return);
     fillAttrsForDomElementByFiberNodeRecursive(attrs, node.sibling, visitedNodes, domElement);
@@ -282,7 +319,7 @@ function syncDomNodeWithFiberNode(node) {
 }
 
 function hasDataChanged(prevFiber, nextFiber) {
-  if (prevFiber.tag === ReactTypeOfWork.ClassComponent) {
+  if (isFiberNodeOfType(prevFiber, ReactWorkTypes.ClassComponent)) {
     if ((nextFiber.effectTag & PerformedWork) !== PerformedWork) {
       return false;
     }
@@ -324,11 +361,17 @@ function fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node, visited
   }
   visitedNodes.push(node);
   fillAttrsForDomElementByFiberNode(attrContainer, node);
-  if (node.tag === 1 || node.tag === 2 || node.tag === 12 || node.tag === 13 || node.tag === 10) {
+  if (
+    isFiberNodeOfType(node, ReactWorkTypes.FunctionComponent) ||
+    isFiberNodeOfType(node, ReactWorkTypes.ClassComponent) ||
+    isFiberNodeOfType(node, ReactWorkTypes.ContextConsumer) ||
+    isFiberNodeOfType(node, ReactWorkTypes.ContextProvider) ||
+    isFiberNodeOfType(node, ReactWorkTypes.Fragment)
+  ) {
     fillAttrsForDomElementByFiberNodeRecursive(attrContainer, node.child, visitedNodes);
-  } else if (node.tag === 5) {
+  } else if (isFiberNodeOfType(node, ReactWorkTypes.HostComponent)) {
     // I dont know what does it mean
-  } else if (node.tag === 4) {
+  } else if (isFiberNodeOfType(node, ReactWorkTypes.HostPortal)) {
     // I dont know what does it mean
   } else {
   }
