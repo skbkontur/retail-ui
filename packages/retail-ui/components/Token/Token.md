@@ -1,15 +1,17 @@
 Token example
 
-```js
-const { default: Token } = require('./Token');
+```jsx
+import Token from '@skbkontur/react-ui/Token';
+import Gapped from '@skbkontur/react-ui/Gapped';
 
 <Token>Example</Token>;
 ```
 
 You can control color of each token
 
-```js
-const { default: Gapped } = require('../Gapped');
+```jsx
+import Gapped from '@skbkontur/react-ui/Gapped';
+
 const colors = {
   default: {
     idle: 'defaultIdle',
@@ -89,7 +91,10 @@ const colors = {
 
 Can accept validation state
 
-```js
+```jsx
+import Token from '@skbkontur/react-ui/Token';
+import Gapped from '@skbkontur/react-ui/Gapped';
+
 <Gapped gap={20} vertical>
   <Gapped gap={10}>
     <Token>Correct</Token>
@@ -105,5 +110,5 @@ Can accept validation state
       Errored
     </Token>
   </Gapped>
-</Gapped>
+</Gapped>;
 ```

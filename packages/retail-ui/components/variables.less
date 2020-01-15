@@ -98,7 +98,10 @@
 @btn-focus-shadow-width: 2px;
 @btn-border-radius: 2px;
 @btn-small-border-radius: 1px;
+@btn-link-border-radius: '__COMPUTED__';
 @btn-menu-arrow-color: #a6a6a6;
+
+@btn-focus-border: '__COMPUTED__';
 
 @btn-padding-y-small: '__COMPUTED__';
 @btn-padding-x-small: 15px;
@@ -118,13 +121,19 @@
 @btn-checked-bg: #737373;
 @btn-checked-text-color: #fff;
 @btn-checked-shadow-color-arrow: rgba(0, 0, 0, 0.3);
+@btn-checked-shadow: '__COMPUTED__';
+@btn-shadow-checked-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3);
+@btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
 
 // use default
 @btn-default-bg-start: #fff;
 @btn-default-bg-end: #ebebeb;
 @btn-default-bg-arrow-start: #fff;
 @btn-default-bg-arrow-end: #ebebeb;
+@btn-default-checked-shadow-arrow: '__COMPUTED__';
 @btn-default-text-color: none;
+@btn-default-hover-bg: none;
+@btn-default-hover-border-color: none;
 @btn-default-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
 @btn-default-shadow-arrow: 1.2px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.15);
 @btn-default-shadow-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.15);
@@ -134,6 +143,8 @@
 @btn-default-hover-shadow-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.2);
 @btn-default-hover-shadow-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.2);
 @btn-default-active-bg: #e1e1e1;
+@btn-default-active-border-color: none;
+@btn-default-border: 0px solid rgba(0, 0, 0, 0.15);
 @btn-default-active-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2),
   inset 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 @btn-default-active-shadow-arrow: 0 -2px 0 -1px rgba(0, 0, 0, 0.1), 1px -1px 0 0 rgba(0, 0, 0, 0.2),
@@ -148,6 +159,9 @@
 @btn-success-bg-arrow-end: #37910b;
 @btn-success-bg-end: #37910b;
 @btn-success-text-color: #fff;
+@btn-success-hover-bg: none;
+@btn-success-disabled-bg: none;
+@btn-success-border: 0px solid transparent;
 @btn-success-shadow: 0 0 0 1px rgba(25, 103, 6, 0.7), 0 1px 0 0 rgba(21, 80, 7, 0.5);
 @btn-success-shadow-arrow: 1px -1px 0 0 rgba(25, 103, 6, 0.7), 1px 0 0 0 rgba(21, 80, 7, 0.5);
 @btn-success-shadow-arrow-left: 1px -1px 0 0 rgba(25, 103, 6, 0.7), 0 -1px 0 0 rgba(21, 80, 7, 0.5);
@@ -171,6 +185,9 @@
 @btn-primary-bg-end: #167ac1;
 @btn-primary-bg-arrow-end: #167ac1;
 @btn-primary-text-color: #fff;
+@btn-primary-hover-bg: none;
+@btn-primary-disabled-bg: none;
+@btn-primary-border: 0px solid transparent;
 @btn-primary-shadow: 0 0 0 1px rgba(14, 81, 129, 0.7), 0 1px 0 0 rgba(7, 37, 80, 0.5);
 @btn-primary-shadow-arrow: 1px -1px 0 0 rgba(14, 81, 129, 0.7), 1px 0 0 0 rgba(7, 37, 80, 0.5);
 @btn-primary-shadow-arrow-left: 1px -1px 0 0 rgba(14, 81, 129, 0.7), 0 -1px 0 0 rgba(7, 37, 80, 0.5);
@@ -194,6 +211,9 @@
 @btn-danger-bg-end: #d44327;
 @btn-danger-bg-arrow-end: #d44327;
 @btn-danger-text-color: #fff;
+@btn-danger-hover-bg: none;
+@btn-danger-disabled-bg: none;
+@btn-danger-border: 0px solid transparent;
 @btn-danger-shadow: 0 0 0 1px rgba(173, 15, 0, 0.7), 0 1px 0 0 rgba(0, 0, 0, 0.4);
 @btn-danger-shadow-arrow: 1px -1px 0 0 rgba(173, 15, 0, 0.7), 1px 0 0 0 rgba(0, 0, 0, 0.4);
 @btn-danger-shadow-arrow-left: 1px -1px 0 0 rgba(173, 15, 0, 0.7), 0 -1px 0 0 rgba(0, 0, 0, 0.4);
@@ -217,6 +237,9 @@
 @btn-pay-bg-end: #ffbb39;
 @btn-pay-bg-arrow-end: #ffbb39;
 @btn-pay-text-color: none;
+@btn-pay-hover-bg: none;
+@btn-pay-disabled-bg: none;
+@btn-pay-border: 0px solid transparent;
 @btn-pay-shadow: 0 0 0 1px rgba(238, 169, 34, 0.7), 0 1px 0 0 rgba(77, 16, 0, 0.56);
 @btn-pay-shadow-arrow: 1px -1px 0 0 rgba(238, 169, 34, 0.7), 1px -0.3px 0 0 rgba(77, 16, 0, 0.56);
 @btn-pay-shadow-arrow-left: 1px -1px 0 0 rgba(238, 169, 34, 0.7), 0.2px -1px 0 -0.3px rgba(77, 16, 0, 0.56);
@@ -366,9 +389,6 @@
 @menu-border: 1px solid #d5d5d5;
 @menu-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 
-@btn-shadow-checked-arrow: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3);
-@btn-shadow-checked-arrow-left: 1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3);
-
 // Toggle
 @toggle-bg: linear-gradient(-180deg, #fff, #ebebeb);
 @toggle-bg-checked: #3072c4;
@@ -378,7 +398,10 @@
 @toggle-bg-active: '__COMPUTED__';
 @toggle-focus-shadow-color: '__COMPUTED__';
 @toggle-border-color: #d0d0d0;
+@toggle-bg-disabled: '__COMPUTED__';
+@toggle-bg-hover: '__COMPUTED__';
 
+// Popup
 @popup-border-radius: 2px;
 @popup-border: none;
 @popup-border-color: transparent;
@@ -388,9 +411,14 @@
 
 // Input
 @input-text-color: none;
+@input-icon-color: '__COMPUTED__';
 @input-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
 @input-bg: white;
 @input-disabled-border-color: '__COMPUTED__';
+@input-color: '__COMPUTED__';
+@input-disabled-color: '__COMPUTED__';
+@input-border-width: '__COMPUTED__';
+@input-border-top-color: '__COMPUTED__';
 
 // Checkbox
 @chb-bg: '__COMPUTED__';
@@ -407,8 +435,13 @@
 @chb-border-radius: 1px;
 @chb-shadow-width: 2px;
 @chb-checked-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+@chb-shadow-hover: '__COMPUTED__';
+@chb-checked-color: '__COMPUTED__';
+@chb-checked-hover-shadow: '__COMPUTED__';
 
 // Textarea
+@textarea-bg: '__COMPUTED__';
+@textarea-color: '__COMPUTED__';
 @textarea-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05);
 @textarea-border-top-color: '__COMPUTED__';
 @textarea-disabled-color: '__COMPUTED__';
@@ -498,7 +531,9 @@
 @value loaderOpacity: @loader-opacity;
 @value btnWrapPadding: @btn-wrap-padding;
 @value btnHeightShift: @btn-height-shift;
+@value btnLinkBorderRadius: @btn-link-border-radius;
 @value btnFocusShadowWidth: @btn-focus-shadow-width;
+@value btnFocusBorder: @btn-focus-border;
 @value btnDisabledBg: @btn-disabled-bg;
 @value btnDisabledShadowColor: @btn-disabled-shadow-color;
 @value btnDisabledShadow: @btn-disabled-shadow;
@@ -506,6 +541,7 @@
 @value btnDisabledTextColor: @btn-disabled-text-color;
 @value btnCheckedBg: @btn-checked-bg;
 @value btnCheckedTextColor: @btn-checked-text-color;
+@value btnCheckedShadow: @btn-checked-shadow;
 @value btnCheckedShadowColorArrow: @btn-checked-shadow-color-arrow;
 @value btnCheckedShadowArrow: @btn-shadow-checked-arrow;
 @value btnCheckedShadowArrowLeft: @btn-shadow-checked-arrow-left;
@@ -519,9 +555,26 @@
 @value btnPaddingXLarge: @btn-padding-x-large;
 @value btnDefaultBgStart: @btn-default-bg-start;
 @value btnDefaultBgEnd: @btn-default-bg-end;
+@value btnSmallArrowLength: @btn-small-arrow-length;
+@value btnSmallArrowRight: @btn-small-arrow-right;
+@value btnSmallArrowLeft: @btn-small-arrow-left;
+@value btnSmallArrowBorderRadius: @btn-small-arrow-border-radius;
+@value btnMediumArrowLeft: @btn-medium-arrow-left;
+@value btnMediumArrowLeftLoadingLeft: @btn-medium-arrow-left-loading-left;
+@value btnMediumArrowTransform: @btn-medium-arrow-transform;
+@value btnDeprecatedSizeMediumFontSize: @btn-deprecated-size-medium-font-size;
+@value btnDeprecatedSizeMediumPaddingShift: @btn-deprecated-size-medium-padding-shift;
+@value btnLargeArrowLeft: @btn-large-arrow-left;
+@value btnLargeArrowTransform: @btn-large-arrow-transform;
+@value btnLargeArrowBg: @btn-large-arrow-bg;
 @value btnDefaultBgArrowStart: @btn-default-bg-arrow-start;
 @value btnDefaultBgArrowEnd: @btn-default-bg-arrow-end;
+@value btnDefaultCheckedShadowArrow: @btn-default-checked-shadow-arrow;
 @value btnDefaultTextColor: @btn-default-text-color;
+@value btnDefaultHoverBg: @btn-default-hover-bg;
+@value btnDefaultHoverBorderColor: @btn-default-hover-border-color;
+@value btnDefaultActiveBorderColor: @btn-default-active-border-color;
+@value btnDefaultBorder: @btn-default-border;
 @value btnDefaultShadow: @btn-default-shadow;
 @value btnDefaultShadowArrow: @btn-default-shadow-arrow;
 @value btnDefaultShadowArrowLeft: @btn-default-shadow-arrow-left;
@@ -535,6 +588,9 @@
 @value btnDefaultActiveShadowArrow: @btn-default-active-shadow-arrow;
 @value btnDefaultActiveShadowArrowLeft: @btn-default-active-shadow-arrow-left;
 @value btnSuccessBg: @btn-success-bg;
+@value btnSuccessHoverBg: @btn-success-hover-bg;
+@value btnSuccessDisabledBg: @btn-success-disabled-bg;
+@value btnSuccessBorder: @btn-success-border;
 @value btnSuccessBgStart: @btn-success-bg-start;
 @value btnSuccessBgEnd: @btn-success-bg-end;
 @value btnSuccessBgArrowStart: @btn-success-bg-arrow-start;
@@ -553,6 +609,9 @@
 @value btnSuccessActiveShadowArrow: @btn-success-active-shadow-arrow;
 @value btnSuccessActiveShadowArrowLeft: @btn-success-active-shadow-arrow-left;
 @value btnPrimaryBg: @btn-primary-bg;
+@value btnPrimaryHoverBg: @btn-primary-hover-bg;
+@value btnPrimaryDisabledBg: @btn-primary-disabled-bg;
+@value btnPrimaryBorder: @btn-primary-border;
 @value btnPrimaryBgStart: @btn-primary-bg-start;
 @value btnPrimaryBgEnd: @btn-primary-bg-end;
 @value btnPrimaryBgArrowStart: @btn-primary-bg-arrow-start;
@@ -571,6 +630,9 @@
 @value btnPrimaryActiveShadowArrow: @btn-primary-active-shadow-arrow;
 @value btnPrimaryActiveShadowArrowLeft: @btn-primary-active-shadow-arrow-left;
 @value btnDangerBg: @btn-danger-bg;
+@value btnDangerHoverBg: @btn-danger-hover-bg;
+@value btnDangerDisabledBg: @btn-danger-disabled-bg;
+@value btnDangerBorder: @btn-danger-border;
 @value btnDangerBgStart: @btn-danger-bg-start;
 @value btnDangerBgEnd: @btn-danger-bg-end;
 @value btnDangerBgArrowStart: @btn-danger-bg-arrow-start;
@@ -589,6 +651,9 @@
 @value btnDangerActiveShadowArrow: @btn-danger-active-shadow-arrow;
 @value btnDangerActiveShadowArrowLeft: @btn-danger-active-shadow-arrow-left;
 @value btnPayBg: @btn-pay-bg;
+@value btnPayHoverBg: @btn-pay-hover-bg;
+@value btnPayDisabledBg: @btn-pay-disabled-bg;
+@value btnPayBorder: @btn-pay-border;
 @value btnPayBgStart: @btn-pay-bg-start;
 @value btnPayBgEnd: @btn-pay-bg-end;
 @value btnPayBgArrowStart: @btn-pay-bg-arrow-start;
@@ -690,6 +755,8 @@
 @value menuBorder: @menu-border;
 @value menuShadow: @menu-shadow;
 @value toggleBg: @toggle-bg;
+@value toggleBgDisabled: @toggle-bg-disabled;
+@value toggleBgHover: @toggle-bg-hover;
 @value toggleBgChecked: @toggle-bg-checked;
 @value toggleBgActive: @toggle-bg-active;
 @value toggleBorderColor: @toggle-border-color;
@@ -703,7 +770,11 @@
 @value inputTextColor: @input-text-color;
 @value inputShadow: @input-shadow;
 @value inputBg: @input-bg;
+@value inputBorderTopColor: @input-border-top-color;
+@value inputDisabledBg: @input-disabled-color;
 @value inputDisabledBorderColor: @input-disabled-border-color;
+@value inputIconColor: @input-icon-color;
+@value inputColor: @input-color;
 @value chbBg: @chb-bg;
 @value chbBgStart: @chb-bg-start;
 @value chbBgEnd: @chb-bg-end;
@@ -715,6 +786,9 @@
 @value chbShadowDisabled: @chb-shadow-disabled;
 @value chbShadowActive: @chb-shadow-active;
 @value chbBorder: @chb-border;
+@value chbShadowHover: @chb-shadow-hover;
+@value chbCheckedColor: @chb-checked-color;
+@value chbCheckedHoverShadow: @chb-checked-hover-shadow;
 @value chbBorderRadius: @chb-border-radius;
 @value chbShadowWidth: @chb-shadow-width;
 @value chbCheckedShadow: @chb-checked-shadow;
@@ -745,6 +819,8 @@
 @value toggleBgWarning: @toggle-bg-warning;
 @value toggleBgError: @toggle-bg-error;
 @value toggleFocusShadowColor: @toggle-focus-shadow-color;
+@value textareaBg: @textarea-bg;
+@value textareaColor: @textarea-color;
 @value textareaShadow: @textarea-shadow;
 @value textareaBorderTopColor: @textarea-border-top-color;
 @value textareaDisabledBg: @textarea-disabled-color;

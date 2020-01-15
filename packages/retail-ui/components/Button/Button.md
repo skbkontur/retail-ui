@@ -1,15 +1,15 @@
 Button example
 
-```js
-const OkIcon = require('@skbkontur/react-icons/Ok').default;
+```jsx
+import OkIcon from '@skbkontur/react-icons/Ok';
 
 <Button icon={<OkIcon />}>Ok</Button>;
 ```
 
 Button has different use styles
 
-```js
-const Gapped = require('../Gapped').Gapped;
+```jsx
+import { Gapped } from '@skbkontur/react-ui/Gapped';
 
 <Gapped>
   <Button use="default">Default</Button>
@@ -23,8 +23,8 @@ const Gapped = require('../Gapped').Gapped;
 
 Button can have different sizes
 
-```js
-const Gapped = require('../Gapped').Gapped;
+```jsx
+import { Gapped } from '@skbkontur/react-ui/Gapped';
 
 <Gapped>
   <Button size="small">Small</Button>
@@ -36,6 +36,8 @@ const Gapped = require('../Gapped').Gapped;
 Кнопки-стрелки
 
 ```jsx
+import { Gapped } from '@skbkontur/react-ui/Gapped';
+
 <Gapped gap={25}>
   <Gapped gap={5}>
     <Button arrow="left" size="medium">
@@ -53,13 +55,14 @@ const Gapped = require('../Gapped').Gapped;
       Далее
     </Button>
   </Gapped>
-</Gapped>
+</Gapped>;
 ```
 
 Кнопка в сочетании со спиннером
 
 ```jsx
-const OkIcon = require('@skbkontur/react-icons/Ok').default;
+import OkIcon from '@skbkontur/react-icons/Ok';
+import { Spinner } from '@skbkontur/react-ui/Spinner';
 
 const initialState = {
   loading: false,

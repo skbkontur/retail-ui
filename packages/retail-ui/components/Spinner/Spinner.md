@@ -1,5 +1,7 @@
-```js
-const { default: Gapped } = require('../Gapped');
+```jsx
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Spinner from '@skbkontur/react-ui/Spinner';
+
 const reactNodeCaption = (
   <div>
     <Spinner type="mini" caption={null} /> <span style={{ color: 'tomato', fontSize: '1.3em' }}>З</span>

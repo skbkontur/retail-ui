@@ -4,7 +4,7 @@
 Имеется статический метод `DatePicker.validate`, который проверяет,
 что введенная дата корректна
 
-```jsx static
+```ts static
 DatePicker.validate: (value: string, range?: { minDate?: string; maxDate?: string }) => boolean
 ```
 
@@ -13,7 +13,9 @@ DatePicker.validate: (value: string, range?: { minDate?: string; maxDate?: strin
 Пример с обработкой ошибок, когда пользователь ввел невалидную дату.
 
 ```jsx
-const { ViewDateInputValidateChecks } = require('../DateInput/ViewDateInputValidateChecks');
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Tooltip from '@skbkontur/react-ui/Tooltip';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/DateInput/ViewDateInputValidateChecks';
 
 let initialState = {
   value: '',
@@ -197,13 +199,15 @@ result.forEach((month, index) => {
 
 const isHoliday = (date, isWeekend) => holidays.includes(date) || isWeekend;
 
-<DatePicker isHoliday={isHoliday} enableTodayLink />;
+<DatePicker isHoliday={isHoliday} onChange={() => void 0} enableTodayLink />;
 ```
 
 ### Ручное форматирование даты
 
 ```jsx
-const { default: LocaleProvider, DateOrder, DateSeparator } = require('../LocaleProvider');
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Select from '@skbkontur/react-ui/Select';
+import LocaleProvider, { DateOrder, DateSeparator } from '@skbkontur/react-ui/LocaleProvider';
 
 class DatePickerFormatting extends React.Component {
   constructor() {

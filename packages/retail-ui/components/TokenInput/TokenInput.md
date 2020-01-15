@@ -1,6 +1,7 @@
 ```jsx
-const { default: Token } = require('../Token');
-const { TokenInputType } = require('./TokenInput');
+import Token from '@skbkontur/react-ui/Token';
+import { TokenInputType } from '@skbkontur/react-ui/TokenInput';
+
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const getItems = q =>

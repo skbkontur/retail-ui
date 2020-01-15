@@ -1,5 +1,6 @@
-```js
-const { default: Gapped } = require('../Gapped');
+```jsx
+import Gapped from '@skbkontur/react-ui/Gapped';
+import Link from '@skbkontur/react-ui/Link';
 
 <Gapped>
   <Link>Enabled</Link>

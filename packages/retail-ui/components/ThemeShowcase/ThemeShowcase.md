@@ -7,7 +7,7 @@
 Значения в колонке `Variable name` кликабельны.
 
 ```jsx
-const { default: ThemeShowcase } = require('./ThemeShowcase');
+import ThemeShowcase from './ThemeShowcase';
 
 <ThemeShowcase />;
 ```

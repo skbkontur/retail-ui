@@ -1,8 +1,8 @@
 ```jsx
-const { default: UndoIcon } = require('@skbkontur/react-icons/Undo');
-const { default: FunctionIcon } = require('@skbkontur/react-icons/Function');
-const { default: Button } = require('../Button');
-const { default: Input } = require('../Input');
+import UndoIcon from '@skbkontur/react-icons/Undo';
+import FunctionIcon from '@skbkontur/react-icons/Function';
+import Button from '@skbkontur/react-ui/Button';
+import Input from '@skbkontur/react-ui/Input';
 
 let initialState = { auto: false };
 

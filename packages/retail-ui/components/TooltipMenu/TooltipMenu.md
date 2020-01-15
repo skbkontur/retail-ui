@@ -1,6 +1,11 @@
 Простой пример
 
-```js
+```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
+import MenuHeader from '@skbkontur/react-ui/MenuHeader';
+import Button from '@skbkontur/react-ui/Button';
+
 <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
@@ -11,12 +16,17 @@
   <MenuItem>Раз</MenuItem>
   <MenuItem>Два</MenuItem>
   <MenuItem>Три</MenuItem>
-</TooltipMenu>
+</TooltipMenu>;
 ```
 
 С указанием ширины меню
 
-```js
+```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
+import MenuHeader from '@skbkontur/react-ui/MenuHeader';
+import Button from '@skbkontur/react-ui/Button';
+
 <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
@@ -27,12 +37,17 @@
   <MenuItem>Раз</MenuItem>
   <MenuItem>Два</MenuItem>
   <MenuItem>Три</MenuItem>
-</TooltipMenu>
+</TooltipMenu>;
 ```
 
 С указанием максимальной высоты меню
 
-```js
+```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
+import MenuHeader from '@skbkontur/react-ui/MenuHeader';
+import Button from '@skbkontur/react-ui/Button';
+
 <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
   <MenuHeader>Заголовок меню</MenuHeader>
   <MenuSeparator />
@@ -43,13 +58,14 @@
   <MenuItem>Раз</MenuItem>
   <MenuItem>Два</MenuItem>
   <MenuItem>Три</MenuItem>
-</TooltipMenu>
+</TooltipMenu>;
 ```
 
 В `caption` можно передать любой элемент
 
-```js
-const MenuIcon = require('@skbkontur/react-icons/Menu').default;
+```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+import MenuIcon from '@skbkontur/react-icons/Menu';
 
 <TooltipMenu
   caption={
@@ -67,8 +83,9 @@ const MenuIcon = require('@skbkontur/react-icons/Menu').default;
 
 Только справа
 
-```js
-const LightbulbIcon = require('@skbkontur/react-icons/Lightbulb').default;
+```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
 <TooltipMenu
   caption={
@@ -87,8 +104,9 @@ const LightbulbIcon = require('@skbkontur/react-icons/Lightbulb').default;
 
 Меню только сверху выравненное по правому краю `caption`
 
-```js
-const LightbulbIcon = require('@skbkontur/react-icons/Lightbulb').default;
+```jsx
+import MenuItem from '@skbkontur/react-ui/MenuItem';
+import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
 <TooltipMenu
   caption={
