@@ -84,7 +84,6 @@
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addons": "5.2.8",
     "@storybook/react": "5.2.8",
-    "@types/chalk": "2.2.0",
     "@types/classnames": "^2.2.9",
     "@types/enzyme": "^3.10.4",
     "@types/invariant": "^2.2.30",
