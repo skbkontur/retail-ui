@@ -33,7 +33,7 @@ let Card = ({ name, post }) => (
   </div>
 );
 
-<Gapped gap={-1}>
+<Gapped gap={-1} wrap>
   <Gapped gap={-1}>
     <Card name="Баранова Анастасия" post="SEO GazPro" />
     <Card name="Слуцкий Антон" post="Junior Front-Back Developer" />
