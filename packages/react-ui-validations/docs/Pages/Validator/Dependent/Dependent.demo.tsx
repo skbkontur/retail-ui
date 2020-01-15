@@ -14,7 +14,6 @@ interface Data {
   value: string;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<Data>((b, root) => {
   b.prop(
     x => x.value,
@@ -23,8 +22,6 @@ const validate = createValidator<Data>((b, root) => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   data: Data;

@@ -10,7 +10,6 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import Form from '../../../Common/Form';
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<string[]>(b => {
   b.array(
     x => x,
@@ -20,8 +19,6 @@ const validate = createValidator<string[]>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   emails: string[];

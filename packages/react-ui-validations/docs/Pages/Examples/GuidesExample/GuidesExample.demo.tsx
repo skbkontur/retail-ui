@@ -109,7 +109,6 @@ const isValidInn = (value: string): boolean => {
   }
 };
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<Organization>((b, organization) => {
   b.prop(
     x => x.name,
@@ -151,8 +150,6 @@ const validate = createValidator<Organization>((b, organization) => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   organization: Organization;

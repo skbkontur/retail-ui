@@ -39,7 +39,6 @@ export interface ContactInfo {
   clicked: boolean;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo>(b => {
   b.prop(
     x => x.name,
@@ -105,8 +104,6 @@ const validate = createValidator<ContactInfo>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   data: ContactInfo;

@@ -22,7 +22,6 @@ const getDuplicatesFor = (items: string[], index: number): number[] => {
     .filter(x => x != null) as number[];
 };
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<string[]>((b, a) => {
   b.array(
     x => x,
@@ -34,8 +33,6 @@ const validate = createValidator<string[]>((b, a) => {
     },
   );
 });
-/* tslint:enable:no-shadowed-variable */
-
 export default class ArrayExampleDemo extends React.Component<{}, State> {
   public state: State = {
     values: [''],

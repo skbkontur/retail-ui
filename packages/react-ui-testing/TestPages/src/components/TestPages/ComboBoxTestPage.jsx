@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  Case,
-  CaseSuite,
-} from '../Case';
-
-const ComboBox = require('retail-ui/components/ComboBox').ComboBox;
+import { ComboBox } from 'retail-ui/components/ComboBox';
+import { Case, CaseSuite } from '../Case';
 
 function withDelay(timeout, result) {
   return (...args) => new Promise(resolve => setTimeout(() => resolve(result(...args)), timeout));

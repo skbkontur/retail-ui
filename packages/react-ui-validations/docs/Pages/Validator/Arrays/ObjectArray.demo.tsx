@@ -15,7 +15,6 @@ interface ContactInfo {
   email: string;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo[]>(b => {
   b.array(
     x => x,
@@ -36,8 +35,6 @@ const validate = createValidator<ContactInfo[]>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   contacts: ContactInfo[];

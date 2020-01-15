@@ -21,7 +21,6 @@ interface Data {
   contact: ContactInfo;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<Data>(b => {
   b.prop(
     x => x.contact,
@@ -42,8 +41,6 @@ const validate = createValidator<Data>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   data: Data;

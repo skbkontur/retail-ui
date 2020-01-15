@@ -20,7 +20,6 @@ interface ContactInfo {
   email: string;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo>(b => {
   b.prop(
     x => x.fullName,
@@ -47,8 +46,6 @@ const validate = createValidator<ContactInfo>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   contactInfo: ContactInfo;
