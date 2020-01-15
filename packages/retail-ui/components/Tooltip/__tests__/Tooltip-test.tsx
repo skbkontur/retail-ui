@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Button } from '../../Button';
 import { Tooltip, TooltipProps, TooltipState } from '../Tooltip';
-import Popup from '../../Popup';
+import { Popup } from '../../Popup';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');

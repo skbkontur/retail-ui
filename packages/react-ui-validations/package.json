@@ -19,7 +19,7 @@
     "storybook": "start-storybook -p 8081",
     "start:docs": "webpack-dev-server -d --config webpack.docs.config.js --hot",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
-    "lint:tsc": "tsc --noEmit",
+    "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
     "eslint:fix": "yarn lint:eslint --fix",
     "test": "jest",
