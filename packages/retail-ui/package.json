@@ -154,8 +154,8 @@
     "webpack-watch-files-plugin": "^1.0.3"
   },
   "peerDependencies": {
-    "react": ">=15 <=16",
-    "react-dom": ">=15 <=16"
+    "react": ">=16.9 <17",
+    "react-dom": ">=16.9 <17"
   },
   "jest": {
     "testResultsProcessor": "jest-teamcity-reporter",
