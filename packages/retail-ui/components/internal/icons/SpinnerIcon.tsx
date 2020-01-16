@@ -9,7 +9,7 @@ export interface SpinnerIconProps {
   size: 'mini' | 'normal' | 'big';
 }
 
-const sizes = {
+export const sizes = {
   big: {
     size: 96,
     width: 4,

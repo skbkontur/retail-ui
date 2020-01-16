@@ -4,7 +4,7 @@ import React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
-import { SPINNER_CLOUD_SIZE, SpinnerIcon } from '../../internal/icons/SpinnerIcon';
+import { sizes, SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { Spinner } from '../Spinner';
 import styles from '../Spinner.less';
 import { SpinnerFallback } from '../SpinnerFallback';
@@ -27,8 +27,8 @@ describe('Spinner', () => {
       const cloudProps = component.find('svg').props();
       const { width, height } = cloudProps;
 
-      expect(width).toEqual(SPINNER_CLOUD_SIZE.width);
-      expect(height).toEqual(SPINNER_CLOUD_SIZE.height);
+      expect(width).toEqual(sizes.normal.size);
+      expect(height).toEqual(sizes.normal.size);
     });
 
     it('renders correct default Spinner caption text', () => {
@@ -59,8 +59,8 @@ describe('Spinner', () => {
       const cloud = component.find('svg');
       const { width, height } = cloud.props();
 
-      expect(width).toEqual(SPINNER_CLOUD_SIZE.width * 2);
-      expect(height).toEqual(SPINNER_CLOUD_SIZE.height * 2);
+      expect(width).toEqual(sizes.big.size);
+      expect(height).toEqual(sizes.big.size);
     });
   });
 
@@ -81,8 +81,8 @@ describe('Spinner', () => {
         .prop('style');
 
       expect(cloudStyle).toMatchObject({
-        width: SPINNER_CLOUD_SIZE.width,
-        height: SPINNER_CLOUD_SIZE.height,
+        width: sizes.normal.size,
+        height: sizes.normal.size,
         top: 0,
       });
     });
