@@ -1,31 +1,42 @@
-### 2020
+# 2020
 
-- [ ] Поддержка мобильной версии компонентов
-- [ ] Приватная библиотека с компонентами, использующими фирменый стиль
 - [ ] Реализация компонента списка уведомлений
 - [ ] Реализация компонента загрузки файлов
-- [ ] Поддержка онлайн IDE (codesandbox)
 - [ ] Компонент Grid Layout
+- [ ] Поддержка онлайн IDE (codesandbox)
+- [ ] Поддержка мобильной версии компонентов
+
+### 2.x.x Февраль — Август 2020
+
+- [ ] Создание и выпуск темы с новыми размерами контролов для поддержки 8px сетки по Контур.Гайдам #1733
+- [ ] Встраивание метрик [#1555](https://github.com/skbkontur/retail-ui/issues/1555)
+- [ ] Дизайн решения по сбору [#1539](https://github.com/skbkontur/retail-ui/issues/1539) и отправке [#1566](https://github.com/skbkontur/retail-ui/issues/1566) телеметрии
+- [ ] Интеграция скриншотных тестов КЭвеба и CandyForms в релизный цикл
+
+### 2.0.0 Февраль 2020
+
+- [ ] Уменьшение техдолга [#1578](https://github.com/skbkontur/retail-ui/issues/1578)
+- [ ] Переезд всех стилей с Less на CSS-in-JS [#1625](https://github.com/skbkontur/retail-ui/issues/1625)
+- [ ] Перенос kontur-specific компонентов в приватную библиотеку (Fias, TopBar, Logotype, Spinner) [#1842](https://github.com/skbkontur/retail-ui/issues/1842)
+
+# 2019
 
 ### Декабрь 2019
 
-- [ ] Встраивание метрик [#1555](https://github.com/skbkontur/retail-ui/issues/1555)
-- [ ] Интеграция скриншотных тестов КЭвеба в релизный цикл 
-- [ ] Интеграция скриншотных тестов CandyForms в релизный цикл
+- [x] Создание приватной библиотеки для kontur-specific компонентов типа Fias, TopBar, Logotype, Spinner. 
+- [x] Обновление react-styleguidist и примеров в доке [#1791](https://github.com/skbkontur/retail-ui/issues/1791)
 
 ### Ноябрь 2019
 
-- [ ] Дизайн решения по отправке телеметрии [#1566](https://github.com/skbkontur/retail-ui/issues/1566)
-- [ ] Переезд всех стилей с Less на CSS-in-JS
+- [x] Обновление stotybook до 5-й версии и Webpack до 4 в [#1756](https://github.com/skbkontur/retail-ui/pull/1756)
 
 ### Октябрь 2019
 
-- [ ] Дизайн решения по сбору телеметрии [#1539](https://github.com/skbkontur/retail-ui/issues/1539)
+- [x] ZIndex: add layers priority для [#776](https://github.com/skbkontur/retail-ui/issues/776)
 
 ### Сентябрь 2019
 
 - [x] Библиотека идентификации нажатой клавиши [#1639](https://github.com/skbkontur/retail-ui/pull/1639)
-
 
 ### Август 2019
 
@@ -63,6 +74,8 @@
 ### Январь 2019
 
 - [x] Добавление свойств `prefix/postfix` для `Input` [#727](https://github.com/skbkontur/retail-ui/issues/727)
+
+# 2018
 
 ### Декабрь 2018
 
