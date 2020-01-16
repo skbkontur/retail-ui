@@ -44,9 +44,4 @@ export const {
   stylisPlugins: scope ? extraScopePlugin(scope) : undefined,
 });
 
-export function prefixer<T = { [key: string]: string }>(classes: T): T {
-  return Object.entries(classes).reduce<T>(
-    (pc, [key, value]) => ({ ...pc, [key]: `${PREFIX}-${value}-${Math.floor(Math.random() * 1e8).toString(16)}` }),
-    {} as T,
-  );
-}
+export const cssName = (className: string): string => `.${className}`;

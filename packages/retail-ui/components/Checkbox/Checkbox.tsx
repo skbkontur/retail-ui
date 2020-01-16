@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 import { Nullable, Override } from '../../typings/utility-types';
 import tabListener from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles, { classes } from './Checkbox.styles';
+import jsStyles from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import { OkIcon, SquareIcon } from '../internal/icons/16px';
@@ -148,8 +148,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const rootClass = cx(classes.root, jsStyles.root(this.theme), {
-      [classes.disabled]: !!props.disabled,
+    const rootClass = cx(jsStyles.root(this.theme), {
       [jsStyles.disabled(this.theme)]: !!props.disabled,
       [jsStyles.checked(this.theme)]: !!props.checked,
       [jsStyles.indeterminate(this.theme)]: isIndeterminate,
@@ -182,7 +181,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     });
 
     const box = (
-      <span className={cx(classes.box, jsStyles.box(this.theme))}>
+      <span className={jsStyles.box(this.theme)}>
         {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
       </span>
     );
