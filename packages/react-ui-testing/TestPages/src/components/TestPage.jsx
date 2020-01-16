@@ -12,7 +12,7 @@ import { RadioGroup } from 'retail-ui/components/RadioGroup';
 import { Select } from 'retail-ui/components/Select';
 import { Textarea } from 'retail-ui/components/Textarea';
 import { Tooltip } from 'retail-ui/components/Tooltip';
-import Label from '../common/Label';
+import { Label } from '../common/Label';
 
 function bind(name) {
   return {
