@@ -15,12 +15,11 @@ const BABEL_EXTENSIONS = ['js', '.jsx', '.ts', '.tsx'];
 build();
 
 function build() {
+  handleFile(path.resolve(process.cwd(), 'index.ts'), 'index.ts');
   FoldersToTransform.forEach(dirName => {
     const folderPath = path.resolve(process.cwd(), dirName);
     handle(folderPath, dirName);
   });
-
-  // collectExports(path.join(process.cwd(), 'components'));
 
   generatePackageJson();
 
@@ -32,7 +31,7 @@ function transform(filename, code, opts) {
     cwd: process.cwd(),
     filename,
     sourceMaps: true,
-    retainLines: true
+    retainLines: true,
   });
   result.filename = filename;
   result.actual = code;
@@ -150,97 +149,18 @@ function handle(filename, dirName) {
   if (!fs.existsSync(filename)) {
     return;
   }
-  console.log(filename);
+  console.log(chalk`{grey Entering directory} {green ${filename}}`);
   const stat = fs.statSync(filename);
 
   if (stat.isDirectory()) {
     const dirname = path.join(filename);
-    readdir(filename).forEach(function(filename) {
+    readdir(filename).forEach(filename => {
       const src = path.join(dirname, filename);
       handleFile(src, path.join(dirName, filename));
     });
   } else {
-    write(filename, filename);
+    handleFile(filename, filename);
   }
-}
-
-function collectExports(filename) {
-  if (!fs.existsSync(filename)) {
-    return;
-  }
-  console.log(filename);
-  const stat = fs.statSync(filename);
-
-  if (stat.isDirectory()) {
-    fs.readdir(filename, handleExports(filename));
-  } else {
-  }
-}
-
-function handleExports(dirPath) {
-  return (err, files) => {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-
-    files
-      .map(x => path.join(dirPath, x))
-      .filter(x => fs.statSync(x).isDirectory())
-      .forEach(dir => fs.readdir(dir, handleReexport(dir)));
-
-    function handleReexport(dir) {
-      return (err, files) => {
-        if (err) {
-          console.error(err);
-          process.exit(1);
-        }
-        if (files.includes('index.js')) {
-          handleJsReexport(dir);
-        }
-        if (files.includes('index.d.ts')) {
-          handleTsReexport(dir);
-        }
-        if (files.includes('index.js.flow')) {
-          handleFlowReexport(dir);
-        }
-      };
-    }
-
-    function reexport(dir, ext, getSource) {
-      const name = dir.split(path.sep).slice(-1)[0];
-      const source = getSource(name);
-      const outPath = path.join(OutDir, name + ext);
-      outputFileSync(outPath, source);
-    }
-
-    function handleJsReexport(dir) {
-      reexport(dir, '.js', name => `module.exports = require('./components/${name}');\n`);
-    }
-
-    function handleTsReexport(dir) {
-      reexport(
-        dir,
-        '.d.ts',
-        name => `\
-export * from './components/${name}';
-export { default } from './components/${name}';
-`,
-      );
-    }
-
-    function handleFlowReexport(dir) {
-      reexport(
-        dir,
-        '.js.flow',
-        name => `\
-/* @flow */
-export * from './components/${name}';
-export { default } from './components/${name}';
-`,
-      );
-    }
-  };
 }
 
 function generatePackageJson() {
@@ -251,6 +171,9 @@ function generatePackageJson() {
     license: 'MIT',
     dependencies: packageJson.dependencies,
     homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
+    type: 'module',
+    main: './index.js',
+    module: './index.js',
     repository: {
       type: 'git',
       url: 'git@github.com:skbkontur/retail-ui.git',
