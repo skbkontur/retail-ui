@@ -182,7 +182,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
             )}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)}>
+            <div ref={_ => (this.layoutRef = _)} className={styles.layout}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
@@ -191,8 +191,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
                   footerRef: this.footerRef,
                 }}
               >
-                {/* React <= 15. SidePageContext.Provider can only receive a single child element. */}
-                <div className={styles.layout}>{this.props.children}</div>
+                {this.props.children}
               </SidePageContext.Provider>
             </div>
           </div>

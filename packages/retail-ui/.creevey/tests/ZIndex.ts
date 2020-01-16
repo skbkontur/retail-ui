@@ -12,13 +12,13 @@ describe('ZIndex', function() {
   });
   describe('Modal With Tooltip In Loader', function() {
     it('Loader covers children', async function() {
-      const element = await this.browser.findElement(By.css('[data-prop-value*="hasHeader"]'));
+      const element = await this.browser.findElement(By.css('[data-comp-name~="Loader"]'));
       await expect(await element.takeScreenshot()).to.matchImage('Loader covers children');
     });
   });
   describe('Nested elements in loader', function() {
     it('Loader covers children', async function() {
-      const element = await this.browser.findElement(By.css('[data-prop-value*="hasHeader"]'));
+      const element = await this.browser.findElement(By.css('[data-comp-name~="Loader"]'));
       await expect(await element.takeScreenshot()).to.matchImage('Loader covers children');
     });
   });

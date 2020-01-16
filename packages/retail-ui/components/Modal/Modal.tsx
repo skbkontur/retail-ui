@@ -215,12 +215,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
                         <Close requestClose={this.requestClose} disableClose={this.props.disableClose} />
                       </ZIndex>
                     ) : null}
-                    <ModalContext.Provider value={modalContextProps}>
-                      <div>
-                        {/* React <= 15. ModalContext.Provider can only receive a single child element. */}
-                        {this.props.children}
-                      </div>
-                    </ModalContext.Provider>
+                    <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
                   </FocusLock>
                 </ResizeDetector>
               </div>
