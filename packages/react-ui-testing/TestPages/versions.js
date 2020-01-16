@@ -4,18 +4,10 @@ const retailUiLocalVersionStub = '9.9.9';
 
 const versionsInfo = [
   {
-    react: '16.4.2',
+    react: '16.9.0',
     'retail-ui': [retailUiLocalVersionStub],
     dependencies: {
-      'react-dom': '16.4.2',
-    },
-  },
-  {
-    react: '15.4.2',
-    'retail-ui': [retailUiLocalVersionStub],
-    dependencies: {
-      'react-dom': '15.4.2',
-      'react-addons-css-transition-group': '15.4.2',
+      'react-dom': '16.9.0',
     },
   },
   // закомментировала, поскольку у travis есть ограничение на прогон в 50 минут.
