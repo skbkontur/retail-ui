@@ -4,13 +4,12 @@ import React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
-import { sizes, SpinnerIcon } from '../../internal/icons/SpinnerIcon';
+import { sizes } from '../../internal/icons/SpinnerIcon';
+
 import { Spinner } from '../Spinner';
-import styles from '../Spinner.less';
 import { SpinnerFallback } from '../SpinnerFallback';
 
 const render = (props = {}) => mount(<Spinner {...props} />);
-const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
 describe('Spinner', () => {
   describe('SVG animation', () => {
@@ -29,29 +28,6 @@ describe('Spinner', () => {
 
       expect(width).toEqual(sizes.normal.size);
       expect(height).toEqual(sizes.normal.size);
-    });
-
-    it('renders correct default Spinner caption text', () => {
-      const component = render();
-      const captionText = component.find(generateSelector('captionBottom')).text();
-
-      expect(captionText).toEqual('Загрузка');
-    });
-
-    it('prints correct caption text', () => {
-      const component = render({ caption: 'test' });
-      const captionText = component.find(generateSelector('captionBottom')).text();
-
-      expect(captionText).toEqual('test');
-    });
-
-    it('should render mini Spinner', () => {
-      const component = render({ type: 'mini' });
-      const circle = component.find(SpinnerIcon);
-      const captionRight = component.find(generateSelector('captionRight'));
-
-      expect(circle).toHaveLength(1);
-      expect(captionRight).toHaveLength(1);
     });
 
     it('should render big Spinner', () => {
@@ -75,15 +51,14 @@ describe('Spinner', () => {
 
     it('renders correct size of default Spinner', () => {
       const component = render();
-      const cloudStyle = component
+      const spinnerStyle = component
         .find(SpinnerFallback)
         .find('span')
         .prop('style');
 
-      expect(cloudStyle).toMatchObject({
+      expect(spinnerStyle).toMatchObject({
         width: sizes.normal.size,
         height: sizes.normal.size,
-        top: 0,
       });
     });
 
@@ -96,8 +71,8 @@ describe('Spinner', () => {
         .prop('style');
 
       expect(cloudStyle).toMatchObject({
-        width: 16,
-        height: 16,
+        width: sizes.mini.size,
+        height: sizes.mini.size,
         marginBottom: -3,
         marginLeft: -1,
         marginRight: -1,
@@ -107,7 +82,7 @@ describe('Spinner', () => {
 
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper): string => {
-      return wrapper.find(generateSelector('captionBottom')).text();
+      return wrapper.text();
     };
 
     it('render without LocaleProvider', () => {
