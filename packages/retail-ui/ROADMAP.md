@@ -18,17 +18,19 @@
 - [ ] Уменьшение техдолга [#1578](https://github.com/skbkontur/retail-ui/issues/1578)
 - [ ] Переезд всех стилей с Less на CSS-in-JS [#1625](https://github.com/skbkontur/retail-ui/issues/1625)
 - [ ] Перенос kontur-specific компонентов в приватную библиотеку (Fias, TopBar, Logotype, Spinner) [#1842](https://github.com/skbkontur/retail-ui/issues/1842)
+- [ ] Реорганизация файлов компонентов в библиотеке для упрощения импорта и работы tree-shaking [#1772](https://github.com/skbkontur/retail-ui/issues/1772)
+- [ ] Отказ от retail-ui, паблиш только пакета @skbkontur/react-ui
 
 # 2019
 
 ### Декабрь 2019
 
-- [x] Создание приватной библиотеки для kontur-specific компонентов типа Fias, TopBar, Logotype, Spinner. 
+- [x] Создание отдельного репозитория для «велосипедов» (парковка для обеконтуровских решений для фронта), в которую пойдет приватная библиотека для kontur-specific компонентов типа Fias, TopBar, Logotype, Spinner. 
 - [x] Обновление react-styleguidist и примеров в доке [#1791](https://github.com/skbkontur/retail-ui/issues/1791)
 
 ### Ноябрь 2019
 
-- [x] Обновление stotybook до 5-й версии и Webpack до 4 в [#1756](https://github.com/skbkontur/retail-ui/pull/1756)
+- [x] Обновлены зависимости, в том числе storybook/webpack/react/etc [#1756](https://github.com/skbkontur/retail-ui/pull/1756)
 
 ### Октябрь 2019
 
