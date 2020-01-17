@@ -5,8 +5,7 @@ import Codes from '../../lib/events/keyboard/KeyboardEventCodes';
 
 import Input from '../Input';
 import { InputProps } from '../Input/Input';
-import PasswordInputFallback from './PasswordInputFallback';
-import { ieVerison, isIE } from '../ensureOldIEClassName';
+import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 
 import styles from './PasswordInput.module.less';
@@ -152,11 +151,6 @@ export default class PasswordInput extends React.Component<PasswordInputProps, P
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
     };
-
-    if (isIE && ieVerison === 8) {
-      return <PasswordInputFallback refInput={this.refInput} visible={this.state.visible} {...inputProps} />;
-    }
-
     return <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />;
   }
 }
