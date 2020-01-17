@@ -190,10 +190,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
 
   public componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
     /**
-     * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
-     * used. It causes refs callbacks to call after componentDidUpdate.
-     *
-     * Delaying updateLocation to ensure that ref is set
+     * Delaying updateLocation to ensure it happens after props update
      */
     if (nextProps.opened) {
       if (!this.state.location) {
