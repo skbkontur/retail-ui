@@ -29,7 +29,7 @@ const testItems = [
 export default class ComboBoxTestPage extends React.Component {
   state = {
     simpleComboBoxValue: null,
-    filledComboBoxValue: '1',
+    filledComboBoxValue: testItems[0],
   };
 
   render(): React.Element<*> {
@@ -39,19 +39,13 @@ export default class ComboBoxTestPage extends React.Component {
           <Case.Body>
             <ComboBox
               data-tid="SimpleComboBox"
-              info={withDelay(1000, id => testItems.find(x => x.id === id))}
+              getItems={withDelay(1000, q => testItems.filter(x => x.value1.includes(q)))}
               value={this.state.simpleComboBoxValue}
               onChange={(e, value) => this.setState({ simpleComboBoxValue: value })}
-              source={withDelay(1000, q => ({
-                values: testItems.filter(x => x.value1.includes(q)).map(x => x.id),
-                infos: testItems.filter(x => x.value1.includes(q)),
-              }))}
-              renderItem={(id, x) => x.value1}
-              valueToString={id => {
-                var item = testItems.find(x => x.id === id);
-                return item ? item.value1 : '';
-              }}
-              renderValue={(id, x) => x && x.value1}
+              renderItem={x => x.value1}
+              valueToString={x => x.value1}
+              renderValue={x => x.value1}
+              itemToValue={x => x.id}
             />
           </Case.Body>
         </Case>
@@ -60,26 +54,20 @@ export default class ComboBoxTestPage extends React.Component {
             <ComboBox
               data-tid="ComboBoxNoPortal"
               disablePortal
-              info={withDelay(1000, id => testItems.find(x => x.id === id))}
+              getItems={withDelay(1000, q => testItems.filter(x => x.value1.includes(q)))}
               value={this.state.simpleComboBoxValue}
               onChange={(e, value) => this.setState({ simpleComboBoxValue: value })}
-              source={withDelay(1000, q => ({
-                values: testItems.filter(x => x.value1.includes(q)).map(x => x.id),
-                infos: testItems.filter(x => x.value1.includes(q)),
-              }))}
-              renderItem={(id, x) => x.value1}
-              valueToString={id => {
-                var item = testItems.find(x => x.id === id);
-                return item ? item.value1 : '';
-              }}
-              renderValue={(id, x) => x && x.value1}
+              renderItem={x => x.value1}
+              valueToString={x => x.value1}
+              renderValue={x => x.value1}
+              itemToValue={x => x.id}
             />
           </Case.Body>
         </Case>
 
         <Case title="Заблокированный комбобокс">
           <Case.Body>
-            <ComboBox data-tid="DisabledComboBox" value={''} source={() => Promise.resolve({})} disabled />
+            <ComboBox data-tid="DisabledComboBox" value={''} getItems={() => Promise.resolve({})} disabled />
           </Case.Body>
         </Case>
 
@@ -87,19 +75,13 @@ export default class ComboBoxTestPage extends React.Component {
           <Case.Body>
             <ComboBox
               data-tid="FilledComboBox"
-              info={withDelay(1000, id => testItems.find(x => x.id === id))}
+              getItems={withDelay(1000, q => testItems.filter(x => x.value1.includes(q)))}
               value={this.state.filledComboBoxValue}
               onChange={(e, value) => this.setState({ filledComboBoxValue: value })}
-              source={withDelay(1000, q => ({
-                values: testItems.filter(x => x.value1.includes(q)).map(x => x.id),
-                infos: testItems.filter(x => x.value1.includes(q)),
-              }))}
-              renderItem={(id, x) => x.value1}
-              valueToString={id => {
-                var item = testItems.find(x => x.id === id);
-                return item ? item.value1 : '';
-              }}
-              renderValue={(id, x) => x && x.value1}
+              renderItem={x => x.value1}
+              valueToString={x => x.value1}
+              renderValue={x => x.value1}
+              itemToValue={x => x.id}
             />
           </Case.Body>
         </Case>
