@@ -33,6 +33,8 @@ export interface DropdownContainerState {
 }
 
 export default class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
+  public static __KONTUR_REACT_UI__ = 'DropdownContainer';
+
   public static defaultProps = {
     align: 'left',
     disablePortal: false,

@@ -31,6 +31,8 @@ export type InputProps = {
  * **DRAFT**
  */
 export default class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+  public static __KONTUR_REACT_UI__ = 'PasswordInput';
+
   public static propTypes = {
     /**
      * Включает CapsLock детектор

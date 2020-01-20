@@ -13,6 +13,8 @@ export function RootContainer(props: { children?: React.ReactNode; rt_portalID: 
 }
 
 export class Portal extends React.Component<PortalProps> {
+  public static __KONTUR_REACT_UI__ = 'RenderContainerFallback';
+
   public componentDidMount() {
     if (!this.props.children) {
       return;

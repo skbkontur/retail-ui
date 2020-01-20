@@ -9,6 +9,8 @@ const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
 const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
 export class RenderContainer extends React.Component<RenderContainerProps> {
+  public static __KONTUR_REACT_UI__ = 'RenderContainer';
+
   private static getRootId = () => Math.random().toString(16).slice(2, 6);
   private domContainer: Nullable<HTMLElement> = null;
 

@@ -21,6 +21,8 @@ export const CurrencyLabel: React.FunctionComponent<CurrencyLabelProps> = ({
   </span>
 );
 
+(CurrencyLabel as any).__KONTUR_REACT_UI__ = 'CurrencyLabel';
+
 CurrencyLabel.defaultProps = {
   fractionDigits: 2,
   currencySymbol: null,

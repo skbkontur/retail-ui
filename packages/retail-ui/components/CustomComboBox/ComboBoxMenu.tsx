@@ -27,6 +27,8 @@ export interface ComboBoxMenuProps<T> {
 
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
+  public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
+
   public static defaultProps = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,

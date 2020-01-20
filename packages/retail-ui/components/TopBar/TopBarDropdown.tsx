@@ -23,6 +23,8 @@ export interface TopBarDropdownProps {
 }
 
 class TopBarDropdown extends React.Component<TopBarDropdownProps> {
+  public static __KONTUR_REACT_UI__ = 'TopBarDropdown';
+
   private dropdownMenu: Nullable<DropdownMenu> = null;
 
   public render() {

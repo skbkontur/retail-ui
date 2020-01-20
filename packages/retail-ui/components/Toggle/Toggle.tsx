@@ -29,6 +29,8 @@ export interface ToggleState {
 }
 
 export default class Toggle extends React.Component<ToggleProps, ToggleState> {
+  public static __KONTUR_REACT_UI__ = 'Toggle';
+
   public static propTypes = {
     checked: PropTypes.bool,
     defaultChecked: PropTypes.bool,

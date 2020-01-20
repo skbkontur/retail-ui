@@ -25,6 +25,8 @@ export interface InputLikeTextProps extends InputProps {
 interface InputLikeTextState extends InputVisibilityState {}
 
 export default class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
+  public static __KONTUR_REACT_UI__ = 'InputLikeText';
+
   public static defaultProps = {
     size: 'small',
   };

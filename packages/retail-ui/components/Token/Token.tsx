@@ -46,6 +46,8 @@ export interface TokenProps {
 }
 
 class Token extends React.Component<TokenProps & TokenActions, {}> {
+  public static __KONTUR_REACT_UI__ = 'Token';
+
   public render() {
     const {
       children,

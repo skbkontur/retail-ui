@@ -13,6 +13,8 @@ type Props = BaseProps & {
 };
 
 export default class ComboBoxOld extends React.Component<Props, $FlowFixMeState> {
+  static __KONTUR_REACT_UI__ = 'ComboBoxOld';
+
   static propTypes = {
     autoFocus: PropTypes.bool,
 

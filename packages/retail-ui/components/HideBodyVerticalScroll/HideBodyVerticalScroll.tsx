@@ -3,6 +3,8 @@ import getComputedStyle from '../../lib/dom/getComputedStyle';
 import getScrollWidth from '../../lib/dom/getScrollWidth';
 
 export default class HideBodyVerticalScroll extends React.Component {
+  public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
+
   public static hash = Math.random()
     .toString(16)
     .slice(2, 6);

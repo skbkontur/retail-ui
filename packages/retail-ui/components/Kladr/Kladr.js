@@ -26,6 +26,8 @@ type State = {
  * DRAFT
  */
 export default class Kladr extends React.Component<Props, State> {
+  static __KONTUR_REACT_UI__ = 'Kladr';
+
   static propTypes = {
     error: PropTypes.string,
     title: PropTypes.string,

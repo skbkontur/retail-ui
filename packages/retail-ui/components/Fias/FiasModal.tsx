@@ -12,6 +12,8 @@ interface FiasModalProps {
 
 @locale('Fias', FiasLocaleHelper)
 export class FiasModal extends React.Component<FiasModalProps> {
+  public static __KONTUR_REACT_UI__ = 'FiasModal';
+
   public static defaultProps = {
     onClose: () => null,
     onSave: () => null,
