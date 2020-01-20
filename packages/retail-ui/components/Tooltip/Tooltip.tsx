@@ -102,6 +102,11 @@ export interface TooltipProps {
   onCloseRequest?: () => void;
 
   /**
+   * Хэндлер, вызываемый при открытии тултипа
+   */
+  onOpen?: () => void;
+
+  /**
    * Список позиций, которые тултип будет занимать.
    * Если положение тултипа в определенной позиции
    * будет выходить за край экрана, то будет выбрана
@@ -266,6 +271,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         disableAnimations={this.props.disableAnimations}
         positions={this.getPositions()}
         ignoreHover={this.props.trigger === 'hoverAnchor'}
+        onOpen={this.props.onOpen}
         {...popupProps}
       >
         {content}
