@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.7.0...retail-ui@1.8.0) (2020-01-20)
+
+
+### Bug Fixes
+
+* remove jquery downloading ([687ad9d](https://github.com/skbkontur/retail-ui/commit/687ad9d))
+
+
+### Features
+
+* **telemetry:** add field for identifying components ([b7fec03](https://github.com/skbkontur/retail-ui/commit/b7fec03)), closes [#1838](https://github.com/skbkontur/retail-ui/issues/1838)
+* **Tooltip:** add onOpen prop ([90b89d7](https://github.com/skbkontur/retail-ui/commit/90b89d7)), closes [#1832](https://github.com/skbkontur/retail-ui/issues/1832)
+
+
+
+
+
 # [1.7.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.9...retail-ui@1.7.0) (2019-12-27)
 
 
