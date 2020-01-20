@@ -45,6 +45,8 @@ export interface KebabState {
 }
 
 export default class Kebab extends React.Component<KebabProps, KebabState> {
+  public static __KONTUR_REACT_UI__ = 'Kebab';
+
   public static propTypes = {};
   public static defaultProps = {
     onOpen: () => undefined,

@@ -19,6 +19,8 @@ export interface ItemProps {
 }
 
 class Item extends React.Component<ItemProps> {
+  public static __KONTUR_REACT_UI__ = 'TopBarItem';
+
   public static propTypes = {
     use: PropTypes.oneOf(['danger', 'pay']),
   };

@@ -46,6 +46,8 @@ const getTodayDate = () => {
 const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 
 class Calendar extends React.Component<CalendarProps, CalendarState> {
+  public static __KONTUR_REACT_UI__ = 'Calendar';
+
   public static defaultProps = {
     holidays: [],
     minDate: {

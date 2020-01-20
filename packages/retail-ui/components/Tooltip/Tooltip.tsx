@@ -99,6 +99,11 @@ export interface TooltipProps {
   onCloseRequest?: () => void;
 
   /**
+   * Хэндлер, вызываемый при открытии тултипа
+   */
+  onOpen?: () => void;
+
+  /**
    * Список позиций, которые тултип будет занимать.
    * Если положение тултипа в определенной позиции
    * будет выходить за край экрана, то будет выбрана
@@ -142,6 +147,8 @@ export interface TooltipState {
 }
 
 class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+  public static __KONTUR_REACT_UI__ = 'Tooltip';
+
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
       const children = props[propName];
@@ -247,6 +254,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         disableAnimations={this.props.disableAnimations}
         positions={this.getPositions()}
         ignoreHover={this.props.trigger === 'hoverAnchor'}
+        onOpen={this.props.onOpen}
         {...popupProps}
       >
         {content}

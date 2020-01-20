@@ -40,6 +40,7 @@ export interface MenuItemProps {
  * Элемент меню.
  */
 export default class MenuItem extends React.Component<MenuItemProps> {
+  public static __KONTUR_REACT_UI__ = 'MenuItem';
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {

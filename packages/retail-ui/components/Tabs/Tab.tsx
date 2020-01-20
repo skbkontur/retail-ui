@@ -105,6 +105,8 @@ const KEYCODE_ARROW_DOWN = 40;
  * Works only inside Tabs component, otherwise throws
  */
 export class Tab extends React.Component<TabProps, TabState> {
+  public static __KONTUR_REACT_UI__ = 'Tab';
+
   public static propTypes = {
     children: PropTypes.node,
     component: PropTypes.any,

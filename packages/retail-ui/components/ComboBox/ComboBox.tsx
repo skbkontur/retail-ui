@@ -159,6 +159,8 @@ export interface ComboBoxItem {
 }
 
 class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
+  public static __KONTUR_REACT_UI__ = 'ComboBox';
+
   public static defaultProps = {
     itemToValue: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,

@@ -34,6 +34,8 @@ export interface StickyState {
 }
 
 export default class Sticky extends React.Component<StickyProps, StickyState> {
+  public static __KONTUR_REACT_UI__ = 'Sticky';
+
   public static propTypes = {
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 

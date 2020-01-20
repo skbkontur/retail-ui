@@ -45,6 +45,7 @@ export interface LinkState {
  * `className` и `style` не поддерживаются
  */
 class Link extends React.Component<LinkProps, LinkState> {
+  public static __KONTUR_REACT_UI__ = 'Link';
   public static __ADAPTER__: any;
   public static propTypes = {
     disabled: PropTypes.bool,

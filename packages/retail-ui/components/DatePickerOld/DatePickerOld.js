@@ -36,6 +36,7 @@ const INPUT_PASS_PROPS = {
 };
 
 class DatePickerOld extends React.Component {
+  static __KONTUR_REACT_UI__ = 'DatePickerOld';
   static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
 
   static propTypes = {

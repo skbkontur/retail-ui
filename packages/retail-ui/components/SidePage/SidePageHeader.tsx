@@ -21,6 +21,8 @@ export interface SidePageHeaderState {
 }
 
 export default class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
+  public static __KONTUR_REACT_UI__ = 'SidePageHeader';
+
   public state = {
     isReadyToFix: false,
   };

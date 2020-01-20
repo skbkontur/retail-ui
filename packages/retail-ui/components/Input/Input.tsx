@@ -120,6 +120,8 @@ export interface InputState extends InputVisibilityState {
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
 class Input extends React.Component<InputProps, InputState> {
+  public static __KONTUR_REACT_UI__ = 'Input';
+
   public static defaultProps: {
     size: InputSize;
   } = {

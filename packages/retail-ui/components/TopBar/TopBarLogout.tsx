@@ -5,6 +5,8 @@ import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
 @locale('TopBar', TopBarLocaleHelper)
 class Logout extends React.Component<ButtonItemProps> {
+  public static __KONTUR_REACT_UI__ = 'TopBarLogout';
+
   private readonly locale!: TopBarLocale;
 
   public render() {

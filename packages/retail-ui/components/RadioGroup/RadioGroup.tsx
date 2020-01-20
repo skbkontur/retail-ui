@@ -37,6 +37,8 @@ export interface RadioGroupState<T> {
 }
 
 class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
+  public static __KONTUR_REACT_UI__ = 'RadioGroup';
+
   public static childContextTypes = {
     error: PropTypes.bool,
     name: PropTypes.string,
