@@ -15,6 +15,8 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
 
 @locale('TokenInput', TokenInputLocaleHelper)
 export default class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
+  public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
+
   private readonly locale!: TokenInputLocale;
 
   private menu: Menu | null = null;

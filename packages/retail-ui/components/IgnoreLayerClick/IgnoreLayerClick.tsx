@@ -19,7 +19,7 @@ interface WrapperProps {
 
 // NOTE Используется только в команде Контур.Бухгалтерия
 class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
-  public static __KONTUR_REACT_UI__ = 'IgnoreLayerClickWrapper';
+  public static __KONTUR_REACT_UI__ = 'IgnoreLayerClick';
 
   private element: Element | null = null;
 

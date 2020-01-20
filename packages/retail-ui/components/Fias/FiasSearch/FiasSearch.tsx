@@ -41,6 +41,8 @@ export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof CO
 
 @locale('Fias', FiasLocaleHelper)
 export class FiasSearch extends React.Component<FiasSearchProps> {
+  public static __KONTUR_REACT_UI__ = 'FiasSearch';
+
   public static defaultProps = {
     width: '100%',
     limit: 5,
