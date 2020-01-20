@@ -22,6 +22,8 @@ export interface SidePageFooterProps {
  */
 
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
+  public static __KONTUR_REACT_UI__ = 'SidePageFooter';
+
   public state = {
     fixed: false,
   };

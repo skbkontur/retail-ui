@@ -81,6 +81,8 @@ export interface LogotypeProps {
 
 @locale('Logotype', LogotypeLocaleHelper)
 class Logotype extends React.Component<LogotypeProps> {
+  public static __KONTUR_REACT_UI__ = 'Logotype';
+
   public static propTypes = {
     color: PropTypes.string,
     href: PropTypes.string,

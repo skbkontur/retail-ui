@@ -21,6 +21,7 @@ export interface FooterProps {
  * Футер модального окна.
  */
 export class Footer extends React.Component<FooterProps> {
+  public static __KONTUR_REACT_UI__ = 'ModalFooter';
   public static __MODAL_FOOTER__ = true;
 
   public static defaultProps = {

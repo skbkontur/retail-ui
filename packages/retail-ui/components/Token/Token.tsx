@@ -48,6 +48,8 @@ export interface TokenProps {
 }
 
 export default class Token extends React.Component<TokenProps & TokenActions> {
+  public static __KONTUR_REACT_UI__ = 'Token';
+
   private theme!: ITheme;
 
   public render() {

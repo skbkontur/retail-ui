@@ -26,6 +26,8 @@ interface Props {
 }
 
 export default class PopupPin extends React.Component<Props> {
+  public static __KONTUR_REACT_UI__ = 'PopupPin';
+
   public static propTypes = {
     /**
      * Цвет фон пина

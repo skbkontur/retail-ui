@@ -101,6 +101,8 @@ export interface PopupState {
 }
 
 export default class Popup extends React.Component<PopupProps, PopupState> {
+  public static __KONTUR_REACT_UI__ = 'Popup';
+
   public static propTypes = {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап

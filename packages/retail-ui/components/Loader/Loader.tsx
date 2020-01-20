@@ -35,6 +35,8 @@ export interface LoaderState {
  * DRAFT - лоадер-контейнер
  */
 class Loader extends React.Component<LoaderProps, LoaderState> {
+  public static __KONTUR_REACT_UI__ = 'Loader';
+
   public static defaultProps = {
     type: Spinner.Types.normal,
     active: false,

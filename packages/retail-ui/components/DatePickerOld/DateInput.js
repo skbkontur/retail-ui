@@ -53,6 +53,8 @@ type Props = {
 const isIE8 = ieVerison === 8;
 
 export default class DateInput extends Component<Props> {
+  static __KONTUR_REACT_UI__ = 'DateInputOld';
+
   static propTypes = {
     getInputRef: PropTypes.func,
     opened: PropTypes.bool.isRequired,

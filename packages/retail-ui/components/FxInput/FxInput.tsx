@@ -36,6 +36,8 @@ export interface FxInputDefaultProps {
 
 /** Принимает все свойства `Input`'a */
 class FxInput extends React.Component<FxInputProps> {
+  public static __KONTUR_REACT_UI__ = 'FxInput';
+
   public static propTypes = {
     auto: PropTypes.bool,
     type: PropTypes.string,

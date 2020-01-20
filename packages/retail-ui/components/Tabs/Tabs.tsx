@@ -46,6 +46,8 @@ export interface TabsProps {
  * contains static property `Tab`
  */
 class Tabs extends React.Component<TabsProps> {
+  public static __KONTUR_REACT_UI__ = 'Tabs';
+
   public static propTypes = {
     children: PropTypes.node,
     indicatorClassName: PropTypes.string,

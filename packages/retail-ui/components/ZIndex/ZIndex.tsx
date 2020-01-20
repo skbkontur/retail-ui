@@ -19,6 +19,8 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default class ZIndex extends React.Component<ZIndexProps> {
+  public static __KONTUR_REACT_UI__ = 'ZIndex';
+
   public static defaultProps = {
     delta: 10,
     priority: 0,

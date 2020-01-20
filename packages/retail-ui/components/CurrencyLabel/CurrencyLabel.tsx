@@ -25,6 +25,8 @@ export const CurrencyLabel = ({ value, fractionDigits, currencySymbol }: Currenc
   </span>
 );
 
+CurrencyLabel.__KONTUR_REACT_UI__ = 'CurrencyLabel';
+
 CurrencyLabel.defaultProps = defaultProps;
 
 CurrencyLabel.propTypes = {

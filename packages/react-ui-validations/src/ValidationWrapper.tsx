@@ -21,6 +21,8 @@ export interface ValidationWrapperProps {
 }
 
 export default class ValidationWrapper extends React.Component<ValidationWrapperProps> {
+  public static __KONTUR_REACT_UI__ = 'ValidationWrapper';
+
   public render() {
     const { children, validationInfo, renderMessage } = this.props;
     const validation: Nullable<Validation> = validationInfo

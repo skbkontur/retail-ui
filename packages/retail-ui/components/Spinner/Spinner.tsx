@@ -37,6 +37,8 @@ const CLOUD_SVG_PATH = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
 
 @locale('Spinner', SpinnerLocaleHelper)
 class Spinner extends React.Component<SpinnerProps> {
+  public static __KONTUR_REACT_UI__ = 'Spinner';
+
   public static propTypes = {
     /**
      * Текст рядом с мини-лоадером.

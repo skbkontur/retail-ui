@@ -15,6 +15,7 @@ export interface HeaderProps {
 }
 
 export class Header extends React.Component<HeaderProps> {
+  public static __KONTUR_REACT_UI__ = 'ModalHeader';
   public static __MODAL_HEADER__ = true;
 
   public static defaultProps = {
