@@ -23,7 +23,7 @@ class DatePickerWithError extends React.Component<any, any> {
         <Tooltip
           trigger={this.state.tooltip ? 'opened' : 'closed'}
           render={() => 'Такой даты не существует'}
-          onCloseClick={this._removeTooltip}
+          onCloseClick={this.removeTooltip}
         >
           <LocaleProvider locale={{ DatePicker: { order: InternalDateOrder.MDY } }}>
             <DatePicker
@@ -34,9 +34,9 @@ class DatePickerWithError extends React.Component<any, any> {
               value={this.state.value}
               minDate="15.08.2003"
               maxDate="21.10.2006"
-              onChange={this._handleChange}
-              onFocus={this._invalidate}
-              onBlur={this._validate}
+              onChange={this.handleChange}
+              onFocus={this.invalidate}
+              onBlur={this.validate}
               enableTodayLink
             />
           </LocaleProvider>
@@ -49,16 +49,16 @@ class DatePickerWithError extends React.Component<any, any> {
     );
   }
 
-  private _handleChange = (_: any, value: any) => {
+  private handleChange = (_: any, value: any) => {
     action('change')(_, value);
     this.setState({ value });
   };
 
-  private _invalidate = () => {
+  private invalidate = () => {
     this.setState({ error: false, tooltip: false });
   };
 
-  private _validate = () => {
+  private validate = () => {
     const currentValue = this.state.value;
     this.setState(() => {
       const error =
@@ -70,7 +70,7 @@ class DatePickerWithError extends React.Component<any, any> {
     });
   };
 
-  private _removeTooltip = () => {
+  private removeTooltip = () => {
     this.setState({
       tooltip: false,
     });

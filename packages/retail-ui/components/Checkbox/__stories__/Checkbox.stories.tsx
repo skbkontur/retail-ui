@@ -13,10 +13,7 @@ class PlainCheckbox extends Component<any, any> {
   public render() {
     const { checked } = this.state;
     return (
-      <Checkbox
-        onChange={() => this.setState({ checked: !checked })}
-        checked={checked}
-      >
+      <Checkbox onChange={() => this.setState({ checked: !checked })} checked={checked}>
         {this.props.children}
       </Checkbox>
     );
@@ -97,10 +94,7 @@ storiesOf('Checkbox', module)
   ))
   .add('error', () => <Checkbox error>Error</Checkbox>)
   .add('with mouse enter/leave handlers', () => (
-    <Checkbox
-      onMouseEnter={() => console.count('enter')}
-      onMouseLeave={() => console.count('leave')}
-    >
+    <Checkbox onMouseEnter={() => console.count('enter')} onMouseLeave={() => console.count('leave')}>
       Hover me
     </Checkbox>
   ))
