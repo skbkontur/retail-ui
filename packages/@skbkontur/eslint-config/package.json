@@ -1,9 +1,6 @@
 {
   "name": "@skbkontur/eslint-config",
   "version": "1.0.0",
-  "scripts": {
-    "install": "js-yaml index.yaml > index.json"
-  },
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "2.16.0",
@@ -14,8 +11,5 @@
     "eslint-plugin-import": "2.19.1",
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-react-hooks": "2.3.0"
-  },
-  "devDependencies": {
-    "js-yaml": "3.13.1"
   }
 }

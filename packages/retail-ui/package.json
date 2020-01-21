@@ -37,7 +37,7 @@
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:stylelint": "stylelint \"./**/*.less\"",
-    "eslint:fix": "yarn lint:eslint --fix",
+    "fix:eslint": "yarn lint:eslint --fix",
     "test": "cross-env BABEL_ENV=common jest",
     "test:watch": "yarn test --watch",
     "creevey": "wait-on -t 300000 http-get://localhost:6060/ http-get://localhost:6061/ && creevey -c .creevey/config.ts",
@@ -79,7 +79,6 @@
     "@babel/preset-typescript": "7.6.0",
     "@babel/preset-react": "^7.7.4",
     "@skbkontur/react-icons": "3.2.1",
-    "@skbkontur/eslint-config": "1.0.0",
     "@storybook/addon-actions": "5.2.8",
     "@storybook/addon-links": "^5.2.8",
     "@storybook/addons": "5.2.8",
@@ -149,8 +148,7 @@
   },
   "peerDependencies": {
     "react": ">=15 <=16",
-    "react-dom": ">=15 <=16",
-    "eslint": ">= 6.8.0"
+    "react-dom": ">=15 <=16"
   },
   "jest": {
     "testResultsProcessor": "jest-teamcity-reporter",

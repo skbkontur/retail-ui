@@ -7,6 +7,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@skbkontur/eslint-config": "*",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "env-cmd": "^10.0.1",
