@@ -11,7 +11,6 @@ import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
-export type ButtonArrow = boolean | 'left';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
 export interface ButtonProps {
@@ -34,7 +33,7 @@ export interface ButtonProps {
    *
    * `type ButtonArrow = boolean | "left"`
    */
-  arrow?: ButtonArrow;
+  arrow?: boolean | 'left';
 
   autoFocus?: boolean;
 
@@ -174,8 +173,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       className: cx({
         [classes.root]: true,
         [jsStyles.root(this.theme)]: true,
-        [cx(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) ||
-        jsStyles.default(this.theme)]: true,
+        [cx(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
         [classes.active]: !!this.props.active,
         [classes.checked]: !!this.props.checked,
         [jsStyles.checked(this.theme)]: !!this.props.checked,
