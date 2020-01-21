@@ -5,8 +5,7 @@ import { MouseDrag, MouseDragEventHandler } from '../../../lib/events/MouseDrag'
 import { isEdge, isIE11 } from '../../../lib/utils';
 import { Nullable } from '../../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../DateInput/helpers/SelectionHelpers';
-import { IconType, InputVisibilityState } from '../../Input/Input';
-import { InputProps } from '../../Input';
+import { InputProps, IconType, InputState } from '../../Input';
 import { cx } from '../../../lib/theming/Emotion';
 import inputStyles from '../../Input/Input.module.less';
 import { jsStyles as jsInputStyles } from '../../Input/Input.styles';
@@ -25,7 +24,7 @@ export interface InputLikeTextProps extends InputProps {
   onMouseDragEnd?: MouseDragEventHandler;
 }
 
-type InputLikeTextState = InputVisibilityState;
+export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static defaultProps = { size: 'small' };

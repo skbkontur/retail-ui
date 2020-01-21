@@ -10,7 +10,6 @@ import { InputLikeText } from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { CalendarIcon } from '../internal/icons/16px';
-import { IconType } from '../Input/Input';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
@@ -202,7 +201,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     );
   }
 
-  private renderIcon = (): IconType => {
+  private renderIcon = () => {
     const { withIcon, size, disabled = false } = this.props;
 
     if (withIcon) {

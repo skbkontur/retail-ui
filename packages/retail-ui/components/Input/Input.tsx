@@ -1,5 +1,3 @@
-import '../ensureOldIEClassName';
-
 import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';
@@ -99,12 +97,9 @@ export type InputProps = Override<
   }
 >;
 
-export interface InputVisibilityState {
+export interface InputState {
   blinking: boolean;
   focused: boolean;
-}
-
-export interface InputState extends InputVisibilityState {
   polyfillPlaceholder: boolean;
 }
 
