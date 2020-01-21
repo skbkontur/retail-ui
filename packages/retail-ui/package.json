@@ -49,7 +49,6 @@
     "@emotion/stylis": "0.8.4",
     "classnames": "^2.2.6",
     "create-emotion": "^10.0.14",
-    "create-react-context": "^0.3.0",
     "csstype": "2.6.7",
     "eventemitter3": "^4.0.0",
     "invariant": "2.2.4",

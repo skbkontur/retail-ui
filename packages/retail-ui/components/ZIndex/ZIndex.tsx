@@ -1,8 +1,7 @@
 import * as React from 'react';
-import createReactContext from 'create-react-context';
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
-const ZIndexContext = createReactContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
+const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
 
 export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
