@@ -29,6 +29,8 @@ export interface GappedProps {
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
 class Gapped extends React.Component<GappedProps> {
+  public static __KONTUR_REACT_UI__ = 'Gapped';
+
   public static propTypes = {
     /**
      * Расстояние между элементами.

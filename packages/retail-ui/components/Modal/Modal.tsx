@@ -76,6 +76,8 @@ export interface ModalState {
  * (по-умолчанию прилипание включено)
  */
 export default class Modal extends React.Component<ModalProps, ModalState> {
+  public static __KONTUR_REACT_UI__ = 'Modal';
+
   public static Header = Header;
   public static Body = Body;
   public static Footer = Footer;

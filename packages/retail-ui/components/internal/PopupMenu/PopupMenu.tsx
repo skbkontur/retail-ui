@@ -62,6 +62,8 @@ export const PopupMenuType = {
 };
 
 export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
+  public static __KONTUR_REACT_UI__ = 'PopupMenu';
+
   public static defaultProps = {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,

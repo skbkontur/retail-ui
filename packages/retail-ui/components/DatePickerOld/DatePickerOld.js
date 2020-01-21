@@ -38,6 +38,7 @@ const INPUT_PASS_PROPS = {
  * @deprecated Компонент устарел и будет удален в версии 2.0.0. Используйте актульный [DatePicker](#/Components/DatePicker).
  */
 class DatePickerOld extends React.Component {
+  static __KONTUR_REACT_UI__ = 'DatePickerOld';
   static __REACT_UI_COMPONENT_NAME__ = 'DatePicker';
 
   static propTypes = {

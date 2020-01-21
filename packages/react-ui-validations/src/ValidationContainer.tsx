@@ -14,6 +14,8 @@ export interface ValidationContainerProps {
 }
 
 export default class ValidationContainer extends React.Component<ValidationContainerProps> {
+  public static __KONTUR_REACT_UI__ = 'ValidationContainer';
+
   public static propTypes = {
     scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
       const { scrollOffset } = props;

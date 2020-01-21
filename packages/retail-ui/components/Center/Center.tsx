@@ -28,6 +28,8 @@ export interface CenterState {}
  * свойства как в любой *div* (кроме `className`)
  */
 export default class Center extends React.Component<CenterProps, CenterState> {
+  public static __KONTUR_REACT_UI__ = 'Center';
+
   public static defaultProps = {
     align: 'center',
   };

@@ -5,6 +5,8 @@ import { RenderContainerProps } from './RenderContainerTypes';
 import { getRandomID } from '../../lib/utils';
 
 export class RenderContainer extends React.Component<RenderContainerProps> {
+  public static __KONTUR_REACT_UI__ = 'RenderContainer';
+
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
 

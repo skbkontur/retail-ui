@@ -26,6 +26,8 @@ type State = {
  * @deprecated Компонент устарел и, вероятно, будет удален в версии 2.0.0. Рассмотрите возможность перехода на [Fias](#/Components/Fias).
  */
 export default class Kladr extends React.Component<Props, State> {
+  static __KONTUR_REACT_UI__ = 'Kladr';
+
   static propTypes = {
     error: PropTypes.string,
     title: PropTypes.string,

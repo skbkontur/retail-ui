@@ -39,6 +39,8 @@ type State = {
 };
 
 export default class Calendar extends React.Component<Props, State> {
+  static __KONTUR_REACT_UI__ = 'CalendarOld';
+
   constructor(props: Props, context: mixed) {
     super(props, context);
 

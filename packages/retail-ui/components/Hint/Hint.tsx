@@ -59,6 +59,8 @@ const Positions: PopupPosition[] = [
 ];
 
 class Hint extends React.Component<HintProps, HintState> {
+  public static __KONTUR_REACT_UI__ = 'Hint';
+
   public static defaultProps = {
     pos: 'top',
     manual: false,

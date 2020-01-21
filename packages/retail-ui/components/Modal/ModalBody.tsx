@@ -10,6 +10,7 @@ import ZIndex from '../ZIndex';
  * @visibleName Modal.Body
  */
 export class Body extends React.Component {
+  public static __KONTUR_REACT_UI__ = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
   public render(): JSX.Element {

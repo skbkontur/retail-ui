@@ -39,6 +39,8 @@ const getTodayCalendarDate = () => {
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export default class Picker extends React.Component<Props, State> {
+  public static __KONTUR_REACT_UI__ = 'Picker';
+
   private theme!: ITheme;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;

@@ -13,6 +13,7 @@ export function Portal(props: PortalProps) {
 }
 
 export class RenderInnerContainer extends React.Component<RenderInnerContainerProps> {
+  public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
   public render() {
     if (this.props.children) {
       if (!this.props.domContainer) {

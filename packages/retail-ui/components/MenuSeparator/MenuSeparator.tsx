@@ -9,6 +9,8 @@ import { ITheme } from '../../lib/theming/Theme';
  * Разделитель в меню.
  */
 export default class MenuSeparator extends React.Component<{}> {
+  public static __KONTUR_REACT_UI__ = 'MenuSeparator';
+
   private theme!: ITheme;
 
   public render() {

@@ -65,6 +65,8 @@ type DatePickerValue = string;
 
 // eslint-disable-next-line flowtype/no-weak-types
 class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
+  public static __KONTUR_REACT_UI__ = 'DatePicker';
+
   public static propTypes = {
     autoFocus: PropTypes.bool,
 

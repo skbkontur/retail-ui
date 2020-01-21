@@ -75,6 +75,8 @@ export const DefaultState = {
 };
 
 class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
+  public static __KONTUR_REACT_UI__ = 'CustomComboBox';
+
   public state: CustomComboBoxState<T> = DefaultState;
   public input: Nullable<Input>;
   public menu: Nullable<Menu>;

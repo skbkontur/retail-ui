@@ -15,6 +15,7 @@ export interface MenuHeaderProps {
  * Заголовок в меню.
  */
 export default class MenuHeader extends React.Component<MenuHeaderProps> {
+  public static __KONTUR_REACT_UI__ = 'MenuHeader';
   public static __MENU_HEADER__ = true;
 
   public static defaultProps = {

@@ -61,6 +61,8 @@ export interface DateInputProps {
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
+  public static __KONTUR_REACT_UI__ = 'DateInput';
+
   public static defaultProps = {
     value: '',
     minDate: MIN_FULLDATE,

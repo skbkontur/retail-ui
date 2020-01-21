@@ -56,6 +56,8 @@ export interface TopBarDefaultProps {
  *
  */
 class TopBar extends React.Component<TopBarProps> {
+  public static __KONTUR_REACT_UI__ = 'TopBar';
+
   public static Divider = Divider;
   public static Item = ButtonItem;
   public static Dropdown = TopBarDropdown;

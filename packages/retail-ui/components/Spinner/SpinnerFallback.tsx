@@ -23,6 +23,8 @@ export interface SpinnerFallbackProps {
 }
 
 export default class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
+  public static __KONTUR_REACT_UI__ = 'SpinnerFallback';
+
   public static propTypes = {
     type: PropTypes.oneOf(Object.keys(types)),
 

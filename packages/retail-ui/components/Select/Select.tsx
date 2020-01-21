@@ -103,6 +103,8 @@ interface FocusableReactElement extends React.ReactElement<any> {
 
 @locale('Select', SelectLocaleHelper)
 class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
+  public static __KONTUR_REACT_UI__ = 'Select';
+
   public static propTypes = {
     /**
      * Функция для сравнения `value` с элементом из `items`

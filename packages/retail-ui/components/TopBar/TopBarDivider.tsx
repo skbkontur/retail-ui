@@ -11,6 +11,8 @@ import { ITheme } from '../../lib/theming/Theme';
  * @visibleName TopBar.Divider
  */
 class Divider extends React.Component<{}> {
+  public static __KONTUR_REACT_UI__ = 'TopBarDivider';
+
   private theme!: ITheme;
 
   public render() {

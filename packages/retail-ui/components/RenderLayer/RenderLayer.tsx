@@ -10,6 +10,8 @@ export interface RenderLayerProps {
 }
 
 class RenderLayer extends React.Component<RenderLayerProps> {
+  public static __KONTUR_REACT_UI__ = 'RenderLayer';
+
   public static propTypes = {
     active(props: RenderLayerProps, propName: keyof RenderLayerProps, componentName: string) {
       const { active, onClickOutside, onFocusOutside } = props;
