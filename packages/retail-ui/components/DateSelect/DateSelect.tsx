@@ -377,8 +377,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     } else if (event.deltaMode === 2) {
       deltaY *= itemHeight * 4;
     }
-    // eslint-disable-next-line react/no-direct-mutation-state
-    const pos = (this.state.pos += deltaY);
+    const pos = this.state.pos + deltaY;
     this.setPosition(pos);
   };
 
