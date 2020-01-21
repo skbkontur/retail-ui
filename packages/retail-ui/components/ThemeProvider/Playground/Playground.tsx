@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import CardIcon from '@skbkontur/react-icons/Card';
@@ -36,8 +35,7 @@ import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
 
-const enableReactTesting = process.env.enableReactTesting === 'true';
-const useSticky = !enableReactTesting;
+const useSticky = process.env.enableReactTesting !== 'true';
 
 export interface ComponentsListProps {
   currentThemeType: ThemeType;
@@ -117,19 +115,25 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
   }
 
   private renderSizesGroup = () => {
-    const sizes = ['small', 'medium', 'large'];
-    const group = [
-      <SelectPlayground width={120} />,
-      <Input rightIcon={<CardIcon />} placeholder={'Text value'} />,
-      <Button width={120}>Button</Button>,
-      <Button icon={<LinkIcon />} use={'link'}>
-        Button like a link
-      </Button>,
-    ];
-    const components = sizes.reduce((result: Array<React.ReactElement<any>>, size: string) => {
-      return [...result, ...group.map(comp => React.cloneElement(comp, { size }))];
-    }, []);
-    return <ComponentsGroup title={'Размеры'} components={components} theme={this.theme} />;
+    const Group = ({ size }: { size: 'small' | 'medium' | 'large' }) => (
+      <>
+        <SelectPlayground width={120} size={size} />,
+        <Input rightIcon={<CardIcon />} placeholder={'Text value'} size={size} />
+        <Button width={120} size={size}>
+          Button
+        </Button>
+        <Button icon={<LinkIcon />} use={'link'} size={size}>
+          Button like a link
+        </Button>
+      </>
+    );
+    return (
+      <ComponentsGroup title={'Размеры'} theme={this.theme}>
+        <Group size={'small'} />
+        <Group size={'medium'} />
+        <Group size={'large'} />
+      </ComponentsGroup>
+    );
   };
 
   private renderLinksGroup = () => {
@@ -141,11 +145,9 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
       { icon: <TrashIcon />, children: 'Disabled', disabled: true },
     ];
     return (
-      <ComponentsGroup
-        title={'Ссылки'}
-        components={getComponentsFromPropsList(<Link />, propsList)}
-        theme={this.theme}
-      />
+      <ComponentsGroup title={'Ссылки'} theme={this.theme}>
+        {getComponentsFromPropsList(<Link />, propsList)}
+      </ComponentsGroup>
     );
   };
 
@@ -162,11 +164,9 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
     ];
 
     return (
-      <ComponentsGroup
-        title={'Кнопки'}
-        components={getComponentsFromPropsList(<Button width={120} size={'small'} />, propsList)}
-        theme={this.theme}
-      />
+      <ComponentsGroup title={'Кнопки'} theme={this.theme}>
+        {getComponentsFromPropsList(<Button width={120} size={'small'} />, propsList)}
+      </ComponentsGroup>
     );
   };
 
@@ -178,44 +178,60 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
       { placeholder: 'Disabled', disabled: true },
     ];
     const fromProps = getComponentsFromPropsList(<Input width={120} />, propsList);
-    const components = [
-      <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />,
-      <div>
-        <Gapped gap={10}>{fromProps}</Gapped>
-      </div>,
-    ];
-    return <ComponentsGroup title={'Поле ввода'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Поле ввода'} theme={this.theme}>
+        <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />,
+        <div>
+          <Gapped gap={10}>{fromProps}</Gapped>
+        </div>
+      </ComponentsGroup>
+    );
   };
 
   private renderTokenInputsGroup = () => {
-    const components = [<TokenInputPlayground />];
-    return <ComponentsGroup title={'Поле с токеном'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Поле с токеном'} theme={this.theme}>
+        <TokenInputPlayground />
+      </ComponentsGroup>
+    );
   };
 
   private renderOtherInputsGroup = () => {
-    const components = [<CurrencyInputPlayground />, <FxInputPlayground />, <DatePickerPlayground />];
-    return <ComponentsGroup title={'Прочие поля'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Прочие поля'} theme={this.theme}>
+        <CurrencyInputPlayground />
+        <FxInputPlayground />
+        <DatePickerPlayground />
+      </ComponentsGroup>
+    );
   };
 
   private renderSwitchersGroup = () => {
-    const components = [<SwitcherPlayground />];
-    return <ComponentsGroup title={'Переключатели'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Переключатели'} theme={this.theme}>
+        <SwitcherPlayground />
+      </ComponentsGroup>
+    );
   };
 
   private renderControlsGroup = () => {
-    const components = [
-      <Gapped verticalAlign={'top'} gap={60}>
-        <CheckboxPlayground />
-        <RadioPlayground />
-        <TogglePlayground />
-      </Gapped>,
-    ];
-    return <ComponentsGroup title={'Радио, чекбоксы'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Радио, чекбоксы'} theme={this.theme}>
+        <Gapped verticalAlign={'top'} gap={60}>
+          <CheckboxPlayground />
+          <RadioPlayground />
+          <TogglePlayground />
+        </Gapped>
+      </ComponentsGroup>
+    );
   };
 
   private renderHintsGroup = () => {
-    const components = [<HintPlayground />];
-    return <ComponentsGroup title={'Тултип'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Тултип'} theme={this.theme}>
+        <HintPlayground />
+      </ComponentsGroup>
+    );
   };
 
   private renderTooltip = () => {
@@ -224,17 +240,21 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
         {'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}
       </div>
     );
-    const components = [
-      <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations={true}>
-        <Link icon={<HelpDotIcon />} />
-      </Tooltip>,
-    ];
-    return <ComponentsGroup title={'Тултип'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Тултип'} theme={this.theme}>
+        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations={true}>
+          <Link icon={<HelpDotIcon />} />
+        </Tooltip>
+      </ComponentsGroup>
+    );
   };
 
   private renderPaging = () => {
-    const components = [<PagingPlayground />];
-    return <ComponentsGroup title={'Пейджинг'} components={components} theme={this.theme} />;
+    return (
+      <ComponentsGroup title={'Пейджинг'} theme={this.theme}>
+        <PagingPlayground />
+      </ComponentsGroup>
+    );
   };
 
   private renderStickyStopElement = () => {

@@ -8,13 +8,13 @@ import styles from './styles.module.less';
 
 interface ComponentsGroupProps {
   title: string;
-  components: Array<React.ReactElement<any>>;
+  children: React.ReactNode;
   style?: React.CSSProperties;
   theme: Theme;
 }
 
 export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement<ComponentsGroupProps> => {
-  const { title, components, style, theme } = props;
+  const { title, children, style, theme } = props;
   return (
     <Gapped wrap verticalAlign="top" gap={40}>
       <div
@@ -37,7 +37,7 @@ export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement
         )}
       >
         <Gapped wrap verticalAlign="middle" gap={10}>
-          {components.map((element, index) => React.cloneElement(element, { key: index }))}
+          {children}
         </Gapped>
       </div>
     </Gapped>
