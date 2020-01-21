@@ -1,12 +1,11 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { Button } from '../Button';
 import { Group } from '../Group';
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, InputType } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
-import { InputType } from '../Input/Input';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../internal/icons/16px';
 

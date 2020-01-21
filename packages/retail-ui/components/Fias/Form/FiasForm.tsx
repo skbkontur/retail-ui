@@ -21,12 +21,12 @@ import { Tooltip } from '../../Tooltip';
 import { Input, InputProps } from '../../Input';
 import { FiasSearch, FiasSearchChangeEvent } from '../FiasSearch/FiasSearch';
 import { Textarea } from '../../Textarea';
+import { Address } from '../models/Address';
 
 import { FiasCountrySelector } from './FiasCountrySelector';
 import styles from './FiasForm.module.less';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
 
-import { Address } from '..';
 
 interface FiasFormProps {
   api: APIProvider;

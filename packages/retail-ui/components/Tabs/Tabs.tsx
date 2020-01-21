@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { cx } from '../../lib/theming/Emotion';
 

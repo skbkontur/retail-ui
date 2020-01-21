@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { SidePage } from '../../SidePage';
 import { IgnoreLayerClick } from '../IgnoreLayerClick';
 import { Button } from '../../Button';
-import { Toggle } from '../../Toggle/Toggle';
+import { Toggle } from '../../Toggle';
 
 interface SampleState {
   active: boolean;

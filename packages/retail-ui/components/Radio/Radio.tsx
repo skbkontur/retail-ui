@@ -1,5 +1,5 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import '../ensureOldIEClassName';
 import { Nullable, Override } from '../../typings/utility-types';

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
@@ -13,13 +13,13 @@ import {
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
-import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
+import { DropdownContainer } from '../DropdownContainer';
 import { filterProps } from '../filterProps';
 import { Input } from '../Input';
 import { Link } from '../Link';
-import { Menu } from '../Menu/Menu';
-import { MenuItem } from '../MenuItem/MenuItem';
-import { MenuSeparator } from '../MenuSeparator/MenuSeparator';
+import { Menu } from '../Menu';
+import { MenuItem } from '../MenuItem';
+import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
@@ -32,7 +32,6 @@ import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import styles from './Select.module.less';
 import { jsStyles } from './Select.styles';
-
 
 export interface ButtonParams {
   disabled?: boolean;

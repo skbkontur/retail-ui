@@ -1,7 +1,7 @@
 import '../ensureOldIEClassName';
 
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { Corners } from '../Button/Corners';
 import { Nullable } from '../../typings/utility-types';

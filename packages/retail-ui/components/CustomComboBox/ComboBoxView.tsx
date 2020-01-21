@@ -1,10 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
-import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
+import { DropdownContainer } from '../DropdownContainer';
 import { Input } from '../Input';
 import { InputLikeText } from '../internal/InputLikeText';
-import { Menu } from '../Menu/Menu';
+import { Menu } from '../Menu';
 import { MenuItemState } from '../MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../Spinner';

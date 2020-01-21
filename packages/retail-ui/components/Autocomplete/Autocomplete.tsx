@@ -1,11 +1,11 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
-import { Menu } from '../Menu/Menu';
+import { Menu } from '../Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';

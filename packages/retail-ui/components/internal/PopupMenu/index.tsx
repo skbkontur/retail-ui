@@ -1,1 +1,1 @@
-export { PopupMenu, PopupMenuProps, PopupMenuType } from './PopupMenu';
+export { PopupMenu, PopupMenuProps, PopupMenuType, PopupMenuCaptionProps } from './PopupMenu';

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input } from '../Input';
-import { Menu } from '../Menu/Menu';
+import { Menu } from '../Menu';
 import { InputLikeText } from '../internal/InputLikeText';
 import { MenuItemState } from '../MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';

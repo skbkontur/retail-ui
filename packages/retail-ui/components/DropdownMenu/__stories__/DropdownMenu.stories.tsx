@@ -12,7 +12,7 @@ import { MenuSeparator } from '../../MenuSeparator';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
-import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
+import { PopupMenuCaptionProps } from '../../internal/PopupMenu';
 import { Input } from '../../Input';
 
 storiesOf('DropdownMenu', module)

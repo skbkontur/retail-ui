@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { Gapped } from '../../Gapped/index';
+import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 
 storiesOf('Autocomplete', module)

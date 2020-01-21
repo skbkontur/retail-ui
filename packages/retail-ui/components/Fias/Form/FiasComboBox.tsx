@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ComboBox, ComboBoxProps } from '../../ComboBox';
 import { Address } from '../models/Address';
-import { reactGetTextContent } from '../../../lib/reactGetTextContent/reactGetTextContent';
+import { reactGetTextContent } from '../../../lib/reactGetTextContent';
 import { escapeRegExpSpecChars } from '../../../lib/utils';
 
 export interface FiasComboBoxProps extends ComboBoxProps<Address> {

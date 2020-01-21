@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';

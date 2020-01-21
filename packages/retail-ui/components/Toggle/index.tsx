@@ -1,1 +1,1 @@
-export { Toggle, ToggleProps } from './Toggle';
+export { Toggle, ToggleProps, ToggleState } from './Toggle';

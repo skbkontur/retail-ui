@@ -1,5 +1,5 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { locale } from '../LocaleProvider/decorators';

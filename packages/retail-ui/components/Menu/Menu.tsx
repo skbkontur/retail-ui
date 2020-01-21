@@ -13,7 +13,7 @@ import { jsStyles } from './Menu.styles';
 import styles from './Menu.module.less';
 import { isActiveElement } from './isActiveElement';
 
-interface MenuProps {
+export interface MenuProps {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -22,7 +22,7 @@ interface MenuProps {
   preventWindowScroll?: boolean;
 }
 
-interface MenuState {
+export interface MenuState {
   highlightedIndex: number;
 }
 

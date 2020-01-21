@@ -5,7 +5,7 @@ import { findDOMNode } from 'react-dom';
 import { MenuItem } from '../../MenuItem';
 import { Toggle } from '../../Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
-import { Menu } from '../../Menu/Menu';
+import { Menu } from '../../Menu';
 import { Button } from '../../Button';
 
 storiesOf('DropdownContainer', module).add('various aligns, portals, items and scrolls', () => (

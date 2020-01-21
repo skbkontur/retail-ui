@@ -1,7 +1,7 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
-import { Icon as  CapIcon, IconProps } from '../internal/icons/20px';
+import { Icon, IconProps } from '../internal/icons/20px';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { cx } from '../../lib/theming/Emotion';
 
@@ -61,7 +61,7 @@ export class Item extends React.Component<ItemProps> {
       <div {...rest} className={cx(classes)} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
         {icon && (
           <span className={cx(iconClasses)}>
-            <CapIcon color="#666" name={icon} />
+            <Icon color="#666" name={icon} />
           </span>
         )}
         {icon && iconOnly ? null : children}

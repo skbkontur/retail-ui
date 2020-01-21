@@ -7,7 +7,7 @@ import {
   isKeySpace,
   someKeys,
 } from '../../../lib/events/keyboard/identifiers';
-import { InternalMenu } from '../InternalMenu/InternalMenu';
+import { InternalMenu } from '../InternalMenu';
 import { Popup, PopupPosition } from '../../Popup';
 import { RenderLayer } from '../../RenderLayer';
 import { Nullable } from '../../../typings/utility-types';

@@ -1,5 +1,5 @@
 import React from 'react';
-import * as PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
@@ -13,7 +13,6 @@ import { Theme } from '../../lib/theming/Theme';
 import styles from './Tab.module.less';
 import { TabsContextType, TabsContext } from './TabsContext';
 import { jsStyles } from './Tab.styles';
-
 
 export interface TabIndicators {
   error: boolean;
