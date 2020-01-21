@@ -1,4 +1,4 @@
-import createReactContext from 'create-react-context';
+import * as React from 'react';
 import { SidePageFooter } from './SidePageFooter';
 
 export interface SidePageContextType {
@@ -8,7 +8,7 @@ export interface SidePageContextType {
   footerRef: (ref: SidePageFooter | null) => void;
 }
 
-export const SidePageContext = createReactContext<SidePageContextType>({
+export const SidePageContext = React.createContext<SidePageContextType>({
   requestClose: () => undefined,
   getWidth: () => 'auto',
   updateLayout: () => undefined,

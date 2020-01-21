@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { ConsumerProps } from 'create-react-context';
 import { ReactComponentLike } from 'prop-types';
 
 // NOTE: Copy-paste from @types/react
@@ -61,7 +60,7 @@ export function isFunctionalComponent(Component: ReactComponentLike) {
   return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
 }
 
-export function withContext<C>(ContextConsumer: React.ComponentClass<ConsumerProps<C>>) {
+export function withContext<C>(ContextConsumer: React.Consumer<C>) {
   return <P extends {}>(BaseComponent: React.ComponentType<P & { context?: C }>) => (props: P) => (
     <ContextConsumer>{(context: C) => <BaseComponent {...props} context={context} />}</ContextConsumer>
   );

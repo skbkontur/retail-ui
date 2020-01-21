@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import FocusLock from 'react-focus-lock';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import LayoutEvents from '../../lib/LayoutEvents';
@@ -24,6 +23,9 @@ import { ITheme } from '../../lib/theming/Theme';
 import { isBody } from './helpers';
 
 let mountedModalsCount = 0;
+
+// NOTE: в ie нормально не работает
+const isDisableFocusLock = isIE;
 
 export interface ModalProps {
   /**
@@ -209,18 +211,13 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
             >
               <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
-                  <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
+                  <FocusLock disabled={isDisableFocusLock} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
                       <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
                         <Close requestClose={this.requestClose} disableClose={this.props.disableClose} />
                       </ZIndex>
                     ) : null}
-                    <ModalContext.Provider value={modalContextProps}>
-                      <div>
-                        {/* React <= 15. ModalContext.Provider can only receive a single child element. */}
-                        {this.props.children}
-                      </div>
-                    </ModalContext.Provider>
+                    <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
                   </FocusLock>
                 </ResizeDetector>
               </div>
@@ -288,12 +285,6 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     } else if (this.state.horizontalScroll) {
       this.setState({ horizontalScroll: false });
     }
-  };
-
-  // TODO: без порталов ломается сохранение фокуса внутри модалки
-  // NOTE: в ie нормально не работает
-  private isDisableFocusLock = () => {
-    return !ReactDOM.createPortal || isIE;
   };
 
   private handleResize = (event: UIEvent) => {
