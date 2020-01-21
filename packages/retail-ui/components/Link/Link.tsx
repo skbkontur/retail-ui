@@ -68,7 +68,7 @@ class Link extends React.Component<LinkProps, LinkState> {
   };
 
   public static defaultProps = {
-    href: 'javascript:',
+    href: '',
     use: 'default',
   };
 
@@ -151,8 +151,12 @@ class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (this.props.onClick && !this.props.disabled) {
-      this.props.onClick(event);
+    const { href, onClick, disabled } = this.props;
+    if (!href) {
+      event.preventDefault();
+    }
+    if (onClick && !disabled) {
+      onClick(event);
     }
   };
 }
