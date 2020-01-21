@@ -717,13 +717,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/plugin-transform-object-assign@^7.7.4":
-  version "7.7.4"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.7.4.tgz#a31b70c434a00a078b2d4d10dbd59992fa70afca"
-  integrity sha512-0TpeUlnhQDwKxPLTIckdaWt46L2s61c/5w5snw1OUod5ehOJywZD98Ha3dFHVjeqkfOFtOTH7cqxddjxUuvcmg==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.0.0"
-
 "@babel/plugin-transform-object-super@^7.7.4":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-object-super/-/plugin-transform-object-super-7.7.4.tgz#48488937a2d586c0148451bf51af9d7dda567262"
@@ -16577,14 +16570,6 @@ webpack-sources@^1.1.0, webpack-sources@^1.3.0, webpack-sources@^1.4.0, webpack-
   dependencies:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
-
-webpack-watch-files-plugin@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/webpack-watch-files-plugin/-/webpack-watch-files-plugin-1.0.3.tgz#11e5ceead6e55f59a2a08ce567d58990b6186b9f"
-  integrity sha512-K5Y6FM9R01QkjWfwSNwfKqkP7MV6n/XZlzNCoAcTxd0Kdv2zhXc/asGWPwy+f+eBtSE0+TX4UJBLLQmxX360uA==
-  dependencies:
-    glob "^7.1.3"
-    lodash "^4.17.11"
 
 webpack@^4.33.0, webpack@^4.38.0, webpack@^4.41.2:
   version "4.41.2"
