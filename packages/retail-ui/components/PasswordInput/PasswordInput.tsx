@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
 import { Input, InputProps } from '../Input';
-import { ieVerison, isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
+import { isIE11 } from '../../lib/utils';
 
 import styles from './PasswordInput.module.less';
 import { PasswordInputFallback } from './PasswordInputFallback';
@@ -48,7 +48,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     }
 
     // @ts-ignore
-    if (isIE && !window.document.msCapsLockWarningOff) {
+    if (isIE11 && !window.document.msCapsLockWarningOff) {
       // turns off default ie capslock warning
       // @ts-ignore
       window.document.msCapsLockWarningOff = true;
@@ -152,7 +152,8 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
       rightIcon: this.renderEye(),
     };
 
-    if (isIE && ieVerison === 8) {
+    // NOTE Removed in https://github.com/skbkontur/retail-ui/pull/1854
+    if (false) {
       return <PasswordInputFallback refInput={this.refInput} visible={this.state.visible} {...inputProps} />;
     }
 

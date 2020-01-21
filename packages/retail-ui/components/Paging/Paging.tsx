@@ -3,11 +3,10 @@ import { func, number } from 'prop-types';
 import warning from 'warning';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
-import { emptyHandler } from '../../lib/utils';
+import { emptyHandler, isIE11 } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
@@ -254,7 +253,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private handleMouseDownPageLink = () => {
-    if (isIE) {
+    if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
       setTimeout(() => this.container && this.container.focus(), 0);

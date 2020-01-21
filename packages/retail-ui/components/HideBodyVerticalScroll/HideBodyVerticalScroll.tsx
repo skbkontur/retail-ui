@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { getComputedStyle } from '../../lib/dom/getComputedStyle';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 
 export class HideBodyVerticalScroll extends React.Component {

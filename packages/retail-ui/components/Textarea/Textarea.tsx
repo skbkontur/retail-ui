@@ -1,5 +1,3 @@
-import '../ensureOldIEClassName';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
@@ -15,7 +13,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
 import styles from './Textarea.module.less';
-
 
 const DEFAULT_WIDTH = 250;
 

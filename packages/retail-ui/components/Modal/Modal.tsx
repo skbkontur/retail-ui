@@ -10,10 +10,10 @@ import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ModalStack, StackSubscription } from '../ModalStack';
 import { ResizeDetector } from '../internal/ResizeDetector';
-import { isIE } from '../ensureOldIEClassName';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+import { isIE11 } from '../../lib/utils';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer } from './ModalFooter';
@@ -294,7 +294,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   // TODO: без порталов ломается сохранение фокуса внутри модалки
   // NOTE: в ie нормально не работает
   private isDisableFocusLock = () => {
-    return !createPortal || isIE;
+    return !createPortal || isIE11;
   };
 
   private handleResize = (event: UIEvent) => {

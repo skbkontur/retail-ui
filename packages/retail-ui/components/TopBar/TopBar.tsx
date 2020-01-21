@@ -12,13 +12,11 @@ import { Item } from './TopBarItem';
 import { Organizations } from './TopBarOrganizations';
 import { TopBarDropdown } from './TopBarDropdown';
 import { User } from './TopBarUser';
-import '../ensureOldIEClassName';
 import styles from './TopBar.module.less';
 import { TopBarEnd } from './TopBarEnd';
 import { TopBarStart } from './TopBarStart';
 import { Logout } from './TopBarLogout';
 import { jsStyles } from './TopBar.styles';
-
 
 export interface TopBarProps {
   children?: React.ReactNode;

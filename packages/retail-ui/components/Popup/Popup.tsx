@@ -5,14 +5,13 @@ import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';
 
-import { isIE } from '../ensureOldIEClassName';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction } from '../../lib/utils';
+import { isFunction, isIE11 } from '../../lib/utils';
 import { LifeCycleProxy } from '../internal/LifeCycleProxy';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
@@ -401,7 +400,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
      * shadow to the pin too.
      */
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
-    const pinBorder = isIE && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
+    const pinBorder = isIE11&& isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
     const { pinSize, pinOffset, hasShadow, backgroundColor, borderColor } = this.props;
 

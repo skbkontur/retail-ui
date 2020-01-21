@@ -2,7 +2,6 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { getComputedStyle } from '../../lib/dom/getComputedStyle';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../internal/createPropsGetter';

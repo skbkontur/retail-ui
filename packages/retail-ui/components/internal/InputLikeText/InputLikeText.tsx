@@ -1,6 +1,5 @@
 import React from 'react';
 
-import '../../ensureOldIEClassName';
 import { isKeyTab, isShortcutPaste } from '../../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../../lib/events/MouseDrag';
 import { isEdge, isIE11 } from '../../../lib/utils';

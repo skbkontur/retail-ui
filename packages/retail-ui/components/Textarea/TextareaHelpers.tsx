@@ -1,5 +1,3 @@
-import { getComputedStyle } from '../../lib/dom/getComputedStyle';
-
 export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, maxRows: number) {
   const style: CSSStyleDeclaration = getComputedStyle(node);
   const lineHeight = style.lineHeight ? parseInt(style.lineHeight, 10) : 0;
