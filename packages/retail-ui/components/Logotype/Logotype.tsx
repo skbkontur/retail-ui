@@ -63,6 +63,9 @@ export interface LogotypeProps {
   locale?: LogotypePropLocale;
 }
 
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в отдельный нпм пакет, вместе с TopBar
+ */
 @locale('Logotype', LogotypeLocaleHelper)
 export class Logotype extends React.Component<LogotypeProps> {
   public static __KONTUR_REACT_UI__ = 'Logotype';

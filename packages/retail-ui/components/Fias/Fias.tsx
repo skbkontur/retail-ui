@@ -121,6 +121,10 @@ function deepMerge<T>(dst: T, ...src: T[]): T {
   return dst;
 }
 
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в отдельный npm пакет
+ */
+
 @locale('Fias', FiasLocaleHelper)
 export class Fias extends React.Component<FiasProps, FiasState> {
   public static __KONTUR_REACT_UI__ = 'Fias';

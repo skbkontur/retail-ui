@@ -56,6 +56,10 @@ export interface TopBarDefaultProps {
  * `Logout({children?: node})` – обёртка над `Item`. По умолчанию выводит локализованный текст
  *
  */
+
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в отдельный npm пакет
+ */
 export class TopBar extends React.Component<TopBarProps> {
   public static __KONTUR_REACT_UI__ = 'TopBar';
 
@@ -193,16 +197,16 @@ export class TopBar extends React.Component<TopBarProps> {
             {children ? (
               <div className={styles.container}>{children}</div>
             ) : (
-                <div className={styles.container}>
-                  <div className={styles.startItems}>
-                    <Item>
-                      <Logotype {...logoProps} />
-                    </Item>
-                    {this._renderItems(leftItems)}
-                  </div>
-                  <div className={styles.endItems}>{this._renderItems(_rightItems)}</div>
+              <div className={styles.container}>
+                <div className={styles.startItems}>
+                  <Item>
+                    <Logotype {...logoProps} />
+                  </Item>
+                  {this._renderItems(leftItems)}
                 </div>
-              )}
+                <div className={styles.endItems}>{this._renderItems(_rightItems)}</div>
+              </div>
+            )}
           </div>
         </div>
       </div>
