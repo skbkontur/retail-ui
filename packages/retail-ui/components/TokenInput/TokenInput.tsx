@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
-import warningOutput from 'warning';
 import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
 
@@ -65,13 +64,6 @@ export interface TokenInputProps<T> {
   disabled?: boolean;
   width?: string | number;
   renderToken?: (item: T, props: Partial<TokenProps & TokenActions>) => ReactNode;
-  /**
-   * @deprecated Use `renderToken` prop instead
-   */
-  renderTokenComponent?: (
-    token: (props?: Partial<TokenProps>) => React.ReactElement<TokenProps>,
-    value?: T,
-  ) => React.ReactElement<TokenProps>;
 }
 
 export interface TokenInputState<T> {
@@ -618,64 +610,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private renderTokenFields = () => {
-    return this.props.selectedItems.map(this.renderTokenSelector);
-  };
-
-  private renderTokenSelector = (item: T) => {
-    switch (true) {
-      case this.props.renderToken !== undefined:
-        return this.renderToken(item);
-      case this.props.renderTokenComponent !== undefined:
-        return this.renderTokenComponent(item);
-      default:
-        return this.renderToken(item);
-    }
-  };
-
-  /**
-   * @deprecated
-   */
-  private renderTokenComponent = (item: T) => {
-    if (process.env.NODE_ENV !== 'production') {
-      warningOutput(
-        this.props.renderTokenComponent !== undefined,
-        `Prop \`renderTokenComponent\` has been deprecated, use \`renderToken\` instead`,
-      );
-    }
-
-    const { renderValue, toKey, disabled } = this.props;
-    const isActive = this.state.activeTokens.indexOf(item) !== -1;
-    const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
-      event.stopPropagation();
-      this.handleRemoveToken(item);
-    };
-    const handleTokenClick: React.MouseEventHandler<HTMLDivElement> = event => {
-      event.stopPropagation();
-      this.handleTokenClick(event, item);
-    };
-
-    const token = ({ colors, error, warning }: Partial<TokenProps> = {}) => (
-      <Token
-        {...{
-          key: toKey(item),
-          isActive,
-          disabled,
-          colors,
-          error,
-          warning,
-          onClick: handleTokenClick,
-          onRemove: handleIconClick,
-          children: renderValue(item),
-        }}
-      />
-    );
-
-    if (this.props.renderTokenComponent) {
-      return this.props.renderTokenComponent(token, item);
-    }
-
-    // DEAD CODE
-    return token();
+    return this.props.selectedItems.map(this.renderToken);
   };
 
   private renderToken = (item: T) => {

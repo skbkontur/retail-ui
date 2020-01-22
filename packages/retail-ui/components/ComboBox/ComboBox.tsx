@@ -1,5 +1,4 @@
 import React from 'react';
-import warning from 'warning';
 
 import { CustomComboBox } from '../CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
@@ -7,13 +6,6 @@ import { MenuItemState } from '../MenuItem';
 
 export interface ComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
-  /**
-   * Включает режим автокомплита
-   * @deprecated используйте флаги `searchOnFocus` и `drawArrow`.
-   * Установка обоих флагов в `false` соответствует режиму автокомплита
-   */
-  autocomplete?: boolean;
-
   /**
    * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
    * @default true
@@ -173,13 +165,6 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
 
-  public componentDidMount() {
-    warning(
-      this.props.autocomplete === undefined,
-      '`autocompelete` flag is deprecated, please use `drawArrow` and `searchOnFocus` instead',
-    );
-  }
-
   /**
    * @public
    */
@@ -257,21 +242,6 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    const { autocomplete, ...restProps } = this.props;
-    let { drawArrow, searchOnFocus } = this.props;
-
-    if (autocomplete !== undefined) {
-      drawArrow = !Boolean(autocomplete);
-      searchOnFocus = !Boolean(autocomplete);
-    }
-
-    return (
-      <CustomComboBox
-        {...restProps}
-        drawArrow={drawArrow}
-        searchOnFocus={searchOnFocus}
-        ref={element => (this.comboboxElement = element)}
-      />
-    );
+    return <CustomComboBox {...this.props} ref={element => (this.comboboxElement = element)} />;
   }
 }

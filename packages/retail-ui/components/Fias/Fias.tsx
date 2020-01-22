@@ -1,5 +1,4 @@
 import React from 'react';
-import warningOutput from 'warning';
 import isEqual from 'lodash.isequal';
 
 import { Link } from '../Link';
@@ -18,7 +17,6 @@ import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
 import { Logger } from './logger/Logger';
 import { jsStyles } from './Fias.styles';
-
 
 export interface FiasProps {
   /**
@@ -67,11 +65,6 @@ export interface FiasProps {
    * Количество отображаемых элементов в выпадающих списках
    */
   limit?: number;
-  /**
-   * Словарь текстовых констант. См. полный список ниже
-   * @deprecated используйте LocaleProvider
-   */
-  locale?: FiasLocale;
   /**
    * Уровень критичности ошибок валидации полей адреса
    */
@@ -147,7 +140,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public state: FiasState = {
     opened: false,
     address: new Address(),
-    locale: this.getLocaleMix(),
+    locale: FiasLocaleHelper.get(),
     fieldsSettings: this.fieldsSettings,
   };
 
@@ -190,17 +183,14 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public componentDidMount = () => {
     this.updateLocale();
     this.init();
-
-    warningOutput(this.props.locale === undefined, `[Fias]: Prop 'locale' has been deprecated. See 'LocaleProvider'`);
   };
 
   public componentDidUpdate = (prevProps: FiasProps, prevState: FiasState) => {
     if (!isEqual(prevProps.value, this.props.value)) {
       this.updateAddress();
     }
-    const nextLocale = this.getLocaleMix(this.locale);
-    if (!isEqual(prevState.locale, nextLocale)) {
-      this.updateLocale(nextLocale);
+    if (!isEqual(prevState.locale, this.locale)) {
+      this.updateLocale(this.locale);
     }
     if (!isEqual(prevProps.fieldsSettings, this.props.fieldsSettings)) {
       this.updateFieldsSettings();
@@ -253,13 +243,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     );
   }
 
-  private getLocaleMix(localeFromContext: FiasLocale = FiasLocaleHelper.get()): FiasLocale {
-    return {
-      ...localeFromContext,
-      ...this.props.locale,
-    };
-  }
-
   private renderModal() {
     const { address, fieldsSettings } = this.state;
     const { search, limit, formValidation, countrySelector } = this.props;
@@ -294,7 +277,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     return address;
   };
 
-  private updateLocale = (nextLocale: FiasLocale = this.getLocaleMix()): void => {
+  private updateLocale = (nextLocale: FiasLocale = FiasLocaleHelper.get()): void => {
     this.setState({ locale: nextLocale });
   };
 

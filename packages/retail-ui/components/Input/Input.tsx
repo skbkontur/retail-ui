@@ -78,12 +78,6 @@ export type InputProps = Override<
      * `ReactNode` после значения, но перед правой иконкой
      */
     suffix?: React.ReactNode;
-
-    /**
-     * @deprecated
-     * 100% ширина в группе, лучше явно передать ширину в компонент
-     */
-    mainInGroup?: boolean;
     /** Выделять введенное значение при фокусе */
     selectAllOnFocus?: boolean;
     /**
@@ -267,7 +261,6 @@ export class Input extends React.Component<InputProps, InputState> {
       className,
       size,
       placeholder,
-      mainInGroup,
       selectAllOnFocus,
       disabled,
       onUnexpectedInput,

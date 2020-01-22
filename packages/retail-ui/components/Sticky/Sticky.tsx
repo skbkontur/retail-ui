@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import warning from 'warning';
 import shallowEqual from 'shallowequal';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -22,12 +21,6 @@ export interface StickyProps {
   offset: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-
-  /**
-   * @deprecated работа с margin у детей возможна без указания этого флага
-   * @default false
-   */
-  allowChildWithMargins?: boolean;
 }
 
 export interface StickyState {
@@ -75,10 +68,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   private reflowCounter = 0;
 
   public componentDidMount() {
-    warning(
-      this.props.allowChildWithMargins === undefined,
-      '"allowChildWithMargins" prop is deprecated. Component "Sticky" work correctly without it.',
-    );
     this.reflow();
 
     this.layoutSubscription = LayoutEvents.addListener(this.reflow);

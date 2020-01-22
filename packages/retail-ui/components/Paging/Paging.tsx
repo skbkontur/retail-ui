@@ -1,6 +1,5 @@
 import React from 'react';
 import { func, number } from 'prop-types';
-import warning from 'warning';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
@@ -39,10 +38,6 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
-  /**
-   * @deprecated используйте проп `caption` или `LocaleProvider`
-   */
-  strings?: { forward: string };
   /**
    * Отключает навигационные подсказки.
    * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
@@ -96,14 +91,10 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
-    const { useGlobalListener, strings } = this.props;
+    const { useGlobalListener } = this.props;
     if (useGlobalListener) {
       this.addGlobalListener();
     }
-    warning(
-      strings === undefined,
-      '[Paging]: `strings` prop is deprecated, please use `caption` or `LocaleProvider` instead',
-    );
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: PagingProps) {
@@ -187,7 +178,8 @@ export class Paging extends React.Component<PagingProps, PagingState> {
       [styles.disabled]: disabled,
       [jsStyles.disabled(this.theme)]: disabled,
     });
-    const { component: Component, strings: { forward = this.locale.forward } = {}, caption } = this.props;
+    const { component: Component, caption } = this.props;
+    const { forward } = this.locale;
 
     return (
       <Component

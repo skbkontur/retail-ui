@@ -20,11 +20,7 @@ describe('Group', () => {
   it('main element in group gets "stretch" class', () => {
     const wrapper = render(
       <Group>
-        <Input
-          // @ts-ignore
-          mainInGroup
-          id="test-input"
-        />
+        <Input width="100%" id="test-input" />
         <Button>Test</Button>
       </Group>,
     );

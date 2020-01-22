@@ -116,7 +116,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, integerDigits, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, integerDigits, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {

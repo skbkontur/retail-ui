@@ -54,7 +54,6 @@ export class FxInput extends React.Component<FxInputProps> {
     const { type, onRestore, auto, ...rest } = this.props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
-      mainInGroup: true,
     };
 
     let button = null;
@@ -76,20 +75,22 @@ export class FxInput extends React.Component<FxInputProps> {
           <CurrencyInput
             {...inputProps}
             {...rest}
+            width={'100%'}
             ref={this.refInput}
             value={this.props.value as CurrencyInputProps['value']}
             onChange={this.props.onChange as CurrencyInputProps['onChange']}
           />
         ) : (
-            <Input
-              {...inputProps}
-              {...rest}
-              ref={this.refInput}
-              type={this.props.type as InputType}
-              value={this.props.value as InputProps['value']}
-              onChange={this.props.onChange as InputProps['onChange']}
-            />
-          )}
+          <Input
+            {...inputProps}
+            {...rest}
+            width={'100%'}
+            ref={this.refInput}
+            type={this.props.type as InputType}
+            value={this.props.value as InputProps['value']}
+            onChange={this.props.onChange as InputProps['onChange']}
+          />
+        )}
       </Group>
     );
   }
