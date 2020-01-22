@@ -41,6 +41,10 @@ export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof CO
   onChange?: (event: FiasSearchChangeEvent, address: Address) => void;
 }
 
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в отдельный npm пакет вместе с Fias
+ */
+
 @locale('Fias', FiasLocaleHelper)
 export class FiasSearch extends React.Component<FiasSearchProps> {
   public static __KONTUR_REACT_UI__ = 'FiasSearch';
