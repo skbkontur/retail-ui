@@ -20,7 +20,7 @@
     "predeploy": "rimraf .styleguide/build && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git",
     "publish:react-ui": "npm publish ./build",
-    "storybook": "cross-env BABEL_ENV=development start-storybook -p 6060",
+    "storybook": "start-storybook -p 6060",
     "storybook:flat": "cross-env STORYBOOK_FLAT_UI=true start-storybook -p 6060",
     "storybook:build": "run-s storybook:build:*",
     "storybook:build:default": "cross-env enableReactTesting=true build-storybook -o .storybook/build/default",

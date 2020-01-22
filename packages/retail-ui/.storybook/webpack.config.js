@@ -21,6 +21,7 @@ module.exports = async ({ config, mode }) => {
       exclude: /node_modules/,
       options: {
         babelrc: false,
+        envName: 'development',
         extends: path.join(__dirname, '../.babelrc.js'),
       },
     },
