@@ -153,6 +153,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const isIndeterminate = this.state.indeterminate;
 
     const rootClass = cx(classes.root, jsStyles.root(this.theme), {
+      [jsStyles.rootFallback()]: isIE11 || isEdge,
       [classes.disabled]: !!props.disabled,
       [jsStyles.disabled(this.theme)]: !!props.disabled,
       [jsStyles.checked(this.theme)]: !!props.checked,

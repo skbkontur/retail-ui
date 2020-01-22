@@ -34,7 +34,7 @@
     }
 
     &:not(.link) {
-      :global(.rt-ie-any) & {
+      &.fallback {
         line-height: normal;
       }
     }
@@ -56,6 +56,7 @@
       z-index: 1;
     }
 
+    .fallback,
     .default,
     .arrow_warning,
     .arrow_error,
@@ -144,7 +145,7 @@
         cursor: default;
         pointer-events: none;
 
-        :global(.rt-ie-any) & {
+        &.fallback {
           outline-color: transparent;
         }
       }

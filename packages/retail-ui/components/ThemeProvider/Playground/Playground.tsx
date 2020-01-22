@@ -116,8 +116,8 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
 
   private renderSizesGroup = () => {
     const Group = ({ size }: { size: 'small' | 'medium' | 'large' }) => (
-      <>
-        <SelectPlayground width={120} size={size} />,
+      <Gapped wrap verticalAlign="middle" gap={10}>
+        <SelectPlayground width={120} size={size} />
         <Input rightIcon={<CardIcon />} placeholder={'Text value'} size={size} />
         <Button width={120} size={size}>
           Button
@@ -125,7 +125,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
         <Button icon={<LinkIcon />} use={'link'} size={size}>
           Button like a link
         </Button>
-      </>
+      </Gapped>
     );
     return (
       <ComponentsGroup title={'Размеры'} theme={this.theme}>
@@ -146,7 +146,9 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
     ];
     return (
       <ComponentsGroup title={'Ссылки'} theme={this.theme}>
-        {getComponentsFromPropsList(<Link />, propsList)}
+        <Gapped wrap verticalAlign="middle" gap={10}>
+          {getComponentsFromPropsList(<Link />, propsList)}
+        </Gapped>
       </ComponentsGroup>
     );
   };
@@ -180,7 +182,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
     const fromProps = getComponentsFromPropsList(<Input width={120} />, propsList);
     return (
       <ComponentsGroup title={'Поле ввода'} theme={this.theme}>
-        <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />,
+        <Input width={380} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />
         <div>
           <Gapped gap={10}>{fromProps}</Gapped>
         </div>

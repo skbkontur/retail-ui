@@ -136,7 +136,7 @@ export const buttonSizeMixin = (
       padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
       line-height: ${lineHeight};
 
-      .rt-ie-any & {
+      &.${classes.fallback} {
         padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
       }
     }

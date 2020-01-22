@@ -26,10 +26,12 @@ export const jsStyles = {
     return css`
       filter: ${t.popupDropShadow};
       -webkit-filter: ${t.popupDropShadow};
+    `;
+  },
 
-      .rt-ie-any & {
-        box-shadow: ${t.popupBoxShadow};
-      }
+  shadowFallback(t: Theme) {
+    return css`
+      box-shadow: ${t.popupBoxShadow};
     `;
   },
 };

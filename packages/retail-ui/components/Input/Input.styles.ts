@@ -33,7 +33,13 @@ export const jsStyles = {
         border-color: ${t.borderColorFocus};
         box-shadow: ${t.inputFocusShadow};
       }
-      .rt-ie-any .${classes.root}& {
+    `;
+  },
+
+  focusFallback(t: Theme) {
+    return css`
+      .${classes.root}& {
+        box-shadow: none;
         outline: 1px solid ${t.inputFocusOutline};
       }
     `;
@@ -92,7 +98,13 @@ export const jsStyles = {
         border-color: ${t.borderColorWarning};
         box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
-      .rt-ie-any .${classes.root}& {
+    `;
+  },
+
+  warningFallback(t: Theme) {
+    return css`
+      .${classes.root}& {
+        box-shadow: none;
         outline: 1px solid ${t.borderColorWarning};
       }
     `;
@@ -104,7 +116,13 @@ export const jsStyles = {
         border-color: ${t.borderColorError};
         box-shadow: 0 0 0 1px ${t.borderColorError};
       }
-      .rt-ie-any .${classes.root}& {
+    `;
+  },
+
+  errorFallback(t: Theme) {
+    return css`
+      .${classes.root}& {
+        box-shadow: none;
         outline: 1px solid ${t.borderColorError};
       }
     `;
@@ -139,12 +157,14 @@ export const jsStyles = {
       padding-top: ${t.controlPaddingYSmall};
       padding-bottom: ${t.controlPaddingYSmall};
       height: ${t.controlHeightSmall};
+    `;
+  },
 
-      .rt-ie-any & {
-        padding-top: ${shift(t.controlPaddingYSmall, '-1')};
-        padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
-        line-height: normal;
-      }
+  sizeSmallFallback(t: Theme) {
+    return css`
+      padding-top: ${shift(t.controlPaddingYSmall, '-1')};
+      padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
+      line-height: normal;
     `;
   },
 
@@ -155,12 +175,14 @@ export const jsStyles = {
       padding-top: ${t.controlPaddingYMedium};
       padding-bottom: ${t.controlPaddingYMedium};
       height: ${t.controlHeightMedium};
+    `;
+  },
 
-      .rt-ie-any & {
-        padding-top: ${shift(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
-        line-height: normal;
-      }
+  sizeMediumFallback(t: Theme) {
+    return css`
+      padding-top: ${shift(t.controlPaddingYMedium, '-1')};
+      padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
+      line-height: normal;
     `;
   },
 
@@ -171,12 +193,14 @@ export const jsStyles = {
       height: ${t.controlHeightLarge};
       padding-top: ${shift(t.controlPaddingYLarge, '-1')};
       padding-bottom: ${shift(t.controlPaddingYLarge, '1')};
+    `;
+  },
 
-      .rt-ie-any & {
-        padding-top: ${shift(t.controlPaddingYLarge, '-2')};
-        padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
-        line-height: normal;
-      }
+  sizeLargeFallback(t: Theme) {
+    return css`
+      padding-top: ${shift(t.controlPaddingYLarge, '-2')};
+      padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
+      line-height: normal;
     `;
   },
 

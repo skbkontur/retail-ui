@@ -11,7 +11,7 @@ import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isIE11 } from '../../lib/utils';
+import { isFunction, isIE11, isEdge } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
@@ -350,15 +350,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             priority={'Popup'}
             className={cx([styles.popup, jsStyles.popup(this.theme)], {
               [jsStyles.shadow(this.theme)]: hasShadow,
+              [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
               [styles['popup-ignore-hover']]: ignoreHover,
               ...(disableAnimations
                 ? {}
                 : {
-                  [styles['transition-enter']]: state === 'entering',
-                  [styles['transition-enter-active']]: state === 'entered',
-                  [styles['transition-exit']]: state === 'exiting',
-                  [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
-                }),
+                    [styles['transition-enter']]: state === 'entering',
+                    [styles['transition-enter-active']]: state === 'entered',
+                    [styles['transition-exit']]: state === 'exiting',
+                    [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                  }),
             })}
             style={rootStyle}
             onMouseEnter={this.handleMouseEnter}

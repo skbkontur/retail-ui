@@ -167,6 +167,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         [jsInputStyles.warning(this.theme)]: !!warning,
         [jsInputStyles.error(this.theme)]: !!error,
         [jsInputStyles.disabled(this.theme)]: !!disabled,
+        [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
+        [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
+        [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
       },
     );
 
@@ -408,15 +411,24 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.frozenBlur = false;
   };
 
-  private getSizeClassName = (): string => {
+  private getSizeClassName = () => {
     switch (this.props.size) {
       case 'large':
-        return jsInputStyles.sizeLarge(this.theme);
+        return {
+          [jsInputStyles.sizeLarge(this.theme)]: true,
+          [jsInputStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
+        };
       case 'medium':
-        return jsInputStyles.sizeMedium(this.theme);
+        return {
+          [jsInputStyles.sizeMedium(this.theme)]: true,
+          [jsInputStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
+        };
       case 'small':
       default:
-        return jsInputStyles.sizeSmall(this.theme);
+        return {
+          [jsInputStyles.sizeSmall(this.theme)]: true,
+          [jsInputStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
+        };
     }
   };
 }

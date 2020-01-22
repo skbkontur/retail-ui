@@ -25,16 +25,12 @@ export const jsStyles = {
       &.${classes.disabled} {
         color: ${t.textColorDisabled};
       }
-
-      .rt-ie-any & {
-        display: inline-table;
-      }
     `;
   },
 
-  rootWrapperIE11() {
+  rootFallback() {
     return css`
-      display: inline;
+      display: inline-table;
     `;
   },
 
@@ -104,8 +100,7 @@ export const jsStyles = {
       }
 
       &:active .${classes.box} {
-          background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
-        }
+        background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
       }
     `;
   },
