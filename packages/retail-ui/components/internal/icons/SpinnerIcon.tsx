@@ -9,20 +9,38 @@ export interface SpinnerIconProps {
   size: 'mini' | 'normal' | 'big';
 }
 
+const sizes = {
+  big: {
+    size: 96,
+    width: 4,
+    radius: 32,
+  },
+  normal: {
+    size: 48,
+    width: 2,
+    radius: 16,
+  },
+  mini: {
+    size: 18,
+    width: 1.5,
+    radius: 6,
+  },
+};
+
 export const SpinnerIcon = ({ size, className }: SpinnerIconProps) => {
-  const multiply = size === 'big' ? 3 : size === 'normal' ? 2 : 1;
+  const currentSize = sizes[size];
   return (
     <svg
-      viewBox={`0 0 ${16 * multiply} ${16 * multiply}`}
+      viewBox={`0 0 ${currentSize.size} ${currentSize.size}`}
       className={cx(styles.icon, className)}
-      width={16 * multiply}
-      height={16 * multiply}
+      width={currentSize.size}
+      height={currentSize.size}
       fill="none"
-      strokeDasharray={`${10 * multiply}, ${27 * multiply}`}
+      strokeDasharray={`${(10 * currentSize.radius) / 6}, ${(27 * currentSize.radius) / 6}`}
       strokeDashoffset="0"
-      strokeWidth={1.5 * multiply}
+      strokeWidth={currentSize.width}
     >
-      <circle cx={8 * multiply} cy={8 * multiply} r={6 * multiply} />
+      <circle cx={currentSize.size / 2} cy={currentSize.size / 2} r={currentSize.radius} />
     </svg>
   );
 };
