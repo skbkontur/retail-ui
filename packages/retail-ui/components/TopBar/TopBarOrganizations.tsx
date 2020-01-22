@@ -22,6 +22,8 @@ export interface OrganizationsState {
  */
 
 export class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
+  public static __KONTUR_REACT_UI__ = 'TopBarOrganizations';
+
   public state = {
     captionWhiteSpace: 'normal' as React.CSSProperties['whiteSpace'],
     minWidth: null,

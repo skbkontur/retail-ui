@@ -1,9 +1,8 @@
 import React from 'react';
-import createReactContext from 'create-react-context';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
-const ZIndexContext = createReactContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
+const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
 
 export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -20,6 +19,8 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export class ZIndex extends React.Component<ZIndexProps> {
+  public static __KONTUR_REACT_UI__ = 'ZIndex';
+
   public static defaultProps = {
     delta: 10,
     priority: 0,

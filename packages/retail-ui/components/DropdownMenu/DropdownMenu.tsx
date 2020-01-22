@@ -39,6 +39,8 @@ export interface DropdownMenuProps {
  * Меню, раскрывающееся по клику на переданный в ```caption``` элемент
  */
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
+  public static __KONTUR_REACT_UI__ = 'DropdownMenu';
+
   public static defaultProps = {
     disableAnimations: Boolean(process.env.enableReactTesting),
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],

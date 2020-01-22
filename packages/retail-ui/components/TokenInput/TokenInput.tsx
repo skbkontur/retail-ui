@@ -90,12 +90,14 @@ const defaultRenderToken = <T extends any>(
   item: T,
   { isActive, onClick, onRemove, disabled }: Partial<TokenProps & TokenActions>,
 ) => (
-  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
-    {item}
-  </Token>
-);
+    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
+      {item}
+    </Token>
+  );
 
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
+  public static __KONTUR_REACT_UI__ = 'TokenInput';
+
   public static defaultProps: Partial<TokenInputProps<any>> = {
     selectedItems: [],
     renderItem: identity,

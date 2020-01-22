@@ -75,6 +75,8 @@ export interface TextareaState {
  * ** `className` и `style`  игнорируются**
  */
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
+  public static __KONTUR_REACT_UI__ = 'Textarea';
+
   public static propTypes = {
     error: PropTypes.bool,
     warning: PropTypes.bool,

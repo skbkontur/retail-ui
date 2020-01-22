@@ -9,7 +9,6 @@ import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
 import { isIE11 } from '../../lib/utils';
 
 import styles from './PasswordInput.module.less';
-import { PasswordInputFallback } from './PasswordInputFallback';
 
 export type PasswordInputProps = {
   detectCapsLock?: boolean;
@@ -24,6 +23,8 @@ export interface PasswordInputState {
  * Компонент для ввода пароля
  */
 export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+  public static __KONTUR_REACT_UI__ = 'PasswordInput';
+
   public static propTypes = {
     /**
      * Включает CapsLock детектор
@@ -151,12 +152,6 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
     };
-
-    // NOTE Removed in https://github.com/skbkontur/retail-ui/pull/1854
-    if (false) {
-      return <PasswordInputFallback refInput={this.refInput} visible={this.state.visible} {...inputProps} />;
-    }
-
     return <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />;
   }
 }

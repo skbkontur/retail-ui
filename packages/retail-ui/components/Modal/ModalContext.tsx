@@ -1,7 +1,4 @@
-// FIXME: remove after upgrading ts to 2.9.1
-// @ts-ignore Used for generating declarations
 import React from 'react';
-import createReactContext from 'create-react-context';
 
 export interface CloseProps {
   disableClose?: boolean;
@@ -15,4 +12,4 @@ export interface ModalContextProps {
   horizontalScroll?: boolean;
 }
 
-export const ModalContext = createReactContext<ModalContextProps>({});
+export const ModalContext = React.createContext<ModalContextProps>({});

@@ -24,6 +24,8 @@ export interface GroupChildProps {
  * передать свойство `mainInGroup`;
  */
 export class Group extends React.Component<GroupProps> {
+  public static __KONTUR_REACT_UI__ = 'Group';
+
   public static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   };

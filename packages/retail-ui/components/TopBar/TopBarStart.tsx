@@ -9,3 +9,4 @@ import styles from './TopBar.module.less';
  */
 
 export const TopBarStart: React.SFC = ({ children }) => <div className={styles.startItems}>{children}</div>;
+(TopBarStart as any).__KONTUR_REACT_UI__ = 'TopBarStart';

@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
@@ -50,7 +50,6 @@
     "@emotion/stylis": "0.8.4",
     "classnames": "^2.2.6",
     "create-emotion": "^10.0.14",
-    "create-react-context": "^0.3.0",
     "csstype": "2.6.7",
     "eventemitter3": "^4.0.0",
     "invariant": "2.2.4",
@@ -60,9 +59,9 @@
     "normalize-wheel": "^1.0.1",
     "prop-types": "^15.7.2",
     "raf": "^3.4.1",
-    "react-focus-lock": "^1.11.2",
+    "react-focus-lock": "^2.2.1",
     "react-input-mask": "2.0.4",
-    "react-transition-group": "^2.4.0",
+    "react-transition-group": "^4.3.0",
     "shallowequal": "^1.1.0",
     "tabbable": "^4.0.0",
     "warning": "^4.0.3"
@@ -93,7 +92,7 @@
     "@types/react": "16.9.16",
     "@types/react-dom": "16.9.4",
     "@types/react-input-mask": "2.0.5",
-    "@types/react-transition-group": "^2.0.11",
+    "@types/react-transition-group": "^4.2.3",
     "@types/selenium-webdriver": "^4.0.5",
     "@types/shallowequal": "^1.1.1",
     "@types/tabbable": "^3.1.0",
@@ -143,8 +142,8 @@
     "webpack": "^4.41.2"
   },
   "peerDependencies": {
-    "react": ">=15 <=16",
-    "react-dom": ">=15 <=16"
+    "react": ">=16.9 <17",
+    "react-dom": ">=16.9 <17"
   },
   "jest": {
     "testResultsProcessor": "jest-teamcity-reporter",

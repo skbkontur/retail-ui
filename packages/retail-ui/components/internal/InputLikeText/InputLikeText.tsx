@@ -27,6 +27,8 @@ export interface InputLikeTextProps extends InputProps {
 export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
+  public static __KONTUR_REACT_UI__ = 'InputLikeText';
+
   public static defaultProps = { size: 'small' };
 
   public state = { blinking: false, focused: false };

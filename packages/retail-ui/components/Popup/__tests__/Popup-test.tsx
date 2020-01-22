@@ -1,21 +1,15 @@
 import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
-import ReactDOM from 'react-dom';
 import { ReactComponentLike } from 'prop-types';
 
 import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer/RenderContainer';
 import { ZIndex } from '../../ZIndex';
-import { LifeCycleProxy } from '../../internal/LifeCycleProxy';
-import { RenderInnerContainer as RenderContainerNative } from '../../RenderContainer/RenderContainerNative';
-import { RenderInnerContainer as RenderContainerFallback } from '../../RenderContainer/RenderContainerFallback';
+import { RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 
-
-const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
-const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {
@@ -130,7 +124,6 @@ describe('properly renders opened/closed states ', () => {
     RenderContainer,
     RenderInnerContainer,
     'Portal',
-    LifeCycleProxy,
     Transition,
     ZIndex,
     'div.popup',

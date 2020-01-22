@@ -9,6 +9,8 @@ export interface FocusTrapProps {
 }
 
 export class FocusTrap extends React.PureComponent<FocusTrapProps> {
+  public static __KONTUR_REACT_UI__ = 'FocusTrap';
+
   private focusOutsideListenerToken: {
     remove: () => void;
   } | null = null;

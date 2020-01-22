@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
-interface RenderContainerNativeProps extends RenderContainerProps {
+interface RenderInnerContainerProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
   rootId: string;
 }
@@ -14,7 +14,9 @@ export function Portal(props: PortalProps) {
   return <noscript data-render-container-id={props.rt_rootID} />;
 }
 
-export class RenderInnerContainer extends React.Component<RenderContainerNativeProps> {
+export class RenderInnerContainer extends React.Component<RenderInnerContainerProps> {
+  public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
+
   public render() {
     if (this.props.children) {
       if (!this.props.domContainer) {

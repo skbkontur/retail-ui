@@ -34,6 +34,8 @@ export interface FxInputDefaultProps {
 
 /** Принимает все свойства `Input`'a */
 export class FxInput extends React.Component<FxInputProps> {
+  public static __KONTUR_REACT_UI__ = 'FxInput';
+
   public static propTypes = {
     auto: PropTypes.bool,
     type: PropTypes.string,
@@ -79,15 +81,15 @@ export class FxInput extends React.Component<FxInputProps> {
             onChange={this.props.onChange as CurrencyInputProps['onChange']}
           />
         ) : (
-          <Input
-            {...inputProps}
-            {...rest}
-            ref={this.refInput}
-            type={this.props.type as InputType}
-            value={this.props.value as InputProps['value']}
-            onChange={this.props.onChange as InputProps['onChange']}
-          />
-        )}
+            <Input
+              {...inputProps}
+              {...rest}
+              ref={this.refInput}
+              type={this.props.type as InputType}
+              value={this.props.value as InputProps['value']}
+              onChange={this.props.onChange as InputProps['onChange']}
+            />
+          )}
       </Group>
     );
   }

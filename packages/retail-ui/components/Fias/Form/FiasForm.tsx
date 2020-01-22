@@ -62,6 +62,8 @@ type FiasFormFieldMeta = ComboBoxMeta | InputMeta;
 
 @locale('Fias', FiasLocaleHelper)
 export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
+  public static __KONTUR_REACT_UI__ = 'FiasForm';
+
   public static defaultProps = {
     validationLevel: 'Error',
     limit: 5,

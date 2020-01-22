@@ -50,6 +50,8 @@ export interface KebabState {
 }
 
 export class Kebab extends React.Component<KebabProps, KebabState> {
+  public static __KONTUR_REACT_UI__ = 'Kebab';
+
   public static propTypes = {};
 
   public static defaultProps = {
@@ -71,8 +73,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private listener: {
     remove: () => void;
   } = {
-    remove: () => undefined,
-  };
+      remove: () => undefined,
+    };
 
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */

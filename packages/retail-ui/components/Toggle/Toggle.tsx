@@ -30,6 +30,8 @@ export interface ToggleState {
 }
 
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
+  public static __KONTUR_REACT_UI__ = 'Toggle';
+
   public static propTypes = {
     checked: PropTypes.bool,
     defaultChecked: PropTypes.bool,
@@ -119,9 +121,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
           style={
             checked && color
               ? {
-                  backgroundColor: color,
-                  borderColor: color,
-                }
+                backgroundColor: color,
+                borderColor: color,
+              }
               : undefined
           }
         >

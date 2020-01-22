@@ -20,22 +20,22 @@ export interface HintProps {
   onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
   pos:
-    | 'top'
-    | 'right'
-    | 'bottom'
-    | 'left'
-    | 'top left'
-    | 'top center'
-    | 'top right'
-    | 'bottom left'
-    | 'bottom center'
-    | 'bottom right'
-    | 'left top'
-    | 'left middle'
-    | 'left bottom'
-    | 'right top'
-    | 'right middle'
-    | 'right bottom';
+  | 'top'
+  | 'right'
+  | 'bottom'
+  | 'left'
+  | 'top left'
+  | 'top center'
+  | 'top right'
+  | 'bottom left'
+  | 'bottom center'
+  | 'bottom right'
+  | 'left top'
+  | 'left middle'
+  | 'left bottom'
+  | 'right top'
+  | 'right middle'
+  | 'right bottom';
   text: React.ReactNode;
   disableAnimations: boolean;
   useWrapper: boolean;
@@ -61,6 +61,8 @@ const Positions: PopupPosition[] = [
 ];
 
 export class Hint extends React.Component<HintProps, HintState> {
+  public static __KONTUR_REACT_UI__ = 'Hint';
+
   public static defaultProps = {
     pos: 'top',
     manual: false,

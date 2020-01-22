@@ -108,11 +108,13 @@ export interface InputState {
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
 export class Input extends React.Component<InputProps, InputState> {
+  public static __KONTUR_REACT_UI__ = 'Input';
+
   public static defaultProps: {
     size: InputSize;
   } = {
-    size: 'small',
-  };
+      size: 'small',
+    };
 
   public state: InputState = {
     polyfillPlaceholder: false,

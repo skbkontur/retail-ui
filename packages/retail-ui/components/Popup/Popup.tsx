@@ -12,7 +12,6 @@ import { RenderContainer } from '../RenderContainer';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction, isIE11 } from '../../lib/utils';
-import { LifeCycleProxy } from '../internal/LifeCycleProxy';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
@@ -103,6 +102,8 @@ export interface PopupState {
 }
 
 export class Popup extends React.Component<PopupProps, PopupState> {
+  public static __KONTUR_REACT_UI__ = 'Popup';
+
   public static propTypes = {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
@@ -192,16 +193,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public UNSAFE_componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
     /**
-     * For react < 16 version ReactDOM.unstable_renderSubtreeIntoContainer is
-     * used. It causes refs callbacks to call after componentDidUpdate.
-     *
-     * Delaying updateLocation to ensure that ref is set
+     * Delaying updateLocation to ensure it happens after props update
      */
     if (nextProps.opened) {
       if (!this.state.location) {
         this.setState({ location: DUMMY_LOCATION });
       }
       this.delayUpdateLocation();
+    }
+  }
+
+  public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
+    const hadNoLocation = prevState.location === DUMMY_LOCATION;
+    const hasLocation = this.state.location !== DUMMY_LOCATION;
+    if (hadNoLocation && hasLocation && this.props.onOpen) {
+      this.props.onOpen();
     }
   }
 
@@ -327,54 +333,50 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
-    // This need to correct handle order of lifecycle hooks with portal and react@15
-    // For more details see issue #1257
     return (
-      <LifeCycleProxy onDidUpdate={this.handleDidUpdate} props={this.state}>
-        <Transition
-          timeout={TRANSITION_TIMEOUT}
-          appear={!disableAnimations}
-          in={Boolean(opened && children)}
-          mountOnEnter
-          unmountOnExit
-          enter={!disableAnimations}
-          exit={!disableAnimations}
-          onExited={this.resetLocation}
-        >
-          {(state: string) => (
-            <ZIndex
-              ref={this.refPopupElement}
-              priority={'Popup'}
-              className={cx([styles.popup, jsStyles.popup(this.theme)], {
-                [jsStyles.shadow(this.theme)]: hasShadow,
-                [styles['popup-ignore-hover']]: ignoreHover,
-                ...(disableAnimations
-                  ? {}
-                  : {
-                      [styles['transition-enter']]: state === 'entering',
-                      [styles['transition-enter-active']]: state === 'entered',
-                      [styles['transition-exit']]: state === 'exiting',
-                      [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
-                    }),
-              })}
-              style={rootStyle}
-              onMouseEnter={this.handleMouseEnter}
-              onMouseLeave={this.handleMouseLeave}
-            >
-              <div className={cx(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
-                <div
-                  className={jsStyles.contentInner(this.theme)}
-                  style={{ backgroundColor }}
-                  data-tid={'PopupContentInner'}
-                >
-                  {children}
-                </div>
+      <Transition
+        timeout={TRANSITION_TIMEOUT}
+        appear={!disableAnimations}
+        in={Boolean(opened && children)}
+        mountOnEnter
+        unmountOnExit
+        enter={!disableAnimations}
+        exit={!disableAnimations}
+        onExited={this.resetLocation}
+      >
+        {(state: string) => (
+          <ZIndex
+            ref={this.refPopupElement}
+            priority={'Popup'}
+            className={cx([styles.popup, jsStyles.popup(this.theme)], {
+              [jsStyles.shadow(this.theme)]: hasShadow,
+              [styles['popup-ignore-hover']]: ignoreHover,
+              ...(disableAnimations
+                ? {}
+                : {
+                  [styles['transition-enter']]: state === 'entering',
+                  [styles['transition-enter-active']]: state === 'entered',
+                  [styles['transition-exit']]: state === 'exiting',
+                  [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                }),
+            })}
+            style={rootStyle}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+          >
+            <div className={cx(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
+              <div
+                className={jsStyles.contentInner(this.theme)}
+                style={{ backgroundColor }}
+                data-tid={'PopupContentInner'}
+              >
+                {children}
               </div>
-              {this.renderPin(location.position)}
-            </ZIndex>
-          )}
-        </Transition>
-      </LifeCycleProxy>
+            </div>
+            {this.renderPin(location.position)}
+          </ZIndex>
+        )}
+      </Transition>
     );
   }
 
@@ -400,7 +402,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
      * shadow to the pin too.
      */
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
-    const pinBorder = isIE11&& isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
+    const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
     const { pinSize, pinOffset, hasShadow, backgroundColor, borderColor } = this.props;
 
@@ -427,14 +429,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.updateAnchorElement(this.extractElement(this.anchorInstance));
     }
     this.updateLocation();
-  };
-
-  private handleDidUpdate = (prevProps: PopupState, props: PopupState) => {
-    const hadNoLocation = prevProps.location === DUMMY_LOCATION;
-    const hasLocation = props.location !== DUMMY_LOCATION;
-    if (hadNoLocation && hasLocation && this.props.onOpen) {
-      this.props.onOpen();
-    }
   };
 
   private delayUpdateLocation() {

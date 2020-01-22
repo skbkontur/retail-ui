@@ -44,6 +44,8 @@ export interface CheckboxState {
  * Все свойства, кроме перечисленных, `className` и `style` передаются в `input`.
  */
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+  public static __KONTUR_REACT_UI__ = 'Checkbox';
+
   public static propTypes = {
     checked: PropTypes.bool,
     disabled: PropTypes.bool,

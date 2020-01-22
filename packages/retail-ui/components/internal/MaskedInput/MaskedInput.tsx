@@ -25,6 +25,8 @@ interface MaskedInputState {
 }
 
 export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
+  public static __KONTUR_REACT_UI__ = 'MaskedInput';
+
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
   private reactInputMask: ReactInputMask | null = null;

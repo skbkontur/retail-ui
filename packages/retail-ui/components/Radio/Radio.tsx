@@ -67,6 +67,8 @@ export type RadioProps<T> = Override<
  * ```
  */
 export class Radio<T> extends React.Component<RadioProps<T>> {
+  public static __KONTUR_REACT_UI__ = 'Radio';
+
   public static contextTypes = {
     activeItem: PropTypes.any,
     onSelect: PropTypes.func,

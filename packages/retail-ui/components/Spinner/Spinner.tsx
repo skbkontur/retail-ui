@@ -31,6 +31,8 @@ export interface SpinnerProps {
 
 @locale('Spinner', SpinnerLocaleHelper)
 export class Spinner extends React.Component<SpinnerProps> {
+  public static __KONTUR_REACT_UI__ = 'Spinner';
+
   public static propTypes = {
     /**
      * Текст рядом с мини-лоадером.

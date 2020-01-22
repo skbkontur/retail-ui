@@ -1,5 +1,4 @@
 import React from 'react';
-import { createPortal } from 'react-dom';
 import FocusLock from 'react-focus-lock';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -25,6 +24,9 @@ import styles from './Modal.module.less';
 import { jsStyles } from './Modal.styles';
 
 let mountedModalsCount = 0;
+
+// NOTE: в ie нормально не работает
+const isDisableFocusLock = isIE11;
 
 export interface ModalProps {
   /**
@@ -75,6 +77,8 @@ export interface ModalState {
  * (по-умолчанию прилипание включено)
  */
 export class Modal extends React.Component<ModalProps, ModalState> {
+  public static __KONTUR_REACT_UI__ = 'Modal';
+
   public static Header = Header;
   public static Body = Body;
   public static Footer = Footer;
@@ -210,18 +214,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             >
               <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
-                  <FocusLock disabled={this.isDisableFocusLock()} autoFocus={false}>
+                  <FocusLock disabled={isDisableFocusLock} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
                       <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
                         <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
                       </ZIndex>
                     ) : null}
-                    <ModalContext.Provider value={modalContextProps}>
-                      <div>
-                        {/* React <= 15. ModalContext.Provider can only receive a single child element. */}
-                        {this.props.children}
-                      </div>
-                    </ModalContext.Provider>
+                    <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
                   </FocusLock>
                 </ResizeDetector>
               </div>
@@ -289,12 +288,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     } else if (this.state.horizontalScroll) {
       this.setState({ horizontalScroll: false });
     }
-  };
-
-  // TODO: без порталов ломается сохранение фокуса внутри модалки
-  // NOTE: в ie нормально не работает
-  private isDisableFocusLock = () => {
-    return !createPortal || isIE11;
   };
 
   private handleResize = (event: UIEvent) => {

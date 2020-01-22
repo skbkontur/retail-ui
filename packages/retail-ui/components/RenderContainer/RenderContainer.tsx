@@ -1,17 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 
-import { RenderInnerContainer as RenderContainerFallback } from './RenderContainerFallback';
-import { RenderInnerContainer as RenderContainerNative } from './RenderContainerNative';
+import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
 
-const HAS_BUILTIN_PORTAL = !!ReactDOM.createPortal;
-const RenderInnerContainer = HAS_BUILTIN_PORTAL ? RenderContainerNative : RenderContainerFallback;
-
 export class RenderContainer extends React.Component<RenderContainerProps> {
+  public static __KONTUR_REACT_UI__ = 'RenderContainer';
+
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
 

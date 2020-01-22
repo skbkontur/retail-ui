@@ -40,6 +40,8 @@ export interface TooltipMenuProps {
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
 export class TooltipMenu extends React.Component<TooltipMenuProps> {
+  public static __KONTUR_REACT_UI__ = 'TooltipMenu';
+
   public static defaultProps = {
     disableAnimations: Boolean(process.env.enableReactTesting),
   };

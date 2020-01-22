@@ -104,6 +104,8 @@ interface FocusableReactElement extends React.ReactElement<any> {
 
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
+  public static __KONTUR_REACT_UI__ = 'Select';
+
   public static propTypes = {
     /**
      * Функция для сравнения `value` с элементом из `items`
@@ -578,10 +580,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return React.isValidElement(buttonElement)
       ? React.cloneElement(buttonElement as React.ReactElement, {
-          ref: this.buttonRef,
-          onFocus: this.props.onFocus,
-          onBlur: this.props.onBlur,
-        })
+        ref: this.buttonRef,
+        onFocus: this.props.onFocus,
+        onBlur: this.props.onBlur,
+      })
       : buttonElement;
   };
 }

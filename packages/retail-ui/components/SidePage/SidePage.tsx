@@ -86,6 +86,8 @@ interface ZIndexPropsType {
  * **Footer** необходимо передать пропс **panel**
  */
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
+  public static __KONTUR_REACT_UI__ = 'SidePage';
+
   public static Header = SidePageHeader;
   public static Body: (props: SidePageBodyProps) => JSX.Element = SidePageBodyWithContext;
   public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
@@ -185,7 +187,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             )}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)}>
+            <div ref={_ => (this.layoutRef = _)} className={styles.layout}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
@@ -194,8 +196,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                   footerRef: this.footerRef,
                 }}
               >
-                {/* React <= 15. SidePageContext.Provider can only receive a single child element. */}
-                <div className={styles.layout}>{this.props.children}</div>
+                {this.props.children}
               </SidePageContext.Provider>
             </div>
           </div>

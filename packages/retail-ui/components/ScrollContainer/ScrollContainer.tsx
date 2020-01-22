@@ -39,6 +39,8 @@ export interface ScrollContainerState {
 }
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+  public static __KONTUR_REACT_UI__ = 'ScrollContainer';
+
   public static propTypes = {
     invert: PropTypes.bool,
     maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

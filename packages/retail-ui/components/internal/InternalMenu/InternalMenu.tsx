@@ -39,6 +39,8 @@ interface MenuState {
 }
 
 export class InternalMenu extends React.Component<MenuProps, MenuState> {
+  public static __KONTUR_REACT_UI__ = 'InternalMenu';
+
   public static defaultProps = {
     width: 'auto',
     maxHeight: 300,
@@ -239,8 +241,8 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     const calculatedMaxHeight =
       typeof parsedMaxHeight === 'number'
         ? parsedMaxHeight +
-          ((this.header && this.header.getBoundingClientRect().height) || 0) +
-          ((this.footer && this.footer.getBoundingClientRect().height) || 0)
+        ((this.header && this.header.getBoundingClientRect().height) || 0) +
+        ((this.footer && this.footer.getBoundingClientRect().height) || 0)
         : maxHeight;
 
     this.setState({

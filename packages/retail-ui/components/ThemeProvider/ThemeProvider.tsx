@@ -13,6 +13,8 @@ interface ThemeProviderProps {
 }
 
 export class ThemeProvider extends React.Component<ThemeProviderProps> {
+  public static __KONTUR_REACT_UI__ = 'ThemeProvider';
+
   private theme: Theme;
 
   constructor(props: ThemeProviderProps) {
@@ -27,10 +29,10 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
         warning(
           !hasSameShape,
           `ThemeProvider received next value with the same shape as the previous one.` +
-            '\n' +
-            `Consider using the same object reference for performance reasons.` +
-            '\n' +
-            `Shape: ${JSON.stringify(nextProps.value)}`,
+          '\n' +
+          `Consider using the same object reference for performance reasons.` +
+          '\n' +
+          `Shape: ${JSON.stringify(nextProps.value)}`,
         );
       }
 

@@ -19,6 +19,8 @@ export interface UserProps {
 
 @locale('TopBar', TopBarLocaleHelper)
 export class User extends React.Component<UserProps> {
+  public static __KONTUR_REACT_UI__ = 'TopBarUser';
+
   public static defaultProps = {
     cabinetUrl: 'https://cabinet.kontur.ru',
   };

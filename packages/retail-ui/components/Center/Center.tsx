@@ -27,6 +27,8 @@ export type CenterProps = Override<
  * свойства как в любой *div* (кроме `className`)
  */
 export class Center extends React.Component<CenterProps> {
+  public static __KONTUR_REACT_UI__ = 'Center';
+
   public static defaultProps = {
     align: 'center',
   };

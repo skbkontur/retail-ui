@@ -17,7 +17,6 @@ import { Month } from './Month';
 import styles from './Calendar.module.less';
 import { jsStyles } from './Calendar.styles';
 
-
 export type CalendarDateShape = CDS.CalendarDateShape;
 
 export interface CalendarProps {
@@ -50,6 +49,8 @@ const getTodayDate = () => {
 const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
+  public static __KONTUR_REACT_UI__ = 'Calendar';
+
   public static defaultProps = {
     holidays: [],
     minDate: {

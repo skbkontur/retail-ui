@@ -130,6 +130,8 @@ function deepMerge<T>(dst: T, ...src: T[]): T {
 
 @locale('Fias', FiasLocaleHelper)
 export class Fias extends React.Component<FiasProps, FiasState> {
+  public static __KONTUR_REACT_UI__ = 'Fias';
+
   public static defaultProps = {
     showAddressText: true,
     error: false,

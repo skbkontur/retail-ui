@@ -3,6 +3,8 @@ import React from 'react';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 
 export class HideBodyVerticalScroll extends React.Component {
+  public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
+
   public static hash = Math.random()
     .toString(16)
     .slice(2, 6);

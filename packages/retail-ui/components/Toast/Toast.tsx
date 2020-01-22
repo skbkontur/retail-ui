@@ -35,6 +35,8 @@ export interface ToastProps {
  * `Toast.push('message', {label: 'Cancel', handler: cancelHandler})`
  */
 export class Toast extends React.Component<ToastProps, ToastState> {
+  public static __KONTUR_REACT_UI__ = 'Toast';
+
   public static push(notification: string, action?: Action) {
     ToastStatic.push(notification, action);
   }
