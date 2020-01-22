@@ -60,7 +60,7 @@ export interface SelectProps<TValue, TItem> {
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
-  /** @ignore */
+  /** @deprecated @ignore */
   diadocLinkIcon?: React.ReactElement<any>;
   disablePortal?: boolean;
   disabled?: boolean;
