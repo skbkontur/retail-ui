@@ -22,6 +22,7 @@ export interface LoaderProps {
   caption?: SpinnerProps['caption'];
   className?: string;
   type?: 'mini' | 'normal' | 'big';
+  component?: React.ReactNode | (() => React.ReactNode);
 }
 
 export interface LoaderState {
@@ -66,6 +67,13 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+
+    /**
+     * Компонент спиннера
+     *
+     * Значение по-умолчанию - Spinner из react-ui
+     */
+    component: PropTypes.any,
   };
 
   private theme!: Theme;
@@ -112,7 +120,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { active, type, caption, className } = this.props;
+    const { active, type, caption, className, component } = this.props;
 
     return (
       <div style={{ position: 'relative' }} className={cx(styles.loader, className)}>
@@ -128,7 +136,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
               [jsStyles.active(this.theme)]: active,
             })}
           >
-            {this.renderSpinner(type, caption)}
+            {this.renderSpinner(type, caption, component)}
           </ZIndex>
         )}
       </div>
@@ -139,7 +147,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.containerNode = element;
   };
 
-  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode) {
+  private renderSpinner(
+    type?: 'mini' | 'normal' | 'big',
+    caption?: React.ReactNode,
+    component?: React.ReactNode | (() => React.ReactNode),
+  ) {
     return (
       <span
         className={this.state.isStickySpinner ? styles.spinnerContainerSticky : styles.spinnerContainerCenter}
@@ -148,7 +160,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           this.spinnerNode = element;
         }}
       >
-        <Spinner type={type} caption={caption} />
+        {!component ? <Spinner type={type} caption={caption} /> : component}
       </span>
     );
   }
