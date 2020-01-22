@@ -3,14 +3,13 @@ const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const enableReactTesting = process.env.enableReactTesting;
-const REACT_SELENIUM_TESTING_PATH = path.resolve(__dirname, '../../react-ui-testing/react-selenium-testing.js');
 
 module.exports = async ({ config, mode }) => {
   config.devtool = 'eval-source-map';
 
   if (enableReactTesting) {
     // needs to be inserted before React (i.e. config.js)
-    config.entry.unshift(REACT_SELENIUM_TESTING_PATH);
+    config.entry.unshift('react-ui-testing/react-selenium-testing');
   }
 
   config.resolve.extensions.unshift('.ts', '.tsx');
@@ -20,6 +19,10 @@ module.exports = async ({ config, mode }) => {
       test: /\.(j|t)sx?$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
+      options: {
+        babelrc: false,
+        extends: path.join(__dirname, '../.babelrc.js'),
+      },
     },
     {
       test: /\.(css|less)$/,

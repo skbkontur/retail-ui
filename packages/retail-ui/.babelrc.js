@@ -3,8 +3,8 @@ module.exports = {
     production: {
       plugins: ['./scripts/babel/imports-less-to-css.js'],
     },
-    common: {
-      presets: [['@babel/preset-env', { loose: true, modules: 'commonjs' }]],
+    development: {
+      presets: [['@babel/preset-env', { loose: true, modules: 'commonjs', targets: { ie: '11' } }]],
       plugins: [['@babel/plugin-transform-runtime', { version: '7.7.0' }]],
     },
   },

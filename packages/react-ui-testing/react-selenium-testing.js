@@ -2,7 +2,7 @@ let customAcceptAttribute = prevResult => prevResult;
 let attributeWhiteList = null;
 
 // Inlined from ReactTypeOfSideEffect
-var PerformedWork = 1;
+const PerformedWork = 1;
 
 if (typeof ReactSeleniumTesting !== 'undefined') {
   if (
@@ -23,8 +23,8 @@ if (typeof ReactSeleniumTesting !== 'undefined') {
 }
 
 function extendStaticObject(base, overrides) {
-  var oldBase = Object.assign({}, base);
-  for (var overrideKey of Object.keys(overrides)) {
+  const oldBase = { ...base };
+  for (const overrideKey of Object.keys(overrides)) {
     base[overrideKey] = overrides[overrideKey](oldBase);
   }
 }
@@ -37,9 +37,9 @@ function injectReactDevToolsHook(injectModule, injectFiberHanlers) {
       onCommitFiberRoot: () => {},
     };
   }
-  var oldInject = global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject;
+  const oldInject = global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject;
   global.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = x => {
-    var ReactMount = x.Mount;
+    const ReactMount = x.Mount;
     if (oldInject) {
       var id = oldInject.call(global.__REACT_DEVTOOLS_GLOBAL_HOOK__, x);
     }
@@ -64,8 +64,8 @@ if (process.env.enableReactTesting) {
 
 function appendToSet(attrContainer, name, value) {
   if (value === null) return;
-  var attributeStringValue = attrContainer[name];
-  var set = (attributeStringValue || '').split(' ').filter(x => x !== '');
+  const attributeStringValue = attrContainer[name];
+  const set = (attributeStringValue || '').split(' ').filter(x => x !== '');
   if (!set.includes(value)) {
     attrContainer[name] = (attributeStringValue ? attributeStringValue + ' ' : '') + value;
   }
@@ -399,7 +399,7 @@ function fillAttrsForDomElementByFiberNode(attrContainer, node) {
     if (instanceProps['data-tid']) {
       appendToSet(attrContainer, 'data-tid', instanceProps['data-tid']);
     }
-    for (var prop in instanceProps) {
+    for (const prop in instanceProps) {
       if (acceptProp(componentName, prop, instanceProps[prop])) {
         attrContainer[`data-prop-${prop}`] = stringifySafe(instanceProps[prop]);
       }
@@ -419,7 +419,7 @@ function getFiberComponentName(node) {
 // ====================================================
 
 function exposeReactInternalsIntoDomHook({ Mount, Reconciler }) {
-  var ReactMount = Mount;
+  const ReactMount = Mount;
   if (Reconciler == null) {
     return;
   }
@@ -427,22 +427,22 @@ function exposeReactInternalsIntoDomHook({ Mount, Reconciler }) {
     receiveComponent: base => (instance, nextElement, transaction, context) => {
       base.receiveComponent(instance, nextElement, transaction, context);
 
-      var prevElement = instance._currentElement;
+      const prevElement = instance._currentElement;
       if (nextElement === prevElement && context === instance._context) {
         return;
       }
 
       if (instance._currentElement && instance._currentElement.type) {
-        var domElement = getTargetNode(instance, ReactMount);
+        const domElement = getTargetNode(instance, ReactMount);
         updateDomElement(domElement, instance, false);
       }
     },
 
     mountComponent: base => (instance, tr, host, hostParent, hostContainerInfo, context, ...rest) => {
-      var result = base.mountComponent(instance, tr, host, hostParent, hostContainerInfo, context, ...rest);
+      const result = base.mountComponent(instance, tr, host, hostParent, hostContainerInfo, context, ...rest);
       if (typeof result === 'string') {
         // React 0.14.*
-        var resultDomElement = createDomFromString(result);
+        const resultDomElement = createDomFromString(result);
         if (!resultDomElement) {
           return result;
         }
@@ -458,7 +458,7 @@ function exposeReactInternalsIntoDomHook({ Mount, Reconciler }) {
 }
 
 function createDomFromString(s) {
-  var rootDomElement;
+  let rootDomElement;
   if (s.startsWith('<tbody') || s.startsWith('<tfoot') || s.startsWith('<thead')) {
     rootDomElement = document.createElement('table');
   } else if (s.startsWith('<th') || s.startsWith('<td')) {
@@ -473,7 +473,7 @@ function createDomFromString(s) {
 }
 
 function getTargetNode(instance, ReactMount) {
-  var result = getDomHostNode(instance);
+  let result = getDomHostNode(instance);
   if (!result && typeof instance._rootNodeID === 'string') {
     try {
       result = ReactMount.getNode(instance._rootNodeID);
@@ -496,14 +496,14 @@ function updateDomElement(domElement, instance, isMounting) {
     return;
   }
   const attrs = fillPropsForDomElementRecursive({}, instance);
-  for (var attrName in attrs) {
+  for (const attrName in attrs) {
     domElement.setAttribute(attrName, attrs[attrName]);
   }
 }
 
 function fillPropsForDomElementRecursive(attrContainer, instance) {
   attrContainer = fillPropsForDomElement(attrContainer, instance);
-  var ownerInstance = instance._currentElement && instance._currentElement._owner;
+  const ownerInstance = instance._currentElement && instance._currentElement._owner;
   if (ownerInstance) {
     if (sameHostNodes(ownerInstance, instance)) {
       attrContainer = fillPropsForDomElementRecursive(attrContainer, ownerInstance);
@@ -526,7 +526,7 @@ function fillPropsForDomElement(attrContainer, instance) {
     if (instanceProps['data-tid']) {
       appendToSet(attrContainer, 'data-tid', instanceProps['data-tid']);
     }
-    for (var prop in instanceProps) {
+    for (const prop in instanceProps) {
       if (acceptProp(componentName, prop, instanceProps[prop])) {
         attrContainer[`data-prop-${prop}`] = stringifySafe(instanceProps[prop]);
       }
@@ -538,15 +538,15 @@ function fillPropsForDomElement(attrContainer, instance) {
 function sameHostNodes(instance1, instance2) {
   if (typeof instance1._rootNodeID === 'string' || typeof instance2._rootNodeID === 'string') {
     // React 0.14.*
-    var nodeId1 = instance1._rootNodeID;
-    var nodeId2 = instance2._rootNodeID;
+    const nodeId1 = instance1._rootNodeID;
+    const nodeId2 = instance2._rootNodeID;
     if (nodeId1 !== null && nodeId2 !== null) {
       return nodeId1 === nodeId2;
     }
   }
 
-  var node1 = getDomHostNode(instance1);
-  var node2 = getDomHostNode(instance2);
+  const node1 = getDomHostNode(instance1);
+  const node2 = getDomHostNode(instance2);
   return node1 !== null && node2 !== null && node1 === node2;
 }
 
