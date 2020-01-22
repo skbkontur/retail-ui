@@ -20,7 +20,7 @@ export interface SpinnerProps {
   dimmed?: boolean;
   /**
    * Тип спиннера
-   * @default mini
+   * @default normal
    */
   type: SpinnerType;
 }
@@ -86,28 +86,11 @@ export class Spinner extends React.Component<SpinnerProps> {
     );
   }
 
-  private renderCloud = (type: Exclude<SpinnerType, 'mini'>) => {
-    const cloudClassName = cx(
-      styles.cloudStroke,
-      this.props.dimmed ? jsStyles.cloudDimmed(this.theme) : jsStyles.cloud(this.theme),
-    );
-
-    return (
-      <span className={styles.cloud}>
-        <SpinnerIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
-      </span>
-    );
-  };
-
-  private renderCircle = () => {
+  private renderSpinner = (type: SpinnerType) => {
     const theme = this.theme;
     const circleClassName = this.props.dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
 
-    return <SpinnerIcon size="mini" className={circleClassName} />;
-  };
-
-  private renderSpinner = (type: SpinnerType) => {
-    return type === 'mini' ? this.renderCircle() : this.renderCloud(type);
+    return <SpinnerIcon size={type} className={circleClassName} />;
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => {

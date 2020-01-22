@@ -5,8 +5,9 @@ import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerIcon';
 
 import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
-import fallbackImage_big from './fallback_cloud_big.png';
-import fallbackImage_normal from './fallback_cloud_normal.png';
+import fallbackImage_big from './fallback_circle.png';
+import fallbackImage_normal from './fallback_circle.png';
+
 import styles from './Spinner.module.less';
 import { SpinnerType } from './Spinner';
 
@@ -40,8 +41,8 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
 
   private _framesCount = {
     [types.mini]: 180,
-    [types.normal]: 60,
-    [types.big]: 60,
+    [types.normal]: 180,
+    [types.big]: 180,
     dimmed: 60,
   };
 
@@ -62,42 +63,26 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
   }
 
   public render() {
-    return this.props.type === 'mini' ? this.renderCircle() : this.renderCloud();
+    return this.renderCircle();
   }
 
   private renderCircle() {
     const { dimmed } = this.props;
+    const { type } = this.props;
     const { frame } = this.state;
+    const multiply = type === 'big' ? 3 : type === 'normal' ? 2 : 1;
 
     const cssSet: React.CSSProperties = {
       backgroundImage: `url('${this.imageUrls[dimmed ? 'dimmed' : 'mini']}')`,
-      height: 16,
-      width: 16,
-      marginBottom: -3,
-      marginLeft: -1,
-      marginRight: -1,
+      height: 16 * multiply,
+      width: 16 * multiply,
+      marginBottom: -3 * multiply,
+      marginLeft: -1 * multiply,
+      marginRight: -1 * multiply,
     };
 
     if (!process.env.enableReactTesting) {
       cssSet.backgroundPosition = `0 -${frame * 16}px`;
-    }
-
-    return <span className={styles.fallback} style={cssSet} />;
-  }
-
-  private renderCloud() {
-    const { type } = this.props;
-    const { frame } = this.state;
-    const multiply = type === 'big' ? 2 : 1;
-    const cssSet: React.CSSProperties = {
-      backgroundImage: `url('${this.imageUrls[type]}')`,
-      height: SPINNER_CLOUD_SIZE.height * multiply,
-      top: 0,
-      width: SPINNER_CLOUD_SIZE.width * multiply,
-    };
-
-    if (!process.env.enableReactTesting) {
-      cssSet.backgroundPosition = `0 -${frame * SPINNER_CLOUD_SIZE.height * multiply}px`;
     }
 
     return <span className={styles.fallback} style={cssSet} />;
