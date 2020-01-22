@@ -1,7 +1,7 @@
 Вывод элементов с горизонтальным расположением
 
-```jsx
-import Button from '@skbkontur/react-ui/Button';
+```typescript jsx
+import { Button } from '@skbkontur/react-ui/components/Button';
 
 <Gapped gap={20}>
   <Button use="primary">Сохранить</Button>
@@ -11,8 +11,8 @@ import Button from '@skbkontur/react-ui/Button';
 
 Вертикальное расположение
 
-```jsx
-import Checkbox from '@skbkontur/react-ui/Checkbox';
+```typescript jsx
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 
 <Gapped vertical gap={20}>
   <Checkbox checked>Write todos</Checkbox>
@@ -25,10 +25,10 @@ import Checkbox from '@skbkontur/react-ui/Checkbox';
 При этом между строчками будет отступ равный значению свойста `gap`
 В таком случае из-за особенности верстки `Gapped` может перекрывать элементы расположенные сверху-слева.
 
-```jsx
-import Button from '@skbkontur/react-ui/Button';
-import Toggle from '@skbkontur/react-ui/Toggle';
-import Checkbox from '@skbkontur/react-ui/Checkbox';
+```typescript jsx
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
 
 <>
   {"U Can't Touch This! => "}

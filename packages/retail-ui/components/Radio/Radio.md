@@ -1,5 +1,5 @@
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```typescript jsx
+import { Gapped, Radio } from '@skbkontur/react-ui';
 
 <Gapped gap={20}>
   <Radio value="value" />

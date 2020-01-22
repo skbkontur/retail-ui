@@ -1,4 +1,4 @@
-```jsx
+```typescript jsx
 const initialState = { active: 'fuji' };
 
 <Tabs value={state.active} onChange={(_, v) => setState({ active: v })}>
@@ -10,7 +10,7 @@ const initialState = { active: 'fuji' };
 
 Можно передавать свои компоненты в качестве табов, например `NavLink` из `react-router`
 
-```jsx
+```typescript jsx
 const initialState = { active: '/fuji' };
 
 const NavLink = props => <a {...props} />;

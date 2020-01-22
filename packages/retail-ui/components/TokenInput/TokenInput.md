@@ -1,6 +1,6 @@
-```jsx
-import Token from '@skbkontur/react-ui/Token';
-import { TokenInputType } from '@skbkontur/react-ui/TokenInput';
+```typescript jsx
+import { Token } from '@skbkontur/react-ui';
+import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 

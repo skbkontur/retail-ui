@@ -38,8 +38,8 @@
     "index.js"
   ],
   "peerDependencies": {
-    "react": ">=15 <=16",
-    "react-dom": ">=15 <=16",
+    "react": ">=16.9",
+    "react-dom": ">=16.9",
     "retail-ui": ">=0.52.0 <2.0.0"
   },
   "dependencies": {

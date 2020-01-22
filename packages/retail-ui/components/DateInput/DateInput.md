@@ -1,21 +1,20 @@
-```jsx
+```typescript jsx
 <DateInput value="27.04.1992" />
 ```
 
-```jsx
+```typescript jsx
 <DateInput value={state.value} onChange={(_, v) => setState({ value: v })} />
 ```
 
-```jsx
+```typescript jsx
 <DateInput disabled value="27.04.1992" />
 ```
 
 ### Форматирование даты при смене локали
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Select from '@skbkontur/react-ui/Select';
-import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
+```typescript jsx
+import { Gapped, Select } from '@skbkontur/react-ui';
+import { LocaleProvider, LangCodes } from '@skbkontur/react-ui/components/LocaleProvider';
 
 class DateInputFormatting2 extends React.Component {
   constructor() {
@@ -52,10 +51,10 @@ class DateInputFormatting2 extends React.Component {
 
 ### Ручное форматирование даты
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Select from '@skbkontur/react-ui/Select';
-import LocaleProvider, { DateOrder, DateSeparator } from '@skbkontur/react-ui/LocaleProvider';
+```typescript jsx
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { DateOrder, DateSeparator, LocaleProvider } from '@skbkontur/react-ui/components/LocaleProvider';
 
 class DateInputFormatting extends React.Component {
   constructor() {

@@ -1,4 +1,4 @@
-```jsx
+```typescript jsx
 let initialState = { value: '' };
 <Textarea
   value={state.value}

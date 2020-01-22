@@ -2,7 +2,7 @@
 
 <details><summary>Props</summary>
 
-```ts
+```typescript
 type IconProps = {
   color?: string;
   name: IconName;
@@ -32,9 +32,9 @@ type IconName =
 
 Все иконки
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Tooltip from '@skbkontur/react-ui/Tooltip';
+```typescript jsx
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
 import Icon from '@skbkontur/react-icons';
 
 <Gapped vertical>
@@ -52,8 +52,8 @@ import Icon from '@skbkontur/react-icons';
 Варианты использования иконок.
 Для уменьшения размера бандла рекомендуется использовать компонент с конкретной иконкой
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```typescript jsx
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import Icon from '@skbkontur/react-icons';
 

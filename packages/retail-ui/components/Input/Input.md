@@ -1,4 +1,4 @@
-```jsx
+```typescript jsx
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 <Input leftIcon={<SearchIcon />} />;
@@ -6,7 +6,7 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 
 Пример с префиксом:
 
-```jsx
+```typescript jsx
 import SearchIcon from '@skbkontur/react-icons/Search';
 
 <Input width={400} prefix="https://kontur.ru/search?query=" rightIcon={<SearchIcon />} />;

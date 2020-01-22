@@ -1,6 +1,6 @@
 Разные варианты стилизации компонентов:
 
-```jsx
+```typescript jsx
 import { ThemeProviderPlayground } from './ThemeProviderPlayground';
 
 <ThemeProviderPlayground />;

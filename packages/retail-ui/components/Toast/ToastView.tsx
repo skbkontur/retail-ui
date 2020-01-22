@@ -1,4 +1,5 @@
 import React from 'react';
+import { func, shape, string } from 'prop-types';
 
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { ZIndex } from '../ZIndex';
@@ -27,6 +28,21 @@ export interface ToastViewProps {
 }
 
 export class ToastView extends React.Component<ToastViewProps> {
+  public static propTypes = {
+    /**
+     * Adds action handling and close icon for toast
+     */
+    action: shape({
+      label: string.isRequired,
+      handler: func.isRequired,
+    }),
+    /**
+     * Toast content
+     */
+    children: string.isRequired,
+    onClose: func,
+  };
+
   private theme!: Theme;
 
   public render() {

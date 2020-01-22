@@ -1,6 +1,6 @@
 Базовое использование.
 
-```jsx
+```typescript jsx
 let initialState = {
   home: {},
 };
@@ -12,7 +12,7 @@ let handleChange = value => setState({ home: value });
 
 Поле поиска.
 
-```jsx
+```typescript jsx
 let initialState = {
   home: {},
 };
@@ -24,7 +24,7 @@ let handleChange = value => setState({ home: value });
 
 Только верифицированные адреса.
 
-```jsx
+```typescript jsx
 let initialState = {
   home: {
     address: {
@@ -54,7 +54,7 @@ let handleChange = value => setState({ home: value });
 
 Произвольные адреса.
 
-```jsx
+```typescript jsx
 let initialState = {
   home: {
     address: {
@@ -72,7 +72,7 @@ let handleChange = value => setState({ home: value });
 
 Настройка полей. Почтовый индекс.
 
-```jsx
+```typescript jsx
 let initialState = {
   home: {
     fiasId: '22ead39c-ddcc-4c46-951d-f958750810fd',
@@ -117,7 +117,7 @@ let handleChange = value => setState({ home: value });
 
 Иностранные адреса.
 
-```jsx
+```typescript jsx
 let initialState = {
   home: {
     country: {
@@ -137,7 +137,7 @@ let handleChange = value => setState({ home: value });
 
 Пользовательская валидация ошибок верификации
 
-```jsx
+```typescript jsx
 let initialState = {
   home: {
     address: {

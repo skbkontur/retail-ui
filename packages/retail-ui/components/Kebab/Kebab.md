@@ -1,8 +1,8 @@
-```jsx
+```typescript jsx
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import MenuItem from '@skbkontur/react-ui/MenuItem';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
 
 let style = {
   alignItems: 'center',

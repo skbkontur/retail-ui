@@ -1,4 +1,4 @@
-```jsx
+```typescript jsx
 function items(count) {
   var items = [];
   for (var i = 0; i < count; ++i) {

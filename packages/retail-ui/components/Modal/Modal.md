@@ -1,6 +1,5 @@
-```jsx
-import Toggle from '@skbkontur/react-ui/Toggle';
-import Button from '@skbkontur/react-ui/Button';
+```typescript jsx
+import { Button, Toggle } from '@skbkontur/react-ui';
 
 let initialState = { opened: false };
 

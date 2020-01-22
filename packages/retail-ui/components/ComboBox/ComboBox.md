@@ -1,7 +1,7 @@
 Combobox with error handling
 
-```jsx
-import Tooltip from '@skbkontur/react-ui/Tooltip';
+```typescript jsx
+import { Tooltip } from '@skbkontur/react-ui';
 
 let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -47,11 +47,9 @@ let handleFocus = () => setState({ error: false });
 
 ComboBox with popular values, complex menu items and total count message
 
-```jsx
-import getCities from './__mocks__/getCities';
-import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
-import MenuHeader from '@skbkontur/react-ui/MenuHeader';
-import Gapped from '@skbkontur/react-ui/Gapped';
+```typescript jsx
+import { getCities } from './__mocks__/getCities';
+import { Gapped, MenuHeader, MenuSeparator } from '@skbkontur/react-ui';
 
 let popularItems = [
   { Id: 956, City: 'Махачкала' },
@@ -119,9 +117,9 @@ let renderItem = item => (
 
 Переопределение renderValue и renderItem:
 
-```jsx
+```typescript jsx
 import OkIcon from '@skbkontur/react-icons/Ok';
-import Tooltip from '@skbkontur/react-ui/Tooltip';
+import { Tooltip } from '@skbkontur/react-ui';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -230,8 +228,8 @@ const customRenderValue = item => (
 
 С подсветкой результата поиска:
 
-```jsx
-import Tooltip from '@skbkontur/react-ui/Tooltip';
+```typescript jsx
+import { Tooltip } from '@skbkontur/react-ui';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -306,8 +304,8 @@ const renderItem = item => {
 
 Добавление элементов в меню
 
-```jsx
-import MenuItem from '@skbkontur/react-ui/MenuItem';
+```typescript jsx
+import { MenuItem } from '@skbkontur/react-ui';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 

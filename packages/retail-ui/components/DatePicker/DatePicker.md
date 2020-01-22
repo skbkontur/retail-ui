@@ -12,10 +12,9 @@ DatePicker.validate: (value: string, range?: { minDate?: string; maxDate?: strin
 
 Пример с обработкой ошибок, когда пользователь ввел невалидную дату.
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Tooltip from '@skbkontur/react-ui/Tooltip';
-import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/DateInput/ViewDateInputValidateChecks';
+```typescript jsx
+import { Gapped, Tooltip } from '@skbkontur/react-ui';
+import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 
 let initialState = {
   value: '',
@@ -65,7 +64,7 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
 
 В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
 
-```jsx
+```typescript jsx
 const DatePickerHelpers = require('./DatePickerHelpers');
 const initialState = {
   value: '',
@@ -122,35 +121,35 @@ https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo
 
 API:
 
-```jsx static
+```jsx
 https://data.gov.ru/api/json/dataset/7708660670-proizvcalendar/version/20151123T183036/content?search=2019&access_token=31de6d0b90f51a7aa3ee2d518d50f4e9
 ```
 
 Response:
 
-```jsx static
+```json
 [
   {
-    'Год/Месяц': '2019',
-    Январь: '1,2,3,4,5,6,7,8,12,13,19,20,26,27',
-    Февраль: '2,3,9,10,16,17,22*,23,24',
-    Март: '2,3,7*,8,9,10,16,17,23,24,30,31',
-    Апрель: '6,7,13,14,20,21,27,28,30*',
-    Май: '1,2,3,4,5,8*,9,10,11,12,18,19,25,26',
-    Июнь: '1,2,8,9,11*,12,15,16,22,23,29,30',
-    Июль: '6,7,13,14,20,21,27,28',
-    Август: '3,4,10,11,17,18,24,25,31',
-    Сентябрь: '1,7,8,14,15,21,22,28,29',
-    Октябрь: '5,6,12,13,19,20,26,27',
-    Ноябрь: '2,3,4,9,10,16,17,23,24,30',
-    Декабрь: '1,7,8,14,15,21,22,28,29,31*',
-    'Всего рабочих дней': '247',
-    'Всего праздничных и выходных дней': '118',
-    'Количество рабочих часов при 40-часовой рабочей неделе': '1970',
-    'Количество рабочих часов при 36-часовой рабочей неделе': '1772.4',
-    'Количество рабочих часов при 24-часовой рабочей неделе': '1179.6',
-  },
-];
+    "Год/Месяц": "2019",
+    "Январь": "1,2,3,4,5,6,7,8,12,13,19,20,26,27",
+    "Февраль": "2,3,9,10,16,17,22*,23,24",
+    "Март": "2,3,7*,8,9,10,16,17,23,24,30,31",
+    "Апрель": "6,7,13,14,20,21,27,28,30*",
+    "Май": "1,2,3,4,5,8*,9,10,11,12,18,19,25,26",
+    "Июнь": "1,2,8,9,11*,12,15,16,22,23,29,30",
+    "Июль": "6,7,13,14,20,21,27,28",
+    "Август": "3,4,10,11,17,18,24,25,31",
+    "Сентябрь": "1,7,8,14,15,21,22,28,29",
+    "Октябрь": "5,6,12,13,19,20,26,27",
+    "Ноябрь": "2,3,4,9,10,16,17,23,24,30",
+    "Декабрь": "1,7,8,14,15,21,22,28,29,31*",
+    "Всего рабочих дней": "247",
+    "Всего праздничных и выходных дней": "118",
+    "Количество рабочих часов при 40-часовой рабочей неделе": "1970",
+    "Количество рабочих часов при 36-часовой рабочей неделе": "1772.4",
+    "Количество рабочих часов при 24-часовой рабочей неделе": "1179.6"
+  }
+]
 ```
 
 </details>
@@ -204,10 +203,10 @@ const isHoliday = (date, isWeekend) => holidays.includes(date) || isWeekend;
 
 ### Ручное форматирование даты
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Select from '@skbkontur/react-ui/Select';
-import LocaleProvider, { DateOrder, DateSeparator } from '@skbkontur/react-ui/LocaleProvider';
+```typescript jsx
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { LocaleProvider, DateOrder, DateSeparator } from '@skbkontur/react-ui/components/LocaleProvider';
 
 class DatePickerFormatting extends React.Component {
   constructor() {

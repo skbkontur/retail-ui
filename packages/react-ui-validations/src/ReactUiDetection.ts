@@ -2,9 +2,12 @@ declare const REACT_UI_PACKAGE: string;
 
 declare function require(name: string): any;
 
-const DatePicker = require(REACT_UI_PACKAGE + '/components/DatePicker').DatePicker;
-const RadioGroup = require(REACT_UI_PACKAGE + '/components/RadioGroup').RadioGroup;
-const Tooltip = require(REACT_UI_PACKAGE + '/components/Tooltip').Tooltip;
+const defaultOrNamed = (module: any, component: string) =>
+  module && module.__esModule && module.default ? module.default : module[component];
+
+const DatePicker = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/DatePicker'), 'DatePicker');
+const RadioGroup = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/RadioGroup'), 'RadioGroup');
+const Tooltip = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/Tooltip'), 'Tooltip');
 
 export { Tooltip };
 

@@ -1,5 +1,5 @@
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```typescript jsx
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 
 <Gapped vertical>
   <Logotype suffix="edi" color="#1E79BE" />

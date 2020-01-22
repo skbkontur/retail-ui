@@ -1,10 +1,10 @@
 Простой пример
 
-```jsx
-import MenuItem from '@skbkontur/react-ui/MenuItem';
-import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
-import MenuHeader from '@skbkontur/react-ui/MenuHeader';
-import Button from '@skbkontur/react-ui/Button';
+```typescript jsx
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
+import { Button } from '@skbkontur/react-ui/components/Button';
 
 <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>Заголовок меню</MenuHeader>
@@ -21,11 +21,11 @@ import Button from '@skbkontur/react-ui/Button';
 
 С указанием ширины меню
 
-```jsx
-import MenuItem from '@skbkontur/react-ui/MenuItem';
-import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
-import MenuHeader from '@skbkontur/react-ui/MenuHeader';
-import Button from '@skbkontur/react-ui/Button';
+```typescript jsx
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
+import { Button } from '@skbkontur/react-ui/components/Button';
 
 <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
   <MenuHeader>Заголовок меню</MenuHeader>
@@ -42,11 +42,11 @@ import Button from '@skbkontur/react-ui/Button';
 
 С указанием максимальной высоты меню
 
-```jsx
-import MenuItem from '@skbkontur/react-ui/MenuItem';
-import MenuSeparator from '@skbkontur/react-ui/MenuSeparator';
-import MenuHeader from '@skbkontur/react-ui/MenuHeader';
-import Button from '@skbkontur/react-ui/Button';
+```typescript jsx
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
+import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
+import { Button } from '@skbkontur/react-ui/components/Button';
 
 <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
   <MenuHeader>Заголовок меню</MenuHeader>
@@ -63,9 +63,9 @@ import Button from '@skbkontur/react-ui/Button';
 
 В `caption` можно передать любой элемент
 
-```jsx
+```typescript jsx
 import MenuIcon from '@skbkontur/react-icons/Menu';
-import MenuItem from '@skbkontur/react-ui/MenuItem';
+import {MenuItem} from '@skbkontur/react-ui/components/MenuItem';
 
 <DropdownMenu
   caption={

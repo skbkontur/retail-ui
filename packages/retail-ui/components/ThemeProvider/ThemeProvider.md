@@ -2,7 +2,7 @@
 
 ThemeProvider - компонент, передающий объект темы вниз по дереву с помощью полифила [`create-react-context.`](https://github.com/jamiebuilds/create-react-context)
 
-Принимает в качестве пропов `children: React.ReactNode` и `value` типа `IThemeIn`:
+Принимает в качестве пропов `children: React.ReactNode` и `value` типа `ThemeIn`:
 
 ```typescript
 import defaultThemeVariables from './components/variables.less';
@@ -11,7 +11,7 @@ import flatThemeVariables from './components/variables.flat.less';
 type ThemeType = typeof defaultThemeVariables & typeof flatThemeVariables;
 type ThemeInType = Partial<ThemeType>;
 
-interface IThemeIn extends ThemeInType {}
+interface ThemeIn extends ThemeInType {}
 ```
 
 В качестве базовой темы выступает объект, полученный из переменных `variables.less`. Объект, переданный в `value` будет смерджен с объектом базовой темой.
@@ -19,10 +19,10 @@ interface IThemeIn extends ThemeInType {}
 Помимо базовой темы, есть плоская тема, собранная из переменных `variables.flat.less`.
 Объект плоской темы можно импортировать и передавать в ThemeProvider:
 
-```jsx
-import ThemeProvider from '@skbkontur/react-ui/ThemeProvider';
-import flatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from './Playground/ShowcaseGroup';
+```typescript jsx
+import { ThemeProvider } from '@skbkontur/react-ui';
+import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
 
 const FlatComponents = () => (
   <ThemeProvider value={flatTheme}>
@@ -38,10 +38,10 @@ const FlatComponents = () => (
 Несколько тем одновременно:
 <br/>
 
-```jsx
-import ThemeProvider from '@skbkontur/react-ui/ThemeProvider';
-import flatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from './Playground/ShowcaseGroup';
+```typescript jsx
+import { ThemeProvider } from '@skbkontur/react-ui';
+import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
 
 const CombinedComponents = () => (
   <>
@@ -60,12 +60,12 @@ const CombinedComponents = () => (
 Вложенные темы:
 <br/>
 
-```jsx
-import ThemeProvider from '@skbkontur/react-ui/ThemeProvider';
-import flatTheme from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import defaultTheme from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
-import darkTheme from './Playground/darkTheme';
-import { ShowcaseGroup } from './Playground/ShowcaseGroup';
+```typescript jsx
+import { ThemeProvider } from '@skbkontur/react-ui';
+import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+import { DEFAULT_THEME as defaultTheme } from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
+import { darkTheme } from '@skbkontur/react-ui/components/ThemeProvider/Playground/darkTheme';
+import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',
@@ -139,10 +139,10 @@ export default {
 
 Далее объект из theme.js можно передавать в ThemeProvider:
 
-```typescript
+```typescript jsx
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { ThemeProvider } from '${retail-ui|@skbkontur/react-ui}/components/ThemeProvider';
+import { ThemeProvider } from '@skbkontur/react-ui/components/ThemeProvider';
 
 import App from './components/App';
 import theme from './theme/theme';
@@ -161,7 +161,7 @@ ReactDOM.render(
 // точка входа в приложение
 ...
 import theme from './theme/theme';
-import { ThemeFactory } from '${retail-ui|@skbkontur/react-ui}/lib/theming/ThemeFactory';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
 ThemeFactory.overrideDefaultTheme(theme);
 ...

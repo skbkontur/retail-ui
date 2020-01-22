@@ -1,4 +1,4 @@
-```jsx
+```typescript jsx
 let initialState = { auto: false };
 
 function handleChange(event) {

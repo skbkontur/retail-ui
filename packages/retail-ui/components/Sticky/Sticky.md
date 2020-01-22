@@ -1,4 +1,4 @@
-```jsx
+```typescript jsx
 const style = {
   padding: 10,
   background: '#f99',

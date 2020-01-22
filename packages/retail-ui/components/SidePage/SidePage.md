@@ -1,5 +1,5 @@
-```jsx
-import Button from '@skbkontur/react-ui/Button';
+```typescript jsx
+import { Button } from '@skbkontur/react-ui';
 
 let initialState = { opened: false };
 

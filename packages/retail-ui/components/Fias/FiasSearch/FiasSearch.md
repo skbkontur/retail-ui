@@ -1,9 +1,9 @@
 Компонент поиска может использоваться отдельно.
 
-```jsx
+```typescript jsx
 import isEqual from 'lodash.isequal';
 import { Component } from 'react';
-import { FiasSearch, FiasAPI, Address } from '../index';
+import { FiasSearch, FiasAPI, Address } from '@skbkontur/react-ui';
 
 class MyCustomFias extends Component {
   constructor(props) {

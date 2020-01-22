@@ -17,9 +17,8 @@ yarn add @skbkontur/react-ui
 
 И используем компонентики у себя в проекте:
 
-```jsx static
-import Button from '@skbkontur/react-ui/Button';
-import { Toast } from '@skbkontur/react-ui/Toast';
+```jsx harmony
+import { Button, Toast } from '@skbkontur/react-ui';
 
 const MyApp = () => (
   <div>
