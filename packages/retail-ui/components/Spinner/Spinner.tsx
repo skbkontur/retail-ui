@@ -10,7 +10,6 @@ import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
 
 import { jsStyles } from './Spinner.styles';
 import { SpinnerFallback, types } from './SpinnerFallback';
-import styles from './Spinner.module.less';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
@@ -76,9 +75,9 @@ export class Spinner extends React.Component<SpinnerProps> {
     const { type, caption = this.locale.loading, dimmed } = this.props;
 
     return (
-      <div className={styles.spinner}>
-        <span className={styles.inner}>
-          {hasSvgAnimationSupport && this.renderSpinner(type)}
+      <div className={jsStyles.spinner()}>
+        <span className={jsStyles.inner()}>
+          {hasSvgAnimationSupport && this.renderSpinner(type, dimmed)}
           {!hasSvgAnimationSupport && <SpinnerFallback type={type} dimmed={dimmed} />}
         </span>
         {caption && this.renderCaption(type, caption)}
@@ -86,19 +85,14 @@ export class Spinner extends React.Component<SpinnerProps> {
     );
   }
 
-  private renderSpinner = (type: SpinnerType) => {
-    const theme = this.theme;
-    const circleClassName = this.props.dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
+  private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
+    const circleClassName = dimmed ? jsStyles.circleDimmed(this.theme) : jsStyles.circle(this.theme);
 
     return <SpinnerIcon size={type} className={circleClassName} />;
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
-    const captionClassName = cx(
-      styles.caption,
-      jsStyles.caption(this.theme),
-      type === 'mini' ? styles.captionRight : styles.captionBottom,
-    );
+    const captionClassName = cx(jsStyles.caption(type), jsStyles.captionColor(this.theme));
     return <span className={captionClassName}>{caption}</span>;
   };
 }

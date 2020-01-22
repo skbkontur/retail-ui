@@ -6,7 +6,7 @@ import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_circle_big.png';
 import fallbackImage_normal from './fallback_circle_normal.png';
 
-import styles from './Spinner.module.less';
+import jsStyles from './Spinner.styles';
 import { SpinnerType } from './Spinner';
 
 export const types: {
@@ -84,7 +84,7 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
       cssSet.backgroundPosition = `0 -${frame * size}px`;
     }
 
-    return <span className={styles.fallback} style={cssSet} />;
+    return <span className={jsStyles.fallback()} style={cssSet} />;
   }
 
   private animate = () => {
