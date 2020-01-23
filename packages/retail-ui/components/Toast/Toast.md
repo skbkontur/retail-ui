@@ -1,6 +1,6 @@
 Вызов статических методов
 
-```typescript jsx
+```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
 
 function showComplexNotification() {
@@ -15,7 +15,7 @@ function showComplexNotification() {
 
 Использование `ref`
 
-```typescript jsx
+```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
 
 class Toaster extends React.Component {

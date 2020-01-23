@@ -12,7 +12,7 @@ DatePicker.validate: (value: string, range?: { minDate?: string; maxDate?: strin
 
 Пример с обработкой ошибок, когда пользователь ввел невалидную дату.
 
-```typescript jsx
+```jsx harmony
 import { Gapped, Tooltip } from '@skbkontur/react-ui';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 
@@ -64,7 +64,7 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
 
 В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
 
-```typescript jsx
+```jsx harmony
 const DatePickerHelpers = require('./DatePickerHelpers');
 const initialState = {
   value: '',
@@ -203,10 +203,8 @@ const isHoliday = (date, isWeekend) => holidays.includes(date) || isWeekend;
 
 ### Ручное форматирование даты
 
-```typescript jsx
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Select } from '@skbkontur/react-ui/components/Select';
-import { LocaleProvider, DateOrder, DateSeparator } from '@skbkontur/react-ui/components/LocaleProvider';
+```jsx harmony
+import { DateOrder, DateSeparator, Gapped, LocaleProvider, Select } from '@skbkontur/react-ui';
 
 class DatePickerFormatting extends React.Component {
   constructor() {

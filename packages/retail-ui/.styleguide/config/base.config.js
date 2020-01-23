@@ -192,7 +192,7 @@ module.exports = {
   defaultExample: '../MockReadme.md',
   moduleAliases: {
     '@skbkontur/react-ui/lib': path.resolve(__dirname, '../../lib'),
-    '@skbkontur/react-ui': path.resolve(__dirname, '../../components'),
+    '@skbkontur/react-ui': path.resolve(__dirname, '../../'),
   },
   getExampleFilename(componentPath) {
     return componentPath.replace(path.extname(componentPath), '.md');

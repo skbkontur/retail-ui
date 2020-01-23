@@ -1,4 +1,4 @@
-```typescript jsx
+```jsx harmony
 import { Gapped, Radio } from '@skbkontur/react-ui';
 
 let items = ['One', 'Two', 'Three', 'Four'];

@@ -1,6 +1,6 @@
 Компонент поиска может использоваться отдельно.
 
-```typescript jsx
+```jsx harmony
 import isEqual from 'lodash.isequal';
 import { Component } from 'react';
 import { FiasSearch, FiasAPI, Address } from '@skbkontur/react-ui';

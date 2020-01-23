@@ -8,7 +8,7 @@ import {
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface State {
   email: string;

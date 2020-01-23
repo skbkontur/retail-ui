@@ -1,6 +1,6 @@
 Token example
 
-```typescript jsx
+```jsx harmony
 import { Token } from '@skbkontur/react-ui';
 
 <Token>Example</Token>;
@@ -8,7 +8,7 @@ import { Token } from '@skbkontur/react-ui';
 
 You can control color of each token
 
-```typescript jsx
+```jsx harmony
 import { Gapped, Token } from '@skbkontur/react-ui';
 
 const colors = {
@@ -90,7 +90,7 @@ const colors = {
 
 Can accept validation state
 
-```typescript jsx
+```jsx harmony
 import { Gapped, Token } from '@skbkontur/react-ui';
 
 <Gapped gap={20} vertical>

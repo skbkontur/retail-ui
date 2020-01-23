@@ -44,8 +44,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 
@@ -123,8 +123,8 @@ class ColoredWrapper extends React.Component<any, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 
@@ -133,7 +133,7 @@ class ColoredWrapper extends React.Component<any, any> {
       <TokenInput
         {...this.props}
         selectedItems={this.state.selectedItems}
-        renderTokenComponent={(token, value) => {
+        renderToken={(value, { isActive, onClick, onRemove }) => {
           let colors: TokenColors = {
             idle: 'greenIdle',
             active: 'greenActive',
@@ -145,7 +145,11 @@ class ColoredWrapper extends React.Component<any, any> {
               active: 'redActive',
             };
           }
-          return token({ colors });
+          return (
+            <Token key={value} colors={colors} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+              {value}
+            </Token>
+          );
         }}
         onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
       />

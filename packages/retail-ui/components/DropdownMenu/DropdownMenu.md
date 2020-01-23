@@ -1,10 +1,7 @@
 Простой пример
 
-```typescript jsx
-import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
-import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
-import { Button } from '@skbkontur/react-ui/components/Button';
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
 <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
   <MenuHeader>Заголовок меню</MenuHeader>
@@ -21,11 +18,8 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 
 С указанием ширины меню
 
-```typescript jsx
-import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
-import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
-import { Button } from '@skbkontur/react-ui/components/Button';
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
 <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
   <MenuHeader>Заголовок меню</MenuHeader>
@@ -42,11 +36,8 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 
 С указанием максимальной высоты меню
 
-```typescript jsx
-import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
-import { MenuSeparator } from '@skbkontur/react-ui/components/MenuSeparator';
-import { MenuHeader } from '@skbkontur/react-ui/components/MenuHeader';
-import { Button } from '@skbkontur/react-ui/components/Button';
+```jsx harmony
+import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
 <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
   <MenuHeader>Заголовок меню</MenuHeader>
@@ -63,9 +54,9 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 
 В `caption` можно передать любой элемент
 
-```typescript jsx
+```jsx harmony
 import MenuIcon from '@skbkontur/react-icons/Menu';
-import {MenuItem} from '@skbkontur/react-ui/components/MenuItem';
+import { MenuItem } from '@skbkontur/react-ui';
 
 <DropdownMenu
   caption={

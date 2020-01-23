@@ -6,7 +6,7 @@
 <br/>
 Значения в колонке `Variable name` кликабельны.
 
-```jsx
+```jsx harmony
 import ThemeShowcase from './ThemeShowcase';
 
 <ThemeShowcase />;

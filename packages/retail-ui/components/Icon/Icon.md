@@ -32,10 +32,9 @@ type IconName =
 
 Все иконки
 
-```typescript jsx
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
+```jsx harmony
 import Icon from '@skbkontur/react-icons';
+import { Gapped, Tooltip } from '@skbkontur/react-ui';
 
 <Gapped vertical>
   <div>Имя показывается при наведении:</div>
@@ -52,8 +51,8 @@ import Icon from '@skbkontur/react-icons';
 Варианты использования иконок.
 Для уменьшения размера бандла рекомендуется использовать компонент с конкретной иконкой
 
-```typescript jsx
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import Icon from '@skbkontur/react-icons';
 

@@ -1,4 +1,4 @@
-```typescript jsx
+```jsx harmony
 import { Gapped, Spinner } from '@skbkontur/react-ui';
 
 const reactNodeCaption = (

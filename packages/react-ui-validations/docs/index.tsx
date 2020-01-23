@@ -1,9 +1,9 @@
 import React from 'react';
-import * as ReactDom from 'react-dom';
+import { render } from 'react-dom';
 import { hot } from 'react-hot-loader/root';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Layout from './Layout';
+import { Layout } from './Layout';
 import Api from './Pages/Api.md';
 import GettingStarted from './Pages/Displaying/GettingStarted/GettingStarted.md';
 import { Examples } from './Pages/Examples';
@@ -29,4 +29,4 @@ const App = hot(() => (
   </Router>
 ));
 
-ReactDom.render(<App />, document.getElementById('content'));
+render(<App />, document.getElementById('content'));

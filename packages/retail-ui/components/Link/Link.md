@@ -1,6 +1,5 @@
-```typescript jsx
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Link } from '@skbkontur/react-ui/components/Link';
+```jsx harmony
+import { Gapped, Link } from '@skbkontur/react-ui';
 
 <Gapped>
   <Link>Enabled</Link>

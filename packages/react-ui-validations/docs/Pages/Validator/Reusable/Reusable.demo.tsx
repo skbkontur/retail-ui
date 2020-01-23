@@ -3,7 +3,7 @@ import { Button } from 'retail-ui/components/Button';
 import { Input } from 'retail-ui/components/Input';
 
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 import {
   ValidationContainer,
   ValidationWrapper,

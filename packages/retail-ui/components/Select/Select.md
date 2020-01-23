@@ -1,4 +1,4 @@
-```typescript jsx
+```jsx harmony
 let items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
 let initialState = {};

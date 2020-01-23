@@ -1,11 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "react-hooks",
-    "import"
-  ],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "import"],
   "env": {
     "browser": true,
     "node": true,
@@ -87,11 +82,7 @@
   },
   "overrides": [
     {
-      "files": [
-        "**/*.stories.tsx",
-        "docs/**/*.tsx",
-        "rollup*"
-      ],
+      "files": ["**/*.stories.tsx", "docs/**/*.demo.tsx", "docs/**/Demo.tsx", "rollup*"],
       "rules": {
         "import/no-default-export": 0
       }

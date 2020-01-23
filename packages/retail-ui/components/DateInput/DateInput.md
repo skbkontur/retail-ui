@@ -1,20 +1,19 @@
-```typescript jsx
+```jsx harmony
 <DateInput value="27.04.1992" />
 ```
 
-```typescript jsx
+```jsx harmony
 <DateInput value={state.value} onChange={(_, v) => setState({ value: v })} />
 ```
 
-```typescript jsx
+```jsx harmony
 <DateInput disabled value="27.04.1992" />
 ```
 
 ### Форматирование даты при смене локали
 
-```typescript jsx
-import { Gapped, Select } from '@skbkontur/react-ui';
-import { LocaleProvider, LangCodes } from '@skbkontur/react-ui/components/LocaleProvider';
+```jsx harmony
+import { Gapped, LangCodes, LocaleProvider, Select } from '@skbkontur/react-ui';
 
 class DateInputFormatting2 extends React.Component {
   constructor() {
@@ -51,10 +50,8 @@ class DateInputFormatting2 extends React.Component {
 
 ### Ручное форматирование даты
 
-```typescript jsx
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Select } from '@skbkontur/react-ui/components/Select';
-import { DateOrder, DateSeparator, LocaleProvider } from '@skbkontur/react-ui/components/LocaleProvider';
+```jsx harmony
+import { DateOrder, DateSeparator, Gapped, LocaleProvider, Select } from '@skbkontur/react-ui';
 
 class DateInputFormatting extends React.Component {
   constructor() {

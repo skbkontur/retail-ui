@@ -7,7 +7,7 @@ import {
   ValidationWrapper,
   createValidator,
 } from '../../../../src';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface Data {
   onlyDigits: boolean;

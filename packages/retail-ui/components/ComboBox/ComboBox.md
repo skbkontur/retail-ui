@@ -1,6 +1,6 @@
 Combobox with error handling
 
-```typescript jsx
+```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
 
 let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
@@ -47,7 +47,7 @@ let handleFocus = () => setState({ error: false });
 
 ComboBox with popular values, complex menu items and total count message
 
-```typescript jsx
+```jsx harmony
 import { getCities } from './__mocks__/getCities';
 import { Gapped, MenuHeader, MenuSeparator } from '@skbkontur/react-ui';
 
@@ -117,7 +117,7 @@ let renderItem = item => (
 
 Переопределение renderValue и renderItem:
 
-```typescript jsx
+```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { Tooltip } from '@skbkontur/react-ui';
 
@@ -228,7 +228,7 @@ const customRenderValue = item => (
 
 С подсветкой результата поиска:
 
-```typescript jsx
+```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
@@ -304,7 +304,7 @@ const renderItem = item => {
 
 Добавление элементов в меню
 
-```typescript jsx
+```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));

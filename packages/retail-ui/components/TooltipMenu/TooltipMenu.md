@@ -1,6 +1,6 @@
 Простой пример
 
-```typescript jsx
+```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
 <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
@@ -18,7 +18,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 
 С указанием ширины меню
 
-```typescript jsx
+```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
 <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
@@ -36,7 +36,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 
 С указанием максимальной высоты меню
 
-```typescript jsx
+```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
 <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
@@ -54,7 +54,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 
 В `caption` можно передать любой элемент
 
-```typescript jsx
+```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 
@@ -74,7 +74,7 @@ import MenuIcon from '@skbkontur/react-icons/Menu';
 
 Только справа
 
-```typescript jsx
+```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
@@ -95,7 +95,7 @@ import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
 Меню только сверху выравненное по правому краю `caption`
 
-```typescript jsx
+```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 

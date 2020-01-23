@@ -1,4 +1,4 @@
-```typescript jsx
+```jsx harmony
 import { Token } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 

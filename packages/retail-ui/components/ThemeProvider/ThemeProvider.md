@@ -19,7 +19,7 @@ interface ThemeIn extends ThemeInType {}
 Помимо базовой темы, есть плоская тема, собранная из переменных `variables.flat.less`.
 Объект плоской темы можно импортировать и передавать в ThemeProvider:
 
-```typescript jsx
+```jsx harmony
 import { ThemeProvider } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
@@ -38,7 +38,7 @@ const FlatComponents = () => (
 Несколько тем одновременно:
 <br/>
 
-```typescript jsx
+```jsx harmony
 import { ThemeProvider } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
@@ -60,7 +60,7 @@ const CombinedComponents = () => (
 Вложенные темы:
 <br/>
 
-```typescript jsx
+```jsx harmony
 import { ThemeProvider } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME as defaultTheme } from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
@@ -139,7 +139,7 @@ export default {
 
 Далее объект из theme.js можно передавать в ThemeProvider:
 
-```typescript jsx
+```jsx static
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { ThemeProvider } from '@skbkontur/react-ui/components/ThemeProvider';
@@ -157,7 +157,7 @@ ReactDOM.render(
 
 В случае, если приложение не является полноценным React-приложением, и тему нужно переопределить единоразово, то можно воспользоваться методом `overrideDefaultTheme` в `ThemeFactory`:
 
-```typescript
+```typescript static
 // точка входа в приложение
 ...
 import theme from './theme/theme';

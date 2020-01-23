@@ -6,7 +6,7 @@ interface SourceCodeProps {
   source: string;
 }
 
-export default class SourceCode extends React.Component<SourceCodeProps> {
+export class SourceCode extends React.Component<SourceCodeProps> {
   public render() {
     return (
       <Code language="tsx" style={darcula}>

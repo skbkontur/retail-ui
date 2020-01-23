@@ -2,7 +2,7 @@
 
 Рекомендуемое
 
-```typescript jsx
+```jsx harmony
 import { Loader, Logotype, TopBar } from '@skbkontur/react-ui';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 
@@ -49,7 +49,7 @@ let contentStyle = {
 
 Старый вариант. (Продуктовый виджет работает только у первого Logotype на странице)
 
-```typescript jsx
+```jsx harmony
 import { Loader, TopBar } from '@skbkontur/react-ui';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 

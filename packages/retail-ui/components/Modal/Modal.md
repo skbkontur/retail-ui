@@ -1,4 +1,4 @@
-```typescript jsx
+```jsx harmony
 import { Button, Toggle } from '@skbkontur/react-ui';
 
 let initialState = { opened: false };

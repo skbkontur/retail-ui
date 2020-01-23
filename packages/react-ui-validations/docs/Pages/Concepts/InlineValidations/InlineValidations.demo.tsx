@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'retail-ui/components/Button';
 
 import { ValidationContainer } from '../../../../src';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 import { Nullable } from '../../../../typings/Types';
 
 import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';

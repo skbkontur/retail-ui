@@ -2,7 +2,7 @@ import React from 'react';
 import { Input } from 'retail-ui/components/Input';
 
 import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 export default class StaticValidationDemo extends React.Component {
   public render() {

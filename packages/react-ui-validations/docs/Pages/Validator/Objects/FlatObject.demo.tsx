@@ -4,7 +4,7 @@ import { Input } from 'retail-ui/components/Input';
 
 import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface ContactInfo {
   name: string;

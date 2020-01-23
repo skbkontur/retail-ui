@@ -1,8 +1,7 @@
-```typescript jsx
+```jsx harmony
 import UndoIcon from '@skbkontur/react-icons/Undo';
 import FunctionIcon from '@skbkontur/react-icons/Function';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Button, Input } from '@skbkontur/react-ui';
 
 let initialState = { auto: false };
 

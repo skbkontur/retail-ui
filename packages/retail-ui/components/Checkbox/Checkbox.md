@@ -1,4 +1,4 @@
-```typescript jsx
+```jsx harmony
 let initialState = { checked: false };
 
 <Checkbox checked={state.checked} onChange={(_, v) => setState({ checked: v })}>
@@ -8,7 +8,7 @@ let initialState = { checked: false };
 
 Чекбокс может быть в состоянии "частично выбран". Как и в браузерном чекбоксе, это состояние влияет только на внешний вид и не влияет на состояние `checked`. `indeterminate` устанавливается в конструкторе через проп `initialIndeterminate` или методами инстанса `setIndeterminate()`/`resetIndeterminate()`
 
-```typescript jsx
+```jsx harmony
 import {Button, Checkbox, Gapped} from '@skbkontur/react-ui';
 
 class IndeterminateExample extends React.Component {

@@ -7,7 +7,7 @@ import {
   ValidationInfo,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface State {
   value: string;

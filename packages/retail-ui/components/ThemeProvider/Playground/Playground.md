@@ -1,6 +1,6 @@
 Разные варианты стилизации компонентов:
 
-```typescript jsx
+```jsx harmony
 import { ThemeProviderPlayground } from './ThemeProviderPlayground';
 
 <ThemeProviderPlayground />;
