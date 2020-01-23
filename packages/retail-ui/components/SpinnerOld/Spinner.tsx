@@ -10,6 +10,7 @@ import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
 import SpinnerIcon from '../internal/icons/SpinnerIconOld';
+import warning from 'warning';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
@@ -58,6 +59,11 @@ class Spinner extends React.Component<SpinnerProps> {
   public static Types: typeof types = types;
   private theme!: ITheme;
   private readonly locale!: SpinnerLocale;
+
+  public constructor(props: SpinnerProps) {
+    super(props);
+    warning('SpinnerOld is deprecated, will removed in 3.0 use Spinner instead');
+  }
 
   public render() {
     return (

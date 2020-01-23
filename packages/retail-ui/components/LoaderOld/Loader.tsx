@@ -13,6 +13,7 @@ import jsStyles from './Loader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import ZIndex from '../ZIndex';
+import warning from 'warning';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -78,6 +79,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
   constructor(props: LoaderProps) {
     super(props);
+    warning('LoaderOld is deprecated, will removed in 3.0 use Loader instead');
 
     this.containerNode = null;
     this.spinnerNode = null;
