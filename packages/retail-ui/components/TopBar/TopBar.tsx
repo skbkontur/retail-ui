@@ -144,7 +144,7 @@ export class TopBar extends React.Component<TopBarProps> {
 
   public constructor(props: TopBarProps) {
     super(props);
-    warning(`TopBar has been deprecated, use TopBar from @skbkontur/react-ui-addons instead`);
+    warning(false, `TopBar has been deprecated, use TopBar from @skbkontur/react-ui-addons instead`);
   }
 
   public render(): JSX.Element {

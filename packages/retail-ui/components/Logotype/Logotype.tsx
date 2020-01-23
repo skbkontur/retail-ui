@@ -99,7 +99,7 @@ export class Logotype extends React.Component<LogotypeProps> {
 
   public constructor(props: LogotypeProps) {
     super(props);
-    warning(`Logotype has been deprecated, use Logotype from @skbkontur/react-ui-addons instead`);
+    warning(false, `Logotype has been deprecated, use Logotype from @skbkontur/react-ui-addons instead`);
   }
 
   public componentDidMount() {

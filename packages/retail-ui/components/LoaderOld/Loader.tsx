@@ -79,7 +79,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
   constructor(props: LoaderProps) {
     super(props);
-    warning('LoaderOld is deprecated, will removed in 3.0 use Loader instead');
+    warning(false, 'LoaderOld is deprecated, will removed in 3.0 use Loader instead');
 
     this.containerNode = null;
     this.spinnerNode = null;

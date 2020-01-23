@@ -61,7 +61,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
 
   public constructor(props: FiasSearchProps) {
     super(props);
-    warning(`FiasSearch has been deprecated, use FiasSearch from @skbkontur/react-ui-addons instead`);
+    warning(false, `FiasSearch has been deprecated, use FiasSearch from @skbkontur/react-ui-addons instead`);
   }
 
   public render() {

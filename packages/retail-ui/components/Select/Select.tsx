@@ -332,7 +332,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderDefaultButton(params: ButtonParams) {
     if (this.props.diadocLinkIcon) {
-      warning(`diadocLinkIcon has been deprecated`);
+      warning(false, `diadocLinkIcon has been deprecated`);
       return this.renderLinkButton(params);
     }
 

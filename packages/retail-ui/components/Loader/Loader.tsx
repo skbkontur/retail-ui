@@ -22,7 +22,12 @@ export interface LoaderProps {
   caption?: SpinnerProps['caption'];
   className?: string;
   type?: 'mini' | 'normal' | 'big';
-  component?: React.ReactNode | (() => React.ReactNode);
+  /**
+   * Компонент спиннера
+   *
+   * @default  <Spinner/> из react-ui
+   */
+  component?: React.ReactNode;
 }
 
 export interface LoaderState {
@@ -50,7 +55,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     /**
      * Текст рядом с лоадером.
      *
-     * "Загрузка" - значение по-умолчанию
+     * @default  "Загрузка"
      */
     caption: Spinner.propTypes.caption,
 
@@ -62,7 +67,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     /**
      * Тип спиннера: mini, normal, big
      *
-     * Значение по-умолчанию - normal
+     * @default  normal
      *
      * Spinner.types - все доступные типы
      */
@@ -71,9 +76,9 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     /**
      * Компонент спиннера
      *
-     * Значение по-умолчанию - Spinner из react-ui
+     * @default  <Spinner/> из react-ui
      */
-    component: PropTypes.any,
+    component: PropTypes.node,
   };
 
   private theme!: Theme;
@@ -147,11 +152,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.containerNode = element;
   };
 
-  private renderSpinner(
-    type?: 'mini' | 'normal' | 'big',
-    caption?: React.ReactNode,
-    component?: React.ReactNode | (() => React.ReactNode),
-  ) {
+  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
         className={this.state.isStickySpinner ? styles.spinnerContainerSticky : styles.spinnerContainerCenter}

@@ -62,7 +62,7 @@ class Spinner extends React.Component<SpinnerProps> {
 
   public constructor(props: SpinnerProps) {
     super(props);
-    warning('SpinnerOld is deprecated, will removed in 3.0 use Spinner instead');
+    warning(false, 'SpinnerOld is deprecated, will removed in 3.0 use Spinner instead');
   }
 
   public render() {
