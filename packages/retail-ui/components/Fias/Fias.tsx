@@ -156,6 +156,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   public constructor(props: FiasProps) {
     super(props);
+    warningOutput(`Fias has been deprecated, use Fias from @skbkontur/react-ui-addons instead`);
     if (!props.baseUrl && !props.api) {
       Logger.log(Logger.warnings.baseUrlOrApiIsRequired);
     }

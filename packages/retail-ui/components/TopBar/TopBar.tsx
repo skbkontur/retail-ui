@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
 
 import { Logotype } from '../Logotype';
 import { cx } from '../../lib/theming/Emotion';
@@ -140,6 +141,11 @@ export class TopBar extends React.Component<TopBarProps> {
   };
 
   private theme!: Theme;
+
+  public constructor(props: TopBarProps) {
+    super(props);
+    warning(`TopBar has been deprecated, use TopBar from @skbkontur/react-ui-addons instead`);
+  }
 
   public render(): JSX.Element {
     return (

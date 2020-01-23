@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
+import warning from 'warning';
 
 import {
   isKeyArrowDown,
@@ -331,6 +332,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderDefaultButton(params: ButtonParams) {
     if (this.props.diadocLinkIcon) {
+      warning(`diadocLinkIcon has been deprecated`);
       return this.renderLinkButton(params);
     }
 
@@ -580,10 +582,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return React.isValidElement(buttonElement)
       ? React.cloneElement(buttonElement as React.ReactElement, {
-        ref: this.buttonRef,
-        onFocus: this.props.onFocus,
-        onBlur: this.props.onBlur,
-      })
+          ref: this.buttonRef,
+          onFocus: this.props.onFocus,
+          onBlur: this.props.onBlur,
+        })
       : buttonElement;
   };
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import warning from 'warning';
 
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from '../Form/FiasComboBox';
@@ -57,6 +58,11 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private readonly locale!: FiasLocale;
+
+  public constructor(props: FiasSearchProps) {
+    super(props);
+    warning(`FiasSearch has been deprecated, use FiasSearch from @skbkontur/react-ui-addons instead`);
+  }
 
   public render() {
     const restComboBoxProps = filterProps(this.props, COMBOBOX_PASS_PROPS);
