@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { By } from 'selenium-webdriver';
 
-describe('Spinner', function() {
+describe('SpinnerOld', function() {
   describe('Normal', function() {
     it('plain', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
