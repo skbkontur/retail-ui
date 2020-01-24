@@ -23,7 +23,7 @@ if (typeof ReactSeleniumTesting !== 'undefined') {
 }
 
 function extendStaticObject(base, overrides) {
-  const oldBase = { ...base };
+  const oldBase = Object.assign({}, base);
   for (const overrideKey of Object.keys(overrides)) {
     base[overrideKey] = overrides[overrideKey](oldBase);
   }
