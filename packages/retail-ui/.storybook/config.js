@@ -1,5 +1,4 @@
 import { addDecorator, configure } from '@storybook/react';
-import 'core-js/stable';
 import { withCreevey } from 'creevey';
 import React from 'react';
 import { ThemeProvider } from '../components/ThemeProvider';
