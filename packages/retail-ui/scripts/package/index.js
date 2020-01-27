@@ -4,6 +4,12 @@ const { eq, gt, gte, valid, diff } = require('semver');
 const { getRevisionID, getRevisionRefs } = require('../git');
 const { readJsonSync, writeJsonSync } = require('fs-extra');
 
+const log = message => {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log(message);
+  }
+};
+
 const TAGS = {
   UNSTABLE: 'unstable',
   LATEST: 'latest',
@@ -20,7 +26,7 @@ const getPackageInfo = (configPath = PACKAGE_JSON) => {
   const distTag = getDistTag(config.version, npmTags, revBranches, revTags);
 
   if (!distTag) {
-    console.log('Failed to determine the dist-tag.');
+    log('Failed to determine the dist-tag.');
     process.exit(-1);
   }
 
@@ -67,7 +73,7 @@ const getDistTag = (version, npmTags, revBranches, revTags) => {
   const { LATEST, UNSTABLE, OLD, LTS } = TAGS;
 
   if (!valid(version)) {
-    console.log(`Invalid package version: ${version}`);
+    log(`Invalid package version: ${version}`);
     return null;
   }
 
@@ -75,7 +81,7 @@ const getDistTag = (version, npmTags, revBranches, revTags) => {
   const hasLTSBranch = revBranches.includes('lts');
   const hasReleaseTag = revTags.includes(getReleaseTagName(version));
 
-  console.log(`Getting dist-tag:
+  log(`Getting dist-tag:
     version: ${version}
     npmTags: ${JSON.stringify(npmTags)}
     rev: ${getRevisionID()}
@@ -89,32 +95,28 @@ const getDistTag = (version, npmTags, revBranches, revTags) => {
 
   if (hasMasterBranch) {
     if (!valid(npmTags.latest)) {
-      console.log(`The version pointed to by the "latest" tag is invalid: ${npmTags.latest}.`);
+      log(`The version pointed to by the "latest" tag is invalid: ${npmTags.latest}.`);
       return null;
     }
     if (gte(version, npmTags.latest)) {
       return LATEST;
     }
-    console.log(
-      `Current version does not meet the "latest-version" requirements (see #1423). Current: ${version}, Latest: ${
-        npmTags.latest
-      }.`,
+    log(
+      `Current version does not meet the "latest-version" requirements (see #1423). Current: ${version}, Latest: ${npmTags.latest}.`,
     );
     return null;
   }
 
   if (hasLTSBranch) {
     if (!valid(npmTags.lts)) {
-      console.log(`The version pointed to by the "lts" tag is invalid: ${npmTags.lts}.`);
+      log(`The version pointed to by the "lts" tag is invalid: ${npmTags.lts}.`);
       return null;
     }
     if (eq(version, npmTags.lts) || (gt(version, npmTags.lts) && diff(version, npmTags.lts) === 'patch')) {
       return LTS;
     }
-    console.log(
-      `Current version does not meet the "lts-version" requirements (see #1423). Current: ${version}, LTS: ${
-        npmTags.lts
-      }.`,
+    log(
+      `Current version does not meet the "lts-version" requirements (see #1423). Current: ${version}, LTS: ${npmTags.lts}.`,
     );
     return null;
   }
