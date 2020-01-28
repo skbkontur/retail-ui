@@ -65,7 +65,8 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
 В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.
 
 ```jsx harmony
-const DatePickerHelpers = require('./DatePickerHelpers');
+import * as DatePickerHelpers from './DatePickerHelpers';
+
 const initialState = {
   value: '',
 };
@@ -121,7 +122,7 @@ https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo
 
 API:
 
-```jsx
+```jsx static
 https://data.gov.ru/api/json/dataset/7708660670-proizvcalendar/version/20151123T183036/content?search=2019&access_token=31de6d0b90f51a7aa3ee2d518d50f4e9
 ```
 

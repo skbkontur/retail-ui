@@ -17,7 +17,7 @@ yarn add @skbkontur/react-ui
 
 И используем компонентики у себя в проекте:
 
-```jsx harmony
+```jsx harmony static
 import { Button, Toast } from '@skbkontur/react-ui';
 
 const MyApp = () => (

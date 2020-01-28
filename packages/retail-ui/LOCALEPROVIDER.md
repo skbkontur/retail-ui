@@ -1,5 +1,3 @@
-Локализация компонентов с помощью полифила [`create-react-context`](https://github.com/jamiebuilds/create-react-context)
-
 ### Props
 
 ```typescript
