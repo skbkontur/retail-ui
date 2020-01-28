@@ -127,27 +127,71 @@ const styles = {
   },
 };
 
+const TRANSFORMS_FOR_IE11 = {
+  test: /\.jsx?$/,
+  include: new RegExp(
+    `node_modules/(?=(${[
+      // ref: https://github.com/styleguidist/react-styleguidist/pull/1327
+      'acorn-jsx',
+      'estree-walker',
+      'regexpu-core',
+      'unicode-match-property-ecmascript',
+      'unicode-match-property-value-ecmascript',
+      'react-dev-utils',
+      'ansi-styles',
+      'ansi-regex',
+      'chalk',
+      'strip-ansi',
+    ].join('|')})/).*`,
+  ),
+  use: {
+    loader: 'babel-loader',
+    options: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: {
+              ie: '11',
+            },
+          },
+        ],
+      ],
+    },
+  },
+};
+
 const webpackConfig = {
   module: {
     rules: [
+      TRANSFORMS_FOR_IE11,
       {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: { transpileOnly: true },
-      },
-      {
-        test: /\.jsx?$/,
+        test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
+        options: {
+          babelrc: false,
+          envName: 'development',
+          extends: path.join(__dirname, '../../.babelrc.js'),
+        },
       },
       {
         test: /\.(css|less)$/,
-        use: [
+        loaders: [
           'style-loader',
+          {
+            loader: 'dts-css-modules-loader',
+            options: {
+              namedExport: false,
+            },
+          },
           {
             loader: 'css-loader',
             options: {
-              modules: 'global',
+              modules: {
+                mode: 'global',
+                localIdentName: '[name]-[local]-[hash:base64:4]',
+              },
             },
           },
           'less-loader',

@@ -43,8 +43,6 @@ module.exports = async ({ config, mode }) => {
               mode: 'global',
               localIdentName: '[name]-[local]-[hash:base64:4]',
             },
-            onlyLocals: false,
-            esModule: false,
           },
         },
         'less-loader',
