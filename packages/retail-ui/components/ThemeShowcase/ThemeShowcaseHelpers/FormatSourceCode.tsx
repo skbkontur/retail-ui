@@ -43,7 +43,6 @@ export function formatSourceCode(input: string, componentName: string) {
 }
 
 function renderVariables(variableString: string, componentName: string) {
-  console.log(componentName, variableString);
   if (isDevelopmentEnv) {
     variableString = variableString
       .replace(/ColorFunctions_[\d]+\.default\./g, 'ColorFunctions.')

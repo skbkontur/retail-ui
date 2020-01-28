@@ -1,7 +1,4 @@
-import warning from 'warning';
-
 export function clamp(val: number, max = 1) {
-  warning(0 <= val && val <= max, `${val} exceeds [0, ${max}] interval, clamping`);
   return Math.min(max, Math.max(0, val));
 }
 
