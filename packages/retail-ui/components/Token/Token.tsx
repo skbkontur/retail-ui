@@ -32,7 +32,13 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export interface TokenActions {
+export interface TokenProps {
+  colors?: TokenColors;
+  isActive?: boolean;
+  error?: boolean;
+  warning?: boolean;
+  disabled?: boolean;
+
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<HTMLElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
@@ -41,15 +47,7 @@ export interface TokenActions {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
-export interface TokenProps {
-  colors?: TokenColors;
-  isActive?: boolean;
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
-}
-
-export class Token extends React.Component<TokenProps & TokenActions> {
+export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
   private theme!: Theme;

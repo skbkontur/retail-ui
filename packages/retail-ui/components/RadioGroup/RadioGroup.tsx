@@ -12,12 +12,10 @@ import { FocusTrap } from '../internal/FocusTrap';
 import styles from './RadioGroup.module.less';
 import { Prevent } from './Prevent';
 
-export type ItemType<T> = T | [T, React.ReactNode];
-
 export interface RadioGroupProps<T> {
   defaultValue?: T;
   value?: T;
-  items?: Array<ItemType<T>>;
+  items?: Array<T | [T, React.ReactNode]>;
   name?: string;
   disabled?: boolean;
   warning?: boolean;

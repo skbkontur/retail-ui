@@ -11,7 +11,6 @@ import { jsStyles } from './MenuItem.styles';
 import styles from './MenuItem.module.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
-export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
 export interface MenuItemProps {
   /** @ignore */

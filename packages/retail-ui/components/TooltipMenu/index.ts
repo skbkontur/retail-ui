@@ -1,1 +1,1 @@
-export { TooltipMenu, TooltipMenuProps, TooltipMenuChildType } from './TooltipMenu';
+export { TooltipMenu, TooltipMenuProps } from './TooltipMenu';

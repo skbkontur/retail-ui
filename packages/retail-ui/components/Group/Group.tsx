@@ -13,7 +13,7 @@ export interface GroupProps {
   width?: React.CSSProperties['width'];
 }
 
-export interface GroupChildProps {
+interface GroupChildProps {
   width?: React.CSSProperties['width'];
   corners?: number;
 }

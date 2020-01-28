@@ -8,14 +8,6 @@ import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 import { ButtonItem } from './TopBarButtonItem';
 
-export interface ButtonParams {
-  disabled?: boolean;
-  label: React.ReactNode;
-  onClick: () => void;
-  onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
-  opened: boolean;
-}
-
 export interface TopBarDropdownProps {
   icon?: IconProps['name'];
   minWidth?: string | number | null;

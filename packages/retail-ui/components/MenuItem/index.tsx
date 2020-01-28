@@ -1,1 +1,1 @@
-export { MenuItem, MenuItemProps, MenuItemState, MenuItemElement, isMenuItem } from './MenuItem';
+export { MenuItem, MenuItemProps, MenuItemState, isMenuItem } from './MenuItem';

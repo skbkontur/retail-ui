@@ -18,7 +18,6 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
-import { TokenActions } from '../Token/Token';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
@@ -63,7 +62,7 @@ export interface TokenInputProps<T> {
   warning?: boolean;
   disabled?: boolean;
   width?: string | number;
-  renderToken?: (item: T, props: Partial<TokenProps & TokenActions>) => ReactNode;
+  renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
 }
 
 export interface TokenInputState<T> {
@@ -78,14 +77,11 @@ export interface TokenInputState<T> {
 
 const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
-const defaultRenderToken = <T extends any>(
-  item: T,
-  { isActive, onClick, onRemove, disabled }: Partial<TokenProps & TokenActions>,
-) => (
-    <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
-      {item}
-    </Token>
-  );
+const defaultRenderToken = <T extends any>(item: T, { isActive, onClick, onRemove, disabled }: Partial<TokenProps>) => (
+  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
+    {item}
+  </Token>
+);
 
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
