@@ -1,5 +1,4 @@
 import * as React from 'react';
-import warning from 'warning';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -115,15 +114,8 @@ export const Effect: EffectFactory = {
     }
 
     if (onUnexpectedInput) {
-      // NOTE Обсудить поведение onUnexpectedInput
       const value = onUnexpectedInput(textValue);
-      if (value === null) {
-        warning(
-          false,
-          `[ComboBox] Returning 'null' is deprecated in 'onUnexpectedInput'. For clear value use instance method 'reset'`,
-        );
-        dispatch({ type: 'TextClear' });
-      } else if (value !== undefined) {
+      if (value !== undefined) {
         dispatch({ type: 'ValueChange', value, keepFocus: false });
       }
     }
@@ -291,7 +283,7 @@ export function reducer<T>(
           };
           break;
       }
-      return [nextState, [...effects, Effect.InputKeyDown(e)]]
+      return [nextState, [...effects, Effect.InputKeyDown(e)]];
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
