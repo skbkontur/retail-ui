@@ -46,5 +46,6 @@ beforeAll(() => {
   // Add variables used by tests by hand as those are not read from the variables.less file
   ThemeFactory.overrideDefaultTheme({
     textColorDefault: '#404040',
+    calendarMonthTitleBorderBottomColor: '#dfdede',
   });
 });
