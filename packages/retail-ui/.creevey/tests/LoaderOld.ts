@@ -4,7 +4,7 @@ import { By } from 'selenium-webdriver';
 describe('LoaderOld', function() {
   describe('Active loader', function() {
     it('covers children', async function() {
-      const element = await this.browser.findElement(By.css('[data-comp-name~="Loader"]'));
+      const element = await this.browser.findElement(By.css('[data-comp-name~="LoaderOld"]'));
       const button = await this.browser.findElement(By.css('[data-comp-name~="Button"]'));
 
       await this.browser
@@ -17,7 +17,7 @@ describe('LoaderOld', function() {
   });
   describe('Inactive loader', function() {
     it("doesn't cover children", async function() {
-      const element = await this.browser.findElement(By.css('[data-comp-name~="Loader"]'));
+      const element = await this.browser.findElement(By.css('[data-comp-name~="LoaderOld"]'));
       const button = await this.browser.findElement(By.css('[data-comp-name~="Button"]'));
 
       await this.browser

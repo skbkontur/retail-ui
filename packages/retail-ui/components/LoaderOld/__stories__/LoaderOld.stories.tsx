@@ -1,7 +1,7 @@
 // tslint:disable:jsx-no-lambda
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import Loader from '../Loader';
+import { LoaderOld } from '../LoaderOld';
 import Tooltip from '../../Tooltip';
 import Button from '../../Button';
 
@@ -25,24 +25,24 @@ class ContentComponent extends React.Component<{
   public render() {
     return (
       <div style={{ ...wrapperStyle, ...this.props.additionalStyle }}>
-        <Loader active type={'big'}>
+        <LoaderOld active type={'big'}>
           {getItems(this.props.itemsCount).map(i => (
             <div key={i}>{i}</div>
           ))}
-        </Loader>
+        </LoaderOld>
       </div>
     );
   }
 }
 
-export class LoaderAndButton extends React.Component<{ active: boolean }> {
+export class LoaderOldAndButton extends React.Component<{ active: boolean }> {
   public state = {
     isTooltipOpened: false,
   };
 
   public render() {
     return (
-      <Loader active={this.props.active} type={'big'}>
+      <LoaderOld active={this.props.active} type={'big'}>
         <h1>
           Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
         </h1>
@@ -75,13 +75,13 @@ export class LoaderAndButton extends React.Component<{ active: boolean }> {
           <li>You are the last hope of the universe.</li>
           <li>Hey, guess what you're accessories to.</li>
         </ol>
-      </Loader>
+      </LoaderOld>
     );
   }
 }
 
 storiesOf('LoaderOld', module)
-  .add('Simple', () => <Loader active />)
+  .add('Simple', () => <LoaderOld active />)
   .add('Type "big"', () => <ContentComponent itemsCount={10} />)
   .add('Type "big" with text', () => (
     <div style={{ width: 400 }}>
@@ -108,7 +108,7 @@ storiesOf('LoaderOld', module)
         <li>You are the last hope of the universe.</li>
         <li>Hey, guess what you're accessories to.</li>
       </ol>
-      <Loader active type={'big'}>
+      <LoaderOld active type={'big'}>
         <h1>
           Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
         </h1>
@@ -132,7 +132,7 @@ storiesOf('LoaderOld', module)
           <li>You are the last hope of the universe.</li>
           <li>Hey, guess what you're accessories to.</li>
         </ol>
-      </Loader>
+      </LoaderOld>
       <h1>
         Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."
       </h1>
@@ -163,5 +163,5 @@ storiesOf('LoaderOld', module)
   .add('Both dimensions scrollable content with spaces around', () => (
     <ContentComponent itemsCount={200} additionalStyle={{ width: '2500px', margin: '600px 200px' }} />
   ))
-  .add('Active loader', () => <LoaderAndButton active />)
-  .add('Inactive loader', () => <LoaderAndButton active={false} />);
+  .add('Active loader', () => <LoaderOldAndButton active />)
+  .add('Inactive loader', () => <LoaderOldAndButton active={false} />);

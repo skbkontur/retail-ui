@@ -1,5 +1,5 @@
 ```jsx
-<Loader type="big" active>
+<LoaderOld type="big" active>
   <h1>Yeah, and if you were the pope they'd be all, "Straighten your pope hat." And "Put on your good vestments."</h1>
   <p>
     No, I'm Santa Claus! I guess if you want children beaten, you have to do it yourself. We're also Santa Claus! Leela,
@@ -21,5 +21,5 @@
     <li>You are the last hope of the universe.</li>
     <li>Hey, guess what you're accessories to.</li>
   </ol>
-</Loader>
+</LoaderOld>
 ```

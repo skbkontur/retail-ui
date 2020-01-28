@@ -2,26 +2,26 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { locale } from '../LocaleProvider/decorators';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
-import styles from './Spinner.module.less';
-import SpinnerFallback, { types } from './SpinnerFallback';
-import jsStyles from './Spinner.styles';
+import styles from './SpinnerOld.module.less';
+import { types, SpinnerOldFallback } from './SpinnerOldFallback';
+import jsStyles from './SpinnerOld.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ITheme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
-import SpinnerIcon from '../internal/icons/SpinnerIconOld';
+import SpinnerOldIcon from '../internal/icons/SpinnerIconOld';
 import warning from 'warning';
 
-export type SpinnerType = 'mini' | 'normal' | 'big';
+export type SpinnerOldType = 'mini' | 'normal' | 'big';
 
-export interface SpinnerProps {
+export interface SpinnerOldProps {
   caption?: React.ReactNode;
   dimmed?: boolean;
   /**
    * Тип спиннера
    * @default mini
    */
-  type: SpinnerType;
+  type: SpinnerOldType;
 }
 
 /**
@@ -29,8 +29,8 @@ export interface SpinnerProps {
  */
 
 @locale('Spinner', SpinnerLocaleHelper)
-class Spinner extends React.Component<SpinnerProps> {
-  public static __KONTUR_REACT_UI__ = 'Spinner';
+export class SpinnerOld extends React.Component<SpinnerOldProps> {
+  public static __KONTUR_REACT_UI__ = 'SpinnerOld';
 
   public static propTypes = {
     /**
@@ -47,12 +47,12 @@ class Spinner extends React.Component<SpinnerProps> {
      *
      * Значение по-умолчанию - normal
      *
-     * Spinner.types - все доступные типы
+     * SpinnerOld.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  public static defaultProps: SpinnerProps = {
+  public static defaultProps: SpinnerOldProps = {
     type: 'normal',
   };
 
@@ -60,9 +60,9 @@ class Spinner extends React.Component<SpinnerProps> {
   private theme!: ITheme;
   private readonly locale!: SpinnerLocale;
 
-  public constructor(props: SpinnerProps) {
+  public constructor(props: SpinnerOldProps) {
     super(props);
-    warning(false, 'SpinnerOld is deprecated, will removed in 3.0 use Spinner instead');
+    warning(false, 'SpinnerOldOld is deprecated, will removed in 3.0 use SpinnerOld instead');
   }
 
   public render() {
@@ -82,15 +82,15 @@ class Spinner extends React.Component<SpinnerProps> {
     return (
       <div className={styles.spinner}>
         <span className={styles.inner}>
-          {hasSvgAnimationSupport && this.renderSpinner(type)}
-          {!hasSvgAnimationSupport && <SpinnerFallback type={type} dimmed={dimmed} />}
+          {hasSvgAnimationSupport && this.renderSpinnerOld(type)}
+          {!hasSvgAnimationSupport && <SpinnerOldFallback type={type} dimmed={dimmed} />}
         </span>
         {caption && this.renderCaption(type, caption)}
       </div>
     );
   }
 
-  private renderCloud = (type: Exclude<SpinnerType, 'mini'>) => {
+  private renderCloud = (type: Exclude<SpinnerOldType, 'mini'>) => {
     const cloudClassName = cx(
       styles.cloudStroke,
       this.props.dimmed ? jsStyles.cloudDimmed(this.theme) : jsStyles.cloud(this.theme),
@@ -98,7 +98,7 @@ class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <span className={styles.cloud}>
-        <SpinnerIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
+        <SpinnerOldIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
       </span>
     );
   };
@@ -107,14 +107,14 @@ class Spinner extends React.Component<SpinnerProps> {
     const theme = this.theme;
     const circleClassName = this.props.dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
 
-    return <SpinnerIcon size="mini" className={circleClassName} />;
+    return <SpinnerOldIcon size="mini" className={circleClassName} />;
   };
 
-  private renderSpinner = (type: SpinnerType) => {
+  private renderSpinnerOld = (type: SpinnerOldType) => {
     return type === 'mini' ? this.renderCircle() : this.renderCloud(type);
   };
 
-  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
+  private renderCaption = (type: SpinnerOldType, caption: React.ReactNode) => {
     const captionClassName = cx(
       styles.caption,
       jsStyles.caption(this.theme),
@@ -123,5 +123,3 @@ class Spinner extends React.Component<SpinnerProps> {
     return <span className={captionClassName}>{caption}</span>;
   };
 }
-
-export default Spinner;

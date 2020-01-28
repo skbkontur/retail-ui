@@ -3,31 +3,31 @@ import * as PropTypes from 'prop-types';
 import LayoutEvents from '../../lib/LayoutEvents';
 
 // Note SpinnerType нужен для генерации правильного .d.ts файла
-// @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
-import Spinner, { SpinnerType, SpinnerProps } from '../SpinnerOld';
+// @ts-ignore — Свойство "SpinnerOldType" объявлено, но его значение не было прочитано
+import { SpinnerOld, SpinnerOldType, SpinnerOldProps } from '../SpinnerOld';
 
-import styles from './Loader.module.less';
+import styles from './LoaderOld.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Loader.styles';
+import jsStyles from './LoaderOld.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import ZIndex from '../ZIndex';
 import warning from 'warning';
 
-export interface LoaderProps {
+export interface LoaderOldProps {
   children?: React.ReactNode;
   /**
    * Флаг переключения состояния лоадера
    * @default false
    */
   active: boolean;
-  caption?: SpinnerProps['caption'];
+  caption?: SpinnerOldProps['caption'];
   className?: string;
   type?: 'mini' | 'normal' | 'big';
 }
 
-export interface LoaderState {
+export interface LoaderOldState {
   isStickySpinner: boolean;
   spinnerStyle?: object;
 }
@@ -35,11 +35,11 @@ export interface LoaderState {
 /**
  * DRAFT - лоадер-контейнер
  */
-class Loader extends React.Component<LoaderProps, LoaderState> {
-  public static __KONTUR_REACT_UI__ = 'Loader';
+export class LoaderOld extends React.Component<LoaderOldProps, LoaderOldState> {
+  public static __KONTUR_REACT_UI__ = 'LoaderOld';
 
   public static defaultProps = {
-    type: Spinner.Types.normal,
+    type: SpinnerOld.Types.normal,
     active: false,
   };
 
@@ -54,7 +54,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
      *
      * "Загрузка" - значение по-умолчанию
      */
-    caption: Spinner.propTypes.caption,
+    caption: SpinnerOld.propTypes.caption,
 
     /**
      * Класс для обертки
@@ -68,7 +68,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
      *
      * Spinner.types - все доступные типы
      */
-    type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+    type: PropTypes.oneOf(Object.keys(SpinnerOld.Types)),
   };
 
   private theme!: ITheme;
@@ -77,9 +77,9 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
   private spinnerHeight?: number;
   private layoutEvents: Nullable<{ remove: () => void }>;
 
-  constructor(props: LoaderProps) {
+  constructor(props: LoaderOldProps) {
     super(props);
-    warning(false, 'LoaderOld is deprecated, will removed in 3.0 use Loader instead');
+    warning(false, 'LoaderOldOld is deprecated, will removed in 3.0 use LoaderOld instead');
 
     this.containerNode = null;
     this.spinnerNode = null;
@@ -152,7 +152,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
           this.spinnerNode = element;
         }}
       >
-        <Spinner type={type} caption={caption} />
+        <SpinnerOld type={type} caption={caption} />
       </span>
     );
   }
@@ -229,5 +229,3 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     });
   };
 }
-
-export default Loader;

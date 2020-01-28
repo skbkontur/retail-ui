@@ -3,26 +3,26 @@ import * as React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import LocaleProvider, { LangCodes } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
-import SpinnerIcon, { SPINNER_CLOUD_SIZE } from '../../internal/icons/SpinnerIconOld';
+import SpinnerOldIcon, { SPINNER_CLOUD_SIZE } from '../../internal/icons/SpinnerIconOld';
 
-import Spinner from '../Spinner';
-import styles from '../Spinner.less';
-import SpinnerFallback from '../SpinnerFallback';
+import { SpinnerOld } from '../SpinnerOld';
+import styles from '../SpinnerOld.less';
+import { SpinnerOldFallback } from '../SpinnerOldFallback';
 
-const render = (props = {}) => mount(<Spinner {...props} />);
+const render = (props = {}) => mount(<SpinnerOld {...props} />);
 const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
-describe('Spinner', () => {
+describe('SpinnerOld', () => {
   describe('SVG animation', () => {
     beforeEach(() => {
       require('../../../lib/utils').__setSvgAnimationSupport(true);
     });
 
-    it('renders default Spinner', () => {
+    it('renders default SpinnerOld', () => {
       render();
     });
 
-    it('renders correct size of default Spinner', () => {
+    it('renders correct size of default SpinnerOld', () => {
       const component = render();
       const cloudProps = component.find('svg').props();
       const { width, height } = cloudProps;
@@ -31,7 +31,7 @@ describe('Spinner', () => {
       expect(height).toEqual(SPINNER_CLOUD_SIZE.height);
     });
 
-    it('renders correct default Spinner caption text', () => {
+    it('renders correct default SpinnerOld caption text', () => {
       const component = render();
       const captionText = component.find(generateSelector('captionBottom')).text();
 
@@ -45,16 +45,16 @@ describe('Spinner', () => {
       expect(captionText).toEqual('test');
     });
 
-    it('should render mini Spinner', () => {
+    it('should render mini SpinnerOld', () => {
       const component = render({ type: 'mini' });
-      const circle = component.find(SpinnerIcon);
+      const circle = component.find(SpinnerOldIcon);
       const captionRight = component.find(generateSelector('captionRight'));
 
       expect(circle).toHaveLength(1);
       expect(captionRight).toHaveLength(1);
     });
 
-    it('should render big Spinner', () => {
+    it('should render big SpinnerOld', () => {
       const component = render({ type: 'big' });
       const cloud = component.find('svg');
       const { width, height } = cloud.props();
@@ -69,14 +69,14 @@ describe('Spinner', () => {
       require('../../../lib/utils').__setSvgAnimationSupport(false);
     });
 
-    it('renders default Spinner', () => {
+    it('renders default SpinnerOld', () => {
       expect(render).not.toThrow();
     });
 
-    it('renders correct size of default Spinner', () => {
+    it('renders correct size of default SpinnerOld', () => {
       const component = render();
       const cloudStyle = component
-        .find(SpinnerFallback)
+        .find(SpinnerOldFallback)
         .find('span')
         .prop('style');
 
@@ -87,11 +87,11 @@ describe('Spinner', () => {
       });
     });
 
-    it('renders correct top position of mini Spinner', () => {
+    it('renders correct top position of mini SpinnerOld', () => {
       const type = 'mini';
       const component = render({ type });
       const cloudStyle = component
-        .find(SpinnerFallback)
+        .find(SpinnerOldFallback)
         .find('span')
         .prop('style');
 
@@ -111,7 +111,7 @@ describe('Spinner', () => {
     };
 
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<Spinner />);
+      const wrapper = mount(<SpinnerOld />);
       const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
 
       expect(getTextLoading(wrapper)).toBe(expectedText);
@@ -120,7 +120,7 @@ describe('Spinner', () => {
     it('render default locale', () => {
       const wrapper = mount(
         <LocaleProvider>
-          <Spinner />
+          <SpinnerOld />
         </LocaleProvider>,
       );
       const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
@@ -131,7 +131,7 @@ describe('Spinner', () => {
     it('render correct locale when set langCode', () => {
       const wrapper = mount(
         <LocaleProvider langCode={LangCodes.en_GB}>
-          <Spinner />
+          <SpinnerOld />
         </LocaleProvider>,
       );
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
@@ -147,7 +147,7 @@ describe('Spinner', () => {
             Spinner: { loading: customText },
           }}
         >
-          <Spinner />
+          <SpinnerOld />
         </LocaleProvider>,
       );
 
@@ -157,7 +157,7 @@ describe('Spinner', () => {
     it('updates when langCode changes', () => {
       const wrapper = mount(
         <LocaleProvider>
-          <Spinner />
+          <SpinnerOld />
         </LocaleProvider>,
       );
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
