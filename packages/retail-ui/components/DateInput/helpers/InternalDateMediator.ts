@@ -1,12 +1,13 @@
 import { InternalDate } from '../../../lib/date/InternalDate';
-import InternalDateGetter from '../../../lib/date/InternalDateGetter';
-import InternalDateTransformer from '../../../lib/date/InternalDateTransformer';
+import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
+import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
 import { InternalDateComponentType, InternalDateTypesOrder, InternalDateValidateCheck } from '../../../lib/date/types';
 import { DatePickerLocale } from '../../DatePicker/locale';
 import { DateInputProps } from '../DateInput';
+
 import { inputNumber } from './inputNumber';
 
-export default class InternalDateMediator {
+export class InternalDateMediator {
   public iDate: InternalDate = new InternalDate();
 
   public update = (props: DateInputProps, locale: DatePickerLocale): InternalDateMediator => {

@@ -1,14 +1,13 @@
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import { storiesOf } from '@storybook/react';
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
-import { Nullable } from '../../../typings/utility-types';
-import Button from '../../Button/Button';
-import Logotype from '../../Logotype';
-import MenuItem from '../../MenuItem/MenuItem';
+import React from 'react';
 
-import TopBar from '../TopBar';
-import TopBarDropdown from '../TopBarDropdown';
+import { Nullable } from '../../../typings/utility-types';
+import { Button } from '../../Button';
+import { Logotype } from '../../Logotype';
+import { MenuItem } from '../../MenuItem';
+import { TopBar } from '../TopBar';
+import { TopBarDropdown } from '../TopBarDropdown';
 
 const Item = TopBar.Item;
 const Start = TopBar.Start;

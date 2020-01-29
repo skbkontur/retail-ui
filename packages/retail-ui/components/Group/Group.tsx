@@ -1,28 +1,24 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import Corners from '../Button/Corners';
-import '../ensureOldIEClassName';
-import styles from './Group.module.less';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { isIE11, isEdge } from '../../lib/utils';
+import { Corners } from '../Button/Corners';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
 import { cx } from '../../lib/theming/Emotion';
+
+import styles from './Group.module.less';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];
 }
 
-export interface GroupChildProps {
-  /** @deprecated */
-  mainInGroup?: boolean;
+interface GroupChildProps {
   width?: React.CSSProperties['width'];
   corners?: number;
 }
 
-/**
- * Главному *Input*, который должен занимать всю доступную ширину, нужно
- * передать свойство `mainInGroup`;
- */
-class Group extends React.Component<GroupProps> {
+export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
 
   public static propTypes = {
@@ -44,22 +40,14 @@ class Group extends React.Component<GroupProps> {
       }
     });
 
-    const rootCss = cx(styles.root, { [styles.hasWidth]: this.props.width !== undefined });
-
     return (
-      <span className={rootCss} style={style}>
+      <span className={styles.root} style={style}>
         {React.Children.map(this.props.children, child => {
           if (!child || !React.isValidElement<GroupChildProps>(child)) {
             return null;
           }
 
-          const childProps = child.props;
-
-          const wrapCss = cx({
-            [styles.wrap]: true,
-            [styles.fixed]: !childProps.mainInGroup,
-            [styles.stretch]: !!childProps.mainInGroup,
-          });
+          const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
           const itemCss = cx({
             [styles.item]: true,
             [styles.itemFirst]: child === first,
@@ -72,24 +60,19 @@ class Group extends React.Component<GroupProps> {
           if (child !== last) {
             corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
           }
-          let width = childProps.width;
-          if (childProps.mainInGroup) {
-            width = '100%';
+
+          if (isButton(child)) {
+            child = React.cloneElement(child, { corners });
           }
-
-          const cloneProps = {
-            width,
-            corners,
-          };
-
-          if (!isButton(child)) {
-            delete cloneProps.corners;
-          }
-
-          child = React.cloneElement(child, cloneProps);
 
           return (
-            <div className={wrapCss}>
+            <div
+              className={cx(styles.wrap, {
+                [styles.fixed]: !isWidthInPercent,
+                [styles.stretch]: isWidthInPercent,
+                [styles.stretchFallback]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
+              })}
+            >
               <div className={itemCss}>{child}</div>
             </div>
           );
@@ -98,5 +81,3 @@ class Group extends React.Component<GroupProps> {
     );
   }
 }
-
-export default Group;

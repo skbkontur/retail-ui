@@ -1,10 +1,11 @@
 import { defaultLangCode } from '../../components/LocaleProvider/constants';
+
 import { defaultDateComponentsOrder, defaultDateComponentsSeparator, emptyDateComponents } from './constants';
-import InternalDateCalculator from './InternalDateCalculator';
-import InternalDateGetter from './InternalDateGetter';
-import InternalDateSetter from './InternalDateSetter';
-import InternalDateTransformer from './InternalDateTransformer';
-import InternalDateValidator from './InternalDateValidator';
+import { InternalDateCalculator } from './InternalDateCalculator';
+import { InternalDateGetter } from './InternalDateGetter';
+import { InternalDateSetter } from './InternalDateSetter';
+import { InternalDateTransformer } from './InternalDateTransformer';
+import { InternalDateValidator } from './InternalDateValidator';
 import { internalDateLocale } from './localeSets';
 import {
   InternalDateChangeSettings,
@@ -83,7 +84,7 @@ export class InternalDate {
     return this;
   }
 
-  public setComponents(components: InternalDateComponentsRaw | null, isNativeMonth: boolean = false): InternalDate {
+  public setComponents(components: InternalDateComponentsRaw | null, isNativeMonth = false): InternalDate {
     if (components && isNativeMonth) {
       const clone = this.clone()
         .setComponents(components)
@@ -185,6 +186,7 @@ export class InternalDate {
     nextValue?: InternalDateComponentRaw;
     checks?: InternalDateValidateCheck[];
   } = {}): boolean {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     let self: InternalDate = this;
     if (type !== undefined) {
       const clone = this.clone();
@@ -260,9 +262,8 @@ export class InternalDate {
   public toString(settings: InternalDateToFragmentsSettings = {}): string {
     return this.toFragments({ withPad: true, withSeparator: true, ...settings })
       .filter(({ value }) => value !== null)
-      .map(
-        ({ type, valueWithPad, value }) =>
-          settings.withPad && type !== InternalDateComponentType.Separator ? valueWithPad : value,
+      .map(({ type, valueWithPad, value }) =>
+        settings.withPad && type !== InternalDateComponentType.Separator ? valueWithPad : value,
       )
       .join('');
   }
@@ -303,8 +304,8 @@ export class InternalDate {
         ? prev.year > 50 && prev.year < 100
           ? Number(prev.year) + 1900
           : prev.year > 0 && prev.year < 51
-            ? Number(prev.year) + 2000
-            : prev.year
+          ? Number(prev.year) + 2000
+          : prev.year
         : today.year;
     if (
       (type === null && restoreYear !== prev.year) ||

@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
-import Button from '../../Button';
-import Gapped from '../../Gapped';
-import { ButtonProps } from '../Button';
 import SearchIcon from '@skbkontur/react-icons/Search';
+
+import { Button, ButtonProps } from '../Button';
+import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../internal/ComponentTable';
 import { ComponentCombinator } from '../../internal/ComponentCombinator';
 
@@ -35,9 +35,9 @@ storiesOf('Button', module)
   ))
   .add('multiline text with link button', () => (
     <div>
-      "You can't keep boogieing like this. <br />
-      You'll come <Button use="link">down</Button> <br />
-      with a fever of some sort."
+      &quot;You can&apos;t keep boogieing like this. <br />
+      You&apos;ll come <Button use="link">down</Button> <br />
+      with a fever of some sort.&quot;
       <br />
       <i>Leela</i>
     </div>
@@ -177,9 +177,11 @@ const widthStates = getProps('width', [100, 'auto']);
 
 const visualStates = [{ narrow: true }, { borderless: true }].map(x => ({ props: x }));
 
-const contentStates = [{ icon: <SearchIcon /> }, { children: 'long-long-long text' }, { children: <SearchIcon /> }].map(
-  x => ({ props: x }),
-);
+const contentStates = [
+  { icon: <SearchIcon /> },
+  { children: 'long-long-long text' },
+  { children: <SearchIcon /> },
+].map(x => ({ props: x }));
 
 function getProps<TKey extends keyof ButtonProps>(
   key: TKey,

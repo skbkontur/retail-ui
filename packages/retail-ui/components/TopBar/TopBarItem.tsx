@@ -1,9 +1,11 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import CapIcon, { IconProps } from '../internal/icons/20px';
-import styles from './TopBar.module.less';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Icon, IconProps } from '../internal/icons/20px';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { cx } from '../../lib/theming/Emotion';
+
+import styles from './TopBar.module.less';
 
 export interface ItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -23,7 +25,7 @@ export interface ItemProps {
  * @visibleName TopBar.StaticItem
  */
 
-class Item extends React.Component<ItemProps> {
+export class Item extends React.Component<ItemProps> {
   public static __KONTUR_REACT_UI__ = 'TopBarItem';
 
   public static propTypes = {
@@ -61,7 +63,7 @@ class Item extends React.Component<ItemProps> {
       <div {...rest} className={cx(classes)} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
         {icon && (
           <span className={cx(iconClasses)}>
-            <CapIcon color="#666" name={icon} />
+            <Icon color="#666" name={icon} />
           </span>
         )}
         {icon && iconOnly ? null : children}
@@ -69,5 +71,3 @@ class Item extends React.Component<ItemProps> {
     );
   }
 }
-
-export default Item;

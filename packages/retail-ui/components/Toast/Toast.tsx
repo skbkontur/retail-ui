@@ -1,12 +1,13 @@
-import * as React from 'react';
-
-import RenderContainer from '../RenderContainer';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import ToastView, { ToastViewProps } from './ToastView';
-import ToastStatic from './ToastStatic';
-
 import './Toast.module.less';
+import React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+
+import { RenderContainer } from '../RenderContainer';
 import { Nullable } from '../../typings/utility-types';
+
+import { ToastView, ToastViewProps } from './ToastView';
+import { ToastStatic } from './ToastStatic';
+
 
 export interface Action {
   label: string;
@@ -33,7 +34,7 @@ export interface ToastProps {
  * Can be used like `Toast.push('message')` or
  * `Toast.push('message', {label: 'Cancel', handler: cancelHandler})`
  */
-class Toast extends React.Component<ToastProps, ToastState> {
+export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
 
   public static push(notification: string, action?: Action) {
@@ -142,8 +143,6 @@ class Toast extends React.Component<ToastProps, ToastState> {
     this._toast = element;
   };
 }
-
-export default Toast;
 
 function safelyCall(fn: Nullable<(a?: any) => any>, ...args: any[]) {
   if (fn) {

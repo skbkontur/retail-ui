@@ -1,7 +1,7 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import CurrencyLabel from '../CurrencyLabel';
+
+import { CurrencyLabel } from '../CurrencyLabel';
 
 storiesOf('CurrencyLabel', module)
   .add('simple', () => <CurrencyLabel value={12356.1} />)

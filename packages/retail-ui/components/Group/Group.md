@@ -1,8 +1,7 @@
-```jsx
+```jsx harmony
 import UndoIcon from '@skbkontur/react-icons/Undo';
 import FunctionIcon from '@skbkontur/react-icons/Function';
-import Button from '@skbkontur/react-ui/Button';
-import Input from '@skbkontur/react-ui/Input';
+import { Button, Input } from '@skbkontur/react-ui';
 
 let initialState = { auto: false };
 
@@ -20,7 +19,7 @@ if (!state.auto) {
 
 <Group width={300}>
   {auto}
-  <Input mainInGroup leftIcon={icon} onChange={e => setState({ auto: false })} />
+  <Input width="100%" leftIcon={icon} onChange={e => setState({ auto: false })} />
   <Button>Hey</Button>
   <Button>Ma</Button>
 </Group>;

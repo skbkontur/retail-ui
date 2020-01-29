@@ -1,21 +1,22 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Paging.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  dots(t: ITheme) {
+import styles from './Paging.module.less';
+
+export const jsStyles = {
+  dots(t: Theme) {
     return css`
       color: ${t.pagingDotsColor};
     `;
   },
 
-  forwardLink(t: ITheme) {
+  forwardLink(t: Theme) {
     return css`
       color: ${t.pagingForwardLinkColor};
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       .${styles.forwardLink}& {
         color: ${t.pagingForwardLinkDisabledColor};
@@ -23,7 +24,7 @@ const jsStyles = {
     `;
   },
 
-  pageLink(t: ITheme) {
+  pageLink(t: Theme) {
     return css`
       .${styles.pageLinkWrapper} & {
         color: ${t.pagingForwardLinkColor};
@@ -34,7 +35,7 @@ const jsStyles = {
     `;
   },
 
-  active(t: ITheme) {
+  active(t: Theme) {
     return css`
       .${styles.pageLinkWrapper} .${styles.pageLink}& {
         background: ${t.pagingPageLinkActiveBg};
@@ -43,7 +44,7 @@ const jsStyles = {
     `;
   },
 
-  focused(t: ITheme) {
+  focused(t: Theme) {
     return css`
       .${styles.pageLinkWrapper} .${styles.pageLink}& {
         border: solid 2px ${t.borderColorFocus};
@@ -51,7 +52,7 @@ const jsStyles = {
     `;
   },
 
-  pageLinkHint(t: ITheme) {
+  pageLinkHint(t: Theme) {
     return css`
       .${styles.pageLinkWrapper} & {
         color: ${t.pagingPageLinkHintColor};
@@ -59,5 +60,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

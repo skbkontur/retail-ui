@@ -1,10 +1,10 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
-import Gapped from '../../Gapped';
-import Button from '../../Button';
-import Toggle from '../../Toggle';
+
+import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
+import { Toggle } from '../../Toggle';
 import { Nullable } from '../../../typings/utility-types';
 
 interface CurrencyInputDemoProps {

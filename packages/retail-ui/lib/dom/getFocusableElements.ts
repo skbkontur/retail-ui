@@ -51,7 +51,7 @@ export const getFirstFocusableElement = (parent: Element | Document | null = doc
 export const getNextFocusableElement = (
   current: HTMLElement,
   parent: Element | Document | null = document,
-  recursive: boolean = true,
+  recursive = true,
 ): HTMLElement | null => {
   if (!parent || !parent.contains(current)) {
     return null;
@@ -86,5 +86,3 @@ export const getClosestFocusableElement = (current: HTMLElement | null): HTMLEle
 
   return tabbable.isFocusable(current) ? current : getClosestFocusableElement(current.parentElement);
 };
-
-export default getFocusableElements;

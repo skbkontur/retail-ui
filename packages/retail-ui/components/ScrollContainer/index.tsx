@@ -1,1 +1,1 @@
-export { default, ScrollContainerProps, ScrollContainerState } from './ScrollContainer';
+export { ScrollContainer, ScrollContainerProps, ScrollContainerState } from './ScrollContainer';

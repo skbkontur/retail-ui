@@ -1,38 +1,36 @@
 import { css } from '../../../lib/theming/Emotion';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
 
-const jsStyles = {
-  root(t: ITheme) {
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       padding-right: 10px;
     `;
   },
 
-  input(t: ITheme) {
+  input(t: Theme) {
     return css`
       position: absolute;
       top: 0;
     `;
   },
 
-  userSelectContain(t: ITheme) {
+  userSelectContain(t: Theme) {
     return css`
       user-select: text;
       -ms-user-select: element;
     `;
   },
 
-  userSelectNone(t: ITheme) {
+  userSelectNone(t: Theme) {
     return css`
       user-select: none;
     `;
   },
 
-  withoutLeftSide(t: ITheme) {
+  withoutLeftSide(t: Theme) {
     return css`
       padding-left: 10px;
     `;
   },
 };
-
-export default jsStyles;

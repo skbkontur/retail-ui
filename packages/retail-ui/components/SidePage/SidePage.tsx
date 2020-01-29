@@ -1,23 +1,26 @@
-import * as React from 'react';
-import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import LayoutEvents from '../../lib/LayoutEvents';
-import stopPropagation from '../../lib/events/stopPropagation';
-import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
-import ModalStack, { StackSubscription } from '../ModalStack';
-import RenderContainer from '../RenderContainer/RenderContainer';
-import RenderLayer from '../RenderLayer';
-import ZIndex from '../ZIndex';
-import { SidePageBodyWithContext, SidePageBodyProps } from './SidePageBody';
-import SidePageContainer from './SidePageContainer';
-import { SidePageContext } from './SidePageContext';
-import { SidePageFooterWithContext, SidePageFooter, SidePageFooterProps } from './SidePageFooter';
-import SidePageHeader from './SidePageHeader';
+import React from 'react';
 import { CSSTransition } from 'react-transition-group';
-import styles from './SidePage.module.less';
+
+import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { stopPropagation } from '../../lib/events/stopPropagation';
+import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
+import { ModalStack, StackSubscription } from '../ModalStack';
+import { RenderContainer } from '../RenderContainer';
+import { RenderLayer } from '../RenderLayer';
+import { ZIndex } from '../ZIndex';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { SidePageBodyProps, SidePageBodyWithContext } from './SidePageBody';
+import { SidePageContainer } from './SidePageContainer';
+import { SidePageContext } from './SidePageContext';
+import { SidePageFooter, SidePageFooterProps, SidePageFooterWithContext } from './SidePageFooter';
+import { SidePageHeader } from './SidePageHeader';
+import styles from './SidePage.module.less';
+import { jsStyles } from './SidePage.styles';
+
 
 export interface SidePageProps {
   /**
@@ -82,7 +85,7 @@ interface ZIndexPropsType {
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-class SidePage extends React.Component<SidePageProps, SidePageState> {
+export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
   public static Header = SidePageHeader;
@@ -90,7 +93,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
   public static Container = SidePageContainer;
   public state: SidePageState = {};
-  private theme!: ITheme;
+  private theme!: Theme;
   private stackSubscription: StackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
@@ -304,5 +307,3 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.footer = ref;
   };
 }
-
-export default SidePage;

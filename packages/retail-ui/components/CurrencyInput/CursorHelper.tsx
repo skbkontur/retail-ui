@@ -2,7 +2,7 @@ import { Selection } from './SelectionHelper';
 
 export type CursorMap = number[];
 
-export default class CursorHelper {
+export class CursorHelper {
   public static normalizePosition(map: CursorMap, position: number): number {
     return map[Math.min(Math.max(0, position), map.length - 1)];
   }

@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+
 import { RenderContainer } from '../RenderContainer/RenderContainer';
 
 export interface TextWidthHelperProps {
@@ -12,7 +13,7 @@ const styles: React.CSSProperties = {
   fontSize: 14,
 };
 
-export default class TextWidthHelper extends React.Component<TextWidthHelperProps> {
+export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
   public render() {

@@ -1,8 +1,10 @@
 const path = require('path');
 const { execSync } = require('child_process');
+
 const { eq, gt, gte, valid, diff } = require('semver');
-const { getRevisionID, getRevisionRefs } = require('../git');
 const { readJsonSync, writeJsonSync } = require('fs-extra');
+
+const { getRevisionID, getRevisionRefs } = require('../git');
 
 const TAGS = {
   UNSTABLE: 'unstable',
@@ -11,31 +13,6 @@ const TAGS = {
   LTS: 'lts',
 };
 const PACKAGE_JSON = path.join(__dirname, '../../package.json');
-
-const getPackageInfo = (configPath = PACKAGE_JSON) => {
-  const config = loadConfig(configPath);
-
-  const { npmVersions, npmTags } = fetchPackageData(config.name);
-  const { heads: revBranches, tags: revTags } = getRevisionRefs();
-  const distTag = getDistTag(config.version, npmTags, revBranches, revTags);
-
-  if (!distTag) {
-    console.log('Failed to determine the dist-tag.');
-    process.exit(-1);
-  }
-
-  const publishVersion = getPublishVersion(distTag, config.version, getRevisionID());
-  const homepage = getHomepage(distTag, publishVersion);
-
-  return {
-    publishVersion,
-    npmVersions,
-    npmTags,
-    distTag,
-    homepage,
-    config,
-  };
-};
 
 const loadConfig = (path = PACKAGE_JSON) => {
   return readJsonSync(path);
@@ -61,6 +38,24 @@ const fetchPackageData = packageName => {
     npmVersions,
     npmTags,
   };
+};
+
+const getPublishVersion = (distTag, version, hash) => {
+  return distTag !== TAGS.UNSTABLE ? version : `0.0.0-${hash.slice(0, 10)}`;
+};
+
+const getHomepage = (distTag, publishVersion) => {
+  const HOMEPAGE = 'https://tech.skbkontur.ru/react-ui/';
+  switch (distTag) {
+    case TAGS.UNSTABLE:
+      return `${HOMEPAGE}unstable/${publishVersion}/`;
+    default:
+      return `${HOMEPAGE}${publishVersion}/`;
+  }
+};
+
+const getReleaseTagName = version => {
+  return `retail-ui@${version}`;
 };
 
 const getDistTag = (version, npmTags, revBranches, revTags) => {
@@ -122,22 +117,29 @@ const getDistTag = (version, npmTags, revBranches, revTags) => {
   return OLD;
 };
 
-const getPublishVersion = (distTag, version, hash) => {
-  return distTag !== TAGS.UNSTABLE ? version : `0.0.0-${hash.slice(0, 10)}`;
-};
+const getPackageInfo = (configPath = PACKAGE_JSON) => {
+  const config = loadConfig(configPath);
 
-const getHomepage = (distTag, publishVersion) => {
-  const HOMEPAGE = 'https://tech.skbkontur.ru/react-ui/';
-  switch (distTag) {
-    case TAGS.UNSTABLE:
-      return `${HOMEPAGE}unstable/${publishVersion}/`;
-    default:
-      return `${HOMEPAGE}${publishVersion}/`;
+  const { npmVersions, npmTags } = fetchPackageData(config.name);
+  const { heads: revBranches, tags: revTags } = getRevisionRefs();
+  const distTag = getDistTag(config.version, npmTags, revBranches, revTags);
+
+  if (!distTag) {
+    console.log('Failed to determine the dist-tag.');
+    process.exit(-1);
   }
-};
 
-const getReleaseTagName = version => {
-  return `retail-ui@${version}`;
+  const publishVersion = getPublishVersion(distTag, config.version, getRevisionID());
+  const homepage = getHomepage(distTag, publishVersion);
+
+  return {
+    publishVersion,
+    npmVersions,
+    npmTags,
+    distTag,
+    homepage,
+    config,
+  };
 };
 
 module.exports = {

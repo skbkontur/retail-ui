@@ -1,13 +1,14 @@
 import { css } from '../../lib/theming/Emotion';
-import classes from './Button.module.less';
-import DimensionFunctions from '../../lib/styles/DimensionFunctions';
+import { shift } from '../../lib/styles/DimensionFunctions';
 
-const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset: number = 0): string => {
+import classes from './Button.module.less';
+
+const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset = 0): string => {
   let paddingTop = paddingY;
   let paddingBottom = paddingY;
 
   const shiftUp = (top: string, bottom: string, offset: number) => {
-    return [DimensionFunctions.shift(top, `${-offset}`), DimensionFunctions.shift(bottom, `${offset}`)];
+    return [shift(top, `${-offset}`), shift(bottom, `${offset}`)];
   };
 
   if (fontSize === '16px') {
@@ -131,11 +132,11 @@ export const buttonSizeMixin = (
     font-size: ${fontSize};
 
     &:not(.${classes.link}) {
-      height: ${DimensionFunctions.shift(height, heightShift)};
+      height: ${shift(height, heightShift)};
       padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
       line-height: ${lineHeight};
 
-      .rt-ie-any & {
+      &.${classes.fallback} {
         padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
       }
     }

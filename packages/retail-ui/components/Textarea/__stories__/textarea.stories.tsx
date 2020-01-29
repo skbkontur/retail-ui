@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Textarea from '../Textarea';
-import Button from '../../Button';
+import { Textarea } from '../Textarea';
+import { Button } from '../../Button';
 
 interface AutoresizableTextareaState {
   value: string | null;

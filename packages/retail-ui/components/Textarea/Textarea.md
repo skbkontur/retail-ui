@@ -1,4 +1,4 @@
-```jsx
+```jsx harmony
 let initialState = { value: '' };
 <Textarea
   value={state.value}

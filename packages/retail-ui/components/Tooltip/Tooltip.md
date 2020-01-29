@@ -1,14 +1,10 @@
 Отступы в тултипе подобраны так, чтобы базовая линия текста со шрифтом Segoe UI в тултипе совпадала с базовой линией стандартных контролов
 
-```jsx
+```jsx harmony
 import SearchIcon from '@skbkontur/react-icons/Search';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
-import Tooltip from '@skbkontur/react-ui/Tooltip';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Select from '@skbkontur/react-ui/Select';
-import Input from '@skbkontur/react-ui/Input';
-import Button from '@skbkontur/react-ui/Button';
+import { Button, Gapped, Input, Select, Tooltip } from '@skbkontur/react-ui';
 
 const initialState = {
   size: 'small',
@@ -56,11 +52,8 @@ const render = () => (
 
 Тултип может располагаться в одной из 12 позиции и триггериться одним из 5 способов
 
-```jsx
-import Tooltip from '@skbkontur/react-ui/Tooltip';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Center from '@skbkontur/react-ui/Center';
-import Select from '@skbkontur/react-ui/Select';
+```jsx harmony
+import { Center, Gapped, Select, Tooltip } from '@skbkontur/react-ui';
 
 const S = 60;
 
@@ -142,8 +135,8 @@ let initialState = {
 
 Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендерится в совершенно другом месте приложения
 
-```jsx
-import Tooltip from '@skbkontur/react-ui/Tooltip';
+```jsx harmony
+import { Tooltip } from '@skbkontur/react-ui';
 
 const S = 60;
 const blockStyle = {

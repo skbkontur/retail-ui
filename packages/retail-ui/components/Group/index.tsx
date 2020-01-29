@@ -1,1 +1,1 @@
-export { default, GroupProps, GroupChildProps } from './Group';
+export { Group, GroupProps } from './Group';

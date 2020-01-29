@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { Nullable } from '../../typings/utility-types';
+
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
 interface RenderInnerContainerProps extends RenderContainerProps {
@@ -14,6 +16,7 @@ export function Portal(props: PortalProps) {
 
 export class RenderInnerContainer extends React.Component<RenderInnerContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
+
   public render() {
     if (this.props.children) {
       if (!this.props.domContainer) {

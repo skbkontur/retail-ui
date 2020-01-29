@@ -1,7 +1,0 @@
-/* @flow */
-// eslint-disable-next-line no-unused-vars
-import MenuItem from '../../MenuItem';
-
-declare function isActiveElement(arg: mixed): boolean %checks(arg instanceof MenuItem);
-
-export default isActiveElement;

@@ -1,9 +1,0 @@
-/* @flow */
-export type UserProps = {|
-  userName: string,
-  cabinetUrl?: string,
-|};
-
-declare class User extends React$Component<UserProps> {}
-
-export default User;

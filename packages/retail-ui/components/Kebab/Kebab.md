@@ -1,8 +1,7 @@
-```jsx
+```jsx harmony
 import EditIcon from '@skbkontur/react-icons/Edit';
 import TrashIcon from '@skbkontur/react-icons/Trash';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import MenuItem from '@skbkontur/react-ui/MenuItem';
+import { Gapped, MenuItem } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',

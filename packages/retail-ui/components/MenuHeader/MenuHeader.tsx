@@ -1,11 +1,13 @@
-import * as React from 'react';
-import styles from './MenuHeader.module.less';
+import React from 'react';
+
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './MenuHeader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './MenuHeader.styles';
+import styles from './MenuHeader.module.less';
 
 export interface MenuHeaderProps {
   _enableIconPadding?: Nullable<boolean>;
@@ -14,7 +16,7 @@ export interface MenuHeaderProps {
 /**
  * Заголовок в меню.
  */
-export default class MenuHeader extends React.Component<MenuHeaderProps> {
+export class MenuHeader extends React.Component<MenuHeaderProps> {
   public static __KONTUR_REACT_UI__ = 'MenuHeader';
   public static __MENU_HEADER__ = true;
 
@@ -22,7 +24,7 @@ export default class MenuHeader extends React.Component<MenuHeaderProps> {
     _enableIconPadding: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private getProps = createPropsGetter(MenuHeader.defaultProps);
 
   public render() {

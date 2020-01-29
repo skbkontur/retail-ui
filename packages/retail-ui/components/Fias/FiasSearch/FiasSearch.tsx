@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
+
 import { FiasLocale, FiasLocaleHelper } from '../locale';
-import { FiasComboBox, FiasComboBoxProps, FiasComboBoxChangeEvent } from '../Form/FiasComboBox';
-import { Address } from '../models/Address';
-import { Fields, APIProvider, SearchOptions, AddressResponse } from '../types';
+import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from '../Form/FiasComboBox';
+import { AddressResponse, APIProvider, Fields, SearchOptions } from '../types';
 import { locale } from '../../LocaleProvider/decorators';
-import filterProps from '../../filterProps';
+import { filterProps } from '../../filterProps';
+
+import { Address } from '..';
 
 const COMBOBOX_PASS_PROPS = {
   limit: true,
@@ -31,7 +33,7 @@ const COMBOBOX_PASS_PROPS = {
   onMouseLeave: true,
 };
 
-export interface FiasSearchChangeEvent extends FiasComboBoxChangeEvent {}
+export type FiasSearchChangeEvent = FiasComboBoxChangeEvent;
 
 export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
   api: APIProvider;
@@ -116,5 +118,3 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     });
   };
 }
-
-export default FiasSearch;

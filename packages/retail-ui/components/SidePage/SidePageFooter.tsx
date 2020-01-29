@@ -1,12 +1,14 @@
-import * as React from 'react';
-import { SidePageContext, SidePageContextType } from './SidePageContext';
-import styles from './SidePage.module.less';
-import LayoutEvents from '../../lib/LayoutEvents';
+import React from 'react';
+
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { withContext } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './SidePage.styles';
+import styles from './SidePage.module.less';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageFooterProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -30,7 +32,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     fixed: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private content: HTMLElement | null = null;
   private wrapper: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;

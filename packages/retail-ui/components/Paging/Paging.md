@@ -6,7 +6,7 @@
 
 Навигационные подсказки появляются когда доступно управление с клавиатуры и `withoutNavigationHint != true`
 
-```jsx
+```jsx harmony
 class Paginator3000 extends React.Component {
   constructor() {
     super();

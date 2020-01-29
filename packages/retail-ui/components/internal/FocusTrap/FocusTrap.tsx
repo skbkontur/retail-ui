@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { findDOMNode } from 'react-dom';
-import listenFocusOutside, { containsTargetOrRenderContainer } from '../../../lib/listenFocusOutside';
+
+import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../../lib/listenFocusOutside';
 
 export interface FocusTrapProps {
   children: React.ReactElement<any>;
   onBlur?: (event: FocusEvent) => void;
 }
 
-export default class FocusTrap extends React.PureComponent<FocusTrapProps> {
+export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public static __KONTUR_REACT_UI__ = 'FocusTrap';
 
   private focusOutsideListenerToken: {

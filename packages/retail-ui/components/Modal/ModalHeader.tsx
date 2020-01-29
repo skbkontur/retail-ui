@@ -1,13 +1,15 @@
-import * as React from 'react';
-import { ModalContext, CloseProps } from './ModalContext';
-import Sticky from '../Sticky';
-import Close from './ModalClose';
-import styles from './Modal.module.less';
+import React from 'react';
+
+import { Sticky } from '../Sticky';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
-import ZIndex from '../ZIndex';
+import { Theme } from '../../lib/theming/Theme';
+import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './Modal.styles';
+import styles from './Modal.module.less';
+import { ModalClose } from './ModalClose';
+import { CloseProps, ModalContext } from './ModalContext';
 
 export interface HeaderProps {
   close?: boolean;
@@ -26,7 +28,7 @@ export class Header extends React.Component<HeaderProps> {
     sticky: true,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render(): JSX.Element {
     return (
@@ -67,7 +69,7 @@ export class Header extends React.Component<HeaderProps> {
       >
         {close && (
           <div className={styles.absoluteClose}>
-            <Close requestClose={close.requestClose} disableClose={close.disableClose} />
+            <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />
           </div>
         )}
         {this.props.children}

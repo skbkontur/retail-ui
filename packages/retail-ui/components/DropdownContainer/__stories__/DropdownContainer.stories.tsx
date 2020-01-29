@@ -1,12 +1,12 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import MenuItem from '../../MenuItem';
-import Toggle from '../../Toggle';
-import DropdownContainer, { DropdownContainerProps } from '../DropdownContainer';
 import { findDOMNode } from 'react-dom';
-import Menu from '../../Menu/Menu';
-import Button from '../../Button/Button';
+
+import { MenuItem } from '../../MenuItem';
+import { Toggle } from '../../Toggle';
+import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
+import { Menu } from '../../Menu';
+import { Button } from '../../Button';
 
 storiesOf('DropdownContainer', module).add('various aligns, portals, items and scrolls', () => (
   <VariousAlignsPortalsItemsAndScrolls />

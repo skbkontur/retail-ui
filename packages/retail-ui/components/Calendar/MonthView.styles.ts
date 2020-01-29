@@ -1,18 +1,16 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  headerSticky(t: ITheme) {
+export const jsStyles = {
+  headerSticky(t: Theme) {
     return css`
       background-color: ${t.calendarMonthHeaderStickedBgColor};
     `;
   },
 
-  monthTitle(t: ITheme) {
+  monthTitle(t: Theme) {
     return css`
       border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
     `;
   },
 };
-
-export default jsStyles;

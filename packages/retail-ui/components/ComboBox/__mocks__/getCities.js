@@ -7,7 +7,7 @@ const citiesFilterPredicate = query => city =>
 
 const maxItems = 5;
 
-const getCities = query => {
+export const getCities = query => {
   const items = kladr.filter(citiesFilterPredicate(query));
   const result = items.slice(0, maxItems);
   return Promise.resolve({
@@ -15,5 +15,3 @@ const getCities = query => {
     totalCount: items.length,
   }).then(delay(300));
 };
-
-export default getCities;

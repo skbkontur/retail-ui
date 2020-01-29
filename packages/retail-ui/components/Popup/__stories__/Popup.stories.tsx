@@ -1,13 +1,13 @@
-// tslint:disable:jsx-no-lambda
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Popup, { PopupPosition } from '../Popup';
+
+import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
-import Tooltip from '../../Tooltip';
-import ComboBox from '../../ComboBox';
-import Hint from '../../Hint';
-import Select from '../../Select';
-import RenderLayer from '../../RenderLayer';
+import { Tooltip } from '../../Tooltip';
+import { ComboBox } from '../../ComboBox';
+import { Hint } from '../../Hint';
+import { Select } from '../../Select';
+import { RenderLayer } from '../../RenderLayer';
 
 storiesOf('Popup', module)
   .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
@@ -389,16 +389,19 @@ const renderPopupContent = () => {
   return <span>Popup content</span>;
 };
 
-const COMBOBOX_ITEMS = [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }];
+const COMBOBOX_ITEMS = [
+  { value: 1, label: 'First' },
+  { value: 2, label: 'Second' },
+];
 const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
-interface IDropdownValue {
+interface DropdownValue {
   value: number;
   label: string;
 }
 interface HasDropdownState {
-  selected?: IDropdownValue;
+  selected?: DropdownValue;
 }
 
 interface HoverTestProps {
@@ -435,7 +438,7 @@ class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
       </Tooltip>
     );
   }
-  private handleOnChange = (event: any, value: IDropdownValue) => {
+  private handleOnChange = (event: any, value: DropdownValue) => {
     this.setState({ selected: value });
   };
 }
@@ -451,7 +454,7 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
         {this.props.useText ? (
           'Sample text'
         ) : (
-          <Select<IDropdownValue>
+          <Select<DropdownValue>
             size={'large'}
             items={SELECT_ITEMS}
             value={this.state.selected}
@@ -462,7 +465,7 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
       </Hint>
     );
   }
-  private handleOnChange = (event: any, value: IDropdownValue) => {
+  private handleOnChange = (event: any, value: DropdownValue) => {
     this.setState({ selected: value });
   };
 }

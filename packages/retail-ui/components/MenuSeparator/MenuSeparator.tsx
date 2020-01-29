@@ -1,17 +1,19 @@
-import * as React from 'react';
-import styles from './MenuSeparator.module.less';
+import React from 'react';
+
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './MenuSeparator.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './MenuSeparator.styles';
+import styles from './MenuSeparator.module.less';
 
 /**
  * Разделитель в меню.
  */
-export default class MenuSeparator extends React.Component<{}> {
+export class MenuSeparator extends React.Component<{}> {
   public static __KONTUR_REACT_UI__ = 'MenuSeparator';
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

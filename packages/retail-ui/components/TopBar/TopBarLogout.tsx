@@ -1,6 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+
 import { locale } from '../LocaleProvider/decorators';
-import ButtonItem, { ButtonItemProps } from './TopBarButtonItem';
+
+import { ButtonItem, ButtonItemProps } from './TopBarButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
 /**
@@ -9,7 +11,7 @@ import { TopBarLocale, TopBarLocaleHelper } from './locale';
  * @visibleName TopBar.Logout
  */
 @locale('TopBar', TopBarLocaleHelper)
-class Logout extends React.Component<ButtonItemProps> {
+export class Logout extends React.Component<ButtonItemProps> {
   public static __KONTUR_REACT_UI__ = 'TopBarLogout';
 
   public static defaultProps = ButtonItem.defaultProps;
@@ -19,5 +21,3 @@ class Logout extends React.Component<ButtonItemProps> {
     return <ButtonItem {...this.props}>{this.props.children || this.locale.logout}</ButtonItem>;
   }
 }
-
-export default Logout;

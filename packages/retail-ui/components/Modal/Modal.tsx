@@ -1,31 +1,32 @@
-import * as React from 'react';
+import React from 'react';
 import FocusLock from 'react-focus-lock';
+
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import LayoutEvents from '../../lib/LayoutEvents';
-import RenderContainer from '../RenderContainer/RenderContainer';
-import ZIndex from '../ZIndex/ZIndex';
-import stopPropagation from '../../lib/events/stopPropagation';
-import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
-import ModalStack, { StackSubscription } from '../ModalStack';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { RenderContainer } from '../RenderContainer';
+import { ZIndex } from '../ZIndex';
+import { stopPropagation } from '../../lib/events/stopPropagation';
+import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
+import { ModalStack, StackSubscription } from '../ModalStack';
+import { ResizeDetector } from '../internal/ResizeDetector';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+import { isIE11 } from '../../lib/utils';
+
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { Footer } from './ModalFooter';
 import { Header } from './ModalHeader';
-import { isFooter, isHeader } from './helpers';
+import { isBody, isFooter, isHeader } from './helpers';
 import { Body } from './ModalBody';
-import Close from './ModalClose';
-import ResizeDetector from '../internal/ResizeDetector';
-import { isIE } from '../ensureOldIEClassName';
+import { ModalClose } from './ModalClose';
 import styles from './Modal.module.less';
-import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Modal.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
-import { isBody } from './helpers';
+import { jsStyles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
 // NOTE: в ie нормально не работает
-const isDisableFocusLock = isIE;
+const isDisableFocusLock = isIE11;
 
 export interface ModalProps {
   /**
@@ -75,7 +76,7 @@ export interface ModalState {
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
-export default class Modal extends React.Component<ModalProps, ModalState> {
+export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
   public static Header = Header;
@@ -99,7 +100,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
     horizontalScroll: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private stackSubscription: StackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
@@ -216,7 +217,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
                   <FocusLock disabled={isDisableFocusLock} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
                       <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
-                        <Close requestClose={this.requestClose} disableClose={this.props.disableClose} />
+                        <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
                       </ZIndex>
                     ) : null}
                     <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>

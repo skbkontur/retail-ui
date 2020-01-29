@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
-import MenuItem from '../../MenuItem';
-import MenuHeader from '../../MenuHeader';
-import MenuSeparator from '../../MenuSeparator';
-import TooltipMenu from '../TooltipMenu';
-import Button from '../../Button';
+import { MenuItem } from '../../MenuItem';
+import { MenuHeader } from '../../MenuHeader';
+import { MenuSeparator } from '../../MenuSeparator';
+import { TooltipMenu } from '../TooltipMenu';
+import { Button } from '../../Button';
 
 storiesOf('TooltipMenu', module)
   .addDecorator(story => (

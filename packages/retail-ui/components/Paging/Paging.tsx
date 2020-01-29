@@ -1,21 +1,22 @@
-import * as React from 'react';
-import { number, func } from 'prop-types';
+import React from 'react';
+import { func, number } from 'prop-types';
+
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { isIE } from '../ensureOldIEClassName';
 import { locale } from '../LocaleProvider/decorators';
-import { PagingLocale, PagingLocaleHelper } from './locale';
-import PagingHelper from './PagingHelper';
-import NavigationHelper from './NavigationHelper';
 import { Nullable } from '../../typings/utility-types';
-import tabListener from '../../lib/events/tabListener';
-import { emptyHandler } from '../../lib/utils';
-import styles from './Paging.module.less';
+import { tabListener } from '../../lib/events/tabListener';
+import { emptyHandler, isIE11 } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Paging.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
-import warning from 'warning';
+import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../internal/icons/16px';
+
+import { jsStyles } from './Paging.styles';
+import styles from './Paging.module.less';
+import * as NavigationHelper from './NavigationHelper';
+import { getItems } from './PagingHelper';
+import { PagingLocale, PagingLocaleHelper } from './locale';
+
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
 interface ItemComponentProps {
@@ -37,10 +38,6 @@ export interface PagingProps {
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
-  /**
-   * @deprecated используйте проп `caption` или `LocaleProvider`
-   */
-  strings?: { forward: string };
   /**
    * Отключает навигационные подсказки.
    * По-умолчанию подсказки появляются, когда доступно управление с клавиатуры
@@ -66,7 +63,7 @@ export interface PagingState {
 export type ItemType = number | '.' | 'forward';
 
 @locale('Paging', PagingLocaleHelper)
-export default class Paging extends React.Component<PagingProps, PagingState> {
+export class Paging extends React.Component<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
   public static defaultProps = {
@@ -88,23 +85,19 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
     keyboardControl: this.props.useGlobalListener,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: PagingLocale;
-  private addedGlobalListener: boolean = false;
+  private addedGlobalListener = false;
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
-    const { useGlobalListener, strings } = this.props;
+    const { useGlobalListener } = this.props;
     if (useGlobalListener) {
       this.addGlobalListener();
     }
-    warning(
-      strings === undefined,
-      '[Paging]: `strings` prop is deprecated, please use `caption` or `LocaleProvider` instead',
-    );
   }
 
-  public componentWillReceiveProps(nextProps: PagingProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: PagingProps) {
     if (this.props.useGlobalListener !== nextProps.useGlobalListener) {
       this.setState({
         keyboardControl: nextProps.useGlobalListener,
@@ -185,7 +178,8 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
       [styles.disabled]: disabled,
       [jsStyles.disabled(this.theme)]: disabled,
     });
-    const { component: Component, strings: { forward = this.locale.forward } = {}, caption } = this.props;
+    const { component: Component, caption } = this.props;
+    const { forward } = this.locale;
 
     return (
       <Component
@@ -253,7 +247,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private handleMouseDownPageLink = () => {
-    if (isIE) {
+    if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
       setTimeout(() => this.container && this.container.focus(), 0);
@@ -326,7 +320,7 @@ export default class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private getItems = (): ItemType[] => {
-    return PagingHelper.getItems(this.props.activePage, this.props.pagesCount).concat('forward');
+    return getItems(this.props.activePage, this.props.pagesCount).concat('forward');
   };
 
   private getFocusedItem = (): Nullable<ItemType> => {

@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { shallow, mount } from 'enzyme';
-import DropdownMenu from '../';
-import MenuItem from '../../MenuItem';
+import React from 'react';
+import { mount, shallow } from 'enzyme';
+
+import { DropdownMenu } from '../DropdownMenu';
+import { MenuItem } from '../../MenuItem';
 
 describe('<DropdownMenu />', () => {
   beforeEach(() => {
@@ -56,7 +57,6 @@ describe('<DropdownMenu />', () => {
     const wrapper = mount(
       <DropdownMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem
-          // tslint:disable-next-line:jsx-no-lambda
           onClick={() => {
             testText = 'Bar foo';
           }}

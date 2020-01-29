@@ -1,5 +1,5 @@
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped vertical>
   <Logotype suffix="edi" color="#1E79BE" />

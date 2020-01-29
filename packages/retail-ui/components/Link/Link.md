@@ -1,6 +1,5 @@
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Link from '@skbkontur/react-ui/Link';
+```jsx harmony
+import { Gapped, Link } from '@skbkontur/react-ui';
 
 <Gapped>
   <Link>Enabled</Link>

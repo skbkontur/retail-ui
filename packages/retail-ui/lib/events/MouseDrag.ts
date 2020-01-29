@@ -5,7 +5,7 @@ enum MouseDragEventType {
   Leave = 'mousedragleave',
 }
 
-interface MouseDragEvent extends MouseEvent {}
+type MouseDragEvent = MouseEvent
 
 type HandlerNative<E = MouseEvent> = (e: E) => void;
 type Handler = (e: MouseDragEvent) => void;
@@ -45,7 +45,7 @@ document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
  *   mouseDrag_1.stop();
  * ```
  */
-export default class MouseDrag {
+export class MouseDrag {
   // Радиус окружности, который необходимо преодолеть мышью, чтобы вызвалось событие `MouseDragStart`
   public static readonly RADIUS: number = 5; // px
 
@@ -69,8 +69,8 @@ export default class MouseDrag {
   };
 
   private mouseDragStartEvent?: MouseDragEvent;
-  private clicked: boolean = false;
-  private dragging: boolean = false;
+  private clicked = false;
+  private dragging = false;
 
   private x1?: number;
   private y1?: number;

@@ -1,1 +1,1 @@
-export { default, GappedProps } from './Gapped';
+export { Gapped, GappedProps } from './Gapped';

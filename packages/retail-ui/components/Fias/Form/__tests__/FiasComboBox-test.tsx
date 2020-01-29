@@ -1,9 +1,9 @@
-// tslint:disable:jsx-no-lambda
 import React from 'react';
-import FiasComboBox from '../FiasComboBox';
-import { delay } from '../../../../lib/utils';
 import { mount } from 'enzyme';
-import Menu from '../../../Menu/Menu';
+
+import { FiasComboBox } from '../FiasComboBox';
+import { delay } from '../../../../lib/utils';
+import { Menu } from '../../../Menu';
 import { Address } from '../../models/Address';
 
 function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<T>] {
@@ -59,12 +59,12 @@ describe('FiasComboBox', () => {
       expect(wrapper.find(Menu).containsMatchingElement(<mark>е</mark>)).toBe(true);
     });
 
-    it.each([['keeps uppercase letters', 'Ека'], ['escapes regexp spec chars', '\\^$*+?.()|[]{}']])(
-      '%s',
-      async (title, searchQuery) => {
-        await setSearchQuery(searchQuery);
-        expect(wrapper.find(Menu).containsMatchingElement(<mark>{searchQuery}</mark>)).toBe(true);
-      },
-    );
+    it.each([
+      ['keeps uppercase letters', 'Ека'],
+      ['escapes regexp spec chars', '\\^$*+?.()|[]{}'],
+    ])('%s', async (title, searchQuery) => {
+      await setSearchQuery(searchQuery);
+      expect(wrapper.find(Menu).containsMatchingElement(<mark>{searchQuery}</mark>)).toBe(true);
+    });
   });
 });

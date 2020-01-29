@@ -1,7 +1,8 @@
-import * as React from 'react';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Input } from 'retail-ui/components/Input';
+
 import { ValidationContainer, ValidationWrapper } from '../../../../src';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface State {
   value: string;

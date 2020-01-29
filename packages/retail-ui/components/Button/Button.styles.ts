@@ -1,7 +1,8 @@
 import { css, keyframes } from '../../lib/theming/Emotion';
-import classes from './Button.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
+
+import classes from './Button.module.less';
 import {
   buttonUseMixin,
   buttonHoverMixin,
@@ -21,8 +22,8 @@ const btn_loading_arrow = keyframes`
 }
 `;
 
-const jsClasses = {
-  root(t: ITheme) {
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       ${resetButton()};
       ${resetText()};
@@ -34,7 +35,7 @@ const jsClasses = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       .${classes.root}:not(.${classes.link}) & {
         box-shadow: 0 0 0 2px ${t.borderColorWarning};
@@ -42,7 +43,7 @@ const jsClasses = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       .${classes.root}:not(.${classes.link}) & {
         box-shadow: 0 0 0 2px ${t.borderColorError};
@@ -53,7 +54,7 @@ const jsClasses = {
     `;
   },
 
-  sizeSmall(t: ITheme) {
+  sizeSmall(t: Theme) {
     return css`
       border-radius: ${t.btnSmallBorderRadius};
 
@@ -90,7 +91,7 @@ const jsClasses = {
     `;
   },
 
-  sizeMedium(t: ITheme) {
+  sizeMedium(t: Theme) {
     return css`
       ${buttonSizeMixin(
         t.btnFontSizeMedium,
@@ -114,7 +115,7 @@ const jsClasses = {
     `;
   },
 
-  sizeLarge(t: ITheme) {
+  sizeLarge(t: Theme) {
     return css`
       ${buttonSizeMixin(
         t.btnFontSizeLarge,
@@ -139,7 +140,7 @@ const jsClasses = {
     `;
   },
 
-  link(t: ITheme) {
+  link(t: Theme) {
     return css`
       &.${classes.link} {
         color: ${t.linkColor};
@@ -156,7 +157,7 @@ const jsClasses = {
     `;
   },
 
-  focus(t: ITheme) {
+  focus(t: Theme) {
     return css`
       .${classes.link}& {
         color: ${t.linkColor};
@@ -194,7 +195,7 @@ const jsClasses = {
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       .${classes.wrap} .${classes.root}&:not(.${classes.link}) {
         background: ${t.btnDisabledBg};
@@ -221,7 +222,7 @@ const jsClasses = {
     `;
   },
 
-  arrow_warning(t: ITheme) {
+  arrow_warning(t: Theme) {
     return css`
       .${classes.wrap} .${classes.root} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
@@ -229,7 +230,7 @@ const jsClasses = {
     `;
   },
 
-  arrow_error(t: ITheme) {
+  arrow_error(t: Theme) {
     return css`
       .${classes.wrap} .${classes.root} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorError};
@@ -237,7 +238,7 @@ const jsClasses = {
     `;
   },
 
-  default(t: ITheme) {
+  default(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnDefaultBg,
@@ -287,7 +288,7 @@ const jsClasses = {
     `;
   },
 
-  primary(t: ITheme) {
+  primary(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnPrimaryBg,
@@ -325,7 +326,7 @@ const jsClasses = {
     `;
   },
 
-  success(t: ITheme) {
+  success(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnSuccessBg,
@@ -363,7 +364,7 @@ const jsClasses = {
     `;
   },
 
-  danger(t: ITheme) {
+  danger(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnDangerBg,
@@ -401,7 +402,7 @@ const jsClasses = {
     `;
   },
 
-  pay(t: ITheme) {
+  pay(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnPayBg,
@@ -439,7 +440,7 @@ const jsClasses = {
     `;
   },
 
-  checked(t: ITheme) {
+  checked(t: Theme) {
     return css`
       &.${classes.root} {
         &,
@@ -466,7 +467,7 @@ const jsClasses = {
     `;
   },
 
-  wrap(t: ITheme) {
+  wrap(t: Theme) {
     return css`
       padding: ${t.btnWrapPadding};
     `;
@@ -506,5 +507,3 @@ const jsClasses = {
     `;
   },
 };
-
-export default jsClasses;

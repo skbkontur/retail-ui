@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import Input, { InputSize } from '../Input';
-import Button from '../../Button';
-import Gapped from '../../Gapped';
+import { Input, InputSize } from '../Input';
+import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
 
 const styles = {
   display: 'inline-block',
@@ -128,7 +128,7 @@ storiesOf('Input', module)
       <table style={{ borderSpacing: 10 }}>
         <tr>
           <td />
-          <td>width: "auto"</td>
+          <td>width: &quot;auto&quot;</td>
           <td>width: 100px</td>
           <td>width: 350px</td>
         </tr>

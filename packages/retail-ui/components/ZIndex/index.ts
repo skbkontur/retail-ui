@@ -1,1 +1,1 @@
-export { default, ZIndexProps } from './ZIndex';
+export { ZIndex, ZIndexProps } from './ZIndex';

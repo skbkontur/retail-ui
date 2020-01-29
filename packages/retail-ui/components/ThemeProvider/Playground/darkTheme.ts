@@ -1,4 +1,4 @@
-export default {
+export const darkTheme = {
   /*BEGIN: custom fields for playground*/
   backgroundMain: '#000',
   textColorMain: '#fff',

@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
-import styles from './MaskedInput.module.less';
-import jsStyles from './MaskedInput.styles';
+
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeConsumer } from '../../ThemeConsumer';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
+
+import { jsStyles } from './MaskedInput.styles';
+import styles from './MaskedInput.module.less';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -22,11 +24,11 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-export default class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
+export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
   public input: HTMLInputElement | null = null;
-  private theme!: ITheme;
+  private theme!: Theme;
   private reactInputMask: ReactInputMask | null = null;
 
   public constructor(props: MaskedInputProps) {
@@ -46,7 +48,7 @@ export default class MaskedInput extends React.Component<MaskedInputProps, Maske
     }
   }
 
-  public componentWillReceiveProps(nextProps: MaskedInputProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: MaskedInputProps) {
     if (this.props.value !== nextProps.value) {
       this.setState({
         value: nextProps.value ? nextProps.value.toString() : '',

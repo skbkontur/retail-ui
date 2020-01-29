@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import warningOutput from 'warning';
-import styles from './Token.module.less';
-import CrossIcon from '../internal/icons/CrossIcon';
+
+import { CrossIcon } from '../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles, { jsTokenColors } from './Token.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles, jsTokenColors } from './Token.styles';
+import styles from './Token.module.less';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -30,7 +32,13 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export interface TokenActions {
+export interface TokenProps {
+  colors?: TokenColors;
+  isActive?: boolean;
+  error?: boolean;
+  warning?: boolean;
+  disabled?: boolean;
+
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<HTMLElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
@@ -39,18 +47,10 @@ export interface TokenActions {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
-export interface TokenProps {
-  colors?: TokenColors;
-  isActive?: boolean;
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
-}
-
-export default class Token extends React.Component<TokenProps & TokenActions> {
+export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (

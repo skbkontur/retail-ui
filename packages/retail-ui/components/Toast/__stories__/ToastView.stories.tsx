@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Toast from '../ToastView';
+
+import { ToastView as Toast } from '../ToastView';
 
 storiesOf('ToastView', module)
   .add('simple toast', () => <Toast>Changes saved</Toast>)

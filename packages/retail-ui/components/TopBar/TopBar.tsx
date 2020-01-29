@@ -1,21 +1,22 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import Logotype from '../Logotype';
-import ButtonItem from './TopBarButtonItem';
-import Divider from './TopBarDivider';
-import Item from './TopBarItem';
-import Organizations from './TopBarOrganizations';
-import TopBarDropdown from './TopBarDropdown';
-import User from './TopBarUser';
-import '../ensureOldIEClassName';
-import styles from './TopBar.module.less';
-import { End } from './TopBarEnd';
-import { Start } from './TopBarStart';
-import Logout from './TopBarLogout';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { Logotype } from '../Logotype';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './TopBar.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { ButtonItem } from './TopBarButtonItem';
+import { Divider } from './TopBarDivider';
+import { Item } from './TopBarItem';
+import { Organizations } from './TopBarOrganizations';
+import { TopBarDropdown } from './TopBarDropdown';
+import { User } from './TopBarUser';
+import styles from './TopBar.module.less';
+import { TopBarEnd } from './TopBarEnd';
+import { TopBarStart } from './TopBarStart';
+import { Logout } from './TopBarLogout';
+import { jsStyles } from './TopBar.styles';
 
 export interface TopBarProps {
   children?: React.ReactNode;
@@ -48,22 +49,22 @@ export interface TopBarDefaultProps {
  *
  * `Divider()` – разделитель
  *
- * `Start({children: node})` – контейнер для элементов в начале шапки
+ * `TopBarStart({children: node})` – контейнер для элементов в начале шапки
  *
- * `End({children: node})` – контейнер для элементов в конце шапки
+ * `TopBarEnd({children: node})` – контейнер для элементов в конце шапки
  *
  * `Logout({children?: node})` – обёртка над `Item`. По умолчанию выводит локализованный текст
  *
  */
-class TopBar extends React.Component<TopBarProps> {
+export class TopBar extends React.Component<TopBarProps> {
   public static __KONTUR_REACT_UI__ = 'TopBar';
 
   public static Divider = Divider;
   public static Item = ButtonItem;
   public static Dropdown = TopBarDropdown;
   public static OrganizationsDropdown = Organizations;
-  public static Start = Start;
-  public static End = End;
+  public static Start = TopBarStart;
+  public static End = TopBarEnd;
   public static ItemStatic = Item;
   public static User = User;
   public static Logout = Logout;
@@ -134,7 +135,7 @@ class TopBar extends React.Component<TopBarProps> {
     onLogout: PropTypes.func,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render(): JSX.Element {
     return (
@@ -192,16 +193,16 @@ class TopBar extends React.Component<TopBarProps> {
             {children ? (
               <div className={styles.container}>{children}</div>
             ) : (
-              <div className={styles.container}>
-                <div className={styles.startItems}>
-                  <Item>
-                    <Logotype {...logoProps} />
-                  </Item>
-                  {this._renderItems(leftItems)}
+                <div className={styles.container}>
+                  <div className={styles.startItems}>
+                    <Item>
+                      <Logotype {...logoProps} />
+                    </Item>
+                    {this._renderItems(leftItems)}
+                  </div>
+                  <div className={styles.endItems}>{this._renderItems(_rightItems)}</div>
                 </div>
-                <div className={styles.endItems}>{this._renderItems(_rightItems)}</div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>
@@ -223,5 +224,3 @@ class TopBar extends React.Component<TopBarProps> {
     });
   }
 }
-
-export default TopBar;

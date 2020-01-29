@@ -1,15 +1,14 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
-import Codes from '../../lib/events/keyboard/KeyboardEventCodes';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Input from '../Input';
-import { InputProps } from '../Input/Input';
-import { isIE } from '../ensureOldIEClassName';
+import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
+import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
+import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
+import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
+import { isIE11 } from '../../lib/utils';
 
 import styles from './PasswordInput.module.less';
-import { EyeOpenedIcon, EyeClosedIcon } from '../internal/icons/16px';
 
 export type PasswordInputProps = {
   detectCapsLock?: boolean;
@@ -23,7 +22,7 @@ export interface PasswordInputState {
 /**
  * Компонент для ввода пароля
  */
-export default class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
   public static propTypes = {
@@ -44,13 +43,13 @@ export default class PasswordInput extends React.Component<PasswordInputProps, P
 
   private input: Nullable<Input>;
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
     }
 
     // @ts-ignore
-    if (isIE && !window.document.msCapsLockWarningOff) {
+    if (isIE11 && !window.document.msCapsLockWarningOff) {
       // turns off default ie capslock warning
       // @ts-ignore
       window.document.msCapsLockWarningOff = true;

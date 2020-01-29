@@ -1,12 +1,11 @@
-/* tslint:disable jsx-no-lambda */
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-
-import Modal from '../';
-import Button from '../../Button';
-import Input from '../../Input';
-import Toggle from '../../Toggle';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
+
+import { Modal } from '../Modal';
+import { Button } from '../../Button';
+import { Input } from '../../Input';
+import { Toggle } from '../../Toggle';
 
 const basicFontStyle = {
   fontSize: '14px',

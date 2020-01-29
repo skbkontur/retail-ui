@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Spinner from '../Spinner';
+
+import { Spinner } from '../Spinner';
 
 const reactNodeCaption = (
   <div>

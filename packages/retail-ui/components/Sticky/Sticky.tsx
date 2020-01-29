@@ -1,13 +1,14 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import LayoutEvents from '../../lib/LayoutEvents';
+import React from 'react';
+import PropTypes from 'prop-types';
+import shallowEqual from 'shallowequal';
+
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import styles from './Sticky.module.less';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import warning from 'warning';
-import shallowEqual from 'shallowequal';
-import ZIndex from '../ZIndex';
+import { ZIndex } from '../ZIndex';
+
+import styles from './Sticky.module.less';
 
 const MAX_REFLOW_RETRIES = 5;
 
@@ -20,12 +21,6 @@ export interface StickyProps {
   offset: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-
-  /**
-   * @deprecated работа с margin у детей возможна без указания этого флага
-   * @default false
-   */
-  allowChildWithMargins?: boolean;
 }
 
 export interface StickyState {
@@ -38,7 +33,7 @@ export interface StickyState {
   relativeTop: number;
 }
 
-export default class Sticky extends React.Component<StickyProps, StickyState> {
+export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
 
   public static propTypes = {
@@ -55,7 +50,6 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
     offset: PropTypes.number,
 
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
-    allowChildWithMargins: PropTypes.bool,
   };
 
   public static defaultProps = { offset: 0 };
@@ -70,13 +64,9 @@ export default class Sticky extends React.Component<StickyProps, StickyState> {
   private wrapper: Nullable<HTMLElement>;
   private inner: Nullable<HTMLElement>;
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
-  private reflowCounter: number = 0;
+  private reflowCounter = 0;
 
   public componentDidMount() {
-    warning(
-      this.props.allowChildWithMargins === undefined,
-      '"allowChildWithMargins" prop is deprecated. Component "Sticky" work correctly without it.',
-    );
     this.reflow();
 
     this.layoutSubscription = LayoutEvents.addListener(this.reflow);

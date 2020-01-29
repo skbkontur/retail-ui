@@ -1,4 +1,4 @@
-let polyfillPlaceholder = false;
+let polyfilled = false;
 
 if (typeof window !== 'undefined' && window.document && window.document.createElement) {
   const sAgent = window.navigator.userAgent;
@@ -8,8 +8,8 @@ if (typeof window !== 'undefined' && window.document && window.document.createEl
     !!navigator.userAgent.match(/Trident\/7\./) ||
     sAgent.indexOf('MSIE') > 0
   ) {
-    polyfillPlaceholder = true;
+    polyfilled = true;
   }
 }
 
-export default polyfillPlaceholder;
+export const polyfillPlaceholder = polyfilled;

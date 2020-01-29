@@ -1,6 +1,7 @@
 import React from 'react';
-import Gapped from '../Gapped';
-import Button from '../../Button';
+
+import { Gapped } from '../Gapped';
+import { Button } from '../../Button';
 
 export default {
   title: 'Gapped',

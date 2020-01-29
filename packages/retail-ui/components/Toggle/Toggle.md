@@ -1,4 +1,4 @@
-```jsx
+```jsx harmony
 let initialState = { checked: false };
 
 let toggle = () => setState(state => ({ checked: !state.checked }));

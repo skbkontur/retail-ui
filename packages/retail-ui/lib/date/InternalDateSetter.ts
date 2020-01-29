@@ -6,7 +6,7 @@ import {
   InternalDateChangeSettings,
 } from './types';
 
-export default class InternalDateSetter {
+export class InternalDateSetter {
   public static setValueDateComponent(
     internalDate: InternalDate,
     type: InternalDateComponentType,

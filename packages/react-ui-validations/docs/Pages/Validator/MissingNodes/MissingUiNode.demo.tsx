@@ -1,14 +1,15 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Button } from 'retail-ui/components/Button';
+import { Input } from 'retail-ui/components/Input';
+import { Toggle } from 'retail-ui/components/Toggle';
+
 import {
   ValidationContainer,
   ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
-import Toggle from 'retail-ui/components/Toggle';
+import { Form } from '../../../Common/Form';
 
 interface ContactInfo {
   name: string;
@@ -20,7 +21,6 @@ interface Data {
   contact: ContactInfo;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<Data>(b => {
   b.prop(
     x => x.contact,
@@ -41,8 +41,6 @@ const validate = createValidator<Data>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   data: Data;

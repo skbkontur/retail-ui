@@ -1,11 +1,12 @@
 import { css, keyframes } from '../../lib/theming/Emotion';
-import classes from './Input.module.less';
-import { ITheme } from '../../lib/theming/Theme';
-import DimensionFunctions from '../../lib/styles/DimensionFunctions';
+import { Theme } from '../../lib/theming/Theme';
+import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-const jsClasses = {
-  root(t: ITheme) {
+import classes from './Input.module.less';
+
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       ${resetText()};
 
@@ -18,7 +19,7 @@ const jsClasses = {
     `;
   },
 
-  useDefaultColor(t: ITheme) {
+  useDefaultColor(t: Theme) {
     return css`
       .${classes.leftIcon}&, .${classes.rightIcon}& {
         color: ${t.inputIconColor};
@@ -26,19 +27,25 @@ const jsClasses = {
     `;
   },
 
-  focus(t: ITheme) {
+  focus(t: Theme) {
     return css`
       .${classes.root}& {
         border-color: ${t.borderColorFocus};
         box-shadow: ${t.inputFocusShadow};
       }
-      .rt-ie-any .${classes.root}& {
+    `;
+  },
+
+  focusFallback(t: Theme) {
+    return css`
+      .${classes.root}& {
+        box-shadow: none;
         outline: 1px solid ${t.inputFocusOutline};
       }
     `;
   },
 
-  placeholder(t: ITheme) {
+  placeholder(t: Theme) {
     return css`
       color: ${t.placeholderColor};
 
@@ -48,7 +55,7 @@ const jsClasses = {
     `;
   },
 
-  input(t: ITheme) {
+  input(t: Theme) {
     return css`
       color: ${t.inputTextColor};
 
@@ -85,31 +92,43 @@ const jsClasses = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       .${classes.root}& {
         border-color: ${t.borderColorWarning};
         box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
-      .rt-ie-any .${classes.root}& {
+    `;
+  },
+
+  warningFallback(t: Theme) {
+    return css`
+      .${classes.root}& {
+        box-shadow: none;
         outline: 1px solid ${t.borderColorWarning};
       }
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       .${classes.root}& {
         border-color: ${t.borderColorError};
         box-shadow: 0 0 0 1px ${t.borderColorError};
       }
-      .rt-ie-any .${classes.root}& {
+    `;
+  },
+
+  errorFallback(t: Theme) {
+    return css`
+      .${classes.root}& {
+        box-shadow: none;
         outline: 1px solid ${t.borderColorError};
       }
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       .${classes.root}& {
         background: ${t.inputDisabledBg};
@@ -118,7 +137,7 @@ const jsClasses = {
     `;
   },
 
-  blink(t: ITheme) {
+  blink(t: Theme) {
     const blinkAnimation = keyframes`
     0% {
       background-color: ${t.blinkColor};
@@ -131,65 +150,69 @@ const jsClasses = {
     `;
   },
 
-  sizeSmall(t: ITheme) {
+  sizeSmall(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeSmall};
       line-height: ${t.controlLineHeightSmall};
       padding-top: ${t.controlPaddingYSmall};
       padding-bottom: ${t.controlPaddingYSmall};
       height: ${t.controlHeightSmall};
-
-      .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYSmall, '-1')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYSmall, '1')};
-        line-height: normal;
-      }
     `;
   },
 
-  sizeMedium(t: ITheme) {
+  sizeSmallFallback(t: Theme) {
+    return css`
+      padding-top: ${shift(t.controlPaddingYSmall, '-1')};
+      padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
+      line-height: normal;
+    `;
+  },
+
+  sizeMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
       line-height: ${t.controlLineHeightMedium};
       padding-top: ${t.controlPaddingYMedium};
       padding-bottom: ${t.controlPaddingYMedium};
       height: ${t.controlHeightMedium};
-
-      .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYMedium, '-1')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYMedium, '1')};
-        line-height: normal;
-      }
     `;
   },
 
-  sizeLarge(t: ITheme) {
+  sizeMediumFallback(t: Theme) {
+    return css`
+      padding-top: ${shift(t.controlPaddingYMedium, '-1')};
+      padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
+      line-height: normal;
+    `;
+  },
+
+  sizeLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
       line-height: ${t.controlLineHeightLarge};
       height: ${t.controlHeightLarge};
-      padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-1')};
-      padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '1')};
-
-      .rt-ie-any & {
-        padding-top: ${DimensionFunctions.shift(t.controlPaddingYLarge, '-2')};
-        padding-bottom: ${DimensionFunctions.shift(t.controlPaddingYLarge, '2')};
-        line-height: normal;
-      }
+      padding-top: ${shift(t.controlPaddingYLarge, '-1')};
+      padding-bottom: ${shift(t.controlPaddingYLarge, '1')};
     `;
   },
 
-  prefix(t: ITheme) {
+  sizeLargeFallback(t: Theme) {
+    return css`
+      padding-top: ${shift(t.controlPaddingYLarge, '-2')};
+      padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
+      line-height: normal;
+    `;
+  },
+
+  prefix(t: Theme) {
     return css`
       color: ${t.placeholderColor};
     `;
   },
 
-  suffix(t: ITheme) {
+  suffix(t: Theme) {
     return css`
       color: ${t.placeholderColor};
     `;
   },
 };
-
-export default jsClasses;

@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button';
-import Toast from 'retail-ui/components/Toast';
+import { Button } from 'retail-ui/components/Button';
+import { Toast } from 'retail-ui/components/Toast';
 import {Case, CaseSuite} from '../Case';
 
 export default class ToastTestPage extends React.Component {

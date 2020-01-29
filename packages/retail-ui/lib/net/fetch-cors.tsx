@@ -3,13 +3,12 @@ interface ApiResponseType {
   status: number;
   statusText: string;
   text: () => Promise<string>;
-  // tslint:disable-next-line:ban-types
-  json: () => Promise<Object>;
+  json: () => Promise<Record<string, any>>;
 }
 
 type Result = Promise<ApiResponseType>;
 
-export default function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: string } = {}): Result {
+export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: string } = {}): Result {
   const method = options.method || 'GET';
   const xhr = createXHR();
 

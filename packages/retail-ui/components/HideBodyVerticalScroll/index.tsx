@@ -1,1 +1,1 @@
-export { default } from './HideBodyVerticalScroll';
+export { HideBodyVerticalScroll } from './HideBodyVerticalScroll';

@@ -5,5 +5,3 @@ export const CrossIcon = () => (
     <polygon id="Path" points="6 5 10 9 9 10 5 6 1 10 0 9 4 5 0 1 1 0 5 4 9 0 10 1" />
   </svg>
 );
-
-export default CrossIcon;

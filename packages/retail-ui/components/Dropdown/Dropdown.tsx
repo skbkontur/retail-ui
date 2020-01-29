@@ -1,13 +1,13 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import filterProps from '../filterProps';
-import MenuHeader from '../MenuHeader/MenuHeader';
-import MenuItem from '../MenuItem/MenuItem';
-import MenuSeparator from '../MenuSeparator/MenuSeparator';
-import Select from '../Select';
+import { filterProps } from '../filterProps';
+import { MenuHeader } from '../MenuHeader';
+import { MenuItem } from '../MenuItem';
+import { MenuSeparator } from '../MenuSeparator';
+import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
-import { ButtonUse, ButtonSize } from '../Button';
+import { ButtonSize, ButtonUse } from '../Button';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -91,7 +91,7 @@ type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 /**
  * Выпадающее меню.
  */
-export default class Dropdown extends React.Component<DropdownProps> {
+export class Dropdown extends React.Component<DropdownProps> {
   public static __KONTUR_REACT_UI__ = 'Dropdown';
 
   public static Header = MenuHeader;

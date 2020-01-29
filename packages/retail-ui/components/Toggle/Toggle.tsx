@@ -1,11 +1,13 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import tabListener from '../../lib/events/tabListener';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import styles from './Toggle.module.less';
-import jsStyles from './Toggle.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import styles from './Toggle.module.less';
+import { jsStyles } from './Toggle.styles';
 
 export interface ToggleProps {
   checked?: boolean;
@@ -27,7 +29,7 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
-export default class Toggle extends React.Component<ToggleProps, ToggleState> {
+export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
   public static propTypes = {
@@ -45,7 +47,7 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private input: HTMLInputElement | null = null;
 
   constructor(props: ToggleProps) {
@@ -119,9 +121,9 @@ export default class Toggle extends React.Component<ToggleProps, ToggleState> {
           style={
             checked && color
               ? {
-                  backgroundColor: color,
-                  borderColor: color,
-                }
+                backgroundColor: color,
+                borderColor: color,
+              }
               : undefined
           }
         >

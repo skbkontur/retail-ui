@@ -1,1 +1,1 @@
-export { default, LogotypeProps } from './Logotype';
+export { Logotype, LogotypeProps } from './Logotype';

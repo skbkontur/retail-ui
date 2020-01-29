@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import styles from './SidePage.module.less';
 
@@ -7,7 +7,7 @@ import styles from './SidePage.module.less';
  *
  * @visibleName SidePage.Container
  */
-export default class SidePageContainer extends React.Component {
+export class SidePageContainer extends React.Component {
   public static __KONTUR_REACT_UI__ = 'SidePageContainer';
 
   public render(): JSX.Element {

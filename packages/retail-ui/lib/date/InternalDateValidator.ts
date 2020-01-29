@@ -1,5 +1,5 @@
 import { InternalDate } from './InternalDate';
-import InternalDateGetter from './InternalDateGetter';
+import { InternalDateGetter } from './InternalDateGetter';
 import {
   InternalDateComponentRaw,
   InternalDateComponentsNumber,
@@ -7,7 +7,7 @@ import {
   InternalDateComponentType,
 } from './types';
 
-export default class InternalDateValidator {
+export class InternalDateValidator {
   public static checkForNull({ year, month, date }: InternalDateComponentsRaw, type?: InternalDateComponentType) {
     if (type !== undefined) {
       if (type === InternalDateComponentType.Year) {

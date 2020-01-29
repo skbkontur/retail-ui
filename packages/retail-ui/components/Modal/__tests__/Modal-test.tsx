@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { mount } from 'enzyme';
 import { ReactComponentLike } from 'prop-types';
-import Modal from '../Modal';
+
+import { Modal } from '../Modal';
 import { isFooter, isHeader } from '../helpers';
 
 function emulateRealClick(
@@ -86,13 +87,13 @@ describe('Modal', () => {
   it('Close button show without header', () => {
     const wrapper = mount(<Modal>Modal content</Modal>);
 
-    expect(wrapper.find('Close')).toHaveLength(1);
+    expect(wrapper.find('ModalClose')).toHaveLength(1);
   });
 
   it('noClose prop works', () => {
     const wrapper = mount(<Modal noClose>Modal content</Modal>);
 
-    expect(wrapper.find('Close')).toHaveLength(0);
+    expect(wrapper.find('ModalClose')).toHaveLength(0);
   });
 
   it('direct click on background calls onClose', () => {

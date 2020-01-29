@@ -1,6 +1,7 @@
-import * as React from 'react';
-import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
-import { MenuItemProps } from '../MenuItem/MenuItem';
+import React from 'react';
+
+import { PopupMenu, PopupMenuProps } from '../internal/PopupMenu';
+import { MenuItemProps } from '../MenuItem';
 import { isProductionEnv } from '../internal/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPosition } from '../Popup';
@@ -38,7 +39,7 @@ export interface TooltipMenuProps {
  * Если меню должно раскрываться только в одну сторону - передаем в ```positions``` массив с одним элементом.
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
-export default class TooltipMenu extends React.Component<TooltipMenuProps> {
+export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
 
   public static defaultProps = {

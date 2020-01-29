@@ -2,9 +2,8 @@
 
 Рекомендуемое
 
-```jsx
-import Logotype from '@skbkontur/react-ui/Logotype';
-import Loader from '@skbkontur/react-ui/Loader';
+```jsx harmony
+import { Loader, Logotype, TopBar } from '@skbkontur/react-ui';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 
 let pageStyle = {
@@ -50,8 +49,8 @@ let contentStyle = {
 
 Старый вариант. (Продуктовый виджет работает только у первого Logotype на странице)
 
-```jsx
-import Loader from '@skbkontur/react-ui/Loader';
+```jsx harmony
+import { Loader, TopBar } from '@skbkontur/react-ui';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 
 let Item = TopBar.Item;

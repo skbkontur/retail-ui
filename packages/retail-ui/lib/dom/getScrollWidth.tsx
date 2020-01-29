@@ -1,7 +1,7 @@
 let scrollbarWidth: number | null = null;
 const canUseDOM = typeof window !== 'undefined' && window.document && window.document.createElement;
 
-export default function getScrollWidth() {
+export function getScrollWidth() {
   if (!canUseDOM) {
     return 0;
   }

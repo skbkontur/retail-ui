@@ -122,7 +122,7 @@ function _getViewProperty(getProperty: (e: HTMLElement) => number): number {
   return views.map(x => x && getProperty(x)).find(Boolean) || 0;
 }
 
-export default {
+export const PopupHelper = {
   getPositionObject,
   getElementAbsoluteRect,
   isFullyVisible: isAbsoluteRectFullyVisible,

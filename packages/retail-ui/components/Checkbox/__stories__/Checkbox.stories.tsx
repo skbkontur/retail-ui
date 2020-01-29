@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Checkbox from '../Checkbox';
-import Gapped from '../../Gapped/Gapped';
+
+import { Checkbox } from '../Checkbox';
+import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
 
 class PlainCheckbox extends Component<any, any> {
@@ -12,11 +13,7 @@ class PlainCheckbox extends Component<any, any> {
   public render() {
     const { checked } = this.state;
     return (
-      <Checkbox
-        // tslint:disable-next-line:jsx-no-lambda
-        onChange={() => this.setState({ checked: !checked })}
-        checked={checked}
-      >
+      <Checkbox onChange={() => this.setState({ checked: !checked })} checked={checked}>
         {this.props.children}
       </Checkbox>
     );
@@ -39,7 +36,6 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
       <div>
         <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
           <Checkbox
-            // tslint:disable-next-line:jsx-no-lambda
             onChange={(_event, checked) => this.setState({ checked })}
             checked={this.state.checked}
             initialIndeterminate
@@ -98,12 +94,7 @@ storiesOf('Checkbox', module)
   ))
   .add('error', () => <Checkbox error>Error</Checkbox>)
   .add('with mouse enter/leave handlers', () => (
-    <Checkbox
-      // tslint:disable-next-line:jsx-no-lambda no-console
-      onMouseEnter={() => console.count('enter')}
-      // tslint:disable-next-line:jsx-no-lambda no-console
-      onMouseLeave={() => console.count('leave')}
-    >
+    <Checkbox onMouseEnter={() => console.count('enter')} onMouseLeave={() => console.count('leave')}>
       Hover me
     </Checkbox>
   ))

@@ -17,9 +17,8 @@ yarn add @skbkontur/react-ui
 
 И используем компонентики у себя в проекте:
 
-```jsx static
-import Button from '@skbkontur/react-ui/Button';
-import Toast from '@skbkontur/react-ui/Toast';
+```jsx harmony static
+import { Button, Toast } from '@skbkontur/react-ui';
 
 const MyApp = () => (
   <div>
@@ -43,19 +42,6 @@ yarn add retail-ui
 ```js static
 module: {
   rules: [
-    {
-      test: /\.jsx?$/,
-      use: [
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-flow'],
-            plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-proposal-object-rest-spread'],
-          },
-        },
-      ],
-      include: /retail-ui/,
-    },
     {
       test: /\.less$/,
       use: [

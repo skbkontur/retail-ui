@@ -1,7 +1,7 @@
-/* tslint:disable jsx-no-lambda */
-import * as React from 'react';
-import Tooltip from '../../Tooltip';
-import DatePicker from '../../DatePicker';
+import React from 'react';
+
+import { Tooltip } from '../../Tooltip/index';
+import { DatePicker } from '../../DatePicker/index';
 
 export class DatePickerPlayground extends React.Component<any, any> {
   public state = {
