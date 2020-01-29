@@ -130,7 +130,7 @@ const styles = {
 const TRANSFORMS_FOR_IE11 = {
   test: /\.jsx?$/,
   include: new RegExp(
-    `node_modules/(?=(${[
+    `node_modules(/|\\\\)(?=(${[
       // ref: https://github.com/styleguidist/react-styleguidist/pull/1327
       'acorn-jsx',
       'estree-walker',
@@ -142,7 +142,7 @@ const TRANSFORMS_FOR_IE11 = {
       'ansi-regex',
       'chalk',
       'strip-ansi',
-    ].join('|')})/).*`,
+    ].join('|')})(/|\\\\)).*`,
   ),
   use: {
     loader: 'babel-loader',
