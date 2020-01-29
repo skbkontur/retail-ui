@@ -8,7 +8,6 @@ import { Nullable } from '../../typings/utility-types';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 
 export type CustomComboBoxAction<T> =
-  | { type: 'TextClear' }
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
   | { type: 'TextChange'; value: string }
   | { type: 'KeyPress'; event: React.KeyboardEvent }
@@ -212,9 +211,6 @@ export function reducer<T>(
   action: CustomComboBoxAction<T>,
 ): Pick<CustomComboBoxState<T>, never> | [Pick<CustomComboBoxState<T>, never>, Array<CustomComboBoxEffect<T>>] {
   switch (action.type) {
-    case 'TextClear': {
-      return { textValue: '' };
-    }
     case 'ValueChange': {
       const { value, keepFocus } = action;
       const textValue = getValueString(value, props.valueToString);
