@@ -79,13 +79,5 @@
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/camelcase": 0,
     "@typescript-eslint/no-non-null-assertion": 0
-  },
-  "overrides": [
-    {
-      "files": ["**/*.stories.tsx", "docs/**/*.demo.tsx", "docs/**/Demo.tsx", "rollup*"],
-      "rules": {
-        "import/no-default-export": 0
-      }
-    }
-  ]
+  }
 }
