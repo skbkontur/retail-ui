@@ -1,6 +1,6 @@
 import { FiasLocale } from '../types';
 
-const componentsLocales: FiasLocale = {
+export const componentsLocales: FiasLocale = {
   modalTitle: 'Адрес',
   modalButtonOk: 'Сохранить',
   modalButtonCancel: 'Отменить',
@@ -71,5 +71,3 @@ const componentsLocales: FiasLocale = {
   countryLabel: 'Страна',
   countryPlaceholder: 'Начните вводить название страны',
 };
-
-export default componentsLocales;

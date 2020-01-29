@@ -1,13 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import { ReactComponentLike } from 'prop-types';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
   ? string extends keyof P
-    ? P
-    : Pick<P, Exclude<keyof P, keyof D>> &
-        Partial<Pick<P, Extract<keyof P, keyof D>>> &
-        Partial<Pick<D, Exclude<keyof D, keyof P>>>
+  ? P
+  : Pick<P, Exclude<keyof P, keyof D>> &
+  Partial<Pick<P, Extract<keyof P, keyof D>>> &
+  Partial<Pick<D, Exclude<keyof D, keyof P>>>
   : never;
 
 export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
@@ -26,7 +26,6 @@ export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
 export const isChrome = /google inc/.test(vendor) && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
 export const isEdge = /edge\//.test(userAgent);
 export const isIE11 = /trident\//.test(userAgent);
-export const isIENot11 = !isIE11 && /msie /.test(userAgent);
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -39,7 +38,7 @@ export class CancelationError extends Error {
 }
 
 export function taskWithDelay(task: () => void, ms: number) {
-  let cancelationToken: (() => void) = () => null;
+  let cancelationToken: () => void = () => null;
 
   new Promise((resolve, reject) => {
     cancelationToken = reject;
@@ -51,7 +50,6 @@ export function taskWithDelay(task: () => void, ms: number) {
   return cancelationToken;
 }
 
-// tslint:disable-next-line: ban-types
 export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }

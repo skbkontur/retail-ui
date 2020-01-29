@@ -1,9 +1,11 @@
-import * as React from 'react';
-import Popup, { PopupPosition } from '../Popup';
-import styles from './HintBox.module.less';
+import React from 'react';
+
+import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { cx } from '../../lib/theming/Emotion';
+
+import styles from './HintBox.module.less';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
@@ -18,22 +20,22 @@ export interface HintProps {
   onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
   pos:
-    | 'top'
-    | 'right'
-    | 'bottom'
-    | 'left'
-    | 'top left'
-    | 'top center'
-    | 'top right'
-    | 'bottom left'
-    | 'bottom center'
-    | 'bottom right'
-    | 'left top'
-    | 'left middle'
-    | 'left bottom'
-    | 'right top'
-    | 'right middle'
-    | 'right bottom';
+  | 'top'
+  | 'right'
+  | 'bottom'
+  | 'left'
+  | 'top left'
+  | 'top center'
+  | 'top right'
+  | 'bottom left'
+  | 'bottom center'
+  | 'bottom right'
+  | 'left top'
+  | 'left middle'
+  | 'left bottom'
+  | 'right top'
+  | 'right middle'
+  | 'right bottom';
   text: React.ReactNode;
   disableAnimations: boolean;
   useWrapper: boolean;
@@ -58,7 +60,7 @@ const Positions: PopupPosition[] = [
   'right bottom',
 ];
 
-class Hint extends React.Component<HintProps, HintState> {
+export class Hint extends React.Component<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
   public static defaultProps = {
@@ -76,7 +78,7 @@ class Hint extends React.Component<HintProps, HintState> {
 
   private timer: Nullable<number> = null;
 
-  public componentWillReceiveProps(nextProps: HintProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
       return;
     }
@@ -161,5 +163,3 @@ class Hint extends React.Component<HintProps, HintState> {
     this.setState({ opened: true });
   };
 }
-
-export default Hint;

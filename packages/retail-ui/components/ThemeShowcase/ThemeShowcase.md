@@ -6,8 +6,8 @@
 <br/>
 Значения в колонке `Variable name` кликабельны.
 
-```jsx
-import ThemeShowcase from './ThemeShowcase';
+```jsx harmony
+import { ThemeShowcase } from '@skbkontur/react-ui/components/ThemeShowcase/ThemeShowcase';
 
 <ThemeShowcase />;
 ```

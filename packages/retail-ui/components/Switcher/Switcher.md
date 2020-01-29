@@ -1,4 +1,4 @@
-```jsx
+```jsx harmony
 let intialState = {};
 
 <Switcher

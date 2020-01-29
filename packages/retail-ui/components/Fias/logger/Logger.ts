@@ -11,5 +11,3 @@ export class Logger {
     warning(false, `[Fias] ${message}` + (details ? `: ${details}` : ``));
   };
 }
-
-export default Logger;

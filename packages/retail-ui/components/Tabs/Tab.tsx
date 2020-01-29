@@ -1,16 +1,18 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import invariant from 'invariant';
+
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
-import tabListener from '../../lib/events/tabListener';
+import { tabListener } from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent, withContext } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+
 import styles from './Tab.module.less';
 import { TabsContextType, TabsContext } from './TabsContext';
-import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Tab.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { jsStyles } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;
@@ -135,11 +137,11 @@ export class Tab extends React.Component<TabProps, TabState> {
     focusedByKeyboard: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab>> = null;
-  private isArrowKeyPressed: boolean = false;
+  private isArrowKeyPressed = false;
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     invariant(
       this.props.context && typeof this.props.context.addTab === 'function',
       'Tab should be placed inside Tabs component',
@@ -332,4 +334,3 @@ export class Tab extends React.Component<TabProps, TabState> {
 }
 
 export const TabWithContext = withContext(TabsContext.Consumer)(Tab);
-export default TabWithContext;

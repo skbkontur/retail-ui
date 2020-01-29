@@ -1,6 +1,8 @@
-import * as React from 'react';
-import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
+import React from 'react';
+
 import { DefaultizeProps } from '../../lib/utils';
+
+import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
 
 export interface ComponentCombinatorProps<C, P, S> {
   combinations: Array<StatePropsCombinations<P, S>>;

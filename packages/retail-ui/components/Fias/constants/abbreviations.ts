@@ -157,5 +157,3 @@ export const abbreviations: { [key: string]: string } = {
   'соор.': 'сооружение',
   шахта: 'шахта',
 };
-
-export default abbreviations;

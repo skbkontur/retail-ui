@@ -1,10 +1,10 @@
 import { mount, ReactWrapper } from 'enzyme';
-import * as React from 'react';
-import { LangCodes } from '../../LocaleProvider';
+import React from 'react';
+
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider from '../../LocaleProvider/LocaleProvider';
 import { LogotypeLocaleHelper } from '../locale';
-import Logotype from '../Logotype';
+import { Logotype } from '../Logotype';
 
 describe('Logotype', () => {
   describe('Locale', () => {

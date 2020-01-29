@@ -1,7 +1,7 @@
 Вызов статических методов
 
-```jsx
-import Button from '@skbkontur/react-ui/Button';
+```jsx harmony
+import { Button, Toast } from '@skbkontur/react-ui';
 
 function showComplexNotification() {
   Toast.push('Successfully saved', {
@@ -15,8 +15,8 @@ function showComplexNotification() {
 
 Использование `ref`
 
-```jsx
-import Button from '@skbkontur/react-ui/Button';
+```jsx harmony
+import { Button, Toast } from '@skbkontur/react-ui';
 
 class Toaster extends React.Component {
   showNotification() {

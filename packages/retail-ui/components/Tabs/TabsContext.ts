@@ -1,6 +1,8 @@
-import * as React from 'react';
-import { Tab } from './Tab';
+import React from 'react';
+
 import { emptyHandler } from '../../lib/utils';
+
+import { Tab } from './Tab';
 
 export interface TabsContextType {
   vertical: boolean;

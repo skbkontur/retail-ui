@@ -13,6 +13,10 @@
     flex-shrink: 1;
   }
 
+  .stretchFallback {
+    flex-basis: 100%;
+  }
+
   .item {
     margin-left: -1px;
   }
@@ -24,13 +28,5 @@
   .wrap {
     /* for .wrap class not to be 'undefined': used in tests */
     visibility: visible;
-  }
-
-  :global(.rt-ie-any) {
-    .root.hasWidth {
-      .stretch {
-        flex-basis: 100%;
-      }
-    }
   }
 }

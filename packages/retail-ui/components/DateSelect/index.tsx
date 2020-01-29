@@ -1,1 +1,1 @@
-export { default, DateSelectProps, DateSelectState } from './DateSelect';
+export { DateSelect, DateSelectProps, DateSelectState } from './DateSelect';

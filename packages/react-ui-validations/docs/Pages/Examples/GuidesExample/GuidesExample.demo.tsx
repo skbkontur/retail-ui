@@ -1,13 +1,14 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Button } from 'retail-ui/components/Button';
+import { Input } from 'retail-ui/components/Input';
+
 import {
   ValidationContainer,
   ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface Organization {
   name: string;
@@ -108,7 +109,6 @@ const isValidInn = (value: string): boolean => {
   }
 };
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<Organization>((b, organization) => {
   b.prop(
     x => x.name,
@@ -150,8 +150,6 @@ const validate = createValidator<Organization>((b, organization) => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   organization: Organization;

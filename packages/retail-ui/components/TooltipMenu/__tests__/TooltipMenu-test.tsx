@@ -1,8 +1,8 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
-import { shallow, mount } from 'enzyme';
-import TooltipMenu from '../TooltipMenu';
-import MenuItem from '../../MenuItem';
+import React from 'react';
+import { mount, shallow } from 'enzyme';
+
+import { TooltipMenu } from '../TooltipMenu';
+import { MenuItem } from '../../MenuItem';
 
 describe('<TooltipMenu />', () => {
   beforeEach(() => {

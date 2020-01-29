@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { DatePickerLocaleHelper } from '../../DatePicker/locale';
-import DateSelect from '../DateSelect';
-import styles from '../DateSelect.less';
+import React from 'react';
 import { mount } from 'enzyme';
-import { DateSelectProps } from '../DateSelect';
+
+import { DatePickerLocaleHelper } from '../../DatePicker/locale';
+import { DateSelect, DateSelectProps } from  '../DateSelect';
+import styles from '../DateSelect.less';
+
 
 const renderSelect = (props: DateSelectProps) => mount(<DateSelect {...props} />);
 

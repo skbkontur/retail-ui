@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import CustomComboBox, { CustomComboBoxProps, DefaultState, CustomComboBoxState } from './CustomComboBox';
-import LayoutEvents from '../../lib/LayoutEvents';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
+
+import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 
 export type CustomComboBoxAction<T> =

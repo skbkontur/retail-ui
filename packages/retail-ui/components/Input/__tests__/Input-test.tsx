@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { mount } from 'enzyme';
-import Input, { InputProps } from '../Input';
 import MaskedInput from 'react-input-mask';
+
+import { Input, InputProps } from '../Input';
 
 const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
@@ -99,7 +100,6 @@ describe('<Input />', () => {
       .find('label')
       .props();
 
-    // tslint:disable-next-line:forin
     for (const prop in props as React.HTMLAttributes<HTMLLabelElement>) {
       expect(inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]).toBe(
         props[prop as keyof React.HTMLAttributes<HTMLLabelElement>],
@@ -190,14 +190,12 @@ describe('<Input />', () => {
 
     wrapper.instance().blink = blinkMock;
 
-    // tslint:disable-next-line:no-string-literal
     wrapper.instance()['handleUnexpectedInput']();
 
     expect(blinkMock).toHaveBeenCalledTimes(1);
 
     wrapper.setProps({ onUnexpectedInput: unexpectedInputHandlerMock });
 
-    // tslint:disable-next-line:no-string-literal
     wrapper.instance()['handleUnexpectedInput']();
 
     expect(blinkMock).toHaveBeenCalledTimes(1);

@@ -1,11 +1,13 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import LayoutEvents from '../../lib/LayoutEvents';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
-import styles from './ScrollContainer.module.less';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
+
+import styles from './ScrollContainer.module.less';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
@@ -36,7 +38,7 @@ export interface ScrollContainerState {
   scrollState: string;
 }
 
-export default class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
   public static propTypes = {
@@ -48,7 +50,7 @@ export default class ScrollContainer extends React.Component<ScrollContainerProp
   };
 
   public static defaultProps = {
-    scrollBehaviour: 'auto'
+    scrollBehaviour: 'auto',
   };
 
   public state: ScrollContainerState = {

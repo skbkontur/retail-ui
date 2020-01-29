@@ -1,16 +1,15 @@
 Token example
 
-```jsx
-import Token from '@skbkontur/react-ui/Token';
-import Gapped from '@skbkontur/react-ui/Gapped';
+```jsx harmony
+import { Token } from '@skbkontur/react-ui';
 
 <Token>Example</Token>;
 ```
 
 You can control color of each token
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```jsx harmony
+import { Gapped, Token } from '@skbkontur/react-ui';
 
 const colors = {
   default: {
@@ -91,9 +90,8 @@ const colors = {
 
 Can accept validation state
 
-```jsx
-import Token from '@skbkontur/react-ui/Token';
-import Gapped from '@skbkontur/react-ui/Gapped';
+```jsx harmony
+import { Gapped, Token } from '@skbkontur/react-ui';
 
 <Gapped gap={20} vertical>
   <Gapped gap={10}>

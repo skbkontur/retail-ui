@@ -1,15 +1,16 @@
 Button example
 
-```jsx
+```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
+import { Button } from '@skbkontur/react-ui';
 
 <Button icon={<OkIcon />}>Ok</Button>;
 ```
 
 Button has different use styles
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped>
   <Button use="default">Default</Button>
@@ -23,8 +24,8 @@ import Gapped from '@skbkontur/react-ui/Gapped';
 
 Button can have different sizes
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
 
 <Gapped>
   <Button size="small">Small</Button>
@@ -35,8 +36,8 @@ import Gapped from '@skbkontur/react-ui/Gapped';
 
 Кнопки-стрелки
 
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
+```jsx harmony
+import { Gapped, Button } from '@skbkontur/react-ui';
 
 <Gapped gap={25}>
   <Gapped gap={5}>
@@ -60,9 +61,9 @@ import Gapped from '@skbkontur/react-ui/Gapped';
 
 Кнопка в сочетании со спиннером
 
-```jsx
+```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
-import Spinner from '@skbkontur/react-ui/Spinner';
+import { Button, Spinner } from '@skbkontur/react-ui';
 
 const initialState = {
   loading: false,

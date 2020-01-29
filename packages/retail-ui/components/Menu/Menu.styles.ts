@@ -1,19 +1,17 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  root(t: ITheme) {
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       background: ${t.bgDefault};
     `;
   },
 
-  shadow(t: ITheme) {
+  shadow(t: Theme) {
     return css`
       border: ${t.menuBorder};
       box-shadow: ${t.menuShadow};
     `;
   },
 };
-
-export default jsStyles;

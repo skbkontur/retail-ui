@@ -1,4 +1,4 @@
-```jsx
+```jsx harmony
 const style = {
   padding: 10,
   background: '#f99',

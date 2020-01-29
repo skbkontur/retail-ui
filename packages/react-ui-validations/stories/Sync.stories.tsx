@@ -1,8 +1,9 @@
 import { storiesOf } from '@storybook/react';
-import * as React from 'react';
-import LostfocusDependentValidation from './SyncStories/LostfocusDependentValidation';
-import LostfocusDynamicValidation from './SyncStories/LostfocusDynamicValidation';
-import SingleInputPage from './SyncStories/SingleInputPage';
+import React from 'react';
+
+import { LostfocusDependentValidation } from './SyncStories/LostfocusDependentValidation';
+import { LostfocusDynamicValidation } from './SyncStories/LostfocusDynamicValidation';
+import { SingleInputPage } from './SyncStories/SingleInputPage';
 
 storiesOf('Sync', module)
   .add('ImmediateValidation', () => <SingleInputPage validationType={'immediate'} />)

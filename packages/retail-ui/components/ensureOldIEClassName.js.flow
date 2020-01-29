@@ -1,6 +1,0 @@
-/* @flow */
-declare var ieVerison: number | void;
-declare var isIE: boolean | void;
-declare var isEdge: boolean | void;
-
-export { ieVerison, isIE, isEdge };

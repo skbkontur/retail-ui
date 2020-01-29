@@ -1,3 +1,8 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import invariant from 'invariant';
+
 import {
   isKeyArrowDown,
   isKeyArrowUp,
@@ -7,30 +12,26 @@ import {
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../LocaleProvider/decorators';
-import { ButtonUse, ButtonSize, ButtonProps } from '../Button/Button';
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
-import Button from '../Button';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import filterProps from '../filterProps';
-import Input from '../Input';
-import invariant from 'invariant';
-import Link from '../Link';
-import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem/MenuItem';
-import MenuSeparator from '../MenuSeparator/MenuSeparator';
-import RenderLayer from '../RenderLayer';
-import Item from './Item';
-import { SelectLocale, SelectLocaleHelper } from './locale';
-import styles from './Select.module.less';
+import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
+import { DropdownContainer } from '../DropdownContainer';
+import { filterProps } from '../filterProps';
+import { Input } from '../Input';
+import { Link } from '../Link';
+import { Menu } from '../Menu';
+import { MenuItem } from '../MenuItem';
+import { MenuSeparator } from '../MenuSeparator';
+import { RenderLayer } from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Select.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { Item } from './Item';
+import { SelectLocale, SelectLocaleHelper } from './locale';
+import styles from './Select.module.less';
+import { jsStyles } from './Select.styles';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -102,7 +103,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 @locale('Select', SelectLocaleHelper)
-class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
+export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
 
   public static propTypes = {
@@ -214,7 +215,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
     value: this.props.defaultValue,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
@@ -579,10 +580,10 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
 
     return React.isValidElement(buttonElement)
       ? React.cloneElement(buttonElement as React.ReactElement, {
-          ref: this.buttonRef,
-          onFocus: this.props.onFocus,
-          onBlur: this.props.onBlur,
-        })
+        ref: this.buttonRef,
+        onFocus: this.props.onFocus,
+        onBlur: this.props.onBlur,
+      })
       : buttonElement;
   };
 }
@@ -610,5 +611,3 @@ function normalizeEntry(entry: any) {
 function filterItem(value: any, item: any, pattern: string) {
   return item.toLowerCase().indexOf(pattern) !== -1;
 }
-
-export default Select;

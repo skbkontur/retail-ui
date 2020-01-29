@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
+import React from 'react';
 
-import CurrencyHelper from '../CurrencyInput/CurrencyHelper';
+import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
+import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 
 export type CurrencyLabelProps = {
   /**
@@ -55,5 +55,3 @@ CurrencyLabel.propTypes = {
     return null;
   },
 };
-
-export default CurrencyLabel;

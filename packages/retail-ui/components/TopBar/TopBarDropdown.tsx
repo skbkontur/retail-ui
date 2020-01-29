@@ -1,18 +1,12 @@
-import * as React from 'react';
+import React from 'react';
+
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../typings/utility-types';
 import { IconProps } from '../internal/icons/20px';
-import ButtonItem from './TopBarButtonItem';
-import DropdownMenu from '../DropdownMenu';
+import { DropdownMenu } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
-export interface ButtonParams {
-  disabled?: boolean;
-  label: React.ReactNode;
-  onClick: () => void;
-  onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
-  opened: boolean;
-}
+import { ButtonItem } from './TopBarButtonItem';
 
 export interface TopBarDropdownProps {
   icon?: IconProps['name'];
@@ -29,7 +23,7 @@ export interface TopBarDropdownProps {
  * @visibleName TopBar.Dropdown
  */
 
-class TopBarDropdown extends React.Component<TopBarDropdownProps> {
+export class TopBarDropdown extends React.Component<TopBarDropdownProps> {
   public static __KONTUR_REACT_UI__ = 'TopBarDropdown';
 
   public static defaultProps = {
@@ -87,5 +81,3 @@ class TopBarDropdown extends React.Component<TopBarDropdownProps> {
     }
   };
 }
-
-export default TopBarDropdown;

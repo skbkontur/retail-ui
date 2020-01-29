@@ -1,15 +1,16 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Textarea.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  root(t: ITheme) {
+import styles from './Textarea.module.less';
+
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       font-size: ${t.fontSizeMedium};
       line-height: ${t.textareaLineHeight};
     `;
   },
-  textarea(t: ITheme) {
+  textarea(t: Theme) {
     return css`
       background: ${t.textareaBg};
       border: 1px solid ${t.borderColorGrayLight};
@@ -47,7 +48,7 @@ const jsStyles = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       .${styles.textarea}& {
         border-color: ${t.borderColorError};
@@ -60,7 +61,7 @@ const jsStyles = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       .${styles.textarea}& {
         border-color: ${t.borderColorWarning};
@@ -73,5 +74,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

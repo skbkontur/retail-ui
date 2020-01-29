@@ -1,30 +1,32 @@
-import * as React from 'react';
+import React from 'react';
+
 import { css } from '../../../lib/theming/Emotion';
-import ThemeFactory from '../../../lib/theming/ThemeFactory';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { Theme } from '../../../lib/theming/Theme';
+import { Gapped } from '../../Gapped';
+import { Loader } from '../../Loader';
+
 import { VariableValue } from './VariableValue';
-import { ITheme } from '../../../lib/theming/Theme';
-import Gapped from '../../Gapped';
-import Loader from '../../Loader/Loader';
 import styles from './styles.module.less';
 import { VARIABLES_GROUPS } from './constants';
 import { PlaygroundTheme, ThemeErrorsType } from './ThemeProviderPlayground';
 
-interface IThemeEditorProps {
-  editingTheme: ITheme;
+interface ThemeEditorProps {
+  editingTheme: Theme;
   currentTheme: PlaygroundTheme;
   currentErrors: ThemeErrorsType;
   onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
-interface IThemeEditorState {
-  groups: IGroup[];
+interface ThemeEditorState {
+  groups: Group[];
   isLoading: boolean;
 }
-interface IGroup {
+interface Group {
   title: string;
   prefix: string;
   isCommon?: boolean;
 }
-export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditorState> {
+export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorState> {
   public state = {
     groups: [],
     isLoading: true,
@@ -57,7 +59,7 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
 
     return (
       <Gapped wrap verticalAlign="middle">
-        {this.state.groups.map((i: IGroup) => (
+        {this.state.groups.map((i: Group) => (
           <Group
             editingTheme={editingTheme}
             currentTheme={currentTheme}
@@ -77,15 +79,15 @@ export class ThemeEditor extends React.Component<IThemeEditorProps, IThemeEditor
   };
 }
 
-interface IGroupProps {
-  editingTheme: ITheme;
+interface GroupProps {
+  editingTheme: Theme;
   currentTheme: PlaygroundTheme;
   currentErrors: ThemeErrorsType;
   title: string;
   variables: string[];
   onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
 }
-const Group = (props: IGroupProps) => {
+const Group = (props: GroupProps) => {
   const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
   const headerClassname = css`
     color: ${currentTheme.textColorMain};
@@ -96,7 +98,7 @@ const Group = (props: IGroupProps) => {
       <h2 className={headerClassname}>{title}</h2>
       <Gapped gap={16} wrap verticalAlign="middle">
         {variables.map(variable => {
-          const value = editingTheme[variable as keyof ITheme];
+          const value = editingTheme[variable as keyof Theme];
           const isError = currentErrors[variable];
           return (
             <VariableValue
@@ -137,7 +139,7 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
   const splitPrefix = current.prefix.split(' ');
   return [...acc, ...splitPrefix];
 };
-const getBaseVariables = (theme: ITheme, variable: keyof ITheme): Array<keyof ITheme> => {
+const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Theme> => {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
     if (theme.hasOwnProperty(variable)) {
       const descriptor = Object.getOwnPropertyDescriptor(theme, variable);

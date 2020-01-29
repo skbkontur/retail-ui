@@ -1,7 +1,7 @@
 import FLAT_VARIABLES from '../../../components/variables.flat.module.less';
 import { defineInternalTheme } from '../ThemeHelpers';
 
-const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
+export const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
   btnFontSizeMedium: {
     get() {
       return '16px';
@@ -239,5 +239,3 @@ const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
     },
   },
 });
-
-export default FLAT_THEME;

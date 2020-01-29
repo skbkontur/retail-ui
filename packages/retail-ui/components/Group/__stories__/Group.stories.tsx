@@ -1,19 +1,19 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { BGRuler } from '../../../lib/BGRuler';
-import Group from '../Group';
-import Input from '../../Input';
-import Button from '../../Button';
-import Toast from '../../Toast';
 import UserIcon from '@skbkontur/react-icons/User';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 
+import { BGRuler } from '../../../lib/BGRuler';
+import { Group } from '../Group';
+import { Input } from '../../Input';
+import { Button } from '../../Button';
+import { Toast } from '../../Toast';
+
 storiesOf('Group', module)
   .add('Simple Group with Input and Button', () => (
     <Group width="300px">
-      <Input placeholder="Search" mainInGroup />
+      <Input placeholder="Search" width="100%" />
       <Button icon={<SearchIcon />} />
     </Group>
   ))
@@ -27,7 +27,7 @@ storiesOf('Group', module)
   .add('Group with Input and multiple Buttons', () => (
     <Group>
       <Button>Clear</Button>
-      <Input placeholder="Search" mainInGroup />
+      <Input placeholder="Search" width="100%" />
       <Button icon={<SearchIcon />} />
       <Button>Cancel</Button>
     </Group>
@@ -42,7 +42,7 @@ storiesOf('Group', module)
   .add('Complex elements', () => (
     <Group>
       <Button icon={<DeleteIcon />} onClick={() => Toast.push('Clear!')} width="10px" />
-      <Input placeholder="Disabled" disabled rightIcon={<UserIcon />} mainInGroup />
+      <Input placeholder="Disabled" disabled rightIcon={<UserIcon />} width="100%" />
       <Button onClick={() => Toast.push('Push!')} error>
         Push
       </Button>
@@ -55,7 +55,7 @@ storiesOf('Group', module)
         <Button>
           <DeleteIcon />
         </Button>
-        <Input placeholder="240px" mainInGroup />
+        <Input placeholder="240px" width="100%" />
       </Group>
       <br />
       <br />
@@ -63,7 +63,7 @@ storiesOf('Group', module)
         <Button>
           <DeleteIcon />
         </Button>
-        <Input placeholder="no width" mainInGroup />
+        <Input placeholder="no width" width="100%" />
       </Group>
     </div>
   ));

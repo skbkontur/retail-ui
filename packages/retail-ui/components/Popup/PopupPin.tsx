@@ -1,10 +1,10 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import PopupHelper, { Rect, PositionObject } from './PopupHelper';
-
-import styles from './PopupPin.module.less';
 import { Nullable } from '../../typings/utility-types';
+
+import { PopupHelper, PositionObject, Rect } from './PopupHelper';
+import styles from './PopupPin.module.less';
 
 const borderStyles = {
   position: 'absolute',
@@ -25,7 +25,7 @@ interface Props {
   size: number;
 }
 
-export default class PopupPin extends React.Component<Props> {
+export class PopupPin extends React.Component<Props> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
 
   public static propTypes = {

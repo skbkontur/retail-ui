@@ -1,6 +1,6 @@
 import { ItemType } from './Paging';
 
-function getItems(active: number, total: number): ItemType[] {
+export function getItems(active: number, total: number): ItemType[] {
   const result: ItemType[] = [];
 
   const left = Math.max(Math.min(active - 2, total - 4), 1);
@@ -30,5 +30,3 @@ function getItems(active: number, total: number): ItemType[] {
 
   return result;
 }
-
-export default { getItems };

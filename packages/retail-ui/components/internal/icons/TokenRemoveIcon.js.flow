@@ -1,5 +1,0 @@
-/* @flow */
-
-declare var TokenRemoveIcon: () => React$Node;
-
-export default TokenRemoveIcon;

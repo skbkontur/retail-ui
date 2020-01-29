@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+
 import styles from './TopBar.module.less';
 
 /**
@@ -7,5 +8,5 @@ import styles from './TopBar.module.less';
  * @visibleName TopBar.End
  */
 
-export const End: React.SFC = ({ children }) => <div className={styles.endItems}>{children}</div>;
-(End as any).__KONTUR_REACT_UI__ = 'TopBarEnd';
+export const TopBarEnd: React.SFC = ({ children }) => <div className={styles.endItems}>{children}</div>;
+(TopBarEnd as any).__KONTUR_REACT_UI__ = 'TopBarEnd';

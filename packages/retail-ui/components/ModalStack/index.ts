@@ -1,1 +1,1 @@
-export { default, StackSubscription } from './ModalStack';
+export { ModalStack, StackSubscription } from './ModalStack';

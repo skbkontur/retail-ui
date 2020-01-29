@@ -1,9 +1,9 @@
-```jsx
+```jsx harmony
 <PasswordInput />
 ```
 
 Пример с отслеживанием нажатия CapsLock:
 
-```jsx
+```jsx harmony
 <PasswordInput detectCapsLock />
 ```

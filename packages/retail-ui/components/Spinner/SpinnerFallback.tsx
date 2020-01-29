@@ -1,13 +1,14 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerIcon';
+
 import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
-
 import styles from './Spinner.module.less';
 import { SpinnerType } from './Spinner';
-import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerIcon';
 
 export const types: {
   [key: string]: SpinnerType;
@@ -22,7 +23,7 @@ export interface SpinnerFallbackProps {
   dimmed?: boolean;
 }
 
-export default class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
+export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
   public static __KONTUR_REACT_UI__ = 'SpinnerFallback';
 
   public static propTypes = {

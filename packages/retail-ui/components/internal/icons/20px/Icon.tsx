@@ -1,6 +1,5 @@
-import * as React from 'react';
-
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './Icon.module.less';
 
@@ -24,7 +23,7 @@ export interface IconProps {
   color: React.CSSProperties['color'];
 }
 
-class Icon extends React.Component<IconProps> {
+export class Icon extends React.Component<IconProps> {
   public static __KONTUR_REACT_UI__ = 'Icon20px';
 
   public static propTypes = {
@@ -51,5 +50,3 @@ class Icon extends React.Component<IconProps> {
     );
   }
 }
-
-export default Icon;

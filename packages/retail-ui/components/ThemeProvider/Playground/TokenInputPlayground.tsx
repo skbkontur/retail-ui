@@ -1,14 +1,16 @@
-/* tslint:disable jsx-no-lambda */
-import * as React from 'react';
-import TokenInput from '../../TokenInput';
-import Token, { TokenColors } from '../../Token';
+import React from 'react';
+
+import { TokenInput } from '../../TokenInput';
+import { Token, TokenColors } from '../../Token';
 
 async function getItems(query: string) {
   return Promise.resolve(
     ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
       x => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query,
     ),
-  ).then((res: string[]) => new Promise<string[]>(resolve => setTimeout(resolve.bind(null, res), 500)));
+  ).then(
+    (res: string[]) => new Promise<string[]>(resolve => setTimeout(resolve.bind(null, res), 500)),
+  );
 }
 
 const tokenColors: { [key: string]: TokenColors } = {

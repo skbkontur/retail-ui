@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React from 'react';
+
 import { Nullable } from '../../typings/utility-types';
+import { getRandomID } from '../../lib/utils';
+
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
-import { getRandomID } from '../../lib/utils';
 
 export class RenderContainer extends React.Component<RenderContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
@@ -20,7 +22,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 
-  public componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
     if (!this.props.children && nextProps.children) {
       this.mountContainer();
     }
@@ -79,5 +81,3 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 }
-
-export default RenderContainer;

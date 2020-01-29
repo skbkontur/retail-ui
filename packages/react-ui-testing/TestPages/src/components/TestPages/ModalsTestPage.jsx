@@ -1,7 +1,7 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button';
-import Modal from 'retail-ui/components/Modal';
-import { CaseSuite, Case } from '../Case';
+import { Button } from 'retail-ui/components/Button';
+import { Modal } from 'retail-ui/components/Modal';
+import { Case, CaseSuite } from '../Case';
 
 export default class InputTextPage extends React.Component {
   state = {

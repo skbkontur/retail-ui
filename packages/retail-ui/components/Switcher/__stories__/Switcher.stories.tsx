@@ -1,8 +1,7 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Switcher from '../Switcher';
+import { Switcher } from '../Switcher';
 
 class Component extends React.Component<{ items: string[]; error?: boolean }, { value: string }> {
   public state = {

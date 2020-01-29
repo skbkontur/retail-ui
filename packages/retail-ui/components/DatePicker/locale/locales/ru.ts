@@ -2,7 +2,7 @@ import { internalDateLocale } from '../../../../lib/date/localeSets';
 import { LangCodes } from '../../../LocaleProvider';
 import { DatePickerLocale } from '../types';
 
-const componentsLocales: DatePickerLocale = {
+export const componentsLocales: DatePickerLocale = {
   today: 'Сегодня',
   months: [
     'Январь',
@@ -20,5 +20,3 @@ const componentsLocales: DatePickerLocale = {
   ],
   ...internalDateLocale[LangCodes.ru_RU],
 };
-
-export default componentsLocales;

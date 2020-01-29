@@ -1,5 +1,5 @@
 import { LENGTH_DATE, LENGTH_MONTH, LENGTH_YEAR } from '../../../lib/date/constants';
-import { InternalDateComponentType, InternalDateComponentRaw } from '../../../lib/date/types';
+import { InternalDateComponentRaw, InternalDateComponentType } from '../../../lib/date/types';
 
 export const inputNumber = (
   type: InternalDateComponentType | null,
@@ -9,7 +9,7 @@ export const inputNumber = (
 ): { nextValue: InternalDateComponentRaw; nextInputMode: boolean } => {
   let nextInputMode = false;
   let nextValue: string;
-  let first: number = 10;
+  let first = 10;
   let length: number = LENGTH_YEAR;
   if (type === InternalDateComponentType.Month) {
     first = 1;

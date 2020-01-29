@@ -1,4 +1,4 @@
-import presets from './presets';
+import { presets } from './presets';
 
 const secondPerFrame = 1 / 45;
 

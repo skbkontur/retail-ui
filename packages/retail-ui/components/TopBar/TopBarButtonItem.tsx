@@ -1,8 +1,9 @@
-import * as React from 'react';
-import Item, { ItemProps } from './TopBarItem';
+import React from 'react';
 
-import styles from './TopBar.module.less';
 import { IconProps } from '../internal/icons/20px';
+
+import { Item, ItemProps } from './TopBarItem';
+import styles from './TopBar.module.less';
 
 export interface ButtonItemProps extends ItemProps {
   active?: boolean;
@@ -20,7 +21,7 @@ export interface ButtonItemProps extends ItemProps {
  *
  * @visibleName TopBar.ButtonItem
  */
-class ButtonItem extends React.Component<ButtonItemProps> {
+export class ButtonItem extends React.Component<ButtonItemProps> {
   public static defaultProps = {
     use: 'default',
   };
@@ -33,5 +34,3 @@ class ButtonItem extends React.Component<ButtonItemProps> {
     );
   }
 }
-
-export default ButtonItem;

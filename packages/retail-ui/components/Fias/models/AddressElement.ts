@@ -1,5 +1,6 @@
 import { EstateStatuses, FiasId, Fields, StructureStatuses, FiasObject } from '../types';
 import { abbreviations } from '../constants/abbreviations';
+
 import { FiasData } from './FiasData';
 
 export class AddressElement {
@@ -41,7 +42,7 @@ export class AddressElement {
     }
   }
 
-  public getText(withoutType: boolean = false): string {
+  public getText(withoutType = false): string {
     const { name, data } = this;
     let result = '';
 

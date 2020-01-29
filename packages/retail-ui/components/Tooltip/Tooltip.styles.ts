@@ -1,8 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  cross(t: ITheme) {
+export const jsStyles = {
+  cross(t: Theme) {
     return css`
       color: ${t.tooltipCloseBtnColor};
 
@@ -12,5 +12,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

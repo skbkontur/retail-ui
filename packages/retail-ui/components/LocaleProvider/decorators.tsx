@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+
 import { defaultLangCode } from './constants';
 import { LocaleConsumer, LocaleProviderProps } from './LocaleProvider';
 import { LocaleHelper } from './LocaleHelper';
@@ -30,6 +31,10 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
         const langCode = this._localeContext.langCode;
         const localeFromContext = this._localeContext.locale && this._localeContext.locale[this.controlName];
         return Object.assign({}, this.localeHelper.get(langCode), localeFromContext);
+      }
+
+      public set locale(l: C) {
+        // TODO альтернативная транспиляция декораторов ломает тесты
       }
 
       public get langCode(): LangCodes {

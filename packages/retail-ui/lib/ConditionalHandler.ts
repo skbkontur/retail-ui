@@ -19,7 +19,7 @@ export class ConditionalHandler<T, K extends any[] = any[]> {
    */
   public build(): (reference: T, ...args: K) => boolean {
     return (reference, ...args) => {
-      let found: boolean = false;
+      let found = false;
       this.actions.forEach(({ condition, handler }) => {
         if (isFunction(condition) ? condition(reference) : condition === reference) {
           handler(...args);

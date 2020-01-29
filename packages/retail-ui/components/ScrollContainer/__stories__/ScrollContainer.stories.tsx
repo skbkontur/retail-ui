@@ -1,8 +1,7 @@
-import * as React from 'react';
+import React, { CSSProperties } from 'react';
 import { storiesOf } from '@storybook/react';
 
-import ScrollContainer, { ScrollContainerScrollState } from '../ScrollContainer';
-import { CSSProperties } from 'react';
+import { ScrollContainer, ScrollContainerScrollState } from '../ScrollContainer';
 
 function getItems(count: number) {
   const items = [];

@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 
-import TopBarDropdown from './TopBarDropdown';
-
-import styles from './TopBar.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../internal/icons/16px';
+
+import { TopBarDropdown } from './TopBarDropdown';
+import styles from './TopBar.module.less';
 
 export interface OrganizationsProps {
   caption: React.ReactNode;
@@ -21,7 +21,7 @@ export interface OrganizationsState {
  * @visibleName TopBar.OrganizationsDropdown
  */
 
-class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
+export class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
   public static __KONTUR_REACT_UI__ = 'TopBarOrganizations';
 
   public state = {
@@ -105,5 +105,3 @@ class Organizations extends React.Component<OrganizationsProps, OrganizationsSta
     }
   }
 }
-
-export default Organizations;

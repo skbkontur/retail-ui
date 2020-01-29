@@ -1,2 +1,0 @@
-/* @flow */
-export { default, RenderLayerProps } from './RenderLayer';

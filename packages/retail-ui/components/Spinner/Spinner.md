@@ -1,6 +1,5 @@
-```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Spinner from '@skbkontur/react-ui/Spinner';
+```jsx harmony
+import { Gapped, Spinner } from '@skbkontur/react-ui';
 
 const reactNodeCaption = (
   <div>

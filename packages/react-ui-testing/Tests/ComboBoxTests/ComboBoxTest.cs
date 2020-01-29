@@ -49,7 +49,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         public void Test_ComboBox_DisablePortal()
         {
             page.ComboBoxNoPortal.Click();
-            page.ComboBoxNoPortal.GetResults().Count.Should().Be(17);
+            page.NoPortalComboBoxItems.Count.Wait().That(Is.EqualTo(17));
             page.ComboBoxNoPortal.InputTextAndSelectFirst("Item 1");
         }
 

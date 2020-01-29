@@ -1,17 +1,19 @@
-import * as React from 'react';
-import { InternalDate } from '../../lib/date/InternalDate';
-import InternalDateGetter from '../../lib/date/InternalDateGetter';
-import Calendar, { CalendarDateShape } from '../Calendar';
+import React from 'react';
 import shallowEqual from 'shallowequal';
+
+import { InternalDate } from '../../lib/date/InternalDate';
+import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
+import { Calendar, CalendarDateShape } from '../Calendar';
 import { locale } from '../LocaleProvider/decorators';
-import styles from './Picker.module.less';
 import { Nullable } from '../../typings/utility-types';
-import { isLess, isGreater } from '../Calendar/CalendarDateShape';
-import { DatePickerLocaleHelper, DatePickerLocale } from './locale';
-import jsStyles from './Picker.styles';
+import { isGreater, isLess } from '../Calendar/CalendarDateShape';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
-import ThemeConsumer from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeConsumer } from '../ThemeConsumer';
+
+import { jsStyles } from './Picker.styles';
+import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
+import styles from './Picker.module.less';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -38,10 +40,10 @@ const getTodayCalendarDate = () => {
 };
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export default class Picker extends React.Component<Props, State> {
+export class Picker extends React.Component<Props, State> {
   public static __KONTUR_REACT_UI__ = 'Picker';
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 
@@ -75,7 +77,6 @@ export default class Picker extends React.Component<Props, State> {
   private renderMain() {
     const { date } = this.state;
     return (
-      // tslint:disable-next-line:jsx-no-lambda
       <div className={cx(styles.root, jsStyles.root(this.theme))} onMouseDown={e => e.preventDefault()}>
         <Calendar
           ref={c => (this.calendar = c)}

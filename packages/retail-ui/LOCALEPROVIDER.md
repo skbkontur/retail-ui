@@ -1,5 +1,3 @@
-Локализация компонентов с помощью полифила [`create-react-context`](https://github.com/jamiebuilds/create-react-context)
-
 ### Props
 
 ```typescript
@@ -40,9 +38,8 @@ interface LocaleControls {
 
 Дефолтная локализация `<TokenInput />`
 
-```jsx
-import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
-import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
+```jsx harmony
+import { LangCodes, LocaleProvider, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 <LocaleProvider langCode={LangCodes.en_GB}>
@@ -52,9 +49,8 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 Кастомная локализация `<TokenInput />`
 
-```jsx
-import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
-import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
+```jsx harmony
+import { LangCodes, LocaleProvider, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -72,11 +68,8 @@ const customLocale = {
 <br/>
 Для инкапсуляции локализации можно использовать несколько контекстов.
 
-```jsx
-import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
-import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Spinner from '@skbkontur/react-ui/Spinner';
+```jsx harmony
+import { Gapped, LangCodes, LocaleProvider, Spinner, TokenInput } from '@skbkontur/react-ui';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -99,19 +92,23 @@ const customLocale = {
 
 ### Обзор всех доступных контролов
 
-```jsx
-import TokenInput, { TokenInputType } from '@skbkontur/react-ui/TokenInput';
-import LocaleProvider, { LangCodes } from '@skbkontur/react-ui/LocaleProvider';
-import Gapped from '@skbkontur/react-ui/Gapped';
-import Select from '@skbkontur/react-ui/Select';
-import ComboBox from '@skbkontur/react-ui/ComboBox';
-import Spinner from '@skbkontur/react-ui/Spinner';
-import TopBar from '@skbkontur/react-ui/TopBar';
-import Paging from '@skbkontur/react-ui/Paging';
-import Logotype from '@skbkontur/react-ui/Logotype';
-import DatePicker from '@skbkontur/react-ui/DatePicker';
-import DateInput from '@skbkontur/react-ui/DateInput';
-import Fias from '@skbkontur/react-ui/Fias';
+```jsx harmony
+import {
+  ComboBox,
+  DateInput,
+  DatePicker,
+  Fias,
+  Gapped,
+  LocaleProvider,
+  Logotype,
+  Paging,
+  Select,
+  Spinner,
+  TokenInput,
+  TopBar,
+} from '@skbkontur/react-ui';
+import { LangCodes } from '@skbkontur/react-ui/components/LocaleProvider';
+import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 

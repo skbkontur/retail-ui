@@ -1,6 +1,8 @@
+import { Fields, AddressFields } from 'retail-ui/components/Fias/types';
+
 import { FiasLocaleHelper } from '../../../locale';
 import { Address } from '../../Address';
-import { Fields, AddressFields } from 'retail-ui/components/Fias/types';
+
 import { removeFiasDataTestCases } from './__fixtures__/removeFiasData';
 import { getParentTestCases } from './__fixtures__/getParent';
 import { responseToFieldsTestCases } from './__fixtures__/responseToFields';

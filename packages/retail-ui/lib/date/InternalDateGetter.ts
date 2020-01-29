@@ -7,7 +7,7 @@ import {
   InternalDateComponents,
 } from './types';
 
-export default class InternalDateGetter {
+export class InternalDateGetter {
   public static max = (datesCustom: InternalDate[]): InternalDate =>
     datesCustom.sort((a, b) => b.toNumber() - a.toNumber())[0];
 

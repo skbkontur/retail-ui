@@ -1,13 +1,15 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Nullable, Override } from '../../typings/utility-types';
-import tabListener from '../../lib/events/tabListener';
+import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles, { classes } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { OkIcon, SquareIcon } from '../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
+
+import { classes, jsStyles } from './Checkbox.styles';
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -41,7 +43,7 @@ export interface CheckboxState {
 /**
  * Все свойства, кроме перечисленных, `className` и `style` передаются в `input`.
  */
-class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
   public static propTypes = {
@@ -61,7 +63,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     indeterminate: this.props.initialIndeterminate || false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private input: Nullable<HTMLInputElement>;
 
   public componentDidMount = () => {
@@ -70,7 +72,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  public componentWillReceiveProps(nextProps: CheckboxProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: CheckboxProps) {
     if (nextProps.checked !== this.props.checked) {
       this.resetIndeterminate();
     }
@@ -151,6 +153,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const isIndeterminate = this.state.indeterminate;
 
     const rootClass = cx(classes.root, jsStyles.root(this.theme), {
+      [jsStyles.rootFallback()]: isIE11 || isEdge,
       [classes.disabled]: !!props.disabled,
       [jsStyles.disabled(this.theme)]: !!props.disabled,
       [jsStyles.checked(this.theme)]: !!props.checked,
@@ -230,5 +233,3 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.resetIndeterminate();
   };
 }
-
-export default Checkbox;

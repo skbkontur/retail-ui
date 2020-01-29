@@ -1,18 +1,20 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { locale } from '../LocaleProvider/decorators';
-import RenderLayer from '../RenderLayer';
-import DropdownContainer from '../DropdownContainer/DropdownContainer';
-import LayoutEvents from '../../lib/LayoutEvents';
+import { RenderLayer } from '../RenderLayer';
+import { DropdownContainer } from '../DropdownContainer';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import styles from './DateSelect.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './DateSelect.styles';
-import { ITheme } from '../../lib/theming/Theme';
-import ThemeConsumer from '../ThemeConsumer';
-import { ArrowTriangleUpDownIcon, ArrowTriangleUpIcon, ArrowTriangleDownIcon } from '../internal/icons/16px';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { ArrowTriangleDownIcon, ArrowTriangleUpDownIcon, ArrowTriangleUpIcon } from '../internal/icons/16px';
+
+import { jsStyles } from './DateSelect.styles';
+import styles from './DateSelect.module.less';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -43,7 +45,7 @@ export interface DateSelectState {
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export default class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
+export class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
 
   public static propTypes = {
@@ -80,17 +82,17 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     nodeTop: Infinity,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: DatePickerLocale;
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private timeout: number | undefined;
-  private longClickTimer: number = 0;
-  private setPositionRepeatTimer: number = 0;
-  private yearStep: number = 3;
+  private longClickTimer = 0;
+  private setPositionRepeatTimer = 0;
+  private yearStep = 3;
 
-  public componentWillReceiveProps() {
+  public UNSAFE_componentWillReceiveProps() {
     this.setNodeTop();
   }
 
@@ -249,9 +251,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
         <div
           key={i}
           className={className}
-          // tslint:disable-next-line:jsx-no-lambda
           onMouseEnter={() => this.setState({ current: i })}
-          // tslint:disable-next-line:jsx-no-lambda
           onMouseLeave={() => this.setState({ current: null })}
           {...clickHandler}
         >
@@ -379,7 +379,7 @@ export default class DateSelect extends React.Component<DateSelectProps, DateSel
     } else if (event.deltaMode === 2) {
       deltaY *= itemHeight * 4;
     }
-    const pos = (this.state.pos += deltaY);
+    const pos = this.state.pos + deltaY;
     this.setPosition(pos);
   };
 

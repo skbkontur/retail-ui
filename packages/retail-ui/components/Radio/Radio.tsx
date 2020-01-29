@@ -1,12 +1,13 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import '../ensureOldIEClassName';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Nullable, Override } from '../../typings/utility-types';
-import styles from './Radio.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Radio.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './Radio.styles';
+import styles from './Radio.module.less';
 
 export interface SyntheticRadioEvent<T> {
   target: {
@@ -65,7 +66,7 @@ export type RadioProps<T> = Override<
  * };
  * ```
  */
-class Radio<T> extends React.Component<RadioProps<T>> {
+export class Radio<T> extends React.Component<RadioProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Radio';
 
   public static contextTypes = {
@@ -81,7 +82,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
     focused: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private _node: Nullable<HTMLInputElement> = null;
 
   public render() {
@@ -266,5 +267,3 @@ function createSyntheticEvent<T>({ value, id, name, checked, disabled }: RadioPr
   };
   return syntheticEvent;
 }
-
-export default Radio;

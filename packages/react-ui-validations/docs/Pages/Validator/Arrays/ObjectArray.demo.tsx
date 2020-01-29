@@ -1,20 +1,20 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Button } from 'retail-ui/components/Button';
+import { Input } from 'retail-ui/components/Input';
+
 import {
   createValidator,
   ValidationContainer,
   ValidationWrapper,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface ContactInfo {
   name: string;
   email: string;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo[]>(b => {
   b.array(
     x => x,
@@ -35,8 +35,6 @@ const validate = createValidator<ContactInfo[]>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   contacts: ContactInfo[];

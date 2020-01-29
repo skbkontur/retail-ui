@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import Gapped from '../../Gapped';
-import Radio from '../Radio';
+import { Gapped } from '../../Gapped';
+import { Radio } from '../Radio';
 
 storiesOf('Radio', module)
   .add('Radio with different states', () => (

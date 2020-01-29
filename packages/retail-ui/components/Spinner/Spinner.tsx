@@ -1,15 +1,17 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { locale } from '../LocaleProvider/decorators';
-import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
-import styles from './Spinner.module.less';
-import SpinnerFallback, { types } from './SpinnerFallback';
-import jsStyles from './Spinner.styles';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
-import SpinnerIcon from '../internal/icons/SpinnerIcon';
+import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
+
+import { jsStyles } from './Spinner.styles';
+import { SpinnerFallback, types } from './SpinnerFallback';
+import styles from './Spinner.module.less';
+import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
@@ -28,7 +30,7 @@ export interface SpinnerProps {
  */
 
 @locale('Spinner', SpinnerLocaleHelper)
-class Spinner extends React.Component<SpinnerProps> {
+export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
 
   public static propTypes = {
@@ -56,7 +58,7 @@ class Spinner extends React.Component<SpinnerProps> {
   };
 
   public static Types: typeof types = types;
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   public render() {
@@ -117,5 +119,3 @@ class Spinner extends React.Component<SpinnerProps> {
     return <span className={captionClassName}>{caption}</span>;
   };
 }
-
-export default Spinner;

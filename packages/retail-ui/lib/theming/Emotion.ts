@@ -1,6 +1,7 @@
 import createEmotion from 'create-emotion';
 import { Context, Plugin } from '@emotion/stylis';
-import Upgrade from '../Upgrades';
+
+import { Upgrade } from '../Upgrades';
 import LESS_VARIABLES from '../../components/variables.module.less';
 
 // NOTE Type according by https://github.com/thysultan/stylis.js

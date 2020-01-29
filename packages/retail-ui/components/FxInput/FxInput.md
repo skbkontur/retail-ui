@@ -1,4 +1,4 @@
-```jsx
+```jsx harmony
 let initialState = { auto: false };
 
 function handleChange(event) {

@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import { mount } from 'enzyme';
 import ReactDOM from 'react-dom';
 
-import Toast, { ToastProps, ToastState } from '../Toast';
+import { Toast, ToastProps, ToastState } from '../Toast';
 
 jest.useFakeTimers();
 

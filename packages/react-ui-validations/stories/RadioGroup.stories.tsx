@@ -1,10 +1,11 @@
 import { storiesOf } from '@storybook/react';
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import RadioGroup from 'retail-ui/components/RadioGroup';
+import React from 'react';
+import { Button } from 'retail-ui/components/Button';
+import { RadioGroup } from 'retail-ui/components/RadioGroup';
+import { Radio } from 'retail-ui/components/Radio';
+
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
-import Radio from 'retail-ui/components/Radio';
 
 storiesOf('RadioGroup', module)
   .add('Example1', () => <RadioGroupStory />)
@@ -36,7 +37,7 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
       <div style={{ padding: '20px 20px' }}>
         <ValidationContainer ref={this.refContainer}>
           <ValidationWrapper validationInfo={this.validateSex()}>
-            <RadioGroup
+            <RadioGroup<RadioGroupStoryState['sex']>
               value={this.state.sex}
               items={['male', 'female'] as Sex[]}
               renderItem={x => <span>{x}</span>}
@@ -74,7 +75,10 @@ class RadioGroupChildrenStory extends React.Component<{}, RadioGroupStoryState> 
       <div style={{ padding: '20px 20px' }}>
         <ValidationContainer ref={this.refContainer}>
           <ValidationWrapper validationInfo={this.validateSex()}>
-            <RadioGroup value={this.state.sex} onChange={(e, value) => this.setState({ sex: value })}>
+            <RadioGroup<RadioGroupStoryState['sex']>
+              value={this.state.sex}
+              onChange={(e, value) => this.setState({ sex: value })}
+            >
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Radio value={'male'}>male</Radio>
                 <Radio value={'female'}>female</Radio>

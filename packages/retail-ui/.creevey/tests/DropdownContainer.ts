@@ -8,13 +8,11 @@ describe('DropdownContainer', function() {
     });
     it('short Items scroll', async function() {
       await this.browser.executeScript(function() {
-        // tslint:disable
         // @ts-ignore
         var innerScroll: Element = window.document.querySelector('#inner-scroll');
         innerScroll.scrollTop = innerScroll.scrollHeight;
         innerScroll.scrollLeft = innerScroll.scrollWidth;
-        // tslint:enable
-      });
+        });
       await expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
     });
     it('long Items', async function() {
@@ -30,13 +28,11 @@ describe('DropdownContainer', function() {
         .click(this.browser.findElement(By.css('#buttons button')))
         .perform();
       await this.browser.executeScript(function() {
-        // tslint:disable
         // @ts-ignore
         var innerScroll: Element = window.document.querySelector('#inner-scroll');
         innerScroll.scrollTop = innerScroll.scrollHeight;
         innerScroll.scrollLeft = innerScroll.scrollWidth;
-        // tslint:enable
-      });
+        });
       await expect(await this.browser.takeScreenshot()).to.matchImage('long Items scroll');
     });
   });

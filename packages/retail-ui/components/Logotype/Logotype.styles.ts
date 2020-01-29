@@ -1,8 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  root(t: ITheme) {
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       color: ${t.logoColor};
 
@@ -12,11 +12,9 @@ const jsStyles = {
     `;
   },
 
-  divider(t: ITheme) {
+  divider(t: Theme) {
     return css`
       background-color: ${t.tdDividerBg};
     `;
   },
 };
-
-export default jsStyles;

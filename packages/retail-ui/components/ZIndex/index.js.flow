@@ -1,2 +1,0 @@
-/* @flow */
-export { default, ZIndexProps } from './ZIndex';

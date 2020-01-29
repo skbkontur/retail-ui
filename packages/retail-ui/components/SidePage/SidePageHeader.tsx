@@ -1,13 +1,15 @@
-import * as React from 'react';
-import Sticky from '../Sticky';
-import CrossIcon from '../internal/icons/CrossIcon';
-import { SidePageContext } from './SidePageContext';
-import styles from './SidePage.module.less';
+import React from 'react';
+
+import { Sticky } from '../Sticky';
+import { CrossIcon } from '../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './SidePage.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './SidePage.styles';
+import styles from './SidePage.module.less';
+import { SidePageContext } from './SidePageContext';
 
 const REGULAR_HEADER_PADDING_TOP = 25;
 const FIXED_HEADER_PADDING_TOP = 13;
@@ -28,16 +30,16 @@ export interface SidePageHeaderState {
  *
  * @visibleName SidePage.Header
  */
-export default class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
+export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
 
   public state = {
     isReadyToFix: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private wrapper: HTMLElement | null = null;
-  private lastRegularHeight: number = 0;
+  private lastRegularHeight = 0;
 
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
@@ -82,7 +84,7 @@ export default class SidePageHeader extends React.Component<SidePageHeaderProps,
     );
   }
 
-  private renderHeader = (fixed: boolean = false) => {
+  private renderHeader = (fixed = false) => {
     return (
       <div className={cx(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
         {this.renderClose()}

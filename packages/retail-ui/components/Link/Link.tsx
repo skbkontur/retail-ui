@@ -1,13 +1,15 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
-import tabListener from '../../lib/events/tabListener';
-import styles from './Link.module.less';
+import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Link.styles';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
+
+import { jsStyles } from './Link.styles';
+import styles from './Link.module.less';
 
 interface UseClasses {
   default: string;
@@ -16,7 +18,7 @@ interface UseClasses {
   grayed: string;
 }
 
-function getUseClasses(t: ITheme): UseClasses {
+function getUseClasses(t: Theme): UseClasses {
   return {
     default: cx(styles.useDefault, jsStyles.useDefault(t)),
     success: cx(styles.useSuccess),
@@ -54,7 +56,7 @@ export interface LinkState {
  * Все свойства передаются в элемент `<a>`.
  * `className` и `style` не поддерживаются
  */
-class Link extends React.Component<LinkProps, LinkState> {
+export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
 
   public static propTypes = {
@@ -76,7 +78,7 @@ class Link extends React.Component<LinkProps, LinkState> {
     focusedByTab: false,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private getProps = createPropsGetter(Link.defaultProps);
 
   public render(): JSX.Element {
@@ -160,5 +162,3 @@ class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 }
-
-export default Link;

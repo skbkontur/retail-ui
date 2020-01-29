@@ -1,1 +1,1 @@
-export { default, InputLikeTextProps } from './InputLikeText';
+export { InputLikeText, InputLikeTextProps, InputLikeTextState } from './InputLikeText';

@@ -1,9 +1,10 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Link.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  useDefault(t: ITheme) {
+import styles from './Link.module.less';
+
+export const jsStyles = {
+  useDefault(t: Theme) {
     return css`
       color: ${t.linkColor};
 
@@ -17,7 +18,7 @@ const jsStyles = {
     `;
   },
 
-  focus(t: ITheme) {
+  focus(t: Theme) {
     return css`
       .${styles.useDefault}& {
         color: ${t.linkColor};
@@ -36,7 +37,7 @@ const jsStyles = {
     `;
   },
 
-  useGrayed(t: ITheme) {
+  useGrayed(t: Theme) {
     return css`
       color: ${t.linkDisabledColor};
 
@@ -50,7 +51,7 @@ const jsStyles = {
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       .${styles.useDefault}& {
         color: ${t.linkDisabledColor};
@@ -83,5 +84,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

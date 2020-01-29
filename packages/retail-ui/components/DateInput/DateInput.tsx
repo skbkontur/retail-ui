@@ -1,19 +1,20 @@
-import * as React from 'react';
+import React from 'react';
+
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateComponentType } from '../../lib/date/types';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
-import InputLikeText from '../internal/InputLikeText';
+import { InputLikeText } from '../internal/InputLikeText';
 import { locale } from '../LocaleProvider/decorators';
-import ThemeConsumer from '../ThemeConsumer';
-import { DateFragmentsView } from './DateFragmentsView';
-import jsStyles from './DateInput.styles';
-import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
-import InternalDateMediator from './helpers/InternalDateMediator';
-import { IconType } from '../Input/Input';
+import { ThemeConsumer } from '../ThemeConsumer';
 import { CalendarIcon } from '../internal/icons/16px';
+
+import { DateFragmentsView } from './DateFragmentsView';
+import { jsStyles } from './DateInput.styles';
+import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
+import { InternalDateMediator } from './helpers/InternalDateMediator';
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
@@ -74,12 +75,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
   private inputLikeText: InputLikeText | null = null;
   private dateFragmentsView: DateFragmentsView | null = null;
-  private isMouseDown: boolean = false;
-  private isMouseFocus: boolean = false;
-  private ignoringDelimiter: boolean = false;
+  private isMouseDown = false;
+  private isMouseFocus = false;
+  private ignoringDelimiter = false;
   private locale!: DatePickerLocale;
   private blurEvent: React.FocusEvent<HTMLElement> | null = null;
-  private theme!: ITheme;
+  private theme!: Theme;
   private conditionalHandler = new ConditionalHandler<Actions, [React.KeyboardEvent<HTMLElement>]>()
     .add(Actions.MoveSelectionLeft, () => this.shiftSelection(-1))
     .add(Actions.MoveSelectionRight, () => this.shiftSelection(1))
@@ -202,7 +203,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     );
   }
 
-  private renderIcon = (): IconType => {
+  private renderIcon = () => {
     const { withIcon, size, disabled = false } = this.props;
 
     if (withIcon) {
@@ -417,5 +418,3 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.updateValue({ inputMode });
   };
 }
-
-export default DateInput;

@@ -1,12 +1,10 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  root(t: ITheme) {
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       color: ${t.textColorDefault};
     `;
   },
 };
-
-export default jsStyles;

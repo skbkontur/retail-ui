@@ -1,12 +1,12 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { linkTo } from '@storybook/addon-links';
+
 import { ComponentTable } from '../../internal/ComponentTable';
-import Tabs from '../Tabs';
+import { Tabs } from '../Tabs';
 import { TabProps } from '../Tab';
-import Modal from '../../Modal';
-import Button from '../../Button';
+import { Modal } from '../../Modal';
+import { Button } from '../../Button';
 const { Tab } = Tabs;
 
 class UncTabs extends React.Component<any, any> {

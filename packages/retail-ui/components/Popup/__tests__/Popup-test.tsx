@@ -1,13 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
-import Popup, { PopupProps, PopupState } from '../Popup';
-import { delay } from '../../../lib/utils';
-import RenderContainer from '../../RenderContainer/RenderContainer';
-import ZIndex from '../../ZIndex';
 import { Transition } from 'react-transition-group';
+import { ReactComponentLike } from 'prop-types';
+
+import { Popup, PopupProps, PopupState } from '../Popup';
+import { delay } from '../../../lib/utils';
+import { RenderContainer } from '../../RenderContainer/RenderContainer';
+import { ZIndex } from '../../ZIndex';
 import { RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
-import { ReactComponentLike } from 'prop-types';
+
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {
@@ -53,11 +55,17 @@ describe('Popup', () => {
     anchor.id = 'test-id';
     anchor.innerHTML = 'test';
 
-    const wrapper = mount<Popup>((
-      <Popup positions={['bottom right', 'top left', 'top right', 'bottom left']} opened={false} anchorElement={anchor}>
-        Test content
-      </Popup>
-    ) as React.ReactElement<PopupProps>);
+    const wrapper = mount<Popup>(
+      (
+        <Popup
+          positions={['bottom right', 'top left', 'top right', 'bottom left']}
+          opened={false}
+          anchorElement={anchor}
+        >
+          Test content
+        </Popup>
+      ) as React.ReactElement<PopupProps>,
+    );
 
     expect(wrapper.state('location')).toBeNull();
 
@@ -74,16 +82,18 @@ describe('Popup', () => {
     anchor.innerHTML = 'test';
     anchor.style.setProperty('margin', '0 0 100px 0');
 
-    const wrapper = mount<Popup>((
-      <Popup
-        positions={['top left', 'top right', 'bottom left', 'bottom right']}
-        opened={false}
-        anchorElement={anchor as HTMLElement}
-        popupOffset={20}
-      >
-        Test content
-      </Popup>
-    ) as React.ReactElement<PopupProps>);
+    const wrapper = mount<Popup>(
+      (
+        <Popup
+          positions={['top left', 'top right', 'bottom left', 'bottom right']}
+          opened={false}
+          anchorElement={anchor as HTMLElement}
+          popupOffset={20}
+        >
+          Test content
+        </Popup>
+      ) as React.ReactElement<PopupProps>,
+    );
 
     expect(wrapper.state('location')).toBeNull();
 

@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 
-import Hint from '../Hint';
+import { Hint } from '../Hint';
 
 describe('Hint', () => {
   it('render without crash', async () => {

@@ -1,37 +1,37 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  popup(t: ITheme) {
+export const jsStyles = {
+  popup(t: Theme) {
     return css`
       border-radius: ${t.popupBorderRadius};
       border: ${t.popupBorder} ${t.popupBorderColor};
     `;
   },
 
-  content(t: ITheme) {
+  content(t: Theme) {
     return css`
       border-radius: ${t.popupBorderRadius};
     `;
   },
 
-  contentInner(t: ITheme) {
+  contentInner(t: Theme) {
     return css`
       color: ${t.popupTextColor};
       background: ${t.popupBackground};
     `;
   },
 
-  shadow(t: ITheme) {
+  shadow(t: Theme) {
     return css`
       filter: ${t.popupDropShadow};
       -webkit-filter: ${t.popupDropShadow};
+    `;
+  },
 
-      .rt-ie-any & {
-        box-shadow: ${t.popupBoxShadow};
-      }
+  shadowFallback(t: Theme) {
+    return css`
+      box-shadow: ${t.popupBoxShadow};
     `;
   },
 };
-
-export default jsStyles;

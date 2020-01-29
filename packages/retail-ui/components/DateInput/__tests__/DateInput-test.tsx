@@ -1,11 +1,11 @@
 import { mount, ReactWrapper } from 'enzyme';
-import * as React from 'react';
-import { HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
+
 import { DefaultizeProps } from '../../../lib/utils';
 import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder } from '../../../lib/date/types';
-import LocaleProvider, { LocaleProviderProps } from '../../LocaleProvider';
-import DateInput, { DateInputProps } from '../DateInput';
+import { LocaleProvider, LocaleProviderProps } from '../../LocaleProvider';
+import { DateInput, DateInputProps } from '../DateInput';
 
 interface LocaleDateInputProps {
   propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>;
