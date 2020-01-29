@@ -50,7 +50,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     offset: PropTypes.number,
 
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
-    allowChildWithMargins: PropTypes.bool,
   };
 
   public static defaultProps = { offset: 0 };
