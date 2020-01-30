@@ -18,6 +18,7 @@ export type CurrencyInputProps = Override<
     value: Nullable<number>;
     /** Кол-во цифр после зяпятой */
     fractionDigits?: Nullable<number>;
+    trailingZeros?: boolean;
     /** Отрицательные значения */
     signed?: boolean;
     /**
@@ -56,6 +57,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     fractionDigits: PropTypes.number,
+    trailingZeros: PropTypes.bool,
     leftIcon: PropTypes.element,
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
@@ -75,11 +77,12 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   public static defaultProps = {
     align: 'right',
     fractionDigits: 2,
+    trailingZeros: true,
     value: null,
   };
 
   public state: CurrencyInputState = {
-    ...this.getState(this.props.value, this.props.fractionDigits),
+    ...this.getState(this.props.value, this.props.fractionDigits, this.props.trailingZeros),
     focused: false,
   };
 
@@ -100,9 +103,9 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public componentWillReceiveProps(nextProps: CurrencyInputProps) {
-    const { value, fractionDigits } = nextProps;
+    const { value, fractionDigits, trailingZeros } = nextProps;
     if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
-      const state = this.getState(value, fractionDigits);
+      const state = this.getState(value, fractionDigits, trailingZeros);
       this.setState(state);
     }
   }
@@ -121,6 +124,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {
             fractionDigits: this.props.fractionDigits,
+            trailingZeros: this.props.trailingZeros
           })
         : this.props.placeholder;
 
@@ -163,9 +167,9 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     }
   };
 
-  private getState(value: Nullable<number>, fractionDigits: Nullable<number>) {
+  private getState(value: Nullable<number>, fractionDigits: Nullable<number>, trailingZeros: boolean = true) {
     return {
-      formatted: CurrencyHelper.format(value, { fractionDigits }),
+      formatted: CurrencyHelper.format(value, { fractionDigits, trailingZeros }),
       selection: SelectionHelper.fromPosition(0),
     };
   }
@@ -373,7 +377,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
-      ...this.getState(value, this.props.fractionDigits),
+      ...this.getState(value, this.props.fractionDigits, this.props.trailingZeros),
       focused: false,
     });
 

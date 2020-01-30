@@ -5,15 +5,12 @@ import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
 
 export interface DecimalFormattingOptions {
   fractionDigits?: Nullable<number>;
+  trailingZeros?: boolean;
   thousandsDelimiter?: string;
   minusSign?: string;
 }
 
-interface DecimalFormattingOptionsInternal {
-  fractionDigits: Nullable<number>;
-  thousandsDelimiter: string;
-  minusSign: string;
-}
+type DecimalFormattingOptionsInternal = Required<DecimalFormattingOptions>;
 
 export interface FormattingInfo {
   raw: string;
@@ -24,6 +21,7 @@ export interface FormattingInfo {
 export default class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
+    trailingZeros: true,
     thousandsDelimiter: String.fromCharCode(0x2009),
     minusSign: String.fromCharCode(0x2212),
   };
@@ -105,9 +103,16 @@ export default class CurrencyHelper {
     value = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(value) || { sign: '', integer: '', delimiter: '', fraction: '' };
 
-    const { sign, integer, delimiter, fraction } = destructed;
+    const { sign, integer, delimiter } = destructed;
+    let fraction = destructed.fraction;
+    let fractionDigits = fraction.length;
 
-    const fractionDigits = options.fractionDigits == null ? fraction.length : options.fractionDigits;
+    if (!options.trailingZeros) {
+      fractionDigits = this.lengthWithoutTrailingZeros(fraction);
+      fraction = fraction.substring(0, fractionDigits);
+    } else if (options.fractionDigits !== null) {
+      fractionDigits = options.fractionDigits;
+    }
 
     const parts = [];
 
@@ -195,5 +200,15 @@ export default class CurrencyHelper {
     }
     const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
     return { sign, integer, delimiter, fraction };
+  }
+
+  private static lengthWithoutTrailingZeros(value: string): number {
+    for (let i = value.length - 1; i >= 0; i--) {
+      if (value[i] !== '0') {
+        return i + 1;
+      }
+    }
+
+    return 0;
   }
 }
