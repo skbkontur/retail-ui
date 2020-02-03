@@ -375,7 +375,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       ...location.coordinates,
       ...(disablePortal ? { width: maxWidth } : { maxWidth }),
     };
-    console.log(JSON.stringify(this.state), this.lastPopupElement ? this.lastPopupElement.style : 'no style');
 
     return (
       <Transition
