@@ -88,19 +88,18 @@ storiesOf('Hint', module)
     <Hint disablePortal text={'😱'.repeat(100)} pos="bottom center" opened manual>
       🤔
     </Hint>
+  ))
+  .add('Hints without wrapper around inline-block with 50% width', () => (
+    <div style={{ padding: '150px', width: '500px' }}>
+      {PopupPositions.reduce(
+        (child, position) => (
+          <Hint useWrapper={false} text={position} pos={position} manual opened>
+            {child}
+          </Hint>
+        ),
+        <Textarea rows={10} resize="none" width="50%">
+          {"I'm inline-block with 50% width.\n\nHover me!"}
+        </Textarea>,
+      )}
+    </div>
   ));
-
-storiesOf('Hint', module).add('Hints without wrapper around inline-block with 50% width', () => (
-  <div style={{ padding: '150px', width: '500px' }}>
-    {PopupPositions.reduce(
-      (child, position) => (
-        <Hint useWrapper={false} text={position} pos={position} manual opened>
-          {child}
-        </Hint>
-      ),
-      <Textarea rows={10} resize="none" width="50%">
-        {"I'm inline-block with 50% width.\n\nHover me!"}
-      </Textarea>,
-    )}
-  </div>
-));

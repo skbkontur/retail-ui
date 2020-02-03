@@ -41,7 +41,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
     },
   };
 
-  private zIndex = 0;
+  private readonly zIndex: number = 0;
 
   constructor(props: ZIndexProps) {
     super(props);
@@ -70,13 +70,13 @@ export class ZIndex extends React.Component<ZIndexProps> {
     return (
       <ZIndexContext.Consumer>
         {({ parentLayerZIndex, maxZIndex }) => {
-          let zIndexContexValue = { parentLayerZIndex, maxZIndex };
+          let zIndexContextValue = { parentLayerZIndex, maxZIndex };
 
           if (applyZIndex) {
             const newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
             wrapperStyle.zIndex = newZIndex;
 
-            zIndexContexValue = coverChildren
+            zIndexContextValue = coverChildren
               ? { parentLayerZIndex, maxZIndex: newZIndex }
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
@@ -88,7 +88,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
           }
 
           return (
-            <ZIndexContext.Provider value={zIndexContexValue}>
+            <ZIndexContext.Provider value={zIndexContextValue}>
               <div style={{ ...style, ...wrapperStyle }} ref={wrapperRef} {...props}>
                 {children}
               </div>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
+import { PositionProperty } from 'csstype';
 
 import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
@@ -8,7 +9,6 @@ import { ComboBox } from '../../ComboBox';
 import { Hint } from '../../Hint';
 import { Select } from '../../Select';
 import { RenderLayer } from '../../RenderLayer';
-import { PositionProperty } from 'csstype';
 
 storiesOf('Popup', module)
   .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)

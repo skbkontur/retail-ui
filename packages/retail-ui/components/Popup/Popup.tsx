@@ -11,7 +11,7 @@ import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isIE11, isEdge } from '../../lib/utils';
+import { isEdge, isFunction, isIE11 } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
@@ -27,8 +27,9 @@ const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 const DUMMY_LOCATION: PopupLocation = {
   position: 'top left',
   coordinates: {
-    top: -9999,
-    left: -9999,
+    // @ts-ignore
+    transform: 'translate(-9999px, -9999px)',
+    transition: 'none',
   },
 };
 
@@ -85,6 +86,9 @@ export interface PopupProps extends PopupHandlerProps {
   pinSize: number;
   popupOffset: number;
   positions: PopupPosition[];
+  /**
+   * @deprecated
+   */
   useWrapper: boolean;
   ignoreHover: boolean;
   disablePortal?: boolean;
@@ -170,6 +174,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
      * Отключает использование портала
      */
     disablePortal: PropTypes.bool,
+    /**
+     * Включает использование враппера
+     *
+     * @deprecated
+     */
+    useWrapper: PropTypes.bool,
   };
 
   public static defaultProps = {
@@ -365,6 +375,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       ...location.coordinates,
       ...(disablePortal ? { width: maxWidth } : { maxWidth }),
     };
+    console.log(JSON.stringify(this.state), this.lastPopupElement ? this.lastPopupElement.style : 'no style');
 
     return (
       <Transition
