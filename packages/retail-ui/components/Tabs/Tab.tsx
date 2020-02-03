@@ -130,7 +130,7 @@ export class Tab extends React.Component<TabProps, TabState> {
 
   public static defaultProps = {
     component: 'a',
-    href: 'javascript:',
+    href: '',
   };
 
   public state: TabState = {
@@ -265,10 +265,11 @@ export class Tab extends React.Component<TabProps, TabState> {
 
   private switchTab = (event: React.MouseEvent<HTMLElement>) => {
     if (this.props.disabled) {
+      event.preventDefault();
       return;
     }
 
-    const id = this.props.id || this.props.href!;
+    const id = this.props.id || this.props.href;
     if (this.props.onClick) {
       this.props.onClick(event);
       if (event.defaultPrevented) {
@@ -277,6 +278,9 @@ export class Tab extends React.Component<TabProps, TabState> {
     }
     if (this.props.context && typeof id === 'string') {
       this.props.context.switchTab(id);
+    }
+    if (!this.props.href) {
+      event.preventDefault();
     }
   };
 

@@ -179,7 +179,7 @@ describe('ComboBox', () => {
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onChange if onUnexpectedInput return non-nullary value', async () => {
+  it('calls onChange if onUnexpectedInput return defined value', async () => {
     const values = [null, undefined, 'one'];
     const onChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
@@ -194,8 +194,9 @@ describe('ComboBox', () => {
       clickOutside();
     }
 
-    expect(onChange).lastCalledWith({ target: { value: 'one' } }, 'one');
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith({ target: { value: null } }, null);
+    expect(onChange).toHaveBeenCalledWith({ target: { value: 'one' } }, 'one');
+    expect(onChange).not.toHaveBeenCalledWith(undefined);
   });
 
   it('calls onFocus on focus', async () => {
@@ -333,7 +334,7 @@ describe('ComboBox', () => {
     expect(wrapper.find(InputLikeText).exists()).toBe(true);
   });
 
-  it('clear value if onUnexpectedInput return null', async () => {
+  it('clear input value if onUnexpectedInput return null', async () => {
     const wrapper = mount<ComboBox<any>>(
       <ComboBox onUnexpectedInput={() => null} getItems={() => Promise.resolve([])} />,
     );
@@ -346,7 +347,7 @@ describe('ComboBox', () => {
     clickOutside();
     wrapper.update();
 
-    expect(wrapper.find('input').prop('value')).toBe('');
+    expect(wrapper.find('CustomComboBox').state('textValue')).toBe('');
   });
 
   it("shouldn't open on receive items if not focused", async () => {

@@ -17,28 +17,28 @@ describe('Dropdown', () => {
   });
 
   it('It opens and closes', () => {
-    const button = <button id="test-button">Open</button>;
+    const caption = <span id="test-caption">Open</span>;
     const menuItem = <MenuItem>Menu item</MenuItem>;
-    const wrapper = mount(<Dropdown caption={button}>{menuItem}</Dropdown>);
+    const wrapper = mount(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
-    wrapper.find('#test-button').simulate('click');
+    wrapper.find('#test-caption').simulate('click');
 
     const selectInstance = wrapper.find(Select).instance();
 
     expect((selectInstance.state as SelectState<JSX.Element>).opened).toBeTruthy();
 
-    wrapper.find('#test-button').simulate('click');
+    wrapper.find('#test-caption').simulate('click');
     expect((selectInstance.state as SelectState<JSX.Element>).opened).toBeFalsy();
   });
 
   it('Pass props to select', () => {
-    const button = <button id="test-button">Open</button>;
+    const caption = <span id="test-caption">Open</span>;
     const menuItem = <MenuItem>Menu item</MenuItem>;
-    const wrapper = mount(<Dropdown caption={button}>{menuItem}</Dropdown>);
+    const wrapper = mount(<Dropdown caption={caption}>{menuItem}</Dropdown>);
 
     const select = wrapper.find(Select);
 
-    expect(select.prop('value')).toEqual(button);
+    expect(select.prop('value')).toEqual(caption);
     expect(select.prop('items')).toHaveLength(1);
 
     expect(React.isValidElement(select.prop<React.ReactChild[]>('items')[0])).toBeTruthy();
