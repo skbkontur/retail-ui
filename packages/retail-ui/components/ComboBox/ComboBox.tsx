@@ -74,7 +74,7 @@ export interface ComboBoxProps<T> {
    * сработает onChange со значением данного элемента
    *
    * Сама функция также может вернуть значение,
-   * не равное `null` и `undefined`,
+   * неравное `undefined`,
    * с которым будет вызван onChange.
    */
   onUnexpectedInput?: (query: string) => void | null | T;
