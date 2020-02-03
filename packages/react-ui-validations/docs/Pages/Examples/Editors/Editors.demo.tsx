@@ -1,23 +1,20 @@
-import * as React from 'react';
+import React from 'react';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
-import Button from 'retail-ui/components/Button';
-import Checkbox from 'retail-ui/components/Checkbox';
-import ComboBox from 'retail-ui/components/ComboBox';
-import DatePicker from 'retail-ui/components/DatePicker';
-import Input from 'retail-ui/components/Input';
-import Link from 'retail-ui/components/Link';
-import RadioGroup from 'retail-ui/components/RadioGroup';
-import Select from 'retail-ui/components/Select';
-import Textarea from 'retail-ui/components/Textarea';
+import { Button } from 'retail-ui/components/Button';
+import { Checkbox } from 'retail-ui/components/Checkbox';
+import { ComboBox } from 'retail-ui/components/ComboBox';
+import { DatePicker } from 'retail-ui/components/DatePicker';
+import { Input } from 'retail-ui/components/Input';
+import { Link } from 'retail-ui/components/Link';
+import { RadioGroup } from 'retail-ui/components/RadioGroup';
+import { Select } from 'retail-ui/components/Select';
+import { Textarea } from 'retail-ui/components/Textarea';
 import styled from 'styled-components';
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
+
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface LinkContainerProps {
   error?: boolean;
@@ -42,7 +39,6 @@ export interface ContactInfo {
   clicked: boolean;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo>(b => {
   b.prop(
     x => x.name,
@@ -109,8 +105,6 @@ const validate = createValidator<ContactInfo>(b => {
   );
 });
 
-/* tslint:enable:no-shadowed-variable */
-
 interface State {
   data: ContactInfo;
 }
@@ -170,7 +164,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
 
           <Form.Line title="Пол">
             <ValidationWrapper validationInfo={v.getNode(x => x.sex).get()}>
-              <RadioGroup
+              <RadioGroup<ContactInfo['sex']>
                 value={data.sex}
                 onChange={(_, value) => this.handleChange({ sex: value })}
                 items={['male', 'female']}
@@ -202,7 +196,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
 
           <Form.Line title="Вероисповедание">
             <ValidationWrapper validationInfo={v.getNode(x => x.confession).get()}>
-              <Select
+              <Select<ContactInfo['confession'], string>
                 renderItem={x => x}
                 renderValue={x => x}
                 items={[

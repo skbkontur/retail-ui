@@ -1,13 +1,15 @@
-import * as React from 'react';
-import getScrollWidth from '../../lib/dom/getScrollWidth';
-import Sticky from '../Sticky/Sticky';
-import { ModalContext } from './ModalContext';
-import styles from './Modal.module.less';
+import React from 'react';
+
+import { getScrollWidth } from '../../lib/dom/getScrollWidth';
+import { Sticky } from '../Sticky';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
-import ZIndex from '../ZIndex';
+import { Theme } from '../../lib/theming/Theme';
+import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './Modal.styles';
+import styles from './Modal.module.less';
+import { ModalContext } from './ModalContext';
 
 export interface FooterProps {
   /**
@@ -19,15 +21,18 @@ export interface FooterProps {
 
 /**
  * Футер модального окна.
+ *
+ * @visibleName Modal.Footer
  */
 export class Footer extends React.Component<FooterProps> {
+  public static __KONTUR_REACT_UI__ = 'ModalFooter';
   public static __MODAL_FOOTER__ = true;
 
   public static defaultProps = {
     sticky: true,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private scrollbarWidth = getScrollWidth();
 
   public render(): JSX.Element {
@@ -70,8 +75,4 @@ export class Footer extends React.Component<FooterProps> {
 
     return <div className={className}>{this.props.children}</div>;
   };
-}
-
-export function isFooter(child: React.ReactChild): child is React.ReactElement<FooterProps> {
-  return React.isValidElement<FooterProps>(child) && child.type.hasOwnProperty('__MODAL_FOOTER__');
 }

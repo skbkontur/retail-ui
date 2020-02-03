@@ -1,13 +1,14 @@
 // @ts-ignore noUnusedVar
-import * as React from 'react';
+import React from 'react';
+
 import { SEPARATOR } from '../../../lib/date/constants';
 import * as Keyboard from '../../../lib/events/keyboard/identifiers';
 import { KeyboardActionExctracterBuilder } from '../../internal/extractKeyboardAction';
 
 const delimiters = [
   (e: React.KeyboardEvent<HTMLElement> | KeyboardEvent) => new RegExp(SEPARATOR).test(e.key),
-  Keyboard.isCodeMinus,
   Keyboard.isKeySpace,
+  Keyboard.isCodeMinus,
   Keyboard.isCodeComma,
   Keyboard.isCodePeriod,
   Keyboard.isCodeSlash,
@@ -37,7 +38,7 @@ export enum Actions {
   CopyValue,
 }
 
-const extractAction = new KeyboardActionExctracterBuilder()
+const extractAction = new KeyboardActionExctracterBuilder<Actions>()
   .add(Actions.PasteValue, Keyboard.isShortcutPaste)
   .add(Actions.CopyValue, Keyboard.isShortcutCopy)
   .add(Actions.FullSelection, Keyboard.isShortcutSelectAll)

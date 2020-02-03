@@ -1,17 +1,19 @@
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../../lib/events/keyboard/identifiers';
-import isActiveElement from './isActiveElement';
-import ScrollContainer, { ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
-import MenuItem, { MenuItemProps, isMenuItem } from '../../MenuItem';
+import { ScrollContainer, ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
+import { isMenuItem, MenuItem, MenuItemProps } from '../../MenuItem';
 import { isMenuHeader } from '../../MenuHeader';
-import styles from './InternalMenu.module.less';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
 import { cx } from '../../../lib/theming/Emotion';
-import jsStyles from './InternalMenu.styles';
 import { ThemeConsumer } from '../../ThemeConsumer';
-import { ITheme } from '../../../lib/theming/Theme';
+import { Theme } from '../../../lib/theming/Theme';
+
+import { jsStyles } from './InternalMenu.styles';
+import styles from './InternalMenu.module.less';
+import { isActiveElement } from './isActiveElement';
 
 interface MenuProps {
   children?: React.ReactNode;
@@ -36,7 +38,9 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
-export default class InternalMenu extends React.Component<MenuProps, MenuState> {
+export class InternalMenu extends React.Component<MenuProps, MenuState> {
+  public static __KONTUR_REACT_UI__ = 'InternalMenu';
+
   public static defaultProps = {
     width: 'auto',
     maxHeight: 300,
@@ -52,7 +56,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     scrollState: 'top',
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private rootElement: Nullable<HTMLDivElement>;
@@ -71,7 +75,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
     }
   }
 
-  public componentWillReceiveProps(nextProps: MenuProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: MenuProps) {
     if (nextProps.maxHeight !== this.props.maxHeight) {
       this.setState({
         maxHeight: nextProps.maxHeight || 'none',
@@ -96,7 +100,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
 
   private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => typeof x === 'object' && x.props.icon,
+      x => React.isValidElement(x) && x.props.icon,
     );
 
     if (this.isEmpty()) {
@@ -127,7 +131,7 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
             if (typeof child === 'string' || typeof child === 'number' || child == null) {
               return child;
             }
-            if (typeof child.type === 'string') {
+            if (React.isValidElement(child) && typeof child.type === 'string') {
               return child;
             }
 
@@ -225,7 +229,6 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
   private calculateMaxHeight = () => {
     const { maxHeight } = this.props;
     let parsedMaxHeight = maxHeight;
-    let calculatedMaxHeight;
 
     if (typeof maxHeight === 'string' && typeof window !== 'undefined' && this.rootElement) {
       const rootElementMaxHeight = window.getComputedStyle(this.rootElement).maxHeight;
@@ -235,11 +238,11 @@ export default class InternalMenu extends React.Component<MenuProps, MenuState> 
       }
     }
 
-    calculatedMaxHeight =
+    const calculatedMaxHeight =
       typeof parsedMaxHeight === 'number'
         ? parsedMaxHeight +
-          ((this.header && this.header.getBoundingClientRect().height) || 0) +
-          ((this.footer && this.footer.getBoundingClientRect().height) || 0)
+        ((this.header && this.header.getBoundingClientRect().height) || 0) +
+        ((this.footer && this.footer.getBoundingClientRect().height) || 0)
         : maxHeight;
 
     this.setState({
@@ -388,8 +391,8 @@ function isExist(value: any): value is any {
   return value !== null && value !== undefined;
 }
 
-function childrenToArray(children: React.ReactNode): React.ReactChild[] {
-  const ret: React.ReactChild[] = [];
+function childrenToArray(children: React.ReactNode): React.ReactNode[] {
+  const ret: React.ReactNode[] = [];
   // Use forEach instead of map to avoid cloning for key unifying.
   React.Children.forEach(children, child => {
     ret.push(child);

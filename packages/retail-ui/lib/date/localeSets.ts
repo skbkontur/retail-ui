@@ -1,6 +1,12 @@
-import { InternalDateLocaleSet } from '../../components/DatePicker/locale';
 import { LangCodes } from '../../components/LocaleProvider';
-import { InternalDateDayWeek, InternalDateFirstDayWeek, InternalDateOrder, InternalDateSeparator } from './types';
+
+import {
+  InternalDateDayWeek,
+  InternalDateFirstDayWeek,
+  InternalDateLocaleSet,
+  InternalDateOrder,
+  InternalDateSeparator,
+} from './types';
 
 const DateCustomSet_DMY_Dot_Monday_6_7: InternalDateLocaleSet = {
   order: InternalDateOrder.DMY,
@@ -17,7 +23,7 @@ const DateCustomSet_DMY_Slash_Sunday_6_7: InternalDateLocaleSet = {
 };
 
 export const internalDateLocale: {
-  [key in LangCodes]: InternalDateLocaleSet
+  [key in LangCodes]: InternalDateLocaleSet;
 } = {
   [LangCodes.ru_RU]: DateCustomSet_DMY_Dot_Monday_6_7,
   [LangCodes.en_GB]: DateCustomSet_DMY_Slash_Sunday_6_7,

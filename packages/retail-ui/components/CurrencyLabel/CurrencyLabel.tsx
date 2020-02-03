@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
+import React from 'react';
 
-import CurrencyHelper from '../CurrencyInput/CurrencyHelper';
+import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
+import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 
 export type CurrencyLabelProps = {
   /**
@@ -24,6 +24,8 @@ export const CurrencyLabel = ({ value, fractionDigits, currencySymbol }: Currenc
     {currencySymbol}
   </span>
 );
+
+CurrencyLabel.__KONTUR_REACT_UI__ = 'CurrencyLabel';
 
 CurrencyLabel.defaultProps = defaultProps;
 
@@ -53,5 +55,3 @@ CurrencyLabel.propTypes = {
     return null;
   },
 };
-
-export default CurrencyLabel;

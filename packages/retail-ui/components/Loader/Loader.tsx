@@ -1,18 +1,16 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import LayoutEvents from '../../lib/LayoutEvents';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-// Note SpinnerType нужен для генерации правильного .d.ts файла
-// @ts-ignore — Свойство "SpinnerType" объявлено, но его значение не было прочитано
-import Spinner, { SpinnerType, SpinnerProps } from '../Spinner';
-
-import styles from './Loader.module.less';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { Spinner, SpinnerProps } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Loader.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
-import ZIndex from '../ZIndex';
+import { Theme } from '../../lib/theming/Theme';
+import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './Loader.styles';
+import styles from './Loader.module.less';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -34,7 +32,9 @@ export interface LoaderState {
 /**
  * DRAFT - лоадер-контейнер
  */
-class Loader extends React.Component<LoaderProps, LoaderState> {
+export class Loader extends React.Component<LoaderProps, LoaderState> {
+  public static __KONTUR_REACT_UI__ = 'Loader';
+
   public static defaultProps = {
     type: Spinner.Types.normal,
     active: false,
@@ -68,7 +68,7 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private containerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLSpanElement>;
   private spinnerHeight?: number;
@@ -225,5 +225,3 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     });
   };
 }
-
-export default Loader;

@@ -1,15 +1,15 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import warning from 'warning';
 
-import Input, { InputProps } from '../Input';
-import { MAX_SAFE_DIGITS } from './constants';
-
-import SelectionHelper, { Selection, SelectionDirection } from './SelectionHelper';
-import CurrencyHelper from './CurrencyHelper';
-import CurrencyInputHelper from './CurrencyInputHelper';
-import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
+import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
+
+import { MAX_SAFE_DIGITS } from './constants';
+import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
+import { CurrencyHelper } from './CurrencyHelper';
+import { CurrencyInputHelper } from './CurrencyInputHelper';
+import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
 
 export type CurrencyInputProps = Override<
   InputProps,
@@ -46,7 +46,9 @@ export interface CurrencyInputState {
  * <br/>
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
-export default class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
+export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
+  public static __KONTUR_REACT_UI__ = 'CurrencyInput';
+
   public static propTypes = {
     align: PropTypes.oneOf(['left', 'center', 'right']),
     autoFocus: PropTypes.bool,
@@ -97,7 +99,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     );
   }
 
-  public componentWillReceiveProps(nextProps: CurrencyInputProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: CurrencyInputProps) {
     const { value, fractionDigits } = nextProps;
     if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
       const state = this.getState(value, fractionDigits);
@@ -114,7 +116,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, integerDigits, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, integerDigits, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, {

@@ -1,12 +1,10 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import RadioGroup from '../RadioGroup';
-import Radio from '../../Radio';
-import Gapped from '../../Gapped';
-import Button from '../../Button';
-import { SyntheticRadioEvent } from '../../Radio/Radio';
+import { RadioGroup } from '../RadioGroup';
+import { Radio, SyntheticRadioEvent } from '../../Radio';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
 import { Nullable } from '../../../typings/utility-types';
 
 class Component extends React.Component<any, any> {
@@ -21,7 +19,7 @@ class Component extends React.Component<any, any> {
       <Gapped vertical>
         <Button data-tid={'JustButton'}>Just button</Button>
         <div id="RadioGroup-wrap" style={{ padding: 10 }}>
-          <RadioGroup
+          <RadioGroup<string>
             ref={element => (this._radioGroup = element)}
             value={this.state.value}
             onChange={el => this.handleChange(el)}
@@ -51,7 +49,7 @@ storiesOf('RadioGroup', module)
     return <Component items={['One', 'Two', 'Three']} />;
   })
   .add('inline', () => <Component inline items={['One', 'Two', 'Three']} />)
-  .add('with renderItem', () => <RadioGroup items={['One', 'Two']} renderItem={x => <div>Value: {x}</div>} />)
+  .add('with renderItem', () => <RadioGroup<string> items={['One', 'Two']} renderItem={x => <div>Value: {x}</div>} />)
   .add('multiple groups', () => (
     <div>
       <Component items={['One', 'Two', 'Three']} />

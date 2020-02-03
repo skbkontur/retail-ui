@@ -1,9 +1,10 @@
 import React from 'react';
+
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateValidateCheck } from '../../lib/date/types';
-import Checkbox from '../Checkbox';
-import Gapped from '../Gapped';
+import { Checkbox } from '../Checkbox';
+import { Gapped } from '../Gapped';
 
 interface DateInputValidateChecksProps {
   value: string;
@@ -15,12 +16,8 @@ export class ViewDateInputValidateChecks extends React.Component<DateInputValida
   public render() {
     const internalDate = new InternalDate();
     internalDate.parseInternalValue(this.props.value);
-    internalDate.setRangeStart(
-      this.props.minDate ? new InternalDate().parseInternalValue(this.props.minDate) : null,
-    );
-    internalDate.setRangeEnd(
-      this.props.maxDate ? new InternalDate().parseInternalValue(this.props.maxDate) : null,
-    );
+    internalDate.setRangeStart(this.props.minDate ? new InternalDate().parseInternalValue(this.props.minDate) : null);
+    internalDate.setRangeEnd(this.props.maxDate ? new InternalDate().parseInternalValue(this.props.maxDate) : null);
 
     return (
       <Gapped gap={10} vertical>

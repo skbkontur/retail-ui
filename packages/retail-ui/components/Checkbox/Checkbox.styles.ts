@@ -1,9 +1,9 @@
 import { css, prefixer } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
-import ColorFunctions from '../../lib/styles/ColorFunctions';
+import { Theme } from '../../lib/theming/Theme';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-const jsStyles = {
-  root(t: ITheme) {
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       display: inline-flex;
       align-items: baseline;
@@ -25,20 +25,16 @@ const jsStyles = {
       &.${classes.disabled} {
         color: ${t.textColorDisabled};
       }
-
-      .rt-ie-any & {
-        display: inline-table;
-      }
     `;
   },
 
-  rootWrapperIE11() {
+  rootFallback() {
     return css`
-      display: inline;
+      display: inline-table;
     `;
   },
 
-  box(t: ITheme) {
+  box(t: Theme) {
     return css`
       display: inline-flex;
       align-items: center;
@@ -63,7 +59,7 @@ const jsStyles = {
     `;
   },
 
-  input(t: ITheme) {
+  input(t: Theme) {
     return css`
       display: inline-block;
       opacity: 0;
@@ -74,7 +70,7 @@ const jsStyles = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning} !important;
@@ -82,7 +78,7 @@ const jsStyles = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError} !important;
@@ -90,7 +86,7 @@ const jsStyles = {
     `;
   },
 
-  checked(t: ITheme) {
+  checked(t: Theme) {
     return css`
       & .${classes.box} {
         background: ${t.chbCheckedBg};
@@ -104,13 +100,12 @@ const jsStyles = {
       }
 
       &:active .${classes.box} {
-          background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
-        }
+        background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
       }
     `;
   },
 
-  indeterminate(t: ITheme) {
+  indeterminate(t: Theme) {
     return css`
       & .${classes.box} {
         background: ${t.chbBoxIndeterminateBg};
@@ -128,7 +123,7 @@ const jsStyles = {
     `;
   },
 
-  focus(t: ITheme): string {
+  focus(t: Theme): string {
     return css`
       & .${classes.box} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus} !important;
@@ -136,7 +131,7 @@ const jsStyles = {
     `;
   },
 
-  disabled(t: ITheme): string {
+  disabled(t: Theme): string {
     return css`
       cursor: default;
     `;
@@ -154,7 +149,7 @@ const jsStyles = {
     `;
   },
 
-  caption(t: ITheme) {
+  caption(t: Theme) {
     return css`
       padding-left: 10px;
     `;
@@ -172,5 +167,3 @@ export const classes = prefixer({
   box: 'box',
   disabled: 'disabled',
 });
-
-export default jsStyles;

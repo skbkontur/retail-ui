@@ -1,8 +1,9 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
-import Dropdown from '../';
-import MenuItem from '../../MenuItem';
-import Select, { SelectState } from '../../Select';
+import React from 'react';
+
+import { Dropdown } from '../Dropdown';
+import { MenuItem } from '../../MenuItem';
+import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
   it('It renders', () => {
@@ -40,6 +41,6 @@ describe('Dropdown', () => {
     expect(select.prop('value')).toEqual(button);
     expect(select.prop('items')).toHaveLength(1);
 
-    expect(React.isValidElement(select.prop('items')![0])).toBeTruthy();
+    expect(React.isValidElement(select.prop<React.ReactChild[]>('items')[0])).toBeTruthy();
   });
 });

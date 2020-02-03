@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
+
 import { locale } from '../LocaleProvider/decorators';
-import Popup from '../Popup/Popup';
-import ComboBoxMenu, { ComboBoxMenuProps } from '../CustomComboBox/ComboBoxMenu';
-import Menu from '../Menu/Menu';
-import MenuItem from '../MenuItem/MenuItem';
-import { TokenInputLocaleHelper, TokenInputLocale } from './locale';
+import { Popup } from '../Popup';
+import { ComboBoxMenu, ComboBoxMenuProps } from '../CustomComboBox/ComboBoxMenu';
+import { Menu } from '../Menu';
+import { MenuItem } from '../MenuItem';
+
+import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
@@ -15,7 +17,9 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
 }
 
 @locale('TokenInput', TokenInputLocaleHelper)
-export default class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
+export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
+  public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
+
   private readonly locale!: TokenInputLocale;
 
   private menu: Menu | null = null;

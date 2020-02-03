@@ -1,7 +1,7 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 
-import Input from 'retail-ui/components/Input';
+import { Input } from 'retail-ui/components/Input';
 
 import cn from './DemoPage.less';
 

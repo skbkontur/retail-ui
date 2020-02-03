@@ -1,11 +1,14 @@
-import * as React from 'react';
+import React from 'react';
+
 import styles from './ResizeDetector.module.less';
 
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
 }
 
-export default class ResizeDetector extends React.Component<ResizeDetectorProps> {
+export class ResizeDetector extends React.Component<ResizeDetectorProps> {
+  public static __KONTUR_REACT_UI__ = 'ResizeDetector';
+
   private iframeWindow: Window | null = null;
 
   public componentDidMount() {

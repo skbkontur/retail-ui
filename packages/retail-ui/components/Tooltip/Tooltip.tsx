@@ -1,17 +1,20 @@
-import * as React from 'react';
-import Popup, { PopupPosition, PopupProps } from '../Popup';
-import RenderLayer, { RenderLayerProps } from '../RenderLayer';
-import CROSS from '../internal/cross';
-import { Nullable } from '../../typings/utility-types';
-import styles from './Tooltip.module.less';
+import React from 'react';
 import warning from 'warning';
-import { MouseEventType } from '../../typings/event-types';
 import isEqual from 'lodash.isequal';
+
+import { Popup, PopupPosition, PopupProps } from '../Popup';
+import { RenderLayer, RenderLayerProps } from '../RenderLayer';
+import { CrossIcon } from '../internal/icons/CrossIcon';
+import { Nullable } from '../../typings/utility-types';
+import { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import jsStyles from './Tooltip.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './Tooltip.styles';
+import styles from './Tooltip.module.less';
+
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
 
@@ -102,6 +105,11 @@ export interface TooltipProps {
   onCloseRequest?: () => void;
 
   /**
+   * Хэндлер, вызываемый при открытии тултипа
+   */
+  onOpen?: () => void;
+
+  /**
    * Список позиций, которые тултип будет занимать.
    * Если положение тултипа в определенной позиции
    * будет выходить за край экрана, то будет выбрана
@@ -149,7 +157,9 @@ export interface TooltipState {
   focused: boolean;
 }
 
-class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+  public static __KONTUR_REACT_UI__ = 'Tooltip';
+
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
       const children = props[propName];
@@ -177,12 +187,12 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
-  private theme!: ITheme;
+  private theme!: Theme;
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
 
-  public componentWillReceiveProps(nextProps: TooltipProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
       this.close();
     }
@@ -236,9 +246,9 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <span className={cx(styles.cross, jsStyles.cross(this.theme))} onClick={this.handleCloseButtonClick}>
-        {CROSS}
-      </span>
+      <div className={cx(styles.cross, jsStyles.cross(this.theme))} onClick={this.handleCloseButtonClick}>
+        <CrossIcon />
+      </div>
     );
   }
 
@@ -270,6 +280,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         disablePortal={this.props.disablePortal}
         positions={this.getPositions()}
         ignoreHover={this.props.trigger === 'hoverAnchor'}
+        onOpen={this.props.onOpen}
         {...popupProps}
       >
         {content}
@@ -463,5 +474,3 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     this.close();
   };
 }
-
-export default Tooltip;

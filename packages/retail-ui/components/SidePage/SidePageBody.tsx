@@ -1,14 +1,22 @@
-import * as React from 'react';
+import React from 'react';
+
+import { withContext } from '../../lib/utils';
+
 import styles from './SidePage.module.less';
 import { SidePageContextType, SidePageContext } from './SidePageContext';
-import { withContext } from '../../lib/utils';
 
 export interface SidePageBodyProps {
   children?: React.ReactNode;
   context?: SidePageContextType;
 }
-
+/**
+ * Тело для сайдпейджа
+ *
+ * @visibleName SidePage.Body
+ */
 export class SidePageBody extends React.Component<SidePageBodyProps> {
+  public static __KONTUR_REACT_UI__ = 'SidePageBody';
+
   public componentDidUpdate() {
     const { context } = this.props;
     if (context) {
@@ -22,5 +30,3 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
 }
 
 export const SidePageBodyWithContext = withContext(SidePageContext.Consumer)(SidePageBody);
-
-export default SidePageBodyWithContext;

@@ -1,9 +1,11 @@
-import * as React from 'react';
-import Button from '../Button';
-import Gapped from '../Gapped';
-import Modal from '../Modal';
-import { FiasLocale, FiasLocaleHelper } from './locale';
+import React from 'react';
+
+import { Button } from '../Button';
+import { Gapped } from '../Gapped';
+import { Modal } from '../Modal';
 import { locale } from '../LocaleProvider/decorators';
+
+import { FiasLocale, FiasLocaleHelper } from './locale';
 
 interface FiasModalProps {
   onClose?: () => any;
@@ -12,6 +14,8 @@ interface FiasModalProps {
 
 @locale('Fias', FiasLocaleHelper)
 export class FiasModal extends React.Component<FiasModalProps> {
+  public static __KONTUR_REACT_UI__ = 'FiasModal';
+
   public static defaultProps = {
     onClose: () => null,
     onSave: () => null,
@@ -39,5 +43,3 @@ export class FiasModal extends React.Component<FiasModalProps> {
     );
   }
 }
-
-export default FiasModal;

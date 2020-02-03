@@ -1,8 +1,9 @@
 import { mount, render } from 'enzyme';
-import * as React from 'react';
-import Group from '../';
-import Input from '../../Input';
-import Button from '../../Button';
+import React from 'react';
+
+import { Group } from '../Group';
+import { Input } from '../../Input';
+import { Button } from '../../Button';
 
 describe('Group', () => {
   it('It renders', () => {
@@ -19,11 +20,7 @@ describe('Group', () => {
   it('main element in group gets "stretch" class', () => {
     const wrapper = render(
       <Group>
-        <Input
-          // @ts-ignore
-          mainInGroup
-          id="test-input"
-        />
+        <Input width="100%" id="test-input" />
         <Button>Test</Button>
       </Group>,
     );

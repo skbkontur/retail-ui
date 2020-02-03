@@ -1,16 +1,15 @@
 import { LENGTH_DATE, LENGTH_MONTH, LENGTH_YEAR } from '../../../lib/date/constants';
-import { InternalDateComponentType, InternalDateComponent, InternalDateComponentRaw } from '../../../lib/date/types';
+import { InternalDateComponentRaw, InternalDateComponentType } from '../../../lib/date/types';
 
 export const inputNumber = (
   type: InternalDateComponentType | null,
   prev: InternalDateComponentRaw,
   key: string,
   inputMode: boolean,
-  cb: (next: InternalDateComponent, inputMode: boolean) => void,
-) => {
+): { nextValue: InternalDateComponentRaw; nextInputMode: boolean } => {
   let nextInputMode = false;
-  let next: any;
-  let first: number = 10;
+  let nextValue: string;
+  let first = 10;
   let length: number = LENGTH_YEAR;
   if (type === InternalDateComponentType.Month) {
     first = 1;
@@ -21,11 +20,11 @@ export const inputNumber = (
     length = LENGTH_DATE;
   }
   if (!inputMode) {
-    next = key;
+    nextValue = key;
     nextInputMode = Number(key) <= first;
   } else {
-    next = `${prev === null ? '' : prev}${key}`.slice(-length);
-    nextInputMode = next.length < length;
+    nextValue = `${prev === null ? '' : prev}${key}`.slice(-length);
+    nextInputMode = nextValue.length < length;
   }
-  cb(next, nextInputMode);
+  return { nextValue, nextInputMode };
 };

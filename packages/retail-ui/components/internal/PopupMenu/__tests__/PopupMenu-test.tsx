@@ -1,13 +1,12 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
-import PopupMenu from '../';
-import MenuItem from '../../../MenuItem';
-import { PopupMenuCaptionProps } from '../PopupMenu';
+import React from 'react';
+
+import { PopupMenu, PopupMenuCaptionProps } from '../PopupMenu';
+import { MenuItem } from '../../../MenuItem';
 
 const renderCaption = (captionProps: PopupMenuCaptionProps) => (
   <button
     id="caption"
-    // tslint:disable-next-line:jsx-no-lambda
     onClick={() => captionProps.openMenu(true)}
     className={captionProps.opened ? 'opened' : 'closed'}
   >

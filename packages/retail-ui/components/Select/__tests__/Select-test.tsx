@@ -1,12 +1,10 @@
-// tslint:disable:jsx-no-lambda
-
 import { mount } from 'enzyme';
-import * as React from 'react';
-import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider, { LangCodes } from '../../LocaleProvider';
-import { SelectLocaleHelper } from '../locale';
+import React from 'react';
 
-import Select from '../Select';
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
+import { SelectLocaleHelper } from '../locale';
+import { Select } from '../Select';
 
 describe('Select', () => {
   it('uses areValuesEqual for comparing value with item in menu', () => {
@@ -33,7 +31,7 @@ describe('Select', () => {
     const SelectExample = Select;
 
     const wrapper = mount<Select>(
-      <SelectExample
+      <SelectExample<ValueType>
         value={currentValue}
         items={objectItems}
         renderItem={x => x.name}

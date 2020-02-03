@@ -1,11 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Toast from './Toast';
-import { Action } from './Toast';
 import { Nullable } from '../../typings/utility-types';
 
-class ToastStatic {
+import { Toast, Action } from './Toast';
+
+
+export class ToastStatic {
   public static push = (notification: string, action?: Action) => {
     if (!ToastStatic.node) {
       ToastStatic.node = document.createElement('div');
@@ -38,5 +39,3 @@ class ToastStatic {
   private static node: HTMLDivElement;
   private static instance: Nullable<Toast> = null;
 }
-
-export default ToastStatic;

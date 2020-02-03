@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
-import Checkbox from '../Checkbox';
-import Gapped from '../../Gapped/Gapped';
+
+import { Checkbox } from '../Checkbox';
+import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
 
 class PlainCheckbox extends Component<any, any> {
@@ -12,11 +13,7 @@ class PlainCheckbox extends Component<any, any> {
   public render() {
     const { checked } = this.state;
     return (
-      <Checkbox
-        // tslint:disable-next-line:jsx-no-lambda
-        onChange={() => this.setState({ checked: !checked })}
-        checked={checked}
-      >
+      <Checkbox onChange={() => this.setState({ checked: !checked })} checked={checked}>
         {this.props.children}
       </Checkbox>
     );
@@ -39,7 +36,6 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
       <div>
         <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
           <Checkbox
-            // tslint:disable-next-line:jsx-no-lambda
             onChange={(_event, checked) => this.setState({ checked })}
             checked={this.state.checked}
             initialIndeterminate
@@ -98,23 +94,21 @@ storiesOf('Checkbox', module)
   ))
   .add('error', () => <Checkbox error>Error</Checkbox>)
   .add('with mouse enter/leave handlers', () => (
-    <Checkbox
-      // tslint:disable-next-line:jsx-no-lambda no-console
-      onMouseEnter={() => console.count('enter')}
-      // tslint:disable-next-line:jsx-no-lambda no-console
-      onMouseLeave={() => console.count('leave')}
-    >
+    <Checkbox onMouseEnter={() => console.count('enter')} onMouseLeave={() => console.count('leave')}>
       Hover me
     </Checkbox>
   ))
   .add('with a long label', () => (
     <div>
-      Lorem ipsum dolor -- <PlainCheckbox>
+      Lorem ipsum dolor --{' '}
+      <PlainCheckbox>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </PlainCheckbox> -- Lorem ipsum dolor.
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </PlainCheckbox>{' '}
+      -- Lorem ipsum dolor.
     </div>
   ))
   .add('without label', () => (

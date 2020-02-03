@@ -1,8 +1,8 @@
-import { isIE, isEdge } from '../../components/ensureOldIEClassName';
 import { getClosestFocusableElement } from '../dom/getFocusableElements';
+import { isIE11, isEdge } from '../utils';
 
 export const fixClickFocusIE = (e: Event) => {
-  if (isIE || isEdge) {
+  if (isIE11 || isEdge) {
     // workaround for the IE/Edge focus bug
     // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/14306303/
     if (document.activeElement !== e.target) {

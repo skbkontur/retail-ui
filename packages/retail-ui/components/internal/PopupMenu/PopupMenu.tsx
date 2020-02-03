@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+
 import {
   isKeyArrowVertical,
   isKeyEnter,
@@ -6,12 +7,13 @@ import {
   isKeySpace,
   someKeys,
 } from '../../../lib/events/keyboard/identifiers';
-import InternalMenu from '../InternalMenu/InternalMenu';
-import Popup, { PopupPosition } from '../../Popup';
-import RenderLayer from '../../RenderLayer';
+import { InternalMenu } from '../InternalMenu';
+import { Popup, PopupPosition } from '../../Popup';
+import { RenderLayer } from '../../RenderLayer';
 import { Nullable } from '../../../typings/utility-types';
-import PopupMenuPositions from './PopupMenuPositions';
-import isValidPositions from './validatePositions';
+
+import { PopupMenuPositions } from './PopupMenuPositions';
+import { isValidPositions } from './validatePositions';
 import styles from './PopupMenu.module.less';
 
 export interface PopupMenuCaptionProps {
@@ -62,7 +64,9 @@ export const PopupMenuType = {
   Tooltip: 'tooltip',
 };
 
-export default class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
+export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
+  public static __KONTUR_REACT_UI__ = 'PopupMenu';
+
   public static defaultProps = {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,

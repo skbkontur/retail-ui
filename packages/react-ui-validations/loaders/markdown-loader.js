@@ -30,7 +30,7 @@ class Renderer {
       case 'para':
         return '<p>' + this.renderContent(content) + '</p>';
       case 'code_block':
-        let code = content[0];
+        const code = content[0];
         if (code && code.startsWith('!!DemoWithCode!!')) {
           const path = './' + code.replace('!!DemoWithCode!!', '') + '.demo.tsx';
           return `<Demo demo={require('${path}').default} source={require('!raw-loader!${path}')} />`;
@@ -79,9 +79,9 @@ module.exports = function(content) {
   }
 
   return `
-import * as React from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
-import Link from 'retail-ui/components/Link';
+import { Link } from 'retail-ui/components/Link';
 import styled from 'styled-components';
 import SourceCode from 'SourceCode';
 import Demo from 'Demo';

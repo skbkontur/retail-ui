@@ -1,8 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import HideBodyVerticalScroll from '../HideBodyVerticalScroll';
-import Toggle from '../../Toggle';
-import Gapped from '../../Gapped';
+
+import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
+import { Toggle } from '../../Toggle';
+import { Gapped } from '../../Gapped';
 
 class Example extends React.Component {
   public state = {

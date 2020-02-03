@@ -1,8 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
+
 import { PerformanceMetrics } from '../PerformanceMetrics';
-import Input from '../../Input';
-import Tooltip from '../../Tooltip';
+import { Input } from '../../Input';
+import { Tooltip } from '../../Tooltip';
 
 function getTooltipContent() {
   return 'Tooltip content';

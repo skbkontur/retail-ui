@@ -1,15 +1,16 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Select.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  placeholder(t: ITheme) {
+import styles from './Select.module.less';
+
+export const jsStyles = {
+  placeholder(t: Theme) {
     return css`
       color: ${t.sltPlaceholderColor};
     `;
   },
 
-  arrow(t: ITheme) {
+  arrow(t: Theme) {
     return css`
       .${styles.arrowWrap} & {
         border: 4px solid transparent;
@@ -19,5 +20,3 @@ const jsStyles = {
     `;
   },
 };
-
-export default jsStyles;

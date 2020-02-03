@@ -1,4 +1,4 @@
-import ColorFunctions from '../ColorFunctions';
+import * as ColorFunctions from '../ColorFunctions';
 
 describe('ColorFunctions', () => {
   test('returns empty string for unexpected input', () => {

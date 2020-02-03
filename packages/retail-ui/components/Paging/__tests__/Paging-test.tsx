@@ -1,35 +1,35 @@
-// tslint:disable
 import { mount, ReactWrapper } from 'enzyme';
-import * as React from 'react';
-import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider, { LangCodes } from '../../LocaleProvider';
-import { PagingLocaleHelper } from '../locale';
+import React from 'react';
 
-import Paging from '../Paging';
+import { emptyHandler } from '../../../lib/utils';
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
+import { PagingLocaleHelper } from '../locale';
+import { Paging } from '../Paging';
 import PagingStyles from '../Paging.less';
 
 describe('Pager', () => {
   it('renders', () => {
-    mount(<Paging pagesCount={5} activePage={1} onPageChange={() => {}} />);
+    mount(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
   });
 
   it('renders links', () => {
-    const wrapper = mount(<Paging pagesCount={5} activePage={1} onPageChange={() => {}} />);
+    const wrapper = mount(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
     expect(wrapper.find(`span.${PagingStyles.pageLink}`)).toHaveLength(5);
   });
 
   it('renders right dots', () => {
-    const wrapper = mount(<Paging pagesCount={10} activePage={1} onPageChange={() => {}} />);
+    const wrapper = mount(<Paging pagesCount={10} activePage={1} onPageChange={emptyHandler} />);
     expect(wrapper.find(`span.${PagingStyles.dots}`)).toHaveLength(1);
   });
 
   it('renders left dots', () => {
-    const wrapper = mount(<Paging pagesCount={10} activePage={9} onPageChange={() => {}} />);
+    const wrapper = mount(<Paging pagesCount={10} activePage={9} onPageChange={emptyHandler} />);
     expect(wrapper.find(`span.${PagingStyles.dots}`)).toHaveLength(1);
   });
 
   it('renders left and right dots', () => {
-    const wrapper = mount(<Paging pagesCount={12} activePage={6} onPageChange={() => {}} />);
+    const wrapper = mount(<Paging pagesCount={12} activePage={6} onPageChange={emptyHandler} />);
     expect(wrapper.find(`span.${PagingStyles.dots}`)).toHaveLength(2);
   });
 
@@ -55,7 +55,7 @@ describe('Pager', () => {
   });
 
   it('has forward button', () => {
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={() => {}} />);
+    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={emptyHandler} />);
     expect(wrapper.find(`span.${PagingStyles.forwardLink}`)).toHaveLength(1);
   });
 
@@ -145,7 +145,7 @@ describe('Pager', () => {
   describe('Locale', () => {
     let wrapper: ReactWrapper;
     const getForwardText = () => wrapper.find(`span.${PagingStyles.forwardLink}`).text();
-    const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={() => {}} />;
+    const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />;
 
     it('render without LocaleProvider', () => {
       wrapper = mount(PagingContext());

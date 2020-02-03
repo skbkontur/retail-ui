@@ -1,21 +1,22 @@
-import * as React from 'react';
-import warningOutput from 'warning';
-import Link from '../Link';
-import LocaleProvider from '../LocaleProvider';
+import React from 'react';
+import isEqual from 'lodash.isequal';
+
+import { Link } from '../Link';
+import { LocaleProvider } from '../LocaleProvider';
 import { locale } from '../LocaleProvider/decorators';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+import { EditIcon } from '../internal/icons/16px';
+
 import { FiasLocale, FiasLocaleHelper } from './locale';
-import { Fields, ExtraFields, FiasValue, FormValidation, APIProvider, FieldsSettings } from './types';
-import EditIcon from '@skbkontur/react-icons/Edit';
-import FiasModal from './FiasModal';
-import FiasForm from './Form/FiasForm';
+import { APIProvider, ExtraFields, FiasValue, Fields, FieldsSettings, FormValidation } from './types';
+import { FiasModal } from './FiasModal';
+import { FiasForm } from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
 import { Address } from './models/Address';
-import isEqual from 'lodash.isequal';
 import { Logger } from './logger/Logger';
-import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Fias.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { jsStyles } from './Fias.styles';
 
 export interface FiasProps {
   /**
@@ -64,11 +65,6 @@ export interface FiasProps {
    * Количество отображаемых элементов в выпадающих списках
    */
   limit?: number;
-  /**
-   * Словарь текстовых констант. См. полный список ниже
-   * @deprecated используйте LocaleProvider
-   */
-  locale?: FiasLocale;
   /**
    * Уровень критичности ошибок валидации полей адреса
    */
@@ -127,6 +123,8 @@ function deepMerge<T>(dst: T, ...src: T[]): T {
 
 @locale('Fias', FiasLocaleHelper)
 export class Fias extends React.Component<FiasProps, FiasState> {
+  public static __KONTUR_REACT_UI__ = 'Fias';
+
   public static defaultProps = {
     showAddressText: true,
     error: false,
@@ -142,11 +140,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public state: FiasState = {
     opened: false,
     address: new Address(),
-    locale: this.getLocaleMix(),
+    locale: FiasLocaleHelper.get(),
     fieldsSettings: this.fieldsSettings,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: FiasForm | null = null;
 
@@ -185,17 +183,14 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   public componentDidMount = () => {
     this.updateLocale();
     this.init();
-
-    warningOutput(this.props.locale === undefined, `[Fias]: Prop 'locale' has been deprecated. See 'LocaleProvider'`);
   };
 
   public componentDidUpdate = (prevProps: FiasProps, prevState: FiasState) => {
     if (!isEqual(prevProps.value, this.props.value)) {
       this.updateAddress();
     }
-    const nextLocale = this.getLocaleMix(this.locale);
-    if (!isEqual(prevState.locale, nextLocale)) {
-      this.updateLocale(nextLocale);
+    if (!isEqual(prevState.locale, this.locale)) {
+      this.updateLocale(this.locale);
     }
     if (!isEqual(prevProps.fieldsSettings, this.props.fieldsSettings)) {
       this.updateFieldsSettings();
@@ -248,13 +243,6 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     );
   }
 
-  private getLocaleMix(localeFromContext: FiasLocale = FiasLocaleHelper.get()): FiasLocale {
-    return {
-      ...localeFromContext,
-      ...this.props.locale,
-    };
-  }
-
   private renderModal() {
     const { address, fieldsSettings } = this.state;
     const { search, limit, formValidation, countrySelector } = this.props;
@@ -289,7 +277,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     return address;
   };
 
-  private updateLocale = (nextLocale: FiasLocale = this.getLocaleMix()): void => {
+  private updateLocale = (nextLocale: FiasLocale = FiasLocaleHelper.get()): void => {
     this.setState({ locale: nextLocale });
   };
 
@@ -332,5 +320,3 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     this.form = element;
   };
 }
-
-export default Fias;

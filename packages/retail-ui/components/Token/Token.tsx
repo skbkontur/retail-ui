@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import warningOutput from 'warning';
-import styles from './Token.module.less';
-import TokenRemoveIcon from './TokenRemoveIcon';
+
+import { CrossIcon } from '../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles, { jsTokenColors } from './Token.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles, jsTokenColors } from './Token.styles';
+import styles from './Token.module.less';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -30,25 +32,25 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export interface TokenActions {
-  onClick?: React.MouseEventHandler<HTMLDivElement>;
-  onRemove?: React.MouseEventHandler<SVGElement>;
-  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
-  onFocus?: React.FocusEventHandler<HTMLDivElement>;
-  onBlur?: React.FocusEventHandler<HTMLDivElement>;
-}
-
 export interface TokenProps {
   colors?: TokenColors;
   isActive?: boolean;
   error?: boolean;
   warning?: boolean;
   disabled?: boolean;
+
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onRemove?: React.MouseEventHandler<HTMLElement>;
+  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
+  onFocus?: React.FocusEventHandler<HTMLDivElement>;
+  onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
-export default class Token extends React.Component<TokenProps & TokenActions> {
-  private theme!: ITheme;
+export class Token extends React.Component<TokenProps> {
+  public static __KONTUR_REACT_UI__ = 'Token';
+
+  private theme!: Theme;
 
   public render() {
     return (
@@ -121,12 +123,14 @@ export default class Token extends React.Component<TokenProps & TokenActions> {
         onBlur={onBlur}
       >
         <span className={styles.text}>{children}</span>
-        <TokenRemoveIcon className={styles.removeIcon} onClick={this.onRemoveClick} />
+        <span className={styles.removeIcon} onClick={this.onRemoveClick}>
+          <CrossIcon />
+        </span>
       </div>
     );
   }
 
-  private onRemoveClick = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+  private onRemoveClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const { disabled, onRemove = emptyHandler } = this.props;
 
     if (disabled) {

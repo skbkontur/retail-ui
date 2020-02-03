@@ -40,7 +40,7 @@
 
 ### Технологии
 
-- JS: React, TypeScript, Flow (только [libdef](https://flow.org/en/docs/libdefs/) и в старых компонентах);
+- JS: React, TypeScript;
 - CSS: LESS и CSS-in-JS;
 - Сборка: Babel;
 - CI: TeamCity;
@@ -68,7 +68,7 @@
 - `yarn workspace retail-ui <command>` - контролы
   - `test` — unit-тесты `Jest` + `Enzyme`
   - `test:ui` — скриншотные тесты `Creevey`
-  - `lint` — `tsc --noEmit` + `tslint` + `eslint` + `stylelint` + `flow --check`
+  - `lint` — `tsc --noEmit` + `eslint` + `stylelint`
   - `build` — сборка библиотеки
   - `storybook` — Storybook
   - `storybook:flat` — Storybook c flat-темой
@@ -231,7 +231,7 @@ packages/
 
 #### Code style
 
-Для контроля над стилем и форматированием кода в проекте используются [editorconfig](https://editorconfig.org/), [tslint](https://palantir.github.io/tslint/), [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/) и [Prettier](https://prettier.io/). По возможности, рекомендуем установить соответсвующие плагины в свою IDE, чтобы получать от нее предупреждения в режиме реального времени. Но запускать линтеры можно и вручную, с помощью команды `yarn workspace retail-ui lint`. Советуем делать это перед каждым коммитом или пользоваться командой `yarn commit`. PR, не прошедший проверку линтеров, не может быть принят.
+Для контроля над стилем и форматированием кода в проекте используются [editorconfig](https://editorconfig.org/), [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/) и [Prettier](https://prettier.io/). По возможности, рекомендуем установить соответсвующие плагины в свою IDE, чтобы получать от нее предупреждения в режиме реального времени. Но запускать линтеры можно и вручную, с помощью команды `yarn workspace retail-ui lint`. Советуем делать это перед каждым коммитом или пользоваться командой `yarn commit`. PR, не прошедший проверку линтеров, не может быть принят.
 
 ## Тесты
 

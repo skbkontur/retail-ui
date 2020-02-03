@@ -1,8 +1,9 @@
 import React from 'react';
-import Button from '../Button/Button';
 import ReactDOM from 'react-dom';
+
+import { Button } from '../Button';
 import { Nullable } from '../../typings/utility-types';
-import Spinner from '../Spinner';
+import { Spinner } from '../Spinner';
 
 const PANEL_WRAPPER_STYLES = { width: '45%', display: 'inline-block', verticalAlign: 'top' };
 

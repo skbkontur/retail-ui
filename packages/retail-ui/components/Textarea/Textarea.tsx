@@ -1,18 +1,19 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import polyfillPlaceholder from '../polyfillPlaceholder';
-import '../ensureOldIEClassName';
+import React from 'react';
+import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
-import LayoutEvents from '../../lib/LayoutEvents';
-import { getTextAreaHeight } from './TextareaHelpers';
-import { TextareaAdapter } from './Textarea.adapter';
+
+import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
+import { polyfillPlaceholder } from '../polyfillPlaceholder';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Textarea.styles';
-import styles from './Textarea.module.less';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { getTextAreaHeight } from './TextareaHelpers';
+import { jsStyles } from './Textarea.styles';
+import styles from './Textarea.module.less';
+
 const DEFAULT_WIDTH = 250;
 
 export type TextareaProps = Override<
@@ -73,7 +74,9 @@ export interface TextareaState {
  *
  * ** `className` и `style`  игнорируются**
  */
-class Textarea extends React.Component<TextareaProps, TextareaState> {
+export class Textarea extends React.Component<TextareaProps, TextareaState> {
+  public static __KONTUR_REACT_UI__ = 'Textarea';
+
   public static propTypes = {
     error: PropTypes.bool,
     warning: PropTypes.bool,
@@ -131,14 +134,12 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     maxRows: 15,
   };
 
-  public static __ADAPTER__: typeof TextareaAdapter;
-
   public state = {
     polyfillPlaceholder,
     rows: 1,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
@@ -328,7 +329,6 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.fakeNode = element;
   };
 
-  // tslint:disable-next-line:member-ordering
   private autoResize = throttle(() => {
     const fakeNode = this.fakeNode;
     if (!fakeNode) {
@@ -386,5 +386,3 @@ class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 }
-
-export default Textarea;

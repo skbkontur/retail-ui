@@ -4,6 +4,7 @@ const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   path.join(__dirname, '../../tsconfig.json'),
   {
     propFilter: prop => !(prop.parent && /node_modules/.test(prop.parent.fileName)),
+    savePropValueAsString: true,
   },
 ).parse;
 const parseJsComponent = require('react-docgen').parse;
@@ -82,6 +83,9 @@ const styles = {
         },
       },
     },
+    isSelected: {
+      fontWeight: 'normal',
+    },
   },
   SectionHeading: {
     wrapper: {
@@ -123,22 +127,75 @@ const styles = {
   },
 };
 
+const TRANSFORMS_FOR_IE11 = {
+  test: /\.jsx?$/,
+  include: new RegExp(
+    `node_modules(/|\\\\)(?=(${[
+      // ref: https://github.com/styleguidist/react-styleguidist/pull/1327
+      'acorn-jsx',
+      'estree-walker',
+      'regexpu-core',
+      'unicode-match-property-ecmascript',
+      'unicode-match-property-value-ecmascript',
+      'react-dev-utils',
+      'ansi-styles',
+      'ansi-regex',
+      'chalk',
+      'strip-ansi',
+    ].join('|')})(/|\\\\)).*`,
+  ),
+  use: {
+    loader: 'babel-loader',
+    options: {
+      presets: [
+        [
+          '@babel/preset-env',
+          {
+            targets: {
+              ie: '11',
+            },
+          },
+        ],
+      ],
+    },
+  },
+};
+
 const webpackConfig = {
   module: {
     rules: [
+      TRANSFORMS_FOR_IE11,
       {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        options: { transpileOnly: true },
-      },
-      {
-        test: /\.jsx?$/,
+        test: /\.(j|t)sx?$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
+        options: {
+          babelrc: false,
+          envName: 'development',
+          extends: path.join(__dirname, '../../.babelrc.js'),
+        },
       },
       {
         test: /\.(css|less)$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        loaders: [
+          'style-loader',
+          {
+            loader: 'dts-css-modules-loader',
+            options: {
+              namedExport: false,
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                mode: 'global',
+                localIdentName: '[name]-[local]-[hash:base64:4]',
+              },
+            },
+          },
+          'less-loader',
+        ],
       },
       {
         test: /\.(png|woff|woff2|eot)$/,
@@ -152,7 +209,7 @@ const webpackConfig = {
 };
 
 module.exports = {
-  skipComponentsWithoutExample: true,
+  skipComponentsWithoutExample: false,
   pagePerSection: true,
   styles,
   title: 'React UI',
@@ -175,5 +232,12 @@ module.exports = {
   },
   getComponentPathLine(path) {
     return path.substring(path.indexOf('components')) || path;
+  },
+  defaultExample: '../MockReadme.md',
+  moduleAliases: {
+    '@skbkontur/react-ui': path.resolve(__dirname, '../../'),
+  },
+  getExampleFilename(componentPath) {
+    return componentPath.replace(path.extname(componentPath), '.md');
   },
 };

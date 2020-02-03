@@ -1,18 +1,18 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 
-import ComboBox, { ComboBoxProps } from '../ComboBox';
-import MenuItem from '../../MenuItem';
-import MenuSeparator from '../../MenuSeparator';
-import { Nullable, Omit } from '../../../typings/utility-types';
-import Toggle from '../../Toggle';
-import Button from '../../Button';
-import Gapped from '../../Gapped';
-import MenuHeader from '../../MenuHeader/MenuHeader';
-const getCities = require('../__mocks__/getCities.js').default;
+import { ComboBox, ComboBoxProps } from '../ComboBox';
+import { MenuItem } from '../../MenuItem';
+import { MenuSeparator } from '../../MenuSeparator';
+import { Nullable } from '../../../typings/utility-types';
+import { Toggle } from '../../Toggle';
+import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
+import { MenuHeader } from '../../MenuHeader';
+
+const { getCities } = require('../__mocks__/getCities.js');
 
 storiesOf('ComboBox', module)
   .add('simple combobox', () => (
@@ -135,7 +135,7 @@ storiesOf('ComboBox', module)
           <button onClick={() => combobox && combobox.open()}>open</button>{' '}
           <button onClick={() => combobox && combobox.search('')}>empty search</button>{' '}
           <button onClick={() => combobox && combobox.search()}>search current value</button>{' '}
-          <button onClick={() => combobox && combobox.search('two')}>search "two"</button>{' '}
+          <button onClick={() => combobox && combobox.search('two')}>search &quot;two&quot;</button>{' '}
           <button onClick={() => combobox && combobox.close()}>close</button>
         </span>
       </div>
@@ -365,7 +365,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
       .then(({ popularItems, itemsToShow, totalCount }: { popularItems: any; itemsToShow: any; totalCount: number }) =>
         [].concat(
           popularItems,
-          popularItems.length ? (<MenuSeparator /> as any) : [],
+          popularItems.length ? ((<MenuSeparator />) as any) : [],
           itemsToShow,
           this.renderTotalCount(itemsToShow.length, totalCount),
         ),
@@ -548,9 +548,10 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private getItems = (q: string) =>
     Promise.resolve(
-      [{ value: '1', label: 'First' }, { value: '2', label: 'Second' }].filter(
-        x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q,
-      ),
+      [
+        { value: '1', label: 'First' },
+        { value: '2', label: 'Second' },
+      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q),
     );
 
   private onChange = (_: any, value: { value: string; label: string }) => this.setState({ value, warning: false });

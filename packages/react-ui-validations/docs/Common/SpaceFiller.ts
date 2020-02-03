@@ -4,7 +4,7 @@ export interface SpaceFillerProps {
   height: number;
 }
 
-const SpaceFiller = styled.div<SpaceFillerProps>`
+export const SpaceFiller = styled.div<SpaceFillerProps>`
   height: ${props => props.height}px;
   margin: 20px 0;
   border: 1px solid #dee0e3;
@@ -15,5 +15,3 @@ const SpaceFiller = styled.div<SpaceFillerProps>`
   justify-content: center;
   background: repeating-linear-gradient(45deg, #fafafa, #fafafa 10px, #ffffff 10px, #ffffff 20px);
 `;
-
-export default SpaceFiller;

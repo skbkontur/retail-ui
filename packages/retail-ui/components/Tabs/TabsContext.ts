@@ -1,6 +1,8 @@
-import createReactContext from 'create-react-context';
-import { Tab } from './Tab';
+import React from 'react';
+
 import { emptyHandler } from '../../lib/utils';
+
+import { Tab } from './Tab';
 
 export interface TabsContextType {
   vertical: boolean;
@@ -13,7 +15,7 @@ export interface TabsContextType {
   switchTab: (id: string) => void;
 }
 
-export const TabsContext = createReactContext<TabsContextType>({
+export const TabsContext = React.createContext<TabsContextType>({
   vertical: false,
   activeTab: '',
   getTab: emptyHandler,

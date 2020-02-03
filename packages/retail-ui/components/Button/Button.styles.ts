@@ -1,12 +1,29 @@
-import { css } from '../../lib/theming/Emotion';
-import classes from './Button.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { css, keyframes } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin } from './Button.mixins';
+import classes from './Button.module.less';
+import {
+  buttonUseMixin,
+  buttonHoverMixin,
+  buttonActiveMixin,
+  buttonSizeMixin,
+  buttonArrowMixin,
+  buttonLoadingArrowMixin,
+} from './Button.mixins';
 
-const jsClasses = {
-  root(t: ITheme) {
+const btn_loading_arrow = keyframes`
+0% {
+  transform: translateX(50px) rotate(-44.3deg);
+}
+
+100% {
+  transform: translateX(21px) translateY(30px) rotate(-44.3deg);
+}
+`;
+
+export const jsStyles = {
+  root(t: Theme) {
     return css`
       ${resetButton()};
       ${resetText()};
@@ -18,7 +35,7 @@ const jsClasses = {
     `;
   },
 
-  warning(t: ITheme) {
+  warning(t: Theme) {
     return css`
       .${classes.root}:not(.${classes.link}) & {
         box-shadow: 0 0 0 2px ${t.borderColorWarning};
@@ -26,7 +43,7 @@ const jsClasses = {
     `;
   },
 
-  error(t: ITheme) {
+  error(t: Theme) {
     return css`
       .${classes.root}:not(.${classes.link}) & {
         box-shadow: 0 0 0 2px ${t.borderColorError};
@@ -37,7 +54,7 @@ const jsClasses = {
     `;
   },
 
-  sizeSmall(t: ITheme) {
+  sizeSmall(t: Theme) {
     return css`
       border-radius: ${t.btnSmallBorderRadius};
 
@@ -51,19 +68,30 @@ const jsClasses = {
       )};
 
       .${classes.arrow} {
-        right: ${t.btnSmallArrowRight};
-        height: ${t.btnSmallArrowLength};
-        width: ${t.btnSmallArrowLength};
         border-radius: ${t.btnSmallArrowBorderRadius};
       }
 
-      .${classes.arrow_left} {
-        left: ${t.btnSmallArrowLeft};
-      }
+      ${buttonArrowMixin(
+        t.btnSmallArrowTop,
+        t.btnSmallArrowLeft,
+        t.btnSmallArrowRight,
+        t.btnSmallArrowLength,
+        'rotate(53deg) skewX(24deg) skewY(10deg)',
+      )};
+
+      ${buttonLoadingArrowMixin(
+        t.btnSmallArrowTop,
+        t.btnSmallArrowTop,
+        '-207px',
+        '441%',
+        t.btnSmallArrowBg,
+        t.btnSmallArrowLeftLoadingDelay,
+        btn_loading_arrow,
+      )};
     `;
   },
 
-  sizeMedium(t: ITheme) {
+  sizeMedium(t: Theme) {
     return css`
       ${buttonSizeMixin(
         t.btnFontSizeMedium,
@@ -74,21 +102,20 @@ const jsClasses = {
         t.btnPaddingYMedium,
       )};
 
-      .${classes.arrow} {
-        transform: ${t.btnMediumArrowTransform};
-      }
-
-      .${classes.arrow_left} {
-        left: ${t.btnMediumArrowLeft};
-      }
-
-      .${classes.arrow_left}.${classes.arrow_loading}::before {
-        left: ${t.btnMediumArrowLeftLoadingLeft};
-      }
+      ${buttonArrowMixin('9px', t.btnMediumArrowLeft, t.btnMediumArrowRight, '20.2px', t.btnMediumArrowTransform)};
+      ${buttonLoadingArrowMixin(
+        '0',
+        '0',
+        t.btnMediumArrowLeftLoadingLeft,
+        '441%',
+        t.btnMediumArrowBg,
+        t.btnMediumArrowLeftLoadingDelay,
+        btn_loading_arrow,
+      )};
     `;
   },
 
-  sizeLarge(t: ITheme) {
+  sizeLarge(t: Theme) {
     return css`
       ${buttonSizeMixin(
         t.btnFontSizeLarge,
@@ -99,21 +126,21 @@ const jsClasses = {
         t.btnPaddingYLarge,
       )};
 
-      .${classes.arrow} {
-        transform: ${t.btnLargeArrowTransform};
-      }
+      ${buttonArrowMixin('10.2px', t.btnLargeArrowLeft, '-10.8px', '22.2px', t.btnLargeArrowTransform)};
 
-      .${classes.arrow_left} {
-        left: ${t.btnLargeArrowLeft};
-      }
-
-      .${classes.arrow}.${classes.arrow_loading}::before {
-        background: ${t.btnLargeArrowBg};
-      }
+      ${buttonLoadingArrowMixin(
+        '-32px',
+        '-36px',
+        ' -198px',
+        '700%',
+        t.btnLargeArrowBg,
+        t.btnLargeArrowLeftLoadingDelay,
+        btn_loading_arrow,
+      )};
     `;
   },
 
-  link(t: ITheme) {
+  link(t: Theme) {
     return css`
       &.${classes.link} {
         color: ${t.linkColor};
@@ -130,14 +157,14 @@ const jsClasses = {
     `;
   },
 
-  focus(t: ITheme) {
+  focus(t: Theme) {
     return css`
       .${classes.link}& {
         color: ${t.linkColor};
         text-decoration: ${t.linkHoverTextDecoration};
       }
 
-      &.${classes.root}:not(.${classes.disabled}):not(.${classes.loading}):not(.${classes.link}) {
+      &.${classes.root}:not(.${classes.disabled}):not(.${classes.link}) {
         border: ${t.btnFocusBorder};
 
         &,
@@ -168,7 +195,7 @@ const jsClasses = {
     `;
   },
 
-  disabled(t: ITheme) {
+  disabled(t: Theme) {
     return css`
       .${classes.wrap} .${classes.root}&:not(.${classes.link}) {
         background: ${t.btnDisabledBg};
@@ -195,7 +222,7 @@ const jsClasses = {
     `;
   },
 
-  arrow_warning(t: ITheme) {
+  arrow_warning(t: Theme) {
     return css`
       .${classes.wrap} .${classes.root} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
@@ -203,7 +230,7 @@ const jsClasses = {
     `;
   },
 
-  arrow_error(t: ITheme) {
+  arrow_error(t: Theme) {
     return css`
       .${classes.wrap} .${classes.root} .${classes.arrow}& {
         box-shadow: 2px -2px 0 0 ${t.borderColorError};
@@ -211,7 +238,7 @@ const jsClasses = {
     `;
   },
 
-  default(t: ITheme) {
+  default(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnDefaultBg,
@@ -261,7 +288,7 @@ const jsClasses = {
     `;
   },
 
-  primary(t: ITheme) {
+  primary(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnPrimaryBg,
@@ -299,7 +326,7 @@ const jsClasses = {
     `;
   },
 
-  success(t: ITheme) {
+  success(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnSuccessBg,
@@ -337,7 +364,7 @@ const jsClasses = {
     `;
   },
 
-  danger(t: ITheme) {
+  danger(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnDangerBg,
@@ -375,7 +402,7 @@ const jsClasses = {
     `;
   },
 
-  pay(t: ITheme) {
+  pay(t: Theme) {
     return css`
       ${buttonUseMixin(
         t.btnPayBg,
@@ -413,7 +440,7 @@ const jsClasses = {
     `;
   },
 
-  checked(t: ITheme) {
+  checked(t: Theme) {
     return css`
       &.${classes.root} {
         &,
@@ -440,11 +467,43 @@ const jsClasses = {
     `;
   },
 
-  wrap(t: ITheme) {
+  wrap(t: Theme) {
     return css`
       padding: ${t.btnWrapPadding};
     `;
   },
-};
 
-export default jsClasses;
+  loading() {
+    const btn_loading = keyframes`
+    0% {
+      transform: translateX(0) rotateY(180deg);
+    }
+
+    100% {
+      transform: translateX(-30px) rotateY(180deg);
+    }
+  `;
+    return css`
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: inherit;
+      overflow: hidden;
+      &::before {
+        content: '';
+        height: 100%;
+        position: absolute;
+        opacity: 0.2;
+        background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
+        background-size: 30px 100%;
+        top: 0;
+        left: 0;
+        right: -30px;
+        animation: ${btn_loading} 1s linear infinite;
+        transform: rotateY(180deg);
+      }
+    `;
+  },
+};

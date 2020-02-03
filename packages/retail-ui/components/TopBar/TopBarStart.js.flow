@@ -1,4 +1,0 @@
-/* @flow */
-declare var Start: React$ComponentType<{||}>;
-
-export default Start;

@@ -1,10 +1,9 @@
-import createReactContext from 'create-react-context';
-import { ReactNode } from 'react';
-import * as React from 'react';
+import React, { ReactNode } from 'react';
+
 import { defaultLangCode } from './constants';
 import { LangCodes, LocaleControls } from './types';
 
-const LocaleContext = createReactContext<LocaleProviderProps>({});
+const LocaleContext = React.createContext<LocaleProviderProps>({});
 
 export interface LocaleProviderProps {
   locale?: LocaleControls;
@@ -14,7 +13,9 @@ export interface LocaleProviderProps {
 
 export const LocaleConsumer = LocaleContext.Consumer;
 
-export default class LocaleProvider extends React.Component<LocaleProviderProps> {
+export class LocaleProvider extends React.Component<LocaleProviderProps> {
+  public static __KONTUR_REACT_UI__ = 'LocaleProvider';
+
   public static defaultProps = {
     locale: {},
     langCode: defaultLangCode,

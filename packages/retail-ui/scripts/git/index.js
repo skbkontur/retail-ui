@@ -1,5 +1,11 @@
 const { execSync } = require('child_process');
 
+const getRevisionID = () => {
+  return execSync('git rev-parse HEAD', { shell: true })
+    .toString()
+    .trim();
+};
+
 const getRevisionRefs = (revId = getRevisionID()) => {
   const refs = {
     heads: [],
@@ -22,12 +28,6 @@ const getRevisionRefs = (revId = getRevisionID()) => {
     });
 
   return refs;
-};
-
-const getRevisionID = () => {
-  return execSync('git rev-parse HEAD', { shell: true })
-    .toString()
-    .trim();
 };
 
 module.exports = {

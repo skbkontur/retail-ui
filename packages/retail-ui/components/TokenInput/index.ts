@@ -1,1 +1,1 @@
-export { default, TokenInputProps, TokenInputState, TokenInputType } from './TokenInput';
+export { TokenInput, TokenInputProps, TokenInputState, TokenInputType } from './TokenInput';

@@ -1,20 +1,22 @@
 import React from 'react';
-import { css, cx } from '../../../lib/theming/Emotion';
-import styles from './styles.module.less';
-import Gapped from '../../Gapped';
-import { ITheme } from '../../../lib/theming/Theme';
 
-interface IComponentsGroupProps {
+import { css, cx } from '../../../lib/theming/Emotion';
+import { Gapped } from '../../Gapped';
+import { Theme } from '../../../lib/theming/Theme';
+
+import styles from './styles.module.less';
+
+interface ComponentsGroupProps {
   title: string;
-  components: Array<React.ReactElement<any>>;
+  children: React.ReactNode;
   style?: React.CSSProperties;
-  theme: ITheme;
+  theme: Theme;
 }
 
-export const ComponentsGroup = (props: IComponentsGroupProps): React.ReactElement<IComponentsGroupProps> => {
-  const { title, components, style, theme } = props;
+export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement<ComponentsGroupProps> => {
+  const { title, children, style, theme } = props;
   return (
-    <Gapped verticalAlign={'top'} gap={40}>
+    <Gapped wrap verticalAlign="top" gap={40}>
       <div
         className={cx(
           styles.title,
@@ -34,8 +36,8 @@ export const ComponentsGroup = (props: IComponentsGroupProps): React.ReactElemen
           `,
         )}
       >
-        <Gapped verticalAlign={'middle'} gap={10}>
-          {components.map((element, index) => React.cloneElement(element, { key: index }))}
+        <Gapped wrap verticalAlign="middle" gap={10}>
+          {children}
         </Gapped>
       </div>
     </Gapped>

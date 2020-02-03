@@ -1,8 +1,8 @@
 import { mount } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 
-import InternalMenu from '../InternalMenu';
-import MenuItem from '../../../MenuItem';
+import { InternalMenu } from '../InternalMenu';
+import { MenuItem } from '../../../MenuItem';
 
 describe('Menu', () => {
   beforeEach(() => {

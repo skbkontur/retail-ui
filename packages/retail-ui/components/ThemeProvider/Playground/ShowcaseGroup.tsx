@@ -1,15 +1,16 @@
 import React from 'react';
-import Checkbox from '../../Checkbox/index';
-import Gapped from '../../Gapped/index';
-import Button from '../../Button/index';
-import Input from '../../Input/index';
-import Toggle from '../../Toggle/index';
-import Radio from '../../Radio/index';
 
-interface IShowcaseGroupProps {
+import { Checkbox } from '../../Checkbox';
+import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
+import { Input } from '../../Input';
+import { Toggle } from '../../Toggle';
+import { Radio } from '../../Radio';
+
+interface ShowcaseGroupProps {
   title?: string;
 }
-export const ShowcaseGroup = (props: IShowcaseGroupProps) => (
+export const ShowcaseGroup = (props: ShowcaseGroupProps) => (
   <div>
     {props.title && <h2>{props.title}</h2>}
     <Gapped gap={10}>

@@ -9,10 +9,10 @@ coverage/
 gemini-report
 /docs/dist/
 /build
+/reports
 .styleguide/build
 .storybook/build
 *.less.d.ts
-*.less.flow
 /lib/**/*.js
 /lib/**/*.d.ts
 /lib/**/*.map

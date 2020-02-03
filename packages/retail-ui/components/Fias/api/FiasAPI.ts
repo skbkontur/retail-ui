@@ -1,25 +1,26 @@
 import {
   AddressObject,
-  APIProvider,
-  FiasId,
-  Fields,
-  House,
   AddressResponse,
-  SearchOptions,
-  SearchResponse,
-  Stead,
-  Room,
-  VerifyResponse,
+  APIProvider,
   APIResult,
   FetchFn,
   FetchResponse,
   FiasCountry,
+  FiasId,
+  Fields,
+  House,
+  Room,
+  SearchOptions,
+  SearchResponse,
+  Stead,
+  VerifyResponse,
 } from '../types';
-import abbreviations from '../constants/abbreviations';
+import { abbreviations } from '../constants/abbreviations';
 import { Logger } from '../logger/Logger';
-import { APIResultFactory } from './APIResultFactory';
-import xhrFetch from '../../../lib/net/fetch-cors';
+import { fetch } from '../../../lib/net/fetch-cors';
 import { Address } from '../models/Address';
+
+import { APIResultFactory } from './APIResultFactory';
 
 interface SearchQuery {
   [key: string]: string | number | boolean | FiasId | Fields[] | undefined;
@@ -77,7 +78,7 @@ export class FiasAPI implements APIProvider {
 
   private regionsPromise: Promise<APIResult<SearchResponse>> | null = null;
 
-  constructor(private baseUrl: string = '', private version?: string, private fetchFn: FetchFn = xhrFetch) {}
+  constructor(private baseUrl: string = '', private version?: string, private fetchFn: FetchFn = fetch) {}
 
   public verify = (address: Address): Promise<APIResult<VerifyResponse>> => {
     const query = {
@@ -286,5 +287,3 @@ export class FiasAPI implements APIProvider {
     });
   };
 }
-
-export default FiasAPI;

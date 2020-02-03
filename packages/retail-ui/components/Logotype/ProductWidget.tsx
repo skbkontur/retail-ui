@@ -1,6 +1,6 @@
 let calledLoad = false;
 
-export default {
+export const ProductWidget = {
   init() {
     const loadWidget = () => {
       if (calledLoad) {
@@ -13,20 +13,6 @@ export default {
       setTimeout(() => document.getElementsByTagName('head')[0].appendChild(script));
     };
 
-    if (window.jQuery) {
-      loadWidget();
-    } else {
-      const jquery = document.createElement('script');
-      jquery.onload = loadWidget;
-      // @ts-ignore
-      jquery.onreadystatechange = function() {
-        // @ts-ignore
-        if (this.readyState === 'loaded' || this.readyState === 'complete') {
-          loadWidget();
-        }
-      };
-      jquery.src = 'https://code.jquery.com/jquery-1.12.4.min.js';
-      document.getElementsByTagName('head')[0].appendChild(jquery);
-    }
+    loadWidget();    
   },
 };

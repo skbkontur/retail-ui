@@ -1,14 +1,16 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 import warning from 'warning';
+
 import { isFunction } from '../../lib/utils';
-import styles from './MenuItem.module.less';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './MenuItem.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './MenuItem.styles';
+import styles from './MenuItem.module.less';
+
 export type MenuItemState = null | 'hover' | 'selected' | void;
-export type MenuItemElement = HTMLAnchorElement | HTMLSpanElement;
 
 export interface MenuItemProps {
   /** @ignore */
@@ -40,7 +42,8 @@ export interface MenuItemProps {
 /**
  * Элемент меню.
  */
-export default class MenuItem extends React.Component<MenuItemProps> {
+export class MenuItem extends React.Component<MenuItemProps> {
+  public static __KONTUR_REACT_UI__ = 'MenuItem';
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {
@@ -63,8 +66,8 @@ export default class MenuItem extends React.Component<MenuItemProps> {
     onClick: PropTypes.func,
   };
 
-  private theme!: ITheme;
-  private mouseEntered: boolean = false;
+  private theme!: Theme;
+  private mouseEntered = false;
 
   public render() {
     return (
@@ -180,6 +183,6 @@ export default class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = (child: React.ReactChild): child is React.ReactElement<MenuItemProps> => {
+export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
   return React.isValidElement<MenuItemProps>(child) ? child.type.hasOwnProperty('__MENU_ITEM__') : false;
 };

@@ -1,6 +1,7 @@
+import { Nullable } from '../../typings/utility-types';
+
 import { DecimalOptions } from './CurrencyInputHelper';
 import { CursorMap } from './CursorHelper';
-import { Nullable } from '../../typings/utility-types';
 import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
 
 export interface DecimalFormattingOptions {
@@ -21,7 +22,7 @@ export interface FormattingInfo {
   cursorMap: CursorMap;
 }
 
-export default class CurrencyHelper {
+export class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     thousandsDelimiter: String.fromCharCode(0x2009),

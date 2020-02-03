@@ -6,7 +6,7 @@ export interface Selection {
 
 export type SelectionDirection = 'forward' | 'backward' | 'none';
 
-export default class SelectionHelper {
+export class SelectionHelper {
   public static fromPosition = (position: number): Selection => {
     return { start: position, end: position, direction: 'none' };
   };

@@ -1,1 +1,1 @@
-export { default, PagingProps, PagingState } from './Paging';
+export { Paging, PagingProps, PagingState } from './Paging';

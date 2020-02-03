@@ -1,4 +1,5 @@
 const path = require('path');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
@@ -45,7 +46,10 @@ function createConfig(publicPath, output) {
             {
               loader: 'css-loader',
               options: {
-                localIdentName: '[name]-[local]-[hash:base64:4]',
+                modules: {
+                  mode: 'global',
+                  localIdentName: '[name]-[local]-[hash:base64:4]',
+                },
               },
             },
             'less-loader',

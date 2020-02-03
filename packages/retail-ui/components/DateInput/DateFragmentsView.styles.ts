@@ -1,10 +1,24 @@
-import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
-import styles from './DateFragmentsView.module.less';
+import { css, injectGlobal } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
+import maskCharFontEot from '../internal/MaskedInput/mask-char-font/font.eot';
+import maskCharFontWoff from '../internal/MaskedInput/mask-char-font/font.woff';
+import maskCharFontWoff2 from '../internal/MaskedInput/mask-char-font/font.woff2';
 
-const jsStyles = {
-  root(t: ITheme) {
+injectGlobal`
+  @font-face {
+    font-family: kontur-mask-char;
+    src: url('${maskCharFontEot}'); /* For IE11 in IE8 mode. */
+    src: url('${maskCharFontEot}?#iefix') format('embedded-opentype'),
+    url('${maskCharFontWoff2}') format('woff2'), url('${maskCharFontWoff}') format('woff');
+  }
+`;
+
+export const jsStyles = {
+  root(t: Theme) {
     return css`
+      font-family: kontur-mask-char, Segoe UI, Helevetica Neue, sans-serif;
+      cursor: text;
+
       & ::selection {
         background: ${t.dateInputComponentSelectedBgColor};
       }
@@ -14,22 +28,28 @@ const jsStyles = {
     `;
   },
 
-  mask(t: ITheme) {
+  selected(t: Theme) {
+    return css`
+      border-color: ${t.dateInputComponentSelectedBgColor};
+      background-color: ${t.dateInputComponentSelectedBgColor};
+    `;
+  },
+
+  mask(t: Theme) {
     return css`
       color: ${t.dateInputMaskColor};
     `;
   },
 
-  delimiter(t: ITheme) {
+  delimiter(t: Theme) {
     return css`
       color: ${t.dateInputMaskColor};
+    `;
+  },
 
-      &.${styles.filled} {
-        color: inherit;
-        line-height: 1.34;
-      }
+  delimiterFilled(t: Theme) {
+    return css`
+      color: inherit;
     `;
   },
 };
-
-export default jsStyles;

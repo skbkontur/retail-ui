@@ -1,8 +1,9 @@
 import { storiesOf } from '@storybook/react';
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
-import Select from 'retail-ui/components/Select';
+import React from 'react';
+import { Button } from 'retail-ui/components/Button';
+import { Input } from 'retail-ui/components/Input';
+import { Select } from 'retail-ui/components/Select';
+
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 

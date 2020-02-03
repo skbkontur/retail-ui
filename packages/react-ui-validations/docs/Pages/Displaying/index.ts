@@ -4,7 +4,7 @@ import ErrorMessages from './ErrorMessages/ErrorMessages.md';
 import FormValidity from './FormValidity/FormValidity.md';
 import ScrollToValidation from './ScrollToValidation/ScrollToValidation.md';
 
-export default {
+export const Displaying = {
   caption: 'Отображение',
   items: [
     {

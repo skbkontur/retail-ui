@@ -1,5 +1,6 @@
 import React from 'react';
-import Select, { SelectProps } from '../../Select';
+
+import { Select, SelectProps } from '../../Select';
 
 export class SelectPlayground extends React.Component<SelectProps<string, string>, { value: string | undefined }> {
   public state = {
@@ -8,7 +9,14 @@ export class SelectPlayground extends React.Component<SelectProps<string, string
   private readonly selectItems = ['Small', 'Medium', 'Large'];
 
   public render() {
-    return <Select {...this.props} value={this.state.value} items={this.selectItems} onChange={this.handleChange} />;
+    return (
+      <Select<string, string>
+        {...this.props}
+        value={this.state.value}
+        items={this.selectItems}
+        onChange={this.handleChange}
+      />
+    );
   }
 
   private handleChange = (_: any, value: string) => {
@@ -18,6 +26,6 @@ export class SelectPlayground extends React.Component<SelectProps<string, string
   };
 }
 
-const capitalize = (input: string = ''): string => {
+const capitalize = (input = ''): string => {
   return input.charAt(0).toUpperCase() + input.slice(1);
 };

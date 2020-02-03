@@ -100,12 +100,10 @@ describe('DropdownMenu', function() {
         .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await this.browser.executeScript(function() {
-        // tslint:disable
         // @ts-ignore
         var scrollContainer: Element = window.document.querySelector('[class^="ScrollContainer-module-inner"]');
         scrollContainer.scrollTop += 100;
-        // tslint:enable
-      });
+        });
       await expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
     });
     it('scrolled down to bottom', async function() {
@@ -116,12 +114,10 @@ describe('DropdownMenu', function() {
         .click(this.browser.findElement(By.css('[class^="PopupMenu-module-caption"]')))
         .perform();
       await this.browser.executeScript(function() {
-        // tslint:disable
         // @ts-ignore
         var scrollContainer: Element = window.document.querySelector('[class^="ScrollContainer-module-inner"]');
         scrollContainer.scrollTop += scrollContainer.scrollHeight;
-        // tslint:enable
-      });
+        });
       await expect(await this.browser.takeScreenshot()).to.matchImage('scrolled down to bottom');
     });
   });

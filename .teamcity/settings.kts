@@ -232,6 +232,7 @@ object ReactUI_BuildRetailUi : BuildType({
   name = "Build"
 
   artifactRules = """
+        packages\retail-ui\.storybook\build\default => storybook-default-%build.number%.zip
         packages\retail-ui\retail-ui-%build.number%.tgz
         packages\retail-ui\skbkontur-react-ui-%build.number%.tgz
     """.trimIndent()

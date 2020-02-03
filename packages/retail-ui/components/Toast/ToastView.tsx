@@ -1,42 +1,49 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import CROSS from '../internal/cross';
-import ZIndex from '../ZIndex/ZIndex';
-import styles from './ToastView.module.less';
-import { Nullable } from '../../typings/utility-types';
-import jsStyles from './ToastView.styles';
+import React from 'react';
+import { func, shape, string } from 'prop-types';
+
+import { CrossIcon } from '../internal/icons/CrossIcon';
+import { ZIndex } from '../ZIndex';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './ToastView.styles';
+import styles from './ToastView.module.less';
 
 export interface ToastViewProps {
+  /**
+   * Toast content
+   */
   children?: string;
-  action?: Nullable<{
+  /**
+   * Adds action handling and close icon for toast
+   */
+  action?: {
     label: string;
     handler: () => void;
-  }>;
+  } | null;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
 
-class ToastView extends React.Component<ToastViewProps> {
+export class ToastView extends React.Component<ToastViewProps> {
   public static propTypes = {
     /**
      * Adds action handling and close icon for toast
      */
-    action: PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      handler: PropTypes.func.isRequired,
+    action: shape({
+      label: string.isRequired,
+      handler: func.isRequired,
     }),
     /**
      * Toast content
      */
-    children: PropTypes.string.isRequired,
-    onClose: PropTypes.func,
+    children: string.isRequired,
+    onClose: func,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render() {
     return (
@@ -59,8 +66,10 @@ class ToastView extends React.Component<ToastViewProps> {
     ) : null;
 
     const close = action ? (
-      <span className={cx(styles.close, jsStyles.close(this.theme))} onClick={onClose}>
-        {CROSS}
+      <span className={styles.closeWrapper}>
+        <span className={cx(styles.close, jsStyles.close(this.theme))} onClick={onClose}>
+          <CrossIcon />
+        </span>
       </span>
     ) : null;
 
@@ -75,5 +84,3 @@ class ToastView extends React.Component<ToastViewProps> {
     );
   }
 }
-
-export default ToastView;

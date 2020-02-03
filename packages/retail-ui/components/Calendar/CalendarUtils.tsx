@@ -1,7 +1,6 @@
-import config from './config';
-
+import { config } from './config';
 import { MonthViewModel } from './MonthViewModel';
-import { CalendarState, CalendarProps } from './Calendar';
+import { CalendarProps, CalendarState } from './Calendar';
 
 export const calculateScrollPosition = (months: MonthViewModel[], scrollPosition: number, deltaY: number) => {
   const scrollDirection = deltaY > 0 ? 1 : -1;

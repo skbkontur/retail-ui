@@ -1,4 +1,4 @@
-import { EventEmitter } from 'fbemitter';
+import EventEmitter from 'eventemitter3';
 
 let emitterCache: EventEmitter;
 function getEmitter() {
@@ -8,21 +8,16 @@ function getEmitter() {
   return emitterCache;
 }
 
-function addListener(callback: () => void) {
+export function addListener(callback: () => void) {
   const emitter = getEmitter();
-  const token = emitter.addListener('CalendarScroll', callback);
+  emitter.addListener('CalendarScroll', callback);
   return {
     remove() {
-      token.remove();
+      emitter.removeListener('CalendarScroll', callback);
     },
   };
 }
 
-function emit() {
+export function emit() {
   getEmitter().emit('CalendarScroll');
 }
-
-export default {
-  addListener,
-  emit,
-};

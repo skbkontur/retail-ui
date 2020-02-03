@@ -1,8 +1,8 @@
 import DEFAULT_VARIABLES from '../../../components/variables.module.less';
 import { defineInternalTheme } from '../ThemeHelpers';
-import ColorFunctions from '../../styles/ColorFunctions';
+import * as ColorFunctions from '../../styles/ColorFunctions';
 
-const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
+export const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
   bgActive: {
     get() {
       return this.blueLight;
@@ -346,5 +346,3 @@ const DEFAULT_THEME = defineInternalTheme(DEFAULT_VARIABLES, {
     },
   },
 });
-
-export default DEFAULT_THEME;

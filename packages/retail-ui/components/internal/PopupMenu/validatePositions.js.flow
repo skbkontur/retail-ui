@@ -1,4 +1,0 @@
-/* @flow */
-declare var _default: (positions: string[]) => boolean;
-
-export default _default;

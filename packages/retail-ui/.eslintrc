@@ -1,5 +1,10 @@
-parser: babel-eslint
-root: true
-
-extends:
-  - ./scripts/eslint/.eslintrc
+{
+  "overrides": [
+    {
+      "files": ["**/*.stories.tsx"],
+      "rules": {
+        "import/no-default-export": 0
+      }
+    }
+  ]
+}

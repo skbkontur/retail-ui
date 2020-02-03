@@ -1,4 +1,4 @@
-import CursorHelper from '../CursorHelper';
+import { CursorHelper } from '../CursorHelper';
 import { Selection } from '../SelectionHelper';
 
 describe('CursorHelper', () => {

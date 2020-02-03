@@ -7,7 +7,7 @@ describe('Switcher', function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await expect(await element.takeScreenshot()).to.matchImage('idle');
     });
-    it('clicked', async function() {
+    it.skip(['chromeFlat'], 'clicked', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await this.browser
         .actions({

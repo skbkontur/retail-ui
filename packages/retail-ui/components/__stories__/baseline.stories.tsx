@@ -1,14 +1,13 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import Button from '../Button';
-import Link from '../Link';
-import Input from '../Input';
-import ComboBox from '../ComboBox';
-import Spinner from '../Spinner';
 import SpinnerIcon from '@skbkontur/react-icons/Spinner';
-import Checkbox from '../Checkbox';
+
+import { Button } from '../Button';
+import { Link } from '../Link';
+import { Input } from '../Input';
+import { ComboBox } from '../ComboBox';
+import { Spinner } from '../Spinner';
+import { Checkbox } from '../Checkbox';
 
 storiesOf('Baseline', module)
   .add('Button and text', () => (
@@ -94,10 +93,11 @@ storiesOf('Baseline', module)
   ))
   .add('Checkbox', () => (
     <div>
-      Lorem <Checkbox initialIndeterminate /> dolor <Checkbox />a<Checkbox checked /> <Checkbox>L1</Checkbox> <Checkbox checked>L1.1</Checkbox>elit.{' '}
-      <Button>Button 1</Button> amet.
+      Lorem <Checkbox initialIndeterminate /> dolor <Checkbox />a<Checkbox checked /> <Checkbox>L1</Checkbox>{' '}
+      <Checkbox checked>L1.1</Checkbox>elit. <Button>Button 1</Button> amet.
       <br />
-      Lorem <Button>Button 2</Button> ipsum dolor <Checkbox>Label 2</Checkbox> sit <Checkbox /> amet <Checkbox initialIndeterminate /> sit.
+      Lorem <Button>Button 2</Button> ipsum dolor <Checkbox>Label 2</Checkbox> sit <Checkbox /> amet{' '}
+      <Checkbox initialIndeterminate /> sit.
     </div>
   ));
 

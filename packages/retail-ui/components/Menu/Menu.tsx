@@ -1,17 +1,19 @@
-import * as React from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import isActiveElement from './isActiveElement';
-import ScrollContainer from '../ScrollContainer/ScrollContainer';
-import MenuItem, { MenuItemProps, isMenuItem } from '../MenuItem/MenuItem';
-import { isMenuHeader } from '../MenuHeader/MenuHeader';
-import styles from './Menu.module.less';
+
+import { ScrollContainer } from '../ScrollContainer';
+import { isMenuItem, MenuItem, MenuItemProps } from '../MenuItem';
+import { isMenuHeader } from '../MenuHeader';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Menu.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-interface MenuProps {
+import { jsStyles } from './Menu.styles';
+import styles from './Menu.module.less';
+import { isActiveElement } from './isActiveElement';
+
+export interface MenuProps {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -20,11 +22,13 @@ interface MenuProps {
   preventWindowScroll?: boolean;
 }
 
-interface MenuState {
+export interface MenuState {
   highlightedIndex: number;
 }
 
-export default class Menu extends React.Component<MenuProps, MenuState> {
+export class Menu extends React.Component<MenuProps, MenuState> {
+  public static __KONTUR_REACT_UI__ = 'Menu';
+
   public static defaultProps = {
     width: 'auto',
     maxHeight: 300,
@@ -36,7 +40,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     highlightedIndex: -1,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
@@ -97,7 +101,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => typeof x === 'object' && x.props.icon,
+      x => React.isValidElement(x) && x.props.icon,
     );
 
     if (this.isEmpty()) {
@@ -261,8 +265,8 @@ function isExist(value: any): value is any {
   return value !== null && value !== undefined;
 }
 
-function childrenToArray(children: React.ReactNode): React.ReactChild[] {
-  const ret: React.ReactChild[] = [];
+function childrenToArray(children: React.ReactNode): React.ReactNode[] {
+  const ret: React.ReactNode[] = [];
   // Use forEach instead of map to avoid cloning for key unifying.
   React.Children.forEach(children, child => {
     ret.push(child);

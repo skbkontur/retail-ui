@@ -1,13 +1,14 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Button } from 'retail-ui/components/Button';
+import { Input } from 'retail-ui/components/Input';
+
 import {
   ValidationContainer,
   ValidationWrapper,
   createValidator,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface FullName {
   surname: string;
@@ -19,7 +20,6 @@ interface ContactInfo {
   email: string;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo>(b => {
   b.prop(
     x => x.fullName,
@@ -46,8 +46,6 @@ const validate = createValidator<ContactInfo>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   contactInfo: ContactInfo;

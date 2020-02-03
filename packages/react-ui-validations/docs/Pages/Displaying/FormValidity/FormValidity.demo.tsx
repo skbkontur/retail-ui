@@ -1,15 +1,16 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
-import Gapped from 'retail-ui/components/Gapped';
+import React from 'react';
+import { Button } from 'retail-ui/components/Button';
+import { Input } from 'retail-ui/components/Input';
+import { Gapped } from 'retail-ui/components/Gapped';
+
 import {
-  ValidationContainer,
-  ValidationWrapper,
-  ValidationInfo,
   ValidationBehaviour,
+  ValidationContainer,
+  ValidationInfo,
+  ValidationWrapper,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface State {
   immediate: string;
@@ -64,8 +65,10 @@ export default class FormValidityDemo extends React.Component<{}, State> {
           </Form.Line>
 
           <Form.ActionsBar>
-            <Gapped>
-              <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Gapped wrap verticalAlign="middle">
+              <Button use={'primary'} onClick={this.handleSubmit}>
+                Submit
+              </Button>
               {this.renderFormState()}
             </Gapped>
           </Form.ActionsBar>

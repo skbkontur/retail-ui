@@ -11,7 +11,7 @@ import {
   RE_ORDER_MDY,
   RE_ORDER_YMD,
 } from './constants';
-import InternalDateValidator from './InternalDateValidator';
+import { InternalDateValidator } from './InternalDateValidator';
 import {
   InternalDateComponentRaw,
   InternalDateComponents,
@@ -19,11 +19,12 @@ import {
   InternalDateComponentsRaw,
   InternalDateComponentType,
   InternalDateFragment,
-  InternalDateOrder, InternalDateSeparator,
+  InternalDateOrder,
+  InternalDateSeparator,
   InternalDateToFragmentsSettings,
 } from './types';
 
-export default class InternalDateTransformer {
+export class InternalDateTransformer {
   public static padStart = (value: InternalDateComponentRaw, length: number, pad: string = CHAR_PAD): string =>
     String(value || '').padStart(length, pad);
 
@@ -148,7 +149,6 @@ export default class InternalDateTransformer {
     const { year, month, date } = componentsRaw;
     return { year: Number(year), month: Number(month), date: Number(date) };
   }
-
 
   public static dateToInternalString(components: InternalDateComponentsRaw): string {
     return InternalDateTransformer.dateToFragments(components, {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'retail-ui/components/Link';
+import { Link } from 'retail-ui/components/Link';
 import AddIcon from '@skbkontur/react-icons/Add';
 import USBIcon from '@skbkontur/react-icons/USB';
 import { CaseSuite, Case } from '../Case';

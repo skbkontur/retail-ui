@@ -1,15 +1,12 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import EyeOpenedIcon from '@skbkontur/react-icons/EyeOpened';
-import EyeClosedIcon from '@skbkontur/react-icons/EyeClosed';
-import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
-import Codes from '../../lib/events/keyboard/KeyboardEventCodes';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Input from '../Input';
-import { InputProps } from '../Input/Input';
-import PasswordInputFallback from './PasswordInputFallback';
-import { ieVerison, isIE } from '../ensureOldIEClassName';
+import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
+import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
+import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
+import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
+import { isIE11 } from '../../lib/utils';
 
 import styles from './PasswordInput.module.less';
 
@@ -23,9 +20,11 @@ export interface PasswordInputState {
 }
 
 /**
- * **DRAFT**
+ * Компонент для ввода пароля
  */
-export default class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+  public static __KONTUR_REACT_UI__ = 'PasswordInput';
+
   public static propTypes = {
     /**
      * Включает CapsLock детектор
@@ -44,13 +43,13 @@ export default class PasswordInput extends React.Component<PasswordInputProps, P
 
   private input: Nullable<Input>;
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
     }
 
     // @ts-ignore
-    if (isIE && !window.document.msCapsLockWarningOff) {
+    if (isIE11 && !window.document.msCapsLockWarningOff) {
       // turns off default ie capslock warning
       // @ts-ignore
       window.document.msCapsLockWarningOff = true;
@@ -153,11 +152,6 @@ export default class PasswordInput extends React.Component<PasswordInputProps, P
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
     };
-
-    if (isIE && ieVerison === 8) {
-      return <PasswordInputFallback refInput={this.refInput} visible={this.state.visible} {...inputProps} />;
-    }
-
     return <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />;
   }
 }

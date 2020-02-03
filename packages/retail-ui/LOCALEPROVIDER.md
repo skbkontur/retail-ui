@@ -1,8 +1,6 @@
-Локализация компонентов с помощью полифила [`create-react-context`](https://github.com/jamiebuilds/create-react-context)
-
 ### Props
 
-```typescript jsx
+```typescript
 interface LocaleProviderProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
@@ -11,7 +9,7 @@ interface LocaleProviderProps {
 
 Доступные языки
 
-```typescript jsx
+```typescript
 enum LangCodes {
   ru_RU = 'ru_RU',
   en_GB = 'en_GB',
@@ -20,7 +18,7 @@ enum LangCodes {
 
 <details><summary>LocaleControls</summary>
 
-```typescript jsx
+```typescript
 interface LocaleControls {
   Spinner?: SpinnerLocale;
   TokenInput?: TokenInputLocale;
@@ -40,9 +38,8 @@ interface LocaleControls {
 
 Дефолтная локализация `<TokenInput />`
 
-```jsx
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
-const { TokenInputType } = require('./components/TokenInput');
+```jsx harmony
+import { LangCodes, LocaleProvider, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 <LocaleProvider langCode={LangCodes.en_GB}>
@@ -52,9 +49,8 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 Кастомная локализация `<TokenInput />`
 
-```jsx
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
-const { TokenInputType } = require('./components/TokenInput');
+```jsx harmony
+import { LangCodes, LocaleProvider, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -72,9 +68,9 @@ const customLocale = {
 <br/>
 Для инкапсуляции локализации можно использовать несколько контекстов.
 
-```jsx
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
-const { TokenInputType } = require('./components/TokenInput');
+```jsx harmony
+import { Gapped, LangCodes, LocaleProvider, Spinner, TokenInput } from '@skbkontur/react-ui';
+
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -96,13 +92,31 @@ const customLocale = {
 
 ### Обзор всех доступных контролов
 
-```jsx
-const { TokenInputType } = require('./components/TokenInput');
-const { default: LocaleProvider, LangCodes } = require('./components/LocaleProvider');
+```jsx harmony
+import {
+  ComboBox,
+  DateInput,
+  DatePicker,
+  Fias,
+  Gapped,
+  LocaleProvider,
+  Logotype,
+  Paging,
+  Select,
+  Spinner,
+  TokenInput,
+  TopBar,
+} from '@skbkontur/react-ui';
+import { LangCodes } from '@skbkontur/react-ui/components/LocaleProvider';
+import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-const items = [{ label: 'aaa', value: 1 }, { label: 'bbb', value: 2 }, { label: 'ccc', value: 3 }];
+const items = [
+  { label: 'aaa', value: 1 },
+  { label: 'bbb', value: 2 },
+  { label: 'ccc', value: 3 },
+];
 
 const LocalizationControlNames = {
   ComboBox: 'ComboBox',

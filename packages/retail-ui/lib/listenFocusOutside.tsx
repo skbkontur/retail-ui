@@ -1,5 +1,6 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
+
 import { isFirefox } from './utils';
 
 interface FocusOutsideEventHandler {
@@ -93,7 +94,7 @@ function findRenderContainer(node: Element, rootNode: Element, container?: Eleme
   return findRenderContainer(currentNode, rootNode, container);
 }
 
-function listen(elements: HTMLElement[] | (() => HTMLElement[]), callback: (event: Event) => void) {
+export function listen(elements: HTMLElement[] | (() => HTMLElement[]), callback: (event: Event) => void) {
   const handler = {
     elements,
     callback,
@@ -109,5 +110,3 @@ function listen(elements: HTMLElement[] | (() => HTMLElement[]), callback: (even
     },
   };
 }
-
-export default listen;

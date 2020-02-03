@@ -1,11 +1,13 @@
-import * as React from 'react';
+import React from 'react';
 import { findDOMNode } from 'react-dom';
-import * as PropTypes from 'prop-types';
-import Indicator from './Indicator';
+import PropTypes from 'prop-types';
+
+import { cx } from '../../lib/theming/Emotion';
+
+import { IndicatorWithContext as Indicator } from './Indicator';
 import { TabsContext } from './TabsContext';
 import { TabProps, TabWithContext, Tab } from './Tab';
 import styles from './Tabs.module.less';
-import { cx } from '../../lib/theming/Emotion';
 
 export interface TabsProps {
   /**
@@ -45,7 +47,9 @@ export interface TabsProps {
  *
  * contains static property `Tab`
  */
-class Tabs extends React.Component<TabsProps> {
+export class Tabs extends React.Component<TabsProps> {
+  public static __KONTUR_REACT_UI__ = 'Tabs';
+
   public static propTypes = {
     children: PropTypes.node,
     indicatorClassName: PropTypes.string,
@@ -93,11 +97,8 @@ class Tabs extends React.Component<TabsProps> {
             switchTab: this.switchTab,
           }}
         >
-          <div>
-            {/* React <= 15. TabsContext.Provider can only receive a single child element. */}
-            {children}
-            <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
-          </div>
+          {children}
+          <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
         </TabsContext.Provider>
       </div>
     );
@@ -148,5 +149,3 @@ class Tabs extends React.Component<TabsProps> {
     return { target: { value } };
   }
 }
-
-export default Tabs;

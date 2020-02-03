@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// @ts-ignore
 import Styled from 'react-styleguidist/lib/rsg-components/Styled';
-import Spinner from '../../../components/Spinner';
-import Link from '../../../components/Link';
-import Gapped from '../../../components/Gapped';
-import fetch from '../../../lib/net/fetch-cors';
+import { Spinner } from '../../../components/Spinner';
+import { Link } from '../../../components/Link';
+import { Gapped } from '../../../components/Gapped';
+import { fetch } from '../../../lib/net/fetch-cors';
 
 interface GithubIssue {
   id: string;

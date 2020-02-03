@@ -1,19 +1,19 @@
-import * as React from 'react';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Input } from 'retail-ui/components/Input';
+import { Toggle } from 'retail-ui/components/Toggle';
+
 import {
   ValidationContainer,
   ValidationWrapper,
   createValidator,
 } from '../../../../src';
-import Form from '../../../Common/Form';
-import Toggle from 'retail-ui/components/Toggle';
+import { Form } from '../../../Common/Form';
 
 interface Data {
   onlyDigits: boolean;
   value: string;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<Data>((b, root) => {
   b.prop(
     x => x.value,
@@ -22,8 +22,6 @@ const validate = createValidator<Data>((b, root) => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   data: Data;

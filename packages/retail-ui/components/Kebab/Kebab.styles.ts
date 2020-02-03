@@ -1,9 +1,10 @@
 import { css } from '../../lib/theming/Emotion';
-import styles from './Kebab.module.less';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 
-const jsStyles = {
-  focused(t: ITheme) {
+import styles from './Kebab.module.less';
+
+export const jsStyles = {
+  focused(t: Theme) {
     return css`
       .${styles.kebab}& {
         border-color: ${t.borderColorFocus};
@@ -11,11 +12,9 @@ const jsStyles = {
     `;
   },
 
-  menu(t: ITheme) {
+  menu(t: Theme) {
     return css`
       border-radius: ${t.popupBorderRadius};
     `;
   },
 };
-
-export default jsStyles;

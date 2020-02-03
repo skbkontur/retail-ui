@@ -1,13 +1,13 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import filterProps from '../filterProps';
-import MenuHeader from '../MenuHeader/MenuHeader';
-import MenuItem from '../MenuItem/MenuItem';
-import MenuSeparator from '../MenuSeparator/MenuSeparator';
-import Select from '../Select';
+import { filterProps } from '../filterProps';
+import { MenuHeader } from '../MenuHeader';
+import { MenuItem } from '../MenuItem';
+import { MenuSeparator } from '../MenuSeparator';
+import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
-import { ButtonUse, ButtonSize } from '../Button';
+import { ButtonSize, ButtonUse } from '../Button';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -86,12 +86,14 @@ export interface DropdownProps {
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-type DropdownSelectType = Select<React.ReactNode, React.ReactChild>;
+type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 
 /**
  * Выпадающее меню.
  */
-export default class Dropdown extends React.Component<DropdownProps> {
+export class Dropdown extends React.Component<DropdownProps> {
+  public static __KONTUR_REACT_UI__ = 'Dropdown';
+
   public static Header = MenuHeader;
   public static MenuItem = MenuItem;
   public static Separator = MenuSeparator;
@@ -165,7 +167,7 @@ export default class Dropdown extends React.Component<DropdownProps> {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
-      <Select<React.ReactNode, React.ReactChild>
+      <Select<React.ReactNode, React.ReactNode>
         ref={this._refSelect}
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}

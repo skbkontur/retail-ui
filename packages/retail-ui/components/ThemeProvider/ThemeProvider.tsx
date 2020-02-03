@@ -1,35 +1,38 @@
-import * as React from 'react';
-import { ThemeProvider as ThemeProviderInternal } from '../../lib/theming/ThemeContext';
-import { ITheme, IThemeIn } from '../../lib/theming/Theme';
-import ThemeFactory from '../../lib/theming/ThemeFactory';
-import { isDevelopmentEnv } from '../internal/currentEnvironment';
+import React from 'react';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
 
+import { ThemeProvider as ThemeProviderInternal } from '../../lib/theming/ThemeContext';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { isDevelopmentEnv } from '../internal/currentEnvironment';
+
 interface ThemeProviderProps {
   children: React.ReactNode;
-  value: IThemeIn | ITheme;
+  value: ThemeIn | Theme;
 }
 
 export class ThemeProvider extends React.Component<ThemeProviderProps> {
-  private theme: ITheme;
+  public static __KONTUR_REACT_UI__ = 'ThemeProvider';
+
+  private theme: Theme;
 
   constructor(props: ThemeProviderProps) {
     super(props);
     this.theme = this.makeFullTheme(props.value);
   }
 
-  public componentWillReceiveProps(nextProps: Readonly<ThemeProviderProps>): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<ThemeProviderProps>): void {
     if (nextProps.value !== this.props.value) {
       if (isDevelopmentEnv) {
         const hasSameShape = isEqual(nextProps.value, this.props.value);
         warning(
           !hasSameShape,
           `ThemeProvider received next value with the same shape as the previous one.` +
-            '\n' +
-            `Consider using the same object reference for performance reasons.` +
-            '\n' +
-            `Shape: ${JSON.stringify(nextProps.value)}`,
+          '\n' +
+          `Consider using the same object reference for performance reasons.` +
+          '\n' +
+          `Shape: ${JSON.stringify(nextProps.value)}`,
         );
       }
 
@@ -41,9 +44,7 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
     return <ThemeProviderInternal value={this.theme}>{this.props.children}</ThemeProviderInternal>;
   }
 
-  private makeFullTheme(theme: IThemeIn | ITheme): ITheme {
+  private makeFullTheme(theme: ThemeIn | Theme): Theme {
     return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create(theme);
   }
 }
-
-export default ThemeProvider;

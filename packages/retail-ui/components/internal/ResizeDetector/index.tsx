@@ -1,1 +1,1 @@
-export { default, ResizeDetectorProps } from './ResizeDetector';
+export { ResizeDetector, ResizeDetectorProps } from './ResizeDetector';

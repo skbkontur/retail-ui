@@ -1,16 +1,18 @@
-import * as React from 'react';
-import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
-import polyfillPlaceholder from '../polyfillPlaceholder';
-import '../ensureOldIEClassName';
-import { Override, Nullable } from '../../typings/utility-types';
 import invariant from 'invariant';
-import MaskedInput from '../internal/MaskedInput/MaskedInput';
-import { cx } from '../../lib/theming/Emotion';
-import classes from './Input.module.less';
-import jsClasses from './Input.styles';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
+import React from 'react';
 import raf from 'raf';
+
+import { isIE11, isEdge } from '../../lib/utils';
+import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
+import { polyfillPlaceholder } from '../polyfillPlaceholder';
+import { Nullable, Override } from '../../typings/utility-types';
+import { MaskedInput } from '../internal/MaskedInput';
+import { cx } from '../../lib/theming/Emotion';
+import { ThemeConsumer } from '../ThemeConsumer';
+import { Theme } from '../../lib/theming/Theme';
+
+import classes from './Input.module.less';
+import { jsStyles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -77,12 +79,6 @@ export type InputProps = Override<
      * `ReactNode` после значения, но перед правой иконкой
      */
     suffix?: React.ReactNode;
-
-    /**
-     * @deprecated
-     * 100% ширина в группе, лучше явно передать ширину в компонент
-     */
-    mainInGroup?: boolean;
     /** Выделять введенное значение при фокусе */
     selectAllOnFocus?: boolean;
     /**
@@ -96,12 +92,9 @@ export type InputProps = Override<
   }
 >;
 
-export interface InputVisibilityState {
+export interface InputState {
   blinking: boolean;
   focused: boolean;
-}
-
-export interface InputState extends InputVisibilityState {
   polyfillPlaceholder: boolean;
 }
 
@@ -109,12 +102,14 @@ export interface InputState extends InputVisibilityState {
  * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
-class Input extends React.Component<InputProps, InputState> {
+export class Input extends React.Component<InputProps, InputState> {
+  public static __KONTUR_REACT_UI__ = 'Input';
+
   public static defaultProps: {
     size: InputSize;
   } = {
-    size: 'small',
-  };
+      size: 'small',
+    };
 
   public state: InputState = {
     polyfillPlaceholder: false,
@@ -123,8 +118,8 @@ class Input extends React.Component<InputProps, InputState> {
   };
 
   private selectAllId: number | null = null;
-  private theme!: ITheme;
-  private blinkTimeout: number = 0;
+  private theme!: Theme;
+  private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
 
   public componentDidMount() {
@@ -140,7 +135,7 @@ class Input extends React.Component<InputProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  public componentWillReceiveProps(nextProps: InputProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: InputProps) {
     if (polyfillPlaceholder && !nextProps.value) {
       this.setState({ polyfillPlaceholder: true });
     }
@@ -170,7 +165,6 @@ class Input extends React.Component<InputProps, InputState> {
       this.cancelBlink(() => {
         // trigger reflow to restart animation
         // @see https://css-tricks.com/restart-css-animation/#article-header-id-0
-        // tslint:disable-next-line:no-unused-expression
         void (this.input && this.input.offsetWidth);
         this.blink();
       });
@@ -222,7 +216,7 @@ class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private delaySelectAll = (): void => (this.selectAllId = raf(this.selectAll));
+  private delaySelectAll = (): number => (this.selectAllId = raf(this.selectAll));
 
   private cancelDelayedSelectAll = (): void => {
     if (this.selectAllId) {
@@ -268,7 +262,6 @@ class Input extends React.Component<InputProps, InputState> {
       className,
       size,
       placeholder,
-      mainInGroup,
       selectAllOnFocus,
       disabled,
       onUnexpectedInput,
@@ -281,17 +274,20 @@ class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cx(classes.root, jsClasses.root(this.theme), this.getSizeClassName(), {
+      className: cx(classes.root, jsStyles.root(this.theme), this.getSizeClassName(), {
         [classes.focus]: focused,
         [classes.disabled]: !!disabled,
         [classes.error]: !!error,
         [classes.warning]: !!warning,
         [classes.borderless]: !!borderless,
-        [jsClasses.focus(this.theme)]: focused,
-        [jsClasses.blink(this.theme)]: !!blinking,
-        [jsClasses.warning(this.theme)]: !!warning,
-        [jsClasses.error(this.theme)]: !!error,
-        [jsClasses.disabled(this.theme)]: !!disabled,
+        [jsStyles.focus(this.theme)]: focused,
+        [jsStyles.blink(this.theme)]: !!blinking,
+        [jsStyles.warning(this.theme)]: !!warning,
+        [jsStyles.error(this.theme)]: !!error,
+        [jsStyles.disabled(this.theme)]: !!disabled,
+        [jsStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
+        [jsStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
+        [jsStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
       }),
       style: { width },
       onMouseEnter,
@@ -301,7 +297,7 @@ class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: cx(classes.input, jsClasses.input(this.theme)),
+      className: cx(classes.input, jsStyles.input(this.theme)),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -374,9 +370,7 @@ class Input extends React.Component<InputProps, InputState> {
       return <span className={className}>{icon()}</span>;
     }
 
-    return (
-      <span className={cx(className, classes.useDefaultColor, jsClasses.useDefaultColor(this.theme))}>{icon}</span>
-    );
+    return <span className={cx(className, classes.useDefaultColor, jsStyles.useDefaultColor(this.theme))}>{icon}</span>;
   }
 
   private renderPlaceholder() {
@@ -385,7 +379,7 @@ class Input extends React.Component<InputProps, InputState> {
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div
-          className={cx(classes.placeholder, jsClasses.placeholder(this.theme))}
+          className={cx(classes.placeholder, jsStyles.placeholder(this.theme))}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
@@ -399,12 +393,12 @@ class Input extends React.Component<InputProps, InputState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return jsClasses.sizeLarge(this.theme);
+        return { [jsStyles.sizeLarge(this.theme)]: true, [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge };
       case 'medium':
-        return jsClasses.sizeMedium(this.theme);
+        return { [jsStyles.sizeMedium(this.theme)]: true, [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge };
       case 'small':
       default:
-        return jsClasses.sizeSmall(this.theme);
+        return { [jsStyles.sizeSmall(this.theme)]: true, [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge };
     }
   }
 
@@ -489,7 +483,7 @@ class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return <span className={jsClasses.prefix(this.theme)}>{prefix}</span>;
+    return <span className={jsStyles.prefix(this.theme)}>{prefix}</span>;
   };
 
   private renderSuffix = () => {
@@ -499,8 +493,6 @@ class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return <span className={jsClasses.suffix(this.theme)}>{suffix}</span>;
+    return <span className={jsStyles.suffix(this.theme)}>{suffix}</span>;
   };
 }
-
-export default Input;

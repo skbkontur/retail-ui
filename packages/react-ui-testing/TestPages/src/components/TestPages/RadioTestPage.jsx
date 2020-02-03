@@ -1,6 +1,6 @@
 import React from 'react';
-import Radio from 'retail-ui/components/Radio';
-import { CaseSuite, Case } from '../Case';
+import { Radio } from 'retail-ui/components/Radio';
+import { Case, CaseSuite } from '../Case';
 
 export default class RadioTestPage extends React.Component {
   state = {

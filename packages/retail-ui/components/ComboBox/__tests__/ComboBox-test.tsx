@@ -1,17 +1,16 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
-import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
-import { LangCodes } from '../../LocaleProvider';
-import { defaultLangCode } from '../../LocaleProvider/constants';
-import LocaleProvider from '../../LocaleProvider/LocaleProvider';
-import ComboBox, { ComboBoxProps } from '../ComboBox';
+import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
-import InputLikeText from '../../internal/InputLikeText';
-import MenuItem from '../../MenuItem/MenuItem';
-import Menu from '../../Menu/Menu';
+
+import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
+import { LangCodes , LocaleProvider } from '../../LocaleProvider';
+import { defaultLangCode } from '../../LocaleProvider/constants';
+import { ComboBox, ComboBoxProps } from '../ComboBox';
+import { InputLikeText } from '../../internal/InputLikeText';
+import { MenuItem } from '../../MenuItem';
+import { Menu } from '../../Menu';
 import { delay } from '../../../lib/utils';
-import CustomComboBox, { DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
-import ComboBoxView from '../../CustomComboBox/ComboBoxView';
+import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
+import { ComboBoxView } from '../../CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../CustomComboBox/CustomComboBoxTypes';
 
 function clickOutside() {
@@ -331,7 +330,7 @@ describe('ComboBox', () => {
     wrapper.setProps({ value: { label: '1' }, error: true });
     wrapper.update();
 
-    expect(wrapper.find('input').exists()).toBe(false);
+    expect(wrapper.find(InputLikeText).exists()).toBe(true);
   });
 
   it('clear value if onUnexpectedInput return null', async () => {
@@ -410,7 +409,10 @@ describe('ComboBox', () => {
   });
 
   describe('update input text when value changes if there was no editing', () => {
-    const VALUES = [{ value: 1, label: 'one' }, { value: 2, label: 'two' }];
+    const VALUES = [
+      { value: 1, label: 'one' },
+      { value: 2, label: 'two' },
+    ];
     const check = (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
       wrapper.instance().focus();
       wrapper.update();

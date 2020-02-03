@@ -1,15 +1,13 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import FunctionIcon from '@skbkontur/react-icons/Function';
-import UndoIcon from '@skbkontur/react-icons/Undo';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import Button from '../Button';
-import Group from '../Group';
-import Input, { InputProps } from '../Input';
-import CurrencyInput, { CurrencyInputProps } from '../CurrencyInput';
+import { Button } from '../Button';
+import { Group } from '../Group';
+import { Input, InputProps, InputType } from '../Input';
+import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../internal/createPropsGetter';
-import { InputType } from '../Input/Input';
 import { Override } from '../../typings/utility-types';
+import { FunctionIcon, UndoIcon } from '../internal/icons/16px';
 
 export type FxInputProps = Override<
   CurrencyInputProps,
@@ -35,7 +33,9 @@ export interface FxInputDefaultProps {
 }
 
 /** Принимает все свойства `Input`'a */
-class FxInput extends React.Component<FxInputProps> {
+export class FxInput extends React.Component<FxInputProps> {
+  public static __KONTUR_REACT_UI__ = 'FxInput';
+
   public static propTypes = {
     auto: PropTypes.bool,
     type: PropTypes.string,
@@ -54,7 +54,6 @@ class FxInput extends React.Component<FxInputProps> {
     const { type, onRestore, auto, ...rest } = this.props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
-      mainInGroup: true,
     };
 
     let button = null;
@@ -76,6 +75,7 @@ class FxInput extends React.Component<FxInputProps> {
           <CurrencyInput
             {...inputProps}
             {...rest}
+            width={'100%'}
             ref={this.refInput}
             value={this.props.value as CurrencyInputProps['value']}
             onChange={this.props.onChange as CurrencyInputProps['onChange']}
@@ -84,6 +84,7 @@ class FxInput extends React.Component<FxInputProps> {
           <Input
             {...inputProps}
             {...rest}
+            width={'100%'}
             ref={this.refInput}
             type={this.props.type as InputType}
             value={this.props.value as InputProps['value']}
@@ -120,5 +121,3 @@ class FxInput extends React.Component<FxInputProps> {
     }
   };
 }
-
-export default FxInput;

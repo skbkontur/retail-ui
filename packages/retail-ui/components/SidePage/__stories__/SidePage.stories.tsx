@@ -1,14 +1,13 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import SidePage from '../SidePage';
-import Button from '../../Button';
-import Input from '../../Input';
-import Textarea from '../../Textarea';
-import Toggle from '../../Toggle';
-import Modal from '../../Modal/Modal';
-import Gapped from '../../Gapped/Gapped';
+import { SidePage } from '../SidePage';
+import { Button } from '../../Button';
+import { Input } from '../../Input';
+import { Textarea } from '../../Textarea';
+import { Toggle } from '../../Toggle';
+import { Modal } from '../../Modal';
+import { Gapped } from '../../Gapped';
 import { Shape } from '../../../typings/utility-types';
 
 const textSample = (
@@ -61,17 +60,15 @@ class Sample extends React.Component<SampleProps, SampleState> {
       </SidePage.Header>
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
-          {this.props.total &&
-            this.props.current &&
-            this.props.total > this.props.current && (
-              <Sample
-                current={this.props.current + 1}
-                total={this.props.total}
-                ignoreBackgroundClick={this.props.ignoreBackgroundClick}
-                withContent={this.props.withContent}
-                blockBackground={this.props.blockBackground}
-              />
-            )}
+          {this.props.total && this.props.current && this.props.total > this.props.current && (
+            <Sample
+              current={this.props.current + 1}
+              total={this.props.total}
+              ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+              withContent={this.props.withContent}
+              blockBackground={this.props.blockBackground}
+            />
+          )}
           <div>
             <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
@@ -342,8 +339,10 @@ class WithVariableContent extends React.Component<{}, WithVariableContentState> 
     return (
       <div>
         {this.state.opened && this.renderSidePage()}
-        {this.state.pageText.map(() => (
-          <div style={{ height: '400px' }}>Use rxjs operators with react hooks</div>
+        {this.state.pageText.map((t, i) => (
+          <div key={i} style={{ height: '400px' }}>
+            Use rxjs operators with react hooks
+          </div>
         ))}
         <Button onClick={this.open}>Open</Button>
       </div>

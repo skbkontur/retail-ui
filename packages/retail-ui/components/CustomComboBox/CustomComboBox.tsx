@@ -1,14 +1,16 @@
-import * as React from 'react';
-import ComboBoxView from './ComboBoxView';
+import React from 'react';
+
 import { Nullable } from '../../typings/utility-types';
-import Input from '../Input';
-import Menu from '../Menu/Menu';
-import InputLikeText from '../internal/InputLikeText';
+import { Input } from '../Input';
+import { Menu } from '../Menu';
+import { InputLikeText } from '../internal/InputLikeText';
 import { MenuItemState } from '../MenuItem';
-import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
-import { reducer, CustomComboBoxAction, CustomComboBoxEffect } from './CustomComboBoxReducer';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
+
+import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
+import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
+import { ComboBoxView } from './ComboBoxView';
 
 export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -74,14 +76,16 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
-class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
+export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
+  public static __KONTUR_REACT_UI__ = 'CustomComboBox';
+
   public state: CustomComboBoxState<T> = DefaultState;
   public input: Nullable<Input>;
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
   public loaderShowDelay: Nullable<Promise<never>>;
-  private focused: boolean = false;
+  private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
 
   private reducer = reducer;
@@ -361,5 +365,3 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
     }
   };
 }
-
-export default CustomComboBox;

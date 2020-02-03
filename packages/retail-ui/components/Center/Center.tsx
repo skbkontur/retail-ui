@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+
+import { Override } from '../../typings/utility-types';
 
 import styles from './Center.module.less';
-import { Override } from '../../typings/utility-types';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -21,13 +22,13 @@ export type CenterProps = Override<
   }
 >;
 
-export interface CenterState {}
-
 /**
  * Контейнер для вертикального центрирования. В компонент можно передавать
  * свойства как в любой *div* (кроме `className`)
  */
-export default class Center extends React.Component<CenterProps, CenterState> {
+export class Center extends React.Component<CenterProps> {
+  public static __KONTUR_REACT_UI__ = 'Center';
+
   public static defaultProps = {
     align: 'center',
   };

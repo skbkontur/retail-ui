@@ -1,10 +1,10 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Gapped from '../../Gapped';
-import Input from '../../Input';
-import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
-import Token, { TokenColors } from '../../Token';
+
+import { Gapped } from '../../Gapped';
+import { Input } from '../../Input';
+import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
+import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
 
 interface TokenModel {
@@ -44,8 +44,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 
@@ -123,8 +123,8 @@ class ColoredWrapper extends React.Component<any, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 
@@ -133,7 +133,7 @@ class ColoredWrapper extends React.Component<any, any> {
       <TokenInput
         {...this.props}
         selectedItems={this.state.selectedItems}
-        renderTokenComponent={(token, value) => {
+        renderToken={(value, { isActive, onClick, onRemove }) => {
           let colors: TokenColors = {
             idle: 'greenIdle',
             active: 'greenActive',
@@ -145,7 +145,11 @@ class ColoredWrapper extends React.Component<any, any> {
               active: 'redActive',
             };
           }
-          return token({ colors });
+          return (
+            <Token key={value} colors={colors} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+              {value}
+            </Token>
+          );
         }}
         onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
       />
@@ -155,7 +159,6 @@ class ColoredWrapper extends React.Component<any, any> {
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
-// tslint:disable jsx-no-lambda
 storiesOf('TokenInput', module)
   .addDecorator(FixedWidthDecorator)
   .add('validations', () => {
@@ -242,7 +245,7 @@ storiesOf('TokenInput', module)
     </Gapped>
   ))
   .add('identical alignment with other controls', () => (
-    <Gapped gap={10} vertical={true}>
+    <Gapped gap={10} vertical>
       <Wrapper getItems={getItems} width={'100%'} />
       <Input value={'value'} width={'100%'} size={'medium'} />
     </Gapped>

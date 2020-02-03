@@ -1,8 +1,8 @@
-// tslint:disable:jsx-no-lambda
-import * as React from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import Token, { TokenColors } from '../Token';
-import Gapped from '../../Gapped/Gapped';
+
+import { Token, TokenColors } from '../Token';
+import { Gapped } from '../../Gapped';
 
 // Color name string is passed as Token child (See `colored` story)
 // The map keeps old names to pass in story, which prevents screenshot tests failure.
@@ -28,7 +28,6 @@ const FixedWidthDecorator = (storyFn: any) => (
   </div>
 );
 
-// tslint:disable jsx-no-lambda
 storiesOf('Token', module)
   .addDecorator(FixedWidthDecorator)
   .add('default', () => {
@@ -80,20 +79,26 @@ storiesOf('Token', module)
 
     return (
       <>
-        <Gapped vertical={true}>
+        <Gapped vertical>
           <Gapped>
-            {default_colors.map(c => (
-              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
+            {default_colors.map((c, i) => (
+              <Token key={i} colors={c}>
+                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+              </Token>
             ))}
           </Gapped>
           <Gapped>
-            {l_colors.map(c => (
-              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
+            {l_colors.map((c, i) => (
+              <Token key={i} colors={c}>
+                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+              </Token>
             ))}
           </Gapped>
           <Gapped>
-            {d_colors.map(c => (
-              <Token colors={c}>{newToDeprecatedColorNamesMap[c.idle] || c.idle}</Token>
+            {d_colors.map((c, i) => (
+              <Token key={i} colors={c}>
+                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+              </Token>
             ))}
           </Gapped>
         </Gapped>

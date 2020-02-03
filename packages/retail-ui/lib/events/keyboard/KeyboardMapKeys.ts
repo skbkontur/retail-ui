@@ -1,38 +1,38 @@
-import Codes from './KeyboardEventCodes';
+import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
 
-type KeyCodes = number[];
+export type Location = number;
+export type KeyCode = number;
 
-const KeyboardMapKeys: {
-  [code in Codes]: KeyCodes;
-} = {
-  [Codes.Unidentified]: [0],
-  [Codes.End]: [35],
-  [Codes.Escape]: [27],
-  [Codes.Equal]: [187],
-  [Codes.Backspace]: [8],
-  [Codes.Enter]: [13],
-  [Codes.NumpadEnter]: [13],
-  [Codes.Home]: [36],
-  [Codes.Delete]: [66],
-  [Codes.Insert]: [45],
-  [Codes.PageUp]: [33],
-  [Codes.PageDown]: [34],
-  [Codes.Tab]: [9],
-  [Codes.CapsLock]: [20],
-  [Codes.KeyA]: [65],
-  [Codes.KeyC]: [67],
-  [Codes.KeyV]: [86],
-  [Codes.KeyX]: [88],
-  [Codes.NumpadDecimal]: [110, 46],
-  [Codes.NumpadSubtract]: [109],
-  [Codes.NumpadDivide]: [111],
-  [Codes.Comma]: [188],
-  [Codes.Minus]: [189],
-  [Codes.Period]: [190],
-  [Codes.Slash]: [191],
-  [Codes.Backslash]: [220],
-  [Codes.IntlBackslash]: [226],
-  [Codes.Space]: [32],
+export const STANDARD = KeyboardEvent.DOM_KEY_LOCATION_STANDARD;
+const NUMPAD = KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
+
+export const KeyboardMapKeys: { [code in Codes]: Array<[KeyCode, Location]> } = {
+  [Codes.Unidentified]: [[0, 0]],
+  [Codes.End]: [[35, STANDARD]],
+  [Codes.Escape]: [[27, STANDARD]],
+  [Codes.Equal]: [[187, STANDARD]],
+  [Codes.Backspace]: [[8, STANDARD]],
+  [Codes.Enter]: [[13, STANDARD]],
+  [Codes.NumpadEnter]: [[13, NUMPAD]],
+  [Codes.Home]: [[36, STANDARD]],
+  [Codes.Delete]: [[46, STANDARD]],
+  [Codes.Insert]: [[45, STANDARD]],
+  [Codes.PageUp]: [[33, STANDARD]],
+  [Codes.PageDown]: [[34, STANDARD]],
+  [Codes.Tab]: [[9, STANDARD]],
+  [Codes.CapsLock]: [[20, STANDARD]],
+  [Codes.KeyA]: [[65, STANDARD]],
+  [Codes.KeyC]: [[67, STANDARD]],
+  [Codes.KeyV]: [[86, STANDARD]],
+  [Codes.KeyX]: [[88, STANDARD]],
+  [Codes.NumpadDecimal]: [[110, NUMPAD], [46, NUMPAD]],
+  [Codes.NumpadSubtract]: [[109, NUMPAD]],
+  [Codes.NumpadDivide]: [[111, NUMPAD]],
+  [Codes.Comma]: [[188, STANDARD]],
+  [Codes.Minus]: [[189, STANDARD]],
+  [Codes.Period]: [[190, STANDARD]],
+  [Codes.Slash]: [[191, STANDARD]],
+  [Codes.Backslash]: [[220, STANDARD]],
+  [Codes.IntlBackslash]: [[226, STANDARD]],
+  [Codes.Space]: [[32, STANDARD]],
 };
-
-export default KeyboardMapKeys;

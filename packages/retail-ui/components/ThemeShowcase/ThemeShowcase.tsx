@@ -1,15 +1,17 @@
-import * as React from 'react';
-import styles from './ThemeShowcase.module.less';
-import defaultVariables from '../../lib/theming/themes/DefaultTheme';
-import flatVariables from '../../lib/theming/themes/FlatTheme';
-import { ITheme } from '../../lib/theming/Theme';
-import ComboBox, { ComboBoxItem } from '../ComboBox';
-import Gapped from '../Gapped';
-import Link from '../Link';
-import Sticky from '../Sticky';
-import ColorFunctions from '../../lib/styles/ColorFunctions';
-import Tooltip from '../Tooltip';
+import React from 'react';
+
+import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
+import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
+import { Theme } from '../../lib/theming/Theme';
+import { ComboBox, ComboBoxItem } from '../ComboBox';
+import { Gapped } from '../Gapped';
+import { Link } from '../Link';
+import { Sticky } from '../Sticky';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { Tooltip } from '../Tooltip';
 import { PopupPosition } from '../Popup';
+import { IS_PROXY_SUPPORTED } from '../internal/Supports';
+
 import {
   ALL_USED_VARIABLES,
   CALLS_COUNT,
@@ -19,7 +21,7 @@ import {
   ComponentRowDescriptionType,
   EXECUTION_TIME,
 } from './ThemeShowcaseHelpers/VariablesCollector';
-import { IS_PROXY_SUPPORTED } from '../internal/Supports';
+import styles from './ThemeShowcase.module.less';
 
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 const EMPTY_ARRAY: string[] = [];
@@ -35,13 +37,13 @@ interface ShowcaseState {
   selectedVariable?: ComboBoxItem;
 }
 
-export default class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState> {
+export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState> {
   public state: ShowcaseState = {};
 
   private isUnmounting = false;
   private variablesDiff: string[] = [];
 
-  public componentWillMount(): void {
+  public UNSAFE_componentWillMount(): void {
     if (this.props.isDebugMode) {
       ALL_VARIABLES.forEach(variable => {
         const found = ALL_USED_VARIABLES.includes(variable);
@@ -75,11 +77,11 @@ export default class ThemeShowcase extends React.Component<ShowcaseProps, Showca
     const executionTime = isDebugMode ? `Сгенерировано за ${EXECUTION_TIME.toFixed(3)}ms` : '';
 
     return (
-      <Gapped gap={30} vertical={false} verticalAlign={'top'}>
+      <Gapped wrap gap={30} verticalAlign={'top'}>
         <div>
           <Sticky side={'top'}>
             <div className={styles.searchBar} data-perf-info={`${executionTime} ${callsCount}`}>
-              <Gapped gap={15} vertical={false}>
+              <Gapped gap={15}>
                 <ComboBox
                   getItems={this.getItems}
                   value={selectedVariable}
@@ -219,8 +221,8 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
         </tr>
         {row.variables.map(varName => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
-          const variableDefault = (defaultVariables as ITheme)[varName];
-          const variableFlat = (flatVariables as ITheme)[varName];
+          const variableDefault = (defaultVariables as Theme)[varName];
+          const variableFlat = (flatVariables as Theme)[varName];
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
@@ -315,8 +317,8 @@ class DependencyName extends React.Component<DependencyNameProps> {
 
   private getValues = () => {
     const dependencyName = this.props.dependencyName;
-    const dependencyDefault = (defaultVariables as ITheme)[dependencyName];
-    const dependencyFlat = (flatVariables as ITheme)[dependencyName];
+    const dependencyDefault = (defaultVariables as Theme)[dependencyName];
+    const dependencyFlat = (flatVariables as Theme)[dependencyName];
     return (
       <React.Fragment>
         <span>Default value: {<VariableValue value={dependencyDefault} />}</span>

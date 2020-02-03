@@ -21,6 +21,7 @@ export enum InternalDateComponentType {
   Separator = 4,
 }
 
+export type InternalDateTypesOrder = [InternalDateComponentType, InternalDateComponentType, InternalDateComponentType];
 export type InternalDateComponent = number | null;
 export type InternalDateComponentRaw = number | string | null;
 
@@ -77,6 +78,10 @@ export enum InternalDateValidateCheck {
   Limits,
   Native,
   Range,
+}
+
+export function isInternalDateValidateCheck(value: unknown): value is InternalDateValidateCheck {
+  return typeof value === 'number' && Object.values(InternalDateValidateCheck).includes(value);
 }
 
 export enum InternalDateFirstDayWeek {

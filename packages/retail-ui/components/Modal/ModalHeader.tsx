@@ -1,27 +1,34 @@
-import * as React from 'react';
-import { ModalContext, CloseProps } from './ModalContext';
-import Sticky from '../Sticky';
-import Close from './ModalClose';
-import styles from './Modal.module.less';
+import React from 'react';
+
+import { Sticky } from '../Sticky';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './Modal.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
-import ZIndex from '../ZIndex';
+import { Theme } from '../../lib/theming/Theme';
+import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './Modal.styles';
+import styles from './Modal.module.less';
+import { ModalClose } from './ModalClose';
+import { CloseProps, ModalContext } from './ModalContext';
 
 export interface HeaderProps {
   close?: boolean;
   sticky: boolean;
 }
-
+/**
+ * Шапка модального окна
+ *
+ * @visibleName Modal.Header
+ */
 export class Header extends React.Component<HeaderProps> {
+  public static __KONTUR_REACT_UI__ = 'ModalHeader';
   public static __MODAL_HEADER__ = true;
 
   public static defaultProps = {
     sticky: true,
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
 
   public render(): JSX.Element {
     return (
@@ -62,15 +69,11 @@ export class Header extends React.Component<HeaderProps> {
       >
         {close && (
           <div className={styles.absoluteClose}>
-            <Close requestClose={close.requestClose} disableClose={close.disableClose} />
+            <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />
           </div>
         )}
         {this.props.children}
       </div>
     );
   };
-}
-
-export function isHeader(child: React.ReactChild): child is React.ReactElement<HeaderProps> {
-  return React.isValidElement<HeaderProps>(child) && child.type.hasOwnProperty('__MODAL_HEADER__');
 }

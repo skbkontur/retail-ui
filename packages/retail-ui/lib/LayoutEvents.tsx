@@ -1,4 +1,4 @@
-import { EventEmitter } from 'fbemitter';
+import EventEmitter from 'eventemitter3';
 import { unstable_batchedUpdates } from 'react-dom';
 
 let emitterCache: EventEmitter;
@@ -19,15 +19,15 @@ function unlistenBrowserEvents() {
   window.removeEventListener('resize', emit);
 }
 
-function addListener(callback: () => void) {
+export function addListener(callback: () => void) {
   const emitter = getEmitter();
   if (emitter.listeners('layout').length === 0) {
     listenBrowserEvents();
   }
-  const token = emitter.addListener('layout', callback);
+  emitter.addListener('layout', callback);
   return {
     remove() {
-      token.remove();
+      emitter.removeListener('layout', callback);
       if (emitter.listeners('layout').length === 0) {
         unlistenBrowserEvents();
       }
@@ -35,13 +35,8 @@ function addListener(callback: () => void) {
   };
 }
 
-function emit() {
+export function emit() {
   unstable_batchedUpdates(() => {
     getEmitter().emit('layout');
   });
 }
-
-export default {
-  addListener,
-  emit,
-};
