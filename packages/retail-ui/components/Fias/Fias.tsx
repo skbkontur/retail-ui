@@ -1,5 +1,6 @@
 import React from 'react';
 import isEqual from 'lodash.isequal';
+import warning from 'warning';
 
 import { Link } from '../Link';
 import { LocaleProvider } from '../LocaleProvider';
@@ -156,7 +157,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   public constructor(props: FiasProps) {
     super(props);
-    warningOutput(`Fias has been deprecated, use Fias from @skbkontur/react-ui-addons instead`);
+    warning(`Fias has been deprecated, use Fias from @skbkontur/react-ui-addons instead`);
     if (!props.baseUrl && !props.api) {
       Logger.log(Logger.warnings.baseUrlOrApiIsRequired);
     }

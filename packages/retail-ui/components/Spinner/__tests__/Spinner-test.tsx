@@ -5,7 +5,6 @@ import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
 import { sizes } from '../../internal/icons/SpinnerIcon';
-
 import { Spinner } from '../Spinner';
 import { SpinnerFallback } from '../SpinnerFallback';
 

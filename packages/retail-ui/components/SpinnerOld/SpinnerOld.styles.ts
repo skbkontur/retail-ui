@@ -1,14 +1,14 @@
 import { css } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 
-const jsStyles = {
-  cloudStroke(t: ITheme) {
+export const jsStyles = {
+  cloudStroke(t: Theme) {
     return css`
       stroke: ${t.spinnerBgColor};
     `;
   },
-  cloud(t: ITheme) {
+  cloud(t: Theme) {
     return css`
       stroke: ${t.red};
       animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
@@ -16,14 +16,14 @@ const jsStyles = {
         ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
     `;
   },
-  cloudDimmed(t: ITheme) {
+  cloudDimmed(t: Theme) {
     return css`
       stroke: ${t.spinnerDimmedColor};
       animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite;
     `;
   },
-  circle(t: ITheme) {
+  circle(t: Theme) {
     return css`
       stroke: ${t.red};
       animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
@@ -32,7 +32,7 @@ const jsStyles = {
         ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
     `;
   },
-  circleDimmed(t: ITheme) {
+  circleDimmed(t: Theme) {
     return css`
       stroke: ${t.spinnerDimmedColor};
       animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
@@ -41,11 +41,9 @@ const jsStyles = {
     `;
   },
 
-  caption(t: ITheme) {
+  caption(t: Theme) {
     return css`
       color: ${t.spinnerCaptionColor};
     `;
   },
 };
-
-export default jsStyles;

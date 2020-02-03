@@ -1,19 +1,19 @@
-import * as React from 'react';
+import React from 'react';
 import * as PropTypes from 'prop-types';
-import LayoutEvents from '../../lib/LayoutEvents';
+import warning from 'warning';
 
 // Note SpinnerType нужен для генерации правильного .d.ts файла
 // @ts-ignore — Свойство "SpinnerOldType" объявлено, но его значение не было прочитано
 import { SpinnerOld, SpinnerOldType, SpinnerOldProps } from '../SpinnerOld';
-
-import styles from './LoaderOld.module.less';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import jsStyles from './LoaderOld.styles';
+import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeConsumer } from '../ThemeConsumer';
-import { ITheme } from '../../lib/theming/Theme';
-import ZIndex from '../ZIndex';
-import warning from 'warning';
+import { Theme } from '../../lib/theming/Theme';
+import { ZIndex } from '../ZIndex';
+
+import { jsStyles } from './LoaderOld.styles';
+import styles from './LoaderOld.module.less';
 
 export interface LoaderOldProps {
   children?: React.ReactNode;
@@ -71,7 +71,7 @@ export class LoaderOld extends React.Component<LoaderOldProps, LoaderOldState> {
     type: PropTypes.oneOf(Object.keys(SpinnerOld.Types)),
   };
 
-  private theme!: ITheme;
+  private theme!: Theme;
   private containerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLSpanElement>;
   private spinnerHeight?: number;

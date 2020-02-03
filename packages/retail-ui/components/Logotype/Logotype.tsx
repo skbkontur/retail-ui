@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
 
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { locale } from '../LocaleProvider/decorators';
@@ -9,7 +10,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { CloudIcon } from '../internal/icons/CloudIcon';
 import { ArrowChevronDownIcon } from '../internal/icons/16px';
-import warning from 'warning';
 
 import { jsStyles } from './Logotype.styles';
 import styles from './Logotype.module.less';

@@ -1,16 +1,18 @@
-import * as React from 'react';
+import React from 'react';
 import * as PropTypes from 'prop-types';
+import warning from 'warning';
+
 import { locale } from '../LocaleProvider/decorators';
-import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
-import styles from './SpinnerOld.module.less';
-import { types, SpinnerOldFallback } from './SpinnerOldFallback';
-import jsStyles from './SpinnerOld.styles';
 import { cx } from '../../lib/theming/Emotion';
-import { ITheme } from '../../lib/theming/Theme';
+import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
-import SpinnerOldIcon from '../internal/icons/SpinnerIconOld';
-import warning from 'warning';
+import { SpinnerOldIcon } from '../internal/icons/SpinnerOldIcon';
+
+import { jsStyles } from './SpinnerOld.styles';
+import { types, SpinnerOldFallback } from './SpinnerOldFallback';
+import styles from './SpinnerOld.module.less';
+import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 export type SpinnerOldType = 'mini' | 'normal' | 'big';
 
@@ -57,7 +59,7 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
   };
 
   public static Types: typeof types = types;
-  private theme!: ITheme;
+  private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   public constructor(props: SpinnerOldProps) {

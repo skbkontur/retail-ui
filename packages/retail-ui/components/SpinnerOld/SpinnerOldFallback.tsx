@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import * as PropTypes from 'prop-types';
+
+import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerOldIcon';
+
 import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
-
 import styles from './SpinnerOld.module.less';
 import { SpinnerOldType } from './SpinnerOld';
-import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerIconOld';
 
 export const types: {
   [key: string]: SpinnerOldType;

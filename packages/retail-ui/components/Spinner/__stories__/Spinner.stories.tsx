@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { Spinner } from '../Spinner';
 import { OkIcon } from '../../internal/icons/16px';
 

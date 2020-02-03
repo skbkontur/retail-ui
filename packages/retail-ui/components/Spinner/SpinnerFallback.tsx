@@ -5,8 +5,7 @@ import fallbackImage_mini from './fallback_circle_mini.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_circle_big.png';
 import fallbackImage_normal from './fallback_circle_normal.png';
-
-import jsStyles from './Spinner.styles';
+import { jsStyles } from './Spinner.styles';
 import { SpinnerType } from './Spinner';
 
 export const types: {
