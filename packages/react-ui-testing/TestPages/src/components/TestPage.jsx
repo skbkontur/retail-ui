@@ -222,7 +222,7 @@ export default class TestPage extends React.Component {
           data-tid="fxInput"
           auto={this.state.autoFxInput}
           onRestore={() => this.fxInputRestore()}
-          onChange={(e, v) => this.fxInputChange(e, v)}
+          onValueChange={this.fxInputChange}
           value={this.state.fxInputValue}
         />
         <hr />

@@ -18,8 +18,8 @@ export type FxInputProps = Override<
     type?: 'currency' | InputProps['type'];
     /** onRestore */
     onRestore?: () => void;
-    /** onChange */
-    onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
+    /** onValueChange */
+    onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
     /** Значение */
     value?: React.ReactText;
     /** ref Input'а */
@@ -41,9 +41,10 @@ export class FxInput extends React.Component<FxInputProps> {
     type: PropTypes.string,
   };
 
-  public static defaultProps: FxInputDefaultProps = {
+  public static defaultProps = {
     width: 250,
     type: 'text',
+    value: '',
   };
 
   private input: Input | CurrencyInput | null = null;
