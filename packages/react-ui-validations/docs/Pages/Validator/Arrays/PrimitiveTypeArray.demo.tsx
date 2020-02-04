@@ -2,11 +2,7 @@ import React from 'react';
 import { Button } from 'retail-ui/components/Button';
 import { Input } from 'retail-ui/components/Input';
 
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
@@ -49,7 +45,9 @@ export default class PrimitiveTypeArrayDemo extends React.Component<{}, State> {
           ))}
 
           <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>

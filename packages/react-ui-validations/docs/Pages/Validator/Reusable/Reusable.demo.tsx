@@ -58,7 +58,9 @@ export default class ReusableDemo extends React.Component<{}, State> {
           </Form.Line>
 
           <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>

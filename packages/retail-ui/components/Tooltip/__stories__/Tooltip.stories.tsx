@@ -508,7 +508,7 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
         <div>
           {triggers.map(trigger => (
             <button
-              id={trigger.replace("&", "_")}
+              id={trigger.replace('&', '_')}
               key={trigger}
               onClick={() => this.setTrigger(trigger)}
               disabled={this.state.trigger === trigger}

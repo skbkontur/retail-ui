@@ -141,37 +141,41 @@ class Example8 extends React.Component<{}, Example3State> {
 
   public render() {
     return (
-      <ValidationContainer ref={this.refContainer} scrollOffset={{top: 150, bottom: 150}}>
-        <div style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 0,
-          right: 0,
-          left: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80
-        }}>
+      <ValidationContainer ref={this.refContainer} scrollOffset={{ top: 150, bottom: 150 }}>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 0,
+            right: 0,
+            left: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
           <Button onClick={() => this.submit()}>Отправить сверху</Button>
         </div>
         <div style={{ padding: 10 }}>
-          <div style={{ height: 600, backgroundColor: '#eee' }}/>
+          <div style={{ height: 600, backgroundColor: '#eee' }} />
           <ValidationWrapper validationInfo={this.validateValue()}>
             <Input value={this.state.value} onValueChange={value => this.setState({ value })} />
           </ValidationWrapper>
-          <div style={{ height: 1000, backgroundColor: '#eee' }}/>
+          <div style={{ height: 1000, backgroundColor: '#eee' }} />
         </div>
-        <div style={{
-          position: 'fixed',
-          zIndex: 1000,
-          top: 600,
-          right: 0,
-          left: 0,
-          bottom: 0,
-          background: '#1e79be',
-          padding: 10,
-          height: 80
-        }}>
+        <div
+          style={{
+            position: 'fixed',
+            zIndex: 1000,
+            top: 600,
+            right: 0,
+            left: 0,
+            bottom: 0,
+            background: '#1e79be',
+            padding: 10,
+            height: 80,
+          }}
+        >
           <Button onClick={() => this.submit()}>Отправить снизу</Button>
         </div>
       </ValidationContainer>
@@ -418,5 +422,5 @@ storiesOf('Input', module)
     return <Example7 />;
   })
   .add('#8 Промотка с фиксированной плашкой снизу', () => {
-    return <Example8/>;
+    return <Example8 />;
   });

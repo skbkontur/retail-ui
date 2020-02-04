@@ -25,9 +25,7 @@ export default class TooltipValidationDemo extends React.Component<{}, State> {
       <ValidationContainer>
         <Form>
           <Form.Line title="default">
-            <ValidationWrapper validationInfo={v}>
-              {this.renderInput()}
-            </ValidationWrapper>
+            <ValidationWrapper validationInfo={v}>{this.renderInput()}</ValidationWrapper>
           </Form.Line>
           <Form.Line title="tooltip('right top')">
             <ValidationWrapper validationInfo={v} renderMessage={tooltip('right top')}>
