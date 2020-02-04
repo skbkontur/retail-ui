@@ -47,7 +47,7 @@ const tokenColors = {
     type={TokenInputType.Combined}
     getItems={getItems}
     selectedItems={state.selectedItems}
-    onChange={itemsNew => setState({ selectedItems: itemsNew })}
+    onValueChange={itemsNew => setState({ selectedItems: itemsNew })}
     renderToken={(item, { isActive, onClick, onRemove }) => (
       <Token
         key={item.toString()}
