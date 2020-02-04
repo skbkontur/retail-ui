@@ -224,7 +224,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
               <Textarea
                 placeholder="Введите текст"
                 value={data.about}
-                onChange={(_, value) => this.handleChange({ about: value })}
+                onValueChange={value => this.handleChange({ about: value })}
               />
             </ValidationWrapper>
           </Form.Line>

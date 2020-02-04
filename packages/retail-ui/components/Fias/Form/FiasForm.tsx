@@ -84,7 +84,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public static isInputMeta = (meta: FiasFormFieldMeta): meta is InputMeta => {
     const { props } = meta;
-    return !FiasForm.isComboboxMeta(meta) && props.hasOwnProperty('onChange');
+    return !FiasForm.isComboboxMeta(meta) && props.hasOwnProperty('onValueChange');
   };
 
   public state: FiasFormState = {
@@ -180,7 +180,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               <FiasForm.Field label={this.locale.foreignAddressLabel}>
                 <Textarea
                   value={address.foreignAddress}
-                  onChange={this.handleForeignAddressChange}
+                  onValueChange={this.handleForeignAddressChange}
                   placeholder={this.locale.foreignAddressPlaceholder}
                   width="100%"
                   resize="none"
@@ -506,7 +506,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     this.handleAddressChange(Address.createFromAddress(this.state.address, { country }));
   };
 
-  private handleForeignAddressChange = (e: any, value: string) => {
+  private handleForeignAddressChange = (value: string) => {
     this.handleAddressChange(
       Address.createFromAddress(this.state.address, {
         foreignAddress: value,
