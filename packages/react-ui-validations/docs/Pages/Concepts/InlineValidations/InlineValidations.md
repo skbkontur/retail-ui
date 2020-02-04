@@ -25,7 +25,7 @@
         required
         validations={[lessThan(new Date('2010-01-01'))]}
         value={data.born}
-        onChange={(e, value) => onChange({ born: value })}
+        onValueChange={value => onChange({ born: value })}
       />
     </Form.Line>
 

@@ -233,7 +233,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.born).get()}>
               <DatePicker
                 value={data.born}
-                onChange={(_, value) => this.handleChange({ born: value })}
+                onValueChange={value => this.handleChange({ born: value })}
               />
             </ValidationWrapper>
           </Form.Line>

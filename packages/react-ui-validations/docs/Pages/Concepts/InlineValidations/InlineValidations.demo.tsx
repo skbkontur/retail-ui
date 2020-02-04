@@ -55,7 +55,7 @@ export default class InlineValidationsDemo extends React.Component<{}, State> {
               required
               validations={[lessThanDate(new Date('2010-01-01'))]}
               value={data.born}
-              onChange={(_, value) => this.handleChange({ born: value })}
+              onValueChange={value => this.handleChange({ born: value })}
             />
           </Form.Line>
 
