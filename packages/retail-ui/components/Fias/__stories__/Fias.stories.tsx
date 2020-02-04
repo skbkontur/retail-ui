@@ -61,10 +61,12 @@ class ExampleFias extends React.Component<any> {
   };
 
   public render(): React.ReactNode {
-    const { value, onChange, ...props } = this.props;
+    const { value, onValueChange, ...props } = this.props;
     const { addressErrors } = this.state.value;
     const error = addressErrors && Object.keys(addressErrors).length > 0;
-    return <Fias baseUrl={BASE_URL} value={this.state.value} onChange={this.handleChange} error={error} {...props} />;
+    return (
+      <Fias baseUrl={BASE_URL} value={this.state.value} onValueChange={this.handleChange} error={error} {...props} />
+    );
   }
 
   private handleChange = (value: any) => {
