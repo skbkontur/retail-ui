@@ -78,7 +78,7 @@ export class FxInput extends React.Component<FxInputProps> {
             width={'100%'}
             ref={this.refInput}
             value={this.props.value as CurrencyInputProps['value']}
-            onChange={this.props.onChange as CurrencyInputProps['onChange']}
+            onValueChange={this.props.onValueChange as CurrencyInputProps['onValueChange']}
           />
         ) : (
           <Input

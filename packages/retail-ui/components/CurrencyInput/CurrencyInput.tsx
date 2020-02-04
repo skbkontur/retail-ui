@@ -25,8 +25,8 @@ export type CurrencyInputProps = Override<
      * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
      */
     integerDigits?: Nullable<number>;
-    /** onChange */
-    onChange: (e: { target: { value: Nullable<number> } }, value: Nullable<number>) => void;
+    /** Вызывается при изменении `value` */
+    onValueChange: (value: Nullable<number>) => void;
     /** onSubmit */
     onSubmit?: () => void;
   }
@@ -64,7 +64,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     warning: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onBlur: PropTypes.func,
-    onChange: PropTypes.func.isRequired,
+    onValueChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
@@ -132,7 +132,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
         onFocus={this.handleFocus}
         onMouseUp={this.handleMouseUp}
         onKeyDown={this.handleKeyDown}
-        onChange={this.handleChange}
+        onValueChange={this.handleValueChange}
         onPaste={this.handlePaste}
         onCopy={this.handleCopy}
         onCut={this.handleCut}
@@ -290,7 +290,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       this.setState({ formatted, selection }, () => {
         const parsedValue = CurrencyHelper.parse(formatted);
         if (this.props.value !== parsedValue) {
-          this.props.onChange({ target: { value: parsedValue } }, parsedValue);
+          this.props.onValueChange(parsedValue);
         }
       });
       return true;
@@ -313,9 +313,9 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     return null;
   };
 
-  private handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  private handleValueChange = (value: string): void => {
     const selection = this.tempSelectionForOnChange;
-    const delta = this.getOnChangeDelta(event.target.value);
+    const delta = this.getOnChangeDelta(value);
     if (delta != null && !this.inputValue(selection.start, selection.end, delta)) {
       this.setState({ selection });
     }

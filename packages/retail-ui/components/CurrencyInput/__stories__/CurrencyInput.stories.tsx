@@ -43,7 +43,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           value={this.state.value}
           fractionDigits={this.state.digits}
           signed={this.state.signed}
-          onChange={this._handleChange}
+          onValueChange={this._handleChange}
         />
         <div>
           value: <b>{this._formatValue(this.state.value)}</b>
@@ -66,7 +66,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     );
   }
 
-  private _handleChange = (event: any, value: Nullable<number>) => {
+  private _handleChange = (value: Nullable<number>) => {
     this.setState({ value });
   };
 
@@ -100,7 +100,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
 class Sample extends React.Component<
   Partial<CurrencyInputProps>,
   {
-    value?: number | null;
+    value: Nullable<number>;
   }
 > {
   public state = {
@@ -116,7 +116,7 @@ class Sample extends React.Component<
           {...this.props}
           ref={this.currencyInputRef}
           value={this.state.value}
-          onChange={this.handleChange}
+          onValueChange={this.handleChange}
         />
         <div style={{ margin: '15px 0', position: 'absolute' }}>
           <button onClick={this.handleClickButton}>focus</button>
@@ -125,7 +125,7 @@ class Sample extends React.Component<
     );
   }
 
-  private handleChange = (_: any, value?: number | null) => {
+  private handleChange = (value: Nullable<number>) => {
     this.setState({ value });
   };
 

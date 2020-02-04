@@ -19,14 +19,14 @@ export class CurrencyInputPlayground extends React.Component<
           {...this.props}
           placeholder={'currency'}
           value={this.state.value}
-          onChange={this.handleChange}
+          onValueChange={this.handleChange}
           width={150}
         />
       </div>
     );
   }
 
-  private handleChange = (_: any, value?: number | null) => {
+  private handleChange = (value?: number | null) => {
     this.setState({ value });
   };
 }
