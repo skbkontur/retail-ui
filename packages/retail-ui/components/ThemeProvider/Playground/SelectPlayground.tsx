@@ -19,7 +19,7 @@ export class SelectPlayground extends React.Component<SelectProps<string, string
     );
   }
 
-  private handleChange = (_: any, value: string) => {
+  private handleChange = (value: string) => {
     this.setState({
       value,
     });

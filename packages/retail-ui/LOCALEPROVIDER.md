@@ -173,7 +173,7 @@ class LocalizationControls extends React.Component {
         return (
           <ComboBox
             getItems={str => Promise.resolve(items.filter(({ label }) => label.includes(str))).then(delay(500))}
-            onChange={(_, { label: langCode }) => this.setState({ langCode })}
+            onValueChange={({ label: langCode }) => this.setState({ langCode })}
           />
         );
 

@@ -20,8 +20,8 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
     value: '21.12.2012',
   };
 
-  public handleChangeOrder = (fakeEvent: any, order: any) => this.setState({ order });
-  public handleChangeSeparator = (fakeEvent: any, separator: any) => this.setState({ separator });
+  public handleChangeOrder = (order: any) => this.setState({ order });
+  public handleChangeSeparator = (separator: any) => this.setState({ separator });
   public handleChangeValue = (value: any) => {
     action('change')(value);
     this.setState({ value });
