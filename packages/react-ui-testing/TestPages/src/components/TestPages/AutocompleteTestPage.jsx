@@ -14,7 +14,7 @@ class ListBasedAutocomplete extends React.Component {
       <Autocomplete
         source={suggestions}
         value={this.state.value}
-        onChange={(_, value) => this.setState({ value: value })}
+        onValueChange={value => this.setState({ value })}
         data-tid="ListBasedAutocomplete"
       />
     );
@@ -31,7 +31,7 @@ class FetchBasedAutocomplete extends React.Component {
       <Autocomplete
         source={pattern => Promise.resolve(suggestions.filter(s => s.startsWith(pattern)))}
         value={this.state.value}
-        onChange={(_, value) => this.setState({ value: value })}
+        onValueChange={value => this.setState({ value })}
         data-tid="FetchBasedAutocomplete"
       />
     );
@@ -53,7 +53,7 @@ class DelayedFetchBasedAutocomplete extends React.Component<{ sleepTimeInMs: num
           )
         }
         value={this.state.value}
-        onChange={(_, value) => this.setState({ value: value })}
+        onValueChange={value => this.setState({ value })}
         data-tid="DelayedFetchBasedAutocomplete"
       />
     );
