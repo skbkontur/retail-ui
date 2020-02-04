@@ -166,7 +166,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.sex).get()}>
               <RadioGroup<ContactInfo['sex']>
                 value={data.sex}
-                onChange={(_, value) => this.handleChange({ sex: value })}
+                onValueChange={value => this.handleChange({ sex: value })}
                 items={['male', 'female']}
                 renderItem={x => <span>{x}</span>}
               />

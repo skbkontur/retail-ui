@@ -9,16 +9,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './Radio.styles';
 import styles from './Radio.module.less';
 
-export interface SyntheticRadioEvent<T> {
-  target: {
-    id: Nullable<string>;
-    name: Nullable<string>;
-    checked: Nullable<boolean>;
-    disabled: Nullable<boolean>;
-    value: T;
-  };
-}
-
 export type RadioProps<T> = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
   {
@@ -34,38 +24,19 @@ export type RadioProps<T> = Override<
     hovered?: boolean;
     /** Состояние active */
     active?: boolean;
+    /** Вызывается при изменении `value` */
+    onValueChange?: (value: T) => void;
     /** onChange */
-    onChange?: (event: SyntheticRadioEvent<T>, value: T) => void;
+    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
     /** onChange */
-    onMouseEnter?: (event: SyntheticRadioEvent<T>) => void;
+    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
     /** onChange */
-    onMouseLeave?: (event: SyntheticRadioEvent<T>) => void;
-    /** onChange */
-    onMouseOver?: (event: SyntheticRadioEvent<T>) => void;
+    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     /** Значение */
     value: T;
   }
 >;
 
-/**
- * Радиокнопка.
- *
- * Если находится внутри компонента **RadioGroup**, то наследует
- * параметры `checked`, `name` и `onChange`. Также наследует состояния
- * `disabled`, `error` и `warning`
- *
- * ```js
- * type SyntheticRadioEvent<T> = {
- * target: {
- *    id: ?string,
- *    name: ?string,
- *    checked: ?boolean,
- *    disabled: ?boolean,
- *    value: T
- *  }
- * };
- * ```
- */
 export class Radio<T> extends React.Component<RadioProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Radio';
 
@@ -127,7 +98,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       onMouseOver,
       onMouseEnter,
       onMouseLeave,
-      onChange,
+      onValueChange,
 
       className,
       style,
@@ -162,30 +133,15 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       disabled,
       tabIndex: this.props.tabIndex,
       value,
-      ref: this._ref,
-      onChange: this._handleChange,
-      onMouseOver: () => {
-        if (this.props.onMouseOver) {
-          this.props.onMouseOver(createSyntheticEvent(this.props));
-        }
-      },
-      onMouseEnter: () => {
-        if (this.props.onMouseEnter) {
-          this.props.onMouseEnter(createSyntheticEvent(this.props));
-        }
-      },
-      onMouseLeave: () => {
-        if (this.props.onMouseLeave) {
-          this.props.onMouseLeave(createSyntheticEvent(this.props));
-        }
-      },
+      ref: this.ref,
+      onChange: this.handleChange,
     };
 
     const labelProps = {
       className: styles.root,
-      onMouseOver: this._handleMouseOver,
-      onMouseEnter: this._handleMouseEnter,
-      onMouseLeave: this._handleMouseLeave,
+      onMouseOver: this.handleMouseOver,
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave,
     };
 
     if (this._isInRadioGroup()) {
@@ -218,52 +174,37 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     return <div className={labelClassNames}>{this.props.children}</div>;
   }
 
-  private _ref = (element: HTMLInputElement) => {
+  private ref = (element: HTMLInputElement) => {
     this._node = element;
   };
 
-  private _handleChange = () => {
-    const event = createSyntheticEvent(this.props);
+  private handleChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+    if (this.props.onValueChange) {
+      this.props.onValueChange(this.props.value);
+    }
     if (this.props.onChange) {
-      this.props.onChange(event, event.target.value);
+      this.props.onChange(e);
     }
     if (this._isInRadioGroup()) {
-      this.context.onSelect(event, event.target.value);
+      this.context.onSelect(this.props.value);
     }
   };
 
-  private _handleMouseOver = () => {
-    const event = createSyntheticEvent(this.props);
+  private handleMouseOver: React.MouseEventHandler<HTMLLabelElement> = e => {
     if (this.props.onMouseOver) {
-      this.props.onMouseOver(event);
+      this.props.onMouseOver(e);
     }
   };
 
-  private _handleMouseEnter = () => {
-    const event = createSyntheticEvent(this.props);
+  private handleMouseEnter: React.MouseEventHandler<HTMLLabelElement> = e => {
     if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(event);
+      this.props.onMouseEnter(e);
     }
   };
 
-  private _handleMouseLeave = () => {
-    const event = createSyntheticEvent(this.props);
+  private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = e => {
     if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(event);
+      this.props.onMouseLeave(e);
     }
   };
-}
-
-function createSyntheticEvent<T>({ value, id, name, checked, disabled }: RadioProps<T>): SyntheticRadioEvent<T> {
-  const target = {
-    value,
-    id,
-    name,
-    checked,
-    disabled,
-  };
-  const syntheticEvent = {
-    target,
-  };
-  return syntheticEvent;
 }

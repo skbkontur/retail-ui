@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import { RadioGroup } from '../RadioGroup';
-import { Radio, SyntheticRadioEvent } from '../../Radio';
+import { Radio } from '../../Radio';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Nullable } from '../../../typings/utility-types';
@@ -22,7 +22,7 @@ class Component extends React.Component<any, any> {
           <RadioGroup<string>
             ref={element => (this._radioGroup = element)}
             value={this.state.value}
-            onChange={el => this.handleChange(el)}
+            onValueChange={this.handleValueChange}
             {...this.props}
           />
         </div>
@@ -39,8 +39,8 @@ class Component extends React.Component<any, any> {
     );
   }
 
-  private handleChange(event: SyntheticRadioEvent<string>) {
-    this.setState({ value: event.target.value });
+  private handleValueChange = (value: string) => {
+    this.setState({ value });
   }
 }
 

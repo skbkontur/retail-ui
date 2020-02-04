@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
 import { getRandomID } from '../../lib/utils';
-import { Radio, SyntheticRadioEvent } from '../Radio';
+import { Radio } from '../Radio';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
@@ -12,10 +12,10 @@ import { FocusTrap } from '../internal/FocusTrap';
 import styles from './RadioGroup.module.less';
 import { Prevent } from './Prevent';
 
-export interface RadioGroupProps<T> {
+export interface RadioGroupProps<T = string | number> {
   defaultValue?: T;
   value?: T;
-  items?: Array<T | [T, React.ReactNode]>;
+  items?: T[] | [T, React.ReactNode][];
   name?: string;
   disabled?: boolean;
   warning?: boolean;
@@ -23,7 +23,8 @@ export interface RadioGroupProps<T> {
   inline?: boolean;
   width?: React.CSSProperties['width'];
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
-  onChange?: (event: SyntheticRadioEvent<T>, value: T) => any;
+  /** Вызывается при изменении `value` */
+  onValueChange?: (value: T) => void;
   onBlur?: (event: FocusEvent) => void;
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
@@ -123,9 +124,9 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     /**
      * Обработчик события при переключении радиокнопок.
      * Имеет тип
-     * `(event: SyntheticInputEvent<HTMLInputElement>, value: Value) => any`
+     * `(value: Value) => any`
      */
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
 
     onBlur: PropTypes.func,
 
@@ -212,19 +213,19 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private _isControlled = () => this.props.value != null;
 
-  private _handleSelect = (event: SyntheticRadioEvent<T>, value: T) => {
+  private _handleSelect = (value: T) => {
     if (!this._isControlled()) {
       this.setState({ activeItem: value });
     }
-    if (this.props.onChange) {
-      this.props.onChange(event, value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
   };
 
   private _renderChildren() {
     const { items, children } = this.props;
     invariant((!items && children) || (items && !children), 'Either items or children must be passed, not both');
-    return items ? mapItems(this._renderRadio, items) : children;
+    return items ? mapItems<T>(this._renderRadio, items) : children;
   }
 
   private _renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
@@ -239,7 +240,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem(itemValue, data)}</Radio>
+        <Radio value={itemValue}>{this.getProps().renderItem<T>(itemValue, data)}</Radio>
       </span>
     );
   };
@@ -249,22 +250,25 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   };
 }
 
-function renderItem(_value: any, data: React.ReactNode) {
+function renderItem<T>(_value: T, data: React.ReactNode) {
   return data;
 }
 
-function mapItems(fn: (value: any, data: any, index: number) => React.ReactNode, items: any[]) {
-  const result = [];
+function mapItems<T>(
+  fn: (value: T, data: React.ReactNode, index: number) => React.ReactNode,
+  items: T[] | [T, React.ReactNode][],
+) {
+  const result: React.ReactNode[] = [];
   let index = 0;
   for (const entry of items) {
-    const [value, data] = normalizeEntry(entry);
+    const [value, data] = normalizeEntry<T>(entry);
     result.push(fn(value, data, index));
     ++index;
   }
   return result;
 }
 
-function normalizeEntry(entry: any[]) {
+function normalizeEntry<T>(entry: T | [T, React.ReactNode]): [T, React.ReactNode] {
   if (!Array.isArray(entry)) {
     return [entry, entry];
   }
