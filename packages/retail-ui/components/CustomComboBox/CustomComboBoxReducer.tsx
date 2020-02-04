@@ -50,8 +50,8 @@ interface EffectFactory {
   Blur: Effect;
   Focus: Effect;
 
-  Change: (value: any) => Effect;
-  UnexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
+  ValueChange: (value: any) => Effect;
+  UnexpectedValue: (textValue: string, items: Nullable<any[]>) => Effect;
   InputChange: Effect;
   InputFocus: Effect;
   HighlightMenuItem: Effect;
@@ -95,14 +95,14 @@ export const Effect: EffectFactory = {
       onFocus();
     }
   },
-  Change: value => (dispatch, getState, getProps) => {
-    const { onChange } = getProps();
-    if (onChange) {
-      onChange({ target: { value } }, value);
+  ValueChange: value => (dispatch, getState, getProps) => {
+    const { onValueChange } = getProps();
+    if (onValueChange) {
+      onValueChange(value);
     }
   },
-  UnexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
-    const { onUnexpectedInput, valueToString } = getProps();
+  UnexpectedValue: (textValue, items) => (dispatch, getState, getProps) => {
+    const { onUnexpectedValue, valueToString } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
@@ -114,18 +114,18 @@ export const Effect: EffectFactory = {
       }
     }
 
-    if (onUnexpectedInput) {
-      const value = onUnexpectedInput(textValue);
+    if (onUnexpectedValue) {
+      const value = onUnexpectedValue(textValue);
       if (value !== undefined) {
         dispatch({ type: 'ValueChange', value, keepFocus: false });
       }
     }
   },
   InputChange: (dispatch, getState, getProps) => {
-    const { onInputChange } = getProps();
+    const { onInputValueChange } = getProps();
     const { textValue } = getState();
-    if (onInputChange) {
-      const returnedValue = onInputChange(textValue);
+    if (onInputValueChange) {
+      const returnedValue = onInputValueChange(textValue);
       if (typeof returnedValue === 'string' && returnedValue !== textValue) {
         dispatch({ type: 'TextChange', value: returnedValue });
       }
@@ -225,7 +225,7 @@ export function reducer<T>(
             items: null,
             textValue,
           },
-          [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus],
+          [Effect.ValueChange(value), Effect.CancelRequest, Effect.InputFocus],
         ];
       }
       return [
@@ -236,7 +236,7 @@ export function reducer<T>(
           items: null,
           textValue,
         },
-        [Effect.Change(value), Effect.CancelRequest],
+        [Effect.ValueChange(value), Effect.CancelRequest],
       ];
     }
     case 'TextChange': {
@@ -337,7 +337,7 @@ export function reducer<T>(
           opened: false,
           items: null,
         },
-        [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedInput(state.textValue, items)],
+        [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedValue(state.textValue, items)],
       ];
     }
     case 'Reset': {

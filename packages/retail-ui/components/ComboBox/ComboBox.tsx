@@ -53,7 +53,8 @@ export interface ComboBoxProps<T> {
 
   onBlur?: () => void;
 
-  onChange?: (event: { target: { value: T } }, item: T) => void;
+  /** Вызывается при изменении `value` */
+  onValueChange?: (value: T) => void;
 
   onFocus?: () => void;
 
@@ -62,7 +63,7 @@ export interface ComboBoxProps<T> {
    * если результатом функции будет строка,
    * то она станет следующим состояним полем ввода
    */
-  onInputChange?: (query: string) => Nullable<string> | void;
+  onInputValueChange?: (value: string) => Nullable<string> | void;
 
   /**
    * Функция для обработки ситуации, когда была введена
@@ -71,13 +72,13 @@ export interface ComboBoxProps<T> {
    * Если при потере фокуса в выпадающем списке будет только один
    * элемент и  результат `renderValue` с этим элементом будет
    * совпадать со значение в текстовом поле, то
-   * сработает onChange со значением данного элемента
+   * сработает onValueChange со значением данного элемента
    *
    * Сама функция также может вернуть значение,
    * неравное `undefined`,
-   * с которым будет вызван onChange.
+   * с которым будет вызван onValueChange.
    */
-  onUnexpectedInput?: (query: string) => void | null | T;
+  onUnexpectedValue?: (value: string) => void | null | T;
 
   placeholder?: string;
 

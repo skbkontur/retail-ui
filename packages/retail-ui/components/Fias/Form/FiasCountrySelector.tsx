@@ -5,12 +5,12 @@ import { Address } from '../models/Address';
 import { FiasCountry, APIProvider } from '../types';
 import { locale } from '../../LocaleProvider/decorators';
 
-import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
+import { FiasComboBox } from './FiasComboBox';
 
 export interface FiasCountrySelectorProps {
   api: APIProvider;
   country?: FiasCountry;
-  onChange?: (value?: FiasCountry) => void;
+  onValueChange?: (value?: FiasCountry) => void;
   limit?: number;
 }
 
@@ -28,8 +28,8 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
         renderItem={this.renderItem}
         renderValue={this.renderValue}
         valueToString={this.valueToString}
-        onChange={this.handleChange}
-        onUnexpectedInput={this.onUnexpectedInput}
+        onValueChange={this.handleValueChange}
+        onUnexpectedValue={this.onUnexpectedValue}
         renderNotFound={this.renderNotFound}
         placeholder={this.locale.countryPlaceholder}
         width={'100%'}
@@ -73,14 +73,14 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
     return (country && country.fullName) || '';
   };
 
-  private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-    const { onChange } = this.props;
-    if (onChange) {
-      onChange(value.country);
+  private handleValueChange = (value: Address) => {
+    const { onValueChange } = this.props;
+    if (onValueChange) {
+      onValueChange(value.country);
     }
   };
 
-  private onUnexpectedInput = (query: string) => {
+  private onUnexpectedValue = (query: string) => {
     if (!query) {
       return new Address();
     }

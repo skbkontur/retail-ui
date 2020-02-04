@@ -12,7 +12,7 @@ class MyCustomFias extends Component {
     this.state = {
       address: new Address(),
     };
-    this.handleChange = this.handleChange.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
     this.updateAddress = this.updateAddress.bind(this);
   }
 
@@ -32,7 +32,7 @@ class MyCustomFias extends Component {
       <FiasSearch
         api={this.api}
         address={this.state.address}
-        onChange={this.handleChange}
+        onValueChange={this.handleValueChange}
         width={width}
         error={error}
         warning={warning}
@@ -41,10 +41,10 @@ class MyCustomFias extends Component {
     );
   }
 
-  handleChange(event, address) {
+  handleValueChange(address) {
     this.setState({ address });
-    if (this.props.onChange) {
-      this.props.onChange(address.getValue());
+    if (this.props.onValueChange) {
+      this.props.onValueChange(address.getValue());
     }
   }
 
@@ -60,9 +60,9 @@ class MyCustomFias extends Component {
 initialState = {
   value: {},
 };
-const handleChange = value => setState({ value });
+const handleValueChange = value => setState({ value });
 
-<MyCustomFias baseUrl="https://api.kontur.ru/fias/v1/" value={state.value} onChange={handleChange} />;
+<MyCustomFias baseUrl="https://api.kontur.ru/fias/v1/" value={state.value} onValueChange={handleValueChange} />;
 ```
 
 #### Локали по умолчанию (см. `LocaleProvider`)

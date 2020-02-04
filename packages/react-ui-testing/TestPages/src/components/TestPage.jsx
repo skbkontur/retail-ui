@@ -113,7 +113,7 @@ export default class TestPage extends React.Component {
           renderValue={renderValue}
           renderItem={renderItem}
           value={this.state.value}
-          onChange={e => this.setState({ value: e.target.value })}
+          onValueChange={value => this.setState({ value })}
         />
         <hr />
 

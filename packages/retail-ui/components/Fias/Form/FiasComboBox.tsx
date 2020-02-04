@@ -9,12 +9,6 @@ export interface FiasComboBoxProps extends ComboBoxProps<Address> {
   limit?: number;
 }
 
-export interface FiasComboBoxChangeEvent {
-  target: {
-    value: Address;
-  };
-}
-
 interface FiasComboBoxState {
   searchText: string;
   totalCount: number;
@@ -48,8 +42,8 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
         {...this.props}
         getItems={this.getItems}
         renderItem={this.renderItem}
-        onChange={this.handleChange}
-        onInputChange={this.handleInputChange}
+        onValueChange={this.handleChange}
+        onInputValueChange={this.handleInputChange}
         onFocus={this.handleFocus}
         totalCount={this.state.totalCount}
         renderTotalCount={this.renderTotalCount}
@@ -85,10 +79,10 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     </div>
   );
 
-  private handleChange = (event: { target: { value: Address } }, item: Address) => {
-    const { onChange, valueToString } = this.props;
-    if (onChange) {
-      onChange(event, item);
+  private handleChange = (item: Address) => {
+    const { onValueChange, valueToString } = this.props;
+    if (onValueChange) {
+      onValueChange(item);
     }
     this.setState({
       searchText: valueToString ? valueToString(item) : '',
@@ -96,8 +90,8 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
   };
 
   private handleInputChange = (query: string) => {
-    if (this.props.onInputChange) {
-      this.props.onInputChange(query);
+    if (this.props.onInputValueChange) {
+      this.props.onInputValueChange(query);
     }
     this.setState({ searchText: query });
   };

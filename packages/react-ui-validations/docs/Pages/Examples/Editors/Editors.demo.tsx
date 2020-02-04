@@ -181,7 +181,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
                 renderItem={x => x}
                 itemToValue={x => x}
                 value={data.city}
-                onChange={(_, value) => this.handleChange({ city: value })}
+                onValueChange={value => this.handleChange({ city: value })}
                 getItems={async query => {
                   const cities = ['City 1', 'City 2', 'City 3'];
                   return query

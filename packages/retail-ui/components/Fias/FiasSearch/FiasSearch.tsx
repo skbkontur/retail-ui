@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FiasLocale, FiasLocaleHelper } from '../locale';
-import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from '../Form/FiasComboBox';
+import { FiasComboBox, FiasComboBoxProps } from '../Form/FiasComboBox';
 import { AddressResponse, APIProvider, Fields, SearchOptions } from '../types';
 import { locale } from '../../LocaleProvider/decorators';
 import { filterProps } from '../../filterProps';
@@ -22,7 +22,7 @@ const COMBOBOX_PASS_PROPS = {
   menuAlign: true,
   onBlur: true,
   onFocus: true,
-  onInputChange: true,
+  onInputValueChange: true,
   placeholder: true,
   size: true,
   warning: true,
@@ -33,12 +33,10 @@ const COMBOBOX_PASS_PROPS = {
   onMouseLeave: true,
 };
 
-export type FiasSearchChangeEvent = FiasComboBoxChangeEvent;
-
 export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
   api: APIProvider;
   address?: Address;
-  onChange?: (event: FiasSearchChangeEvent, address: Address) => void;
+  onValueChange?: (address: Address) => void;
 }
 
 @locale('Fias', FiasLocaleHelper)
@@ -63,8 +61,8 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         renderItem={this.renderItem}
         renderValue={this.renderValue}
         valueToString={this.valueToString}
-        onChange={this.onChange}
-        onUnexpectedInput={this.onUnexpectedInput}
+        onValueChange={this.onValueChange}
+        onUnexpectedValue={this.onUnexpectedValue}
         renderNotFound={this.renderNotFound}
         {...restComboBoxProps}
       />
@@ -87,14 +85,14 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     return address.getText(Fields.room);
   };
 
-  private onChange = (event: FiasComboBoxChangeEvent, address: Address) => {
-    const { onChange } = this.props;
-    if (onChange) {
-      onChange(event, address);
+  private onValueChange = (address: Address) => {
+    const { onValueChange } = this.props;
+    if (onValueChange) {
+      onValueChange(address);
     }
   };
 
-  private onUnexpectedInput = (query: string) => {
+  private onUnexpectedValue = (query: string) => {
     if (!query) {
       return new Address();
     }

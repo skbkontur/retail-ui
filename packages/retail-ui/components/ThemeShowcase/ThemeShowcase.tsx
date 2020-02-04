@@ -85,8 +85,8 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
                 <ComboBox
                   getItems={this.getItems}
                   value={selectedVariable}
-                  onChange={this.handleVariableChange}
-                  onUnexpectedInput={this.handleUnexpectedVariableInput}
+                  onValueChange={this.handleVariableChange}
+                  onUnexpectedValue={this.handleUnexpectedVariableInput}
                   placeholder={'поиск по названию переменной'}
                 />
                 {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}
@@ -127,7 +127,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
   private getItems = (query: string) => {
     return Promise.resolve(this.getValues(query));
   };
-  private handleVariableChange = (event: any, item: ComboBoxItem) => {
+  private handleVariableChange = (item: ComboBoxItem) => {
     if (!this.isUnmounting) {
       this.setState({ selectedVariable: item });
     }
