@@ -5,7 +5,7 @@ import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
 
 export interface DecimalFormattingOptions {
   fractionDigits?: Nullable<number>;
-  trailingZeros?: boolean;
+  hideTrailingZeros?: boolean;
   thousandsDelimiter?: string;
   minusSign?: string;
 }
@@ -21,7 +21,7 @@ export interface FormattingInfo {
 export default class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
-    trailingZeros: true,
+    hideTrailingZeros: false,
     thousandsDelimiter: String.fromCharCode(0x2009),
     minusSign: String.fromCharCode(0x2212),
   };
@@ -107,9 +107,9 @@ export default class CurrencyHelper {
     let fraction = destructed.fraction;
     let fractionDigits = fraction.length;
 
-    if (!options.trailingZeros) {
-      fractionDigits = this.lengthWithoutTrailingZeros(fraction);
-      fraction = fraction.substring(0, fractionDigits);
+    if (options.hideTrailingZeros) {
+      fraction = fraction.replace(/0+$/, '');
+      fractionDigits = fraction.length;
     } else if (options.fractionDigits !== null) {
       fractionDigits = options.fractionDigits;
     }
@@ -200,15 +200,5 @@ export default class CurrencyHelper {
     }
     const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
     return { sign, integer, delimiter, fraction };
-  }
-
-  private static lengthWithoutTrailingZeros(value: string): number {
-    for (let i = value.length - 1; i >= 0; i--) {
-      if (value[i] !== '0') {
-        return i + 1;
-      }
-    }
-
-    return 0;
   }
 }

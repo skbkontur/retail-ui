@@ -14,7 +14,7 @@ interface CurrencyInputDemoProps {
 interface CurrencyInputDemoState {
   value: Nullable<number>;
   signed: boolean;
-  trailingZeros: boolean;
+  hideTrailingZeros: boolean;
   digits: Nullable<number>;
 }
 
@@ -22,7 +22,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   public state: CurrencyInputDemoState = {
     value: null,
     signed: false,
-    trailingZeros: true,
+    hideTrailingZeros: false,
     digits: 2,
   };
 
@@ -44,7 +44,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           borderless={this.props.borderless}
           value={this.state.value}
           fractionDigits={this.state.digits}
-          trailingZeros={this.state.trailingZeros}
+          hideTrailingZeros={this.state.hideTrailingZeros}
           signed={this.state.signed}
           onChange={this._handleChange}
         />
@@ -57,7 +57,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
         </div>
         <div>
           <span>trailing zeros: </span>
-          <Toggle checked={this.state.trailingZeros} onChange={this._handleTrailingZeros}/>
+          <Toggle checked={this.state.hideTrailingZeros} onChange={this._handleHideTrailingZeros}/>
         </div>
         <input
           type="range"
@@ -99,10 +99,10 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     });
   };
 
-  private _handleTrailingZeros = (value: boolean) => {
+  private _handleHideTrailingZeros = (value: boolean) => {
     this.setState({
       value: null,
-      trailingZeros: value,
+      hideTrailingZeros: value,
     });
   };
 

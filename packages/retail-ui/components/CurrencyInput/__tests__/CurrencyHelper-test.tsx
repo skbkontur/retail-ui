@@ -154,12 +154,12 @@ describe('CurrencyHelper', () => {
       });
     });
     [
-      { value: '1,00', fractionDigits: 2, trailingZeros: false, expected: '1,' },
-      { value: '1,20', fractionDigits: 2, trailingZeros: false, expected: '1,2' },
-      { value: '100', fractionDigits: 2, trailingZeros: false, expected: '100' },
-      { value: '1,020300', fractionDigits: 10, trailingZeros: false, expected: '1,0203' },
+      { value: '1,00', fractionDigits: 2, hideTrailingZeros: true, expected: '1,' },
+      { value: '1,20', fractionDigits: 2, hideTrailingZeros: true, expected: '1,2' },
+      { value: '100', fractionDigits: 2, hideTrailingZeros: true, expected: '100' },
+      { value: '1,020300', fractionDigits: 10, hideTrailingZeros: true, expected: '1,0203' },
     ].forEach(x => {
-      const options = { fractionDigits: x.fractionDigits, trailingZeros: x.trailingZeros };
+      const options = { fractionDigits: x.fractionDigits, hideTrailingZeros: x.hideTrailingZeros };
       it(`formatString('${x.value}', ${JSON.stringify(options)}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.formatString(x.value, options);
         const expected = x.expected;

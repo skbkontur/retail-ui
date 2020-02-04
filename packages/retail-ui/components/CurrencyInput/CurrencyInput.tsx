@@ -16,9 +16,10 @@ export type CurrencyInputProps = Override<
   {
     /** Значение */
     value: Nullable<number>;
+    /** Убрать лишние нули после запятой */
+    hideTrailingZeros: boolean;
     /** Кол-во цифр после зяпятой */
     fractionDigits?: Nullable<number>;
-    trailingZeros?: boolean;
     /** Отрицательные значения */
     signed?: boolean;
     /**
@@ -57,7 +58,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     fractionDigits: PropTypes.number,
-    trailingZeros: PropTypes.bool,
+    hideTrailingZeros: PropTypes.bool,
     leftIcon: PropTypes.element,
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
@@ -77,12 +78,12 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   public static defaultProps = {
     align: 'right',
     fractionDigits: 2,
-    trailingZeros: true,
+    hideTrailingZeros: false,
     value: null,
   };
 
   public state: CurrencyInputState = {
-    ...this.getState(this.props.value, this.props.fractionDigits, this.props.trailingZeros),
+    ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros),
     focused: false,
   };
 
@@ -103,9 +104,9 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public componentWillReceiveProps(nextProps: CurrencyInputProps) {
-    const { value, fractionDigits, trailingZeros } = nextProps;
+    const { value, fractionDigits, hideTrailingZeros } = nextProps;
     if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
-      const state = this.getState(value, fractionDigits, trailingZeros);
+      const state = this.getState(value, fractionDigits, hideTrailingZeros);
       this.setState(state);
     }
   }
@@ -119,13 +120,10 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, mainInGroup, integerDigits, ...rest } = this.props;
+    const { fractionDigits, signed, onSubmit, mainInGroup, integerDigits, hideTrailingZeros, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
-        ? CurrencyHelper.format(0, {
-            fractionDigits: this.props.fractionDigits,
-            trailingZeros: this.props.trailingZeros
-          })
+        ? CurrencyHelper.format(0, {fractionDigits, hideTrailingZeros})
         : this.props.placeholder;
 
     return (
@@ -167,9 +165,9 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     }
   };
 
-  private getState(value: Nullable<number>, fractionDigits: Nullable<number>, trailingZeros: boolean = true) {
+  private getState(value: Nullable<number>, fractionDigits: Nullable<number>, hideTrailingZeros: boolean) {
     return {
-      formatted: CurrencyHelper.format(value, { fractionDigits, trailingZeros }),
+      formatted: CurrencyHelper.format(value, { fractionDigits, hideTrailingZeros }),
       selection: SelectionHelper.fromPosition(0),
     };
   }
@@ -377,7 +375,7 @@ export default class CurrencyInput extends React.Component<CurrencyInputProps, C
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
-      ...this.getState(value, this.props.fractionDigits, this.props.trailingZeros),
+      ...this.getState(value, this.props.fractionDigits, this.props.hideTrailingZeros),
       focused: false,
     });
 
