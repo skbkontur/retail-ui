@@ -391,7 +391,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private createPostalCodeInputProps(): InputProps {
     return {
-      onChange: (e: React.ChangeEvent, value: string) => {
+      onValueChange: (value: string) => {
         const { address } = this.state;
         const newAdditionalFields = {
           ...address.additionalFields,

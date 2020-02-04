@@ -26,7 +26,7 @@ export default class ConditionalValidationDemo extends React.Component<{}, State
               <Input
                 placeholder={'Только цифры'}
                 value={value}
-                onChange={(_, v) => this.setState({ value: v })}
+                onValueChange={v => this.setState({ value: v })}
               />
             </ValidationWrapper>
           </Form.Line>

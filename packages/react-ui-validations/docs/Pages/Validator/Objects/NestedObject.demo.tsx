@@ -75,19 +75,17 @@ export default class NestedObjectDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Любое'}
                 value={contactInfo.fullName.name}
-                onChange={(_, name) => this.handleFullNameChange({ name })}
+                onValueChange={name => this.handleFullNameChange({ name })}
               />
             </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Фамилия">
-            <ValidationWrapper
-              validationInfo={v.getNode(x => x.fullName.surname).get()}
-            >
+            <ValidationWrapper validationInfo={v.getNode(x => x.fullName.surname).get()}>
               <Input
                 placeholder={'Любая'}
                 value={contactInfo.fullName.surname}
-                onChange={(_, surname) => this.handleFullNameChange({ surname })}
+                onValueChange={surname => this.handleFullNameChange({ surname })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -97,7 +95,7 @@ export default class NestedObjectDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={contactInfo.email}
-                onChange={(_, email) => this.handleChange({ email })}
+                onValueChange={email => this.handleChange({ email })}
               />
             </ValidationWrapper>
           </Form.Line>

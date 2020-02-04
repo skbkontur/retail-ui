@@ -91,7 +91,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
                   <Input
                     placeholder={'Любое'}
                     value={data.contact.name}
-                    onChange={(_, name) => this.handleContactChange({ name })}
+                    onValueChange={name => this.handleContactChange({ name })}
                   />
                 </ValidationWrapper>
               </Form.Line>
@@ -101,7 +101,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
                   <Input
                     placeholder={'xxx@xxx.xx'}
                     value={data.contact.email}
-                    onChange={(_, email) => this.handleContactChange({ email })}
+                    onValueChange={email => this.handleContactChange({ email })}
                   />
                 </ValidationWrapper>
               </Form.Line>

@@ -138,7 +138,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
               <Input
                 value={data.name}
-                onChange={(_, value) => this.handleChange({ name: value })}
+                onValueChange={value => this.handleChange({ name: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -147,7 +147,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
               <Input
                 value={data.email}
-                onChange={(_, value) => this.handleChange({ email: value })}
+                onValueChange={value => this.handleChange({ email: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -157,7 +157,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
               <Input
                 mask={'+7 999 999-99-99'}
                 value={data.phone}
-                onChange={(_, value) => this.handleChange({ phone: value })}
+                onValueChange={value => this.handleChange({ phone: value })}
               />
             </ValidationWrapper>
           </Form.Line>

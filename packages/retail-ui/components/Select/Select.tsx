@@ -397,7 +397,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
       <div className={styles.search}>
-        <Input ref={this.focusInput} onChange={this.handleSearch} />
+        <Input ref={this.focusInput} onValueChange={this.handleSearch} />
       </div>
     ) : null;
 
@@ -509,8 +509,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
   };
 
-  private handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchPattern: event.target.value });
+  private handleSearch = (value: string) => {
+    this.setState({ searchPattern: value });
   };
 
   private select(value: TValue) {

@@ -217,7 +217,7 @@ class TooltipWithInput extends React.Component {
     return (
       <div style={{ padding: '0 10px 70px' }}>
         <Tooltip render={this.renderContent} pos="bottom right" trigger="click">
-          <Input onChange={(_, v) => this.setState({ show: Boolean(v) })} />
+          <Input onValueChange={v => this.setState({ show: Boolean(v) })} />
         </Tooltip>
       </div>
     );

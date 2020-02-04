@@ -88,7 +88,7 @@ export class FxInput extends React.Component<FxInputProps> {
             ref={this.refInput}
             type={this.props.type as InputType}
             value={this.props.value as InputProps['value']}
-            onChange={this.props.onChange as InputProps['onChange']}
+            onValueChange={this.props.onValueChange as InputProps['onValueChange']}
           />
         )}
       </Group>

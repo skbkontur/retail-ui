@@ -17,7 +17,7 @@ import { Label } from '../common/Label';
 function bind(name) {
   return {
     value: this.state[name],
-    onChange: (e, v) => {
+    onValueChange: v => {
       this.setState({ [name]: v });
     },
   };

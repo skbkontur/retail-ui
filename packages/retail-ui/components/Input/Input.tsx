@@ -55,8 +55,8 @@ export type InputProps = Override<
     alwaysShowMask?: boolean;
     /** Размер */
     size?: InputSize;
-    /** onChange */
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+    /** onValueChange */
+    onValueChange?: (value: string) => void;
     /** Вызывается на label */
     onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
     /** Вызывается на label */
@@ -88,7 +88,7 @@ export type InputProps = Override<
      * в таком случае вспыхивание можно вызвать
      * публичным методом инстанса `blink()`
      */
-    onUnexpectedInput?: () => void;
+    onUnexpectedValue?: () => void;
   }
 >;
 
@@ -108,8 +108,8 @@ export class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: {
     size: InputSize;
   } = {
-      size: 'small',
-    };
+    size: 'small',
+  };
 
   public state: InputState = {
     polyfillPlaceholder: false,
@@ -246,6 +246,7 @@ export class Input extends React.Component<InputProps, InputState> {
       onMouseOver,
       onKeyDown,
       onKeyPress,
+      onValueChange,
       width,
       error,
       warning,
@@ -264,7 +265,7 @@ export class Input extends React.Component<InputProps, InputState> {
       placeholder,
       selectAllOnFocus,
       disabled,
-      onUnexpectedInput,
+      onUnexpectedValue,
       prefix,
       suffix,
       formatChars,
@@ -347,7 +348,7 @@ export class Input extends React.Component<InputProps, InputState> {
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
-        onUnexpectedInput={this.handleUnexpectedInput}
+        onUnexpectedValue={this.handleUnexpectedValue}
         formatChars={this.props.formatChars}
       />
     );
@@ -418,8 +419,11 @@ export class Input extends React.Component<InputProps, InputState> {
       }
     }
 
+    if (this.props.onValueChange) {
+      this.props.onValueChange(event.target.value);
+    }
     if (this.props.onChange) {
-      this.props.onChange(event, event.target.value);
+      this.props.onChange(event);
     }
   };
 
@@ -446,7 +450,7 @@ export class Input extends React.Component<InputProps, InputState> {
     const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
 
     if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
-      this.handleUnexpectedInput();
+      this.handleUnexpectedValue();
     }
   };
 
@@ -456,13 +460,13 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     if (this.props.maxLength === event.currentTarget.value.length) {
-      this.handleUnexpectedInput();
+      this.handleUnexpectedValue();
     }
   };
 
-  private handleUnexpectedInput = () => {
-    if (this.props.onUnexpectedInput) {
-      this.props.onUnexpectedInput();
+  private handleUnexpectedValue = () => {
+    if (this.props.onUnexpectedValue) {
+      this.props.onUnexpectedValue();
     } else {
       this.blink();
     }

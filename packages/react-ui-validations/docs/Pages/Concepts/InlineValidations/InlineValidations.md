@@ -12,7 +12,7 @@
         required
         email
         value={data.email}
-        onChange={(e, value) => onChange({ email: value })}
+        onValueChange={value => onChange({ email: value })}
       />
     </Form.Line>
 

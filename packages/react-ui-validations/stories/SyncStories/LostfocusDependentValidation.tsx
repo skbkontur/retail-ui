@@ -67,7 +67,7 @@ export class LostfocusDependentValidation extends React.Component<{}, LostfocusD
                 <Input
                   data-tid={'InputA'}
                   value={this.state.valueA}
-                  onChange={(_, value) => this.setState({ valueA: value })}
+                  onValueChange={value => this.setState({ valueA: value })}
                 />
               </ValidationWrapper>
             </Gapped>
@@ -77,7 +77,7 @@ export class LostfocusDependentValidation extends React.Component<{}, LostfocusD
                 <Input
                   data-tid={'InputB'}
                   value={this.state.valueB}
-                  onChange={(_, value) => this.setState({ valueB: value })}
+                  onValueChange={value => this.setState({ valueB: value })}
                 />
               </ValidationWrapper>
             </Gapped>
