@@ -34,7 +34,7 @@ class DateInputFormatting2 extends React.Component {
             value={this.state.langCode}
             placeholder="Выбрать язык"
             items={Object.values(LangCodes)}
-            onChange={(_, langCode) => this.setState({ langCode })}
+            onValueChange={langCode => this.setState({ langCode })}
           />
         </div>
         <LocaleProvider langCode={this.state.langCode}>
@@ -72,7 +72,7 @@ class DateInputFormatting extends React.Component {
           <Select
             value={this.state.order}
             items={Object.keys(DateOrder)}
-            onChange={(_, order) => this.setState({ order })}
+            onValueChange={order => this.setState({ order })}
           />
         </div>
         <div>
@@ -82,7 +82,7 @@ class DateInputFormatting extends React.Component {
           <Select
             value={this.state.separator}
             items={Object.keys(DateSeparator)}
-            onChange={(_, separator) => this.setState({ separator })}
+            onValueChange={separator => this.setState({ separator })}
           />
         </div>
         <LocaleProvider

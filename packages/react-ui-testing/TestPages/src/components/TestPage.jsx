@@ -156,16 +156,16 @@ export default class TestPage extends React.Component {
           data-tid="select"
           items={selectItems}
           value={this.state.type}
-          onChange={e => {
-            this.setState({ type: e.target.value });
+          onValueChange={value => {
+            this.setState({ type: value });
           }}
         />
         <Select
           data-tid="doubleSelect"
           items={doubleSelectItems}
           value={this.state.doubleSelectState}
-          onChange={e => {
-            this.setState({ doubleSelectState: e.target.value });
+          onValueChange={value => {
+            this.setState({ doubleSelectState: value });
           }}
         />
         <Label data-tid="doubleSelectLabel">{this.state.doubleSelectState}</Label>

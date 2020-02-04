@@ -31,7 +31,7 @@ const render = () => (
         width={120}
         value={state.size}
         items={['small', 'medium', 'large']}
-        onChange={(e, v) => setState({ size: v })}
+        onValueChange={v => setState({ size: v })}
         size={state.size}
       />
     </Gapped>
@@ -122,7 +122,7 @@ let initialState = {
         size="small"
         value={state.trigger}
         items={['click', 'hover', 'focus', 'hover&focus', 'opened', 'closed']}
-        onChange={(_, v) => setState({ trigger: v })}
+        onValueChange={v => setState({ trigger: v })}
       />
     </Gapped>
   </Center>

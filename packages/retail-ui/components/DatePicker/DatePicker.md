@@ -226,7 +226,7 @@ class DatePickerFormatting extends React.Component {
           <Select
             value={this.state.order}
             items={Object.keys(DateOrder)}
-            onChange={(_, order) => this.setState({ order })}
+            onValueChange={order => this.setState({ order })}
           />
         </div>
         <div>
@@ -236,7 +236,7 @@ class DatePickerFormatting extends React.Component {
           <Select
             value={this.state.separator}
             items={Object.keys(DateSeparator)}
-            onChange={(_, separator) => this.setState({ separator })}
+            onValueChange={separator => this.setState({ separator })}
           />
         </div>
         <LocaleProvider

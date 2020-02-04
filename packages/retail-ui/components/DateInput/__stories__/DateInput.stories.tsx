@@ -34,7 +34,11 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
           <span style={{ width: '300px', display: 'inline-block' }}>
             Порядок компонентов <code>InternalDateOrder</code>
           </span>
-          <Select value={this.state.order} items={Object.keys(InternalDateOrder)} onChange={this.handleChangeOrder} />
+          <Select
+            value={this.state.order}
+            items={Object.keys(InternalDateOrder)}
+            onValueChange={this.handleChangeOrder}
+          />
         </div>
         <div>
           <span style={{ width: '300px', display: 'inline-block' }}>
@@ -43,7 +47,7 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
           <Select
             value={this.state.separator}
             items={Object.keys(InternalDateSeparator)}
-            onChange={this.handleChangeSeparator}
+            onValueChange={this.handleChangeSeparator}
           />
         </div>
         <LocaleProvider

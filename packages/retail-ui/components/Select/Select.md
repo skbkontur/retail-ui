@@ -3,7 +3,7 @@ let items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'On
 
 let initialState = {};
 
-<Select items={items} value={state.value} onChange={(_, value) => setState({ value })} />;
+<Select items={items} value={state.value} onValueChange={value => setState({ value })} />;
 ```
 
 #### Локали по умолчанию (см. `LocaleProvider`)

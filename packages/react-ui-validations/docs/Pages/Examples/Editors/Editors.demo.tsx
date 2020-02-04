@@ -205,7 +205,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
                   ['Мормонизм', 'Мормонизм'],
                 ]}
                 value={data.confession}
-                onChange={(_, value) => this.handleChange({ confession: value })}
+                onValueChange={value => this.handleChange({ confession: value })}
               />
             </ValidationWrapper>
           </Form.Line>

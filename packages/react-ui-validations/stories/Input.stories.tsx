@@ -217,10 +217,10 @@ class Example4 extends React.Component<{}, Example4State> {
     return (
       <ValidationContainer ref={this.refContainer}>
         <div style={{ padding: 10 }}>
-          <Select
-            items={['male', 'female'] as Sex[]}
+          <Select<Nullable<Sex>>
+            items={['male', 'female']}
             value={this.state.type}
-            onChange={(_, value) => this.setState({ type: value })}
+            onValueChange={value => this.setState({ type: value })}
           />
           <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
             <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />

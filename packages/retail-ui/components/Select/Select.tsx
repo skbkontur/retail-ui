@@ -71,7 +71,7 @@ export interface SelectProps<TValue, TItem> {
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
-  onChange?: (e: { target: { value: TValue } }, value: TValue) => void;
+  onValueChange?: (value: TValue) => void;
   onClose?: () => void;
   onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
   onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -180,7 +180,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
 
     onMouseEnter: PropTypes.func,
 
@@ -517,8 +517,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.focus();
     this.setState({ opened: false, value });
 
-    if (this.props.onChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
-      this.props.onChange({ target: { value } }, value);
+    if (this.props.onValueChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
+      this.props.onValueChange(value);
     }
   }
 
@@ -580,10 +580,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return React.isValidElement(buttonElement)
       ? React.cloneElement(buttonElement as React.ReactElement, {
-        ref: this.buttonRef,
-        onFocus: this.props.onFocus,
-        onBlur: this.props.onBlur,
-      })
+          ref: this.buttonRef,
+          onFocus: this.props.onFocus,
+          onBlur: this.props.onBlur,
+        })
       : buttonElement;
   };
 }
