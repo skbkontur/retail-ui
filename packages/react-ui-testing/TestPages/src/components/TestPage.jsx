@@ -252,7 +252,7 @@ export default class TestPage extends React.Component {
     this.setState({ fxInputValue: 'auto' });
   }
 
-  fxInputChange(event, value) {
+  fxInputChange(value) {
     this.setState({ autoFxInput: false });
     this.setState({ fxInputValue: value });
   }

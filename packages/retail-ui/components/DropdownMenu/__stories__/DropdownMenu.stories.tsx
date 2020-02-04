@@ -176,7 +176,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, {
     }));
   };
 
-  private handleInputChange = (_: any, value: string) => {
+  private handleInputChange = (value: string) => {
     this.setState({ value });
   };
 

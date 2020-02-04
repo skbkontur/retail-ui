@@ -223,7 +223,7 @@ class Example4 extends React.Component<{}, Example4State> {
             onValueChange={value => this.setState({ type: value })}
           />
           <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
-            <Input value={this.state.value} onChange={(_, value) => this.setState({ value })} />
+            <Input value={this.state.value} onValueChange={value => this.setState({ value })} />
           </ValidationWrapper>
           <div style={{ height: 1000, backgroundColor: '#eee' }} />
           <Button onClick={() => this.container && this.container.submit()}>Отправить</Button>
