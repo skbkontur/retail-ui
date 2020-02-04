@@ -26,8 +26,8 @@ export type CheckboxProps = Override<
     onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
     /** Вызывается на label */
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    /** onChange */
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: boolean) => void;
+    /** Вызывается при изменении `value` */
+    onValueChange?: (value: boolean) => void;
     /** onBlur */
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     /** Состояние частичного выделения */
@@ -51,7 +51,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     warning: PropTypes.bool,
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
     onBlur: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
@@ -143,7 +143,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
-      onChange,
+      onValueChange,
       style,
       className,
       type,
@@ -226,8 +226,11 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
+    if (this.props.onValueChange) {
+      this.props.onValueChange(checked);
+    }
     if (this.props.onChange) {
-      this.props.onChange(event, checked);
+      this.props.onChange(event);
     }
 
     this.resetIndeterminate();

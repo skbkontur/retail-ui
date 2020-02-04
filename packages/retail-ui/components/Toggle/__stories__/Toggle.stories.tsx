@@ -78,7 +78,7 @@ class Playground extends Component<any, any> {
         </div>
         <div style={{ marginTop: '15px' }}>
           <Gapped gap={10}>
-            <Checkbox onChange={this.activeLoading.bind(this)} checked={this.state.loadingActive}>
+            <Checkbox onValueChange={this.activeLoading.bind(this)} checked={this.state.loadingActive}>
               Loading
             </Checkbox>
             {this.state.loading && <Button onClick={this.stopLoading.bind(this)}>Stop loading</Button>}

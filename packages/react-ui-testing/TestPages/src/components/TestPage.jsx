@@ -126,7 +126,7 @@ export default class TestPage extends React.Component {
         <h4>CheckBox</h4>
         <Checkbox
           checked={this.state.checkboxValue}
-          onChange={e => {
+          onValueChange={() => {
             console.log('checkbox update');
             this.setState({ checkboxValue: !this.state.checkboxValue });
           }}
@@ -234,7 +234,7 @@ export default class TestPage extends React.Component {
     return (
       <Checkbox
         checked={this.state.listValues[item - 1]}
-        onChange={e => {
+        onValueChange={() => {
           var values = this.state.listValues;
           values[item - 1] = !values[item - 1];
           this.setState({ listValues: values });
