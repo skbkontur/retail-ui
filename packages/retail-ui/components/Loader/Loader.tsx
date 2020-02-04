@@ -118,7 +118,12 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
 
     return (
       <div style={{ position: 'relative' }} className={cx(styles.loader, className)}>
-        <ZIndex priority={'Loader'} applyZIndex={this.props.active} coverChildren={this.props.active}>
+        <ZIndex
+          priority={'Loader'}
+          applyZIndex={this.props.active}
+          coverChildren={this.props.active}
+          style={{ height: '100%' }}
+        >
           {this.props.children}
         </ZIndex>
         {active && (
