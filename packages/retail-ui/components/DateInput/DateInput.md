@@ -3,7 +3,7 @@
 ```
 
 ```jsx harmony
-<DateInput value={state.value} onChange={(_, v) => setState({ value: v })} />
+<DateInput value={state.value} onValueChange={v => setState({ value: v })} />
 ```
 
 ```jsx harmony
@@ -38,7 +38,7 @@ class DateInputFormatting2 extends React.Component {
           />
         </div>
         <LocaleProvider langCode={this.state.langCode}>
-          <DateInput onChange={(a, value) => this.setState({ value })} value={this.state.value} />
+          <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
         </LocaleProvider>
       </Gapped>
     );
@@ -93,7 +93,7 @@ class DateInputFormatting extends React.Component {
             },
           }}
         >
-          <DateInput onChange={(a, value) => this.setState({ value })} value={this.state.value} />
+          <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
         </LocaleProvider>
       </Gapped>
     );

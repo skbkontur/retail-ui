@@ -115,13 +115,13 @@ describe('DateInput as InputlikeText', () => {
     KeyDownCases.forEach(([initDate, keys, expected]) => {
       const keyString = keys.join(' > ');
       const expectedDateStr = `"${expected}"`.padEnd(12, ' ');
-      it(`calls onChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, () => {
-        const onChange = jest.fn();
-        const input = getInput(render({ value: initDate, onChange }));
+      it(`calls onValueChange with ${expectedDateStr} if value is "${initDate}" and pressed "${keyString}"`, () => {
+        const onValueChange = jest.fn();
+        const input = getInput(render({ value: initDate, onValueChange }));
         input.simulate('focus');
         keys.forEach(key => input.simulate('keydown', { key }));
-        const args = onChange.mock.calls[onChange.mock.calls.length - 1];
-        expect(args.slice(0, 2)).toEqual([{ target: { value: expected } }, expected]);
+        const [value] = onValueChange.mock.calls[onValueChange.mock.calls.length - 1];
+        expect(value).toBe(expected);
       });
     });
 
@@ -148,11 +148,13 @@ describe('DateInput as InputlikeText', () => {
 
     PasteCases.forEach(([order, pasted, expected]) => {
       it(`handles paste "${pasted}"`, () => {
-        const onChange = jest.fn();
-        const input = getInput(render({ onChange }, { locale: { DatePicker: { order: order as InternalDateOrder } } }));
+        const onValueChange = jest.fn();
+        const input = getInput(
+          render({ onValueChange }, { locale: { DatePicker: { order: order as InternalDateOrder } } }),
+        );
         input.simulate('paste', { clipboardData: { getData: () => pasted } });
-        const calls: any[] = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-        expect(calls).toMatchObject({ target: { value: expected } });
+        const [value] = onValueChange.mock.calls[0];
+        expect(value).toBe(expected);
       });
     });
   });
@@ -188,18 +190,18 @@ describe('DateInput as InputlikeText', () => {
     KeyDownCases.forEach(([initDate, keys, expected]) => {
       const keyString = keys.join(' > ');
       const expectedDateStr = expected
-        ? 'calls onChange with ' + `"${expected}"`.padEnd(12, ' ')
-        : 'does not call onChange          ';
+        ? 'calls onValueChange with ' + `"${expected}"`.padEnd(12, ' ')
+        : 'does not call onValueChange          ';
       it(`${expectedDateStr} if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {
-        const onChange = jest.fn();
-        const input = getInput(render({ value: initDate, onChange, minDate, maxDate }));
+        const onValueChange = jest.fn();
+        const input = getInput(render({ value: initDate, onValueChange, minDate, maxDate }));
         input.simulate('focus');
         keys.forEach(key => input.simulate('keydown', { key }));
         if (expected) {
-          const calls: any[] = onChange.mock.calls[onChange.mock.calls.length - 1][0];
-          expect(calls).toMatchObject({ target: { value: expected } });
+          const [value] = onValueChange.mock.calls[0];
+          expect(value).toBe(expected);
         } else {
-          expect(onChange).not.toHaveBeenCalled();
+          expect(onValueChange).not.toHaveBeenCalled();
         }
       });
     });

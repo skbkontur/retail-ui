@@ -22,8 +22,8 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
 
   public handleChangeOrder = (fakeEvent: any, order: any) => this.setState({ order });
   public handleChangeSeparator = (fakeEvent: any, separator: any) => this.setState({ separator });
-  public handleChangeValue = (fakeEvent: any, value: any) => {
-    action('change')(fakeEvent, value);
+  public handleChangeValue = (value: any) => {
+    action('change')(value);
     this.setState({ value });
   };
 
@@ -54,7 +54,7 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
             },
           }}
         >
-          <DateInput onChange={this.handleChangeValue} value={this.state.value} />
+          <DateInput onValueChange={this.handleChangeValue} value={this.state.value} />
           <br />
           <br />
         </LocaleProvider>
@@ -188,15 +188,15 @@ class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
     value: this.props.defaultValue || '',
   };
 
-  public handleChange = (fakeEvent: any, value: any) => {
+  public handleChange = (value: string) => {
     this.setState({ value });
-    if (this.props.onChange) {
-      this.props.onChange(fakeEvent, value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
   };
 
   public render() {
-    return <DateInput {...this.props} onChange={this.handleChange} value={this.state.value} />;
+    return <DateInput {...this.props} onValueChange={this.handleChange} value={this.state.value} />;
   }
 }
 
@@ -216,7 +216,7 @@ class DateInputLastEvent extends React.Component {
   public render() {
     return (
       <Gapped>
-        <DateInputSimple onChange={this.handleChange} onBlur={this.handleBlur} defaultValue="21.12.2012" />
+        <DateInputSimple onValueChange={this.handleChange} onBlur={this.handleBlur} defaultValue="21.12.2012" />
         <div>{this.state.lastEvent}</div>
       </Gapped>
     );
