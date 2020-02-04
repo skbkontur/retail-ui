@@ -34,7 +34,7 @@ export default class ToggleTestPage extends React.Component {
             <Checkbox
               data-tid="DisablingCheckbox"
               checked={this.state.disabled}
-              onChange={(e, value) => this.setState({ disabled: value })}
+              onValueChange={value => this.setState({ disabled: value })}
             >
               Disable toggle
             </Checkbox>

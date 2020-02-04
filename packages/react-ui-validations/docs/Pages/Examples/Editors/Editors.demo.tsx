@@ -214,7 +214,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.confirmed).get()}>
               <Checkbox
                 checked={data.confirmed}
-                onChange={(_, value) => this.handleChange({ confirmed: value })}
+                onValueChange={value => this.handleChange({ confirmed: value })}
               />
             </ValidationWrapper>
           </Form.Line>
