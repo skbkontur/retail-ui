@@ -25,7 +25,7 @@ const defaultMaxYear = 2100;
 
 export interface DateSelectProps {
   disabled?: boolean | null;
-  onChange: (value: number) => void;
+  onValueChange: (value: number) => void;
   type?: 'month' | 'year';
   value: number;
   width?: number | string;
@@ -57,7 +57,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
 
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
 
     minValue: PropTypes.number,
 
@@ -386,8 +386,8 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private handleItemClick = (shift: number) => {
     return (e: React.MouseEvent<HTMLElement>) => {
       const value = this.props.value + shift;
-      if (this.props.onChange) {
-        this.props.onChange(value);
+      if (this.props.onValueChange) {
+        this.props.onValueChange(value);
       }
       this.setState({ opened: false });
     };

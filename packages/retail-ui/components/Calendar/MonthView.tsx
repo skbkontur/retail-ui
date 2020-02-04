@@ -108,7 +108,7 @@ export class MonthView extends React.Component<MonthViewProps> {
               width={85}
               type="month"
               value={month}
-              onChange={onMonthSelect}
+              onValueChange={onMonthSelect}
               ref={!monthSelectDisabled ? monthSelectRef : undefined}
               minValue={getMinMonth(year)}
               maxValue={getMaxMonth(year)}
@@ -123,7 +123,7 @@ export class MonthView extends React.Component<MonthViewProps> {
                 value={year}
                 minValue={minDate ? minDate.year : undefined}
                 maxValue={maxDate ? maxDate.year : undefined}
-                onChange={onYearSelect}
+                onValueChange={onYearSelect}
                 ref={!yearSelectDisabled ? yearSelectRef : undefined}
               />
             </div>
