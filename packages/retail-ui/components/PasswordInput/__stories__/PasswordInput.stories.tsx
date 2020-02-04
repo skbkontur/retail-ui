@@ -33,13 +33,13 @@ class Component extends React.Component<ComponentProps> {
             this._passwordInput = ref;
           }}
           value={this.state.value}
-          onChange={this._handleChange}
+          onValueChange={this._handleChange}
         />
       </div>
     );
   }
 
-  private _handleChange = (_: any, value: string) => {
+  private _handleChange = (value: string) => {
     this.setState({ value });
   };
 }
