@@ -50,7 +50,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
         </div>
         <div>
           <span>signed: </span>
-          <Toggle checked={this.state.signed} onChange={this._handleSigned} />
+          <Toggle checked={this.state.signed} onValueChange={this._handleSigned} />
         </div>
         <input
           type="range"

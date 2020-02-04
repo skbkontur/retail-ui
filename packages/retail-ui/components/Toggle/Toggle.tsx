@@ -13,7 +13,7 @@ export interface ToggleProps {
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
-  onChange?: (value: boolean) => void;
+  onValueChange?: (value: boolean) => void;
   changeEventHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   warning?: boolean;
   error?: boolean;
@@ -39,7 +39,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     error: PropTypes.bool,
     loading: PropTypes.bool,
     warning: PropTypes.bool,
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
   };
 
   public static defaultProps = {
@@ -121,9 +121,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
           style={
             checked && color
               ? {
-                backgroundColor: color,
-                borderColor: color,
-              }
+                  backgroundColor: color,
+                  borderColor: color,
+                }
               : undefined
           }
         >
@@ -142,8 +142,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (this.props.onChange) {
-      this.props.onChange(event.target.checked);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(event.target.checked);
     }
 
     if (this.props.changeEventHandler) {

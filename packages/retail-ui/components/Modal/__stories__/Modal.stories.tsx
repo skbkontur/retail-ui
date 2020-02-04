@@ -60,7 +60,10 @@ class ModalWithScrollableContent extends Component<{}, { opened: boolean; panel:
           <p>Use rxjs operators with react hooks</p>
 
           <div>
-            <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
+            <Toggle
+              checked={this.state.panel}
+              onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+            />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
         </Modal.Body>
@@ -311,7 +314,7 @@ class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
   public render() {
     return (
       <div id="modal-inner" style={{ width: 300 }}>
-        <Toggle checked={this.state.bigHeight} onChange={bigHeight => this.setState({ bigHeight })} /> конкретно
+        <Toggle checked={this.state.bigHeight} onValueChange={bigHeight => this.setState({ bigHeight })} /> конкретно
         увеличить высоту
         <p
           style={{
@@ -348,7 +351,10 @@ class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: bo
               {this.props.children}
 
               <div>
-                <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
+                <Toggle
+                  checked={this.state.panel}
+                  onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+                />{' '}
                 Panel {this.state.panel ? 'enabled' : 'disabled'}
               </div>
             </Modal.Body>

@@ -43,7 +43,7 @@ export default class LostfocusValidationDemo extends React.Component<{}, State> 
           <Form.Line title="Только цифры">
             <Toggle
               checked={this.state.data.onlyDigits}
-              onChange={onlyDigits => this.handleChange({ onlyDigits })}
+              onValueChange={onlyDigits => this.handleChange({ onlyDigits })}
             />
           </Form.Line>
           <Form.Line title="Значение">

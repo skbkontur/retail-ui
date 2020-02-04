@@ -245,7 +245,7 @@ class DropdownWithToggle extends React.Component<{
     const { show, onToggle, dropdownProps } = this.props;
     return (
       <span style={{ display: 'inline-block', position: 'relative' }}>
-        <Toggle checked={show === true} onChange={onToggle} />
+        <Toggle checked={show} onValueChange={onToggle} />
         {show && (
           <DropdownContainer
             align={dropdownProps.align}

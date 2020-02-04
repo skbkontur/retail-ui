@@ -22,7 +22,11 @@ class Playground extends Component<any, any> {
           <Gapped gap={10}>
             <Gapped vertical gap={10}>
               <div>
-                <Toggle checked={this.state.checked} onChange={this.toggle.bind(this)} loading={this.state.loading} />{' '}
+                <Toggle
+                  checked={this.state.checked}
+                  onValueChange={this.toggle.bind(this)}
+                  loading={this.state.loading}
+                />{' '}
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
@@ -39,7 +43,7 @@ class Playground extends Component<any, any> {
               <div>
                 <Toggle
                   checked={this.state.checked}
-                  onChange={this.toggle.bind(this)}
+                  onValueChange={this.toggle.bind(this)}
                   warning
                   loading={this.state.loading}
                 />{' '}
@@ -59,7 +63,7 @@ class Playground extends Component<any, any> {
               <div>
                 <Toggle
                   checked={this.state.checked}
-                  onChange={this.toggle.bind(this)}
+                  onValueChange={this.toggle.bind(this)}
                   error
                   loading={this.state.loading}
                 />{' '}
@@ -116,7 +120,7 @@ class Simple extends React.Component<any, any> {
       <div>
         <Toggle
           checked={this.state.checked}
-          onChange={() => {
+          onValueChange={() => {
             const { checked } = this.state;
             this.setState({ checked: !checked });
           }}
@@ -129,7 +133,7 @@ class Simple extends React.Component<any, any> {
 
 storiesOf('Toggle', module)
   .add('plain', () => <Simple />)
-  .add('uncontrolled', () => <Toggle onChange={action('toggle')} />)
+  .add('uncontrolled', () => <Toggle onValueChange={action('toggle')} />)
   .add('playground', () => <Playground />)
   .add('disabled with Tooltip', () => (
     <div style={{ padding: '50px' }}>

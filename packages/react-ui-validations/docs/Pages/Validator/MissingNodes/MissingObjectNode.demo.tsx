@@ -75,7 +75,7 @@ export default class MissingObjectNodeDemo extends React.Component<{}, State> {
           <Form.Line title="Указать контакты">
             <Toggle
               checked={!!data.contact}
-              onChange={checked =>
+              onValueChange={checked =>
                 this.handleChange({ contact: checked ? { name: '', email: '' } : null })
               }
             />
