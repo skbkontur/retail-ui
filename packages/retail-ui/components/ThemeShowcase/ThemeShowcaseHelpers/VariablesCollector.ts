@@ -1,3 +1,5 @@
+import performanceNow from 'performance-now';
+
 import { Theme } from '../../../lib/theming/Theme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
@@ -123,9 +125,9 @@ function getProxyHandler(accumulator: Set<string>, dependencies: VariableDepende
         }
       }
       accessLevel++;
-      const start = performance.now();
+      const start = performanceNow();
       const result = Reflect.get(target, prop, receiver);
-      executionTime += performance.now() - start;
+      executionTime += performanceNow() - start;
       callsCount++;
       accessLevel--;
       return result;
