@@ -5831,10 +5831,10 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.2.4.tgz#fcde3579c1ad65ac4baaa7b79e84da57f2193878"
-  integrity sha512-Y+4DReBmsB0wxzFyuJfrcANEOuTFmKE6YWSLZODOA88XPQQZ1BSTZeBhIAQGKuBQYO2EmD3ez/1JGDAFrNaDGQ==
+creevey@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.2.7.tgz#9d89eb6e536ec219a08a2ea48c81ef58dabaf910"
+  integrity sha512-HmjUG4hQG2RW+jFaYDGkVvPclHCx+/K/mVwXRlVENfI0u8c0R2HiLwyKxj+4m5nsm29mqOnhyEVG87siPazkPw==
   dependencies:
     "@types/chai" "^4.2.7"
     "@types/mocha" "^5.2.7"
