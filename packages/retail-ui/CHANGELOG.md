@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.8.0...retail-ui@1.8.1) (2020-02-06)
+
+
+### Bug Fixes
+
+* **Loader:** пофиксил высоту дочерних компонентов по родителю ([25d45e2](https://github.com/skbkontur/retail-ui/commit/25d45e2)), closes [#1855](https://github.com/skbkontur/retail-ui/issues/1855)
+
+
+### Reverts
+
+* inline 'stylis-plugin-extra-scope' ([79f0399](https://github.com/skbkontur/retail-ui/commit/79f0399)), closes [#1873](https://github.com/skbkontur/retail-ui/issues/1873)
+* test(react-ui): render component with specificityLevel on ([5335325](https://github.com/skbkontur/retail-ui/commit/5335325)), closes [#1874](https://github.com/skbkontur/retail-ui/issues/1874)
+
+
+
+
+
 # [1.8.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.7.0...retail-ui@1.8.0) (2020-01-20)
 
 
