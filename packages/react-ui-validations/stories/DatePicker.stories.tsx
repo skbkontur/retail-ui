@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { DatePicker } from 'retail-ui/components/DatePicker';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';

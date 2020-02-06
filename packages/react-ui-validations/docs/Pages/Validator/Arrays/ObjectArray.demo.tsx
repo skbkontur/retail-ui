@@ -1,12 +1,8 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Input } from 'retail-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
-import {
-  createValidator,
-  ValidationContainer,
-  ValidationWrapper,
-} from '../../../../src';
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
@@ -42,7 +38,11 @@ interface State {
 
 export default class ObjectArrayDemo extends React.Component<{}, State> {
   public state: State = {
-    contacts: [{ name: '', email: '' }, { name: '', email: '' }, { name: '', email: '' }],
+    contacts: [
+      { name: '', email: '' },
+      { name: '', email: '' },
+      { name: '', email: '' },
+    ],
   };
 
   private container: Nullable<ValidationContainer> = null;
@@ -82,7 +82,9 @@ export default class ObjectArrayDemo extends React.Component<{}, State> {
           })}
 
           <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>

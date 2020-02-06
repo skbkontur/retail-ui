@@ -2,12 +2,8 @@
 
 [![Build Status](https://tc.skbkontur.ru/app/rest/builds/buildType:FrontendInfrastructure_Packages_RunAll/statusIcon)](https://tc.skbkontur.ru/project.html?projectId=FrontendInfrastructure_Packages_ReactUI&tab=projectOverview)
 
-- [Варианты использования](#Варианты-использования)
-  - [Квик-старт](#Квик-старт) **@skbkontur/react-ui** собранная версия библиотеки
-  - [Слоу-старт](#Слоу-старт) **retail-ui** исходники для самостоятельной сборки, для переопределения `.less`-переменных
+- [Квик-старт](#Квик-старт) **@skbkontur/react-ui** собранная версия библиотеки
 - [FAQ](#FAQ)
-
-## <a name="Варианты-использования"></a>Варианты использования
 
 ### <a name="Квик-старт"></a>Квик-старт
 
@@ -31,49 +27,9 @@ const MyApp = () => (
 
 Квик-старт подойдёт, если Вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`
 
-### <a name="Слоу-старт"></a>Слоу-старт
-
-```bash
-yarn add retail-ui
-```
-
-Необходимо установить как зависимости и добавить в [конфиг Вебпака](https://webpack.js.org/configuration/) следующие лоадеры:
-
-```js static
-module: {
-  rules: [
-    {
-      test: /\.less$/,
-      use: [
-        'style-loader',
-        {
-          loader: 'css-loader',
-          options: { modules: 'global' },
-        },
-        'less-loader',
-      ],
-    },
-    {
-      test: /\.(png|woff|woff2|eot)$/,
-      use: ['file-loader'],
-    },
-  ];
-}
-```
-
 ### Хотим другой цвет кнопки!
 
-Тут придется юзать слоу-старт. В конфиге нужно указать:
-
-```js static
-resolve: {
-  alias: {
-    'react-ui-theme': path.join(__dirname, 'path-to-my-theme-variables.less')
-  }
-}
-```
-
-Список переменных можно глянуть в `components/variables.less`
+Нужно использовать [ThemeProvider](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeProvider). Список переменных можно глянуть в [ThemeShowcase](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeShowcase)
 
 ### Глобальные css-стили приложения портят внешний вид контролов
 
@@ -81,17 +37,19 @@ resolve: {
 
 Если нет возможности разобрать легаси, то можно увеличить специфичность селекторов в библиотеке, тогда стили контролов будут приоритетнее стилей из легаси проекта
 
-Специфичность достигается за счет n-кратного повторения css-класса `react-ui` в селекторе стилей. Количество повторений задается через переменную `@specificity-level`, значение по умолчанию равно нулю, то есть по умолчанию css-класс `react-ui` никак ни на что не будет влиять
+Специфичность достигается за счет n-кратного повторения css-класса `react-ui` в селекторе стилей. Количество повторений задается через переменную `specificityLevel`, значение по умолчанию равно нулю, то есть по умолчанию css-класс `react-ui` никак ни на что не будет влиять
 
 Чтобы специфичность заработала в легаси проекте, react-блок, в котором используются компоненты из библиотеки, должен быть обернут в тег с css-классом `react-ui`
 
-Пример настройки специфичности
+Пример настройки специфичности:
 
-```less
-/* ... */
-@specificity-level: 5;
-/* ... */
+```js static
+import { Upgrade } from '@skbkontur/react-ui/lib/Upgrades';
+
+Upgrade.setSpecificityLevel(1);
 ```
+
+Специфичность должна устанавливаться в коде раньше импорта любых компонентов из библионтеки.
 
 ## <a name="FAQ"></a>FAQ
 
@@ -100,7 +58,7 @@ resolve: {
 Во [2-й версии](https://github.com/webpack-contrib/css-loader/releases/tag/v2.0.0), `css-loader` отключили использование `css-modules` по умолчанию.
 **Решение**: В опциях к `css-loader` явно задать `modules: 'global'`.
 
-### Как использовать retail-ui с storybook 5.x?
+### Как использовать react-ui с storybook 5.x?
 
 В 5-й версии изменилось [API сторибука для кастомизации настроек webpack](https://github.com/storybooks/storybook/blob/v5.0.0/MIGRATION.md#webpack-config-simplifcation).
 Кроме того был изменен дефолтный webpack конфиг. Это порождает проблемы вида [storybooks/storybook#4891](https://github.com/storybooks/storybook/issues/4891).

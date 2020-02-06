@@ -32,7 +32,7 @@
   - [Контролы](http://tech.skbkontur.ru/react-ui/)
   - [Валидации](http://tech.skbkontur.ru/react-ui-validations/)
 - NPM-пакеты:
-  - [retail-ui](https://npmjs.com/package/retail-ui)
+  - [retail-ui](https://npmjs.com/package/retail-ui) (больше не поддерживается, используйте `@skbkontur/react-ui`)
   - [@skbkontur/react-ui](https://www.npmjs.com/package/@skbkontur/react-ui)
   - [react-ui-validations](https://www.npmjs.com/package/react-ui-validations)
   - [@skbkontur/react-ui-validations](https://www.npmjs.com/package/@skbkontur/react-ui-validations)
@@ -65,7 +65,7 @@
 
 Команды, доступные в проектах:
 
-- `yarn workspace retail-ui <command>` - контролы
+- `yarn workspace @skbkontur/react-ui <command>` - контролы
   - `test` — unit-тесты `Jest` + `Enzyme`
   - `test:ui` — скриншотные тесты `Creevey`
   - `lint` — `tsc --noEmit` + `eslint` + `stylelint`
@@ -247,7 +247,7 @@ packages/
 
 #### Запуск
 
-`yarn workspace retail-ui storybook:test` - запуск storybook со стилями для тестов  
+`yarn workspace retail-ui storybook:test` - запуск storybook со стилями для тестов
 `yarn workspace retail-ui creevey:ui` - запуск creevey с web-интерфейсом
 
 #### Создание скриншотного теста

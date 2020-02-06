@@ -1,6 +1,7 @@
 import React from 'react';
-import { Checkbox } from 'retail-ui/components/Checkbox';
-import { Toggle } from 'retail-ui/components/Toggle';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
+
 import { Case, CaseSuite } from '../Case';
 
 export default class ToggleTestPage extends React.Component {

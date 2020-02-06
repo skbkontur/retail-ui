@@ -81,7 +81,7 @@ module.exports = function(content) {
   return `
 import React from 'react';
 import Helmet from 'react-helmet';
-import { Link } from 'retail-ui/components/Link';
+import { Link } from '@skbkontur/react-ui/components/Link';
 import styled from 'styled-components';
 import SourceCode from 'SourceCode';
 import Demo from 'Demo';

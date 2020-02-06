@@ -1,12 +1,8 @@
 import React from 'react';
-import { Input } from 'retail-ui/components/Input';
-import { Toggle } from 'retail-ui/components/Toggle';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
 interface Data {

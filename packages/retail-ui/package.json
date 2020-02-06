@@ -1,5 +1,5 @@
 {
-  "name": "retail-ui",
+  "name": "@skbkontur/react-ui",
   "version": "1.8.0",
   "description": "UI Components",
   "main": "dist/index.js",

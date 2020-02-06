@@ -1,5 +1,4 @@
-import { Fields, AddressFields } from 'retail-ui/components/Fias/types';
-
+import { Fields, AddressFields } from '../../../types';
 import { FiasLocaleHelper } from '../../../locale';
 import { Address } from '../../Address';
 

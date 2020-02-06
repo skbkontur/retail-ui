@@ -1,7 +1,7 @@
 {
   "name": "react-ui-validations",
   "version": "1.1.0",
-  "description": "Validations for retail-ui",
+  "description": "Validations for react-ui",
   "scripts": {
     "prebuild": "yarn clean",
     "clean": "rimraf dist build",
