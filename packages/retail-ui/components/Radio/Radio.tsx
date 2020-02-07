@@ -26,11 +26,8 @@ export type RadioProps<T> = Override<
     active?: boolean;
     /** Вызывается при изменении `value` */
     onValueChange?: (value: T) => void;
-    /** onChange */
     onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    /** onChange */
     onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    /** onChange */
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     /** Значение */
     value: T;
