@@ -124,6 +124,12 @@ export class ValidationWrapperInternal extends React.Component<
             children.props.onBlur(...args);
           }
         },
+        onChange: (...args: any[]) => {
+          this.isChanging = true;
+          if (children.props && children.props.onChange) {
+            children.props.onChange(...args);
+          }
+        },
         onValueChange: (...args: any[]) => {
           this.isChanging = true;
           if (children.props && children.props.onValueChange) {
