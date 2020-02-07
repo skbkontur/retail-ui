@@ -52,6 +52,9 @@ export type TextareaProps = Override<
      */
     width?: React.CSSProperties['width'];
 
+    /**
+     * Вызывается при изменении `value`
+     */
     onValueChange?: (value: string) => void;
 
     /** Выделение значения при фокусе */
