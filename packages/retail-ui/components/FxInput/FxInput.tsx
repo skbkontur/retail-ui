@@ -27,11 +27,6 @@ export type FxInputProps = Override<
   }
 >;
 
-export interface FxInputDefaultProps {
-  width: FxInputProps['width'];
-  type: FxInputProps['type'];
-}
-
 /** Принимает все свойства `Input`'a */
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
