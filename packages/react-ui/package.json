@@ -11,15 +11,15 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "prepublishOnly": "yarn clean && node scripts/publish/prepublish && yarn build",
+    "prerelease": "yarn clean && node scripts/publish/prepublish && yarn build",
     "clean": "git clean -fdxqe node_modules",
     "prebuild": "run-s storybook:build:default build:types",
     "build:types": "tsc -p ./prod.tsconfig.json --emitDeclarationOnly --diagnostics --outDir build",
     "build": "cross-env BABEL_ENV=production node scripts/build",
-    "postpublish": "yarn deploy",
+    "postrelease": "yarn deploy",
     "predeploy": "rimraf .styleguide/build && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git",
-    "publish": "npm publish ./build",
+    "release": "npm publish ./build",
     "storybook": "start-storybook -p 6060",
     "storybook:flat": "cross-env STORYBOOK_FLAT_UI=true start-storybook -p 6060",
     "storybook:build": "run-s storybook:build:*",

@@ -309,8 +309,8 @@ object ReactUI_Publish : BuildType({
     }
     step {
       name = "Publish"
-      type = "jonnyzzz.npm"
-      param("npm_commands", "publish ./packages/react-ui/")
+      type = "jonnyzzz.yarn"
+      param("yarn_commands", "workspace @skbkontur/react-ui release")
     }
     step {
       name = "Clean"
