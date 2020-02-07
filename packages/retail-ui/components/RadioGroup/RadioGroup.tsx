@@ -143,8 +143,8 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static Prevent = Prevent;
 
-  private _node: Nullable<HTMLSpanElement>;
-  private _name = getRandomID();
+  private node: Nullable<HTMLSpanElement>;
+  private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
 
   constructor(props: RadioGroupProps<T>) {
@@ -157,9 +157,9 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public getChildContext() {
     return {
-      activeItem: this._getValue(),
-      onSelect: this._handleSelect,
-      name: this._getName(),
+      activeItem: this.getValue(),
+      onSelect: this.handleSelect,
+      name: this.getName(),
       disabled: this.props.disabled,
       error: this.props.error,
       warning: this.props.warning,
@@ -179,8 +179,8 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <FocusTrap onBlur={onBlur}>
-        <span ref={this._ref} style={style} className={styles.root} {...handlers}>
-          {this._renderChildren()}
+        <span ref={this.ref} style={style} className={styles.root} {...handlers}>
+          {this.renderChildren()}
         </span>
       </FocusTrap>
     );
@@ -190,7 +190,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
    * @public
    */
   public focus() {
-    const node = this._node;
+    const node = this.node;
     if (!node) {
       return;
     }
@@ -207,14 +207,14 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     }
   }
 
-  private _getValue = () => (this._isControlled() ? this.props.value : this.state.activeItem);
+  private getValue = () => (this.isControlled() ? this.props.value : this.state.activeItem);
 
-  private _getName = () => this.props.name || this._name;
+  private getName = () => this.props.name || this.name;
 
-  private _isControlled = () => this.props.value != null;
+  private isControlled = () => this.props.value != null;
 
-  private _handleSelect = (value: T) => {
-    if (!this._isControlled()) {
+  private handleSelect = (value: T) => {
+    if (!this.isControlled()) {
       this.setState({ activeItem: value });
     }
     if (this.props.onValueChange) {
@@ -222,13 +222,13 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     }
   };
 
-  private _renderChildren() {
+  private renderChildren() {
     const { items, children } = this.props;
     invariant((!items && children) || (items && !children), 'Either items or children must be passed, not both');
-    return items ? mapItems<T>(this._renderRadio, items) : children;
+    return items ? mapItems<T>(this.renderRadio, items) : children;
   }
 
-  private _renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
+  private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
       key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
       className: cx({
@@ -245,8 +245,8 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     );
   };
 
-  private _ref = (element: HTMLSpanElement) => {
-    this._node = element;
+  private ref = (element: HTMLSpanElement) => {
+    this.node = element;
   };
 }
 
