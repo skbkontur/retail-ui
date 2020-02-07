@@ -83,7 +83,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import { Link } from '@skbkontur/react-ui/components/Link';
 import styled from 'styled-components';
-import SourceCode from 'SourceCode';
+import { SourceCode } from 'SourceCode';
 import Demo from 'Demo';
 
 const InlineCode = styled.span\`
