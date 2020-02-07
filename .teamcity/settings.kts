@@ -232,8 +232,8 @@ object ReactUI_BuildRetailUi : BuildType({
   name = "Build"
 
   artifactRules = """
-        packages\retail-ui\.storybook\build\default => storybook-default-%build.number%.zip
-        packages\retail-ui\skbkontur-react-ui-%build.number%.tgz
+        packages\react-ui\.storybook\build\default => storybook-default-%build.number%.zip
+        packages\react-ui\skbkontur-react-ui-%build.number%.tgz
     """.trimIndent()
 
   vcs {
@@ -310,7 +310,7 @@ object ReactUI_Publish : BuildType({
     step {
       name = "Publish"
       type = "jonnyzzz.npm"
-      param("npm_commands", "publish ./packages/retail-ui/")
+      param("npm_commands", "publish ./packages/react-ui/")
     }
     step {
       name = "Clean"
@@ -339,7 +339,7 @@ object ReactUI_Publish : BuildType({
 object ReactUI_ScreenshotTests : BuildType({
   name = "Screenshot tests"
 
-  artifactRules = "packages/retail-ui/.creevey/report => report.zip"
+  artifactRules = "packages/react-ui/.creevey/report => report.zip"
 
   vcs {
     root(RetailUi)

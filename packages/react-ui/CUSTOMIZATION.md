@@ -181,7 +181,7 @@ export const jsStyles = {
 
 Собственно стили в рантейме добавляются в `<head></head>` вашей страницы (по мере использования) библиотекой [emotion](https://www.npmjs.com/package/emotion#css). Используемая функция `css` возвращает строку - имя созданного класса - которое в дальнейшем попадает в `className` соответствующего элемента.
 
-В retail-ui используется отдельный инстанс emotion'а созданный с помощью [create-emotion](https://www.npmjs.com/package/create-emotion) - с ключом 'react-ui'. Это сделано по двум причинам:
+В react-ui используется отдельный инстанс emotion'а созданный с помощью [create-emotion](https://www.npmjs.com/package/create-emotion) - с ключом 'react-ui'. Это сделано по двум причинам:
 
 - чтобы избежать конфликтов с проектами, которые используют или захотят использовать emotion;
 - чтобы задать сгенерированным классам дополнительным `scope` для specificityLevel (см. Specificity Level).

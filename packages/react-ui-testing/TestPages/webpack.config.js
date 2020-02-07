@@ -4,7 +4,7 @@ const semver = require('semver');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const reactUiPath = path.resolve(__dirname, '../../retail-ui/build');
+const reactUiPath = path.resolve(__dirname, '../../react-ui/build');
 const { versions, reactUiLocalVersionStub } = require('./versions');
 
 const versionsDependencies = versions.map(x => Object.keys(x.dependencies)).reduce((a, c) => a.concat(c), []);
