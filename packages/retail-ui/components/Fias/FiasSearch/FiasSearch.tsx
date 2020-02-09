@@ -62,7 +62,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         renderValue={this.renderValue}
         valueToString={this.valueToString}
         onValueChange={this.onValueChange}
-        onUnexpectedValue={this.onUnexpectedValue}
+        onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
         {...restComboBoxProps}
       />
@@ -92,7 +92,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     }
   };
 
-  private onUnexpectedValue = (query: string) => {
+  private onUnexpectedInput = (query: string) => {
     if (!query) {
       return new Address();
     }

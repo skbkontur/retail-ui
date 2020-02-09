@@ -25,7 +25,7 @@ export interface CustomComboBoxProps<T> {
   searchOnFocus?: boolean;
   onValueChange?: (value: T) => void;
   onInputValueChange?: (value: string) => Nullable<string> | void;
-  onUnexpectedValue?: (value: string) => void | null | T;
+  onUnexpectedInput?: (value: string) => void | null | T;
   onFocus?: () => void;
   onBlur?: () => void;
   onMouseEnter?: (e: React.MouseEvent) => void;

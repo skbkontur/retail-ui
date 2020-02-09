@@ -78,7 +78,7 @@ export interface ComboBoxProps<T> {
    * неравное `undefined`,
    * с которым будет вызван onValueChange.
    */
-  onUnexpectedValue?: (value: string) => void | null | T;
+  onUnexpectedInput?: (value: string) => void | null | T;
 
   placeholder?: string;
 

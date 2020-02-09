@@ -164,10 +164,10 @@ describe('ComboBox', () => {
     expect(inputNode).toBe(document.activeElement);
   });
 
-  it('calls onUnexpectedValue on click outside', async () => {
+  it('calls onUnexpectedInput on click outside', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const onUnexpectedValue = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedValue={onUnexpectedValue} />);
+    const onUnexpectedInput = jest.fn();
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
 
     wrapper.instance().focus();
     wrapper.update();
@@ -177,17 +177,17 @@ describe('ComboBox', () => {
 
     clickOutside();
 
-    expect(onUnexpectedValue).toBeCalledWith('one');
-    expect(onUnexpectedValue).toHaveBeenCalledTimes(1);
+    expect(onUnexpectedInput).toBeCalledWith('one');
+    expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onValueChange if onUnexpectedValue return defined value', async () => {
+  it('calls onValueChange if onUnexpectedInput return defined value', async () => {
     const values = [null, undefined, 'one'];
     const onValueChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
       <ComboBox
         onValueChange={onValueChange}
-        onUnexpectedValue={value => value}
+        onUnexpectedInput={value => value}
         getItems={() => Promise.resolve([])}
       />,
     );
@@ -329,9 +329,9 @@ describe('ComboBox', () => {
     expect(wrapper.find(InputLikeText).exists()).toBe(true);
   });
 
-  it('clear input value if onUnexpectedValue return null', async () => {
+  it('clear input value if onUnexpectedInput return null', async () => {
     const wrapper = mount<ComboBox<any>>(
-      <ComboBox onUnexpectedValue={() => null} getItems={() => Promise.resolve([])} />,
+      <ComboBox onUnexpectedInput={() => null} getItems={() => Promise.resolve([])} />,
     );
 
     wrapper.instance().focus();

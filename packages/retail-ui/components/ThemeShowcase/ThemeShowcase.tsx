@@ -86,7 +86,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
                   getItems={this.getItems}
                   value={selectedVariable}
                   onValueChange={this.handleVariableChange}
-                  onUnexpectedValue={this.handleUnexpectedVariableInput}
+                  onUnexpectedInput={this.handleUnexpectedVariableInput}
                   placeholder={'поиск по названию переменной'}
                 />
                 {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}

@@ -38,7 +38,7 @@ let handleFocus = () => setState({ error: false });
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
-    onUnexpectedValue={handleUnexpectedValue}
+    onUnexpectedInput={handleUnexpectedValue}
     placeholder="Enter number"
     value={state.selected}
   />
@@ -216,7 +216,7 @@ const customRenderValue = item => (
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
-    onUnexpectedValue={handleUnexpectedValue}
+    onUnexpectedInput={handleUnexpectedValue}
     placeholder="Enter number"
     value={state.selected}
     renderItem={customRenderItem}
@@ -294,7 +294,7 @@ const renderItem = item => {
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
-    onUnexpectedValue={handleUnexpectedValue}
+    onUnexpectedInput={handleUnexpectedValue}
     placeholder="Enter number"
     value={state.selected}
     renderItem={renderItem}

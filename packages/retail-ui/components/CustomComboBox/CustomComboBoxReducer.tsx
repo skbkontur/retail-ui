@@ -51,7 +51,7 @@ interface EffectFactory {
   Focus: Effect;
 
   ValueChange: (value: any) => Effect;
-  UnexpectedValue: (textValue: string, items: Nullable<any[]>) => Effect;
+  UnexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
   InputChange: Effect;
   InputFocus: Effect;
   HighlightMenuItem: Effect;
@@ -101,8 +101,8 @@ export const Effect: EffectFactory = {
       onValueChange(value);
     }
   },
-  UnexpectedValue: (textValue, items) => (dispatch, getState, getProps) => {
-    const { onUnexpectedValue, valueToString } = getProps();
+  UnexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
+    const { onUnexpectedInput, valueToString } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
       const singleItem = items[0];
@@ -114,8 +114,8 @@ export const Effect: EffectFactory = {
       }
     }
 
-    if (onUnexpectedValue) {
-      const value = onUnexpectedValue(textValue);
+    if (onUnexpectedInput) {
+      const value = onUnexpectedInput(textValue);
       if (value !== undefined) {
         dispatch({ type: 'ValueChange', value, keepFocus: false });
       }
@@ -337,7 +337,7 @@ export function reducer<T>(
           opened: false,
           items: null,
         },
-        [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedValue(state.textValue, items)],
+        [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedInput(state.textValue, items)],
       ];
     }
     case 'Reset': {

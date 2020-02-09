@@ -29,7 +29,7 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
         renderValue={this.renderValue}
         valueToString={this.valueToString}
         onValueChange={this.handleValueChange}
-        onUnexpectedValue={this.onUnexpectedValue}
+        onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
         placeholder={this.locale.countryPlaceholder}
         width={'100%'}
@@ -80,7 +80,7 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
     }
   };
 
-  private onUnexpectedValue = (query: string) => {
+  private onUnexpectedInput = (query: string) => {
     if (!query) {
       return new Address();
     }

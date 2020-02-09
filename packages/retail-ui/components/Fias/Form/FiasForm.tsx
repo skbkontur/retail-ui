@@ -79,7 +79,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public static isComboboxMeta = (meta: FiasFormFieldMeta): meta is ComboBoxMeta => {
     const { props } = meta;
-    return props.hasOwnProperty('onUnexpectedValue') && props.hasOwnProperty('getItems');
+    return props.hasOwnProperty('onUnexpectedInput') && props.hasOwnProperty('getItems');
   };
 
   public static isInputMeta = (meta: FiasFormFieldMeta): meta is InputMeta => {
@@ -316,7 +316,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.resetAddressErrors();
     };
 
-    const onUnexpectedValue = (query: string) => {
+    const onUnexpectedInput = (query: string) => {
       const { address } = this.state;
       const newFields = {
         ...address.fields,
@@ -380,7 +380,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       getItems,
       onValueChange,
       onInputValueChange,
-      onUnexpectedValue,
+      onUnexpectedInput: onUnexpectedInput,
       renderItem,
       renderValue,
       itemToValue,

@@ -65,7 +65,7 @@ describe('Default combobox reducer', () => {
       const mockedGetState = jest.fn();
       const mockedGetInstance = jest.fn();
 
-      Effect.UnexpectedValue(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+      Effect.UnexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
       if (expectedDispatch) {
         expect(mockedDispatch).toBeCalledWith({
@@ -80,11 +80,11 @@ describe('Default combobox reducer', () => {
   });
 
   it('UnexpectedValue with single item should call `ValueChange` action once', () => {
-    const mockedGetProps = createGetPropsMock({ onUnexpectedValue: (x: any) => x, valueToString: (x: any) => x });
+    const mockedGetProps = createGetPropsMock({ onUnexpectedInput: (x: any) => x, valueToString: (x: any) => x });
     const mockedDispatch = jest.fn();
     const mockedGetState = jest.fn();
     const mockedGetInstance = jest.fn();
-    Effect.UnexpectedValue('Hello', ['Hello'])(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+    Effect.UnexpectedInput('Hello', ['Hello'])(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
     expect(mockedDispatch).toHaveBeenCalledTimes(1);
   });
