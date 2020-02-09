@@ -15,7 +15,7 @@ export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputEle
   alwaysShowMask?: boolean;
   hasLeftIcon?: boolean;
   hasRightIcon?: boolean;
-  onUnexpectedValue?: () => void;
+  onUnexpectedInput?: (value: string) => void;
   onValueChange?: (value: string) => void;
 }
 
@@ -75,7 +75,8 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
       hasLeftIcon,
       hasRightIcon,
       maxLength,
-      onUnexpectedValue,
+      onValueChange,
+      onUnexpectedInput,
       defaultValue,
       ...inputProps
     } = this.props;
@@ -120,7 +121,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value === this.state.value) {
-      this.handleUnexpectedValue();
+      this.handleUnexpectedInput();
     } else {
       this.setState({ value: event.target.value });
       if (this.props.onValueChange) {
@@ -186,9 +187,9 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
 
   private isMaskVisible = () => this.props.alwaysShowMask || this.state.focused;
 
-  private handleUnexpectedValue = () => {
-    if (this.props.onUnexpectedValue) {
-      this.props.onUnexpectedValue();
+  private handleUnexpectedInput = () => {
+    if (this.props.onUnexpectedInput) {
+      this.props.onUnexpectedInput(this.state.value);
     }
   };
 }

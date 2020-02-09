@@ -86,9 +86,11 @@ export type InputProps = Override<
      * По-умолчанию, инпут вспыхивает синим.
      * Если передан - вызывается переданный обработчик,
      * в таком случае вспыхивание можно вызвать
-     * публичным методом инстанса `blink()`
+     * публичным методом инстанса `blink()`.
+     *
+     * @param value значение инпута.
      */
-    onUnexpectedValue?: () => void;
+    onUnexpectedInput?: (value: string) => void;
   }
 >;
 
@@ -265,7 +267,7 @@ export class Input extends React.Component<InputProps, InputState> {
       placeholder,
       selectAllOnFocus,
       disabled,
-      onUnexpectedValue,
+      onUnexpectedInput,
       prefix,
       suffix,
       formatChars,
@@ -342,14 +344,17 @@ export class Input extends React.Component<InputProps, InputState> {
     },
     mask: string,
   ) {
+    const { onChange, onKeyDown, onKeyPress, ...maskedProps } = inputProps;
+
     return (
       <MaskedInput
-        {...inputProps}
+        {...maskedProps}
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
-        onUnexpectedValue={this.handleUnexpectedValue}
         formatChars={this.props.formatChars}
+        onValueChange={this.handleMaskedValueChange}
+        onUnexpectedInput={this.handleUnexpectedInput}
       />
     );
   }
@@ -422,6 +427,7 @@ export class Input extends React.Component<InputProps, InputState> {
     if (this.props.onValueChange) {
       this.props.onValueChange(event.target.value);
     }
+
     if (this.props.onChange) {
       this.props.onChange(event);
     }
@@ -450,7 +456,7 @@ export class Input extends React.Component<InputProps, InputState> {
     const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
 
     if (!e.currentTarget.value && isDeleteKey && !e.repeat) {
-      this.handleUnexpectedValue();
+      this.handleUnexpectedInput();
     }
   };
 
@@ -460,13 +466,19 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     if (this.props.maxLength === event.currentTarget.value.length) {
-      this.handleUnexpectedValue();
+      this.handleUnexpectedInput(event.currentTarget.value);
     }
   };
 
-  private handleUnexpectedValue = () => {
-    if (this.props.onUnexpectedValue) {
-      this.props.onUnexpectedValue();
+  private handleMaskedValueChange = (value: string) => {
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
+    }
+  };
+
+  private handleUnexpectedInput = (value: string = this.props.value || '') => {
+    if (this.props.onUnexpectedInput) {
+      this.props.onUnexpectedInput(value);
     } else {
       this.blink();
     }

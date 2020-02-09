@@ -182,20 +182,20 @@ describe('<Input />', () => {
     expect(Object.keys(inputNodeAttrs)).not.toContain('mask');
   });
 
-  it('call onUnexpectedValue if was passed', () => {
+  it('call onUnexpectedInput if was passed', () => {
     const unexpectedInputHandlerMock = jest.fn();
     const blinkMock = jest.fn();
     const wrapper = render({});
 
     wrapper.instance().blink = blinkMock;
 
-    wrapper.instance()['handleUnexpectedValue']();
+    wrapper.instance()['handleUnexpectedInput']();
 
     expect(blinkMock).toHaveBeenCalledTimes(1);
 
-    wrapper.setProps({ onUnexpectedValue: unexpectedInputHandlerMock });
+    wrapper.setProps({ onUnexpectedInput: unexpectedInputHandlerMock });
 
-    wrapper.instance()['handleUnexpectedValue']();
+    wrapper.instance()['handleUnexpectedInput']();
 
     expect(blinkMock).toHaveBeenCalledTimes(1);
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
@@ -205,7 +205,7 @@ describe('<Input />', () => {
     const unexpectedInputHandlerMock = jest.fn();
     const wrapper = render({
       value: '',
-      onUnexpectedValue: unexpectedInputHandlerMock,
+      onUnexpectedInput: unexpectedInputHandlerMock,
     });
     const pressBackspace = () => {
       wrapper.find('input').simulate('keydown', {
@@ -224,11 +224,11 @@ describe('<Input />', () => {
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedValue on maxLength  has been reached', () => {
+  it('call handleUnexpectedValue on maxLength has been reached', () => {
     const unexpectedInputHandlerMock = jest.fn();
     const wrapper = render({
       value: '',
-      onUnexpectedValue: unexpectedInputHandlerMock,
+      onUnexpectedInput: unexpectedInputHandlerMock,
       maxLength: 3,
     });
     const typeSymbol = () => {
