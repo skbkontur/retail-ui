@@ -353,6 +353,7 @@ export class Input extends React.Component<InputProps, InputState> {
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
         formatChars={this.props.formatChars}
+        onChange={this.props.onChange}
         onValueChange={this.handleMaskedValueChange}
         onUnexpectedInput={this.handleUnexpectedInput}
       />
