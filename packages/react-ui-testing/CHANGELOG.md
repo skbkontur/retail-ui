@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.7](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@2.2.6...react-ui-testing@2.2.7) (2020-02-06)
+
+
+### Bug Fixes
+
+* **react-selenium-testing:** data-comp-name on wrong element ([96e11a1](https://github.com/skbkontur/retail-ui/commit/96e11a1))
+
+
+
+
+
 ## [2.2.6](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@2.2.5...react-ui-testing@2.2.6) (2019-12-02)
 
 **Note:** Version bump only for package react-ui-testing

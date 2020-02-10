@@ -123,7 +123,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private theme!: Theme;
-  private _node: HTMLButtonElement | null = null;
+  private node: HTMLButtonElement | null = null;
 
   public componentDidMount() {
     if (this.props.autoFocus) {
@@ -136,8 +136,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
    * @public
    */
   public focus() {
-    if (this._node) {
-      this._node.focus();
+    if (this.node) {
+      this.node.focus();
     }
   }
 
@@ -145,8 +145,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
    * @public
    */
   public blur() {
-    if (this._node) {
-      this._node.blur();
+    if (this.node) {
+      this.node.blur();
     }
   }
 
@@ -336,7 +336,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private _ref = (node: HTMLButtonElement | null) => {
-    this._node = node;
+    this.node = node;
   };
 }
 

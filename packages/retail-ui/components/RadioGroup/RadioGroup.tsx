@@ -142,7 +142,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static Prevent = Prevent;
 
-  private _node: Nullable<HTMLSpanElement>;
+  private node: Nullable<HTMLSpanElement>;
   private _name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
 
@@ -189,7 +189,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
    * @public
    */
   public focus() {
-    const node = this._node;
+    const node = this.node;
     if (!node) {
       return;
     }
@@ -245,7 +245,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   };
 
   private _ref = (element: HTMLSpanElement) => {
-    this._node = element;
+    this.node = element;
   };
 }
 

@@ -343,9 +343,6 @@ function findDomElementByFiberNode(node) {
   if (typeof node.setAttribute === 'function') {
     return node;
   }
-  if (result == null && node._node) {
-    result = findDomElementByFiberNode(node._node);
-  }
   if (result == null && node.stateNode) {
     result = findDomElementByFiberNode(node.stateNode);
   }
