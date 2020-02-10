@@ -17,8 +17,6 @@ export const jsStyles = {
 
   contentInner(t: Theme) {
     return css`
-      max-width: 100%;
-      display: block;
       color: ${t.popupTextColor};
       background: ${t.popupBackground};
     `;

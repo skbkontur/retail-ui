@@ -86,9 +86,6 @@ export interface PopupProps extends PopupHandlerProps {
   pinSize: number;
   popupOffset: number;
   positions: PopupPosition[];
-  /**
-   * @deprecated
-   */
   useWrapper: boolean;
   ignoreHover: boolean;
   disablePortal?: boolean;
@@ -176,8 +173,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disablePortal: PropTypes.bool,
     /**
      * Включает использование враппера
-     *
-     * @deprecated
      */
     useWrapper: PropTypes.bool,
   };
