@@ -1,17 +1,16 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { Loader } from '../Loader';
+import { Loader, LoaderProps } from '../Loader';
 import { Tooltip } from '../../Tooltip';
 import { Button } from '../../Button';
+import { css } from '../../../lib/theming/Emotion';
 
-function getItems(count: number) {
-  const items = [];
-  for (let i = 0; i < count; i += 1) {
-    items.push(i);
+const loaderClass = css`
+   {
+    height: 100%;
   }
-  return items;
-}
+`;
 
 const wrapperStyle = {
   width: '800px',
@@ -19,19 +18,40 @@ const wrapperStyle = {
 };
 
 class ContentComponent extends React.Component<{
-  itemsCount: number;
   additionalStyle?: object;
+  loaderProps?: LoaderProps;
 }> {
   public render() {
+    const { additionalStyle, loaderProps, children } = this.props;
     return (
-      <div style={{ ...wrapperStyle, ...this.props.additionalStyle }}>
-        <Loader active type={'big'}>
-          {getItems(this.props.itemsCount).map(i => (
-            <div key={i}>{i}</div>
-          ))}
+      <div style={{ ...wrapperStyle, ...additionalStyle }}>
+        <Loader active type={'big'} {...loaderProps}>
+          {children}
         </Loader>
       </div>
     );
+  }
+}
+
+class NumberList extends React.Component<{
+  itemsCount: number;
+}> {
+  public render() {
+    return (
+      <>
+        {this.getItems(this.props.itemsCount).map(i => (
+          <div key={i}>{i}</div>
+        ))}
+      </>
+    );
+  }
+
+  private getItems(count: number) {
+    const items = [];
+    for (let i = 0; i < count; i += 1) {
+      items.push(i);
+    }
+    return items;
   }
 }
 
@@ -83,7 +103,11 @@ export class LoaderAndButton extends React.Component<{ active: boolean }> {
 
 storiesOf('Loader', module)
   .add('Simple', () => <Loader active />)
-  .add('Type "big"', () => <ContentComponent itemsCount={10} />)
+  .add('Type "big"', () => (
+    <ContentComponent>
+      <NumberList itemsCount={10} />
+    </ContentComponent>
+  ))
   .add('Type "big" with text', () => (
     <div style={{ width: 400 }}>
       <h1>
@@ -162,10 +186,34 @@ storiesOf('Loader', module)
       </ol>
     </div>
   ))
-  .add('Vertical scroll', () => <ContentComponent itemsCount={200} />)
-  .add('Horizontal scroll', () => <ContentComponent itemsCount={10} additionalStyle={{ width: '2500px' }} />)
+  .add('Vertical scroll', () => (
+    <ContentComponent>
+      <NumberList itemsCount={200} />
+    </ContentComponent>
+  ))
+  .add('Horizontal scroll', () => (
+    <ContentComponent additionalStyle={{ width: '2500px' }}>
+      <NumberList itemsCount={10} />
+    </ContentComponent>
+  ))
   .add('Both dimensions scrollable content with spaces around', () => (
-    <ContentComponent itemsCount={200} additionalStyle={{ width: '2500px', margin: '600px 200px' }} />
+    <ContentComponent additionalStyle={{ width: '2500px', margin: '600px 200px' }}>
+      <NumberList itemsCount={200} />
+    </ContentComponent>
   ))
   .add('Active loader', () => <LoaderAndButton active />)
-  .add('Inactive loader', () => <LoaderAndButton active={false} />);
+  .add('Inactive loader', () => <LoaderAndButton active={false} />)
+  .add('Wrapper with custom height and inactive loader', () => (
+    <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>
+      <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
+        <NumberList itemsCount={10} />
+      </div>
+    </ContentComponent>
+  ))
+  .add('Wrapper with custom height and active loader', () => (
+    <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: true }}>
+      <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
+        <NumberList itemsCount={10} />
+      </div>
+    </ContentComponent>
+  ));
