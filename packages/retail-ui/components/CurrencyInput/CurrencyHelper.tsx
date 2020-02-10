@@ -5,15 +5,12 @@ import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
 
 export interface DecimalFormattingOptions {
   fractionDigits?: Nullable<number>;
+  hideTrailingZeros?: boolean;
   thousandsDelimiter?: string;
   minusSign?: string;
 }
 
-interface DecimalFormattingOptionsInternal {
-  fractionDigits: Nullable<number>;
-  thousandsDelimiter: string;
-  minusSign: string;
-}
+type DecimalFormattingOptionsInternal = Required<DecimalFormattingOptions>;
 
 export interface FormattingInfo {
   raw: string;
@@ -24,6 +21,7 @@ export interface FormattingInfo {
 export default class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
+    hideTrailingZeros: false,
     thousandsDelimiter: String.fromCharCode(0x2009),
     minusSign: String.fromCharCode(0x2212),
   };
@@ -105,9 +103,16 @@ export default class CurrencyHelper {
     value = CurrencyHelper.unformatString(value);
     const destructed = CurrencyHelper.destructString(value) || { sign: '', integer: '', delimiter: '', fraction: '' };
 
-    const { sign, integer, delimiter, fraction } = destructed;
+    const { sign, integer, delimiter } = destructed;
+    let fraction = destructed.fraction;
+    let fractionDigits = fraction.length;
 
-    const fractionDigits = options.fractionDigits == null ? fraction.length : options.fractionDigits;
+    if (options.hideTrailingZeros) {
+      fraction = fraction.replace(/0+$/, '');
+      fractionDigits = fraction.length;
+    } else if (options.fractionDigits !== null) {
+      fractionDigits = options.fractionDigits;
+    }
 
     const parts = [];
 

@@ -154,6 +154,19 @@ describe('CurrencyHelper', () => {
       });
     });
     [
+      { value: '1,00', fractionDigits: 2, hideTrailingZeros: true, expected: '1,' },
+      { value: '1,20', fractionDigits: 2, hideTrailingZeros: true, expected: '1,2' },
+      { value: '100', fractionDigits: 2, hideTrailingZeros: true, expected: '100' },
+      { value: '1,020300', fractionDigits: 10, hideTrailingZeros: true, expected: '1,0203' },
+    ].forEach(x => {
+      const options = { fractionDigits: x.fractionDigits, hideTrailingZeros: x.hideTrailingZeros };
+      it(`formatString('${x.value}', ${JSON.stringify(options)}) === '${x.expected}'`, () => {
+        const actual = CurrencyHelper.formatString(x.value, options);
+        const expected = x.expected;
+        expect(actual).toBe(expected);
+      });
+    });
+    [
       { value: '1.1', fractionDigits: 0, expected: '1,1' },
       { value: '1.6789', fractionDigits: 3, expected: '1,6789' },
     ].forEach(x => {
