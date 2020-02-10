@@ -319,6 +319,10 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.autoResize) {
       this.autoResize();
     }
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
+    }
   };
 
   private ref = (element: HTMLTextAreaElement) => {
