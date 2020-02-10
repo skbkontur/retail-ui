@@ -51,7 +51,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   };
 
   private theme!: Theme;
-  private _node: Nullable<HTMLInputElement> = null;
+  private node: Nullable<HTMLInputElement> = null;
 
   public render() {
     return (
@@ -68,8 +68,8 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
    * @public
    */
   public focus() {
-    if (this._node) {
-      this._node.focus();
+    if (this.node) {
+      this.node.focus();
     }
   }
 
@@ -77,8 +77,8 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
    * @public
    */
   public blur() {
-    if (this._node) {
-      this._node.blur();
+    if (this.node) {
+      this.node.blur();
     }
   }
 
@@ -172,7 +172,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   }
 
   private ref = (element: HTMLInputElement) => {
-    this._node = element;
+    this.node = element;
   };
 
   private handleChange: React.ChangeEventHandler<HTMLInputElement> = e => {
