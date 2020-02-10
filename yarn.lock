@@ -5831,10 +5831,10 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.2.4.tgz#fcde3579c1ad65ac4baaa7b79e84da57f2193878"
-  integrity sha512-Y+4DReBmsB0wxzFyuJfrcANEOuTFmKE6YWSLZODOA88XPQQZ1BSTZeBhIAQGKuBQYO2EmD3ez/1JGDAFrNaDGQ==
+creevey@0.2.4-2:
+  version "0.2.4-2"
+  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.2.4-2.tgz#87eb63bc22dc2589ac1fb0367cea3a4048bab7c6"
+  integrity sha512-ARQRjArsbAh5FNNlbkYSOozXVethnEJA9hsrQDz8rTOrj0IVDfAfEZaF5mvOUIeChkJpH1bJMPxijEHrHYyWsg==
   dependencies:
     "@types/chai" "^4.2.7"
     "@types/mocha" "^5.2.7"
@@ -15237,6 +15237,11 @@ stylelint@^12.0.0:
     table "^5.4.6"
     v8-compile-cache "^2.1.0"
     write-file-atomic "^3.0.1"
+
+stylis-plugin-extra-scope@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/stylis-plugin-extra-scope/-/stylis-plugin-extra-scope-0.1.1.tgz#57899046899aa5102632b8e1f4b3d71c575395b5"
+  integrity sha512-0dRLrsgLb8H4qnzDwoMAMfm4sayeMrG9SpI/NycWR7Cx1hPf4byj8SeA8x7gzensvEDk94tut0lQn9hX3DBGiw==
 
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"

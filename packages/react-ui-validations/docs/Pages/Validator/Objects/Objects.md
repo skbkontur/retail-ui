@@ -126,7 +126,7 @@ Validator позволяет декларативно описать все ва
     const nameNode = fullNameNode.getNode(x => x.name);
     const validationInfo = nameNode.get();
 
-Прогрузку до узла можно записать одим выражением.
+Прогрузку до узла можно записать одним выражением.
 
     const validation = validateContact(contactInfo);
     const validationInfo = validation.getNode(x => x.fullName.name).get();
