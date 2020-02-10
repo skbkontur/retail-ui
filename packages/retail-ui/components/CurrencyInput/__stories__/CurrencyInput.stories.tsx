@@ -36,7 +36,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <Button onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
           </Button>
-          <Button onClick={this._handleRand}>
+          <Button onClick={this.handleRand}>
             Set <b>rand</b>
           </Button>
         </Gapped>
@@ -46,38 +46,38 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           fractionDigits={this.state.digits}
           hideTrailingZeros={this.state.hideTrailingZeros}
           signed={this.state.signed}
-          onChange={this._handleChange}
+          onChange={this.handleChange}
         />
         <div>
-          value: <b>{this._formatValue(this.state.value)}</b>
+          value: <b>{this.formatValue(this.state.value)}</b>
         </div>
         <div>
           <span>signed: </span>
-          <Toggle checked={this.state.signed} onChange={this._handleSigned} />
+          <Toggle checked={this.state.signed} onChange={this.handleSigned} />
         </div>
         <div>
           <span>trailing zeros: </span>
-          <Toggle checked={this.state.hideTrailingZeros} onChange={this._handleHideTrailingZeros}/>
+          <Toggle checked={this.state.hideTrailingZeros} onChange={this.handleHideTrailingZeros}/>
         </div>
         <input
           type="range"
           value={this.state.digits == null ? 15 : this.state.digits}
           min={0}
           max={15}
-          onChange={this._handleDigits}
+          onChange={this.handleDigits}
         />
         <div>
-          digits: <b>{this._formatValue(this.state.digits)}</b>
+          digits: <b>{this.formatValue(this.state.digits)}</b>
         </div>
       </Gapped>
     );
   }
 
-  private _handleChange = (event: any, value: Nullable<number>) => {
+  private handleChange = (event: any, value: Nullable<number>) => {
     this.setState({ value });
   };
 
-  private _handleRand = () => {
+  private handleRand = () => {
     const fraction = this.state.digits == null ? 4 : this.state.digits;
     const length = Math.min(15, 7 + fraction);
     const rand = Math.floor(Math.random() * Math.pow(10, length));
@@ -85,28 +85,28 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     this.setState({ value });
   };
 
-  private _handleDigits = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private handleDigits = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       value: null,
       digits: event.target.value === '15' ? null : parseInt(event.target.value, 10),
     });
   };
 
-  private _handleSigned = (value: boolean) => {
+  private handleSigned = (value: boolean) => {
     this.setState({
       value: null,
       signed: value,
     });
   };
 
-  private _handleHideTrailingZeros = (value: boolean) => {
+  private handleHideTrailingZeros = (value: boolean) => {
     this.setState({
       value: null,
       hideTrailingZeros: value,
     });
   };
 
-  private _formatValue = (value: Nullable<number>): string => {
+  private formatValue = (value: Nullable<number>): string => {
     return value == null ? 'null' : value.toString();
   };
 }
