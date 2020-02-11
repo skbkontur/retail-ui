@@ -59,6 +59,7 @@ export interface LogotypeProps {
   onArrowClick?: React.MouseEventHandler<HTMLButtonElement>;
   /**
    * Словарь текстовых констант
+   * @deprecated
    * @default { prefix: 'к', suffix: 'нтур' }
    */
   locale?: LogotypePropLocale;
@@ -99,13 +100,18 @@ export class Logotype extends React.Component<LogotypeProps> {
 
   public constructor(props: LogotypeProps) {
     super(props);
-    warning(false, `Logotype has been deprecated, use Logotype from @skbkontur/react-ui-addons instead`);
+    warning(
+      false,
+      `Logotype has been deprecated, use Logotype from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+    );
   }
 
   public componentDidMount() {
     if (this.props.withWidget) {
       this.initWidget();
     }
+
+    warning(!this.props.locale, 'locale props is deprecated, use LocaleProvider instead');
   }
 
   public componentDidUpdate() {
