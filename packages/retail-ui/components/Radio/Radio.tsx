@@ -179,11 +179,13 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     if (this.props.onValueChange) {
       this.props.onValueChange(this.props.value);
     }
-    if (this.props.onChange) {
-      this.props.onChange(e);
-    }
+
     if (this._isInRadioGroup()) {
       this.context.onSelect(this.props.value);
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
     }
   };
 

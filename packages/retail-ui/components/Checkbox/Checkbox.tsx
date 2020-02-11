@@ -229,10 +229,11 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     if (this.props.onValueChange) {
       this.props.onValueChange(checked);
     }
+
+    this.resetIndeterminate();
+
     if (this.props.onChange) {
       this.props.onChange(event);
     }
-
-    this.resetIndeterminate();
   };
 }
