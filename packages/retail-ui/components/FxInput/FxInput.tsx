@@ -24,6 +24,8 @@ export type FxInputProps = Override<
     value?: React.ReactText;
     /** ref Input'а */
     refInput?: (element: CurrencyInput | Input | null) => void;
+    /** Убрать лишние нули после запятой */
+    hideTrailingZeros?: boolean;
   }
 >;
 
