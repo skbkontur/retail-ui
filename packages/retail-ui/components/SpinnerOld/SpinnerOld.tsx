@@ -64,7 +64,7 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
 
   public constructor(props: SpinnerOldProps) {
     super(props);
-    warning(false, 'SpinnerOldOld is deprecated, will removed in 3.0 use SpinnerOld instead');
+    warning(false, 'SpinnerOld is deprecated, will removed in 3.0 use Spinner instead');
   }
 
   public render() {

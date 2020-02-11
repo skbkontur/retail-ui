@@ -2,9 +2,7 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import warning from 'warning';
 
-// Note SpinnerType нужен для генерации правильного .d.ts файла
-// @ts-ignore — Свойство "SpinnerOldType" объявлено, но его значение не было прочитано
-import { SpinnerOld, SpinnerOldType, SpinnerOldProps } from '../SpinnerOld';
+import { SpinnerOld, SpinnerOldProps } from '../SpinnerOld';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -79,7 +77,7 @@ export class LoaderOld extends React.Component<LoaderOldProps, LoaderOldState> {
 
   constructor(props: LoaderOldProps) {
     super(props);
-    warning(false, 'LoaderOldOld is deprecated, will removed in 3.0 use LoaderOld instead');
+    warning(false, 'LoaderOld is deprecated, will removed in 3.0 use Loader instead');
 
     this.containerNode = null;
     this.spinnerNode = null;
