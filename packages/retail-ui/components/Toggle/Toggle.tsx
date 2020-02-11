@@ -14,7 +14,7 @@ export interface ToggleProps {
   defaultChecked?: boolean;
   disabled?: boolean;
   onValueChange?: (value: boolean) => void;
-  changeEventHandler?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   warning?: boolean;
   error?: boolean;
   loading?: boolean;
@@ -146,14 +146,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       this.props.onValueChange(event.target.checked);
     }
 
-    if (this.props.changeEventHandler) {
-      this.props.changeEventHandler(event);
-    }
-
     if (this.isUncontrolled()) {
       this.setState({
         checked: event.target.checked,
       });
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(event);
     }
   };
 
