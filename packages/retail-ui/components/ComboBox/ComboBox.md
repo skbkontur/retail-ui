@@ -28,7 +28,7 @@ let initialState = {
 
 let handleValueChange = value => setState({ selected: value, error: false });
 
-let handleUnexpectedValue = () => setState({ error: true, selected: null });
+let handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 let handleFocus = () => setState({ error: false });
 
@@ -38,7 +38,7 @@ let handleFocus = () => setState({ error: false });
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
-    onUnexpectedInput={handleUnexpectedValue}
+    onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
     value={state.selected}
   />
@@ -142,7 +142,7 @@ const initialState = {
 
 const handleValueChange = value => setState({ selected: value, error: false });
 
-const handleUnexpectedValue = () => setState({ error: true, selected: null });
+const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 const handleFocus = () => setState({ error: false });
 
@@ -216,7 +216,7 @@ const customRenderValue = item => (
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
-    onUnexpectedInput={handleUnexpectedValue}
+    onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
     value={state.selected}
     renderItem={customRenderItem}
@@ -276,7 +276,7 @@ const initialState = {
 
 const handleValueChange = value => setState({ selected: value, error: false });
 
-const handleUnexpectedValue = () => setState({ error: true, selected: null });
+const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
 const handleFocus = () => setState({ error: false });
 
@@ -294,7 +294,7 @@ const renderItem = item => {
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
-    onUnexpectedInput={handleUnexpectedValue}
+    onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
     value={state.selected}
     renderItem={renderItem}

@@ -201,7 +201,7 @@ describe('<Input />', () => {
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedValue on keyDown', () => {
+  it('call handleUnexpectedInput on keyDown', () => {
     const unexpectedInputHandlerMock = jest.fn();
     const wrapper = render({
       value: '',
@@ -224,7 +224,7 @@ describe('<Input />', () => {
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedValue on maxLength has been reached', () => {
+  it('call handleUnexpectedInput on maxLength has been reached', () => {
     const unexpectedInputHandlerMock = jest.fn();
     const wrapper = render({
       value: '',

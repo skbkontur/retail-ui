@@ -59,7 +59,7 @@ const testCase = [
 
 describe('Default combobox reducer', () => {
   testCase.forEach(({ inputValue, items, valueToString, expectedDispatch }, index) => {
-    it(`ValueChange after UnexpectedValue (test ${index + 1})`, () => {
+    it(`ValueChange after UnexpectedInput (test ${index + 1})`, () => {
       const mockedGetProps = createGetPropsMock({ valueToString });
       const mockedDispatch = jest.fn();
       const mockedGetState = jest.fn();
@@ -79,7 +79,7 @@ describe('Default combobox reducer', () => {
     });
   });
 
-  it('UnexpectedValue with single item should call `ValueChange` action once', () => {
+  it('UnexpectedInput with single item should call `ValueChange` action once', () => {
     const mockedGetProps = createGetPropsMock({ onUnexpectedInput: (x: any) => x, valueToString: (x: any) => x });
     const mockedDispatch = jest.fn();
     const mockedGetState = jest.fn();
