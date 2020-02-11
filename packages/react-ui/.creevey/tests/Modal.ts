@@ -21,7 +21,7 @@ describe('Modal', function() {
         .perform();
       await this.browser
         .actions({ bridge: true })
-        .click(this.browser.findElement(By.css('[data-comp-name~="Body"] button')))
+        .click(this.browser.findElement(By.css('[data-comp-name~="ModalBody"] button')))
         .perform();
       await expect(await this.browser.takeScreenshot()).to.matchImage('open second modal');
     });
@@ -111,7 +111,7 @@ describe('Modal', function() {
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight / 2;
-        });
+      });
       await this.browser.wait(new Promise(resolve => setTimeout(resolve, 100)));
       await expect(await this.browser.takeScreenshot()).to.matchImage('middle');
     });
@@ -122,7 +122,7 @@ describe('Modal', function() {
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight;
-        });
+      });
       await this.browser.wait(new Promise(resolve => setTimeout(resolve, 100)));
       await expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
     });
