@@ -1,12 +1,8 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Input } from 'retail-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  ValidationInfo,
-} from '../../../../src';
+import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
@@ -36,7 +32,9 @@ export default class SubmitValidationDemo extends React.Component<{}, State> {
           </Form.Line>
 
           <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>

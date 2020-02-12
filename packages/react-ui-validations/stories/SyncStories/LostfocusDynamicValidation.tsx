@@ -1,6 +1,6 @@
 import React from 'react';
-import { Gapped } from 'retail-ui/components/Gapped';
-import { Input } from 'retail-ui/components/Input';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';

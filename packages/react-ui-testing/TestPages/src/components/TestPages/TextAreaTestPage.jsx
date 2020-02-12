@@ -1,5 +1,6 @@
 import React from 'react';
-import { Textarea } from 'retail-ui/components/Textarea';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+
 import { CaseSuite, Case } from '../Case';
 
 export default class TextareaTestPage extends React.Component {

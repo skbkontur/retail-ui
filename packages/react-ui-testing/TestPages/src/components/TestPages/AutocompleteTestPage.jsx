@@ -1,5 +1,6 @@
 import React from 'react';
-import { Autocomplete } from 'retail-ui/components/Autocomplete';
+import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete';
+
 import { Case, CaseSuite } from '../Case';
 
 const suggestions = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];

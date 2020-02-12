@@ -1,17 +1,17 @@
 import React from 'react';
-import { Autocomplete } from 'retail-ui/components/Autocomplete';
-import { Button } from 'retail-ui/components/Button';
-import { Checkbox } from 'retail-ui/components/Checkbox';
-import { ComboBox } from 'retail-ui/components/ComboBox';
-import { DatePicker } from 'retail-ui/components/DatePicker';
-import { FxInput } from 'retail-ui/components/FxInput';
-import { Input } from 'retail-ui/components/Input';
-import { Link } from 'retail-ui/components/Link';
-import { Modal } from 'retail-ui/components/Modal';
-import { RadioGroup } from 'retail-ui/components/RadioGroup';
-import { Select } from 'retail-ui/components/Select';
-import { Textarea } from 'retail-ui/components/Textarea';
-import { Tooltip } from 'retail-ui/components/Tooltip';
+import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { FxInput } from '@skbkontur/react-ui/components/FxInput';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Link } from '@skbkontur/react-ui/components/Link';
+import { Modal } from '@skbkontur/react-ui/components/Modal';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
 import { Label } from '../common/Label';
 
 function bind(name) {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Checkbox } from 'retail-ui/components/Checkbox';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+
 import { Case, CaseSuite } from '../Case';
 
 export default class CheckboxTestPage extends React.Component {

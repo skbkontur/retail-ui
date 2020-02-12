@@ -1,5 +1,6 @@
 import React from 'react';
-import { Select } from 'retail-ui/components/Select';
+import { Select } from '@skbkontur/react-ui/components/Select';
+
 import { CaseSuite, Case } from '../Case';
 
 export default class SelectTestPage extends React.Component {
@@ -25,7 +26,10 @@ export default class SelectTestPage extends React.Component {
           <Case.Body>
             <Select
               data-tid="SelectWithIdInValues"
-              items={[['item 1', 'item caption 1'], ['item 2', 'item caption 2']]}
+              items={[
+                ['item 1', 'item caption 1'],
+                ['item 2', 'item caption 2'],
+              ]}
               value={this.state.select2}
               onChange={(e, value) => this.setState({ select2: value })}
             />
