@@ -1,8 +1,8 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { RadioGroup } from 'retail-ui/components/RadioGroup';
-import { Radio } from 'retail-ui/components/Radio';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import { Radio } from '@skbkontur/react-ui/components/Radio';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Input } from 'retail-ui/components/Input';
-import { Gapped } from 'retail-ui/components/Gapped';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 
 import {
   ValidationBehaviour,

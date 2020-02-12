@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Input } from 'retail-ui/components/Input';
-import { Toggle } from 'retail-ui/components/Toggle';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 
 import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';

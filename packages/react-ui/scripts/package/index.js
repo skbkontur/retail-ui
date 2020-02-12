@@ -61,7 +61,7 @@ const getHomepage = (distTag, publishVersion) => {
 };
 
 const getReleaseTagName = version => {
-  return `retail-ui@${version}`;
+  return `@skbkontur/react-ui@${version}`;
 };
 
 const getDistTag = (version, npmTags, revBranches, revTags) => {

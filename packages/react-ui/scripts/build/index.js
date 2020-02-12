@@ -1,7 +1,8 @@
-const outputFileSync = require('output-file-sync');
-const readdir = require('fs-readdir-recursive');
 const fs = require('fs');
 const path = require('path');
+
+const outputFileSync = require('output-file-sync');
+const readdir = require('fs-readdir-recursive');
 const chalk = require('chalk');
 const babel = require('@babel/core');
 const less = require('less');
@@ -170,7 +171,7 @@ function generatePackageJson() {
     version: packageJson.version,
     license: 'MIT',
     dependencies: packageJson.dependencies,
-    homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/README.md',
+    homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md',
     type: 'module',
     main: './index.js',
     module: './index.js',

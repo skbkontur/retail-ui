@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'retail-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';

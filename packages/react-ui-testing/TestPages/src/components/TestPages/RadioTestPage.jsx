@@ -1,5 +1,6 @@
 import React from 'react';
-import { Radio } from 'retail-ui/components/Radio';
+import { Radio } from '@skbkontur/react-ui/components/Radio';
+
 import { Case, CaseSuite } from '../Case';
 
 export default class RadioTestPage extends React.Component {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { DatePicker } from 'retail-ui/components/DatePicker';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+
 import { Case, CaseSuite } from '../Case';
 
 export default class DatePickerTestPage extends React.Component {

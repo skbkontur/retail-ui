@@ -1,7 +1,7 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { NavLink, withRouter } from 'react-router-dom';
-import { Logotype } from 'retail-ui/components/Logotype';
+import { Logotype } from '@skbkontur/react-ui/components/Logotype';
 import styled from 'styled-components';
 
 import { Displaying } from './Pages/Displaying';

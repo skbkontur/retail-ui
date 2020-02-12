@@ -1,5 +1,6 @@
 import React from 'react';
-import { Input } from 'retail-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
 import { CaseSuite, Case } from '../Case';
 
 export default class InputTextPage extends React.Component {
