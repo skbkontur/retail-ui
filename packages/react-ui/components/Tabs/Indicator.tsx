@@ -4,7 +4,6 @@ import throttle from 'lodash.throttle';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import { withContext } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
@@ -20,7 +19,6 @@ export interface IndicatorProps {
     on: (x0: () => void) => () => void;
   };
   vertical: boolean;
-  context?: TabsContextType;
 }
 
 export interface IndicatorState {
@@ -28,6 +26,9 @@ export interface IndicatorState {
 }
 
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
+  public static contextType = TabsContext;
+  public context!: TabsContextType;
+
   public state: IndicatorState = {
     styles: {},
   };
@@ -73,8 +74,8 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   private renderMain() {
-    const { context } = this.props;
-    const node = context ? context.getTab(context.activeTab) : null;
+    const { getTab, activeTab } = this.context;
+    const node = getTab(activeTab);
     const indicators: TabIndicators = (node && node.getIndicators && node.getIndicators()) || {
       error: false,
       warning: false,
@@ -99,8 +100,8 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   private reflow = () => {
-    const { context } = this.props;
-    const node = context ? context.getTab(context.activeTab) : null;
+    const { getTab, activeTab } = this.context;
+    const node = getTab(activeTab);
     const nodeStyles = this.getStyles(node);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
       prop => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],
@@ -138,5 +139,3 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     return {};
   }
 }
-
-export const IndicatorWithContext = withContext(TabsContext.Consumer)(Indicator);

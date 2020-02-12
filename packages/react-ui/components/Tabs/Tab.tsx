@@ -5,13 +5,13 @@ import invariant from 'invariant';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { tabListener } from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
-import { isFunctionalComponent, withContext } from '../../lib/utils';
+import { isFunctionalComponent } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import styles from './Tab.module.less';
-import { TabsContextType, TabsContext } from './TabsContext';
+import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { jsStyles } from './Tab.styles';
 
 export interface TabIndicators {
@@ -82,8 +82,6 @@ export interface TabProps {
    * Style property
    */
   style?: React.CSSProperties;
-
-  context?: TabsContextType;
 }
 
 export interface TabState {
@@ -108,6 +106,9 @@ export interface TabState {
 export class Tab extends React.Component<TabProps, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
+  public static contextType = TabsContext;
+  public context!: TabsContextType;
+
   public static propTypes = {
     children: PropTypes.node,
     component: PropTypes.any,
@@ -116,16 +117,6 @@ export class Tab extends React.Component<TabProps, TabState> {
     id: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
-    context: PropTypes.shape({
-      vertical: PropTypes.bool.isRequired,
-      activeTab: PropTypes.string.isRequired,
-      getTab: PropTypes.func.isRequired,
-      addTab: PropTypes.func.isRequired,
-      removeTab: PropTypes.func.isRequired,
-      notifyUpdate: PropTypes.func.isRequired,
-      switchTab: PropTypes.func.isRequired,
-      shiftFocus: PropTypes.func.isRequired,
-    }),
   };
 
   public static defaultProps = {
@@ -142,34 +133,27 @@ export class Tab extends React.Component<TabProps, TabState> {
   private isArrowKeyPressed = false;
 
   public UNSAFE_componentWillMount() {
-    invariant(
-      this.props.context && typeof this.props.context.addTab === 'function',
-      'Tab should be placed inside Tabs component',
-    );
+    invariant(this.context !== TabsContextDefaultValue, 'Tab should be placed inside Tabs component');
   }
 
   public componentDidMount() {
     const id = this.getId();
-    if (this.props.context && typeof id === 'string') {
-      this.props.context.addTab(id, this.getTabInstance);
+    if (typeof id === 'string') {
+      this.context.addTab(id, this.getTabInstance);
     }
     window.addEventListener('keydown', this.handleKeyDownGlobal);
   }
 
   public componentDidUpdate() {
-    const { context } = this.props;
-    if (!context) {
-      return;
-    }
-    if (context.activeTab === this.props.id) {
-      context.notifyUpdate();
+    if (this.context.activeTab === this.props.id) {
+      this.context.notifyUpdate();
     }
   }
 
   public componentWillUnmount() {
     const id = this.getId();
-    if (this.props.context && typeof id === 'string') {
-      this.props.context.removeTab(id);
+    if (typeof id === 'string') {
+      this.context.removeTab(id);
     }
     window.removeEventListener('keydown', this.handleKeyDownGlobal);
   }
@@ -199,7 +183,6 @@ export class Tab extends React.Component<TabProps, TabState> {
 
   private renderMain() {
     const {
-      context,
       children,
       disabled,
       error,
@@ -215,9 +198,9 @@ export class Tab extends React.Component<TabProps, TabState> {
     let isVertical = false;
 
     const id = this.getId();
-    if (context && typeof id === 'string') {
-      isActive = context.activeTab === this.getId();
-      isVertical = context.vertical;
+    if (typeof id === 'string') {
+      isActive = this.context.activeTab === this.getId();
+      isVertical = this.context.vertical;
     }
 
     return (
@@ -276,8 +259,8 @@ export class Tab extends React.Component<TabProps, TabState> {
         return;
       }
     }
-    if (this.props.context && typeof id === 'string') {
-      this.props.context.switchTab(id);
+    if (typeof id === 'string') {
+      this.context.switchTab(id);
     }
     if (!this.props.href) {
       event.preventDefault();
@@ -298,8 +281,7 @@ export class Tab extends React.Component<TabProps, TabState> {
       }
     }
     const id = this.getId();
-    const { context } = this.props;
-    if (!(context && typeof id === 'string')) {
+    if (typeof id !== 'string') {
       return;
     }
     if (!isKeyArrow(e)) {
@@ -307,7 +289,7 @@ export class Tab extends React.Component<TabProps, TabState> {
     }
     e.preventDefault();
     const delta = isKeyArrowLeft(e) || isKeyArrowUp(e) ? -1 : 1;
-    context.shiftFocus(id, delta);
+    this.context.shiftFocus(id, delta);
   };
 
   private handleFocus = () => {
@@ -332,5 +314,3 @@ export class Tab extends React.Component<TabProps, TabState> {
     this.setState({ focusedByKeyboard: false });
   };
 }
-
-export const TabWithContext = withContext(TabsContext.Consumer)(Tab);
