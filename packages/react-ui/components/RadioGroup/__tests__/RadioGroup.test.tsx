@@ -67,17 +67,16 @@ describe('<RadioGroup />', () => {
     ).toBeTruthy();
   });
 
-  it('calls onChange on radio click', () => {
+  it('calls onValueChange on radio click', () => {
     const items = ['one', 'two', 'three'];
-    const onChange = jest.fn();
-    render({ items, onChange })
+    const onValueChange = jest.fn();
+    render({ items, onValueChange })
       .find(Radio)
       .at(0)
       .find('input')
       .simulate('change');
-    expect(onChange).toHaveBeenCalled();
-    const [event, value] = onChange.mock.calls[0];
-    expect(event.target.value).toBe('one');
+    expect(onValueChange).toHaveBeenCalled();
+    const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('one');
   });
 
@@ -152,7 +151,7 @@ describe('<RadioGroup />', () => {
     ).toBeTruthy();
   });
 
-  it('calls onChange on children radio click', () => {
+  it('calls onValueChange on children radio click', () => {
     const children = (
       <div>
         <Radio value="one">Hello</Radio>
@@ -160,15 +159,14 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const onChange = jest.fn();
-    render({ children, onChange })
+    const onValueChange = jest.fn();
+    render({ children, onValueChange })
       .find(Radio)
       .at(0)
       .find('input')
       .simulate('change');
-    expect(onChange).toHaveBeenCalled();
-    const [event, value] = onChange.mock.calls[0];
-    expect(event.target.value).toBe('one');
+    expect(onValueChange).toHaveBeenCalled();
+    const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('one');
   });
 

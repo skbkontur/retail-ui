@@ -1,15 +1,15 @@
 ```jsx
-<CurrencyInput value={state.value} fractionDigits={3} onChange={(_, value) => setState({ value })} />
+<CurrencyInput value={state.value} fractionDigits={3} onValueChange={value => setState({ value })} />
 ```
 
 `fractionDigits={15}`
 
 ```jsx
-<CurrencyInput value={state.value} fractionDigits={15} onChange={(_, value) => setState({ value })} />
+<CurrencyInput value={state.value} fractionDigits={15} onValueChange={value => setState({ value })} />
 ```
 
-
 ---
+
 ### <a name="/CurrencyInput?id=why15" href="#/CurrencyInput?id=why15">Почему 15?</a>
 
 Максимальное безопасное целочисленное значение - `9007199254740991` (16 цифр).
@@ -17,4 +17,4 @@
 
 При этом десятичный резделитель может находиться в любом месте. Если целая часть равна `0`, то она не учитывается.
 
-*Детали можно почитать здесь - <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">MDN web docs</a>*
+_Детали можно почитать здесь - <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER">MDN web docs</a>_

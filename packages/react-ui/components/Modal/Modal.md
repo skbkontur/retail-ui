@@ -11,7 +11,7 @@ function renderModal() {
         <p>Use rxjs operators with react hooks</p>
 
         <div>
-          <Toggle checked={state.panel} onChange={() => setState(({ panel }) => ({ panel: !panel }))} /> Panel{' '}
+          <Toggle checked={state.panel} onValueChange={() => setState(({ panel }) => ({ panel: !panel }))} /> Panel{' '}
           {state.panel ? 'enabled' : 'disabled'}
         </div>
       </Modal.Body>

@@ -130,6 +130,12 @@ export class ValidationWrapperInternal extends React.Component<
             children.props.onChange(...args);
           }
         },
+        onValueChange: (...args: any[]) => {
+          this.isChanging = true;
+          if (children.props && children.props.onValueChange) {
+            children.props.onValueChange(...args);
+          }
+        },
       })
     ) : (
       <span />

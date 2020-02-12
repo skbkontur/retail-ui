@@ -12,15 +12,15 @@ class Component extends React.Component<{ items: string[]; error?: boolean }, { 
     return (
       <Switcher
         value={this.state.value}
-        onChange={el => this.handleChange(el)}
+        onValueChange={this.handleChange}
         label={'Label for Switcher'}
         {...this.props}
       />
     );
   }
 
-  private handleChange(el: { target: { value: string } }) {
-    this.setState({ value: el.target.value });
+  private handleChange = (value: string) => {
+    this.setState({ value });
   }
 }
 

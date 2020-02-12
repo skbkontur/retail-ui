@@ -5,9 +5,9 @@ let initialState = {
   home: {},
 };
 
-let handleChange = value => setState({ home: value });
+let handleValueChange = value => setState({ home: value });
 
-<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} />;
+<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onValueChange={handleValueChange} />;
 ```
 
 Поле поиска.
@@ -17,9 +17,9 @@ let initialState = {
   home: {},
 };
 
-let handleChange = value => setState({ home: value });
+let handleValueChange = value => setState({ home: value });
 
-<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} search={true} />;
+<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onValueChange={handleValueChange} search={true} />;
 ```
 
 Только верифицированные адреса.
@@ -47,9 +47,14 @@ let initialState = {
   },
 };
 
-let handleChange = value => setState({ home: value });
+let handleValueChange = value => setState({ home: value });
 
-<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} allowNotVerified={false} />;
+<Fias
+  baseUrl={'https://api.kontur.ru/fias/v1/'}
+  value={state.home}
+  onValueChange={handleValueChange}
+  allowNotVerified={false}
+/>;
 ```
 
 Произвольные адреса.
@@ -65,9 +70,14 @@ let initialState = {
   },
 };
 
-let handleChange = value => setState({ home: value });
+let handleValueChange = value => setState({ home: value });
 
-<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} formValidation={'None'} />;
+<Fias
+  baseUrl={'https://api.kontur.ru/fias/v1/'}
+  value={state.home}
+  onValueChange={handleValueChange}
+  formValidation={'None'}
+/>;
 ```
 
 Настройка полей. Почтовый индекс.
@@ -79,12 +89,12 @@ let initialState = {
   },
 };
 
-let handleChange = value => setState({ home: value });
+let handleValueChange = value => setState({ home: value });
 
 <Fias
   baseUrl={'https://api.kontur.ru/fias/v1/'}
   value={state.home}
-  onChange={handleChange}
+  onValueChange={handleValueChange}
   search={true}
   fieldsSettings={{
     region: {
@@ -130,9 +140,14 @@ let initialState = {
   },
 };
 
-let handleChange = value => setState({ home: value });
+let handleValueChange = value => setState({ home: value });
 
-<Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={state.home} onChange={handleChange} countrySelector={true} />;
+<Fias
+  baseUrl={'https://api.kontur.ru/fias/v1/'}
+  value={state.home}
+  onValueChange={handleValueChange}
+  countrySelector={true}
+/>;
 ```
 
 Пользовательская валидация ошибок верификации
@@ -152,7 +167,7 @@ let initialState = {
   warning: true,
 };
 
-let handleChange = value =>
+let handleValueChange = value =>
   setState({
     home: value,
     warning: Boolean(Object.keys(value.addressErrors).length),
@@ -161,7 +176,7 @@ let handleChange = value =>
 <Fias
   baseUrl={'https://api.kontur.ru/fias/v1/'}
   value={state.home}
-  onChange={handleChange}
+  onValueChange={handleValueChange}
   formValidation={'Warning'}
   warning={state.warning}
   feedback={'Заполнено не по справочнику адресов'}
@@ -193,7 +208,7 @@ interface FiasValue {
     [key in Fields]?: {
       name: string;
       data?: FiasObject;
-    }
+    };
   };
   addressString?: string;
   addressErrors?: { [key in Fields]?: string };

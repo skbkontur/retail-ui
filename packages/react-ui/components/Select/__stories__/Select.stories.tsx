@@ -22,7 +22,7 @@ class SelectWrapper extends React.Component<{}, any> {
             { label: 'Three', value: 3 },
           ]}
           value={this.state.value}
-          onChange={(_, value) => this.setState({ value })}
+          onValueChange={value => this.setState({ value })}
           renderItem={x => x.label}
           renderValue={x => {
             if (x) {
@@ -53,7 +53,7 @@ class ItemsWithComments extends React.Component<{}, any> {
           width={200}
           value={this.state.value}
           items={ItemsWithComments.items}
-          onChange={(_, value) => this.setState({ value })}
+          onValueChange={value => this.setState({ value })}
         />
       </div>
     );
@@ -74,7 +74,7 @@ class SelectWithNull extends React.Component<any, any> {
         <Select<number | null>
           items={[[null, 'Any'], Select.SEP, [1, 'First'], [2, 'Second'], [3, 'Third']]}
           value={this.state.value}
-          onChange={(_, value) => this.setState({ value })}
+          onValueChange={value => this.setState({ value })}
         />
       </div>
     );

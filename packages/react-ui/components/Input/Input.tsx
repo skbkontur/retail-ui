@@ -55,8 +55,8 @@ export type InputProps = Override<
     alwaysShowMask?: boolean;
     /** Размер */
     size?: InputSize;
-    /** onChange */
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+    /** onValueChange */
+    onValueChange?: (value: string) => void;
     /** Вызывается на label */
     onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
     /** Вызывается на label */
@@ -86,9 +86,11 @@ export type InputProps = Override<
      * По-умолчанию, инпут вспыхивает синим.
      * Если передан - вызывается переданный обработчик,
      * в таком случае вспыхивание можно вызвать
-     * публичным методом инстанса `blink()`
+     * публичным методом инстанса `blink()`.
+     *
+     * @param value значение инпута.
      */
-    onUnexpectedInput?: () => void;
+    onUnexpectedInput?: (value: string) => void;
   }
 >;
 
@@ -108,8 +110,8 @@ export class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: {
     size: InputSize;
   } = {
-      size: 'small',
-    };
+    size: 'small',
+  };
 
   public state: InputState = {
     polyfillPlaceholder: false,
@@ -246,6 +248,7 @@ export class Input extends React.Component<InputProps, InputState> {
       onMouseOver,
       onKeyDown,
       onKeyPress,
+      onValueChange,
       width,
       error,
       warning,
@@ -341,14 +344,18 @@ export class Input extends React.Component<InputProps, InputState> {
     },
     mask: string,
   ) {
+    const { onChange, onKeyDown, onKeyPress, ...maskedProps } = inputProps;
+
     return (
       <MaskedInput
-        {...inputProps}
+        {...maskedProps}
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
-        onUnexpectedInput={this.handleUnexpectedInput}
         formatChars={this.props.formatChars}
+        onChange={this.props.onChange}
+        onValueChange={this.handleMaskedValueChange}
+        onUnexpectedInput={this.handleUnexpectedInput}
       />
     );
   }
@@ -418,8 +425,12 @@ export class Input extends React.Component<InputProps, InputState> {
       }
     }
 
+    if (this.props.onValueChange) {
+      this.props.onValueChange(event.target.value);
+    }
+
     if (this.props.onChange) {
-      this.props.onChange(event, event.target.value);
+      this.props.onChange(event);
     }
   };
 
@@ -456,13 +467,19 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     if (this.props.maxLength === event.currentTarget.value.length) {
-      this.handleUnexpectedInput();
+      this.handleUnexpectedInput(event.currentTarget.value);
     }
   };
 
-  private handleUnexpectedInput = () => {
+  private handleMaskedValueChange = (value: string) => {
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
+    }
+  };
+
+  private handleUnexpectedInput = (value: string = this.props.value || '') => {
     if (this.props.onUnexpectedInput) {
-      this.props.onUnexpectedInput();
+      this.props.onUnexpectedInput(value);
     } else {
       this.blink();
     }

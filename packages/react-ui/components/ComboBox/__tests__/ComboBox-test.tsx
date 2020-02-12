@@ -2,7 +2,7 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
 import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
-import { LangCodes , LocaleProvider } from '../../LocaleProvider';
+import { LangCodes, LocaleProvider } from '../../LocaleProvider';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText } from '../../internal/InputLikeText';
@@ -90,11 +90,13 @@ describe('ComboBox', () => {
     });
   });
 
-  it('calls onChange if clicked on item', async () => {
+  it('calls onValueChange if clicked on item', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const onChange = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onChange={onChange} renderItem={x => x} />);
+    const onValueChange = jest.fn();
+    const wrapper = mount<ComboBox<string>>(
+      <ComboBox getItems={search} onValueChange={onValueChange} renderItem={x => x} />,
+    );
     wrapper.instance().focus();
     await promise;
     wrapper.update();
@@ -104,16 +106,16 @@ describe('ComboBox', () => {
       .first()
       .simulate('click');
 
-    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toBeCalledWith('one');
+    expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
   it('selects first item on Enter', async () => {
     const items = ['one', 'two', 'three'];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox getItems={search} onChange={onChange} renderItem={x => x} value={'one'} />,
+      <ComboBox getItems={search} onValueChange={onValueChange} renderItem={x => x} value={'one'} />,
     );
     wrapper.instance().focus();
     await promise;
@@ -121,8 +123,8 @@ describe('ComboBox', () => {
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
-    expect(onChange).toBeCalledWith({ target: { value: 'one' } }, 'one');
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toBeCalledWith('one');
+    expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
   it('retries request on Enter if rejected', async () => {
@@ -179,11 +181,15 @@ describe('ComboBox', () => {
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onChange if onUnexpectedInput return defined value', async () => {
+  it('calls onValueChange if onUnexpectedInput return defined value', async () => {
     const values = [null, undefined, 'one'];
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const wrapper = mount<ComboBox<string>>(
-      <ComboBox onChange={onChange} onUnexpectedInput={value => value} getItems={() => Promise.resolve([])} />,
+      <ComboBox
+        onValueChange={onValueChange}
+        onUnexpectedInput={value => value}
+        getItems={() => Promise.resolve([])}
+      />,
     );
 
     while (values.length) {
@@ -194,9 +200,9 @@ describe('ComboBox', () => {
       clickOutside();
     }
 
-    expect(onChange).toHaveBeenCalledWith({ target: { value: null } }, null);
-    expect(onChange).toHaveBeenCalledWith({ target: { value: 'one' } }, 'one');
-    expect(onChange).not.toHaveBeenCalledWith(undefined);
+    expect(onValueChange).toHaveBeenCalledWith(null);
+    expect(onValueChange).toHaveBeenCalledWith('one');
+    expect(onValueChange).not.toHaveBeenCalledWith(undefined);
   });
 
   it('calls onFocus on focus', async () => {
@@ -264,8 +270,8 @@ describe('ComboBox', () => {
       </div>,
     ];
     const [search, promise] = searchFactory(Promise.resolve(items));
-    const onChange = jest.fn();
-    const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} onChange={onChange} />);
+    const onValueChange = jest.fn();
+    const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} onValueChange={onValueChange} />);
 
     wrapper.instance().focus();
     await promise;
@@ -273,23 +279,12 @@ describe('ComboBox', () => {
 
     wrapper.findWhere(x => x.matchesElement(<div>Hello, world</div>)).simulate('click');
 
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toBeCalledWith(
-      {
-        target: {
-          value: {
-            id: 'hello',
-            'data-name': 'world',
-            children: 'Hello, world',
-          },
-        },
-      },
-      {
-        id: 'hello',
-        'data-name': 'world',
-        children: 'Hello, world',
-      },
-    );
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange).toBeCalledWith({
+      id: 'hello',
+      'data-name': 'world',
+      children: 'Hello, world',
+    });
   });
 
   it('calls element onClick on custom element select', async () => {
@@ -510,7 +505,7 @@ describe('ComboBox', () => {
     expect(wrapper.find(InputLikeText).text()).toBe('');
   });
 
-  it('onChange if single item', async () => {
+  it('onValueChange if single item', async () => {
     const ITEMS = [
       { value: 1, label: 'One' },
       { value: 2, label: 'Two' },
@@ -530,7 +525,7 @@ describe('ComboBox', () => {
 
     const changeHandler = jest.fn();
     const wrapper = mount<ComboBox<{ value: number; label: string }>>(
-      <ComboBox onChange={changeHandler} getItems={getItems} />,
+      <ComboBox onValueChange={changeHandler} getItems={getItems} />,
     );
 
     wrapper.instance().focus();
@@ -542,14 +537,7 @@ describe('ComboBox', () => {
     clickOutside();
     wrapper.update();
 
-    expect(changeHandler).toHaveBeenCalledWith(
-      {
-        target: {
-          value: EXPECTED_ITEM,
-        },
-      },
-      EXPECTED_ITEM,
-    );
+    expect(changeHandler).toHaveBeenCalledWith(EXPECTED_ITEM);
   });
 
   describe('open/close methods', () => {

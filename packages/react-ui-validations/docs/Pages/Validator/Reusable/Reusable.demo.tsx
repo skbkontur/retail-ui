@@ -52,7 +52,7 @@ export default class ReusableDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={this.state.email}
-                onChange={(_, email) => this.setState({ email })}
+                onValueChange={email => this.setState({ email })}
               />
             </ValidationWrapper>
           </Form.Line>

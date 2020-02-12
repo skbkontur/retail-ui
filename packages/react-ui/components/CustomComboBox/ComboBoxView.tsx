@@ -38,12 +38,12 @@ interface ComboBoxViewProps<T> {
   maxLength?: number;
   maxMenuHeight?: number | string;
 
-  onChange?: (item: T, e: React.SyntheticEvent) => void;
+  onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
   onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
-  onInputChange?: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
   onInputKeyDown?: (e: React.KeyboardEvent) => void;
@@ -155,7 +155,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
                 items={items}
                 loading={loading}
                 maxMenuHeight={maxMenuHeight}
-                onChange={this.handleItemSelect}
+                onValueChange={this.handleItemSelect}
                 opened={opened}
                 refMenu={refMenu}
                 renderTotalCount={renderTotalCount}
@@ -186,7 +186,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       error,
       onFocus,
       onInputBlur,
-      onInputChange,
+      onInputValueChange,
       onInputFocus,
       onInputClick,
       onInputKeyDown,
@@ -210,7 +210,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           error={error}
           maxLength={this.props.maxLength}
           onBlur={onInputBlur}
-          onChange={onInputChange}
+          onValueChange={onInputValueChange}
           onFocus={onInputFocus}
           onClick={onInputClick}
           rightIcon={rightIcon}
@@ -244,10 +244,9 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     );
   }
 
-  private handleItemSelect = (item: T, event: React.SyntheticEvent) => {
-    event.persist();
-    if (this.props.onChange) {
-      this.props.onChange(item, event);
+  private handleItemSelect = (item: T) => {
+    if (this.props.onValueChange) {
+      this.props.onValueChange(item);
     }
   };
 

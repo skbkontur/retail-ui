@@ -5,7 +5,7 @@ import { FxInput, FxInputProps } from '../FxInput';
 
 const render = (
   props: FxInputProps = {
-    onChange: () => {
+    onValueChange: () => {
       /**/
     },
   },

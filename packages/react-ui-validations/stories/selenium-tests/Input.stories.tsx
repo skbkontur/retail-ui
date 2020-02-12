@@ -40,7 +40,7 @@ class Example1 extends React.Component<{}, Example1State> {
             validationInfo={this.validateValue1()}
             renderMessage={text('bottom')}
           >
-            <Input data-tid="SingleInput" value={this.state.value} onChange={(e, value) => this.setState({ value })} />
+            <Input data-tid="SingleInput" value={this.state.value} onValueChange={value => this.setState({ value })} />
           </ValidationWrapper>
         </div>
       </ValidationContainer>

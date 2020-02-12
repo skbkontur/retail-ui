@@ -19,14 +19,13 @@ import {
 import { AddressElement } from '../models/AddressElement';
 import { Tooltip } from '../../Tooltip';
 import { Input, InputProps } from '../../Input';
-import { FiasSearch, FiasSearchChangeEvent } from '../FiasSearch/FiasSearch';
+import { FiasSearch } from '../FiasSearch/FiasSearch';
 import { Textarea } from '../../Textarea';
 import { Address } from '../models/Address';
 
 import { FiasCountrySelector } from './FiasCountrySelector';
 import styles from './FiasForm.module.less';
-import { FiasComboBox, FiasComboBoxChangeEvent, FiasComboBoxProps } from './FiasComboBox';
-
+import { FiasComboBox, FiasComboBoxProps } from './FiasComboBox';
 
 interface FiasFormProps {
   api: APIProvider;
@@ -85,7 +84,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public static isInputMeta = (meta: FiasFormFieldMeta): meta is InputMeta => {
     const { props } = meta;
-    return !FiasForm.isComboboxMeta(meta) && props.hasOwnProperty('onChange');
+    return !FiasForm.isComboboxMeta(meta) && props.hasOwnProperty('onValueChange');
   };
 
   public state: FiasFormState = {
@@ -160,7 +159,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               <FiasCountrySelector
                 api={api}
                 country={address.country}
-                onChange={this.handleCountryChange}
+                onValueChange={this.handleCountryChange}
                 limit={limit}
               />
             </FiasForm.Field>
@@ -170,7 +169,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               <FiasSearch
                 api={api}
                 address={address}
-                onChange={this.handleSearchChange}
+                onValueChange={this.handleSearchChange}
                 limit={limit}
                 placeholder={this.locale.searchPlaceholder}
               />
@@ -181,7 +180,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
               <FiasForm.Field label={this.locale.foreignAddressLabel}>
                 <Textarea
                   value={address.foreignAddress}
-                  onChange={this.handleForeignAddressChange}
+                  onValueChange={this.handleForeignAddressChange}
                   placeholder={this.locale.foreignAddressPlaceholder}
                   width="100%"
                   resize="none"
@@ -297,7 +296,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   private createAddressComboBoxProps(field: Fields): FiasComboBoxProps {
     const getItems = async (searchText: string) => this.createItemsSource(searchText, field);
 
-    const onChange = (e: FiasComboBoxChangeEvent, value: Address) => {
+    const onValueChange = (value: Address) => {
       const { address } = this.state;
       const newFields = {
         ...address.fields,
@@ -313,7 +312,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       this.handleAddressChange(Address.createFromAddress(address, { fields: newFields }), this.validate);
     };
 
-    const onInputChange = () => {
+    const onInputValueChange = () => {
       this.resetAddressErrors();
     };
 
@@ -379,9 +378,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
     return {
       getItems,
-      onChange,
-      onInputChange,
-      onUnexpectedInput,
+      onValueChange,
+      onInputValueChange,
+      onUnexpectedInput: onUnexpectedInput,
       renderItem,
       renderValue,
       itemToValue,
@@ -392,7 +391,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   private createPostalCodeInputProps(): InputProps {
     return {
-      onChange: (e: React.ChangeEvent, value: string) => {
+      onValueChange: (value: string) => {
         const { address } = this.state;
         const newAdditionalFields = {
           ...address.additionalFields,
@@ -507,7 +506,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     this.handleAddressChange(Address.createFromAddress(this.state.address, { country }));
   };
 
-  private handleForeignAddressChange = (e: any, value: string) => {
+  private handleForeignAddressChange = (value: string) => {
     this.handleAddressChange(
       Address.createFromAddress(this.state.address, {
         foreignAddress: value,
@@ -526,7 +525,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     );
   };
 
-  private handleSearchChange = (event: FiasSearchChangeEvent, address: Address) => {
+  private handleSearchChange = (address: Address) => {
     this.handleAddressChange(address);
   };
 

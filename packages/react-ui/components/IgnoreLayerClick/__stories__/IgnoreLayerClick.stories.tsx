@@ -33,7 +33,7 @@ class Sample extends Component<{}, SampleState> {
         </IgnoreLayerClick>
         <Toggle
           checked={this.state.active}
-          onChange={() =>
+          onValueChange={() =>
             this.setState(state => {
               return { active: !state.active };
             })

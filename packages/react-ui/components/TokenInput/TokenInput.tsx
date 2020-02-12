@@ -37,7 +37,7 @@ export enum TokenInputType {
 
 export interface TokenInputProps<T> {
   selectedItems: T[];
-  onChange: (items: T[]) => void;
+  onValueChange: (items: T[]) => void;
   onMouseEnter: MouseEventHandler<HTMLDivElement>;
   onMouseLeave: MouseEventHandler<HTMLDivElement>;
   onFocus: FocusEventHandler<HTMLInputElement>;
@@ -93,7 +93,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     valueToString: identity,
     valueToItem: (item: string) => item,
     toKey: defaultToKey,
-    onChange: () => void 0,
+    onValueChange: () => void 0,
     width: 250 as string | number,
     onBlur: emptyHandler,
     onFocus: emptyHandler,
@@ -240,7 +240,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               renderNotFound={renderNotFound}
               renderItem={renderItem}
               onAddItem={this.handleAddItem}
-              onChange={this.handleChange}
+              onValueChange={this.handleValueChange}
               showAddItemHint={this.showAddItemHint}
             />
           )}
@@ -391,7 +391,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         .map(token => this.props.valueToItem!(token))
         .filter(item => !this.hasValueInItems(this.props.selectedItems, item));
       const newItems = this.props.selectedItems.concat(items);
-      this.props.onChange(newItems);
+      this.props.onValueChange(newItems);
     }
   };
 
@@ -478,7 +478,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       case isKeyBackspace(e):
       case isKeyDelete(e):
         const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
-        this.props.onChange(itemsNew);
+        this.props.onValueChange(itemsNew);
         this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
           LayoutEvents.emit();
           this.input!.focus();
@@ -533,13 +533,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
-  private handleChange = (item: T) => {
+  private handleValueChange = (item: T) => {
     if (this.hasValueInItems(this.props.selectedItems, item)) {
       return;
     }
 
     const newItems = this.props.selectedItems.concat([item]);
-    this.props.onChange(newItems);
+    this.props.onValueChange(newItems);
 
     this.dispatch({ type: 'CLEAR_INPUT' });
     this.tryGetItems();
@@ -552,14 +552,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
 
     const newItems = this.props.selectedItems.concat([value]);
-    this.props.onChange(newItems);
+    this.props.onValueChange(newItems);
 
     this.dispatch({ type: 'CLEAR_INPUT' });
     this.tryGetItems();
   };
 
   private handleRemoveToken = (item: T) => {
-    this.props.onChange(this.props.selectedItems.filter(_ => !isEqual(_, item)));
+    this.props.onValueChange(this.props.selectedItems.filter(_ => !isEqual(_, item)));
     const filteredActiveTokens = this.state.activeTokens.filter(_ => !isEqual(_, item));
 
     this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: filteredActiveTokens });

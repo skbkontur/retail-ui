@@ -17,7 +17,7 @@ export class SwitcherPlayground extends React.Component<
     return (
       <Switcher
         value={this.state.value}
-        onChange={this.handleChange}
+        onValueChange={this.handleValueChange}
         items={this.props.items || defaultItems}
         error={this.state.error}
         {...this.props}
@@ -25,8 +25,7 @@ export class SwitcherPlayground extends React.Component<
     );
   }
 
-  private handleChange = (el: { target: { value: string } }) => {
-    const { value } = el.target;
+  private handleValueChange = (value: string) => {
     this.setState({ value, error: value === 'Error' });
   };
 }

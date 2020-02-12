@@ -38,7 +38,7 @@ export default class PrimitiveTypeArrayDemo extends React.Component<{}, State> {
                 <Input
                   placeholder={'xxx@xxx.xx'}
                   value={email}
-                  onChange={(_, value) => this.handleEmailChange(value, i)}
+                  onValueChange={value => this.handleEmailChange(value, i)}
                 />
               </ValidationWrapper>
             </Form.Line>

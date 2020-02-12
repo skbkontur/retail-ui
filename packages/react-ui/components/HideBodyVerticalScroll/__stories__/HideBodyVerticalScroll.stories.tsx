@@ -16,7 +16,7 @@ class Example extends React.Component {
         <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
           <p>
             <strong>lockScroll</strong>
-            <Toggle onChange={this.handleChangeLock} checked={this.state.lockScroll} />
+            <Toggle onValueChange={this.handleChangeLock} checked={this.state.lockScroll} />
           </p>
         </div>
         {this.state.lockScroll && <HideBodyVerticalScroll />}
@@ -77,11 +77,11 @@ class Example2 extends React.Component {
             <Gapped vertical>
               <div>
                 <strong>lockScroll</strong>
-                <Toggle onChange={this.handleChangeLock} checked={this.state.lockScroll} />
+                <Toggle onValueChange={this.handleChangeLock} checked={this.state.lockScroll} />
               </div>
               <div>
                 <strong>oversizeContent</strong>
-                <Toggle onChange={this.handleChangeContent} checked={this.state.oversizeContent} />
+                <Toggle onValueChange={this.handleChangeContent} checked={this.state.oversizeContent} />
               </div>
             </Gapped>
           </p>

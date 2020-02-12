@@ -17,7 +17,7 @@ export default class RadioGroupTestPage extends React.Component {
               data-tid="SimpleRadioGroup"
               items={['item1', 'item2']}
               value={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>

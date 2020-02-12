@@ -22,7 +22,7 @@ export interface SwitcherProps {
 
   value?: string;
 
-  onChange?: (event: { target: { value: string } }, value: string) => void;
+  onValueChange?: (value: string) => void;
 
   label?: string;
 
@@ -57,7 +57,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     ]).isRequired,
     label: PropTypes.string,
     value: PropTypes.string,
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
   };
 
   public state: SwitcherState = {
@@ -105,8 +105,8 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private selectItem = (value: string) => {
-    if (this.props.onChange) {
-      this.props.onChange({ target: { value } }, value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
   };
 
@@ -152,7 +152,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     }
 
     if (isKeyEnter(e)) {
-      if (this.props.onChange) {
+      if (this.props.onValueChange) {
         const { value } = this._extractPropsFromItem(this.props.items[focusedIndex]);
         this.selectItem(value);
       }
