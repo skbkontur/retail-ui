@@ -13,14 +13,13 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
-import { SidePageBodyProps, SidePageBodyWithContext } from './SidePageBody';
+import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
-import { SidePageFooter, SidePageFooterProps, SidePageFooterWithContext } from './SidePageFooter';
+import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import styles from './SidePage.module.less';
 import { jsStyles } from './SidePage.styles';
-
 
 export interface SidePageProps {
   /**
@@ -89,8 +88,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
   public static Header = SidePageHeader;
-  public static Body: (props: SidePageBodyProps) => JSX.Element = SidePageBodyWithContext;
-  public static Footer: (props: SidePageFooterProps) => JSX.Element = SidePageFooterWithContext;
+  public static Body = SidePageBody;
+  public static Footer = SidePageFooter;
   public static Container = SidePageContainer;
   public state: SidePageState = {};
   private theme!: Theme;
