@@ -26,7 +26,6 @@ export interface ButtonProps {
    */
   active?: boolean;
 
-  /** `type TextAlignProperty = "inherit" | "initial" | "unset" | "center" | "end" | "justify" | "left" | "match-parent" | "right" | "start"` */
   align?: React.CSSProperties['textAlign'];
 
   /**
@@ -104,6 +103,10 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+/**
+ * With `MDX` we can define a story for `Checkbox` right in the middle of our
+markdown documentation.
+ */
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;

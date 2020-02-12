@@ -1,0 +1,32 @@
+{
+  "name": "react-ui-docs",
+  "version": "1.0.0",
+  "main": "build/index.html",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@storybook/addon-actions": "^5.3.12",
+    "@storybook/addon-docs": "^5.3.12",
+    "@storybook/addon-links": "^5.3.12",
+    "@storybook/addons": "^5.3.12",
+    "@storybook/preset-typescript": "^1.2.0",
+    "@storybook/react": "^5.3.12",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "fork-ts-checker-webpack-plugin": "^4.0.3",
+    "less-loader": "^5.0.0",
+    "react-docgen-typescript-loader": "^3.6.0",
+    "react-is": "^16.12.0",
+    "remark-codesandbox": "^0.5.2",
+    "ts-loader": "^6.2.1"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  }
+}
