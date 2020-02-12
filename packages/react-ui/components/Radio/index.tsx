@@ -1,1 +1,1 @@
-export { Radio, RadioProps, SyntheticRadioEvent } from './Radio';
+export * from './Radio';

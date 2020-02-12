@@ -1,1 +1,1 @@
-export { DropdownMenu, DropdownMenuProps } from './DropdownMenu';
+export * from './DropdownMenu';

@@ -1,1 +1,1 @@
-export { FocusTrap, FocusTrapProps } from './FocusTrap';
+export * from './FocusTrap';

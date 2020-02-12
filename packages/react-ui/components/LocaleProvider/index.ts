@@ -1,5 +1,5 @@
 export { InternalDateOrder as DateOrder, InternalDateSeparator as DateSeparator } from '../../lib/date/types';
 
-export { LocaleProvider, LocaleConsumer, LocaleProviderProps } from './LocaleProvider';
+export * from './LocaleProvider';
 
-export { LangCodes, LocaleControls } from './types';
+export * from './types';

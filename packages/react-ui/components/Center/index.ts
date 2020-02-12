@@ -1,1 +1,1 @@
-export { Center, CenterProps } from './Center';
+export * from './Center';
