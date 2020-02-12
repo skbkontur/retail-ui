@@ -59,13 +59,14 @@ export class AddressElement {
             result = `${type} Чувашия`;
             break;
 
-          case 'АО':
-            let text = `${name}`;
+          case 'АО': {
+            let text = name;
             if (name !== 'Ханты-Мансийский Автономный округ - Югра') {
               text += ` ${type}`;
             }
             result = text;
             break;
+          }
 
           case 'Аобл':
           case 'край':

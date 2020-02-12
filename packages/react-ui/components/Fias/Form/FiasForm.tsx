@@ -79,12 +79,15 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
 
   public static isComboboxMeta = (meta: FiasFormFieldMeta): meta is ComboBoxMeta => {
     const { props } = meta;
-    return props.hasOwnProperty('onUnexpectedInput') && props.hasOwnProperty('getItems');
+    return (
+      Object.prototype.hasOwnProperty.call(props, 'onUnexpectedInput') &&
+      Object.prototype.hasOwnProperty.call(props, 'getItems')
+    );
   };
 
   public static isInputMeta = (meta: FiasFormFieldMeta): meta is InputMeta => {
     const { props } = meta;
-    return !FiasForm.isComboboxMeta(meta) && props.hasOwnProperty('onValueChange');
+    return !FiasForm.isComboboxMeta(meta) && Object.prototype.hasOwnProperty.call(props, 'onValueChange');
   };
 
   public state: FiasFormState = {

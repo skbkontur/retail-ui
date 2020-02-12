@@ -120,7 +120,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
       elements.push(<span>{text}</span>);
       const match = matches[i];
       if (match) {
-        const isHighlighted = lastMatchOnly && !Boolean(matches[i + 1]);
+        const isHighlighted = lastMatchOnly && !matches[i + 1];
         elements.push(isHighlighted ? <HighlightedText>{match}</HighlightedText> : <span>{match}</span>);
       }
       return elements;

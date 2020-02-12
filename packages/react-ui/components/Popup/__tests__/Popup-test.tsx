@@ -1,3 +1,5 @@
+/* eslint-disable no-async-promise-executor */
+
 import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
@@ -9,7 +11,6 @@ import { RenderContainer } from '../../RenderContainer/RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
-
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {

@@ -165,7 +165,7 @@ export class Address {
           error = locale[`${field}FillBefore` as keyof FiasLocale];
         }
 
-        if (Boolean(error)) {
+        if (error) {
           errors[field] = error;
           break;
         }
@@ -316,7 +316,7 @@ export class Address {
   }
 
   public get isEmpty(): boolean {
-    return !Address.MAIN_FIELDS.some(field => this.fields.hasOwnProperty(field));
+    return !Address.MAIN_FIELDS.some(field => Object.prototype.hasOwnProperty.call(this.fields, field));
   }
 
   public get hasErrors(): boolean {
@@ -330,7 +330,7 @@ export class Address {
 
   public get isPostalCodeValid(): boolean {
     const rusFormat = /^[\d]{6}$/;
-    const foreignFormat = /^[\w\.\-\s]*$/;
+    const foreignFormat = /^[\w.\-\s]*$/;
     return (!this.country || this.isForeign ? foreignFormat : rusFormat).test(this.postalCode);
   }
 
@@ -340,7 +340,7 @@ export class Address {
   }
 
   public hasError(field: Fields | ExtraFields): boolean {
-    return this.errors.hasOwnProperty(field);
+    return Object.prototype.hasOwnProperty.call(this.errors, field);
   }
 
   public getError(field: Fields | ExtraFields): string | undefined {

@@ -476,7 +476,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     switch (true) {
       case isKeyBackspace(e):
-      case isKeyDelete(e):
+      case isKeyDelete(e): {
         const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
         this.props.onValueChange(itemsNew);
         this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
@@ -484,6 +484,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           this.input!.focus();
         });
         break;
+      }
       case isKeyArrowHorizontal(e):
         this.handleWrapperArrows(e);
         break;
