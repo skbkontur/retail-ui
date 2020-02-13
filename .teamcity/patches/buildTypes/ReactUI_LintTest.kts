@@ -16,7 +16,6 @@ changeBuildType(RelativeId("ReactUI_LintTest")) {
             }
 
             artifacts {
-                cleanDestination = true
                 artifactRules = "skbkontur-react-ui-*.tgz"
             }
         }
