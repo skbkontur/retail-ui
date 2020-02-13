@@ -27,7 +27,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
   public static contextType = SidePageContext;
-  public context!: SidePageContextType;
+  public context: SidePageContextType = this.context;
 
   public state = {
     fixed: false,

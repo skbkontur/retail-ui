@@ -27,7 +27,7 @@ export interface IndicatorState {
 
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public static contextType = TabsContext;
-  public context!: TabsContextType;
+  public context: TabsContextType = this.context;
 
   public state: IndicatorState = {
     styles: {},
