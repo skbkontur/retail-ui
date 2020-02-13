@@ -3,7 +3,7 @@ const arrowFunctionRegEx = /^\s*\(?\s*([A-Za-z0-9_]+)\s*\)?\s*=>\s*\1\s*([\.\[].
 
 type NonNullableRecursive<T> = { [K in keyof T]: NonNullable<NonNullableRecursive<T>> };
 
-export type LambdaPath<T, TChild> = (x: NonNullableRecursive<T>) => TChild;
+export type LambdaPath<T, TChild> = (x: NonNullable<NonNullableRecursive<T>>) => TChild;
 
 export function extractPath(lambda: string): string {
   const match = classicFunctionRegEx.exec(lambda) || arrowFunctionRegEx.exec(lambda);
