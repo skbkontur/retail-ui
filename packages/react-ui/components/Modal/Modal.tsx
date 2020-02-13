@@ -7,7 +7,7 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { ModalStack, StackSubscription } from '../ModalStack';
+import { ModalStack, ModalStackSubscription } from '../ModalStack';
 import { ResizeDetector } from '../internal/ResizeDetector';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
@@ -101,7 +101,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private theme!: Theme;
-  private stackSubscription: StackSubscription | null = null;
+  private stackSubscription: ModalStackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
   private mouseUpTarget: EventTarget | null = null;

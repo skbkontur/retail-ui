@@ -5,7 +5,7 @@ import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { ModalStack, StackSubscription } from '../ModalStack';
+import { ModalStack, ModalStackSubscription } from '../ModalStack';
 import { RenderContainer } from '../RenderContainer';
 import { RenderLayer } from '../RenderLayer';
 import { ZIndex } from '../ZIndex';
@@ -93,7 +93,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Container = SidePageContainer;
   public state: SidePageState = {};
   private theme!: Theme;
-  private stackSubscription: StackSubscription | null = null;
+  private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
 
