@@ -446,6 +446,7 @@ describe('Tooltip', function() {
         })
         .click(this.browser.findElement(By.css('#hover_focus')))
         .click(this.browser.findElement(By.css('[type="button"]')))
+        .sendKeys(Key.TAB)
         .click(this.browser.findElement(By.css('body')))
         .perform();
       await delay(500);
