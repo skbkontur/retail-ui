@@ -398,11 +398,10 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
-    if (this.props.trigger === 'hover&focus' && this.state.focused) {
-      return;
-    }
-
-    if (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement) {
+    if (
+      (this.props.trigger === 'hover&focus' && this.state.focused) ||
+      (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement)
+    ) {
       return;
     }
 
