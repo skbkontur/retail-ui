@@ -270,7 +270,7 @@ export class FiasAPI implements APIProvider {
     }
 
     const isStartsWithSearchText = (str: string) => {
-      return str && str.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+      return str && str.toLowerCase().includes(searchText.toLowerCase());
     };
 
     return this.regionsPromise.then(result => {

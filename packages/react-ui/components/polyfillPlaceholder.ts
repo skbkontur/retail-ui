@@ -5,7 +5,7 @@ if (typeof window !== 'undefined' && window.document && window.document.createEl
 
   if (
     !('placeholder' in document.createElement('input')) ||
-    !!navigator.userAgent.match(/Trident\/7\./) ||
+    !!/Trident\/7\./.exec(navigator.userAgent) ||
     sAgent.indexOf('MSIE') > 0
   ) {
     polyfilled = true;

@@ -27,7 +27,7 @@ export class AddressElement {
     if (!this.fiasId) {
       return false;
     }
-    return AddressElement.FEDERAL_CITIES.indexOf(this.fiasId) > -1;
+    return AddressElement.FEDERAL_CITIES.includes(this.fiasId);
   }
 
   public get fiasData(): FiasObject | undefined {

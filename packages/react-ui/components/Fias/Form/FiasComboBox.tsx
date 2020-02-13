@@ -111,6 +111,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
   private highlight(str: string, lastMatchOnly = true) {
     const { searchText } = this.state;
     const regex = new RegExp(escapeRegExpSpecChars(searchText), 'ig');
+    // eslint-disable-next-line @typescript-eslint/prefer-regexp-exec
     const matches = str.match(regex);
     if (!searchText || !matches || str === searchText) {
       return str;

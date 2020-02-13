@@ -332,7 +332,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     }
 
     const { focusedItem } = this.state;
-    if (focusedItem && this.getItems().indexOf(focusedItem) !== -1 && this.isItemFocusable(focusedItem)) {
+    if (focusedItem && this.getItems().includes(focusedItem) && this.isItemFocusable(focusedItem)) {
       return focusedItem;
     }
 

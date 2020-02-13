@@ -1,4 +1,4 @@
-/* eslint-disable no-async-promise-executor */
+/* eslint-disable no-async-promise-executor, @typescript-eslint/no-misused-promises, @typescript-eslint/require-await*/
 
 import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';

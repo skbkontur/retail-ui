@@ -296,7 +296,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
     };
   };
 
-  private createAddressComboBoxProps(field: Fields): FiasComboBoxProps {
+  private createAddressComboBoxProps = (field: Fields): FiasComboBoxProps => {
     const getItems = async (searchText: string) => this.createItemsSource(searchText, field);
 
     const onValueChange = (value: Address) => {
@@ -390,7 +390,7 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
       valueToString,
       renderNotFound,
     };
-  }
+  };
 
   private createPostalCodeInputProps(): InputProps {
     return {
