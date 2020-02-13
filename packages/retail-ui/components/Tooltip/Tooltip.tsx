@@ -183,6 +183,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
+  private clickedOutside: boolean = true;
 
   public componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
@@ -419,7 +420,8 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleClickOutsideAnchor = (event: Event) => {
-    if (this.isClickOutsideContent(event)) {
+    this.clickedOutside = this.isClickOutsideContent(event);
+    if (this.clickedOutside) {
       if (this.props.onCloseRequest) {
         this.props.onCloseRequest();
       }
@@ -441,7 +443,15 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleBlur = () => {
-    this.close();
+    if (this.props.trigger === 'hover&focus' && this.clickedOutside) {
+      this.close();
+    }
+
+    if (this.props.trigger === 'focus') {
+      this.close();
+    }
+
+    this.clickedOutside = true;
     this.setState({ focused: false });
   };
 
