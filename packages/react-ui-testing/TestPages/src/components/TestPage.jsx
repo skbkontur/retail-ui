@@ -1,23 +1,23 @@
 import React from 'react';
-import { Autocomplete } from 'retail-ui/components/Autocomplete';
-import { Button } from 'retail-ui/components/Button';
-import { Checkbox } from 'retail-ui/components/Checkbox';
-import { ComboBox } from 'retail-ui/components/ComboBox';
-import { DatePicker } from 'retail-ui/components/DatePicker';
-import { FxInput } from 'retail-ui/components/FxInput';
-import { Input } from 'retail-ui/components/Input';
-import { Link } from 'retail-ui/components/Link';
-import { Modal } from 'retail-ui/components/Modal';
-import { RadioGroup } from 'retail-ui/components/RadioGroup';
-import { Select } from 'retail-ui/components/Select';
-import { Textarea } from 'retail-ui/components/Textarea';
-import { Tooltip } from 'retail-ui/components/Tooltip';
+import { Autocomplete } from '@skbkontur/react-ui/components/Autocomplete';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { FxInput } from '@skbkontur/react-ui/components/FxInput';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Link } from '@skbkontur/react-ui/components/Link';
+import { Modal } from '@skbkontur/react-ui/components/Modal';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
 import { Label } from '../common/Label';
 
 function bind(name) {
   return {
     value: this.state[name],
-    onChange: (e, v) => {
+    onValueChange: v => {
       this.setState({ [name]: v });
     },
   };
@@ -113,7 +113,7 @@ export default class TestPage extends React.Component {
           renderValue={renderValue}
           renderItem={renderItem}
           value={this.state.value}
-          onChange={e => this.setState({ value: e.target.value })}
+          onValueChange={value => this.setState({ value })}
         />
         <hr />
 
@@ -126,7 +126,7 @@ export default class TestPage extends React.Component {
         <h4>CheckBox</h4>
         <Checkbox
           checked={this.state.checkboxValue}
-          onChange={e => {
+          onValueChange={() => {
             console.log('checkbox update');
             this.setState({ checkboxValue: !this.state.checkboxValue });
           }}
@@ -156,16 +156,16 @@ export default class TestPage extends React.Component {
           data-tid="select"
           items={selectItems}
           value={this.state.type}
-          onChange={e => {
-            this.setState({ type: e.target.value });
+          onValueChange={value => {
+            this.setState({ type: value });
           }}
         />
         <Select
           data-tid="doubleSelect"
           items={doubleSelectItems}
           value={this.state.doubleSelectState}
-          onChange={e => {
-            this.setState({ doubleSelectState: e.target.value });
+          onValueChange={value => {
+            this.setState({ doubleSelectState: value });
           }}
         />
         <Label data-tid="doubleSelectLabel">{this.state.doubleSelectState}</Label>
@@ -205,7 +205,7 @@ export default class TestPage extends React.Component {
         <RadioGroup
           data-tid="radioGroup"
           items={radioItems}
-          onChange={(e, v) => this.setState({ radioGroupValue: v })}
+          onValueChange={value => this.setState({ radioGroupValue: value })}
           value={this.state.radioGroupValue}
         />
         <hr />
@@ -222,7 +222,7 @@ export default class TestPage extends React.Component {
           data-tid="fxInput"
           auto={this.state.autoFxInput}
           onRestore={() => this.fxInputRestore()}
-          onChange={(e, v) => this.fxInputChange(e, v)}
+          onValueChange={this.fxInputChange}
           value={this.state.fxInputValue}
         />
         <hr />
@@ -234,7 +234,7 @@ export default class TestPage extends React.Component {
     return (
       <Checkbox
         checked={this.state.listValues[item - 1]}
-        onChange={e => {
+        onValueChange={() => {
           var values = this.state.listValues;
           values[item - 1] = !values[item - 1];
           this.setState({ listValues: values });
@@ -252,7 +252,7 @@ export default class TestPage extends React.Component {
     this.setState({ fxInputValue: 'auto' });
   }
 
-  fxInputChange(event, value) {
+  fxInputChange(value) {
     this.setState({ autoFxInput: false });
     this.setState({ fxInputValue: value });
   }

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { SidePage } from 'retail-ui/components/SidePage';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { SidePage } from '@skbkontur/react-ui/components/SidePage';
+
 import { Case, CaseSuite } from '../Case';
 
 export default class SidePageTestPage extends React.Component {
