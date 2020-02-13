@@ -1,13 +1,9 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Input } from 'retail-ui/components/Input';
-import { Toggle } from 'retail-ui/components/Toggle';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Toggle } from '@skbkontur/react-ui/components/Toggle';
 
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
@@ -80,7 +76,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
           <Form.Line title="Указать контакты">
             <Toggle
               checked={data.withContact}
-              onChange={withContact => this.handleChange({ withContact })}
+              onValueChange={withContact => this.handleChange({ withContact })}
             />
           </Form.Line>
 
@@ -91,7 +87,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
                   <Input
                     placeholder={'Любое'}
                     value={data.contact.name}
-                    onChange={(_, name) => this.handleContactChange({ name })}
+                    onValueChange={name => this.handleContactChange({ name })}
                   />
                 </ValidationWrapper>
               </Form.Line>
@@ -101,7 +97,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
                   <Input
                     placeholder={'xxx@xxx.xx'}
                     value={data.contact.email}
-                    onChange={(_, email) => this.handleContactChange({ email })}
+                    onValueChange={email => this.handleContactChange({ email })}
                   />
                 </ValidationWrapper>
               </Form.Line>
@@ -109,7 +105,9 @@ export default class MissingObjectNode extends React.Component<{}, State> {
           )}
 
           <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>

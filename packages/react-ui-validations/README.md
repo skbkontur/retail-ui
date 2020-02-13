@@ -26,7 +26,7 @@ export default class DataEditor extends React.Component {
         <ValidationWrapper
           validationInfo={/\d+/.test(phone) ? { message: 'Телефон должен состоять только из цифр' } : null}
         >
-          <Input value={phone} onChange={value => setState({ phone: value })} />
+          <Input value={phone} onValueChange={value => setState({ phone: value })} />
         </ValidationWrapper>
       </ValidationContainer>
     );

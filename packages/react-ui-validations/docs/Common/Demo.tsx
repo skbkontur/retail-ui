@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, Gapped } from 'retail-ui';
+import { Button, Gapped } from '@skbkontur/react-ui';
 
 import { SourceCode } from './SourceCode';
 

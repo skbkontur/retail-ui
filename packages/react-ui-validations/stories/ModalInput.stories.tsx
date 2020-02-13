@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Center } from 'retail-ui/components/Center';
-import { Input } from 'retail-ui/components/Input';
-import { Modal } from 'retail-ui/components/Modal';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Center } from '@skbkontur/react-ui/components/Center';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Modal } from '@skbkontur/react-ui/components/Modal';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
@@ -69,7 +69,7 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
                 <Input
                   data-tid="SingleInput"
                   value={this.state.value}
-                  onChange={(_, value) => this.setState({ value })}
+                  onValueChange={value => this.setState({ value })}
                 />
               </ValidationWrapper>
               <div
@@ -149,7 +149,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
             validationInfo={this.validateValue()}
             renderMessage={text('bottom')}
           >
-            <Input data-tid="SingleInput" value={this.state.value} onChange={(_, value) => this.setState({ value })} />
+            <Input data-tid="SingleInput" value={this.state.value} onValueChange={value => this.setState({ value })} />
           </ValidationWrapper>
           <h2>
             <Center>Footer</Center>
@@ -180,7 +180,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
                   <Input
                     data-tid="SingleInput"
                     value={this.state.value}
-                    onChange={(_, value) => this.setState({ value })}
+                    onValueChange={value => this.setState({ value })}
                   />
                 </ValidationWrapper>
               </div>

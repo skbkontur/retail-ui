@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Modal } from 'retail-ui/components/Modal';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Modal } from '@skbkontur/react-ui/components/Modal';
+
 import { Case, CaseSuite } from '../Case';
 
 export default class InputTextPage extends React.Component {

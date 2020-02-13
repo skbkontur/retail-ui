@@ -55,7 +55,7 @@
 ### `children: React.Node`
 
 Дочерний компонент должен быть ровно один. ValidationWrapper контролирует его поведение путём передачи
-prop-ов, используя соглашения retail-ui. Для отрисовки tooltip-а используется стандартный
+prop-ов, используя соглашения react-ui. Для отрисовки tooltip-а используется стандартный
 [Tooltip](http://tech.skbkontur.ru/react-ui/#/components/Tooltip). Для работы с компонентом используется
 [React.cloneElement()](https://facebook.github.io/react/docs/react-api.html#cloneelement);
 
@@ -102,7 +102,7 @@ prop-ов, используя соглашения retail-ui. Для отрис�
 
 Аргументы:
 
-- `pos`: строка передаваемая в соответствующий prop [retail-ui Tooltip-а](http://tech.skbkontur.ru/react-ui/#/components/Tooltip).
+- `pos`: строка передаваемая в соответствующий prop [react-ui Tooltip-а](http://tech.skbkontur.ru/react-ui/#/components/Tooltip).
 
 ## text(pos: 'right' | 'bottom'): RenderErrorMessage
 

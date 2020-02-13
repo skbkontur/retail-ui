@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Gapped } from 'retail-ui/components/Gapped';
-import { Input } from 'retail-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
@@ -67,7 +67,7 @@ export class LostfocusDependentValidation extends React.Component<{}, LostfocusD
                 <Input
                   data-tid={'InputA'}
                   value={this.state.valueA}
-                  onChange={(_, value) => this.setState({ valueA: value })}
+                  onValueChange={value => this.setState({ valueA: value })}
                 />
               </ValidationWrapper>
             </Gapped>
@@ -77,7 +77,7 @@ export class LostfocusDependentValidation extends React.Component<{}, LostfocusD
                 <Input
                   data-tid={'InputB'}
                   value={this.state.valueB}
-                  onChange={(_, value) => this.setState({ valueB: value })}
+                  onValueChange={value => this.setState({ valueB: value })}
                 />
               </ValidationWrapper>
             </Gapped>

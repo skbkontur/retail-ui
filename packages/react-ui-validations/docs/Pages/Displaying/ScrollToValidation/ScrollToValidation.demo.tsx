@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from 'retail-ui/components/Button';
-import { Input } from 'retail-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
@@ -35,7 +35,7 @@ export default class ScrollToValidationDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value0}
-                onChange={(_, value) => this.setState({ value0: value })}
+                onValueChange={value => this.setState({ value0: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -45,7 +45,7 @@ export default class ScrollToValidationDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value1}
-                onChange={(_, value) => this.setState({ value1: value })}
+                onValueChange={value => this.setState({ value1: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -57,7 +57,7 @@ export default class ScrollToValidationDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value2}
-                onChange={(_, value) => this.setState({ value2: value })}
+                onValueChange={value => this.setState({ value2: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -67,7 +67,7 @@ export default class ScrollToValidationDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value3}
-                onChange={(_, value) => this.setState({ value3: value })}
+                onValueChange={value => this.setState({ value3: value })}
               />
             </ValidationWrapper>
           </Form.Line>
