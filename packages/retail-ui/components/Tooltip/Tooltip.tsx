@@ -175,7 +175,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     closeOnChildrenMouseLeave: false,
   };
 
-  public static closeDelay = 100;
+  public static delay = 100;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
@@ -357,6 +357,9 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
       case 'hover&focus':
         return {
+          layerProps: {
+            onClickOutside: this.handleClickOutsideAnchor,
+          },
           popupProps: {
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
@@ -371,13 +374,9 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
   }
 
-  private open() {
-    this.setState({ opened: true });
-  }
+  private open = () => this.setState({ opened: true });
 
-  private close() {
-    this.setState({ opened: false });
-  }
+  private close = () => this.setState({ opened: false });
 
   private clearHoverTimeout() {
     if (this.hoverTimeout) {
@@ -393,7 +392,8 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     this.clearHoverTimeout();
-    this.open();
+
+    this.hoverTimeout = window.setTimeout(this.open, Tooltip.delay);
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
@@ -410,9 +410,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     if (this.props.trigger === 'hoverAnchor') {
       this.close();
     } else {
-      this.hoverTimeout = window.setTimeout(() => {
-        this.close();
-      }, Tooltip.closeDelay);
+      this.hoverTimeout = window.setTimeout(this.close, Tooltip.delay);
     }
   };
 
