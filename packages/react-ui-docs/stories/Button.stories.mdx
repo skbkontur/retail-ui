@@ -1,16 +1,70 @@
 import { Meta, Story, Preview, Props, Description } from '@storybook/addon-docs/blocks';
-import { Button } from 'retail-ui';
+import { Button, Gapped } from 'retail-ui';
 
-<Meta title="Button" />
+<Meta title="Docs|Button" />
 
 # Button
 
-<Description of={Button} />
-
-## Preview
+Базовое использование
 
 <Preview>
-  <Story name="Button">
+  <Story name="basic-default">
+    <Gapped>
+      <Button use="default">Default</Button>
+      <Button use="primary">Primary</Button>
+      <Button use="success">Success</Button>
+      <Button use="danger">Danger</Button>
+      <Button use="pay">Pay</Button>
+      <Button use="link">Link</Button>
+    </Gapped>
+  </Story>
+</Preview>
+
+Размеры
+
+<Preview>
+  <Story name="sizes">
+    <Gapped>
+      <Button size="small">Small</Button>
+      <Button size="medium">Medium</Button>
+      <Button size="large">Large</Button>
+    </Gapped>
+  </Story>
+</Preview>
+
+Стрелки
+
+<Preview>
+  <Story name="arrows">
+    <Gapped gap={25}>
+      <Gapped gap={5}>
+        <Button arrow="left" size="medium">
+          Назад
+        </Button>
+        <Button arrow size="medium">
+          Далее
+        </Button>
+      </Gapped>
+      <Gapped gap={5}>
+        <Button arrow="left" size="large">
+          Назад
+        </Button>
+        <Button arrow size="large">
+          Далее
+        </Button>
+      </Gapped>
+    </Gapped>
+  </Story>
+</Preview>
+
+## Props
+
+<Props of={Button} />
+
+## Песочница
+
+<Preview>
+  <Story name="sandbox">
     <iframe
       src="https://codesandbox.io/embed/react-ui-template-647gx?fontsize=14&hidenavigation=1&theme=dark"
       style={{width: '100%', height: 500, border:0, borderRadius: 4, overflow: 'hidden'}}
@@ -21,7 +75,3 @@ import { Button } from 'retail-ui';
 </Preview>
 
 [![Edit react-ui-template](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/react-ui-template-647gx?fontsize=14&hidenavigation=1&theme=dark)
-
-## Props
-
-<Props of={Button} />
