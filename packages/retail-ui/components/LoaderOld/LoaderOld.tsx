@@ -31,7 +31,7 @@ export interface LoaderOldState {
 }
 
 /**
- * DRAFT - лоадер-контейнер
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, используй вместо него Loader, смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
  */
 export class LoaderOld extends React.Component<LoaderOldProps, LoaderOldState> {
   public static __KONTUR_REACT_UI__ = 'LoaderOld';

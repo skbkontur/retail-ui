@@ -1,6 +1,5 @@
 ```jsx
-import Gapped from '@skbkontur/react-ui/Gapped';
-import { SpinnerOld } from '@skbkontur/react-ui/SpinnerOld';
+import { Gapped, SpinnerOld } from '@skbkontur/react-ui';
 
 const reactNodeCaption = (
   <div>

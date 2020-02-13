@@ -43,7 +43,7 @@ export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof CO
 }
 
 /**
- * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в отдельный npm пакет вместе с Fias
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
  */
 
 @locale('Fias', FiasLocaleHelper)
