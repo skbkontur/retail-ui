@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { By, Key } from 'selenium-webdriver';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('Tooltip', function() {
   describe('static tooltip', function() {
     it('simple', async function() {
@@ -36,8 +38,8 @@ describe('Tooltip', function() {
         .move({
           origin: this.browser.findElement(By.css('textarea')),
         })
-        .pause(500)
         .perform();
+      await delay(1500);
       await expect(await element.takeScreenshot()).to.matchImage('hover');
     });
   });
@@ -50,6 +52,7 @@ describe('Tooltip', function() {
   describe('focus tooltip', function() {
     it('01 - plain', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
+      await delay(100);
       await expect(await element.takeScreenshot()).to.matchImage('01 - plain');
     });
     it('02 - focus', async function() {
@@ -268,6 +271,7 @@ describe('Tooltip', function() {
   describe('dynamic triggers', function() {
     it('without trigger', async function() {
       const element = await this.browser.findElement(By.css('[data-comp-name~="TestTooltip"]'));
+      await delay(100);
       await expect(await element.takeScreenshot()).to.matchImage('without trigger');
     });
     it.skip(['ie11'], 'hover - mouseEnter', async function() {
@@ -281,7 +285,7 @@ describe('Tooltip', function() {
           origin: this.browser.findElement(By.css('[type="button"]')),
         })
         .perform();
-
+      await delay(100);
       await expect(await element.takeScreenshot()).to.matchImage('hover - mouseEnter');
     });
     it('hover - mouseLeave', async function() {
@@ -390,6 +394,7 @@ describe('Tooltip', function() {
           origin: this.browser.findElement(By.css('[type="button"]')),
         })
         .perform();
+      await delay(100);
       await expect(await element.takeScreenshot()).to.matchImage('hover&focus - mouseEnter');
     });
     it('hover&focus - mouseLeave', async function() {
@@ -443,6 +448,7 @@ describe('Tooltip', function() {
         .click(this.browser.findElement(By.css('[type="button"]')))
         .click(this.browser.findElement(By.css('body')))
         .perform();
+      await delay(500);
       await expect(await element.takeScreenshot()).to.matchImage('hover&focus - blur');
     });
   });
