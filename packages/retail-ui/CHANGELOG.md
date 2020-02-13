@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.8.1...retail-ui@1.9.0) (2020-02-13)
+
+
+### Features
+
+* **CurrencyInput:** new prop 'hideTrailingZeros' ([#1869](https://github.com/skbkontur/retail-ui/issues/1869)) ([1823370](https://github.com/skbkontur/retail-ui/commit/1823370))
+
+
+
+
+
 ## [1.8.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.8.0...retail-ui@1.8.1) (2020-02-06)
 
 
