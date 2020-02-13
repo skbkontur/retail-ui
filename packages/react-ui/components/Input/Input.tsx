@@ -17,7 +17,7 @@ import { jsStyles } from './Input.styles';
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
 export type InputType = 'password' | 'text';
-export type IconType = React.ReactNode | (() => React.ReactNode);
+export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export type InputProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -27,13 +27,13 @@ export type InputProps = Override<
      * Если `ReactNode` применяются дефолтные стили для иконки
      * Если `() => ReactNode` применяются только стили для позиционирование
      */
-    leftIcon?: IconType;
+    leftIcon?: InputIconType;
     /**
      * Иконка справа
      * Если `ReactNode` применяются дефолтные стили для иконки
      * Если `() => ReactNode` применяются только стили для позиционирование
      */
-    rightIcon?: IconType;
+    rightIcon?: InputIconType;
     /** Состояние ошибки */
     error?: boolean;
     /** Состояние предупреждения */
@@ -108,8 +108,8 @@ export class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: {
     size: InputSize;
   } = {
-      size: 'small',
-    };
+    size: 'small',
+  };
 
   public state: InputState = {
     polyfillPlaceholder: false,
@@ -361,7 +361,7 @@ export class Input extends React.Component<InputProps, InputState> {
     return this.renderIcon(this.props.rightIcon, classes.rightIcon);
   }
 
-  private renderIcon(icon: IconType, className: string) {
+  private renderIcon(icon: InputIconType, className: string) {
     if (!icon) {
       return null;
     }
