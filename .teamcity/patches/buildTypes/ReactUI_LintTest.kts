@@ -14,6 +14,11 @@ changeBuildType(RelativeId("ReactUI_LintTest")) {
             snapshot {
                 runOnSameAgent = true
             }
+
+            artifacts {
+                cleanDestination = true
+                artifactRules = "skbkontur-react-ui-*.tgz"
+            }
         }
 
     }
