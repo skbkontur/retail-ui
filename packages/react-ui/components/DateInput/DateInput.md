@@ -3,7 +3,7 @@
 ```
 
 ```jsx harmony
-<DateInput value={state.value} onChange={(_, v) => setState({ value: v })} />
+<DateInput value={state.value} onValueChange={v => setState({ value: v })} />
 ```
 
 ```jsx harmony
@@ -34,11 +34,11 @@ class DateInputFormatting2 extends React.Component {
             value={this.state.langCode}
             placeholder="Выбрать язык"
             items={Object.values(LangCodes)}
-            onChange={(_, langCode) => this.setState({ langCode })}
+            onValueChange={langCode => this.setState({ langCode })}
           />
         </div>
         <LocaleProvider langCode={this.state.langCode}>
-          <DateInput onChange={(a, value) => this.setState({ value })} value={this.state.value} />
+          <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
         </LocaleProvider>
       </Gapped>
     );
@@ -72,7 +72,7 @@ class DateInputFormatting extends React.Component {
           <Select
             value={this.state.order}
             items={Object.keys(DateOrder)}
-            onChange={(_, order) => this.setState({ order })}
+            onValueChange={order => this.setState({ order })}
           />
         </div>
         <div>
@@ -82,7 +82,7 @@ class DateInputFormatting extends React.Component {
           <Select
             value={this.state.separator}
             items={Object.keys(DateSeparator)}
-            onChange={(_, separator) => this.setState({ separator })}
+            onValueChange={separator => this.setState({ separator })}
           />
         </div>
         <LocaleProvider
@@ -93,7 +93,7 @@ class DateInputFormatting extends React.Component {
             },
           }}
         >
-          <DateInput onChange={(a, value) => this.setState({ value })} value={this.state.value} />
+          <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
         </LocaleProvider>
       </Gapped>
     );

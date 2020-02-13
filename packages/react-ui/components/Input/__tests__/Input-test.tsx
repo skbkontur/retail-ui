@@ -16,13 +16,12 @@ describe('<Input />', () => {
     expect(wrapper.find('input').prop('value')).toBe('Hello');
   });
 
-  it('calls onChange', () => {
-    const onChange = jest.fn();
-    const wrapper = render({ value: '', onChange });
+  it('calls onValueChange', () => {
+    const onValueChange = jest.fn();
+    const wrapper = render({ value: '', onValueChange });
     wrapper.find('input').simulate('change', { target: { value: 'Hello' } });
-    expect(onChange).toHaveBeenCalledTimes(1);
-    const [event, value] = onChange.mock.calls[0];
-    expect(event.target.value).toBe('Hello');
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('Hello');
   });
 
@@ -225,7 +224,7 @@ describe('<Input />', () => {
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  it('call handleUnexpectedInput on maxLength  has been reached', () => {
+  it('call handleUnexpectedInput on maxLength has been reached', () => {
     const unexpectedInputHandlerMock = jest.fn();
     const wrapper = render({
       value: '',

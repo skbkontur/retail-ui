@@ -104,7 +104,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
               <ComboBox
                 getItems={this.getEditableThemesItems}
                 value={editingThemeItem}
-                onChange={this.handleEditingThemeSwitch}
+                onValueChange={this.handleEditingThemeSwitch}
               />
             </Gapped>
           </div>
@@ -153,7 +153,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
     });
   };
 
-  private handleThemeChange = (ev: { target: { value: string } }, value: string) => {
+  private handleThemeChange = (value: string) => {
     const themeType = value as ThemeType;
     this.setState({
       currentThemeType: themeType,
@@ -193,7 +193,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
     return Promise.resolve(this.editableThemesItems.filter(i => i.label.toLowerCase().includes(query.toLowerCase())));
   };
 
-  private handleEditingThemeSwitch = (_: any, item: EditingThemeItem) => {
+  private handleEditingThemeSwitch = (item: EditingThemeItem) => {
     this.setState({ editingThemeItem: item });
   };
 

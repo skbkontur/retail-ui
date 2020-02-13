@@ -187,7 +187,7 @@ class ComboBoxWithErrorToggler extends React.Component<{}, ComboBoxWithErrorTogg
       <>
         <ComboBox error={this.state.error} value={this.state.value} getItems={() => Promise.resolve([{ label: 0 }])} />
         <Toggle
-          onChange={value =>
+          onValueChange={value =>
             this.setState(state => ({
               error: value,
               value: { label: state.value.label + 1 },
@@ -251,7 +251,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           renderAddButton={this.props.renderAddButton}
           valueToString={x => x.name}
           placeholder="numbers"
-          onChange={this.handleChange}
+          onValueChange={this.handleChange}
           onUnexpectedInput={this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.updateState) : undefined}
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
@@ -276,7 +276,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
 
   private updateState = (newState: Partial<ComboBoxState>) => this.setState(state => ({ ...state, ...newState }));
 
-  private handleChange = (_: any, value: ValueType) => {
+  private handleChange = (value: ValueType) => {
     this.setState({ value, error: false });
   };
 }
@@ -305,7 +305,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
         {...this.props}
         value={this.state.value}
         getItems={this.getItems}
-        onChange={(_, value) => this.setState({ value })}
+        onValueChange={value => this.setState({ value })}
       />
     );
   }
@@ -340,7 +340,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
   public render() {
     return (
       <ComboBox
-        onChange={this.handleChange}
+        onValueChange={this.handleChange}
         value={this.state.value}
         getItems={this.getItems}
         renderItem={this.renderItem}
@@ -349,7 +349,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
     );
   }
 
-  private handleChange = (_: any, value: any) => this.setState({ value });
+  private handleChange = (value: any) => this.setState({ value });
 
   private getItems = (query: string) => {
     return getCities(query)
@@ -512,7 +512,7 @@ class ComboBoxWithExternalValue extends React.Component {
       <ComboBox
         getItems={this.getItems}
         value={this.state.value}
-        onChange={this.onChange}
+        onValueChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
         ref={element => (this.combobox = element)}
@@ -554,7 +554,7 @@ class ComboBoxWithExternalValue extends React.Component {
       ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q),
     );
 
-  private onChange = (_: any, value: { value: string; label: string }) => this.setState({ value, warning: false });
+  private onChange = (value: { value: string; label: string }) => this.setState({ value, warning: false });
 
   private onUnexpectedInput = (query: string) => {
     this.setState({

@@ -2,9 +2,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { DatePickerLocaleHelper } from '../../DatePicker/locale';
-import { DateSelect, DateSelectProps } from  '../DateSelect';
+import { DateSelect, DateSelectProps } from '../DateSelect';
 import styles from '../DateSelect.less';
-
 
 const renderSelect = (props: DateSelectProps) => mount(<DateSelect {...props} />);
 
@@ -16,7 +15,7 @@ describe('DateSelect', () => {
       minValue: 2,
       maxValue: 7,
       value: 6,
-      onChange: () => {
+      onValueChange: () => {
         /**/
       },
     });
@@ -33,7 +32,7 @@ describe('DateSelect', () => {
       minValue: 0,
       maxValue: 0,
       value: 0,
-      onChange: () => {
+      onValueChange: () => {
         /**/
       },
     });

@@ -33,7 +33,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       items,
       renderNotFound,
       renderItem,
-      onChange,
+      onValueChange,
     } = this.props;
 
     return (
@@ -48,7 +48,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
           items={items}
           loading={loading}
           maxMenuHeight={maxMenuHeight}
-          onChange={onChange}
+          onValueChange={onValueChange}
           opened={opened}
           refMenu={this.menuRef}
           renderTotalCount={renderTotalCount}

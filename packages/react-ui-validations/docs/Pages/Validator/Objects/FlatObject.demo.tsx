@@ -52,7 +52,7 @@ export default class FlatObjectDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Любое'}
                 value={contactInfo.name}
-                onChange={(_, name) => this.handleChange({ name })}
+                onValueChange={name => this.handleChange({ name })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -62,7 +62,7 @@ export default class FlatObjectDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={contactInfo.email}
-                onChange={(_, email) => this.handleChange({ email })}
+                onValueChange={email => this.handleChange({ email })}
               />
             </ValidationWrapper>
           </Form.Line>

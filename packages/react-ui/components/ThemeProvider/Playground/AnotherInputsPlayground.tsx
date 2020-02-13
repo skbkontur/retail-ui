@@ -23,7 +23,7 @@ export class DatePickerPlayground extends React.Component<any, any> {
           size={this.props.size}
           error={this.state.error}
           value={this.state.value}
-          onChange={this.handleChange}
+          onValueChange={this.handleChange}
           onFocus={this.invalidate}
           onBlur={this.validate}
           enableTodayLink
@@ -32,7 +32,7 @@ export class DatePickerPlayground extends React.Component<any, any> {
     );
   }
 
-  private handleChange = (_: any, value: string) => {
+  private handleChange = (value: string) => {
     this.setState({
       value,
     });

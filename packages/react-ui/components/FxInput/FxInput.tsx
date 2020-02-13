@@ -18,8 +18,8 @@ export type FxInputProps = Override<
     type?: 'currency' | InputProps['type'];
     /** onRestore */
     onRestore?: () => void;
-    /** onChange */
-    onChange: CurrencyInputProps['onChange'] | InputProps['onChange'];
+    /** onValueChange */
+    onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
     /** Значение */
     value?: React.ReactText;
     /** ref Input'а */
@@ -28,11 +28,6 @@ export type FxInputProps = Override<
     hideTrailingZeros?: boolean;
   }
 >;
-
-export interface FxInputDefaultProps {
-  width: FxInputProps['width'];
-  type: FxInputProps['type'];
-}
 
 /** Принимает все свойства `Input`'a */
 export class FxInput extends React.Component<FxInputProps> {
@@ -43,9 +38,10 @@ export class FxInput extends React.Component<FxInputProps> {
     type: PropTypes.string,
   };
 
-  public static defaultProps: FxInputDefaultProps = {
+  public static defaultProps = {
     width: 250,
     type: 'text',
+    value: '',
   };
 
   private input: Input | CurrencyInput | null = null;
@@ -80,7 +76,7 @@ export class FxInput extends React.Component<FxInputProps> {
             width={'100%'}
             ref={this.refInput}
             value={this.props.value as CurrencyInputProps['value']}
-            onChange={this.props.onChange as CurrencyInputProps['onChange']}
+            onValueChange={this.props.onValueChange as CurrencyInputProps['onValueChange']}
           />
         ) : (
           <Input
@@ -90,7 +86,7 @@ export class FxInput extends React.Component<FxInputProps> {
             ref={this.refInput}
             type={this.props.type as InputType}
             value={this.props.value as InputProps['value']}
-            onChange={this.props.onChange as InputProps['onChange']}
+            onValueChange={this.props.onValueChange as InputProps['onValueChange']}
           />
         )}
       </Group>

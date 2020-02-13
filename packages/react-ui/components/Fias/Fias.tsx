@@ -55,7 +55,7 @@ export interface FiasProps {
    * Позволяет получить полный FiasValue после обработки входного `value`
    */
   onInit?: (value: FiasValue) => void;
-  onChange?: (value: FiasValue) => void;
+  onValueChange?: (value: FiasValue) => void;
   onClose?: () => void;
   /**
    * Добавляет поле поиска адреса в произвольной форме
@@ -311,8 +311,8 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   };
 
   private handleChange = (address: Address) => {
-    if (this.props.onChange) {
-      this.props.onChange(address.getValue(this.isFieldVisible(ExtraFields.postalcode)));
+    if (this.props.onValueChange) {
+      this.props.onValueChange(address.getValue(this.isFieldVisible(ExtraFields.postalcode)));
     }
   };
 

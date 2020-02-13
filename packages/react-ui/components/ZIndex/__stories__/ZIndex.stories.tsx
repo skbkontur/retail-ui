@@ -134,7 +134,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
         <Gapped>
           <ZLoader size={150} />
           <div ref={e => (this.popupAnchor = e)}>
-            <Toggle checked={this.state.popup} onChange={v => this.setState({ popup: v })} />
+            <Toggle checked={this.state.popup} onValueChange={v => this.setState({ popup: v })} />
           </div>
           {this.popupAnchor && (
             <Popup
@@ -563,7 +563,7 @@ class ElementsInLoaderInModal extends React.Component {
           </Loader>
         </Modal.Body>
         <Modal.Footer>
-          <Toggle checked={active} onChange={this.setActive} /> Активировать
+          <Toggle checked={active} onValueChange={this.setActive} /> Активировать
         </Modal.Footer>
       </Modal>
     );
@@ -586,7 +586,7 @@ class LoaderAndSidePage extends React.Component {
             </SidePage.Container>
           </SidePage.Body>
           <SidePage.Footer panel>
-            <Toggle checked={active} onChange={this.setActive} /> Активировать
+            <Toggle checked={active} onValueChange={this.setActive} /> Активировать
           </SidePage.Footer>
         </SidePage>
         <Loader active={active}>

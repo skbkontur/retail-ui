@@ -23,9 +23,9 @@ export interface CustomComboBoxProps<T> {
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   searchOnFocus?: boolean;
-  onChange?: (event: { target: { value: T } }, value: T) => void;
-  onInputChange?: (textValue: string) => Nullable<string> | void;
-  onUnexpectedInput?: (query: string) => void | null | T;
+  onValueChange?: (value: T) => void;
+  onInputValueChange?: (value: string) => Nullable<string> | void;
+  onUnexpectedInput?: (value: string) => void | null | T;
   onFocus?: () => void;
   onBlur?: () => void;
   onMouseEnter?: (e: React.MouseEvent) => void;
@@ -232,13 +232,12 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
 
-      onChange: this.handleChange,
+      onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
       onFocus: this.handleFocus,
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
-      onInputChange: (_: React.ChangeEvent<HTMLInputElement>, value: string) =>
-        this.dispatch({ type: 'TextChange', value }),
+      onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
       onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
       onInputKeyDown: (event: React.KeyboardEvent) => {
@@ -317,7 +316,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
   private getState = () => this.state;
 
-  private handleChange = (value: T) => {
+  private handleValueChange = (value: T) => {
     this.dispatch({
       type: 'ValueChange',
       value,

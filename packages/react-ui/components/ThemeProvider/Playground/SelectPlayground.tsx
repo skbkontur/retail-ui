@@ -14,12 +14,12 @@ export class SelectPlayground extends React.Component<SelectProps<string, string
         {...this.props}
         value={this.state.value}
         items={this.selectItems}
-        onChange={this.handleChange}
+        onValueChange={this.handleChange}
       />
     );
   }
 
-  private handleChange = (_: any, value: string) => {
+  private handleChange = (value: string) => {
     this.setState({
       value,
     });

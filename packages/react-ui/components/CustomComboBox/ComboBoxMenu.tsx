@@ -20,7 +20,7 @@ export interface ComboBoxMenuProps<T> {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode;
-  onChange: (value: T, event: React.SyntheticEvent) => any;
+  onValueChange: (value: T) => any;
   renderAddButton?: () => React.ReactNode;
   caption?: React.ReactNode;
   repeatRequest?: () => void;
@@ -114,14 +114,14 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   private renderItem = (item: T, index: number): React.ReactNode => {
     // NOTE this is undesireable feature, better
     // to remove it from further versions
-    const { renderItem, onChange } = this.props;
+    const { renderItem, onValueChange } = this.props;
     if (typeof item === 'function' || React.isValidElement(item)) {
       // @ts-ignore
       const element = typeof item === 'function' ? item() : item;
       const props = Object.assign(
         {
           key: index,
-          onClick: (event: React.SyntheticEvent) => onChange(element.props, event),
+          onClick: () => onValueChange(element.props),
         },
         element.props,
       );
@@ -129,7 +129,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     return (
-      <MenuItem onClick={event => onChange(item, event)} key={index}>
+      <MenuItem onClick={() => onValueChange(item)} key={index}>
         {state => renderItem(item, state)}
       </MenuItem>
     );

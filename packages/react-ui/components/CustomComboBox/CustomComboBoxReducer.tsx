@@ -50,7 +50,7 @@ interface EffectFactory {
   Blur: Effect;
   Focus: Effect;
 
-  Change: (value: any) => Effect;
+  ValueChange: (value: any) => Effect;
   UnexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
   InputChange: Effect;
   InputFocus: Effect;
@@ -95,10 +95,10 @@ export const Effect: EffectFactory = {
       onFocus();
     }
   },
-  Change: value => (dispatch, getState, getProps) => {
-    const { onChange } = getProps();
-    if (onChange) {
-      onChange({ target: { value } }, value);
+  ValueChange: value => (dispatch, getState, getProps) => {
+    const { onValueChange } = getProps();
+    if (onValueChange) {
+      onValueChange(value);
     }
   },
   UnexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
@@ -122,10 +122,10 @@ export const Effect: EffectFactory = {
     }
   },
   InputChange: (dispatch, getState, getProps) => {
-    const { onInputChange } = getProps();
+    const { onInputValueChange } = getProps();
     const { textValue } = getState();
-    if (onInputChange) {
-      const returnedValue = onInputChange(textValue);
+    if (onInputValueChange) {
+      const returnedValue = onInputValueChange(textValue);
       if (typeof returnedValue === 'string' && returnedValue !== textValue) {
         dispatch({ type: 'TextChange', value: returnedValue });
       }
@@ -225,7 +225,7 @@ export function reducer<T>(
             items: null,
             textValue,
           },
-          [Effect.Change(value), Effect.CancelRequest, Effect.InputFocus],
+          [Effect.ValueChange(value), Effect.CancelRequest, Effect.InputFocus],
         ];
       }
       return [
@@ -236,7 +236,7 @@ export function reducer<T>(
           items: null,
           textValue,
         },
-        [Effect.Change(value), Effect.CancelRequest],
+        [Effect.ValueChange(value), Effect.CancelRequest],
       ];
     }
     case 'TextChange': {

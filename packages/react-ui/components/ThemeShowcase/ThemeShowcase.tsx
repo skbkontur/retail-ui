@@ -85,7 +85,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
                 <ComboBox
                   getItems={this.getItems}
                   value={selectedVariable}
-                  onChange={this.handleVariableChange}
+                  onValueChange={this.handleVariableChange}
                   onUnexpectedInput={this.handleUnexpectedVariableInput}
                   placeholder={'поиск по названию переменной'}
                 />
@@ -127,7 +127,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
   private getItems = (query: string) => {
     return Promise.resolve(this.getValues(query));
   };
-  private handleVariableChange = (event: any, item: ComboBoxItem) => {
+  private handleVariableChange = (item: ComboBoxItem) => {
     if (!this.isUnmounting) {
       this.setState({ selectedVariable: item });
     }
@@ -151,7 +151,7 @@ interface ComponentShowcaseProps {
   name: string;
   description: ComponentDescriptionType;
   isDebugMode?: boolean;
-  onVariableSelect: (event: any, item: ComboBoxItem) => void;
+  onVariableSelect: (item: ComboBoxItem) => void;
 }
 class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
   public render() {
@@ -193,7 +193,7 @@ interface ComponentShowcaseRowProps {
   element: string;
   row: ComponentRowDescriptionType;
   isDebugMode?: boolean;
-  onVariableSelect: (event: any, item: ComboBoxItem) => void;
+  onVariableSelect: (item: ComboBoxItem) => void;
 }
 
 class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
@@ -255,7 +255,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
 interface VariableNameProps {
   variableName: string;
   dependencies: string[];
-  onVariableSelect: (event: any, item: ComboBoxItem) => void;
+  onVariableSelect: (item: ComboBoxItem) => void;
 }
 
 class VariableName extends React.Component<VariableNameProps> {
@@ -291,14 +291,14 @@ class VariableName extends React.Component<VariableNameProps> {
   private handleVariableSelect = () => {
     const { variableName, onVariableSelect } = this.props;
     if (onVariableSelect) {
-      onVariableSelect(event, { value: variableName, label: variableName });
+      onVariableSelect({ value: variableName, label: variableName });
     }
   };
 }
 
 interface DependencyNameProps {
   dependencyName: string;
-  onDependencySelect: (event: any, item: ComboBoxItem) => void;
+  onDependencySelect: (item: ComboBoxItem) => void;
 }
 class DependencyName extends React.Component<DependencyNameProps> {
   public render() {
@@ -331,7 +331,7 @@ class DependencyName extends React.Component<DependencyNameProps> {
   private handleDependencySelect = () => {
     const { dependencyName, onDependencySelect } = this.props;
     if (onDependencySelect) {
-      onDependencySelect(event, { value: dependencyName, label: dependencyName });
+      onDependencySelect({ value: dependencyName, label: dependencyName });
     }
   };
 }

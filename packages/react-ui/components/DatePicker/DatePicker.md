@@ -24,7 +24,7 @@ let initialState = {
   maxDate: '02.05.2018',
 };
 
-let handleChange = (_, value) => setState({ value });
+let handleChange = value => setState({ value });
 
 let unvalidate = () => setState({ error: false, tooltip: false });
 
@@ -49,7 +49,7 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
     <DatePicker
       error={state.error}
       value={state.value}
-      onChange={handleChange}
+      onValueChange={handleChange}
       onFocus={unvalidate}
       onBlur={validate}
       minDate={state.minDate}
@@ -71,7 +71,7 @@ const initialState = {
   value: '',
 };
 
-const handleChange = (_, value) => setState({ value });
+const handleChange = value => setState({ value });
 
 const createRandomHolidays = () => {
   const holidays = new Array(10);
@@ -108,7 +108,7 @@ const isHoliday = (day, isWeekend) => {
   return isWeekend;
 };
 
-<DatePicker isHoliday={isHoliday} value={state.value} onChange={handleChange} enableTodayLink />;
+<DatePicker isHoliday={isHoliday} value={state.value} onValueChange={handleChange} enableTodayLink />;
 ```
 
 ### Производственный календарь
@@ -199,7 +199,7 @@ result.forEach((month, index) => {
 
 const isHoliday = (date, isWeekend) => holidays.includes(date) || isWeekend;
 
-<DatePicker isHoliday={isHoliday} onChange={() => void 0} enableTodayLink />;
+<DatePicker isHoliday={isHoliday} onValueChange={() => void 0} enableTodayLink />;
 ```
 
 ### Ручное форматирование даты
@@ -226,7 +226,7 @@ class DatePickerFormatting extends React.Component {
           <Select
             value={this.state.order}
             items={Object.keys(DateOrder)}
-            onChange={(_, order) => this.setState({ order })}
+            onValueChange={order => this.setState({ order })}
           />
         </div>
         <div>
@@ -236,7 +236,7 @@ class DatePickerFormatting extends React.Component {
           <Select
             value={this.state.separator}
             items={Object.keys(DateSeparator)}
-            onChange={(_, separator) => this.setState({ separator })}
+            onValueChange={separator => this.setState({ separator })}
           />
         </div>
         <LocaleProvider
@@ -247,7 +247,7 @@ class DatePickerFormatting extends React.Component {
             },
           }}
         >
-          <DatePicker onChange={(a, value) => this.setState({ value })} value={this.state.value} />
+          <DatePicker onValueChange={value => this.setState({ value })} value={this.state.value} />
         </LocaleProvider>
       </Gapped>
     );

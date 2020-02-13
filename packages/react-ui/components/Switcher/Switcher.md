@@ -5,6 +5,6 @@ let intialState = {};
   label="Switch the switcher"
   items={['One', 'Two', 'Three']}
   value={state.value}
-  onChange={(_, value) => setState({ value })}
+  onValueChange={value => setState({ value })}
 />;
 ```

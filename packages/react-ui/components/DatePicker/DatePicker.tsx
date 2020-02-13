@@ -38,10 +38,11 @@ export interface DatePickerProps<T> {
   width: number | string;
   onBlur?: () => void;
   /**
-   * @param e - объект, частично имитирующий объект `Event`.
+   * Вызывается при изменении `value`
+   *
    * @param value - строка в формате `dd.mm.yyyy`.
    */
-  onChange: (e: { target: { value: T } }, value: T) => void;
+  onValueChange: (value: T) => void;
   onFocus?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
@@ -103,7 +104,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
     onBlur: PropTypes.func,
 
-    onChange: PropTypes.func.isRequired,
+    onValueChange: PropTypes.func.isRequired,
 
     onFocus: PropTypes.func,
 
@@ -237,7 +238,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
           maxDate={this.props.maxDate}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
-          onChange={this.props.onChange}
+          onValueChange={this.props.onValueChange}
         />
         {picker}
       </label>
@@ -293,8 +294,8 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
   private handleSelect = ({ date, month, year }: CalendarDateShape) => {
     const value = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
-    if (this.props.onChange) {
-      this.props.onChange({ target: { value } }, value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
   };
 

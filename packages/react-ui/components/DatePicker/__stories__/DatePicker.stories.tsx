@@ -34,7 +34,7 @@ class DatePickerWithError extends React.Component<any, any> {
               value={this.state.value}
               minDate="15.08.2003"
               maxDate="21.10.2006"
-              onChange={this.handleChange}
+              onValueChange={this.handleChange}
               onFocus={this.invalidate}
               onBlur={this.validate}
               enableTodayLink
@@ -49,8 +49,8 @@ class DatePickerWithError extends React.Component<any, any> {
     );
   }
 
-  private handleChange = (_: any, value: any) => {
-    action('change')(_, value);
+  private handleChange = (value: any) => {
+    action('change')(value);
     this.setState({ value });
   };
 
@@ -113,7 +113,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             value={this.state.value}
             minDate={this.state.min}
             maxDate={this.state.max}
-            onChange={action('change')}
+            onValueChange={action('change')}
           />
         </LocaleProvider>
       </Gapped>
@@ -142,7 +142,7 @@ storiesOf('DatePicker', module)
         value="02.07.2017"
         onMouseEnter={() => console.count('enter')}
         onMouseLeave={() => console.count('leave')}
-        onChange={action('change')}
+        onValueChange={action('change')}
       />
     </div>
   ))
@@ -163,7 +163,7 @@ storiesOf('DatePicker', module)
             value="02.07.2017"
             minDate="02.07.2017"
             maxDate="30.01.2020"
-            onChange={action('change')}
+            onValueChange={action('change')}
             enableTodayLink={true}
           />
         </LocaleProvider>

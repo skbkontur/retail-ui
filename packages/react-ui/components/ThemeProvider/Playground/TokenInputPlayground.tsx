@@ -63,7 +63,7 @@ export class TokenInputPlayground extends React.Component<any, any> {
             {item}
           </Token>
         )}
-        onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
+        onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
       />
     );
   }

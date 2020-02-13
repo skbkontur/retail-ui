@@ -65,7 +65,7 @@ export default class ArrayExampleDemo extends React.Component<{}, State> {
                   <Input
                     placeholder={'Только цифры'}
                     value={value}
-                    onChange={(_, v) => this.handleChange(v, i)}
+                    onValueChange={v => this.handleChange(v, i)}
                   />
                 </ValidationWrapper>
               </Group>

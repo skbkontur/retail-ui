@@ -16,7 +16,7 @@ export default class TextareaTestPage extends React.Component {
             <Textarea
               data-tid="SimpleTextarea"
               value={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>

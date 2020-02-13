@@ -46,18 +46,18 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           fractionDigits={this.state.digits}
           hideTrailingZeros={this.state.hideTrailingZeros}
           signed={this.state.signed}
-          onChange={this.handleChange}
+          onValueChange={this.handleChange}
         />
         <div>
           value: <b>{this.formatValue(this.state.value)}</b>
         </div>
         <div>
           <span>signed: </span>
-          <Toggle checked={this.state.signed} onChange={this.handleSigned} />
+          <Toggle checked={this.state.signed} onValueChange={this.handleSigned} />
         </div>
         <div>
           <span>trailing zeros: </span>
-          <Toggle checked={this.state.hideTrailingZeros} onChange={this.handleHideTrailingZeros}/>
+          <Toggle checked={this.state.hideTrailingZeros} onValueChange={this.handleHideTrailingZeros}/>
         </div>
         <input
           type="range"
@@ -73,7 +73,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     );
   }
 
-  private handleChange = (event: any, value: Nullable<number>) => {
+  private handleChange = (value: Nullable<number>) => {
     this.setState({ value });
   };
 
@@ -114,7 +114,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
 class Sample extends React.Component<
   Partial<CurrencyInputProps>,
   {
-    value?: number | null;
+    value: Nullable<number>;
   }
 > {
   public state = {
@@ -130,7 +130,7 @@ class Sample extends React.Component<
           {...this.props}
           ref={this.currencyInputRef}
           value={this.state.value}
-          onChange={this.handleChange}
+          onValueChange={this.handleChange}
         />
         <div style={{ margin: '15px 0', position: 'absolute' }}>
           <button onClick={this.handleClickButton}>focus</button>
@@ -139,7 +139,7 @@ class Sample extends React.Component<
     );
   }
 
-  private handleChange = (_: any, value?: number | null) => {
+  private handleChange = (value: Nullable<number>) => {
     this.setState({ value });
   };
 

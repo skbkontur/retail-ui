@@ -46,7 +46,7 @@ class UncontrolledAutocomplete extends React.Component<any, any> {
       <Autocomplete
         {...this.props}
         value={this.state.value}
-        onChange={(_, value) => {
+        onValueChange={value => {
           this.setState({ value });
         }}
       />

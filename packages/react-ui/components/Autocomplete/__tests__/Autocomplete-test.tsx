@@ -7,28 +7,27 @@ import { delay } from '../../../lib/utils';
 
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const source: any[] = [];
-    const props = { value: 'hello', onChange, source };
+    const props = { value: 'hello', onValueChange, source };
     const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
     expect(wrapper.find('Input').prop('value')).toBe('hello');
   });
 
-  it('triggers onChange on input change', () => {
-    const onChange = jest.fn();
+  it('triggers onValueChange on input change', () => {
+    const onValueChange = jest.fn();
     const source: any[] = [];
-    const props = { value: 'hello', onChange, source };
+    const props = { value: 'hello', onValueChange, source };
     const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
     wrapper.find('input').simulate('change', { target: { value: 'world' } });
-    const [event, value] = onChange.mock.calls[0];
-    expect(event.target.value).toBe('world');
+    const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('world');
   });
 
   it('resolves sources as arrays', async () => {
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const source = ['One', 'Two'];
-    const props = { source, onChange };
+    const props = { source, onValueChange };
     const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
@@ -41,9 +40,9 @@ describe('<Autocomplete />', () => {
   });
 
   it('resolves sources as promises', async () => {
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const source = () => Promise.resolve(['One', 'Two']);
-    const props = { source, onChange };
+    const props = { source, onValueChange };
     const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
@@ -59,9 +58,9 @@ describe('<Autocomplete />', () => {
   });
 
   it('passes pattern to source', async () => {
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const source = jest.fn(() => Promise.resolve([]));
-    const props = { source, onChange };
+    const props = { source, onValueChange };
     const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
@@ -73,9 +72,9 @@ describe('<Autocomplete />', () => {
   });
 
   it('uses renderItem prop to render items', async () => {
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const source = () => Promise.resolve(['One', 'Two']);
-    const props = { source, renderItem: (x: string) => x.toUpperCase(), onChange };
+    const props = { source, renderItem: (x: string) => x.toUpperCase(), onValueChange };
     const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
@@ -121,17 +120,17 @@ describe('<Autocomplete />', () => {
       onMouseOver: () => undefined,
     };
 
-    const wrapper = mount<Autocomplete>(<Autocomplete {...props} onChange={() => undefined} source={[]} />);
+    const wrapper = mount<Autocomplete>(<Autocomplete {...props} onValueChange={() => undefined} source={[]} />);
     const inputProps = wrapper.find('Input').props();
 
     expect(inputProps).toMatchObject(props);
   });
 
   it('handles onKeyDown prop', () => {
-    const onChange = () => undefined;
+    const onValueChange = () => undefined;
     const onKeyDown = jest.fn();
     const source: any[] = [];
-    const props = { value: 'hello', onChange, source, onKeyDown };
+    const props = { value: 'hello', onValueChange, source, onKeyDown };
     const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
     wrapper.find('input').simulate('keydown', { key: 'a' });
     const [event] = onKeyDown.mock.calls[0];
@@ -140,13 +139,13 @@ describe('<Autocomplete />', () => {
 
   it('handle concurrent source requests', async () => {
     const items = Array.from({ length: 5 }).map((_, i) => String(i + 1));
-    const onChange = jest.fn();
+    const onValueChange = jest.fn();
     const source = jest.fn(async (query: string) => {
       const diff = items.length - Number(query);
       await delay(Math.max(100, diff * 100));
       return items.slice(0, diff);
     });
-    const props = { value: '1', onChange, source };
+    const props = { value: '1', onValueChange, source };
     const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
     wrapper.find('input').simulate('change', { target: { value: '' } });
     items.forEach((_, i) => {
@@ -171,6 +170,6 @@ class UncontrolledAutocomplete extends React.Component<
   };
 
   public render() {
-    return <Autocomplete {...this.props} value={this.state.value} onChange={(_, value) => this.setState({ value })} />;
+    return <Autocomplete {...this.props} value={this.state.value} onValueChange={value => this.setState({ value })} />;
   }
 }

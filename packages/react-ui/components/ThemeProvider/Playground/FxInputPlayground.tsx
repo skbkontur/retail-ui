@@ -19,13 +19,13 @@ export class FxInputPlayground extends React.Component<{}, { value: string; auto
         type={'text'}
         value={this.state.value}
         onRestore={this.handleRestore}
-        onChange={this.handleChange}
+        onValueChange={this.onValueChange}
         width={150}
       />
     );
   }
 
-  private handleChange = (_: any, value: string) => {
+  private onValueChange = (value: string) => {
     this.setState({ value, auto: false });
   };
 
