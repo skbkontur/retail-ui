@@ -1,1 +1,1 @@
-export { ResizeDetector, ResizeDetectorProps } from './ResizeDetector';
+export * from './ResizeDetector';

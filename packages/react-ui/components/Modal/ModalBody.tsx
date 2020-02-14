@@ -11,7 +11,7 @@ import styles from './Modal.module.less';
  *
  * @visibleName Modal.Body
  */
-export class Body extends React.Component {
+export class ModalBody extends React.Component {
   public static __KONTUR_REACT_UI__ = 'ModalBody';
   public static __MODAL_BODY__ = true;
 

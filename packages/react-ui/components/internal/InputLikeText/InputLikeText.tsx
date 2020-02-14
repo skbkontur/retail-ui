@@ -5,7 +5,7 @@ import { MouseDrag, MouseDragEventHandler } from '../../../lib/events/MouseDrag'
 import { isEdge, isIE11 } from '../../../lib/utils';
 import { Nullable } from '../../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../DateInput/helpers/SelectionHelpers';
-import { InputProps, IconType, InputState } from '../../Input';
+import { InputProps, InputIconType, InputState } from '../../Input';
 import { cx } from '../../../lib/theming/Emotion';
 import inputStyles from '../../Input/Input.module.less';
 import { jsStyles as jsInputStyles } from '../../Input/Input.styles';
@@ -211,7 +211,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     return this.renderIcon(this.props.rightIcon, inputStyles.rightIcon);
   };
 
-  private renderIcon = (icon: IconType, className: string): JSX.Element | null => {
+  private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
     if (!icon) {
       return null;
     }

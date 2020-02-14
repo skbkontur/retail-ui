@@ -1,1 +1,1 @@
-export { Popup, PopupProps, PopupPosition, PopupPositions } from './Popup';
+export * from './Popup';

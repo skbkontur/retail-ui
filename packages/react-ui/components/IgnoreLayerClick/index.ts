@@ -1,1 +1,1 @@
-export { IgnoreLayerClick, IgnoreLayerClickProps } from './IgnoreLayerClick';
+export * from './IgnoreLayerClick';

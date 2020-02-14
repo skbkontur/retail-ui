@@ -1,1 +1,1 @@
-export { Paging, PagingProps, PagingState } from './Paging';
+export * from './Paging';
