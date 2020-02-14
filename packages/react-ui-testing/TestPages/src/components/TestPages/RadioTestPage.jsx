@@ -16,7 +16,7 @@ export default class RadioTestPage extends React.Component {
             <Radio
               data-tid="SimpleRadio"
               value={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>

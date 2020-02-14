@@ -9,7 +9,7 @@ import { Menu } from '../Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
 function match(pattern: string, items: string[]) {
@@ -26,32 +26,35 @@ function renderItem(item: any) {
   return item;
 }
 
-export interface AutocompleteProps extends InputProps {
-  /** Функция отрисовки элемента меню */
-  renderItem: (item: string) => React.ReactNode;
-  /** Промис, резолвящий элементы меню */
-  source?: string[] | ((patter: string) => Promise<string[]>);
-  /** Отключает использование портала */
-  disablePortal: boolean;
-  /** Отрисовка тени у выпадающего меню */
-  hasShadow: boolean;
-  /** Выравнивание выпадающего меню */
-  menuAlign: 'left' | 'right';
-  /** Максимальная высота меню */
-  menuMaxHeight: number | string;
-  /** Ширина меню */
-  menuWidth?: number | string;
-  /** Отключить скролл окна, когда меню открыто */
-  preventWindowScroll: boolean;
-  /** onChange */
-  onChange: (event: { target: { value: string } }, value: string) => void;
-  /** onBlur */
-  onBlur?: () => void;
-  /** Размер инпута */
-  size: InputProps['size'];
-  /** value */
-  value: string;
-}
+export type AutocompleteProps = Override<
+  InputProps,
+  {
+    /** Функция отрисовки элемента меню */
+    renderItem: (item: string) => React.ReactNode;
+    /** Промис, резолвящий элементы меню */
+    source?: string[] | ((patter: string) => Promise<string[]>);
+    /** Отключает использование портала */
+    disablePortal: boolean;
+    /** Отрисовка тени у выпадающего меню */
+    hasShadow: boolean;
+    /** Выравнивание выпадающего меню */
+    menuAlign: 'left' | 'right';
+    /** Максимальная высота меню */
+    menuMaxHeight: number | string;
+    /** Ширина меню */
+    menuWidth?: number | string;
+    /** Отключить скролл окна, когда меню открыто */
+    preventWindowScroll: boolean;
+    /** Вызывается при изменении `value` */
+    onValueChange: (value: string) => void;
+    /** onBlur */
+    onBlur?: () => void;
+    /** Размер инпута */
+    size: InputProps['size'];
+    /** value */
+    value: string;
+  }
+>;
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -137,7 +140,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   public render() {
     const {
-      onChange,
+      onValueChange,
       onKeyDown,
       onFocus,
       onBlur,
@@ -153,7 +156,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     const inputProps = {
       ...rest,
-      onChange: this.handleChange,
+      onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
       ref: this.refInput,
@@ -201,12 +204,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
-  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private handleValueChange = (value: string) => {
     this.opened = true;
-
-    // https://github.com/airbnb/enzyme/issues/218
-    // TODO: replace with currentTarget when fixed
-    const value = event.target.value;
 
     this.fireChange(value);
   };
@@ -337,8 +336,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   private fireChange(value: string) {
-    if (this.props.onChange) {
-      this.props.onChange({ target: { value } }, value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
   }
 

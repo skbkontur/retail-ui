@@ -153,7 +153,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, {
           padding: '10px 18px 10px 8px',
         }}
       >
-        <Input leftIcon={<SearchIcon />} value={this.state.value} onChange={this.handleInputChange} width={220} />
+        <Input leftIcon={<SearchIcon />} value={this.state.value} onValueChange={this.handleInputChange} width={220} />
       </div>
     );
   };
@@ -176,7 +176,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, {
     }));
   };
 
-  private handleInputChange = (_: any, value: string) => {
+  private handleInputChange = (value: string) => {
     this.setState({ value });
   };
 

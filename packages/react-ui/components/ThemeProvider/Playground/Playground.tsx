@@ -39,7 +39,7 @@ const useSticky = process.env.enableReactTesting !== 'true';
 
 export interface ComponentsListProps {
   currentThemeType: ThemeType;
-  onThemeChange: (ev: { target: { value: string } }, value: string) => void;
+  onThemeChange: (value: string) => void;
   onEditLinkClick: () => void;
 }
 
@@ -101,7 +101,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
     return (
       <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
         <Gapped gap={40}>
-          <Tabs value={currentThemeType} onChange={onThemeChange} vertical={false}>
+          <Tabs value={currentThemeType} onValueChange={onThemeChange} vertical={false}>
             <div className={jsStyles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>

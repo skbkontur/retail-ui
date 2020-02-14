@@ -23,7 +23,7 @@ export interface TabsProps {
   /**
    * Tabs change event
    */
-  onChange?: (ev: { target: { value: string } }, value: string) => void;
+  onValueChange?: (value: string) => void;
 
   /**
    * Active tab identifier
@@ -56,7 +56,7 @@ export class Tabs extends React.Component<TabsProps> {
     value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
   };
   public static defaultProps = {
     vertical: false,
@@ -126,9 +126,9 @@ export class Tabs extends React.Component<TabsProps> {
   };
 
   private switchTab = (id: string) => {
-    const { onChange, value } = this.props;
-    if (id !== value && onChange) {
-      onChange(this.createEvent(id), id);
+    const { onValueChange, value } = this.props;
+    if (id !== value && onValueChange) {
+      onValueChange(id);
     }
   };
 
@@ -144,8 +144,4 @@ export class Tabs extends React.Component<TabsProps> {
   private removeTab = (id: string) => {
     this.tabs = this.tabs.filter(tab => tab.id !== id);
   };
-
-  private createEvent(value: string) {
-    return { target: { value } };
-  }
 }

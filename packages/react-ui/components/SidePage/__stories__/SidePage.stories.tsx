@@ -70,7 +70,10 @@ class Sample extends React.Component<SampleProps, SampleState> {
             />
           )}
           <div>
-            <Toggle checked={this.state.panel} onChange={() => this.setState(({ panel }) => ({ panel: !panel }))} />{' '}
+            <Toggle
+              checked={this.state.panel}
+              onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+            />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
           {this.props.children}
@@ -114,17 +117,17 @@ class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
         <div>
           <Toggle
             checked={this.props.ignoreBackgroundClick}
-            onChange={() => this.props.onChange('ignoreBackgroundClick')}
+            onValueChange={() => this.props.onChange('ignoreBackgroundClick')}
           />{' '}
           ignoreBackgroundClick {this.props.ignoreBackgroundClick ? 'enabled' : 'disabled'}
         </div>
         <div>
-          <Toggle checked={this.props.blockBackground} onChange={() => this.props.onChange('blockBackground')} />{' '}
+          <Toggle checked={this.props.blockBackground} onValueChange={() => this.props.onChange('blockBackground')} />{' '}
           blockBackground {this.props.blockBackground ? 'enabled' : 'disabled'}
         </div>
         <div>
-          <Toggle checked={this.props.withContent} onChange={() => this.props.onChange('withContent')} /> withContent{' '}
-          {this.props.withContent ? 'enabled' : 'disabled'}
+          <Toggle checked={this.props.withContent} onValueChange={() => this.props.onChange('withContent')} />{' '}
+          withContent {this.props.withContent ? 'enabled' : 'disabled'}
         </div>
       </div>
     );

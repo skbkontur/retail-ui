@@ -152,13 +152,13 @@ class LocalizationControls extends React.Component {
           value={this.state.langCode}
           placeholder="Выбрать язык"
           items={Object.values(LangCodes)}
-          onChange={(_, langCode) => this.setState({ langCode })}
+          onValueChange={langCode => this.setState({ langCode })}
         />
         <Select
           value={this.state.controlName}
           placeholder="Выбрать контрол"
           items={Object.values(LocalizationControlNames)}
-          onChange={(_, controlName) => this.setState({ controlName })}
+          onValueChange={controlName => this.setState({ controlName })}
         />
         <LocaleProvider langCode={this.state.langCode} locale={locale}>
           {this.getControl(this.state.controlName)}
@@ -173,7 +173,7 @@ class LocalizationControls extends React.Component {
         return (
           <ComboBox
             getItems={str => Promise.resolve(items.filter(({ label }) => label.includes(str))).then(delay(500))}
-            onChange={(_, { label: langCode }) => this.setState({ langCode })}
+            onValueChange={({ label: langCode }) => this.setState({ langCode })}
           />
         );
 

@@ -63,7 +63,7 @@ export default class ObjectArrayDemo extends React.Component<{}, State> {
                     <Input
                       placeholder={'Любое'}
                       value={contact.name}
-                      onChange={(_, name) => this.handleItemChange({ name }, i)}
+                      onValueChange={name => this.handleItemChange({ name }, i)}
                     />
                   </ValidationWrapper>
                 </Form.Line>
@@ -73,7 +73,7 @@ export default class ObjectArrayDemo extends React.Component<{}, State> {
                     <Input
                       placeholder={'xxx@xxx.xx'}
                       value={contact.email}
-                      onChange={(_, email) => this.handleItemChange({ email }, i)}
+                      onValueChange={email => this.handleItemChange({ email }, i)}
                     />
                   </ValidationWrapper>
                 </Form.Line>

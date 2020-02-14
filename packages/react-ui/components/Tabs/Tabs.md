@@ -1,7 +1,7 @@
 ```jsx harmony
 const initialState = { active: 'fuji' };
 
-<Tabs value={state.active} onChange={(_, v) => setState({ active: v })}>
+<Tabs value={state.active} onValueChange={v => setState({ active: v })}>
   <Tabs.Tab id="fuji">🌋 Fuji</Tabs.Tab>
   <Tabs.Tab id="tahat">⛰ Tahat</Tabs.Tab>
   <Tabs.Tab id="alps">🗻 Alps</Tabs.Tab>
@@ -20,7 +20,7 @@ const TabLink = ({ id, children }) => (
   </Tabs.Tab>
 );
 
-<Tabs value={state.active} onChange={(_, v) => setState({ active: v })}>
+<Tabs value={state.active} onValueChange={v => setState({ active: v })}>
   <TabLink id="/fuji">🌋 Fuji</TabLink>
   <TabLink id="/tahat">⛰ Tahat</TabLink>
   <TabLink id="/alps">🗻 Alps</TabLink>

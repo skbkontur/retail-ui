@@ -1,7 +1,7 @@
 ```jsx harmony
 let initialState = { checked: false };
 
-<Checkbox checked={state.checked} onChange={(_, v) => setState({ checked: v })}>
+<Checkbox checked={state.checked} onValueChange={checked => setState({ checked })}>
   Checkbox
 </Checkbox>;
 ```
@@ -9,7 +9,7 @@ let initialState = { checked: false };
 Чекбокс может быть в состоянии "частично выбран". Как и в браузерном чекбоксе, это состояние влияет только на внешний вид и не влияет на состояние `checked`. `indeterminate` устанавливается в конструкторе через проп `initialIndeterminate` или методами инстанса `setIndeterminate()`/`resetIndeterminate()`
 
 ```jsx harmony
-import {Button, Checkbox, Gapped} from '@skbkontur/react-ui';
+import { Button, Checkbox, Gapped } from '@skbkontur/react-ui';
 
 class IndeterminateExample extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class IndeterminateExample extends React.Component {
           <Checkbox
             initialIndeterminate
             checked={this.state.checked}
-            onChange={(_, v) => this.setState({ checked: v })}
+            onValueChange={checked => this.setState({ checked })}
             ref={element => {
               this.checkboxInstance = element;
             }}

@@ -16,7 +16,7 @@ class UncTabs extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
+      <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
         <Tab id="fuji">Fuji</Tab>
         <Tab id="tahat">Tahat</Tab>
         <Tab id="alps">Alps</Tab>
@@ -57,7 +57,7 @@ class TabsWithMyLink extends React.Component<any, any> {
     return (
       <Tabs
         value={this.state.active}
-        onChange={(_, v) =>
+        onValueChange={v =>
           this.setState({
             active: v,
           })
@@ -99,7 +99,7 @@ class OhMyTabs extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })} vertical={this.props.vertical}>
+      <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
         <UnexpectedUpdatedTab id="fuji">🌋&nbsp;&nbsp;Fuji</UnexpectedUpdatedTab>
         <UnexpectedUpdatedTab id="tahat">⛰&nbsp;&nbsp;Tahat</UnexpectedUpdatedTab>
         <UnexpectedUpdatedTab id="alps">🗻&nbsp;&nbsp;Alps</UnexpectedUpdatedTab>
@@ -115,7 +115,7 @@ class DisabledTab extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs value={this.state.active} onChange={(_, v) => this.setState({ active: v })}>
+      <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })}>
         <Tab id="first">First</Tab>
         <Tab id="second" disabled>
           Second (disabled)
@@ -158,7 +158,7 @@ class TabsInModal extends React.Component<any, any> {
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           <div style={{ marginLeft: -30 }}>
-            <Tabs vertical value={this.state.active} onChange={(_, v) => this.setState({ active: v })}>
+            <Tabs vertical value={this.state.active} onValueChange={v => this.setState({ active: v })}>
               <Tab id="1">
                 <TabElement>Normal</TabElement>
               </Tab>

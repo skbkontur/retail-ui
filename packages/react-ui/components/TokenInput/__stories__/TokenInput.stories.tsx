@@ -54,7 +54,7 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
       <TokenInput
         {...this.props}
         selectedItems={this.state.selectedItems}
-        onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
+        onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
         renderToken={(item, { isActive, onClick, onRemove, disabled }) => (
           <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
             {item}
@@ -81,7 +81,7 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
         renderValue={this.renderValue}
         valueToItem={this.valueToItem}
         getItems={getModelItems}
-        onChange={this.onChange}
+        onValueChange={this.onChange}
         placeholder="placeholder"
         type={TokenInputType.Combined}
         renderToken={(item, { isActive, onClick, onRemove }) => (
@@ -151,7 +151,7 @@ class ColoredWrapper extends React.Component<any, any> {
             </Token>
           );
         }}
-        onChange={itemsNew => this.setState({ selectedItems: itemsNew })}
+        onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
       />
     );
   }

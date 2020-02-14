@@ -26,7 +26,7 @@ let initialState = {
   error: false,
 };
 
-let handleChange = (_, item) => setState({ selected: item, error: false });
+let handleValueChange = value => setState({ selected: value, error: false });
 
 let handleUnexpectedInput = () => setState({ error: true, selected: null });
 
@@ -36,7 +36,7 @@ let handleFocus = () => setState({ error: false });
   <ComboBox
     error={state.error}
     getItems={getItems}
-    onChange={handleChange}
+    onValueChange={handleValueChange}
     onFocus={handleFocus}
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
@@ -57,7 +57,7 @@ let popularItems = [
   { Id: 4980, City: 'Екатеринбург' },
 ];
 
-let handleChange = (_, value) => setState({ value });
+let handleValueChange = value => setState({ value });
 
 let initialState = {
   value: null,
@@ -107,7 +107,7 @@ let renderItem = item => (
 );
 
 <ComboBox
-  onChange={handleChange}
+  onValueChange={handleValueChange}
   getItems={getItems}
   placeholder="Начните вводить название"
   value={state.value}
@@ -140,7 +140,7 @@ const initialState = {
   error: false,
 };
 
-const handleChange = (_, item) => setState({ selected: item, error: false });
+const handleValueChange = value => setState({ selected: value, error: false });
 
 const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
@@ -214,7 +214,7 @@ const customRenderValue = item => (
   <ComboBox
     error={state.error}
     getItems={getItems}
-    onChange={handleChange}
+    onValueChange={handleValueChange}
     onFocus={handleFocus}
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
@@ -274,7 +274,7 @@ const initialState = {
   error: false,
 };
 
-const handleChange = (_, item) => setState({ selected: item, error: false });
+const handleValueChange = value => setState({ selected: value, error: false });
 
 const handleUnexpectedInput = () => setState({ error: true, selected: null });
 
@@ -292,7 +292,7 @@ const renderItem = item => {
   <ComboBox
     error={state.error}
     getItems={getItems}
-    onChange={handleChange}
+    onValueChange={handleValueChange}
     onFocus={handleFocus}
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
@@ -331,9 +331,9 @@ class ComboboxExample extends React.Component {
     this.comboBoxElement = null;
 
     this.getItems = this.getItems.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleInputValueChange = this.handleInputValueChange.bind(this);
     this.renderAddButton = this.renderAddButton.bind(this);
     this.refComboBox = this.refComboBox.bind(this);
     this.addItem = this.addItem.bind(this);
@@ -344,11 +344,11 @@ class ComboboxExample extends React.Component {
       <ComboBox
         error={this.state.error}
         getItems={this.getItems}
-        onChange={this.handleChange}
+        onValueChange={this.handleValueChange}
         onFocus={this.handleFocus}
         placeholder="Enter number"
         value={this.state.selected}
-        onInputChange={this.handleInputChange}
+        onInputValueChange={this.handleInputValueChange}
         renderAddButton={this.renderAddButton}
         ref={this.refComboBox}
       />
@@ -361,13 +361,13 @@ class ComboboxExample extends React.Component {
     ).then(delay(500));
   }
 
-  handleInputChange(query) {
+  handleInputValueChange(query) {
     const isItemExists = this.state.items.find(x => x.label.toLowerCase() == query.toLowerCase());
     this.setState({ query, shouldRenderAddButton: !isItemExists });
   }
 
-  handleChange(_, item) {
-    this.setState({ selected: item, error: false, shouldRenderAddButton: false });
+  handleValueChange(value) {
+    this.setState({ selected: value, error: false, shouldRenderAddButton: false });
   }
 
   handleFocus() {

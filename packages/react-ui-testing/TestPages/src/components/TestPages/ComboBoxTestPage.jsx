@@ -42,7 +42,7 @@ export default class ComboBoxTestPage extends React.Component {
               data-tid="SimpleComboBox"
               getItems={withDelay(1000, q => testItems.filter(x => x.value1.includes(q)))}
               value={this.state.simpleComboBoxValue}
-              onChange={(e, value) => this.setState({ simpleComboBoxValue: value })}
+              onValueChange={value => this.setState({ simpleComboBoxValue: value })}
               renderItem={x => x.value1}
               valueToString={x => x.value1}
               renderValue={x => x.value1}
@@ -57,7 +57,7 @@ export default class ComboBoxTestPage extends React.Component {
               disablePortal
               getItems={withDelay(1000, q => testItems.filter(x => x.value1.includes(q)))}
               value={this.state.simpleComboBoxValue}
-              onChange={(e, value) => this.setState({ simpleComboBoxValue: value })}
+              onValueChange={value => this.setState({ simpleComboBoxValue: value })}
               renderItem={x => x.value1}
               valueToString={x => x.value1}
               renderValue={x => x.value1}
@@ -78,7 +78,7 @@ export default class ComboBoxTestPage extends React.Component {
               data-tid="FilledComboBox"
               getItems={withDelay(1000, q => testItems.filter(x => x.value1.includes(q)))}
               value={this.state.filledComboBoxValue}
-              onChange={(e, value) => this.setState({ filledComboBoxValue: value })}
+              onValueChange={value => this.setState({ filledComboBoxValue: value })}
               renderItem={x => x.value1}
               valueToString={x => x.value1}
               renderValue={x => x.value1}

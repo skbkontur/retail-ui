@@ -53,10 +53,11 @@ export interface DateInputProps {
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   /**
-   * @param e - объект, частично имитирующий объект `Event`.
+   * Вызывается при изменении `value`
+   *
    * @param value - строка в формате `dd.mm.yyyy`.
    */
-  onChange?: (e: { target: { value: string } }, value: string) => void;
+  onValueChange?: (value: string) => void;
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
@@ -345,8 +346,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (this.props.value === value) {
       return;
     }
-    if (this.props.onChange) {
-      this.props.onChange({ target: { value } }, value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(value);
     }
     if (this.blurEvent && this.props.onBlur) {
       this.props.onBlur(this.blurEvent);

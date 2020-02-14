@@ -26,13 +26,13 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
           resize={'vertical'}
           value={this.state.value}
           width={250}
-          onChange={this.handleChange}
+          onValueChange={this.handleChange}
         />
       </div>
     );
   }
 
-  private handleChange = (_: any, value: string | null) => {
+  private handleChange = (value: string | null) => {
     this.setState({ value });
   };
 }

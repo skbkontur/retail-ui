@@ -52,12 +52,12 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
         type={this.getProps().type}
         value={this.state.value}
         onRestore={this.handleRestore}
-        onChange={this.handleChange}
+        onValueChange={this.handleChange}
       />
     );
   }
 
-  private handleChange = (_: any, value: React.ReactText) => {
+  private handleChange = (value: React.ReactText) => {
     this.setState({ value, auto: false });
   };
 
@@ -116,19 +116,19 @@ class WithWidth extends React.Component<
         <br />
         <div data-tid="container">
           <TestWrapper width={wrapperWidth} ruler>
-            <FxInput placeholder="no width" onChange={this.onChange} />
+            <FxInput placeholder="no width" onValueChange={this.onChange} />
           </TestWrapper>
 
           <TestWrapper width={wrapperWidth} ruler>
-            <FxInput width="100%" placeholder="100%" onChange={this.onChange} />
+            <FxInput width="100%" placeholder="100%" onValueChange={this.onChange} />
           </TestWrapper>
 
           <TestWrapper width={wrapperWidth} ruler>
-            <FxInput width={100} placeholder="100px" onChange={this.onChange} />
+            <FxInput width={100} placeholder="100px" onValueChange={this.onChange} />
           </TestWrapper>
 
           <TestWrapper width={wrapperWidth} ruler>
-            <FxInput width={400} placeholder="400px" onChange={this.onChange} />
+            <FxInput width={400} placeholder="400px" onValueChange={this.onChange} />
           </TestWrapper>
         </div>
       </div>

@@ -119,7 +119,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
       <Input
         leftIcon={isColor(this.state.value) && this.colorIcon()}
         value={this.state.value}
-        onChange={this.handleChange}
+        onValueChange={this.handleChange}
         onBlur={this.handleBlur}
         align={'right'}
         width={this.state.editing ? 225 : undefined}
@@ -164,7 +164,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     emitter.emit('clicked', variable);
   };
 
-  private handleChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
+  private handleChange = (value: string) => {
     this.setState({
       value,
     });

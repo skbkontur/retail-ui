@@ -5,12 +5,12 @@ import { Address } from '../models/Address';
 import { FiasCountry, APIProvider } from '../types';
 import { locale } from '../../LocaleProvider/decorators';
 
-import { FiasComboBox, FiasComboBoxChangeEvent } from './FiasComboBox';
+import { FiasComboBox } from './FiasComboBox';
 
 export interface FiasCountrySelectorProps {
   api: APIProvider;
   country?: FiasCountry;
-  onChange?: (value?: FiasCountry) => void;
+  onValueChange?: (value?: FiasCountry) => void;
   limit?: number;
 }
 
@@ -28,7 +28,7 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
         renderItem={this.renderItem}
         renderValue={this.renderValue}
         valueToString={this.valueToString}
-        onChange={this.handleChange}
+        onValueChange={this.handleValueChange}
         onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
         placeholder={this.locale.countryPlaceholder}
@@ -73,10 +73,10 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
     return (country && country.fullName) || '';
   };
 
-  private handleChange = (e: FiasComboBoxChangeEvent, value: Address) => {
-    const { onChange } = this.props;
-    if (onChange) {
-      onChange(value.country);
+  private handleValueChange = (value: Address) => {
+    const { onValueChange } = this.props;
+    if (onValueChange) {
+      onValueChange(value.country);
     }
   };
 

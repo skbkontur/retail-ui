@@ -116,7 +116,7 @@ class SimpleForm extends React.Component<any, any> {
             this.setState({ isFormSubmitted: true });
           }}
         >
-          <Input id="test-input" onChange={e => this.setState({ value: e.target.value })} />
+          <Input id="test-input" onValueChange={value => this.setState({ value })} />
           <Button children="Click" type="submit" />
         </form>
         {this.state.isFormSubmitted && <span id="test-input-value">{this.state.value}</span>}

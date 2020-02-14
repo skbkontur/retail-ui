@@ -217,7 +217,7 @@ class TooltipWithInput extends React.Component {
     return (
       <div style={{ padding: '0 10px 70px' }}>
         <Tooltip render={this.renderContent} pos="bottom right" trigger="click">
-          <Input onChange={(_, v) => this.setState({ show: Boolean(v) })} />
+          <Input onValueChange={v => this.setState({ show: Boolean(v) })} />
         </Tooltip>
       </div>
     );
@@ -508,7 +508,7 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
         <div>
           {triggers.map(trigger => (
             <button
-              id={trigger.replace("&", "_")}
+              id={trigger.replace('&', '_')}
               key={trigger}
               onClick={() => this.setTrigger(trigger)}
               disabled={this.state.trigger === trigger}

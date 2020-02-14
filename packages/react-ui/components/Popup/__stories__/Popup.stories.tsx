@@ -431,14 +431,14 @@ class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
             size={'large'}
             getItems={getComboboxItems}
             value={this.state.selected}
-            onChange={this.handleOnChange}
+            onValueChange={this.handleOnChange}
             {...comboboxProps}
           />
         )}
       </Tooltip>
     );
   }
-  private handleOnChange = (event: any, value: DropdownValue) => {
+  private handleOnChange = (value: DropdownValue) => {
     this.setState({ selected: value });
   };
 }
@@ -458,14 +458,14 @@ class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
             size={'large'}
             items={SELECT_ITEMS}
             value={this.state.selected}
-            onChange={this.handleOnChange}
+            onValueChange={this.handleOnChange}
             {...selectProps}
           />
         )}
       </Hint>
     );
   }
-  private handleOnChange = (event: any, value: DropdownValue) => {
+  private handleOnChange = (value: DropdownValue) => {
     this.setState({ selected: value });
   };
 }

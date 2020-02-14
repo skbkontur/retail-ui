@@ -133,7 +133,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       children,
       error,
       warning,
-      onChange,
+      onValueChange,
       disabled,
       prefix,
       suffix,

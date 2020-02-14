@@ -39,7 +39,7 @@ export default class LostfocusValidationDemo extends React.Component<{}, State> 
           <Form.Line title="Только цифры">
             <Toggle
               checked={this.state.data.onlyDigits}
-              onChange={onlyDigits => this.handleChange({ onlyDigits })}
+              onValueChange={onlyDigits => this.handleChange({ onlyDigits })}
             />
           </Form.Line>
           <Form.Line title="Значение">
@@ -49,7 +49,7 @@ export default class LostfocusValidationDemo extends React.Component<{}, State> 
                   this.state.data.onlyDigits ? 'Только цифры' : 'Любые символы'
                 }
                 value={this.state.data.value}
-                onChange={(_, value) => this.handleChange({ value })}
+                onValueChange={value => this.handleChange({ value })}
               />
             </ValidationWrapper>
           </Form.Line>

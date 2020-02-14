@@ -13,7 +13,7 @@ class PlainCheckbox extends Component<any, any> {
   public render() {
     const { checked } = this.state;
     return (
-      <Checkbox onChange={() => this.setState({ checked: !checked })} checked={checked}>
+      <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked}>
         {this.props.children}
       </Checkbox>
     );
@@ -36,7 +36,7 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
       <div>
         <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
           <Checkbox
-            onChange={(_event, checked) => this.setState({ checked })}
+            onValueChange={checked => this.setState({ checked })}
             checked={this.state.checked}
             initialIndeterminate
             ref={this.checkboxRef}

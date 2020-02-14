@@ -76,7 +76,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
           <Form.Line title="Указать контакты">
             <Toggle
               checked={data.withContact}
-              onChange={withContact => this.handleChange({ withContact })}
+              onValueChange={withContact => this.handleChange({ withContact })}
             />
           </Form.Line>
 
@@ -87,7 +87,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
                   <Input
                     placeholder={'Любое'}
                     value={data.contact.name}
-                    onChange={(_, name) => this.handleContactChange({ name })}
+                    onValueChange={name => this.handleContactChange({ name })}
                   />
                 </ValidationWrapper>
               </Form.Line>
@@ -97,7 +97,7 @@ export default class MissingObjectNode extends React.Component<{}, State> {
                   <Input
                     placeholder={'xxx@xxx.xx'}
                     value={data.contact.email}
-                    onChange={(_, email) => this.handleContactChange({ email })}
+                    onValueChange={email => this.handleContactChange({ email })}
                   />
                 </ValidationWrapper>
               </Form.Line>

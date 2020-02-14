@@ -14,8 +14,8 @@ import { DatePicker, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 
 const handleChange = () => undefined;
-const renderDatePicker = (props?: Partial<DatePickerProps<string>>) =>
-  mount<DatePicker>(<DatePicker onChange={handleChange} value="02.07.2017" {...props} />);
+const renderDatePicker = (props: Partial<DatePickerProps<string>> = {}) =>
+  mount<DatePicker>(<DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />);
 const renderDatePickerLocale = ({
   props = {},
   langCode = defaultLangCode,
@@ -27,7 +27,7 @@ const renderDatePickerLocale = ({
 } = {}) =>
   mount<LocaleProvider>(
     <LocaleProvider langCode={langCode} locale={locale}>
-      <DatePicker onChange={handleChange} value="02.07.2017" {...props} />
+      <DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />
     </LocaleProvider>,
   );
 const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;

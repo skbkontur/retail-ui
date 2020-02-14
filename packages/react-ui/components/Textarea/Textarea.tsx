@@ -53,9 +53,9 @@ export type TextareaProps = Override<
     width?: React.CSSProperties['width'];
 
     /**
-     * Обработчик события `change`
+     * Вызывается при изменении `value`
      */
-    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>, value: string) => void;
+    onValueChange?: (value: string) => void;
 
     /** Выделение значения при фокусе */
     selectAllOnFocus?: boolean;
@@ -100,7 +100,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     value: PropTypes.string,
     defaultValue: PropTypes.string,
-    onChange: PropTypes.func,
+    onValueChange: PropTypes.func,
 
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
@@ -303,21 +303,25 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
-  private handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  private handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (polyfillPlaceholder) {
-      const fieldIsEmpty = event.target!.value === '';
+      const fieldIsEmpty = e.target!.value === '';
 
       if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
         this.setState({ polyfillPlaceholder: fieldIsEmpty });
       }
     }
 
-    if (this.props.onChange) {
-      this.props.onChange(event, event.target.value);
+    if (this.props.onValueChange) {
+      this.props.onValueChange(e.target.value);
     }
 
     if (this.props.autoResize) {
       this.autoResize();
+    }
+
+    if (this.props.onChange) {
+      this.props.onChange(e);
     }
   };
 
