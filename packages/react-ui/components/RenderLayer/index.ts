@@ -1,1 +1,1 @@
-export { RenderLayer, RenderLayerProps } from './RenderLayer';
+export * from './RenderLayer';

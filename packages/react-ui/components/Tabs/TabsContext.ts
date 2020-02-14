@@ -15,7 +15,7 @@ export interface TabsContextType {
   switchTab: (id: string) => void;
 }
 
-export const TabsContext = React.createContext<TabsContextType>({
+export const TabsContextDefaultValue: TabsContextType = {
   vertical: false,
   activeTab: '',
   getTab: emptyHandler,
@@ -24,4 +24,5 @@ export const TabsContext = React.createContext<TabsContextType>({
   removeTab: emptyHandler,
   shiftFocus: emptyHandler,
   switchTab: emptyHandler,
-});
+};
+export const TabsContext = React.createContext<TabsContextType>(TabsContextDefaultValue);

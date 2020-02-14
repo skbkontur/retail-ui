@@ -7,7 +7,7 @@ import { MenuItem } from '../MenuItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 import { TopBarDropdown } from './TopBarDropdown';
 
-export interface UserProps {
+export interface TopBarUserProps {
   userName: string;
   cabinetUrl?: string;
 }
@@ -18,7 +18,7 @@ export interface UserProps {
  */
 
 @locale('TopBar', TopBarLocaleHelper)
-export class User extends React.Component<UserProps> {
+export class TopBarUser extends React.Component<TopBarUserProps> {
   public static __KONTUR_REACT_UI__ = 'TopBarUser';
 
   public static defaultProps = {
