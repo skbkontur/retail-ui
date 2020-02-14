@@ -1,1 +1,1 @@
-export { MaskedInput, MaskedInputProps } from './MaskedInput';
+export * from './MaskedInput';

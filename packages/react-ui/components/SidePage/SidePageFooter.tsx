@@ -1,7 +1,6 @@
 import React from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { withContext } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
@@ -12,7 +11,6 @@ import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageFooterProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-  context?: SidePageContextType;
   /**
    * Включает серый цвет в футере
    */
@@ -28,6 +26,9 @@ export interface SidePageFooterProps {
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
+  public static contextType = SidePageContext;
+  public context: SidePageContextType = this.context;
+
   public state = {
     fixed: false,
   };
@@ -38,19 +39,13 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
 
   public componentDidMount() {
-    const { context } = this.props;
-    if (context) {
-      context.footerRef(this);
-    }
+    this.context.footerRef(this);
     this.update();
     this.layoutSub = LayoutEvents.addListener(this.update);
   }
 
   public componentWillUnmount() {
-    const { context } = this.props;
-    if (context) {
-      context.footerRef(null);
-    }
+    this.context.footerRef(null);
     if (this.layoutSub) {
       this.layoutSub.remove();
     }
@@ -124,5 +119,3 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     return this.content.getBoundingClientRect().height;
   }
 }
-
-export const SidePageFooterWithContext = withContext(SidePageContext.Consumer)(SidePageFooter);

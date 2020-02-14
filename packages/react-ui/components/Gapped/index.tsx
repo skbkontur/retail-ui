@@ -1,1 +1,1 @@
-export { Gapped, GappedProps } from './Gapped';
+export * from './Gapped';

@@ -1,1 +1,1 @@
-export { FxInput, FxInputProps } from './FxInput';
+export * from './FxInput';

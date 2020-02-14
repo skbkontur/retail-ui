@@ -11,7 +11,7 @@ import { jsStyles } from './Modal.styles';
 import styles from './Modal.module.less';
 import { ModalContext } from './ModalContext';
 
-export interface FooterProps {
+export interface ModalFooterProps {
   /**
    * Включает серый цвет в футере
    */
@@ -24,7 +24,7 @@ export interface FooterProps {
  *
  * @visibleName Modal.Footer
  */
-export class Footer extends React.Component<FooterProps> {
+export class ModalFooter extends React.Component<ModalFooterProps> {
   public static __KONTUR_REACT_UI__ = 'ModalFooter';
   public static __MODAL_FOOTER__ = true;
 
