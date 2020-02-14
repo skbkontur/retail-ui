@@ -1,6 +1,7 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button';
-import Tooltip from 'retail-ui/components/Tooltip';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
+
 import { CaseSuite, Case } from '../Case';
 
 export default class TooltipTestPage extends React.Component {

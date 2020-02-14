@@ -1,5 +1,6 @@
-import * as React from 'react';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
 import {
   ValidationContainer,
   ValidationWrapper,
@@ -7,7 +8,7 @@ import {
   text,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface State {
   value: string;
@@ -48,7 +49,7 @@ export default class TextValidationDemo extends React.Component<{}, State> {
       <Input
         placeholder={'Только цифры'}
         value={this.state.value}
-        onChange={(_, value) => this.setState({ value })}
+        onValueChange={value => this.setState({ value })}
       />
     );
   };

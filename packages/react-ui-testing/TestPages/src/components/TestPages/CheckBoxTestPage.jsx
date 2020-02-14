@@ -1,6 +1,7 @@
 import React from 'react';
-import Checkbox from 'retail-ui/components/Checkbox';
-import { CaseSuite, Case } from '../Case';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+
+import { Case, CaseSuite } from '../Case';
 
 export default class CheckboxTestPage extends React.Component {
   state = {
@@ -18,7 +19,7 @@ export default class CheckboxTestPage extends React.Component {
             <Checkbox
               data-tid="SimpleCheckbox"
               checked={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>
@@ -27,7 +28,7 @@ export default class CheckboxTestPage extends React.Component {
             <Checkbox
               data-tid="CheckboxWithLabel"
               checked={this.state.value2}
-              onChange={(e, value) => this.setState({ value2: value })}
+              onValueChange={value => this.setState({ value2: value })}
             >
               Checkbox label
             </Checkbox>
@@ -38,7 +39,7 @@ export default class CheckboxTestPage extends React.Component {
             <Checkbox
               data-tid="CheckboxToDisable"
               checked={this.state.value3}
-              onChange={(e, value) => this.setState({ value3: value })}
+              onValueChange={value => this.setState({ value3: value })}
             >
               Disable checkbox below
             </Checkbox>
@@ -46,7 +47,7 @@ export default class CheckboxTestPage extends React.Component {
               data-tid="CheckboxWithDisabledState"
               disabled={this.state.value3}
               checked={this.state.value4}
-              onChange={(e, value) => this.setState({ value4: value })}
+              onValueChange={value => this.setState({ value4: value })}
             >
               Checkbox with disabled state
             </Checkbox>

@@ -1,4 +1,0 @@
-/* @flow */
-declare var polyfillPlaceholder: boolean;
-
-export default polyfillPlaceholder;

@@ -1,17 +1,15 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-
+import React from 'react';
+import { render } from 'react-dom';
 import { hot } from 'react-hot-loader/root';
-
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Layout from './Layout';
+import { Layout } from './Layout';
 import Api from './Pages/Api.md';
 import GettingStarted from './Pages/Displaying/GettingStarted/GettingStarted.md';
-import Examples from './Pages/Examples';
-import Declarations from './Pages/Displaying';
-import Builder from './Pages/Validator';
-import Concepts from './Pages/Concepts';
+import { Examples } from './Pages/Examples';
+import { Displaying } from './Pages/Displaying';
+import { Validator } from './Pages/Validator';
+import { Concepts } from './Pages/Concepts';
 
 import 'docs/styles/reset.less';
 import 'docs/styles/typography.less';
@@ -21,7 +19,7 @@ const App = hot(() => (
     <Layout>
       <Switch>
         <Route exact path="/" component={GettingStarted} />
-        {[...Examples.items, ...Declarations.items, ...Builder.items, ...Concepts.items].map(page => (
+        {[...Examples.items, ...Displaying.items, ...Validator.items, ...Concepts.items].map(page => (
           <Route key={page.url} path={`/${page.url}`} component={page.component} />
         ))}
         <Route path="/api" component={Api} />
@@ -31,4 +29,4 @@ const App = hot(() => (
   </Router>
 ));
 
-ReactDom.render(<App />, document.getElementById('content'));
+render(<App />, document.getElementById('content'));

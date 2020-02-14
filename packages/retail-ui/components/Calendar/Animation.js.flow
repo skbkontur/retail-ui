@@ -1,7 +1,0 @@
-/* @flow */
-declare export var Animation: () => {|
-  animate: (amount: number, onDelta: (x0: number) => void, onEnd?: () => void) => void,
-  inProgress: () => boolean,
-  cancel: () => void,
-  finish: () => void,
-|};

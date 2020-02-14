@@ -1,6 +1,7 @@
 import React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
 import { CaseSuite, Case } from '../Case';
 
 export default class InputTextPage extends React.Component {
@@ -19,7 +20,7 @@ export default class InputTextPage extends React.Component {
             <Input
               data-tid="SimpleInput"
               value={this.state.simpleInputValue}
-              onChange={(e, value) => this.setState({ simpleInputValue: value })}
+              onValueChange={value => this.setState({ simpleInputValue: value })}
             />
           </Case.Body>
         </Case>
@@ -30,7 +31,7 @@ export default class InputTextPage extends React.Component {
               data-tid="DisabledInput"
               disabled
               value={this.state.simpleInputValue}
-              onChange={(e, value) => this.setState({ simpleInputValue: value })}
+              onValueChange={value => this.setState({ simpleInputValue: value })}
             />
           </Case.Body>
         </Case>
@@ -51,7 +52,7 @@ export default class InputTextPage extends React.Component {
               <Input
                 data-tid="InputAppearsAfterTimeout"
                 value={this.state.inputAppearsAfterTimeout}
-                onChange={(e, value) => this.setState({ inputAppearsAfterTimeout: value })}
+                onValueChange={value => this.setState({ inputAppearsAfterTimeout: value })}
               />
             )}
           </Case.Body>
@@ -62,7 +63,7 @@ export default class InputTextPage extends React.Component {
             <Input
               data-tid="InputWithDelay"
               value={this.state.inputWithDelayValue}
-              onChange={(e, value) => this.setState({ inputWithDelayValue: value })}
+              onValueChange={value => this.setState({ inputWithDelayValue: value })}
             />
             <Button
               data-tid="UpdateInputWithDelay"

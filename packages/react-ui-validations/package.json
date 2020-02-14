@@ -1,7 +1,7 @@
 {
   "name": "react-ui-validations",
-  "version": "1.0.8",
-  "description": "Validations for retail-ui",
+  "version": "1.1.1",
+  "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
     "clean": "rimraf dist build",
@@ -19,8 +19,9 @@
     "storybook": "start-storybook -p 8081",
     "start:docs": "webpack-dev-server -d --config webpack.docs.config.js --hot",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
-    "lint:tsc": "tsc --noEmit",
-    "lint:tslint": "tslint --project tsconfig.json",
+    "lint:tsc": "tsc --noEmit --diagnostics",
+    "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
+    "fix:eslint": "yarn lint:eslint --fix",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -37,8 +38,8 @@
     "index.js"
   ],
   "peerDependencies": {
-    "react": ">=15 <=16",
-    "react-dom": ">=15 <=16",
+    "react": ">=16.9",
+    "react-dom": ">=16.9",
     "retail-ui": ">=0.52.0 <2.0.0"
   },
   "dependencies": {
@@ -47,10 +48,10 @@
     "warning": "^4.0.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.5",
-    "@babel/plugin-transform-runtime": "^7.7.6",
-    "@babel/preset-env": "^7.7.6",
-    "@babel/preset-react": "^7.7.4",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
     "@hot-loader/react-dom": "^16.11.0",
     "@skbkontur/react-icons": "^3.2.1",
     "@storybook/react": "5.2.8",
@@ -97,7 +98,6 @@
     "styled-components": "^4.4.1",
     "ts-jest": "^24.2.0",
     "ts-loader": "6.2.1",
-    "tslint": "^5.20.1",
     "typescript": "^3.7.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",

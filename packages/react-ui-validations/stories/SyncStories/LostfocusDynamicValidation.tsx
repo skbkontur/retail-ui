@@ -1,9 +1,8 @@
-import * as React from 'react';
-import Gapped from 'retail-ui/components/Gapped';
-import Input from 'retail-ui/components/Input';
-import { text, ValidationInfo } from '../../src';
-import ValidationContainer from '../../src/ValidationContainer';
-import ValidationWrapper from '../../src/ValidationWrapper';
+import React from 'react';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
 interface LostfocusDynamicValidationState {
@@ -12,14 +11,14 @@ interface LostfocusDynamicValidationState {
   valueB: string;
 }
 
-export default class LostfocusDynamicValidation extends React.Component<{}, LostfocusDynamicValidationState> {
+export class LostfocusDynamicValidation extends React.Component<{}, LostfocusDynamicValidationState> {
   public state: LostfocusDynamicValidationState = {
     sending: false,
     valueA: '',
     valueB: '',
   };
 
-  private counter: number = 0;
+  private counter = 0;
 
   public validateA(): Nullable<ValidationInfo> {
     if (this.state.valueA.substr(0, 3) === 'bad') {
@@ -42,7 +41,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
                 <Input
                   data-tid={'InputA'}
                   value={this.state.valueA}
-                  onChange={(_, value) => this.setState({ valueA: value })}
+                  onValueChange={value => this.setState({ valueA: value })}
                 />
               </ValidationWrapper>
             </Gapped>
@@ -55,7 +54,7 @@ export default class LostfocusDynamicValidation extends React.Component<{}, Lost
                 <Input
                   data-tid={'InputB'}
                   value={this.state.valueB}
-                  onChange={(_, value) => this.setState({ valueB: value })}
+                  onValueChange={value => this.setState({ valueB: value })}
                 />
               </ValidationWrapper>
             </Gapped>

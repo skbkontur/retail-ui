@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["**/*.stories.tsx", "docs/**/*.demo.tsx", "docs/**/Demo.tsx", "rollup*"],
+      "rules": {
+        "import/no-default-export": 0
+      }
+    }
+  ]
+}

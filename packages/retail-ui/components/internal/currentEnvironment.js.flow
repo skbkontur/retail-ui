@@ -1,4 +1,0 @@
-/* @flow */
-declare export var isTestEnv: boolean;
-declare export var isProductionEnv: boolean;
-declare export var isDevelopmentEnv: boolean;

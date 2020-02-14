@@ -1,6 +1,7 @@
 import { storiesOf } from '@storybook/react';
-import * as React from 'react';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
@@ -55,7 +56,7 @@ class Example1 extends React.Component<{}, Example1State> {
             <Input
               data-tid="Input1"
               value={this.state.value1}
-              onChange={(e, value) => this.setState({ value1: value })}
+              onValueChange={value => this.setState({ value1: value })}
             />
           </ValidationWrapper>
           <br />
@@ -69,7 +70,7 @@ class Example1 extends React.Component<{}, Example1State> {
             <Input
               data-tid="Input2"
               value={this.state.value2}
-              onChange={(e, value) => this.setState({ value2: value })}
+              onValueChange={value => this.setState({ value2: value })}
             />
           </ValidationWrapper>
         </div>

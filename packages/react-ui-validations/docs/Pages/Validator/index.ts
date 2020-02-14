@@ -4,7 +4,7 @@ import Dependent from './Dependent/Dependent.md';
 import Reusable from './Reusable/Reusable.md';
 import MissingNodes from './MissingNodes/MissingNodes.md';
 
-export default {
+export const Validator = {
   caption: 'Описание валидаций',
   items: [
     {

@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import Logotype from 'retail-ui/components/Logotype';
+import { Logotype } from 'retail-ui/components/Logotype';
 
 type LayoutProps = {
     children?: any,

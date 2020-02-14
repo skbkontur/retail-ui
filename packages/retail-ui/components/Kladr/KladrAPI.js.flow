@@ -1,8 +1,0 @@
-/* @flow */
-import type { Address, VerifyResult } from './Types';
-
-declare export function search(searchText: string, levels: string, parentCode: ?string): Promise<Address[]>;
-
-declare export function searchIndex(code: string, house?: string): Promise<string>;
-
-declare export function verify(req: Address): Promise<VerifyResult>;

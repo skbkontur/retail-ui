@@ -1,13 +1,10 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface Organization {
   name: string;
@@ -108,7 +105,6 @@ const isValidInn = (value: string): boolean => {
   }
 };
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<Organization>((b, organization) => {
   b.prop(
     x => x.name,
@@ -151,8 +147,6 @@ const validate = createValidator<Organization>((b, organization) => {
   );
 });
 
-/* tslint:enable:no-shadowed-variable */
-
 interface State {
   organization: Organization;
 }
@@ -180,7 +174,7 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
               <Input
                 value={organization.name}
-                onChange={(_, value) => this.handleChange({ name: value })}
+                onValueChange={value => this.handleChange({ name: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -189,7 +183,7 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.inn).get()}>
               <Input
                 value={organization.inn}
-                onChange={(_, value) => this.handleChange({ inn: value })}
+                onValueChange={value => this.handleChange({ inn: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -198,7 +192,7 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.kpp).get()}>
               <Input
                 value={organization.kpp}
-                onChange={(_, value) => this.handleChange({ kpp: value })}
+                onValueChange={value => this.handleChange({ kpp: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -209,7 +203,7 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
               <Input
                 value={organization.email}
-                onChange={(_, value) => this.handleChange({ email: value })}
+                onValueChange={value => this.handleChange({ email: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -219,7 +213,7 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
               <Input
                 mask={'+7 999 999-99-99'}
                 value={organization.phone}
-                onChange={(_, value) => this.handleChange({ phone: value })}
+                onValueChange={value => this.handleChange({ phone: value })}
               />
             </ValidationWrapper>
           </Form.Line>

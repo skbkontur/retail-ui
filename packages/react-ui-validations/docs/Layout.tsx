@@ -1,14 +1,15 @@
-import * as React from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
-import { NavLink, withRouter, RouteComponentProps } from 'react-router-dom';
-import Logotype from 'retail-ui/components/Logotype';
+import { NavLink, withRouter } from 'react-router-dom';
+import { Logotype } from '@skbkontur/react-ui/components/Logotype';
 import styled from 'styled-components';
-import Displaying from './Pages/Displaying';
-import Validator from './Pages/Validator';
-import Examples from './Pages/Examples';
-import Concepts from './Pages/Concepts';
 
-const Layout: React.FunctionComponent<RouteComponentProps> = props => {
+import { Displaying } from './Pages/Displaying';
+import { Validator } from './Pages/Validator';
+import { Examples } from './Pages/Examples';
+import { Concepts } from './Pages/Concepts';
+
+export const Layout = withRouter(props => {
   window.scrollTo(0, 0);
   return (
     <Root>
@@ -39,9 +40,7 @@ const Layout: React.FunctionComponent<RouteComponentProps> = props => {
       </Content>
     </Root>
   );
-};
-
-export default withRouter(Layout);
+});
 
 const navigationBarSize = '290px';
 const sidebarColor = '#41464e';

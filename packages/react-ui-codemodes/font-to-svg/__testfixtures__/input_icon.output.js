@@ -1,4 +1,4 @@
-import Input from "retail-ui/Input";
+import { Input } from "retail-ui/Input";
 import OkIcon from "@skbkontur/react-icons/Ok";
 import CloudIcon from "@skbkontur/react-icons/Cloud";
 
