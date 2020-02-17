@@ -42,16 +42,12 @@ describe('Loader', function() {
       await expect(await element.takeScreenshot()).to.matchImage('have children with same height while loader active');
     });
   });
-  describe('Custom spinner', function() {
-    it('view with custom spinner', async function() {
-      const element = await this.browser.findElement(By.css('#test-element'));
-      await expect(await element.takeScreenshot()).to.matchImage('view with custom spinner');
-    });
+  it('Old spinner', async function() {
+    const element = await this.browser.findElement(By.css('#test-element'));
+    await expect(await element.takeScreenshot()).to.matchImage('Old spinner');
   });
-  describe('Old spinner', function() {
-    it('view with old spinner', async function() {
-      const element = await this.browser.findElement(By.css('#test-element'));
-      await expect(await element.takeScreenshot()).to.matchImage('view with old spinner');
-    });
+  it('Custom spinner', async function() {
+    const element = await this.browser.findElement(By.css('#test-element'));
+    await expect(await element.takeScreenshot()).to.matchImage('Custom spinner');
   });
 });

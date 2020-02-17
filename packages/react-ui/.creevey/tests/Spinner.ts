@@ -20,4 +20,8 @@ describe('Spinner', function() {
       await expect(await element.takeScreenshot()).to.matchImage('plain');
     });
   });
+  it('Old', async function() {
+    const element = await this.browser.findElement(By.css('#test-element'));
+    await expect(await element.takeScreenshot()).to.matchImage('Old');
+  });
 });

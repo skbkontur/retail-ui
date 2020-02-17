@@ -27,4 +27,5 @@ storiesOf('Spinner', module)
   .add('Mini', () => <Spinner type="mini" />)
   .add('Mini dimmed', () => <Spinner type="mini" dimmed />)
   .add('With ReactNode in caption', () => <Spinner type="big" caption={reactNodeCaption} />)
-  .add('Spinner and Icon same sizes', () => <SpinnerLikeIcon />);
+  .add('Spinner and Icon same sizes', () => <SpinnerLikeIcon />)
+  .add('Old', () => <Spinner type="big" cloud />);
