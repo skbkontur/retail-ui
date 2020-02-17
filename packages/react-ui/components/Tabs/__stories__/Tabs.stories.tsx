@@ -105,11 +105,7 @@ class OhMyTabs extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onValueChange={(_, v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
+      <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
         <UnexpectedUpdatedTab id="fuji">
           <span role="img" aria-label="fuji">
             🌋&nbsp;&nbsp;Fuji
@@ -248,6 +244,7 @@ class TabsInModal extends React.Component<any, any> {
 
 class TabsTable extends React.Component {
   public static TestTab = class extends React.Component<TabProps & { vertical?: boolean }, any> {
+    public displayName = 'TestTab';
     public render() {
       const { vertical, ...tabProps } = this.props;
       return (

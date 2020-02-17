@@ -68,7 +68,9 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
   public static defaultProps = {
     component: ({ className, onClick, children }: any) => (
-      <span className={className} onClick={onClick} children={children} />
+      <span className={className} onClick={onClick}>
+        {children}
+      </span>
     ),
     useGlobalListener: false,
   };

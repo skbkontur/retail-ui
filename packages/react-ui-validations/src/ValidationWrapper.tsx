@@ -18,7 +18,7 @@ export interface ValidationInfo {
 }
 
 export interface ValidationWrapperProps {
-  children: React.ReactElement<any>;
+  children?: React.ReactElement<any>;
   validationInfo: Nullable<ValidationInfo>;
   renderMessage?: Nullable<RenderErrorMessage>;
 }

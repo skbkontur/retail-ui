@@ -150,7 +150,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    const inputNode = wrapper.find('input').getDOMNode();
+    const inputNode = wrapper.find('input').getDOMNode() as HTMLElement;
 
     inputNode.blur(); // simulate blur from real click
     wrapper
@@ -621,7 +621,8 @@ describe('ComboBox', () => {
     });
 
     it('click on item', async () => {
-      const inputNode = wrapper.find('input').getDOMNode();
+      const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
       inputNode.blur(); // simulate blur from real click
 
       wrapper
@@ -649,7 +650,7 @@ describe('ComboBox', () => {
       await delay(0);
       wrapper.update();
 
-      const inputNode = wrapper.find('input').getDOMNode();
+      const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
 
       expect(inputNode).toBeTruthy();
       expect(inputNode).toBe(document.activeElement); // input has focus
