@@ -9,7 +9,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
-import { SpinnerOld } from '../internal/SpinnerOld';
 
 import { jsStyles } from './Loader.styles';
 import styles from './Loader.module.less';
@@ -35,7 +34,7 @@ export interface LoaderProps {
    *
    * @default false - исчезнет в 3.0
    */
-  cloud?: React.ReactNode;
+  cloud?: boolean;
 }
 
 export interface LoaderState {
@@ -52,7 +51,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static defaultProps = {
     type: Spinner.Types.normal,
     active: false,
-    cloud: false,
   };
 
   public static propTypes = {
@@ -88,6 +86,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * @default  <Spinner/> из react-ui
      */
     component: PropTypes.node,
+    /**
+     * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
+     *
+     * @default false - исчезнет в 3.0
+     */
+    cloud: PropTypes.bool,
   };
 
   private theme!: Theme;
@@ -180,15 +184,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           this.spinnerNode = element;
         }}
       >
-        {!component ? (
-          this.props.cloud ? (
-            <SpinnerOld type={type} caption={caption} />
-          ) : (
-            <Spinner type={type} caption={caption} />
-          )
-        ) : (
-          { component }
-        )}
+        {!component ? <Spinner type={type} caption={caption} cloud={this.props.cloud} /> : component}
       </span>
     );
   }

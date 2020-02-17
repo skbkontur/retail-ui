@@ -7,6 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';
 import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
+import { SpinnerOld } from '../internal/SpinnerOld';
 
 import { jsStyles } from './Spinner.styles';
 import { SpinnerFallback, types } from './SpinnerFallback';
@@ -22,6 +23,12 @@ export interface SpinnerProps {
    * @default normal
    */
   type: SpinnerType;
+  /**
+   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
+   *
+   * @default false - исчезнет в 3.0
+   */
+  cloud?: boolean;
 }
 
 /**
@@ -50,6 +57,12 @@ export class Spinner extends React.Component<SpinnerProps> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(types)),
+    /**
+     * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
+     *
+     * @default false - исчезнет в 3.0
+     */
+    cloud: PropTypes.bool,
   };
 
   public static defaultProps: SpinnerProps = {
@@ -65,10 +78,14 @@ export class Spinner extends React.Component<SpinnerProps> {
       <ThemeConsumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return !this.props.cloud ? this.renderMain() : this.renderSpinnerOld();
         }}
       </ThemeConsumer>
     );
+  }
+
+  private renderSpinnerOld() {
+    return <SpinnerOld {...this.props} />;
   }
 
   private renderMain() {
