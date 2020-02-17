@@ -144,11 +144,6 @@
   },
   "jest": {
     "testResultsProcessor": "jest-teamcity-reporter",
-    "globals": {
-      "ts-jest": {
-        "tsConfig": "./tsconfig.json"
-      }
-    },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/components/__mocks__/fileMock.ts",
       "\\.(css|less)$": "identity-obj-proxy"
