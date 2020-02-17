@@ -1,6 +1,6 @@
-import { css } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
-import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
+import { css } from '../../../lib/theming/Emotion';
+import { Theme } from '../../../lib/theming/Theme';
+import { AnimationKeyframes } from '../../../lib/theming/AnimationKeyframes';
 
 export const jsStyles = {
   cloudStroke(t: Theme) {

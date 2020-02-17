@@ -2,12 +2,12 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import warning from 'warning';
 
-import { locale } from '../LocaleProvider/decorators';
-import { cx } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { hasSvgAnimationSupport } from '../../lib/utils';
-import { SpinnerOldIcon } from '../internal/icons/SpinnerOldIcon';
+import { locale } from '../../LocaleProvider/decorators';
+import { cx } from '../../../lib/theming/Emotion';
+import { Theme } from '../../../lib/theming/Theme';
+import { ThemeConsumer } from '../../ThemeConsumer';
+import { hasSvgAnimationSupport } from '../../../lib/utils';
+import { SpinnerOldIcon } from '../icons/SpinnerOldIcon';
 
 import { jsStyles } from './SpinnerOld.styles';
 import { types, SpinnerOldFallback } from './SpinnerOldFallback';

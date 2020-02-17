@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -8,6 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
+import { SpinnerOld } from '../internal/SpinnerOld';
 
 import { jsStyles } from './Loader.styles';
 import styles from './Loader.module.less';
@@ -28,6 +30,12 @@ export interface LoaderProps {
    * @default  <Spinner/> из react-ui
    */
   component?: React.ReactNode;
+  /**
+   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
+   *
+   * @default false - исчезнет в 3.0
+   */
+  cloud?: React.ReactNode;
 }
 
 export interface LoaderState {
@@ -44,6 +52,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static defaultProps = {
     type: Spinner.Types.normal,
     active: false,
+    cloud: false,
   };
 
   public static propTypes = {
@@ -92,6 +101,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.containerNode = null;
     this.spinnerNode = null;
+
+    warning(
+      !this.props.cloud,
+      'cloud is deprecated, will removed in 3.0, if you want cloud use prop component instead. ',
+    );
 
     this.state = {
       isStickySpinner: false,
@@ -166,7 +180,15 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           this.spinnerNode = element;
         }}
       >
-        {!component ? <Spinner type={type} caption={caption} /> : component}
+        {!component ? (
+          this.props.cloud ? (
+            <SpinnerOld type={type} caption={caption} />
+          ) : (
+            <Spinner type={type} caption={caption} />
+          )
+        ) : (
+          { component }
+        )}
       </span>
     );
   }

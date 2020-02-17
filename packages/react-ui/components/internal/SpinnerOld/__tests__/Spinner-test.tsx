@@ -1,10 +1,10 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
-import { defaultLangCode } from '../../LocaleProvider/constants';
-import { LocaleProvider, LangCodes } from '../../LocaleProvider';
+import { defaultLangCode } from '../../../LocaleProvider/constants';
+import { LocaleProvider, LangCodes } from '../../../LocaleProvider';
 import { SpinnerLocaleHelper } from '../locale';
-import { SpinnerOldIcon, SPINNER_CLOUD_SIZE } from '../../internal/icons/SpinnerOldIcon';
+import { SpinnerOldIcon, SPINNER_CLOUD_SIZE } from '../../icons/SpinnerOldIcon';
 import { SpinnerOld } from '../SpinnerOld';
 import styles from '../SpinnerOld.less';
 import { SpinnerOldFallback } from '../SpinnerOldFallback';
@@ -15,7 +15,7 @@ const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 describe('SpinnerOld', () => {
   describe('SVG animation', () => {
     beforeEach(() => {
-      require('../../../lib/utils').__setSvgAnimationSupport(true);
+      require('../../../../lib/utils').__setSvgAnimationSupport(true);
     });
 
     it('renders default SpinnerOld', () => {
@@ -66,7 +66,7 @@ describe('SpinnerOld', () => {
 
   describe('Fallback animation', () => {
     beforeEach(() => {
-      require('../../../lib/utils').__setSvgAnimationSupport(false);
+      require('../../../../lib/utils').__setSvgAnimationSupport(false);
     });
 
     it('renders default SpinnerOld', () => {

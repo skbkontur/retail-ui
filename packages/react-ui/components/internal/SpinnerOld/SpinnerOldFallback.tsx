@@ -1,7 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerOldIcon';
+import { SPINNER_CLOUD_SIZE } from '../icons/SpinnerOldIcon';
 
 import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
