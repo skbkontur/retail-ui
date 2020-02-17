@@ -1,6 +1,5 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import warning from 'warning';
 
 import { locale } from '../../LocaleProvider/decorators';
 import { cx } from '../../../lib/theming/Emotion';
@@ -63,7 +62,6 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
 
   public constructor(props: SpinnerOldProps) {
     super(props);
-    warning(false, 'SpinnerOld is deprecated, will removed in 3.0 use Spinner instead');
   }
 
   public render() {

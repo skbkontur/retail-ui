@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
 
 import { locale } from '../LocaleProvider/decorators';
 import { cx } from '../../lib/theming/Emotion';
@@ -24,9 +25,9 @@ export interface SpinnerProps {
    */
   type: SpinnerType;
   /**
-   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
+   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере - исчезнет в 3.0 поведение пересено в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
    *
-   * @default false - исчезнет в 3.0
+   * @default false
    */
   cloud?: boolean;
 }
@@ -72,6 +73,11 @@ export class Spinner extends React.Component<SpinnerProps> {
   public static Types: typeof types = types;
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
+
+  constructor(props: SpinnerProps) {
+    super(props);
+    warning(!this.props.cloud, 'cloud is deprecated, will removed in 3.0. ');
+  }
 
   public render() {
     return (
