@@ -31,13 +31,27 @@ describe('Loader', function() {
   describe('Wrapper with custom height and inactive loader', function() {
     it('have children with same height while loader inactive', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
-      await expect(await element.takeScreenshot()).to.matchImage('have children with same height while loader inactive');
+      await expect(await element.takeScreenshot()).to.matchImage(
+        'have children with same height while loader inactive',
+      );
     });
   });
   describe('Wrapper with custom height and active loader', function() {
     it('have children with same height while loader active', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
       await expect(await element.takeScreenshot()).to.matchImage('have children with same height while loader active');
+    });
+  });
+  describe('Custom spinner', function() {
+    it('view with custom spinner', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('view with custom spinner');
+    });
+  });
+  describe('Old spinner', function() {
+    it('view with old spinner', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('view with old spinner');
     });
   });
 });

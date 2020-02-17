@@ -16,7 +16,25 @@ const wrapperStyle = {
   width: '800px',
   background: 'AliceBlue',
 };
-
+class LoaderOld extends React.Component {
+  public render() {
+    return (
+      <div>
+        <Loader cloud active>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam rerum nisi error nesciunt at sunt, cum
+          reprehenderit sapiente quia recusandae! Distinctio incidunt ratione a alias officiis voluptatum quae et optio.
+          <br />
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat adipisci qui tempore ratione sed,
+          impedit saepe? Non, iste soluta? Quos voluptatem temporibus rerum explicabo molestias pariatur repudiandae,
+          dicta officia.
+          <br />
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet reprehenderit quia, facere error aspernatur
+          ipsa unde amet nemo impedit totam saepe consequatur? Illo ea qui omnis incidunt laboriosam sit fugiat.
+        </Loader>
+      </div>
+    );
+  }
+}
 class CustomLoader extends React.Component {
   public render() {
     return (
@@ -236,4 +254,5 @@ storiesOf('Loader', module)
       </div>
     </ContentComponent>
   ))
-  .add('Custom spinner', () => <CustomLoader />);
+  .add('Custom spinner', () => <CustomLoader />)
+  .add('Old spinner', () => <LoaderOld />);
