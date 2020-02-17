@@ -1,11 +1,5 @@
 {
   "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "tsconfig.json",
-    "tsconfigRootDir": ".",
-    "sourceType": "module",
-    "ecmaFeatures": { "jsx": true }
-  },
   "plugins": ["@typescript-eslint", "react", "react-hooks", "import"],
   "env": {
     "browser": true,
@@ -24,7 +18,6 @@
     "plugin:import/typescript",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier",
     "prettier/@typescript-eslint"
   ],
