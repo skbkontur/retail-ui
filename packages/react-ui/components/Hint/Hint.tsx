@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { cx } from '../../lib/theming/Emotion';
 
-import styles from './HintBox.module.less';
+import { jsStyles } from './Hint.styles';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
@@ -123,8 +123,8 @@ export class Hint extends React.Component<HintProps, HintState> {
 
     const { pos, maxWidth } = this.props;
     const className = cx({
-      [styles.content]: true,
-      [styles.contentCenter]: pos === 'top' || pos === 'bottom',
+      [jsStyles.content()]: true,
+      [jsStyles.contentCenter()]: pos === 'top' || pos === 'bottom',
     });
     return (
       <div className={className} style={{ maxWidth }}>
