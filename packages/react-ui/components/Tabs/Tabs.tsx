@@ -1,13 +1,12 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-
-import { cx } from '../../lib/theming/Emotion';
+import cn from 'classnames';
 
 import { Indicator } from './Indicator';
+import { jsStyles } from './Tabs.styles';
 import { TabsContext } from './TabsContext';
 import { Tab } from './Tab';
-import styles from './Tabs.module.less';
 
 export interface TabsProps {
   /**
@@ -84,7 +83,7 @@ export class Tabs extends React.Component<TabsProps> {
     const { vertical, value, width, children, indicatorClassName } = this.props;
 
     return (
-      <div className={cx(styles.root, vertical && styles.vertical)} style={{ width }}>
+      <div className={cn(jsStyles.root(), vertical && jsStyles.vertical())} style={{ width }}>
         <TabsContext.Provider
           value={{
             vertical,
