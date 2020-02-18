@@ -1,7 +1,7 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       display: inline-block;
@@ -29,7 +29,7 @@ export const jsStyles = {
       border-bottom-width: 0;
       border-top-color: ${t.btnMenuArrowColor};
 
-      ${cssName(jsStyles.arrowWrap())} & {
+      ${cssName(styles.arrowWrap())} & {
         display: inline-block;
         margin-bottom: 3px;
         vertical-align: middle;
@@ -96,3 +96,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
