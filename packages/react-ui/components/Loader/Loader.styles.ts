@@ -1,10 +1,10 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   active(t: Theme) {
     return css`
-      ${jsStyles.fillContainerPosition(t)};
+      ${styles.fillContainerPosition(t)};
 
       background: ${t.loaderBg};
     `;
@@ -40,7 +40,7 @@ export const jsStyles = {
 
   spinnerContainerSticky(t: Theme) {
     return css`
-      ${jsStyles.spinnerContainer(t)};
+      ${styles.spinnerContainer(t)};
 
       position: fixed;
 
@@ -56,8 +56,8 @@ export const jsStyles = {
 
   spinnerContainerCenter(t: Theme) {
     return css`
-      ${jsStyles.spinnerContainer(t)};
-      ${jsStyles.fillContainerPosition(t)};
+      ${styles.spinnerContainer(t)};
+      ${styles.fillContainerPosition(t)};
 
       &::before {
         content: ' ';
@@ -69,3 +69,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
