@@ -34,7 +34,7 @@
     "styleguide": "styleguidist server --config .styleguide/config/dev.config.js",
     "styleguide:build": "node .styleguide/build",
     "lint": "run-p -c lint:*",
-    "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
+    "lint:eslint": "cross-env TIMING=1 yarn eslint --ext .js,.jsx,.ts,.tsx ./",
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:stylelint": "stylelint \"./**/*.less\"",
     "fix:eslint": "yarn lint:eslint --fix",
