@@ -1,6 +1,6 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-export const jsStyles = {
+const styles = {
   content() {
     return css`
       box-sizing: border-box;
@@ -16,7 +16,9 @@ export const jsStyles = {
 
   contentCenter() {
     return css`
-    text-align: center;
+      text-align: center;
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
