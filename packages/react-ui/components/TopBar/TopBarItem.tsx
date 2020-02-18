@@ -58,14 +58,7 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
     });
 
     return (
-      <div
-        data-prop-use={use}
-        {...rest}
-        className={classes}
-        onClick={_onClick}
-        onKeyDown={_onKeyDown}
-        style={{ minWidth }}
-      >
+      <div {...rest} className={classes} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
         {icon && (
           <span className={iconClasses}>
             <Icon color="#666" name={icon} />
