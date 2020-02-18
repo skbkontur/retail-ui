@@ -1,8 +1,8 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
-  root(t: Theme) {
+const styles = {
+  root() {
     return css`
       color: #a0a0a0;
       cursor: default;
@@ -17,3 +17,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

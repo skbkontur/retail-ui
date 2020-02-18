@@ -39,7 +39,7 @@ export class MenuHeader extends React.Component<MenuHeaderProps> {
 
   private renderMain() {
     const classnames: string = cn({
-      [jsStyles.root(this.theme)]: true,
+      [jsStyles.root()]: true,
       [jsStyles.withLeftPadding(this.theme)]: this.getProps()._enableIconPadding,
     });
     return <div className={classnames}>{this.props.children}</div>;
