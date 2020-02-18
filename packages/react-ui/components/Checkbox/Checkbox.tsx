@@ -165,7 +165,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: jsStyles.input(this.theme),
+      className: jsStyles.input(),
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -174,7 +174,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     let caption = null;
     if (children) {
-      const captionClass = cx(jsStyles.caption(this.theme), {
+      const captionClass = cx(jsStyles.caption(), {
         [jsStyles.captionIE11()]: isIE11 || isEdge,
       });
       caption = <span className={captionClass}>{children}</span>;
