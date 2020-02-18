@@ -12,8 +12,8 @@ import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
 import { filterProps } from '../filterProps';
 
-import styles from './DatePicker.module.less';
 import { Picker } from './Picker';
+import { jsStyles } from "./DatePicker.styles";
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -222,7 +222,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
     return (
       <label
-        className={styles.root}
+        className={jsStyles.root()}
         style={{ width: this.props.width }}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}

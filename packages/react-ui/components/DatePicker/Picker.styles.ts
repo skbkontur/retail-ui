@@ -6,6 +6,9 @@ export const jsStyles = {
     return css`
       background: ${t.pickerBg};
       box-shadow: ${t.pickerShadow};
+      display: inline-block;
+      font-size: 0;
+      z-index: 1000;
     `;
   },
 
@@ -13,10 +16,17 @@ export const jsStyles = {
     return css`
       background-color: ${t.pickerTodayWrapperBgColor};
       border-top: ${t.pickerTodayWrapperBorderTop};
+      border: none;
       color: ${t.linkColor};
+      display: block;
+      font-size: 14px;
+      padding-bottom: 8px;
+      padding-top: 7px;
+      width: 100%;
 
       &:hover {
         background-color: ${t.pickerTodayWrapperHoverBgColor};
+        cursor: pointer;
       }
 
       &:active {
