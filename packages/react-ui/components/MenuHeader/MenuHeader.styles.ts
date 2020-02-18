@@ -1,14 +1,19 @@
 import { css } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import styles from './MenuHeader.module.less';
-
 export const jsStyles = {
+  root(t: Theme) {
+    return css`
+      color: #a0a0a0;
+      cursor: default;
+      font-size: 12px;
+      padding: 6px 18px 7px 8px;
+    `;
+  },
+
   withLeftPadding(t: Theme) {
     return css`
-      .${styles.root}& {
-        padding-left: ${t.menuItemPaddingForIcon};
-      }
+      padding-left: ${t.menuItemPaddingForIcon};
     `;
   },
 };

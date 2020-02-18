@@ -1,13 +1,12 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './MenuHeader.styles';
-import styles from './MenuHeader.module.less';
 
 export interface MenuHeaderProps {
   _enableIconPadding?: Nullable<boolean>;
@@ -39,8 +38,8 @@ export class MenuHeader extends React.Component<MenuHeaderProps> {
   }
 
   private renderMain() {
-    const classnames: string = cx({
-      [styles.root]: true,
+    const classnames: string = cn({
+      [jsStyles.root(this.theme)]: true,
       [jsStyles.withLeftPadding(this.theme)]: this.getProps()._enableIconPadding,
     });
     return <div className={classnames}>{this.props.children}</div>;
