@@ -10,7 +10,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
 
 import { jsStyles } from './Loader.styles';
-import styles from './Loader.module.less';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -115,7 +114,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     const { active, type, caption, className } = this.props;
 
     return (
-      <div style={{ position: 'relative' }} className={cx(styles.loader, className)}>
+      <div style={{ position: 'relative' }} className={cx(jsStyles.loader(this.theme), className)}>
         <ZIndex
           priority={'Loader'}
           applyZIndex={this.props.active}
@@ -129,7 +128,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             wrapperRef={this.wrapperRef}
             priority={'Loader'}
             className={cx({
-              [styles.active]: active,
               [jsStyles.active(this.theme)]: active,
             })}
           >
@@ -147,7 +145,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode) {
     return (
       <span
-        className={this.state.isStickySpinner ? styles.spinnerContainerSticky : styles.spinnerContainerCenter}
+        className={
+          this.state.isStickySpinner
+            ? jsStyles.spinnerContainerSticky(this.theme)
+            : jsStyles.spinnerContainerCenter(this.theme)
+        }
         style={this.state.spinnerStyle}
         ref={element => {
           this.spinnerNode = element;
