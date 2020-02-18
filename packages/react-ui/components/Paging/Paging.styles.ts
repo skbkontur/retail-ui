@@ -1,8 +1,8 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
-  paging(t: Theme) {
+const styles = {
+  paging() {
     return css`
       user-select: none;
       outline: 0;
@@ -50,7 +50,7 @@ export const jsStyles = {
 
   disabled(t: Theme) {
     return css`
-      ${cssName(jsStyles.forwardLink(t))}& {
+      ${cssName(styles.forwardLink(t))}& {
         color: ${t.pagingForwardLinkDisabledColor};
       }
     `;
@@ -78,11 +78,11 @@ export const jsStyles = {
       padding: 2px 10px 5px;
       text-decoration: none;
 
-      &:not(${cssName(jsStyles.active())}):hover {
+      &:not(${cssName(styles.active())}):hover {
         background: ${t.pagingPageLinkHoverBg};
       }
 
-      ${cssName(jsStyles.active())}& {
+      ${cssName(styles.active())}& {
         background: ${t.pagingPageLinkActiveBg};
         color: ${t.pagingPageLinkActiveColor};
       }
@@ -120,9 +120,11 @@ export const jsStyles = {
       margin: 0 -20px;
       font-size: 11px;
 
-      ${cssName(jsStyles.pageLinkWrapper())} & {
+      ${cssName(styles.pageLinkWrapper())} & {
         color: ${t.pagingPageLinkHintColor};
       }
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
