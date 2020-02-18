@@ -7,8 +7,16 @@ export const jsStyles = {
     return css`
       ${resetButton()};
 
+      cursor: pointer;
+      display: block;
       line-height: 18px;
       padding: 6px 18px 7px 8px;
+      position: relative;
+      text-decoration: none;
+
+      button& {
+        min-width: 100%;
+      }
     `;
   },
   hover(t: Theme) {
@@ -25,7 +33,9 @@ export const jsStyles = {
   },
   disabled(t: Theme) {
     return css`
+      background: transparent;
       color: ${t.textColorDisabled};
+      cursor: default;
     `;
   },
   link(t: Theme) {
@@ -33,9 +43,36 @@ export const jsStyles = {
       color: ${t.linkColor};
     `;
   },
+  loose(t: Theme) {
+    return css`
+      padding-left: 15px;
+    `;
+  },
   withIcon(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIcon};
+      & {
+        padding-left: ${t.menuItemPaddingForIcon};
+      }
+    `;
+  },
+  comment(t: Theme) {
+    return css`
+      color: #a0a0a0;
+      white-space: normal;
+    `;
+  },
+  commentHover(t: Theme) {
+    return css`
+      color: #fff;
+      opacity: 0.6;
+    `;
+  },
+  icon(t: Theme) {
+    return css`
+      display: inline-block;
+      position: absolute;
+      left: 15px;
+      top: 5px;
     `;
   },
 };

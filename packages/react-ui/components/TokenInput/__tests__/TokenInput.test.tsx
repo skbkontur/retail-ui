@@ -4,14 +4,12 @@ import React from 'react';
 import { defaultLangCode } from '../../LocaleProvider/constants';
 import { LangCodes, LocaleProvider, LocaleProviderProps } from '../../LocaleProvider';
 import { delay } from '../../../lib/utils';
-import styles from '../../MenuItem/MenuItem.less';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
 
 async function getItems(query: string) {
   return ['aaa', 'bbb', 'ccc'].filter(s => s.includes(query));
 }
-const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
 describe('<TokenInput />', () => {
   it('should contains placeholder', () => {
@@ -24,7 +22,7 @@ describe('<TokenInput />', () => {
 
   describe('Locale', () => {
     let wrapper: ReactWrapper;
-    const getTextComment = (): string => wrapper.find(generateSelector('comment')).text();
+    const getTextComment = (): string => wrapper.find('[data-tid="MenuItem__comment"]').text();
     const focus = async (): Promise<void> => {
       wrapper
         .find(TokenInput)
