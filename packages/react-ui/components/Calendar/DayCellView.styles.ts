@@ -7,13 +7,22 @@ export const jsStyles = {
     return css`
       ${resetButton()};
 
-      text-align: center;
       background: ${t.calendarCellBg};
       border: 1px solid transparent;
+      display: inline-block;
+      font-size: 14px;
+      padding: 0;
+      text-align: center;
+      user-select: none;
 
       &:hover {
         background-color: ${t.calendarCellHoverBgColor};
         color: ${t.calendarCellHoverColor};
+        cursor: pointer;
+      }
+      &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
       }
       &:active:hover {
         color: ${t.calendarCellActiveHoverColor};

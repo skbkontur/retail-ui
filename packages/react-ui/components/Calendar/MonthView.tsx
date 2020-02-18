@@ -7,7 +7,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { jsStyles } from './MonthView.styles';
-import styles from './MonthView.module.less';
 import { config } from './config';
 import * as CDS from './CalendarDateShape';
 
@@ -92,17 +91,15 @@ export class MonthView extends React.Component<MonthViewProps> {
     };
 
     return (
-      <div className={styles.month} style={{ top }} key={month + '-' + year}>
+      <div data-tid="MonthView__month" className={jsStyles.month()} style={{ top }} key={month + '-' + year}>
         <div
           style={{ lineHeight: `${config.MONTH_TITLE_HEIGHT}px`, top: headerTop, borderBottomColor }}
           className={cx({
-            [styles.monthTitle]: true,
             [jsStyles.monthTitle(this.theme)]: true,
-            [styles.headerSticky]: isHeaderSticky,
             [jsStyles.headerSticky(this.theme)]: isHeaderSticky,
           })}
         >
-          <div className={styles.headerMonth}>
+          <div data-tid="MonthView__headerMonth" className={jsStyles.headerMonth()}>
             <DateSelect
               disabled={monthSelectDisabled}
               width={85}
@@ -115,7 +112,7 @@ export class MonthView extends React.Component<MonthViewProps> {
             />
           </div>
           {isYearVisible && (
-            <div className={styles.headerYear} style={{ top: yearTop }}>
+            <div data-tid="MonthView__headerYear" className={jsStyles.headerYear()} style={{ top: yearTop }}>
               <DateSelect
                 disabled={yearSelectDisabled}
                 width={50}

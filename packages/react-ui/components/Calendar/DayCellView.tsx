@@ -7,7 +7,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 
 import * as CDS from './CalendarDateShape';
 import { config } from './config';
-import styles from './DayCellView.module.less';
 import { jsStyles } from './DayCellView.styles';
 
 
@@ -53,7 +52,6 @@ export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
         tabIndex={-1}
         disabled={!CDS.isBetween(date, minDate, maxDate)}
         className={cx({
-          [styles.cell]: true,
           [jsStyles.cell(this.theme)]: true,
           [jsStyles.today(this.theme)]: !!today && !!CDS.isEqual(date, today),
           [jsStyles.selected(this.theme)]: !!value && !!CDS.isEqual(date, value),
