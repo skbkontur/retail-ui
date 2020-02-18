@@ -8,12 +8,10 @@ import { CrossIcon } from '../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './Tooltip.styles';
-import styles from './Tooltip.module.less';
 
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
@@ -223,7 +221,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <div ref={this.refContent} className={styles.tooltipContent}>
+      <div ref={this.refContent} className={jsStyles.tooltipContent(this.theme)}>
         {content}
         {this.renderCloseButton()}
       </div>
@@ -241,7 +239,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <div className={cx(styles.cross, jsStyles.cross(this.theme))} onClick={this.handleCloseButtonClick}>
+      <div className={jsStyles.cross(this.theme)} onClick={this.handleCloseButtonClick}>
         <CrossIcon />
       </div>
     );
