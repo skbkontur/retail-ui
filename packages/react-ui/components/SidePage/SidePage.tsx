@@ -1,5 +1,6 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
+import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -9,7 +10,6 @@ import { ModalStack, ModalStackSubscription } from '../ModalStack';
 import { RenderContainer } from '../RenderContainer';
 import { RenderLayer } from '../RenderLayer';
 import { ZIndex } from '../ZIndex';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -18,7 +18,6 @@ import { SidePageContainer } from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
-import styles from './SidePage.module.less';
 import { jsStyles } from './SidePage.styles';
 
 export interface SidePageProps {
@@ -159,8 +158,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private getZIndexProps(): ZIndexPropsType {
     const { fromLeft, blockBackground } = this.props;
     return {
-      classes: cx(styles.root, {
-        [styles.leftSide]: !!fromLeft,
+      classes: cn(jsStyles.root(this.theme), {
+        [jsStyles.leftSide(this.theme)]: !!fromLeft,
       }),
       style: blockBackground ? { width: '100%' } : undefined,
     };
@@ -172,6 +171,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return (
       <ZIndex
         priority={'Sidepage'}
+        data-tid="SidePage__root"
         className={classes}
         onScroll={LayoutEvents.emit}
         style={style}
@@ -179,14 +179,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
-            className={cx(
-              styles.container,
-              jsStyles.container(this.theme),
-              this.state.hasShadow && jsStyles.shadow(this.theme),
-            )}
+            data-tid="SidePage__container"
+            className={cn(jsStyles.container(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={styles.layout}>
+            <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout(this.theme)}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
@@ -219,7 +216,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ZIndex priority={'Sidepage'} className={classes} onScroll={LayoutEvents.emit} style={style}>
         {blockBackground && [
           <HideBodyVerticalScroll key="hbvs" />,
-          <div key="overlay" className={cx(styles.background, this.state.hasBackground && styles.gray)} />,
+          <div
+            key="overlay"
+            className={cn(
+              jsStyles.background(this.theme),
+              this.state.hasBackground && jsStyles.backgroundGray(this.theme),
+            )}
+          />,
         ]}
       </ZIndex>
     );
@@ -242,21 +245,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getTransitionNames(): Record<string, string> {
-    const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
-    const transitionEnter = cx(
-      styles[('transition-enter-' + direction) as 'transition-enter-left' | 'transition-enter-right'],
-    );
-    const transitionAppear = cx(
-      styles[('transition-appear-' + direction) as 'transition-appear-left' | 'transition-appear-right'],
-    );
+    const transitionEnter = this.props.fromLeft ? jsStyles.transitionEnterRight : jsStyles.transitionEnterLeft;
+    const transitionAppear = this.props.fromLeft ? jsStyles.transitionAppearRight : jsStyles.transitionAppearLeft;
 
     return {
-      enter: transitionEnter,
-      enterActive: styles['transition-enter-active'],
-      exit: styles['transition-leave'],
-      exitActive: styles['transition-leave-active'],
-      appear: transitionAppear,
-      appearActive: styles['transition-appear-active'],
+      enter: transitionEnter(this.theme),
+      enterActive: jsStyles.transitionEnterActive(this.theme),
+      exit: jsStyles.transitionLeave(this.theme),
+      exitActive: jsStyles.transitionLeaveActive(this.theme),
+      appear: transitionAppear(this.theme),
+      appearActive: jsStyles.transitionAppearActive(this.theme),
     };
   }
 

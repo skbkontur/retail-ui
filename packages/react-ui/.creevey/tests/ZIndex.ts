@@ -80,10 +80,10 @@ describe('ZIndex', function() {
   });
   describe('Loader in SidePage.Body', function() {
     it('is covered by Header and Footer', async function() {
-      const element = await this.browser.findElement(By.css('[class^="SidePage-module-root"]'));
+      const element = await this.browser.findElement(By.css(`[data-tid='SidePage__root']`));
 
       await this.browser.executeScript(function() {
-        const sidePage = window.document.querySelector('[class^="SidePage-module-container"]') as HTMLElement;
+        const sidePage = window.document.querySelector(`[data-tid='SidePage__container']`) as HTMLElement;
 
         if (sidePage) {
           sidePage.scrollTop = sidePage.offsetHeight;
@@ -114,7 +114,7 @@ describe('ZIndex', function() {
         .sendKeys('q')
         .perform();
 
-      const element = await this.browser.findElement(By.css('[class^="SidePage-module-container"]'));
+      const element = await this.browser.findElement(By.css(`[data-tid='SidePage__container']`));
       await expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
     });
   });
