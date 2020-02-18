@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
@@ -14,7 +15,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 import { ArrowTriangleDownIcon, ArrowTriangleUpDownIcon, ArrowTriangleUpIcon } from '../internal/icons/16px';
 
 import { jsStyles } from './DateSelect.styles';
-import styles from './DateSelect.module.less';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -163,22 +163,20 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     const { width, disabled } = this.props;
     const rootProps = {
       className: cx({
-        [styles.root]: true,
         [jsStyles.root(this.theme)]: true,
-        [styles.disabled]: !!disabled,
+        [jsStyles.disabled()]: !!disabled,
       }),
       style: { width },
       ref: this.refRoot,
     };
     return (
       <span {...rootProps}>
-        <div className={styles.caption} onClick={this.open}>
+        <div data-tid="DateSelect__caption" className={jsStyles.caption()} onClick={this.open}>
           {this.getItem(0)}
           <div
             className={cx({
-              [styles.arrow]: true,
               [jsStyles.arrow(this.theme)]: true,
-              [styles.arrowDisabled]: !!disabled,
+              [jsStyles.arrowDisabled()]: !!disabled,
             })}
           >
             <ArrowTriangleUpDownIcon size={12} />
@@ -235,12 +233,10 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
 
     for (let i = from; i < to; ++i) {
       const disableItems = this.disableItems(i) || false;
-      const className = cx({
-        [styles.menuItem]: true,
+      const className = cn({
         [jsStyles.menuItem(this.theme)]: true,
         [jsStyles.menuItemSelected(this.theme)]: i === 0,
         [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
-        [styles.menuItemDisabled]: disableItems,
         [jsStyles.menuItemDisabled(this.theme)]: disableItems,
       });
       const clickHandler = {
@@ -249,6 +245,8 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       };
       items.push(
         <div
+          data-tid="DateSelect__menuItem"
+          data-prop-disabled={disableItems}
           key={i}
           className={className}
           onMouseEnter={() => this.setState({ current: i })}
@@ -276,10 +274,9 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     };
 
     const holderClass = cx({
-      [styles.menuHolder]: true,
       [jsStyles.menuHolder(this.theme)]: true,
-      [styles.isTopCapped]: this.state.topCapped,
-      [styles.isBotCapped]: this.state.botCapped,
+      [jsStyles.isTopCapped()]: this.state.topCapped,
+      [jsStyles.isBotCapped()]: this.state.botCapped,
     });
 
     let dropdownOffset = -itemHeight;
@@ -295,7 +292,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
             <div className={holderClass} style={style}>
               {!this.state.topCapped && (
                 <div
-                  className={cx(styles.menuUp, jsStyles.menuUp(this.theme))}
+                  className={jsStyles.menuUp(this.theme)}
                   onClick={this.handleUp}
                   onMouseDown={this.handleLongClickUp}
                   onMouseUp={this.handleLongClickStop}
@@ -308,14 +305,14 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
                   </span>
                 </div>
               )}
-              <div className={styles.itemsHolder} style={{ height }}>
+              <div className={jsStyles.itemsHolder()} style={{ height }}>
                 <div ref={this.refItemsContainer} style={shiftStyle}>
                   {items}
                 </div>
               </div>
               {!this.state.botCapped && (
                 <div
-                  className={cx(styles.menuDown, jsStyles.menuDown(this.theme))}
+                  className={jsStyles.menuDown(this.theme)}
                   onClick={this.handleDown}
                   onMouseDown={this.handleLongClickDown}
                   onMouseUp={this.handleLongClickStop}
