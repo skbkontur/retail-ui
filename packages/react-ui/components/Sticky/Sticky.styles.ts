@@ -1,6 +1,6 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-export const jsStyles = {
+const styles = {
   inner() {
     return css`
       display: flex;
@@ -26,3 +26,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
