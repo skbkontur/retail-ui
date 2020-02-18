@@ -10,7 +10,7 @@ const noDuplicateImports = (file: FileInfo, api: API) => {
     .find(j.ImportDeclaration)
     .nodes();
 
-  const newImports = imports.reduce((acc: any, v, i, arr) => {
+  const newImports = imports.reduce((acc: any, v: any) => {
     const source = v.source.value as string;
     if (acc[source]) {
       acc[source].push(v);
@@ -25,7 +25,7 @@ const noDuplicateImports = (file: FileInfo, api: API) => {
 
   const omit: any = [];
 
-  return j(file.source)
+  const result = j(file.source)
     .find(j.ImportDeclaration)
     .filter(i => newImports[i.node.source.value as string].length > 1)
     .replaceWith(p => {
@@ -35,7 +35,7 @@ const noDuplicateImports = (file: FileInfo, api: API) => {
         return p.node;
       }
 
-      const imports = newImports[source as string].reduce((acc: any, v: any, i: number, arr: Array<any>) => {
+      const imports = newImports[source as string].reduce((acc: any, v: any) => {
         return [...acc, ...v.specifiers.filter((i: any) => i.type !== 'ImportNamespaceSpecifier')];
       }, []);
 
@@ -50,6 +50,8 @@ const noDuplicateImports = (file: FileInfo, api: API) => {
       return p.node;
     })
     .toSource();
+  file.source = result;
+  return file;
 };
 
 const changeExport = (fileInfo: FileInfo, api: API) => {
@@ -89,5 +91,5 @@ const changeExport = (fileInfo: FileInfo, api: API) => {
 
 export default function(fileInfo: FileInfo, api: API) {
   const result = changeExport(fileInfo, api);
-  return noDuplicateImports(result, api);
+  return noDuplicateImports(result, api).source;
 }
