@@ -1,8 +1,8 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       border-bottom: 3px solid transparent;
@@ -40,12 +40,12 @@ export const jsStyles = {
       padding-left: 17px;
       padding-right: 20px;
 
-      ${cssName(jsStyles.root(t))}&:hover {
+      ${cssName(styles.root(t))}&:hover {
         border-bottom: none;
         border-left: 3px solid ${t.tabColorHover};
       }
 
-      ${cssName(jsStyles.focus(t))} {
+      ${cssName(styles.focus(t))} {
         bottom: 0;
         left: -3px;
         right: 0;
@@ -60,7 +60,7 @@ export const jsStyles = {
         border-bottom: 3px solid transparent;
       }
 
-      &${cssName(jsStyles.vertical(t))}:hover {
+      &${cssName(styles.vertical(t))}:hover {
         border-left: 3px solid transparent;
       }
     `;
@@ -91,7 +91,7 @@ export const jsStyles = {
         border-bottom-color: transparent !important;
       }
 
-      &${cssName(jsStyles.vertical(t))}:hover {
+      &${cssName(styles.vertical(t))}:hover {
         border-left-color: transparent !important;
       }
     `;
@@ -102,7 +102,7 @@ export const jsStyles = {
       &:hover {
         border-bottom-color: ${t.tabColorHoverPrimary};
       }
-      &${cssName(jsStyles.vertical(t))}:hover {
+      &${cssName(styles.vertical(t))}:hover {
         border-left-color: ${t.tabColorHoverPrimary};
       }
     `;
@@ -113,7 +113,7 @@ export const jsStyles = {
       &:hover {
         border-bottom-color: ${t.tabColorHoverSuccess};
       }
-      &${cssName(jsStyles.vertical(t))}:hover {
+      &${cssName(styles.vertical(t))}:hover {
         border-left-color: ${t.tabColorHoverSuccess};
       }
     `;
@@ -124,7 +124,7 @@ export const jsStyles = {
       &:hover {
         border-bottom-color: ${t.tabColorHoverWarning};
       }
-      &${cssName(jsStyles.vertical(t))}:hover {
+      &${cssName(styles.vertical(t))}:hover {
         border-left-color: ${t.tabColorHoverWarning};
       }
     `;
@@ -135,9 +135,11 @@ export const jsStyles = {
       &:hover {
         border-bottom-color: ${t.tabColorHoverError};
       }
-      &${cssName(jsStyles.vertical(t))}:hover {
+      &${cssName(styles.vertical(t))}:hover {
         border-left-color: ${t.tabColorHoverError};
       }
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
