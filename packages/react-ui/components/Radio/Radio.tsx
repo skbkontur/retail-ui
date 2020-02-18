@@ -119,7 +119,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: jsStyles.input(this.theme),
+      className: jsStyles.input(),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
@@ -128,7 +128,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     };
 
     const labelProps = {
-      className: jsStyles.root(this.theme),
+      className: jsStyles.root(),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
@@ -145,7 +145,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       <label {...labelProps}>
         <input {...inputProps} />
         <span className={radioClassNames}>
-          <span className={jsStyles.placeholder(this.theme)} />
+          <span className={jsStyles.placeholder()} />
         </span>
         {this.props.children && this.renderLabel()}
       </label>
@@ -157,7 +157,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   private renderLabel() {
     const labelClassNames = cn({
       [jsStyles.label(this.theme)]: true,
-      [jsStyles.labelDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
+      [jsStyles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;

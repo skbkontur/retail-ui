@@ -1,8 +1,8 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
-  root(t: Theme) {
+const styles = {
+  root() {
     return css`
       cursor: pointer;
       position: relative;
@@ -10,7 +10,7 @@ export const jsStyles = {
     `;
   },
 
-  after(t: Theme) {
+  after() {
     return css`
       content: ' ';
       position: absolute;
@@ -40,16 +40,16 @@ export const jsStyles = {
       vertical-align: ${t.radioVerticalAlign};
       width: ${t.radioSize};
 
-      ${cssName(jsStyles.root(t))}:hover & {
+      ${cssName(styles.root())}:hover & {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
       }
-      ${cssName(jsStyles.root(t))}:active & {
+      ${cssName(styles.root())}:active & {
         background: ${t.radioActiveBg};
         box-shadow: ${t.radioActiveShadow};
       }
-      ${cssName(jsStyles.input(t))}:focus + &::after {
-        ${jsStyles.after(t)};
+      ${cssName(styles.input())}:focus + &::after {
+        ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.borderColorFocus};
       }
@@ -63,7 +63,7 @@ export const jsStyles = {
   focus(t: Theme) {
     return css`
       &::after {
-        ${jsStyles.after(t)};
+        ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.borderColorFocus};
       }
@@ -73,7 +73,7 @@ export const jsStyles = {
   warning(t: Theme) {
     return css`
       &::after {
-        ${jsStyles.after(t)};
+        ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.borderColorWarning};
       }
@@ -83,7 +83,7 @@ export const jsStyles = {
   error(t: Theme) {
     return css`
       &::after {
-        ${jsStyles.after(t)};
+        ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.borderColorError};
       }
@@ -109,13 +109,13 @@ export const jsStyles = {
         background: ${t.radioCheckedBulletColor} !important;
       }
 
-      ${cssName(jsStyles.disabled(t))}&::before {
+      ${cssName(styles.disabled(t))}&::before {
         background: #808080 !important;
       }
     `;
   },
 
-  input(t: Theme) {
+  input() {
     return css`
       display: inline-block;
       height: 0;
@@ -143,15 +143,17 @@ export const jsStyles = {
     `;
   },
 
-  labelDisabled(t: Theme) {
+  labelDisabled() {
     return css`
       color: #a0a0a0;
     `;
   },
 
-  placeholder(t: Theme) {
+  placeholder() {
     return css`
       display: inline-block;
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
