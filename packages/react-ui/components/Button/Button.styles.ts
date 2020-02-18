@@ -453,7 +453,7 @@ export const jsStyles = {
         &:not(.${classes.focus}):hover {
           background: ${t.btnCheckedBg};
           color: ${t.btnCheckedTextColor};
-          box-shadow: ${t.btnCheckedShadow};
+          box-shadow: ${t.btnCheckedShadow} !important;
 
           .${classes.arrow} {
             background: ${t.btnCheckedBg};
