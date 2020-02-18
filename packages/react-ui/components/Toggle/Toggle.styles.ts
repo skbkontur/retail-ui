@@ -1,7 +1,7 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   handle(t: Theme) {
     return css`
       background: ${t.toggleBg};
@@ -25,16 +25,16 @@ export const jsStyles = {
       &:focus {
         outline: none;
       }
-      &:checked ~ ${cssName(jsStyles.container(t))} {
+      &:checked ~ ${cssName(styles.container(t))} {
         box-shadow: inset 0 0 0 1px ${t.toggleBgChecked};
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
-      &:checked ~ ${cssName(jsStyles.container(t))} ${cssName(jsStyles.activeBackground(t))} {
+      &:checked ~ ${cssName(styles.container(t))} ${cssName(styles.activeBackground())} {
         width: 70%;
         background: ${t.toggleBgChecked};
       }
-      &:checked ~ ${cssName(jsStyles.handle(t))} {
+      &:checked ~ ${cssName(styles.handle(t))} {
         transform: translateX(14px);
       }
     `;
@@ -55,13 +55,13 @@ export const jsStyles = {
 
   focused(t: Theme) {
     return css`
-      ${cssName(jsStyles.container(t))}&, ${cssName(jsStyles.input(t))}:checked ~ & {
+      ${cssName(styles.container(t))}&, ${cssName(styles.input(t))}:checked ~ & {
         box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 3px ${t.toggleFocusShadowColor};
       }
     `;
   },
 
-  activeBackground(t: Theme) {
+  activeBackground() {
     return css`
       background: inherit;
       bottom: 0;
@@ -75,11 +75,11 @@ export const jsStyles = {
 
   isLoading(t: Theme) {
     return css`
-      ${cssName(jsStyles.input(t))}:checked ~ ${cssName(jsStyles.container(t))}& {
+      ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
         background: ${t.toggleBorderColor};
         box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
       }
-      ${cssName(jsStyles.activeBackground(t))} {
+      ${cssName(styles.activeBackground())} {
         background: ${t.toggleBgActive};
         visibility: visible;
       }
@@ -88,11 +88,11 @@ export const jsStyles = {
 
   isWarning(t: Theme) {
     return css`
-      ${cssName(jsStyles.input(t))}:checked ~ ${cssName(jsStyles.container(t))}& {
+      ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
         background: ${t.toggleBgWarning};
         box-shadow: inset 0 0 0 1px ${t.toggleBgWarning};
 
-        ${cssName(jsStyles.activeBackground(t))} {
+        ${cssName(styles.activeBackground())} {
           background: ${t.toggleBgWarning};
         }
       }
@@ -101,11 +101,11 @@ export const jsStyles = {
 
   isError(t: Theme) {
     return css`
-      ${cssName(jsStyles.input(t))}:checked ~ ${cssName(jsStyles.container(t))}& {
+      ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
         background: ${t.toggleBgError};
         box-shadow: inset 0 0 0 1px ${t.toggleBgError};
 
-        ${cssName(jsStyles.activeBackground(t))} {
+        ${cssName(styles.activeBackground())} {
           background: ${t.toggleBgError};
         }
       }
@@ -113,6 +113,7 @@ export const jsStyles = {
   },
 
   wrapper(t: Theme) {
+    const wrapperDisabled = cssName(styles.wrapperDisabled(t));
     return css`
       cursor: pointer;
       display: inline-block;
@@ -120,8 +121,8 @@ export const jsStyles = {
       position: relative;
       width: 34px;
 
-      &:hover:not(${cssName(jsStyles.wrapperDisabled(t))}) {
-        ${cssName(jsStyles.handle(t))} {
+      &:hover:not(${wrapperDisabled}) {
+        ${cssName(styles.handle(t))} {
           background: ${t.toggleBgHover};
         }
       }
@@ -129,10 +130,10 @@ export const jsStyles = {
         content: '';
         display: inline-block;
       }
-      &:active:not(${cssName(jsStyles.wrapperDisabled(t))}) ${cssName(jsStyles.handle(t))} {
+      &:active:not(${wrapperDisabled}) ${cssName(styles.handle(t))} {
         width: 22px;
       }
-      &:active:not(${cssName(jsStyles.wrapperDisabled(t))}) ${cssName(jsStyles.input(t))}:checked ~ ${cssName(jsStyles.handle(t))} {
+      &:active:not(${wrapperDisabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
         transform: translateX(10px);
       }
     `;
@@ -143,9 +144,11 @@ export const jsStyles = {
       opacity: 0.3;
       cursor: default;
 
-      ${cssName(jsStyles.container(t))} {
+      ${cssName(styles.container(t))} {
         background: ${t.toggleBgDisabled};
       }
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

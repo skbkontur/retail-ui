@@ -126,7 +126,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
           }
         >
           <div
-            className={jsStyles.activeBackground(this.theme)}
+            className={jsStyles.activeBackground()}
             style={checked && color ? { backgroundColor: color } : undefined}
           />
         </div>
