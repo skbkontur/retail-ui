@@ -46,8 +46,4 @@ describe('Loader', function() {
     const element = await this.browser.findElement(By.css('#test-element'));
     await expect(await element.takeScreenshot()).to.matchImage('Old spinner');
   });
-  it('Custom spinner', async function() {
-    const element = await this.browser.findElement(By.css('#test-element'));
-    await expect(await element.takeScreenshot()).to.matchImage('Custom spinner');
-  });
 });

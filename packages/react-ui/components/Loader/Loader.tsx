@@ -24,12 +24,6 @@ export interface LoaderProps {
   className?: string;
   type?: 'mini' | 'normal' | 'big';
   /**
-   * Компонент спиннера
-   *
-   * @default  <Spinner/> из react-ui
-   */
-  component?: React.ReactNode;
-  /**
    * @deprecated Старое поведение спиннера - облачко при среднем и большом размере - исчезнет в 3.0 поведение пересено в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
    *
    * @default false
@@ -143,7 +137,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { active, type, caption, className, component } = this.props;
+    const { active, type, caption, className } = this.props;
 
     return (
       <div style={{ position: 'relative' }} className={cx(styles.loader, className)}>
@@ -164,7 +158,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
               [jsStyles.active(this.theme)]: active,
             })}
           >
-            {this.renderSpinner(type, caption, component)}
+            {this.renderSpinner(type, caption)}
           </ZIndex>
         )}
       </div>
@@ -175,7 +169,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.containerNode = element;
   };
 
-  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
+  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode) {
     return (
       <span
         className={this.state.isStickySpinner ? styles.spinnerContainerSticky : styles.spinnerContainerCenter}
@@ -184,7 +178,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           this.spinnerNode = element;
         }}
       >
-        {!component ? <Spinner type={type} caption={caption} cloud={this.props.cloud} /> : component}
+        <Spinner type={type} caption={caption} cloud={this.props.cloud} />
       </span>
     );
   }
