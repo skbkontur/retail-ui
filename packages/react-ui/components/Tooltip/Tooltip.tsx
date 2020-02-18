@@ -64,6 +64,11 @@ export interface TooltipProps {
   className?: string;
 
   /**
+   * Максимальная ширина для тултипа
+   */
+  maxWidth?: React.CSSProperties['maxWidth'];
+
+  /**
    * Показывать крестик для закрытия тултипа. По-умолчанию крестик
    * показывается если проп *trigger* не `hover` и не `focus`.
    */
@@ -180,6 +185,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     allowedPositions: Positions,
     disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: true,
+    maxWidth: 200,
     closeOnChildrenMouseLeave: false,
   };
 
@@ -273,7 +279,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         hasPin
         hasShadow
         margin={POPUP_MARGIN}
-        maxWidth="none"
+        maxWidth={this.props.maxWidth}
         opened={this.state.opened}
         pinOffset={POPUP_PIN_OFFSET}
         disableAnimations={this.props.disableAnimations}
