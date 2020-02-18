@@ -101,12 +101,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     let iconElement = null;
     if (icon) {
-      iconElement = <div className={jsStyles.icon(this.theme)}>{icon}</div>;
+      iconElement = <div className={jsStyles.icon()}>{icon}</div>;
     }
 
     const className = cn({
-      [jsStyles.root(this.theme)]: true,
-      [jsStyles.loose(this.theme)]: !!loose,
+      [jsStyles.root()]: true,
+      [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
       [jsStyles.selected(this.theme)]: state === 'selected',
       [jsStyles.link(this.theme)]: !!link || !!alkoLink,
@@ -135,8 +135,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
           <div
             data-tid="MenuItem__comment"
             className={cn({
-              [jsStyles.comment(this.theme)]: true,
-              [jsStyles.commentHover(this.theme)]: hover,
+              [jsStyles.comment()]: true,
+              [jsStyles.commentHover()]: hover,
             })}
           >
             {comment}

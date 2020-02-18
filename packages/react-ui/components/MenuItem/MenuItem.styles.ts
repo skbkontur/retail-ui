@@ -1,9 +1,9 @@
 import { Theme } from '../../lib/theming/Theme';
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
-export const jsStyles = {
-  root(t: Theme) {
+const styles = {
+  root() {
     return css`
       ${resetButton()};
 
@@ -43,7 +43,7 @@ export const jsStyles = {
       color: ${t.linkColor};
     `;
   },
-  loose(t: Theme) {
+  loose() {
     return css`
       padding-left: 15px;
     `;
@@ -55,19 +55,19 @@ export const jsStyles = {
       }
     `;
   },
-  comment(t: Theme) {
+  comment() {
     return css`
       color: #a0a0a0;
       white-space: normal;
     `;
   },
-  commentHover(t: Theme) {
+  commentHover() {
     return css`
       color: #fff;
       opacity: 0.6;
     `;
   },
-  icon(t: Theme) {
+  icon() {
     return css`
       display: inline-block;
       position: absolute;
@@ -76,3 +76,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
