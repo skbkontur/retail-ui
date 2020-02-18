@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { Group } from '../Group';
 import { Button, ButtonSize } from '../Button';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './Switcher.styles';
-import styles from './Switcher.module.less';
 
 export type SwitcherSize = ButtonSize;
 
@@ -78,8 +77,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private renderMain() {
-    const listClassNames = cx({
-      [styles.error]: !!this.props.error,
+    const listClassNames = cn({
       [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
@@ -88,13 +86,13 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onKeyDown: this.handleKey,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      className: styles.input,
+      className: jsStyles.input(),
     };
 
     return (
       <div>
-        {this.props.label ? <div className={styles.label}>{this.props.label}</div> : null}
-        <div className={styles.wrap}>
+        {this.props.label ? <div className={jsStyles.label()}>{this.props.label}</div> : null}
+        <div className={jsStyles.wrap()}>
           <input {...inputProps} />
           <div className={listClassNames}>
             <Group>{this._renderItems()}</Group>
