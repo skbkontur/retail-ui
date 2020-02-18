@@ -252,7 +252,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     let placeholderPolyfill = null;
 
     if (this.state.polyfillPlaceholder && !textareaProps.value) {
-      placeholderPolyfill = <span className={jsStyles.placeholder(this.theme)}>{placeholder}</span>;
+      placeholderPolyfill = <span className={jsStyles.placeholder()}>{placeholder}</span>;
     }
 
     let fakeTextarea = null;
@@ -260,7 +260,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       const fakeProps = {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
-        className: cn(textareaClassNames, jsStyles.fake(this.theme)),
+        className: cn(textareaClassNames, jsStyles.fake()),
         readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;

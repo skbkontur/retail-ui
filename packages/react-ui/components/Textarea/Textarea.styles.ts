@@ -1,7 +1,7 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       display: inline-block;
@@ -65,11 +65,11 @@ export const jsStyles = {
 
   error(t: Theme) {
     return css`
-      ${cssName(jsStyles.textarea(t))}& {
+      ${cssName(styles.textarea(t))}& {
         border-color: ${t.borderColorError};
         box-shadow: 0 0 0 1px ${t.borderColorError};
       }
-      ${cssName(jsStyles.textarea(t))}&:focus {
+      ${cssName(styles.textarea(t))}&:focus {
         border-color: ${t.borderColorError};
         box-shadow: 0 0 0 1px ${t.borderColorError};
       }
@@ -78,18 +78,18 @@ export const jsStyles = {
 
   warning(t: Theme) {
     return css`
-      ${cssName(jsStyles.textarea(t))}& {
+      ${cssName(styles.textarea(t))}& {
         border-color: ${t.borderColorWarning};
         box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
-      ${cssName(jsStyles.textarea(t))}&:focus {
+      ${cssName(styles.textarea(t))}&:focus {
         border-color: ${t.borderColorWarning};
         box-shadow: 0 0 0 1px ${t.borderColorWarning};
       }
     `;
   },
 
-  fake(t: Theme) {
+  fake() {
     return css`
       height: 0;
       left: 0;
@@ -100,7 +100,7 @@ export const jsStyles = {
     `;
   },
 
-  placeholder(t: Theme) {
+  placeholder() {
     return css`
       -ms-user-select: none;
       color: #aaa;
@@ -114,3 +114,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
