@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './TopBar.module.less';
+import { jsStyles } from "./TopBar.styles";
 
 /**
  * Контейнер для сдвига к началу
@@ -8,5 +8,5 @@ import styles from './TopBar.module.less';
  * @visibleName TopBar.Start
  */
 
-export const TopBarStart: React.SFC = ({ children }) => <div className={styles.startItems}>{children}</div>;
+export const TopBarStart: React.SFC = ({ children }) => <div className={jsStyles.startItems()}>{children}</div>;
 (TopBarStart as any).__KONTUR_REACT_UI__ = 'TopBarStart';

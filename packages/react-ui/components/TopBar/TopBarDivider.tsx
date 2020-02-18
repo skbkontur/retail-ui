@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
-import styles from './TopBar.module.less';
 import { jsStyles } from './TopBar.styles';
 
 /**
@@ -29,6 +27,6 @@ export class TopBarDivider extends React.Component<{}> {
   }
 
   private renderMain() {
-    return <span className={cx(styles.divider, jsStyles.divider(this.theme))} />;
+    return <span className={jsStyles.divider(this.theme)} />;
   }
 }

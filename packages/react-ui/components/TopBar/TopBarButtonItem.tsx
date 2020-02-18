@@ -3,7 +3,7 @@ import React from 'react';
 import { IconProps } from '../internal/icons/20px';
 
 import { TopBarItem, TopBarItemProps } from './TopBarItem';
-import styles from './TopBar.module.less';
+import { jsStyles } from "./TopBar.styles";
 
 export interface TopBarButtonItemProps extends TopBarItemProps {
   active?: boolean;
@@ -28,7 +28,7 @@ export class TopBarButtonItem extends React.Component<TopBarButtonItemProps> {
   public render() {
     const { onClick, children, onKeyDown, ...rest } = this.props;
     return (
-      <TopBarItem {...rest} className={styles.button} _onKeyDown={onKeyDown} _onClick={onClick}>
+      <TopBarItem {...rest} className={jsStyles.button()} _onKeyDown={onKeyDown} _onClick={onClick}>
         {children}
       </TopBarItem>
     );

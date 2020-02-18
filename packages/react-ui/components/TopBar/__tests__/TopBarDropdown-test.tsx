@@ -4,6 +4,7 @@ import React from 'react';
 import { MenuItem } from '../../MenuItem';
 import { TopBarDropdown, TopBarDropdownProps } from '../TopBarDropdown';
 import { TopBarItem } from '../TopBarItem';
+import { jsStyles } from "../TopBar.styles";
 
 describe('TopBarDropdown', () => {
   describe('open/close methods', () => {
@@ -40,7 +41,7 @@ describe('TopBarDropdown', () => {
         wrapper
           .find(TopBarItem)
           .render()
-          .hasClass('use-danger'),
+          .hasClass(jsStyles.useDanger()),
       ).toBeTruthy();
     });
 
@@ -53,7 +54,7 @@ describe('TopBarDropdown', () => {
         wrapper
           .find(TopBarItem)
           .render()
-          .hasClass('use-pay'),
+          .hasClass(jsStyles.usePay()),
       ).toBeTruthy();
     });
 
