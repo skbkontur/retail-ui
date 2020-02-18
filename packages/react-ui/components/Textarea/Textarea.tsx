@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
+import cn from 'classnames';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../polyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
-import styles from './Textarea.module.less';
 
 const DEFAULT_WIDTH = 250;
 
@@ -240,8 +239,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       },
     };
 
-    const textareaClassNames = cx({
-      [styles.textarea]: true,
+    const textareaClassNames = cn({
       [jsStyles.textarea(this.theme)]: true,
       [jsStyles.error(this.theme)]: !!error,
       [jsStyles.warning(this.theme)]: !!warning,
@@ -254,7 +252,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     let placeholderPolyfill = null;
 
     if (this.state.polyfillPlaceholder && !textareaProps.value) {
-      placeholderPolyfill = <span className={styles.placeholder}>{placeholder}</span>;
+      placeholderPolyfill = <span className={jsStyles.placeholder(this.theme)}>{placeholder}</span>;
     }
 
     let fakeTextarea = null;
@@ -262,14 +260,14 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       const fakeProps = {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
-        className: cx(textareaClassNames, styles.fake),
+        className: cn(textareaClassNames, jsStyles.fake(this.theme)),
         readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
     return (
-      <label {...rootProps} className={cx(styles.root, jsStyles.root(this.theme))}>
+      <label {...rootProps} className={jsStyles.root(this.theme)}>
         {placeholderPolyfill}
         <textarea
           {...textareaProps}
