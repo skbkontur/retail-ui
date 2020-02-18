@@ -3,12 +3,10 @@ import { func, shape, string } from 'prop-types';
 
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { ZIndex } from '../ZIndex';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './ToastView.styles';
-import styles from './ToastView.module.less';
 
 export interface ToastViewProps {
   /**
@@ -60,22 +58,22 @@ export class ToastView extends React.Component<ToastViewProps> {
     const { children, action, onClose, ...rest } = this.props;
 
     const link = action ? (
-      <span className={cx(styles.link, jsStyles.link(this.theme))} onClick={action.handler}>
+      <span className={jsStyles.link(this.theme)} onClick={action.handler}>
         {action.label}
       </span>
     ) : null;
 
     const close = action ? (
-      <span className={styles.closeWrapper}>
-        <span className={cx(styles.close, jsStyles.close(this.theme))} onClick={onClose}>
+      <span className={jsStyles.closeWrapper()}>
+        <span className={jsStyles.close(this.theme)} onClick={onClose}>
           <CrossIcon />
         </span>
       </span>
     ) : null;
 
     return (
-      <ZIndex priority="Toast" className={styles.wrapper}>
-        <div className={cx(styles.root, jsStyles.root(this.theme))} {...rest}>
+      <ZIndex priority="Toast" className={jsStyles.wrapper()}>
+        <div data-tid="ToastView__root" className={jsStyles.root(this.theme)} {...rest}>
           <span>{children}</span>
           {link}
           {close}
