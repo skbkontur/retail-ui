@@ -1,7 +1,7 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       background: ${t.tbBg};
@@ -31,7 +31,7 @@ export const jsStyles = {
 
   startItems() {
     return css`
-      ${jsStyles.endItems()};
+      ${styles.endItems()};
 
       padding-right: 60px;
     `;
@@ -66,7 +66,7 @@ export const jsStyles = {
 
   noShadow() {
     return css`
-      ${jsStyles.endItems()} & {
+      ${styles.endItems()} & {
         box-shadow: none;
       }
     `;
@@ -88,7 +88,7 @@ export const jsStyles = {
     return css`
       &,
       &:hover,
-      ${cssName(jsStyles.buttonActive())} {
+      ${cssName(styles.buttonActive())} {
         background: #ffeca9;
       }
     `;
@@ -98,7 +98,7 @@ export const jsStyles = {
     return css`
       &,
       &:hover,
-      ${cssName(jsStyles.buttonActive())} {
+      ${cssName(styles.buttonActive())} {
         background: #ffe3e3;
       }
     `;
@@ -196,3 +196,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
