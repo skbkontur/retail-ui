@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './MenuSeparator.styles';
-import styles from './MenuSeparator.module.less';
 
 /**
  * Разделитель в меню.
@@ -27,6 +25,6 @@ export class MenuSeparator extends React.Component<{}> {
   }
 
   private renderMain() {
-    return <div className={cx(styles.root, jsStyles.root(this.theme))} />;
+    return <div className={jsStyles.root(this.theme)} />;
   }
 }
