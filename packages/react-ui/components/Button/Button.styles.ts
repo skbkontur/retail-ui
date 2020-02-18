@@ -222,6 +222,12 @@ export const jsStyles = {
     `;
   },
 
+  arrow(t: Theme) {
+    return css`
+      border-radius: ${t.btnArrowBorderRadius};
+    `;
+  },
+
   arrow_warning(t: Theme) {
     return css`
       .${classes.wrap} .${classes.root} .${classes.arrow}& {

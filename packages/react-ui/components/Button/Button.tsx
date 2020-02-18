@@ -252,6 +252,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             [classes.arrow_loading || '']: !!this.props.loading,
             [classes.arrow_warning || '']: isWarning,
             [classes.arrow_error || '']: isError,
+            [jsStyles.arrow(this.theme)]: true,
             [jsStyles.arrow_warning(this.theme)]: isWarning,
             [jsStyles.arrow_error(this.theme)]: isError,
           })}
