@@ -10,7 +10,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './Menu.styles';
-import styles from './Menu.module.less';
 import { isActiveElement } from './isActiveElement';
 
 export interface MenuProps {
@@ -110,7 +109,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cx(styles.root, jsStyles.root(this.theme), this.props.hasShadow && jsStyles.shadow(this.theme))}
+        className={cx(jsStyles.root(this.theme), this.props.hasShadow && jsStyles.shadow(this.theme))}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer

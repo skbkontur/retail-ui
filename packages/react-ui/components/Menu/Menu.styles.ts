@@ -5,6 +5,9 @@ export const jsStyles = {
   root(t: Theme) {
     return css`
       background: ${t.bgDefault};
+      box-sizing: content-box;
+      overflow: auto;
+      padding: 5px 0;
     `;
   },
 
