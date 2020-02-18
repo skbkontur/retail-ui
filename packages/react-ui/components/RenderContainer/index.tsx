@@ -1,1 +1,1 @@
-export { RenderContainer } from './RenderContainer';
+export * from './RenderContainer';

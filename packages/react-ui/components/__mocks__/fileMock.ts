@@ -1,1 +1,1 @@
-module.exports = 'test-file-stub';
+export const file = 'test-file-stub';

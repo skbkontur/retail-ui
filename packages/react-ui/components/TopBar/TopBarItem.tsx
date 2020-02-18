@@ -7,7 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import styles from './TopBar.module.less';
 
-export interface ItemProps {
+export interface TopBarItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   _onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
   active?: boolean;
@@ -25,7 +25,7 @@ export interface ItemProps {
  * @visibleName TopBar.StaticItem
  */
 
-export class Item extends React.Component<ItemProps> {
+export class TopBarItem extends React.Component<TopBarItemProps> {
   public static __KONTUR_REACT_UI__ = 'TopBarItem';
 
   public static propTypes = {
@@ -37,7 +37,7 @@ export class Item extends React.Component<ItemProps> {
     use: 'default',
   };
 
-  private getProps = createPropsGetter(Item.defaultProps);
+  private getProps = createPropsGetter(TopBarItem.defaultProps);
 
   public render() {
     const { active, children, _onClick, _onKeyDown, iconOnly, icon, minWidth, use, ...rest } = this.props;

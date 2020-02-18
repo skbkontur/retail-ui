@@ -1,1 +1,1 @@
-export { CurrencyLabel, CurrencyLabelProps } from './CurrencyLabel';
+export * from './CurrencyLabel';

@@ -1,2 +1,2 @@
-export { Tabs, TabsProps } from './Tabs';
-export { Tab, TabProps, TabState, TabIndicators } from './Tab';
+export * from './Tabs';
+export * from './Tab';

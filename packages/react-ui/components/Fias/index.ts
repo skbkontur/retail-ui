@@ -1,4 +1,4 @@
-export { Fias, FiasProps, FiasState } from './Fias';
-export { FiasSearch, FiasSearchProps } from './FiasSearch/FiasSearch';
-export { FiasAPI } from './api/FiasAPI';
-export { Address } from './models/Address';
+export * from './Fias';
+export * from './FiasSearch/FiasSearch';
+export * from './api/FiasAPI';
+export * from './models/Address';

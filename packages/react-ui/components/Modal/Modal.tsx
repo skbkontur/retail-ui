@@ -7,7 +7,7 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { ModalStack, StackSubscription } from '../ModalStack';
+import { ModalStack, ModalStackSubscription } from '../ModalStack';
 import { ResizeDetector } from '../internal/ResizeDetector';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
@@ -15,10 +15,10 @@ import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/utils';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
-import { Footer } from './ModalFooter';
-import { Header } from './ModalHeader';
+import { ModalFooter } from './ModalFooter';
+import { ModalHeader } from './ModalHeader';
 import { isBody, isFooter, isHeader } from './helpers';
-import { Body } from './ModalBody';
+import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
 import styles from './Modal.module.less';
 import { jsStyles } from './Modal.styles';
@@ -79,9 +79,9 @@ export interface ModalState {
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
-  public static Header = Header;
-  public static Body = Body;
-  public static Footer = Footer;
+  public static Header = ModalHeader;
+  public static Body = ModalBody;
+  public static Footer = ModalFooter;
 
   public static propTypes = {
     children(props: ModalProps, propName: keyof ModalProps, componentName: string) {
@@ -101,7 +101,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private theme!: Theme;
-  private stackSubscription: StackSubscription | null = null;
+  private stackSubscription: ModalStackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
   private mouseUpTarget: EventTarget | null = null;

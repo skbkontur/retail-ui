@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import { cx } from '../../lib/theming/Emotion';
 
-import { IndicatorWithContext as Indicator } from './Indicator';
+import { Indicator } from './Indicator';
 import { TabsContext } from './TabsContext';
-import { TabProps, TabWithContext, Tab } from './Tab';
+import { Tab } from './Tab';
 import styles from './Tabs.module.less';
 
 export interface TabsProps {
@@ -62,7 +62,7 @@ export class Tabs extends React.Component<TabsProps> {
     vertical: false,
   };
 
-  public static Tab: (props: TabProps) => JSX.Element = TabWithContext;
+  public static Tab = Tab;
 
   private tabs: Array<{
     getNode: () => Tab | null;

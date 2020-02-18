@@ -1,1 +1,1 @@
-export { InternalMenu } from './InternalMenu';
+export * from './InternalMenu';

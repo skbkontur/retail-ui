@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReactComponentLike } from 'prop-types';
 
 // NOTE: Copy-paste from @types/react
@@ -58,11 +57,6 @@ export function isFunctionalComponent(Component: ReactComponentLike) {
   return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
 }
 
-export function withContext<C>(ContextConsumer: React.Consumer<C>) {
-  return <P extends {}>(BaseComponent: React.ComponentType<P & { context?: C }>) => (props: P) => (
-    <ContextConsumer>{(context: C) => <BaseComponent {...props} context={context} />}</ContextConsumer>
-  );
-}
 export function escapeRegExpSpecChars(s: string): string {
   return s.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 }

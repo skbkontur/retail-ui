@@ -1,1 +1,1 @@
-export { Hint, HintProps, HintState } from './Hint';
+export * from './Hint';

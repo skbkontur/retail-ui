@@ -136,8 +136,6 @@
     "stylelint": "^12.0.0",
     "stylelint-config-css-modules": "^2.1.0",
     "stylelint-config-standard": "^19.0.0",
-    "ts-jest": "^24.2.0",
-    "ts-loader": "6.2.1",
     "typescript": "^3.7.3",
     "url-loader": "^3.0.0",
     "wait-on": "^3.3.0",
@@ -149,11 +147,6 @@
   },
   "jest": {
     "testResultsProcessor": "jest-teamcity-reporter",
-    "globals": {
-      "ts-jest": {
-        "tsConfig": "./tsconfig.json"
-      }
-    },
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/components/__mocks__/fileMock.ts",
       "\\.(css|less)$": "identity-obj-proxy"
