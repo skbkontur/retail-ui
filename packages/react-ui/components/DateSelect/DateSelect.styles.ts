@@ -1,7 +1,7 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       color: ${t.textColorDefault};
@@ -142,7 +142,7 @@ export const jsStyles = {
 
   menuUp(t: Theme) {
     return css`
-      ${jsStyles.menu(t)}
+      ${styles.menu(t)}
 
       span {
         position: relative;
@@ -153,7 +153,7 @@ export const jsStyles = {
 
   menuDown(t: Theme) {
     return css`
-      ${jsStyles.menu(t)}
+      ${styles.menu(t)}
 
       span {
         position: relative;
@@ -162,3 +162,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
