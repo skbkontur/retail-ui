@@ -85,9 +85,9 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderHeader = (fixed = false) => {
     return (
-      <div className={cn(jsStyles.header(this.theme), { [jsStyles.headerFixed(this.theme)]: fixed })}>
+      <div className={cn(jsStyles.header(), { [jsStyles.headerFixed(this.theme)]: fixed })}>
         {this.renderClose()}
-        <div className={cn(jsStyles.title(this.theme), { [jsStyles.titleFixed(this.theme)]: fixed })}>
+        <div className={cn(jsStyles.title(), { [jsStyles.titleFixed()]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
@@ -99,12 +99,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       {({ requestClose }) => (
         <a
           className={cn(jsStyles.close(this.theme), {
-            [jsStyles.fixed(this.theme)]: fixed,
+            [jsStyles.fixed()]: fixed,
           })}
           onClick={requestClose}
           data-tid="SidePage__close"
         >
-          <span className={jsStyles.closeIcon(this.theme)}>
+          <span className={jsStyles.closeIcon()}>
             <CrossIcon />
           </span>
         </a>

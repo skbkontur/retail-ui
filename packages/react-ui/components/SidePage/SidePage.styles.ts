@@ -1,8 +1,8 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
-  root(t: Theme) {
+const styles = {
+  root() {
     return css`
       height: 100%;
       position: fixed;
@@ -36,7 +36,7 @@ export const jsStyles = {
     `;
   },
 
-  layout(t: Theme) {
+  layout() {
     return css`
       align-items: stretch;
       display: flex;
@@ -44,7 +44,7 @@ export const jsStyles = {
     `;
   },
 
-  header(t: Theme) {
+  header() {
     return css`
       font-size: 22px;
       line-height: 30px;
@@ -64,14 +64,14 @@ export const jsStyles = {
     `;
   },
 
-  title(t: Theme) {
+  title() {
     return css`
       padding-right: 85px;
       padding-left: 30px;
     `;
   },
 
-  titleFixed(t: Theme) {
+  titleFixed() {
     return css`
       overflow: hidden;
       text-overflow: ellipsis;
@@ -79,7 +79,7 @@ export const jsStyles = {
     `;
   },
 
-  background(t: Theme) {
+  background() {
     return css`
       height: 100%;
       position: absolute;
@@ -87,7 +87,7 @@ export const jsStyles = {
     `;
   },
 
-  backgroundGray(t: Theme) {
+  backgroundGray() {
     return css`
       background: #333;
       opacity: 0.6;
@@ -96,7 +96,7 @@ export const jsStyles = {
 
   shadow(t: Theme) {
     return css`
-      ${cssName(jsStyles.container(t))}& {
+      ${cssName(styles.container(t))}& {
         box-shadow: ${t.sidePageContainerShadow};
       }
     `;
@@ -107,7 +107,7 @@ export const jsStyles = {
       left: 0;
       right: auto;
 
-      & ${cssName(jsStyles.container(t))} {
+      & ${cssName(styles.container(t))} {
         float: left;
       }
     `;
@@ -123,7 +123,7 @@ export const jsStyles = {
       text-decoration: none;
       width: 24px;
 
-      ${cssName(jsStyles.fixed(t))}& {
+      ${cssName(styles.fixed())}& {
         line-height: 24px;
       }
 
@@ -140,7 +140,7 @@ export const jsStyles = {
     `;
   },
 
-  closeIcon(t: Theme) {
+  closeIcon() {
     return css`
       display: inline-block;
       height: 12px;
@@ -149,13 +149,13 @@ export const jsStyles = {
     `;
   },
 
-  fixed(t: Theme) {
+  fixed() {
     return css`
       line-height: 24px;
     `;
   },
 
-  footer(t: Theme) {
+  footer() {
     return css`
       bottom: 0;
       position: fixed;
@@ -163,7 +163,7 @@ export const jsStyles = {
     `;
   },
 
-  footerContent(t: Theme) {
+  footerContent() {
     return css`
       padding: 20px 35px 20px 30px;
     `;
@@ -176,55 +176,55 @@ export const jsStyles = {
     `;
   },
 
-  transition(t: Theme) {
+  transition() {
     return css`
       opacity: 0.01;
     `;
   },
 
-  transitionEnter(t: Theme) {
+  transitionEnter() {
     return css`
-      ${jsStyles.transition(t)}
+      ${styles.transition()}
     `;
   },
 
-  transitionEnterLeft(t: Theme) {
+  transitionEnterLeft() {
     return css`
       transform: translateX(100px);
     `;
   },
 
-  transitionEnterRight(t: Theme) {
+  transitionEnterRight() {
     return css`
       transform: translateX(-100px);
     `;
   },
 
-  transitionEnterActive(t: Theme) {
+  transitionEnterActive() {
     return css`
-      ${jsStyles.transitionActive(t)}
+      ${styles.transitionActive()}
     `;
   },
 
-  transitionAppear(t: Theme) {
+  transitionAppear() {
     return css`
-      ${jsStyles.transition(t)}
+      ${styles.transition()}
     `;
   },
 
-  transitionAppearLeft(t: Theme) {
-    return css`
-      transform: translateX(100px);
-    `;
-  },
-
-  transitionAppearRight(t: Theme) {
+  transitionAppearLeft() {
     return css`
       transform: translateX(100px);
     `;
   },
 
-  transitionActive(t: Theme) {
+  transitionAppearRight() {
+    return css`
+      transform: translateX(100px);
+    `;
+  },
+
+  transitionActive() {
     return css`
       transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
@@ -232,22 +232,24 @@ export const jsStyles = {
     `;
   },
 
-  transitionAppearActive(t: Theme) {
+  transitionAppearActive() {
     return css`
-      ${jsStyles.transitionActive(t)}
+      ${styles.transitionActive()}
     `;
   },
 
-  transitionLeave(t: Theme) {
+  transitionLeave() {
     return css`
       opacity: 1;
     `;
   },
 
-  transitionLeaveActive(t: Theme) {
+  transitionLeaveActive() {
     return css`
       opacity: 0.01;
       transition: opacity 0.15s ease-out;
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

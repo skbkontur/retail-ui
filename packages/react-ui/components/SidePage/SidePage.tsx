@@ -158,7 +158,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private getZIndexProps(): ZIndexPropsType {
     const { fromLeft, blockBackground } = this.props;
     return {
-      classes: cn(jsStyles.root(this.theme), {
+      classes: cn(jsStyles.root(), {
         [jsStyles.leftSide(this.theme)]: !!fromLeft,
       }),
       style: blockBackground ? { width: '100%' } : undefined,
@@ -183,7 +183,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             className={cn(jsStyles.container(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout(this.theme)}>
+            <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
@@ -218,10 +218,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           <HideBodyVerticalScroll key="hbvs" />,
           <div
             key="overlay"
-            className={cn(
-              jsStyles.background(this.theme),
-              this.state.hasBackground && jsStyles.backgroundGray(this.theme),
-            )}
+            className={cn(jsStyles.background(), this.state.hasBackground && jsStyles.backgroundGray())}
           />,
         ]}
       </ZIndex>
@@ -249,12 +246,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const transitionAppear = this.props.fromLeft ? jsStyles.transitionAppearRight : jsStyles.transitionAppearLeft;
 
     return {
-      enter: transitionEnter(this.theme),
-      enterActive: jsStyles.transitionEnterActive(this.theme),
-      exit: jsStyles.transitionLeave(this.theme),
-      exitActive: jsStyles.transitionLeaveActive(this.theme),
-      appear: transitionAppear(this.theme),
-      appearActive: jsStyles.transitionAppearActive(this.theme),
+      enter: transitionEnter(),
+      enterActive: jsStyles.transitionEnterActive(),
+      exit: jsStyles.transitionLeave(),
+      exitActive: jsStyles.transitionLeaveActive(),
+      appear: transitionAppear(),
+      appearActive: jsStyles.transitionAppearActive(),
     };
   }
 
