@@ -11,7 +11,7 @@ import styles from './Modal.module.less';
 import { ModalClose } from './ModalClose';
 import { CloseProps, ModalContext } from './ModalContext';
 
-export interface HeaderProps {
+export interface ModalHeaderProps {
   close?: boolean;
   sticky: boolean;
 }
@@ -20,7 +20,7 @@ export interface HeaderProps {
  *
  * @visibleName Modal.Header
  */
-export class Header extends React.Component<HeaderProps> {
+export class ModalHeader extends React.Component<ModalHeaderProps> {
   public static __KONTUR_REACT_UI__ = 'ModalHeader';
   public static __MODAL_HEADER__ = true;
 

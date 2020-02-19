@@ -1,1 +1,1 @@
-export { ThemeConsumer } from './ThemeConsumer';
+export * from './ThemeConsumer';

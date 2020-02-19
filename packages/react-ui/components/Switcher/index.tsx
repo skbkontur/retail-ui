@@ -1,1 +1,1 @@
-export { Switcher, SwitcherProps, SwitcherState } from './Switcher';
+export * from './Switcher';

@@ -7,16 +7,16 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
-import { ButtonItem } from './TopBarButtonItem';
-import { Divider } from './TopBarDivider';
-import { Item } from './TopBarItem';
-import { Organizations } from './TopBarOrganizations';
+import { TopBarButtonItem } from './TopBarButtonItem';
+import { TopBarDivider } from './TopBarDivider';
+import { TopBarItem } from './TopBarItem';
+import { TopBarOrganizations } from './TopBarOrganizations';
 import { TopBarDropdown } from './TopBarDropdown';
-import { User } from './TopBarUser';
+import { TopBarUser } from './TopBarUser';
 import styles from './TopBar.module.less';
 import { TopBarEnd } from './TopBarEnd';
 import { TopBarStart } from './TopBarStart';
-import { Logout } from './TopBarLogout';
+import { TopBarLogout } from './TopBarLogout';
 import { jsStyles } from './TopBar.styles';
 
 export interface TopBarProps {
@@ -64,15 +64,15 @@ export interface TopBarDefaultProps {
 export class TopBar extends React.Component<TopBarProps> {
   public static __KONTUR_REACT_UI__ = 'TopBar';
 
-  public static Divider = Divider;
-  public static Item = ButtonItem;
+  public static Divider = TopBarDivider;
+  public static Item = TopBarButtonItem;
   public static Dropdown = TopBarDropdown;
-  public static OrganizationsDropdown = Organizations;
+  public static OrganizationsDropdown = TopBarOrganizations;
   public static Start = TopBarStart;
   public static End = TopBarEnd;
-  public static ItemStatic = Item;
-  public static User = User;
-  public static Logout = Logout;
+  public static ItemStatic = TopBarItem;
+  public static User = TopBarUser;
+  public static Logout = TopBarLogout;
 
   public static defaultProps: TopBarDefaultProps = {
     maxWidth: 1166,
@@ -177,11 +177,11 @@ export class TopBar extends React.Component<TopBarProps> {
     const _rightItems: Array<React.ReactElement<any>> = [...rightItems];
 
     if (userName) {
-      _rightItems.push(<User userName={userName} cabinetUrl={cabinetUrl} />, <Divider />);
+      _rightItems.push(<TopBarUser userName={userName} cabinetUrl={cabinetUrl} />, <TopBarDivider />);
     }
 
     if (onLogout) {
-      _rightItems.push(<Logout onClick={onLogout} />);
+      _rightItems.push(<TopBarLogout onClick={onLogout} />);
     }
 
     const logoProps = {
@@ -208,9 +208,9 @@ export class TopBar extends React.Component<TopBarProps> {
             ) : (
               <div className={styles.container}>
                 <div className={styles.startItems}>
-                  <Item>
+                  <TopBarItem>
                     <Logotype {...logoProps} />
-                  </Item>
+                  </TopBarItem>
                   {this._renderItems(leftItems)}
                 </div>
                 <div className={styles.endItems}>{this._renderItems(_rightItems)}</div>

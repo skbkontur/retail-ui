@@ -6,12 +6,12 @@ import { ArrowChevronDownIcon } from '../internal/icons/16px';
 import { TopBarDropdown } from './TopBarDropdown';
 import styles from './TopBar.module.less';
 
-export interface OrganizationsProps {
+export interface TopBarOrganizationsProps {
   caption: React.ReactNode;
   comment?: Nullable<string>;
 }
 
-export interface OrganizationsState {
+export interface TopBarOrganizationsState {
   captionWhiteSpace: React.CSSProperties['whiteSpace'];
   minWidth: Nullable<number>;
 }
@@ -21,7 +21,7 @@ export interface OrganizationsState {
  * @visibleName TopBar.OrganizationsDropdown
  */
 
-export class Organizations extends React.Component<OrganizationsProps, OrganizationsState> {
+export class TopBarOrganizations extends React.Component<TopBarOrganizationsProps, TopBarOrganizationsState> {
   public static __KONTUR_REACT_UI__ = 'TopBarOrganizations';
 
   public state = {
@@ -36,7 +36,7 @@ export class Organizations extends React.Component<OrganizationsProps, Organizat
     this._recalculateWidth();
   }
 
-  public componentDidUpdate(prevProps: OrganizationsProps) {
+  public componentDidUpdate(prevProps: TopBarOrganizationsProps) {
     if (prevProps.caption !== this.props.caption) {
       this._recalculateWidth();
     }

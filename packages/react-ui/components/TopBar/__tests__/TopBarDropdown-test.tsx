@@ -3,7 +3,7 @@ import React from 'react';
 
 import { MenuItem } from '../../MenuItem';
 import { TopBarDropdown, TopBarDropdownProps } from '../TopBarDropdown';
-import { Item } from '../TopBarItem';
+import { TopBarItem } from '../TopBarItem';
 
 describe('TopBarDropdown', () => {
   describe('open/close methods', () => {
@@ -38,7 +38,7 @@ describe('TopBarDropdown', () => {
 
       expect(
         wrapper
-          .find(Item)
+          .find(TopBarItem)
           .render()
           .hasClass('use-danger'),
       ).toBeTruthy();
@@ -51,7 +51,7 @@ describe('TopBarDropdown', () => {
 
       expect(
         wrapper
-          .find(Item)
+          .find(TopBarItem)
           .render()
           .hasClass('use-pay'),
       ).toBeTruthy();
@@ -61,12 +61,12 @@ describe('TopBarDropdown', () => {
       const wrapperDefault = mount<TopBarDropdown>(<TopBarDropdown label="TopBarDropdown" use="default" />);
       wrapperDefault.instance().open();
       wrapperDefault.update();
-      const itemClassesDefault = wrapperDefault.find(Item).render();
+      const itemClassesDefault = wrapperDefault.find(TopBarItem).render();
 
       const wrapperUndefined = mount<TopBarDropdown>(<TopBarDropdown label="TopBarDropdown" />);
       wrapperUndefined.instance().open();
       wrapperUndefined.update();
-      const itemClassesUndefined = wrapperUndefined.find(Item).render();
+      const itemClassesUndefined = wrapperUndefined.find(TopBarItem).render();
 
       expect(itemClassesDefault.prop('class')).toEqual(itemClassesUndefined.prop('class'));
     });

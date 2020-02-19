@@ -10,7 +10,7 @@ interface GlobalWithStackInfo {
   __ReactUIStackInfo?: StackInfo;
 }
 
-export interface StackSubscription {
+export interface ModalStackSubscription {
   remove: () => void;
 }
 
@@ -18,7 +18,7 @@ export class ModalStack {
   public static add(
     component: React.Component,
     onChange: (stack: ReadonlyArray<React.Component>) => void,
-  ): StackSubscription {
+  ): ModalStackSubscription {
     const { emitter, mounted } = ModalStack.getStackInfo();
     mounted.unshift(component);
     const changeHandler = () => onChange([...mounted]);

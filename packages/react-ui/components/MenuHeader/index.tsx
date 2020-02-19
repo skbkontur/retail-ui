@@ -1,1 +1,1 @@
-export { MenuHeader, MenuHeaderProps, isMenuHeader } from './MenuHeader';
+export * from './MenuHeader';

@@ -6,7 +6,7 @@ import { IconProps } from '../internal/icons/20px';
 import { DropdownMenu } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
-import { ButtonItem } from './TopBarButtonItem';
+import { TopBarButtonItem } from './TopBarButtonItem';
 
 export interface TopBarDropdownProps {
   icon?: IconProps['name'];
@@ -60,7 +60,7 @@ export class TopBarDropdown extends React.Component<TopBarDropdownProps> {
     };
 
     return (
-      <ButtonItem
+      <TopBarButtonItem
         active={captionProps.opened}
         icon={this.props.icon}
         minWidth={this.props.minWidth ? this.props.minWidth : undefined}
@@ -70,7 +70,7 @@ export class TopBarDropdown extends React.Component<TopBarDropdownProps> {
         onKeyDown={handleKeyDown}
       >
         {this.props.label}
-      </ButtonItem>
+      </TopBarButtonItem>
     );
   };
 

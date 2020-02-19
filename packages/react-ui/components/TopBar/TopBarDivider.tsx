@@ -12,7 +12,7 @@ import { jsStyles } from './TopBar.styles';
  *
  * @visibleName TopBar.Divider
  */
-export class Divider extends React.Component<{}> {
+export class TopBarDivider extends React.Component<{}> {
   public static __KONTUR_REACT_UI__ = 'TopBarDivider';
 
   private theme!: Theme;
