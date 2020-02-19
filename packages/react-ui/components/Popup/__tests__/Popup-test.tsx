@@ -1,4 +1,3 @@
-/* eslint-disable no-async-promise-executor */
 import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
@@ -12,7 +11,7 @@ import { RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer
 import { Nullable } from '../../../typings/utility-types';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
-  new Promise(async resolve => {
+  new Promise(resolve => {
     wrapper.setProps({ opened: true }, async () => {
       await delay(100);
       resolve();
@@ -20,7 +19,7 @@ const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =
   });
 
 const closePopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
-  new Promise(async resolve => {
+  new Promise(resolve => {
     wrapper.setProps({ opened: false }, async () => {
       await delay(100);
       resolve();
@@ -97,16 +96,13 @@ describe('Popup', () => {
 
     expect(wrapper.state('location')).toBeNull();
 
-    const check = () =>
-      new Promise(async resolve => {
-        await openPopup(wrapper);
+    const check = async () => {
+      await openPopup(wrapper);
 
-        expect(wrapper.state('location')!.position).toBe('bottom right');
+      expect(wrapper.state('location')!.position).toBe('bottom right');
 
-        await closePopup(wrapper);
-
-        resolve();
-      });
+      await closePopup(wrapper);
+    };
 
     const checkLocation = async () => {
       for (let i = 0; i < 11; i++) {
