@@ -1,1 +1,1 @@
-export { SpinnerOld, SpinnerOldProps, SpinnerOldType } from './SpinnerOld';
+export * from './SpinnerOld';
