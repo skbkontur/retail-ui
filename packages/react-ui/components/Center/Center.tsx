@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Override } from '../../typings/utility-types';
 
-import styles from './Center.module.less';
+import { jsStyles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -39,9 +39,9 @@ export class Center extends React.Component<CenterProps> {
     const styleJoined = Object.assign({ textAlign: align }, style);
 
     return (
-      <div className={styles.root} {...rest} style={styleJoined}>
-        <span className={styles.spring} />
-        <span className={styles.container}>{children}</span>
+      <div className={jsStyles.root()} {...rest} style={styleJoined}>
+        <span className={jsStyles.spring()} />
+        <span className={jsStyles.container()}>{children}</span>
       </div>
     );
   }
