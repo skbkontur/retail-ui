@@ -1,7 +1,7 @@
 /* eslint-disable import/no-default-export */
 import { API, FileInfo } from 'jscodeshift';
 
-const listOfDeprecated = ['Fias', 'TopBar', 'Logotype', 'FiasSearch'];
+const listOfDeprecated = ['Fias', 'TopBar', 'Logotype', 'FiasSearch', 'Loader'];
 
 const noDuplicateImports = (file: FileInfo, api: API) => {
   const j = api.jscodeshift;
