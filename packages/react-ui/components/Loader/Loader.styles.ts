@@ -4,13 +4,13 @@ import { Theme } from '../../lib/theming/Theme';
 const styles = {
   active(t: Theme) {
     return css`
-      ${styles.fillContainerPosition(t)};
+      ${styles.fillContainerPosition()};
 
       background: ${t.loaderBg};
     `;
   },
 
-  fillContainerPosition(t: Theme) {
+  fillContainerPosition() {
     return css`
       bottom: 0;
       left: 0;
@@ -20,7 +20,7 @@ const styles = {
     `;
   },
 
-  loader(t: Theme) {
+  loader() {
     return css`
       box-sizing: border-box;
       display: inline-block;
@@ -30,7 +30,7 @@ const styles = {
     `;
   },
 
-  spinnerContainer(t: Theme) {
+  spinnerContainer() {
     return css`
       display: block;
       margin: auto;
@@ -38,9 +38,9 @@ const styles = {
     `;
   },
 
-  spinnerContainerSticky(t: Theme) {
+  spinnerContainerSticky() {
     return css`
-      ${styles.spinnerContainer(t)};
+      ${styles.spinnerContainer()};
 
       position: fixed;
 
@@ -54,10 +54,10 @@ const styles = {
     `;
   },
 
-  spinnerContainerCenter(t: Theme) {
+  spinnerContainerCenter() {
     return css`
-      ${styles.spinnerContainer(t)};
-      ${styles.fillContainerPosition(t)};
+      ${styles.spinnerContainer()};
+      ${styles.fillContainerPosition()};
 
       &::before {
         content: ' ';
