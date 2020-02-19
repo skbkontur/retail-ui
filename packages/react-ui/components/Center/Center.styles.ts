@@ -1,6 +1,6 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-export const jsStyles = {
+const styles = {
   root() {
     return css`
       height: 100%;
@@ -23,3 +23,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
