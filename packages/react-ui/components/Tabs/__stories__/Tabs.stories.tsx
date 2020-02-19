@@ -46,7 +46,7 @@ class RouterTabs extends React.Component<any> {
   }
 }
 
-const MyLink = (props: React.InputHTMLAttributes<HTMLAnchorElement>) => <a {...props}>link</a>;
+const MyLink = (props: React.InputHTMLAttributes<HTMLAnchorElement>) => <a {...props}>{props.children}</a>;
 
 class TabsWithMyLink extends React.Component<any, any> {
   public state = {

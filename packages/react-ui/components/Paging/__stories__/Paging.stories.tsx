@@ -64,11 +64,11 @@ const getPageFromHash = () => +document.location.hash.slice(1);
 const CustomComponent: React.SFC<any> = ({ active, pageNumber, ...props }) =>
   Paging.isForward(pageNumber) ? (
     <a href={'#' + (getPageFromHash() + 1)} {...props}>
-      {pageNumber}
+      {props.children}
     </a>
   ) : (
     <a href={'#' + pageNumber} {...props}>
-      {pageNumber}
+      {props.children}
     </a>
   );
 
