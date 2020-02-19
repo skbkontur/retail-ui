@@ -15,7 +15,7 @@ export interface MenuItemProps {
   /** @ignore */
   _enableIconPadding?: boolean;
 
-  /** @ignore */
+  /** @deprecated @ignore */
   alkoLink?: boolean;
   comment?: React.ReactNode;
   disabled?: boolean;

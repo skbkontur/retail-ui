@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
 import cn from 'classnames';
 
 import { Logotype } from '../Logotype';
@@ -54,6 +55,10 @@ export interface TopBarDefaultProps {
  *
  * `Logout({children?: node})` – обёртка над `Item`. По умолчанию выводит локализованный текст
  *
+ */
+
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
  */
 export class TopBar extends React.Component<TopBarProps> {
   public static __KONTUR_REACT_UI__ = 'TopBar';
@@ -135,6 +140,14 @@ export class TopBar extends React.Component<TopBarProps> {
   };
 
   private theme!: Theme;
+
+  public constructor(props: TopBarProps) {
+    super(props);
+    warning(
+      false,
+      `TopBar has been deprecated, use TopBar from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+    );
+  }
 
   public render(): JSX.Element {
     return (

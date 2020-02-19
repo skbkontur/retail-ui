@@ -1,5 +1,6 @@
 import React from 'react';
 import isEqual from 'lodash.isequal';
+import warning from 'warning';
 
 import { Link } from '../Link';
 import { LocaleProvider } from '../LocaleProvider';
@@ -121,6 +122,10 @@ function deepMerge<T>(dst: T, ...src: T[]): T {
   return dst;
 }
 
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ */
+
 @locale('Fias', FiasLocaleHelper)
 export class Fias extends React.Component<FiasProps, FiasState> {
   public static __KONTUR_REACT_UI__ = 'Fias';
@@ -152,6 +157,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   public constructor(props: FiasProps) {
     super(props);
+    warning(
+      `Fias has been deprecated, use Fias from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+    );
     if (!props.baseUrl && !props.api) {
       Logger.log(Logger.warnings.baseUrlOrApiIsRequired);
     }
