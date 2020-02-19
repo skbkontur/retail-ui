@@ -19,14 +19,14 @@ export const AnimationKeyframes = {
   spinnerCircleOffset(t: Theme) {
     return keyframes`
         0% { stroke-dashoffset: 0; }
-        100% { stroke-dashoffset: -37; }
+        100% { stroke-dashoffset: -231.25%; }
       `;
   },
   spinnerCircleLength(t: Theme) {
     return keyframes`
-        0% { stroke-dasharray: 10, 27; }
-        50% {  stroke-dasharray: 30, 7; }
-        100% { stroke-dasharray: 10, 27; }
+        0% { stroke-dasharray: 62.5%, 168.75%; }
+        50% {  stroke-dasharray: 187.5%, 43.75%; }
+        100% { stroke-dasharray: 62.5%, 168.75%; }
       `;
   },
   spinnerCircleRotate(t: Theme) {

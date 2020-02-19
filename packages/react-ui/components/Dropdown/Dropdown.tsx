@@ -27,8 +27,7 @@ const PASS_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
 
-  diadocLink: true,
-  diadocLinkIcon: true,
+  diadocLinkIcon: true, // @deprecated TODO remove in 3.0.
 };
 
 export interface DropdownProps {
