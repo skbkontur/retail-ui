@@ -10,6 +10,7 @@ const storyNames = [
   'Toast',
   'Small width',
   'Container with overflow hidden',
+  'Portal and maxWidth',
 ];
 
 describe('Popup', function() {

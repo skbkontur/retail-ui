@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
 import { PositionProperty } from 'csstype';
 
-import { Popup, PopupPosition } from '../Popup';
+import { Popup, PopupProps, PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import { Tooltip } from '../../Tooltip';
 import { ComboBox } from '../../ComboBox';
 import { Hint } from '../../Hint';
 import { Select } from '../../Select';
 import { RenderLayer } from '../../RenderLayer';
+import { ComponentTable } from '../../internal/ComponentTable';
 
 storiesOf('Popup', module)
   .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
@@ -34,7 +35,14 @@ storiesOf('Popup', module)
   ))
   .add('Small width', () => <MinWidth />)
   .add('Container with overflow hidden', () => <OverflowHiddenContainer />)
-  .add('Hover behaviour', () => <HoverBehaviour />);
+  .add('Hover behaviour', () => <HoverBehaviour />)
+  .add('Portal and maxWidth', () => (
+    <ComponentTable
+      Component={WideAndNarrowPopups}
+      rows={[{ props: { disablePortal: false } }, { props: { disablePortal: true } }]}
+      cols={[{ props: { maxWidth: 'none' } }, { props: { maxWidth: 100 } }]}
+    />
+  ));
 
 const AllCases = ({ small, padding, disablePortal }: { small: boolean; padding: string; disablePortal?: boolean }) => (
   <div style={{ padding }}>
@@ -613,5 +621,67 @@ class OverflowHiddenContainer extends Component<{}, OverflowHiddenContainerState
     if (!this.state[key]) {
       this.setState({ [key]: e });
     }
+  };
+}
+
+class WideAndNarrowPopups extends Component<Partial<PopupProps>> {
+  private anchor: HTMLElement | null = null;
+
+  public componentDidMount() {
+    this.forceUpdate();
+  }
+
+  public render() {
+    return (
+      <div style={{ padding: 100 }}>
+        <div style={{ display: 'inline-block' }}>
+          <div ref={this.ref}>🙂🙂🙂</div>
+          {this.anchor && (
+            <Popup
+              opened
+              hasPin
+              hasShadow
+              anchorElement={this.anchor}
+              backgroundColor={'#fff'}
+              disableAnimations={Boolean(process.env.enableReactTesting)}
+              positions={['top left']}
+              {...this.props}
+            >
+              <div
+                style={{
+                  padding: '10px 20px',
+                }}
+              >
+                😎😎😎😎😎
+              </div>
+            </Popup>
+          )}
+          {this.anchor && (
+            <Popup
+              opened
+              hasPin
+              hasShadow
+              anchorElement={this.anchor}
+              backgroundColor={'#fff'}
+              disableAnimations={Boolean(process.env.enableReactTesting)}
+              positions={['bottom left']}
+              {...this.props}
+            >
+              <div
+                style={{
+                  padding: '10px 20px',
+                }}
+              >
+                😎
+              </div>
+            </Popup>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  private ref = (e: HTMLElement | null) => {
+    this.anchor = e;
   };
 }
