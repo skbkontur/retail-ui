@@ -1,7 +1,7 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   kebab() {
     return css`
       display: inline-block;
@@ -24,7 +24,7 @@ export const jsStyles = {
 
   focused(t: Theme) {
     return css`
-      ${cssName(jsStyles.kebab())}& {
+      ${cssName(styles.kebab())}& {
         background: rgba(0, 0, 0, 0.09);
         border-color: ${t.borderColorFocus};
       }
@@ -33,7 +33,7 @@ export const jsStyles = {
 
   opened() {
     return css`
-      ${cssName(jsStyles.kebab())}& {
+      ${cssName(styles.kebab())}& {
         background: rgba(0, 0, 0, 0.09);
         cursor: default;
       }
@@ -42,7 +42,7 @@ export const jsStyles = {
 
   disabled() {
     return css`
-      ${cssName(jsStyles.kebab())}& {
+      ${cssName(styles.kebab())}& {
         cursor: default;
 
         &:hover {
@@ -54,7 +54,7 @@ export const jsStyles = {
 
   iconsmall() {
     return css`
-      ${cssName(jsStyles.kebab())} & {
+      ${cssName(styles.kebab())} & {
         margin-top: 1px;
         margin-left: 0.8124px;
       }
@@ -63,7 +63,7 @@ export const jsStyles = {
 
   iconmedium() {
     return css`
-      ${cssName(jsStyles.kebab())} & {
+      ${cssName(styles.kebab())} & {
         margin-top: -2px;
         margin-left: 0.5px;
       }
@@ -72,7 +72,7 @@ export const jsStyles = {
 
   iconlarge() {
     return css`
-      ${cssName(jsStyles.kebab())} & {
+      ${cssName(styles.kebab())} & {
         margin-top: -5px;
         margin-left: 0.5px;
       }
@@ -86,3 +86,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
