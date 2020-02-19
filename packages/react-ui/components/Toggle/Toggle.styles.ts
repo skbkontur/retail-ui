@@ -81,7 +81,6 @@ const styles = {
       }
       ${cssName(styles.activeBackground())} {
         background: ${t.toggleBgActive};
-        visibility: visible;
       }
     `;
   },
