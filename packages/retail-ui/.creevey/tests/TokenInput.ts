@@ -1,10 +1,13 @@
 import { expect } from 'chai';
 import { By } from 'selenium-webdriver';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('TokenInput', function() {
   describe('empty with reference', function() {
     it('idle', async function() {
       const element = await this.browser.findElement(By.css('.tokens-test-container'));
+      await delay(100);
       await expect(await element.takeScreenshot()).to.matchImage('idle');
     });
     it('clicked', async function() {
