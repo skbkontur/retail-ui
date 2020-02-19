@@ -4,7 +4,7 @@
 import React from 'react';
 import { Switcher } from "@skbkontur/react-ui/components/Switcher";
 import { MaskedInput } from "@skbkontur/react-ui/components/MaskedInput";
-import { TokenInput } from '@skbkontur/react-ui/components/TokenInput';
+import  TokenInput from '@skbkontur/react-ui/components/TokenInput';
 
 class Foo extends React.Component {
   private handleChange(e) {

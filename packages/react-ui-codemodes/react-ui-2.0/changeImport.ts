@@ -75,7 +75,16 @@ const changeExport = (fileInfo: FileInfo, api: API) => {
       if (path.type === 'ImportDefaultSpecifier') {
         if (!path.local) return;
         const varName = path.local.name;
+        const regex = /@skbkontur\/react-ui\/components\/*/m;
+        const pathVarName = dep.value.source.value ? dep.value.source.value?.toString().replace(regex, '') : '';
         if (listOfDeprecated.includes(varName)) {
+          localImports.push(
+            j.importDeclaration([j.importSpecifier(path.local)], j.stringLiteral('@skbkontur/react-ui-addons')),
+          );
+          j(dep).replaceWith(localImports);
+        }
+        if (listOfDeprecated.includes(pathVarName)) {
+          path.local.name = `${pathVarName} as ${path.local.name}`;
           localImports.push(
             j.importDeclaration([j.importSpecifier(path.local)], j.stringLiteral('@skbkontur/react-ui-addons')),
           );
