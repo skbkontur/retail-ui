@@ -38,13 +38,6 @@ const styles = {
       margin-left: 0;
     `;
   },
-
-  wrap() {
-    return css`
-      /* for .wrap class not to be 'undefined': used in tests */
-      visibility: visible;
-    `;
-  },
 };
 
 export const jsStyles = memoizeStyle(styles);

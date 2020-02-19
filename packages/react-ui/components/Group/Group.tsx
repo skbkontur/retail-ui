@@ -68,7 +68,6 @@ export class Group extends React.Component<GroupProps> {
           return (
             <div
               className={cn({
-                [jsStyles.wrap()]: true,
                 [jsStyles.fixed()]: !isWidthInPercent,
                 [jsStyles.stretch()]: isWidthInPercent,
                 [jsStyles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
