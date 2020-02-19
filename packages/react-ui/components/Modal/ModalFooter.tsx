@@ -67,7 +67,7 @@ export class ModalFooter extends React.Component<ModalFooterProps> {
 
   private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
     const className = cn({
-      [jsStyles.footer(this.theme)]: true,
+      [jsStyles.footer()]: true,
       [jsStyles.panel(this.theme)]: Boolean(this.props.panel),
       [jsStyles.fixedFooter(this.theme)]: fixed,
     });

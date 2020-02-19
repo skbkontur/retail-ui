@@ -1,8 +1,8 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-export const jsStyles = {
+const styles = {
   root() {
     return css`
       height: 100%;
@@ -72,7 +72,7 @@ export const jsStyles = {
 
   alignTop(t: Theme) {
     return css`
-      ${cssName(jsStyles.centerContainer(t))}& {
+      ${cssName(styles.centerContainer(t))}& {
         vertical-align: top;
       }
     `;
@@ -120,7 +120,7 @@ export const jsStyles = {
 
   disabled(t: Theme) {
     return css`
-      ${cssName(jsStyles.close(t))}& {
+      ${cssName(styles.close(t))}& {
         pointer-events: none;
         cursor: default;
         color: ${t.modalCloseButtonDisabledColor};
@@ -130,11 +130,11 @@ export const jsStyles = {
 
   closeOutline(t: Theme) {
     return css`
-      ${cssName(jsStyles.close(t))} & {
+      ${cssName(styles.close(t))} & {
         display: none;
       }
 
-      ${cssName(jsStyles.close(t))}:focus & {
+      ${cssName(styles.close(t))}:focus & {
         border: 2px solid ${t.borderColorFocus};
         position: absolute;
         display: block;
@@ -176,7 +176,7 @@ export const jsStyles = {
     `;
   },
 
-  footer(t: Theme) {
+  footer() {
     return css`
       padding: 0 35px 30px 30px;
     `;
@@ -184,7 +184,7 @@ export const jsStyles = {
 
   panel(t: Theme) {
     return css`
-      ${cssName(jsStyles.footer(t))}& {
+      ${cssName(styles.footer())}& {
         padding-top: 20px;
         padding-bottom: 20px;
         background: ${t.modalFooterBg};
@@ -247,3 +247,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
