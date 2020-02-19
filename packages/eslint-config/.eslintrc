@@ -5,9 +5,8 @@
     "browser": true,
     "node": true,
     "jest": true,
-    "jasmine": true,
     "mocha": true,
-    "es6": true
+    "es2020": true
   },
   "extends": [
     "eslint:recommended",

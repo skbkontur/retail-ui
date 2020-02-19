@@ -8,9 +8,8 @@ import styles from '../../MenuItem/MenuItem.less';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
 
-// eslint-disable-next-line @typescript-eslint/require-await
 async function getItems(query: string) {
-  return ['aaa', 'bbb', 'ccc'].filter(s => s.includes(query));
+  return Promise.resolve(['aaa', 'bbb', 'ccc'].filter(s => s.includes(query)));
 }
 const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 

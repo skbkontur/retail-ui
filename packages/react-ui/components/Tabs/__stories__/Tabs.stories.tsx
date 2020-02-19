@@ -243,8 +243,7 @@ class TabsInModal extends React.Component<any, any> {
 }
 
 class TabsTable extends React.Component {
-  public static TestTab = class extends React.Component<TabProps & { vertical?: boolean }, any> {
-    public displayName = 'TestTab';
+  public static TestTab = class TestTab extends React.Component<TabProps & { vertical?: boolean }, any> {
     public render() {
       const { vertical, ...tabProps } = this.props;
       return (

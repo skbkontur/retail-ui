@@ -1,5 +1,4 @@
-/* eslint-disable no-async-promise-executor, @typescript-eslint/no-misused-promises, @typescript-eslint/require-await*/
-
+/* eslint-disable no-async-promise-executor */
 import React from 'react';
 import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
