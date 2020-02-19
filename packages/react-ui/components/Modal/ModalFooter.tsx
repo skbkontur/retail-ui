@@ -1,14 +1,13 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
 
 import { jsStyles } from './Modal.styles';
-import styles from './Modal.module.less';
 import { ModalContext } from './ModalContext';
 
 export interface ModalFooterProps {
@@ -67,9 +66,9 @@ export class ModalFooter extends React.Component<ModalFooterProps> {
   }
 
   private renderContent = (horizontalScroll?: boolean) => (fixed = false) => {
-    const className = cx(styles.footer, jsStyles.footer(this.theme), {
-      [styles.panel]: !!this.props.panel,
-      [styles.fixedFooter]: fixed,
+    const className = cn({
+      [jsStyles.footer(this.theme)]: true,
+      [jsStyles.panel(this.theme)]: Boolean(this.props.panel),
       [jsStyles.fixedFooter(this.theme)]: fixed,
     });
 

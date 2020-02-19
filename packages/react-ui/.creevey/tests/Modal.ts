@@ -107,7 +107,7 @@ describe('Modal', function() {
     it('middle', async function() {
       await this.browser.executeScript(function() {
         var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
+        var modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight / 2;
@@ -118,7 +118,7 @@ describe('Modal', function() {
     it('bottom', async function() {
       await this.browser.executeScript(function() {
         var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
+        var modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight;

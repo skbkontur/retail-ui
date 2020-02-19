@@ -40,29 +40,26 @@ describe('ZIndex', function() {
         .click(this.browser.findElement(By.css('.modalBody button')))
         .perform();
 
-      const modal = await this.browser.findElement(By.css('[class^="Modal-module-root"]'));
-      await expect(await modal.takeScreenshot()).to.matchImage('Modal covers hint');
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
     });
   });
   describe('Loader in Modal', function() {
     it('Footer covers loader', async function() {
-      const modal = await this.browser.findElement(By.css('[class^="Modal-module-window"]'));
+      const modal = await this.browser.findElement(By.css('[data-tid="modal-content"]'));
       await expect(await modal.takeScreenshot()).to.matchImage('Footer covers loader');
     });
   });
   describe('Big modal with Loader', function() {
     it('Header covers Loader', async function() {
-      const modal = await this.browser.findElement(By.css('[class^="Modal-module-root"]'));
-
       await this.browser.executeScript(function() {
-        const sidePage = window.document.querySelector('[class^="Modal-module-container"]') as HTMLElement;
+        const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
         if (sidePage) {
           sidePage.scrollTop = sidePage.offsetHeight / 3;
         }
       });
 
-      await expect(await modal.takeScreenshot()).to.matchImage('Header covers Loader');
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
     });
   });
   describe('Tooltip and Select', function() {
