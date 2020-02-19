@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/utils';
 import { Corners } from '../Button/Corners';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
-import { cx } from '../../lib/theming/Emotion';
 
-import styles from './Group.module.less';
+import { jsStyles } from './Group.styles';
 
 export interface GroupProps {
   width?: React.CSSProperties['width'];
@@ -41,16 +41,16 @@ export class Group extends React.Component<GroupProps> {
     });
 
     return (
-      <span className={styles.root} style={style}>
+      <span className={jsStyles.root()} style={style}>
         {React.Children.map(this.props.children, child => {
           if (!child || !React.isValidElement<GroupChildProps>(child)) {
             return null;
           }
 
           const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
-          const itemCss = cx({
-            [styles.item]: true,
-            [styles.itemFirst]: child === first,
+          const itemCss = cn({
+            [jsStyles.item()]: true,
+            [jsStyles.itemFirst()]: child === first,
           });
 
           let corners = 0;
@@ -67,10 +67,11 @@ export class Group extends React.Component<GroupProps> {
 
           return (
             <div
-              className={cx(styles.wrap, {
-                [styles.fixed]: !isWidthInPercent,
-                [styles.stretch]: isWidthInPercent,
-                [styles.stretchFallback]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
+              className={cn({
+                [jsStyles.wrap()]: true,
+                [jsStyles.fixed()]: !isWidthInPercent,
+                [jsStyles.stretch()]: isWidthInPercent,
+                [jsStyles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
               })}
             >
               <div className={itemCss}>{child}</div>
