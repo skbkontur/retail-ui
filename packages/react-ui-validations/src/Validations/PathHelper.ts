@@ -1,7 +1,7 @@
 const classicFunctionRegEx = /^\s*function\s*\(\s*([A-Za-z0-9_]+)\s*\)\s*\{\s*(?:(?:\"use strict\"|\'use strict\');?)?\s*return\s+\1\s*([\.\[].*?)?\s*;?\s*\}\s*$/;
 const arrowFunctionRegEx = /^\s*\(?\s*([A-Za-z0-9_]+)\s*\)?\s*=>\s*\1\s*([\.\[].*?)?\s*$/;
 
-type NonNullableRecursive<T> = { [K in keyof T]: NonNullable<NonNullableRecursive<T>> };
+type NonNullableRecursive<T> = { [K in keyof T]: T[K] extends object ? NonNullable<NonNullableRecursive<T[K]>> : NonNullable<T[K]> };
 
 export type LambdaPath<T, TChild> = (x: NonNullable<NonNullableRecursive<T>>) => TChild;
 
