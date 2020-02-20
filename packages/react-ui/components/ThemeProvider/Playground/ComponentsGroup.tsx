@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { css, cx } from '../../../lib/theming/Emotion';
 import { Gapped } from '../../Gapped';
 import { Theme } from '../../../lib/theming/Theme';
 
-import styles from './styles.module.less';
+import { jsStyles } from './Playground.styles';
 
 interface ComponentsGroupProps {
   title: string;
@@ -17,25 +16,10 @@ export const ComponentsGroup = (props: ComponentsGroupProps): React.ReactElement
   const { title, children, style, theme } = props;
   return (
     <Gapped wrap verticalAlign="top" gap={40}>
-      <div
-        className={cx(
-          styles.title,
-          css`
-            color: ${theme.textColorMain};
-          `,
-        )}
-        style={style}
-      >
+      <div className={jsStyles.title(theme)} style={style}>
         {title}
       </div>
-      <div
-        className={cx(
-          styles.componentsGroup,
-          css`
-            color: ${theme.textColorMain};
-          `,
-        )}
-      >
+      <div className={jsStyles.componentsGroup(theme)}>
         <Gapped wrap verticalAlign="middle" gap={10}>
           {children}
         </Gapped>

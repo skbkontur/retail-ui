@@ -3,15 +3,14 @@ import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import EventEmitter from 'eventemitter3';
 
-import { cx, css } from '../../../lib/theming/Emotion';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
 import { Theme } from '../../../lib/theming/Theme';
 import { Link } from '../../Link';
 import { Hint } from '../../Hint';
 
-import styles from './styles.module.less';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
+import { jsStyles } from './Playground.styles';
 
 const emitter = new EventEmitter();
 
@@ -41,15 +40,9 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
 
   public render() {
     const { variable, theme, baseVariables } = this.props;
-    const wrapperClassName = cx(
-      styles.variableName,
-      css`
-        color: ${theme.textColorMain};
-      `,
-    );
     return (
       <Gapped gap={30}>
-        <div className={wrapperClassName} title={variable}>{`${variable}: `}</div>
+        <div className={jsStyles.variableName(theme)} title={variable}>{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
       </Gapped>
     );
@@ -83,9 +76,9 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private renderBaseVariableLink = () => {
     const baseVariables = this.props.baseVariables;
     return (
-      <div className={styles.baseVariableRoot}>
+      <div className={jsStyles.baseVariableRoot()}>
         {this.colorIcon()}
-        <div className={styles.baseLinkWrapper}>
+        <div className={jsStyles.baseLinkWrapper()}>
           <Gapped>
             <div style={{ textAlign: 'right' }}>
               <Gapped vertical>
@@ -132,7 +125,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private renderRollbackIcon() {
     return (
       <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
-        <div className={styles.linkRoot}>
+        <div className={jsStyles.linkRoot()}>
           <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
         </div>
       </Hint>
@@ -144,7 +137,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   };
 
   private colorIcon = () => {
-    return <div className={styles.colorIcon} style={{ background: this.state.value }} />;
+    return <div className={jsStyles.colorIcon()} style={{ background: this.state.value }} />;
   };
 
   private handleEditLinkClick = () => {

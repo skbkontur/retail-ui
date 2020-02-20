@@ -10,9 +10,8 @@ import { ComboBox } from '../../ComboBox';
 import { Link } from '../../Link';
 import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
 
-import styles from './styles.module.less';
 import { ThemeEditor } from './ThemeEditor';
-import { jsStyles } from './jsStyles';
+import { jsStyles } from './Playground.styles';
 import { Playground } from './Playground';
 import { darkTheme as darkThemeVariables } from './darkTheme';
 import { ThemeType } from './constants';
@@ -113,7 +112,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
           </div>
         </SidePage.Header>
         <SidePage.Body>
-          <div className={styles.sidePageBody}>
+          <div className={jsStyles.sidePageBody()}>
             <ThemeEditor
               editingTheme={themes[editingThemeItem!.value]}
               currentTheme={currentTheme}

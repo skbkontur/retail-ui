@@ -1,15 +1,14 @@
 import React from 'react';
 
-import { css } from '../../../lib/theming/Emotion';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Theme } from '../../../lib/theming/Theme';
 import { Gapped } from '../../Gapped';
 import { Loader } from '../../Loader';
 
 import { VariableValue } from './VariableValue';
-import styles from './styles.module.less';
 import { VARIABLES_GROUPS } from './constants';
 import { PlaygroundTheme, ThemeErrorsType } from './ThemeProviderPlayground';
+import { jsStyles } from './Playground.styles';
 
 interface ThemeEditorProps {
   editingTheme: Theme;
@@ -35,8 +34,8 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
   public render() {
     return this.state.isLoading ? (
-      <div className={styles.loaderWrapper}>
-        <Loader type="big" active className={styles.loader} />
+      <div className={jsStyles.loaderWrapper()}>
+        <Loader type="big" active className={jsStyles.loader()} />
       </div>
     ) : (
       this.renderGroups()
@@ -89,13 +88,10 @@ interface GroupProps {
 }
 const Group = (props: GroupProps) => {
   const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
-  const headerClassname = css`
-    color: ${currentTheme.textColorMain};
-  `;
 
   return variables.length > 0 ? (
     <React.Fragment>
-      <h2 className={headerClassname}>{title}</h2>
+      <h2 className={jsStyles.editorGroupHeader(currentTheme)}>{title}</h2>
       <Gapped gap={16} wrap verticalAlign="middle">
         {variables.map(variable => {
           const value = editingTheme[variable as keyof Theme];
