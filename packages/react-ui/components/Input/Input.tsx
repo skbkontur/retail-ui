@@ -1,17 +1,16 @@
 import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';
+import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/utils';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../polyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../internal/MaskedInput';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
-import classes from './Input.module.less';
 import { jsStyles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
@@ -277,12 +276,8 @@ export class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cx(classes.root, jsStyles.root(this.theme), this.getSizeClassName(), {
-        [classes.focus]: focused,
-        [classes.disabled]: !!disabled,
-        [classes.error]: !!error,
-        [classes.warning]: !!warning,
-        [classes.borderless]: !!borderless,
+      className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
+        [jsStyles.borderless()]: !!borderless,
         [jsStyles.focus(this.theme)]: focused,
         [jsStyles.blink(this.theme)]: !!blinking,
         [jsStyles.warning(this.theme)]: !!warning,
@@ -300,7 +295,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: cx(classes.input, jsStyles.input(this.theme)),
+      className: jsStyles.input(this.theme),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -322,15 +317,15 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        <span className={classes.sideContainer}>
+        <span className={jsStyles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
         </span>
-        <span className={classes.wrapper}>
+        <span className={jsStyles.wrapper()}>
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={cx(classes.sideContainer, classes.rightContainer)}>
+        <span className={cn(jsStyles.sideContainer(), jsStyles.rightContainer())}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -361,11 +356,11 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, classes.leftIcon);
+    return this.renderIcon(this.props.leftIcon, jsStyles.leftIcon());
   }
 
   private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, classes.rightIcon);
+    return this.renderIcon(this.props.rightIcon, jsStyles.rightIcon());
   }
 
   private renderIcon(icon: InputIconType, className: string) {
@@ -377,7 +372,11 @@ export class Input extends React.Component<InputProps, InputState> {
       return <span className={className}>{icon()}</span>;
     }
 
-    return <span className={cx(className, classes.useDefaultColor, jsStyles.useDefaultColor(this.theme))}>{icon}</span>;
+    return (
+      <span className={cn(className, jsStyles.useDefaultColor(this.theme), jsStyles.useDefaultColor(this.theme))}>
+        {icon}
+      </span>
+    );
   }
 
   private renderPlaceholder() {
@@ -386,7 +385,7 @@ export class Input extends React.Component<InputProps, InputState> {
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div
-          className={cx(classes.placeholder, jsStyles.placeholder(this.theme))}
+          className={cn(jsStyles.placeholder(this.theme), jsStyles.placeholder(this.theme))}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
