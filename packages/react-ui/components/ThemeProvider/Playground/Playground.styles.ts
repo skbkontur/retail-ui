@@ -1,9 +1,7 @@
-import { css } from '../../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 
-import { PlaygroundTheme } from './ThemeProviderPlayground';
-
-export const jsStyles = {
+const styles = {
   playground() {
     return css`
       margin: -16px;
@@ -113,24 +111,24 @@ export const jsStyles = {
     `;
   },
 
-  stickyTabsWrapper(t: PlaygroundTheme) {
+  stickyTabsWrapper(t: Theme) {
     return css`
       &:after {
         box-shadow: 0 2px 10px 0px ${t.textColorMain || 'black'};
       }
     `;
   },
-  tabsInnerWrapper(t: PlaygroundTheme) {
+  tabsInnerWrapper(t: Theme) {
     return css`
       color: ${t.textColorMain};
     `;
   },
-  playgroundWrapper(t: PlaygroundTheme) {
+  playgroundWrapper(t: Theme) {
     return css`
       background: ${t.backgroundMain};
     `;
   },
-  editorHeaderWrapper(t: PlaygroundTheme) {
+  editorHeaderWrapper(t: Theme) {
     return css`
       color: ${t.textColorMain};
     `;
@@ -141,3 +139,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
