@@ -2,6 +2,7 @@
 import { API, FileInfo } from 'jscodeshift';
 
 const listOfDeprecated = ['Fias', 'TopBar', 'Logotype', 'FiasSearch', 'Loader'];
+const REGEX_REACT_UI_PATH = /@skbkontur\/react-ui\/components\/*/m;
 
 const noDuplicateImports = (file: FileInfo, api: API) => {
   const j = api.jscodeshift;
@@ -54,7 +55,7 @@ const noDuplicateImports = (file: FileInfo, api: API) => {
   return file;
 };
 
-const changeExport = (fileInfo: FileInfo, api: API) => {
+const changeExport = (fileInfo: FileInfo, api: API, options?: any) => {
   const j = api.jscodeshift;
 
   const imports = j(fileInfo.source).find(j.ImportDeclaration);
@@ -75,20 +76,26 @@ const changeExport = (fileInfo: FileInfo, api: API) => {
       if (path.type === 'ImportDefaultSpecifier') {
         if (!path.local) return;
         const varName = path.local.name;
-        const regex = /@skbkontur\/react-ui\/components\/*/m;
-        const pathVarName = dep.value.source.value ? dep.value.source.value?.toString().replace(regex, '') : '';
         if (listOfDeprecated.includes(varName)) {
           localImports.push(
             j.importDeclaration([j.importSpecifier(path.local)], j.stringLiteral('@skbkontur/react-ui-addons')),
           );
           j(dep).replaceWith(localImports);
-        }
-        if (listOfDeprecated.includes(pathVarName)) {
-          path.local.name = `${pathVarName} as ${path.local.name}`;
-          localImports.push(
-            j.importDeclaration([j.importSpecifier(path.local)], j.stringLiteral('@skbkontur/react-ui-addons')),
-          );
-          j(dep).replaceWith(localImports);
+        } else {
+          const regexReactUiComponents = options && options.regex ? options.regex : REGEX_REACT_UI_PATH;
+          let pathVarName = dep.value.source.value
+            ? dep.value.source.value?.toString().replace(regexReactUiComponents, '')
+            : '';
+          if (pathVarName.includes('/')) {
+            pathVarName = pathVarName.slice(pathVarName.lastIndexOf('/') + 1);
+          }
+          if (listOfDeprecated.includes(pathVarName)) {
+            path.local.name = `${pathVarName} as ${path.local.name}`;
+            localImports.push(
+              j.importDeclaration([j.importSpecifier(path.local)], j.stringLiteral('@skbkontur/react-ui-addons')),
+            );
+            j(dep).replaceWith(localImports);
+          }
         }
       }
     });
@@ -98,7 +105,7 @@ const changeExport = (fileInfo: FileInfo, api: API) => {
   return fileInfo;
 };
 
-export default function(fileInfo: FileInfo, api: API) {
-  const result = changeExport(fileInfo, api);
+export default function(fileInfo: FileInfo, api: API, options?: any) {
+  const result = options ? changeExport(fileInfo, api, options) : changeExport(fileInfo, api);
   return noDuplicateImports(result, api).source;
 }
