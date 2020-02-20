@@ -1,6 +1,6 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 
-export const jsStyles = {
+const styles = {
   searchBar() {
     return css`
       position: relative;
@@ -63,15 +63,15 @@ export const jsStyles = {
       padding: 0 !important;
       height: 0 !important;
 
-      ${cssName(jsStyles.table())} tbody tr:not(&) > td {
+      ${cssName(styles.table())} tbody tr:not(&) > td {
         border-top: 0 none;
       }
 
-      ${cssName(jsStyles.table())} tbody tr&:hover ~ tr:not(&) {
+      ${cssName(styles.table())} tbody tr&:hover ~ tr:not(&) {
         background-color: #f8f8f8;
       }
 
-      ${cssName(jsStyles.table())} tbody tr&:hover ~ & ~ tr {
+      ${cssName(styles.table())} tbody tr&:hover ~ & ~ tr {
         background-color: transparent;
       }
     `;
@@ -175,3 +175,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
