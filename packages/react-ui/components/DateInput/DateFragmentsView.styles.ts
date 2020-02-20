@@ -37,7 +37,7 @@ export const jsStyles = {
 
   delimiterFilled(t: Theme) {
     return css`
-      color: inherit;
+      color: inherit !important;
     `;
   },
 };

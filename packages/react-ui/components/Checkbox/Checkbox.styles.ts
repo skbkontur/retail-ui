@@ -26,7 +26,7 @@ const styles = {
 
   rootFallback() {
     return css`
-      display: inline-table;
+      display: inline-table !important;
     `;
   },
 
