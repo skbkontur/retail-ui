@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
 import { isChrome, isOpera, isSafari } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 
-import styles from './ScrollContainer.module.less';
+import { jsStyles } from './ScrollContainer.styles';
 
 const PADDING_RIGHT = 30;
 const MIN_SCROLL_SIZE = 20;
@@ -90,10 +90,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     let scroll = null;
 
     if (state.scrollActive) {
-      const scrollClass = cx({
-        [styles.scroll]: true,
-        [styles.scrollInvert]: !!props.invert,
-        [styles.scrollHover]: state.hover || state.scrolling,
+      const scrollClass = cn({
+        [jsStyles.scroll()]: true,
+        [jsStyles.scrollInvert()]: Boolean(props.invert),
+        [jsStyles.scrollHover()]: state.hover || state.scrolling,
       });
       const scrollStyle = {
         top: state.scrollPos,
@@ -117,9 +117,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     };
 
     return (
-      <div className={styles.root} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+      <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
         {scroll}
-        <div className={styles.inner} style={innerStyle} ref={this.refInner} onScroll={this.handleNativeScroll}>
+        <div className={jsStyles.inner()} style={innerStyle} ref={this.refInner} onScroll={this.handleNativeScroll}>
           {props.children}
         </div>
       </div>
