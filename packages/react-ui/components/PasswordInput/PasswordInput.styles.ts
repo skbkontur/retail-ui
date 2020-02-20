@@ -1,9 +1,19 @@
-:local {
-  .root {
-    position: relative;
-    display: inline-block;
+import { css } from '../../lib/theming/Emotion';
 
-    .toggleVisibility {
+export const jsStyles = {
+  root() {
+    return css`
+      position: relative;
+      display: inline-block;
+
+      input::-ms-clear,
+      input::-ms-reveal {
+        display: none;
+      }
+    `;
+  },
+  toggleVisibility() {
+    return css`
       color: #000;
       cursor: pointer;
       opacity: 0.6;
@@ -12,14 +22,10 @@
       &:hover {
         opacity: 1;
       }
-    }
-
-    input::-ms-clear,
-    input::-ms-reveal {
-      display: none;
-    }
-
-    .capsLockDetector {
+    `;
+  },
+  capsLockDetector() {
+    return css`
       display: inline-block;
       font-size: 9px;
       margin-right: 8px;
@@ -35,11 +41,12 @@
       &::before {
         content: 'CapsLock';
       }
-    }
-
-    .iconWrapper {
+    `;
+  },
+  iconWrapper() {
+    return css`
       display: flex;
       align-items: center;
-    }
-  }
-}
+    `;
+  },
+};
