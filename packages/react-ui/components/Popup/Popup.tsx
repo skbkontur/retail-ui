@@ -355,10 +355,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               ...(disableAnimations
                 ? {}
                 : {
+                    [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
                     [jsStyles['transition-enter']()]: state === 'entering',
                     [jsStyles['transition-enter-active']()]: state === 'entered',
                     [jsStyles['transition-exit']()]: state === 'exiting',
-                    [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
                   }),
             })}
             style={rootStyle}

@@ -20,22 +20,22 @@ export interface HintProps {
   onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
   pos:
-  | 'top'
-  | 'right'
-  | 'bottom'
-  | 'left'
-  | 'top left'
-  | 'top center'
-  | 'top right'
-  | 'bottom left'
-  | 'bottom center'
-  | 'bottom right'
-  | 'left top'
-  | 'left middle'
-  | 'left bottom'
-  | 'right top'
-  | 'right middle'
-  | 'right bottom';
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
+    | 'top left'
+    | 'top center'
+    | 'top right'
+    | 'bottom left'
+    | 'bottom center'
+    | 'bottom right'
+    | 'left top'
+    | 'left middle'
+    | 'left bottom'
+    | 'right top'
+    | 'right middle'
+    | 'right bottom';
   text: React.ReactNode;
   disableAnimations: boolean;
   useWrapper: boolean;
@@ -68,7 +68,7 @@ export class Hint extends React.Component<HintProps, HintState> {
     manual: false,
     opened: false,
     maxWidth: 200,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: true,
   };
 
