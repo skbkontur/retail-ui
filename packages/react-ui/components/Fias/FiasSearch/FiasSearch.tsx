@@ -1,4 +1,5 @@
 import React from 'react';
+import warning from 'warning';
 
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxProps } from '../Form/FiasComboBox';
@@ -39,6 +40,10 @@ export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof CO
   onValueChange?: (address: Address) => void;
 }
 
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ */
+
 @locale('Fias', FiasLocaleHelper)
 export class FiasSearch extends React.Component<FiasSearchProps> {
   public static __KONTUR_REACT_UI__ = 'FiasSearch';
@@ -51,6 +56,14 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private readonly locale!: FiasLocale;
+
+  public constructor(props: FiasSearchProps) {
+    super(props);
+    warning(
+      false,
+      `FiasSearch has been deprecated, use FiasSearch from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+    );
+  }
 
   public render() {
     const restComboBoxProps = filterProps(this.props, COMBOBOX_PASS_PROPS);

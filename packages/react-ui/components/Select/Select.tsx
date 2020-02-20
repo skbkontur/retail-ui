@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
+import warning from 'warning';
 
 import {
   isKeyArrowDown,
@@ -60,7 +61,7 @@ export interface SelectProps<TValue, TItem> {
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
-  /** @ignore */
+  /** @deprecated @ignore */
   diadocLinkIcon?: React.ReactElement<any>;
   disablePortal?: boolean;
   disabled?: boolean;
@@ -331,6 +332,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderDefaultButton(params: ButtonParams) {
     if (this.props.diadocLinkIcon) {
+      warning(false, `diadocLinkIcon has been deprecated`);
       return this.renderLinkButton(params);
     }
 

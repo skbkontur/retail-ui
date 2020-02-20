@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
 
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { locale } from '../LocaleProvider/decorators';
@@ -58,11 +59,15 @@ export interface LogotypeProps {
   onArrowClick?: React.MouseEventHandler<HTMLButtonElement>;
   /**
    * Словарь текстовых констант
+   * @deprecated
    * @default { prefix: 'к', suffix: 'нтур' }
    */
   locale?: LogotypePropLocale;
 }
 
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ */
 @locale('Logotype', LogotypeLocaleHelper)
 export class Logotype extends React.Component<LogotypeProps> {
   public static __KONTUR_REACT_UI__ = 'Logotype';
@@ -93,10 +98,20 @@ export class Logotype extends React.Component<LogotypeProps> {
   private logoWrapper: Nullable<HTMLElement> = null;
   private isWidgetInited = false;
 
+  public constructor(props: LogotypeProps) {
+    super(props);
+    warning(
+      false,
+      `Logotype has been deprecated, use Logotype from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+    );
+  }
+
   public componentDidMount() {
     if (this.props.withWidget) {
       this.initWidget();
     }
+
+    warning(!this.props.locale, 'locale props is deprecated, use LocaleProvider instead');
   }
 
   public componentDidUpdate() {
