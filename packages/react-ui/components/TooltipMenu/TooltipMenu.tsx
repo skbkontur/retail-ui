@@ -29,6 +29,11 @@ export interface TooltipMenuProps {
    * Не показывать анимацию
    */
   disableAnimations: boolean;
+
+  /**
+   * Отключает использование портала
+   */
+  disablePortal?: boolean,
 }
 
 /**
@@ -70,6 +75,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
         popupMargin={10}
         popupPinOffset={15}
         disableAnimations={this.props.disableAnimations}
+        disablePortal={this.props.disablePortal}
       >
         {this.props.children}
       </PopupMenu>

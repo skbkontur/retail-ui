@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
 
@@ -26,7 +26,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
       return (
         <React.Fragment>
           {this.props.anchor}
-          {ReactDOM.createPortal(this.props.children, this.props.domContainer)}
+          {createPortal(this.props.children, this.props.domContainer)}
           <Portal key="portal-ref" rt_rootID={this.props.rootId} />
         </React.Fragment>
       );

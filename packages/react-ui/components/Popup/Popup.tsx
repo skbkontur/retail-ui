@@ -11,7 +11,7 @@ import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isIE11, isEdge } from '../../lib/utils';
+import { isEdge, isFunction, isIE11 } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
@@ -27,8 +27,9 @@ const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 const DUMMY_LOCATION: PopupLocation = {
   position: 'top left',
   coordinates: {
-    top: -9999,
-    left: -9999,
+    // @ts-ignore
+    transform: 'translate(-9999px, -9999px)',
+    transition: 'none',
   },
 };
 
@@ -87,6 +88,7 @@ export interface PopupProps extends PopupHandlerProps {
   positions: PopupPosition[];
   useWrapper: boolean;
   ignoreHover: boolean;
+  disablePortal?: boolean;
 }
 
 interface PopupLocation {
@@ -164,6 +166,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
      * Игнорировать ли события hover/click
      */
     ignoreHover: PropTypes.bool,
+
+    /**
+     * Отключает использование портала
+     */
+    disablePortal: PropTypes.bool,
+    /**
+     * Включает использование враппера
+     */
+    useWrapper: PropTypes.bool,
   };
 
   public static defaultProps = {
@@ -176,6 +187,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: false,
     ignoreHover: false,
+    disablePortal: false,
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
@@ -184,6 +196,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
+  private wrapperElement: Nullable<HTMLDivElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
 
   public componentDidMount() {
@@ -232,7 +245,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private renderMain() {
-    const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
 
     let child: Nullable<React.ReactNode> = null;
@@ -244,18 +256,41 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       child = <span>{anchorElement}</span>;
     }
 
+    return this.props.disablePortal ? this.renderWithoutPortal(child) : this.renderInPortal(child);
+  }
+
+  private renderInPortal = (child: React.ReactElement<any> | null | {}) => {
+    const { location } = this.state;
     return (
       <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
         {location && this.renderContent(location)}
       </RenderContainer>
     );
-  }
+  };
+
+  private renderWithoutPortal = (child: React.ReactElement<any> | null | {}) => {
+    const { location } = this.state;
+    return (
+      <EmptyWrapper ref={child ? this.refAnchorElement : undefined}>
+        {child}
+        {location && (
+          <div ref={this.refWrapperElement} className={styles['popup-content-wrapper']}>
+            {this.renderContent(location)}
+          </div>
+        )}
+      </EmptyWrapper>
+    );
+  };
 
   private refAnchorElement = (instance: React.ReactInstance | null) => {
     this.anchorInstance = instance;
     const element = this.extractElement(instance);
     this.updateAnchorElement(element);
     this.anchorElement = element;
+  };
+
+  private refWrapperElement = (element: HTMLDivElement) => {
+    this.wrapperElement = element;
   };
 
   private extractElement(instance: React.ReactInstance | null) {
@@ -327,11 +362,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent(location: PopupLocation) {
-    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
+    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, disablePortal } = this.props;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
-    const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
+    const rootStyle: React.CSSProperties = {
+      ...location.coordinates,
+      ...(disablePortal ? { width: maxWidth } : { maxWidth }),
+    };
 
     return (
       <Transition
@@ -492,25 +530,38 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     if (location && location !== DUMMY_LOCATION && location.position) {
       position = location.position;
-      coordinates = this.getCoordinates(anchorRect, popupRect, position);
+      coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
 
       const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
       const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
       if (isFullyVisible || canBecomeVisible) {
+        this.patchCoordinates(coordinates);
         return { coordinates, position };
       }
     }
 
     for (position of positions) {
-      coordinates = this.getCoordinates(anchorRect, popupRect, position);
+      coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
       if (PopupHelper.isFullyVisible(coordinates, popupRect)) {
+        this.patchCoordinates(coordinates);
         return { coordinates, position };
       }
     }
 
     position = positions[0];
-    coordinates = this.getCoordinates(anchorRect, popupRect, position);
+    coordinates = this.getAbsoluteCoordinates(anchorRect, popupRect, position);
+    this.patchCoordinates(coordinates);
     return { coordinates, position };
+  }
+
+  private patchCoordinates(coordinates: { top: number; left: number }) {
+    if (!this.props.disablePortal || !this.wrapperElement) {
+      return;
+    }
+    const wrapperRect = PopupHelper.getElementAbsoluteRect(this.wrapperElement);
+
+    coordinates.left -= wrapperRect.left;
+    coordinates.top -= wrapperRect.top;
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
@@ -524,7 +575,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return Math.max(0, pinOffset + pinSize - anchorSize / 2);
   }
 
-  private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
+  private getAbsoluteCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
     const margin = this.props.margin;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
@@ -579,5 +630,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       default:
         throw new Error(`Unxpected align '${align}'`);
     }
+  }
+}
+
+// нужно чтобы получать по рефу dom-элемент, в который зарендерится anchor
+// в задаче с MutationObserver хорошо бы выпилить этот хак
+class EmptyWrapper extends React.Component {
+  public render() {
+    return this.props.children;
   }
 }

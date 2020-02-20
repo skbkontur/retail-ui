@@ -1037,6 +1037,17 @@
     pirates "^4.0.0"
     source-map-support "^0.5.9"
 
+"@babel/register@^7.8.3":
+  version "7.8.3"
+  resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.8.3.tgz#5d5d30cfcc918437535d724b8ac1e4a60c5db1f8"
+  integrity sha512-t7UqebaWwo9nXWClIPLPloa5pN33A2leVs8Hf0e9g9YwUP8/H9NeR7DJU+4CXo23QtjChQv5a3DjEtT83ih1rg==
+  dependencies:
+    find-cache-dir "^2.0.0"
+    lodash "^4.17.13"
+    make-dir "^2.1.0"
+    pirates "^4.0.0"
+    source-map-support "^0.5.16"
+
 "@babel/runtime@7.7.4":
   version "7.7.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.4.tgz#b23a856751e4bf099262f867767889c0e3fe175b"
@@ -5826,10 +5837,10 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@0.2.4-2:
-  version "0.2.4-2"
-  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.2.4-2.tgz#87eb63bc22dc2589ac1fb0367cea3a4048bab7c6"
-  integrity sha512-ARQRjArsbAh5FNNlbkYSOozXVethnEJA9hsrQDz8rTOrj0IVDfAfEZaF5mvOUIeChkJpH1bJMPxijEHrHYyWsg==
+creevey@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.2.7.tgz#9d89eb6e536ec219a08a2ea48c81ef58dabaf910"
+  integrity sha512-HmjUG4hQG2RW+jFaYDGkVvPclHCx+/K/mVwXRlVENfI0u8c0R2HiLwyKxj+4m5nsm29mqOnhyEVG87siPazkPw==
   dependencies:
     "@types/chai" "^4.2.7"
     "@types/mocha" "^5.2.7"
@@ -12238,7 +12249,7 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-performance-now@^2.1.0:
+performance-now@2.1.0, performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
@@ -14657,7 +14668,7 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.5.6, source-map-support@^0.5.9, source-map-support@~0.5.12:
+source-map-support@^0.5.16, source-map-support@^0.5.6, source-map-support@^0.5.9, source-map-support@~0.5.12:
   version "0.5.16"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.16.tgz#0ae069e7fe3ba7538c64c98515e35339eac5a042"
   integrity sha512-efyLRJDr68D9hBBNIPWFjhpFzURh+KJykQwvMyW5UiZzYwoF6l4YMMDIJJEyFWxWCqfyxLzz6tSfUFR+kXXsVQ==

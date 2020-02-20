@@ -83,6 +83,18 @@ storiesOf('Hint', module)
         <button>Hover me (disableAnimations: true)</button>
       </Hint>
     </div>
+  ))
+  .add('wrap content without portal', () => (
+    <Hint disablePortal text={'😱'.repeat(100)} pos="bottom center" opened manual>
+      🤔
+    </Hint>
+  ))
+  .add('wrap content without portal with small parent', () => (
+    <span>
+      <Hint disablePortal text={'😱'.repeat(5)} pos="bottom center" maxWidth={100} opened manual>
+        🤔
+      </Hint>
+    </span>
   ));
 
 storiesOf('Hint', module).add('Hints without wrapper around inline-block with 50% width', () => (

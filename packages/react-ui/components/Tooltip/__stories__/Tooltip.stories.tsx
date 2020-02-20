@@ -177,6 +177,21 @@ storiesOf('Tooltip', module)
     </div>
   ));
 
+storiesOf('Tooltip', module)
+  .addDecorator(story => <div style={{ padding: '100px 300px' }}>{story()}</div>)
+  .add('wrap content without portal', () => (
+    <Tooltip disablePortal render={() => '😱'.repeat(100)} pos="bottom center" trigger={'opened'}>
+      🤔
+    </Tooltip>
+  ))
+  .add('wrap content without portal with small parent', () => (
+    <span>
+      <Tooltip disablePortal render={() => '😱'.repeat(5)} pos="bottom center" maxWidth={100} trigger={'opened'}>
+        🤔
+      </Tooltip>
+    </span>
+  ));
+
 class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNode; opened: boolean }> {
   public state = {
     content: SMALL_CONTENT,

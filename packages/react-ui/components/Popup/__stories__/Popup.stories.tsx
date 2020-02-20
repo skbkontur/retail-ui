@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { storiesOf } from '@storybook/react';
+import { PositionProperty } from 'csstype';
 
-import { Popup, PopupPosition } from '../Popup';
+import { Popup, PopupProps, PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import { Tooltip } from '../../Tooltip';
 import { ComboBox } from '../../ComboBox';
 import { Hint } from '../../Hint';
 import { Select } from '../../Select';
 import { RenderLayer } from '../../RenderLayer';
+import { ComponentTable } from '../../internal/ComponentTable';
 
 storiesOf('Popup', module)
   .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
+  .add('All pin opened without portal', () => <AllCases small={false} padding={'50px 100px'} disablePortal />)
   .add('All pin opened on small elements', () => <AllCases small padding={'70px 150px'} />)
+  .add('All pin opened on small elements without portal', () => <AllCases small padding={'70px 150px'} disablePortal />)
   .add('Positioning', () => <Positioning />)
   .add('disableAnimations', () => (
     <div>
@@ -30,68 +34,76 @@ storiesOf('Popup', module)
     </div>
   ))
   .add('Small width', () => <MinWidth />)
-  .add('Hover behaviour', () => <HoverBehaviour />);
+  .add('Container with overflow hidden', () => <OverflowHiddenContainer />)
+  .add('Hover behaviour', () => <HoverBehaviour />)
+  .add('Portal and maxWidth', () => (
+    <ComponentTable
+      Component={WideAndNarrowPopups}
+      rows={[{ props: { disablePortal: false } }, { props: { disablePortal: true } }]}
+      cols={[{ props: { maxWidth: 'none' } }, { props: { maxWidth: 100 } }]}
+    />
+  ));
 
-const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
+const AllCases = ({ small, padding, disablePortal }: { small: boolean; padding: string; disablePortal?: boolean }) => (
   <div style={{ padding }}>
     <table>
       <tbody>
         <tr>
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['top left']} />
+            <AlwaysOpened small={small} positions={['top left']} disablePortal={disablePortal} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['top center']} />
+            <AlwaysOpened small={small} positions={['top center']} disablePortal={disablePortal} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['top right']} />
+            <AlwaysOpened small={small} positions={['top right']} disablePortal={disablePortal} />
           </td>
           <td />
         </tr>
         <tr>
           <td>
-            <AlwaysOpened small={small} positions={['left top']} />
+            <AlwaysOpened small={small} positions={['left top']} disablePortal={disablePortal} />
           </td>
           <td />
           <td />
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['right top']} />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <AlwaysOpened small={small} positions={['left middle']} />
-          </td>
-          <td />
-          <td />
-          <td />
-          <td>
-            <AlwaysOpened small={small} positions={['right middle']} />
+            <AlwaysOpened small={small} positions={['right top']} disablePortal={disablePortal} />
           </td>
         </tr>
         <tr>
           <td>
-            <AlwaysOpened small={small} positions={['left bottom']} />
+            <AlwaysOpened small={small} positions={['left middle']} disablePortal={disablePortal} />
           </td>
           <td />
           <td />
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['right bottom']} />
+            <AlwaysOpened small={small} positions={['right middle']} disablePortal={disablePortal} />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <AlwaysOpened small={small} positions={['left bottom']} disablePortal={disablePortal} />
+          </td>
+          <td />
+          <td />
+          <td />
+          <td>
+            <AlwaysOpened small={small} positions={['right bottom']} disablePortal={disablePortal} />
           </td>
         </tr>
         <tr>
           <td />
           <td>
-            <AlwaysOpened small={small} positions={['bottom left']} />
+            <AlwaysOpened small={small} positions={['bottom left']} disablePortal={disablePortal} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['bottom center']} />
+            <AlwaysOpened small={small} positions={['bottom center']} disablePortal={disablePortal} />
           </td>
           <td>
-            <AlwaysOpened small={small} positions={['bottom right']} />
+            <AlwaysOpened small={small} positions={['bottom right']} disablePortal={disablePortal} />
           </td>
           <td />
         </tr>
@@ -168,6 +180,7 @@ class MinWidth extends React.Component {
 
 interface AlwaysOpenedProps {
   small: boolean;
+  disablePortal: boolean;
   positions: PopupPosition[];
 }
 
@@ -176,6 +189,10 @@ interface AlwaysOpenedState {
 }
 
 class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
+  public static defaultProps = {
+    disablePortal: false,
+  };
+
   public state: AlwaysOpenedState = {
     anchor: null,
   };
@@ -223,6 +240,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
             pinSize={10}
             pinOffset={7}
             disableAnimations={Boolean(process.env.enableReactTesting)}
+            disablePortal={this.props.disablePortal}
           >
             <div
               style={{
@@ -400,6 +418,7 @@ interface DropdownValue {
   value: number;
   label: string;
 }
+
 interface HasDropdownState {
   selected?: DropdownValue;
 }
@@ -409,6 +428,7 @@ interface HoverTestProps {
   popupProps?: { useWrapper: boolean };
   useText?: boolean;
 }
+
 class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
   public state: HasDropdownState = {};
 
@@ -546,4 +566,122 @@ class HoverBehaviour extends Component<any, any> {
       </table>
     );
   }
+}
+
+interface OverflowHiddenContainerState {
+  anchorWithPortal?: HTMLDivElement;
+  anchorWithoutPortal?: HTMLDivElement;
+}
+
+class OverflowHiddenContainer extends Component<{}, OverflowHiddenContainerState> {
+  public state: OverflowHiddenContainerState = {};
+
+  private containerStyle = {
+    margin: '10px',
+    border: '1px solid black',
+    display: 'inline-block',
+    overflow: 'hidden',
+    position: 'relative' as PositionProperty,
+  };
+
+  public render() {
+    return [false, true].map(disablePortal => this.renderBlock(disablePortal));
+  }
+
+  private renderBlock = (disablePortal: boolean) => {
+    const text = disablePortal ? 'Popup without portal' : 'Popup with portal';
+    const shouldRenderPopup = disablePortal ? this.state.anchorWithoutPortal : this.state.anchorWithPortal;
+    return (
+      <div style={this.containerStyle} key={disablePortal.toString()}>
+        <div ref={e => this.refAnchor(e, disablePortal)} style={{ margin: '25px' }}>
+          {text}
+        </div>
+        {shouldRenderPopup && (
+          <Popup
+            hasPin
+            hasShadow
+            anchorElement={disablePortal ? this.state.anchorWithoutPortal : this.state.anchorWithPortal}
+            opened={true}
+            positions={['bottom left']}
+            backgroundColor={'#fff'}
+            pinSize={10}
+            pinOffset={7}
+            disableAnimations={Boolean(process.env.enableReactTesting)}
+            disablePortal={disablePortal}
+          >
+            <div style={{ padding: '5px 15px' }}>Text</div>
+          </Popup>
+        )}
+      </div>
+    );
+  };
+
+  private refAnchor = (e: HTMLDivElement | null, disablePortal: boolean) => {
+    const key: keyof OverflowHiddenContainerState = disablePortal ? 'anchorWithoutPortal' : 'anchorWithPortal';
+    if (!this.state[key]) {
+      this.setState({ [key]: e });
+    }
+  };
+}
+
+class WideAndNarrowPopups extends Component<Partial<PopupProps>> {
+  private anchor: HTMLElement | null = null;
+
+  public componentDidMount() {
+    this.forceUpdate();
+  }
+
+  public render() {
+    return (
+      <div style={{ padding: 100 }}>
+        <div style={{ display: 'inline-block' }}>
+          <div ref={this.ref}>🙂🙂🙂</div>
+          {this.anchor && (
+            <Popup
+              opened
+              hasPin
+              hasShadow
+              anchorElement={this.anchor}
+              backgroundColor={'#fff'}
+              disableAnimations={Boolean(process.env.enableReactTesting)}
+              positions={['top left']}
+              {...this.props}
+            >
+              <div
+                style={{
+                  padding: '10px 20px',
+                }}
+              >
+                😎😎😎😎😎
+              </div>
+            </Popup>
+          )}
+          {this.anchor && (
+            <Popup
+              opened
+              hasPin
+              hasShadow
+              anchorElement={this.anchor}
+              backgroundColor={'#fff'}
+              disableAnimations={Boolean(process.env.enableReactTesting)}
+              positions={['bottom left']}
+              {...this.props}
+            >
+              <div
+                style={{
+                  padding: '10px 20px',
+                }}
+              >
+                😎
+              </div>
+            </Popup>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  private ref = (e: HTMLElement | null) => {
+    this.anchor = e;
+  };
 }

@@ -1,5 +1,17 @@
+// @ts-ignore
+import register from '@babel/register';
+import { addHook } from 'pirates';
 import path from 'path';
 import { CreeveyConfig } from 'creevey';
+
+register({
+  extensions: ['.ts', '.tsx', '.js', '.jsx'],
+});
+
+addHook(() => '', {
+  exts: ['.eot', '.woff', '.woff2'],
+  ignoreNodeModules: false,
+});
 
 const flatComponents = [
   'Button',
