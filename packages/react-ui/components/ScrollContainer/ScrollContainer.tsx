@@ -119,7 +119,13 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     return (
       <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
         {scroll}
-        <div className={jsStyles.inner()} style={innerStyle} ref={this.refInner} onScroll={this.handleNativeScroll}>
+        <div
+          data-tid="ScrollContainer__inner"
+          className={jsStyles.inner()}
+          style={innerStyle}
+          ref={this.refInner}
+          onScroll={this.handleNativeScroll}
+        >
           {props.children}
         </div>
       </div>
