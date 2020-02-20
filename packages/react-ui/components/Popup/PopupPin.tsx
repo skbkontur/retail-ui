@@ -119,24 +119,24 @@ export class PopupPin extends React.Component<Props> {
     }
   }
 
-  private _getWrapperStyle(left: number, top: number, borderWitdth: number) {
+  private _getWrapperStyle(left: number, top: number, borderWidth: number) {
     const direction = this._getPopupOppositeDirection();
     switch (direction) {
       case 'top':
       case 'bottom':
         return {
-          [direction]: -borderWitdth + 'px',
+          [direction]: -borderWidth + 'px',
           left: left + 'px',
-          width: borderWitdth * 2 + 'px',
-          height: borderWitdth + 'px',
+          width: borderWidth * 2 + 'px',
+          height: borderWidth + 'px',
         };
       case 'left':
       case 'right':
         return {
-          [direction]: -borderWitdth + 'px',
+          [direction]: -borderWidth + 'px',
           top: top + 'px',
-          height: borderWitdth * 2 + 'px',
-          width: borderWitdth + 'px',
+          height: borderWidth * 2 + 'px',
+          width: borderWidth + 'px',
         };
       default:
         throw new TypeError('Unknown direction ' + direction);
@@ -256,7 +256,7 @@ export class PopupPin extends React.Component<Props> {
       case 'bottom':
         return popupRect.height - pinOffset - 2 * pinHeight;
       default:
-        throw new Error(`Unxpected align '${align}'`);
+        throw new Error(`Unexpected align '${align}'`);
     }
   }
 
@@ -269,7 +269,7 @@ export class PopupPin extends React.Component<Props> {
       case 'right':
         return popupRect.width - pinOffset - 2 * pinHeight;
       default:
-        throw new Error(`Unxpected align '${align}'`);
+        throw new Error(`Unexpected align '${align}'`);
     }
   }
 }

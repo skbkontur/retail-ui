@@ -551,7 +551,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           left: anchorRect.left + anchorRect.width + margin,
         };
       default:
-        throw new Error(`Unxpected direction '${position.direction}'`);
+        throw new Error(`Unexpected direction '${position.direction}'`);
     }
   }
 
@@ -564,7 +564,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'right':
         return anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset;
       default:
-        throw new Error(`Unxpected align '${align}'`);
+        throw new Error(`Unexpected align '${align}'`);
     }
   }
 
@@ -577,7 +577,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'bottom':
         return anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset;
       default:
-        throw new Error(`Unxpected align '${align}'`);
+        throw new Error(`Unexpected align '${align}'`);
     }
   }
 }

@@ -53,7 +53,7 @@ function renderVariables(variableString: string, componentName: string) {
     variableString = variableString
       .replace(/\b[a-z0-9]{1,2}\.default\.lighten/gi, 'ColorFunctions.lighten')
       .replace(/\b[a-z0-9]{1,2}\.default\.darken/gi, 'ColorFunctions.darken')
-      .replace(/\b[a-z0-9]{1,2}\.default\.constrast/gi, 'ColorFunctions.contrast')
+      .replace(/\b[a-z0-9]{1,2}\.default\.contrast/gi, 'ColorFunctions.contrast')
       .replace(/\b[a-z0-9]{1,2}\.default\.red/gi, 'ColorFunctions.red')
       .replace(/\b[a-z0-9]{1,2}\.default\.green/gi, 'ColorFunctions.green')
       .replace(/\b[a-z0-9]{1,2}\.default\.blue/gi, 'ColorFunctions.blue')
