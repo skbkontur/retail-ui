@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';
+import cn from 'classnames';
 
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -12,11 +13,9 @@ import { RenderContainer } from '../RenderContainer';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction, isIE11, isEdge } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 
-import styles from './Popup.module.less';
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
 import { jsStyles } from './Popup.styles';
@@ -348,24 +347,25 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           <ZIndex
             ref={this.refPopupElement}
             priority={'Popup'}
-            className={cx([styles.popup, jsStyles.popup(this.theme)], {
+            className={cn({
+              [jsStyles.popup(this.theme)]: true,
               [jsStyles.shadow(this.theme)]: hasShadow,
               [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
-              [styles['popup-ignore-hover']]: ignoreHover,
+              [jsStyles['popup-ignore-hover']()]: ignoreHover,
               ...(disableAnimations
                 ? {}
                 : {
-                    [styles['transition-enter']]: state === 'entering',
-                    [styles['transition-enter-active']]: state === 'entered',
-                    [styles['transition-exit']]: state === 'exiting',
-                    [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                    [jsStyles['transition-enter']()]: state === 'entering',
+                    [jsStyles['transition-enter-active']()]: state === 'entered',
+                    [jsStyles['transition-exit']()]: state === 'exiting',
+                    [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
                   }),
             })}
             style={rootStyle}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            <div className={cx(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
+            <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
               <div
                 className={jsStyles.contentInner(this.theme)}
                 style={{ backgroundColor }}

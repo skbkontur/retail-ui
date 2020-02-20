@@ -10,7 +10,6 @@ import { ZIndex } from '../../ZIndex';
 import { RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 
-
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
   new Promise(async resolve => {
     wrapper.setProps({ opened: true }, async () => {
@@ -126,7 +125,7 @@ describe('properly renders opened/closed states ', () => {
     'Portal',
     Transition,
     ZIndex,
-    'div.popup',
+    `div`,
     'div[data-tid="PopupContent"]',
     'div[data-tid="PopupContentInner"]',
   ];
