@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { Nullable, Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { OkIcon, SquareIcon } from '../internal/icons/16px';
@@ -152,14 +152,15 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const rootClass = cx(jsStyles.root(this.theme), {
+    const rootClass = cn({
+      [jsStyles.root(this.theme)]: true,
       [jsStyles.rootFallback()]: isIE11 || isEdge,
-      [jsStyles.disabled(this.theme)]: !!props.disabled,
-      [jsStyles.checked(this.theme)]: !!props.checked,
+      [jsStyles.disabled(this.theme)]: Boolean(props.disabled),
+      [jsStyles.checked(this.theme)]: Boolean(props.checked),
       [jsStyles.indeterminate(this.theme)]: isIndeterminate,
       [jsStyles.focus(this.theme)]: this.state.focusedByTab,
-      [jsStyles.warning(this.theme)]: !!props.warning,
-      [jsStyles.error(this.theme)]: !!props.error,
+      [jsStyles.warning(this.theme)]: Boolean(props.warning),
+      [jsStyles.error(this.theme)]: Boolean(props.error),
     });
 
     const inputProps = {
@@ -174,13 +175,14 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     let caption = null;
     if (children) {
-      const captionClass = cx(jsStyles.caption(), {
+      const captionClass = cn({
+        [jsStyles.caption()]: true,
         [jsStyles.captionIE11()]: isIE11 || isEdge,
       });
       caption = <span className={captionClass}>{children}</span>;
     }
 
-    const iconClass = cx({
+    const iconClass = cn({
       [jsStyles.iconUnchecked()]: !props.checked && !isIndeterminate,
       [jsStyles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });

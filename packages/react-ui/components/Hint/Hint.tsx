@@ -1,9 +1,9 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
-import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Hint.styles';
 
@@ -122,7 +122,7 @@ export class Hint extends React.Component<HintProps, HintState> {
     }
 
     const { pos, maxWidth } = this.props;
-    const className = cx({
+    const className = cn({
       [jsStyles.content()]: true,
       [jsStyles.contentCenter()]: pos === 'top' || pos === 'bottom',
     });

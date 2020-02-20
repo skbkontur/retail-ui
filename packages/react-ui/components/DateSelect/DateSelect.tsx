@@ -9,7 +9,6 @@ import { RenderLayer } from '../RenderLayer';
 import { DropdownContainer } from '../DropdownContainer';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ArrowTriangleDownIcon, ArrowTriangleUpDownIcon, ArrowTriangleUpIcon } from '../internal/icons/16px';
@@ -162,9 +161,9 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private renderMain() {
     const { width, disabled } = this.props;
     const rootProps = {
-      className: cx({
+      className: cn({
         [jsStyles.root(this.theme)]: true,
-        [jsStyles.disabled()]: !!disabled,
+        [jsStyles.disabled()]: Boolean(disabled),
       }),
       style: { width },
       ref: this.refRoot,
@@ -174,9 +173,9 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
         <div data-tid="DateSelect__caption" className={jsStyles.caption()} onClick={this.open}>
           {this.getItem(0)}
           <div
-            className={cx({
+            className={cn({
               [jsStyles.arrow(this.theme)]: true,
-              [jsStyles.arrowDisabled()]: !!disabled,
+              [jsStyles.arrowDisabled()]: Boolean(disabled),
             })}
           >
             <ArrowTriangleUpDownIcon size={12} />
@@ -273,7 +272,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       top: -shift,
     };
 
-    const holderClass = cx({
+    const holderClass = cn({
       [jsStyles.menuHolder(this.theme)]: true,
       [jsStyles.isTopCapped()]: this.state.topCapped,
       [jsStyles.isBotCapped()]: this.state.botCapped,

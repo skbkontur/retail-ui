@@ -1,7 +1,7 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { DateSelect } from '../DateSelect';
-import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
@@ -94,7 +94,7 @@ export class MonthView extends React.Component<MonthViewProps> {
       <div data-tid="MonthView__month" className={jsStyles.month()} style={{ top }} key={month + '-' + year}>
         <div
           style={{ lineHeight: `${config.MONTH_TITLE_HEIGHT}px`, top: headerTop, borderBottomColor }}
-          className={cx({
+          className={cn({
             [jsStyles.monthTitle(this.theme)]: true,
             [jsStyles.headerSticky(this.theme)]: isHeaderSticky,
           })}

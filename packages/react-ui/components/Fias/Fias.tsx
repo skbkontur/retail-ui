@@ -1,11 +1,11 @@
 import React from 'react';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
+import cn from 'classnames';
 
 import { Link } from '../Link';
 import { LocaleProvider } from '../LocaleProvider';
 import { locale } from '../LocaleProvider/decorators';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { EditIcon } from '../internal/icons/16px';
@@ -228,7 +228,12 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
     const validation =
       (error || warning) && feedback ? (
-        <span className={cx({ [jsStyles.error(this.theme)]: !!error, [jsStyles.warning(this.theme)]: !!warning })}>
+        <span
+          className={cn({
+            [jsStyles.error(this.theme)]: Boolean(error),
+            [jsStyles.warning(this.theme)]: Boolean(warning),
+          })}
+        >
           {feedback}
         </span>
       ) : null;
