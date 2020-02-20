@@ -2,7 +2,7 @@ import React from 'react';
 
 import { cx } from '../../../lib/theming/Emotion';
 
-import styles from './SpinnerIcon.module.less';
+import { jsStyles } from './SpinnerIcon.styles';
 
 const CLOUD_SVG_PATH = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,
       5.67148577 25.9305165,4 22.1999329,4 C17.3429265,
@@ -27,9 +27,9 @@ export interface SpinnerIconProps {
 export const SpinnerOldIcon = ({ size, strokeClassName, className }: SpinnerIconProps) => {
   if (size === 'mini') {
     return (
-      <span className={styles.root}>
+      <span className={jsStyles.root()}>
         <svg
-          className={cx(styles.icon, className)}
+          className={cx(jsStyles.icon(), className)}
           width="16"
           height="16"
           fill="none"
