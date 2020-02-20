@@ -1,5 +1,3 @@
-@import (reference) '../Link/Link.module.less';
-
 :local {
   .root {
     cursor: pointer;
@@ -114,8 +112,6 @@
     padding-left: 15px;
   }
 
-  .linkMixin(link);
-
   /*
  * common styles with
  * increased specificity
@@ -159,10 +155,6 @@
 
         .caption {
           display: inline;
-        }
-
-        .icon {
-          padding-right: @linkIconPadding;
         }
 
         .warning,

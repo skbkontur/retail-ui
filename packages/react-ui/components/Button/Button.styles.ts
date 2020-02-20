@@ -1,6 +1,7 @@
 import { css, keyframes } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
+import { linkMixin, linkDisabledMixin } from '../Link/Link.mixins';
 
 import classes from './Button.module.less';
 import {
@@ -143,6 +144,8 @@ export const jsStyles = {
   link(t: Theme) {
     return css`
       &.${classes.link} {
+        ${linkMixin()};
+
         color: ${t.linkColor};
         border-radius: ${t.btnLinkBorderRadius};
 
@@ -152,6 +155,10 @@ export const jsStyles = {
         }
         &:active {
           color: ${t.linkActiveColor};
+        }
+
+        .${classes.icon} {
+          padding-right: ${t.linkIconMarginRight};
         }
       }
     `;
@@ -217,6 +224,7 @@ export const jsStyles = {
       }
 
       .${classes.wrap} &.${classes.root}.${classes.link} {
+        ${linkDisabledMixin()};
         color: ${t.linkDisabledColor};
       }
     `;

@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
-import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 
 import { jsStyles } from './Link.styles';
-import styles from './Link.module.less';
 
 interface UseClasses {
   default: string;
@@ -20,10 +19,10 @@ interface UseClasses {
 
 function getUseClasses(t: Theme): UseClasses {
   return {
-    default: cx(styles.useDefault, jsStyles.useDefault(t)),
-    success: cx(styles.useSuccess),
-    danger: cx(styles.useDanger),
-    grayed: cx(styles.useGrayed, jsStyles.useGrayed(t)),
+    default: jsStyles.useDefault(t),
+    success: jsStyles.useSuccess(t),
+    danger: jsStyles.useDanger(t),
+    grayed: jsStyles.useGrayed(t),
   };
 }
 
@@ -100,20 +99,20 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     let iconElement = null;
     if (icon) {
-      iconElement = <span className={styles.icon}>{icon}</span>;
+      iconElement = <span className={jsStyles.icon(this.theme)}>{icon}</span>;
     }
 
     let arrow = null;
     if (_button) {
-      arrow = <span className={styles.arrow} />;
+      arrow = <span className={jsStyles.arrow()} />;
     }
 
     const props = {
-      className: cx({
-        [styles.disabled]: !!disabled,
+      className: cn({
+        [jsStyles.root(this.theme)]: true,
         [jsStyles.disabled(this.theme)]: !!disabled,
-        [styles.button]: !!_button,
-        [styles.buttonOpened]: !!_buttonOpened,
+        [jsStyles.button()]: !!_button,
+        [jsStyles.buttonOpened()]: !!_buttonOpened,
         [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
         [getUseClasses(this.theme)[use as keyof UseClasses]]: !!use,
       }),
