@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
@@ -21,7 +22,7 @@ import {
   ComponentRowDescriptionType,
   EXECUTION_TIME,
 } from './ThemeShowcaseHelpers/VariablesCollector';
-import styles from './ThemeShowcase.module.less';
+import { jsStyles } from './ThemeShowcase.styles';
 
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 const EMPTY_ARRAY: string[] = [];
@@ -80,7 +81,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
       <Gapped wrap gap={30} verticalAlign={'top'}>
         <div>
           <Sticky side={'top'}>
-            <div className={styles.searchBar} data-perf-info={`${executionTime} ${callsCount}`}>
+            <div className={jsStyles.searchBar()} data-perf-info={`${executionTime} ${callsCount}`}>
               <Gapped gap={15}>
                 <ComboBox
                   getItems={this.getItems}
@@ -160,10 +161,19 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
 
     return (
       <React.Fragment>
-        <Sticky side={'top'} offset={parseInt(styles.searchBarHeight, 10)}>
-          {isSticky => <h2 className={`${styles.heading} ${isSticky && styles.headingSticky}`}>{this.props.name}</h2>}
+        <Sticky side={'top'} offset={40}>
+          {isSticky => (
+            <h2
+              className={cn({
+                [jsStyles.heading()]: true,
+                [jsStyles.headingSticky()]: isSticky,
+              })}
+            >
+              {this.props.name}
+            </h2>
+          )}
         </Sticky>
-        <table className={styles.table}>
+        <table className={jsStyles.table()}>
           <thead>
             <tr>
               <th style={{ width: 170 }}>ClassName</th>
@@ -203,7 +213,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
 
     return (
       <React.Fragment>
-        <tr className={styles.invisibleRow}>
+        <tr className={jsStyles.invisibleRow()}>
           <td rowSpan={rowSpan}>
             <Tooltip
               render={this.getCss}
@@ -212,12 +222,12 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
               trigger={'click'}
               useWrapper={false}
             >
-              <span className={styles.elementName}>.{el}</span>
+              <span className={jsStyles.elementName()}>.{el}</span>
             </Tooltip>
           </td>
-          <td className={styles.invisibleCell} />
-          <td className={styles.invisibleCell} />
-          <td className={styles.invisibleCell} />
+          <td className={jsStyles.invisibleCell()} />
+          <td className={jsStyles.invisibleCell()} />
+          <td className={jsStyles.invisibleCell()} />
         </tr>
         {row.variables.map(varName => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
@@ -226,7 +236,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
-            <tr key={`${el}_${varName}`} className={hasNoVariables ? styles.suspiciousRow : undefined}>
+            <tr key={`${el}_${varName}`} className={cn({ [jsStyles.suspiciousRow()]: hasNoVariables })}>
               <td>
                 <VariableName
                   variableName={varName as string}
@@ -248,7 +258,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
   }
 
   private getCss = () => {
-    return <span className={styles.relativeCss}>{this.props.row.contents}</span>;
+    return <span className={jsStyles.relativeCss()}>{this.props.row.contents}</span>;
   };
 }
 
@@ -262,7 +272,7 @@ class VariableName extends React.Component<VariableNameProps> {
   public render() {
     return (
       <span>
-        <span className={styles.variableName} onClick={this.handleVariableSelect}>
+        <span className={jsStyles.variableName()} onClick={this.handleVariableSelect}>
           {this.props.variableName}
         </span>
         {this.props.dependencies.length > 0 && this.renderDependencies()}
@@ -307,7 +317,7 @@ class DependencyName extends React.Component<DependencyNameProps> {
         <br />
         &ndash;{' '}
         <Tooltip trigger={'hover'} render={this.getValues} pos={'right middle'}>
-          <span className={styles.variableName} onClick={this.handleDependencySelect}>
+          <span className={jsStyles.variableName()} onClick={this.handleDependencySelect}>
             {this.props.dependencyName}
           </span>
         </Tooltip>
@@ -347,8 +357,8 @@ const VariableValue = (props: { value: string }) => {
   }
 
   return (
-    <span className={!value ? styles.undefined : undefined}>
-      {hasExample && <span className={styles.colorExample} style={{ background: value, borderColor }} />}
+    <span className={cn({ [jsStyles.undefined()]: !value })}>
+      {hasExample && <span className={jsStyles.colorExample()} style={{ background: value, borderColor }} />}
       {value || 'undefined'}
     </span>
   );
@@ -360,7 +370,7 @@ const ShowUnusedVariables = (props: { diff: string[] }) => {
   }
 
   return (
-    <div className={styles.unusedVariablesWarning}>
+    <div className={jsStyles.unusedVariablesWarning()}>
       Неиспользованные переменные ({props.diff.length}
       ):
       <ul>
