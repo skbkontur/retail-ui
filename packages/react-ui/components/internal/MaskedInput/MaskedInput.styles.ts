@@ -1,4 +1,4 @@
-import { css, injectGlobal } from '../../../lib/theming/Emotion';
+import { css, injectGlobal, memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 
 import maskCharFontEot from './mask-char-font/font.eot';
@@ -14,7 +14,7 @@ injectGlobal`
   }
 `;
 
-export const jsStyles = {
+const styles = {
   container() {
     return css`
       position: relative;
@@ -37,3 +37,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
