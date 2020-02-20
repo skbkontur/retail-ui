@@ -24,7 +24,7 @@ import { Textarea } from '../../Textarea';
 import { Address } from '../models/Address';
 
 import { FiasCountrySelector } from './FiasCountrySelector';
-import styles from './FiasForm.module.less';
+import { jsStyles } from './FiasForm.styles';
 import { FiasComboBox, FiasComboBoxProps } from './FiasComboBox';
 
 interface FiasFormProps {
@@ -71,9 +71,9 @@ export class FiasForm extends React.Component<FiasFormProps, FiasFormState> {
   };
 
   public static Field = ({ label, children }: { label?: string; children?: React.ReactNode }) => (
-    <div className={styles.row}>
-      {label && <div className={styles.label}>{label}</div>}
-      <div className={styles.field}>{children}</div>
+    <div className={jsStyles.row()}>
+      {label && <div className={jsStyles.label()}>{label}</div>}
+      <div className={jsStyles.field()}>{children}</div>
     </div>
   );
 
