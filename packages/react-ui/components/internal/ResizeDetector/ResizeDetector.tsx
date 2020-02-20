@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './ResizeDetector.module.less';
+import { jsStyles } from './ResizeDetector.styles';
 
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
@@ -19,9 +19,9 @@ export class ResizeDetector extends React.Component<ResizeDetectorProps> {
 
   public render() {
     return (
-      <div className={styles.root}>
-        <iframe ref={this.iframeRef} className={styles.iframe} />
-        <div className={styles.content}>{this.props.children}</div>
+      <div className={jsStyles.root()}>
+        <iframe ref={this.iframeRef} className={jsStyles.iframe()} />
+        <div className={jsStyles.content()}>{this.props.children}</div>
       </div>
     );
   }
