@@ -1,7 +1,7 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       font-weight: 400;
@@ -55,7 +55,7 @@ export const jsStyles = {
 
   inline() {
     return css`
-      ${cssName(jsStyles.dropdown())}& {
+      ${cssName(styles.dropdown())}& {
         display: inline-flex;
       }
     `;
@@ -87,3 +87,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
