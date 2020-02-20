@@ -1,8 +1,8 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 
-export const jsStyles = {
+const styles = {
   circle(t: Theme) {
     return css`
       stroke: ${t.red};
@@ -28,28 +28,28 @@ export const jsStyles = {
   },
 
   mini() {
-        return css`
-          margin-left: 8px;
-          font-size: 14px;
-        `;
+    return css`
+      margin-left: 8px;
+      font-size: 14px;
+    `;
   },
 
   big() {
-        return css`
-          display: block;
-          font-size: 18px;
-          line-height: 1.33;
-          margin-top: -8px;
-        `;
+    return css`
+      display: block;
+      font-size: 18px;
+      line-height: 1.33;
+      margin-top: -8px;
+    `;
   },
 
   normal() {
-        return css`
-          display: block;
-          font-size: 16px;
-          line-height: 1.375;
-          margin-top: -6px;
-        `;
+    return css`
+      display: block;
+      font-size: 16px;
+      line-height: 1.375;
+      margin-top: -6px;
+    `;
   },
 
   spinner() {
@@ -72,3 +72,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

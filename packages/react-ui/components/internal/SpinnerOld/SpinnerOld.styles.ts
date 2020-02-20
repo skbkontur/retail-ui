@@ -1,8 +1,8 @@
-import { css } from '../../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../../lib/theming/AnimationKeyframes';
 
-export const jsStyles = {
+const styles = {
   cloudStroke(t: Theme) {
     return css`
       stroke: ${t.spinnerBgColor};
@@ -90,3 +90,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
