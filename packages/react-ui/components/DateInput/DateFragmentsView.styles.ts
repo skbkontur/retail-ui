@@ -1,17 +1,5 @@
-import { css, injectGlobal } from '../../lib/theming/Emotion';
+import { css } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import maskCharFontEot from '../internal/MaskedInput/mask-char-font/font.eot';
-import maskCharFontWoff from '../internal/MaskedInput/mask-char-font/font.woff';
-import maskCharFontWoff2 from '../internal/MaskedInput/mask-char-font/font.woff2';
-
-injectGlobal`
-  @font-face {
-    font-family: kontur-mask-char;
-    src: url('${maskCharFontEot}'); /* For IE11 in IE8 mode. */
-    src: url('${maskCharFontEot}?#iefix') format('embedded-opentype'),
-    url('${maskCharFontWoff2}') format('woff2'), url('${maskCharFontWoff}') format('woff');
-  }
-`;
 
 export const jsStyles = {
   root(t: Theme) {
