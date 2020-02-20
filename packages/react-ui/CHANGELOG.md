@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.9.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.8.1...retail-ui@1.9.0) (2020-02-13)
+
+
+### Features
+
+* **CurrencyInput:** new prop 'hideTrailingZeros' ([#1869](https://github.com/skbkontur/retail-ui/issues/1869)) ([1823370](https://github.com/skbkontur/retail-ui/commit/1823370))
+
+
+
+
+
 ## [1.8.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.8.0...retail-ui@1.8.1) (2020-02-06)
 
 
@@ -487,11 +498,11 @@ variable via ThemeProvider or by calling ThemeFactory.overrideDefaultTheme()
 
 * docs(customization): add some line-breaks
 
-* docs(customization): emphasize inline &lt;code&gt; the way it's done at github
+* docs(customization): emphasize inline <code> the way it's done at github
 
 * docs(customization): switch 'jsx static' to 'typescript' for some blocks
 
-* docs(customization): use monospace font for inline &lt;code&gt;
+* docs(customization): use monospace font for inline <code>
 
 * chore(Button): fix baseline of flat medium Button
 

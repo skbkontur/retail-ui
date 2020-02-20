@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { By } from 'selenium-webdriver';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('Toggle', function() {
   describe('plain', function() {
     it('plain', async function() {
@@ -55,6 +57,7 @@ describe('Toggle', function() {
         })
         .press()
         .perform();
+      await delay(100);
       await expect(await element.takeScreenshot()).to.matchImage('pressed');
 
       await this.browser
