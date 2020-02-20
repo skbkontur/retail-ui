@@ -1,4 +1,4 @@
-import { css, injectGlobal } from '../../../../lib/theming/Emotion';
+import { css, injectGlobal, memoizeStyle } from '../../../../lib/theming/Emotion';
 
 import KonturIconicEco20pxEot from './Kontur-Iconic-eco-20px.eot';
 import KonturIconicEco20pxWoff from './Kontur-Iconic-eco-20px.woff';
@@ -13,7 +13,7 @@ injectGlobal`
   }
 `;
 
-export const jsStyles = {
+const styles = {
   root() {
     return css`
       font-family: kontur-iconic-20px;
@@ -28,3 +28,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
