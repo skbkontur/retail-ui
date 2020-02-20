@@ -1,8 +1,8 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-export const jsStyles = {
+const styles = {
   token() {
     return css`
       display: inline-flex;
@@ -116,7 +116,7 @@ export const jsTokenColors = [
 
         ${vStyle}
 
-        & ${cssName(jsStyles.removeIcon())}:hover {
+        & ${cssName(styles.removeIcon())}:hover {
           color: ${ColorFunctions.contrast(t[color])};
         }
       `;
@@ -129,7 +129,7 @@ export const jsTokenColors = [
         color: ${ColorFunctions.contrast(t.tokenDisabledBg)};
         box-shadow: 0 0 0 1px ${t.tokenDisabledBg};
 
-        & ${cssName(jsStyles.removeIcon())} {
+        & ${cssName(styles.removeIcon())} {
           fill: ${t.textColorDisabled};
           opacity: 1;
         }
@@ -147,3 +147,5 @@ export const jsTokenColors = [
     },
   } as TokenColors,
 );
+
+export const jsStyles = memoizeStyle(styles);
