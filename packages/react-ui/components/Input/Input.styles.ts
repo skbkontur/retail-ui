@@ -1,9 +1,9 @@
-import { css, cssName, keyframes } from '../../lib/theming/Emotion';
+import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-export const jsStyles = {
+const styles = {
   wrapper() {
     return css`
       align-items: center;
@@ -68,13 +68,13 @@ export const jsStyles = {
       outline: none;
       z-index: 2;
 
-      ${cssName(jsStyles.input(t))}:-moz-placeholder {
+      ${cssName(styles.input(t))}:-moz-placeholder {
         color: ${t.placeholderColorLight};
       }
-      ${cssName(jsStyles.input(t))}::-moz-placeholder {
+      ${cssName(styles.input(t))}::-moz-placeholder {
         color: ${t.placeholderColorLight};
       }
-      ${cssName(jsStyles.input(t))}::placeholder {
+      ${cssName(styles.input(t))}::placeholder {
         color: ${t.placeholderColorLight};
       }
     `;
@@ -103,7 +103,7 @@ export const jsStyles = {
       white-space: nowrap;
       width: 100%;
 
-      ${cssName(jsStyles.focus(t))} & {
+      ${cssName(styles.focus(t))} & {
         color: ${t.placeholderColorLight};
       }
     `;
@@ -183,23 +183,23 @@ export const jsStyles = {
       border-color: ${t.inputDisabledBorderColor} !important;
       box-shadow: none;
 
-      ${cssName(jsStyles.leftIcon())},
-      ${cssName(jsStyles.rightIcon())} {
+      ${cssName(styles.leftIcon())},
+      ${cssName(styles.rightIcon())} {
         cursor: default;
       }
-      ${cssName(jsStyles.input(t))} {
+      ${cssName(styles.input(t))} {
         color: ${t.textColorDisabled};
         pointer-events: none;
         /* fix text color in safari */
         -webkit-text-fill-color: currentcolor;
       }
-      ${cssName(jsStyles.input(t))}:-moz-placeholder {
+      ${cssName(styles.input(t))}:-moz-placeholder {
         -webkit-text-fill-color: ${t.placeholderColor};
       }
-      ${cssName(jsStyles.input(t))}::-moz-placeholder {
+      ${cssName(styles.input(t))}::-moz-placeholder {
         -webkit-text-fill-color: ${t.placeholderColor};
       }
-      ${cssName(jsStyles.input(t))}::placeholder {
+      ${cssName(styles.input(t))}::placeholder {
         -webkit-text-fill-color: ${t.placeholderColor};
       }
     `;
@@ -330,3 +330,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
