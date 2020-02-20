@@ -72,7 +72,7 @@ export class PopupPin extends React.Component<Props> {
       return null;
     }
 
-    const options = this._getPinOptions(
+    const options = this.getPinOptions(
       PopupHelper.getElementAbsoluteRect(this.props.popupElement),
       PopupHelper.getPositionObject(this.props.popupPosition),
       this.props.size,
@@ -80,19 +80,19 @@ export class PopupPin extends React.Component<Props> {
       this.props.borderWidth,
     );
 
-    const styleOuter: React.CSSProperties = this._getOuterStyle(
+    const styleOuter: React.CSSProperties = this.getOuterStyle(
       options.activeBorder,
       options.outerSize,
       this.props.borderColor,
     );
 
-    const styleInner: React.CSSProperties = this._getInnerStyle(
+    const styleInner: React.CSSProperties = this.getInnerStyle(
       options.activeBorder,
       this.props.size,
       this.props.backgroundColor,
     );
 
-    const styleWrapper = this._getWrapperStyle(options.outerLeft, options.outerTop, options.outerSize);
+    const styleWrapper = this.getWrapperStyle(options.outerLeft, options.outerTop, options.outerSize);
 
     return (
       <div className={jsStyles.wrapper()} style={styleWrapper}>
@@ -103,7 +103,7 @@ export class PopupPin extends React.Component<Props> {
     );
   }
 
-  private _getPopupOppositeDirection(): 'bottom' | 'top' | 'left' | 'right' {
+  private getPopupOppositeDirection(): 'bottom' | 'top' | 'left' | 'right' {
     const popupDirection = PopupHelper.getPositionObject(this.props.popupPosition).direction;
     switch (popupDirection) {
       case 'top':
@@ -119,8 +119,8 @@ export class PopupPin extends React.Component<Props> {
     }
   }
 
-  private _getWrapperStyle(left: number, top: number, borderWidth: number) {
-    const direction = this._getPopupOppositeDirection();
+  private getWrapperStyle(left: number, top: number, borderWidth: number) {
+    const direction = this.getPopupOppositeDirection();
     switch (direction) {
       case 'top':
       case 'bottom':
@@ -143,8 +143,8 @@ export class PopupPin extends React.Component<Props> {
     }
   }
 
-  private _getOuterStyle(activeBorder: string, borderWitdth: number, borderColor: string): React.CSSProperties {
-    const direction = this._getPopupOppositeDirection();
+  private getOuterStyle(activeBorder: string, borderWitdth: number, borderColor: string): React.CSSProperties {
+    const direction = this.getPopupOppositeDirection();
     switch (direction) {
       case 'top':
       case 'bottom':
@@ -169,8 +169,8 @@ export class PopupPin extends React.Component<Props> {
     }
   }
 
-  private _getInnerStyle(activeBorder: string, borderWitdth: number, borderColor: string): React.CSSProperties {
-    const direction = this._getPopupOppositeDirection();
+  private getInnerStyle(activeBorder: string, borderWitdth: number, borderColor: string): React.CSSProperties {
+    const direction = this.getPopupOppositeDirection();
     switch (direction) {
       case 'top':
       case 'bottom':
@@ -195,7 +195,7 @@ export class PopupPin extends React.Component<Props> {
     }
   }
 
-  private _getPinOptions(
+  private getPinOptions(
     popupRect: Rect,
     popupPosition: PositionObject,
     pinSize: number,
@@ -209,7 +209,7 @@ export class PopupPin extends React.Component<Props> {
       case 'top':
         return {
           outerTop: popupRect.height,
-          outerLeft: this._getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+          outerLeft: this.getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
           innerTop: -outerSize,
           innerLeft: -outerSize + bordersDelta,
           activeBorder: 'Top',
@@ -218,7 +218,7 @@ export class PopupPin extends React.Component<Props> {
       case 'bottom':
         return {
           outerTop: -2 * outerSize,
-          outerLeft: this._getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+          outerLeft: this.getPinLeftCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
           innerTop: -outerSize + 2 * bordersDelta,
           innerLeft: -outerSize + bordersDelta,
           activeBorder: 'Bottom',
@@ -226,7 +226,7 @@ export class PopupPin extends React.Component<Props> {
         };
       case 'left':
         return {
-          outerTop: this._getPinTopCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+          outerTop: this.getPinTopCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
           outerLeft: popupRect.width,
           innerTop: -outerSize + bordersDelta,
           innerLeft: -outerSize,
@@ -235,7 +235,7 @@ export class PopupPin extends React.Component<Props> {
         };
       case 'right':
         return {
-          outerTop: this._getPinTopCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
+          outerTop: this.getPinTopCoordinate(popupRect, popupPosition.align, pinSize, pinOffset) - bordersDelta,
           outerLeft: -2 * outerSize,
           innerTop: -outerSize + bordersDelta,
           innerLeft: -outerSize + 2 * bordersDelta,
@@ -247,7 +247,7 @@ export class PopupPin extends React.Component<Props> {
     }
   }
 
-  private _getPinTopCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
+  private getPinTopCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
     switch (align) {
       case 'top':
         return pinOffset;
@@ -260,7 +260,7 @@ export class PopupPin extends React.Component<Props> {
     }
   }
 
-  private _getPinLeftCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
+  private getPinLeftCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
     switch (align) {
       case 'left':
         return pinOffset;
