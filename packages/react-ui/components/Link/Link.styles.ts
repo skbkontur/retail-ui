@@ -1,9 +1,9 @@
-import { css, cssName } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       ${linkMixin()};
@@ -93,3 +93,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
