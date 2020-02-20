@@ -8,8 +8,16 @@ export const jsStyles = {
       stroke: ${t.spinnerBgColor};
     `;
   },
+  cloudWrapper() {
+    return css`
+      fill: none;
+      stroke-linecap: round;
+    `;
+  },
   cloud(t: Theme) {
     return css`
+      stroke-dasharray: 20, 86;
+      stroke-dashoffset: 15;
       stroke: ${t.red};
       animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
@@ -18,6 +26,8 @@ export const jsStyles = {
   },
   cloudDimmed(t: Theme) {
     return css`
+      stroke-dasharray: 20, 86;
+      stroke-dashoffset: 15;
       stroke: ${t.spinnerDimmedColor};
       animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite;
@@ -43,7 +53,40 @@ export const jsStyles = {
 
   caption(t: Theme) {
     return css`
+      font-size: 14px;
       color: ${t.spinnerCaptionColor};
+    `;
+  },
+
+  spinner() {
+    return css`
+      display: inline-block;
+      text-align: center;
+    `;
+  },
+
+  inner() {
+    return css`
+      display: inline-block;
+    `;
+  },
+
+  captionRight() {
+    return css`
+      margin-left: 5px;
+    `;
+  },
+
+  captionBottom() {
+    return css`
+      display: block;
+    `;
+  },
+
+  fallback() {
+    return css`
+      display: inline-block;
+      position: relative;
     `;
   },
 };

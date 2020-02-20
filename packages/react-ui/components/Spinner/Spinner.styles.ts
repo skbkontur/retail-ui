@@ -2,8 +2,6 @@ import { css } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 
-import { SpinnerType } from './Spinner';
-
 export const jsStyles = {
   circle(t: Theme) {
     return css`
@@ -29,29 +27,29 @@ export const jsStyles = {
     `;
   },
 
-  caption(size: SpinnerType) {
-    switch (size) {
-      case 'mini':
+  mini() {
         return css`
           margin-left: 8px;
           font-size: 14px;
         `;
-      case 'big':
+  },
+
+  big() {
         return css`
           display: block;
           font-size: 18px;
           line-height: 1.33;
           margin-top: -8px;
         `;
-      case 'normal':
-      default:
+  },
+
+  normal() {
         return css`
           display: block;
           font-size: 16px;
           line-height: 1.375;
           margin-top: -6px;
         `;
-    }
   },
 
   spinner() {
