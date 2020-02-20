@@ -1,7 +1,7 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   label(t: Theme) {
     return css`
       background-color: ${t.inputBg};
@@ -97,3 +97,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);
