@@ -13,10 +13,10 @@ class Foo extends React.Component {
   render() {
     return (
       <div>
-        blah TopBarLocaleHelper
-        <Switcher items={[1,2]} onChange={(e) => this.handleChange(e)}></Switcher>
+        1
+        <Switcher items={[1,2]} onValueChange={(e) => this.handleChange(e)}></Switcher>
       </div>
-      )
+    );
   }
 }
 
@@ -27,10 +27,10 @@ class FooNormal extends React.Component {
   render() {
     return (
       <div>
-        blah TopBarLocaleHelper
-        <Switcher items={[1,2]} onChange={this.handleChange}></Switcher>
+        2
+        <Switcher items={[1,2]} onValueChange={this.handleChange}></Switcher>
       </div>
-      )
+    );
   }
 }
 
@@ -41,8 +41,22 @@ class Bar extends React.Component {
   render() {
     return (
       <div>
-        blah TopBarLocaleHelper
-        <Switcher items={[1,2]} onChange={(e, v) => this.handleChange(v)}></Switcher>
+        3
+        <Switcher items={[1,2]} onValueChange={v => this.handleChange(v)}></Switcher>
+      </div>
+    );
+  }
+}
+
+class BarNormal extends React.Component {
+  private handleChange(e, v) {
+    console.log(v)
+  }
+  render() {
+    return (
+      <div>
+        4
+        <Switcher items={[1,2]} onValueChange={this.handleChange}></Switcher>
       </div>
     );
   }
@@ -56,8 +70,8 @@ class Coo extends React.Component {
   render() {
     return (
       <div>
-        blah TopBarLocaleHelper
-        <MaskedInput onUnexpectedInput={()=> this.handleChange('coo')}></MaskedInput>
+        5
+        <MaskedInput onUnexpectedInput={value => this.handleChange('coo')}></MaskedInput>
       </div>
     );
   }
@@ -70,7 +84,7 @@ class CooNormal extends React.Component {
   render() {
     return (
       <div>
-        blah TopBarLocaleHelper
+        6
         <MaskedInput onUnexpectedInput={this.handleChange}></MaskedInput>
       </div>
     );
@@ -84,8 +98,8 @@ class Fee extends React.Component {
   render() {
     return (
       <div>
-        blah TopBarLocaleHelper
-        <TokenInput onChange={(v)=> this.handleChange(v)}></TokenInput>
+        7
+        <TokenInput onValueChange={(v)=> this.handleChange(v)}></TokenInput>
       </div>
     );
   }
@@ -98,8 +112,8 @@ class FeeNormal extends React.Component {
   render() {
     return (
       <div>
-        blah TopBarLocaleHelper
-        <TokenInput onChange={this.handleChange}></TokenInput>
+        8
+        <TokenInput onValueChange={this.handleChange}></TokenInput>
       </div>
     );
   }

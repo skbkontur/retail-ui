@@ -13,6 +13,10 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@types/jscodeshift": "^0.6.3"
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jscodeshift": "^0.6.3",
+    "babel-jest": "^24.9.0"
   }
 }

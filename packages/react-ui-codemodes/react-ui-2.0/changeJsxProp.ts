@@ -92,6 +92,8 @@ const transformExpression = (api: API, node: any, change: CustomChange) => {
       if (node.value.expression.params && node.value.expression.params.length > 1) {
         node.name = change.after;
         node.value.expression.params.shift();
+      } else {
+        node.name = change.after;
       }
       break;
     }
@@ -99,7 +101,7 @@ const transformExpression = (api: API, node: any, change: CustomChange) => {
       node.name = change.after;
       if (node.value.expression.params) {
         const ident = j.identifier('value');
-        node.value.expression.params.push(ident);
+        node.value.expression.params = [ident];
       }
       break;
     }
