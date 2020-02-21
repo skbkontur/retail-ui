@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { Loader } from "@skbkontur/react-ui/components/Loader";
+import { Spinner } from "@skbkontur/react-ui/components/Spinner";
 
 class Foo extends React.Component {
   render() {
@@ -10,6 +11,7 @@ class Foo extends React.Component {
       <div>
         blah TopBarLocaleHelper
         <Loader active type="normal" >blagagagaga</Loader>
+        <Spinner dimmed type="mini" />
       </div>
       )
   }
@@ -21,7 +23,8 @@ class Bar extends React.Component {
       <div>
         blah asdasda
         <div>adasda</div>
-        <Loader  active type="big"/>
+        <Loader active type="big"/>
+        <Spinner type="normal" />
       </div>
       )
   }
@@ -34,6 +37,7 @@ class Coo extends React.Component {
         <div>
           blah asdasda
           <div>adasda</div>
+          <Spinner type="big" />
         </div>
       </Loader>
       )

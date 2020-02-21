@@ -16,6 +16,10 @@ const listOfAttributes = [
     name: 'Loader',
     attributes: [{ identifier: 'cloud', value: true }],
   },
+  {
+    name: 'Spinner',
+    attributes: [{ identifier: 'cloud', value: true }],
+  },
 ];
 
 const createAttribute = (api: API, identifier: string, value: any): JSXAttribute | JSXSpreadAttribute => {
