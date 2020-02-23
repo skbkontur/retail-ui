@@ -36,9 +36,13 @@ class User extends React.Component<UserProps> {
 
     return (
       <TopBarDropdown icon={'user'} label={userName}>
-        <div style={{ padding: '6px 18px 7px 15px' }}>
-          <b>{cabinetTitle}</b>
-        </div>
+        <MenuItem
+          component={({ className }) => (
+            <div className={className} style={{ cursor: 'text' }}>
+              <b>{cabinetTitle}</b>
+            </div>
+          )}
+        />
         <MenuItem loose href={cabinetUrl} target="_blank">
           {cabinetSettings}
         </MenuItem>
