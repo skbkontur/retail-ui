@@ -8,10 +8,10 @@ import { Calendar } from '../../Calendar';
 import styles from '../../DatePicker/Picker.less';
 import { DateSelect } from '../../DateSelect';
 import { DropdownContainer } from '../../DropdownContainer/DropdownContainer';
-import { LangCodes, LocaleControls, LocaleProvider } from '../../LocaleProvider';
-import { defaultLangCode } from '../../LocaleProvider/constants';
+import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
+import { LangCodes, LocaleControls, LocaleContext } from '../../../lib/locale';
 
 const handleChange = () => undefined;
 const renderDatePicker = (props: Partial<DatePickerProps<string>> = {}) =>
@@ -25,10 +25,10 @@ const renderDatePickerLocale = ({
   langCode?: LangCodes;
   locale?: LocaleControls;
 } = {}) =>
-  mount<LocaleProvider>(
-    <LocaleProvider langCode={langCode} locale={locale}>
+  mount(
+    <LocaleContext.Provider value={{ langCode: langCode, locale: locale }}>
       <DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />
-    </LocaleProvider>,
+    </LocaleContext.Provider>,
   );
 const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
@@ -183,7 +183,7 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
 
-      wrapper.setProps({ langCode: LangCodes.en_GB });
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
       datePicker.setState({ opened: true });
       wrapper.update();
 

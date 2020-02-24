@@ -3,12 +3,12 @@ import isEqual from 'lodash.isequal';
 import warning from 'warning';
 
 import { Link } from '../Link';
-import { LocaleProvider } from '../LocaleProvider';
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
 import { EditIcon } from '../internal/icons/16px';
+import { LocaleContext } from '../../lib/locale';
 
 import { FiasLocale, FiasLocaleHelper } from './locale';
 import { APIProvider, ExtraFields, FiasValue, Fields, FieldsSettings, FormValidation } from './types';
@@ -235,7 +235,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       ) : null;
 
     return (
-      <LocaleProvider locale={{ Fias: this.state.locale }}>
+      <LocaleContext.Provider value={{ locale: { Fias: this.state.locale }}}>
         <div>
           {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
           {!this.props.readonly && (
@@ -248,7 +248,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
           {validation}
           {opened && this.renderModal()}
         </div>
-      </LocaleProvider>
+      </LocaleContext.Provider>
     );
   }
 

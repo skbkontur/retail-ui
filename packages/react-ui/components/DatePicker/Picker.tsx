@@ -4,7 +4,7 @@ import shallowEqual from 'shallowequal';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { Calendar, CalendarDateShape } from '../Calendar';
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { isGreater, isLess } from '../Calendar/CalendarDateShape';
 import { cx } from '../../lib/theming/Emotion';

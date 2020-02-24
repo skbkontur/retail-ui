@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 
 import { TopBarButtonItem, TopBarButtonItemProps } from './TopBarButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';

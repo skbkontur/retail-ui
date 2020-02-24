@@ -3,7 +3,7 @@ import React from 'react';
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { Address } from '../models/Address';
 import { FiasCountry, APIProvider } from '../types';
-import { locale } from '../../LocaleProvider/decorators';
+import { locale } from '../../../lib/locale/decorators';
 
 import { FiasComboBox } from './FiasComboBox';
 

@@ -4,9 +4,10 @@ import React from 'react';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
-import { LocaleProvider } from '../../LocaleProvider';
 import { Select } from '../../Select';
 import { DateInput, DateInputProps } from '../DateInput';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { defaultLangCode } from '../../../lib/locale/constants';
 
 interface DateInputFormattingState {
   order: InternalDateOrder;
@@ -50,18 +51,19 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
             onValueChange={this.handleChangeSeparator}
           />
         </div>
-        <LocaleProvider
-          locale={{
+        <LocaleContext.Provider value={{
+          langCode: defaultLangCode,
+          locale: {
             DatePicker: {
               separator: InternalDateSeparator[this.state.separator],
               order: this.state.order,
             },
-          }}
+          }}}
         >
           <DateInput onValueChange={this.handleChangeValue} value={this.state.value} />
           <br />
           <br />
-        </LocaleProvider>
+        </LocaleContext.Provider>
       </Gapped>
     );
   }
@@ -84,97 +86,109 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
           <tr>
             <td>Dot</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider value={{
+                langCode: LangCodes.ru_RU,
+                locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.YMD } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider value={{
+                langCode: LangCodes.ru_RU,
+                locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.MDY } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.DMY } }}
-              >
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.DMY } }
+              }}>
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
           <tr>
             <td>Dash</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.YMD } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.MDY } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.DMY } }}
-              >
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.DMY } }
+              }}>
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
           <tr>
             <td>Slash</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.YMD } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.MDY } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.DMY } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.DMY } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
           <tr>
             <td>Space</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.YMD } }
+              }}
               >
-                <DateInput value={value} />
-              </LocaleProvider>
+              <DateInput value={value} />
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.MDY } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.DMY } }}
+              <LocaleContext.Provider value={{
+                locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.DMY } }
+              }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
         </tbody>

@@ -1,7 +1,7 @@
-### Props
+Локализации компонентов через контекст `React.Context<LocaleContextProps>`
 
 ```typescript
-interface LocaleProviderProps {
+interface LocaleContextProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
 }
@@ -39,18 +39,18 @@ interface LocaleControls {
 Дефолтная локализация `<TokenInput />`
 
 ```jsx harmony
-import { LangCodes, LocaleProvider, TokenInput, TokenInputType } from '@skbkontur/react-ui';
+import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
-<LocaleProvider langCode={LangCodes.en_GB}>
+<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <TokenInput type={TokenInputType.Combined} getItems={() => Promise.resolve([]).then(delay(500))} />
-</LocaleProvider>;
+</LocaleContext.Provider>;
 ```
 
 Кастомная локализация `<TokenInput />`
 
 ```jsx harmony
-import { LangCodes, LocaleProvider, TokenInput, TokenInputType } from '@skbkontur/react-ui';
+import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -59,9 +59,9 @@ const customLocale = {
   },
 };
 
-<LocaleProvider locale={customLocale} langCode={LangCodes.en_GB}>
+<LocaleContext.Provider value={{ locale: customLocale, langCode: LangCodes.en_GB }}>
   <TokenInput type={TokenInputType.Combined} delimiters={[' ']} getItems={() => Promise.resolve([]).then(delay(500))} />
-</LocaleProvider>;
+</LocaleContext.Provider>;
 ```
 
 Некоторые контролы используют компоненты других контролов.
@@ -69,7 +69,7 @@ const customLocale = {
 Для инкапсуляции локализации можно использовать несколько контекстов.
 
 ```jsx harmony
-import { Gapped, LangCodes, LocaleProvider, Spinner, TokenInput } from '@skbkontur/react-ui';
+import { Gapped, LangCodes, LocaleContext, Spinner, TokenInput } from '@skbkontur/react-ui';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
@@ -79,15 +79,36 @@ const customLocale = {
   },
 };
 
-<LocaleProvider langCode={LangCodes.en_GB}>
+<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <Gapped vertical gap={10}>
-    <LocaleProvider locale={customLocale} langCode={LangCodes.en_GB}>
+    <LocaleContext.Provider value={{ langCode: LangCodes.en_GB, locale: customLocale }}>
       <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
-    </LocaleProvider>
+    </LocaleContext.Provider>
     <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
     <Spinner />
   </Gapped>
-</LocaleProvider>;
+</LocaleContext.Provider>;
+```
+
+Локализация функционального компонента через useContext.
+
+```jsx harmony
+import { useContext } from 'react';
+import { LangCodes, LocaleContext } from '@skbkontur/react-ui';
+
+const languages = {
+  [LangCodes.ru_RU]: 'Русский',
+  [LangCodes.en_GB]: 'English',
+}
+
+function LocalizedByHook() {
+  const { langCode } = useContext(LocaleContext);
+  return <div>{languages[langCode]}</div>;
+}
+
+<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+  <LocalizedByHook />
+</LocaleContext.Provider>
 ```
 
 ### Обзор всех доступных контролов
@@ -99,15 +120,15 @@ import {
   DatePicker,
   Fias,
   Gapped,
-  LocaleProvider,
+  LocaleContext,
   Logotype,
   Paging,
   Select,
   Spinner,
   TokenInput,
   TopBar,
+  LangCodes,
 } from '@skbkontur/react-ui';
-import { LangCodes } from '@skbkontur/react-ui/components/LocaleProvider';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
@@ -160,9 +181,9 @@ class LocalizationControls extends React.Component {
           items={Object.values(LocalizationControlNames)}
           onValueChange={controlName => this.setState({ controlName })}
         />
-        <LocaleProvider langCode={this.state.langCode} locale={locale}>
+        <LocaleContext.Provider value={{ langCode: this.state.langCode, locale: locale }}>
           {this.getControl(this.state.controlName)}
-        </LocaleProvider>
+        </LocaleContext.Provider>
       </Gapped>
     );
   }

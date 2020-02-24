@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 
 import { stopPropagation } from '../../lib/events/stopPropagation';
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';

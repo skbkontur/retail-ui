@@ -15,7 +15,8 @@ const deprecatedComponents = [
   'FiasSearch',
   'Logotype',
   'TopBar',
-  'Logotype'
+  'Logotype',
+  'LocaleProvider'
 ];
 
 describe('React-ui smoke test', () => {
