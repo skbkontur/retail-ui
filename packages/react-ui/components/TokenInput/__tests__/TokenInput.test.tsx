@@ -8,7 +8,7 @@ import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
 
 async function getItems(query: string) {
-  return ['aaa', 'bbb', 'ccc'].filter(s => s.includes(query));
+  return Promise.resolve(['aaa', 'bbb', 'ccc'].filter(s => s.includes(query)));
 }
 
 describe('<TokenInput />', () => {

@@ -130,19 +130,19 @@ describe('<Input />', () => {
   });
   it('has focus method', () => {
     const wrapper = render({ value: '' });
-    const instance = wrapper.instance() as Input;
+    const instance = wrapper.instance();
     expect(instance.focus).toBeInstanceOf(Function);
   });
 
   it('has blur method', () => {
     const wrapper = render({ value: '' });
-    const instance = wrapper.instance() as Input;
+    const instance = wrapper.instance();
     expect(instance.blur).toBeInstanceOf(Function);
   });
 
   it('has setSelectionRange method', () => {
     const wrapper = render({ value: '' });
-    const instance = wrapper.instance() as Input;
+    const instance = wrapper.instance();
     expect(instance.setSelectionRange).toBeInstanceOf(Function);
   });
 

@@ -404,7 +404,7 @@ class WithVariableContent extends React.Component<{}, WithVariableContentState> 
 }
 
 class TestUpdateLayoutMethod extends React.Component {
-  public static ChildComp = class extends React.Component {
+  public static ChildComp = class ChildComp extends React.Component {
     public state = {
       content: false,
     };

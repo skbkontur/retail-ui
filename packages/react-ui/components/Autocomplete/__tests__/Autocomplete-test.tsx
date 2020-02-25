@@ -89,7 +89,7 @@ describe('<Autocomplete />', () => {
     expect(menuItems.at(1).text()).toBe('TWO');
   });
 
-  it('passes props to input', async () => {
+  it('passes props to input', () => {
     const props = {
       align: 'center' as AutocompleteProps['align'],
       alwaysShowMask: true,

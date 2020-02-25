@@ -15,7 +15,7 @@ const getFieldsWithData = (fields: AddressFields): Fields[] => {
   const result: Fields[] = [];
   let field: Fields;
   for (field in fields) {
-    if (fields.hasOwnProperty(field)) {
+    if (Object.prototype.hasOwnProperty.call(fields, field)) {
       const element = fields[field];
       if (element && element.data) {
         result.push(field);
@@ -131,7 +131,7 @@ describe('Address', () => {
 
         let field: Fields;
         for (field in addressResponse) {
-          if (addressResponse.hasOwnProperty(field)) {
+          if (Object.prototype.hasOwnProperty.call(addressResponse, field)) {
             const element = fields[field];
             expect(element).toBeDefined();
             expect(element && element.type).toEqual(field);
@@ -153,7 +153,7 @@ describe('Address', () => {
 
         let field: Fields;
         for (field in fields) {
-          if (fields.hasOwnProperty(field)) {
+          if (Object.prototype.hasOwnProperty.call(fields, field)) {
             const element = fields[field];
             if (element && element.data) {
               expect(response[field]).toBeDefined();

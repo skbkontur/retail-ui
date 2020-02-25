@@ -102,8 +102,8 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   private setProperStyles = () => {
     if (this.wrapper && this.content) {
-      const wrapperRect = this.wrapper!.getBoundingClientRect();
-      const contentRect = this.content!.getBoundingClientRect();
+      const wrapperRect = this.wrapper.getBoundingClientRect();
+      const contentRect = this.content.getBoundingClientRect();
       const fixed = wrapperRect.top > contentRect.top;
       this.setState({ fixed });
     }

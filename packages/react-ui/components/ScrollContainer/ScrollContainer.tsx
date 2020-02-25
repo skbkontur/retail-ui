@@ -277,7 +277,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         mouseMoveEvent.preventDefault();
       }
 
-      if (mouseMoveEvent.hasOwnProperty('returnValue')) {
+      if (Object.prototype.hasOwnProperty.call(mouseMoveEvent, 'returnValue')) {
         (mouseMoveEvent as MouseEvent & {
           returnValue: boolean;
         }).returnValue = false;

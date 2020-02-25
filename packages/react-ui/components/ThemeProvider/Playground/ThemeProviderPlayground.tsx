@@ -216,7 +216,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
 
 function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
-    if (theme.hasOwnProperty(propName)) {
+    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
       return Object.getOwnPropertyDescriptor(theme, propName) || {};
     }
   }

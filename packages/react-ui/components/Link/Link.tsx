@@ -114,7 +114,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [jsStyles.button()]: !!_button,
         [jsStyles.buttonOpened()]: !!_buttonOpened,
         [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
-        [getUseClasses(this.theme)[use as keyof UseClasses]]: !!use,
+        [getUseClasses(this.theme)[use]]: !!use,
       }),
       href,
       onClick: this._handleClick,

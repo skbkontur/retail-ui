@@ -67,7 +67,9 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
   public static defaultProps = {
     component: ({ className, onClick, children }: any) => (
-      <span className={className} onClick={onClick} children={children} />
+      <span className={className} onClick={onClick}>
+        {children}
+      </span>
     ),
     useGlobalListener: false,
   };
@@ -149,15 +151,18 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   private renderItem = (item: ItemType, index: number) => {
     const focused = this.getFocusedItem() === item;
     switch (item) {
-      case '.':
+      case '.': {
         const key = `dots${index < 5 ? 'Left' : 'Right'}`;
         return this.renderDots(key);
-      case 'forward':
+      }
+      case 'forward': {
         const disabled = this.isItemDisabled(item);
         return this.renderForwardLink(disabled, focused);
-      default:
+      }
+      default: {
         const active = this.props.activePage === item;
         return this.renderPageLink(item, active, focused);
+      }
     }
   };
 
@@ -336,7 +341,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     }
 
     const { focusedItem } = this.state;
-    if (focusedItem && this.getItems().indexOf(focusedItem) !== -1 && this.isItemFocusable(focusedItem)) {
+    if (focusedItem && this.getItems().includes(focusedItem) && this.isItemFocusable(focusedItem)) {
       return focusedItem;
     }
 

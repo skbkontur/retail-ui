@@ -28,7 +28,7 @@ describe('Toast', () => {
 
     const toast = (wrapper.instance() as Toast)._toast;
     expect(toast).toBeTruthy();
-    const domNode = ReactDOM.findDOMNode(toast!);
+    const domNode = ReactDOM.findDOMNode(toast);
     expect(domNode).toBeInstanceOf(HTMLElement);
     expect(domNode!.textContent).toEqual('message');
   });
@@ -54,7 +54,7 @@ describe('Toast', () => {
   it('calls onClose after close', () => {
     const onClose = jest.fn();
     const wrapper = mount(<Toast onClose={onClose} />);
-    ((wrapper.instance() as Toast) as Toast).push('message');
+    (wrapper.instance() as Toast).push('message');
     jest.runAllTimers();
 
     expect(onClose.mock.calls[0][0]).toBe('message');
@@ -69,7 +69,7 @@ describe('Toast', () => {
     });
 
     const toast = (wrapper.instance() as Toast)._toast;
-    const textContent = (ReactDOM.findDOMNode(toast!) as Element).textContent;
+    const textContent = (ReactDOM.findDOMNode(toast) as Element).textContent;
     expect(textContent).toBe('messageaction');
   });
 

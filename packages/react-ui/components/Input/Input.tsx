@@ -313,7 +313,7 @@ export class Input extends React.Component<InputProps, InputState> {
       inputProps.type = type;
     }
 
-    const input = !!mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
+    const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
     return (
       <label {...labelProps}>

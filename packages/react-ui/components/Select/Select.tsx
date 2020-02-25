@@ -354,7 +354,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
-        paddingRight: (buttonProps.size === 'large' ? 31 : 28) + (!!this.props._icon ? 10 : 0),
+        paddingRight: (buttonProps.size === 'large' ? 31 : 28) + (this.props._icon ? 10 : 0),
       },
     };
 

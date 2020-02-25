@@ -137,7 +137,7 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
 };
 const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Theme> => {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
-    if (theme.hasOwnProperty(variable)) {
+    if (Object.prototype.hasOwnProperty.call(theme, variable)) {
       const descriptor = Object.getOwnPropertyDescriptor(theme, variable);
 
       if (descriptor && typeof descriptor.get !== 'undefined') {

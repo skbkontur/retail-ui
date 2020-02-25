@@ -3,7 +3,6 @@ import cn from 'classnames';
 
 import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
-import { Theme } from '../../lib/theming/Theme';
 import { ComboBox, ComboBoxItem } from '../ComboBox';
 import { Gapped } from '../Gapped';
 import { Link } from '../Link';
@@ -231,8 +230,8 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
         </tr>
         {row.variables.map(varName => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
-          const variableDefault = (defaultVariables as Theme)[varName];
-          const variableFlat = (flatVariables as Theme)[varName];
+          const variableDefault = defaultVariables[varName];
+          const variableFlat = flatVariables[varName];
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
@@ -327,8 +326,8 @@ class DependencyName extends React.Component<DependencyNameProps> {
 
   private getValues = () => {
     const dependencyName = this.props.dependencyName;
-    const dependencyDefault = (defaultVariables as Theme)[dependencyName];
-    const dependencyFlat = (flatVariables as Theme)[dependencyName];
+    const dependencyDefault = defaultVariables[dependencyName];
+    const dependencyFlat = flatVariables[dependencyName];
     return (
       <React.Fragment>
         <span>Default value: {<VariableValue value={dependencyDefault} />}</span>

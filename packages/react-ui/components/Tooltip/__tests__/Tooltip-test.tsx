@@ -87,14 +87,14 @@ describe('Tooltip', () => {
       expect(onOpen).toBeCalledTimes(1);
     });
 
-    it('with "focus" trigger', async () => {
+    it('with "focus" trigger', () => {
       const onOpen = jest.fn();
       const wrapper = mount<TooltipProps>(
         <Tooltip trigger="focus" render={render} onOpen={onOpen}>
           <div />
         </Tooltip>,
       );
-      await wrapper.find(Popup).invoke('onOpen')!();
+      wrapper.find(Popup).invoke('onOpen')!();
       expect(onOpen).toBeCalledTimes(1);
     });
   });

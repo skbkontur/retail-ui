@@ -40,8 +40,10 @@ storiesOf('ComboBox', module)
           <div>
             <SimpleCombobox noInitialValue delay={this.state.delay} />
             <p>
-              <label>Delay: </label>
-              <input type="number" value={this.state.delay} onChange={this.handleChangeDelay} />
+              <label>
+                Delay:
+                <input type="number" value={this.state.delay} onChange={this.handleChangeDelay} />
+              </label>
             </p>
           </div>
         );

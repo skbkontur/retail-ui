@@ -163,7 +163,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     }
 
     options.mask.split('').forEach((char, index) => {
-      if (options.permanents.indexOf(index) > -1) {
+      if (options.permanents.includes(index)) {
         visibleMaskChars[index] = char;
       }
 

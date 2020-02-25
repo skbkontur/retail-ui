@@ -410,7 +410,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return (
       this.props.hasPin && (
         <PopupPin
-          popupElement={this.lastPopupElement!}
+          popupElement={this.lastPopupElement}
           popupPosition={position}
           size={pinSize}
           offset={pinOffset}
