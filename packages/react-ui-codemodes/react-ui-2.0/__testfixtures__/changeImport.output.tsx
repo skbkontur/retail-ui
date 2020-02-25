@@ -3,7 +3,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Fias, Logotype, Loader as Chocho, TopBar } from "@skbkontur/react-ui-addons";
+import { Logotype, Loader as Chocho, TopBar, Fias } from "@skbkontur/react-ui-addons";
+import { Button } from "@skbkontur/react-ui";
 
 import { locale } from '../LocaleProvider/decorators';
 import { Nullable } from '../../typings/utility-types';

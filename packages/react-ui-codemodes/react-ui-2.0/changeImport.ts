@@ -1,8 +1,8 @@
 /* eslint-disable import/no-default-export */
-import { API, FileInfo } from 'jscodeshift';
+import { API, FileInfo, ImportDeclaration, ASTPath } from 'jscodeshift';
 
-const listOfDeprecated = ['Fias', 'TopBar', 'Logotype', 'FiasSearch', 'Loader'];
-const REGEX_REACT_UI_PATH = /@skbkontur\/react-ui\/components\/*/m;
+const listOfDeprecated = ['Fias', 'TopBar', 'Logotype', 'FiasSearch', 'Loader', 'Spinner'];
+const REGEX_REACT_UI_PATH = /@skbkontur\/react-ui(|\/components)\/*/m;
 
 const noDuplicateImports = (file: FileInfo, api: API) => {
   const j = api.jscodeshift;
@@ -60,7 +60,7 @@ const changeExport = (fileInfo: FileInfo, api: API, options?: any) => {
 
   const imports = j(fileInfo.source).find(j.ImportDeclaration);
 
-  const result = imports.forEach(dep => {
+  const result = imports.forEach((dep: ASTPath<ImportDeclaration>) => {
     const localImports: any = [];
     dep.value.specifiers.forEach(path => {
       if (path.type === 'ImportSpecifier') {
@@ -70,6 +70,9 @@ const changeExport = (fileInfo: FileInfo, api: API, options?: any) => {
           localImports.push(
             j.importDeclaration([j.importSpecifier(path.local)], j.stringLiteral('@skbkontur/react-ui-addons')),
           );
+          j(dep).replaceWith(localImports);
+        } else {
+          localImports.push(j.importDeclaration([j.importSpecifier(path.local)], dep.value.source));
           j(dep).replaceWith(localImports);
         }
       }
