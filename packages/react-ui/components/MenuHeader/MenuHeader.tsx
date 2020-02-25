@@ -48,5 +48,7 @@ export class MenuHeader extends React.Component<MenuHeaderProps> {
 }
 
 export const isMenuHeader = (child: React.ReactNode): child is React.ReactElement<MenuHeaderProps> => {
-  return React.isValidElement<MenuHeaderProps>(child) ? child.type.hasOwnProperty('__MENU_HEADER__') : false;
+  return React.isValidElement<MenuHeaderProps>(child)
+    ? Object.prototype.hasOwnProperty.call(child.type, '__MENU_HEADER__')
+    : false;
 };

@@ -42,7 +42,7 @@ storiesOf('Baseline', module)
   ))
   .add('Button with content in flex-container', () => (
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
-      <Button children="Hello" /> Plain text
+      <Button>Hello</Button> Plain text
     </div>
   ))
   .add('Input with button', () => <SimpleForm />)
@@ -69,14 +69,14 @@ storiesOf('Baseline', module)
   .add('Text, Buttons', () => (
     <div>
       <span>Text</span>
-      <Button size="small" children="Small" />
-      <Button size="medium" children="Medium" />
+      <Button size="small">Small</Button>
+      <Button size="medium">Medium</Button>
     </div>
   ))
   .add('Text, Large Button', () => (
     <div>
       <span>Text</span>
-      <Button size="large" children="Large" />
+      <Button size="large">Large</Button>
     </div>
   ))
   .add('Text, Spinner', () => (
@@ -117,7 +117,7 @@ class SimpleForm extends React.Component<any, any> {
           }}
         >
           <Input id="test-input" onValueChange={value => this.setState({ value })} />
-          <Button children="Click" type="submit" />
+          <Button type="submit">Click</Button>
         </form>
         {this.state.isFormSubmitted && <span id="test-input-value">{this.state.value}</span>}
       </div>

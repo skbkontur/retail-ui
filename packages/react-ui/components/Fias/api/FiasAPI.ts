@@ -46,7 +46,7 @@ export class FiasAPI implements APIProvider {
   private static createQuery = (query: SearchQuery): string => {
     const params = [];
     for (const key in query) {
-      if (query.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(query, key)) {
         const param = query[key];
         if (param !== undefined) {
           if (key === 'levels' && Array.isArray(param)) {
@@ -71,7 +71,7 @@ export class FiasAPI implements APIProvider {
       .replace(/[,]/g, '')
       .replace(/\s[\s]*/g, ' ')
       .split(' ')
-      .filter(word => !Boolean(FiasAPI.searchStopWords[word]))
+      .filter(word => !FiasAPI.searchStopWords[word])
       .slice(0, 6)
       .join(' ');
   };
@@ -270,7 +270,7 @@ export class FiasAPI implements APIProvider {
     }
 
     const isStartsWithSearchText = (str: string) => {
-      return str && str.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+      return str && str.toLowerCase().includes(searchText.toLowerCase());
     };
 
     return this.regionsPromise.then(result => {

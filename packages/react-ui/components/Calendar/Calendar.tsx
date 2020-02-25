@@ -209,7 +209,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   };
 
-  private renderMain() {
+  private renderMain = () => {
     const positions = this.getMonthPositions();
     return (
       <div ref={this.refRoot} className={cx(styles.root, jsStyles.root(this.theme))}>
@@ -221,7 +221,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         </div>
       </div>
     );
-  }
+  };
 
   private refRoot = (element: HTMLElement | null) => {
     if (!this.root && element) {

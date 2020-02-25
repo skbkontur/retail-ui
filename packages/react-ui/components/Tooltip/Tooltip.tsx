@@ -234,7 +234,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? Tooltip.triggersWithoutCloseButton.indexOf(this.props.trigger) === -1
+        ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger)
         : this.props.closeButton;
 
     if (!hasCross) {

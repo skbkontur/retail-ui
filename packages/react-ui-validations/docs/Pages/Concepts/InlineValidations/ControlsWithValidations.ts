@@ -84,7 +84,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
   return props => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
-    return React.createElement(ValidationWrapper, { ...validationWrapperProps, children: control });
+    return React.createElement(ValidationWrapper, validationWrapperProps, control);
   };
 }
 

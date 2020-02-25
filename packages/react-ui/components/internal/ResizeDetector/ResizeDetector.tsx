@@ -20,7 +20,7 @@ export class ResizeDetector extends React.Component<ResizeDetectorProps> {
   public render() {
     return (
       <div className={styles.root}>
-        <iframe ref={this.iframeRef} className={styles.iframe} />
+        <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe} />
         <div className={styles.content}>{this.props.children}</div>
       </div>
     );

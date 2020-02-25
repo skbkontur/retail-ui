@@ -2,27 +2,37 @@ import { AddressObject, EstateStatuses, FiasId, FiasObject, House, Stead, Room, 
 
 export class FiasData {
   public static isAddressObject = (data: FiasObject): data is AddressObject => {
-    return data && data.hasOwnProperty('name') && data.hasOwnProperty('abbreviation');
+    return (
+      data &&
+      Object.prototype.hasOwnProperty.call(data, 'name') &&
+      Object.prototype.hasOwnProperty.call(data, 'abbreviation')
+    );
   };
 
   public static isStead = (data: FiasObject): data is Stead => {
     return (
       data &&
-      (data.hasOwnProperty('number') && data.hasOwnProperty('liveStatus') && !data.hasOwnProperty('estateStatus'))
+      Object.prototype.hasOwnProperty.call(data, 'number') &&
+      Object.prototype.hasOwnProperty.call(data, 'liveStatus') &&
+      !Object.prototype.hasOwnProperty.call(data, 'estateStatus')
     );
   };
 
   public static isHouse = (data: FiasObject): data is House => {
     return (
       data &&
-      data.hasOwnProperty('structureStatus') &&
-      (data.hasOwnProperty('number') || data.hasOwnProperty('structureNumber'))
+      Object.prototype.hasOwnProperty.call(data, 'structureStatus') &&
+      (Object.prototype.hasOwnProperty.call(data, 'number') ||
+        Object.prototype.hasOwnProperty.call(data, 'structureNumber'))
     );
   };
 
   public static isRoom = (data: FiasObject): data is Room => {
     return (
-      data && data.hasOwnProperty('flatType') && data.hasOwnProperty('flatNumber') && data.hasOwnProperty('liveStatus')
+      data &&
+      Object.prototype.hasOwnProperty.call(data, 'flatType') &&
+      Object.prototype.hasOwnProperty.call(data, 'flatNumber') &&
+      Object.prototype.hasOwnProperty.call(data, 'liveStatus')
     );
   };
 
