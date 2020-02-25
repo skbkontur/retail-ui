@@ -1,7 +1,7 @@
 /* eslint-disable import/no-default-export */
 import { API, FileInfo } from 'jscodeshift';
 
-const REGEX_REACT_UI_PATH = /@skbkontur\/react-ui\/components\/*/m;
+const REGEX_REACT_UI_PATH = /@skbkontur\/react-ui(|\/components)\/*/m;
 
 const listOfChanges: any = {
   Autocomplete: '@skbkontur/react-ui',

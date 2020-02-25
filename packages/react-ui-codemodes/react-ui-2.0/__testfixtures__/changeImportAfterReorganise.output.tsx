@@ -2,7 +2,7 @@
 //@ts-nocheck
 
 import React from 'react';
-import { Switcher, TokenInput as SuperComponent } from "@skbkontur/react-ui";
+import { Switcher, TokenInput as SuperComponent, Button } from "@skbkontur/react-ui";
 import { MaskedInput, Popup as VerySuperComponent } from "@skbkontur/react-ui/internal";
 
 class Foo extends React.Component {

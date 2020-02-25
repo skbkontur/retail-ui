@@ -6,6 +6,7 @@ import { Switcher } from "@skbkontur/react-ui/components/Switcher";
 import { MaskedInput } from "@skbkontur/react-ui/components/MaskedInput";
 import  SuperComponent from '@skbkontur/react-ui/components/TokenInput';
 import  VerySuperComponent from '@skbkontur/react-ui/components/Popup/Popup';
+import  Button from '@skbkontur/react-ui/Button'
 
 class Foo extends React.Component {
   private handleChange(e) {
