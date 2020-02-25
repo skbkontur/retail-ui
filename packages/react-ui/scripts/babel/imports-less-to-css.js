@@ -1,4 +1,4 @@
-const isLess = name => /\.less$/.test(name);
+const isLess = name => name.endsWith(".less");
 const lessToCss = name => name.replace(/\.less$/, '.css');
 
 /**

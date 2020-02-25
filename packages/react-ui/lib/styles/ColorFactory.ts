@@ -62,7 +62,7 @@ export class ColorFactory {
   }
 
   private static isKeyword(input: string): input is ColorKeywordsType {
-    return ColorKeywords.hasOwnProperty(input);
+    return Object.prototype.hasOwnProperty.call(ColorKeywords, input);
   }
 
   private static fromKeyword(keyword: ColorKeywordsType) {

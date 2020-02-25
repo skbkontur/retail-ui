@@ -46,7 +46,7 @@ class RouterTabs extends React.Component<any> {
   }
 }
 
-const MyLink = (props: React.InputHTMLAttributes<HTMLAnchorElement>) => <a {...props} />;
+const MyLink = (props: React.InputHTMLAttributes<HTMLAnchorElement>) => <a {...props}>{props.children}</a>;
 
 class TabsWithMyLink extends React.Component<any, any> {
   public state = {
@@ -65,13 +65,19 @@ class TabsWithMyLink extends React.Component<any, any> {
         vertical={this.props.vertical}
       >
         <Tab id="fuji" component={props => <MyLink {...props} to="/1" />}>
-          🌋&nbsp;&nbsp;Fuji
+          <span role="img" aria-label="fuji">
+            🌋&nbsp;&nbsp;Fuji
+          </span>
         </Tab>
         <Tab id="tahat" component={props => <MyLink {...props} to="/2" />}>
-          ⛰&nbsp;&nbsp;Tahat
+          <span role="img" aria-label="tahat">
+            ⛰&nbsp;&nbsp;Tahat
+          </span>
         </Tab>
         <Tab id="alps" component={props => <MyLink {...props} to="/3" />}>
-          🗻&nbsp;&nbsp;Alps
+          <span role="img" aria-label="alps">
+            🗻&nbsp;&nbsp;Alps
+          </span>
         </Tab>
       </Tabs>
     );
@@ -100,9 +106,21 @@ class OhMyTabs extends React.Component<any, any> {
   public render() {
     return (
       <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
-        <UnexpectedUpdatedTab id="fuji">🌋&nbsp;&nbsp;Fuji</UnexpectedUpdatedTab>
-        <UnexpectedUpdatedTab id="tahat">⛰&nbsp;&nbsp;Tahat</UnexpectedUpdatedTab>
-        <UnexpectedUpdatedTab id="alps">🗻&nbsp;&nbsp;Alps</UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="fuji">
+          <span role="img" aria-label="fuji">
+            🌋&nbsp;&nbsp;Fuji
+          </span>
+        </UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="tahat">
+          <span role="img" aria-label="tahat">
+            ⛰&nbsp;&nbsp;Tahat
+          </span>
+        </UnexpectedUpdatedTab>
+        <UnexpectedUpdatedTab id="alps">
+          <span role="img" aria-label="alps">
+            🗻&nbsp;&nbsp;Alps
+          </span>
+        </UnexpectedUpdatedTab>
       </Tabs>
     );
   }
@@ -225,7 +243,7 @@ class TabsInModal extends React.Component<any, any> {
 }
 
 class TabsTable extends React.Component {
-  public static TestTab = class extends React.Component<TabProps & { vertical?: boolean }, any> {
+  public static TestTab = class TestTab extends React.Component<TabProps & { vertical?: boolean }, any> {
     public render() {
       const { vertical, ...tabProps } = this.props;
       return (

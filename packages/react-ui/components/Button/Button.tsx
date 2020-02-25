@@ -341,5 +341,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 }
 
 export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
-  return React.isValidElement<ButtonProps>(child) ? child.type.hasOwnProperty('__BUTTON__') : false;
+  return React.isValidElement<ButtonProps>(child)
+    ? Object.prototype.hasOwnProperty.call(child.type, '__BUTTON__')
+    : false;
 };

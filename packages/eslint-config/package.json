@@ -10,6 +10,7 @@
     "eslint-html-reporter": "0.7.4",
     "eslint-plugin-import": "2.19.1",
     "eslint-plugin-react": "7.17.0",
-    "eslint-plugin-react-hooks": "2.3.0"
+    "eslint-plugin-react-hooks": "2.3.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3"
   }
 }

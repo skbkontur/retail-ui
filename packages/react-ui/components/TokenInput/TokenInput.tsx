@@ -259,7 +259,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private get showAddItemHint() {
     const items = this.state.autocompleteItems;
-    const value = this.props.valueToItem!(this.state.inputValue);
+    const value = this.props.valueToItem(this.state.inputValue);
 
     if (items && this.hasValueInItems(items, value)) {
       return false;
@@ -388,7 +388,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
       const tokens = paste.split(delimiters[0]);
       const items = tokens
-        .map(token => this.props.valueToItem!(token))
+        .map(token => this.props.valueToItem(token))
         .filter(item => !this.hasValueInItems(this.props.selectedItems, item));
       const newItems = this.props.selectedItems.concat(items);
       this.props.onValueChange(newItems);
@@ -476,7 +476,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     switch (true) {
       case isKeyBackspace(e):
-      case isKeyDelete(e):
+      case isKeyDelete(e): {
         const itemsNew = this.props.selectedItems.filter(item => !this.hasValueInItems(this.state.activeTokens, item));
         this.props.onValueChange(itemsNew);
         this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
@@ -484,6 +484,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           this.input!.focus();
         });
         break;
+      }
       case isKeyArrowHorizontal(e):
         this.handleWrapperArrows(e);
         break;
@@ -546,7 +547,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleAddItem = (item: string) => {
-    const value = this.props.valueToItem!(item);
+    const value = this.props.valueToItem(item);
     if (this.hasValueInItems(this.props.selectedItems, value)) {
       return;
     }
@@ -591,7 +592,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.state.inputValue !== '' && query === '') {
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
     }
-    this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => this.tryGetItems(query));
+    this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => {
+      this.tryGetItems(query);
+    });
   };
 
   private highlightMenuItem = () => {
@@ -612,7 +615,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private renderToken = (item: T) => {
     const { renderToken = defaultRenderToken, disabled } = this.props;
 
-    const isActive = this.state.activeTokens.indexOf(item) !== -1;
+    const isActive = this.state.activeTokens.includes(item);
 
     // TODO useCallback
     const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {

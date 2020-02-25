@@ -110,7 +110,7 @@ export class ValidationWrapperInternal extends React.Component<
             if (typeof child.ref === 'function') {
               child.ref(x);
             }
-            if (child.ref.hasOwnProperty('current')) {
+            if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
               child.ref.current = x;
             }
           }

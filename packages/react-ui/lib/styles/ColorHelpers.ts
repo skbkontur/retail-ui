@@ -15,9 +15,9 @@ export function roundToPrecision(n: number, precision = 2) {
 }
 
 export function extractColorParts(input: string, solidRegex: RegExp, alphaRegex?: RegExp) {
-  let parts = input.match(solidRegex);
+  let parts = solidRegex.exec(input);
   if (!parts && alphaRegex) {
-    parts = input.match(alphaRegex);
+    parts = alphaRegex.exec(input);
   }
 
   if (!parts) {
