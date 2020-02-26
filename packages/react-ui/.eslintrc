@@ -3,7 +3,9 @@
     {
       "files": ["**/*.stories.tsx"],
       "rules": {
-        "import/no-default-export": 0
+        "import/no-default-export": 0,
+        "react/react-in-jsx-scope": 0,
+        "react/jsx-no-undef": 0
       }
     }
   ]

@@ -11,8 +11,7 @@ import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
-
-const { getCities } = require('../__mocks__/getCities.js');
+import { getCities } from '../__mocks__/getCities';
 
 storiesOf('ComboBox', module)
   .add('simple combobox', () => (

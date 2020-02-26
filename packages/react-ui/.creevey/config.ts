@@ -1,5 +1,4 @@
 import path from 'path';
-import { CreeveyConfig } from 'creevey';
 
 const flatComponents = [
   'Button',
@@ -14,7 +13,7 @@ const flatComponents = [
 ];
 const flatRegex = new RegExp(`(\\/|\\\\)(${flatComponents.join('|')})\\.ts$`);
 
-const config: CreeveyConfig = {
+const config = {
   testDir: path.join(__dirname, 'tests'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
@@ -29,22 +28,22 @@ const config: CreeveyConfig = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
     },
-    chromeFlat: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      testRegex: flatRegex,
-      storybookUrl: 'http://localhost:6061',
-    },
+    // chromeFlat: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   testRegex: flatRegex,
+    //   storybookUrl: 'http://localhost:6061',
+    // },
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
     },
-    firefoxFlat: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-      testRegex: flatRegex,
-      storybookUrl: 'http://localhost:6061',
-    },
+    // firefoxFlat: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   testRegex: flatRegex,
+    //   storybookUrl: 'http://localhost:6061',
+    // },
     ie11: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
@@ -59,12 +58,12 @@ const config: CreeveyConfig = {
       //   'ie.ensureCleanSession': true,
       // },
     },
-    ie11Flat: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      testRegex: flatRegex,
-      storybookUrl: 'http://localhost:6061',
-    },
+    // ie11Flat: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   testRegex: flatRegex,
+    //   storybookUrl: 'http://localhost:6061',
+    // },
   },
 };
 

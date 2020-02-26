@@ -1,13 +1,19 @@
 import { addDecorator, configure } from '@storybook/react';
 import { withCreevey } from 'creevey';
 import React from 'react';
+import { expect } from 'chai';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
+import * as Components from '../index';
+// import { Key } from 'selenium-webdriver/lib/input';
+import { Key } from '../lib/WebDriver';
 
-addDecorator(withCreevey({ skip: 'Story tests migration process' }));
+Object.assign(global, { React, expect, Key }, Components, React);
+
+addDecorator(withCreevey());
 
 addDecorator(story => (
-  <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+  <div id="test-element" style={{ display: 'inline-block', padding: '0 200px 200px 0' }}>
     {story()}
   </div>
 ));

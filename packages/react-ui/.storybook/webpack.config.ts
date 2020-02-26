@@ -1,3 +1,4 @@
+const { readdirSync, lstatSync, existsSync } = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');

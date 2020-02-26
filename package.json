@@ -16,7 +16,9 @@
   },
   "scripts": {
     "commit": "git-cz",
-    "release": "env-cmd lerna version"
+    "release": "env-cmd lerna version",
+    "storybook": "yarn workspace @skbkontur/react-ui storybook",
+    "creevey": "yarn workspace @skbkontur/react-ui creevey:test-retreat"
   },
   "jest": {
     "projects": [
