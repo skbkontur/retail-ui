@@ -156,24 +156,22 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getZIndexProps(): ZIndexPropsType {
-    const { fromLeft, blockBackground } = this.props;
+    const { fromLeft } = this.props;
     return {
       classes: cx(styles.root, {
         [styles.leftSide]: !!fromLeft,
       }),
-      style: blockBackground ? { width: '100%' } : undefined,
     };
   }
 
   private renderContainer(): JSX.Element {
-    const { classes, style } = this.getZIndexProps();
+    const { classes } = this.getZIndexProps();
 
     return (
       <ZIndex
         priority={'Sidepage'}
         className={classes}
         onScroll={LayoutEvents.emit}
-        style={style}
         createStackingContext
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
