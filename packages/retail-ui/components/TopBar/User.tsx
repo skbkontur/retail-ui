@@ -32,17 +32,10 @@ class User extends React.Component<UserProps> {
 
   public render(): JSX.Element {
     const { userName, cabinetUrl } = this.props;
-    const { cabinetTitle, cabinetSettings, cabinetCertificates, cabinetServices } = this.locale;
+    const { cabinetSettings, cabinetCertificates, cabinetServices } = this.locale;
 
     return (
       <TopBarDropdown icon={'user'} label={userName}>
-        <MenuItem
-          component={({ className }) => (
-            <div className={className} style={{ cursor: 'text' }}>
-              <b>{cabinetTitle}</b>
-            </div>
-          )}
-        />
         <MenuItem loose href={cabinetUrl} target="_blank">
           {cabinetSettings}
         </MenuItem>
