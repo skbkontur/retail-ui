@@ -1,8 +1,8 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
-import { defaultLangCode } from '../../LocaleProvider/constants';
-import { LangCodes, LocaleProvider } from '../../LocaleProvider';
+import { defaultLangCode } from '../../../lib/locale/constants';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SpinnerLocaleHelper } from '../locale';
 import { sizes } from '../../internal/icons/SpinnerIcon';
 import { Spinner } from '../Spinner';
@@ -93,9 +93,9 @@ describe('Spinner', () => {
 
     it('render default locale', () => {
       const wrapper = mount(
-        <LocaleProvider>
+        <LocaleContext.Provider value={{}}>
           <Spinner />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const expectedText = SpinnerLocaleHelper.get(defaultLangCode).loading;
 
@@ -104,9 +104,9 @@ describe('Spinner', () => {
 
     it('render correct locale when set langCode', () => {
       const wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_GB}>
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Spinner />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
 
@@ -116,13 +116,12 @@ describe('Spinner', () => {
     it('render custom locale', () => {
       const customText = 'custom loading';
       const wrapper = mount(
-        <LocaleProvider
-          locale={{
-            Spinner: { loading: customText },
-          }}
+        <LocaleContext.Provider value={{
+          locale: { Spinner: { loading: customText }}
+        }}
         >
           <Spinner />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
 
       expect(getTextLoading(wrapper)).toBe(customText);
@@ -130,13 +129,13 @@ describe('Spinner', () => {
 
     it('updates when langCode changes', () => {
       const wrapper = mount(
-        <LocaleProvider>
+        <LocaleContext.Provider value={{}}>
           <Spinner />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
 
-      wrapper.setProps({ langCode: LangCodes.en_GB });
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
 
       expect(getTextLoading(wrapper)).toBe(expectedText);
     });

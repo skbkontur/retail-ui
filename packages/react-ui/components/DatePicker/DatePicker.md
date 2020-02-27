@@ -205,7 +205,7 @@ const isHoliday = (date, isWeekend) => holidays.includes(date) || isWeekend;
 ### Ручное форматирование даты
 
 ```jsx harmony
-import { DateOrder, DateSeparator, Gapped, LocaleProvider, Select } from '@skbkontur/react-ui';
+import { DateOrder, DateSeparator, Gapped, LocaleContext, Select, LangCodes } from '@skbkontur/react-ui';
 
 class DatePickerFormatting extends React.Component {
   constructor() {
@@ -239,16 +239,17 @@ class DatePickerFormatting extends React.Component {
             onValueChange={separator => this.setState({ separator })}
           />
         </div>
-        <LocaleProvider
-          locale={{
+        <LocaleContext.Provider value={{
+          langCode: LangCodes.ru_RU,
+          locale: {
             DatePicker: {
               separator: DateSeparator[this.state.separator],
               order: this.state.order,
             },
-          }}
+          }}}
         >
           <DatePicker onValueChange={value => this.setState({ value })} value={this.state.value} />
-        </LocaleProvider>
+        </LocaleContext.Provider>
       </Gapped>
     );
   }

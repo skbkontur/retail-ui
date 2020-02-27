@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem';
 
 import { TopBarLocale, TopBarLocaleHelper } from './locale';

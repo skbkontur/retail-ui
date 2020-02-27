@@ -1,7 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-import { locale } from '../../LocaleProvider/decorators';
+import { locale } from '../../../lib/locale/decorators';
 import { cx } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 import { ThemeConsumer } from '../../ThemeConsumer';
