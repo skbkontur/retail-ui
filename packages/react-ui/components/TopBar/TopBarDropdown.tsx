@@ -3,12 +3,12 @@ import React from 'react';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../typings/utility-types';
 import { IconProps } from '../internal/icons/20px';
-import { DropdownMenu } from '../DropdownMenu';
+import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 
-export interface TopBarDropdownProps {
+export interface TopBarDropdownProps extends Omit<DropdownMenuProps, 'caption' | 'disableAnimations'> {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
   use: 'danger' | 'pay' | 'default';
