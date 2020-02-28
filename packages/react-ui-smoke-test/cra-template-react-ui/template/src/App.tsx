@@ -1,13 +1,7 @@
 import React from 'react';
 import {
-  Button,
-  Fias,
-  FiasAPI,
-  FiasSearch,
-  Logotype,
-  TopBar,
-  Toast,
   Autocomplete,
+  Button,
   Center,
   Checkbox,
   ComboBox,
@@ -15,39 +9,47 @@ import {
   DateInput,
   DatePicker,
   Dropdown,
-  MenuItem,
-  MenuSeparator,
-  MenuHeader,
   DropdownMenu,
+  Fias,
+  FiasAPI,
+  FiasSearch,
   FxInput,
   Gapped,
   Group,
   Hint,
   Input,
   Kebab,
+  LangCodes,
   Link,
   Loader,
+  LocaleContext,
+  LocaleConsumer,
+  LocaleProvider,
+  Logotype,
+  MenuHeader,
+  MenuItem,
+  MenuSeparator,
   Modal,
   Paging,
-  RadioGroup,
   Radio,
+  RadioGroup,
   ScrollContainer,
+  Select,
   SidePage,
   Spinner,
   Sticky,
   Switcher,
   Tabs,
   Textarea,
+  ThemeProvider,
+  Toast,
+  Toggle,
   Token,
   TokenInput,
   TokenInputType,
   Tooltip,
   TooltipMenu,
-  LocaleProvider,
-  LangCodes,
-  ThemeProvider,
-  Toggle,
-  Select,
+  TopBar,
 } from '@skbkontur/react-ui';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
@@ -148,7 +150,18 @@ export const App = () => {
           type={TokenInputType.Combined}
           getItems={_ => Promise.resolve(['First'])}
         />
+        <LocaleConsumer>
+          {locale => locale.langCode}
+        </LocaleConsumer>
+        <LocaleContext.Consumer>
+          {locale => locale.langCode}
+        </LocaleContext.Consumer>
       </LocaleProvider>
+      <LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
+        <LocaleContext.Consumer>
+          {locale => locale.langCode}
+        </LocaleContext.Consumer>
+      </LocaleContext.Provider>
       <ThemeProvider value={FLAT_THEME}>
         <Input/>
       </ThemeProvider>

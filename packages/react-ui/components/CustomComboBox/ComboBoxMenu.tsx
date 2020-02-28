@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
 import { MenuItem, MenuItemState } from '../MenuItem';
 import { Spinner } from '../Spinner';

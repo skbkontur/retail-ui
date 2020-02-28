@@ -4,7 +4,7 @@ import cn from 'classnames';
 import warning from 'warning';
 
 import { stopPropagation } from '../../lib/events/stopPropagation';
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';

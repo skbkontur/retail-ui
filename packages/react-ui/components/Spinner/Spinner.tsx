@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import cn from 'classnames';
 
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { hasSvgAnimationSupport } from '../../lib/utils';

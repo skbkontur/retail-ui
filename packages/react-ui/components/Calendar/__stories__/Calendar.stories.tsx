@@ -5,17 +5,17 @@ import { InternalDateTransformer } from '../../../lib/date/InternalDateTransform
 import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { LangCodes, LocaleProvider } from '../../LocaleProvider';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar } from '../Calendar';
 
 storiesOf('Calendar', module)
   .add('simple', () => (
     <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
   ))
-  .add('LocaleProvider', () => (
-    <LocaleProvider langCode={LangCodes.en_GB}>
+  .add('LocaleContext.Provider', () => (
+    <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
       <Calendar />
-    </LocaleProvider>
+    </LocaleContext.Provider>
   ))
   .add('CalendarWithButtons', () => <CalendarWithButtons />)
   .add('Calendar with holidays', () => {

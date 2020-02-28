@@ -13,7 +13,7 @@
 ### Форматирование даты при смене локали
 
 ```jsx harmony
-import { Gapped, LangCodes, LocaleProvider, Select } from '@skbkontur/react-ui';
+import { Gapped, LangCodes, LocaleContext, Select } from '@skbkontur/react-ui';
 
 class DateInputFormatting2 extends React.Component {
   constructor() {
@@ -37,9 +37,9 @@ class DateInputFormatting2 extends React.Component {
             onValueChange={langCode => this.setState({ langCode })}
           />
         </div>
-        <LocaleProvider langCode={this.state.langCode}>
+        <LocaleContext.Provider value={{ langCode: this.state.langCode }}>
           <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
-        </LocaleProvider>
+        </LocaleContext.Provider>
       </Gapped>
     );
   }
@@ -51,7 +51,7 @@ class DateInputFormatting2 extends React.Component {
 ### Ручное форматирование даты
 
 ```jsx harmony
-import { DateOrder, DateSeparator, Gapped, LocaleProvider, Select } from '@skbkontur/react-ui';
+import { DateOrder, DateSeparator, Gapped, LocaleContext, Select } from '@skbkontur/react-ui';
 
 class DateInputFormatting extends React.Component {
   constructor() {
@@ -85,16 +85,16 @@ class DateInputFormatting extends React.Component {
             onValueChange={separator => this.setState({ separator })}
           />
         </div>
-        <LocaleProvider
-          locale={{
+        <LocaleContext.Provider value={{
+          locale:{
             DatePicker: {
               separator: DateSeparator[this.state.separator],
               order: this.state.order,
             },
-          }}
+          }}}
         >
           <DateInput onValueChange={value => this.setState({ value })} value={this.state.value} />
-        </LocaleProvider>
+        </LocaleContext.Provider>
       </Gapped>
     );
   }

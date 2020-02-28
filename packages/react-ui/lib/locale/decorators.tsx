@@ -1,36 +1,21 @@
 import React from 'react';
 
 import { defaultLangCode } from './constants';
-import { LocaleConsumer, LocaleProviderProps } from './LocaleProvider';
+import { LocaleContext } from './LocaleContext';
 import { LocaleHelper } from './LocaleHelper';
 import { LangCodes, LocaleControls } from './types';
 
 export function locale<C>(controlName: keyof LocaleControls, localeHelper: LocaleHelper<C>) {
   return <T extends new (...args: any[]) => React.Component>(constructor: T) => {
     const LocaleDecorator = class extends constructor {
+      public static contextType = LocaleContext;
+      public context!: React.ContextType<typeof LocaleContext>;
       public controlName: keyof LocaleControls = controlName;
       public localeHelper: LocaleHelper<C> = localeHelper;
 
-      public _localeContext: LocaleProviderProps = {};
-
-      public render() {
-        return (
-          <LocaleConsumer>
-            {localeContext => {
-              this._localeContext = localeContext;
-              return super.render();
-            }}
-          </LocaleConsumer>
-        );
-      }
-
       public get locale(): C {
-        if (this._localeContext === undefined) {
-          return {} as C;
-        }
-        const langCode = this._localeContext.langCode;
-        const localeFromContext = this._localeContext.locale && this._localeContext.locale[this.controlName];
-        return Object.assign({}, this.localeHelper.get(langCode), localeFromContext);
+        const localeFromContext = this.context.locale?.[this.controlName];
+        return Object.assign({}, this.localeHelper.get(this.context.langCode), localeFromContext);
       }
 
       public set locale(l: C) {
@@ -38,7 +23,7 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
       }
 
       public get langCode(): LangCodes {
-        return this._localeContext.langCode || defaultLangCode;
+        return this.context.langCode ?? defaultLangCode;
       }
     };
     Object.defineProperty(LocaleDecorator, 'name', { value: constructor.name });

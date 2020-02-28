@@ -13,7 +13,7 @@ import {
   isKeyEscape,
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers';
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
 import { DropdownContainer } from '../DropdownContainer';
 import { filterProps } from '../filterProps';

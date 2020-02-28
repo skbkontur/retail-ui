@@ -2,8 +2,8 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
 import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
-import { LangCodes, LocaleProvider } from '../../LocaleProvider';
-import { defaultLangCode } from '../../LocaleProvider/constants';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
@@ -1109,11 +1109,7 @@ describe('ComboBox', () => {
     });
 
     it('render default locale', async () => {
-      wrapper = mount(
-        <LocaleProvider>
-          <ComboBox getItems={search} />
-        </LocaleProvider>,
-      );
+      wrapper = mount(<ComboBox getItems={search} />);
       const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
 
       await focus();
@@ -1123,9 +1119,9 @@ describe('ComboBox', () => {
 
     it('render correct locale when set langCode', async () => {
       wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_GB}>
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <ComboBox getItems={search} />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
@@ -1137,13 +1133,9 @@ describe('ComboBox', () => {
     it('render custom locale', async () => {
       const customText = 'custom notFound';
       wrapper = mount(
-        <LocaleProvider
-          locale={{
-            ComboBox: { notFound: customText },
-          }}
-        >
+        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } }}}>
           <ComboBox getItems={search} />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
 
       await focus();
@@ -1153,13 +1145,13 @@ describe('ComboBox', () => {
 
     it('updates when langCode changes', async () => {
       wrapper = mount(
-        <LocaleProvider>
+        <LocaleContext.Provider value={{}}>
           <ComboBox getItems={search} />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
-      wrapper.setProps({ langCode: LangCodes.en_GB });
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
       await focus();
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);

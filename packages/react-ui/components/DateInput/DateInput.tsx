@@ -7,8 +7,8 @@ import { InternalDateComponentType } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../internal/InputLikeText';
-import { locale } from '../LocaleProvider/decorators';
 import { ThemeConsumer } from '../ThemeConsumer';
+import { locale } from '../../lib/locale/decorators';
 import { CalendarIcon } from '../internal/icons/16px';
 
 import { DateFragmentsView } from './DateFragmentsView';

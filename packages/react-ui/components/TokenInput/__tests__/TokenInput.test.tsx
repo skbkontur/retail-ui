@@ -1,8 +1,8 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
-import { defaultLangCode } from '../../LocaleProvider/constants';
-import { LangCodes, LocaleProvider, LocaleProviderProps } from '../../LocaleProvider';
+import { defaultLangCode } from '../../../lib/locale/constants';
+import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
 import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
@@ -31,14 +31,17 @@ describe('<TokenInput />', () => {
       await delay(0);
       wrapper.update();
     };
-    const contextMount = (props: LocaleProviderProps = {}, wrappedLocale = true) => {
+    const contextMount = (props: LocaleContextProps = { langCode: defaultLangCode }, wrappedLocale = true) => {
       const tokeninput = <TokenInput type={TokenInputType.Combined} getItems={getItems} />;
       wrapper =
-        wrappedLocale === false ? mount(tokeninput) : mount(<LocaleProvider {...props}>{tokeninput}</LocaleProvider>);
+        wrappedLocale === false ? mount(tokeninput) : mount(<LocaleContext.Provider value={{
+          langCode: props.langCode ?? defaultLangCode,
+          locale: props.locale,
+        }}>{tokeninput}</LocaleContext.Provider>);
     };
 
     it('render without LocaleProvider', async () => {
-      contextMount({}, false);
+      contextMount({ langCode: defaultLangCode }, false);
       const expectedComment = TokenInputLocaleHelper.get(defaultLangCode).addButtonComment;
 
       await focus();
@@ -78,7 +81,7 @@ describe('<TokenInput />', () => {
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
 
       await focus();
-      wrapper.setProps({ langCode: LangCodes.ru_RU });
+      wrapper.setProps({ value: { langCode: LangCodes.ru_RU }});
 
       expect(getTextComment()).toBe(expectedComment);
     });

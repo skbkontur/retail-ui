@@ -46,3 +46,4 @@ export * from './components/TokenInput';
 export * from './components/Tooltip';
 export * from './components/TooltipMenu';
 export * from './components/TopBar';
+export * from './lib/locale';
