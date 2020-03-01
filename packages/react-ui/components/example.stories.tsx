@@ -11,8 +11,11 @@ ButtonWithIcon.story = {
     creevey: {
       tests: {
         async simple(this: { browser: WebDriver }) {
+          // находим элемент
           const element = await this.browser.findElement({ css: '#test-element' });
+          // делаем скриншот
           const idle = await element.takeScreenshot();
+          // сравниваем
           await expect(idle).to.matchImage();
         },
       },
@@ -29,18 +32,6 @@ BasicAutocomplete.story = {
   parameters: {
     creevey: {
       tests: {
-        async focused(this: { browser: WebDriver }) {
-          const element = await this.browser.findElement({ css: '#test-element' });
-          const input = await this.browser.findElement({ css: 'input' });
-
-          await this.browser
-            .actions({ bridge: true })
-            .click(input)
-            .perform();
-
-          const focused = await element.takeScreenshot();
-          await expect(focused).to.matchImage();
-        },
         async itemSelected(this: { browser: WebDriver }) {
           const element = await this.browser.findElement({ css: '#test-element' });
           const input = await this.browser.findElement({ css: 'input' });
@@ -84,10 +75,10 @@ BasicAutocomplete.story = {
  * Autocomplete. Закрывается по нажатию Esc.
  *
  * Шаги:
- *  1. Открыть story BasicAutocomplete.
+ *  1. Открыть story BasicAutocomplete. 📸
  *     Открывается простой Autocomplete без доп. пропов.
- *  2. Кликнуть по полю ввода.
+ *  2. Кликнуть по полю ввода. 📸
  *     Должен открыться выпадающий список.
- *  3. Нажать клавишу Esc на клавиатуре.
+ *  3. Нажать клавишу Esc на клавиатуре. 📸
  *     Выпадающий список должен закрыться.
  */

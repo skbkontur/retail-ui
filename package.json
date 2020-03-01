@@ -17,7 +17,7 @@
   "scripts": {
     "commit": "git-cz",
     "release": "env-cmd lerna version",
-    "storybook": "yarn workspace @skbkontur/react-ui storybook",
+    "storybook": "yarn workspace @skbkontur/react-ui storybook:test-retreat",
     "creevey": "yarn workspace @skbkontur/react-ui creevey:test-retreat"
   },
   "jest": {
