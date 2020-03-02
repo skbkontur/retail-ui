@@ -56,8 +56,8 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
 
   private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
     const separatorClassName = cn({
-      [jsStyles.delimiter(this.theme)]: true,
-      [jsStyles.delimiterFilled(this.theme)]: this.props.fragments[index + 1].value !== null,
+      [jsStyles.mask(this.theme)]: true,
+      [jsStyles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
     });
 
     return (

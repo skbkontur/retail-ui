@@ -29,13 +29,7 @@ export const jsStyles = {
     `;
   },
 
-  delimiter(t: Theme) {
-    return css`
-      color: ${t.dateInputMaskColor};
-    `;
-  },
-
-  delimiterFilled(t: Theme) {
+  delimiterFilled() {
     return css`
       color: inherit !important;
     `;
