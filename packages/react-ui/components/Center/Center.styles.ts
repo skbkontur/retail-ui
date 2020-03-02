@@ -4,6 +4,19 @@ const styles = {
   root() {
     return css`
       height: 100%;
+      text-align: center;
+    `;
+  },
+
+  rootAlignLeft() {
+    return css`
+      text-align: left;
+    `;
+  },
+
+  rootAlignRight() {
+    return css`
+      text-align: right;
     `;
   },
 
