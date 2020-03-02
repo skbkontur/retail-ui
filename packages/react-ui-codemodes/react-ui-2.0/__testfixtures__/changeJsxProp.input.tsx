@@ -42,7 +42,27 @@ class Bar extends React.Component {
     return (
       <div>
         3
-        <Switcher items={[1,2]} onChange={v => this.handleChange(v)}></Switcher>
+        <Switcher items={[1,2]} onChange={(e,v) => {
+          const c = some.e(v);
+          this.handleChange(c)
+        }}></Switcher>
+      </div>
+    );
+  }
+}
+
+class BarBar extends React.Component {
+  private handleChange(v) {
+    console.log(v)
+  }
+  render() {
+    return (
+      <div>
+        3
+        <Switcher items={[1,2]} onChange={(e,v) => {
+          const c = e.target;
+          this.handleChange(c)
+        }}></Switcher>
       </div>
     );
   }

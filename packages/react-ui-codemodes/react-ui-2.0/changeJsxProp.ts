@@ -1,5 +1,5 @@
 /* eslint-disable import/no-default-export */
-import { API, FileInfo, MemberExpression, ASTPath } from 'jscodeshift';
+import { API, FileInfo } from 'jscodeshift';
 
 interface CustomJSXElement {
   name: string;
@@ -90,8 +90,14 @@ const transformExpression = (api: API, node: any, change: CustomChange) => {
   switch (change.conditions) {
     case ChangeCondition.RemoveFirstParam: {
       if (node.value.expression.params && node.value.expression.params.length > 1) {
-        node.name = change.after;
-        node.value.expression.params.shift();
+        const eventNode = node.value.expression.params[0];
+        const using = j(node.value.expression.body)
+          .find(j.Identifier)
+          .some(nodePath => nodePath.value.name == eventNode.name && nodePath.name !== 'property');
+        if (!using) {
+          node.name = change.after;
+          node.value.expression.params.shift();
+        }
       } else {
         node.name = change.after;
       }
