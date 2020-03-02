@@ -242,16 +242,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getTransitionNames(): Record<string, string> {
-    const transitionEnter = this.props.fromLeft ? jsStyles.transitionEnterRight : jsStyles.transitionEnterLeft;
-    const transitionAppear = this.props.fromLeft ? jsStyles.transitionAppearRight : jsStyles.transitionAppearLeft;
+    const transition = this.props.fromLeft ? jsStyles.transitionRight : jsStyles.transitionLeft;
 
     return {
-      enter: transitionEnter(),
-      enterActive: jsStyles.transitionEnterActive(),
+      enter: transition(),
+      enterActive: jsStyles.transitionActive(),
       exit: jsStyles.transitionLeave(),
       exitActive: jsStyles.transitionLeaveActive(),
-      appear: transitionAppear(),
-      appearActive: jsStyles.transitionAppearActive(),
+      appear: transition(),
+      appearActive: jsStyles.transitionActive(),
     };
   }
 

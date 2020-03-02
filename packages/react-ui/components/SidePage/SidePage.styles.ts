@@ -176,51 +176,15 @@ const styles = {
     `;
   },
 
-  transition() {
-    return css`
-      opacity: 0.01;
-    `;
-  },
-
-  transitionEnter() {
-    return css`
-      ${styles.transition()}
-    `;
-  },
-
-  transitionEnterLeft() {
+  transitionLeft() {
     return css`
       transform: translateX(100px);
     `;
   },
 
-  transitionEnterRight() {
+  transitionRight() {
     return css`
       transform: translateX(-100px);
-    `;
-  },
-
-  transitionEnterActive() {
-    return css`
-      ${styles.transitionActive()}
-    `;
-  },
-
-  transitionAppear() {
-    return css`
-      ${styles.transition()}
-    `;
-  },
-
-  transitionAppearLeft() {
-    return css`
-      transform: translateX(100px);
-    `;
-  },
-
-  transitionAppearRight() {
-    return css`
-      transform: translateX(100px);
     `;
   },
 
@@ -228,13 +192,7 @@ const styles = {
     return css`
       transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
-      transform: translate(0, 0);
-    `;
-  },
-
-  transitionAppearActive() {
-    return css`
-      ${styles.transitionActive()}
+      transform: translate(0, 0) !important;
     `;
   },
 
