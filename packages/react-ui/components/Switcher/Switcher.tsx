@@ -77,7 +77,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private renderMain() {
-    const listClassNames = cn({
+    const listClassName = cn({
       [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
@@ -94,7 +94,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         {this.props.label ? <div className={jsStyles.label()}>{this.props.label}</div> : null}
         <div className={jsStyles.wrap()}>
           <input {...inputProps} />
-          <div className={listClassNames}>
+          <div className={listClassName}>
             <Group>{this._renderItems()}</Group>
           </div>
         </div>
