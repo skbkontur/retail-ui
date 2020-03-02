@@ -10,22 +10,6 @@ import { ThemeConsumer } from '../ThemeConsumer';
 
 import { jsStyles } from './Link.styles';
 
-interface UseClasses {
-  default: string;
-  success: string;
-  danger: string;
-  grayed: string;
-}
-
-function getUseClasses(t: Theme): UseClasses {
-  return {
-    default: jsStyles.useDefault(t),
-    success: jsStyles.useSuccess(t),
-    danger: jsStyles.useDanger(t),
-    grayed: jsStyles.useGrayed(t),
-  };
-}
-
 export type LinkProps = Override<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
   {
@@ -114,7 +98,10 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [jsStyles.button()]: !!_button,
         [jsStyles.buttonOpened()]: !!_buttonOpened,
         [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
-        [getUseClasses(this.theme)[use]]: !!use,
+        [jsStyles.useDefault(this.theme)]: use === 'default',
+        [jsStyles.useSuccess(this.theme)]: use === 'success',
+        [jsStyles.useDanger(this.theme)]: use === 'danger',
+        [jsStyles.useGrayed(this.theme)]: use === 'grayed',
       }),
       href,
       onClick: this._handleClick,
