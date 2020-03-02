@@ -1,4 +1,4 @@
-import { css, cssName, keyframes } from '../../lib/theming/Emotion';
+import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
@@ -21,7 +21,7 @@ const btn_loading_arrow = keyframes`
 }
 `;
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       ${resetButton()};
@@ -48,14 +48,14 @@ export const jsStyles = {
         vertical-align: baseline;
         width: 0;
       }
-      &:not(${cssName(jsStyles.sizeSmall(t))}) {
+      &:not(${cssName(styles.sizeSmall(t))}) {
         border-radius: ${t.btnBorderRadius};
       }
-      ${cssName(jsStyles.link(t))}& {
+      ${cssName(styles.link(t))}& {
         padding: 0;
       }
-      &:active:not(${cssName(jsStyles.link(t))}):not(${cssName(jsStyles.disabled(t))}) {
-        ${cssName(jsStyles.caption(t))} {
+      &:active:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
+        ${cssName(styles.caption())} {
           transform: translateY(1px) !important;
         }
       }
@@ -97,11 +97,11 @@ export const jsStyles = {
         t.controlLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
-        cssName(jsStyles.link(t)),
-        cssName(jsStyles.fallback(t)),
+        cssName(styles.link(t)),
+        cssName(styles.fallback(t)),
       )};
 
-      ${cssName(jsStyles.arrow())} {
+      ${cssName(styles.arrow())} {
         border-radius: ${t.btnSmallArrowBorderRadius};
       }
 
@@ -111,8 +111,8 @@ export const jsStyles = {
         t.btnSmallArrowRight,
         t.btnSmallArrowLength,
         'rotate(53deg) skewX(24deg) skewY(10deg)',
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -126,8 +126,8 @@ export const jsStyles = {
         t.controlLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
-        cssName(jsStyles.link(t)),
-        cssName(jsStyles.fallback(t)),
+        cssName(styles.link(t)),
+        cssName(styles.fallback(t)),
       )};
 
       ${buttonArrowMixin(
@@ -136,8 +136,8 @@ export const jsStyles = {
         t.btnMediumArrowRight,
         '20.2px',
         t.btnMediumArrowTransform,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -151,8 +151,8 @@ export const jsStyles = {
         t.controlLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
-        cssName(jsStyles.link(t)),
-        cssName(jsStyles.fallback(t)),
+        cssName(styles.link(t)),
+        cssName(styles.fallback(t)),
       )};
 
       ${buttonArrowMixin(
@@ -161,8 +161,8 @@ export const jsStyles = {
         '-10.8px',
         '22.2px',
         t.btnLargeArrowTransform,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -177,8 +177,8 @@ export const jsStyles = {
         t.btnSmallArrowBg,
         t.btnSmallArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -193,8 +193,8 @@ export const jsStyles = {
         t.btnMediumArrowBg,
         t.btnMediumArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -209,8 +209,8 @@ export const jsStyles = {
         t.btnLargeArrowBg,
         t.btnLargeArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -234,20 +234,20 @@ export const jsStyles = {
       &:active {
         color: ${t.linkActiveColor} !important;
       }
-      ${cssName(jsStyles.caption(t))} {
+      ${cssName(styles.caption())} {
         display: inline;
       }
-      ${cssName(jsStyles.icon())} {
+      ${cssName(styles.icon())} {
         padding-right: ${t.linkIconMarginRight};
       }
-      ${cssName(jsStyles.warning(t))} ,
-      ${cssName(jsStyles.error(t))}  {
+      ${cssName(styles.warning(t))} ,
+      ${cssName(styles.error(t))}  {
         box-shadow: none;
         left: -2px !important;
         right: -2px !important;
         bottom: -2px !important;
       }
-      ${cssName(jsStyles.error(t))}  {
+      ${cssName(styles.error(t))}  {
         background: ${t.errorSecondary} !important;
       }
     `;
@@ -258,32 +258,32 @@ export const jsStyles = {
       position: relative;
       z-index: 2;
 
-      &${cssName(jsStyles.link(t))} {
+      &${cssName(styles.link(t))} {
         color: ${t.linkColor};
         text-decoration: ${t.linkHoverTextDecoration};
       }
 
-      &:not(${cssName(jsStyles.disabled(t))}):not(${cssName(jsStyles.link(t))}) {
+      &:not(${cssName(styles.disabled(t))}):not(${cssName(styles.link(t))}) {
         border: ${t.btnFocusBorder};
 
         &,
         &:hover,
         &:active,
-        ${cssName(jsStyles.active(t))} {
+        ${cssName(styles.active(t))} {
           box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
 
-          &${cssName(jsStyles.warning(t))}, &${cssName(jsStyles.error(t))} {
+          &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
             box-shadow: inset 0 0 0 1px ${t.outlineColorFocus} !important;
             border-color: transparent !important;
           }
-          ${cssName(jsStyles.arrow())} {
+          ${cssName(styles.arrow())} {
             box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
 
-            &${cssName(jsStyles.arrowWarning(t))} {
+            &${cssName(styles.arrowWarning(t))} {
               box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning} !important;
             }
 
-            &${cssName(jsStyles.arrowError(t))} {
+            &${cssName(styles.arrowError(t))} {
               box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError} !important;
             }
           }
@@ -298,18 +298,18 @@ export const jsStyles = {
       pointer-events: none;
       border-color: transparent !important;
 
-      &:not(${cssName(jsStyles.link(t))}) {
+      &:not(${cssName(styles.link(t))}) {
         background: ${t.btnDisabledBg} !important;
         color: ${t.btnDisabledTextColor} !important;
         box-shadow: ${t.btnDisabledShadow} !important;
 
-        ${cssName(jsStyles.arrow())} {
+        ${cssName(styles.arrow())} {
           background: ${t.btnDisabledBg} !important;
           box-shadow: ${t.btnDisabledShadowArrow} !important;
         }
       }
 
-      &${cssName(jsStyles.link(t))} {
+      &${cssName(styles.link(t))} {
         color: ${t.linkDisabledColor} !important;
       }
     `;
@@ -317,10 +317,10 @@ export const jsStyles = {
 
   fallback(t: Theme) {
     return css`
-      &${cssName(jsStyles.disabled(t))} {
+      &${cssName(styles.disabled(t))} {
         outline-color: transparent;
       }
-      &:not(${cssName(jsStyles.link(t))}) {
+      &:not(${cssName(styles.link(t))}) {
         line-height: normal !important;
       }
     `;
@@ -328,7 +328,7 @@ export const jsStyles = {
 
   validationRoot(t: Theme) {
     return css`
-      ${cssName(jsStyles.focus(t))} {
+      ${cssName(styles.focus(t))} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
         border-color: transparent !important;
       }
@@ -351,7 +351,7 @@ export const jsStyles = {
     return css`
       visibility: visible;
 
-      ${cssName(jsStyles.checked(t))}:not(${cssName(jsStyles.focus(t))}) & {
+      ${cssName(styles.checked(t))}:not(${cssName(styles.focus(t))}) & {
         box-shadow: ${t.btnCheckedShadowArrowLeft};
       }
     `;
@@ -370,9 +370,9 @@ export const jsStyles = {
         t.btnDefaultShadowArrowLeft,
         t.btnDefaultTextColor,
         t.btnDefaultBorder,
-        cssName(jsStyles.checked(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.checked(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -385,8 +385,8 @@ export const jsStyles = {
         t.btnDefaultHoverShadowArrow,
         t.btnDefaultHoverShadowArrowLeft,
         t.btnDefaultHoverBorder,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -396,15 +396,15 @@ export const jsStyles = {
         t.btnDefaultActiveShadow,
         t.btnDefaultActiveShadowArrow,
         t.btnDefaultActiveShadowArrowLeft,
-        cssName(jsStyles.active(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.active(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
-      &${cssName(jsStyles.checked(t))} {
+      &${cssName(styles.checked(t))} {
         &,
-        &:not(${cssName(jsStyles.focus(t))}):hover {
-          ${cssName(jsStyles.arrow())} {
+        &:not(${cssName(styles.focus(t))}):hover {
+          ${cssName(styles.arrow())} {
             box-shadow: ${t.btnDefaultCheckedShadowArrow};
           }
         }
@@ -425,9 +425,9 @@ export const jsStyles = {
         t.btnPrimaryShadowArrowLeft,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorder,
-        cssName(jsStyles.checked(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.checked(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -440,8 +440,8 @@ export const jsStyles = {
         t.btnPrimaryHoverShadowArrow,
         t.btnPrimaryHoverShadowArrowLeft,
         t.btnPrimaryHoverBorder,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -451,9 +451,9 @@ export const jsStyles = {
         t.btnPrimaryActiveShadow,
         t.btnPrimaryActiveShadowArrow,
         t.btnPrimaryActiveShadowArrowLeft,
-        cssName(jsStyles.active(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.active(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -471,9 +471,9 @@ export const jsStyles = {
         t.btnSuccessShadowArrowLeft,
         t.btnSuccessTextColor,
         t.btnSuccessBorder,
-        cssName(jsStyles.checked(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.checked(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -486,8 +486,8 @@ export const jsStyles = {
         t.btnSuccessHoverShadowArrow,
         t.btnSuccessHoverShadowArrowLeft,
         t.btnSuccessHoverBorder,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -497,9 +497,9 @@ export const jsStyles = {
         t.btnSuccessActiveShadow,
         t.btnSuccessActiveShadowArrow,
         t.btnSuccessActiveShadowArrowLeft,
-        cssName(jsStyles.active(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.active(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -517,9 +517,9 @@ export const jsStyles = {
         t.btnDangerShadowArrowLeft,
         t.btnDangerTextColor,
         t.btnDangerBorder,
-        cssName(jsStyles.checked(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.checked(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -532,8 +532,8 @@ export const jsStyles = {
         t.btnDangerHoverShadowArrow,
         t.btnDangerHoverShadowArrowLeft,
         t.btnDangerHoverBorder,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -543,9 +543,9 @@ export const jsStyles = {
         t.btnDangerActiveShadow,
         t.btnDangerActiveShadowArrow,
         t.btnDangerActiveShadowArrowLeft,
-        cssName(jsStyles.active(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.active(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -563,9 +563,9 @@ export const jsStyles = {
         t.btnPayShadowArrowLeft,
         t.btnPayTextColor,
         t.btnPayBorder,
-        cssName(jsStyles.checked(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.checked(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -578,8 +578,8 @@ export const jsStyles = {
         t.btnPayHoverShadowArrow,
         t.btnPayHoverShadowArrowLeft,
         t.btnPayHoverBorder,
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -589,9 +589,9 @@ export const jsStyles = {
         t.btnPayActiveShadow,
         t.btnPayActiveShadowArrow,
         t.btnPayActiveShadowArrowLeft,
-        cssName(jsStyles.active(t)),
-        cssName(jsStyles.arrow()),
-        cssName(jsStyles.arrowLeft(t)),
+        cssName(styles.active(t)),
+        cssName(styles.arrow()),
+        cssName(styles.arrowLeft(t)),
       )};
     `;
   },
@@ -601,28 +601,28 @@ export const jsStyles = {
       box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3) !important;
 
       &,
-      &:not(${cssName(jsStyles.focus(t))}):hover {
+      &:not(${cssName(styles.focus(t))}):hover {
         background: ${t.btnCheckedBg} !important;
         box-shadow: ${t.btnCheckedShadow} !important;
         color: ${t.btnCheckedTextColor} !important;
       }
 
-      &:not(${cssName(jsStyles.link(t))}):not(${cssName(jsStyles.disabled(t))}) {
-        ${cssName(jsStyles.caption(t))} {
+      &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
+        ${cssName(styles.caption())} {
           transform: translateY(1px) !important;
         }
       }
 
       &,
-      &:not(${cssName(jsStyles.focus(t))}):hover {
-        ${cssName(jsStyles.arrow())} {
+      &:not(${cssName(styles.focus(t))}):hover {
+        ${cssName(styles.arrow())} {
           background: ${t.btnCheckedBg} !important;
           box-shadow: ${t.btnCheckedShadowArrow};
         }
       }
 
       &,
-      &:not(${cssName(jsStyles.focus(t))}):hover {
+      &:not(${cssName(styles.focus(t))}):hover {
         border-color: ${t.btnCheckedHoverBorderColor};
       }
     `;
@@ -630,15 +630,15 @@ export const jsStyles = {
 
   active(t: Theme) {
     return css`
-      &:not(${cssName(jsStyles.link(t))}):not(${cssName(jsStyles.disabled(t))}) {
-        ${cssName(jsStyles.caption(t))} {
+      &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
+        ${cssName(styles.caption())} {
           transform: translateY(1px) !important;
         }
       }
     `;
   },
 
-  caption(t: Theme) {
+  caption() {
     return css`
       position: relative;
       white-space: nowrap;
@@ -678,13 +678,13 @@ export const jsStyles = {
 
   wrapLink(t: Theme) {
     return css`
-      ${jsStyles.wrap(t)};
+      ${styles.wrap(t)};
 
       padding: 0;
     `;
   },
 
-  wrapArrow(t: Theme) {
+  wrapArrow() {
     return css`
       margin-right: 10px;
     `;
@@ -721,10 +721,10 @@ export const jsStyles = {
   },
 
   borderless(t: Theme) {
-    const focus = cssName(jsStyles.focus(t));
-    const disabled = cssName(jsStyles.disabled(t));
-    const checked = cssName(jsStyles.checked(t));
-    const active = cssName(jsStyles.active(t));
+    const focus = cssName(styles.focus(t));
+    const disabled = cssName(styles.disabled(t));
+    const checked = cssName(styles.checked(t));
+    const active = cssName(styles.active(t));
 
     return css`
       &:not(${focus}):not(${disabled}):not(${active}):not(${checked}) {
@@ -772,3 +772,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

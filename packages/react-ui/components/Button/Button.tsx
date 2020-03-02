@@ -210,7 +210,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: cn({
         [jsStyles.wrap(this.theme)]: true,
-        [jsStyles.wrapArrow(this.theme)]: this.props.arrow === true,
+        [jsStyles.wrapArrow()]: this.props.arrow === true,
         [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
       }),
       style: {
@@ -276,7 +276,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           {error}
           {loading}
           {arrow}
-          <div className={jsStyles.caption(this.theme)}>
+          <div className={jsStyles.caption()}>
             {icon}
             {this.props.children}
           </div>
