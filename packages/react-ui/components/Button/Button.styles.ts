@@ -1,9 +1,7 @@
-import { css, keyframes } from '../../lib/theming/Emotion';
+import { css, cssName, keyframes } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
-import { linkMixin, linkDisabledMixin } from '../Link/Link.mixins';
 
-import classes from './Button.module.less';
 import {
   buttonUseMixin,
   buttonHoverMixin,
@@ -29,29 +27,62 @@ export const jsStyles = {
       ${resetButton()};
       ${resetText()};
 
-      width: 100%;
-      text-align: center;
+      background-clip: border-box;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
       color: ${t.textColorDefault};
-      border-radius: ${t.btnBorderRadius};
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      text-align: center;
+      width: 100%;
+
+      &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+      }
+      &::after {
+        content: '';
+        display: inline-block;
+        vertical-align: baseline;
+        width: 0;
+      }
+      &:not(${cssName(jsStyles.sizeSmall(t))}) {
+        border-radius: ${t.btnBorderRadius};
+      }
+      ${cssName(jsStyles.link(t))}& {
+        padding: 0;
+      }
+      &:active:not(${cssName(jsStyles.link(t))}):not(${cssName(jsStyles.disabled(t))}) {
+        ${cssName(jsStyles.caption(t))} {
+          transform: translateY(1px) !important;
+        }
+      }
     `;
   },
 
   warning(t: Theme) {
     return css`
-      .${classes.root}:not(.${classes.link}) & {
-        box-shadow: 0 0 0 2px ${t.borderColorWarning};
-      }
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      box-shadow: 0 0 0 2px ${t.borderColorWarning};
     `;
   },
 
   error(t: Theme) {
     return css`
-      .${classes.root}:not(.${classes.link}) & {
-        box-shadow: 0 0 0 2px ${t.borderColorError};
-      }
-      .${classes.wrap} .${classes.root}.${classes.link} & {
-        background: ${t.errorSecondary};
-      }
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      box-shadow: 0 0 0 2px ${t.borderColorError};
     `;
   },
 
@@ -66,9 +97,11 @@ export const jsStyles = {
         t.controlLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
+        cssName(jsStyles.link(t)),
+        cssName(jsStyles.fallback(t)),
       )};
 
-      .${classes.arrow} {
+      ${cssName(jsStyles.arrow())} {
         border-radius: ${t.btnSmallArrowBorderRadius};
       }
 
@@ -78,16 +111,8 @@ export const jsStyles = {
         t.btnSmallArrowRight,
         t.btnSmallArrowLength,
         'rotate(53deg) skewX(24deg) skewY(10deg)',
-      )};
-
-      ${buttonLoadingArrowMixin(
-        t.btnSmallArrowTop,
-        t.btnSmallArrowTop,
-        '-207px',
-        '441%',
-        t.btnSmallArrowBg,
-        t.btnSmallArrowLeftLoadingDelay,
-        btn_loading_arrow,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
     `;
   },
@@ -101,17 +126,18 @@ export const jsStyles = {
         t.controlLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
+        cssName(jsStyles.link(t)),
+        cssName(jsStyles.fallback(t)),
       )};
 
-      ${buttonArrowMixin('9px', t.btnMediumArrowLeft, t.btnMediumArrowRight, '20.2px', t.btnMediumArrowTransform)};
-      ${buttonLoadingArrowMixin(
-        '0',
-        '0',
-        t.btnMediumArrowLeftLoadingLeft,
-        '441%',
-        t.btnMediumArrowBg,
-        t.btnMediumArrowLeftLoadingDelay,
-        btn_loading_arrow,
+      ${buttonArrowMixin(
+        '9px',
+        t.btnMediumArrowLeft,
+        t.btnMediumArrowRight,
+        '20.2px',
+        t.btnMediumArrowTransform,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
     `;
   },
@@ -125,10 +151,56 @@ export const jsStyles = {
         t.controlLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
+        cssName(jsStyles.link(t)),
+        cssName(jsStyles.fallback(t)),
       )};
 
-      ${buttonArrowMixin('10.2px', t.btnLargeArrowLeft, '-10.8px', '22.2px', t.btnLargeArrowTransform)};
+      ${buttonArrowMixin(
+        '10.2px',
+        t.btnLargeArrowLeft,
+        '-10.8px',
+        '22.2px',
+        t.btnLargeArrowTransform,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
+      )};
+    `;
+  },
 
+  sizeSmallLoading(t: Theme) {
+    return css`
+      ${buttonLoadingArrowMixin(
+        t.btnSmallArrowTop,
+        t.btnSmallArrowTop,
+        '-207px',
+        '441%',
+        t.btnSmallArrowBg,
+        t.btnSmallArrowLeftLoadingDelay,
+        btn_loading_arrow,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
+      )};
+    `;
+  },
+
+  sizeMediumLoading(t: Theme) {
+    return css`
+      ${buttonLoadingArrowMixin(
+        '0',
+        '0',
+        t.btnMediumArrowLeftLoadingLeft,
+        '441%',
+        t.btnMediumArrowBg,
+        t.btnMediumArrowLeftLoadingDelay,
+        btn_loading_arrow,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
+      )};
+    `;
+  },
+
+  sizeLargeLoading(t: Theme) {
+    return css`
       ${buttonLoadingArrowMixin(
         '-32px',
         '-36px',
@@ -137,64 +209,82 @@ export const jsStyles = {
         t.btnLargeArrowBg,
         t.btnLargeArrowLeftLoadingDelay,
         btn_loading_arrow,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
     `;
   },
 
   link(t: Theme) {
     return css`
-      &.${classes.link} {
-        ${linkMixin()};
+      background: none;
+      border-radius: ${t.btnLinkBorderRadius} !important;
+      border: none;
+      box-shadow: none;
+      color: ${t.linkColor} !important;
+      display: inline;
+      line-height: inherit !important;
+      margin: 0;
+      padding: 0;
 
-        color: ${t.linkColor};
-        border-radius: ${t.btnLinkBorderRadius};
-
-        &:hover {
-          color: ${t.linkHoverColor};
-          text-decoration: ${t.linkHoverTextDecoration};
-        }
-        &:active {
-          color: ${t.linkActiveColor};
-        }
-
-        .${classes.icon} {
-          padding-right: ${t.linkIconMarginRight};
-        }
+      &:hover {
+        color: ${t.linkHoverColor};
+        text-decoration: ${t.linkHoverTextDecoration};
+      }
+      &:active {
+        color: ${t.linkActiveColor} !important;
+      }
+      ${cssName(jsStyles.caption(t))} {
+        display: inline;
+      }
+      ${cssName(jsStyles.icon())} {
+        padding-right: ${t.linkIconMarginRight};
+      }
+      ${cssName(jsStyles.warning(t))} ,
+      ${cssName(jsStyles.error(t))}  {
+        box-shadow: none;
+        left: -2px !important;
+        right: -2px !important;
+        bottom: -2px !important;
+      }
+      ${cssName(jsStyles.error(t))}  {
+        background: ${t.errorSecondary} !important;
       }
     `;
   },
 
   focus(t: Theme) {
     return css`
-      .${classes.link}& {
+      position: relative;
+      z-index: 2;
+
+      &${cssName(jsStyles.link(t))} {
         color: ${t.linkColor};
         text-decoration: ${t.linkHoverTextDecoration};
       }
 
-      &.${classes.root}:not(.${classes.disabled}):not(.${classes.link}) {
+      &:not(${cssName(jsStyles.disabled(t))}):not(${cssName(jsStyles.link(t))}) {
         border: ${t.btnFocusBorder};
 
         &,
         &:hover,
         &:active,
-        &.${classes.active},
-        &.${classes.checked} {
+        ${cssName(jsStyles.active(t))} {
           box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
 
-          &.${classes.warningRoot},
-          &.${classes.errorRoot} {
-            box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
+          &${cssName(jsStyles.warning(t))}, &${cssName(jsStyles.error(t))} {
+            box-shadow: inset 0 0 0 1px ${t.outlineColorFocus} !important;
+            border-color: transparent !important;
           }
-
-          .${classes.arrow} {
+          ${cssName(jsStyles.arrow())} {
             box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
 
-            &.${classes.arrow_warning} {
-              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning};
+            &${cssName(jsStyles.arrowWarning(t))} {
+              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning} !important;
             }
 
-            &.${classes.arrow_error} {
-              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError};
+            &${cssName(jsStyles.arrowError(t))} {
+              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError} !important;
             }
           }
         }
@@ -204,50 +294,65 @@ export const jsStyles = {
 
   disabled(t: Theme) {
     return css`
-      .${classes.wrap} .${classes.root}&:not(.${classes.link}) {
-        background: ${t.btnDisabledBg};
-        color: ${t.btnDisabledTextColor};
-        box-shadow: ${t.btnDisabledShadow};
+      cursor: default;
+      pointer-events: none;
+      border-color: transparent !important;
 
-        .${classes.arrow} {
-          background: ${t.btnDisabledBg};
-          box-shadow: ${t.btnDisabledShadowArrow};
+      &:not(${cssName(jsStyles.link(t))}) {
+        background: ${t.btnDisabledBg} !important;
+        color: ${t.btnDisabledTextColor} !important;
+        box-shadow: ${t.btnDisabledShadow} !important;
 
-          &.${classes.arrow_warning} {
-            box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
-          }
-
-          &.${classes.arrow_error} {
-            box-shadow: 2px -2px 0 0 ${t.borderColorError};
-          }
+        ${cssName(jsStyles.arrow())} {
+          background: ${t.btnDisabledBg} !important;
+          box-shadow: ${t.btnDisabledShadowArrow} !important;
         }
       }
 
-      .${classes.wrap} &.${classes.root}.${classes.link} {
-        ${linkDisabledMixin()};
-        color: ${t.linkDisabledColor};
+      &${cssName(jsStyles.link(t))} {
+        color: ${t.linkDisabledColor} !important;
       }
     `;
   },
 
-  arrow(t: Theme) {
+  fallback(t: Theme) {
     return css`
-      border-radius: ${t.btnArrowBorderRadius};
-    `;
-  },
-
-  arrow_warning(t: Theme) {
-    return css`
-      .${classes.wrap} .${classes.root} .${classes.arrow}& {
-        box-shadow: 2px -2px 0 0 ${t.borderColorWarning};
+      &${cssName(jsStyles.disabled(t))} {
+        outline-color: transparent;
+      }
+      &:not(${cssName(jsStyles.link(t))}) {
+        line-height: normal !important;
       }
     `;
   },
 
-  arrow_error(t: Theme) {
+  validationRoot(t: Theme) {
     return css`
-      .${classes.wrap} .${classes.root} .${classes.arrow}& {
-        box-shadow: 2px -2px 0 0 ${t.borderColorError};
+      ${cssName(jsStyles.focus(t))} {
+        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
+        border-color: transparent !important;
+      }
+    `;
+  },
+
+  arrowWarning(t: Theme) {
+    return css`
+      box-shadow: 2px -2px 0 0 ${t.borderColorWarning} !important;
+    `;
+  },
+
+  arrowError(t: Theme) {
+    return css`
+      box-shadow: 2px -2px 0 0 ${t.borderColorError} !important;
+    `;
+  },
+
+  arrowLeft(t: Theme) {
+    return css`
+      visibility: visible;
+
+      ${cssName(jsStyles.checked(t))}:not(${cssName(jsStyles.focus(t))}) & {
+        box-shadow: ${t.btnCheckedShadowArrowLeft};
       }
     `;
   },
@@ -265,6 +370,9 @@ export const jsStyles = {
         t.btnDefaultShadowArrowLeft,
         t.btnDefaultTextColor,
         t.btnDefaultBorder,
+        cssName(jsStyles.checked(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -277,6 +385,8 @@ export const jsStyles = {
         t.btnDefaultHoverShadowArrow,
         t.btnDefaultHoverShadowArrowLeft,
         t.btnDefaultHoverBorder,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -286,15 +396,15 @@ export const jsStyles = {
         t.btnDefaultActiveShadow,
         t.btnDefaultActiveShadowArrow,
         t.btnDefaultActiveShadowArrowLeft,
+        cssName(jsStyles.active(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
-      &.${classes.root}.${classes.checked} {
+      &${cssName(jsStyles.checked(t))} {
         &,
-        &:not(.${classes.focus}):hover {
-          .${classes.arrow} {
-            box-shadow: ${t.btnDefaultCheckedShadowArrow};
-          }
-          .${classes.arrow_left} {
+        &:not(${cssName(jsStyles.focus(t))}):hover {
+          ${cssName(jsStyles.arrow())} {
             box-shadow: ${t.btnDefaultCheckedShadowArrow};
           }
         }
@@ -315,6 +425,9 @@ export const jsStyles = {
         t.btnPrimaryShadowArrowLeft,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorder,
+        cssName(jsStyles.checked(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -327,6 +440,8 @@ export const jsStyles = {
         t.btnPrimaryHoverShadowArrow,
         t.btnPrimaryHoverShadowArrowLeft,
         t.btnPrimaryHoverBorder,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -336,6 +451,9 @@ export const jsStyles = {
         t.btnPrimaryActiveShadow,
         t.btnPrimaryActiveShadowArrow,
         t.btnPrimaryActiveShadowArrowLeft,
+        cssName(jsStyles.active(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
     `;
   },
@@ -353,6 +471,9 @@ export const jsStyles = {
         t.btnSuccessShadowArrowLeft,
         t.btnSuccessTextColor,
         t.btnSuccessBorder,
+        cssName(jsStyles.checked(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -365,6 +486,8 @@ export const jsStyles = {
         t.btnSuccessHoverShadowArrow,
         t.btnSuccessHoverShadowArrowLeft,
         t.btnSuccessHoverBorder,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -374,6 +497,9 @@ export const jsStyles = {
         t.btnSuccessActiveShadow,
         t.btnSuccessActiveShadowArrow,
         t.btnSuccessActiveShadowArrowLeft,
+        cssName(jsStyles.active(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
     `;
   },
@@ -391,6 +517,9 @@ export const jsStyles = {
         t.btnDangerShadowArrowLeft,
         t.btnDangerTextColor,
         t.btnDangerBorder,
+        cssName(jsStyles.checked(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -403,6 +532,8 @@ export const jsStyles = {
         t.btnDangerHoverShadowArrow,
         t.btnDangerHoverShadowArrowLeft,
         t.btnDangerHoverBorder,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -412,6 +543,9 @@ export const jsStyles = {
         t.btnDangerActiveShadow,
         t.btnDangerActiveShadowArrow,
         t.btnDangerActiveShadowArrowLeft,
+        cssName(jsStyles.active(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
     `;
   },
@@ -429,6 +563,9 @@ export const jsStyles = {
         t.btnPayShadowArrowLeft,
         t.btnPayTextColor,
         t.btnPayBorder,
+        cssName(jsStyles.checked(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonHoverMixin(
@@ -441,6 +578,8 @@ export const jsStyles = {
         t.btnPayHoverShadowArrow,
         t.btnPayHoverShadowArrowLeft,
         t.btnPayHoverBorder,
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
 
       ${buttonActiveMixin(
@@ -450,40 +589,151 @@ export const jsStyles = {
         t.btnPayActiveShadow,
         t.btnPayActiveShadowArrow,
         t.btnPayActiveShadowArrowLeft,
+        cssName(jsStyles.active(t)),
+        cssName(jsStyles.arrow()),
+        cssName(jsStyles.arrowLeft(t)),
       )};
     `;
   },
 
   checked(t: Theme) {
     return css`
-      &.${classes.root} {
-        &,
-        &:not(.${classes.focus}):hover {
-          background: ${t.btnCheckedBg};
-          color: ${t.btnCheckedTextColor};
-          box-shadow: ${t.btnCheckedShadow} !important;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3) !important;
 
-          .${classes.arrow} {
-            background: ${t.btnCheckedBg};
-            box-shadow: ${t.btnCheckedShadowArrow};
-          }
+      &,
+      &:not(${cssName(jsStyles.focus(t))}):hover {
+        background: ${t.btnCheckedBg} !important;
+        box-shadow: ${t.btnCheckedShadow} !important;
+        color: ${t.btnCheckedTextColor} !important;
+      }
 
-          .${classes.arrow_left} {
-            background: ${t.btnCheckedBg};
-            box-shadow: ${t.btnCheckedShadowArrowLeft};
-          }
-        }
-
-        &:not(.${classes.focus}):hover {
-          border-color: ${t.btnCheckedHoverBorderColor};
+      &:not(${cssName(jsStyles.link(t))}):not(${cssName(jsStyles.disabled(t))}) {
+        ${cssName(jsStyles.caption(t))} {
+          transform: translateY(1px) !important;
         }
       }
+
+      &,
+      &:not(${cssName(jsStyles.focus(t))}):hover {
+        ${cssName(jsStyles.arrow())} {
+          background: ${t.btnCheckedBg} !important;
+          box-shadow: ${t.btnCheckedShadowArrow};
+        }
+      }
+
+      &,
+      &:not(${cssName(jsStyles.focus(t))}):hover {
+        border-color: ${t.btnCheckedHoverBorderColor};
+      }
+    `;
+  },
+
+  active(t: Theme) {
+    return css`
+      &:not(${cssName(jsStyles.link(t))}):not(${cssName(jsStyles.disabled(t))}) {
+        ${cssName(jsStyles.caption(t))} {
+          transform: translateY(1px) !important;
+        }
+      }
+    `;
+  },
+
+  caption(t: Theme) {
+    return css`
+      position: relative;
+      white-space: nowrap;
+      display: inline-block;
+      width: 100%;
+      vertical-align: top;
     `;
   },
 
   wrap(t: Theme) {
     return css`
       padding: ${t.btnWrapPadding};
+      box-sizing: border-box;
+      display: inline-block;
+    `;
+  },
+
+  narrow() {
+    return css`
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+    `;
+  },
+
+  noPadding() {
+    return css`
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    `;
+  },
+
+  noRightPadding() {
+    return css`
+      padding-right: 0 !important;
+    `;
+  },
+
+  wrapLink(t: Theme) {
+    return css`
+      ${jsStyles.wrap(t)};
+
+      padding: 0;
+    `;
+  },
+
+  wrapArrow(t: Theme) {
+    return css`
+      margin-right: 10px;
+    `;
+  },
+
+  wrapArrowLeft() {
+    return css`
+      margin-right: 0;
+      margin-left: 10px;
+    `;
+  },
+
+  arrow() {
+    return css`
+      position: absolute;
+      border-radius: 2px 2px 2px 16px;
+      box-sizing: border-box;
+      z-index: 1;
+    `;
+  },
+
+  icon() {
+    return css`
+      display: inline-block;
+      padding-right: 7px;
+    `;
+  },
+
+  buttonWithIcon() {
+    return css`
+      padding-right: 15px;
+      padding-left: 15px;
+    `;
+  },
+
+  borderless(t: Theme) {
+    const focus = cssName(jsStyles.focus(t));
+    const disabled = cssName(jsStyles.disabled(t));
+    const checked = cssName(jsStyles.checked(t));
+    const active = cssName(jsStyles.active(t));
+
+    return css`
+      &:not(${focus}):not(${disabled}):not(${active}):not(${checked}) {
+        &,
+        &:hover,
+        &:active {
+          box-shadow: none !important;
+        }
+      }
     `;
   },
 
@@ -505,6 +755,7 @@ export const jsStyles = {
       right: 0;
       border-radius: inherit;
       overflow: hidden;
+
       &::before {
         content: '';
         height: 100%;

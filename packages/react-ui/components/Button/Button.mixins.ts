@@ -1,8 +1,6 @@
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
-import classes from './Button.module.less';
-
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset = 0): string => {
   let paddingTop = paddingY;
   let paddingBottom = paddingY;
@@ -32,6 +30,9 @@ export const buttonUseMixin = (
   shadowArrowLeft: string,
   color: string,
   border: string,
+  selectorChecked: string,
+  selectorArrow: string,
+  selectorArrowLeft: string,
 ) => {
   return css`
     background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
@@ -41,14 +42,14 @@ export const buttonUseMixin = (
     box-shadow: ${shadow};
     border: ${border};
 
-    .${classes.arrow} {
+    &:not(${selectorChecked}) ${selectorArrow} {
       background: ${arrowBackgroundStart === arrowBackgroundEnd
         ? arrowBackgroundStart
         : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
       box-shadow: ${shadowArrow};
     }
 
-    .${classes.arrow_left} {
+    &:not(${selectorChecked}) ${selectorArrowLeft} {
       background: ${arrowBackgroundStart === arrowBackgroundEnd
         ? arrowBackgroundStart
         : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
@@ -67,6 +68,8 @@ export const buttonHoverMixin = (
   arrowShadow: string,
   arrowLeftShadow: string,
   btnBorder: string,
+  selectorArrow: string,
+  selectorArrowLeft: string,
 ) => {
   return css`
     &:hover {
@@ -76,14 +79,14 @@ export const buttonHoverMixin = (
       box-shadow: ${btnShadow};
       border-color: ${btnBorder};
 
-      .${classes.arrow} {
+      ${selectorArrow} {
         background: ${arrowBackgroundStart === arrowBackgroundEnd
           ? arrowBackgroundStart
           : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
         box-shadow: ${arrowShadow};
       }
 
-      .${classes.arrow_left} {
+      ${selectorArrowLeft} {
         background: ${arrowBackgroundStart === arrowBackgroundEnd
           ? arrowBackgroundStart
           : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
@@ -100,19 +103,22 @@ export const buttonActiveMixin = (
   btnShadow: string,
   arrowShadow: string,
   arrowLeftShadow: string,
+  selectorActive: string,
+  selectorArrow: string,
+  selectorArrowLeft: string,
 ) => {
   return css`
     &:active,
-    &.${classes.active} {
+    &${selectorActive} {
       background: ${btnBackground};
       box-shadow: ${btnShadow};
 
-      .${classes.arrow} {
+      ${selectorArrow} {
         background: ${arrowBackground};
         box-shadow: ${arrowShadow};
       }
 
-      .${classes.arrow_left} {
+      ${selectorArrowLeft} {
         background: ${arrowLeftBackground};
         box-shadow: ${arrowLeftShadow};
       }
@@ -127,25 +133,35 @@ export const buttonSizeMixin = (
   lineHeight: string,
   paddingX: string,
   paddingY: string,
+  selectorLink: string,
+  selectorFallback: string,
 ) => {
   return css`
-    font-size: ${fontSize};
+    font-size: ${fontSize} !important;
 
-    &:not(.${classes.link}) {
+    &:not(${selectorLink}) {
       height: ${shift(height, heightShift)};
       padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
       line-height: ${lineHeight};
 
-      &.${classes.fallback} {
+      &${selectorFallback} {
         padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
       }
     }
   `;
 };
 
-export const buttonArrowMixin = (top: string, left: string, right: string, size: string, transform: string) => {
+export const buttonArrowMixin = (
+  top: string,
+  left: string,
+  right: string,
+  size: string,
+  transform: string,
+  selectorArrow: string,
+  selectorArrowLeft: string,
+) => {
   return css`
-    .${classes.arrow} {
+    ${selectorArrow} {
       top: ${top};
       right: ${right};
       height: ${size};
@@ -154,7 +170,7 @@ export const buttonArrowMixin = (top: string, left: string, right: string, size:
       overflow: hidden;
     }
 
-    .${classes.arrow_left} {
+    ${selectorArrowLeft} {
       left: ${left};
       transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
     }
@@ -169,9 +185,11 @@ export const buttonLoadingArrowMixin = (
   background: string,
   delay: string,
   btn_loading_arrow: string,
+  selectorArrow: string,
+  selectorArrowLeft: string,
 ) => {
   return css`
-    .${classes.arrow}.${classes.arrow_loading}::before {
+    ${selectorArrow}::before {
       content: '';
       display: block;
       position: absolute;
@@ -186,7 +204,7 @@ export const buttonLoadingArrowMixin = (
       animation: ${btn_loading_arrow} 1s linear infinite;
     }
 
-    .${classes.arrow_left}.${classes.arrow_loading}::before {
+    ${selectorArrowLeft}::before {
       top: ${leftArrowTop};
       left: ${left};
       animation-direction: reverse;
