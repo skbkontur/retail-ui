@@ -238,13 +238,11 @@ const styles = {
 
   sizeMedium(t: Theme) {
     return css`
-      & {
-        font-size: ${t.inputFontSizeMedium};
-        line-height: ${t.controlLineHeightMedium} !important;
-        padding-top: ${t.controlPaddingYMedium};
-        padding-bottom: ${t.controlPaddingYMedium};
-        height: ${t.controlHeightMedium};
-      }
+      font-size: ${t.inputFontSizeMedium};
+      line-height: ${t.controlLineHeightMedium} !important;
+      padding-top: ${t.controlPaddingYMedium};
+      padding-bottom: ${t.controlPaddingYMedium};
+      height: ${t.controlHeightMedium};
     `;
   },
 
