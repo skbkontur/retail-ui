@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { cx } from '../../../lib/theming/Emotion';
+import cn from 'classnames';
 
 import { jsStyles } from './SpinnerIcon.styles';
 
@@ -29,7 +28,7 @@ export const SpinnerOldIcon = ({ size, strokeClassName, className }: SpinnerIcon
     return (
       <span className={jsStyles.root()}>
         <svg
-          className={cx(jsStyles.icon(), className)}
+          className={cn(jsStyles.icon(), className)}
           width="16"
           height="16"
           fill="none"
