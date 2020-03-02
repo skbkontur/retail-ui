@@ -24,14 +24,12 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      & {
-        box-shadow: none !important;
-        margin: 2px;
-        padding: 1px 4px;
-        user-select: text;
-        cursor: text;
-        color: ${t.textColorDisabled} !important;
-      }
+      box-shadow: none !important;
+      margin: 2px;
+      padding: 1px 4px;
+      user-select: text;
+      cursor: text;
+      color: ${t.textColorDisabled} !important;
     `;
   },
 
@@ -82,6 +80,8 @@ interface TokenColors {
   black: (t: Theme, v: 'error' | 'warning' | null) => string;
 }
 
+export const jsStyles = memoizeStyle(styles);
+
 export const jsTokenColors = [
   { name: 'defaultIdle', color: 'grayXLight' },
   { name: 'defaultActive', color: 'brand' },
@@ -116,7 +116,7 @@ export const jsTokenColors = [
 
         ${vStyle}
 
-        & ${cssName(styles.removeIcon())}:hover {
+        & ${cssName(jsStyles.removeIcon())}:hover {
           color: ${ColorFunctions.contrast(t[color])};
         }
       `;
@@ -129,7 +129,7 @@ export const jsTokenColors = [
         color: ${ColorFunctions.contrast(t.tokenDisabledBg)};
         box-shadow: 0 0 0 1px ${t.tokenDisabledBg};
 
-        & ${cssName(styles.removeIcon())} {
+        & ${cssName(jsStyles.removeIcon())} {
           fill: ${t.textColorDisabled};
           opacity: 1;
         }
@@ -147,5 +147,3 @@ export const jsTokenColors = [
     },
   } as TokenColors,
 );
-
-export const jsStyles = memoizeStyle(styles);
