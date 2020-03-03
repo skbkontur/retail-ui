@@ -11,7 +11,7 @@ const styles = {
     `;
   },
 
-  'popup-ignore-hover'() {
+  popupIgnoreHover() {
     return css`
       pointer-events: none;
     `;
@@ -44,7 +44,7 @@ const styles = {
     `;
   },
 
-  'transition-enter'() {
+  transitionEnter() {
     return css`
       opacity: 0.01;
     `;
@@ -69,14 +69,14 @@ const styles = {
       transform: translateX(-10px);
     `;
   },
-  'transition-enter-active'() {
+  transitionEnterActive() {
     return css`
       transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
       transform: translate(0, 0);
     `;
   },
-  'transition-exit'() {
+  transitionExit() {
     return css`
       opacity: 0.01;
       transition: opacity 0.15s ease-out;
