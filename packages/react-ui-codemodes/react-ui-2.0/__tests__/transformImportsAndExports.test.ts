@@ -114,8 +114,8 @@ defineInlineTest(
     } from "@skbkontur/react-ui";
     import { TopBarUser as User, TopBarUserProps as UserProps } from "@skbkontur/react-ui";
 
-    import { IconProps } from "@skbkontur/react-ui/internal";
     import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
+    import { IconProps } from "@skbkontur/react-ui/internal";
   `,
   `transforms combined imports (default and namded)`,
 );
@@ -217,8 +217,8 @@ defineInlineTest(
     export { TopBarButtonItem as default, TopBarButtonItemProps as ButtonItemProps } from "@skbkontur/react-ui";
     export { InputIconType as IconType } from "@skbkontur/react-ui";
     export { Icon as Icon20 } from "@skbkontur/react-ui/internal";
-    export { Button } from "@skbkontur/react-ui";
     export { RenderContainer } from "@skbkontur/react-ui/internal";
+    export { Button } from "@skbkontur/react-ui";
   `,
   `transforms reexports for renamed and internal components`,
 );
@@ -235,8 +235,8 @@ defineInlineTest(
   `
     import { Calendar } from "@skbkontur/react-ui/internal";
     import { FocusTrap } from "@skbkontur/react-ui/internal";
-    import { Button } from "@skbkontur/react-ui";
     import { RenderContainer } from "@skbkontur/react-ui/internal";
+    import { Button } from "@skbkontur/react-ui";
     import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
   `,
   `transforms internals`,
@@ -332,12 +332,11 @@ defineInlineTest(
         ModalHeader as Header,
         ModalHeaderProps as Props,
     } from "@skbkontur/react-ui";
-    import { Icon as Icon20, RenderContainer, Calendar, FocusTrap, Icon } from "@skbkontur/react-ui/internal";
+    import { RenderContainer, Icon as Icon20, Calendar, FocusTrap, Icon } from "@skbkontur/react-ui/internal";
 
     export * from "@skbkontur/react-ui";
-    export { Switcher, Toggle } from "@skbkontur/react-ui";
-
     export { Icon as Icon20 } from "@skbkontur/react-ui/internal";
+    export { Switcher, Toggle } from "@skbkontur/react-ui";
 
     export * from "@skbkontur/react-ui/components/Button";
     export { Button } from "@skbkontur/react-ui";

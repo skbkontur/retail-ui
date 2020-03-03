@@ -6,8 +6,8 @@ import {
   getComponentNameFromPath,
   getActualImportName,
   deduplicateImports,
-  createSeparateImportDeclaration,
-  createSeparateExportDeclaration,
+  moveSpecifierToSeparateImport,
+  moveSpecifierToSeparateExport,
 } from './helpers';
 
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): Collection<any> => {
@@ -119,14 +119,14 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
     .find(j.ExportNamedDeclaration, node => node.source.value.match(path))
     .find(j.ExportSpecifier, node => internals.some(internal => node.local.name.startsWith(internal)))
     .forEach(importSpecifier => {
-      createSeparateExportDeclaration(api, importSpecifier, internalsPath);
+      moveSpecifierToSeparateExport(api, importSpecifier, internalsPath);
     });
 
   collection
     .find(j.ImportDeclaration, node => node.source.value.match(path))
     .find(j.ImportSpecifier, node => internals.some(internal => node.imported.name.startsWith(internal)))
     .forEach(importSpecifier => {
-      createSeparateImportDeclaration(api, importSpecifier, internalsPath);
+      moveSpecifierToSeparateImport(api, importSpecifier, internalsPath);
     });
 };
 

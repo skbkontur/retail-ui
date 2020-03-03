@@ -40,36 +40,40 @@ export const getActualImportName = (path: string, importedName: string): string 
   }
 };
 
-export const createSeparateImportDeclaration: (
+export const moveSpecifierToSeparateImport: (
   api: API,
   importSpecifier: ASTPath<ImportSpecifier>,
   source: string,
 ) => void = (api, importSpecifier, source) => {
   const j = api.jscodeshift;
-  createSeparateDeclaration(api, importSpecifier, j.importDeclaration([importSpecifier.node], j.stringLiteral(source)));
+  moveSpecifierToSeparateDeclaration(
+    api,
+    importSpecifier,
+    j.importDeclaration([importSpecifier.node], j.stringLiteral(source)),
+  );
 };
 
-export const createSeparateExportDeclaration: (
+export const moveSpecifierToSeparateExport: (
   api: API,
   exportSpecifier: ASTPath<ExportSpecifier>,
   source: string,
 ) => void = (api, exportSpecifier, source) => {
   const j = api.jscodeshift;
-  createSeparateDeclaration(
+  moveSpecifierToSeparateDeclaration(
     api,
     exportSpecifier,
     j.exportDeclaration(false, null, [exportSpecifier.node], j.stringLiteral(source)),
   );
 };
 
-export const createSeparateDeclaration: (
+export const moveSpecifierToSeparateDeclaration: (
   api: API,
   specifier: ASTPath<ExportSpecifier | ImportSpecifier>,
   declaration: ExportDeclaration | ImportDeclaration,
 ) => void = (api, specifier, declaration) => {
   const j = api.jscodeshift;
   const originDeclaration = specifier.parent;
-  originDeclaration.insertAfter(declaration);
+  originDeclaration.insertBefore(declaration);
   j(specifier).remove();
   if (!originDeclaration.value.specifiers.length) {
     j(originDeclaration).remove();
