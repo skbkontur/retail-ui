@@ -1,9 +1,9 @@
-import { AddressResponse, Fields } from '../../../../types';
+import { FiasAddressResponse, FiasFields } from '../../../../types';
 
 export interface ResponseToFieldsTestCase {
   label: string;
-  addressResponse: AddressResponse;
-  resultFields: Fields[];
+  addressResponse: FiasAddressResponse;
+  resultFields: FiasFields[];
 }
 
 const CASE_01 = 'empty response';
@@ -43,7 +43,7 @@ const testResponse = {
     parentFiasId: '79da737a-603b-4c19-9b54-9114c96fb912',
     level: 'IntracityArea',
   },
-} as AddressResponse;
+} as FiasAddressResponse;
 
 export const responseToFieldsTestCases: ResponseToFieldsTestCase[] = [
   {
@@ -54,6 +54,6 @@ export const responseToFieldsTestCases: ResponseToFieldsTestCase[] = [
   {
     label: CASE_02,
     addressResponse: testResponse,
-    resultFields: [Fields.region, Fields.city, Fields.intracityarea],
+    resultFields: [FiasFields.region, FiasFields.city, FiasFields.intracityarea],
   },
 ];

@@ -1,11 +1,11 @@
-import { Fields } from '../../../../types';
-import { AddressElement } from '../../../../models/AddressElement';
+import { FiasFields } from '../../../../types';
+import { FiasAddressElement } from '../../../../models/AddressElement';
 import { FiasData } from '../../../../models/FiasData';
 
 export interface IsEqualToTestCase {
   label: string;
-  element_1: AddressElement;
-  element_2: AddressElement | undefined;
+  element_1: FiasAddressElement;
+  element_2: FiasAddressElement | undefined;
   isEqual: boolean;
 }
 
@@ -47,38 +47,38 @@ const testResponse = {
 export const getIsEqualToTestCases: IsEqualToTestCase[] = [
   {
     label: CASE_01,
-    element_1: new AddressElement(Fields.region, testResponse.region.name, new FiasData(testResponse.region)),
+    element_1: new FiasAddressElement(FiasFields.region, testResponse.region.name, new FiasData(testResponse.region)),
     element_2: undefined,
     isEqual: false,
   },
   {
     label: CASE_02,
-    element_1: new AddressElement(Fields.region, testResponse.region.name, new FiasData(testResponse.region)),
-    element_2: new AddressElement(Fields.region, testResponse.region.name),
+    element_1: new FiasAddressElement(FiasFields.region, testResponse.region.name, new FiasData(testResponse.region)),
+    element_2: new FiasAddressElement(FiasFields.region, testResponse.region.name),
     isEqual: false,
   },
   {
     label: CASE_03,
-    element_1: new AddressElement(Fields.region, testResponse.region.name),
-    element_2: new AddressElement(Fields.region, testResponse.region.name, new FiasData(testResponse.region)),
+    element_1: new FiasAddressElement(FiasFields.region, testResponse.region.name),
+    element_2: new FiasAddressElement(FiasFields.region, testResponse.region.name, new FiasData(testResponse.region)),
     isEqual: false,
   },
   {
     label: CASE_04,
-    element_1: new AddressElement(Fields.region, testResponse.region.name),
-    element_2: new AddressElement(Fields.region, testResponse.region.name),
+    element_1: new FiasAddressElement(FiasFields.region, testResponse.region.name),
+    element_2: new FiasAddressElement(FiasFields.region, testResponse.region.name),
     isEqual: false,
   },
   {
     label: CASE_05,
-    element_1: new AddressElement(Fields.region, testResponse.region.name, new FiasData(testResponse.region)),
-    element_2: new AddressElement(Fields.city, testResponse.city.name, new FiasData(testResponse.city)),
+    element_1: new FiasAddressElement(FiasFields.region, testResponse.region.name, new FiasData(testResponse.region)),
+    element_2: new FiasAddressElement(FiasFields.city, testResponse.city.name, new FiasData(testResponse.city)),
     isEqual: false,
   },
   {
     label: CASE_06,
-    element_1: new AddressElement(Fields.region, testResponse.region.name, new FiasData(testResponse.region)),
-    element_2: new AddressElement(Fields.region, testResponse.region.name, new FiasData(testResponse.region)),
+    element_1: new FiasAddressElement(FiasFields.region, testResponse.region.name, new FiasData(testResponse.region)),
+    element_2: new FiasAddressElement(FiasFields.region, testResponse.region.name, new FiasData(testResponse.region)),
     isEqual: true,
   },
 ];

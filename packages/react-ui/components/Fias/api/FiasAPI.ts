@@ -1,33 +1,33 @@
 import {
-  AddressObject,
-  AddressResponse,
-  APIProvider,
-  APIResult,
-  FetchFn,
-  FetchResponse,
+  FiasAddressObject,
+  FiasAddressResponse,
+  FiasAPIProvider,
+  FiasAPIResult,
+  FiasFetchFn,
+  FiasFetchResponse,
   FiasCountry,
   FiasId,
-  Fields,
-  House,
-  Room,
-  SearchOptions,
-  SearchResponse,
-  Stead,
-  VerifyResponse,
+  FiasFields,
+  FiasHouse,
+  FiasRoom,
+  FiasSearchOptions,
+  FiasSearchResponse,
+  FiasStead,
+  FiasVerifyResponse,
 } from '../types';
 import { abbreviations } from '../constants/abbreviations';
-import { Logger } from '../logger/Logger';
+import { FiasLogger } from '../logger/Logger';
 import { fetch } from '../../../lib/net/fetch-cors';
-import { Address } from '../models/Address';
+import { FiasAddress } from '../models/Address';
 
-import { APIResultFactory } from './APIResultFactory';
+import { FiasAPIResultFactory } from './APIResultFactory';
 
-interface SearchQuery {
-  [key: string]: string | number | boolean | FiasId | Fields[] | undefined;
+interface FiasSearchQuery {
+  [key: string]: string | number | boolean | FiasId | FiasFields[] | undefined;
   address?: string;
   prefix?: string;
   parentFiasId?: FiasId;
-  levels?: Fields[];
+  levels?: FiasFields[];
   fullAddress?: boolean;
   directParent?: boolean;
   limit?: number;
@@ -35,7 +35,7 @@ interface SearchQuery {
   version?: string;
 }
 
-export class FiasAPI implements APIProvider {
+export class FiasAPI implements FiasAPIProvider {
   private static searchStopWords: { [key: string]: boolean } = Object.keys(abbreviations).reduce((words, abbr) => {
     return {
       ...words,
@@ -43,7 +43,7 @@ export class FiasAPI implements APIProvider {
     };
   }, {});
 
-  private static createQuery = (query: SearchQuery): string => {
+  private static createQuery = (query: FiasSearchQuery): string => {
     const params = [];
     for (const key in query) {
       if (Object.prototype.hasOwnProperty.call(query, key)) {
@@ -76,32 +76,32 @@ export class FiasAPI implements APIProvider {
       .join(' ');
   };
 
-  private regionsPromise: Promise<APIResult<SearchResponse>> | null = null;
+  private regionsPromise: Promise<FiasAPIResult<FiasSearchResponse>> | null = null;
 
-  constructor(private baseUrl: string = '', private version?: string, private fetchFn: FetchFn = fetch) {}
+  constructor(private baseUrl: string = '', private version?: string, private fetchFn: FiasFetchFn = fetch) {}
 
-  public verify = (address: Address): Promise<APIResult<VerifyResponse>> => {
+  public verify = (address: FiasAddress): Promise<FiasAPIResult<FiasVerifyResponse>> => {
     const query = {
       directParent: true,
       search: false,
     };
-    return this.send<VerifyResponse[]>(`verify?${FiasAPI.createQuery(query)}`, {
+    return this.send<FiasVerifyResponse[]>(`verify?${FiasAPI.createQuery(query)}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify([address.convertForVerification()]),
-    }).then(({ success, data, error }: APIResult<VerifyResponse[]>) => {
+    }).then(({ success, data, error }: FiasAPIResult<FiasVerifyResponse[]>) => {
       if (success && data) {
-        const { address: verifiedAddress = {}, isValid = false, invalidLevel }: VerifyResponse = data[0] || {};
-        return APIResultFactory.success<VerifyResponse>({
+        const { address: verifiedAddress = {}, isValid = false, invalidLevel }: FiasVerifyResponse = data[0] || {};
+        return FiasAPIResultFactory.success<FiasVerifyResponse>({
           address: verifiedAddress,
           isValid,
-          ...(invalidLevel ? { invalidLevel: invalidLevel.toLowerCase() as Fields } : {}),
+          ...(invalidLevel ? { invalidLevel: invalidLevel.toLowerCase() as FiasFields } : {}),
         });
       } else {
-        return APIResultFactory.fail<VerifyResponse>(error && error.message);
+        return FiasAPIResultFactory.fail<FiasVerifyResponse>(error && error.message);
       }
     });
   };
@@ -114,8 +114,8 @@ export class FiasAPI implements APIProvider {
     limit,
     fullAddress,
     directParent,
-  }: SearchOptions): Promise<APIResult<SearchResponse>> => {
-    const query: SearchQuery = {
+  }: FiasSearchOptions): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    const query: FiasSearchQuery = {
       prefix: searchText,
       actual: true,
       parentFiasId,
@@ -142,13 +142,13 @@ export class FiasAPI implements APIProvider {
         }
       } else {
         switch (field) {
-          case Fields.region:
+          case FiasFields.region:
             return this.searchRegions(searchText);
-          case Fields.house:
+          case FiasFields.house:
             return this.searchHouse(query);
-          case Fields.stead:
+          case FiasFields.stead:
             return this.searchStead(query);
-          case Fields.room:
+          case FiasFields.room:
             return this.searchRoom(query);
           default:
             return this.searchAddressObject({ ...query, levels: [field] });
@@ -159,49 +159,49 @@ export class FiasAPI implements APIProvider {
     return Promise.resolve(emptyResult);
   };
 
-  public searchCountry = (query: { prefix: string; limit?: number }): Promise<APIResult<FiasCountry[]>> => {
+  public searchCountry = (query: { prefix: string; limit?: number }): Promise<FiasAPIResult<FiasCountry[]>> => {
     return this.send(`countries?${FiasAPI.createQuery(query)}`);
   };
 
-  private send = <Data>(path: string, params = {}): Promise<APIResult<Data>> => {
+  private send = <Data>(path: string, params = {}): Promise<FiasAPIResult<Data>> => {
     const resultPromise = this.baseUrl
       ? this.fetchFn(`${this.baseUrl}${path}`, {
           method: 'GET',
           ...params,
-        }).then((result: FetchResponse) => {
+        }).then((result: FiasFetchResponse) => {
           return result.ok
-            ? result.json().then((data: Data) => APIResultFactory.success<Data>(data))
-            : Promise.reject(new Error(Logger.warnings.fetchError));
+            ? result.json().then((data: Data) => FiasAPIResultFactory.success<Data>(data))
+            : Promise.reject(new Error(FiasLogger.warnings.fetchError));
         })
-      : Promise.reject(new Error(Logger.warnings.noBaseUrl));
+      : Promise.reject(new Error(FiasLogger.warnings.noBaseUrl));
 
     return resultPromise.catch(({ message }) => {
-      Logger.log(message);
-      return APIResultFactory.fail<Data>(message);
+      FiasLogger.log(message);
+      return FiasAPIResultFactory.fail<Data>(message);
     });
   };
 
-  private resolveFiasId = (fiasId: FiasId): Promise<APIResult<SearchResponse>> => {
-    return this.send<AddressResponse>(`addresses/structural/${fiasId}`).then(result => {
+  private resolveFiasId = (fiasId: FiasId): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    return this.send<FiasAddressResponse>(`addresses/structural/${fiasId}`).then(result => {
       const { success, data, error } = result;
       if (success && data) {
-        return APIResultFactory.success<SearchResponse>([data]);
+        return FiasAPIResultFactory.success<FiasSearchResponse>([data]);
       } else {
-        return APIResultFactory.fail<SearchResponse>(error && error.message);
+        return FiasAPIResultFactory.fail<FiasSearchResponse>(error && error.message);
       }
     });
   };
 
-  private searchAddressObject = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
-    return this.send<SearchResponse>(`addresses?${FiasAPI.createQuery(query)}`);
+  private searchAddressObject = (query: FiasSearchQuery): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    return this.send<FiasSearchResponse>(`addresses?${FiasAPI.createQuery(query)}`);
   };
 
   private resolveAddress = (
     address: string,
     limit?: number,
-    level: Fields = Fields.house,
-  ): Promise<APIResult<SearchResponse>> => {
-    return this.send<SearchResponse>(
+    level: FiasFields = FiasFields.house,
+  ): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    return this.send<FiasSearchResponse>(
       `addresses/resolve?${FiasAPI.createQuery({
         address,
         limit,
@@ -210,60 +210,60 @@ export class FiasAPI implements APIProvider {
     );
   };
 
-  private searchStead = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
-    return this.send<Stead[]>(`steads?${FiasAPI.createQuery(query)}`).then(result => {
+  private searchStead = (query: FiasSearchQuery): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    return this.send<FiasStead[]>(`steads?${FiasAPI.createQuery(query)}`).then(result => {
       const { success, data, error } = result;
       if (success && data) {
-        return APIResultFactory.success<SearchResponse>(
-          data.map((stead: Stead) => {
+        return FiasAPIResultFactory.success<FiasSearchResponse>(
+          data.map((stead: FiasStead) => {
             return {
               stead,
             };
           }),
         );
       } else {
-        return APIResultFactory.fail<SearchResponse>(error && error.message);
+        return FiasAPIResultFactory.fail<FiasSearchResponse>(error && error.message);
       }
     });
   };
 
-  private searchHouse = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
-    return this.send<House[]>(`houses?${FiasAPI.createQuery(query)}`).then(result => {
+  private searchHouse = (query: FiasSearchQuery): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    return this.send<FiasHouse[]>(`houses?${FiasAPI.createQuery(query)}`).then(result => {
       const { success, data, error } = result;
       if (success && data) {
-        return APIResultFactory.success<SearchResponse>(
-          data.map((house: House) => {
+        return FiasAPIResultFactory.success<FiasSearchResponse>(
+          data.map((house: FiasHouse) => {
             return {
               house,
             };
           }),
         );
       } else {
-        return APIResultFactory.fail<SearchResponse>(error && error.message);
+        return FiasAPIResultFactory.fail<FiasSearchResponse>(error && error.message);
       }
     });
   };
 
-  private searchRoom = (query: SearchQuery): Promise<APIResult<SearchResponse>> => {
-    return this.send<Room[]>(`rooms?${FiasAPI.createQuery(query)}`).then(result => {
+  private searchRoom = (query: FiasSearchQuery): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    return this.send<FiasRoom[]>(`rooms?${FiasAPI.createQuery(query)}`).then(result => {
       const { success, data, error } = result;
       if (success && data) {
-        return APIResultFactory.success<SearchResponse>(
-          data.map((room: Room) => {
+        return FiasAPIResultFactory.success<FiasSearchResponse>(
+          data.map((room: FiasRoom) => {
             return {
               room,
             };
           }),
         );
       } else {
-        return APIResultFactory.fail<SearchResponse>(error && error.message);
+        return FiasAPIResultFactory.fail<FiasSearchResponse>(error && error.message);
       }
     });
   };
 
-  private searchRegions = (searchText: string): Promise<APIResult<SearchResponse>> => {
+  private searchRegions = (searchText: string): Promise<FiasAPIResult<FiasSearchResponse>> => {
     if (!this.regionsPromise) {
-      this.regionsPromise = this.send<SearchResponse>('addresses/regions');
+      this.regionsPromise = this.send<FiasSearchResponse>('addresses/regions');
     }
     if (!searchText) {
       return this.regionsPromise;
@@ -276,9 +276,9 @@ export class FiasAPI implements APIProvider {
     return this.regionsPromise.then(result => {
       const { success, data } = result;
       if (success && data) {
-        return APIResultFactory.success<SearchResponse>(
-          data.filter((address: AddressResponse) => {
-            const { name, code = '' } = address.region as AddressObject;
+        return FiasAPIResultFactory.success<FiasSearchResponse>(
+          data.filter((address: FiasAddressResponse) => {
+            const { name, code = '' } = address.region as FiasAddressObject;
             return isStartsWithSearchText(name) || isStartsWithSearchText(code);
           }),
         );

@@ -1,5 +1,5 @@
-import { AddressElement } from './models/AddressElement';
-import { Address } from './models/Address';
+import { FiasAddressElement } from './models/AddressElement';
+import { FiasAddress } from './models/Address';
 
 export type FiasId = string;
 
@@ -10,53 +10,53 @@ export interface FiasEntity {
   postalCode?: string;
 }
 
-export interface AddressObject extends FiasEntity {
+export interface FiasAddressObject extends FiasEntity {
   name: string;
   abbreviation: string;
   code?: string;
 }
 
-export interface Stead extends FiasEntity {
+export interface FiasStead extends FiasEntity {
   number: string;
-  liveStatus: LiveStatuses;
+  liveStatus: FiasLiveStatuses;
 }
 
-export interface House extends FiasEntity {
-  estateStatus: EstateStatuses;
-  structureStatus: StructureStatuses;
+export interface FiasHouse extends FiasEntity {
+  estateStatus: FiasEstateStatuses;
+  structureStatus: FiasStructureStatuses;
   number?: string;
   structureNumber?: string;
   buildingNumber?: string;
 }
 
-export interface Room extends FiasEntity {
+export interface FiasRoom extends FiasEntity {
   flatNumber: string;
   flatType: number;
-  liveStatus: LiveStatuses;
+  liveStatus: FiasLiveStatuses;
 }
 
-export enum EstateStatuses {
+export enum FiasEstateStatuses {
   Hold = 'Hold',
   House = 'House',
   HouseHold = 'HouseHold',
   None = 'None',
 }
 
-export enum StructureStatuses {
+export enum FiasStructureStatuses {
   Structure = 'Structure',
   Construction = 'Construction',
   Liter = 'Liter',
   None = 'None',
 }
 
-export enum LiveStatuses {
+export enum FiasLiveStatuses {
   active = 'active',
   inactive = 'inactive',
 }
 
-export type FiasObject = AddressObject | Stead | House | Room;
+export type FiasObject = FiasAddressObject | FiasStead | FiasHouse | FiasRoom;
 
-export enum Fields {
+export enum FiasFields {
   region = 'region',
   district = 'district',
   city = 'city',
@@ -69,90 +69,90 @@ export enum Fields {
   room = 'room',
 }
 
-export enum ExtraFields {
+export enum FiasExtraFields {
   postalcode = 'postalcode',
 }
 
-export type AddressFields = { [key in Fields]?: AddressElement };
+export type FiasAddressFields = { [key in FiasFields]?: FiasAddressElement };
 
-export type AdditionalFields = { [key in ExtraFields]?: string };
+export type FiasAdditionalFields = { [key in FiasExtraFields]?: string };
 
 export interface FiasValue {
-  address: AddressValue;
+  address: FiasAddressValue;
   addressString: string;
-  addressErrors: AddressErrors;
+  addressErrors: FiasAddressErrors;
   fiasId: FiasId;
   postalCode: string;
   country?: FiasCountry;
   foreignAddress?: string;
 }
 
-export type AddressValue = {
-  [key in Fields]?: {
+export type FiasAddressValue = {
+  [key in FiasFields]?: {
     name: string;
     data?: FiasObject;
-  }
+  };
 };
 
-export type AddressResponse = { [key in Fields]?: FiasObject };
+export type FiasAddressResponse = { [key in FiasFields]?: FiasObject };
 
-export type SearchResponse = AddressResponse[];
+export type FiasSearchResponse = FiasAddressResponse[];
 
-export interface VerifyResponse {
-  address: AddressResponse;
+export interface FiasVerifyResponse {
+  address: FiasAddressResponse;
   isValid: boolean;
-  invalidLevel?: Fields;
+  invalidLevel?: FiasFields;
 }
 
-export type AddressErrors = { [key in Fields | ExtraFields]?: string };
+export type FiasAddressErrors = { [key in FiasFields | FiasExtraFields]?: string };
 
-export enum FormValidation {
+export enum FiasFormValidation {
   Error = 'Error',
   Warning = 'Warning',
   None = 'None',
 }
 
-export interface SearchOptions {
+export interface FiasSearchOptions {
   fiasId?: FiasId;
   searchText?: string;
-  field?: Fields;
+  field?: FiasFields;
   parentFiasId?: FiasId;
   limit?: number;
   fullAddress?: boolean;
   directParent?: boolean;
 }
 
-export interface APIProvider {
-  search: (options: SearchOptions) => Promise<APIResult<SearchResponse>>;
-  searchCountry: (options: { prefix: string; limit?: number }) => Promise<APIResult<FiasCountry[]>>;
-  verify: (address: Address) => Promise<APIResult<VerifyResponse>>;
+export interface FiasAPIProvider {
+  search: (options: FiasSearchOptions) => Promise<FiasAPIResult<FiasSearchResponse>>;
+  searchCountry: (options: { prefix: string; limit?: number }) => Promise<FiasAPIResult<FiasCountry[]>>;
+  verify: (address: FiasAddress) => Promise<FiasAPIResult<FiasVerifyResponse>>;
 }
 
-export interface APIResult<Data> {
+export interface FiasAPIResult<Data> {
   success: boolean;
   data?: Data;
   error?: Error;
 }
 
-export type FetchFn = (
+export type FiasFetchFn = (
   uri: string,
   options: {
     method?: 'GET' | 'POST';
     body?: string;
   },
-) => Promise<FetchResponse>;
+) => Promise<FiasFetchResponse>;
 
-export interface FetchResponse {
+export interface FiasFetchResponse {
   ok: boolean;
   status: number;
   statusText: string;
   json: () => Promise<any>;
 }
 
-export type FieldsSettings = {
-  [field in Fields | ExtraFields]?: {
+export type FiasFieldsSettings = {
+  [field in FiasFields | FiasExtraFields]?: {
     visible?: boolean;
-  }
+  };
 };
 
 export interface FiasCountry {

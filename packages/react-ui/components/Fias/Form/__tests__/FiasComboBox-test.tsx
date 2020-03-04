@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import { FiasComboBox } from '../FiasComboBox';
 import { delay } from '../../../../lib/utils';
 import { Menu } from '../../../Menu';
-import { Address } from '../../models/Address';
+import { FiasAddress } from '../../models/Address';
 
 function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<T>] {
   let searchCalled: () => void;
@@ -21,7 +21,7 @@ describe('FiasComboBox', () => {
 
   describe('highlighting of the search text', () => {
     const items = [
-      Address.createFromResponse({
+      FiasAddress.createFromResponse({
         city: {
           name: 'Екатеринбург \\^$*+?.()|[]{}',
           abbreviation: 'г',

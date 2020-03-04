@@ -1,23 +1,23 @@
 import {
-  APIProvider,
-  Fields,
-  AddressResponse,
-  SearchOptions,
-  SearchResponse,
-  VerifyResponse,
-  APIResult,
+  FiasAPIProvider,
+  FiasFields,
+  FiasAddressResponse,
+  FiasSearchOptions,
+  FiasSearchResponse,
+  FiasVerifyResponse,
+  FiasAPIResult,
   FiasCountry,
 } from '../types';
-import { Address } from '../models/Address';
+import { FiasAddress } from '../models/Address';
 
-import { APIResultFactory } from './APIResultFactory';
+import { FiasAPIResultFactory } from './APIResultFactory';
 
-const addresses: SearchResponse = require('./data.json');
+const addresses: FiasSearchResponse = require('./data.json');
 
-export class MockAPI implements APIProvider {
-  public verify = async (address: Address): Promise<APIResult<VerifyResponse>> => {
+export class FiasMockAPI implements FiasAPIProvider {
+  public verify = async (address: FiasAddress): Promise<FiasAPIResult<FiasVerifyResponse>> => {
     return Promise.resolve(
-      APIResultFactory.success({
+      FiasAPIResultFactory.success({
         address: {},
         isValid: true,
       }),
@@ -31,8 +31,8 @@ export class MockAPI implements APIProvider {
     parentFiasId,
     limit,
     fullAddress,
-  }: SearchOptions): Promise<APIResult<SearchResponse>> => {
-    let data: SearchResponse = [];
+  }: FiasSearchOptions): Promise<FiasAPIResult<FiasSearchResponse>> => {
+    let data: FiasSearchResponse = [];
 
     if (fiasId) {
       data = [addresses[0]];
@@ -46,21 +46,22 @@ export class MockAPI implements APIProvider {
       }
     }
 
-    return Promise.resolve(APIResultFactory.success(data));
+    return Promise.resolve(FiasAPIResultFactory.success(data));
   };
 
-  public searchCountry = async (options: SearchOptions): Promise<APIResult<FiasCountry[]>> => {
-    return Promise.resolve(APIResultFactory.success([]));
+  public searchCountry = async (options: FiasSearchOptions): Promise<FiasAPIResult<FiasCountry[]>> => {
+    return Promise.resolve(FiasAPIResultFactory.success([]));
   };
 
-  private getAddresses = (field: Fields, fullAddress?: boolean): AddressResponse[] => {
-    return addresses.filter((address: AddressResponse) => address[field]).map(
-      (address: AddressResponse) =>
+  private getAddresses = (field: FiasFields, fullAddress?: boolean): FiasAddressResponse[] => {
+    return addresses
+      .filter((address: FiasAddressResponse) => address[field])
+      .map((address: FiasAddressResponse) =>
         fullAddress
           ? address
           : {
               [field]: address[field],
             },
-    );
+      );
   };
 }

@@ -1,12 +1,12 @@
-import { Fields, AddressFields, FieldsSettings } from '../../../../types';
-import { Address } from '../../../../models/Address';
+import { FiasFields, FiasAddressFields, FiasFieldsSettings } from '../../../../types';
+import { FiasAddress } from '../../../../models/Address';
 
 export interface GetDiffFieldsTestCase {
   label: string;
-  address_1: Address;
-  address_2: Address;
-  fieldsSettings?: FieldsSettings;
-  diffFields: AddressFields;
+  address_1: FiasAddress;
+  address_2: FiasAddress;
+  fieldsSettings?: FiasFieldsSettings;
+  diffFields: FiasAddressFields;
 }
 
 const CASE_01 = 'both addresses are EMPTY';
@@ -100,37 +100,37 @@ const testResponse_2 = {
 export const getDiffFieldsTestCases: GetDiffFieldsTestCase[] = [
   {
     label: CASE_01,
-    address_1: Address.createFromResponse({}),
-    address_2: Address.createFromResponse({}),
+    address_1: FiasAddress.createFromResponse({}),
+    address_2: FiasAddress.createFromResponse({}),
     diffFields: {},
   },
   {
     label: CASE_02,
-    address_1: Address.createFromResponse({}),
-    address_2: Address.createFromResponse({
+    address_1: FiasAddress.createFromResponse({}),
+    address_2: FiasAddress.createFromResponse({
       city: testResponse_1.city,
     }),
-    diffFields: Address.responseToFields({
+    diffFields: FiasAddress.responseToFields({
       city: testResponse_1.city,
     }),
   },
   {
     label: CASE_03,
-    address_1: Address.createFromResponse({
+    address_1: FiasAddress.createFromResponse({
       city: testResponse_1.city,
       street: testResponse_1.street,
     }),
-    address_2: Address.createFromResponse({}),
+    address_2: FiasAddress.createFromResponse({}),
     diffFields: {},
   },
   {
     label: CASE_04,
-    address_1: Address.createFromResponse({
+    address_1: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
       street: testResponse_1.street,
     }),
-    address_2: Address.createFromResponse({
+    address_2: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
       street: testResponse_1.street,
@@ -139,69 +139,69 @@ export const getDiffFieldsTestCases: GetDiffFieldsTestCase[] = [
   },
   {
     label: CASE_05,
-    address_1: Address.createFromResponse({
+    address_1: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
     }),
-    address_2: Address.createFromResponse({
+    address_2: FiasAddress.createFromResponse({
       region: testResponse_2.region,
       city: testResponse_2.city,
     }),
-    diffFields: Address.responseToFields({
+    diffFields: FiasAddress.responseToFields({
       region: testResponse_2.region,
       city: testResponse_2.city,
     }),
   },
   {
     label: CASE_06,
-    address_1: Address.createFromResponse({
+    address_1: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
       intracityarea: testResponse_1.intracityarea,
     }),
-    address_2: Address.createFromResponse({
+    address_2: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
     }),
-    diffFields: Address.responseToFields({}),
+    diffFields: FiasAddress.responseToFields({}),
   },
   {
     label: CASE_07,
-    address_1: Address.createFromResponse({
+    address_1: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
     }),
-    address_2: Address.createFromResponse({
+    address_2: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
       intracityarea: testResponse_1.intracityarea,
     }),
-    diffFields: Address.responseToFields({
+    diffFields: FiasAddress.responseToFields({
       intracityarea: testResponse_1.intracityarea,
     }),
   },
   {
     label: CASE_08,
-    address_1: Address.createFromResponse({
+    address_1: FiasAddress.createFromResponse({
       city: testResponse_1.city,
     }),
-    address_2: Address.createFromResponse({
+    address_2: FiasAddress.createFromResponse({
       region: testResponse_1.region,
       city: testResponse_1.city,
       intracityarea: testResponse_1.intracityarea,
     }),
     fieldsSettings: {
-      [Fields.region]: {
+      [FiasFields.region]: {
         visible: false,
       },
-      [Fields.city]: {
+      [FiasFields.city]: {
         visible: true,
       },
-      [Fields.intracityarea]: {
+      [FiasFields.intracityarea]: {
         visible: true,
       },
     },
-    diffFields: Address.responseToFields({
+    diffFields: FiasAddress.responseToFields({
       intracityarea: testResponse_1.intracityarea,
     }),
   },
