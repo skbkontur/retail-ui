@@ -352,7 +352,7 @@ const styles = {
       visibility: visible;
 
       ${cssName(styles.checked(t))}:not(${cssName(styles.focus(t))}) & {
-        box-shadow: ${t.btnCheckedShadowArrowLeft};
+        box-shadow: ${t.btnCheckedShadowArrowLeft} !important;
       }
     `;
   },
@@ -405,7 +405,7 @@ const styles = {
         &,
         &:not(${cssName(styles.focus(t))}):hover {
           ${cssName(styles.arrow())} {
-            box-shadow: ${t.btnDefaultCheckedShadowArrow};
+            box-shadow: ${t.btnDefaultCheckedShadowArrow} !important;
           }
         }
       }
@@ -614,10 +614,10 @@ const styles = {
       }
 
       &,
-      &:not(${cssName(styles.focus(t))}):hover {
+      &:not(${cssName(styles.focus(t))}) {
         ${cssName(styles.arrow())} {
           background: ${t.btnCheckedBg} !important;
-          box-shadow: ${t.btnCheckedShadowArrow};
+          box-shadow: ${t.btnCheckedShadowArrow} !important;
         }
       }
 
