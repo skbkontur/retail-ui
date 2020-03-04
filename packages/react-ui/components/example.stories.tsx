@@ -2,21 +2,34 @@ export default {
   title: '😌 TestRetreat ',
 };
 
-export const HelloWorld = () => '👋';
-
-export const ButtonWithIcon = () => <Button icon={<i>🐻</i>}>with Icon</Button>;
+export const ButtonWithIcon = () => <Button>Hello 👋</Button>;
+export const ButtonWithIcon2 = () => <Button>Hello 👋</Button>;
 
 ButtonWithIcon.story = {
   parameters: {
     creevey: {
       tests: {
-        async simple(this: { browser: WebDriver }) {
-          // находим элемент
+        async hover(this: { browser: WebDriver }) {
+          // находим элемент для скриншота
           const element = await this.browser.findElement({ css: '#test-element' });
-          // делаем скриншот
+
+          // находим кнопку
+          const button = await this.browser.findElement({ css: 'button' });
+
+          // делаем скриншот "по умолчанию"
           const idle = await element.takeScreenshot();
-          // сравниваем
-          await expect(idle).to.matchImage();
+
+          // наводим указатель мыши
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: button })
+            .perform();
+
+          // делаем скриншот "при наведении"
+          const hover = await element.takeScreenshot();
+
+          // сравниваем результаты
+          await expect({ idle, hover }).to.matchImages();
         },
       },
     },
@@ -24,7 +37,7 @@ ButtonWithIcon.story = {
 };
 
 export const BasicAutocomplete = () => {
-  const [value, updateValue] = useState('');
+  const [value, updateValue] = React.useState('');
   return <Autocomplete source={['one', 'two', 'three']} value={value} onValueChange={updateValue} />;
 };
 
