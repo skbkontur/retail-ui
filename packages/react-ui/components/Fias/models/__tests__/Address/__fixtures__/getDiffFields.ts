@@ -1,5 +1,5 @@
 import { FiasFields, FiasAddressFields, FiasFieldsSettings } from '../../../../types';
-import { FiasAddress } from '../../../../models/Address';
+import { FiasAddress } from '../../../FiasAddress';
 
 export interface GetDiffFieldsTestCase {
   label: string;

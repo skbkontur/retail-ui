@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ComboBox, ComboBoxProps } from '../../ComboBox';
-import { FiasAddress } from '../models/Address';
+import { FiasAddress } from '../models/FiasAddress';
 import { reactGetTextContent } from '../../../lib/reactGetTextContent';
 import { escapeRegExpSpecChars } from '../../../lib/utils';
 

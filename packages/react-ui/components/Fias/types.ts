@@ -1,5 +1,5 @@
-import { FiasAddressElement } from './models/AddressElement';
-import { FiasAddress } from './models/Address';
+import { FiasAddressElement } from './models/FiasAddressElement';
+import { FiasAddress } from './models/FiasAddress';
 
 export type FiasId = string;
 

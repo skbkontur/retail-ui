@@ -1,6 +1,6 @@
 import { FiasFields, FiasAddressFields } from '../../../types';
 import { FiasLocaleHelper } from '../../../locale';
-import { FiasAddress } from '../../Address';
+import { FiasAddress } from '../../FiasAddress';
 
 import { removeFiasDataTestCases } from './__fixtures__/removeFiasData';
 import { getParentTestCases } from './__fixtures__/getParent';

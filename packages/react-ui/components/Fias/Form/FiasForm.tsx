@@ -16,12 +16,12 @@ import {
   FiasSearchOptions,
   FiasVerifyResponse,
 } from '../types';
-import { FiasAddressElement } from '../models/AddressElement';
+import { FiasAddressElement } from '../models/FiasAddressElement';
 import { Tooltip } from '../../Tooltip';
 import { Input, InputProps } from '../../Input';
 import { FiasSearch } from '../FiasSearch/FiasSearch';
 import { Textarea } from '../../Textarea';
-import { FiasAddress } from '../models/Address';
+import { FiasAddress } from '../models/FiasAddress';
 
 import { FiasCountrySelector } from './FiasCountrySelector';
 import styles from './FiasForm.module.less';

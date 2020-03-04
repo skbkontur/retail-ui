@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { FiasLocale, FiasLocaleHelper } from '../locale';
-import { FiasAddress } from '../models/Address';
+import { FiasAddress } from '../models/FiasAddress';
 import { FiasCountry, FiasAPIProvider } from '../types';
 import { locale } from '../../../lib/locale/decorators';
 

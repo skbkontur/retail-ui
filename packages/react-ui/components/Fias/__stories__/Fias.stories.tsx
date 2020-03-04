@@ -6,8 +6,8 @@ import { Fias } from '../Fias';
 import { FiasForm } from '../Form/FiasForm';
 import { FiasModal } from '../FiasModal';
 import { FiasAPI } from '../api/FiasAPI';
-import { FiasAddress } from '../models/Address';
-import { FiasMockAPI } from '../api/MockAPI';
+import { FiasAddress } from '../models/FiasAddress';
+import { FiasMockAPI } from '../api/FiasMockAPI';
 
 const BASE_URL = 'https://api.testkontur.ru/fias/v1/';
 const MOCK_RESPONSE = require('../api/data.json')[0];

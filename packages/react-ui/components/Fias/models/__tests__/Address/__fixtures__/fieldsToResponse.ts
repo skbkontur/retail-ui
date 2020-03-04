@@ -1,5 +1,5 @@
 import { FiasFields, FiasAddressFields } from '../../../../types';
-import { FiasAddressElement } from '../../../AddressElement';
+import { FiasAddressElement } from '../../../FiasAddressElement';
 import { FiasData } from '../../../FiasData';
 
 export interface FieldsToResponseTestCase {

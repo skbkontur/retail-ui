@@ -16,11 +16,11 @@ import {
   FiasVerifyResponse,
 } from '../types';
 import { abbreviations } from '../constants/abbreviations';
-import { FiasLogger } from '../logger/Logger';
+import { FiasLogger } from '../logger/FiasLogger';
 import { fetch } from '../../../lib/net/fetch-cors';
-import { FiasAddress } from '../models/Address';
+import { FiasAddress } from '../models/FiasAddress';
 
-import { FiasAPIResultFactory } from './APIResultFactory';
+import { FiasAPIResultFactory } from './FiasAPIResultFactory';
 
 interface FiasSearchQuery {
   [key: string]: string | number | boolean | FiasId | FiasFields[] | undefined;

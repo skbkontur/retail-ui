@@ -1,6 +1,6 @@
 import { FiasLocaleHelper } from '../../../../locale';
 import { FiasAddressResponse, FiasAddressErrors, FiasFields } from '../../../../types';
-import { FiasAddress } from '../../../Address';
+import { FiasAddress } from '../../../FiasAddress';
 
 export interface ValidationTestCase {
   label: string;

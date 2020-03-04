@@ -22,8 +22,8 @@ import {
 import { FiasModal } from './FiasModal';
 import { FiasForm } from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
-import { FiasAddress } from './models/Address';
-import { FiasLogger } from './logger/Logger';
+import { FiasAddress } from './models/FiasAddress';
+import { FiasLogger } from './logger/FiasLogger';
 import { jsStyles } from './Fias.styles';
 
 export interface FiasProps {

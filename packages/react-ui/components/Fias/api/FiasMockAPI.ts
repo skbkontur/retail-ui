@@ -8,9 +8,9 @@ import {
   FiasAPIResult,
   FiasCountry,
 } from '../types';
-import { FiasAddress } from '../models/Address';
+import { FiasAddress } from '../models/FiasAddress';
 
-import { FiasAPIResultFactory } from './APIResultFactory';
+import { FiasAPIResultFactory } from './FiasAPIResultFactory';
 
 const addresses: FiasSearchResponse = require('./data.json');
 
