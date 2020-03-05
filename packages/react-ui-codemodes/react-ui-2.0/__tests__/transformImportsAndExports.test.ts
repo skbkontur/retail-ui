@@ -62,6 +62,10 @@ defineInlineTest(
     import { Icon20 } from "@skbkontur/react-ui/components/all";
 
     import { IconType } from "@skbkontur/react-ui/components/Input/Input";
+
+    import { FiasAPI, Address } from "@skbkontur/react-ui/components/Fias";
+    import { Fields, FieldsSettings } from "@skbkontur/react-ui/components/Fias/types";
+    import { FiasSearch } from "@skbkontur/react-ui/components/Fias/FiasSearch/FiasSearch";
 `,
   `
     import { Radio } from "@skbkontur/react-ui";
@@ -80,6 +84,10 @@ defineInlineTest(
     import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
 
     import { InputIconType as IconType } from "@skbkontur/react-ui";
+
+    import { FiasAPI, FiasAddress as Address } from "@skbkontur/react-ui";
+    import { FiasFields as Fields, FiasFieldsSettings as FieldsSettings } from "@skbkontur/react-ui";
+    import { FiasSearch } from "@skbkontur/react-ui";
   `,
   `transforms named imports`,
 );
@@ -211,6 +219,10 @@ defineInlineTest(
     export { IconType } from "@skbkontur/react-ui/components/Input/Input";
     export { Icon20 } from "@skbkontur/react-ui/components/all";
     export { Button, RenderContainer } from "@skbkontur/react-ui/components/all";
+    export { Fias, Address, FiasAPI, FiasSearch } from "@skbkontur/react-ui/components/Fias";
+    export { FiasSearchProps } from "@skbkontur/react-ui/components/Fias/FiasSearch/FiasSearch";
+    export { Fields } from "@skbkontur/react-ui/components/Fias/types";
+    export * from "@skbkontur/react-ui/components/Fias/types";
     `,
   `
     export { ModalHeader as MyHeader, ModalHeaderProps as HeaderProps } from "@skbkontur/react-ui";
@@ -219,6 +231,10 @@ defineInlineTest(
     export { Icon as Icon20 } from "@skbkontur/react-ui/internal";
     export { RenderContainer } from "@skbkontur/react-ui/internal";
     export { Button } from "@skbkontur/react-ui";
+    export { Fias, FiasAddress as Address, FiasAPI, FiasSearch } from "@skbkontur/react-ui";
+    export { FiasSearchProps } from "@skbkontur/react-ui";
+    export { FiasFields as Fields } from "@skbkontur/react-ui";
+    export * from "@skbkontur/react-ui/components/Fias/types";
   `,
   `transforms reexports for renamed and internal components`,
 );

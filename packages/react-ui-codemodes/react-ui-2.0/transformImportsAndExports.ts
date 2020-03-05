@@ -54,11 +54,16 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
   collection
     .find(j.ExportAllDeclaration, node => node.source.value.match(path))
     .forEach(exportDeclaration => {
-      const componentName = getComponentNameFromPath(exportDeclaration.node.source.value as string, path);
+      const originSource = exportDeclaration.node.source.value as string;
+      const componentName = getComponentNameFromPath(originSource, path);
       if (!componentName) {
         exportDeclaration.value.source = j.stringLiteral(sourceValue);
       } else {
-        exportDeclaration.value.source = j.stringLiteral(sourceValue + '/components/' + componentName);
+        if (originSource.match(/Fias\/types/)) {
+          exportDeclaration.value.source = j.stringLiteral(sourceValue + '/components/Fias/types');
+        } else {
+          exportDeclaration.value.source = j.stringLiteral(sourceValue + '/components/' + componentName);
+        }
       }
     });
 

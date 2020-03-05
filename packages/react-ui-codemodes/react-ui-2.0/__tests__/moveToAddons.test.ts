@@ -92,14 +92,15 @@ defineInlineTest(
     component: 'Fias',
   },
   `
-    import { Fias, FiasSearch, FiasAPI } from "@skbkontur/react-ui";
+    import { Fias, FiasSearch, FiasAPI, FiasAddress } from "@skbkontur/react-ui";
+    import { FiasFields } from "@skbkontur/react-ui/components/Fias/types";
     import { Input } from "@skbkontur/react-ui";
     import { Logotype as Logo, Button } from "@skbkontur/react-ui";
     import { Spinner, Loader } from "@skbkontur/react-ui";
     import { TopBar, TopBarProps, TopBarDropdown } from "@skbkontur/react-ui";
 `,
   `
-    import { Fias, FiasSearch, FiasAPI } from "@skbkontur/react-ui-addons";
+    import { Fias, FiasSearch, FiasAPI, FiasAddress, FiasFields } from "@skbkontur/react-ui-addons";
     import { Input } from "@skbkontur/react-ui";
     import { Logotype as Logo, Button } from "@skbkontur/react-ui";
     import { Spinner, Loader } from "@skbkontur/react-ui";
@@ -132,4 +133,16 @@ defineInlineTest(
     export { TopBar } from "@skbkontur/react-ui-addons";
   `,
   `transforms reexports`,
+);
+
+defineInlineTest(
+  transform,
+  {},
+  `
+    export * from "@skbkontur/react-ui/components/Fias/types"
+`,
+  `
+    export * from "@skbkontur/react-ui-addons/components/Fias/types"
+  `,
+  `transforms all Fias's types reexport`,
 );

@@ -39,6 +39,12 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
       moveSpecifierToSeparateExport(api, exportSpecifier, FINAL_SOURCE);
     });
 
+  result
+    .find(j.ExportAllDeclaration, node => node.source.value.match(INITIAL_SOURCE + '/components/Fias/types'))
+    .replaceWith(exportDeclaration =>
+      j.exportAllDeclaration(null, j.stringLiteral(FINAL_SOURCE + '/components/Fias/types')),
+    );
+
   if (dedupe) {
     deduplicateImports(api, result, FINAL_SOURCE);
   }

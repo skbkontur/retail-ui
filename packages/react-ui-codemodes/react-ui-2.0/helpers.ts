@@ -29,6 +29,9 @@ export const getActualImportName = (path: string, importedName: string): string 
     case !!path.match(/TopBar\/(ButtonItem|Item|Organizations|OrganizationsState|User)/): {
       return !importedName.startsWith('TopBar') ? 'TopBar' + importedName : importedName;
     }
+    case !!path.match(/Fias/): {
+      return !importedName.startsWith('Fias') ? 'Fias' + importedName : importedName;
+    }
     case !!path.match(/Input/) && importedName === 'IconType': {
       return 'InputIconType';
     }
