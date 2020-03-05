@@ -7,7 +7,7 @@ import { polyfillPlaceholder } from '../polyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { getTextAreaHeight } from './TextareaHelpers';
@@ -165,12 +165,12 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

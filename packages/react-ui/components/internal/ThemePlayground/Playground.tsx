@@ -13,7 +13,7 @@ import { Tabs } from '../../Tabs';
 import { Gapped } from '../../Gapped';
 import { Link, LinkProps } from '../../Link';
 import { Input, InputProps } from '../../Input';
-import { ThemeConsumer } from '../../ThemeConsumer';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Tooltip } from '../../Tooltip';
 import { Sticky } from '../../Sticky';
 
@@ -33,7 +33,7 @@ import { RadioPlayground } from './RadioPlayground';
 import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
-import { PlaygroundTheme } from './ThemeProviderPlayground';
+import { PlaygroundTheme } from './ThemeContextPlayground';
 
 const useSticky = process.env.enableReactTesting !== 'true';
 
@@ -45,19 +45,18 @@ export interface ComponentsListProps {
 
 export class Playground extends React.Component<ComponentsListProps, {}> {
   private theme!: PlaygroundTheme;
-  private stickyStop: HTMLElement | null = null;
+  private stopEl = React.createRef<HTMLDivElement>();
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme as PlaygroundTheme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
-
   private renderMain() {
     const wrapperClassName = cx(styles.playground, jsStyles.playgroundWrapper(this.theme));
     return (
@@ -127,6 +126,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
         </Button>
       </Gapped>
     );
+
     return (
       <ComponentsGroup title={'Размеры'} theme={this.theme}>
         <Group size={'small'} />
@@ -260,10 +260,8 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
   };
 
   private renderStickyStopElement = () => {
-    return <div ref={this.stopRef} style={{ height: 50 }} />;
+    return <div ref={this.stopEl} style={{ height: 50 }} />;
   };
 
-  private stopRef = (el: HTMLElement | null) => (this.stickyStop = el);
-
-  private getStickyStop = () => this.stickyStop;
+  private getStickyStop = () => this.stopEl.current;
 }

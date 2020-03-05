@@ -1,4 +1,6 @@
-export const darkTheme = {
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+
+export const darkTheme = ThemeFactory.create({
   /*BEGIN: custom fields for playground*/
   backgroundMain: '#000',
   textColorMain: '#fff',
@@ -266,4 +268,4 @@ export const darkTheme = {
   specificityLevel: '0',
   textareaBg: 'none',
   textareaColor: 'inherit',
-};
+});

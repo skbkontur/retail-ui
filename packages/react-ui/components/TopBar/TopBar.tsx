@@ -4,7 +4,7 @@ import warning from 'warning';
 
 import { Logotype } from '../Logotype';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
@@ -152,12 +152,12 @@ export class TopBar extends React.Component<TopBarProps> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

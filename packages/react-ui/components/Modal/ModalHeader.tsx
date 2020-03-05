@@ -2,8 +2,7 @@ import React from 'react';
 
 import { Sticky } from '../Sticky';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../ZIndex';
 
 import { jsStyles } from './Modal.styles';

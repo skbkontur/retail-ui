@@ -11,7 +11,7 @@ import { Link } from '../../Link';
 import { Hint } from '../../Hint';
 
 import styles from './styles.module.less';
-import { PlaygroundTheme } from './ThemeProviderPlayground';
+import { PlaygroundTheme } from './ThemeContextPlayground';
 
 const emitter = new EventEmitter();
 

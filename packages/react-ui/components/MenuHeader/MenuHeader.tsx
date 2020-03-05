@@ -3,8 +3,7 @@ import React from 'react';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './MenuHeader.styles';
 import styles from './MenuHeader.module.less';

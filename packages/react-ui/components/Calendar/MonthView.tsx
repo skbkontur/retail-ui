@@ -2,8 +2,7 @@ import React from 'react';
 
 import { DateSelect } from '../DateSelect';
 import { cx } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { jsStyles } from './MonthView.styles';

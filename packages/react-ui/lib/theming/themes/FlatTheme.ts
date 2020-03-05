@@ -1,7 +1,8 @@
 import FLAT_VARIABLES from '../../../components/variables.flat.module.less';
 import { defineInternalTheme } from '../ThemeHelpers';
+import { ThemeFactory } from '../ThemeFactory';
 
-export const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
+export const FLAT_THEME = ThemeFactory.create(defineInternalTheme(FLAT_VARIABLES, {
   btnFontSizeMedium: {
     get() {
       return '16px';
@@ -238,4 +239,4 @@ export const FLAT_THEME = defineInternalTheme(FLAT_VARIABLES, {
       return this.textareaDisabledBg;
     },
   },
-});
+}));

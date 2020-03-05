@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { tabListener } from '../../lib/events/tabListener';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import styles from './Toggle.module.less';
@@ -78,12 +78,12 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

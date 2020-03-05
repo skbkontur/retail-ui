@@ -1,7 +1,7 @@
-import { Theme } from '../../../lib/theming/Theme';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
-import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
-import { IS_PROXY_SUPPORTED } from '../../internal/Supports';
+import { Theme } from '../../../../lib/theming/Theme';
+import { ThemeFactory } from '../../../../lib/theming/ThemeFactory';
+import { FLAT_THEME } from '../../../../lib/theming/themes/FlatTheme';
+import { IS_PROXY_SUPPORTED } from '../../Supports';
 
 import { formatSourceCode } from './FormatSourceCode';
 
@@ -37,9 +37,9 @@ export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
   baseThemes.push(ThemeFactory.getDefaultTheme());
-  baseThemes.push(ThemeFactory.create(FLAT_THEME));
+  baseThemes.push(FLAT_THEME);
 
-  const componentsContext = require.context('../../', true, /\.styles.ts$/);
+  const componentsContext = require.context('../../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach(fileName => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
