@@ -1,7 +1,12 @@
 /* eslint-disable import/no-default-export */
 import { API, FileInfo } from 'jscodeshift';
 
-import { deduplicateImports, moveSpecifierToSeparateImport, moveSpecifierToSeparateExport } from './helpers';
+import {
+  deduplicateImports,
+  moveSpecifierToSeparateImport,
+  moveSpecifierToSeparateExport,
+  deduplicateExports,
+} from './helpers';
 
 interface TransformOptions {
   /**
@@ -47,6 +52,7 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
 
   if (dedupe) {
     deduplicateImports(api, result, FINAL_SOURCE);
+    deduplicateExports(api, result, FINAL_SOURCE);
   }
 
   return result.toSource();

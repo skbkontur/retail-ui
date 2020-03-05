@@ -8,6 +8,7 @@ import {
   deduplicateImports,
   moveSpecifierToSeparateImport,
   moveSpecifierToSeparateExport,
+  deduplicateExports,
 } from './helpers';
 
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): Collection<any> => {
@@ -163,6 +164,7 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
   transformInternals(api, result, FINAL_SOURCE, INTERNAL_SOURCE);
   if (dedupe) {
     deduplicateImports(api, result, FINAL_SOURCE);
+    deduplicateExports(api, result, FINAL_SOURCE);
   }
 
   return result.toSource();

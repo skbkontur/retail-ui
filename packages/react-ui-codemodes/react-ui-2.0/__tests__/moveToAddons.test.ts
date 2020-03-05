@@ -120,17 +120,9 @@ defineInlineTest(
     export { TopBar, TopBarProps, TopBarDropdown } from "@skbkontur/react-ui";
 `,
   `
-    export { Fias } from "@skbkontur/react-ui-addons";
-    export { FiasSearch } from "@skbkontur/react-ui-addons";
-    export { FiasAPI } from "@skbkontur/react-ui-addons";
+    export { Fias, FiasSearch, FiasAPI, Logotype as Logo, Spinner, Loader, TopBarDropdown, TopBarProps, TopBar } from "@skbkontur/react-ui-addons";
     export { Input } from "@skbkontur/react-ui";
-    export { Logotype as Logo } from "@skbkontur/react-ui-addons";
     export { Button } from "@skbkontur/react-ui";
-    export { Spinner } from "@skbkontur/react-ui-addons";
-    export { Loader } from "@skbkontur/react-ui-addons";
-    export { TopBarDropdown } from "@skbkontur/react-ui-addons";
-    export { TopBarProps } from "@skbkontur/react-ui-addons";
-    export { TopBar } from "@skbkontur/react-ui-addons";
   `,
   `transforms reexports`,
 );
@@ -144,5 +136,5 @@ defineInlineTest(
   `
     export * from "@skbkontur/react-ui-addons/components/Fias/types"
   `,
-  `transforms all Fias's types reexport`,
+  `transforms reexport of all Fias's types`,
 );

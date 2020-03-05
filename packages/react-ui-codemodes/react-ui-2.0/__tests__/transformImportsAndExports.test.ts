@@ -188,7 +188,9 @@ defineInlineTest(
 
 defineInlineTest(
   transform,
-  {},
+  {
+    dedupe: false,
+  },
   `
     export * from "@skbkontur/react-ui/components";
     export { Switcher, Toggle } from "@skbkontur/react-ui/components/all";
@@ -213,6 +215,33 @@ defineInlineTest(
 defineInlineTest(
   transform,
   {},
+  `
+    export * from "@skbkontur/react-ui/components";
+    export { Switcher, Toggle } from "@skbkontur/react-ui/components/all";
+
+    export * from "@skbkontur/react-ui/components/Button";
+    export { default as Button } from "@skbkontur/react-ui/components/Button";
+    export { default, InputProps } from "@skbkontur/react-ui/components/Input/Input";
+    export { default as SuperRadio, RadioProps as SuperRadioProps } from "@skbkontur/react-ui/Radio";
+
+    export { Popup } from "@skbkontur/react-ui/components/Popup";
+    export { RenderContainer } from "@skbkontur/react-ui/components/all";
+    `,
+  `
+    export * from "@skbkontur/react-ui";
+    export { Switcher, Toggle, Button, Input as default, InputProps, Radio as SuperRadio, RadioProps as SuperRadioProps } from "@skbkontur/react-ui";
+
+    export * from "@skbkontur/react-ui/components/Button";
+    export { Popup, RenderContainer } from "@skbkontur/react-ui/internal";
+  `,
+  `deduplicate reexports reexports`,
+);
+
+defineInlineTest(
+  transform,
+  {
+    dedupe: false,
+  },
   `
     export { Header as MyHeader, HeaderProps } from "@skbkontur/react-ui/components/Modal/ModalHeader";
     export { default, ButtonItemProps } from "@skbkontur/react-ui/components/TopBar/ButtonItem";
@@ -268,6 +297,7 @@ defineInlineTest(
     import { Toggle } from "@skbkontur/react-ui/components/all";
     import { Checkbox as Check } from "@skbkontur/react-ui/components/all";
     import Popup from "@skbkontur/react-ui/Popup";
+    import { FocusTrap } from "@skbkontur/react-ui/components/internal/FocusTrap";
     import * as ReactUI from "@skbkontur/react-ui";
     import Button from "@skbkontur/react-ui/components/Button/Button";
 
@@ -281,13 +311,11 @@ defineInlineTest(
     import { Component } from "react";
 
     import { Toggle, Checkbox as Check, Button } from "@skbkontur/react-ui";
-    import { Popup } from "@skbkontur/react-ui/internal";
+    import { Popup, FocusTrap } from "@skbkontur/react-ui/internal";
     import * as ReactUI from "@skbkontur/react-ui";
 
-    export { Button } from "@skbkontur/react-ui";
-    export { Input as default } from "@skbkontur/react-ui";
-    export { RenderContainer } from "@skbkontur/react-ui/internal";
-    export { Icon } from "@skbkontur/react-ui/internal";
+    export { Button, Input as default } from "@skbkontur/react-ui";
+    export { RenderContainer, Icon } from "@skbkontur/react-ui/internal";
   `,
   `deduplicates by default`,
 );
@@ -351,13 +379,10 @@ defineInlineTest(
     import { RenderContainer, Icon as Icon20, Calendar, FocusTrap, Icon } from "@skbkontur/react-ui/internal";
 
     export * from "@skbkontur/react-ui";
-    export { Icon as Icon20 } from "@skbkontur/react-ui/internal";
-    export { Switcher, Toggle } from "@skbkontur/react-ui";
+    export { Icon as Icon20, RenderContainer } from "@skbkontur/react-ui/internal";
+    export { Switcher, Toggle, Button, Input as default } from "@skbkontur/react-ui";
 
     export * from "@skbkontur/react-ui/components/Button";
-    export { Button } from "@skbkontur/react-ui";
-    export { Input as default } from "@skbkontur/react-ui";
-    export { RenderContainer } from "@skbkontur/react-ui/internal";
   `,
   `deduplicates with alias`,
 );

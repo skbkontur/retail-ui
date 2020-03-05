@@ -1,4 +1,4 @@
-import { API, ASTPath, ImportSpecifier, ExportSpecifier, ImportDeclaration, ExportDeclaration } from 'jscodeshift';
+import { API, ASTPath, ImportSpecifier, ExportSpecifier, ImportDeclaration, ExportNamedDeclaration } from 'jscodeshift';
 import { Collection } from 'jscodeshift/src/Collection';
 
 export const getComponentNameFromPath = (path: string, packagePath: string): string | null => {
@@ -65,14 +65,14 @@ export const moveSpecifierToSeparateExport: (
   moveSpecifierToSeparateDeclaration(
     api,
     exportSpecifier,
-    j.exportDeclaration(false, null, [exportSpecifier.node], j.stringLiteral(source)),
+    j.exportNamedDeclaration(null, [exportSpecifier.node], j.stringLiteral(source)),
   );
 };
 
 export const moveSpecifierToSeparateDeclaration: (
   api: API,
   specifier: ASTPath<ExportSpecifier | ImportSpecifier>,
-  declaration: ExportDeclaration | ImportDeclaration,
+  declaration: ExportNamedDeclaration | ImportDeclaration,
 ) => void = (api, specifier, declaration) => {
   const j = api.jscodeshift;
   const originDeclaration = specifier.parent;
@@ -83,26 +83,30 @@ export const moveSpecifierToSeparateDeclaration: (
   }
 };
 
-export const deduplicateImports = (api: API, collection: Collection<any>, source: RegExp | string): void => {
-  const j = api.jscodeshift;
+export const dedupe: (collection: Collection<any>) => void = (collection): void => {
+  const map: { [key: string]: Array<ASTPath<any>> } = {};
 
-  const imports = collection.find(j.ImportDeclaration, node => node.source.value.match(source));
-
-  const newImports = imports.nodes().reduce((acc: { [key: string]: ImportDeclaration[] }, v) => {
-    const source = v.source.value as string;
-    if (!acc[source]) {
-      acc[source] = [];
+  collection.forEach((declaration: any) => {
+    const source = declaration.value.source.value;
+    if (typeof source === 'string') {
+      const array = map[source];
+      if (!array) {
+        map[source] = [declaration];
+      } else {
+        array.push(declaration);
+      }
     }
-    acc[source].push(v);
-    return acc;
-  }, {});
+  });
 
-  const omit: any = [];
+  const omit: any = {};
 
-  imports
-    .filter(i => newImports[i.node.source.value as string].length > 1)
+  collection
+    .filter(i => {
+      const source = i.node.source.value;
+      return source && map[source].length > 1;
+    })
     .replaceWith(p => {
-      const source = p.node.source.value as string;
+      const source = p.node.source!.value as string;
 
       if (p.node.specifiers[0].type === 'ImportNamespaceSpecifier') {
         return p.node;
@@ -112,14 +116,24 @@ export const deduplicateImports = (api: API, collection: Collection<any>, source
         return '';
       }
 
-      const imports = newImports[source].reduce((acc: any, v) => {
-        return [...acc, ...v.specifiers.filter(i => i.type !== 'ImportNamespaceSpecifier')];
+      const specifiers = map[source].reduce((acc: any, v) => {
+        return [...acc, ...v.node.specifiers.filter((i: any) => i.type !== 'ImportNamespaceSpecifier')];
       }, []);
 
-      p.node.specifiers = imports;
+      p.node.specifiers = specifiers;
 
       omit[source] = true;
 
       return p.node;
     });
+};
+
+export const deduplicateImports = (api: API, collection: Collection<any>, source: RegExp | string): void => {
+  const j = api.jscodeshift;
+  dedupe(collection.find(j.ImportDeclaration, node => node.source.value.match(source)));
+};
+
+export const deduplicateExports = (api: API, collection: Collection<any>, source: RegExp | string): void => {
+  const j = api.jscodeshift;
+  dedupe(collection.find(j.ExportNamedDeclaration, node => node.source.value.match(source)));
 };
