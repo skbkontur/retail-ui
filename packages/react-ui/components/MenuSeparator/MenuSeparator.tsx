@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -9,23 +9,12 @@ import styles from './MenuSeparator.module.less';
 /**
  * Разделитель в меню.
  */
-export class MenuSeparator extends React.Component<{}> {
-  public static __KONTUR_REACT_UI__ = 'MenuSeparator';
+function MenuSeparator() {
+  const theme = useContext(ThemeContext);
 
-  private theme!: Theme;
-
-  public render() {
-    return (
-      <ThemeConsumer>
-        {theme => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeConsumer>
-    );
-  }
-
-  private renderMain() {
-    return <div className={cx(styles.root, jsStyles.root(this.theme))} />;
-  }
+  return <div className={cx(styles.root, jsStyles.root(theme))} />;
 }
+
+MenuSeparator.__KONTUR_REACT_UI__ = 'MenuSeparator';
+
+export { MenuSeparator };
