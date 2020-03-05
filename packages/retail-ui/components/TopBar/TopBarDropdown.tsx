@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Omit } from '../../typings/utility-types';
 import ButtonItem from './ButtonItem';
 import { IconProps } from '../Icon/20px';
-import DropdownMenu from '../DropdownMenu';
+import DropdownMenu, { DropdownMenuProps } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 
 export interface ButtonParams {
@@ -14,7 +14,7 @@ export interface ButtonParams {
   opened: boolean;
 }
 
-export interface TopBarDropdownProps {
+export interface TopBarDropdownProps extends Omit<DropdownMenuProps, 'caption' | 'disableAnimations'> {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
   use: 'danger' | 'pay' | 'default';
