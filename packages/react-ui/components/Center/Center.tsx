@@ -1,7 +1,7 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Center.styles';
 
@@ -37,13 +37,15 @@ export class Center extends React.Component<CenterProps> {
   public render(): JSX.Element {
     const { align, children, ...rest } = this.props;
 
-    const classNameRoot = cx(jsStyles.root(), {
-      [jsStyles.rootAlignLeft()]: align === 'left',
-      [jsStyles.rootAlignRight()]: align === 'right',
-    });
-
     return (
-      <div className={classNameRoot} {...rest}>
+      <div
+        className={cn({
+          [jsStyles.root()]: true,
+          [jsStyles.rootAlignLeft()]: align === 'left',
+          [jsStyles.rootAlignRight()]: align === 'right',
+        })}
+        {...rest}
+      >
         <span className={jsStyles.spring()} />
         <span className={jsStyles.container()}>{children}</span>
       </div>

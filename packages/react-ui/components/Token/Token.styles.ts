@@ -83,41 +83,41 @@ interface TokenColors {
 export const jsStyles = memoizeStyle(styles);
 
 export const jsTokenColors = [
-  { name: 'defaultIdle', color: 'grayXLight' },
-  { name: 'defaultActive', color: 'brand' },
-  { name: 'grayIdle', color: 'grayXLight' },
-  { name: 'grayActive', color: 'grayDark' },
-  { name: 'blueIdle', color: 'blueLight' },
-  { name: 'blueActive', color: 'blueDark' },
-  { name: 'greenIdle', color: 'greenXxLight' },
-  { name: 'greenActive', color: 'greenDark' },
-  { name: 'yellowIdle', color: 'yellowXxLight' },
-  { name: 'yellowActive', color: 'yellowDark' },
-  { name: 'redIdle', color: 'redXxLight' },
-  { name: 'redActive', color: 'redDark' },
-  { name: 'white', color: 'white' },
-  { name: 'black', color: 'black' },
+  { name: 'defaultIdle', color: (t: Theme) => t.grayXLight },
+  { name: 'defaultActive', color: (t: Theme) => t.brand },
+  { name: 'grayIdle', color: (t: Theme) => t.grayXLight },
+  { name: 'grayActive', color: (t: Theme) => t.grayDark },
+  { name: 'blueIdle', color: (t: Theme) => t.blueLight },
+  { name: 'blueActive', color: (t: Theme) => t.blueDark },
+  { name: 'greenIdle', color: (t: Theme) => t.greenXxLight },
+  { name: 'greenActive', color: (t: Theme) => t.greenDark },
+  { name: 'yellowIdle', color: (t: Theme) => t.yellowXxLight },
+  { name: 'yellowActive', color: (t: Theme) => t.yellowDark },
+  { name: 'redIdle', color: (t: Theme) => t.redXxLight },
+  { name: 'redActive', color: (t: Theme) => t.redDark },
+  { name: 'white', color: (t: Theme) => t.white },
+  { name: 'black', color: (t: Theme) => t.black },
 ].reduce(
   (colors: TokenColors, { name, color }) => ({
     ...colors,
     [name](t: Theme, v: 'error' | 'warning') {
       const warning = css`
-        box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${t[color]};
+        box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${color(t)};
       `;
       const error = css`
-        box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${t[color]};
+        box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${color(t)};
       `;
       const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
 
       return css`
-        background-color: ${t[color]};
-        color: ${ColorFunctions.contrast(t[color])};
-        box-shadow: 0 0 0 1px ${ColorFunctions.darken(t[color], '5%')}, inset 0 0 0 1px ${t[color]};
+        background-color: ${color(t)};
+        color: ${ColorFunctions.contrast(color(t))};
+        box-shadow: 0 0 0 1px ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
 
         ${vStyle}
 
         & ${cssName(jsStyles.removeIcon())}:hover {
-          color: ${ColorFunctions.contrast(t[color])};
+          color: ${ColorFunctions.contrast(color(t))};
         }
       `;
     },
