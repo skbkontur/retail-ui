@@ -12,14 +12,14 @@ const styles = {
   title(t: Theme) {
     return css`
       width: 110px;
-      color: ${t.textColorMain};
+      color: ${t.textColorDefault};
     `;
   },
 
   componentsGroup(t: Theme) {
     return css`
       max-width: 700px;
-      color: ${t.textColorMain};
+      color: ${t.textColorDefault};
     `;
   },
 
@@ -40,7 +40,7 @@ const styles = {
       position: relative;
       z-index: 1;
       line-height: 34px;
-      color: ${t.textColorMain};
+      color: ${t.textColorDefault};
     `;
   },
 
@@ -114,28 +114,28 @@ const styles = {
   stickyTabsWrapper(t: Theme) {
     return css`
       &:after {
-        box-shadow: 0 2px 10px 0px ${t.textColorMain || 'black'};
+        box-shadow: 0 2px 10px 0px ${t.textColorDefault};
       }
     `;
   },
   tabsInnerWrapper(t: Theme) {
     return css`
-      color: ${t.textColorMain};
+      color: ${t.textColorDefault};
     `;
   },
   playgroundWrapper(t: Theme) {
     return css`
-      background: ${t.backgroundMain};
+      background: ${t.bgDefault};
     `;
   },
   editorHeaderWrapper(t: Theme) {
     return css`
-      color: ${t.textColorMain};
+      color: ${t.textColorDefault};
     `;
   },
   editorGroupHeader(t: Theme) {
     return css`
-      color: ${t.textColorMain};
+      color: ${t.textColorDefault};
     `;
   },
 };

@@ -29,10 +29,10 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
         warning(
           !hasSameShape,
           `ThemeProvider received next value with the same shape as the previous one.` +
-          '\n' +
-          `Consider using the same object reference for performance reasons.` +
-          '\n' +
-          `Shape: ${JSON.stringify(nextProps.value)}`,
+            '\n' +
+            `Consider using the same object reference for performance reasons.` +
+            '\n' +
+            `Shape: ${JSON.stringify(nextProps.value)}`,
         );
       }
 
@@ -45,6 +45,6 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
   }
 
   private makeFullTheme(theme: ThemeIn | Theme): Theme {
-    return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create(theme);
+    return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create<ThemeIn>(theme);
   }
 }

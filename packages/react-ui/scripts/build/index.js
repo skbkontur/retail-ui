@@ -5,9 +5,8 @@ const outputFileSync = require('output-file-sync');
 const readdir = require('fs-readdir-recursive');
 const chalk = require('chalk');
 const babel = require('@babel/core');
-const less = require('less');
 
-const FoldersToTransform = ['components', 'lib', 'typings'];
+const FoldersToTransform = ['components', 'internal', 'lib', 'typings'];
 const IgnoreTemplates = [/__tests__/, /__mocks__/, /\.stories.tsx?$/];
 const OutDir = path.resolve(process.cwd(), 'build');
 
@@ -39,53 +38,13 @@ function transform(filename, code, opts) {
   return result;
 }
 
-function isLess(filename) {
-  return /\.less$/.test(filename);
-}
-
-function isLessDts(filename) {
-  return /\.less\.d\.ts$/.test(filename);
-}
-
 function isTsDts(filename) {
   return /\.d\.ts$/.test(filename);
 }
 
-function compileLess(src, relative) {
-  function handleError(error) {
-    console.error(relative + ' can not be transpiled');
-    console.error(error.message);
-  }
-
-  fs.readFile(src, 'utf8', (error, data) => {
-    if (error) {
-      handleError(error);
-      return;
-    }
-
-    const dest = path.join(OutDir, relative).replace(/.less$/, '.css');
-
-    less
-      .render(data, {
-        paths: [path.resolve(process.cwd(), 'components'), path.resolve(process.cwd(), 'web_modules')],
-        relativeUrls: true,
-        filename: src,
-      })
-      .then(output => {
-        outputFileSync(dest, output.css);
-        chmod(src, dest);
-        logTransform(src, dest);
-      }, handleError);
-  });
-}
-
 function compile(filename, opts) {
-  try {
-    const code = fs.readFileSync(filename, 'utf8');
-    return transform(filename, code, opts);
-  } catch (err) {
-    throw err;
-  }
+  const code = fs.readFileSync(filename, 'utf8');
+  return transform(filename, code, opts);
 }
 
 function chmod(src, dest) {
@@ -133,12 +92,6 @@ function handleFile(src, filename) {
 
   if (canCompile(filename) && !isTsDts(filename)) {
     write(src, filename);
-  } else if (isLess(filename)) {
-    compileLess(src, filename);
-  } else if (isLessDts(filename)) {
-    const dest = path.join(OutDir, filename.replace(/\.less/, '.css'));
-    outputFileSync(dest, fs.readFileSync(src));
-    chmod(src, dest);
   } else {
     const dest = path.join(OutDir, filename);
     outputFileSync(dest, fs.readFileSync(src));

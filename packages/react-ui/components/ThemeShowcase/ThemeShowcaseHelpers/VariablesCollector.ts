@@ -1,5 +1,5 @@
 import { Theme } from '../../../lib/theming/Theme';
-import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
 import { IS_PROXY_SUPPORTED } from '../../internal/Supports';
 
@@ -24,20 +24,20 @@ export interface VariableNameToComponentsMap {
 }
 
 export interface VariableDependencies {
-  [variableName: string]: string[];
+  [variableName: string]: Array<keyof Theme>;
 }
 
 let callsCount = 0;
 let executionTime = 0;
-const ALL_USED_VARIABLES_SET = new Set<string>();
+const ALL_USED_VARIABLES_SET = new Set<keyof Theme>();
 
 export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
 export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
 
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
-  baseThemes.push(ThemeFactory.getDefaultTheme());
-  baseThemes.push(ThemeFactory.create(FLAT_THEME));
+  baseThemes.push(DEFAULT_THEME);
+  baseThemes.push(FLAT_THEME);
 
   const componentsContext = require.context('../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach(fileName => {
@@ -48,7 +48,7 @@ if (IS_PROXY_SUPPORTED) {
 
     Object.keys(jsStyles).forEach(elementName => {
       const jsStyle = jsStyles[elementName];
-      const variablesAccumulator = new Set<string>();
+      const variablesAccumulator = new Set<keyof Theme>();
       const dependencies: VariableDependencies = {};
       const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
       const themes = baseThemes.map(t => new Proxy(t, elementProxyHandler));
@@ -105,12 +105,12 @@ if (IS_PROXY_SUPPORTED) {
   });
 }
 
-function getProxyHandler(accumulator: Set<string>, dependencies: VariableDependencies): ProxyHandler<Theme> {
+function getProxyHandler(accumulator: Set<keyof Theme>, dependencies: VariableDependencies): ProxyHandler<Theme> {
   let accessLevel = 0;
   let rootProp = '';
   return {
     get(target, prop, receiver) {
-      const propName = String(prop);
+      const propName = prop as keyof Theme;
       ALL_USED_VARIABLES_SET.add(propName);
       if (accessLevel === 0) {
         rootProp = propName;

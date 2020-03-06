@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { Theme } from 'react-ui/lib/theming/Theme';
 
 import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
@@ -26,9 +27,7 @@ import { jsStyles } from './ThemeShowcase.styles';
 const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 const EMPTY_ARRAY: string[] = [];
 
-const ALL_VARIABLES = Object.keys(defaultVariables)
-  .concat(Object.keys(flatVariables))
-  .filter((variable, index, all) => all.indexOf(variable) === index);
+const ALL_VARIABLES = Object.keys(defaultVariables) as Array<keyof Theme>;
 
 interface ShowcaseProps {
   isDebugMode?: boolean;
@@ -230,8 +229,8 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
         </tr>
         {row.variables.map(varName => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
-          const variableDefault = defaultVariables[varName];
-          const variableFlat = flatVariables[varName];
+          const variableDefault = defaultVariables[varName] as string;
+          const variableFlat = flatVariables[varName] as string;
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
@@ -263,7 +262,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
 
 interface VariableNameProps {
   variableName: string;
-  dependencies: string[];
+  dependencies: Array<keyof Theme>;
   onVariableSelect: (item: ComboBoxItem) => void;
 }
 
@@ -306,7 +305,7 @@ class VariableName extends React.Component<VariableNameProps> {
 }
 
 interface DependencyNameProps {
-  dependencyName: string;
+  dependencyName: keyof Theme;
   onDependencySelect: (item: ComboBoxItem) => void;
 }
 class DependencyName extends React.Component<DependencyNameProps> {
@@ -326,8 +325,8 @@ class DependencyName extends React.Component<DependencyNameProps> {
 
   private getValues = () => {
     const dependencyName = this.props.dependencyName;
-    const dependencyDefault = defaultVariables[dependencyName];
-    const dependencyFlat = flatVariables[dependencyName];
+    const dependencyDefault = defaultVariables[dependencyName] as string;
+    const dependencyFlat = flatVariables[dependencyName] as string;
     return (
       <React.Fragment>
         <span>Default value: {<VariableValue value={dependencyDefault} />}</span>

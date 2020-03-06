@@ -384,7 +384,7 @@ const styles = {
         t.btnDefaultHoverShadow,
         t.btnDefaultHoverShadowArrow,
         t.btnDefaultHoverShadowArrowLeft,
-        t.btnDefaultHoverBorder,
+        t.btnDefaultHoverBorderColor,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};
@@ -439,7 +439,7 @@ const styles = {
         t.btnPrimaryHoverShadow,
         t.btnPrimaryHoverShadowArrow,
         t.btnPrimaryHoverShadowArrowLeft,
-        t.btnPrimaryHoverBorder,
+        t.btnPrimaryHoverBorderColor,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};
@@ -485,7 +485,7 @@ const styles = {
         t.btnSuccessHoverShadow,
         t.btnSuccessHoverShadowArrow,
         t.btnSuccessHoverShadowArrowLeft,
-        t.btnSuccessHoverBorder,
+        t.btnSuccessHoverBorderColor,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};
@@ -531,7 +531,7 @@ const styles = {
         t.btnDangerHoverShadow,
         t.btnDangerHoverShadowArrow,
         t.btnDangerHoverShadowArrowLeft,
-        t.btnDangerHoverBorder,
+        t.btnDangerHoverBorderColor,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};
@@ -577,7 +577,7 @@ const styles = {
         t.btnPayHoverShadow,
         t.btnPayHoverShadowArrow,
         t.btnPayHoverShadowArrowLeft,
-        t.btnPayHoverBorder,
+        t.btnPayHoverBorderColor,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};

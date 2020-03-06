@@ -9,17 +9,16 @@ import { Theme } from '../../../lib/theming/Theme';
 import { Link } from '../../Link';
 import { Hint } from '../../Hint';
 
-import { PlaygroundTheme } from './ThemeProviderPlayground';
 import { jsStyles } from './Playground.styles';
 
 const emitter = new EventEmitter();
 
 export interface VariableValueProps {
-  onChange: (variable: keyof PlaygroundTheme, value: string) => void;
+  onChange: (variable: keyof Theme, value: string) => void;
   value: string;
   isError: boolean;
   variable: string;
-  theme: PlaygroundTheme;
+  theme: Theme;
   baseVariables: Array<keyof Theme>;
 }
 
@@ -170,7 +169,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private debounceHandler = () => {
     const { variable, onChange } = this.props;
 
-    onChange(variable as keyof PlaygroundTheme, this.state.value);
+    onChange(variable as keyof Theme, this.state.value);
     clearInterval(this.debounceInterval);
     this.debounceInterval = undefined;
   };

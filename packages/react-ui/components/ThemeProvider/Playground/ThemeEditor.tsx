@@ -7,14 +7,14 @@ import { Loader } from '../../Loader';
 
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS } from './constants';
-import { PlaygroundTheme, ThemeErrorsType } from './ThemeProviderPlayground';
+import { ThemeErrorsType } from './ThemeProviderPlayground';
 import { jsStyles } from './Playground.styles';
 
 interface ThemeEditorProps {
   editingTheme: Theme;
-  currentTheme: PlaygroundTheme;
+  currentTheme: Theme;
   currentErrors: ThemeErrorsType;
-  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
+  onValueChange: (variable: keyof Theme, value: string) => void;
 }
 interface ThemeEditorState {
   groups: Group[];
@@ -80,11 +80,11 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
 interface GroupProps {
   editingTheme: Theme;
-  currentTheme: PlaygroundTheme;
+  currentTheme: Theme;
   currentErrors: ThemeErrorsType;
   title: string;
-  variables: string[];
-  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
+  variables: Array<keyof Theme>;
+  onValueChange: (variable: keyof Theme, value: string) => void;
 }
 const Group = (props: GroupProps) => {
   const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
@@ -94,7 +94,7 @@ const Group = (props: GroupProps) => {
       <h2 className={jsStyles.editorGroupHeader(currentTheme)}>{title}</h2>
       <Gapped gap={16} wrap verticalAlign="middle">
         {variables.map(variable => {
-          const value = editingTheme[variable as keyof Theme];
+          const value = editingTheme[variable] as string;
           const isError = currentErrors[variable];
           return (
             <VariableValue
@@ -143,7 +143,7 @@ const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Them
       if (descriptor && typeof descriptor.get !== 'undefined') {
         const getterBody = descriptor.get.toString();
         const variableNameMatchArray = getterBody.match(/this\.(\w+)\b/gm) || [];
-        return (variableNameMatchArray || []).map(v => v.replace(/this\./g, ''));
+        return (variableNameMatchArray || []).map(v => v.replace(/this\./g, '')) as Array<keyof Theme>;
       }
       break;
     }

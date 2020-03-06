@@ -1,9 +1,5 @@
+// TODO Extends from DefaultTheme
 export const darkTheme = {
-  /*BEGIN: custom fields for playground*/
-  backgroundMain: '#000',
-  textColorMain: '#fff',
-  /*END: custom fields for playground*/
-
   brandXLight: '#cae5f5',
   brandLight: '#3094d0',
   brand: '#1e79be',

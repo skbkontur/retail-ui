@@ -16,6 +16,7 @@ import { Input, InputProps } from '../../Input';
 import { ThemeConsumer } from '../../ThemeConsumer';
 import { Tooltip } from '../../Tooltip';
 import { Sticky } from '../../Sticky';
+import { Theme } from '../../../lib/theming/Theme';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -31,7 +32,6 @@ import { RadioPlayground } from './RadioPlayground';
 import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
-import { PlaygroundTheme } from './ThemeProviderPlayground';
 import { jsStyles } from './Playground.styles';
 
 const useSticky = process.env.enableReactTesting !== 'true';
@@ -43,14 +43,14 @@ export interface ComponentsListProps {
 }
 
 export class Playground extends React.Component<ComponentsListProps, {}> {
-  private theme!: PlaygroundTheme;
+  private theme!: Theme;
   private stickyStop: HTMLElement | null = null;
 
   public render() {
     return (
       <ThemeConsumer>
         {theme => {
-          this.theme = theme as PlaygroundTheme;
+          this.theme = theme;
           return this.renderMain();
         }}
       </ThemeConsumer>
@@ -94,7 +94,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
 
   private renderTabs() {
     const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
-    const tabsOuterWrapperStyle = { background: this.theme.backgroundMain || 'white' };
+    const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
     const tabsOuterWrapperClass = cn({
       [jsStyles.tabsWrapper()]: true,
       [jsStyles.stickyTabsWrapper(this.theme)]: useSticky,

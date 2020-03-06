@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { ThemeFactory } from './ThemeFactory';
+import { DEFAULT_THEME } from './themes/DefaultTheme';
 
-export const ThemeContext = React.createContext(ThemeFactory.getDefaultTheme());
+export const ThemeContext = React.createContext(DEFAULT_THEME);
 export const ThemeProvider = ThemeContext.Provider;
 export const ThemeConsumer = ThemeContext.Consumer;
