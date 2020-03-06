@@ -9,6 +9,7 @@ import {
   moveSpecifierToSeparateImport,
   moveSpecifierToSeparateExport,
   deduplicateExports,
+  isModuleRemoved,
 } from './helpers';
 
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): Collection<any> => {
@@ -20,7 +21,7 @@ const transformDefaultImports = (api: API, collection: Collection<any>, path: st
       const importDeclaration = importSpecifier.parent;
       const importSource = importDeclaration.node.source.value;
       const componentName = getComponentNameFromPath(importSource, path);
-      if (componentName) {
+      if (componentName && !isModuleRemoved(importSource, api.report)) {
         switch (componentName) {
           case 'LayoutEvents': {
             j(importSpecifier).replaceWith(j.importNamespaceSpecifier(importSpecifier.value.local));
@@ -53,10 +54,12 @@ const changeImportsSource = (api: API, collection: Collection<any>, path: string
     .find(j.ImportDeclaration, node => node.source.value.match(path))
     .replaceWith(importDeclaration => {
       const source = importDeclaration.node.source.value as string;
-      if (source.match(`${path}/lib/`)) {
-        importDeclaration.node.source.value = `${value}/lib/${source.replace(`${path}/lib/`, '')}`;
-      } else {
-        importDeclaration.node.source.value = value;
+      if (!isModuleRemoved(source)) {
+        if (source.match(`${path}/lib/`)) {
+          importDeclaration.node.source.value = `${value}/lib/${source.replace(`${path}/lib/`, '')}`;
+        } else {
+          importDeclaration.node.source.value = value;
+        }
       }
       return importDeclaration.node;
     });
@@ -70,6 +73,9 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
     .forEach(exportDeclaration => {
       const originSource = exportDeclaration.node.source.value as string;
       const componentName = getComponentNameFromPath(originSource, path);
+      if (isModuleRemoved(originSource, api.report)) {
+        return;
+      }
       if (!componentName) {
         exportDeclaration.value.source = j.stringLiteral(sourceValue);
       } else {
@@ -84,10 +90,14 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
   collection
     .find(j.ExportNamedDeclaration, node => node.source.value.match(path))
     .forEach(exportDeclaration => {
+      const originSource = exportDeclaration.node.source!.value as string;
+      if (isModuleRemoved(originSource, api.report)) {
+        return;
+      }
       j(exportDeclaration)
         .find(j.ExportSpecifier)
         .forEach(exportSpecifier => {
-          const componentName = getComponentNameFromPath(exportDeclaration.node.source!.value as string, path);
+          const componentName = getComponentNameFromPath(originSource, path);
           const localName = exportSpecifier.node.local?.name;
           if (localName) {
             if (localName === 'default' && componentName) {

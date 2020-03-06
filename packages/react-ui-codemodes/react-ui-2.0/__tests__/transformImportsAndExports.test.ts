@@ -404,3 +404,33 @@ defineInlineTest(
   `,
   `deduplicates with alias`,
 );
+
+defineInlineTest(
+  transform,
+  {},
+  `
+    import Colors from "@skbkontur/react-ui/lib/Colors";
+    import pluralize from "@skbkontur/react-ui/lib/pluralize";
+    import getComputedStyles from "@skbkontur/react-ui/lib/dom/getComputedStyles";
+
+    import ComboBox from "@skbkontur/react-ui/components/ComboBoxOld";
+    import DatePicker from "@skbkontur/react-ui/components/DatePickerOld";
+    import Kladr from "@skbkontur/react-ui/components/Kladr";
+
+    export { default } from "@skbkontur/react-ui/lib/Colors";
+    export * from "@skbkontur/react-ui/lib/pluralize";
+`,
+  `
+    import Colors from "@skbkontur/react-ui/lib/Colors";
+    import pluralize from "@skbkontur/react-ui/lib/pluralize";
+    import getComputedStyles from "@skbkontur/react-ui/lib/dom/getComputedStyles";
+
+    import ComboBox from "@skbkontur/react-ui/components/ComboBoxOld";
+    import DatePicker from "@skbkontur/react-ui/components/DatePickerOld";
+    import Kladr from "@skbkontur/react-ui/components/Kladr";
+
+    export { default } from "@skbkontur/react-ui/lib/Colors";
+    export * from "@skbkontur/react-ui/lib/pluralize";
+    `,
+  `doesn't transform removed modules`,
+);

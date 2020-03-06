@@ -100,7 +100,7 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
 
   collection.forEach((declaration: any) => {
     const source = declaration.value.source.value;
-    if (typeof source === 'string') {
+    if (typeof source === 'string' && !isModuleRemoved(source)) {
       const array = map[source];
       if (!array) {
         map[source] = [declaration];
@@ -115,7 +115,7 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
   collection
     .filter(i => {
       const source = i.node.source.value;
-      return source && map[source].length > 1;
+      return source && map[source] && map[source].length > 1;
     })
     .replaceWith(p => {
       const source = p.node.source!.value as string;
@@ -148,4 +148,24 @@ export const deduplicateImports = (api: API, collection: Collection<any>, source
 export const deduplicateExports = (api: API, collection: Collection<any>, source: RegExp | string): void => {
   const j = api.jscodeshift;
   dedupe(collection.find(j.ExportNamedDeclaration, node => node.source.value.match(source)));
+};
+
+export const isModuleRemoved = (path: string, report?: API['report']) => {
+  const removedModules = [
+    'components/ComboBoxOld',
+    'components/DatePickerOld',
+    'components/Kladr',
+    'lib/pluralize',
+    'lib/Colors',
+    'lib/dom/getComputedStyle',
+  ];
+  if (removedModules.some(removedPath => path.match(removedPath))) {
+    if (report) {
+      report(
+        `Module "${path}" was completly removed from the "@skbkontur/react-ui" package. Please, consider replacing it.`,
+      );
+    }
+    return true;
+  }
+  return false;
 };
