@@ -126,6 +126,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static chbCheckedColor = '#fff';
   public static chbCheckedShadow = '0 0 0 1px #1768a3';
   public static chbCheckedHoverShadow = '0 0 0 1px #175590';
+  public static chbBorder = 'none';
   public static chbBorderRadius = '1px';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
@@ -173,6 +174,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnDefaultShadowArrowLeft() {
     return this.btnDefaultShadowArrow;
   }
+  public static btnDefaultCheckedBorder = '1px solid transparent';
   public static get btnDefaultCheckedShadowArrow() {
     return `1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px ${this.btnCheckedBg}`;
   }
@@ -263,9 +265,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get inputDisabledBorderColor() {
     return this.inputDisabledBg;
   }
-  public static get chbBorder() {
-    return this.btnDefaultBorder;
-  }
   public static get chbBorderColorFocus() {
     return this.borderColorFocus;
   }
@@ -304,4 +303,4 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
 }
 
-export const FlatThemeInternal: typeof FlatTheme = Object.setPrototypeOf(FlatTheme, DefaultThemeInternal);
+export const FlatThemeInternal = Object.setPrototypeOf(FlatTheme, DefaultThemeInternal) as typeof FlatTheme;

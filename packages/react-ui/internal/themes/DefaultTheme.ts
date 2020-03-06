@@ -77,7 +77,7 @@ export class DefaultTheme {
   public static btnCheckedBg = '#737373';
   public static btnCheckedHoverBorderColor = 'transparent';
   public static btnCheckedTextColor = '#fff';
-  public static btnCheckedShadow = 'none';
+  public static btnCheckedShadow = '0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3)';
@@ -105,6 +105,7 @@ export class DefaultTheme {
   public static btnDefaultBgArrowStart = '#fff';
   public static btnDefaultBgArrowEnd = '#ebebeb';
   public static btnDefaultCheckedShadowArrow = 'none';
+  public static btnDefaultCheckedBorder = 'none';
   public static btnDefaultTextColor = 'none';
   public static btnDefaultHoverBg = 'none';
   public static btnDefaultHoverBorderColor = 'transparent';
@@ -291,7 +292,9 @@ export class DefaultTheme {
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
   public static toggleBgDisabled = 'none';
-  public static toggleBgHover = 'none';
+  public static get toggleBgHover() {
+    return this.toggleBgFocus;
+  }
   public static toggleBgChecked = '#3072c4';
   public static toggleBorderColor = '#d0d0d0';
   public static btnMenuArrowColor = '#a6a6a6';
@@ -308,22 +311,34 @@ export class DefaultTheme {
   public static inputColor = 'inherit';
   public static chbBgStart = '#fdfdfd';
   public static chbBgEnd = '#ededed';
-  public static chbIndeterminateBg = '#404040';
+  public static get chbIndeterminateBg() {
+    return this.textColorDefault;
+  }
   public static chbIndeterminateBorderRadius = '1px';
   public static chbShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static chbShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static chbBorder = 'none';
-  public static chbShadowHover = 'none';
-  public static chbCheckedColor = 'inherit';
-  public static chbCheckedHoverShadow = 'none';
+  public static get chbShadowHover() {
+    return this.chbShadow;
+  }
+  public static get chbCheckedColor() {
+    return this.textColorDefault;
+  }
+  public static get chbCheckedHoverShadow() {
+    return this.chbShadow;
+  }
   public static chbBorderRadius = '1px';
   public static chbShadowWidth = '2px';
-  public static chbCheckedShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
+  public static get chbCheckedShadow() {
+    return this.chbShadow;
+  }
   public static specificityLevel = '0';
   public static linkIconMarginRight = '3px';
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static textareaBg = 'none';
-  public static textareaColor = 'inherit';
+  public static get textareaColor() {
+    return this.black;
+  }
   public static textareaShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static radioSize = '16px';
   public static radioVerticalAlign = '-2px';
@@ -524,7 +539,7 @@ export class DefaultTheme {
     return this.chbBg;
   }
   public static get chbCheckedHoverBg() {
-    return this.chbBg;
+    return this.chbHoverBg;
   }
   public static get chbCheckedActiveBg() {
     return this.chbBg;

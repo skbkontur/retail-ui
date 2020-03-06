@@ -400,15 +400,6 @@ const styles = {
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};
-
-      &${cssName(styles.checked(t))} {
-        &,
-        &:not(${cssName(styles.focus(t))}):hover {
-          ${cssName(styles.arrow())} {
-            box-shadow: ${t.btnDefaultCheckedShadowArrow} !important;
-          }
-        }
-      }
     `;
   },
 
@@ -598,14 +589,10 @@ const styles = {
 
   checked(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3) !important;
-
-      &,
-      &:not(${cssName(styles.focus(t))}):hover {
-        background: ${t.btnCheckedBg} !important;
-        box-shadow: ${t.btnCheckedShadow} !important;
-        color: ${t.btnCheckedTextColor} !important;
-      }
+      box-shadow: ${t.btnCheckedShadow} !important;
+      background: ${t.btnCheckedBg} !important;
+      color: ${t.btnCheckedTextColor} !important;
+      border: ${t.btnDefaultCheckedBorder} !important;
 
       &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
         ${cssName(styles.caption())} {
@@ -619,11 +606,6 @@ const styles = {
           background: ${t.btnCheckedBg} !important;
           box-shadow: ${t.btnCheckedShadowArrow} !important;
         }
-      }
-
-      &,
-      &:not(${cssName(styles.focus(t))}):hover {
-        border-color: ${t.btnCheckedHoverBorderColor};
       }
     `;
   },

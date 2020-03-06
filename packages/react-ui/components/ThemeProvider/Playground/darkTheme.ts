@@ -56,6 +56,7 @@ export const darkTheme = {
   controlHeightMedium: '40px',
   controlHeightLarge: '44px',
   chbCheckedColor: '#000',
+  chbIndeterminateBg: '#000',
   chbShadowDisabled: 'rgba(255, 255, 255, .5)',
   textColorDefault: '#fff',
   textColorInvert: '#fff',
