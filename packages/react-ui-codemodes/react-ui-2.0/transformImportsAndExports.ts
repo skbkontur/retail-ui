@@ -21,7 +21,15 @@ const transformDefaultImports = (api: API, collection: Collection<any>, path: st
       const importSource = importDeclaration.node.source.value;
       const componentName = getComponentNameFromPath(importSource, path);
       if (componentName) {
-        j(importSpecifier).replaceWith(j.importSpecifier(j.identifier(componentName), importSpecifier.value.local));
+        switch (componentName) {
+          case 'LayoutEvents': {
+            j(importSpecifier).replaceWith(j.importNamespaceSpecifier(importSpecifier.value.local));
+            break;
+          }
+          default: {
+            j(importSpecifier).replaceWith(j.importSpecifier(j.identifier(componentName), importSpecifier.value.local));
+          }
+        }
       }
     });
 };
@@ -44,7 +52,12 @@ const changeImportsSource = (api: API, collection: Collection<any>, path: string
   collection
     .find(j.ImportDeclaration, node => node.source.value.match(path))
     .replaceWith(importDeclaration => {
-      importDeclaration.node.source.value = value;
+      const source = importDeclaration.node.source.value as string;
+      if (source.match(`${path}/lib/`)) {
+        importDeclaration.node.source.value = `${value}/lib/${source.replace(`${path}/lib/`, '')}`;
+      } else {
+        importDeclaration.node.source.value = value;
+      }
       return importDeclaration.node;
     });
 };

@@ -291,6 +291,24 @@ defineInlineTest(
   transform,
   {},
   `
+    import LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
+    import FLAT_THEME from "@skbkontur/react-ui/lib/Theming/themes/FlatTheme";
+    import listenFocusOutside, { containsTargetOrRenderContainer } from "@skbkontur/react-ui/lib/listenFocusOutside";
+    import Upgrades from "@skbkontur/react-ui/lib/Upgrades";
+`,
+  `
+    import * as LayoutEvents from "@skbkontur/react-ui/lib/LayoutEvents";
+    import { FLAT_THEME } from "@skbkontur/react-ui/lib/Theming/themes/FlatTheme";
+    import { listen as listenFocusOutside, containsTargetOrRenderContainer } from "@skbkontur/react-ui/lib/listenFocusOutside";
+    import { Upgrade as Upgrades } from "@skbkontur/react-ui/lib/Upgrades";
+    `,
+  `transforms libs`,
+);
+
+defineInlineTest(
+  transform,
+  {},
+  `
     import React from "react";
     import { Component } from "react";
 

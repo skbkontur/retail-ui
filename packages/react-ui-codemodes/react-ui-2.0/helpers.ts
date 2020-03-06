@@ -17,6 +17,12 @@ export const getComponentNameFromPath = (path: string, packagePath: string): str
   if (name === '20px') {
     return 'Icon';
   }
+  if (path.match(/lib\/Theming\/themes\/DefaultTheme/)) {
+    return 'DEFAULT_THEME';
+  }
+  if (path.match(/lib\/Theming\/themes\/FlatTheme/)) {
+    return 'FLAT_THEME';
+  }
 
   return name;
 };
@@ -35,8 +41,14 @@ export const getActualImportName = (path: string, importedName: string): string 
     case !!path.match(/Input/) && importedName === 'IconType': {
       return 'InputIconType';
     }
+    case !!path.match(/lib\/Upgrades/): {
+      return 'Upgrade';
+    }
     case importedName === 'Icon20': {
       return 'Icon';
+    }
+    case importedName === 'listenFocusOutside': {
+      return 'listen';
     }
     default:
       return importedName;
