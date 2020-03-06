@@ -51,8 +51,17 @@ function transform(file: FileInfo, api: API, JsxElement: CustomJSXElement) {
   return file;
 }
 
-export default function(fileInfo: FileInfo, api: API) {
-  const result = listOfAttributes.reduce((prev, cur) => {
+interface TransformOptions {
+  /**
+   * Имя компонента для добавления пропа. Если не передано, то проп добавится для всех релевантных компонентов
+   */
+  component: string;
+}
+
+export default function(fileInfo: FileInfo, api: API, options: TransformOptions) {
+  const { component } = options;
+  const componentsToTransform = component ? listOfAttributes.filter(c => c.name === component) : listOfAttributes;
+  const result = componentsToTransform.reduce((prev, cur) => {
     return transform(prev, api, cur);
   }, fileInfo);
   return result.source;
