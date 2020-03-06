@@ -14,7 +14,6 @@ interface CustomChange {
 
 enum ChangeCondition {
   'RemoveFirstParam',
-  'AddParam',
   'Nothing',
 }
 
@@ -77,12 +76,12 @@ const listOfComponents: Array<CustomJSXElement> = [
     changes: [{ before: 'onChange', after: 'onValueChange', conditions: ChangeCondition.Nothing }],
   },
   {
-    name: 'Input',
-    changes: [{ before: 'onUnexpectedInput', after: 'onUnexpectedInput', conditions: ChangeCondition.AddParam }],
+    name: 'Toggle',
+    changes: [{ before: 'onChange', after: 'onValueChange', conditions: ChangeCondition.Nothing }],
   },
   {
-    name: 'MaskedInput',
-    changes: [{ before: 'onUnexpectedInput', after: 'onUnexpectedInput', conditions: ChangeCondition.AddParam }],
+    name: 'Input',
+    changes: [{ before: 'onChange', after: 'onValueChange', conditions: ChangeCondition.RemoveFirstParam }],
   },
 ];
 const transformExpression = (api: API, node: any, change: CustomChange) => {
@@ -100,14 +99,6 @@ const transformExpression = (api: API, node: any, change: CustomChange) => {
         }
       } else {
         node.name = change.after;
-      }
-      break;
-    }
-    case ChangeCondition.AddParam: {
-      node.name = change.after;
-      if (node.value.expression.params) {
-        const ident = j.identifier('value');
-        node.value.expression.params = [ident];
       }
       break;
     }
