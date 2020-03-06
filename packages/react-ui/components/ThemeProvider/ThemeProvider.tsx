@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
 
-import { ThemeProvider as ThemeProviderInternal } from '../../lib/theming/ThemeContext';
+import { ThemeContext } from '../../lib/theming/ThemeContext/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDevelopmentEnv } from '../internal/currentEnvironment';
@@ -20,6 +20,10 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
   constructor(props: ThemeProviderProps) {
     super(props);
     this.theme = this.makeFullTheme(props.value);
+  }
+
+  componentDidMount(): void {
+    warning(true, "ThemeProvider was deprecated please use 'ThemeContext' instead. \nSee https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext");
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: Readonly<ThemeProviderProps>): void {
@@ -41,7 +45,7 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
   }
 
   public render() {
-    return <ThemeProviderInternal value={this.theme}>{this.props.children}</ThemeProviderInternal>;
+    return <ThemeContext.Provider value={this.theme}>{this.props.children}</ThemeContext.Provider>;
   }
 
   private makeFullTheme(theme: ThemeIn | Theme): Theme {

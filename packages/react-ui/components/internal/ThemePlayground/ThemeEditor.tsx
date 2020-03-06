@@ -9,7 +9,7 @@ import { Loader } from '../../Loader';
 import { VariableValue } from './VariableValue';
 import styles from './styles.module.less';
 import { VARIABLES_GROUPS } from './constants';
-import { PlaygroundTheme, ThemeErrorsType } from './ThemeProviderPlayground';
+import { PlaygroundTheme, ThemeErrorsType } from './ThemeContextPlayground';
 
 interface ThemeEditorProps {
   editingTheme: Theme;

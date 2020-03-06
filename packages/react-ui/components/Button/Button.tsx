@@ -4,7 +4,7 @@ import { isIE11, isEdge } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './Button.styles';
 import classes from './Button.module.less';
@@ -136,28 +136,24 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
    * @public
    */
   public focus() {
-    if (this.node) {
-      this.node.focus();
-    }
+    this.node?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    if (this.node) {
-      this.node.blur();
-    }
+    this.node?.blur();
   }
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -320,18 +316,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           this.setState({ focusedByTab: true });
         }
       });
-      if (this.props.onFocus) {
-        this.props.onFocus(e);
-      }
+      this.props.onFocus?.(e);
     }
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
     this.setState({ focusedByTab: false });
     if (!this.props.disabled && !this.props.disableFocus) {
-      if (this.props.onBlur) {
-        this.props.onBlur(e);
-      }
+      this.props.onBlur?.(e);
     }
   };
 

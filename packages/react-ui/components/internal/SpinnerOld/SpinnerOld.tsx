@@ -4,7 +4,7 @@ import * as PropTypes from 'prop-types';
 import { locale } from '../../../lib/locale/decorators';
 import { cx } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
-import { ThemeConsumer } from '../../ThemeConsumer';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { hasSvgAnimationSupport } from '../../../lib/utils';
 import { SpinnerOldIcon } from '../icons/SpinnerOldIcon';
 
@@ -66,12 +66,12 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

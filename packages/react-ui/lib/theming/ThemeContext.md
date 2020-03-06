@@ -1,8 +1,104 @@
+Темизация компонентов через контекст `React.Context<Theme>`.
+
+Тема задается с помошью `Provider`:
+
+```jsx static
+<ThemeContext.Provider value={theme}>...</ThemeContext.Provider>
+```
+
+```jsx harmony
+import { Button, ThemeContext, FLAT_THEME } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={FLAT_THEME}>
+  <Button>React UI</Button>
+</ThemeContext.Provider>;
+```
+
+Использовать тему в компоненте можно через `Consumer`:
+
+```jsx static
+<ThemeContext.Consumer>
+    {theme => ... }
+</ThemeContext.Consumer>
+```
+
+```jsx harmony
+import { ThemeContext, Button } from '@skbkontur/react-ui';
+
+class ButtonLinkWrapper extends React.Component {
+  render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          return (
+            <Button use="link" {...this.props}>
+              {this.props.children}
+              <span style={{ color: theme.textColorDefault }}> ↗</span>
+            </Button>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+}
+
+<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
+```
+
+`useContext` в функциональных компонентах:
+
+```typescript static
+const theme = useContext(ThemeContext);
+```
+
+```jsx harmony
+import { useContext } from 'react';
+import { ThemeContext, Button } from '@skbkontur/react-ui';
+
+function ButtonLinkWrapper(props) {
+  const theme = useContext(ThemeContext);
+
+  return (
+    <Button use="link" {...props}>
+      {props.children}
+      <span style={{ color: theme.textColorDefault }}> ↗</span>
+    </Button>
+  );
+}
+
+<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
+```
+
+или задать `contextType` для класса:
+
+```typescript static
+static contextType = ThemeContext;
+...
+const theme = this.context;
+```
+
+```jsx harmony
+import { ThemeContext, Button } from '@skbkontur/react-ui';
+
+class ButtonLinkWrapper extends React.Component {
+  render() {
+    const theme = this.context;
+
+    return (
+      <Button use="link" {...this.props}>
+        {this.props.children}
+        <span style={{ color: theme.textColorDefault }}> ↗</span>
+      </Button>
+    );
+  }
+}
+
+ButtonLinkWrapper.contextType = ThemeContext;
+
+<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
+```
+
 Кастомизация компонентов с помощью библиотеки [`emotion`](https://github.com/emotion-js/emotion)
-
-ThemeProvider - компонент, передающий объект темы вниз по дереву с помощью полифила [`create-react-context.`](https://github.com/jamiebuilds/create-react-context)
-
-Принимает в качестве пропов `children: React.ReactNode` и `value` типа `ThemeIn`:
 
 ```typescript
 import defaultThemeVariables from './components/variables.less';
@@ -17,17 +113,17 @@ interface ThemeIn extends ThemeInType {}
 В качестве базовой темы выступает объект, полученный из переменных `variables.less`. Объект, переданный в `value` будет смерджен с объектом базовой темой.
 
 Помимо базовой темы, есть плоская тема, собранная из переменных `variables.flat.less`.
-Объект плоской темы можно импортировать и передавать в ThemeProvider:
+Объект плоской темы можно импортировать и передавать в ThemeContext.Provider:
 
 ```jsx harmony
-import { ThemeProvider } from '@skbkontur/react-ui';
+import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
+import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
 
 const FlatComponents = () => (
-  <ThemeProvider value={flatTheme}>
+  <ThemeContext.Provider value={flatTheme}>
     <ShowcaseGroup />
-  </ThemeProvider>
+  </ThemeContext.Provider>
 );
 
 <FlatComponents />;
@@ -39,18 +135,18 @@ const FlatComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeProvider } from '@skbkontur/react-ui';
+import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
+import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
   <>
     <ShowcaseGroup title="Default" />
-    <ThemeProvider value={flatTheme}>
+    <ThemeContext.Provider value={flatTheme}>
       <div>
         <ShowcaseGroup title="Flat" />
       </div>
-    </ThemeProvider>
+    </ThemeContext.Provider>
   </>
 );
 
@@ -61,11 +157,11 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeProvider } from '@skbkontur/react-ui';
+import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME as defaultTheme } from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
-import { darkTheme } from '@skbkontur/react-ui/components/ThemeProvider/Playground/darkTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/ThemeProvider/Playground/ShowcaseGroup';
+import { darkTheme } from '@skbkontur/react-ui/components/internal/ThemePlayground/darkTheme';
+import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',
@@ -74,21 +170,21 @@ const wrapperStyles = {
 };
 
 const NestedThemes = () => (
-  <ThemeProvider value={flatTheme}>
+  <ThemeContext.Provider value={flatTheme}>
     <div style={{ ...wrapperStyles, width: 750 }}>
       <ShowcaseGroup title="Flat Theme" />
-      <ThemeProvider value={defaultTheme}>
+      <ThemeContext.Provider value={defaultTheme}>
         <div style={wrapperStyles}>
           <ShowcaseGroup title="Default Theme" />
-          <ThemeProvider value={darkTheme}>
+          <ThemeContext.Provider value={darkTheme}>
             <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
               <ShowcaseGroup title="Dark Theme" />
             </div>
-          </ThemeProvider>
+          </ThemeContext.Provider>
         </div>
-      </ThemeProvider>
+      </ThemeContext.Provider>
     </div>
-  </ThemeProvider>
+  </ThemeContext.Provider>
 );
 
 <NestedThemes />;
@@ -137,20 +233,20 @@ export default {
 };
 ```
 
-Далее объект из theme.js можно передавать в ThemeProvider:
+Далее объект из `theme.js` нужно обернуть в `ThemeFactory.create` и можно передавать в ThemeContext.Provider:
 
 ```jsx static
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { ThemeProvider } from '@skbkontur/react-ui/components/ThemeProvider';
+import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
 import App from './components/App';
 import theme from './theme/theme';
 
 ReactDOM.render(
-  <ThemeProvider value={theme}>
+  <ThemeContext.Provider value={ThemeFactory.create(theme)}>
     <App />
-  </ThemeProvider>,
+  </ThemeContext.Provider>,
   document.getElementById('app'),
 );
 ```

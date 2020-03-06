@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
-import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import styles from './TopBar.module.less';
 import { jsStyles } from './TopBar.styles';
@@ -12,23 +11,10 @@ import { jsStyles } from './TopBar.styles';
  *
  * @visibleName TopBar.Divider
  */
-export class TopBarDivider extends React.Component<{}> {
-  public static __KONTUR_REACT_UI__ = 'TopBarDivider';
-
-  private theme!: Theme;
-
-  public render() {
-    return (
-      <ThemeConsumer>
-        {theme => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeConsumer>
-    );
-  }
-
-  private renderMain() {
-    return <span className={cx(styles.divider, jsStyles.divider(this.theme))} />;
-  }
+function TopBarDivider() {
+  const theme = useContext(ThemeContext);
+  return <span className={cx(styles.divider, jsStyles.divider(theme))} />;
 }
+TopBarDivider.__KONTUR_REACT_UI__ = 'TopBarDivider';
+
+export { TopBarDivider };

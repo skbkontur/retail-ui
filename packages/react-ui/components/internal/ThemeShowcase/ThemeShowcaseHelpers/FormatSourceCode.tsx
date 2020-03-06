@@ -2,8 +2,8 @@ import React from 'react';
 import warning from 'warning';
 
 import styles from '../ThemeShowcase.module.less';
-import { Nullable } from '../../../typings/utility-types';
-import { isDevelopmentEnv } from '../../internal/currentEnvironment';
+import { Nullable } from '../../../../typings/utility-types';
+import { isDevelopmentEnv } from '../../currentEnvironment';
 
 export function formatSourceCode(input: string, componentName: string) {
   const regEx = /\.css\(.*\.__makeTemplateObject\((\[[\S\s]+\]),\s*(\[[\S\s]+\])\)\),\s*([\s\S]+)\)/gm;
