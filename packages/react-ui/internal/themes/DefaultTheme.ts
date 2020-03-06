@@ -315,8 +315,6 @@ export class DefaultTheme {
   public static chbBorder = 'none';
   public static chbShadowHover = 'none';
   public static chbCheckedColor = 'inherit';
-  public static chbCheckedBg = 'transparent';
-  public static chbBoxIndeterminateBg = 'transparent';
   public static chbCheckedHoverShadow = 'none';
   public static chbBorderRadius = '1px';
   public static chbShadowWidth = '2px';
@@ -518,6 +516,18 @@ export class DefaultTheme {
   }
   public static get chbActiveBg() {
     return this.btnDefaultActiveBg;
+  }
+  public static get chbCheckedBg() {
+    return this.chbBg;
+  }
+  public static get chbBoxIndeterminateBg() {
+    return this.chbBg;
+  }
+  public static get chbCheckedHoverBg() {
+    return this.chbBg;
+  }
+  public static get chbCheckedActiveBg() {
+    return this.chbBg;
   }
   public static get chbShadowActive() {
     return this.btnDefaultActiveShadow;

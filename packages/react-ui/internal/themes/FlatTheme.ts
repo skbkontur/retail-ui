@@ -1,3 +1,5 @@
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+
 import { DefaultThemeInternal } from './DefaultTheme';
 
 // TODO Delete repeated values from flat theme
@@ -278,6 +280,12 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static get chbBoxIndeterminateBg() {
     return this.chbCheckedBg;
+  }
+  public static get chbCheckedHoverBg() {
+    return ColorFunctions.darken(this.chbCheckedBg, '5%');
+  }
+  public static get chbCheckedActiveBg() {
+    return ColorFunctions.darken(this.chbCheckedBg, '15%');
   }
   public static get radioHoverBg() {
     return this.chbHoverBg;

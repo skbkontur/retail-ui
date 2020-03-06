@@ -1,6 +1,5 @@
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 const styles = {
   root(t: Theme) {
@@ -92,11 +91,11 @@ const styles = {
 
       &:hover ${cssName(styles.box(t))} {
         box-shadow: ${t.chbCheckedHoverShadow};
-        background: ${ColorFunctions.darken(t.chbCheckedBg, '5%')};
+        background: ${t.chbCheckedHoverBg};
       }
 
       &:active ${cssName(styles.box(t))} {
-        background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
+        background: ${t.chbCheckedActiveBg};
       }
     `;
   },
@@ -110,11 +109,11 @@ const styles = {
       }
 
       &:hover ${cssName(styles.box(t))} {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
         box-shadow: ${t.chbCheckedHoverShadow};
+        background: ${t.chbCheckedHoverBg};
       }
       &:active ${cssName(styles.box(t))} {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
+        background: ${t.chbCheckedActiveBg};
       }
     `;
   },
@@ -165,4 +164,4 @@ const styles = {
   },
 };
 
-export const jsStyles = memoizeStyle(styles)
+export const jsStyles = memoizeStyle(styles);
