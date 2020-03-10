@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 import { By } from 'selenium-webdriver';
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 describe('Modal', function() {
   describe('Modal over another modal', function() {
     it('open first modal', async function() {
@@ -10,6 +12,7 @@ describe('Modal', function() {
         })
         .click(this.browser.findElement(By.css('button')))
         .perform();
+      await delay(200);
       await expect(await this.browser.takeScreenshot()).to.matchImage('open first modal');
     });
     it('open second modal', async function() {
@@ -23,6 +26,7 @@ describe('Modal', function() {
         .actions({ bridge: true })
         .click(this.browser.findElement(By.css('[data-comp-name~="ModalBody"] button')))
         .perform();
+      await delay(100);
       await expect(await this.browser.takeScreenshot()).to.matchImage('open second modal');
     });
   });
@@ -34,6 +38,7 @@ describe('Modal', function() {
         })
         .click(this.browser.findElement(By.css('button')))
         .perform();
+      await delay(100);
       await expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
     });
   });
@@ -45,6 +50,7 @@ describe('Modal', function() {
         })
         .click(this.browser.findElement(By.css('button')))
         .perform();
+      await delay(200);
       await expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
     });
   });
@@ -72,6 +78,7 @@ describe('Modal', function() {
         })
         .click(this.browser.findElement(By.css('button')))
         .perform();
+      await delay(100);
       await expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
     });
   });
@@ -83,6 +90,7 @@ describe('Modal', function() {
         })
         .click(this.browser.findElement(By.css('button')))
         .perform();
+      await delay(100);
       await expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
     });
     it('toggle content height', async function() {
@@ -107,7 +115,7 @@ describe('Modal', function() {
     it('middle', async function() {
       await this.browser.executeScript(function() {
         var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
+        var modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight / 2;
@@ -118,7 +126,7 @@ describe('Modal', function() {
     it('bottom', async function() {
       await this.browser.executeScript(function() {
         var modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-        var modalContent = window.document.querySelector('[class^="Modal-module-centerContainer"]');
+        var modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
         // @ts-ignore
         modalContainer.scrollTop = modalContent.offsetHeight;
@@ -140,6 +148,7 @@ describe('Modal', function() {
         })
         .click(this.browser.findElement(By.css('button')))
         .perform();
+      await delay(100);
       await expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
     });
     it('close by click on the cross', async function() {

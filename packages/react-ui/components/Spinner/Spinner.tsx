@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
+import cn from 'classnames';
 
 import { locale } from '../../lib/locale/decorators';
-import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { hasSvgAnimationSupport } from '../../lib/utils';
@@ -114,8 +114,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     return <SpinnerIcon size={type} className={circleClassName} />;
   };
 
-  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
-    const captionClassName = cx(jsStyles.caption(type), jsStyles.captionColor(this.theme));
-    return <span className={captionClassName}>{caption}</span>;
-  };
+  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (
+    <span className={cn(jsStyles[type](), jsStyles.captionColor(this.theme))}>{caption}</span>
+  );
 }

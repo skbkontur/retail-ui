@@ -1,11 +1,6 @@
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export const darkTheme = ThemeFactory.create({
-  /*BEGIN: custom fields for playground*/
-  backgroundMain: '#000',
-  textColorMain: '#fff',
-  /*END: custom fields for playground*/
-
   brandXLight: '#cae5f5',
   brandLight: '#3094d0',
   brand: '#1e79be',
@@ -62,6 +57,7 @@ export const darkTheme = ThemeFactory.create({
   controlHeightMedium: '40px',
   controlHeightLarge: '44px',
   chbCheckedColor: '#000',
+  chbIndeterminateBg: '#000',
   chbShadowDisabled: 'rgba(255, 255, 255, .5)',
   textColorDefault: '#fff',
   textColorInvert: '#fff',
@@ -81,15 +77,15 @@ export const darkTheme = ThemeFactory.create({
   btnCheckedTextColor: '#fff',
   btnCheckedShadowColorArrow: 'rgba(0, 0, 0, 0.3)',
   btnDefaultBgStart: 'none',
-  btnDefaultBgArrowStart: '#000',
+  btnDefaultBgArrowStart: '#333',
   btnDefaultBgEnd: 'none',
-  btnDefaultBgArrowEnd: '#000',
+  btnDefaultBgArrowEnd: '#333',
   btnDefaultTextColor: 'none',
   btnDefaultShadow: '0 1px 0 0 rgba(255,255,255, 1), 0 0 0 1px rgba(255,255,255, 1)',
   btnDefaultShadowArrow: '1.2px -1px 0 0 rgba(255, 255, 255, 1), 1px 0 0 0 rgba(255, 255, 255, 1)',
-  btnDefaultShadowArrowLeft: '1px -1px 0 0 rgba(255, 255, 255, 1), 0 -1px 0 0 rgba(255, 255, 255, 1)',
-  btnDefaultHoverBgStart: 'gray',
-  btnDefaultHoverBgEnd: 'gray',
+  btnDefaultShadowArrowLeft: '1px -1px 0 0 rgba(255, 255, 255, 1), 0 0 0 0 rgba(255, 255, 255, 1)',
+  btnDefaultHoverBgStart: '#333',
+  btnDefaultHoverBgEnd: '#333',
   btnDefaultHoverShadow: '0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2)',
   btnDefaultHoverShadowArrow: '1px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.2)',
   btnDefaultHoverShadowArrowLeft: '1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.2)',

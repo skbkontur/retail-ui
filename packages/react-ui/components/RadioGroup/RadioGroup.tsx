@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
+import cn from 'classnames';
 
 import { getRandomID } from '../../lib/utils';
 import { Radio } from '../Radio';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { FocusTrap } from '../internal/FocusTrap';
 
-import styles from './RadioGroup.module.less';
+import { jsStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 
 export interface RadioGroupProps<T = string | number> {
@@ -179,7 +179,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <FocusTrap onBlur={onBlur}>
-        <span ref={this.ref} style={style} className={styles.root} {...handlers}>
+        <span ref={this.ref} style={style} className={jsStyles.root()} {...handlers}>
           {this.renderChildren()}
         </span>
       </FocusTrap>
@@ -231,10 +231,10 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
       key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
-      className: cx({
-        [styles.item]: true,
-        [styles.itemFirst]: index === 0,
-        [styles.itemInline]: !!this.props.inline,
+      className: cn({
+        [jsStyles.item()]: true,
+        [jsStyles.itemFirst()]: index === 0,
+        [jsStyles.itemInline()]: !!this.props.inline,
       }),
     };
 

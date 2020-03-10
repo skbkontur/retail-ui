@@ -1,9 +1,9 @@
 import React from 'react';
 import warning from 'warning';
 
-import styles from '../ThemeShowcase.module.less';
 import { Nullable } from '../../../../typings/utility-types';
 import { isDevelopmentEnv } from '../../currentEnvironment';
+import { jsStyles } from '../ThemeShowcase.styles';
 
 export function formatSourceCode(input: string, componentName: string) {
   const regEx = /\.css\(.*\.__makeTemplateObject\((\[[\S\s]+\]),\s*(\[[\S\s]+\])\)\),\s*([\s\S]+)\)/gm;
@@ -53,7 +53,7 @@ function renderVariables(variableString: string, componentName: string) {
     variableString = variableString
       .replace(/\b[a-z0-9]{1,2}\.default\.lighten/gi, 'ColorFunctions.lighten')
       .replace(/\b[a-z0-9]{1,2}\.default\.darken/gi, 'ColorFunctions.darken')
-      .replace(/\b[a-z0-9]{1,2}\.default\.constrast/gi, 'ColorFunctions.contrast')
+      .replace(/\b[a-z0-9]{1,2}\.default\.contrast/gi, 'ColorFunctions.contrast')
       .replace(/\b[a-z0-9]{1,2}\.default\.red/gi, 'ColorFunctions.red')
       .replace(/\b[a-z0-9]{1,2}\.default\.green/gi, 'ColorFunctions.green')
       .replace(/\b[a-z0-9]{1,2}\.default\.blue/gi, 'ColorFunctions.blue')
@@ -93,8 +93,8 @@ function getClassName(variableString: string, componentName: string) {
 function renderClassName(className: string) {
   return (
     <React.Fragment>
-      <span className={styles.cssClassObject}>classNames.</span>
-      <span className={styles.cssClassName}>{className}</span>
+      <span className={jsStyles.cssClassObject()}>classNames.</span>
+      <span className={jsStyles.cssClassName()}>{className}</span>
     </React.Fragment>
   );
 }
@@ -120,14 +120,14 @@ function getTheme(variableString: string) {
         const themeProp = match[1];
         result.push(<span key={`${key}_textBefore`}>{textBefore}</span>);
         result.push(
-          <span key={`${key}_themeObject`} className={styles.cssThemeObject}>
+          <span key={`${key}_themeObject`} className={jsStyles.cssThemeObject()}>
             theme
             {themeProp ? '.' : ''}
           </span>,
         );
         if (themeProp) {
           result.push(
-            <span key={`${key}_themePropName`} className={styles.cssThemeProp}>
+            <span key={`${key}_themePropName`} className={jsStyles.cssThemeProp()}>
               {themeProp}
             </span>,
           );

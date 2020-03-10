@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 
 import { DatePickerLocaleHelper } from '../../DatePicker/locale';
 import { DateSelect, DateSelectProps } from '../DateSelect';
-import styles from '../DateSelect.less';
 
 const renderSelect = (props: DateSelectProps) => mount(<DateSelect {...props} />);
 
@@ -19,8 +18,8 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    dateSelect.find(`.${styles.caption}`).simulate('click');
-    const disabledItems = dateSelect.find('.' + styles.menuItemDisabled);
+    dateSelect.find(`[data-tid='DateSelect__caption']`).simulate('click');
+    const disabledItems = dateSelect.find(`[data-tid='DateSelect__menuItem'][data-prop-disabled=true]`);
     const disabledItemsMonths = disabledItems.map(item => item.props().children);
     expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
   });
@@ -36,8 +35,8 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    dateSelect.find(`.${styles.caption}`).simulate('click');
-    const disabledItems = dateSelect.find('.' + styles.menuItemDisabled);
+    dateSelect.find(`[data-tid='DateSelect__caption']`).simulate('click');
+    const disabledItems = dateSelect.find(`[data-tid='DateSelect__menuItem'][data-prop-disabled=true]`);
     const disabledItemsMonths = disabledItems.map(item => item.props().children);
     expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
   });

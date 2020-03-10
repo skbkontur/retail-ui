@@ -1,21 +1,20 @@
 import React from 'react';
 
-import { css } from '../../../lib/theming/Emotion';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Theme } from '../../../lib/theming/Theme';
 import { Gapped } from '../../Gapped';
 import { Loader } from '../../Loader';
 
 import { VariableValue } from './VariableValue';
-import styles from './styles.module.less';
 import { VARIABLES_GROUPS } from './constants';
-import { PlaygroundTheme, ThemeErrorsType } from './ThemeContextPlayground';
+import { ThemeErrorsType } from './ThemeContextPlayground';
+import { jsStyles } from './Playground.styles';
 
 interface ThemeEditorProps {
   editingTheme: Theme;
-  currentTheme: PlaygroundTheme;
+  currentTheme: Theme;
   currentErrors: ThemeErrorsType;
-  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
+  onValueChange: (variable: keyof Theme, value: string) => void;
 }
 interface ThemeEditorState {
   groups: Group[];
@@ -35,8 +34,8 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
   public render() {
     return this.state.isLoading ? (
-      <div className={styles.loaderWrapper}>
-        <Loader type="big" active className={styles.loader} />
+      <div className={jsStyles.loaderWrapper()}>
+        <Loader type="big" active className={jsStyles.loader()} />
       </div>
     ) : (
       this.renderGroups()
@@ -81,24 +80,21 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
 interface GroupProps {
   editingTheme: Theme;
-  currentTheme: PlaygroundTheme;
+  currentTheme: Theme;
   currentErrors: ThemeErrorsType;
   title: string;
-  variables: string[];
-  onValueChange: (variable: keyof PlaygroundTheme, value: string) => void;
+  variables: Array<keyof Theme>;
+  onValueChange: (variable: keyof Theme, value: string) => void;
 }
 const Group = (props: GroupProps) => {
   const { editingTheme, currentTheme, currentErrors, onValueChange, title, variables } = props;
-  const headerClassname = css`
-    color: ${currentTheme.textColorMain};
-  `;
 
   return variables.length > 0 ? (
     <React.Fragment>
-      <h2 className={headerClassname}>{title}</h2>
+      <h2 className={jsStyles.editorGroupHeader(currentTheme)}>{title}</h2>
       <Gapped gap={16} wrap verticalAlign="middle">
         {variables.map(variable => {
-          const value = editingTheme[variable as keyof Theme];
+          const value = editingTheme[variable] as string;
           const isError = currentErrors[variable];
           return (
             <VariableValue
@@ -147,7 +143,7 @@ const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Them
       if (descriptor && typeof descriptor.get !== 'undefined') {
         const getterBody = descriptor.get.toString();
         const variableNameMatchArray = getterBody.match(/this\.(\w+)\b/gm) || [];
-        return (variableNameMatchArray || []).map(v => v.replace(/this\./g, ''));
+        return (variableNameMatchArray || []).map(v => v.replace(/this\./g, '')) as Array<keyof Theme>;
       }
       break;
     }

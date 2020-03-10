@@ -1,13 +1,12 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import cn from 'classnames';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../ZIndex';
 
 import { jsStyles } from './Modal.styles';
-import styles from './Modal.module.less';
 import { ModalContext } from './ModalContext';
 
 export interface ModalFooterProps {
@@ -30,18 +29,20 @@ function ModalFooter(props: ModalFooterProps) {
   const [scrollbarWidth, setScrollBarWidth] = useState(0);
 
   useEffect(() => {
-    setScrollBarWidth(getScrollWidth())
+    setScrollBarWidth(getScrollWidth());
   }, []);
 
-  const renderContent = (fixed = false) => {
-    const className = cx(styles.footer, jsStyles.footer(theme), {
-      [styles.panel]: !!panel,
-      [styles.fixedFooter]: fixed,
-      [jsStyles.fixedFooter(theme)]: fixed,
-    });
-
-    return <div className={className}>{children}</div>;
-  };
+  const renderContent = (fixed = false) => (
+    <div
+      className={cn({
+        [jsStyles.footer()]: true,
+        [jsStyles.panel(theme)]: Boolean(panel),
+        [jsStyles.fixedFooter(theme)]: fixed,
+      })}
+    >
+      {children}
+    </div>
+  );
 
   return (
     <ZIndex style={{ position: 'relative' }} priority={'ModalFooter'}>

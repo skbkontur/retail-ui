@@ -1,17 +1,16 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import throttle from 'lodash.throttle';
+import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { TabIndicators } from './Tab';
-import styles from './Indicator.module.less';
 
 export interface IndicatorProps {
   className?: string;
@@ -85,8 +84,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     };
     return (
       <div
-        className={cx(
-          styles.root,
+        className={cn(
           jsStyles.root(this.theme),
           indicators.primary && jsStyles.primary(this.theme),
           indicators.success && jsStyles.success(this.theme),

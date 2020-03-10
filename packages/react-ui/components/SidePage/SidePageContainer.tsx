@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './SidePage.module.less';
+import { jsStyles } from './SidePage.styles';
 
 /**
  * Контейнер с отступами
@@ -11,6 +11,10 @@ export class SidePageContainer extends React.Component {
   public static __KONTUR_REACT_UI__ = 'SidePageContainer';
 
   public render(): JSX.Element {
-    return <div className={styles.bodyContainer}>{this.props.children}</div>;
+    return (
+      <div className={jsStyles.bodyContainer()}>
+        {this.props.children}
+      </div>
+    );
   }
 }

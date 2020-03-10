@@ -1,12 +1,11 @@
 import React, { ReactNode, useContext } from 'react';
+import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../ZIndex';
 
 import { jsStyles } from './Modal.styles';
-import styles from './Modal.module.less';
 import { ModalClose } from './ModalClose';
 import { CloseProps, ModalContext } from './ModalContext';
 
@@ -25,15 +24,14 @@ function ModalHeader({ sticky = true, children }: ModalHeaderProps) {
   const renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => {
     return (
       <div
-        className={cx({
-          [styles.header]: true,
-          [styles.fixedHeader]: fixed,
+        className={cn({
+          [jsStyles.header()]: true,
           [jsStyles.fixedHeader(theme)]: fixed,
-          [styles.headerAddPadding]: !!additionalPadding,
+          [jsStyles.headerAddPadding()]: Boolean(additionalPadding),
         })}
       >
         {close && (
-          <div className={styles.absoluteClose}>
+          <div className={jsStyles.absoluteClose()}>
             <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />
           </div>
         )}

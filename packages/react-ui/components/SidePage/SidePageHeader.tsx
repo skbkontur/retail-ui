@@ -1,14 +1,13 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './SidePage.styles';
-import styles from './SidePage.module.less';
 import { SidePageContext } from './SidePageContext';
 
 const REGULAR_HEADER_PADDING_TOP = 25;
@@ -86,9 +85,9 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderHeader = (fixed = false) => {
     return (
-      <div className={cx(styles.header, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
+      <div className={cn(jsStyles.header(), { [jsStyles.headerFixed(this.theme)]: fixed })}>
         {this.renderClose()}
-        <div className={cx(styles.title, { [styles.fixed]: fixed, [jsStyles.fixed(this.theme)]: fixed })}>
+        <div className={cn(jsStyles.title(), { [jsStyles.titleFixed()]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
@@ -99,14 +98,13 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     <SidePageContext.Consumer>
       {({ requestClose }) => (
         <a
-          className={cx(styles.close, jsStyles.close(this.theme), {
-            [styles.fixed]: fixed,
-            [jsStyles.fixed(this.theme)]: fixed,
+          className={cn(jsStyles.close(this.theme), {
+            [jsStyles.fixed()]: fixed,
           })}
           onClick={requestClose}
-          data-tid="SidePage-Close"
+          data-tid="SidePage__close"
         >
-          <span className={styles.closeIcon}>
+          <span className={jsStyles.closeIcon()}>
             <CrossIcon />
           </span>
         </a>

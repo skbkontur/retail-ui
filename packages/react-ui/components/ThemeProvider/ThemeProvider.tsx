@@ -2,7 +2,7 @@ import React from 'react';
 import isEqual from 'lodash.isequal';
 import warning from 'warning';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext/ThemeContext';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { isDevelopmentEnv } from '../internal/currentEnvironment';
@@ -23,7 +23,10 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
   }
 
   componentDidMount(): void {
-    warning(true, "ThemeProvider was deprecated please use 'ThemeContext' instead. \nSee https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext");
+    warning(
+      true,
+      "ThemeProvider was deprecated please use 'ThemeContext' instead. \nSee https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext",
+    );
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: Readonly<ThemeProviderProps>): void {
@@ -33,10 +36,10 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
         warning(
           !hasSameShape,
           `ThemeProvider received next value with the same shape as the previous one.` +
-          '\n' +
-          `Consider using the same object reference for performance reasons.` +
-          '\n' +
-          `Shape: ${JSON.stringify(nextProps.value)}`,
+            '\n' +
+            `Consider using the same object reference for performance reasons.` +
+            '\n' +
+            `Shape: ${JSON.stringify(nextProps.value)}`,
         );
       }
 
@@ -49,6 +52,6 @@ export class ThemeProvider extends React.Component<ThemeProviderProps> {
   }
 
   private makeFullTheme(theme: ThemeIn | Theme): Theme {
-    return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create(theme);
+    return ThemeFactory.isFullTheme(theme) ? theme : ThemeFactory.create<ThemeIn>(theme);
   }
 }

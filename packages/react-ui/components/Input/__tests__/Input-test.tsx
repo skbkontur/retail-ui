@@ -2,7 +2,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 import MaskedInput from 'react-input-mask';
 
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { Input, InputProps } from '../Input';
+import { jsStyles } from '../Input.styles';
 
 const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
@@ -44,17 +46,17 @@ describe('<Input />', () => {
 
   it('applies error styles on error prop', () => {
     const wrapper = render({ value: '', error: true });
-    expect(wrapper.find('.error')).toHaveLength(1);
+    expect(wrapper.find(`.${jsStyles.error(DEFAULT_THEME as any)}`)).toHaveLength(1);
   });
 
   it('applies warning styles on warning prop', () => {
     const wrapper = render({ value: '', warning: true });
-    expect(wrapper.find('.warning')).toHaveLength(1);
+    expect(wrapper.find(`.${jsStyles.warning(DEFAULT_THEME as any)}`)).toHaveLength(1);
   });
 
   it('applies borderless styles on borderless prop', () => {
     const wrapper = render({ value: '', borderless: true });
-    expect(wrapper.find('.borderless')).toHaveLength(1);
+    expect(wrapper.find(`.${jsStyles.borderless()}`)).toHaveLength(1);
   });
 
   it('passes props to input', () => {

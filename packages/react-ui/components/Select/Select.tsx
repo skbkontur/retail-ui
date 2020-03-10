@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import warning from 'warning';
+import cn from 'classnames';
 
 import {
   isKeyArrowDown,
@@ -25,13 +26,11 @@ import { RenderLayer } from '../RenderLayer';
 import { createPropsGetter } from '../internal/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
-import styles from './Select.module.less';
 import { jsStyles } from './Select.styles';
 
 export interface ButtonParams {
@@ -297,7 +296,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-        <span className={styles.root} style={style}>
+        <span className={jsStyles.root(this.theme)} style={style}>
           {button}
           {!this.props.disabled && this.state.opened && this.renderMenu()}
         </span>
@@ -317,15 +316,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
 
     return {
-      label: (
-        <span
-          className={cx({
-            [styles.customUsePlaceholder]: this.props.use !== 'default',
-          })}
-        >
-          {this.props.placeholder || this.locale.placeholder}
-        </span>
-      ),
+      label: <span>{this.props.placeholder || this.locale.placeholder}</span>,
       isPlaceholder: true,
     };
   }
@@ -356,12 +347,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
 
     const labelProps = {
-      className: cx({
-        [styles.label]: this.props.use !== 'link',
-        [styles.labelWithLeftIcon]: !!this.props._icon,
-        [styles.placeholder]: params.isPlaceholder,
+      className: cn({
+        [jsStyles.label()]: this.props.use !== 'link',
+        [jsStyles.labelWithLeftIcon()]: !!this.props._icon,
         [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
-        [styles.customUsePlaceholder]: params.isPlaceholder && this.props.use !== 'default',
+        [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
         paddingRight: (buttonProps.size === 'large' ? 31 : 28) + (this.props._icon ? 10 : 0),
@@ -373,10 +363,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <Button {...buttonProps}>
         <span {...labelProps}>
-          <span className={styles.labelText}>{params.label}</span>
+          <span className={jsStyles.labelText()}>{params.label}</span>
         </span>
-        <div className={styles.arrowWrap}>
-          <div className={cx(styles.arrow, jsStyles.arrow(this.theme), useIsCustom && styles.customUseArrow)} />
+        <div className={jsStyles.arrowWrap()}>
+          <div className={cn(jsStyles.arrow(this.theme), useIsCustom && jsStyles.customUseArrow())} />
         </div>
       </Button>
     );
@@ -398,7 +388,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
-      <div className={styles.search}>
+      <div className={jsStyles.search()}>
         <Input ref={this.focusInput} onValueChange={this.handleSearch} />
       </div>
     ) : null;

@@ -131,7 +131,10 @@ describe('Modal', () => {
       </Modal>,
     );
     const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
-    const contentNode = wrapper.find('[data-tid="modal-content"]').getDOMNode();
+    const contentNode = wrapper
+      .find(Modal.Body)
+      .find('[data-tid="modal-content"]')
+      .getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
 
@@ -151,7 +154,10 @@ describe('Modal', () => {
         </Modal.Body>
       </Modal>,
     );
-    const contentNode = wrapper.find('[data-tid="modal-content"]').getDOMNode();
+    const contentNode = wrapper
+      .find(Modal.Body)
+      .find('[data-tid="modal-content"]')
+      .getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
     emulateRealClick(contentNode);

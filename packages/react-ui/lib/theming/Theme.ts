@@ -1,4 +1,5 @@
-import { DEFAULT_THEME } from './themes/DefaultTheme';
+import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
+import { FlatThemeInternal } from '../../internal/themes/FlatTheme';
 
-export type Theme = typeof DEFAULT_THEME;
-export type ThemeIn = Partial<Theme>;
+export type Theme = Readonly<typeof DefaultThemeInternal | typeof FlatThemeInternal>;
+export type ThemeIn = Partial<typeof DefaultThemeInternal>;

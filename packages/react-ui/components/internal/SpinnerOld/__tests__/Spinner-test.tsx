@@ -5,12 +5,11 @@ import { defaultLangCode } from '../../../../lib/locale/constants';
 import { SpinnerLocaleHelper } from '../locale';
 import { SpinnerOldIcon, SPINNER_CLOUD_SIZE } from '../../icons/SpinnerOldIcon';
 import { SpinnerOld } from '../SpinnerOld';
-import styles from '../SpinnerOld.less';
+import { jsStyles } from '../SpinnerOld.styles';
 import { SpinnerOldFallback } from '../SpinnerOldFallback';
 import { LocaleContext, LangCodes } from '../../../../lib/locale';
 
 const render = (props = {}) => mount(<SpinnerOld {...props} />);
-const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
 describe('SpinnerOld', () => {
   describe('SVG animation', () => {
@@ -33,14 +32,14 @@ describe('SpinnerOld', () => {
 
     it('renders correct default SpinnerOld caption text', () => {
       const component = render();
-      const captionText = component.find(generateSelector('captionBottom')).text();
+      const captionText = component.find(`.${jsStyles.captionBottom()}`).text();
 
       expect(captionText).toEqual('Загрузка');
     });
 
     it('prints correct caption text', () => {
       const component = render({ caption: 'test' });
-      const captionText = component.find(generateSelector('captionBottom')).text();
+      const captionText = component.find(`.${jsStyles.captionBottom()}`).text();
 
       expect(captionText).toEqual('test');
     });
@@ -48,7 +47,7 @@ describe('SpinnerOld', () => {
     it('should render mini SpinnerOld', () => {
       const component = render({ type: 'mini' });
       const circle = component.find(SpinnerOldIcon);
-      const captionRight = component.find(generateSelector('captionRight'));
+      const captionRight = component.find(`.${jsStyles.captionRight()}`);
 
       expect(circle).toHaveLength(1);
       expect(captionRight).toHaveLength(1);
@@ -107,7 +106,7 @@ describe('SpinnerOld', () => {
 
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper): string => {
-      return wrapper.find(generateSelector('captionBottom')).text();
+      return wrapper.find(`.${jsStyles.captionBottom()}`).text();
     };
 
     it('render without LocaleProvider', () => {

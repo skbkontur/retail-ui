@@ -99,7 +99,7 @@ describe('SidePage', function() {
     });
     it('fixed close element', async function() {
       await this.browser.executeScript(function() {
-        var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
+        var sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
         var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
         var fixedHeaderHeight = 50;
 
@@ -111,7 +111,7 @@ describe('SidePage', function() {
     });
     it('fixed header', async function() {
       await this.browser.executeScript(function() {
-        var sidePageContainer = window.document.querySelector('[class^="SidePage-module-container"]');
+        var sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
         var sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
         var fixedHeaderHeight = 50;
 

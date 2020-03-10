@@ -1,14 +1,13 @@
 import React from 'react';
 import warningOutput from 'warning';
+import cn from 'classnames';
 
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles, jsTokenColors } from './Token.styles';
-import styles from './Token.module.less';
 
 const deprecatedColorNames: { [key: string]: TokenColorName } = {
   'i-default': 'defaultIdle',
@@ -93,23 +92,25 @@ export class Token extends React.Component<TokenProps> {
     }
 
     const theme = this.theme;
+    const validation = error ? 'error' : warning ? 'warning' : null;
+    const disableClassNames = cn(jsTokenColors.defaultDisabled(theme), {
+      [jsTokenColors.defaultDisabledWarning(theme)]: warning,
+      [jsTokenColors.defaultDisabledError(theme)]: error,
+    });
 
-    let tokenClassName = disabled ? jsTokenColors.defaultDisabled(theme) : jsTokenColors.defaultIdle(theme);
-    let activeTokenClassName = disabled ? jsTokenColors.defaultDisabled(theme) : jsTokenColors.defaultActive(theme);
+    let tokenClassName = disabled ? disableClassNames : jsTokenColors.defaultIdle(theme, validation);
+    let activeTokenClassName = disabled ? disableClassNames : jsTokenColors.defaultActive(theme, validation);
 
     if (!disabled && colors) {
       const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
-      tokenClassName = jsTokenColors[idleClassName](theme);
+      tokenClassName = jsTokenColors[idleClassName](theme, validation);
 
       const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
-      activeTokenClassName = jsTokenColors[activeClassName](theme);
+      activeTokenClassName = jsTokenColors[activeClassName](theme, validation);
     }
 
-    const tokenClassNames = cx(styles.token, tokenClassName, {
-      [styles.disabled]: !!disabled,
+    const tokenClassNames = cn(jsStyles.token(), tokenClassName, {
       [activeTokenClassName]: !!isActive,
-      [styles.warning]: !!warning,
-      [styles.error]: !!error,
       [jsStyles.disabled(theme)]: !!disabled,
     });
 
@@ -122,8 +123,8 @@ export class Token extends React.Component<TokenProps> {
         onFocus={onFocus}
         onBlur={onBlur}
       >
-        <span className={styles.text}>{children}</span>
-        <span className={styles.removeIcon} onClick={this.onRemoveClick}>
+        <span className={jsStyles.text()}>{children}</span>
+        <span className={jsStyles.removeIcon()} onClick={this.onRemoveClick}>
           <CrossIcon />
         </span>
       </div>

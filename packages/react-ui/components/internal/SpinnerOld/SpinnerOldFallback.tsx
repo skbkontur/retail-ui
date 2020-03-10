@@ -7,7 +7,7 @@ import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_cloud_big.png';
 import fallbackImage_normal from './fallback_cloud_normal.png';
-import styles from './SpinnerOld.module.less';
+import { jsStyles } from './SpinnerOld.styles';
 import { SpinnerOldType } from './SpinnerOld';
 
 export const types: {
@@ -82,7 +82,7 @@ export class SpinnerOldFallback extends React.Component<SpinnerOldFallbackProps>
       cssSet.backgroundPosition = `0 -${frame * 16}px`;
     }
 
-    return <span className={styles.fallback} style={cssSet} />;
+    return <span className={jsStyles.fallback()} style={cssSet} />;
   }
 
   private renderCloud() {
@@ -100,7 +100,7 @@ export class SpinnerOldFallback extends React.Component<SpinnerOldFallbackProps>
       cssSet.backgroundPosition = `0 -${frame * SPINNER_CLOUD_SIZE.height * multiply}px`;
     }
 
-    return <span className={styles.fallback} style={cssSet} />;
+    return <span className={jsStyles.fallback()} style={cssSet} />;
   }
 
   private animate = () => {

@@ -1,8 +1,9 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
 
-import styles from './Center.module.less';
+import { jsStyles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -34,14 +35,19 @@ export class Center extends React.Component<CenterProps> {
   };
 
   public render(): JSX.Element {
-    const { align, style, children, ...rest } = this.props;
-
-    const styleJoined = Object.assign({ textAlign: align }, style);
+    const { align, children, ...rest } = this.props;
 
     return (
-      <div className={styles.root} {...rest} style={styleJoined}>
-        <span className={styles.spring} />
-        <span className={styles.container}>{children}</span>
+      <div
+        className={cn({
+          [jsStyles.root()]: true,
+          [jsStyles.rootAlignLeft()]: align === 'left',
+          [jsStyles.rootAlignRight()]: align === 'right',
+        })}
+        {...rest}
+      >
+        <span className={jsStyles.spring()} />
+        <span className={jsStyles.container()}>{children}</span>
       </div>
     );
   }

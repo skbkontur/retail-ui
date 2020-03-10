@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import cn from 'classnames';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../ScrollContainer/ScrollContainer';
@@ -7,12 +8,10 @@ import { isMenuItem, MenuItem, MenuItemProps } from '../../MenuItem';
 import { isMenuHeader } from '../../MenuHeader';
 import { createPropsGetter } from '../createPropsGetter';
 import { Nullable } from '../../../typings/utility-types';
-import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Theme } from '../../../lib/theming/Theme';
 
 import { jsStyles } from './InternalMenu.styles';
-import styles from './InternalMenu.module.less';
 import { isActiveElement } from './isActiveElement';
 
 interface MenuProps {
@@ -109,7 +108,10 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cx(styles.root, jsStyles.root(this.theme), this.props.hasShadow && styles.shadow)}
+        className={cn({
+          [jsStyles.root(this.theme)]: true,
+          [jsStyles.shadow()]: this.props.hasShadow,
+        })}
         style={{
           width: this.props.width,
           maxHeight: this.state.maxHeight,
@@ -181,9 +183,9 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         ref={el => (this.header = el)}
-        className={cx({
-          [styles.header]: true,
-          [styles.fixedHeader]: this.state.scrollState !== 'top',
+        className={cn({
+          [jsStyles.header()]: true,
+          [jsStyles.fixedHeader()]: this.state.scrollState !== 'top',
         })}
       >
         {this.props.header}
@@ -195,9 +197,9 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         ref={el => (this.footer = el)}
-        className={cx({
-          [styles.footer]: true,
-          [styles.fixedFooter]: this.state.scrollState !== 'bottom',
+        className={cn({
+          [jsStyles.footer()]: true,
+          [jsStyles.fixedFooter()]: this.state.scrollState !== 'bottom',
         })}
       >
         {this.props.footer}
@@ -241,8 +243,8 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     const calculatedMaxHeight =
       typeof parsedMaxHeight === 'number'
         ? parsedMaxHeight +
-        ((this.header && this.header.getBoundingClientRect().height) || 0) +
-        ((this.footer && this.footer.getBoundingClientRect().height) || 0)
+          ((this.header && this.header.getBoundingClientRect().height) || 0) +
+          ((this.footer && this.footer.getBoundingClientRect().height) || 0)
         : maxHeight;
 
     this.setState({

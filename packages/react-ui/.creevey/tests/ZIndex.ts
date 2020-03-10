@@ -40,29 +40,26 @@ describe('ZIndex', function() {
         .click(this.browser.findElement(By.css('.modalBody button')))
         .perform();
 
-      const modal = await this.browser.findElement(By.css('[class^="Modal-module-root"]'));
-      await expect(await modal.takeScreenshot()).to.matchImage('Modal covers hint');
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
     });
   });
   describe('Loader in Modal', function() {
     it('Footer covers loader', async function() {
-      const modal = await this.browser.findElement(By.css('[class^="Modal-module-window"]'));
+      const modal = await this.browser.findElement(By.css('[data-tid="modal-content"]'));
       await expect(await modal.takeScreenshot()).to.matchImage('Footer covers loader');
     });
   });
   describe('Big modal with Loader', function() {
     it('Header covers Loader', async function() {
-      const modal = await this.browser.findElement(By.css('[class^="Modal-module-root"]'));
-
       await this.browser.executeScript(function() {
-        const sidePage = window.document.querySelector('[class^="Modal-module-container"]') as HTMLElement;
+        const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
         if (sidePage) {
           sidePage.scrollTop = sidePage.offsetHeight / 3;
         }
       });
 
-      await expect(await modal.takeScreenshot()).to.matchImage('Header covers Loader');
+      await expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
     });
   });
   describe('Tooltip and Select', function() {
@@ -80,10 +77,10 @@ describe('ZIndex', function() {
   });
   describe('Loader in SidePage.Body', function() {
     it('is covered by Header and Footer', async function() {
-      const element = await this.browser.findElement(By.css('[class^="SidePage-module-root"]'));
+      const element = await this.browser.findElement(By.css(`[data-tid='SidePage__root']`));
 
       await this.browser.executeScript(function() {
-        const sidePage = window.document.querySelector('[class^="SidePage-module-container"]') as HTMLElement;
+        const sidePage = window.document.querySelector(`[data-tid='SidePage__container']`) as HTMLElement;
 
         if (sidePage) {
           sidePage.scrollTop = sidePage.offsetHeight;
@@ -114,7 +111,7 @@ describe('ZIndex', function() {
         .sendKeys('q')
         .perform();
 
-      const element = await this.browser.findElement(By.css('[class^="SidePage-module-container"]'));
+      const element = await this.browser.findElement(By.css(`[data-tid='SidePage__container']`));
       await expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
     });
   });

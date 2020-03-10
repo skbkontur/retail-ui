@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
+import cn from 'classnames';
 
-import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { CloseProps } from './ModalContext';
-import styles from './Modal.module.less';
 import { jsStyles } from './Modal.styles';
 
 export function ModalClose({ disableClose, requestClose }: CloseProps) {
@@ -12,11 +11,14 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
 
   return (
     <button
-      className={cx(styles.close, jsStyles.close(theme), disableClose && styles.disabled)}
+      className={cn({
+        [jsStyles.close(theme)]: true,
+        [jsStyles.disabled(theme)]: disableClose,
+      })}
       onClick={requestClose}
       data-tid="modal-close"
     >
-      <span className={styles.closeOutline} />
+      <span className={jsStyles.closeOutline(theme)} />
     </button>
   );
 }
