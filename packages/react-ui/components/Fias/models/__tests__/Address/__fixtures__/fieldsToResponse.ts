@@ -1,11 +1,11 @@
-import { Fields, AddressFields } from '../../../../types';
-import { AddressElement } from '../../../AddressElement';
+import { FiasFields, FiasAddressFields } from '../../../../types';
+import { FiasAddressElement } from '../../../FiasAddressElement';
 import { FiasData } from '../../../FiasData';
 
 export interface FieldsToResponseTestCase {
   label: string;
-  fields: AddressFields;
-  resultFields: Fields[];
+  fields: FiasAddressFields;
+  resultFields: FiasFields[];
 }
 
 const CASE_01 = 'empty response';
@@ -57,23 +57,23 @@ export const fieldsToResponseTestCases: FieldsToResponseTestCase[] = [
   {
     label: CASE_02,
     fields: {
-      [Fields.region]: new AddressElement(Fields.region, data.region.name, new FiasData(data.region)),
-      [Fields.city]: new AddressElement(Fields.city, data.city.name, new FiasData(data.city)),
-      [Fields.intracityarea]: new AddressElement(
-        Fields.intracityarea,
+      [FiasFields.region]: new FiasAddressElement(FiasFields.region, data.region.name, new FiasData(data.region)),
+      [FiasFields.city]: new FiasAddressElement(FiasFields.city, data.city.name, new FiasData(data.city)),
+      [FiasFields.intracityarea]: new FiasAddressElement(
+        FiasFields.intracityarea,
         data.intracityarea.name,
         new FiasData(data.intracityarea),
       ),
     },
-    resultFields: [Fields.region, Fields.city, Fields.intracityarea],
+    resultFields: [FiasFields.region, FiasFields.city, FiasFields.intracityarea],
   },
   {
     label: CASE_03,
     fields: {
-      [Fields.region]: new AddressElement(Fields.region, data.region.name, new FiasData(data.region)),
-      [Fields.city]: new AddressElement(Fields.city, data.city.name),
-      [Fields.intracityarea]: new AddressElement(Fields.intracityarea, data.intracityarea.name),
+      [FiasFields.region]: new FiasAddressElement(FiasFields.region, data.region.name, new FiasData(data.region)),
+      [FiasFields.city]: new FiasAddressElement(FiasFields.city, data.city.name),
+      [FiasFields.intracityarea]: new FiasAddressElement(FiasFields.intracityarea, data.intracityarea.name),
     },
-    resultFields: [Fields.region],
+    resultFields: [FiasFields.region],
   },
 ];

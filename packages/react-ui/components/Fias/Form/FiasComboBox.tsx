@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { ComboBox, ComboBoxProps } from '../../ComboBox';
-import { Address } from '../models/Address';
+import { FiasAddress } from '../models/FiasAddress';
 import { reactGetTextContent } from '../../../lib/reactGetTextContent';
 import { escapeRegExpSpecChars } from '../../../lib/utils';
 
-export interface FiasComboBoxProps extends ComboBoxProps<Address> {
+export interface FiasComboBoxProps extends ComboBoxProps<FiasAddress> {
   limit?: number;
 }
 
@@ -30,7 +30,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     totalCount: 0,
   };
 
-  private combobox: ComboBox<Address> | null = null;
+  private combobox: ComboBox<FiasAddress> | null = null;
 
   public get hasItems() {
     return this.state.totalCount > 0;
@@ -52,11 +52,11 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     );
   }
 
-  private createRef = (el: ComboBox<Address> | null) => {
+  private createRef = (el: ComboBox<FiasAddress> | null) => {
     this.combobox = el;
   };
 
-  private getItems = (searchText: string): Promise<Address[]> => {
+  private getItems = (searchText: string): Promise<FiasAddress[]> => {
     const { getItems, limit } = this.props;
     const promise = getItems ? getItems(searchText) : Promise.resolve([]);
     return promise.then(items => {
@@ -67,7 +67,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     });
   };
 
-  private renderItem = (item: Address & { label?: string }): React.ReactNode => {
+  private renderItem = (item: FiasAddress & { label?: string }): React.ReactNode => {
     const node: React.ReactNode = this.props.renderItem ? this.props.renderItem(item) : item.label || '';
     return this.highlight(reactGetTextContent(node));
   };
@@ -79,7 +79,7 @@ export class FiasComboBox extends React.Component<FiasComboBoxProps, FiasComboBo
     </div>
   );
 
-  private handleChange = (item: Address) => {
+  private handleChange = (item: FiasAddress) => {
     const { onValueChange, valueToString } = this.props;
     if (onValueChange) {
       onValueChange(item);
