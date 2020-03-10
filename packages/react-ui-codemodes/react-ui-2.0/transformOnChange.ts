@@ -77,7 +77,10 @@ const listOfComponents: Array<CustomJSXElement> = [
   },
   {
     name: 'Toggle',
-    changes: [{ before: 'onChange', after: 'onValueChange', conditions: ChangeCondition.Nothing }],
+    changes: [
+      { before: 'onChange', after: 'onValueChange', conditions: ChangeCondition.Nothing },
+      { before: 'changeEventHandler', after: 'onChange', conditions: ChangeCondition.Nothing },
+    ],
   },
   {
     name: 'Input',

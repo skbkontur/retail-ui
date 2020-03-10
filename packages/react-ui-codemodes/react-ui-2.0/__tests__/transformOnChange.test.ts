@@ -32,21 +32,21 @@ defineInlineTest(
   `transforms "onChange/onInputChange" with only "value" argument`,
 );
 
-// defineInlineTest(
-//   transform,
-//   {},
-//   `
-//     <>
-//       <Toggle changeEventHandler={e => this.handleChange(e)} />
-//     </>
-// `,
-//   `
-//     <>
-//       <Toggle onChange={e => this.handleChange(e)} />
-//     </>
-//   `,
-//   `transforms custom "onChange" without one "event" arg to native onChange`,
-// );
+defineInlineTest(
+  transform,
+  {},
+  `
+    <>
+      <Toggle changeEventHandler={e => this.handleChange(e)} />
+    </>
+`,
+  `
+    <>
+      <Toggle onChange={e => this.handleChange(e)} />
+    </>
+  `,
+  `transforms custom "onChange" to native onChange`,
+);
 
 defineInlineTest(
   transform,
@@ -72,11 +72,13 @@ defineInlineTest(
   `
     <>
       <Input onChange={(e, v) => handle(v)} />
+      <Input onChange={(e, v) => handle({ e })} />
     </>
 `,
   `
     <>
       <Input onValueChange={v => handle(v)} />
+      <Input onChange={(e, v) => handle({ e })} />
     </>
   `,
   `removes "event" arg if it isn't being used and transforms onChange->onValueChange`,
