@@ -1,8 +1,7 @@
 import { TopBarLocale } from '../types';
 
 export const componentsLocales: TopBarLocale = {
-  cabinetTitle: 'Личный кабинет Контура',
-  cabinetSettings: 'Настройка входа в сервисы',
+  cabinetSettings: 'Личный кабинет Контура',
   cabinetCertificates: 'Сертификаты',
   cabinetServices: 'Оплата сервисов',
   logout: 'Выйти',

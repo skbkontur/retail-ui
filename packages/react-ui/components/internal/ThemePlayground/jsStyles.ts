@@ -1,6 +1,6 @@
 import { css } from '../../../lib/theming/Emotion';
 
-import { PlaygroundTheme } from './ThemeProviderPlayground';
+import { PlaygroundTheme } from './ThemeContextPlayground';
 
 export const jsStyles = {
   stickyTabsWrapper(t: PlaygroundTheme) {

@@ -42,6 +42,8 @@ import {
   Tabs,
   Textarea,
   ThemeProvider,
+  ThemeFactory,
+  ThemeContext,
   Toast,
   Toggle,
   Token,
@@ -165,6 +167,11 @@ export const App = () => {
       <ThemeProvider value={FLAT_THEME}>
         <Input/>
       </ThemeProvider>
+      <ThemeContext.Provider value={ThemeFactory.create(FLAT_THEME)}>
+        <ThemeContext.Consumer>
+          {theme => theme.btnFontSizeMedium}
+        </ThemeContext.Consumer>
+      </ThemeContext.Provider>
       <Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={{}} onValueChange={() => ({})}/>
       <FiasSearch api={new FiasAPI('https://api.kontur.ru/fias/v1/')}/>
       <Logotype suffix="экстерн" color="#F15600"/>

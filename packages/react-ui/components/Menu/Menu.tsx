@@ -6,7 +6,7 @@ import { isMenuItem, MenuItem, MenuItemProps } from '../MenuItem';
 import { isMenuHeader } from '../MenuHeader';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './Menu.styles';
@@ -51,12 +51,12 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
