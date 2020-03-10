@@ -87,7 +87,7 @@ const listOfComponents: Array<CustomJSXElement> = [
     changes: [{ before: 'onChange', after: 'onValueChange', conditions: ChangeCondition.RemoveFirstParam }],
   },
 ];
-const transformExpression = (api: API, node: any, change: CustomChange) => {
+const transformExpression = (api: API, node: any, change: CustomChange, report: () => void) => {
   const j = api.jscodeshift;
   switch (change.conditions) {
     case ChangeCondition.RemoveFirstParam: {
@@ -101,10 +101,14 @@ const transformExpression = (api: API, node: any, change: CustomChange) => {
           if (!using) {
             node.name = change.after;
             node.value.expression.params.shift();
+          } else {
+            report();
           }
         } else {
           node.name = change.after;
         }
+      } else {
+        report();
       }
       break;
     }
@@ -125,7 +129,13 @@ const transform = (file: FileInfo, api: API, JsxElement: CustomJSXElement) => {
     result
       .find(j.JSXAttribute, n => n.name.name === change.before)
       .forEach((node: any) => {
-        node.value = transformExpression(api, node.value, change);
+        const report = () => {
+          api.report &&
+            api.report(
+              `${JsxElement.name}: can't transform "${change.before}" to "${change.after}". Please, try to do it manually.`,
+            );
+        };
+        node.value = transformExpression(api, node.value, change, report);
       });
   });
 
