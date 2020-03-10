@@ -7,7 +7,7 @@ import { Loader } from '../../Loader';
 
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS } from './constants';
-import { ThemeErrorsType } from './ThemeProviderPlayground';
+import { ThemeErrorsType } from './ThemeContextPlayground';
 import { jsStyles } from './Playground.styles';
 
 interface ThemeEditorProps {

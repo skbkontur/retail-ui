@@ -7,7 +7,7 @@ import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keybo
 import { tabListener } from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
@@ -159,12 +159,12 @@ export class Tab extends React.Component<TabProps, TabState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

@@ -47,3 +47,7 @@ export * from './components/Tooltip';
 export * from './components/TooltipMenu';
 export * from './components/TopBar';
 export * from './lib/locale';
+export * from './lib/theming/ThemeContext';
+export * from './lib/theming/ThemeFactory';
+export * from './lib/theming/themes/DefaultTheme';
+export * from './lib/theming/themes/FlatTheme';

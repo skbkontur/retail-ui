@@ -8,7 +8,7 @@ import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard
 import { polyfillPlaceholder } from '../polyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../internal/MaskedInput';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './Input.styles';
@@ -199,12 +199,12 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

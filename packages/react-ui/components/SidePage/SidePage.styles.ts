@@ -5,6 +5,7 @@ const styles = {
   root() {
     return css`
       height: 100%;
+      width: 100%;
       position: fixed;
       right: 0;
       top: 0;

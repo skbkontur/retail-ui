@@ -1,6 +1,6 @@
 import warning from 'warning';
 
-export class Logger {
+export class FiasLogger {
   public static warnings = {
     baseUrlOrApiIsRequired: 'property "baseUrl" or "api" is required',
     noBaseUrl: 'baseUrl is not specified',

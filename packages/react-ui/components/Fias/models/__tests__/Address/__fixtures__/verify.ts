@@ -1,11 +1,11 @@
-import { AddressFields, AddressResponse, VerifyResponse, Fields } from '../../../../types';
+import { FiasAddressFields, FiasAddressResponse, FiasVerifyResponse, FiasFields } from '../../../../types';
 
 export interface VerifyTestCase {
   label: string;
-  addressResponse: AddressResponse;
-  apiVerifyResponse: VerifyResponse;
-  verifiedAddressResponse: AddressResponse;
-  verifiedFieldsWithData: Fields[];
+  addressResponse: FiasAddressResponse;
+  apiVerifyResponse: FiasVerifyResponse;
+  verifiedAddressResponse: FiasAddressResponse;
+  verifiedFieldsWithData: FiasFields[];
 }
 
 const CASE_01 = 'empty address, empty server response';
@@ -16,7 +16,7 @@ const CASE_05 = 'all the fields are verified by the server but not consistent';
 const CASE_06 = 'not all the fields are verified by the server';
 const CASE_07 = 'all the fields are not verified by the server';
 
-export const removeFieldData = (addressFields: AddressFields, field: Fields): AddressFields => {
+export const removeFieldData = (addressFields: FiasAddressFields, field: FiasFields): FiasAddressFields => {
   const element = addressFields[field];
   if (element) {
     element.removeData();
@@ -27,17 +27,17 @@ export const removeFieldData = (addressFields: AddressFields, field: Fields): Ad
 export const verifyTestCases: VerifyTestCase[] = [
   {
     label: CASE_01,
-    addressResponse: {} as AddressResponse,
+    addressResponse: {} as FiasAddressResponse,
     apiVerifyResponse: {
-      address: {} as AddressResponse,
+      address: {} as FiasAddressResponse,
       isValid: true,
     },
-    verifiedAddressResponse: {} as AddressResponse,
+    verifiedAddressResponse: {} as FiasAddressResponse,
     verifiedFieldsWithData: [],
   },
   {
     label: CASE_02,
-    addressResponse: {} as AddressResponse,
+    addressResponse: {} as FiasAddressResponse,
     apiVerifyResponse: {
       address: {
         region: {
@@ -53,10 +53,10 @@ export const verifyTestCases: VerifyTestCase[] = [
           postalCode: '620000',
           code: '6600000000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
-    verifiedAddressResponse: {} as AddressResponse,
+    verifiedAddressResponse: {} as FiasAddressResponse,
     verifiedFieldsWithData: [],
   },
   {
@@ -75,9 +75,9 @@ export const verifyTestCases: VerifyTestCase[] = [
         postalCode: '620000',
         code: '6600000000000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     apiVerifyResponse: {
-      address: {} as AddressResponse,
+      address: {} as FiasAddressResponse,
       isValid: true,
     },
     verifiedAddressResponse: {
@@ -94,8 +94,8 @@ export const verifyTestCases: VerifyTestCase[] = [
         postalCode: '620000',
         code: '6600000000000',
       },
-    } as AddressResponse,
-    verifiedFieldsWithData: [Fields.region],
+    } as FiasAddressResponse,
+    verifiedFieldsWithData: [FiasFields.region],
   },
   {
     label: CASE_04,
@@ -137,7 +137,7 @@ export const verifyTestCases: VerifyTestCase[] = [
         ifnsfl: '7841',
         ifnsul: '7841',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     apiVerifyResponse: {
       address: {
         region: {
@@ -164,7 +164,7 @@ export const verifyTestCases: VerifyTestCase[] = [
           level: 'Street',
           code: '78000000000088500',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
     verifiedAddressResponse: {
@@ -205,8 +205,8 @@ export const verifyTestCases: VerifyTestCase[] = [
         ifnsfl: '7841',
         ifnsul: '7841',
       },
-    } as AddressResponse,
-    verifiedFieldsWithData: [Fields.region, Fields.street, Fields.house],
+    } as FiasAddressResponse,
+    verifiedFieldsWithData: [FiasFields.region, FiasFields.street, FiasFields.house],
   },
   {
     label: CASE_05,
@@ -248,7 +248,7 @@ export const verifyTestCases: VerifyTestCase[] = [
         ifnsfl: '7842',
         ifnsul: '7842',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     apiVerifyResponse: {
       address: {
         region: {
@@ -275,7 +275,7 @@ export const verifyTestCases: VerifyTestCase[] = [
           level: 'Street',
           code: '78000000000088500',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
     verifiedAddressResponse: {
@@ -303,8 +303,8 @@ export const verifyTestCases: VerifyTestCase[] = [
         level: 'Street',
         code: '78000000000088500',
       },
-    } as AddressResponse,
-    verifiedFieldsWithData: [Fields.region, Fields.street],
+    } as FiasAddressResponse,
+    verifiedFieldsWithData: [FiasFields.region, FiasFields.street],
   },
   {
     label: CASE_06,
@@ -351,7 +351,7 @@ export const verifyTestCases: VerifyTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     apiVerifyResponse: {
       address: {
         region: {
@@ -368,9 +368,9 @@ export const verifyTestCases: VerifyTestCase[] = [
           postalCode: '190000',
           code: '7800000000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: false,
-      invalidLevel: Fields.street,
+      invalidLevel: FiasFields.street,
     },
     verifiedAddressResponse: {
       region: {
@@ -387,8 +387,8 @@ export const verifyTestCases: VerifyTestCase[] = [
         postalCode: '190000',
         code: '7800000000000',
       },
-    } as AddressResponse,
-    verifiedFieldsWithData: [Fields.region],
+    } as FiasAddressResponse,
+    verifiedFieldsWithData: [FiasFields.region],
   },
   {
     label: CASE_07,
@@ -420,13 +420,13 @@ export const verifyTestCases: VerifyTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     apiVerifyResponse: {
-      address: {} as AddressResponse,
+      address: {} as FiasAddressResponse,
       isValid: false,
-      invalidLevel: Fields.region,
+      invalidLevel: FiasFields.region,
     },
-    verifiedAddressResponse: {} as AddressResponse,
+    verifiedAddressResponse: {} as FiasAddressResponse,
     verifiedFieldsWithData: [],
   },
 ];

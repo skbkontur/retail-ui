@@ -1,17 +1,17 @@
-import { EstateStatuses, FiasId, Fields, StructureStatuses, FiasObject } from '../types';
+import { FiasEstateStatuses, FiasId, FiasFields, FiasStructureStatuses, FiasObject } from '../types';
 import { abbreviations } from '../constants/abbreviations';
 
 import { FiasData } from './FiasData';
 
-export class AddressElement {
+export class FiasAddressElement {
   // Types (abbrevs) that match fields labels
   private static MATCHING_TYPES: {
-    [key: string]: Fields;
+    [key: string]: FiasFields;
   } = {
-    'р-н': Fields.district,
-    г: Fields.city,
-    нп: Fields.settlement,
-    ул: Fields.street,
+    'р-н': FiasFields.district,
+    г: FiasFields.city,
+    нп: FiasFields.settlement,
+    ул: FiasFields.street,
   };
 
   private static FEDERAL_CITIES: FiasId[] = [
@@ -21,13 +21,13 @@ export class AddressElement {
     '63ed1a35-4be6-4564-a1ec-0c51f7383314', // Байконур
   ];
 
-  constructor(public type: Fields, public name: string, public data?: FiasData) {}
+  constructor(public type: FiasFields, public name: string, public data?: FiasData) {}
 
   public get isFederalCity(): boolean {
     if (!this.fiasId) {
       return false;
     }
-    return AddressElement.FEDERAL_CITIES.includes(this.fiasId);
+    return FiasAddressElement.FEDERAL_CITIES.includes(this.fiasId);
   }
 
   public get fiasData(): FiasObject | undefined {
@@ -75,7 +75,9 @@ export class AddressElement {
             break;
 
           case 'п':
-            result = !withoutType ? `${this.type === Fields.district ? 'поселение' : 'поселок'} ${name}` : `${name}`;
+            result = !withoutType
+              ? `${this.type === FiasFields.district ? 'поселение' : 'поселок'} ${name}`
+              : `${name}`;
             break;
 
           default:
@@ -83,20 +85,20 @@ export class AddressElement {
         }
       }
 
-      if (this.type === Fields.stead) {
+      if (this.type === FiasFields.stead) {
         result = ' ' + data.number;
       }
 
-      if (this.type === Fields.house) {
-        if (data.estateStatus !== EstateStatuses.None) {
+      if (this.type === FiasFields.house) {
+        if (data.estateStatus !== FiasEstateStatuses.None) {
           switch (data.estateStatus) {
-            case EstateStatuses.Hold:
+            case FiasEstateStatuses.Hold:
               result = `${result} владение`;
               break;
-            case EstateStatuses.House:
+            case FiasEstateStatuses.House:
               result = `${result} дом`;
               break;
-            case EstateStatuses.HouseHold:
+            case FiasEstateStatuses.HouseHold:
               result = `${result} домовладение`;
               break;
           }
@@ -106,15 +108,15 @@ export class AddressElement {
           result = `${result} ${data.number}`;
         }
 
-        if (data.structureStatus && data.structureStatus !== StructureStatuses.None && data.structureNumber) {
+        if (data.structureStatus && data.structureStatus !== FiasStructureStatuses.None && data.structureNumber) {
           switch (data.structureStatus) {
-            case StructureStatuses.Structure:
+            case FiasStructureStatuses.Structure:
               result = `${result} строение ${data.structureNumber}`;
               break;
-            case StructureStatuses.Construction:
+            case FiasStructureStatuses.Construction:
               result = `${result} cооружение ${data.structureNumber}`;
               break;
-            case StructureStatuses.Liter:
+            case FiasStructureStatuses.Liter:
               result = `${result} литера ${data.structureNumber}`;
               break;
           }
@@ -125,7 +127,7 @@ export class AddressElement {
         }
       }
 
-      if (this.type === Fields.room) {
+      if (this.type === FiasFields.room) {
         if (data) {
           result = `квартира ${name}`;
         } else {
@@ -137,10 +139,10 @@ export class AddressElement {
     return result.trim() || name;
   }
 
-  public isTypeMatchField = (field: Fields): boolean => {
+  public isTypeMatchField = (field: FiasFields): boolean => {
     const { data } = this;
     if (data && data.abbreviation) {
-      return AddressElement.MATCHING_TYPES[data.abbreviation] === field;
+      return FiasAddressElement.MATCHING_TYPES[data.abbreviation] === field;
     }
     return false;
   };
@@ -150,7 +152,7 @@ export class AddressElement {
     if (data) {
       const { name, abbreviation, number, structureNumber, buildingNumber, structureStatus } = data;
       switch (type) {
-        case Fields.house:
+        case FiasFields.house:
           return {
             number,
             structureNumber,
@@ -173,7 +175,7 @@ export class AddressElement {
     delete this.data;
   };
 
-  public isEqualTo = (element: AddressElement | undefined): boolean => {
+  public isEqualTo = (element: FiasAddressElement | undefined): boolean => {
     if (element && element.fiasId) {
       return this.fiasId === element.fiasId;
     }

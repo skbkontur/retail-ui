@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../../lib/theming/Emotion';
 
 const styles = {
   searchBar() {

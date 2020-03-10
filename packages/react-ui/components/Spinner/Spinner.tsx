@@ -5,7 +5,7 @@ import cn from 'classnames';
 
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { hasSvgAnimationSupport } from '../../lib/utils';
 import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
 import { SpinnerOld } from '../internal/SpinnerOld';
@@ -81,12 +81,12 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return !this.props.cloud ? this.renderMain() : this.renderSpinnerOld();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

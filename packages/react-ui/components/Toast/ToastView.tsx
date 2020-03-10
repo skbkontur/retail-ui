@@ -3,7 +3,7 @@ import { func, shape, string } from 'prop-types';
 
 import { CrossIcon } from '../internal/icons/CrossIcon';
 import { ZIndex } from '../ZIndex';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './ToastView.styles';
@@ -45,12 +45,12 @@ export class ToastView extends React.Component<ToastViewProps> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

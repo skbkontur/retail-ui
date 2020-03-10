@@ -10,7 +10,7 @@ import { ModalStack, ModalStackSubscription } from '../ModalStack';
 import { RenderContainer } from '../RenderContainer';
 import { RenderLayer } from '../RenderLayer';
 import { ZIndex } from '../ZIndex';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { SidePageBody } from './SidePageBody';
@@ -69,11 +69,6 @@ export interface SidePageState {
 
 const TRANSITION_TIMEOUT = 200;
 
-interface ZIndexPropsType {
-  classes?: string;
-  style?: React.CSSProperties;
-}
-
 /**
  * Сайдпейдж
  *
@@ -121,12 +116,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -155,26 +150,18 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private getZIndexProps(): ZIndexPropsType {
-    const { fromLeft, blockBackground } = this.props;
-    return {
-      classes: cn(jsStyles.root(), {
-        [jsStyles.leftSide(this.theme)]: !!fromLeft,
-      }),
-      style: blockBackground ? { width: '100%' } : undefined,
-    };
-  }
-
   private renderContainer(): JSX.Element {
-    const { classes, style } = this.getZIndexProps();
+    const { fromLeft } = this.props;
 
     return (
       <ZIndex
         priority={'Sidepage'}
         data-tid="SidePage__root"
-        className={classes}
+        className={cn({
+          [jsStyles.root()]: true,
+          [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
+        })}
         onScroll={LayoutEvents.emit}
-        style={style}
         createStackingContext
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
@@ -209,16 +196,25 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private renderShadow(): JSX.Element {
-    const { classes, style } = this.getZIndexProps();
-    const { blockBackground } = this.props;
+    const { blockBackground, fromLeft } = this.props;
 
     return (
-      <ZIndex priority={'Sidepage'} className={classes} onScroll={LayoutEvents.emit} style={style}>
+      <ZIndex
+        priority={'Sidepage'}
+        className={cn({
+          [jsStyles.root()]: true,
+          [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
+        })}
+        onScroll={LayoutEvents.emit}
+      >
         {blockBackground && [
           <HideBodyVerticalScroll key="hbvs" />,
           <div
             key="overlay"
-            className={cn(jsStyles.background(), this.state.hasBackground && jsStyles.backgroundGray())}
+            className={cn({
+              [jsStyles.background()]: true,
+              [jsStyles.backgroundGray()]: this.state.hasBackground,
+            })}
           />,
         ]}
       </ZIndex>

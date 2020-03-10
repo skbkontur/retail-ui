@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './SidePage.styles';
@@ -52,12 +52,12 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

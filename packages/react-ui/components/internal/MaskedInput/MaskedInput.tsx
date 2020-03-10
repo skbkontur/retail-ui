@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
-import { ThemeConsumer } from '../../ThemeConsumer';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Theme } from '../../../lib/theming/Theme';
 
 import { jsStyles } from './MaskedInput.styles';
@@ -57,12 +57,12 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

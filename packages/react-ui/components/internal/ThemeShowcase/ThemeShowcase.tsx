@@ -2,16 +2,16 @@ import React from 'react';
 import cn from 'classnames';
 import { Theme } from 'react-ui/lib/theming/Theme';
 
-import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
-import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
-import { ComboBox, ComboBoxItem } from '../ComboBox';
-import { Gapped } from '../Gapped';
-import { Link } from '../Link';
-import { Sticky } from '../Sticky';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
-import { Tooltip } from '../Tooltip';
-import { PopupPosition } from '../Popup';
-import { IS_PROXY_SUPPORTED } from '../internal/Supports';
+import { DEFAULT_THEME as defaultVariables } from '../../../lib/theming/themes/DefaultTheme';
+import { FLAT_THEME as flatVariables } from '../../../lib/theming/themes/FlatTheme';
+import { ComboBox, ComboBoxItem } from '../../ComboBox';
+import { Gapped } from '../../Gapped';
+import { Link } from '../../Link';
+import { Sticky } from '../../Sticky';
+import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
+import { Tooltip } from '../../Tooltip';
+import { PopupPosition } from '../../Popup';
+import { IS_PROXY_SUPPORTED } from '../../internal/Supports';
 
 import {
   ALL_USED_VARIABLES,

@@ -1,5 +1,6 @@
-// TODO Extends from DefaultTheme
-export const darkTheme = {
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+
+export const darkTheme = ThemeFactory.create({
   brandXLight: '#cae5f5',
   brandLight: '#3094d0',
   brand: '#1e79be',
@@ -263,4 +264,4 @@ export const darkTheme = {
   specificityLevel: '0',
   textareaBg: 'none',
   textareaColor: 'inherit',
-};
+});

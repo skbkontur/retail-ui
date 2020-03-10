@@ -20,7 +20,7 @@ import { Menu } from '../Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { emptyHandler } from '../../lib/utils';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './TokenInput.styles';
@@ -144,12 +144,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

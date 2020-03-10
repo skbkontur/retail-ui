@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { isIE11, isEdge } from '../../lib/utils';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
@@ -122,7 +122,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private theme!: Theme;
-  private _node: HTMLButtonElement | null = null;
+  private node: HTMLButtonElement | null = null;
 
   public componentDidMount() {
     if (this.props.autoFocus) {
@@ -135,28 +135,24 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
    * @public
    */
   public focus() {
-    if (this._node) {
-      this._node.focus();
-    }
+    this.node?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    if (this._node) {
-      this._node.blur();
-    }
+    this.node?.blur();
   }
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -312,23 +308,19 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           this.setState({ focusedByTab: true });
         }
       });
-      if (this.props.onFocus) {
-        this.props.onFocus(e);
-      }
+      this.props.onFocus?.(e);
     }
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
     this.setState({ focusedByTab: false });
     if (!this.props.disabled && !this.props.disableFocus) {
-      if (this.props.onBlur) {
-        this.props.onBlur(e);
-      }
+      this.props.onBlur?.(e);
     }
   };
 
   private _ref = (node: HTMLButtonElement | null) => {
-    this._node = node;
+    this.node = node;
   };
 }
 

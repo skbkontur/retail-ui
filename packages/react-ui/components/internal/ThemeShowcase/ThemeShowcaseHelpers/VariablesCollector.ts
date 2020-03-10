@@ -1,7 +1,7 @@
-import { Theme } from '../../../lib/theming/Theme';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
-import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
-import { IS_PROXY_SUPPORTED } from '../../internal/Supports';
+import { Theme } from '../../../../lib/theming/Theme';
+import { DEFAULT_THEME } from '../../../../lib/theming/themes/DefaultTheme';
+import { FLAT_THEME } from '../../../../lib/theming/themes/FlatTheme';
+import { IS_PROXY_SUPPORTED } from '../../Supports';
 
 import { formatSourceCode } from './FormatSourceCode';
 
@@ -39,7 +39,7 @@ if (IS_PROXY_SUPPORTED) {
   baseThemes.push(DEFAULT_THEME);
   baseThemes.push(FLAT_THEME);
 
-  const componentsContext = require.context('../../', true, /\.styles.ts$/);
+  const componentsContext = require.context('../../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach(fileName => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');

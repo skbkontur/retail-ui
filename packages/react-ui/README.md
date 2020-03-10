@@ -29,7 +29,7 @@ const MyApp = () => (
 
 ### Хотим другой цвет кнопки!
 
-Нужно использовать [ThemeProvider](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeProvider). Список переменных можно глянуть в [ThemeShowcase](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeShowcase)
+Нужно использовать [ThemeContext](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext). Список переменных можно глянуть в [ThemeShowcase](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeShowcase)
 
 ### Глобальные css-стили приложения портят внешний вид контролов
 

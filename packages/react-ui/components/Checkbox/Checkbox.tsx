@@ -4,8 +4,8 @@ import cn from 'classnames';
 
 import { Nullable, Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
-import { ThemeConsumer } from '../ThemeConsumer';
 import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
 
@@ -80,12 +80,12 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -94,18 +94,14 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
    */
   public focus() {
     tabListener.isTabPressed = true;
-    if (this.input) {
-      this.input.focus();
-    }
+    this.input?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    if (this.input) {
-      this.input.blur();
-    }
+    this.input?.blur();
   }
 
   /**
@@ -215,9 +211,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
+    this.props.onBlur?.(e);
     this.setState({ focusedByTab: false });
   };
 
@@ -227,14 +221,10 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
-    if (this.props.onValueChange) {
-      this.props.onValueChange(checked);
-    }
+    this.props.onValueChange?.(checked);
 
     this.resetIndeterminate();
 
-    if (this.props.onChange) {
-      this.props.onChange(event);
-    }
+    this.props.onChange?.(event);
   };
 }

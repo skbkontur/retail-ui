@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import cn from 'classnames';
 
 import { Nullable } from '../../typings/utility-types';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import * as CDS from './CalendarDateShape';
 import { config } from './config';
@@ -28,47 +27,29 @@ const cellStyle = {
   borderRadius: size / 2,
 };
 
-export class DayCellView extends React.PureComponent<DayCellViewProps, {}> {
-  private theme!: Theme;
+export function DayCellView(props: DayCellViewProps) {
+  const { date, minDate, maxDate, today, value, isWeekend, onDateClick } = props;
+  const theme = useContext(ThemeContext);
 
-  public render() {
-    return (
-      <ThemeConsumer>
-        {theme => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeConsumer>
-    );
-  }
-
-  private renderMain() {
-    const { date, minDate, maxDate, today, value, isWeekend } = this.props;
-
-    return (
-      <button
-        style={cellStyle}
-        tabIndex={-1}
-        disabled={!CDS.isBetween(date, minDate, maxDate)}
-        className={cn({
-          [jsStyles.cell(this.theme)]: true,
-          [jsStyles.today(this.theme)]: Boolean(today && CDS.isEqual(date, today)),
-          [jsStyles.selected(this.theme)]: Boolean(value && CDS.isEqual(date, value)),
-          [jsStyles.weekend(this.theme)]: Boolean(isWeekend),
-        })}
-        onClick={this.handleClick}
-      >
-        {date.date}
-      </button>
-    );
-  }
-
-  private handleClick = (): void => {
-    const { onDateClick } = this.props;
-    if (!onDateClick) {
-      return;
-    }
-    const { date, month, year } = this.props.date;
-    onDateClick({ date, month, year });
+  const handleClick = () => {
+    const { date, month, year } = props.date;
+    onDateClick?.({ date, month, year });
   };
+
+  return (
+    <button
+      style={cellStyle}
+      tabIndex={-1}
+      disabled={!CDS.isBetween(date, minDate, maxDate)}
+      className={cn({
+        [jsStyles.cell(theme)]: true,
+        [jsStyles.today(theme)]: Boolean(today && CDS.isEqual(date, today)),
+        [jsStyles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
+        [jsStyles.weekend(theme)]: Boolean(isWeekend),
+      })}
+      onClick={handleClick}
+    >
+      {date.date}
+    </button>
+  );
 }

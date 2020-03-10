@@ -5,18 +5,25 @@ import cn from 'classnames';
 
 import { Link } from '../Link';
 import { locale } from '../../lib/locale/decorators';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { EditIcon } from '../internal/icons/16px';
 import { LocaleContext } from '../../lib/locale';
 
 import { FiasLocale, FiasLocaleHelper } from './locale';
-import { APIProvider, ExtraFields, FiasValue, Fields, FieldsSettings, FormValidation } from './types';
+import {
+  FiasAPIProvider,
+  FiasExtraFields,
+  FiasValue,
+  FiasFields,
+  FiasFieldsSettings,
+  FiasFormValidation,
+} from './types';
 import { FiasModal } from './FiasModal';
 import { FiasForm } from './Form/FiasForm';
 import { FiasAPI } from './api/FiasAPI';
-import { Address } from './models/Address';
-import { Logger } from './logger/Logger';
+import { FiasAddress } from './models/FiasAddress';
+import { FiasLogger } from './logger/FiasLogger';
 import { jsStyles } from './Fias.styles';
 
 export interface FiasProps {
@@ -51,7 +58,7 @@ export interface FiasProps {
   /**
    * API instance. Если нет возможности использовать стандартный API.
    */
-  api?: APIProvider;
+  api?: FiasAPIProvider;
   /**
    * Позволяет получить полный FiasValue после обработки входного `value`
    */
@@ -69,7 +76,7 @@ export interface FiasProps {
   /**
    * Уровень критичности ошибок валидации полей адреса
    */
-  formValidation?: FormValidation;
+  formValidation?: FiasFormValidation;
   /**
    * Разрешать ли сохранять неверефицированный (произвольный, не из базы) адрес
    */
@@ -97,16 +104,16 @@ export interface FiasProps {
    *  }```
    *
    */
-  fieldsSettings: FieldsSettings;
+  fieldsSettings: FiasFieldsSettings;
   /* Выбор страны */
   countrySelector: boolean;
 }
 
 export interface FiasState {
   opened: boolean;
-  address: Address;
+  address: FiasAddress;
   locale: FiasLocale;
-  fieldsSettings: FieldsSettings;
+  fieldsSettings: FiasFieldsSettings;
 }
 
 function deepMerge<T>(dst: T, ...src: T[]): T {
@@ -144,13 +151,13 @@ export class Fias extends React.Component<FiasProps, FiasState> {
 
   public state: FiasState = {
     opened: false,
-    address: new Address(),
+    address: new FiasAddress(),
     locale: FiasLocaleHelper.get(),
     fieldsSettings: this.fieldsSettings,
   };
 
   private theme!: Theme;
-  private api: APIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
+  private api: FiasAPIProvider = this.props.api || new FiasAPI(this.props.baseUrl, this.props.version);
   private form: FiasForm | null = null;
 
   private readonly locale!: FiasLocale;
@@ -162,15 +169,15 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       `Fias has been deprecated, use Fias from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
     );
     if (!props.baseUrl && !props.api) {
-      Logger.log(Logger.warnings.baseUrlOrApiIsRequired);
+      FiasLogger.log(FiasLogger.warnings.baseUrlOrApiIsRequired);
     }
   }
 
-  public get fieldsSettings(): FieldsSettings {
+  public get fieldsSettings(): FiasFieldsSettings {
     const { fieldsSettings: userSettings, countrySelector } = this.props;
     // TODO: implement deepMerge with clone
-    const defaultSettings = Address.ALL_FIELDS.reduce<FieldsSettings>(
-      (settings: FieldsSettings, field: Fields | ExtraFields) => ({
+    const defaultSettings = FiasAddress.ALL_FIELDS.reduce<FiasFieldsSettings>(
+      (settings: FiasFieldsSettings, field: FiasFields | FiasExtraFields) => ({
         ...settings,
         [field]: {
           visible: true,
@@ -178,10 +185,10 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       }),
       {},
     );
-    return deepMerge<FieldsSettings>(
+    return deepMerge<FiasFieldsSettings>(
       defaultSettings,
       {
-        [ExtraFields.postalcode]: {
+        [FiasExtraFields.postalcode]: {
           visible: Boolean(countrySelector),
         },
       },
@@ -206,18 +213,18 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     }
   };
 
-  public isFieldVisible(field: Fields | ExtraFields): boolean {
-    return Address.isFieldVisible(field, this.state.fieldsSettings);
+  public isFieldVisible(field: FiasFields | FiasExtraFields): boolean {
+    return FiasAddress.isFieldVisible(field, this.state.fieldsSettings);
   }
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -240,9 +247,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       ) : null;
 
     return (
-      <LocaleContext.Provider value={{ locale: { Fias: this.state.locale }}}>
+      <LocaleContext.Provider value={{ locale: { Fias: this.state.locale } }}>
         <div>
-          {showAddressText && <span>{address.getFullText(this.isFieldVisible(ExtraFields.postalcode))}</span>}
+          {showAddressText && <span>{address.getFullText(this.isFieldVisible(FiasExtraFields.postalcode))}</span>}
           {!this.props.readonly && (
             <div>
               <Link icon={icon} onClick={this.handleOpen}>
@@ -279,12 +286,12 @@ export class Fias extends React.Component<FiasProps, FiasState> {
   private init = async () => {
     const address = await this.updateAddress();
     if (this.props.onInit) {
-      this.props.onInit(address.getValue(this.isFieldVisible(ExtraFields.postalcode)));
+      this.props.onInit(address.getValue(this.isFieldVisible(FiasExtraFields.postalcode)));
     }
   };
 
-  private updateAddress = async (): Promise<Address> => {
-    const address = await Address.getAddress(this.api, this.props.value, this.state.fieldsSettings);
+  private updateAddress = async (): Promise<FiasAddress> => {
+    const address = await FiasAddress.getAddress(this.api, this.props.value, this.state.fieldsSettings);
     this.setState({
       address,
     });
@@ -324,9 +331,9 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     this.handleClose();
   };
 
-  private handleChange = (address: Address) => {
+  private handleChange = (address: FiasAddress) => {
     if (this.props.onValueChange) {
-      this.props.onValueChange(address.getValue(this.isFieldVisible(ExtraFields.postalcode)));
+      this.props.onValueChange(address.getValue(this.isFieldVisible(FiasExtraFields.postalcode)));
     }
   };
 

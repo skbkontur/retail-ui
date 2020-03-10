@@ -8,7 +8,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../DateInput/helpers/SelectionHelpers';
 import { InputProps, InputIconType, InputState } from '../../Input';
 import { jsStyles as jsInputStyles } from '../../Input/Input.styles';
-import { ThemeConsumer } from '../../ThemeConsumer';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Theme } from '../../../lib/theming/Theme';
 
 import { jsStyles } from './InputLikeText.styles';
@@ -112,12 +112,12 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

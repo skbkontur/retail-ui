@@ -5,7 +5,7 @@ import { CHAR_MASK } from '../../lib/date/constants';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './DateFragmentsView.styles';
 
@@ -33,12 +33,12 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 

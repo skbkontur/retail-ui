@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../../lib/theming/Theme';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
-import { ThemeProvider } from '../ThemeProvider';
 import { SidePage } from '../../SidePage';
 import { Gapped } from '../../Gapped';
 import { ComboBox } from '../../ComboBox';
@@ -15,7 +15,7 @@ import { Writeable } from '../../../typings/utility-types';
 import { ThemeEditor } from './ThemeEditor';
 import { jsStyles } from './Playground.styles';
 import { Playground } from './Playground';
-import { darkTheme as darkThemeVariables } from './darkTheme';
+import { darkTheme } from './darkTheme';
 import { ThemeType } from './constants';
 
 interface PlaygroundState {
@@ -45,7 +45,7 @@ interface PlaygroundProps {
 }
 export type ThemeErrorsType = Writeable<{ [key in keyof Theme]?: boolean }>;
 
-export class ThemeProviderPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
+export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
     { value: ThemeType.Flat, label: 'Плоская' },
@@ -60,7 +60,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
       editorOpened: false,
       themes: {
         default: DEFAULT_THEME,
-        dark: ThemeFactory.create(darkThemeVariables),
+        dark: darkTheme,
         flat: FLAT_THEME,
       },
       themesErrors: {
@@ -74,7 +74,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
   public render() {
     const { currentTheme, editorOpened, currentThemeType } = this.state;
     return (
-      <ThemeProvider value={currentTheme}>
+      <ThemeContext.Provider value={currentTheme}>
         {editorOpened && this.renderSidePage()}
         {
           <Playground
@@ -83,7 +83,7 @@ export class ThemeProviderPlayground extends React.Component<PlaygroundProps, Pl
             onEditLinkClick={this.handleOpen}
           />
         }
-      </ThemeProvider>
+      </ThemeContext.Provider>
     );
   }
 
