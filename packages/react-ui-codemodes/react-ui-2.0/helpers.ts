@@ -147,7 +147,7 @@ export const deduplicateImports = (api: API, collection: Collection<any>, source
 
 export const deduplicateExports = (api: API, collection: Collection<any>, source: RegExp | string): void => {
   const j = api.jscodeshift;
-  dedupe(collection.find(j.ExportNamedDeclaration, node => node.source.value.match(source)));
+  dedupe(collection.find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(source)));
 };
 
 export const isModuleRemoved = (path: string, report?: API['report']) => {
@@ -158,6 +158,8 @@ export const isModuleRemoved = (path: string, report?: API['report']) => {
     'lib/pluralize',
     'lib/Colors',
     'lib/dom/getComputedStyle',
+    'components/internal/cross',
+    /\.less$/,
   ];
   if (removedModules.some(removedPath => path.match(removedPath))) {
     if (report) {

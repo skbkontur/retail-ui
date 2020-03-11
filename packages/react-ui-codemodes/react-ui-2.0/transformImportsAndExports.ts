@@ -57,6 +57,8 @@ const changeImportsSource = (api: API, collection: Collection<any>, path: string
       if (!isModuleRemoved(source)) {
         if (source.match(`${path}/lib/`)) {
           importDeclaration.node.source.value = `${value}/lib/${source.replace(`${path}/lib/`, '')}`;
+        } else if (source.match(`${path}/typings/`)) {
+          importDeclaration.node.source.value = `${value}/typings/${source.replace(`${path}/typings/`, '')}`;
         } else {
           importDeclaration.node.source.value = value;
         }
@@ -88,7 +90,7 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
     });
 
   collection
-    .find(j.ExportNamedDeclaration, node => node.source.value.match(path))
+    .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(path))
     .forEach(exportDeclaration => {
       const originSource = exportDeclaration.node.source!.value as string;
       if (isModuleRemoved(originSource, api.report)) {
@@ -142,18 +144,28 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
     'ModalStack',
     'ThemeShowcase',
     'Icon',
+    'createPropsGetter',
+    'currentEnvironment',
+    'extractKeyboardAction',
   ];
+  const isInternalComponent = (componentName: string): boolean => {
+    const whiteList = ['MenuItem', 'MenuHeader', 'MenuSeparator'];
+    return (
+      whiteList.every(whiteName => !componentName.startsWith(whiteName)) &&
+      internals.some(internal => componentName.startsWith(internal))
+    );
+  };
 
   collection
-    .find(j.ExportNamedDeclaration, node => node.source.value.match(path))
-    .find(j.ExportSpecifier, node => internals.some(internal => node.local.name.startsWith(internal)))
+    .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(path))
+    .find(j.ExportSpecifier, node => isInternalComponent(node.local.name))
     .forEach(importSpecifier => {
       moveSpecifierToSeparateExport(api, importSpecifier, internalsPath);
     });
 
   collection
     .find(j.ImportDeclaration, node => node.source.value.match(path))
-    .find(j.ImportSpecifier, node => internals.some(internal => node.imported.name.startsWith(internal)))
+    .find(j.ImportSpecifier, node => isInternalComponent(node.imported.name))
     .forEach(importSpecifier => {
       moveSpecifierToSeparateImport(api, importSpecifier, internalsPath);
     });

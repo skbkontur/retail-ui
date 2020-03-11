@@ -276,6 +276,11 @@ defineInlineTest(
     import { FocusTrap } from "@skbkontur/react-ui/components/internal/FocusTrap";
     import { Button, RenderContainer } from "@skbkontur/react-ui/components/all";
     import { Icon as Icon20 } from "@skbkontur/react-ui";
+    import { createPropsGetter } from "@skbkontur/react-ui/components/internal/createPropsGetter";
+    import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
+    import { Menu } from "@skbkontur/react-ui/components/Menu";
+
+
 `,
   `
     import { Calendar } from "@skbkontur/react-ui/internal";
@@ -283,6 +288,9 @@ defineInlineTest(
     import { RenderContainer } from "@skbkontur/react-ui/internal";
     import { Button } from "@skbkontur/react-ui";
     import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
+    import { createPropsGetter } from "@skbkontur/react-ui/internal";
+    import { MenuItem } from "@skbkontur/react-ui";
+    import { Menu } from "@skbkontur/react-ui/internal";
   `,
   `transforms internals`,
 );
@@ -303,6 +311,18 @@ defineInlineTest(
     import { Upgrade as Upgrades } from "@skbkontur/react-ui/lib/Upgrades";
     `,
   `transforms libs`,
+);
+
+defineInlineTest(
+  transform,
+  {},
+  `
+    import { Omit } from '@skbkontur/react-ui/typings/utility-types';
+`,
+  `
+    import { Omit } from '@skbkontur/react-ui/typings/utility-types';
+    `,
+  `transforms typings`,
 );
 
 defineInlineTest(
@@ -417,6 +437,10 @@ defineInlineTest(
     import DatePicker from "@skbkontur/react-ui/components/DatePickerOld";
     import Kladr from "@skbkontur/react-ui/components/Kladr";
 
+    import styles from "@skbkontur/react-ui/components/Modal/Modal.less";
+
+    import CROSS from 'retail-ui/components/internal/cross';
+
     export { default } from "@skbkontur/react-ui/lib/Colors";
     export * from "@skbkontur/react-ui/lib/pluralize";
 `,
@@ -429,8 +453,26 @@ defineInlineTest(
     import DatePicker from "@skbkontur/react-ui/components/DatePickerOld";
     import Kladr from "@skbkontur/react-ui/components/Kladr";
 
+    import styles from "@skbkontur/react-ui/components/Modal/Modal.less";
+
+    import CROSS from 'retail-ui/components/internal/cross';
+
     export { default } from "@skbkontur/react-ui/lib/Colors";
     export * from "@skbkontur/react-ui/lib/pluralize";
     `,
   `doesn't transform removed modules`,
 );
+
+// defineInlineTest(
+//   transform,
+//   {},
+//   `
+//     import { CalendarDateShape, comparator } from '@skbkontur/react-ui/components/Calendar/CalendarDateShape';
+//     import { parseDateString } from 'retail-ui/components/DatePicker/DatePickerHelpers'
+//     import PagingHelper from 'retail-ui/components/Paging/PagingHelper'
+//     import { parseDateString } from 'retail-ui/components/DatePicker/DatePickerHelpers'
+// `,
+//   `
+//     `,
+//   `broken cases`,
+// );

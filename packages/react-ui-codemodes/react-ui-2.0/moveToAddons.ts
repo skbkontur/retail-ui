@@ -38,7 +38,7 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     });
 
   result
-    .find(j.ExportNamedDeclaration, node => node.source.value.match(INITIAL_SOURCE))
+    .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(INITIAL_SOURCE))
     .find(j.ExportSpecifier, node => componentsToTransform.some(component => node.local.name.startsWith(component)))
     .forEach(exportSpecifier => {
       moveSpecifierToSeparateExport(api, exportSpecifier, FINAL_SOURCE);
