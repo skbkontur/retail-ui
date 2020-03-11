@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.1...react-ui-validations@1.1.2) (2020-03-11)
+
+
+### Bug Fixes
+
+* add recursive non nullable typing for LambdaPath ([#1893](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/1893)) ([6ea16cb](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/6ea16cb))
+
+
+
+
+
 ## [1.1.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.0...react-ui-validations@1.1.1) (2020-02-06)
 
 **Note:** Version bump only for package react-ui-validations
