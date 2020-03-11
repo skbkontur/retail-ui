@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 import * as Components from '../index';
-// import { Key } from 'selenium-webdriver/lib/input';
 import { Key } from '../lib/WebDriver';
 
 Object.assign(global, { React, expect, Key }, Components, React);
