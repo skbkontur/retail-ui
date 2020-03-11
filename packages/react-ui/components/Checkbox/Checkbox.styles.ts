@@ -1,8 +1,7 @@
-import { css, prefixer } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       display: inline-flex;
@@ -12,25 +11,27 @@ export const jsStyles = {
       user-select: none;
       line-height: 20px;
 
-      &:hover .${classes.box} {
+      &:hover ${cssName(styles.box(t))} {
         background: ${t.chbHoverBg};
         box-shadow: ${t.chbShadowHover};
       }
 
-      &:active .${classes.box} {
+      &:active ${cssName(styles.box(t))} {
         box-shadow: ${t.chbShadowActive};
         background: ${t.chbActiveBg};
-      }
-
-      &.${classes.disabled} {
-        color: ${t.textColorDisabled};
       }
     `;
   },
 
   rootFallback() {
     return css`
-      display: inline-table;
+      display: inline-table !important;
+    `;
+  },
+
+  rootWrapperIE11() {
+    return css`
+      display: inline;
     `;
   },
 
@@ -50,16 +51,10 @@ export const jsStyles = {
       box-shadow: ${t.chbShadow};
       background: ${t.chbBg};
       align-self: baseline;
-
-      .${classes.disabled} & {
-        box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
-        background: ${t.bgDisabled} !important;
-        color: ${t.textColorDisabled} !important;
-      }
     `;
   },
 
-  input(t: Theme) {
+  input() {
     return css`
       display: inline-block;
       opacity: 0;
@@ -72,7 +67,7 @@ export const jsStyles = {
 
   warning(t: Theme) {
     return css`
-      & .${classes.box} {
+      & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning} !important;
       }
     `;
@@ -80,7 +75,7 @@ export const jsStyles = {
 
   error(t: Theme) {
     return css`
-      & .${classes.box} {
+      & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError} !important;
       }
     `;
@@ -88,52 +83,59 @@ export const jsStyles = {
 
   checked(t: Theme) {
     return css`
-      & .${classes.box} {
+      & ${cssName(styles.box(t))} {
         background: ${t.chbCheckedBg};
         color: ${t.chbCheckedColor};
         box-shadow: ${t.chbCheckedShadow};
       }
 
-      &:hover .${classes.box} {
+      &:hover ${cssName(styles.box(t))} {
         box-shadow: ${t.chbCheckedHoverShadow};
-        background: ${ColorFunctions.darken(t.chbCheckedBg, '5%')};
+        background: ${t.chbCheckedHoverBg};
       }
 
-      &:active .${classes.box} {
-        background: ${ColorFunctions.darken(t.chbCheckedBg, '15%')};
+      &:active ${cssName(styles.box(t))} {
+        background: ${t.chbCheckedActiveBg};
       }
     `;
   },
 
   indeterminate(t: Theme) {
     return css`
-      & .${classes.box} {
+      & ${cssName(styles.box(t))} {
         background: ${t.chbBoxIndeterminateBg};
         color: ${t.chbIndeterminateBg};
         box-shadow: ${t.chbCheckedShadow};
       }
 
-      &:hover .${classes.box} {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '5%')};
+      &:hover ${cssName(styles.box(t))} {
         box-shadow: ${t.chbCheckedHoverShadow};
+        background: ${t.chbCheckedHoverBg};
       }
-      &:active .${classes.box} {
-        background: ${ColorFunctions.darken(t.chbBoxIndeterminateBg, '15%')};
+      &:active ${cssName(styles.box(t))} {
+        background: ${t.chbCheckedActiveBg};
       }
     `;
   },
 
-  focus(t: Theme): string {
+  focus(t: Theme) {
     return css`
-      & .${classes.box} {
+      & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus} !important;
       }
     `;
   },
 
-  disabled(t: Theme): string {
+  disabled(t: Theme) {
     return css`
+      color: ${t.textColorDisabled};
       cursor: default;
+
+      & ${cssName(styles.box(t))} {
+        box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
+        background: ${t.bgDisabled} !important;
+        color: ${t.textColorDisabled} !important;
+      }
     `;
   },
 
@@ -149,7 +151,7 @@ export const jsStyles = {
     `;
   },
 
-  caption(t: Theme) {
+  caption() {
     return css`
       padding-left: 10px;
     `;
@@ -162,8 +164,4 @@ export const jsStyles = {
   },
 };
 
-export const classes = prefixer({
-  root: 'root',
-  box: 'box',
-  disabled: 'disabled',
-});
+export const jsStyles = memoizeStyle(styles);

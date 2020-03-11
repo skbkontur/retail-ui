@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { Icon, IconProps } from '../internal/icons/20px';
 import { createPropsGetter } from '../internal/createPropsGetter';
-import { cx } from '../../lib/theming/Emotion';
 
-import styles from './TopBar.module.less';
+import { jsStyles } from './TopBar.styles';
 
 export interface TopBarItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -44,25 +44,23 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
 
     const className: string = this.getProps().className;
 
-    const classes = {
-      [styles.item]: true,
-      [styles.buttonActive]: !!active,
+    const classes = cn({
+      [jsStyles.item()]: true,
+      [jsStyles.buttonActive()]: !!active,
+      [jsStyles.usePay()]: use === 'pay',
+      [jsStyles.useDanger()]: use === 'danger',
       [className]: true,
-    };
-    if (use !== 'default') {
-      const useClassName = ('use-' + use) as keyof typeof styles;
-      classes[styles[useClassName]] = true;
-    }
+    });
 
-    const iconClasses = {
-      [styles.icon]: !!icon,
-      [styles.iconOnly]: !!iconOnly,
-    };
+    const iconClasses = cn({
+      [jsStyles.icon()]: !!icon,
+      [jsStyles.iconOnly()]: !!iconOnly,
+    });
 
     return (
-      <div {...rest} className={cx(classes)} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
+      <div {...rest} className={classes} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
         {icon && (
-          <span className={cx(iconClasses)}>
+          <span className={iconClasses}>
             <Icon color="#666" name={icon} />
           </span>
         )}

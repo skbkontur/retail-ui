@@ -1,12 +1,11 @@
 import React from 'react';
+import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './SidePage.styles';
-import styles from './SidePage.module.less';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageFooterProps {
@@ -53,12 +52,12 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -72,17 +71,15 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
         <SidePageContext.Consumer>
           {({ getWidth }) => (
             <div
-              className={styles.footer}
+              className={jsStyles.footer()}
               style={{
                 width: getWidth(),
               }}
             >
               <div
-                className={cx(styles.footerContent, {
-                  [styles.panel]: !!this.props.panel,
+                className={cn(jsStyles.footerContent(), {
                   [jsStyles.panel(this.theme)]: !!this.props.panel,
-                  [styles.fixed]: this.state.fixed,
-                  [jsStyles.fixed(this.theme)]: this.state.fixed,
+                  [jsStyles.footerFixed(this.theme)]: this.state.fixed,
                 })}
                 ref={this.refContent}
               >

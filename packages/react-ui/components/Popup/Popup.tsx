@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';
+import cn from 'classnames';
 
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -12,11 +13,9 @@ import { RenderContainer } from '../RenderContainer';
 import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction, isIE11, isEdge } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
-import styles from './Popup.module.less';
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
 import { jsStyles } from './Popup.styles';
@@ -222,12 +221,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -348,24 +347,25 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           <ZIndex
             ref={this.refPopupElement}
             priority={'Popup'}
-            className={cx([styles.popup, jsStyles.popup(this.theme)], {
+            className={cn({
+              [jsStyles.popup(this.theme)]: true,
               [jsStyles.shadow(this.theme)]: hasShadow,
               [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
-              [styles['popup-ignore-hover']]: ignoreHover,
+              [jsStyles.popupIgnoreHover()]: ignoreHover,
               ...(disableAnimations
                 ? {}
                 : {
-                    [styles['transition-enter']]: state === 'entering',
-                    [styles['transition-enter-active']]: state === 'entered',
-                    [styles['transition-exit']]: state === 'exiting',
-                    [styles[`transition-enter-${direction}` as keyof typeof styles]]: true,
+                    [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
+                    [jsStyles.transitionEnter()]: state === 'entering',
+                    [jsStyles.transitionEnterActive()]: state === 'entered',
+                    [jsStyles.transitionExit()]: state === 'exiting',
                   }),
             })}
             style={rootStyle}
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}
           >
-            <div className={cx(styles.content, jsStyles.content(this.theme))} data-tid={'PopupContent'}>
+            <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
               <div
                 className={jsStyles.contentInner(this.theme)}
                 style={{ backgroundColor }}
@@ -551,7 +551,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           left: anchorRect.left + anchorRect.width + margin,
         };
       default:
-        throw new Error(`Unxpected direction '${position.direction}'`);
+        throw new Error(`Unexpected direction '${position.direction}'`);
     }
   }
 
@@ -564,7 +564,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'right':
         return anchorRect.left - (popupRect.width - anchorRect.width) + popupOffset;
       default:
-        throw new Error(`Unxpected align '${align}'`);
+        throw new Error(`Unexpected align '${align}'`);
     }
   }
 
@@ -577,7 +577,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       case 'bottom':
         return anchorRect.top - (popupRect.height - anchorRect.height) + popupOffset;
       default:
-        throw new Error(`Unxpected align '${align}'`);
+        throw new Error(`Unexpected align '${align}'`);
     }
   }
 }

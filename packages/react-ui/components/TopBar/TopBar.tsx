@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
+import cn from 'classnames';
 
 import { Logotype } from '../Logotype';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
@@ -13,7 +13,6 @@ import { TopBarItem } from './TopBarItem';
 import { TopBarOrganizations } from './TopBarOrganizations';
 import { TopBarDropdown } from './TopBarDropdown';
 import { TopBarUser } from './TopBarUser';
-import styles from './TopBar.module.less';
 import { TopBarEnd } from './TopBarEnd';
 import { TopBarStart } from './TopBarStart';
 import { TopBarLogout } from './TopBarLogout';
@@ -152,12 +151,12 @@ export class TopBar extends React.Component<TopBarProps> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -194,26 +193,25 @@ export class TopBar extends React.Component<TopBarProps> {
 
     return (
       <div
-        className={cx({
-          [styles.root]: true,
+        className={cn({
           [jsStyles.root(this.theme)]: true,
           [jsStyles.noShadow()]: !!noShadow,
-          [styles.noMargin]: !!noMargin,
+          [jsStyles.noMargin()]: !!noMargin,
         })}
       >
-        <div className={styles.center} style={{ maxWidth }}>
-          <div className={styles.containerWrap}>
+        <div className={jsStyles.center()} style={{ maxWidth }}>
+          <div className={jsStyles.containerWrap()}>
             {children ? (
-              <div className={styles.container}>{children}</div>
+              <div className={jsStyles.container()}>{children}</div>
             ) : (
-              <div className={styles.container}>
-                <div className={styles.startItems}>
+              <div className={jsStyles.container()}>
+                <div className={jsStyles.startItems()}>
                   <TopBarItem>
                     <Logotype {...logoProps} />
                   </TopBarItem>
                   {this._renderItems(leftItems)}
                 </div>
-                <div className={styles.endItems}>{this._renderItems(_rightItems)}</div>
+                <div className={jsStyles.endItems()}>{this._renderItems(_rightItems)}</div>
               </div>
             )}
           </div>

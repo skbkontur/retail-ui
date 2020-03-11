@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
-import { Nullable, Override } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { Override } from '../../typings/utility-types';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './Radio.styles';
-import styles from './Radio.module.less';
 
 export type RadioProps<T> = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -51,16 +50,16 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   };
 
   private theme!: Theme;
-  private node: Nullable<HTMLInputElement> = null;
+  private inputEl = React.createRef<HTMLInputElement>();
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -68,21 +67,17 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
    * @public
    */
   public focus() {
-    if (this.node) {
-      this.node.focus();
-    }
+    this.inputEl.current?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    if (this.node) {
-      this.node.blur();
-    }
+    this.inputEl.current?.blur();
   }
 
-  private renderMain() {
+  public renderMain() {
     const {
       active,
       children,
@@ -103,18 +98,12 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       ...rest
     } = this.props;
 
-    let radioClassNames = cx({
-      [styles.radio]: true,
+    let radioClassNames = cn({
       [jsStyles.radio(this.theme)]: true,
-      [styles.checked]: this.props.checked,
       [jsStyles.checked(this.theme)]: this.props.checked,
-      [styles.focus]: this.props.focused,
       [jsStyles.focus(this.theme)]: this.props.focused,
-      [styles.error]: error,
       [jsStyles.error(this.theme)]: error,
-      [styles.warning]: warning,
       [jsStyles.warning(this.theme)]: warning,
-      [styles.disabled]: disabled,
       [jsStyles.disabled(this.theme)]: disabled,
     });
 
@@ -126,16 +115,16 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: styles.input,
+      className: jsStyles.input(),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
-      ref: this.ref,
+      ref: this.inputEl,
       onChange: this.handleChange,
     };
 
     const labelProps = {
-      className: styles.root,
+      className: jsStyles.root(),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
@@ -145,14 +134,14 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
       inputProps.name = this.context.name;
-      radioClassNames = cx(radioClassNames, checked && cx(styles.checked, jsStyles.checked(this.theme)));
+      radioClassNames = cn(radioClassNames, checked && jsStyles.checked(this.theme));
     }
 
     return (
       <label {...labelProps}>
         <input {...inputProps} />
         <span className={radioClassNames}>
-          <span className={styles.placeholder} />
+          <span className={jsStyles.placeholder()} />
         </span>
         {this.props.children && this.renderLabel()}
       </label>
@@ -162,48 +151,33 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   private _isInRadioGroup = () => Boolean(this.context.name);
 
   private renderLabel() {
-    const labelClassNames = cx({
-      [styles.label]: true,
+    const labelClassNames = cn({
       [jsStyles.label(this.theme)]: true,
-      [styles.labelDisabled]: !!(this.props.disabled || this.context.disabled),
+      [jsStyles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
   }
 
-  private ref = (element: HTMLInputElement) => {
-    this.node = element;
-  };
-
   private handleChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-    if (this.props.onValueChange) {
-      this.props.onValueChange(this.props.value);
-    }
+    this.props.onValueChange?.(this.props.value);
 
     if (this._isInRadioGroup()) {
       this.context.onSelect(this.props.value);
     }
 
-    if (this.props.onChange) {
-      this.props.onChange(e);
-    }
+    this.props.onChange?.(e);
   };
 
   private handleMouseOver: React.MouseEventHandler<HTMLLabelElement> = e => {
-    if (this.props.onMouseOver) {
-      this.props.onMouseOver(e);
-    }
+    this.props.onMouseOver?.(e);
   };
 
   private handleMouseEnter: React.MouseEventHandler<HTMLLabelElement> = e => {
-    if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(e);
-    }
+    this.props.onMouseEnter?.(e);
   };
 
   private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = e => {
-    if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(e);
-    }
+    this.props.onMouseLeave?.(e);
   };
 }

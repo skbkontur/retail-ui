@@ -1,10 +1,10 @@
 import React from 'react';
+import cn from 'classnames';
 
-import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../ZIndex';
 
 import { ModalContext } from './ModalContext';
-import styles from './Modal.module.less';
+import { jsStyles } from './Modal.styles';
 
 /**
  * Контейнер с отступами от края модалки
@@ -22,11 +22,11 @@ export class ModalBody extends React.Component {
           <ZIndex
             priority={'ModalBody'}
             createStackingContext
-            className={cx(
-              styles.body,
-              !hasHeader && styles.bodyWithoutHeader,
-              additionalPadding && styles.bodyAddPadding,
-            )}
+            className={cn({
+              [jsStyles.body()]: true,
+              [jsStyles.bodyWithoutHeader()]: !hasHeader,
+              [jsStyles.bodyAddPadding()]: additionalPadding,
+            })}
           >
             {this.props.children}
           </ZIndex>

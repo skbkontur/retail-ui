@@ -14,7 +14,7 @@ import { Nullable } from '../../../typings/utility-types';
 
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
-import styles from './PopupMenu.module.less';
+import { jsStyles } from './PopupMenu.styles';
 
 export interface PopupMenuCaptionProps {
   opened: boolean;
@@ -92,7 +92,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         onFocusOutside={this.hideMenuWithoutFocusing}
         active={this.state.menuVisible}
       >
-        <div className={styles.container}>
+        <div className={jsStyles.container()}>
           {this.renderCaption()}
           {this.captionWrapper && this.props.children && (
             <Popup
@@ -148,7 +148,11 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
       });
 
       return (
-        <span className={styles.caption} ref={element => (this.captionWrapper = element)}>
+        <span
+          data-tid="PopupMenu__caption"
+          className={jsStyles.caption()}
+          ref={element => (this.captionWrapper = element)}
+        >
           {caption}
         </span>
       );
@@ -156,10 +160,11 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
     return (
       <span
+        data-tid="PopupMenu__caption"
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
         ref={element => (this.captionWrapper = element)}
-        className={styles.caption}
+        className={jsStyles.caption()}
       >
         {this.props.caption}
       </span>

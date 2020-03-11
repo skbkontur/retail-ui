@@ -4,7 +4,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../internal/icons/16px';
 
 import { TopBarDropdown } from './TopBarDropdown';
-import styles from './TopBar.module.less';
+import { jsStyles } from "./TopBar.styles";
 
 export interface TopBarOrganizationsProps {
   caption: React.ReactNode;
@@ -48,24 +48,24 @@ export class TopBarOrganizations extends React.Component<TopBarOrganizationsProp
     const title = (
       <div>
         <span
-          className={styles.organizationsTitle}
+          className={jsStyles.organizationsTitle()}
           style={{
             paddingRight: this._comment ? this._comment.offsetWidth + 30 : undefined,
           }}
         >
           <span ref={this._getCaptionRef}>{caption}</span>
           {comment && (
-            <span className={styles.organizationsComment} ref={this._getCommentRef}>
+            <span className={jsStyles.organizationsComment()} ref={this._getCommentRef}>
               {comment}
             </span>
           )}
-          <span className={styles.organizationsArrow}>
+          <span className={jsStyles.organizationsArrow()}>
             <ArrowChevronDownIcon color="#aaa" size={14} />
           </span>
         </span>
-        <div className={styles.organizationsTitleDummy} style={{ whiteSpace: this.state.captionWhiteSpace }}>
+        <div className={jsStyles.organizationsTitleDummy()} style={{ whiteSpace: this.state.captionWhiteSpace }}>
           <span>{caption}</span>
-          {comment && <span className={styles.organizationsCommentDummy}>{comment}</span>}
+          {comment && <span className={jsStyles.organizationsCommentDummy()}>{comment}</span>}
         </div>
       </div>
     );

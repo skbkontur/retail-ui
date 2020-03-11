@@ -4,8 +4,7 @@ import normalizeWheel from 'normalize-wheel';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { config } from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -14,7 +13,6 @@ import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
-import styles from './Calendar.module.less';
 import { jsStyles } from './Calendar.styles';
 
 export type CalendarDateShape = CDS.CalendarDateShape;
@@ -95,12 +93,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -212,8 +210,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private renderMain = () => {
     const positions = this.getMonthPositions();
     return (
-      <div ref={this.refRoot} className={cx(styles.root, jsStyles.root(this.theme))}>
-        <div style={wrapperStyle} className={styles.wrapper}>
+      <div ref={this.refRoot} className={jsStyles.root(this.theme)}>
+        <div style={wrapperStyle} className={jsStyles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
             .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month))

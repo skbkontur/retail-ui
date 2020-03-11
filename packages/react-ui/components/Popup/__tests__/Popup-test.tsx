@@ -122,7 +122,7 @@ describe('properly renders opened/closed states ', () => {
     'Portal',
     Transition,
     ZIndex,
-    'div.popup',
+    `div`,
     'div[data-tid="PopupContent"]',
     'div[data-tid="PopupContentInner"]',
   ];

@@ -1,8 +1,7 @@
 import React from 'react';
+import cn from 'classnames';
 
-import { cx } from '../../../lib/theming/Emotion';
-
-import styles from './SpinnerIcon.module.less';
+import { jsStyles } from './SpinnerIcon.styles';
 
 export interface SpinnerIconProps {
   className: string;
@@ -30,10 +29,10 @@ export const sizes = {
 export const SpinnerIcon = ({ size, className }: SpinnerIconProps) => {
   const currentSize = sizes[size];
   return (
-    <span className={styles.root}>
+    <span className={jsStyles.root()}>
       <svg
         viewBox={`0 0 ${currentSize.size} ${currentSize.size}`}
-        className={cx(styles.icon, className)}
+        className={cn(jsStyles.icon(), className)}
         width={currentSize.size}
         height={currentSize.size}
         fill="none"

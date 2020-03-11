@@ -2,15 +2,10 @@ import createEmotion from 'create-emotion';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
 
 import { Upgrade } from '../Upgrades';
-import LESS_VARIABLES from '../../components/variables.module.less';
+
+import { Theme } from './Theme';
 
 const PREFIX = 'react-ui';
-
-// NOTE: for ones who overrides specificityLevel at custom less
-const specificityLevel = parseInt(LESS_VARIABLES.specificityLevel, 10) || 0;
-if (specificityLevel) {
-  Upgrade.setSpecificityLevel(specificityLevel);
-}
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${PREFIX}`).join('');
 
@@ -30,9 +25,35 @@ export const {
   stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
 });
 
-export function prefixer<T = { [key: string]: string }>(classes: T): T {
-  return Object.entries(classes).reduce<T>(
-    (pc, [key, value]) => ({ ...pc, [key]: `${PREFIX}-${value}-${Math.floor(Math.random() * 1e8).toString(16)}` }),
-    {} as T,
-  );
+export const cssName = (className: string): string => `.${className}`;
+
+function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
+  return fn.length == 0;
 }
+
+const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
+  if (isZeroArgs(fn)) {
+    let isCalled = false;
+    let result: R;
+    return () => {
+      if (!isCalled) {
+        isCalled = true;
+        result = fn();
+      }
+      return result;
+    };
+  }
+
+  const cache = new WeakMap();
+  return (arg: A) => {
+    if (!cache.has(arg)) cache.set(arg, fn(arg));
+    return cache.get(arg);
+  };
+};
+
+export const memoizeStyle = <S extends { [className: string]: (() => string) | ((t: Theme) => string) }>(
+  styles: S,
+): S => {
+  Object.keys(styles).forEach(className => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
+  return styles;
+};

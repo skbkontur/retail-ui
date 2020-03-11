@@ -8,7 +8,7 @@ import { Nullable } from '../../typings/utility-types';
 import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
 import { isIE11 } from '../../lib/utils';
 
-import styles from './PasswordInput.module.less';
+import { jsStyles } from './PasswordInput.styles';
 
 export type PasswordInputProps = {
   detectCapsLock?: boolean;
@@ -57,7 +57,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   }
 
   public render() {
-    return <div className={styles.root}>{this.renderInput()}</div>;
+    return <div className={jsStyles.root()}>{this.renderInput()}</div>;
   }
 
   /**
@@ -131,9 +131,9 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     const { capsLockEnabled } = this.state;
 
     return (
-      <span className={styles.iconWrapper}>
-        {capsLockEnabled && <span className={styles.capsLockDetector} />}
-        <span data-tid="PasswordInputEyeIcon" className={styles.toggleVisibility} onClick={this.handleToggleVisibility}>
+      <span className={jsStyles.iconWrapper()}>
+        {capsLockEnabled && <span className={jsStyles.capsLockDetector()} />}
+        <span data-tid="PasswordInputEyeIcon" className={jsStyles.toggleVisibility()} onClick={this.handleToggleVisibility}>
           {this.state.visible ? <EyeOpenedIcon size={14} /> : <EyeClosedIcon size={14} />}
         </span>
       </span>

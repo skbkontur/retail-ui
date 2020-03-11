@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import warning from 'warning';
 
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CloudIcon } from '../internal/icons/CloudIcon';
 import { ArrowChevronDownIcon } from '../internal/icons/16px';
 
 import { jsStyles } from './Logotype.styles';
-import styles from './Logotype.module.less';
 import { ProductWidget } from './ProductWidget';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 
@@ -122,12 +121,12 @@ export class Logotype extends React.Component<LogotypeProps> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -143,8 +142,9 @@ export class Logotype extends React.Component<LogotypeProps> {
       locale: propLocale = this.locale,
       onArrowClick,
     } = this.props;
-    const dropdownClassName = cx(styles.dropdown, {
-      [styles.inline]: !withWidget,
+    const dropdownClassName = cn({
+      [jsStyles.dropdown()]: true,
+      [jsStyles.inline()]: !withWidget,
     });
 
     const cloudStyle = {
@@ -156,15 +156,10 @@ export class Logotype extends React.Component<LogotypeProps> {
 
     return (
       <div id="spwDropdown" className={dropdownClassName}>
-        <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
-          <Component
-            href={href}
-            tabIndex="-1"
-            className={cx(styles.root, jsStyles.root(this.theme))}
-            style={{ fontSize: `${size}px` }}
-          >
+        <span ref={this.refLogoWrapper} className={jsStyles.widgetWrapper()}>
+          <Component href={href} tabIndex="-1" className={jsStyles.root(this.theme)} style={{ fontSize: `${size}px` }}>
             <span style={{ color: textColor }}>{propLocale.prefix}</span>
-            <span className={styles.cloud} style={cloudStyle}>
+            <span className={jsStyles.cloud()} style={cloudStyle}>
               <CloudIcon />
             </span>
             <span style={{ color: textColor }}>
@@ -173,10 +168,10 @@ export class Logotype extends React.Component<LogotypeProps> {
             </span>
             {suffix && <span style={{ color }}>{suffix}</span>}
           </Component>
-          {withWidget && <span className={cx(styles.divider, jsStyles.divider(this.theme))} />}
+          {withWidget && <span className={jsStyles.divider(this.theme)} />}
         </span>
         {withWidget && (
-          <button className={styles.button} onClick={onArrowClick}>
+          <button className={jsStyles.button()} onClick={onArrowClick}>
             <ArrowChevronDownIcon color="#aaa" size={20} />
           </button>
         )}

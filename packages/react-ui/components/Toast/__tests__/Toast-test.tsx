@@ -69,8 +69,8 @@ describe('Toast', () => {
     });
 
     const toast = (wrapper.instance() as Toast)._toast;
-    const link = (ReactDOM.findDOMNode(toast) as Element).querySelector('.link');
-    expect(link).toBeTruthy();
+    const textContent = (ReactDOM.findDOMNode(toast) as Element).textContent;
+    expect(textContent).toBe('messageaction');
   });
 
   it('passes right actions in tosts', () => {

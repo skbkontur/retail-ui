@@ -6,13 +6,13 @@ import { Fias } from '../Fias';
 import { FiasForm } from '../Form/FiasForm';
 import { FiasModal } from '../FiasModal';
 import { FiasAPI } from '../api/FiasAPI';
-import { Address } from '../models/Address';
-import { MockAPI } from '../api/MockAPI';
+import { FiasAddress } from '../models/FiasAddress';
+import { FiasMockAPI } from '../api/FiasMockAPI';
 
 const BASE_URL = 'https://api.testkontur.ru/fias/v1/';
 const MOCK_RESPONSE = require('../api/data.json')[0];
-const MOCK_VALUE = Address.createFromResponse(MOCK_RESPONSE).getValue(false);
-const mockApi = new MockAPI();
+const MOCK_VALUE = FiasAddress.createFromResponse(MOCK_RESPONSE).getValue(false);
+const mockApi = new FiasMockAPI();
 
 storiesOf('Fias', module)
   .add('default', () => <Fias />)
@@ -40,7 +40,7 @@ storiesOf('Fias', module)
     const api = new FiasAPI(BASE_URL);
     return (
       <FiasModal>
-        <FiasForm api={api} address={new Address()} />
+        <FiasForm api={api} address={new FiasAddress()} />
       </FiasModal>
     );
   })

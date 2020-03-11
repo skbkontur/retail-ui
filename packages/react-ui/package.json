@@ -11,15 +11,15 @@
     "url": "https://github.com/skbkontur/retail-ui/issues"
   },
   "scripts": {
-    "prerelease": "yarn clean && node scripts/publish/prepublish && yarn build",
-    "clean": "git clean -fdxqe node_modules",
-    "prebuild": "run-s storybook:build:default build:types",
+    "prebuild": "run-s clean build:types",
     "build:types": "tsc -p ./prod.tsconfig.json --emitDeclarationOnly --diagnostics --outDir build",
     "build": "cross-env BABEL_ENV=production node scripts/build",
+    "clean": "git clean -fdxqe node_modules",
+    "prerelease": "node scripts/publish/prepublish && yarn build",
+    "release": "npm publish ./build",
     "postrelease": "yarn deploy",
     "predeploy": "rimraf .styleguide/build && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/build -r git@github.com:skbkontur/react-ui.git",
-    "release": "npm publish ./build",
     "storybook": "start-storybook -p 6060",
     "storybook:flat": "cross-env STORYBOOK_FLAT_UI=true start-storybook -p 6060",
     "storybook:build": "run-s storybook:build:*",
@@ -34,9 +34,8 @@
     "styleguide": "styleguidist server --config .styleguide/config/dev.config.js",
     "styleguide:build": "node .styleguide/build",
     "lint": "run-p -c lint:*",
-    "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
+    "lint:eslint": "cross-env TIMING=1 yarn eslint --ext .js,.jsx,.ts,.tsx ./",
     "lint:tsc": "tsc --noEmit --diagnostics",
-    "lint:stylelint": "stylelint \"./**/*.less\"",
     "fix:eslint": "yarn lint:eslint --fix",
     "test": "cross-env BABEL_ENV=development jest",
     "test:watch": "yarn test --watch",
@@ -115,8 +114,6 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "24.9.0",
     "jest-teamcity-reporter": "^0.9.0",
-    "less": "3.10.3",
-    "less-loader": "^5.0.0",
     "mockdate": "^2.0.5",
     "npm-run-all": "^4.1.5",
     "output-file-sync": "^2.0.1",
@@ -146,7 +143,7 @@
     "testResultsProcessor": "jest-teamcity-reporter",
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf||svg|ttf|woff|woff2)$": "<rootDir>/components/__mocks__/fileMock.ts",
-      "\\.(css|less)$": "identity-obj-proxy"
+      "\\.(css)$": "identity-obj-proxy"
     },
     "transform": {
       "^.+\\.(j|t)sx?$": "babel-jest"

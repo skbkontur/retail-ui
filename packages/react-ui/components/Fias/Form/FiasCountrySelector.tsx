@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { FiasLocale, FiasLocaleHelper } from '../locale';
-import { Address } from '../models/Address';
-import { FiasCountry, APIProvider } from '../types';
+import { FiasAddress } from '../models/FiasAddress';
+import { FiasCountry, FiasAPIProvider } from '../types';
 import { locale } from '../../../lib/locale/decorators';
 
 import { FiasComboBox } from './FiasComboBox';
 
 export interface FiasCountrySelectorProps {
-  api: APIProvider;
+  api: FiasAPIProvider;
   country?: FiasCountry;
   onValueChange?: (value?: FiasCountry) => void;
   limit?: number;
@@ -20,7 +20,7 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
 
   public render() {
     const { country, limit } = this.props;
-    const address = new Address({ country });
+    const address = new FiasAddress({ country });
     return (
       <FiasComboBox
         getItems={this.createItemsSource}
@@ -47,19 +47,19 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
       return success && data
         ? Promise.resolve(
             data.map((country: FiasCountry) => {
-              return new Address({ country });
+              return new FiasAddress({ country });
             }),
           )
         : Promise.reject(error);
     });
   };
 
-  private renderItem = (address: Address): string => {
+  private renderItem = (address: FiasAddress): string => {
     const { country } = address;
     return (country && country.fullName) || '';
   };
 
-  private renderValue = (address: Address): string => {
+  private renderValue = (address: FiasAddress): string => {
     const { country } = address;
     return (country && country.fullName) || '';
   };
@@ -68,12 +68,12 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
     return this.locale.searchNotFound;
   };
 
-  private valueToString = (address: Address): string => {
+  private valueToString = (address: FiasAddress): string => {
     const { country } = address;
     return (country && country.fullName) || '';
   };
 
-  private handleValueChange = (value: Address) => {
+  private handleValueChange = (value: FiasAddress) => {
     const { onValueChange } = this.props;
     if (onValueChange) {
       onValueChange(value.country);
@@ -82,7 +82,7 @@ export class FiasCountrySelector extends React.Component<FiasCountrySelectorProp
 
   private onUnexpectedInput = (query: string) => {
     if (!query) {
-      return new Address();
+      return new FiasAddress();
     }
   };
 }

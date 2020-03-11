@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { ThemeProviderPlayground } from '../Playground/ThemeProviderPlayground';
+import { ThemeContextPlayground } from '../../internal/ThemePlayground/ThemeContextPlayground';
 
-storiesOf('ThemeProvider', module).add('playground', () => <ThemeProviderPlayground />);
+storiesOf('ThemeProvider', module).add('playground', () => <ThemeContextPlayground />);

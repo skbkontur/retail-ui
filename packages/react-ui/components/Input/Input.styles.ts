@@ -1,55 +1,109 @@
-import { css, keyframes } from '../../lib/theming/Emotion';
+import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-import classes from './Input.module.less';
+const styles = {
+  wrapper() {
+    return css`
+      align-items: center;
+      display: flex;
+      margin: 0;
+      min-width: 0;
+      overflow: hidden;
+      position: relative;
+      text-overflow: clip;
+      white-space: nowrap;
+      width: 100%;
 
-export const jsStyles = {
+      &::before {
+        content: '\\A0';
+        display: inline-block;
+        width: 0;
+      }
+    `;
+  },
+
   root(t: Theme) {
     return css`
       ${resetText()};
 
-      width: 250px;
-      color: ${t.inputColor};
+      align-items: center;
+      background-clip: padding-box;
       background-color: ${t.inputBg};
-      box-shadow: ${t.inputShadow};
       border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
       border-top-color: ${t.inputBorderTopColor};
+      box-shadow: ${t.inputShadow};
+      box-sizing: border-box;
+      color: ${t.inputColor};
+      cursor: text;
+      display: inline-flex;
+      outline: none;
+      position: relative;
+      width: 250px;
+
+      & * {
+        box-sizing: border-box;
+      }
+    `;
+  },
+
+  borderless() {
+    return css`
+      box-shadow: none;
+      border-color: transparent;
     `;
   },
 
   useDefaultColor(t: Theme) {
     return css`
-      .${classes.leftIcon}&, .${classes.rightIcon}& {
-        color: ${t.inputIconColor};
-      }
+      color: ${t.inputIconColor};
     `;
   },
 
   focus(t: Theme) {
     return css`
-      .${classes.root}& {
-        border-color: ${t.borderColorFocus};
-        box-shadow: ${t.inputFocusShadow};
+      border-color: ${t.borderColorFocus};
+      box-shadow: ${t.inputFocusShadow};
+      outline: none;
+      z-index: 2;
+
+      ${cssName(styles.input(t))}:-moz-placeholder {
+        color: ${t.placeholderColorLight};
+      }
+      ${cssName(styles.input(t))}::-moz-placeholder {
+        color: ${t.placeholderColorLight};
+      }
+      ${cssName(styles.input(t))}::placeholder {
+        color: ${t.placeholderColorLight};
       }
     `;
   },
 
   focusFallback(t: Theme) {
     return css`
-      .${classes.root}& {
-        box-shadow: none;
-        outline: 1px solid ${t.inputFocusOutline};
-      }
+      box-shadow: none;
+      outline: 1px solid ${t.inputFocusOutline};
     `;
   },
 
   placeholder(t: Theme) {
     return css`
+      -ms-user-select: none;
       color: ${t.placeholderColor};
+      cursor: text;
+      font-size: inherit;
+      height: 100%;
+      left: 0;
+      overflow: hidden;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      user-select: none;
+      white-space: nowrap;
+      width: 100%;
 
-      .${classes.root}.${classes.focus} & {
+      ${cssName(styles.focus(t))} & {
         color: ${t.placeholderColorLight};
       }
     `;
@@ -57,28 +111,27 @@ export const jsStyles = {
 
   input(t: Theme) {
     return css`
+      -webkit-appearance: none;
+      background: transparent;
+      border: 0 none;
       color: ${t.inputTextColor};
+      font: inherit;
+      line-height: inherit;
+      margin: 0;
+      outline: none;
+      padding: 0;
+      text-overflow: clip;
+      white-space: nowrap;
+      width: 100%;
 
-      .${classes.root}.${classes.focus} &:-moz-placeholder {
-        color: ${t.placeholderColorLight};
+      &:-moz-placeholder {
+        opacity: 1;
       }
-      .${classes.root}.${classes.focus} &::-moz-placeholder {
-        color: ${t.placeholderColorLight};
+      &::-moz-placeholder {
+        opacity: 1;
       }
-      .${classes.root}.${classes.focus} &::placeholder {
-        color: ${t.placeholderColorLight};
-      }
-      .${classes.root}.${classes.disabled} & {
-        color: ${t.textColorDisabled};
-      }
-      .${classes.root}.${classes.disabled} &:-moz-placeholder {
-        -webkit-text-fill-color: ${t.placeholderColor};
-      }
-      .${classes.root}.${classes.disabled} &::-moz-placeholder {
-        -webkit-text-fill-color: ${t.placeholderColor};
-      }
-      .${classes.root}.${classes.disabled} &::placeholder {
-        -webkit-text-fill-color: ${t.placeholderColor};
+      &::-ms-clear {
+        display: none;
       }
       &:-moz-placeholder {
         color: ${t.placeholderColor};
@@ -94,45 +147,60 @@ export const jsStyles = {
 
   warning(t: Theme) {
     return css`
-      .${classes.root}& {
-        border-color: ${t.borderColorWarning};
-        box-shadow: 0 0 0 1px ${t.borderColorWarning};
+      & {
+        border-color: ${t.borderColorWarning} !important;
+        box-shadow: 0 0 0 1px ${t.borderColorWarning} !important;
+        z-index: 2;
       }
     `;
   },
 
   warningFallback(t: Theme) {
     return css`
-      .${classes.root}& {
-        box-shadow: none;
-        outline: 1px solid ${t.borderColorWarning};
-      }
+      box-shadow: none !important;
+      outline: 1px solid ${t.borderColorWarning} !important;
     `;
   },
 
   error(t: Theme) {
     return css`
-      .${classes.root}& {
-        border-color: ${t.borderColorError};
-        box-shadow: 0 0 0 1px ${t.borderColorError};
-      }
+      border-color: ${t.borderColorError} !important;
+      box-shadow: 0 0 0 1px ${t.borderColorError} !important;
+      z-index: 2;
     `;
   },
 
   errorFallback(t: Theme) {
     return css`
-      .${classes.root}& {
-        box-shadow: none;
-        outline: 1px solid ${t.borderColorError};
-      }
+      box-shadow: none !important;
+      outline: 1px solid ${t.borderColorError} !important;
     `;
   },
 
   disabled(t: Theme) {
     return css`
-      .${classes.root}& {
-        background: ${t.inputDisabledBg};
-        border-color: ${t.inputDisabledBorderColor};
+      background: ${t.inputDisabledBg};
+      border-color: ${t.inputDisabledBorderColor} !important;
+      box-shadow: none;
+
+      ${cssName(styles.leftIcon())},
+      ${cssName(styles.rightIcon())} {
+        cursor: default;
+      }
+      ${cssName(styles.input(t))} {
+        color: ${t.textColorDisabled};
+        pointer-events: none;
+        /* fix text color in safari */
+        -webkit-text-fill-color: currentcolor;
+      }
+      ${cssName(styles.input(t))}:-moz-placeholder {
+        -webkit-text-fill-color: ${t.placeholderColor};
+      }
+      ${cssName(styles.input(t))}::-moz-placeholder {
+        -webkit-text-fill-color: ${t.placeholderColor};
+      }
+      ${cssName(styles.input(t))}::placeholder {
+        -webkit-text-fill-color: ${t.placeholderColor};
       }
     `;
   },
@@ -144,19 +212,19 @@ export const jsStyles = {
     }
   `;
     return css`
-      .${classes.root}& {
-        animation: ${blinkAnimation} 0.15s ease-in;
-      }
+      animation: ${blinkAnimation} 0.15s ease-in;
     `;
   },
 
   sizeSmall(t: Theme) {
     return css`
-      font-size: ${t.inputFontSizeSmall};
-      line-height: ${t.controlLineHeightSmall};
-      padding-top: ${t.controlPaddingYSmall};
-      padding-bottom: ${t.controlPaddingYSmall};
-      height: ${t.controlHeightSmall};
+      & {
+        font-size: ${t.inputFontSizeSmall};
+        line-height: ${t.controlLineHeightSmall} !important;
+        padding-top: ${t.controlPaddingYSmall};
+        padding-bottom: ${t.controlPaddingYSmall};
+        height: ${t.controlHeightSmall};
+      }
     `;
   },
 
@@ -164,14 +232,14 @@ export const jsStyles = {
     return css`
       padding-top: ${shift(t.controlPaddingYSmall, '-1')};
       padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
-      line-height: normal;
+      line-height: normal !important;
     `;
   },
 
   sizeMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
-      line-height: ${t.controlLineHeightMedium};
+      line-height: ${t.controlLineHeightMedium} !important;
       padding-top: ${t.controlPaddingYMedium};
       padding-bottom: ${t.controlPaddingYMedium};
       height: ${t.controlHeightMedium};
@@ -182,14 +250,14 @@ export const jsStyles = {
     return css`
       padding-top: ${shift(t.controlPaddingYMedium, '-1')};
       padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
-      line-height: normal;
+      line-height: normal !important;
     `;
   },
 
   sizeLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
-      line-height: ${t.controlLineHeightLarge};
+      line-height: ${t.controlLineHeightLarge} !important;
       height: ${t.controlHeightLarge};
       padding-top: ${shift(t.controlPaddingYLarge, '-1')};
       padding-bottom: ${shift(t.controlPaddingYLarge, '1')};
@@ -200,7 +268,7 @@ export const jsStyles = {
     return css`
       padding-top: ${shift(t.controlPaddingYLarge, '-2')};
       padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
-      line-height: normal;
+      line-height: normal !important;
     `;
   },
 
@@ -215,4 +283,50 @@ export const jsStyles = {
       color: ${t.placeholderColor};
     `;
   },
+
+  sideContainer() {
+    return css`
+      align-items: center;
+      display: flex;
+      flex-shrink: 0;
+      height: 100%;
+      min-width: 10px;
+      padding-left: 10px;
+
+      &::before {
+        content: '\\a0';
+        display: inline-block;
+        width: 0;
+      }
+    `;
+  },
+
+  rightContainer() {
+    return css`
+      justify-self: flex-end;
+      margin: 0 0 0 auto;
+      padding-left: 0;
+      padding-right: 10px;
+    `;
+  },
+
+  leftIcon() {
+    return css`
+      padding-right: 2px;
+      flex-shrink: 0;
+      cursor: text;
+      z-index: 2;
+    `;
+  },
+
+  rightIcon() {
+    return css`
+      padding-left: 2px;
+      flex-shrink: 0;
+      cursor: text;
+      z-index: 2;
+    `;
+  },
 };
+
+export const jsStyles = memoizeStyle(styles);

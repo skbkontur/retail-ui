@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
+import cn from 'classnames';
 
 import {
   isKeyArrowHorizontal,
@@ -19,12 +20,10 @@ import { Menu } from '../Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { emptyHandler } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './TokenInput.styles';
-import styles from './TokenInput.module.less';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
@@ -145,12 +144,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -191,18 +190,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     const theme = this.theme;
-    const labelClassName = cx(styles.label, jsStyles.label(theme), {
+    const labelClassName = cn(jsStyles.label(theme), {
       [jsStyles.labelFocused(theme)]: !!inFocus,
       [jsStyles.error(theme)]: !!error,
       [jsStyles.warning(theme)]: !!warning,
       [jsStyles.labelDisabled(theme)]: !!disabled,
     });
-    const inputClassName = cx(styles.input, jsStyles.input(theme), {
-      [styles.inputDisabled]: !!disabled,
+    const inputClassName = cn(jsStyles.input(theme), {
       [jsStyles.inputDisabled(theme)]: !!disabled,
     });
     return (
-      <div className={styles.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         {/* расчёт ширины текста с последующим обновлением ширины input */}
         <TextWidthHelper ref={this.textHelperRef} text={inputValue} />
         <label

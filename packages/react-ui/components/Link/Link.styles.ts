@@ -1,51 +1,72 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import styles from './Link.module.less';
+import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins';
 
-export const jsStyles = {
-  useDefault(t: Theme) {
+const styles = {
+  root(t: Theme) {
     return css`
-      color: ${t.linkColor};
-
-      &:hover {
-        color: ${t.linkHoverColor};
-        text-decoration-color: ${t.linkHoverTextDecoration};
-      }
-      &:active {
-        color: ${t.linkActiveColor};
-      }
+      ${linkMixin()};
     `;
   },
 
-  focus(t: Theme) {
+  button() {
     return css`
-      .${styles.useDefault}& {
-        color: ${t.linkColor};
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
-      .${styles.useSuccess}& {
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
-      .${styles.useDanger}& {
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
-      .${styles.useGrayed}& {
-        color: ${t.linkDisabledColor};
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
+      display: inline-block;
+      line-height: 34px;
+      padding-left: 10px;
+      padding-right: 10px;
+    `;
+  },
+
+  buttonOpened() {
+    return css`
+      background: #e1e1e1;
+    `;
+  },
+
+  arrow() {
+    return css`
+      border: 4px solid transparent;
+      border-bottom-width: 0;
+      border-top-color: #a0a0a0;
+      display: inline-block;
+      margin-bottom: 3px;
+      margin-left: 3px;
+      vertical-align: middle;
+    `;
+  },
+
+  useDefault(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
+    `;
+  },
+
+  useSuccess(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
+    `;
+  },
+
+  useDanger(t: Theme) {
+    return css`
+      ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
     `;
   },
 
   useGrayed(t: Theme) {
     return css`
-      color: ${t.linkDisabledColor};
+      ${linkUseColorsMixin(t.linkDisabledColor, t.linkDisabledColor, t.linkDisabledColor)};
+    `;
+  },
 
-      &:hover {
-        color: ${t.linkDisabledColor};
-        text-decoration-color: ${t.linkHoverTextDecoration};
+  focus(t: Theme) {
+    return css`
+      ${cssName(styles.root(t))}& {
+        text-decoration: ${t.linkHoverTextDecoration};
       }
-      &:active {
+      ${cssName(styles.useGrayed(t))}& {
         color: ${t.linkDisabledColor};
       }
     `;
@@ -53,28 +74,9 @@ export const jsStyles = {
 
   disabled(t: Theme) {
     return css`
-      .${styles.useDefault}& {
-        color: ${t.linkDisabledColor};
+      ${linkDisabledMixin()};
 
-        &:hover {
-          color: ${t.linkDisabledColor};
-        }
-      }
-      .${styles.useSuccess}& {
-        color: ${t.linkDisabledColor};
-
-        &:hover {
-          color: ${t.linkDisabledColor};
-        }
-      }
-      .${styles.useDanger}& {
-        color: ${t.linkDisabledColor};
-
-        &:hover {
-          color: ${t.linkDisabledColor};
-        }
-      }
-      .${styles.useGrayed}& {
+      ${cssName(styles.root(t))}& {
         color: ${t.linkDisabledColor};
 
         &:hover {
@@ -83,4 +85,13 @@ export const jsStyles = {
       }
     `;
   },
+
+  icon(t: Theme) {
+    return css`
+      display: inline-block;
+      margin-right: ${t.linkIconMarginRight};
+    `;
+  },
 };
+
+export const jsStyles = memoizeStyle(styles);

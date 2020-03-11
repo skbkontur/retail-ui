@@ -5,7 +5,6 @@ import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
 import { Calendar } from '../../Calendar';
-import styles from '../../DatePicker/Picker.less';
 import { DateSelect } from '../../DateSelect';
 import { DropdownContainer } from '../../DropdownContainer/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -30,7 +29,6 @@ const renderDatePickerLocale = ({
       <DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />
     </LocaleContext.Provider>,
   );
-const generateSelector = (name: keyof typeof styles) => `.${styles[name]}`;
 
 describe('DatePicker', () => {
   describe('validate', () => {
@@ -117,7 +115,7 @@ describe('DatePicker', () => {
 
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper<any>): string => {
-      return wrapper.find(generateSelector('todayWrapper')).text();
+      return wrapper.find(`[data-tid='Picker__todayWrapper']`).text();
     };
     const getToday = (args: InternalDateConstructorProps) =>
       new InternalDate(args)
