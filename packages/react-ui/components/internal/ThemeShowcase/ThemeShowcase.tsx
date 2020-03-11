@@ -10,7 +10,6 @@ import { Link } from '../../Link';
 import { Sticky } from '../../Sticky';
 import * as ColorFunctions from '../../../lib/styles/ColorFunctions';
 import { Tooltip } from '../../Tooltip';
-import { PopupPosition } from '../../Popup';
 import { IS_PROXY_SUPPORTED } from '../../internal/Supports';
 
 import {
@@ -24,7 +23,6 @@ import {
 } from './ThemeShowcaseHelpers/VariablesCollector';
 import { jsStyles } from './ThemeShowcase.styles';
 
-const CSS_TOOLTIP_ALLOWED_POSITIONS: PopupPosition[] = ['bottom left', 'top left'];
 const EMPTY_ARRAY: string[] = [];
 
 const ALL_VARIABLES = Object.keys(defaultVariables) as Array<keyof Theme>;
@@ -213,15 +211,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
       <React.Fragment>
         <tr className={jsStyles.invisibleRow()}>
           <td rowSpan={rowSpan}>
-            <Tooltip
-              render={this.getCss}
-              pos={'bottom left'}
-              allowedPositions={CSS_TOOLTIP_ALLOWED_POSITIONS}
-              trigger={'click'}
-              useWrapper={false}
-            >
-              <span className={jsStyles.elementName()}>.{el}</span>
-            </Tooltip>
+            <span className={jsStyles.elementName()}>.{el}</span>
           </td>
           <td className={jsStyles.invisibleCell()} />
           <td className={jsStyles.invisibleCell()} />
@@ -254,10 +244,6 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
       </React.Fragment>
     );
   }
-
-  private getCss = () => {
-    return <span className={jsStyles.relativeCss()}>{this.props.row.contents}</span>;
-  };
 }
 
 interface VariableNameProps {

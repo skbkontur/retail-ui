@@ -3,8 +3,6 @@ import { DEFAULT_THEME } from '../../../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME } from '../../../../lib/theming/themes/FlatTheme';
 import { IS_PROXY_SUPPORTED } from '../../Supports';
 
-import { formatSourceCode } from './FormatSourceCode';
-
 export interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
 }
@@ -14,7 +12,6 @@ export interface ComponentDescriptionType {
 }
 
 export interface ComponentRowDescriptionType {
-  contents: JSX.Element;
   variables: Array<keyof Theme>;
   dependencies: VariableDependencies;
 }
@@ -57,9 +54,8 @@ if (IS_PROXY_SUPPORTED) {
       const variables = Array.from(variablesAccumulator);
 
       if (variables.length > 0) {
-        const contents = formatSourceCode(jsStyle.toString(), componentName);
 
-        componentDescription[elementName] = { contents, variables, dependencies };
+        componentDescription[elementName] = { variables, dependencies };
 
         variables.forEach(variableName => {
           if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
@@ -74,12 +70,10 @@ if (IS_PROXY_SUPPORTED) {
           const componentNode = variableNode[componentName];
           if (!componentNode[elementName]) {
             componentNode[elementName] = {
-              contents,
               dependencies,
               variables: [variableName],
             };
           } else if (!componentNode[elementName].variables.includes(variableName)) {
-            componentNode[elementName].contents = contents;
             componentNode[elementName].dependencies = dependencies;
             componentNode[elementName].variables.push(variableName);
           }
