@@ -10,6 +10,7 @@ export const ButtonWithIcon = () => {
  *  Button. Состояние “hover”
  *
  *  0. История ButtonWithIcon
+ *  ¾. Найти элемент на странице
  *  1. 📸 дефолтное состояние
  *  2. Навести мышь на Кнопку
  *  3. 📸 состояние “hover”
@@ -76,7 +77,7 @@ BasicAutocomplete.story = {
       tests: {
         async itemSelected(this: { browser: WebDriver }) {
           const element = await this.browser.findElement({ css: '#test-element' });
-          const input = await this.browser.findElement({ css: 'input' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
 
           await this.browser
             .actions({ bridge: true })
