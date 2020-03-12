@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf, DecoratorFn } from '@storybook/react';
+import { DecoratorFn } from '@storybook/react';
 
 import { Sticky } from '../Sticky';
 
@@ -108,8 +108,17 @@ function StickyWithWideContainer() {
 
 const withThinContainer: DecoratorFn = story => <div style={{ width: 200 }}>{story()}</div>;
 
-storiesOf('Sticky', module)
-  .add('Wide Container', () => <StickyWithWideContainer />)
-  .add('Top', () => <SampleTop />, { decorators: [withThinContainer] })
-  .add('Bottom', () => <SampleBottom />, { decorators: [withThinContainer] })
-  .add('Flex container', () => <SampleFlex />, { decorators: [withThinContainer] });
+export default { title: 'Sticky' };
+
+export const WideContainer = () => <StickyWithWideContainer />;
+export const Top = () => <SampleTop />;
+Top.story = { decorators: [withThinContainer] };
+
+export const Bottom = () => <SampleBottom />;
+Bottom.story = { decorators: [withThinContainer] };
+
+export const FlexContainer = () => <SampleFlex />;
+FlexContainer.story = {
+  name: 'Flex container',
+  decorators: [withThinContainer],
+};

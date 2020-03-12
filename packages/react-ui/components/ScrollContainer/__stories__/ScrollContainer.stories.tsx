@@ -1,5 +1,4 @@
 import React, { CSSProperties } from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { ScrollContainer, ScrollContainerScrollState } from '../ScrollContainer';
 
@@ -17,7 +16,9 @@ const wrapperStyle = {
   border: '1px solid #000',
 };
 
-storiesOf('ScrollContainer', module).add('with large content height', () => {
+export default { title: 'ScrollContainer' };
+
+export const WithLargeContentHeight = () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
@@ -27,9 +28,10 @@ storiesOf('ScrollContainer', module).add('with large content height', () => {
       </ScrollContainer>
     </div>
   );
-});
+};
+WithLargeContentHeight.story = { name: 'with large content height' };
 
-storiesOf('ScrollContainer', module).add('with scroll state', () => {
+export const WithScrollState = () => {
   class Wrapper extends React.Component<{}, { scrollState: ScrollContainerScrollState }> {
     public state = { scrollState: 'top' as ScrollContainerScrollState };
 
@@ -80,4 +82,5 @@ storiesOf('ScrollContainer', module).add('with scroll state', () => {
   }
 
   return <Wrapper />;
-});
+};
+WithScrollState.story = { name: 'with scroll state' };

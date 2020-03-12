@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { Loader, LoaderProps } from '../Loader';
 import { Tooltip } from '../../Tooltip';
@@ -7,9 +6,7 @@ import { Button } from '../../Button';
 import { css } from '../../../lib/theming/Emotion';
 
 const loaderClass = css`
-   {
-    height: 100%;
-  }
+  height: 100%;
 `;
 
 const wrapperStyle = {
@@ -120,120 +117,142 @@ export class LoaderAndButton extends React.Component<{ active: boolean }> {
   }
 }
 
-storiesOf('Loader', module)
-  .add('Simple', () => <Loader active />)
-  .add('Type "big"', () => (
-    <ContentComponent>
+export default { title: 'Loader' };
+
+export const Simple = () => <Loader active />;
+export const TypeBig = () => (
+  <ContentComponent>
+    <NumberList itemsCount={10} />
+  </ContentComponent>
+);
+TypeBig.story = { name: 'Type "big"' };
+
+export const TypeBigWithText = () => (
+  <div style={{ width: 400 }}>
+    <h1>
+      Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
+      good vestments.&quot;
+    </h1>
+    <p>
+      No, I&apos;m Santa Claus! I guess if you want children beaten, you have to do it yourself. We&apos;re also Santa
+      Claus! Leela, Bender, we&apos;re going grave robbing.
+    </p>
+    <p>
+      Are you crazy? I can&apos;t swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
+      <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
+      <em>It&apos;s okay, Bender.</em> I like cooking too.
+    </p>
+    <h2>Oh, I think we should just stay friends.</h2>
+    <p>
+      No argument here. And when we woke up, we had these bodies. You guys go on without me! I&apos;m going to go… look
+      for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his wife
+      holding up? …To shreds, you say.
+    </p>
+    <ol>
+      <li>No! The kind with looting and maybe starting a few fires!</li>
+      <li>You are the last hope of the universe.</li>
+      <li>Hey, guess what you&apos;re accessories to.</li>
+    </ol>
+    <Loader active type={'big'}>
+      <h1>
+        Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
+        good vestments.&quot;
+      </h1>
+      <p>
+        No, I&apos;m Santa Claus! I guess if you want children beaten, you have to do it yourself. We&apos;re also Santa
+        Claus! Leela, Bender, we&apos;re going grave robbing.
+      </p>
+      <p>
+        Are you crazy? I can&apos;t swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
+        <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
+        <em>It&apos;s okay, Bender.</em> I like cooking too.
+      </p>
+      <h2>Oh, I think we should just stay friends.</h2>
+      <p>
+        No argument here. And when we woke up, we had these bodies. You guys go on without me! I&apos;m going to go…
+        look for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is
+        his wife holding up? …To shreds, you say.
+      </p>
+      <ol>
+        <li>No! The kind with looting and maybe starting a few fires!</li>
+        <li>You are the last hope of the universe.</li>
+        <li>Hey, guess what you&apos;re accessories to.</li>
+      </ol>
+    </Loader>
+    <h1>
+      Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
+      good vestments.&quot;
+    </h1>
+    <p>
+      No, I&apos;m Santa Claus! I guess if you want children beaten, you have to do it yourself. We&apos;re also Santa
+      Claus! Leela, Bender, we&apos;re going grave robbing.
+    </p>
+    <p>
+      Are you crazy? I can&apos;t swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
+      <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
+      <em>It&apos;s okay, Bender.</em> I like cooking too.
+    </p>
+    <h2>Oh, I think we should just stay friends.</h2>
+    <p>
+      No argument here. And when we woke up, we had these bodies. You guys go on without me! I&apos;m going to go… look
+      for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is his wife
+      holding up? …To shreds, you say.
+    </p>
+    <ol>
+      <li>No! The kind with looting and maybe starting a few fires!</li>
+      <li>You are the last hope of the universe.</li>
+      <li>Hey, guess what you&apos;re accessories to.</li>
+    </ol>
+  </div>
+);
+TypeBigWithText.story = { name: 'Type "big" with text' };
+
+export const VerticalScroll = () => (
+  <ContentComponent>
+    <NumberList itemsCount={200} />
+  </ContentComponent>
+);
+VerticalScroll.story = { name: 'Vertical scroll' };
+
+export const HorizontalScroll = () => (
+  <ContentComponent additionalStyle={{ width: '2500px' }}>
+    <NumberList itemsCount={10} />
+  </ContentComponent>
+);
+HorizontalScroll.story = { name: 'Horizontal scroll' };
+
+export const BothDimensionsScrollableContentWithSpacesAround = () => (
+  <ContentComponent additionalStyle={{ width: '2500px', margin: '600px 200px' }}>
+    <NumberList itemsCount={200} />
+  </ContentComponent>
+);
+BothDimensionsScrollableContentWithSpacesAround.story = {
+  name: 'Both dimensions scrollable content with spaces around',
+};
+
+export const ActiveLoader = () => <LoaderAndButton active />;
+ActiveLoader.story = { name: 'Active loader' };
+
+export const InactiveLoader = () => <LoaderAndButton active={false} />;
+InactiveLoader.story = { name: 'Inactive loader' };
+
+export const WrapperWithCustomHeightAndInactiveLoader = () => (
+  <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>
+    <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
       <NumberList itemsCount={10} />
-    </ContentComponent>
-  ))
-  .add('Type "big" with text', () => (
-    <div style={{ width: 400 }}>
-      <h1>
-        Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
-        good vestments.&quot;
-      </h1>
-      <p>
-        No, I&apos;m Santa Claus! I guess if you want children beaten, you have to do it yourself. We&apos;re also Santa
-        Claus! Leela, Bender, we&apos;re going grave robbing.
-      </p>
-      <p>
-        Are you crazy? I can&apos;t swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
-        <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
-        <em>It&apos;s okay, Bender.</em> I like cooking too.
-      </p>
-      <h2>Oh, I think we should just stay friends.</h2>
-      <p>
-        No argument here. And when we woke up, we had these bodies. You guys go on without me! I&apos;m going to go…
-        look for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is
-        his wife holding up? …To shreds, you say.
-      </p>
-      <ol>
-        <li>No! The kind with looting and maybe starting a few fires!</li>
-        <li>You are the last hope of the universe.</li>
-        <li>Hey, guess what you&apos;re accessories to.</li>
-      </ol>
-      <Loader active type={'big'}>
-        <h1>
-          Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
-          good vestments.&quot;
-        </h1>
-        <p>
-          No, I&apos;m Santa Claus! I guess if you want children beaten, you have to do it yourself. We&apos;re also
-          Santa Claus! Leela, Bender, we&apos;re going grave robbing.
-        </p>
-        <p>
-          Are you crazy? I can&apos;t swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
-          <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
-          <em>It&apos;s okay, Bender.</em> I like cooking too.
-        </p>
-        <h2>Oh, I think we should just stay friends.</h2>
-        <p>
-          No argument here. And when we woke up, we had these bodies. You guys go on without me! I&apos;m going to go…
-          look for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is
-          his wife holding up? …To shreds, you say.
-        </p>
-        <ol>
-          <li>No! The kind with looting and maybe starting a few fires!</li>
-          <li>You are the last hope of the universe.</li>
-          <li>Hey, guess what you&apos;re accessories to.</li>
-        </ol>
-      </Loader>
-      <h1>
-        Yeah, and if you were the pope they&apos;d be all, &quot;Straighten your pope hat.&quot; And &quot;Put on your
-        good vestments.&quot;
-      </h1>
-      <p>
-        No, I&apos;m Santa Claus! I guess if you want children beaten, you have to do it yourself. We&apos;re also Santa
-        Claus! Leela, Bender, we&apos;re going grave robbing.
-      </p>
-      <p>
-        Are you crazy? I can&apos;t swallow that. Large bet on myself in round one. Hey, whatcha watching?{' '}
-        <strong> Moving along… I guess if you want children beaten, you have to do it yourself.</strong>
-        <em>It&apos;s okay, Bender.</em> I like cooking too.
-      </p>
-      <h2>Oh, I think we should just stay friends.</h2>
-      <p>
-        No argument here. And when we woke up, we had these bodies. You guys go on without me! I&apos;m going to go…
-        look for more stuff to steal! Oh, how awful. Did he at least die painlessly? …To shreds, you say. Well, how is
-        his wife holding up? …To shreds, you say.
-      </p>
-      <ol>
-        <li>No! The kind with looting and maybe starting a few fires!</li>
-        <li>You are the last hope of the universe.</li>
-        <li>Hey, guess what you&apos;re accessories to.</li>
-      </ol>
     </div>
-  ))
-  .add('Vertical scroll', () => (
-    <ContentComponent>
-      <NumberList itemsCount={200} />
-    </ContentComponent>
-  ))
-  .add('Horizontal scroll', () => (
-    <ContentComponent additionalStyle={{ width: '2500px' }}>
+  </ContentComponent>
+);
+WrapperWithCustomHeightAndInactiveLoader.story = { name: 'Wrapper with custom height and inactive loader' };
+
+export const WrapperWithCustomHeightAndActiveLoader = () => (
+  <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: true }}>
+    <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
       <NumberList itemsCount={10} />
-    </ContentComponent>
-  ))
-  .add('Both dimensions scrollable content with spaces around', () => (
-    <ContentComponent additionalStyle={{ width: '2500px', margin: '600px 200px' }}>
-      <NumberList itemsCount={200} />
-    </ContentComponent>
-  ))
-  .add('Active loader', () => <LoaderAndButton active />)
-  .add('Inactive loader', () => <LoaderAndButton active={false} />)
-  .add('Wrapper with custom height and inactive loader', () => (
-    <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>
-      <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
-        <NumberList itemsCount={10} />
-      </div>
-    </ContentComponent>
-  ))
-  .add('Wrapper with custom height and active loader', () => (
-    <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: true }}>
-      <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
-        <NumberList itemsCount={10} />
-      </div>
-    </ContentComponent>
-  ))
-  .add('Old spinner', () => <LoaderOld />);
+    </div>
+  </ContentComponent>
+);
+WrapperWithCustomHeightAndActiveLoader.story = { name: 'Wrapper with custom height and active loader' };
+
+export const OldSpinner = () => <LoaderOld />;
+OldSpinner.story = { name: 'Old spinner' };

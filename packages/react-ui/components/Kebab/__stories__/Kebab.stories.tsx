@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 
 import { Kebab } from '../Kebab';
@@ -12,26 +12,42 @@ interface KebabItem {
   action: string;
 }
 
-storiesOf('Kebab', module)
-  .addDecorator(story => (
-    <div
-      style={{
-        padding: '120px 0',
-        border: '1px solid #dfdede',
-        overflow: 'hidden',
-      }}
-    >
-      {story()}
-    </div>
-  ))
-  .add('14px', () => <SomethingWithKebab size="small" />)
-  .add('18px', () => <SomethingWithKebab size="medium" />)
-  .add('20px', () => <SomethingWithKebab size="large" />)
-  .add('20px-disabled', () => <SomethingWithKebab size="large" disabled />)
-  .add('With fixed menu height', () => (
-    <SomethingWithKebab size="large" menuMaxHeight={'200px'} items={manyItemsList} />
-  ))
-  .add('Kebab without animations', () => <SomethingWithKebab disableAnimations size="small" />);
+export default {
+  title: 'Kebab',
+  decorators: [
+    (story: StoryFn<JSX.Element>) => (
+      <div
+        style={{
+          padding: '120px 0',
+          border: '1px solid #dfdede',
+          overflow: 'hidden',
+        }}
+      >
+        {story()}
+      </div>
+    ),
+  ],
+};
+
+export const Small = () => <SomethingWithKebab size="small" />;
+Small.story = { name: '14px' };
+
+export const Medium = () => <SomethingWithKebab size="medium" />;
+Medium.story = { name: '18px' };
+
+export const Large = () => <SomethingWithKebab size="large" />;
+Large.story = { name: '20px' };
+
+export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
+LargeDisabled.story = { name: '20px-disabled' };
+
+export const WithFixedMenuHeight = () => (
+  <SomethingWithKebab size="large" menuMaxHeight={'200px'} items={manyItemsList} />
+);
+WithFixedMenuHeight.story = { name: 'With fixed menu height' };
+
+export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size="small" />;
+KebabWithoutAnimations.story = { name: 'Kebab without animations' };
 
 class SomethingWithKebab extends Component<{
   size: 'small' | 'medium' | 'large';

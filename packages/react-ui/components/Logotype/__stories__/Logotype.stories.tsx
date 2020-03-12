@@ -1,9 +1,11 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { Logotype } from '../../Logotype';
 
-storiesOf('Logotype', module).add('with widget', () => <WithWidgetToggler />);
+export default { title: 'Logotype' };
+
+export const WithWidget = () => <WithWidgetToggler />;
+WithWidget.story = { name: 'with widget' };
 
 class WithWidgetToggler extends React.Component {
   public state = {

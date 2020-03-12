@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { PasswordInput } from '../PasswordInput';
 import { Nullable } from '../../../typings/utility-types';
@@ -44,6 +43,8 @@ class Component extends React.Component<ComponentProps> {
   };
 }
 
-storiesOf('PasswordInput', module)
-  .add('Plain', () => <Component />)
-  .add('CapsLock label', () => <Component capsLockEnabled />);
+export default { title: 'PasswordInput' };
+
+export const Plain = () => <Component />;
+export const CapsLockLabel = () => <Component capsLockEnabled />;
+CapsLockLabel.story = { name: 'CapsLock label' };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 
 import { Paging } from '../Paging';
@@ -109,20 +109,32 @@ class PagingWithCustomComponent extends Component<any, any> {
   };
 }
 
-storiesOf('Paging', module)
-  .addDecorator(story => <div>{story()}</div>)
-  .add('GoToAbsensePage', () => <GoToAbsensePage />)
-  .add('SimpleSamples', () => (
-    <>
-      <PagingWithState pagesCount={1} />
-      <PagingWithState pagesCount={7} />
-      <PagingWithState pagesCount={8} />
-      <PagingWithState pagesCount={12} />
-    </>
-  ))
-  .add('PagingWithCustomComponent', () => <PagingWithCustomComponent pagesCount={12} />)
-  .add('Paging with global listener', () => <PagingWithState useGlobalListener pagesCount={12} />)
-  .add('Playground', () => <Playground />);
+export default {
+  title: 'Paging',
+  decorators: [(story: StoryFn<JSX.Element>) => <div>{story()}</div>],
+};
+
+export const GoToAbsensePageStory = () => <GoToAbsensePage />;
+GoToAbsensePageStory.story = { name: 'GoToAbsensePage' };
+
+export const SimpleSamples = () => (
+  <>
+    <PagingWithState pagesCount={1} />
+    <PagingWithState pagesCount={7} />
+    <PagingWithState pagesCount={8} />
+    <PagingWithState pagesCount={12} />
+  </>
+);
+SimpleSamples.story = { name: 'SimpleSamples' };
+
+export const _PagingWithCustomComponent = () => <PagingWithCustomComponent pagesCount={12} />;
+_PagingWithCustomComponent.story = { name: 'PagingWithCustomComponent' };
+
+export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener pagesCount={12} />;
+PagingWithGlobalListener.story = { name: 'Paging with global listener' };
+
+export const PlaygroundStory = () => <Playground />;
+PlaygroundStory.story = { name: 'Playground' };
 
 class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
   public state = {

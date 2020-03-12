@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
@@ -541,32 +540,60 @@ class WithLongTitle extends React.Component {
   }
 }
 
-storiesOf('SidePage', module)
-  .add('With scrollable parent content', () => <SidePageWithScrollableContent />)
-  .add('With Input in header', () => <SidePageWithInputInHeader />)
-  .add('SidePage over another SidePage', () => <SidePageOverAnotherSidePage />)
-  .add('SidePage with configuration', () => <SidePageWithCloseConfiguration />)
-  .add('SidePage with Modal', () => <SidePageWithModalInside />)
-  .add('Disabled SidePage', () => (
-    <SidePage disableClose>
-      <SidePage.Header>Disabled</SidePage.Header>
-      <SidePage.Body>Content of disabled body</SidePage.Body>
-    </SidePage>
-  ))
-  .add('SidePage with left position', () => <SidePageWithLeftPosition close={() => undefined} disableAnimations />)
-  .add('Open SidePage with left position', () => <OpenSidePageWithLeftPosition />)
-  .add('Simple', () => <SimpleSidePage />)
-  .add('SidePage with variable content', () => <WithVariableContent />)
-  .add('test updateLayout method', () => <TestUpdateLayoutMethod />)
-  .add('With scrollable parent content and scrolling before open', () => (
-    <div style={{ width: '300px' }}>
-      {textSample}
-      {textSample}
-      {textSample}
-      {textSample}
-      <Sample total={1} current={1} ignoreBackgroundClick withContent />
-      {textSample}
-      {textSample}
-    </div>
-  ))
-  .add('With long title', () => <WithLongTitle />);
+export default { title: 'SidePage' };
+
+export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
+WithScrollableParentContent.story = { name: 'With scrollable parent content' };
+
+export const WithInputInHeader = () => <SidePageWithInputInHeader />;
+WithInputInHeader.story = { name: 'With Input in header' };
+
+export const SidePageOverAnotherSidePageStory = () => <SidePageOverAnotherSidePage />;
+SidePageOverAnotherSidePageStory.story = { name: 'SidePage over another SidePage' };
+
+export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
+SidePageWithConfiguration.story = { name: 'SidePage with configuration' };
+
+export const SidePageWithModal = () => <SidePageWithModalInside />;
+SidePageWithModal.story = { name: 'SidePage with Modal' };
+
+export const DisabledSidePage = () => (
+  <SidePage disableClose>
+    <SidePage.Header>Disabled</SidePage.Header>
+    <SidePage.Body>Content of disabled body</SidePage.Body>
+  </SidePage>
+);
+DisabledSidePage.story = { name: 'Disabled SidePage' };
+
+export const SidePageWithLeftPositionStory = () => (
+  <SidePageWithLeftPosition close={() => undefined} disableAnimations />
+);
+SidePageWithLeftPositionStory.story = { name: 'SidePage with left position' };
+
+export const OpenSidePageWithLeftPositionStory = () => <OpenSidePageWithLeftPosition />;
+OpenSidePageWithLeftPositionStory.story = { name: 'Open SidePage with left position' };
+
+export const Simple = () => <SimpleSidePage />;
+export const SidePageWithVariableContent = () => <WithVariableContent />;
+SidePageWithVariableContent.story = { name: 'SidePage with variable content' };
+
+export const TestUpdateLayoutMethodStory = () => <TestUpdateLayoutMethod />;
+TestUpdateLayoutMethodStory.story = { name: 'test updateLayout method' };
+
+export const WithScrollableParentContentAndScrollingBeforeOpen = () => (
+  <div style={{ width: '300px' }}>
+    {textSample}
+    {textSample}
+    {textSample}
+    {textSample}
+    <Sample total={1} current={1} ignoreBackgroundClick withContent />
+    {textSample}
+    {textSample}
+  </div>
+);
+WithScrollableParentContentAndScrollingBeforeOpen.story = {
+  name: 'With scrollable parent content and scrolling before open',
+};
+
+export const WithLongTitleStory = () => <WithLongTitle />;
+WithLongTitleStory.story = { name: 'With long title' };

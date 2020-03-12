@@ -1,13 +1,16 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { ToastView as Toast } from '../ToastView';
 
-storiesOf('ToastView', module)
-  .add('simple toast', () => <Toast>Changes saved</Toast>)
-  .add('with action', () => (
-    <Toast action={{ label: 'Cancel', handler: action('action') }} onClose={action('close')}>
-      Changes saved
-    </Toast>
-  ));
+export default { title: 'ToastView' };
+
+export const SimpleToast = () => <Toast>Changes saved</Toast>;
+SimpleToast.story = { name: 'simple toast' };
+
+export const WithAction = () => (
+  <Toast action={{ label: 'Cancel', handler: action('action') }} onClose={action('close')}>
+    Changes saved
+  </Toast>
+);
+WithAction.story = { name: 'with action' };

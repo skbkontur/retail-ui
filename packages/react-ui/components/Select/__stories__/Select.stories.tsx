@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 
@@ -81,89 +81,109 @@ class SelectWithNull extends React.Component<any, any> {
   }
 }
 
-storiesOf('Select', module)
-  .addDecorator(story => (
-    <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
-      {story()}
-    </div>
-  ))
-  .add('Simple', () => <Select items={['one', 'two', 'three']} />)
-  .add('Complex values', () => <SelectWrapper />)
-  .add('Items with comments', () => <ItemsWithComments />)
-  .add('With null', () => <SelectWithNull />)
-  .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
-  .add('use link with icon', () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />)
-  .add('with text overflow', () => <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />)
-  .add('external focus', () => {
-    class Sample extends React.Component {
-      private selectElem: Select | null = null;
-      public render() {
-        return (
-          <div>
-            <Select
-              width="100px"
-              items={['oneoneone', 'twotwotwo', 'twotwotwo']}
-              ref={this.refSelect}
-              onFocus={action('handleFocus')}
-              onBlur={action('handleBlur')}
-            />
-            <br />
-            <button onClick={this.handleClick}>Focus!</button>
-          </div>
-        );
-      }
+export default {
+  title: 'Select',
+  decorators: [
+    (story: StoryFn<JSX.Element>) => (
+      <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+        {story()}
+      </div>
+    ),
+  ],
+};
 
-      private refSelect = (element: Select<any, any> | null) => {
-        this.selectElem = element;
-      };
+export const Simple = () => <Select items={['one', 'two', 'three']} />;
+export const ComplexValues = () => <SelectWrapper />;
+ComplexValues.story = { name: 'Complex values' };
 
-      private handleClick = () => {
-        if (this.selectElem) {
-          this.selectElem.focus();
-        }
-      };
+export const ItemsWithCommentsStory = () => <ItemsWithComments />;
+ItemsWithCommentsStory.story = { name: 'Items with comments' };
+
+export const WithNull = () => <SelectWithNull />;
+WithNull.story = { name: 'With null' };
+
+export const UseLink = () => <Select use="link" items={['one', 'two', 'three']} />;
+UseLink.story = { name: 'use link' };
+
+export const UseLinkWithIcon = () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />;
+UseLinkWithIcon.story = { name: 'use link with icon' };
+
+export const WithTextOverflow = () => <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />;
+WithTextOverflow.story = { name: 'with text overflow' };
+
+export const ExternalFocus = () => {
+  class Sample extends React.Component {
+    private selectElem: Select | null = null;
+    public render() {
+      return (
+        <div>
+          <Select
+            width="100px"
+            items={['oneoneone', 'twotwotwo', 'twotwotwo']}
+            ref={this.refSelect}
+            onFocus={action('handleFocus')}
+            onBlur={action('handleBlur')}
+          />
+          <br />
+          <button onClick={this.handleClick}>Focus!</button>
+        </div>
+      );
     }
 
-    return <Sample />;
-  })
-  .add('using onKeyDown', () => {
-    class Sample extends React.Component {
-      public state = {
-        opened: false,
-        text: 'wait...',
-      };
-      private button: Button | null = null;
-      public render() {
-        return (
-          <div>
-            <Select
-              items={['one', 'two', 'three']}
-              onKeyDown={this.onKeyDown}
-              onOpen={this.onOpen}
-              onClose={this.onClose}
-            />
-            <br />
-            <Button
-              onFocus={this.onFocus}
-              ref={el => {
-                this.button = el;
-              }}
-            >
-              {this.state.text}
-            </Button>
-          </div>
-        );
-      }
+    private refSelect = (element: Select<any, any> | null) => {
+      this.selectElem = element;
+    };
 
-      private onOpen = () => this.setState({ opened: true });
-      private onClose = () => this.setState({ opened: false });
-      private onFocus = () => this.setState({ text: 'focused!' });
-      private onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-        if (this.button && isKeyEnter(e) && this.state.opened) {
-          this.button.focus();
-        }
-      };
+    private handleClick = () => {
+      if (this.selectElem) {
+        this.selectElem.focus();
+      }
+    };
+  }
+
+  return <Sample />;
+};
+ExternalFocus.story = { name: 'external focus' };
+
+export const UsingOnKeyDown = () => {
+  class Sample extends React.Component {
+    public state = {
+      opened: false,
+      text: 'wait...',
+    };
+    private button: Button | null = null;
+    public render() {
+      return (
+        <div>
+          <Select
+            items={['one', 'two', 'three']}
+            onKeyDown={this.onKeyDown}
+            onOpen={this.onOpen}
+            onClose={this.onClose}
+          />
+          <br />
+          <Button
+            onFocus={this.onFocus}
+            ref={el => {
+              this.button = el;
+            }}
+          >
+            {this.state.text}
+          </Button>
+        </div>
+      );
     }
 
-    return <Sample />;
-  });
+    private onOpen = () => this.setState({ opened: true });
+    private onClose = () => this.setState({ opened: false });
+    private onFocus = () => this.setState({ text: 'focused!' });
+    private onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+      if (this.button && isKeyEnter(e) && this.state.opened) {
+        this.button.focus();
+      }
+    };
+  }
+
+  return <Sample />;
+};
+UsingOnKeyDown.story = { name: 'using onKeyDown' };

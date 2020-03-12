@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { SidePage } from '../../SidePage';
 import { IgnoreLayerClick } from '../IgnoreLayerClick';
@@ -44,4 +43,6 @@ class Sample extends Component<{}, SampleState> {
   }
 }
 
-storiesOf('IgnoreLayerClick', module).add('Common', () => <Sample />);
+export default { title: 'IgnoreLayerClick' };
+
+export const Common = () => <Sample />;

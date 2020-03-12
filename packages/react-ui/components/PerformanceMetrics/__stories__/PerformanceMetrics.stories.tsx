@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { PerformanceMetrics } from '../PerformanceMetrics';
@@ -35,10 +34,13 @@ const inputsWithTooltip = (
   </div>
 );
 
-storiesOf('PerformanceMetrics', module).add('Bare Inputs vs Tooltip+Input', () => {
+export default { title: 'PerformanceMetrics' };
+
+export const BareInputsVsTooltipInput = () => {
   return (
     <div>
       <PerformanceMetrics componentsA={inputs} componentsB={inputsWithTooltip} />
     </div>
   );
-});
+};
+BareInputsVsTooltipInput.story = { name: 'Bare Inputs vs Tooltip+Input' };

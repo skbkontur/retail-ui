@@ -1,5 +1,4 @@
 import BabyIcon from '@skbkontur/react-icons/Baby';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { Nullable } from '../../../typings/utility-types';
@@ -48,66 +47,74 @@ class TopBarDropdownWithButton extends React.Component {
   private close = () => this.ref && this.ref.close();
 }
 
-storiesOf('TopBar', module)
-  .add('TopBar Old', () => (
-    <TopBar
-      cabinetUrl="https://cabinet.test.ru"
-      userName="Alexander The Great"
-      suffix="ui"
-      onLogout={() => alert('Logout!')}
-      leftItems={[
-        <Item key="left-item-1">
-          <BabyIcon color="#666" />
-        </Item>,
-      ]}
-    />
-  ))
-  .add('TopBar New', () => (
-    <TopBar>
-      <Start>
-        <ItemStatic>
-          <Logotype suffix="ui" withWidget />
-        </ItemStatic>
-        <Item>
-          <BabyIcon color="#666" />
-        </Item>
-        <Item icon="gear" iconOnly>
-          Only icon
-        </Item>
-        <Item icon="gear">Not only icon</Item>
-      </Start>
-      <End>
-        <Item>
-          <BabyIcon color="#666" />
-        </Item>
-        <User userName="Alexander The Great" />
-        <Divider />
-        <Logout onClick={() => alert('Logout!')} />
-      </End>
-    </TopBar>
-  ))
-  .add('TopBar noShadow', () => (
-    <TopBar noShadow={true}>
-      <Start>
-        <ItemStatic>
-          <Logotype suffix="ui" withWidget />
-        </ItemStatic>
-        <Item>
-          <BabyIcon color="#666" />
-        </Item>
-        <Item icon="gear" iconOnly>
-          Only icon
-        </Item>
-        <Item icon="gear">Not only icon</Item>
-      </Start>
-      <End>
-        <Item>
-          <BabyIcon color="#666" />
-        </Item>
-        <User userName="Alexander The Great" />
-        <Divider />
-        <Logout onClick={() => alert('Logout!')} />
-      </End>
-    </TopBar>
-  ))
-  .add('TopBar.Dropdown Controlled', () => <TopBarDropdownWithButton />);
+export default { title: 'TopBar' };
+
+export const TopBarOld = () => (
+  <TopBar
+    cabinetUrl="https://cabinet.test.ru"
+    userName="Alexander The Great"
+    suffix="ui"
+    onLogout={() => alert('Logout!')}
+    leftItems={[
+      <Item key="left-item-1">
+        <BabyIcon color="#666" />
+      </Item>,
+    ]}
+  />
+);
+TopBarOld.story = { name: 'TopBar Old' };
+
+export const TopBarNew = () => (
+  <TopBar>
+    <Start>
+      <ItemStatic>
+        <Logotype suffix="ui" withWidget />
+      </ItemStatic>
+      <Item>
+        <BabyIcon color="#666" />
+      </Item>
+      <Item icon="gear" iconOnly>
+        Only icon
+      </Item>
+      <Item icon="gear">Not only icon</Item>
+    </Start>
+    <End>
+      <Item>
+        <BabyIcon color="#666" />
+      </Item>
+      <User userName="Alexander The Great" />
+      <Divider />
+      <Logout onClick={() => alert('Logout!')} />
+    </End>
+  </TopBar>
+);
+TopBarNew.story = { name: 'TopBar New' };
+
+export const TopBarNoShadow = () => (
+  <TopBar noShadow={true}>
+    <Start>
+      <ItemStatic>
+        <Logotype suffix="ui" withWidget />
+      </ItemStatic>
+      <Item>
+        <BabyIcon color="#666" />
+      </Item>
+      <Item icon="gear" iconOnly>
+        Only icon
+      </Item>
+      <Item icon="gear">Not only icon</Item>
+    </Start>
+    <End>
+      <Item>
+        <BabyIcon color="#666" />
+      </Item>
+      <User userName="Alexander The Great" />
+      <Divider />
+      <Logout onClick={() => alert('Logout!')} />
+    </End>
+  </TopBar>
+);
+TopBarNoShadow.story = { name: 'TopBar noShadow' };
+
+export const TopBarDropdownControlled = () => <TopBarDropdownWithButton />;
+TopBarDropdownControlled.story = { name: 'TopBar.Dropdown Controlled' };

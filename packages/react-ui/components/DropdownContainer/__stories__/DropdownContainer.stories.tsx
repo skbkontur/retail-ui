@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { findDOMNode } from 'react-dom';
 
 import { MenuItem } from '../../MenuItem';
@@ -8,9 +7,10 @@ import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer'
 import { Menu } from '../../Menu';
 import { Button } from '../../Button';
 
-storiesOf('DropdownContainer', module).add('various aligns, portals, items and scrolls', () => (
-  <VariousAlignsPortalsItemsAndScrolls />
-));
+export default { title: 'DropdownContainer' };
+
+export const VariousAlignsPortalsItemsAndScrollsStory = () => <VariousAlignsPortalsItemsAndScrolls />;
+VariousAlignsPortalsItemsAndScrollsStory.story = { name: 'various aligns, portals, items and scrolls' };
 
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public aligns: Array<'left' | 'right'> = ['left', 'right'];

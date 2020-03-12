@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
@@ -45,137 +44,189 @@ class TestTooltip extends React.Component<TestTooltipProps> {
   }
 }
 
-storiesOf('Tooltip', module)
-  .add('simple tooltip', () => (
-    <TestTooltip>
-      <Button>Hover me!</Button>
-    </TestTooltip>
-  ))
-  .add('static tooltip', () => (
-    <TestTooltip trigger="opened">
-      <div>Look bottom</div>
-    </TestTooltip>
-  ))
-  .add('clickable tooltip', () => (
-    <TestTooltip trigger="click">
-      <Button>Click me</Button>
-    </TestTooltip>
-  ))
-  .add('focus tooltip', () => (
-    <TestTooltip trigger="focus" disableAnimations>
-      <Button>Focus me</Button>
-    </TestTooltip>
-  ))
-  .add('focus tooltip (native input)', () => (
-    <TestTooltip trigger="focus" disableAnimations>
-      <input />
-    </TestTooltip>
-  ))
-  .add('tooltip left', () => (
-    <TestTooltip trigger="opened" pos="left top">
-      <span>Some label</span>
-    </TestTooltip>
-  ))
-  .add('tooltip right', () => (
-    <TestTooltip useWrapper={false} trigger="opened" pos="right top">
-      <span>Some label</span>
-    </TestTooltip>
-  ))
-  .add('tooltip bottom', () => (
+export default { title: 'Tooltip' };
+
+export const SimpleTooltip = () => (
+  <TestTooltip>
+    <Button>Hover me!</Button>
+  </TestTooltip>
+);
+SimpleTooltip.story = { name: 'simple tooltip' };
+
+export const StaticTooltip = () => (
+  <TestTooltip trigger="opened">
+    <div>Look bottom</div>
+  </TestTooltip>
+);
+StaticTooltip.story = { name: 'static tooltip' };
+
+export const ClickableTooltip = () => (
+  <TestTooltip trigger="click">
+    <Button>Click me</Button>
+  </TestTooltip>
+);
+ClickableTooltip.story = { name: 'clickable tooltip' };
+
+export const FocusTooltip = () => (
+  <TestTooltip trigger="focus" disableAnimations>
+    <Button>Focus me</Button>
+  </TestTooltip>
+);
+FocusTooltip.story = { name: 'focus tooltip' };
+
+export const FocusTooltipNativeInput = () => (
+  <TestTooltip trigger="focus" disableAnimations>
+    <input />
+  </TestTooltip>
+);
+FocusTooltipNativeInput.story = { name: 'focus tooltip (native input)' };
+
+export const TooltipLeft = () => (
+  <TestTooltip trigger="opened" pos="left top">
+    <span>Some label</span>
+  </TestTooltip>
+);
+TooltipLeft.story = { name: 'tooltip left' };
+
+export const TooltipRight = () => (
+  <TestTooltip useWrapper={false} trigger="opened" pos="right top">
+    <span>Some label</span>
+  </TestTooltip>
+);
+TooltipRight.story = { name: 'tooltip right' };
+
+export const TooltipBottom = () => (
+  <TestTooltip trigger="opened" pos="bottom center">
+    <span>Some label</span>
+  </TestTooltip>
+);
+TooltipBottom.story = { name: 'tooltip bottom' };
+
+export const TooltipWithFunctionalComponentChild = () => {
+  function PureComp() {
+    return <div>Pure Component!</div>;
+  }
+
+  return (
     <TestTooltip trigger="opened" pos="bottom center">
-      <span>Some label</span>
+      <PureComp />
     </TestTooltip>
-  ))
-  .add('tooltip with functional component child', () => {
-    function PureComp() {
-      return <div>Pure Component!</div>;
-    }
+  );
+};
+TooltipWithFunctionalComponentChild.story = { name: 'tooltip with functional component child' };
 
-    return (
-      <TestTooltip trigger="opened" pos="bottom center">
-        <PureComp />
-      </TestTooltip>
-    );
-  })
-  .add('tooltip with functional component child hover', () => {
-    function PureComp() {
-      return <div>Pure Component!</div>;
-    }
+export const TooltipWithFunctionalComponentChildHover = () => {
+  function PureComp() {
+    return <div>Pure Component!</div>;
+  }
 
-    return (
-      <TestTooltip trigger="hover" pos="bottom center">
-        <PureComp />
-      </TestTooltip>
-    );
-  })
-  .add('tooltip with functional component click', () => {
-    function PureComp() {
-      return <div>Pure Component!</div>;
-    }
-
-    return (
-      <TestTooltip trigger="click" pos="bottom center">
-        <PureComp />
-      </TestTooltip>
-    );
-  })
-  .add('MyCustomTooltip', () => <MyCustomTooltip />)
-  .add('ManualTooltip', () => <ManualTooltip />)
-  .add('tooltip without animations', () => (
-    <div>
-      <Tooltip render={() => 'No disableAnimations prop'} trigger={'hover'}>
-        <Button>Hover me (No disableAnimations prop)</Button>
-      </Tooltip>
-      <Tooltip render={() => 'disableAnimations={false}'} trigger={'hover'} disableAnimations={false}>
-        <Button>Hover me (disableAnimations: false)</Button>
-      </Tooltip>
-      <Tooltip render={() => 'disableAnimations={true}'} trigger={'hover'} disableAnimations>
-        <Button>Hover me (disableAnimations: true)</Button>
-      </Tooltip>
-    </div>
-  ))
-  .add('hover on child only', () => (
-    <TestTooltip trigger="hoverAnchor">
-      <Button>
-        <code>trigger=&quot;hoverAnchor&quot;</code>
-      </Button>
+  return (
+    <TestTooltip trigger="hover" pos="bottom center">
+      <PureComp />
     </TestTooltip>
-  ))
-  .add('Tooltips without wrapper around inline-block with 50% width', () => (
-    <div style={{ padding: '150px', width: '500px' }}>
-      {PopupPositions.reduce(
-        (child, position) => (
-          <Tooltip useWrapper={false} render={() => position} pos={position}>
-            {child}
-          </Tooltip>
-        ),
-        <Textarea rows={10} resize="none" width="50%">
-          {"I'm inline-block with 50% width.\n\nHover me!"}
-        </Textarea>,
-      )}
-    </div>
-  ))
-  .add('Opened tooltip without wrapper', () => (
-    <TestTooltip useWrapper={false} trigger="opened" pos="left top">
-      <span>Without wrapper</span>
+  );
+};
+TooltipWithFunctionalComponentChildHover.story = { name: 'tooltip with functional component child hover' };
+
+export const TooltipWithFunctionalComponentClick = () => {
+  function PureComp() {
+    return <div>Pure Component!</div>;
+  }
+
+  return (
+    <TestTooltip trigger="click" pos="bottom center">
+      <PureComp />
     </TestTooltip>
-  ))
-  .add('Tooltip with external dynamic content', () => (
-    <DynamicContentStory TooltipComponentClass={ExternalDynamicContentTooltip} />
-  ))
-  .add('Tooltip with internal dynamic content', () => (
-    <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} />
-  ))
-  .add('Tooltip with trigger=click', () => <TooltipWithClickTrigger />)
-  .add('Tooltip with dynamic anchor', () => <DynamicAnchorTooltip />)
-  .add('Multiple tooltips with useWrapper=false', () => <MultipleTooltips />)
-  .add('Tooltip with Input and switchable content', () => <TooltipWithInput />)
-  .add('dynamic triggers', () => <DynamicTriggers />)
-  .add('Render in first available position', () => (
-    <div style={{ padding: '150px' }}>
-      <DynamicContentTooltip />
-    </div>
-  ));
+  );
+};
+TooltipWithFunctionalComponentClick.story = { name: 'tooltip with functional component click' };
+
+export const MyCustomTooltipStory = () => <MyCustomTooltip />;
+MyCustomTooltipStory.story = { name: 'MyCustomTooltip' };
+
+export const ManualTooltipStory = () => <ManualTooltip />;
+ManualTooltipStory.story = { name: 'ManualTooltip' };
+
+export const TooltipWithoutAnimations = () => (
+  <div>
+    <Tooltip render={() => 'No disableAnimations prop'} trigger={'hover'}>
+      <Button>Hover me (No disableAnimations prop)</Button>
+    </Tooltip>
+    <Tooltip render={() => 'disableAnimations={false}'} trigger={'hover'} disableAnimations={false}>
+      <Button>Hover me (disableAnimations: false)</Button>
+    </Tooltip>
+    <Tooltip render={() => 'disableAnimations={true}'} trigger={'hover'} disableAnimations>
+      <Button>Hover me (disableAnimations: true)</Button>
+    </Tooltip>
+  </div>
+);
+TooltipWithoutAnimations.story = { name: 'tooltip without animations' };
+
+export const HoverOnChildOnly = () => (
+  <TestTooltip trigger="hoverAnchor">
+    <Button>
+      <code>trigger=&quot;hoverAnchor&quot;</code>
+    </Button>
+  </TestTooltip>
+);
+HoverOnChildOnly.story = { name: 'hover on child only' };
+
+export const TooltipsWithoutWrapperAroundInlineBlockWith50Width = () => (
+  <div style={{ padding: '150px', width: '500px' }}>
+    {PopupPositions.reduce(
+      (child, position) => (
+        <Tooltip useWrapper={false} render={() => position} pos={position}>
+          {child}
+        </Tooltip>
+      ),
+      <Textarea rows={10} resize="none" width="50%">
+        {"I'm inline-block with 50% width.\n\nHover me!"}
+      </Textarea>,
+    )}
+  </div>
+);
+TooltipsWithoutWrapperAroundInlineBlockWith50Width.story = {
+  name: 'Tooltips without wrapper around inline-block with 50% width',
+};
+
+export const OpenedTooltipWithoutWrapper = () => (
+  <TestTooltip useWrapper={false} trigger="opened" pos="left top">
+    <span>Without wrapper</span>
+  </TestTooltip>
+);
+OpenedTooltipWithoutWrapper.story = { name: 'Opened tooltip without wrapper' };
+
+export const TooltipWithExternalDynamicContent = () => (
+  <DynamicContentStory TooltipComponentClass={ExternalDynamicContentTooltip} />
+);
+TooltipWithExternalDynamicContent.story = { name: 'Tooltip with external dynamic content' };
+
+export const TooltipWithInternalDynamicContent = () => (
+  <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} />
+);
+TooltipWithInternalDynamicContent.story = { name: 'Tooltip with internal dynamic content' };
+
+export const TooltipWithTriggerClick = () => <TooltipWithClickTrigger />;
+TooltipWithTriggerClick.story = { name: 'Tooltip with trigger=click' };
+
+export const TooltipWithDynamicAnchor = () => <DynamicAnchorTooltip />;
+TooltipWithDynamicAnchor.story = { name: 'Tooltip with dynamic anchor' };
+
+export const MultipleTooltipsWithUseWrapperFalse = () => <MultipleTooltips />;
+MultipleTooltipsWithUseWrapperFalse.story = { name: 'Multiple tooltips with useWrapper=false' };
+
+export const TooltipWithInputAndSwitchableContent = () => <TooltipWithInput />;
+TooltipWithInputAndSwitchableContent.story = { name: 'Tooltip with Input and switchable content' };
+
+export const DynamicTriggersStory = () => <DynamicTriggers />;
+DynamicTriggersStory.story = { name: 'dynamic triggers' };
+
+export const RenderInFirstAvailablePosition = () => (
+  <div style={{ padding: '150px' }}>
+    <DynamicContentTooltip />
+  </div>
+);
+RenderInFirstAvailablePosition.story = { name: 'Render in first available position' };
 
 class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNode; opened: boolean }> {
   public state = {

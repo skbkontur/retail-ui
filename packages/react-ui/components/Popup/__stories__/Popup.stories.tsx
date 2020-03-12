@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
@@ -9,28 +8,44 @@ import { Hint } from '../../Hint';
 import { Select } from '../../Select';
 import { RenderLayer } from '../../RenderLayer';
 
-storiesOf('Popup', module)
-  .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
-  .add('All pin opened on small elements', () => <AllCases small padding={'70px 150px'} />)
-  .add('Positioning', () => <Positioning />)
-  .add('disableAnimations', () => (
-    <div>
-      <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
-      <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
-    </div>
-  ))
-  .add('Hint', () => (
-    <div style={{ padding: '100px' }}>
-      <FakeHint positions={['top center', 'right top', 'bottom center', 'left middle']} margin={20} />
-    </div>
-  ))
-  .add('Toast', () => (
-    <div style={{ padding: '100px' }}>
-      <Toast positions={['top center', 'right top', 'bottom center', 'left middle']} />
-    </div>
-  ))
-  .add('Small width', () => <MinWidth />)
-  .add('Hover behaviour', () => <HoverBehaviour />);
+export default { title: 'Popup' };
+
+export const AllPinOpened = () => <AllCases small={false} padding={'50px 100px'} />;
+AllPinOpened.story = { name: 'All pin opened' };
+
+export const AllPinOpenedOnSmallElements = () => <AllCases small padding={'70px 150px'} />;
+AllPinOpenedOnSmallElements.story = { name: 'All pin opened on small elements' };
+
+export const PositioningStory = () => <Positioning />;
+PositioningStory.story = { name: 'Positioning' };
+
+export const DisableAnimations = () => (
+  <div>
+    <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
+    <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
+  </div>
+);
+DisableAnimations.story = { name: 'disableAnimations' };
+
+export const HintStory = () => (
+  <div style={{ padding: '100px' }}>
+    <FakeHint positions={['top center', 'right top', 'bottom center', 'left middle']} margin={20} />
+  </div>
+);
+HintStory.story = { name: 'Hint' };
+
+export const ToastStory = () => (
+  <div style={{ padding: '100px' }}>
+    <Toast positions={['top center', 'right top', 'bottom center', 'left middle']} />
+  </div>
+);
+ToastStory.story = { name: 'Toast' };
+
+export const SmallWidth = () => <MinWidth />;
+SmallWidth.story = { name: 'Small width' };
+
+export const HoverBehaviourStory = () => <HoverBehaviour />;
+HoverBehaviourStory.story = { name: 'Hover behaviour' };
 
 const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
   <div style={{ padding }}>

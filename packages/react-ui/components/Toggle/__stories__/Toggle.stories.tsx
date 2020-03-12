@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { Toggle } from '../Toggle';
@@ -131,14 +130,22 @@ class Simple extends React.Component<any, any> {
   }
 }
 
-storiesOf('Toggle', module)
-  .add('plain', () => <Simple />)
-  .add('uncontrolled', () => <Toggle onValueChange={action('toggle')} />)
-  .add('playground', () => <Playground />)
-  .add('disabled with Tooltip', () => (
-    <div style={{ padding: '50px' }}>
-      <Tooltip render={() => 'Hello'}>
-        <Toggle disabled />
-      </Tooltip>
-    </div>
-  ));
+export default { title: 'Toggle' };
+
+export const Plain = () => <Simple />;
+Plain.story = { name: 'plain' };
+
+export const Uncontrolled = () => <Toggle onValueChange={action('toggle')} />;
+Uncontrolled.story = { name: 'uncontrolled' };
+
+export const PlaygroundStory = () => <Playground />;
+PlaygroundStory.story = { name: 'playground' };
+
+export const DisabledWithTooltip = () => (
+  <div style={{ padding: '50px' }}>
+    <Tooltip render={() => 'Hello'}>
+      <Toggle disabled />
+    </Tooltip>
+  </div>
+);
+DisabledWithTooltip.story = { name: 'disabled with Tooltip' };

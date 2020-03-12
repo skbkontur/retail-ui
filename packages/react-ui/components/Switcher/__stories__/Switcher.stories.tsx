@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { Switcher } from '../Switcher';
 
@@ -21,13 +20,17 @@ class Component extends React.Component<{ items: string[]; error?: boolean }, { 
 
   private handleChange = (value: string) => {
     this.setState({ value });
-  }
+  };
 }
 
-storiesOf('Switcher', module)
-  .add('horizontal', () => {
-    return <Component items={['One', 'Two', 'Three']} />;
-  })
-  .add('errored', () => {
-    return <Component error items={['One', 'Two', 'Three']} />;
-  });
+export default { title: 'Switcher' };
+
+export const Horizontal = () => {
+  return <Component items={['One', 'Two', 'Three']} />;
+};
+Horizontal.story = { name: 'horizontal' };
+
+export const Errored = () => {
+  return <Component error items={['One', 'Two', 'Three']} />;
+};
+Errored.story = { name: 'errored' };

@@ -1,20 +1,27 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { BGRuler } from '../../../lib/BGRuler';
 import { FxInput } from '../FxInput';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import { InputType } from '../../Input/Input';
 
-storiesOf('FxInput', module)
-  .add('type text', () => <TestFxInput />)
-  .add('type currency', () => <TestFxInput type={'currency'} fractionDigits={4} />)
-  .add('borderless', () => (
-    <TestWrapper>
-      <TestFxInput borderless />
-    </TestWrapper>
-  ))
-  .add('with width', () => <WithWidth />);
+export default { title: 'FxInput' };
+
+export const TypeText = () => <TestFxInput />;
+TypeText.story = { name: 'type text' };
+
+export const TypeCurrency = () => <TestFxInput type={'currency'} fractionDigits={4} />;
+TypeCurrency.story = { name: 'type currency' };
+
+export const Borderless = () => (
+  <TestWrapper>
+    <TestFxInput borderless />
+  </TestWrapper>
+);
+Borderless.story = { name: 'borderless' };
+
+export const WithWidthStory = () => <WithWidth />;
+WithWidthStory.story = { name: 'with width' };
 
 interface TestFxInputProps {
   type?: 'currency' | InputType;

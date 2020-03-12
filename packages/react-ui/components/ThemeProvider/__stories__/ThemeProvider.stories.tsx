@@ -1,6 +1,8 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { ThemeContextPlayground } from '../../internal/ThemePlayground/ThemeContextPlayground';
 
-storiesOf('ThemeProvider', module).add('playground', () => <ThemeContextPlayground />);
+export default { title: 'ThemeProvider' };
+
+export const Playground = () => <ThemeContextPlayground />;
+Playground.story = { name: 'playground' };

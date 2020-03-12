@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { linkTo } from '@storybook/addon-links';
 
 import { ComponentTable } from '../../internal/ComponentTable';
@@ -269,25 +268,47 @@ class TabsTable extends React.Component {
   }
 }
 
-storiesOf('Tabs', module)
-  .add('simple', () => <UncTabs />)
-  .add('first', () => <RouterTabs value="first" />)
-  .add('another', () => <RouterTabs value="another" />)
-  .add('hrefs first', () => (
-    <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
-    </Tabs>
-  ))
-  .add('hrefs second', () => (
-    <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
-      <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
-    </Tabs>
-  ))
-  .add('vertical', () => <UncTabs vertical />)
-  .add('with component', () => <TabsWithMyLink />)
-  .add('with unexpected tab size change', () => <OhMyTabs />)
-  .add('with disabled tab', () => <DisabledTab />)
-  .add('tabs in modal', () => <TabsInModal />)
-  .add('hover table', () => <TabsTable />);
+export default { title: 'Tabs' };
+
+export const Simple = () => <UncTabs />;
+Simple.story = { name: 'simple' };
+
+export const First = () => <RouterTabs value="first" />;
+First.story = { name: 'first' };
+
+export const Another = () => <RouterTabs value="another" />;
+Another.story = { name: 'another' };
+
+export const HrefsFirst = () => (
+  <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
+    <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
+    <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
+  </Tabs>
+);
+HrefsFirst.story = { name: 'hrefs first' };
+
+export const HrefsSecond = () => (
+  <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
+    <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">Hrefs first</Tab>
+    <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
+  </Tabs>
+);
+HrefsSecond.story = { name: 'hrefs second' };
+
+export const Vertical = () => <UncTabs vertical />;
+Vertical.story = { name: 'vertical' };
+
+export const WithComponent = () => <TabsWithMyLink />;
+WithComponent.story = { name: 'with component' };
+
+export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
+WithUnexpectedTabSizeChange.story = { name: 'with unexpected tab size change' };
+
+export const WithDisabledTab = () => <DisabledTab />;
+WithDisabledTab.story = { name: 'with disabled tab' };
+
+export const TabsInModalStory = () => <TabsInModal />;
+TabsInModalStory.story = { name: 'tabs in modal' };
+
+export const HoverTable = () => <TabsTable />;
+HoverTable.story = { name: 'hover table' };

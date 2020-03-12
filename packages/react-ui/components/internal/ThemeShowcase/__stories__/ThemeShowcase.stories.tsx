@@ -1,6 +1,7 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { ThemeShowcase } from '../ThemeShowcase';
 
-storiesOf('ThemeShowcase', module).add('Playground', () => <ThemeShowcase isDebugMode={true} />);
+export default { title: 'ThemeShowcase' };
+
+export const Playground = () => <ThemeShowcase isDebugMode={true} />;

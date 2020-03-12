@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { Modal } from '../Modal';
@@ -411,56 +410,82 @@ class SmallModalOnTop extends Component<{}, {}> {
   };
 }
 
-storiesOf('Modal', module)
-  .add('With scrollable parent content', () => <ModalWithScrollableContent />)
-  .add('With Icon Input', () => <ModalWithIconInput />)
-  .add('Modal over another modal', () => <ModalOverAnotherModal />)
-  .add('Disabled modal', () => (
-    <Modal disableClose>
-      <Modal.Header>Disabled</Modal.Header>
-      <Modal.Body>Content of disabled body</Modal.Body>
-    </Modal>
-  ))
-  .add('Modal with footer panel', () => <ModalWithFooterPanel />)
-  .add('Modal without footer panel', () => <ModalWithoutFooterPanel />)
-  .add('Modal without footer', () => <ModalWithoutFooter />)
-  .add('Modal without header', () => (
-    <Modal>
-      <Modal.Body>
-        <div>
-          Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров:
-          Firefox, divpera, Chrome.
-        </div>
-      </Modal.Body>
-    </Modal>
-  ))
-  .add('Modal mobile view', () => <ModalMobileView />)
-  .add('Modal with variable height of content', () => (
-    <ModalWithVariableHeight>
-      <ModalInner />
-    </ModalWithVariableHeight>
-  ))
-  .add('Modal without sticky elements', () => (
-    <Modal>
-      <Modal.Header sticky={false}>Header</Modal.Header>
-      <Modal.Body>
-        {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
-          <p key={index}>{item}</p>
-        ))}
-      </Modal.Body>
-      <Modal.Footer sticky={false}>Footer</Modal.Footer>
-    </Modal>
-  ))
-  .add('With alignTop', () => (
-    <Modal alignTop={true}>
-      <Modal.Body>
-        <p>Use rxjs operators with react hooks.</p>
-      </Modal.Body>
-    </Modal>
-  ))
-  .add('Small modal on the Top', () => <SmallModalOnTop />)
-  .add('Modal with veryLongHeaderWithoutSpaces', () => (
-    <Modal width={350}>
-      <Modal.Header>VeryLongAndStrangeHeaderWithoutMeaningAndSpaces</Modal.Header>
-    </Modal>
-  ));
+export default { title: 'Modal' };
+
+export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
+WithScrollableParentContent.story = { name: 'With scrollable parent content' };
+
+export const WithIconInput = () => <ModalWithIconInput />;
+export const ModalOverAnotherModalStory = () => <ModalOverAnotherModal />;
+ModalOverAnotherModalStory.story = { name: 'Modal over another modal' };
+
+export const DisabledModal = () => (
+  <Modal disableClose>
+    <Modal.Header>Disabled</Modal.Header>
+    <Modal.Body>Content of disabled body</Modal.Body>
+  </Modal>
+);
+DisabledModal.story = { name: 'Disabled modal' };
+
+export const ModalWithFooterPanelStory = () => <ModalWithFooterPanel />;
+ModalWithFooterPanelStory.story = { name: 'Modal with footer panel' };
+
+export const ModalWithoutFooterPanelStory = () => <ModalWithoutFooterPanel />;
+ModalWithoutFooterPanelStory.story = { name: 'Modal without footer panel' };
+
+export const ModalWithoutFooterStory = () => <ModalWithoutFooter />;
+ModalWithoutFooterStory.story = { name: 'Modal without footer' };
+
+export const ModalWithoutHeader = () => (
+  <Modal>
+    <Modal.Body>
+      <div>
+        Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров: Firefox,
+        divpera, Chrome.
+      </div>
+    </Modal.Body>
+  </Modal>
+);
+ModalWithoutHeader.story = { name: 'Modal without header' };
+
+export const ModalMobileViewStory = () => <ModalMobileView />;
+ModalMobileViewStory.story = { name: 'Modal mobile view' };
+
+export const ModalWithVariableHeightOfContent = () => (
+  <ModalWithVariableHeight>
+    <ModalInner />
+  </ModalWithVariableHeight>
+);
+ModalWithVariableHeightOfContent.story = { name: 'Modal with variable height of content' };
+
+export const ModalWithoutStickyElements = () => (
+  <Modal>
+    <Modal.Header sticky={false}>Header</Modal.Header>
+    <Modal.Body>
+      {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
+        <p key={index}>{item}</p>
+      ))}
+    </Modal.Body>
+    <Modal.Footer sticky={false}>Footer</Modal.Footer>
+  </Modal>
+);
+ModalWithoutStickyElements.story = { name: 'Modal without sticky elements' };
+
+export const WithAlignTop = () => (
+  <Modal alignTop={true}>
+    <Modal.Body>
+      <p>Use rxjs operators with react hooks.</p>
+    </Modal.Body>
+  </Modal>
+);
+WithAlignTop.story = { name: 'With alignTop' };
+
+export const SmallModalOnTheTop = () => <SmallModalOnTop />;
+SmallModalOnTheTop.story = { name: 'Small modal on the Top' };
+
+export const ModalWithVeryLongHeaderWithoutSpaces = () => (
+  <Modal width={350}>
+    <Modal.Header>VeryLongAndStrangeHeaderWithoutMeaningAndSpaces</Modal.Header>
+  </Modal>
+);
+ModalWithVeryLongHeaderWithoutSpaces.story = { name: 'Modal with veryLongHeaderWithoutSpaces' };

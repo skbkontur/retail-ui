@@ -1,6 +1,5 @@
-import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
@@ -51,14 +50,16 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
             onValueChange={this.handleChangeSeparator}
           />
         </div>
-        <LocaleContext.Provider value={{
-          langCode: defaultLangCode,
-          locale: {
-            DatePicker: {
-              separator: InternalDateSeparator[this.state.separator],
-              order: this.state.order,
+        <LocaleContext.Provider
+          value={{
+            langCode: defaultLangCode,
+            locale: {
+              DatePicker: {
+                separator: InternalDateSeparator[this.state.separator],
+                order: this.state.order,
+              },
             },
-          }}}
+          }}
         >
           <DateInput onValueChange={this.handleChangeValue} value={this.state.value} />
           <br />
@@ -86,27 +87,31 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
           <tr>
             <td>Dot</td>
             <td>
-              <LocaleContext.Provider value={{
-                langCode: LangCodes.ru_RU,
-                locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.YMD } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  langCode: LangCodes.ru_RU,
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleContext.Provider value={{
-                langCode: LangCodes.ru_RU,
-                locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.MDY } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  langCode: LangCodes.ru_RU,
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.MDY } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.DMY } }
-              }}>
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.DMY } },
+                }}
+              >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
@@ -114,25 +119,29 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
           <tr>
             <td>Dash</td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.YMD } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.MDY } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.MDY } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.DMY } }
-              }}>
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.DMY } },
+                }}
+              >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
@@ -140,25 +149,28 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
           <tr>
             <td>Slash</td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.YMD } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.MDY } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.MDY } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.DMY } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.DMY } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
@@ -167,25 +179,28 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
           <tr>
             <td>Space</td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.YMD } }
-              }}
-              >
-              <DateInput value={value} />
-              </LocaleContext.Provider>
-            </td>
-            <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.MDY } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleContext.Provider value={{
-                locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.DMY } }
-              }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.MDY } },
+                }}
+              >
+                <DateInput value={value} />
+              </LocaleContext.Provider>
+            </td>
+            <td>
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.DMY } },
+                }}
               >
                 <DateInput value={value} />
               </LocaleContext.Provider>
@@ -241,10 +256,22 @@ class DateInputLastEvent extends React.Component {
   }
 }
 
-storiesOf('DateInput', module)
-  .add('simple', () => <DateInputSimple defaultValue="01.02.2017" />)
-  .add('formatting', () => <DateInputFormatting />)
-  .add('different formatting', () => <DateInputDifferentFormatting />)
-  .add('disabled', () => <DateInputSimple disabled defaultValue="01.02.2017" />)
-  .add('with width', () => <DateInputSimple width="50px" defaultValue="01.02.2017" />)
-  .add('blur always after change', () => <DateInputLastEvent />);
+export default { title: 'DateInput' };
+
+export const Simple = () => <DateInputSimple defaultValue="01.02.2017" />;
+Simple.story = { name: 'simple' };
+
+export const Formatting = () => <DateInputFormatting />;
+Formatting.story = { name: 'formatting' };
+
+export const DifferentFormatting = () => <DateInputDifferentFormatting />;
+DifferentFormatting.story = { name: 'different formatting' };
+
+export const Disabled = () => <DateInputSimple disabled defaultValue="01.02.2017" />;
+Disabled.story = { name: 'disabled' };
+
+export const WithWidth = () => <DateInputSimple width="50px" defaultValue="01.02.2017" />;
+WithWidth.story = { name: 'with width' };
+
+export const BlurAlwaysAfterChange = () => <DateInputLastEvent />;
+BlurAlwaysAfterChange.story = { name: 'blur always after change' };

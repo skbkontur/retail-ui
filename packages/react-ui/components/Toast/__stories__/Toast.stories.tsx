@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import { Toast } from '../Toast';
@@ -63,7 +62,13 @@ class TestNotifier extends React.Component<any, any> {
   }
 }
 
-storiesOf('Toast', module)
-  .add('simple notifiacation', () => <TestNotifier />)
-  .add('complex notifiacation', () => <TestNotifier complex />)
-  .add('static method', () => <Button onClick={() => Toast.push('Static method call')}>Show static</Button>);
+export default { title: 'Toast' };
+
+export const SimpleNotifiacation = () => <TestNotifier />;
+SimpleNotifiacation.story = { name: 'simple notifiacation' };
+
+export const ComplexNotifiacation = () => <TestNotifier complex />;
+ComplexNotifiacation.story = { name: 'complex notifiacation' };
+
+export const StaticMethod = () => <Button onClick={() => Toast.push('Static method call')}>Show static</Button>;
+StaticMethod.story = { name: 'static method' };

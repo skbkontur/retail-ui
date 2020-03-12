@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { Gapped } from '../../Gapped';
 import { Modal } from '../../Modal';
@@ -676,23 +675,61 @@ function StickyAndTooltips() {
   );
 }
 
-storiesOf('ZIndex', module)
-  .add('LightboxUnderLightbox', () => <LightboxUnderLightbox />)
-  .add('ZSample', () => <ZSample total={3} />)
-  .add('Demo', () => <Demo />)
-  .add('Loader covers tooltip', () => <LoaderCoversTooltip />)
-  .add('Modal With Tooltip In Loader', () => <ModalWithTooltipInLoader />)
-  .add('Nested elements in loader', () => <NestedElementsInLoader />)
-  .add('Tooltip near Loader', () => <TooltipNearLoader />)
-  .add('Hint and modal', () => <HintAndModal />)
-  .add('Loader in Modal', () => <LoaderInModal />)
-  .add('Big modal with Loader', () => <BigModalWithLoader />)
-  .add('Tooltip and Select', () => <TooltipAndSelect />)
-  .add('Loader in SidePage.Body', () => <LoaderInSidePage />)
-  .add('Sidepage and Select', () => <SidePageAndSelect />)
-  .add('Toast and Loader', () => <ToastAndLoader />)
-  .add('Elements in Loader in Modal', () => <ElementsInLoaderInModal />)
-  .add('Loader and SidePage', () => <LoaderAndSidePage />)
-  .add('Modal in Loader and Modal', () => <ModalInLoaderAndModal />)
-  .add('Sticky and Loader', () => <StickyAndLoader />)
-  .add('Sticky and Tooltips', () => <StickyAndTooltips />);
+export default { title: 'ZIndex' };
+
+export const LightboxUnderLightboxStory = () => <LightboxUnderLightbox />;
+LightboxUnderLightboxStory.story = { name: 'LightboxUnderLightbox' };
+
+export const ZSampleStory = () => <ZSample total={3} />;
+ZSampleStory.story = { name: 'ZSample' };
+
+export const DemoStory = () => <Demo />;
+DemoStory.story = { name: 'Demo' };
+
+export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
+LoaderCoversTooltipStory.story = { name: 'Loader covers tooltip' };
+
+export const ModalWithTooltipInLoaderStory = () => <ModalWithTooltipInLoader />;
+ModalWithTooltipInLoaderStory.story = { name: 'Modal With Tooltip In Loader' };
+
+export const NestedElementsInLoaderStory = () => <NestedElementsInLoader />;
+NestedElementsInLoaderStory.story = { name: 'Nested elements in loader' };
+
+export const TooltipNearLoaderStory = () => <TooltipNearLoader />;
+TooltipNearLoaderStory.story = { name: 'Tooltip near Loader' };
+
+export const HintAndModalStory = () => <HintAndModal />;
+HintAndModalStory.story = { name: 'Hint and modal' };
+
+export const LoaderInModalStory = () => <LoaderInModal />;
+LoaderInModalStory.story = { name: 'Loader in Modal' };
+
+export const BigModalWithLoaderStory = () => <BigModalWithLoader />;
+BigModalWithLoaderStory.story = { name: 'Big modal with Loader' };
+
+export const TooltipAndSelectStory = () => <TooltipAndSelect />;
+TooltipAndSelectStory.story = { name: 'Tooltip and Select' };
+
+export const LoaderInSidePageBody = () => <LoaderInSidePage />;
+LoaderInSidePageBody.story = { name: 'Loader in SidePage.Body' };
+
+export const SidepageAndSelect = () => <SidePageAndSelect />;
+SidepageAndSelect.story = { name: 'Sidepage and Select' };
+
+export const ToastAndLoaderStory = () => <ToastAndLoader />;
+ToastAndLoaderStory.story = { name: 'Toast and Loader' };
+
+export const ElementsInLoaderInModalStory = () => <ElementsInLoaderInModal />;
+ElementsInLoaderInModalStory.story = { name: 'Elements in Loader in Modal' };
+
+export const LoaderAndSidePageStory = () => <LoaderAndSidePage />;
+LoaderAndSidePageStory.story = { name: 'Loader and SidePage' };
+
+export const ModalInLoaderAndModalStory = () => <ModalInLoaderAndModal />;
+ModalInLoaderAndModalStory.story = { name: 'Modal in Loader and Modal' };
+
+export const StickyAndLoaderStory = () => <StickyAndLoader />;
+StickyAndLoaderStory.story = { name: 'Sticky and Loader' };
+
+export const StickyAndTooltipsStory = () => <StickyAndTooltips />;
+StickyAndTooltipsStory.story = { name: 'Sticky and Tooltips' };
