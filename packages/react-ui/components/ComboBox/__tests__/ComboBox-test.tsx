@@ -1,17 +1,17 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
+import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
-import { InputLikeText } from '../../internal/InputLikeText';
+import { InputLikeText } from '../../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
-import { Menu } from '../../Menu';
+import { Menu } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
-import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../CustomComboBox/CustomComboBox';
-import { ComboBoxView } from '../../CustomComboBox/ComboBoxView';
-import { ComboBoxRequestStatus } from '../../CustomComboBox/CustomComboBoxTypes';
+import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox/CustomComboBox';
+import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
+import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');

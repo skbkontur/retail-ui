@@ -6,8 +6,8 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 
 import { Button, ButtonProps } from '../Button';
 import { Gapped } from '../../Gapped';
-import { ComponentTable } from '../../internal/ComponentTable';
-import { ComponentCombinator } from '../../internal/ComponentCombinator';
+import { ComponentTable } from '../../../internal/ComponentTable';
+import { ComponentCombinator } from '../../../internal/ComponentCombinator';
 
 storiesOf('Button', module)
   .add('playground', () => {

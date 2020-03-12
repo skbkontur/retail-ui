@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { linkTo } from '@storybook/addon-links';
 
-import { ComponentTable } from '../../internal/ComponentTable';
+import { ComponentTable } from '../../../internal/ComponentTable';
 import { Tabs } from '../Tabs';
 import { TabProps } from '../Tab';
 import { Modal } from '../../Modal';

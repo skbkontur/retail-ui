@@ -20,7 +20,6 @@ export * from './components/Link';
 export * from './components/Loader';
 export * from './components/LocaleProvider';
 export * from './components/Logotype';
-export * from './components/Menu';
 export * from './components/MenuHeader';
 export * from './components/MenuItem';
 export * from './components/MenuSeparator';

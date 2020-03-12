@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RenderContainer } from '../RenderContainer/RenderContainer';
+import { RenderContainer } from '../../internal/RenderContainer/RenderContainer';
 
 export interface TextWidthHelperProps {
   text?: string;

@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
-import { CrossIcon } from '../internal/icons/CrossIcon';
+import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';

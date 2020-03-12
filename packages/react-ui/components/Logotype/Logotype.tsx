@@ -8,8 +8,8 @@ import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CloudIcon } from '../internal/icons/CloudIcon';
-import { ArrowChevronDownIcon } from '../internal/icons/16px';
+import { CloudIcon } from '../../internal/icons/CloudIcon';
+import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 
 import { jsStyles } from './Logotype.styles';
 import { ProductWidget } from './ProductWidget';

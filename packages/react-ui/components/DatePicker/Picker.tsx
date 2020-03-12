@@ -3,10 +3,10 @@ import shallowEqual from 'shallowequal';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
-import { Calendar, CalendarDateShape } from '../Calendar';
+import { Calendar, CalendarDateShape } from '../../internal/Calendar';
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
-import { isGreater, isLess } from '../Calendar/CalendarDateShape';
+import { isGreater, isLess } from '../../internal/Calendar/CalendarDateShape';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 

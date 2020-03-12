@@ -5,7 +5,7 @@ import React from 'react';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { MockDate } from '../../internal/MockDate';
+import { MockDate } from '../../../internal/MockDate';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';

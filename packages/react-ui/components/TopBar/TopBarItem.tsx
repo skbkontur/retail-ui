@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-import { Icon, IconProps } from '../internal/icons/20px';
-import { createPropsGetter } from '../internal/createPropsGetter';
+import { Icon, IconProps } from '../../internal/icons/20px';
+import { createPropsGetter } from '../../internal/createPropsGetter';
 
 import { jsStyles } from './TopBar.styles';
 

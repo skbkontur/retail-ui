@@ -5,7 +5,7 @@ import warning from 'warning';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { isDevelopmentEnv } from '../internal/currentEnvironment';
+import { isDevelopmentEnv } from '../../internal/currentEnvironment';
 
 interface ThemeProviderProps {
   children: React.ReactNode;

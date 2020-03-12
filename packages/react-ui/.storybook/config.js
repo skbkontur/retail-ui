@@ -17,4 +17,7 @@ if (process.env.STORYBOOK_FLAT_UI) {
   addDecorator(story => <ThemeContext.Provider value={FLAT_THEME}>{story()}</ThemeContext.Provider>);
 }
 
-configure(require.context('../components', true, /.stories.tsx?$/), module);
+configure(
+  [require.context('../components', true, /.stories.tsx?$/), require.context('../internal', true, /.stories.tsx?$/)],
+  module,
+);

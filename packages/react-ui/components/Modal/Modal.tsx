@@ -4,12 +4,12 @@ import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { RenderContainer } from '../RenderContainer';
-import { ZIndex } from '../ZIndex';
+import { RenderContainer } from '../../internal/RenderContainer';
+import { ZIndex } from '../../internal/ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
-import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { ModalStack, ModalStackSubscription } from '../ModalStack';
-import { ResizeDetector } from '../internal/ResizeDetector';
+import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
+import { ModalStack, ModalStackSubscription } from '../../internal/ModalStack';
+import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/utils';

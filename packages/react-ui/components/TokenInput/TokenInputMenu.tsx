@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { locale } from '../../lib/locale/decorators';
-import { Popup } from '../Popup';
-import { ComboBoxMenu, ComboBoxMenuProps } from '../CustomComboBox/ComboBoxMenu';
-import { Menu } from '../Menu';
+import { Popup } from '../../internal/Popup';
+import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox/ComboBoxMenu';
+import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';

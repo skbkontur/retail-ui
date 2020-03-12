@@ -7,8 +7,8 @@ import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { hasSvgAnimationSupport } from '../../lib/utils';
-import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
-import { SpinnerOld } from '../internal/SpinnerOld';
+import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
+import { SpinnerOld } from '../../internal/SpinnerOld';
 
 import { jsStyles } from './Spinner.styles';
 import { SpinnerFallback, types } from './SpinnerFallback';

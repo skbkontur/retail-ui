@@ -5,7 +5,7 @@ import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxProps } from '../Form/FiasComboBox';
 import { FiasAddressResponse, FiasAPIProvider, FiasFields, FiasSearchOptions } from '../types';
 import { locale } from '../../../lib/locale/decorators';
-import { filterProps } from '../../filterProps';
+import { filterProps } from '../../../lib/filterProps';
 
 import { FiasAddress } from '..';
 
