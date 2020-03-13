@@ -5,7 +5,7 @@ import Styled from 'react-styleguidist/lib/rsg-components/Styled';
 import { Spinner } from '../../../components/Spinner';
 import { Link } from '../../../components/Link';
 import { Gapped } from '../../../components/Gapped';
-import { fetch } from '../../../lib/net/fetch-cors';
+import { fetch } from '../../../lib/net/fetch';
 
 interface GithubIssue {
   id: string;

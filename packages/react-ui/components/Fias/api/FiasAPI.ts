@@ -17,7 +17,7 @@ import {
 } from '../types';
 import { abbreviations } from '../constants/abbreviations';
 import { FiasLogger } from '../logger/FiasLogger';
-import { fetch } from '../../../lib/net/fetch-cors';
+import { fetch } from '../../../lib/net/fetch';
 import { FiasAddress } from '../models/FiasAddress';
 
 import { FiasAPIResultFactory } from './FiasAPIResultFactory';

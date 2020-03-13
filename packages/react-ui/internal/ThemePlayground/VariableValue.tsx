@@ -8,9 +8,9 @@ import { Gapped } from '../../components/Gapped';
 import { Theme } from '../../lib/theming/Theme';
 import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
+import { isFunction } from '../../lib/utils';
 
 import { jsStyles } from './Playground.styles';
-import { isFunction } from '../../lib/utils';
 
 const emitter = new EventEmitter();
 

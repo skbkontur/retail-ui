@@ -10,11 +10,11 @@ import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
-import * as safePropTypes from '../../lib/SSRSafePropTypes';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction, isIE11, isEdge } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { safePropTypesInstanceOf } from "../../lib/SSRSafe";
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -107,7 +107,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: PropTypes.oneOfType([safePropTypes.instanceOf(() => HTMLElement), PropTypes.node]).isRequired,
+    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(() => HTMLElement), PropTypes.node]).isRequired,
 
     /**
      * Фон попапа и пина
