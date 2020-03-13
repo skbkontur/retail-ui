@@ -44,8 +44,11 @@ const transformNamedImports = (api: API, collection: Collection<any>, path: stri
     .forEach(importSpecifier => {
       const importDeclaration = importSpecifier.parent;
       const importSource = importDeclaration.node.source.value;
-      const importName = getActualImportName(importSource, importSpecifier.value.imported.name);
-      j(importSpecifier).replaceWith(j.importSpecifier(j.identifier(importName), importSpecifier.value.local));
+      const importedName = importSpecifier.value.imported.name;
+      const actualName =
+        (importedName === 'default' && getComponentNameFromPath(importSource, path)) ||
+        getActualImportName(importSource, importedName);
+      j(importSpecifier).replaceWith(j.importSpecifier(j.identifier(actualName), importSpecifier.value.local));
     });
 };
 

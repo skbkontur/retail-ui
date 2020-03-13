@@ -54,6 +54,8 @@ defineInlineTest(
     import { Header, HeaderProps } from "@skbkontur/react-ui/components/Modal/ModalHeader";
     import { Footer, FooterProps } from "@skbkontur/react-ui/components/Modal/ModalFooter";
 
+    import { default as InternalCheckbox } from "@skbkontur/react-ui/components/Checkbox";
+
     import { ButtonItemProps } from "@skbkontur/react-ui/components/TopBar/ButtonItem";
     import { ItemProps } from "@skbkontur/react-ui/components/TopBar/Item";
     import { OrganizationsProps, OrganizationsState } from "@skbkontur/react-ui/components/TopBar/Organizations";
@@ -75,6 +77,8 @@ defineInlineTest(
     import { ModalBody as Body } from "@skbkontur/react-ui";
     import { ModalHeader as Header, ModalHeaderProps as HeaderProps } from "@skbkontur/react-ui";
     import { ModalFooter as Footer, ModalFooterProps as FooterProps } from "@skbkontur/react-ui";
+
+    import { Checkbox as InternalCheckbox } from "@skbkontur/react-ui";
 
     import { TopBarButtonItemProps as ButtonItemProps } from "@skbkontur/react-ui";
     import { TopBarItemProps as ItemProps } from "@skbkontur/react-ui";
