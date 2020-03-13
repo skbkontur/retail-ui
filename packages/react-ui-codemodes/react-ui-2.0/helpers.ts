@@ -193,7 +193,7 @@ export const INTERNAL_COMPONENTS: { [key: string]: string } = {
   PerformanceMetrics: 'internal/PerformanceMetrics',
   ModalStack: 'internal/ModalStack',
   ThemeShowcase: 'internal/ThemeShowcase',
-  Icon: 'internal/icons/20px/Icon',
+  Icon: 'internal/icons/20px',
   createPropsGetter: 'internal/createPropsGetter',
   currentEnvironment: 'internal/currentEnvironment',
   extractKeyboardAction: 'internal/extractKeyboardAction',

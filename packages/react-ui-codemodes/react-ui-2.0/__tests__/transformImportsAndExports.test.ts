@@ -37,7 +37,7 @@ defineInlineTest(
     import { TopBarStart as Start } from "@skbkontur/react-ui";
     import { TopBarEnd as End } from "@skbkontur/react-ui";
 
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px";
   `,
   `transforms default imports`,
 );
@@ -85,7 +85,7 @@ defineInlineTest(
     import { TopBarOrganizationsProps as OrganizationsProps, TopBarOrganizationsState as OrganizationsState } from "@skbkontur/react-ui";
     import { TopBarUserProps as UserProps } from "@skbkontur/react-ui";
 
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px";
 
     import { InputIconType as IconType } from "@skbkontur/react-ui";
 
@@ -126,8 +126,8 @@ defineInlineTest(
     } from "@skbkontur/react-ui";
     import { TopBarUser as User, TopBarUserProps as UserProps } from "@skbkontur/react-ui";
 
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
-    import { IconProps } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px";
+    import { IconProps } from "@skbkontur/react-ui/internal/icons/20px";
   `,
   `transforms combined imports (default and namded)`,
 );
@@ -262,7 +262,7 @@ defineInlineTest(
     export { ModalHeader as MyHeader, ModalHeaderProps as HeaderProps } from "@skbkontur/react-ui";
     export { TopBarButtonItem as default, TopBarButtonItemProps as ButtonItemProps } from "@skbkontur/react-ui";
     export { InputIconType as IconType } from "@skbkontur/react-ui";
-    export { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    export { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px";
     export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
     export { Button } from "@skbkontur/react-ui";
     export { Fias, FiasAddress as Address, FiasAPI, FiasSearch } from "@skbkontur/react-ui";
@@ -291,7 +291,7 @@ defineInlineTest(
     import { FocusTrap } from "@skbkontur/react-ui/internal/FocusTrap";
     import { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
     import { Button } from "@skbkontur/react-ui";
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px";
     import { createPropsGetter } from "@skbkontur/react-ui/internal/createPropsGetter";
     import { MenuItem } from "@skbkontur/react-ui";
     import { Menu } from "@skbkontur/react-ui/internal/Menu";
@@ -359,7 +359,7 @@ defineInlineTest(
 
     export { Button, Input as default } from "@skbkontur/react-ui";
     export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
-    export { Icon } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    export { Icon } from "@skbkontur/react-ui/internal/icons/20px";
   `,
   `deduplicates by default`,
 );
@@ -421,10 +421,10 @@ defineInlineTest(
         ModalHeaderProps as Props,
     } from "@skbkontur/react-ui";
     import { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
-    import { Icon as Icon20, Icon } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    import { Icon as Icon20, Icon } from "@skbkontur/react-ui/internal/icons/20px";
 
     export * from "@skbkontur/react-ui";
-    export { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    export { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px";
     export { Switcher, Toggle, Button, Input as default } from "@skbkontur/react-ui";
 
     export * from "@skbkontur/react-ui/components/Button";
