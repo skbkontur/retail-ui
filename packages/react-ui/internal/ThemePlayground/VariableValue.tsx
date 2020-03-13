@@ -10,6 +10,7 @@ import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
 
 import { jsStyles } from './Playground.styles';
+import { isFunction } from '../../lib/utils';
 
 const emitter = new EventEmitter();
 
@@ -200,7 +201,10 @@ class BaseVariableLink extends React.Component<BaseVariableLinkProps> {
   };
 }
 
-function isColor(color: string) {
+function isColor(color: string | (() => string)) {
+  if (isFunction(color)) {
+    color = color();
+  }
   const style = new Option().style;
   style.color = color;
 
