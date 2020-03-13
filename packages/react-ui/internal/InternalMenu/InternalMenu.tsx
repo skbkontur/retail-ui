@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import cn from 'classnames';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer/ScrollContainer';
+import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { isMenuHeader } from '../../components/MenuHeader';
 import { createPropsGetter } from '../createPropsGetter';

@@ -9,7 +9,7 @@ import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } f
 import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
-import { DropdownContainer } from '../../internal/DropdownContainer/DropdownContainer';
+import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 
 import { Picker } from './Picker';

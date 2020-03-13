@@ -5,7 +5,7 @@ import { ReactComponentLike } from 'prop-types';
 
 import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
-import { RenderContainer } from '../../RenderContainer/RenderContainer';
+import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';

@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { BGRuler } from '../../../lib/BGRuler';
 import { FxInput } from '../FxInput';
 import { createPropsGetter } from '../../../internal/createPropsGetter';
-import { InputType } from '../../Input/Input';
+import { InputType } from '../../Input';
 
 storiesOf('FxInput', module)
   .add('type text', () => <TestFxInput />)

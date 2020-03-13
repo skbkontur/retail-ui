@@ -4,7 +4,7 @@ import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/
 import { Nullable } from '../../typings/utility-types';
 import { IconProps } from '../../internal/icons/20px';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
-import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
+import { PopupMenuCaptionProps } from '../../internal/PopupMenu';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 

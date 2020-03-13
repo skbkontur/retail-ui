@@ -6,9 +6,8 @@ import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/
 import { Icon as Icon20 } from '../../internal/icons/20px';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { tabListener } from '../../lib/events/tabListener';
-import { PopupMenu } from '../../internal/PopupMenu';
+import { PopupMenu , PopupMenuCaptionProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
-import { PopupMenuCaptionProps } from '../../internal/PopupMenu/PopupMenu';
 import { PopupPosition } from '../../internal/Popup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';

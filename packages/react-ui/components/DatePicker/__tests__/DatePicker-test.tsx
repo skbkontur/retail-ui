@@ -6,7 +6,7 @@ import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
 import { Calendar } from '../../../internal/Calendar';
 import { DateSelect } from '../../../internal/DateSelect';
-import { DropdownContainer } from '../../../internal/DropdownContainer/DropdownContainer';
+import { DropdownContainer } from '../../../internal/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';

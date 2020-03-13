@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { Logotype } from '../../Logotype';
+import { Logotype } from '../Logotype';
 
 storiesOf('Logotype', module).add('with widget', () => <WithWidgetToggler />);
 
