@@ -2,7 +2,7 @@ import React from 'react';
 
 import { locale } from '../../lib/locale/decorators';
 import { Popup } from '../../internal/Popup';
-import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox/ComboBoxMenu';
+import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 
