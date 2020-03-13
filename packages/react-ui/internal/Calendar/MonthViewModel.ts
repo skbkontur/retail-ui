@@ -1,6 +1,7 @@
+import { memo } from '../../lib/memo';
+
 import { config } from './config';
 import { DayCellViewModel } from './DayCellViewModel';
-import { memo } from './utils';
 
 export class MonthViewModel {
   public static create = memo((month: number, year: number): MonthViewModel => new MonthViewModel(month, year));

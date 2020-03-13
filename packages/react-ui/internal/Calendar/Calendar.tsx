@@ -5,10 +5,10 @@ import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '..
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Animation } from '../../lib/animation';
 
 import { config } from './config';
 import * as CalendarUtils from './CalendarUtils';
-import { Animation } from './Animation';
 import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
