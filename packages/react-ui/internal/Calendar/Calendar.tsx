@@ -9,13 +9,11 @@ import { Animation } from '../../lib/animation';
 
 import { config } from './config';
 import * as CalendarUtils from './CalendarUtils';
-import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { jsStyles } from './Calendar.styles';
-
-export type CalendarDateShape = CDS.CalendarDateShape;
+import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
 export interface CalendarProps {
   initialMonth?: number;
@@ -115,12 +113,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const { minDate, maxDate } = this.props;
 
-    if (minDate && CDS.isGreater(minDate, CDS.create(32, month, year))) {
+    if (minDate && isGreater(minDate, create(32, month, year))) {
       this.scrollToMonth(minDate.month, minDate.year);
       return;
     }
 
-    if (maxDate && CDS.isLess(maxDate, CDS.create(0, month, year))) {
+    if (maxDate && isLess(maxDate, create(0, month, year))) {
       this.scrollToMonth(maxDate.month, maxDate.year);
       return;
     }
