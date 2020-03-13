@@ -5,6 +5,7 @@ import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import AddIcon from '@skbkontur/react-icons/Add';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
+import { CSFStory } from 'creevey';
 
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
@@ -31,7 +32,7 @@ export default {
   ],
 };
 
-export const SimpleExample = () => (
+export const SimpleExample: CSFStory<JSX.Element> = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
     <MenuHeader>Заголовок меню</MenuHeader>
     <MenuSeparator />
@@ -40,7 +41,87 @@ export const SimpleExample = () => (
     <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
   </DropdownMenu>
 );
-SimpleExample.story = { name: 'Simple example' };
+SimpleExample.story = {
+  name: 'Simple example',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async clickAfterClickedOnCaption() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+        async tabPress() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+        },
+        async enterPress() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
+        },
+        async escapePress() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ESCAPE)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
+        },
+      },
+    },
+  },
+};
 
 export const ExampleWithWidthOfMenu = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
@@ -51,7 +132,7 @@ export const ExampleWithWidthOfMenu = () => (
     <MenuItem>Три</MenuItem>
   </DropdownMenu>
 );
-ExampleWithWidthOfMenu.story = { name: 'Example with width of menu' };
+ExampleWithWidthOfMenu.story = { name: 'Example with width of menu', parameters: { creevey: { skip: [true] } } };
 
 export const ExampleWithMaximumHeightOfMenu = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
@@ -62,7 +143,10 @@ export const ExampleWithMaximumHeightOfMenu = () => (
     <MenuItem>Три</MenuItem>
   </DropdownMenu>
 );
-ExampleWithMaximumHeightOfMenu.story = { name: 'Example with maximum height of menu' };
+ExampleWithMaximumHeightOfMenu.story = {
+  name: 'Example with maximum height of menu',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const CaptionAcceptsAnArbitraryElement = () => (
   <DropdownMenu
@@ -78,7 +162,10 @@ export const CaptionAcceptsAnArbitraryElement = () => (
     <MenuItem>Три</MenuItem>
   </DropdownMenu>
 );
-CaptionAcceptsAnArbitraryElement.story = { name: 'Caption accepts an arbitrary element' };
+CaptionAcceptsAnArbitraryElement.story = {
+  name: 'Caption accepts an arbitrary element',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const OnlyStaticElements = () => (
   <DropdownMenu
@@ -94,7 +181,7 @@ export const OnlyStaticElements = () => (
     <MenuItem disabled>Недоступен</MenuItem>
   </DropdownMenu>
 );
-OnlyStaticElements.story = { name: 'Only static elements' };
+OnlyStaticElements.story = { name: 'Only static elements', parameters: { creevey: { skip: [true] } } };
 
 export const CaptionAcceptsAFunction = () => (
   <DropdownMenu
@@ -118,7 +205,7 @@ export const CaptionAcceptsAFunction = () => (
     <MenuItem>Три</MenuItem>
   </DropdownMenu>
 );
-CaptionAcceptsAFunction.story = { name: 'Caption accepts a function' };
+CaptionAcceptsAFunction.story = { name: 'Caption accepts a function', parameters: { creevey: { skip: [true] } } };
 
 export const WithoutAnimations = () => (
   <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню</Button>}>
@@ -129,16 +216,61 @@ export const WithoutAnimations = () => (
     <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
   </DropdownMenu>
 );
-WithoutAnimations.story = { name: 'Without animations' };
+WithoutAnimations.story = { name: 'Without animations', parameters: { creevey: { skip: [true] } } };
 
-export const WithHeaderAndFooter = () => (
+export const WithHeaderAndFooter: CSFStory<JSX.Element> = () => (
   <DropdownWithScrollStateChange
     disableAnimations
     caption={<Button use="primary">Открыть меню</Button>}
     menuWidth={250}
   />
 );
-WithHeaderAndFooter.story = { name: 'With header and footer' };
+WithHeaderAndFooter.story = {
+  name: 'With header and footer',
+  parameters: {
+    creevey: {
+      tests: {
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('clicked');
+        },
+        async ['scrolled by 100']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+            .perform();
+          await this.browser.executeScript(function() {
+            // @ts-ignore
+            const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
+            scrollContainer.scrollTop += 100;
+          });
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
+        },
+        async ['scrolled down to bottom']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+            .perform();
+          await this.browser.executeScript(function() {
+            // @ts-ignore
+            const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
+            scrollContainer.scrollTop += scrollContainer.scrollHeight;
+          });
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled down to bottom');
+        },
+      },
+    },
+  },
+};
 
 class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, { value: string; hasHeader: boolean }> {
   public state = {

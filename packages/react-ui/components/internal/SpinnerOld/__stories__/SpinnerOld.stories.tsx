@@ -22,6 +22,7 @@ const SpinnerOldLikeIcon = () => (
 
 export default {
   title: 'SpinnerOld',
+  parameters: { creevey: { skip: [true] } },
   decorators: [(story: StoryFn<JSX.Element>) => <div style={{ height: 150, width: 200, padding: 4 }}>{story()}</div>],
 };
 

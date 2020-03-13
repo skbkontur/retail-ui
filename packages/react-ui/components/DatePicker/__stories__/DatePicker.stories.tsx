@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import { StoryFn } from '@storybook/addons';
 import React from 'react';
+import { CSFStory } from 'creevey';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
@@ -9,6 +10,7 @@ import { MockDate } from '../../internal/MockDate';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
+import { delay } from '../../../lib/utils';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
@@ -147,7 +149,7 @@ export default {
   ],
 };
 
-export const WithMouseeventHandlers = () => (
+export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => (
   <div style={{ padding: '200px 150px 350px 0px' }}>
     <DatePicker
       width={200}
@@ -158,26 +160,127 @@ export const WithMouseeventHandlers = () => (
     />
   </div>
 );
-WithMouseeventHandlers.story = { name: 'with mouseevent handlers' };
+WithMouseeventHandlers.story = {
+  name: 'with mouseevent handlers',
+  parameters: {
+    creevey: {
+      tests: {
+        async opened() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+        },
+        async ['DateSelect month']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
+        },
+        async ['DateSelect year']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect year');
+        },
+      },
+    },
+  },
+};
 
 export const _DatePickerWithError = () => <DatePickerWithError />;
-_DatePickerWithError.story = { name: 'DatePickerWithError' };
+_DatePickerWithError.story = { name: 'DatePickerWithError', parameters: { creevey: { skip: [true] } } };
 
 export const DatePickerDisabled = () => <DatePickerWithError disabled />;
-DatePickerDisabled.story = { name: 'DatePicker disabled' };
+DatePickerDisabled.story = { name: 'DatePicker disabled', parameters: { creevey: { skip: [true] } } };
 
 export const DatePickerMedium = () => <DatePickerWithError size="medium" />;
-DatePickerMedium.story = { name: 'DatePicker medium' };
+DatePickerMedium.story = { name: 'DatePicker medium', parameters: { creevey: { skip: [true] } } };
 
 export const DatePickerLarge = () => <DatePickerWithError size="large" />;
-DatePickerLarge.story = { name: 'DatePicker large' };
+DatePickerLarge.story = { name: 'DatePicker large', parameters: { creevey: { skip: [true] } } };
 
-export const DatePickerWithMinMaxDate = () => (
+export const DatePickerWithMinMaxDate: CSFStory<JSX.Element> = () => (
   <div style={{ padding: '200px 150px 350px 0px' }}>
     <DatePickerWithMinMax />
   </div>
 );
-DatePickerWithMinMaxDate.story = { name: 'DatePicker with min max date' };
+DatePickerWithMinMaxDate.story = {
+  name: 'DatePicker with min max date',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['DateSelect months']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+        },
+        async ['DateSelect years']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
+        },
+      },
+    },
+  },
+};
 
 export const DatePickerLocaleProvider = () => {
   return (
@@ -194,4 +297,4 @@ export const DatePickerLocaleProvider = () => {
     </div>
   );
 };
-DatePickerLocaleProvider.story = { name: 'DatePicker LocaleProvider' };
+DatePickerLocaleProvider.story = { name: 'DatePicker LocaleProvider', parameters: { creevey: { skip: [true] } } };

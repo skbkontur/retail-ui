@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSFStory } from 'creevey';
 
 import { Loader, LoaderProps } from '../Loader';
 import { Tooltip } from '../../Tooltip';
@@ -117,15 +118,17 @@ export class LoaderAndButton extends React.Component<{ active: boolean }> {
   }
 }
 
-export default { title: 'Loader' };
+export default { title: 'Loader', excludeStories: ['LoaderAndButton'] };
 
 export const Simple = () => <Loader active />;
+Simple.story = { parameters: { creevey: { skip: [true] } } };
+
 export const TypeBig = () => (
   <ContentComponent>
     <NumberList itemsCount={10} />
   </ContentComponent>
 );
-TypeBig.story = { name: 'Type "big"' };
+TypeBig.story = { name: 'Type "big"', parameters: { creevey: { skip: [true] } } };
 
 export const TypeBigWithText = () => (
   <div style={{ width: 400 }}>
@@ -205,21 +208,21 @@ export const TypeBigWithText = () => (
     </ol>
   </div>
 );
-TypeBigWithText.story = { name: 'Type "big" with text' };
+TypeBigWithText.story = { name: 'Type "big" with text', parameters: { creevey: { skip: [true] } } };
 
 export const VerticalScroll = () => (
   <ContentComponent>
     <NumberList itemsCount={200} />
   </ContentComponent>
 );
-VerticalScroll.story = { name: 'Vertical scroll' };
+VerticalScroll.story = { name: 'Vertical scroll', parameters: { creevey: { skip: [true] } } };
 
 export const HorizontalScroll = () => (
   <ContentComponent additionalStyle={{ width: '2500px' }}>
     <NumberList itemsCount={10} />
   </ContentComponent>
 );
-HorizontalScroll.story = { name: 'Horizontal scroll' };
+HorizontalScroll.story = { name: 'Horizontal scroll', parameters: { creevey: { skip: [true] } } };
 
 export const BothDimensionsScrollableContentWithSpacesAround = () => (
   <ContentComponent additionalStyle={{ width: '2500px', margin: '600px 200px' }}>
@@ -228,13 +231,52 @@ export const BothDimensionsScrollableContentWithSpacesAround = () => (
 );
 BothDimensionsScrollableContentWithSpacesAround.story = {
   name: 'Both dimensions scrollable content with spaces around',
+  parameters: { creevey: { skip: [true] } },
 };
 
-export const ActiveLoader = () => <LoaderAndButton active />;
-ActiveLoader.story = { name: 'Active loader' };
+export const ActiveLoader: CSFStory<JSX.Element> = () => <LoaderAndButton active />;
+ActiveLoader.story = {
+  name: 'Active loader',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['covers children']() {
+          const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
+          const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
 
-export const InactiveLoader = () => <LoaderAndButton active={false} />;
-InactiveLoader.story = { name: 'Inactive loader' };
+          await this.browser
+            .actions({ bridge: true })
+            .click(button)
+            .perform();
+
+          await this.expect(await element.takeScreenshot()).to.matchImage('cover children');
+        },
+      },
+    },
+  },
+};
+
+export const InactiveLoader: CSFStory<JSX.Element> = () => <LoaderAndButton active={false} />;
+InactiveLoader.story = {
+  name: 'Inactive loader',
+  parameters: {
+    creevey: {
+      tests: {
+        async ["doesn't cover children"]() {
+          const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
+          const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(button)
+            .perform();
+
+          await this.expect(await element.takeScreenshot()).to.matchImage("doesn't cover children");
+        },
+      },
+    },
+  },
+};
 
 export const WrapperWithCustomHeightAndInactiveLoader = () => (
   <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>

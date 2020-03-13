@@ -16,7 +16,7 @@ const wrapperStyle = {
   border: '1px solid #000',
 };
 
-export default { title: 'ScrollContainer' };
+export default { title: 'ScrollContainer', parameters: { creevey: { skip: [true] } } };
 
 export const WithLargeContentHeight = () => {
   return (

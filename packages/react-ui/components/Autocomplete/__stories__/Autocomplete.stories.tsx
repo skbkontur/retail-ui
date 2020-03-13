@@ -3,7 +3,7 @@ import React from 'react';
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 
-export default { title: 'Autocomplete' };
+export default { title: 'Autocomplete', parameters: { creevey: { skip: [true] } } };
 
 export const Simple = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.story = { name: 'simple' };

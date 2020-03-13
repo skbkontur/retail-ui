@@ -117,4 +117,4 @@ export const TopBarNoShadow = () => (
 TopBarNoShadow.story = { name: 'TopBar noShadow' };
 
 export const TopBarDropdownControlled = () => <TopBarDropdownWithButton />;
-TopBarDropdownControlled.story = { name: 'TopBar.Dropdown Controlled' };
+TopBarDropdownControlled.story = { name: 'TopBar.Dropdown Controlled', parameters: { creevey: { skip: [true] } } };

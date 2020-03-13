@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSFStory } from 'creevey';
 
 import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../Gapped';
@@ -6,7 +7,7 @@ import { Modal } from '../../Modal';
 
 export default { title: 'ComboBoxView' };
 
-export const InputLikeText = () => (
+export const InputLikeText: CSFStory<JSX.Element> = () => (
   <Gapped vertical>
     <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} />
     <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="center" />
@@ -39,7 +40,27 @@ export const InputLikeText = () => (
     <ComboBoxView loading items={new Array(2)} value="Hello" />
   </Gapped>
 );
-InputLikeText.story = { name: 'input like text' };
+InputLikeText.story = {
+  name: 'input like text',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async ['focused first element']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
+        },
+      },
+    },
+  },
+};
 
 export const InputLikeTextWithPlaceholder = () => (
   <Gapped vertical>

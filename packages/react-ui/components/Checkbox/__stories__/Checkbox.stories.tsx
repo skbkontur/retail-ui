@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { CSFStory } from 'creevey';
 
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
@@ -83,14 +84,86 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
 
 export default { title: 'Checkbox' };
 
-export const Plain = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
-Plain.story = { name: 'plain' };
+export const Plain: CSFStory<JSX.Element> = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
+Plain.story = {
+  name: 'plain',
+  parameters: {
+    creevey: {
+      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async hovered() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: 'span' }),
+            })
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'span' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+        async tabPress() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'span' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .press()
+            .release()
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+        },
+        async spacePress() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'span' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .press()
+            .release()
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(this.keys.SPACE)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('spacePress');
+        },
+      },
+    },
+  },
+};
 
 export const Unchecked = () => <Checkbox>Unchecked</Checkbox>;
-Unchecked.story = { name: 'unchecked' };
+Unchecked.story = { name: 'unchecked', parameters: { creevey: { skip: [true] } } };
 
 export const Checked = () => <Checkbox checked>Checked</Checkbox>;
-Checked.story = { name: 'checked' };
+Checked.story = { name: 'checked', parameters: { creevey: { skip: [true] } } };
 
 export const Disabled = () => <Checkbox disabled>Disabled</Checkbox>;
 Disabled.story = { name: 'disabled' };
@@ -110,7 +183,10 @@ export const WithMouseEnterLeaveHandlers = () => (
     Hover me
   </Checkbox>
 );
-WithMouseEnterLeaveHandlers.story = { name: 'with mouse enter/leave handlers' };
+WithMouseEnterLeaveHandlers.story = {
+  name: 'with mouse enter/leave handlers',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const WithALongLabel = () => (
   <div>
@@ -163,12 +239,47 @@ export const ProgrammaticFocus = () => {
     </div>
   );
 };
-ProgrammaticFocus.story = { name: 'programmatic focus' };
+ProgrammaticFocus.story = { name: 'programmatic focus', parameters: { creevey: { skip: [true] } } };
 
-export const Indeterminate = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
-Indeterminate.story = { name: 'indeterminate' };
+export const Indeterminate: CSFStory<JSX.Element> = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
+Indeterminate.story = {
+  name: 'indeterminate',
+  parameters: {
+    creevey: {
+      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      tests: {
+        async plain() {
+          const element = await this.browser.findElement({ css: '#screenshot-capture' });
+          await this.expect(await element.takeScreenshot()).to.matchImage('plain');
+        },
+        async hovered() {
+          const element = await this.browser.findElement({ css: '#screenshot-capture' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: 'label' }),
+            })
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
+        },
+        async tabPress() {
+          const element = await this.browser.findElement({ css: '#screenshot-capture' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('tabPress');
+        },
+      },
+    },
+  },
+};
 
-export const Highlighted = () => {
+export const Highlighted: CSFStory<JSX.Element> = () => {
   return (
     <div style={{ margin: 5 }}>
       <Gapped gap={5} vertical>
@@ -183,4 +294,24 @@ export const Highlighted = () => {
     </div>
   );
 };
-Highlighted.story = { name: 'highlighted' };
+Highlighted.story = {
+  name: 'highlighted',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async tabPress() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+        },
+      },
+    },
+  },
+};

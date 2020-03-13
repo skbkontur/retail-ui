@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
+import { CSFStory } from 'creevey';
 
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { MenuItem } from '../../MenuItem';
@@ -10,31 +11,339 @@ import { Toggle } from '../../Toggle';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
+import { delay } from '../../../lib/utils';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
 export default { title: 'ComboBox' };
 
-export const SimpleComboboxStory = () => (
+export const SimpleComboboxStory: CSFStory<JSX.Element> = () => (
   <div style={{ paddingBottom: 230, paddingRight: 40 }}>
     <SimpleCombobox />
   </div>
 );
-SimpleComboboxStory.story = { name: 'simple combobox' };
+SimpleComboboxStory.story = {
+  name: 'simple combobox',
+  parameters: {
+    creevey: {
+      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async opened() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+        },
+        async hovered() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }),
+            })
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
+        },
+        async selected() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }) })
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .press()
+            .release()
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('selected');
+        },
+        async ['search result']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('Second')
+            .pause(500)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('search result');
+        },
+        async selcted() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('Second')
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('selcted');
+        },
+        async ['opened again']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('Second')
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="Input"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('opened again');
+        },
+        async ['search result_0']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('Такого точно нету')
+            .pause(500)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('search result_0');
+        },
+        async select() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ARROW_DOWN)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('select');
+        },
+        async submit() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('submit');
+        },
+        async select_1() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .sendKeys('Second')
+            .pause(500)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .press()
+            .release()
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('select_1');
+        },
+        async selected_2() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .sendKeys('Second')
+            .pause(500)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('selected_2');
+        },
+      },
+    },
+  },
+};
 
-export const OpenToTop = () => (
+export const OpenToTop: CSFStory<JSX.Element> = () => (
   <div data-tid="container" style={{ padding: '250px 40px 4px 4px', position: 'absolute', bottom: 0 }}>
     <SimpleCombobox />
   </div>
 );
-OpenToTop.story = { name: 'open to top' };
+OpenToTop.story = {
+  name: 'open to top',
+  parameters: {
+    creevey: {
+      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      tests: {
+        async plain() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.expect(await element.takeScreenshot()).to.matchImage('plain');
+        },
+        async opened() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('opened');
+        },
+        async hovered() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }),
+            })
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
+        },
+        async selected() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }),
+            })
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .press()
+            .release()
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('selected');
+        },
+      },
+    },
+  },
+};
 
-export const AlwaysReject = () => (
+export const AlwaysReject: CSFStory<JSX.Element> = () => (
   <div style={{ paddingBottom: 100, paddingRight: 80 }}>
     <ComboBox getItems={() => Promise.reject()} />
   </div>
 );
-AlwaysReject.story = { name: 'always reject' };
+AlwaysReject.story = {
+  name: 'always reject',
+  parameters: {
+    creevey: {
+      tests: {
+        async opened() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+        },
+      },
+    },
+  },
+};
 
 export const SimpleComboboxWithDelay = () => {
   class Sample extends React.Component {
@@ -66,34 +375,34 @@ export const SimpleComboboxWithDelay = () => {
 
   return <Sample />;
 };
-SimpleComboboxWithDelay.story = { name: 'simple combobox with delay' };
+SimpleComboboxWithDelay.story = { name: 'simple combobox with delay', parameters: { creevey: { skip: [true] } } };
 
 export const WithErrorHandling = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
 );
-WithErrorHandling.story = { name: 'with error handling' };
+WithErrorHandling.story = { name: 'with error handling', parameters: { creevey: { skip: [true] } } };
 
 export const WithErrorSkipping = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={nullStrategy} />
 );
-WithErrorSkipping.story = { name: 'with error skipping' };
+WithErrorSkipping.story = { name: 'with error skipping', parameters: { creevey: { skip: [true] } } };
 
 export const WithWarning = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={warningStrategy} />
 );
-WithWarning.story = { name: 'with warning' };
+WithWarning.story = { name: 'with warning', parameters: { creevey: { skip: [true] } } };
 
 export const WithRejections = () => <TestComboBox onSearch={searchWithRejections} renderItem={renderValue} />;
-WithRejections.story = { name: 'with rejections' };
+WithRejections.story = { name: 'with rejections', parameters: { creevey: { skip: [true] } } };
 
 export const Disabled = () => <TestComboBox autoFocus disabled onSearch={search} renderItem={renderValue} />;
-Disabled.story = { name: 'disabled' };
+Disabled.story = { name: 'disabled', parameters: { creevey: { skip: [true] } } };
 
 export const WithCustomElements = () => (
   // @ts-ignore undocumented feature
   <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
 );
-WithCustomElements.story = { name: 'with custom elements' };
+WithCustomElements.story = { name: 'with custom elements', parameters: { creevey: { skip: [true] } } };
 
 export const Autocomplete = () => (
   <TestComboBox
@@ -105,7 +414,7 @@ export const Autocomplete = () => (
     onUnexpectedInput={errorStrategy}
   />
 );
-Autocomplete.story = { name: 'autocomplete' };
+Autocomplete.story = { name: 'autocomplete', parameters: { creevey: { skip: [true] } } };
 
 export const WithAutoFocus = () => (
   <div style={{ paddingBottom: 330, paddingRight: 40 }}>
@@ -131,42 +440,113 @@ export const WithAutoFocusAndAutocomplete = () => (
     onUnexpectedInput={errorStrategy}
   />
 );
-WithAutoFocusAndAutocomplete.story = { name: 'with autoFocus and autocomplete' };
+WithAutoFocusAndAutocomplete.story = {
+  name: 'with autoFocus and autocomplete',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const WithMaxMenuHeight = () => <TestComboBox onSearch={search} renderItem={renderValue} maxMenuHeight={200} />;
-WithMaxMenuHeight.story = { name: 'with maxMenuHeight' };
+WithMaxMenuHeight.story = { name: 'with maxMenuHeight', parameters: { creevey: { skip: [true] } } };
 
 export const WithBorderless = () => (
   <TestComboBox onSearch={search} renderItem={renderValue} onUnexpectedInput={nullStrategy} borderless />
 );
-WithBorderless.story = { name: 'with borderless' };
+WithBorderless.story = { name: 'with borderless', parameters: { creevey: { skip: [true] } } };
 
 export const WithCenterAlign = () => (
   <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue={true} />
 );
-WithCenterAlign.story = { name: 'with center align' };
+WithCenterAlign.story = { name: 'with center align', parameters: { creevey: { skip: [true] } } };
 
 export const WithRightAlign = () => (
   <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue={true} />
 );
-WithRightAlign.story = { name: 'with right align' };
+WithRightAlign.story = { name: 'with right align', parameters: { creevey: { skip: [true] } } };
 
 export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue={true} />;
-WithMaxLength.story = { name: 'with maxLength' };
+WithMaxLength.story = { name: 'with maxLength', parameters: { creevey: { skip: [true] } } };
 
-export const ToogleError = () => <ComboBoxWithErrorToggler />;
-ToogleError.story = { name: 'toogle error' };
+export const ToogleError: CSFStory<JSX.Element> = () => <ComboBoxWithErrorToggler />;
+ToogleError.story = {
+  name: 'toogle error',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async ['with error']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: "[data-comp-name='Toggle']" }))
+            .pause(200)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('with error');
+        },
+        async ['plain again']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: "[data-comp-name='Toggle']" }))
+            .pause(200)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: "[data-comp-name='Toggle']" }))
+            .pause(200)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain again');
+        },
+      },
+    },
+  },
+};
 
 export const WithNullOnUnexpectedInput = () => (
   <ComboBox getItems={() => Promise.resolve([])} onUnexpectedInput={() => null} />
 );
-WithNullOnUnexpectedInput.story = { name: 'with `null` onUnexpectedInput' };
+WithNullOnUnexpectedInput.story = { name: 'with `null` onUnexpectedInput', parameters: { creevey: { skip: [true] } } };
 
-export const WithExternalValue = () => <ComboBoxWithExternalValue />;
-WithExternalValue.story = { name: 'with external value' };
+export const WithExternalValue: CSFStory<JSX.Element> = () => <ComboBoxWithExternalValue />;
+WithExternalValue.story = {
+  name: 'with external value',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['initial value']() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('initial value');
+        },
+        async ['reset value']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid="resetBtn"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('reset value');
+        },
+        async ['set value']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid="resetBtn"]' }))
+            .click(this.browser.findElement({ css: '[data-tid="setValueBtn"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('set value');
+        },
+      },
+    },
+  },
+};
 
 export const WithRenderItemState = () => <SimpleCombobox renderItem={(_, state) => String(state)} />;
-WithRenderItemState.story = { name: 'with renderItem state' };
+WithRenderItemState.story = { name: 'with renderItem state', parameters: { creevey: { skip: [true] } } };
 
 export const OpenCloseSearchMethods = () => {
   let combobox: Nullable<ComboBox<ValueType>> = null;
@@ -191,9 +571,9 @@ export const OpenCloseSearchMethods = () => {
     </div>
   );
 };
-OpenCloseSearchMethods.story = { name: 'open, close, search methods' };
+OpenCloseSearchMethods.story = { name: 'open, close, search methods', parameters: { creevey: { skip: [true] } } };
 
-export const FocusFlow = () => (
+export const FocusFlow: CSFStory<JSX.Element> = () => (
   <div>
     <SimpleCombobox autoFocus={true} />
     <br />
@@ -201,7 +581,42 @@ export const FocusFlow = () => (
     <SimpleCombobox />
   </div>
 );
-FocusFlow.story = { name: 'focus flow' };
+FocusFlow.story = {
+  name: 'focus flow',
+  parameters: {
+    creevey: {
+      tests: {
+        async before() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('before');
+        },
+        async ['after Enter on Item']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('after Enter on Item');
+        },
+        async ['after tab to the next field']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('after tab to the next field');
+        },
+      },
+    },
+  },
+};
 
 export const NestedComboBoxes = () => {
   const RecursiveComboboxes = ({ depth }: { depth: number }) => (
@@ -213,14 +628,14 @@ export const NestedComboBoxes = () => {
   );
   return <RecursiveComboboxes depth={10} />;
 };
-NestedComboBoxes.story = { name: '1024 nested ComboBoxes' };
+NestedComboBoxes.story = { name: '1024 nested ComboBoxes', parameters: { creevey: { skip: [true] } } };
 
 export const WithManyComplexMenuItems = () => (
   <div>
     <ComplexCombobox />
   </div>
 );
-WithManyComplexMenuItems.story = { name: 'with many complex menu items' };
+WithManyComplexMenuItems.story = { name: 'with many complex menu items', parameters: { creevey: { skip: [true] } } };
 
 export const WithAddButton = () => (
   <TestComboBox
@@ -229,7 +644,7 @@ export const WithAddButton = () => (
     renderAddButton={query => query && <MenuItem onClick={() => alert(query)}>Добавить {query}</MenuItem>}
   />
 );
-WithAddButton.story = { name: 'with add button' };
+WithAddButton.story = { name: 'with add button', parameters: { creevey: { skip: [true] } } };
 
 interface ComboBoxWithErrorTogglerState {
   error: boolean;

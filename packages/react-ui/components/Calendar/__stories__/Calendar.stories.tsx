@@ -7,7 +7,7 @@ import { Gapped } from '../../Gapped';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar } from '../Calendar';
 
-export default { title: 'Calendar' };
+export default { title: 'Calendar', parameters: { creevey: { skip: [true] } } };
 
 export const Simple = () => (
   <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />

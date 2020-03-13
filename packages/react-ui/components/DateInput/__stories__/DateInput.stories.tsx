@@ -1,5 +1,6 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
@@ -258,20 +259,134 @@ class DateInputLastEvent extends React.Component {
 
 export default { title: 'DateInput' };
 
-export const Simple = () => <DateInputSimple defaultValue="01.02.2017" />;
-Simple.story = { name: 'simple' };
+export const Simple: CSFStory<JSX.Element> = () => <DateInputSimple defaultValue="01.02.2017" />;
+Simple.story = {
+  name: 'simple',
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async focus() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('focus');
+        },
+      },
+    },
+  },
+};
 
 export const Formatting = () => <DateInputFormatting />;
-Formatting.story = { name: 'formatting' };
+Formatting.story = { name: 'formatting', parameters: { creevey: { skip: [true] } } };
 
 export const DifferentFormatting = () => <DateInputDifferentFormatting />;
 DifferentFormatting.story = { name: 'different formatting' };
 
-export const Disabled = () => <DateInputSimple disabled defaultValue="01.02.2017" />;
-Disabled.story = { name: 'disabled' };
+export const Disabled: CSFStory<JSX.Element> = () => <DateInputSimple disabled defaultValue="01.02.2017" />;
+Disabled.story = {
+  name: 'disabled',
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async focus() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('focus');
+        },
+      },
+    },
+  },
+};
 
-export const WithWidth = () => <DateInputSimple width="50px" defaultValue="01.02.2017" />;
-WithWidth.story = { name: 'with width' };
+export const WithWidth: CSFStory<JSX.Element> = () => <DateInputSimple width="50px" defaultValue="01.02.2017" />;
+WithWidth.story = {
+  name: 'with width',
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async focus() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('focus');
+        },
+      },
+    },
+  },
+};
 
-export const BlurAlwaysAfterChange = () => <DateInputLastEvent />;
-BlurAlwaysAfterChange.story = { name: 'blur always after change' };
+export const BlurAlwaysAfterChange: CSFStory<JSX.Element> = () => <DateInputLastEvent />;
+BlurAlwaysAfterChange.story = {
+  name: 'blur always after change',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['value not changed']() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
+        },
+        async ['value changed']() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('12')
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('value changed');
+        },
+        async ['value restored']() {
+          await this.browser.executeScript(() => {
+            // @ts-ignore
+            window.OldDate = window.Date;
+            // @ts-ignore
+            window.Date = function() {
+              // @ts-ignore
+              return new window.OldDate(2000, 0, 1);
+            };
+          });
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.DELETE)
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+          // @ts-ignore
+          await this.browser.executeScript(() => {
+            // @ts-ignore
+            if (window.OldDate) {
+              // @ts-ignore
+              window.Date = window.OldDate;
+            }
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('value restored');
+        },
+      },
+    },
+  },
+};

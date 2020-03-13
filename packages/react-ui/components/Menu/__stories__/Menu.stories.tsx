@@ -1,5 +1,6 @@
 import React from 'react';
 import { StoryFn } from '@storybook/addons';
+import { CSFStory } from 'creevey';
 
 import { Menu } from '../Menu';
 import { MenuItem } from '../../MenuItem';
@@ -8,6 +9,7 @@ import { MenuSeparator } from '../../MenuSeparator';
 
 export default {
   title: 'Menu',
+  parameters: { creevey: { captureElement: '#menu-test-container' } },
   decorators: [
     (story: StoryFn<JSX.Element>) => (
       <div id="menu-test-container" style={{ padding: 10 }}>
@@ -59,7 +61,7 @@ export const WithCustomChild = () => (
 );
 WithCustomChild.story = { name: 'with Custom Child' };
 
-export const WithMaxHeight = () => (
+export const WithMaxHeight: CSFStory<JSX.Element> = () => (
   <MoveControls>
     <Menu maxHeight={100}>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -71,7 +73,66 @@ export const WithMaxHeight = () => (
     </Menu>
   </MoveControls>
 );
-WithMaxHeight.story = { name: 'with maxHeight' };
+WithMaxHeight.story = {
+  name: 'with maxHeight',
+  parameters: {
+    creevey: {
+      captureElement: '[data-tid="menu-container"',
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async ['moved up from top to the last Item']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('moved up from top to the last Item');
+        },
+        async ['moved up from bottom to the first Item']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('moved up from bottom to the first Item');
+        },
+        async ['moved down from top to the last Item']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-down' }))
+            .click(this.browser.findElement({ css: '#move-down' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('moved down from top to the last Item');
+        },
+        async ['moved down from bottom to the first Item']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-up' }))
+            .click(this.browser.findElement({ css: '#move-down' }))
+            .click(this.browser.findElement({ css: '#move-down' }))
+            .click(this.browser.findElement({ css: '#move-down' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('moved down from bottom to the first Item');
+        },
+      },
+    },
+  },
+};
 
 export const WithWidth = () => (
   <Menu width={300}>
@@ -106,13 +167,30 @@ export const WithoutShadow = () => (
 );
 WithoutShadow.story = { name: 'without Shadow' };
 
-export const WithDisabledMenuItem = () => (
+export const WithDisabledMenuItem: CSFStory<JSX.Element> = () => (
   <Menu hasShadow={false}>
     <MenuItem disabled>MenuItem1</MenuItem>
     <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>
   </Menu>
 );
-WithDisabledMenuItem.story = { name: 'with disabled MenuItem' };
+WithDisabledMenuItem.story = {
+  name: 'with disabled MenuItem',
+  parameters: {
+    creevey: {
+      tests: {
+        async mouseenter() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('mouseenter');
+        },
+      },
+    },
+  },
+};
 
 class MoveControls extends React.Component {
   private menu: Menu | null = null;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
+import { CreeveyStoryParams, CSFStory } from 'creevey';
 
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
@@ -11,6 +12,77 @@ interface KebabItem {
   text: string;
   action: string;
 }
+
+const kebabTests: CreeveyStoryParams['tests'] = {
+  async plain() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+  },
+  async hovered() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }),
+      })
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
+  },
+  async clicked() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+  },
+  async clickedOnButton2ndTime() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
+      .click(this.browser.findElement({ css: '[data-comp-name~="Kebab"]' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('clickedOnButton2ndTime');
+  },
+  async tabPress() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.TAB)
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+  },
+  async enterPress() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.TAB)
+      .sendKeys(this.keys.ENTER)
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
+  },
+  async escapePress() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.TAB)
+      .sendKeys(this.keys.ENTER)
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .sendKeys(this.keys.ESCAPE)
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
+  },
+};
 
 export default {
   title: 'Kebab',
@@ -29,25 +101,34 @@ export default {
   ],
 };
 
-export const Small = () => <SomethingWithKebab size="small" />;
-Small.story = { name: '14px' };
+export const Small: CSFStory<JSX.Element> = () => <SomethingWithKebab size="small" />;
+Small.story = {
+  name: '14px',
+  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
+};
 
-export const Medium = () => <SomethingWithKebab size="medium" />;
-Medium.story = { name: '18px' };
+export const Medium: CSFStory<JSX.Element> = () => <SomethingWithKebab size="medium" />;
+Medium.story = {
+  name: '18px',
+  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
+};
 
-export const Large = () => <SomethingWithKebab size="large" />;
-Large.story = { name: '20px' };
+export const Large: CSFStory<JSX.Element> = () => <SomethingWithKebab size="large" />;
+Large.story = {
+  name: '20px',
+  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
+};
 
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
-LargeDisabled.story = { name: '20px-disabled' };
+LargeDisabled.story = { name: '20px-disabled', parameters: { creevey: { skip: [true] } } };
 
 export const WithFixedMenuHeight = () => (
   <SomethingWithKebab size="large" menuMaxHeight={'200px'} items={manyItemsList} />
 );
-WithFixedMenuHeight.story = { name: 'With fixed menu height' };
+WithFixedMenuHeight.story = { name: 'With fixed menu height', parameters: { creevey: { skip: [true] } } };
 
 export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size="small" />;
-KebabWithoutAnimations.story = { name: 'Kebab without animations' };
+KebabWithoutAnimations.story = { name: 'Kebab without animations', parameters: { creevey: { skip: [true] } } };
 
 class SomethingWithKebab extends Component<{
   size: 'small' | 'medium' | 'large';

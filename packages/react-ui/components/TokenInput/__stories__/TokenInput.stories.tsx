@@ -1,5 +1,6 @@
 import React from 'react';
 import { StoryFn } from '@storybook/addons';
+import { CSFStory } from 'creevey';
 
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
@@ -174,42 +175,74 @@ export const Validations = () => {
     </Gapped>
   );
 };
-Validations.story = { name: 'validations' };
+Validations.story = { name: 'validations', parameters: { creevey: { skip: [true] } } };
 
-export const EmptyWithReference = () => {
+export const EmptyWithReference: CSFStory<JSX.Element> = () => {
   return <Wrapper getItems={getItems} />;
 };
-EmptyWithReference.story = { name: 'empty with reference' };
+EmptyWithReference.story = {
+  name: 'empty with reference',
+  parameters: {
+    creevey: {
+      captureElement: '.tokens-test-container',
+      tests: {
+        async idle() {
+          await delay(100);
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+        async withMenu() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
+        },
+      },
+    },
+  },
+};
 
 export const ColoredEmptyWithReference = () => {
   return <ColoredWrapper getItems={getItems} />;
 };
-ColoredEmptyWithReference.story = { name: 'colored empty with reference' };
+ColoredEmptyWithReference.story = { name: 'colored empty with reference', parameters: { creevey: { skip: [true] } } };
 
 export const EmptyWithoutReference = () => {
   return <Wrapper type={TokenInputType.WithoutReference} />;
 };
-EmptyWithoutReference.story = { name: 'empty without reference' };
+EmptyWithoutReference.story = { name: 'empty without reference', parameters: { creevey: { skip: [true] } } };
 
 export const EmptyCombined = () => {
   return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-EmptyCombined.story = { name: 'empty combined' };
+EmptyCombined.story = { name: 'empty combined', parameters: { creevey: { skip: [true] } } };
 
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
 };
-WithReferenceFilled.story = { name: '[with reference] filled' };
+WithReferenceFilled.story = { name: '[with reference] filled', parameters: { creevey: { skip: [true] } } };
 
 export const WithoutReferenceFilled = () => {
   return <FilledWrapper type={TokenInputType.WithoutReference} getItems={getItems} />;
 };
-WithoutReferenceFilled.story = { name: '[without reference] filled' };
+WithoutReferenceFilled.story = { name: '[without reference] filled', parameters: { creevey: { skip: [true] } } };
 
 export const CombinedFilled = () => {
   return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-CombinedFilled.story = { name: '[combined] filled' };
+CombinedFilled.story = { name: '[combined] filled', parameters: { creevey: { skip: [true] } } };
 
 export const WithLongItem1 = () => {
   return (
@@ -219,14 +252,14 @@ export const WithLongItem1 = () => {
     />
   );
 };
-WithLongItem1.story = { name: 'with long item 1' };
+WithLongItem1.story = { name: 'with long item 1', parameters: { creevey: { skip: [true] } } };
 
 export const WithLongItem2 = () => {
   return (
     <Wrapper getItems={getItems} selectedItems={['qewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiop']} />
   );
 };
-WithLongItem2.story = { name: 'with long item 2' };
+WithLongItem2.story = { name: 'with long item 2', parameters: { creevey: { skip: [true] } } };
 
 export const MultipleTokens = () => {
   return (
@@ -236,12 +269,12 @@ export const MultipleTokens = () => {
     </Gapped>
   );
 };
-MultipleTokens.story = { name: 'multiple tokens' };
+MultipleTokens.story = { name: 'multiple tokens', parameters: { creevey: { skip: [true] } } };
 
 export const CombinedGenericToken = () => {
   return <WrapperCustomModel />;
 };
-CombinedGenericToken.story = { name: 'combined generic token' };
+CombinedGenericToken.story = { name: 'combined generic token', parameters: { creevey: { skip: [true] } } };
 
 export const WidthToken = () => {
   return (
@@ -252,7 +285,7 @@ export const WidthToken = () => {
     </Gapped>
   );
 };
-WidthToken.story = { name: 'width token' };
+WidthToken.story = { name: 'width token', parameters: { creevey: { skip: [true] } } };
 
 export const WithAutofocus = () => {
   return (
@@ -261,7 +294,7 @@ export const WithAutofocus = () => {
     </Gapped>
   );
 };
-WithAutofocus.story = { name: 'with autofocus' };
+WithAutofocus.story = { name: 'with autofocus', parameters: { creevey: { skip: [true] } } };
 
 export const UseRenderToken = () => (
   <Gapped gap={10}>
@@ -275,7 +308,7 @@ export const UseRenderToken = () => (
     />
   </Gapped>
 );
-UseRenderToken.story = { name: 'use renderToken' };
+UseRenderToken.story = { name: 'use renderToken', parameters: { creevey: { skip: [true] } } };
 
 export const IdenticalAlignmentWithOtherControls = () => (
   <Gapped gap={10} vertical>
@@ -283,7 +316,10 @@ export const IdenticalAlignmentWithOtherControls = () => (
     <Input value={'value'} width={'100%'} size={'medium'} />
   </Gapped>
 );
-IdenticalAlignmentWithOtherControls.story = { name: 'identical alignment with other controls' };
+IdenticalAlignmentWithOtherControls.story = {
+  name: 'identical alignment with other controls',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const Disabled = () => {
   return (

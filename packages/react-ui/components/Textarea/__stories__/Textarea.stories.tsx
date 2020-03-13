@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSFStory } from 'creevey';
 
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
@@ -41,7 +42,7 @@ const TEXT_SAMPLE =
 
 export default { title: 'Textarea' };
 
-export const DifferentStates = () => {
+export const DifferentStates: CSFStory<JSX.Element> = () => {
   const rowStyles = {
     display: 'flex',
     padding: 5,
@@ -98,7 +99,37 @@ export const DifferentStates = () => {
     </div>
   );
 };
-DifferentStates.story = { name: 'Different states' };
+DifferentStates.story = {
+  name: 'Different states',
+  parameters: {
+    creevey: {
+      tests: {
+        async Plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+        },
+        async Focus() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
+        },
+        async Typed() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
+            .sendKeys('Test...')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Typed');
+        },
+      },
+    },
+  },
+};
 
 export const TextareaWithPlaceholder = () => (
   <div>
@@ -120,18 +151,44 @@ export const TextareaInInlineFlexAndText = () => (
     Lorem text
   </div>
 );
-TextareaInInlineFlexAndText.story = { name: 'Textarea in inline-flex and text' };
+TextareaInInlineFlexAndText.story = {
+  name: 'Textarea in inline-flex and text',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const AutoresizableTextareaStory = () => <AutoresizableTextarea />;
-AutoresizableTextareaStory.story = { name: 'Autoresizable textarea' };
+AutoresizableTextareaStory.story = { name: 'Autoresizable textarea', parameters: { creevey: { skip: [true] } } };
 
 export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
 TextareaWithCustomWidth.story = { name: 'Textarea with custom width' };
 
-export const SelectAllByProp = () => <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />;
-SelectAllByProp.story = { name: 'Select all by prop' };
+export const SelectAllByProp: CSFStory<JSX.Element> = () => (
+  <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />
+);
+SelectAllByProp.story = {
+  name: 'Select all by prop',
+  parameters: {
+    creevey: {
+      tests: {
+        async Plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+        },
+        async Focused() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'label' }))
+            .pause(500)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+        },
+      },
+    },
+  },
+};
 
-export const SelectAllByButton = () => {
+export const SelectAllByButton: CSFStory<JSX.Element> = () => {
   let textarea: Textarea | null = null;
   const handleClick = () => {
     if (textarea) {
@@ -154,4 +211,25 @@ export const SelectAllByButton = () => {
     </div>
   );
 };
-SelectAllByButton.story = { name: 'Select all by button' };
+SelectAllByButton.story = {
+  name: 'Select all by button',
+  parameters: {
+    creevey: {
+      tests: {
+        async Plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+        },
+        async Focused() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .pause(500)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+        },
+      },
+    },
+  },
+};

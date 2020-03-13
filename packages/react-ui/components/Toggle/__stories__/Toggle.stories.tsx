@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { Toggle } from '../Toggle';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Checkbox } from '../../Checkbox';
 import { Tooltip } from '../../Tooltip';
+import { delay } from '../../../lib/utils';
 
 class Playground extends Component<any, any> {
   public state = {
@@ -132,20 +134,86 @@ class Simple extends React.Component<any, any> {
 
 export default { title: 'Toggle' };
 
-export const Plain = () => <Simple />;
-Plain.story = { name: 'plain' };
+export const Plain: CSFStory<JSX.Element> = () => <Simple />;
+Plain.story = {
+  name: 'plain',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async pressed() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: 'label' }),
+            })
+            .press()
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .release()
+            .perform();
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'label' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+      },
+    },
+  },
+};
 
 export const Uncontrolled = () => <Toggle onValueChange={action('toggle')} />;
-Uncontrolled.story = { name: 'uncontrolled' };
+Uncontrolled.story = { name: 'uncontrolled', parameters: { creevey: { skip: [true] } } };
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.story = { name: 'playground' };
 
-export const DisabledWithTooltip = () => (
+export const DisabledWithTooltip: CSFStory<JSX.Element> = () => (
   <div style={{ padding: '50px' }}>
     <Tooltip render={() => 'Hello'}>
       <Toggle disabled />
     </Tooltip>
   </div>
 );
-DisabledWithTooltip.story = { name: 'disabled with Tooltip' };
+DisabledWithTooltip.story = {
+  name: 'disabled with Tooltip',
+  parameters: {
+    creevey: {
+      tests: {
+        async pressed() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: 'label' }),
+            })
+            .press()
+            .perform();
+          await delay(100);
+          await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .release()
+            .perform();
+        },
+      },
+    },
+  },
+};

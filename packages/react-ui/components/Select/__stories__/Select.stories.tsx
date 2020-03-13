@@ -2,6 +2,7 @@ import React from 'react';
 import { StoryFn } from '@storybook/addons';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
+import { CSFStory, CreeveyStoryParams } from 'creevey';
 
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
@@ -92,24 +93,112 @@ export default {
   ],
 };
 
-export const Simple = () => <Select items={['one', 'two', 'three']} />;
+const selectTests: CreeveyStoryParams['tests'] = {
+  async idle() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+  },
+  async clicked() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+  },
+  async ['MenuItem hover']() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }),
+      })
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('MenuItem hover');
+  },
+  async ['selected item']() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('selected item');
+  },
+};
+
+export const Simple: CSFStory<JSX.Element> = () => <Select items={['one', 'two', 'three']} />;
+Simple.story = {
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
+
 export const ComplexValues = () => <SelectWrapper />;
-ComplexValues.story = { name: 'Complex values' };
+ComplexValues.story = { name: 'Complex values', parameters: { creevey: { skip: [true] } } };
 
 export const ItemsWithCommentsStory = () => <ItemsWithComments />;
-ItemsWithCommentsStory.story = { name: 'Items with comments' };
+ItemsWithCommentsStory.story = { name: 'Items with comments', parameters: { creevey: { skip: [true] } } };
 
 export const WithNull = () => <SelectWithNull />;
-WithNull.story = { name: 'With null' };
+WithNull.story = { name: 'With null', parameters: { creevey: { skip: [true] } } };
 
-export const UseLink = () => <Select use="link" items={['one', 'two', 'three']} />;
-UseLink.story = { name: 'use link' };
+export const UseLink: CSFStory<JSX.Element> = () => <Select use="link" items={['one', 'two', 'three']} />;
+UseLink.story = {
+  name: 'use link',
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
 
-export const UseLinkWithIcon = () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />;
-UseLinkWithIcon.story = { name: 'use link with icon' };
+export const UseLinkWithIcon: CSFStory<JSX.Element> = () => (
+  <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />
+);
+UseLinkWithIcon.story = {
+  name: 'use link with icon',
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
 
-export const WithTextOverflow = () => <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />;
-WithTextOverflow.story = { name: 'with text overflow' };
+export const WithTextOverflow: CSFStory<JSX.Element> = () => (
+  <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
+);
+WithTextOverflow.story = {
+  name: 'with text overflow',
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
 
 export const ExternalFocus = () => {
   class Sample extends React.Component {
@@ -143,9 +232,9 @@ export const ExternalFocus = () => {
 
   return <Sample />;
 };
-ExternalFocus.story = { name: 'external focus' };
+ExternalFocus.story = { name: 'external focus', parameters: { creevey: { skip: [true] } } };
 
-export const UsingOnKeyDown = () => {
+export const UsingOnKeyDown: CSFStory<JSX.Element> = () => {
   class Sample extends React.Component {
     public state = {
       opened: false,
@@ -186,4 +275,25 @@ export const UsingOnKeyDown = () => {
 
   return <Sample />;
 };
-UsingOnKeyDown.story = { name: 'using onKeyDown' };
+UsingOnKeyDown.story = {
+  name: 'using onKeyDown',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['press Enter']() {
+          const element = await this.browser.findElement({ css: '.dropdown-test-container' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .sendKeys(this.keys.ENTER)
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
+        },
+      },
+    },
+  },
+};

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StoryFn } from '@storybook/addons';
+import { CSFStory } from 'creevey';
 
 import { Hint } from '../Hint';
 import { Gapped } from '../../Gapped';
@@ -13,7 +14,7 @@ export default {
 };
 
 export const Playground = () => <Hint text="Hello!">Plain hint with knobs</Hint>;
-Playground.story = { name: 'playground' };
+Playground.story = { name: 'playground', parameters: { creevey: { skip: [true] } } };
 
 export const TooMuchHints = () => (
   <Gapped gap={5}>
@@ -24,7 +25,7 @@ export const TooMuchHints = () => (
     ))}
   </Gapped>
 );
-TooMuchHints.story = { name: 'too much hints' };
+TooMuchHints.story = { name: 'too much hints', parameters: { creevey: { skip: [true] } } };
 
 export const Default = () => (
   <Hint text="Something will never be changed" manual opened>
@@ -105,9 +106,9 @@ export const HintWithoutAnimations = () => (
     </Hint>
   </div>
 );
-HintWithoutAnimations.story = { name: 'hint without animations' };
+HintWithoutAnimations.story = { name: 'hint without animations', parameters: { creevey: { skip: [true] } } };
 
-export const HintsWithoutWrapperAroundInlineBlockWith50Width = () => (
+export const HintsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.Element> = () => (
   <div style={{ padding: '150px', width: '500px' }}>
     {PopupPositions.reduce(
       (child, position) => (
@@ -123,4 +124,5 @@ export const HintsWithoutWrapperAroundInlineBlockWith50Width = () => (
 );
 HintsWithoutWrapperAroundInlineBlockWith50Width.story = {
   name: 'Hints without wrapper around inline-block with 50% width',
+  parameters: { creevey: { delay: 500 } },
 };

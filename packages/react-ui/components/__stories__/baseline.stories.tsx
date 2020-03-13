@@ -50,17 +50,23 @@ export const ButtonWithoutContentInFlex = () => (
     <Button /> Plain text
   </div>
 );
-ButtonWithoutContentInFlex.story = { name: 'Button without content in flex-container' };
+ButtonWithoutContentInFlex.story = {
+  name: 'Button without content in flex-container',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const ButtonWithContentInFlex = () => (
   <div style={{ display: 'flex', alignItems: 'baseline' }}>
     <Button>Hello</Button> Plain text
   </div>
 );
-ButtonWithContentInFlex.story = { name: 'Button with content in flex-container' };
+ButtonWithContentInFlex.story = {
+  name: 'Button with content in flex-container',
+  parameters: { creevey: { skip: [true] } },
+};
 
 export const InputWithButton = () => <SimpleForm />;
-InputWithButton.story = { name: 'Input with button' };
+InputWithButton.story = { name: 'Input with button', parameters: { creevey: { skip: [true] } } };
 
 export const TextInputInputLikeText = () => (
   <div>

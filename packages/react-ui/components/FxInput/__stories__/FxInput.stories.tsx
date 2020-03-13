@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSFStory } from 'creevey';
 
 import { BGRuler } from '../../../lib/BGRuler';
 import { FxInput } from '../FxInput';
@@ -20,8 +21,30 @@ export const Borderless = () => (
 );
 Borderless.story = { name: 'borderless' };
 
-export const WithWidthStory = () => <WithWidth />;
-WithWidthStory.story = { name: 'with width' };
+export const WithWidthStory: CSFStory<JSX.Element> = () => <WithWidth />;
+WithWidthStory.story = {
+  name: 'with width',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['inside auto container']() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.expect(await element.takeScreenshot()).to.matchImage('inside auto container');
+        },
+        async ['inside fixed container']() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#toggle-width' }))
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('inside fixed container');
+        },
+      },
+    },
+  },
+};
 
 interface TestFxInputProps {
   type?: 'currency' | InputType;

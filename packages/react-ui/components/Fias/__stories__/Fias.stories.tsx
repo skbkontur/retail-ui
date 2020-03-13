@@ -13,7 +13,7 @@ const MOCK_RESPONSE = require('../api/data.json')[0];
 const MOCK_VALUE = FiasAddress.createFromResponse(MOCK_RESPONSE).getValue(false);
 const mockApi = new FiasMockAPI();
 
-export default { title: 'Fias' };
+export default { title: 'Fias', parameters: { creevey: { skip: [true] } } };
 
 export const Default = () => <Fias />;
 Default.story = { name: 'default' };

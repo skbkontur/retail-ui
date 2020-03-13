@@ -1,9 +1,10 @@
 import React from 'react';
+import { CSFStory } from 'creevey';
 
 import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
 
-export default { title: 'Radio' };
+export default { title: 'Radio', parameters: { creevey: { skip: [{ stories: 'Playground' }] } } };
 
 export const RadioWithDifferentStates = () => (
   <div style={{ margin: '5px' }}>
@@ -50,7 +51,7 @@ export const Playground = () => {
   return <Comp />;
 };
 
-export const Highlighted = () => {
+export const Highlighted: CSFStory<JSX.Element> = () => {
   return (
     <div style={{ marginBottom: '70px' }}>
       <div>
@@ -64,4 +65,25 @@ export const Highlighted = () => {
       </div>
     </div>
   );
+};
+Highlighted.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async tabPress() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'body' }))
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+        },
+      },
+    },
+  },
 };
