@@ -219,7 +219,7 @@ SelectAllByButton.story = {
         async Plain() {
           await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
         },
-        async Focused() {
+        async Selected() {
           await this.browser
             .actions({
               bridge: true,
@@ -227,7 +227,7 @@ SelectAllByButton.story = {
             .click(this.browser.findElement({ css: 'button' }))
             .pause(500)
             .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+          await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
         },
       },
     },

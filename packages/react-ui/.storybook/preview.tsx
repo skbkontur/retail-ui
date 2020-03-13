@@ -7,7 +7,10 @@ import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 
 // TODO This need to hack enableFastLoading option
 import { delay } from '../lib/utils';
+import Icons from '@skbkontur/react-icons';
 delay(0);
+Icons;
+// TODO This need to hack enableFastLoading option
 
 addDecorator(
   withCreevey({
@@ -15,7 +18,7 @@ addDecorator(
     skip: [
       {
         in: ['chromeFlat', 'firefoxFlat', 'ie11Flat'],
-        kinds: /^(?!Button$|Checkbox$|Input$|Radio$|Textarea$|Toggle$|Switcher$|TokenInput$|).*/g,
+        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
     ],
   }),

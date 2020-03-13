@@ -109,7 +109,7 @@ export const HintWithoutAnimations = () => (
 HintWithoutAnimations.story = { name: 'hint without animations', parameters: { creevey: { skip: [true] } } };
 
 export const HintsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.Element> = () => (
-  <div style={{ padding: '150px', width: '500px' }}>
+  <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
     {PopupPositions.reduce(
       (child, position) => (
         <Hint useWrapper={false} text={position} pos={position} manual opened>

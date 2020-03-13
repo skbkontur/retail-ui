@@ -680,13 +680,13 @@ function StickyAndTooltips() {
 export default { title: 'ZIndex' };
 
 export const LightboxUnderLightboxStory = () => <LightboxUnderLightbox />;
-LightboxUnderLightboxStory.story = { name: 'LightboxUnderLightbox', paramters: { creevey: { skip: [true] } } };
+LightboxUnderLightboxStory.story = { name: 'LightboxUnderLightbox', parameters: { creevey: { skip: [true] } } };
 
 export const ZSampleStory = () => <ZSample total={3} />;
-ZSampleStory.story = { name: 'ZSample', paramters: { creevey: { skip: [true] } } };
+ZSampleStory.story = { name: 'ZSample', parameters: { creevey: { skip: [true] } } };
 
 export const DemoStory = () => <Demo />;
-DemoStory.story = { name: 'Demo', paramters: { creevey: { skip: [true] } } };
+DemoStory.story = { name: 'Demo', parameters: { creevey: { skip: [true] } } };
 
 export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
 LoaderCoversTooltipStory.story = { name: 'Loader covers tooltip' };

@@ -5982,10 +5982,10 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@0.4.10:
-  version "0.4.10"
-  resolved "https://registry.npmjs.org/creevey/-/creevey-0.4.10.tgz#2c2a71764da40a7f84ad073e5a6fce289dd6e40c"
-  integrity sha512-duY96D8YT6N7RL0AE5LiHCbgFFlhdR92jV45BGzI/eUHWcph022OtqlSUAE9bXF2LG5asgH2ueGKTqGQstxOVQ==
+creevey@0.4.11:
+  version "0.4.11"
+  resolved "https://registry.yarnpkg.com/creevey/-/creevey-0.4.11.tgz#d3ae4fa8a640f94c9157d091889092a844a1f2f1"
+  integrity sha512-94JeCItJNFC91Wig/BbaalDUOwYebdvdE7B/qrJ9A5aU/B+l9k2+d7krdHcmmOPn/Si+CDBh8TdGsdpotRCSjQ==
   dependencies:
     "@storybook/csf" "^0.0.1"
     "@types/chai" "^4.2.9"

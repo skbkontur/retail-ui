@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 
 import { ToastView as Toast } from '../ToastView';
 
-export default { title: 'ToastView', parametes: { creevey: { captureElement: "[data-tid='ToastView__root']" } } };
+export default { title: 'ToastView', parameters: { creevey: { captureElement: "[data-tid='ToastView__root']" } } };
 
 export const SimpleToast = () => <Toast>Changes saved</Toast>;
 SimpleToast.story = { name: 'simple toast' };

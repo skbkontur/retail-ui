@@ -62,7 +62,7 @@ class TestNotifier extends React.Component<any, any> {
   }
 }
 
-export default { title: 'Toast', parametes: { creevey: { skip: [true] } } };
+export default { title: 'Toast', parameters: { creevey: { skip: [true] } } };
 
 export const SimpleNotifiacation = () => <TestNotifier />;
 SimpleNotifiacation.story = { name: 'simple notifiacation' };

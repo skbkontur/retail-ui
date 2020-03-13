@@ -145,7 +145,7 @@ export const InFlexModal = () => (
     </Modal.Body>
   </Modal>
 );
-InFlexModal.story = { name: 'in flex modal' };
+InFlexModal.story = { name: 'in flex modal', parameters: { creevey: { captureElement: null } } };
 
 function simpleRenderValue(value: { value: number; label: string }) {
   return value.label;
