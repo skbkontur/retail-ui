@@ -10,6 +10,7 @@ import {
   moveSpecifierToSeparateExport,
   deduplicateExports,
   isModuleRemoved,
+  INTERNAL_COMPONENTS,
 } from './helpers';
 
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): Collection<any> => {
@@ -55,10 +56,8 @@ const changeImportsSource = (api: API, collection: Collection<any>, path: string
     .replaceWith(importDeclaration => {
       const source = importDeclaration.node.source.value as string;
       if (!isModuleRemoved(source)) {
-        if (source.match(`${path}/lib/`)) {
-          importDeclaration.node.source.value = `${value}/lib/${source.replace(`${path}/lib/`, '')}`;
-        } else if (source.match(`${path}/typings/`)) {
-          importDeclaration.node.source.value = `${value}/typings/${source.replace(`${path}/typings/`, '')}`;
+        if (source.match(`${path}/lib/`) || source.match(`${path}/typings/`)) {
+          importDeclaration.node.source.value = source.replace(path, value);
         } else {
           importDeclaration.node.source.value = value;
         }
@@ -93,13 +92,13 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
     .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(path))
     .forEach(exportDeclaration => {
       const originSource = exportDeclaration.node.source!.value as string;
+      const componentName = getComponentNameFromPath(originSource, path);
       if (isModuleRemoved(originSource, api.report)) {
         return;
       }
       j(exportDeclaration)
         .find(j.ExportSpecifier)
         .forEach(exportSpecifier => {
-          const componentName = getComponentNameFromPath(originSource, path);
           const localName = exportSpecifier.node.local?.name;
           if (localName) {
             if (localName === 'default' && componentName) {
@@ -120,54 +119,42 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
     });
 };
 
-const transformInternals = (api: API, collection: Collection<any>, path: string, internalsPath: string): void => {
+const transformInternals = (api: API, collection: Collection<any>, path: string, source: string): void => {
   const j = api.jscodeshift;
-  const internals = [
-    'Calendar',
-    'CustomComboBox',
-    'DateSelect',
-    'DropdownContainer',
-    'HideBodyVerticalScroll',
-    'IgnoreLayerClick',
-    'Menu',
-    'Popup',
-    'RenderContainer',
-    'RenderLayer',
-    'ZIndex',
-    'FocusTrap',
-    'InputLikeText',
-    'InternalMenu',
-    'MaskedInput',
-    'PopupMenu',
-    'ResizeDetector',
-    'PerformanceMetrics',
-    'ModalStack',
-    'ThemeShowcase',
-    'Icon',
-    'createPropsGetter',
-    'currentEnvironment',
-    'extractKeyboardAction',
-  ];
   const isInternalComponent = (componentName: string): boolean => {
     const whiteList = ['MenuItem', 'MenuHeader', 'MenuSeparator'];
     return (
       whiteList.every(whiteName => !componentName.startsWith(whiteName)) &&
-      internals.some(internal => componentName.startsWith(internal))
+      Object.keys(INTERNAL_COMPONENTS).some(internal => componentName.startsWith(internal))
     );
+  };
+  const getInternalComponentPath = (name: string): string | null => {
+    const componentName = Object.keys(INTERNAL_COMPONENTS).find(component => name.startsWith(component));
+    return componentName ? `${source}/${INTERNAL_COMPONENTS[componentName]}` : null;
   };
 
   collection
     .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(path))
     .find(j.ExportSpecifier, node => isInternalComponent(node.local.name))
-    .forEach(importSpecifier => {
-      moveSpecifierToSeparateExport(api, importSpecifier, internalsPath);
+    .forEach(exportSpecifier => {
+      if (exportSpecifier.node.local) {
+        const name = exportSpecifier.node.local.name;
+        const internalPath = getInternalComponentPath(name);
+        if (internalPath) {
+          moveSpecifierToSeparateExport(api, exportSpecifier, internalPath);
+        }
+      }
     });
 
   collection
     .find(j.ImportDeclaration, node => node.source.value.match(path))
     .find(j.ImportSpecifier, node => isInternalComponent(node.imported.name))
     .forEach(importSpecifier => {
-      moveSpecifierToSeparateImport(api, importSpecifier, internalsPath);
+      const name = importSpecifier.node.imported.name;
+      const internalPath = getInternalComponentPath(name);
+      if (internalPath) {
+        moveSpecifierToSeparateImport(api, importSpecifier, internalPath);
+      }
     });
 };
 
@@ -186,7 +173,6 @@ interface TransformOptions {
 export default function transform(file: FileInfo, api: API, options: TransformOptions) {
   const DEFAULT_SOURCE = '@skbkontur/react-ui';
   const FINAL_SOURCE = '@skbkontur/react-ui';
-  const INTERNAL_SOURCE = '@skbkontur/react-ui/internal';
   const { alias = DEFAULT_SOURCE, dedupe = true } = options;
 
   const j = api.jscodeshift;
@@ -196,7 +182,7 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
   transformNamedImports(api, result, alias);
   changeImportsSource(api, result, alias, FINAL_SOURCE);
   transformReExports(api, result, alias, FINAL_SOURCE);
-  transformInternals(api, result, FINAL_SOURCE, INTERNAL_SOURCE);
+  transformInternals(api, result, FINAL_SOURCE, FINAL_SOURCE);
   if (dedupe) {
     deduplicateImports(api, result, FINAL_SOURCE);
     deduplicateExports(api, result, FINAL_SOURCE);

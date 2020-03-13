@@ -37,7 +37,7 @@ defineInlineTest(
     import { TopBarStart as Start } from "@skbkontur/react-ui";
     import { TopBarEnd as End } from "@skbkontur/react-ui";
 
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
   `,
   `transforms default imports`,
 );
@@ -81,7 +81,7 @@ defineInlineTest(
     import { TopBarOrganizationsProps as OrganizationsProps, TopBarOrganizationsState as OrganizationsState } from "@skbkontur/react-ui";
     import { TopBarUserProps as UserProps } from "@skbkontur/react-ui";
 
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
 
     import { InputIconType as IconType } from "@skbkontur/react-ui";
 
@@ -122,8 +122,8 @@ defineInlineTest(
     } from "@skbkontur/react-ui";
     import { TopBarUser as User, TopBarUserProps as UserProps } from "@skbkontur/react-ui";
 
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
-    import { IconProps } from "@skbkontur/react-ui/internal";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    import { IconProps } from "@skbkontur/react-ui/internal/icons/20px/Icon";
   `,
   `transforms combined imports (default and namded)`,
 );
@@ -232,9 +232,10 @@ defineInlineTest(
     export { Switcher, Toggle, Button, Input as default, InputProps, Radio as SuperRadio, RadioProps as SuperRadioProps } from "@skbkontur/react-ui";
 
     export * from "@skbkontur/react-ui/components/Button";
-    export { Popup, RenderContainer } from "@skbkontur/react-ui/internal";
+    export { Popup } from "@skbkontur/react-ui/internal/Popup";
+    export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
   `,
-  `deduplicate reexports reexports`,
+  `deduplicate reexports`,
 );
 
 defineInlineTest(
@@ -257,8 +258,8 @@ defineInlineTest(
     export { ModalHeader as MyHeader, ModalHeaderProps as HeaderProps } from "@skbkontur/react-ui";
     export { TopBarButtonItem as default, TopBarButtonItemProps as ButtonItemProps } from "@skbkontur/react-ui";
     export { InputIconType as IconType } from "@skbkontur/react-ui";
-    export { Icon as Icon20 } from "@skbkontur/react-ui/internal";
-    export { RenderContainer } from "@skbkontur/react-ui/internal";
+    export { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
     export { Button } from "@skbkontur/react-ui";
     export { Fias, FiasAddress as Address, FiasAPI, FiasSearch } from "@skbkontur/react-ui";
     export { FiasSearchProps } from "@skbkontur/react-ui";
@@ -280,17 +281,16 @@ defineInlineTest(
     import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
     import { Menu } from "@skbkontur/react-ui/components/Menu";
 
-
 `,
   `
-    import { Calendar } from "@skbkontur/react-ui/internal";
-    import { FocusTrap } from "@skbkontur/react-ui/internal";
-    import { RenderContainer } from "@skbkontur/react-ui/internal";
+    import { Calendar } from "@skbkontur/react-ui/internal/Calendar";
+    import { FocusTrap } from "@skbkontur/react-ui/internal/FocusTrap";
+    import { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
     import { Button } from "@skbkontur/react-ui";
-    import { Icon as Icon20 } from "@skbkontur/react-ui/internal";
-    import { createPropsGetter } from "@skbkontur/react-ui/internal";
+    import { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
+    import { createPropsGetter } from "@skbkontur/react-ui/internal/createPropsGetter";
     import { MenuItem } from "@skbkontur/react-ui";
-    import { Menu } from "@skbkontur/react-ui/internal";
+    import { Menu } from "@skbkontur/react-ui/internal/Menu";
   `,
   `transforms internals`,
 );
@@ -349,11 +349,13 @@ defineInlineTest(
     import { Component } from "react";
 
     import { Toggle, Checkbox as Check, Button } from "@skbkontur/react-ui";
-    import { Popup, FocusTrap } from "@skbkontur/react-ui/internal";
+    import { Popup } from "@skbkontur/react-ui/internal/Popup";
+    import { FocusTrap } from "@skbkontur/react-ui/internal/FocusTrap";
     import * as ReactUI from "@skbkontur/react-ui";
 
     export { Button, Input as default } from "@skbkontur/react-ui";
-    export { RenderContainer, Icon } from "@skbkontur/react-ui/internal";
+    export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
+    export { Icon } from "@skbkontur/react-ui/internal/icons/20px/Icon";
   `,
   `deduplicates by default`,
 );
@@ -414,13 +416,18 @@ defineInlineTest(
         ModalHeader as Header,
         ModalHeaderProps as Props,
     } from "@skbkontur/react-ui";
-    import { RenderContainer, Icon as Icon20, Calendar, FocusTrap, Icon } from "@skbkontur/react-ui/internal";
+    import { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
+    import { Icon as Icon20, Icon } from "@skbkontur/react-ui/internal/icons/20px/Icon";
 
     export * from "@skbkontur/react-ui";
-    export { Icon as Icon20, RenderContainer } from "@skbkontur/react-ui/internal";
+    export { Icon as Icon20 } from "@skbkontur/react-ui/internal/icons/20px/Icon";
     export { Switcher, Toggle, Button, Input as default } from "@skbkontur/react-ui";
 
     export * from "@skbkontur/react-ui/components/Button";
+    export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
+    import { Calendar } from "@skbkontur/react-ui/internal/Calendar";
+    import { FocusTrap } from "@skbkontur/react-ui/internal/FocusTrap";
+
   `,
   `deduplicates with alias`,
 );
@@ -463,16 +470,22 @@ defineInlineTest(
   `doesn't transform removed modules`,
 );
 
-// defineInlineTest(
-//   transform,
-//   {},
-//   `
-//     import { CalendarDateShape, comparator } from '@skbkontur/react-ui/components/Calendar/CalendarDateShape';
-//     import { parseDateString } from 'retail-ui/components/DatePicker/DatePickerHelpers'
-//     import PagingHelper from 'retail-ui/components/Paging/PagingHelper'
-//     import { parseDateString } from 'retail-ui/components/DatePicker/DatePickerHelpers'
-// `,
-//   `
-//     `,
-//   `broken cases`,
-// );
+defineInlineTest(
+  transform,
+  {
+    alias: 'retail-ui',
+    dedupe: false,
+  },
+  `
+    import { CalendarDateShape, comparator } from "retail-ui/components/Calendar/CalendarDateShape";
+    import { parseDateString } from "retail-ui/components/DatePicker/DatePickerHelpers";
+    import PagingHelper from "retail-ui/components/Paging/PagingHelper";
+`,
+  `
+    import { CalendarDateShape } from "@skbkontur/react-ui/internal/Calendar";
+    import { comparator } from "@skbkontur/react-ui";
+    import { parseDateString } from "@skbkontur/react-ui";
+    import { PagingHelper } from "@skbkontur/react-ui";
+    `,
+  `unsupported cases`,
+);
