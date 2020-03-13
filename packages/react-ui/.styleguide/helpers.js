@@ -87,10 +87,10 @@ const getCommonSections = () => {
       sectionDepth: 1,
       sections: [
         { name: 'ThemeContext', content: path.join(__dirname, '../lib/theming/ThemeContext.md') },
-        { name: 'ThemeShowcase', content: path.join(__dirname, '../components/internal/ThemeShowcase/ThemeShowcase.md') },
+        { name: 'ThemeShowcase', content: path.join(__dirname, '../internal/ThemeShowcase/ThemeShowcase.md') },
         {
           name: 'ThemePlayground',
-          content: path.join(__dirname, '../components/internal/ThemePlayground/Playground.md'),
+          content: path.join(__dirname, '../internal/ThemePlayground/Playground.md'),
         },
       ],
     },

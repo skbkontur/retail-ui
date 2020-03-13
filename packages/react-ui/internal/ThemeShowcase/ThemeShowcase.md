@@ -7,7 +7,7 @@
 Значения в колонке `Variable name` кликабельны.
 
 ```jsx harmony
-import { ThemeShowcase } from '@skbkontur/react-ui/components/internal/ThemeShowcase/ThemeShowcase';
+import { ThemeShowcase } from '@skbkontur/react-ui/internal/ThemeShowcase/ThemeShowcase';
 
 <ThemeShowcase />;
 ```
