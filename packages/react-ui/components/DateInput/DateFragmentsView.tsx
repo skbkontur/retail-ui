@@ -1,11 +1,11 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { CHAR_MASK } from '../../lib/date/constants';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
-import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './DateFragmentsView.styles';
 
@@ -33,12 +33,12 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -55,8 +55,9 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
   }
 
   private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
-    const separatorClassName = cx(jsStyles.delimiter(this.theme), {
-      [jsStyles.delimiterFilled(this.theme)]: this.props.fragments[index + 1].value !== null,
+    const separatorClassName = cn({
+      [jsStyles.mask(this.theme)]: true,
+      [jsStyles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
     });
 
     return (

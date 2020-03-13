@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import styles from './Icon.module.less';
+import { jsStyles } from './icon.styles';
 
 const MAP = {
   circle: '\ue001',
@@ -44,7 +44,7 @@ export class Icon extends React.Component<IconProps> {
       color: this.props.color,
     };
     return (
-      <span className={styles.root} style={style}>
+      <span className={jsStyles.root()} style={style}>
         {MAP[this.props.name]}
       </span>
     );

@@ -4,8 +4,6 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 
-import { ThemeFactory } from './lib/theming/ThemeFactory';
-
 process.env.enableReactTesting = true;
 
 configure({ adapter: new Adapter() });
@@ -38,14 +36,3 @@ jest.mock('./lib/utils', () => {
 
 delete React.createClass;
 delete React.PropTypes;
-
-// In general, it's easier (and performance-wise faster) to patch class once,
-// than write "__mock__" implementation and call
-// ```jest.mock(...)``` in every test (including indirect ones)
-beforeAll(() => {
-  // Add variables used by tests by hand as those are not read from the variables.less file
-  ThemeFactory.overrideDefaultTheme({
-    textColorDefault: '#404040',
-    calendarMonthTitleBorderBottomColor: '#dfdede',
-  });
-});

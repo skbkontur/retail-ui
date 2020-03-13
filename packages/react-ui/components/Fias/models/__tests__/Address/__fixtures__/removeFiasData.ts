@@ -1,10 +1,10 @@
-import { AddressResponse, Fields } from '../../../../types';
+import { FiasAddressResponse, FiasFields } from '../../../../types';
 
 export interface RemoveFiasDataTestCase {
   label: string;
-  addressResponse: AddressResponse;
-  fieldsToRemove: Fields[] | undefined;
-  fieldsWithRemainedData: Fields[];
+  addressResponse: FiasAddressResponse;
+  fieldsToRemove: FiasFields[] | undefined;
+  fieldsWithRemainedData: FiasFields[];
 }
 
 const CASE_01 = 'given no fields';
@@ -71,7 +71,7 @@ export const removeFiasDataTestCases: RemoveFiasDataTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     fieldsToRemove: undefined,
     fieldsWithRemainedData: [],
   },
@@ -131,9 +131,9 @@ export const removeFiasDataTestCases: RemoveFiasDataTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
-    fieldsToRemove: [Fields.street],
-    fieldsWithRemainedData: [Fields.region, Fields.city, Fields.house],
+    } as FiasAddressResponse,
+    fieldsToRemove: [FiasFields.street],
+    fieldsWithRemainedData: [FiasFields.region, FiasFields.city, FiasFields.house],
   },
   {
     label: CASE_03,
@@ -191,8 +191,8 @@ export const removeFiasDataTestCases: RemoveFiasDataTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
-    fieldsToRemove: [Fields.region, Fields.city, Fields.street, Fields.house],
+    } as FiasAddressResponse,
+    fieldsToRemove: [FiasFields.region, FiasFields.city, FiasFields.street, FiasFields.house],
     fieldsWithRemainedData: [],
   },
   {
@@ -251,9 +251,9 @@ export const removeFiasDataTestCases: RemoveFiasDataTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     fieldsToRemove: [],
-    fieldsWithRemainedData: [Fields.region, Fields.city, Fields.street, Fields.house],
+    fieldsWithRemainedData: [FiasFields.region, FiasFields.city, FiasFields.street, FiasFields.house],
   },
   {
     label: CASE_05,
@@ -311,8 +311,8 @@ export const removeFiasDataTestCases: RemoveFiasDataTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
-    fieldsToRemove: [Fields.region, Fields.street, Fields.city, Fields.house],
+    } as FiasAddressResponse,
+    fieldsToRemove: [FiasFields.region, FiasFields.street, FiasFields.city, FiasFields.house],
     fieldsWithRemainedData: [],
   },
   {
@@ -371,8 +371,8 @@ export const removeFiasDataTestCases: RemoveFiasDataTestCase[] = [
         ifnsul: '6658',
         structureNumber: '5',
       },
-    } as AddressResponse,
-    fieldsToRemove: [Fields.room],
-    fieldsWithRemainedData: [Fields.region, Fields.city, Fields.street, Fields.house],
+    } as FiasAddressResponse,
+    fieldsToRemove: [FiasFields.room],
+    fieldsWithRemainedData: [FiasFields.region, FiasFields.city, FiasFields.street, FiasFields.house],
   },
 ];

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
+import cn from 'classnames';
 
 import { isFunction } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles } from './MenuItem.styles';
-import styles from './MenuItem.module.less';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
@@ -16,7 +15,7 @@ export interface MenuItemProps {
   /** @ignore */
   _enableIconPadding?: boolean;
 
-  /** @ignore */
+  /** @deprecated @ignore */
   alkoLink?: boolean;
   comment?: React.ReactNode;
   disabled?: boolean;
@@ -71,12 +70,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -102,14 +101,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     let iconElement = null;
     if (icon) {
-      iconElement = <div className={styles.icon}>{icon}</div>;
+      iconElement = <div className={jsStyles.icon()}>{icon}</div>;
     }
 
-    const className = cx({
-      [styles.root]: true,
-      [jsStyles.root(this.theme)]: true,
-      [styles.disabled]: !!this.props.disabled,
-      [styles.loose]: !!loose,
+    const className = cn({
+      [jsStyles.root()]: true,
+      [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
       [jsStyles.selected(this.theme)]: state === 'selected',
       [jsStyles.link(this.theme)]: !!link || !!alkoLink,
@@ -136,9 +133,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {content}
         {this.props.comment && (
           <div
-            className={cx({
-              [styles.comment]: true,
-              [styles.commentHover]: hover,
+            data-tid="MenuItem__comment"
+            className={cn({
+              [jsStyles.comment()]: true,
+              [jsStyles.commentHover()]: hover,
             })}
           >
             {comment}
@@ -184,5 +182,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 }
 
 export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
-  return React.isValidElement<MenuItemProps>(child) ? child.type.hasOwnProperty('__MENU_ITEM__') : false;
+  return React.isValidElement<MenuItemProps>(child)
+    ? Object.prototype.hasOwnProperty.call(child.type, '__MENU_ITEM__')
+    : false;
 };

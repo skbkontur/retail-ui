@@ -1,28 +1,47 @@
-import { AddressObject, EstateStatuses, FiasId, FiasObject, House, Stead, Room, StructureStatuses } from '../types';
+import {
+  FiasAddressObject,
+  FiasEstateStatuses,
+  FiasId,
+  FiasObject,
+  FiasHouse,
+  FiasStead,
+  FiasRoom,
+  FiasStructureStatuses,
+} from '../types';
 
 export class FiasData {
-  public static isAddressObject = (data: FiasObject): data is AddressObject => {
-    return data && data.hasOwnProperty('name') && data.hasOwnProperty('abbreviation');
-  };
-
-  public static isStead = (data: FiasObject): data is Stead => {
+  public static isAddressObject = (data: FiasObject): data is FiasAddressObject => {
     return (
       data &&
-      (data.hasOwnProperty('number') && data.hasOwnProperty('liveStatus') && !data.hasOwnProperty('estateStatus'))
+      Object.prototype.hasOwnProperty.call(data, 'name') &&
+      Object.prototype.hasOwnProperty.call(data, 'abbreviation')
     );
   };
 
-  public static isHouse = (data: FiasObject): data is House => {
+  public static isStead = (data: FiasObject): data is FiasStead => {
     return (
       data &&
-      data.hasOwnProperty('structureStatus') &&
-      (data.hasOwnProperty('number') || data.hasOwnProperty('structureNumber'))
+      Object.prototype.hasOwnProperty.call(data, 'number') &&
+      Object.prototype.hasOwnProperty.call(data, 'liveStatus') &&
+      !Object.prototype.hasOwnProperty.call(data, 'estateStatus')
     );
   };
 
-  public static isRoom = (data: FiasObject): data is Room => {
+  public static isHouse = (data: FiasObject): data is FiasHouse => {
     return (
-      data && data.hasOwnProperty('flatType') && data.hasOwnProperty('flatNumber') && data.hasOwnProperty('liveStatus')
+      data &&
+      Object.prototype.hasOwnProperty.call(data, 'structureStatus') &&
+      (Object.prototype.hasOwnProperty.call(data, 'number') ||
+        Object.prototype.hasOwnProperty.call(data, 'structureNumber'))
+    );
+  };
+
+  public static isRoom = (data: FiasObject): data is FiasRoom => {
+    return (
+      data &&
+      Object.prototype.hasOwnProperty.call(data, 'flatType') &&
+      Object.prototype.hasOwnProperty.call(data, 'flatNumber') &&
+      Object.prototype.hasOwnProperty.call(data, 'liveStatus')
     );
   };
 
@@ -74,13 +93,13 @@ export class FiasData {
     return (this.data && this.data.postalCode) || '';
   }
 
-  public get estateStatus(): EstateStatuses | undefined {
+  public get estateStatus(): FiasEstateStatuses | undefined {
     if (FiasData.isHouse(this.data)) {
       return this.data.estateStatus;
     }
   }
 
-  public get structureStatus(): StructureStatuses | undefined {
+  public get structureStatus(): FiasStructureStatuses | undefined {
     if (FiasData.isHouse(this.data)) {
       return this.data.structureStatus;
     }

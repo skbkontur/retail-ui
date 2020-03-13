@@ -1,5 +1,6 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
+import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -9,8 +10,7 @@ import { ModalStack, ModalStackSubscription } from '../ModalStack';
 import { RenderContainer } from '../RenderContainer';
 import { RenderLayer } from '../RenderLayer';
 import { ZIndex } from '../ZIndex';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { SidePageBody } from './SidePageBody';
@@ -18,7 +18,6 @@ import { SidePageContainer } from './SidePageContainer';
 import { SidePageContext } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
-import styles from './SidePage.module.less';
 import { jsStyles } from './SidePage.styles';
 
 export interface SidePageProps {
@@ -70,11 +69,6 @@ export interface SidePageState {
 
 const TRANSITION_TIMEOUT = 200;
 
-interface ZIndexPropsType {
-  classes?: string;
-  style?: React.CSSProperties;
-}
-
 /**
  * Сайдпейдж
  *
@@ -122,12 +116,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -156,37 +150,27 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private getZIndexProps(): ZIndexPropsType {
-    const { fromLeft, blockBackground } = this.props;
-    return {
-      classes: cx(styles.root, {
-        [styles.leftSide]: !!fromLeft,
-      }),
-      style: blockBackground ? { width: '100%' } : undefined,
-    };
-  }
-
   private renderContainer(): JSX.Element {
-    const { classes, style } = this.getZIndexProps();
+    const { fromLeft } = this.props;
 
     return (
       <ZIndex
         priority={'Sidepage'}
-        className={classes}
+        data-tid="SidePage__root"
+        className={cn({
+          [jsStyles.root()]: true,
+          [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
+        })}
         onScroll={LayoutEvents.emit}
-        style={style}
         createStackingContext
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
-            className={cx(
-              styles.container,
-              jsStyles.container(this.theme),
-              this.state.hasShadow && jsStyles.shadow(this.theme),
-            )}
+            data-tid="SidePage__container"
+            className={cn(jsStyles.container(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={styles.layout}>
+            <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
@@ -212,14 +196,26 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private renderShadow(): JSX.Element {
-    const { classes, style } = this.getZIndexProps();
-    const { blockBackground } = this.props;
+    const { blockBackground, fromLeft } = this.props;
 
     return (
-      <ZIndex priority={'Sidepage'} className={classes} onScroll={LayoutEvents.emit} style={style}>
+      <ZIndex
+        priority={'Sidepage'}
+        className={cn({
+          [jsStyles.root()]: true,
+          [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
+        })}
+        onScroll={LayoutEvents.emit}
+      >
         {blockBackground && [
           <HideBodyVerticalScroll key="hbvs" />,
-          <div key="overlay" className={cx(styles.background, this.state.hasBackground && styles.gray)} />,
+          <div
+            key="overlay"
+            className={cn({
+              [jsStyles.background()]: true,
+              [jsStyles.backgroundGray()]: this.state.hasBackground,
+            })}
+          />,
         ]}
       </ZIndex>
     );
@@ -242,21 +238,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getTransitionNames(): Record<string, string> {
-    const direction: 'right' | 'left' = this.props.fromLeft ? 'right' : 'left';
-    const transitionEnter = cx(
-      styles[('transition-enter-' + direction) as 'transition-enter-left' | 'transition-enter-right'],
-    );
-    const transitionAppear = cx(
-      styles[('transition-appear-' + direction) as 'transition-appear-left' | 'transition-appear-right'],
-    );
+    const transition = this.props.fromLeft ? jsStyles.transitionRight : jsStyles.transitionLeft;
 
     return {
-      enter: transitionEnter,
-      enterActive: styles['transition-enter-active'],
-      exit: styles['transition-leave'],
-      exitActive: styles['transition-leave-active'],
-      appear: transitionAppear,
-      appearActive: styles['transition-appear-active'],
+      enter: transition(),
+      enterActive: jsStyles.transitionActive(),
+      exit: jsStyles.transitionLeave(),
+      exitActive: jsStyles.transitionLeaveActive(),
+      appear: transition(),
+      appearActive: jsStyles.transitionActive(),
     };
   }
 

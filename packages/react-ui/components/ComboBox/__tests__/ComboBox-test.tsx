@@ -2,8 +2,8 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
 import { CustomComboBoxLocaleHelper } from '../../CustomComboBox/locale';
-import { LangCodes, LocaleProvider } from '../../LocaleProvider';
-import { defaultLangCode } from '../../LocaleProvider/constants';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
@@ -39,14 +39,14 @@ describe('ComboBox', () => {
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
 
-  it('fetches item when focused', async () => {
+  it('fetches item when focused', () => {
     const search = jest.fn(() => Promise.resolve([]));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
     wrapper.instance().focus();
     expect(search).toBeCalledWith('');
   });
 
-  it('fetches items on input', async () => {
+  it('fetches items on input', () => {
     const search = jest.fn(() => Promise.resolve([]));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
 
@@ -150,7 +150,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+    const inputNode = wrapper.find('input').getDOMNode() as HTMLElement;
 
     inputNode.blur(); // simulate blur from real click
     wrapper
@@ -205,7 +205,7 @@ describe('ComboBox', () => {
     expect(onValueChange).not.toHaveBeenCalledWith(undefined);
   });
 
-  it('calls onFocus on focus', async () => {
+  it('calls onFocus on focus', () => {
     const onFocus = jest.fn();
     const wrapper = mount<ComboBox<any>>(<ComboBox onFocus={onFocus} getItems={() => Promise.resolve([])} />);
 
@@ -238,7 +238,7 @@ describe('ComboBox', () => {
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
 
-    it('calls onBlur on input blur when menu is closed', async () => {
+    it('calls onBlur on input blur when menu is closed', () => {
       wrapper.instance().focus();
       wrapper.update();
 
@@ -460,11 +460,11 @@ describe('ComboBox', () => {
       expect(wrapper.find('input').prop('value')).toBe('two');
     };
 
-    it('in default mode', async () => {
+    it('in default mode', () => {
       check(mount<ComboBox<any>>(<ComboBox value={value} getItems={() => Promise.resolve([value])} />));
     });
 
-    it('in autocomplete mode', async () => {
+    it('in autocomplete mode', () => {
       check(
         mount<ComboBox<any>>(
           <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
@@ -518,7 +518,7 @@ describe('ComboBox', () => {
     const getItems = (query: string) => {
       return Promise.resolve(
         ITEMS.filter(item => {
-          return item.label.indexOf(query) > -1;
+          return item.label.includes(query);
         }),
       );
     };
@@ -622,6 +622,7 @@ describe('ComboBox', () => {
 
     it('click on item', async () => {
       const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+
       inputNode.blur(); // simulate blur from real click
 
       wrapper
@@ -1108,11 +1109,7 @@ describe('ComboBox', () => {
     });
 
     it('render default locale', async () => {
-      wrapper = mount(
-        <LocaleProvider>
-          <ComboBox getItems={search} />
-        </LocaleProvider>,
-      );
+      wrapper = mount(<ComboBox getItems={search} />);
       const expectedText = CustomComboBoxLocaleHelper.get(defaultLangCode).notFound;
 
       await focus();
@@ -1122,9 +1119,9 @@ describe('ComboBox', () => {
 
     it('render correct locale when set langCode', async () => {
       wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_GB}>
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <ComboBox getItems={search} />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const expectedText = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
@@ -1136,13 +1133,9 @@ describe('ComboBox', () => {
     it('render custom locale', async () => {
       const customText = 'custom notFound';
       wrapper = mount(
-        <LocaleProvider
-          locale={{
-            ComboBox: { notFound: customText },
-          }}
-        >
+        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } }}}>
           <ComboBox getItems={search} />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
 
       await focus();
@@ -1152,13 +1145,13 @@ describe('ComboBox', () => {
 
     it('updates when langCode changes', async () => {
       wrapper = mount(
-        <LocaleProvider>
+        <LocaleContext.Provider value={{}}>
           <ComboBox getItems={search} />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
-      wrapper.setProps({ langCode: LangCodes.en_GB });
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
       await focus();
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);

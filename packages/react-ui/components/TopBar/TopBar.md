@@ -90,23 +90,20 @@ let contentStyle = {
 ```typescript
 interface TopBarLocale {
   logout?: string;
-  cabinetTitle?: string;
   cabinetSettings?: string;
   cabinetCertificates?: string;
   cabinetServices?: string;
 }
 
 const ru_RU = {
-  cabinetTitle: 'Личный кабинет Контура',
-  cabinetSettings: 'Настройка входа в сервисы',
+  cabinetSettings: 'Личный кабинет Контура',
   cabinetCertificates: 'Сертификаты',
   cabinetServices: 'Оплата сервисов',
   logout: 'Выйти',
 };
 
 const en_GB = {
-  cabinetTitle: 'Personal account Kontur',
-  cabinetSettings: 'Configure login services',
+  cabinetSettings: 'Personal account Kontur',
   cabinetCertificates: 'Certificates',
   cabinetServices: 'Payment for services',
   logout: 'Logout',

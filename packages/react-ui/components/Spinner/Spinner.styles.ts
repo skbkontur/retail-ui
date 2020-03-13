@@ -1,28 +1,8 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 
-export const jsStyles = {
-  cloudStroke(t: Theme) {
-    return css`
-      stroke: ${t.spinnerBgColor};
-    `;
-  },
-  cloud(t: Theme) {
-    return css`
-      stroke: ${t.red};
-      animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-        ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
-    `;
-  },
-  cloudDimmed(t: Theme) {
-    return css`
-      stroke: ${t.spinnerDimmedColor};
-      animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-        ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite;
-    `;
-  },
+const styles = {
   circle(t: Theme) {
     return css`
       stroke: ${t.red};
@@ -41,9 +21,56 @@ export const jsStyles = {
     `;
   },
 
-  caption(t: Theme) {
+  captionColor(t: Theme) {
     return css`
       color: ${t.spinnerCaptionColor};
     `;
   },
+
+  mini() {
+    return css`
+      margin-left: 8px;
+      font-size: 14px;
+    `;
+  },
+
+  big() {
+    return css`
+      display: block;
+      font-size: 18px;
+      line-height: 1.33;
+      margin-top: -8px;
+    `;
+  },
+
+  normal() {
+    return css`
+      display: block;
+      font-size: 16px;
+      line-height: 1.375;
+      margin-top: -6px;
+    `;
+  },
+
+  spinner() {
+    return css`
+      display: inline-block;
+      text-align: center;
+    `;
+  },
+
+  inner() {
+    return css`
+      display: inline-block;
+    `;
+  },
+
+  fallback() {
+    return css`
+      display: inline-block;
+      position: relative;
+    `;
+  },
 };
+
+export const jsStyles = memoizeStyle(styles);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem';
 
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
@@ -38,13 +38,10 @@ export class TopBarUser extends React.Component<TopBarUserProps> {
 
   public render(): JSX.Element {
     const { userName, cabinetUrl } = this.props;
-    const { cabinetTitle, cabinetSettings, cabinetCertificates, cabinetServices } = this.locale;
+    const { cabinetSettings, cabinetCertificates, cabinetServices } = this.locale;
 
     return (
       <TopBarDropdown icon={'user'} label={userName}>
-        <div style={{ padding: '6px 18px 7px 15px' }}>
-          <b>{cabinetTitle}</b>
-        </div>
         <MenuItem loose href={cabinetUrl} target="_blank">
           {cabinetSettings}
         </MenuItem>

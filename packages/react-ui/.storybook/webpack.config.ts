@@ -28,7 +28,7 @@ module.exports = async ({ config, mode }) => {
       },
     },
     {
-      test: /\.(css|less)$/,
+      test: /\.css$/,
       loaders: [
         'style-loader',
         {
@@ -46,7 +46,6 @@ module.exports = async ({ config, mode }) => {
             },
           },
         },
-        'less-loader',
       ],
     },
     { test: /\.(woff|woff2|eot)$/, loader: 'file-loader' },

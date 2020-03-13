@@ -1,10 +1,13 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       background: ${t.bgDefault};
+      box-sizing: content-box;
+      overflow: auto;
+      padding: 5px 0;
     `;
   },
 
@@ -15,3 +18,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

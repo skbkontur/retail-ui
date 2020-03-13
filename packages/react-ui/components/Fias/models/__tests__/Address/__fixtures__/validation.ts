@@ -1,11 +1,11 @@
 import { FiasLocaleHelper } from '../../../../locale';
-import { AddressResponse, AddressErrors, Fields } from '../../../../types';
-import { Address } from '../../../Address';
+import { FiasAddressResponse, FiasAddressErrors, FiasFields } from '../../../../types';
+import { FiasAddress } from '../../../FiasAddress';
 
 export interface ValidationTestCase {
   label: string;
-  address: Address;
-  errors: AddressErrors;
+  address: FiasAddress;
+  errors: FiasAddressErrors;
 }
 
 const CASE_01 = 'empty address';
@@ -20,12 +20,12 @@ const defaultLocale = FiasLocaleHelper.get();
 export const validationTestCases: ValidationTestCase[] = [
   {
     label: CASE_01,
-    address: new Address(),
+    address: new FiasAddress(),
     errors: {},
   },
   {
     label: CASE_02,
-    address: Address.createFromResponse({
+    address: FiasAddress.createFromResponse({
       region: {
         name: 'Свердловская',
         abbreviation: 'обл',
@@ -39,13 +39,13 @@ export const validationTestCases: ValidationTestCase[] = [
         postalCode: '620000',
         code: '6600000000000',
       },
-    } as AddressResponse),
+    } as FiasAddressResponse),
     errors: {},
   },
   {
     label: CASE_03,
-    address: Address.removeFiasData(
-      Address.createFromResponse({
+    address: FiasAddress.removeFiasData(
+      FiasAddress.createFromResponse({
         region: {
           name: 'Свердловская',
           abbreviation: 'обл',
@@ -59,16 +59,16 @@ export const validationTestCases: ValidationTestCase[] = [
           postalCode: '620000',
           code: '6600000000000',
         },
-      } as AddressResponse),
-      [Fields.region],
+      } as FiasAddressResponse),
+      [FiasFields.region],
     ),
     errors: {
-      [Fields.region]: defaultLocale.addressNotVerified,
+      [FiasFields.region]: defaultLocale.addressNotVerified,
     },
   },
   {
     label: CASE_04,
-    address: Address.createFromResponse({
+    address: FiasAddress.createFromResponse({
       street: {
         name: 'Малопрудная',
         abbreviation: 'ул',
@@ -84,15 +84,15 @@ export const validationTestCases: ValidationTestCase[] = [
         postalCode: '620036',
         code: '66000001000155300',
       },
-    } as AddressResponse),
+    } as FiasAddressResponse),
     errors: {
-      [Fields.street]: defaultLocale.streetFillBefore,
+      [FiasFields.street]: defaultLocale.streetFillBefore,
     },
   },
   {
     label: CASE_05,
-    address: Address.removeFiasData(
-      Address.createFromResponse({
+    address: FiasAddress.removeFiasData(
+      FiasAddress.createFromResponse({
         region: {
           name: 'Свердловская',
           abbreviation: 'обл',
@@ -120,17 +120,17 @@ export const validationTestCases: ValidationTestCase[] = [
           postalCode: '624600',
           code: '6600200000000',
         },
-      } as AddressResponse),
-      [Fields.region],
+      } as FiasAddressResponse),
+      [FiasFields.region],
     ),
     errors: {
-      [Fields.region]: defaultLocale.addressNotVerified,
+      [FiasFields.region]: defaultLocale.addressNotVerified,
     },
   },
   {
     label: CASE_06,
-    address: Address.removeFiasData(
-      Address.createFromResponse({
+    address: FiasAddress.removeFiasData(
+      FiasAddress.createFromResponse({
         region: {
           name: 'Свердловская',
           abbreviation: 'обл',
@@ -158,11 +158,11 @@ export const validationTestCases: ValidationTestCase[] = [
           postalCode: '624600',
           code: '6600200000000',
         },
-      } as AddressResponse),
-      [Fields.district],
+      } as FiasAddressResponse),
+      [FiasFields.district],
     ),
     errors: {
-      [Fields.district]: defaultLocale.addressNotVerified,
+      [FiasFields.district]: defaultLocale.addressNotVerified,
     },
   },
 ];

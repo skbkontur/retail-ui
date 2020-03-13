@@ -10,14 +10,6 @@ export default {
       <div style={{ padding: '5px', border: '1px solid black', width: '300px' }}>{storyFn()}</div>
     ),
   ],
-  parameters: {
-    creevey: {
-      // NOTE Overwrite top-level skip option
-      skip: { in: /.*Flat$/ },
-      captureElement: '#test-element',
-      __filename,
-    },
-  },
 };
 
 export const Horizontal = () => (

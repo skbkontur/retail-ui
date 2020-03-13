@@ -1,9 +1,9 @@
-import { AddressResponse, VerifyResponse, Fields } from '../../../../types';
+import { FiasAddressResponse, FiasVerifyResponse, FiasFields } from '../../../../types';
 
 export interface ConsistencyTestCase {
   label: string;
-  addressResponse: AddressResponse;
-  verifyResponse: VerifyResponse;
+  addressResponse: FiasAddressResponse;
+  verifyResponse: FiasVerifyResponse;
 }
 
 const CASE_01 = 'no fields';
@@ -46,7 +46,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         postalCode: '620000',
         code: '6600000000000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -62,7 +62,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           postalCode: '620000',
           code: '6600000000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
   },
@@ -77,7 +77,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         id: '4d7588f6-16b5-4855-926e-e3272da0ebcd',
         liveStatus: 'active',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         room: {
@@ -88,7 +88,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           id: '4d7588f6-16b5-4855-926e-e3272da0ebcd',
           liveStatus: 'active',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
   },
@@ -110,7 +110,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         postalCode: '181504',
         code: '6001600006200',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         settlement: {
@@ -128,7 +128,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           postalCode: '181504',
           code: '6001600006200',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
   },
@@ -162,7 +162,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         postalCode: '453500',
         code: '0201100000000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -192,7 +192,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           postalCode: '453500',
           code: '0201100000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
   },
@@ -223,7 +223,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         oktmo: '03726000',
         code: '2300000700000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -250,7 +250,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           oktmo: '03726000',
           code: '2300000700000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: true,
     },
   },
@@ -282,7 +282,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         postalCode: '453500',
         code: '0201100000000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -297,9 +297,9 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           ifnsul: '2300',
           code: '2300000000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: false,
-      invalidLevel: Fields.district,
+      invalidLevel: FiasFields.district,
     },
   },
   {
@@ -331,7 +331,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         oktmo: '03726000',
         code: '2300000700000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -348,9 +348,9 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           postalCode: '452000',
           code: '0200000000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: false,
-      invalidLevel: Fields.city,
+      invalidLevel: FiasFields.city,
     },
   },
   {
@@ -395,7 +395,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         oktmo: '80611101',
         code: '0201100100000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -412,9 +412,9 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           postalCode: '452000',
           code: '0200000000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: false,
-      invalidLevel: Fields.district,
+      invalidLevel: FiasFields.district,
     },
   },
   {
@@ -459,7 +459,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         oktmo: '03726000',
         code: '2300000700000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -489,9 +489,9 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           postalCode: '453500',
           code: '0201100000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: false,
-      invalidLevel: Fields.city,
+      invalidLevel: FiasFields.city,
     },
   },
   {
@@ -536,7 +536,7 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
         oktmo: '03726000',
         code: '2300000700000',
       },
-    } as AddressResponse,
+    } as FiasAddressResponse,
     verifyResponse: {
       address: {
         region: {
@@ -553,9 +553,9 @@ export const consistencyTestCases: ConsistencyTestCase[] = [
           postalCode: '452000',
           code: '0200000000000',
         },
-      } as AddressResponse,
+      } as FiasAddressResponse,
       isValid: false,
-      invalidLevel: Fields.district,
+      invalidLevel: FiasFields.district,
     },
   },
 ];

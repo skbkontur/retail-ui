@@ -1,11 +1,11 @@
 import React from 'react';
+import cn from 'classnames';
 
 import { Popup, PopupPosition } from '../Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
-import { cx } from '../../lib/theming/Emotion';
 
-import styles from './HintBox.module.less';
+import { jsStyles } from './Hint.styles';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
@@ -20,22 +20,22 @@ export interface HintProps {
   onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
   pos:
-  | 'top'
-  | 'right'
-  | 'bottom'
-  | 'left'
-  | 'top left'
-  | 'top center'
-  | 'top right'
-  | 'bottom left'
-  | 'bottom center'
-  | 'bottom right'
-  | 'left top'
-  | 'left middle'
-  | 'left bottom'
-  | 'right top'
-  | 'right middle'
-  | 'right bottom';
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
+    | 'top left'
+    | 'top center'
+    | 'top right'
+    | 'bottom left'
+    | 'bottom center'
+    | 'bottom right'
+    | 'left top'
+    | 'left middle'
+    | 'left bottom'
+    | 'right top'
+    | 'right middle'
+    | 'right bottom';
   text: React.ReactNode;
   disableAnimations: boolean;
   useWrapper: boolean;
@@ -68,7 +68,7 @@ export class Hint extends React.Component<HintProps, HintState> {
     manual: false,
     opened: false,
     maxWidth: 200,
-    disableAnimations: false,
+    disableAnimations: Boolean(process.env.enableReactTesting),
     useWrapper: true,
   };
 
@@ -122,9 +122,9 @@ export class Hint extends React.Component<HintProps, HintState> {
     }
 
     const { pos, maxWidth } = this.props;
-    const className = cx({
-      [styles.content]: true,
-      [styles.contentCenter]: pos === 'top' || pos === 'bottom',
+    const className = cn({
+      [jsStyles.content()]: true,
+      [jsStyles.contentCenter()]: pos === 'top' || pos === 'bottom',
     });
     return (
       <div className={className} style={{ maxWidth }}>

@@ -1,14 +1,21 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import styles from './MenuHeader.module.less';
+const styles = {
+  root() {
+    return css`
+      color: #a0a0a0;
+      cursor: default;
+      font-size: 12px;
+      padding: 6px 18px 7px 8px;
+    `;
+  },
 
-export const jsStyles = {
   withLeftPadding(t: Theme) {
     return css`
-      .${styles.root}& {
-        padding-left: ${t.menuItemPaddingForIcon};
-      }
+      padding-left: ${t.menuItemPaddingForIcon};
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

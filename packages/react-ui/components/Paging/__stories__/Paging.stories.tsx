@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { Paging } from '../Paging';
+import { delay } from '../../../lib/utils';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
 dignissimos labore expedita. Sapiente beatae eveniet sit, similique,
@@ -63,9 +65,13 @@ const getPageFromHash = () => +document.location.hash.slice(1);
 
 const CustomComponent: React.SFC<any> = ({ active, pageNumber, ...props }) =>
   Paging.isForward(pageNumber) ? (
-    <a href={'#' + (getPageFromHash() + 1)} {...props} />
+    <a href={'#' + (getPageFromHash() + 1)} {...props}>
+      {props.children}
+    </a>
   ) : (
-    <a href={'#' + pageNumber} {...props} />
+    <a href={'#' + pageNumber} {...props}>
+      {props.children}
+    </a>
   );
 
 class PagingWithCustomComponent extends Component<any, any> {
@@ -105,20 +111,110 @@ class PagingWithCustomComponent extends Component<any, any> {
   };
 }
 
-storiesOf('Paging', module)
-  .addDecorator(story => <div>{story()}</div>)
-  .add('GoToAbsensePage', () => <GoToAbsensePage />)
-  .add('SimpleSamples', () => (
-    <>
-      <PagingWithState pagesCount={1} />
-      <PagingWithState pagesCount={7} />
-      <PagingWithState pagesCount={8} />
-      <PagingWithState pagesCount={12} />
-    </>
-  ))
-  .add('PagingWithCustomComponent', () => <PagingWithCustomComponent pagesCount={12} />)
-  .add('Paging with global listener', () => <PagingWithState useGlobalListener pagesCount={12} />)
-  .add('Playground', () => <Playground />);
+export default {
+  title: 'Paging',
+  decorators: [(story: StoryFn<JSX.Element>) => <div>{story()}</div>],
+};
+
+export const GoToAbsensePageStory: CSFStory<JSX.Element> = () => <GoToAbsensePage />;
+GoToAbsensePageStory.story = {
+  name: 'GoToAbsensePage',
+  parameters: {
+    creevey: {
+      skip: [{ in: 'ie11', tests: 'hover' }],
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async hover() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
+            })
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+        },
+        async ['change page by number']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('change page by number');
+        },
+        async ['change page by forwardLink']() {
+          // NOTE Firefox bug if click send right after click from previous test it results as double click
+          await delay(500);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('change page by forwardLink');
+        },
+        async focused() {
+          // NOTE Firefox bug if click send right after click from previous test it results as double click
+          await delay(500);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('focused');
+        },
+        async ['Move focus right']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+            .pause(100)
+            .sendKeys(this.keys.ARROW_RIGHT)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
+        },
+        async ['Move to page by Ender']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+            .pause(100)
+            .sendKeys(this.keys.ARROW_RIGHT)
+            .pause(100)
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Move to page by Ender');
+        },
+      },
+    },
+  },
+};
+
+export const SimpleSamples = () => (
+  <>
+    <PagingWithState pagesCount={1} />
+    <PagingWithState pagesCount={7} />
+    <PagingWithState pagesCount={8} />
+    <PagingWithState pagesCount={12} />
+  </>
+);
+SimpleSamples.story = { name: 'SimpleSamples', parameters: { creevey: { skip: [true] } } };
+
+export const PagingWithCustomComponentStory = () => <PagingWithCustomComponent pagesCount={12} />;
+PagingWithCustomComponentStory.story = { name: 'PagingWithCustomComponent', parameters: { creevey: { skip: [true] } } };
+
+export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener pagesCount={12} />;
+PagingWithGlobalListener.story = { name: 'Paging with global listener', parameters: { creevey: { skip: [true] } } };
+
+export const PlaygroundStory = () => <Playground />;
+PlaygroundStory.story = { name: 'Playground', parameters: { creevey: { skip: [true] } } };
 
 class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
   public state = {

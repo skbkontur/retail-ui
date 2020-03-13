@@ -16,15 +16,15 @@ const platform = ((navigator && navigator.platform) || '').toLowerCase();
 const userAgent = ((navigator && navigator.userAgent) || '').toLowerCase();
 const vendor = ((navigator && navigator.vendor) || '').toLowerCase();
 
-export const isMac = /mac/.test(platform);
-export const isWindows = /win/.test(platform);
+export const isMac = platform.includes("mac");
+export const isWindows = platform.includes("win");
 
 export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
 export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
 export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
-export const isChrome = /google inc/.test(vendor) && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
-export const isEdge = /edge\//.test(userAgent);
-export const isIE11 = /trident\//.test(userAgent);
+export const isChrome = vendor.includes("google inc") && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
+export const isEdge = userAgent.includes("edge/");
+export const isIE11 = userAgent.includes("trident/");
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -72,7 +72,7 @@ export const hasSvgAnimationSupport = (() => {
     const element = document.createElementNS(namespaceURI, 'animate');
 
     if (element) {
-      return /SVGAnimate/.test(element.toString());
+      return element.toString().includes("SVGAnimate");
     }
   }
 

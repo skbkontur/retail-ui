@@ -4,26 +4,29 @@ import React, { HTMLAttributes } from 'react';
 import { DefaultizeProps } from '../../../lib/utils';
 import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder } from '../../../lib/date/types';
-import { LocaleProvider, LocaleProviderProps } from '../../LocaleProvider';
 import { DateInput, DateInputProps } from '../DateInput';
+import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
 
 interface LocaleDateInputProps {
   propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>;
-  propsLocale: LocaleProviderProps;
+  propsLocale: LocaleContextProps;
 }
 const LocaleDateInput: React.FunctionComponent<LocaleDateInputProps> = ({ propsDateInput, propsLocale }) => (
-  <LocaleProvider {...propsLocale}>
+  <LocaleContext.Provider value={{
+    langCode: propsLocale.langCode,
+    locale: propsLocale.locale,
+  }}>
     <DateInput {...propsDateInput} />
-  </LocaleProvider>
+  </LocaleContext.Provider>
 );
 
 const render = (
   propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>,
-  propsLocale: LocaleProviderProps = {},
+  propsLocale: LocaleContextProps = {},
 ) => mount<LocaleDateInputProps>(<LocaleDateInput {...{ propsDateInput, propsLocale }} />);
 
 const getInput = (root: ReactWrapper<LocaleDateInputProps, {}>): ReactWrapper<HTMLAttributes<HTMLInputElement>> =>
-  root.find('.input');
+  root.find('[data-tid="InputLikeText__input"]');
 
 const getValue = (input: ReactWrapper<HTMLAttributes<HTMLInputElement>>) => input.text();
 
@@ -150,7 +153,9 @@ describe('DateInput as InputlikeText', () => {
       it(`handles paste "${pasted}"`, () => {
         const onValueChange = jest.fn();
         const input = getInput(
-          render({ onValueChange }, { locale: { DatePicker: { order: order as InternalDateOrder } } }),
+          render({ onValueChange }, {
+            locale: { DatePicker: { order: order as InternalDateOrder } }
+          }),
         );
         input.simulate('paste', { clipboardData: { getData: () => pasted } });
         const [value] = onValueChange.mock.calls[0];

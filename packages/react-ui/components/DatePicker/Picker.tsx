@@ -4,16 +4,14 @@ import shallowEqual from 'shallowequal';
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { Calendar, CalendarDateShape } from '../Calendar';
-import { locale } from '../LocaleProvider/decorators';
+import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { isGreater, isLess } from '../Calendar/CalendarDateShape';
-import { cx } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
-import styles from './Picker.module.less';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -65,19 +63,19 @@ export class Picker extends React.Component<Props, State> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
   private renderMain() {
     const { date } = this.state;
     return (
-      <div className={cx(styles.root, jsStyles.root(this.theme))} onMouseDown={e => e.preventDefault()}>
+      <div className={jsStyles.root(this.theme)} onMouseDown={e => e.preventDefault()}>
         <Calendar
           ref={c => (this.calendar = c)}
           value={this.props.value}
@@ -104,7 +102,8 @@ export class Picker extends React.Component<Props, State> {
     const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
     return (
       <button
-        className={cx(styles.todayWrapper, jsStyles.todayWrapper(this.theme))}
+        data-tid="Picker__todayWrapper"
+        className={jsStyles.todayWrapper(this.theme)}
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}
       >

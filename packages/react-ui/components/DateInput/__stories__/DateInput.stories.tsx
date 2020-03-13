@@ -1,12 +1,13 @@
-import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
 import React from 'react';
+import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
-import { LocaleProvider } from '../../LocaleProvider';
 import { Select } from '../../Select';
 import { DateInput, DateInputProps } from '../DateInput';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { defaultLangCode } from '../../../lib/locale/constants';
 
 interface DateInputFormattingState {
   order: InternalDateOrder;
@@ -50,18 +51,21 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
             onValueChange={this.handleChangeSeparator}
           />
         </div>
-        <LocaleProvider
-          locale={{
-            DatePicker: {
-              separator: InternalDateSeparator[this.state.separator],
-              order: this.state.order,
+        <LocaleContext.Provider
+          value={{
+            langCode: defaultLangCode,
+            locale: {
+              DatePicker: {
+                separator: InternalDateSeparator[this.state.separator],
+                order: this.state.order,
+              },
             },
           }}
         >
           <DateInput onValueChange={this.handleChangeValue} value={this.state.value} />
           <br />
           <br />
-        </LocaleProvider>
+        </LocaleContext.Provider>
       </Gapped>
     );
   }
@@ -84,97 +88,123 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
           <tr>
             <td>Dot</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider
+                value={{
+                  langCode: LangCodes.ru_RU,
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider
+                value={{
+                  langCode: LangCodes.ru_RU,
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.MDY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.DMY } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dot, order: InternalDateOrder.DMY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
           <tr>
             <td>Dash</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.MDY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.DMY } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.DMY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
           <tr>
             <td>Slash</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.MDY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.DMY } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Slash, order: InternalDateOrder.DMY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
           <tr>
             <td>Space</td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.YMD } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.YMD } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.MDY } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.MDY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
             <td>
-              <LocaleProvider
-                locale={{ DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.DMY } }}
+              <LocaleContext.Provider
+                value={{
+                  locale: { DatePicker: { separator: InternalDateSeparator.Space, order: InternalDateOrder.DMY } },
+                }}
               >
                 <DateInput value={value} />
-              </LocaleProvider>
+              </LocaleContext.Provider>
             </td>
           </tr>
         </tbody>
@@ -227,10 +257,136 @@ class DateInputLastEvent extends React.Component {
   }
 }
 
-storiesOf('DateInput', module)
-  .add('simple', () => <DateInputSimple defaultValue="01.02.2017" />)
-  .add('formatting', () => <DateInputFormatting />)
-  .add('different formatting', () => <DateInputDifferentFormatting />)
-  .add('disabled', () => <DateInputSimple disabled defaultValue="01.02.2017" />)
-  .add('with width', () => <DateInputSimple width="50px" defaultValue="01.02.2017" />)
-  .add('blur always after change', () => <DateInputLastEvent />);
+export default { title: 'DateInput' };
+
+export const Simple: CSFStory<JSX.Element> = () => <DateInputSimple defaultValue="01.02.2017" />;
+Simple.story = {
+  name: 'simple',
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async focus() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('focus');
+        },
+      },
+    },
+  },
+};
+
+export const Formatting = () => <DateInputFormatting />;
+Formatting.story = { name: 'formatting', parameters: { creevey: { skip: [true] } } };
+
+export const DifferentFormatting = () => <DateInputDifferentFormatting />;
+DifferentFormatting.story = { name: 'different formatting' };
+
+export const Disabled: CSFStory<JSX.Element> = () => <DateInputSimple disabled defaultValue="01.02.2017" />;
+Disabled.story = {
+  name: 'disabled',
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async focus() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('focus');
+        },
+      },
+    },
+  },
+};
+
+export const WithWidth: CSFStory<JSX.Element> = () => <DateInputSimple width="50px" defaultValue="01.02.2017" />;
+WithWidth.story = {
+  name: 'with width',
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async focus() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('focus');
+        },
+      },
+    },
+  },
+};
+
+export const BlurAlwaysAfterChange: CSFStory<JSX.Element> = () => <DateInputLastEvent />;
+BlurAlwaysAfterChange.story = {
+  name: 'blur always after change',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['value not changed']() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
+        },
+        async ['value changed']() {
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('12')
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('value changed');
+        },
+        async ['value restored']() {
+          await this.browser.executeScript(() => {
+            // @ts-ignore
+            window.OldDate = window.Date;
+            // @ts-ignore
+            window.Date = function() {
+              // @ts-ignore
+              return new window.OldDate(2000, 0, 1);
+            };
+          });
+          this.browser.executeScript(() => {
+            (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.DELETE)
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+          // @ts-ignore
+          await this.browser.executeScript(() => {
+            // @ts-ignore
+            if (window.OldDate) {
+              // @ts-ignore
+              window.Date = window.OldDate;
+            }
+          });
+          await this.expect(await this.takeScreenshot()).to.matchImage('value restored');
+        },
+      },
+    },
+  },
+};

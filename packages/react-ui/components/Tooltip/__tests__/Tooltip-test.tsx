@@ -12,6 +12,8 @@ function clickOutside() {
   document.body.dispatchEvent(event);
 }
 
+const selectorCross = 'svg[viewBox="0 0 10 10"]';
+
 describe('Tooltip', () => {
   const render = () => '';
 
@@ -59,8 +61,8 @@ describe('Tooltip', () => {
       </div>,
     );
 
-    expect(wrapper.find('#foo').find('.cross').length).toBe(1);
-    expect(wrapper.find('#bar').find('.cross').length).toBe(0);
+    expect(wrapper.find('#foo').find(selectorCross).length).toBe(1);
+    expect(wrapper.find('#bar').find(selectorCross).length).toBe(0);
   });
 
   it('calls `onCloseClick` when click on the cross', () => {
@@ -70,7 +72,7 @@ describe('Tooltip', () => {
         <div />
       </Tooltip>,
     );
-    wrapper.find('.cross').simulate('click');
+    wrapper.find(selectorCross).simulate('click');
     expect(onClose.mock.calls.length).toBe(1);
   });
 
@@ -85,14 +87,14 @@ describe('Tooltip', () => {
       expect(onOpen).toBeCalledTimes(1);
     });
 
-    it('with "focus" trigger', async () => {
+    it('with "focus" trigger', () => {
       const onOpen = jest.fn();
       const wrapper = mount<TooltipProps>(
         <Tooltip trigger="focus" render={render} onOpen={onOpen}>
           <div />
         </Tooltip>,
       );
-      await wrapper.find(Popup).invoke('onOpen')!();
+      wrapper.find(Popup).invoke('onOpen')!();
       expect(onOpen).toBeCalledTimes(1);
     });
   });

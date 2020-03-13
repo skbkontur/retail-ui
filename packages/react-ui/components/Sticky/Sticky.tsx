@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
+import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../ZIndex';
 
-import styles from './Sticky.module.less';
+import { jsStyles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
@@ -115,14 +115,14 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         <ZIndex
           priority="Sticky"
           applyZIndex={fixed}
-          className={cx(styles.inner, {
-            [styles.fixed]: fixed,
-            [styles.stopped]: stopped,
+          className={cn(jsStyles.inner(), {
+            [jsStyles.fixed()]: fixed && !stopped,
+            [jsStyles.stopped()]: stopped,
           })}
           style={innerStyle}
           wrapperRef={this.refInner}
         >
-          <div className={cx(styles.container)}>{children}</div>
+          <div className={jsStyles.container()}>{children}</div>
         </ZIndex>
         {fixed && !stopped ? <div style={{ width, height }} /> : null}
       </div>

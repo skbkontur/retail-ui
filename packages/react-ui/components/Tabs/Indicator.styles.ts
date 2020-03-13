@@ -1,10 +1,13 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+const styles = {
   root(t: Theme) {
     return css`
       background: ${t.tabColorFocus};
+      height: 3px;
+      position: absolute;
+      transition: all 0.2s ease-out;
     `;
   },
 
@@ -32,3 +35,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

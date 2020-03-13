@@ -15,7 +15,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             try
             {
-                Search(new BySelector(By.CssSelector("[data-tid='SidePage-Close']"))).Click();
+                Search(new BySelector(By.CssSelector("[data-tid='SidePage__close']"))).Click();
             }
             catch (NoSuchElementException)
             {

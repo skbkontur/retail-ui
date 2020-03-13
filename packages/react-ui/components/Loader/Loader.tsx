@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
+import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../ZIndex';
 
 import { jsStyles } from './Loader.styles';
-import styles from './Loader.module.less';
 
 export interface LoaderProps {
   children?: React.ReactNode;
@@ -22,6 +22,12 @@ export interface LoaderProps {
   caption?: SpinnerProps['caption'];
   className?: string;
   type?: 'mini' | 'normal' | 'big';
+  /**
+   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере - исчезнет в 3.0 поведение пересено в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+   *
+   * @default false
+   */
+  cloud?: boolean;
 }
 
 export interface LoaderState {
@@ -49,7 +55,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     /**
      * Текст рядом с лоадером.
      *
-     * "Загрузка" - значение по-умолчанию
+     * @default  "Загрузка"
      */
     caption: Spinner.propTypes.caption,
 
@@ -61,11 +67,24 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     /**
      * Тип спиннера: mini, normal, big
      *
-     * Значение по-умолчанию - normal
+     * @default  normal
      *
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+
+    /**
+     * Компонент спиннера
+     *
+     * @default  <Spinner/> из react-ui
+     */
+    component: PropTypes.node,
+    /**
+     * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
+     *
+     * @default false - исчезнет в 3.0
+     */
+    cloud: PropTypes.bool,
   };
 
   private theme!: Theme;
@@ -79,6 +98,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.containerNode = null;
     this.spinnerNode = null;
+
+    warning(
+      !this.props.cloud,
+      'cloud is deprecated, will removed in 3.0, if you want cloud use prop component instead. ',
+    );
 
     this.state = {
       isStickySpinner: false,
@@ -102,12 +126,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -115,7 +139,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     const { active, type, caption, className } = this.props;
 
     return (
-      <div style={{ position: 'relative' }} className={cx(styles.loader, className)}>
+      <div style={{ position: 'relative' }} className={cn(jsStyles.loader(), className)}>
         <ZIndex
           priority={'Loader'}
           applyZIndex={this.props.active}
@@ -128,8 +152,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           <ZIndex
             wrapperRef={this.wrapperRef}
             priority={'Loader'}
-            className={cx({
-              [styles.active]: active,
+            className={cn({
               [jsStyles.active(this.theme)]: active,
             })}
           >
@@ -147,13 +170,13 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode) {
     return (
       <span
-        className={this.state.isStickySpinner ? styles.spinnerContainerSticky : styles.spinnerContainerCenter}
+        className={this.state.isStickySpinner ? jsStyles.spinnerContainerSticky() : jsStyles.spinnerContainerCenter()}
         style={this.state.spinnerStyle}
         ref={element => {
           this.spinnerNode = element;
         }}
       >
-        <Spinner type={type} caption={caption} />
+        <Spinner type={type} caption={caption} cloud={this.props.cloud} />
       </span>
     );
   }

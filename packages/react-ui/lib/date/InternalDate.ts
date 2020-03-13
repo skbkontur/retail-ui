@@ -1,4 +1,4 @@
-import { defaultLangCode } from '../../components/LocaleProvider/constants';
+import { defaultLangCode } from '../locale/constants';
 
 import { defaultDateComponentsOrder, defaultDateComponentsSeparator, emptyDateComponents } from './constants';
 import { InternalDateCalculator } from './InternalDateCalculator';
@@ -31,8 +31,8 @@ export class InternalDate {
   private end: InternalDate | null = null;
 
   public constructor({ order, separator, langCode = defaultLangCode, value }: InternalDateConstructorProps = {}) {
-    this.order = !order ? internalDateLocale[langCode].order : order;
-    this.separator = !separator ? internalDateLocale[langCode].separator : separator;
+    this.order = order ?? internalDateLocale[langCode].order;
+    this.separator = separator ?? internalDateLocale[langCode].separator;
     if (value !== undefined) {
       this.parseInternalValue(value);
     }

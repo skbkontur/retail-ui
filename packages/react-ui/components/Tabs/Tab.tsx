@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
+import cn from 'classnames';
 
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { tabListener } from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
-import styles from './Tab.module.less';
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { jsStyles } from './Tab.styles';
 
@@ -160,12 +159,12 @@ export class Tab extends React.Component<TabProps, TabState> {
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -205,17 +204,14 @@ export class Tab extends React.Component<TabProps, TabState> {
 
     return (
       <Component
-        className={cx({
-          [styles.root]: true,
+        className={cn({
           [jsStyles.root(this.theme)]: true,
-          [styles.vertical]: !!isVertical,
           [jsStyles.vertical(this.theme)]: !!isVertical,
           [jsStyles.primary(this.theme)]: !!primary,
           [jsStyles.success(this.theme)]: !!success,
           [jsStyles.warning(this.theme)]: !!warning,
           [jsStyles.error(this.theme)]: !!error,
-          [styles.active]: !!isActive,
-          [styles.disabled]: !!disabled,
+          [jsStyles.active(this.theme)]: !!isActive,
           [jsStyles.disabled(this.theme)]: !!disabled,
         })}
         onBlur={this.handleBlur}
@@ -229,7 +225,7 @@ export class Tab extends React.Component<TabProps, TabState> {
         style={style}
       >
         {children}
-        {this.state.focusedByKeyboard && <div className={cx(styles.focus, jsStyles.focus(this.theme))} />}
+        {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} />}
       </Component>
     );
   }

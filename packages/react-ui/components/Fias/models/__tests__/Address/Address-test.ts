@@ -1,6 +1,6 @@
-import { Fields, AddressFields } from '../../../types';
+import { FiasFields, FiasAddressFields } from '../../../types';
 import { FiasLocaleHelper } from '../../../locale';
-import { Address } from '../../Address';
+import { FiasAddress } from '../../FiasAddress';
 
 import { removeFiasDataTestCases } from './__fixtures__/removeFiasData';
 import { getParentTestCases } from './__fixtures__/getParent';
@@ -11,11 +11,11 @@ import { validationTestCases } from './__fixtures__/validation';
 import { verifyTestCases } from './__fixtures__/verify';
 import { getDiffFieldsTestCases } from './__fixtures__/getDiffFields';
 
-const getFieldsWithData = (fields: AddressFields): Fields[] => {
-  const result: Fields[] = [];
-  let field: Fields;
+const getFieldsWithData = (fields: FiasAddressFields): FiasFields[] => {
+  const result: FiasFields[] = [];
+  let field: FiasFields;
   for (field in fields) {
-    if (fields.hasOwnProperty(field)) {
+    if (Object.prototype.hasOwnProperty.call(fields, field)) {
       const element = fields[field];
       if (element && element.data) {
         result.push(field);
@@ -46,7 +46,7 @@ const defaultLocale = FiasLocaleHelper.get();
 describe('Address', () => {
   describe('getParent', () => {
     getParentTestCases.forEach(({ label, addressResponse, field, parentField }) => {
-      const address = Address.createFromResponse(addressResponse);
+      const address = FiasAddress.createFromResponse(addressResponse);
       const parent = address.getParent(field);
       it(label, () => {
         if (parentField) {
@@ -60,7 +60,7 @@ describe('Address', () => {
 
   describe('removeFiasData', () => {
     removeFiasDataTestCases.forEach(({ label, addressResponse, fieldsToRemove, fieldsWithRemainedData }) => {
-      const address = Address.removeFiasData(Address.createFromResponse(addressResponse), fieldsToRemove);
+      const address = FiasAddress.removeFiasData(FiasAddress.createFromResponse(addressResponse), fieldsToRemove);
       const fieldsWithData = getFieldsWithData(address.fields);
       it(label, () => {
         expect(fieldsWithData).toEqual(expect.arrayContaining(fieldsWithRemainedData));
@@ -71,7 +71,7 @@ describe('Address', () => {
 
   describe('verifyConsistency', () => {
     consistencyTestCases.forEach(({ label, addressResponse, verifyResponse }) => {
-      const address = Address.createFromResponse(addressResponse);
+      const address = FiasAddress.createFromResponse(addressResponse);
       it(label, () => {
         expect(address.verifyConsistency()).toMatchObject(verifyResponse);
       });
@@ -81,11 +81,11 @@ describe('Address', () => {
   describe('verify', () => {
     verifyTestCases.forEach(
       ({ label, addressResponse, apiVerifyResponse, verifiedAddressResponse, verifiedFieldsWithData }) => {
-        const address = Address.createFromResponse(addressResponse);
-        const verifiedAddress = Address.verify(address, apiVerifyResponse);
+        const address = FiasAddress.createFromResponse(addressResponse);
+        const verifiedAddress = FiasAddress.verify(address, apiVerifyResponse);
         const fieldsWithData = getFieldsWithData(verifiedAddress.fields);
         it(label, () => {
-          expect(Address.fieldsToResponse(verifiedAddress.fields)).toEqual(verifiedAddressResponse);
+          expect(FiasAddress.fieldsToResponse(verifiedAddress.fields)).toEqual(verifiedAddressResponse);
           expect(fieldsWithData).toEqual(expect.arrayContaining(verifiedFieldsWithData));
           expect(fieldsWithData.length).toEqual(verifiedFieldsWithData.length);
         });
@@ -96,42 +96,46 @@ describe('Address', () => {
   describe('validate', () => {
     validationTestCases.forEach(({ label, address, errors }) => {
       it(label, () => {
-        expect(Address.validate(address, defaultLocale).errors).toEqual(errors);
+        expect(FiasAddress.validate(address, defaultLocale).errors).toEqual(errors);
       });
     });
   });
 
   describe('getParentFields', () => {
     it('returns empty array for the top field', () => {
-      expect(Address.getParentFields(Fields.region)).toEqual([]);
+      expect(FiasAddress.getParentFields(FiasFields.region)).toEqual([]);
     });
 
     it('returns array of parent fields for the given one', () => {
-      expect(Address.getParentFields(Fields.city)).toEqual([Fields.region, Fields.district]);
+      expect(FiasAddress.getParentFields(FiasFields.city)).toEqual([FiasFields.region, FiasFields.district]);
     });
   });
 
   describe('getChildFields', () => {
     it('returns empty array for the bottom field', () => {
-      expect(Address.getChildFields(Fields.room)).toEqual([]);
+      expect(FiasAddress.getChildFields(FiasFields.room)).toEqual([]);
     });
 
     it('returns array of child fields for the given one', () => {
-      expect(Address.getChildFields(Fields.street)).toEqual([Fields.stead, Fields.house, Fields.room]);
+      expect(FiasAddress.getChildFields(FiasFields.street)).toEqual([
+        FiasFields.stead,
+        FiasFields.house,
+        FiasFields.room,
+      ]);
     });
   });
 
   describe('responseToFields', () => {
     responseToFieldsTestCases.forEach(({ label, addressResponse, resultFields }) => {
-      const fields = Address.responseToFields(addressResponse);
+      const fields = FiasAddress.responseToFields(addressResponse);
       const resultKeys = Object.keys(fields);
       it(label, () => {
         expect(resultFields).toEqual(expect.arrayContaining(resultKeys));
         expect(resultFields.length).toEqual(resultKeys.length);
 
-        let field: Fields;
+        let field: FiasFields;
         for (field in addressResponse) {
-          if (addressResponse.hasOwnProperty(field)) {
+          if (Object.prototype.hasOwnProperty.call(addressResponse, field)) {
             const element = fields[field];
             expect(element).toBeDefined();
             expect(element && element.type).toEqual(field);
@@ -144,16 +148,16 @@ describe('Address', () => {
 
   describe('fieldsToResponse', () => {
     fieldsToResponseTestCases.forEach(({ label, fields, resultFields }) => {
-      const response = Address.fieldsToResponse(fields);
+      const response = FiasAddress.fieldsToResponse(fields);
       const resultKeys = Object.keys(response);
 
       it(label, () => {
         expect(resultFields).toEqual(expect.arrayContaining(resultKeys));
         expect(resultFields.length).toEqual(resultKeys.length);
 
-        let field: Fields;
+        let field: FiasFields;
         for (field in fields) {
-          if (fields.hasOwnProperty(field)) {
+          if (Object.prototype.hasOwnProperty.call(fields, field)) {
             const element = fields[field];
             if (element && element.data) {
               expect(response[field]).toBeDefined();
