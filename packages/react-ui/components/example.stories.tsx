@@ -164,6 +164,27 @@ DisabledCheckbox.story = {
   }
 };
 
+export const DisableCheckedCheckbox = () => {
+  return (
+    <Checkbox checked disabled>text</Checkbox>
+  );
+};
+
+DisableCheckedCheckbox.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async disableChecked(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: "#test-element" });
+          const image = await element.takeScreenshot();
+
+          await expect({ image }).to.matchImages();
+        }
+      }
+    }
+  }
+};
+
 export const ErrorCheckbox = () => {
   return (
     <Checkbox error>
@@ -182,6 +203,43 @@ ErrorCheckbox.story = {
           const error = await element.takeScreenshot();
 
           await expect({ error }).to.matchImages();
+        }
+      }
+    }
+  }
+};
+
+export const WarningCheckbox = () => {
+  const [checked, update] = React.useState(false);
+  return (
+    <Checkbox warning checked={checked} onValueChange={update}>
+      text
+    </Checkbox>
+  );
+};
+
+WarningCheckbox.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async warning(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: "#test-element" });
+          const image = await element.takeScreenshot();
+
+          await expect({ image }).to.matchImages();
+        },
+        async warningChecked(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: "#test-element" });
+          const checkbox = await this.browser.findElement({ css: "[data-comp-name~=Checkbox]" });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+
+          const image = await element.takeScreenshot();
+
+          await expect({ image }).to.matchImages();
         }
       }
     }
