@@ -51,7 +51,11 @@ ButtonWithIcon.story = {
 
 export const BasicAutocomplete = () => {
   const [value, updateValue] = React.useState('');
-  return <Autocomplete source={['one', 'two', 'three']} value={value} onValueChange={updateValue} />;
+  return (
+    <div style={{ padding: '4px 200px 200px 4px' }}>
+      <Autocomplete source={['one', 'two', 'three']} value={value} onValueChange={updateValue} />
+    </div>
+  );
 };
 
 /**
