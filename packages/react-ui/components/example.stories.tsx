@@ -133,7 +133,7 @@ BasicAutocomplete.story = {
 
 export const SimpleHint = () => {
   return (
-      <Hint text="World" >Hello</Hint>
+    <Hint text="World" >Hello</Hint>
   );
 };
 //В storybook не анимируется hint при наведении на него
@@ -141,11 +141,24 @@ export const SimpleHint = () => {
 
 export const SimpleCheckBox = () => {
   const [value, updateValue] = React.useState(false);
-  return(
-  <Checkbox checked={value} onValueChange={updateValue}>
-    Check it out!
-  </Checkbox>;
+  return (
+    <Checkbox checked={value} onValueChange={updateValue}>
+      Check it out!
+    </Checkbox>
   );
 }
 
-
+/**
+ *  Checkbox. Ховер и смена состояния
+ *
+ *  0. История CheckBox
+ *  1. Найти элемент на странице
+ *  2. 📸 дефолтное состояние
+ *  3. Навести мышь на чекбокс
+ *  4. 📸 состояние "hovered"
+ *  5. Выбрать чекбокс
+ *  6. 📸 состояние "checked"
+ *  7. Снять чекбокс
+ *  8. 📸 состояние "unchecked" *
+ *  Profit!
+ */
