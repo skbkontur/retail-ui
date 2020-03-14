@@ -170,6 +170,58 @@ export const DisableCheckedCheckbox = () => {
   );
 };
 
+export const ClickCheckBox = () => {
+  const [value, updateValue] = React.useState(false);
+  return (
+    <Checkbox
+    checked={value}
+    onValueChange={updateValue}>text</Checkbox>
+  );
+};
+/**
+ *  CheckBox. клик по чек-боксу поверяем, что в нем стоит галочка
+ *
+ *  0. История BasicCheckBoxClick
+ *  1. Найти элемент на странице
+ *  3. 📸 состояние элемента
+ *  4. клик по чек-боксу
+ *  5. 📸 состояние “выбран чек-бокс”
+ *  не получилось кликнуть отдельно по чек-боксу и отдельно по тексту
+ *  6. клик по тексту
+ *  7.📸 состояние “не выбран чек-бокс”
+ */
+ClickCheckBox.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async itemSelected(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: "#test-element" });
+          const checkbox = await this.browser.findElement({ css: "[data-comp-name~=Checkbox]" });
+		      /*const text = await this.browser.findElement({ css: "#react-ui-1u5errz" });*/
+
+          const idle = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+
+          const afterClicked = await element.takeScreenshot();
+		  
+		        await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+
+          const aftertwoClicked = await element.takeScreenshot();
+
+          await expect({ idle, afterClicked,aftertwoClicked }).to.matchImages();
+        }
+      }
+    }
+  }
+};
+
 DisableCheckedCheckbox.story = {
   parameters: {
     creevey: {
