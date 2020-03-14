@@ -55,7 +55,7 @@ export const BasicAutocomplete = () => {
   const [value, updateValue] = React.useState('');
   return (
     <div style={{ padding: '4px 200px 200px 4px' }}>
-      <Autocomplete source={BASIC_AUTOCOMPLETE_ITEMS} value={value} onValueChange={updateValue} />
+      <Autocomplete source={BASIC_AUTOCOMPLETE_ITEMS} value={value} onValueChange={updateValue}/>
     </div>
   );
 };
@@ -207,3 +207,27 @@ BasicAutocomplete.story = {
     },
   },
 };
+
+export const SimpleTokenInput = () => {
+  const [selectedItems, setSelectedItems] = React.useState<TokenInputItems>([]);
+
+  return (
+    <TokenInput
+      selectedItems={selectedItems}
+      getItems={getTokenInputItems}
+      onValueChange={(newItems: TokenInputItems) => setSelectedItems(newItems)}
+    />
+  );
+};
+
+type TokenInputItems = string[];
+const TokenInputItems: TokenInputItems = ['First', 'Second'];
+
+async function getTokenInputItems(itemName: string) {
+  const valuesFilter = (value: string) => value
+    .toLowerCase()
+    .includes(itemName.toLowerCase());
+
+  return TokenInputItems
+    .filter(valuesFilter);
+}
