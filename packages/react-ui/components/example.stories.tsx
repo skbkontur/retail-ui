@@ -49,11 +49,17 @@ ButtonWithIcon.story = {
   },
 };
 
+const BASIC_AUTOCOMPLETE_ITEMS = [
+  'one',
+  'two',
+  'three',
+];
+
 export const BasicAutocomplete = () => {
   const [value, updateValue] = React.useState('');
   return (
     <div style={{ padding: '4px 200px 200px 4px' }}>
-      <Autocomplete source={['one', 'two', 'three']} value={value} onValueChange={updateValue} />
+      <Autocomplete source={BASIC_AUTOCOMPLETE_ITEMS} value={value} onValueChange={updateValue}/>
     </div>
   );
 };
@@ -182,6 +188,48 @@ BasicAutocomplete.story = {
           const absent = await element.takeScreenshot();
 
           await expect({ focused, typed, highlighted, typedExtra, absent }).to.matchImages();
+        },
+
+        async firstItemSelectedAfterLast(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+          const typedText = 'o';
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          const focused = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(typedText)
+            .perform();
+
+          const typed = await element.takeScreenshot();
+
+          const filteredItemsLength = BASIC_AUTOCOMPLETE_ITEMS
+            .filter(item => item.trim().toLowerCase().includes(typedText))
+            .length;
+          const arrowDownKeysArray: string[] = Array(filteredItemsLength + 1)
+            .fill(Key.ARROW_DOWN);
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(...arrowDownKeysArray)
+            .perform();
+
+          const firstHighlighted = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(Key.ENTER)
+            .perform();
+
+          const selected = await element.takeScreenshot();
+
+          await expect({ focused, typed, firstHighlighted, selected }).to.matchImages();
         },
       },
     },
