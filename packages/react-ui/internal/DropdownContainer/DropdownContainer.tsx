@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
-import { createPropsGetter } from '../createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 
 type DOMNode = Element | Text | null;

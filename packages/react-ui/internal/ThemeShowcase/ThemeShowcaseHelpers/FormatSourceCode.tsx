@@ -2,7 +2,7 @@ import React from 'react';
 import warning from 'warning';
 
 import { Nullable } from '../../../typings/utility-types';
-import { isDevelopmentEnv } from '../../currentEnvironment';
+import { isDevelopmentEnv } from '../../../lib/currentEnvironment';
 import { jsStyles } from '../ThemeShowcase.styles';
 
 export function formatSourceCode(input: string, componentName: string) {

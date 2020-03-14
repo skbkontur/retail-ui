@@ -5,7 +5,7 @@ import { Button } from '../Button';
 import { Group } from '../Group';
 import { Input, InputProps, InputType } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
-import { createPropsGetter } from '../../internal/createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 

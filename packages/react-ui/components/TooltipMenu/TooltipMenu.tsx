@@ -2,7 +2,7 @@ import React from 'react';
 
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
-import { isProductionEnv } from '../../internal/currentEnvironment';
+import { isProductionEnv } from '../../lib/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPosition } from '../../internal/Popup';
 

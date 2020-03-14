@@ -11,7 +11,7 @@ import { Sticky } from '../../components/Sticky';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Tooltip } from '../../components/Tooltip';
 import { PopupPosition } from '../Popup';
-import { IS_PROXY_SUPPORTED } from '../Supports';
+import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 
 import {
   ALL_USED_VARIABLES,

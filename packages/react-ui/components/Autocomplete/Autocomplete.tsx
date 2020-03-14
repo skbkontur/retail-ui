@@ -8,7 +8,7 @@ import { DropdownContainer } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
-import { createPropsGetter } from '../../internal/createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 

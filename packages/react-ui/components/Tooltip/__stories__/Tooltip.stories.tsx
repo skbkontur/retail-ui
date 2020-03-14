@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
 import { PopupPosition, PopupPositions } from '../../../internal/Popup';
-import { createPropsGetter } from '../../../internal/createPropsGetter';
+import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { Textarea } from '../../Textarea';
 import { Checkbox } from '../../Checkbox';
 import { Gapped } from '../../Gapped';

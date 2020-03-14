@@ -1,4 +1,4 @@
-import { isProductionEnv } from '../currentEnvironment';
+import { isProductionEnv } from '../../lib/currentEnvironment';
 import { PopupPosition } from '../Popup';
 
 import { PopupMenuPositions } from './PopupMenuPositions';

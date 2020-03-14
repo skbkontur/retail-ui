@@ -23,7 +23,7 @@ import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
-import { createPropsGetter } from '../../internal/createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

@@ -1,7 +1,7 @@
 import { Theme } from '../../../lib/theming/Theme';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME } from '../../../lib/theming/themes/FlatTheme';
-import { IS_PROXY_SUPPORTED } from '../../Supports';
+import { IS_PROXY_SUPPORTED } from '../../../lib/Supports';
 
 import { formatSourceCode } from './FormatSourceCode';
 

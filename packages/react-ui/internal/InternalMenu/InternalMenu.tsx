@@ -6,7 +6,7 @@ import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keybo
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { isMenuHeader } from '../../components/MenuHeader';
-import { createPropsGetter } from '../createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';

@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
-import { createPropsGetter } from '../../../internal/createPropsGetter';
+import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { InputType } from '../../Input';
 
 storiesOf('FxInput', module)
