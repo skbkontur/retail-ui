@@ -113,6 +113,76 @@ BasicAutocomplete.story = {
 
           await expect({ focused, typed, highlighted, selected }).to.matchImages();
         },
+
+        async itemNotFound(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          const focused = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('a')
+            .perform();
+
+          const typed = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(Key.ARROW_DOWN)
+            .perform();
+
+          const absent = await element.takeScreenshot();
+
+          await expect({ focused, typed, absent }).to.matchImages();
+        },
+
+        async itemNotFoundAfterFillExtraChar(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          const focused = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('o')
+            .perform();
+
+          const typed = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(Key.ARROW_DOWN)
+            .perform();
+
+          const highlighted = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('!')
+            .perform();
+
+          const typedExtra = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(Key.ARROW_DOWN)
+            .perform();
+
+          const absent = await element.takeScreenshot();
+
+          await expect({ focused, typed, highlighted, typedExtra, absent }).to.matchImages();
+        },
       },
     },
   },
