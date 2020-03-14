@@ -1,3 +1,6 @@
+import { Component } from 'react';
+import { CSFStory } from 'creevey';
+
 export default {
   title: '😌 TestRetreat ',
 };
@@ -14,7 +17,7 @@ export const ButtonWithIcon = () => {
  *  3. Навести мышь на Кнопку
  *  4. 📸 состояние “hover”
  *  5. Наблюдаем изменение цвета фона
- * 
+ *
  *  Profit!
  */
 
@@ -116,3 +119,20 @@ BasicAutocomplete.story = {
     },
   },
 };
+
+class CheckboxWithTextClass extends Component<any, any> {
+  public state = {
+    checked: false,
+  };
+
+  public render() {
+    const { checked } = this.state;
+    return (
+      <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked}>
+        {this.props.children}
+      </Checkbox>
+    );
+  }
+}
+
+export const CheckboxWithText: CSFStory<JSX.Element> = () => <CheckboxWithTextClass><div data-tid="text">CheckboxWithText</div></CheckboxWithTextClass>;
