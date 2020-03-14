@@ -43,6 +43,63 @@ MathTest.story = {
           await expect({ dafaultState, stateAfterCorrectAnswerClick, stateAfterCheck }).to.matchImages();
         },
 
+        async checkLoosingFocusOnSelectedRadio(this: { browser: WebDriver }) {
+          const testContainer = await this.browser.findElement({ css: '#test-element' });
+          const rightAnswer = await this.browser.findElement({ css: '[data-tid~=option1]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: rightAnswer })
+            .click()
+            .perform();
+
+          const stateOptionClick = await testContainer.takeScreenshot();
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(Key.TAB)
+            .perform();
+
+          const stateAfterLossingFocus = await testContainer.takeScreenshot();
+
+          await expect({ stateOptionClick, stateAfterLossingFocus }).to.matchImages();
+        },
+
+        async checkSwitchingBetweenOptions(this: { browser: WebDriver }) {
+          const testContainer = await this.browser.findElement({ css: '#test-element' });
+          const options = await this.browser.findElements({ css: '[data-comp-name~=Radio]' });
+          const dafaultState = await testContainer.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: options[0] })
+            .click()
+            .perform();
+
+          const stateFirstOptionSelected = await testContainer.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: options[1] })
+            .click()
+            .perform();
+
+          const stateSecondOptionSelected = await testContainer.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: options[2] })
+            .click()
+            .perform();
+
+          const stateThirdOptionSelected = await testContainer.takeScreenshot();
+          await expect({
+            dafaultState,
+            stateFirstOptionSelected,
+            stateSecondOptionSelected,
+            stateThirdOptionSelected,
+          }).to.matchImages();
+        },
+
         async checkWrongAnswer(this: { browser: WebDriver }) {
           const scrin = await this.browser.findElement({ css: '#test-element' });
           const element = await this.browser.findElement({ css: '[data-tid~=option0]' });
