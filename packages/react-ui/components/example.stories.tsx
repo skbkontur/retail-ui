@@ -259,6 +259,8 @@ InputStates.story = {
           const element = await this.browser.findElement({ css: '#test-element' });
           const input = await this.browser.findElement({ css: '[data-comp-name~=Input]' });
 
+          const idle = await element.takeScreenshot();
+
           await this.browser
             .actions({ bridge: true })
             .click(input)
@@ -296,7 +298,7 @@ InputStates.story = {
 
           const disabled = await element.takeScreenshot();
 
-          await expect({ focused, typed, withError, withWarning, disabled }).to.matchImages();
+          await expect({ idle, focused, typed, withError, withWarning, disabled }).to.matchImages();
         },
       },
     },
