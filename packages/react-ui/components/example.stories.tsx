@@ -55,7 +55,7 @@ export const BasicAutocomplete = () => {
   const [value, updateValue] = React.useState('');
   return (
     <div style={{ padding: '4px 200px 200px 4px' }}>
-      <Autocomplete source={BASIC_AUTOCOMPLETE_ITEMS} value={value} onValueChange={updateValue}/>
+      <Autocomplete source={BASIC_AUTOCOMPLETE_ITEMS} value={value} onValueChange={updateValue} />
     </div>
   );
 };
@@ -212,22 +212,96 @@ export const SimpleTokenInput = () => {
   const [selectedItems, setSelectedItems] = React.useState<TokenInputItems>([]);
 
   return (
-    <TokenInput
-      selectedItems={selectedItems}
-      getItems={getTokenInputItems}
-      onValueChange={(newItems: TokenInputItems) => setSelectedItems(newItems)}
-    />
+    <div style={{ padding: '4px 200px 200px 4px' }}>
+      <TokenInput
+        selectedItems={selectedItems}
+        getItems={getTokenInputItems}
+        onValueChange={(newItems: TokenInputItems) => setSelectedItems(newItems)}
+      />
+    </div>
   );
 };
 
 type TokenInputItems = string[];
-const TokenInputItems: TokenInputItems = ['First', 'Second'];
+const TokenInputItems: TokenInputItems = ['First', 'Second', 'Item with very very very very very long name'];
 
 async function getTokenInputItems(itemName: string) {
-  const valuesFilter = (value: string) => value
-    .toLowerCase()
-    .includes(itemName.toLowerCase());
+  const valuesFilter = (value: string) => value.toLowerCase().includes(itemName.toLowerCase());
 
-  return TokenInputItems
-    .filter(valuesFilter);
+  return TokenInputItems.filter(valuesFilter);
 }
+
+SimpleTokenInput.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async itemFocused(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=TokenInput]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          const focused = await element.takeScreenshot();
+
+          await expect({ focused }).to.matchImages();
+        },
+
+        async itemSelected(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=TokenInput]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .sendKeys('Item', Key.ARROW_DOWN, Key.ENTER)
+            .perform();
+
+          const selected = await element.takeScreenshot();
+
+          await expect({ selected }).to.matchImages();
+        },
+
+        async itemNotFound(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=TokenInput]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .sendKeys('!', Key.ARROW_DOWN)
+            .perform();
+
+          const notFound = await element.takeScreenshot();
+
+          await expect({ notFound }).to.matchImages();
+        },
+
+        async itemRemovedFromSelected(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=TokenInput]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .sendKeys('F', Key.ARROW_DOWN, Key.ENTER)
+            .perform();
+
+          const selected = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .sendKeys(Key.BACK_SPACE, Key.BACK_SPACE)
+            .perform();
+
+          const absent = await element.takeScreenshot();
+
+          await expect({ selected, absent }).to.matchImages();
+        },
+      },
+    },
+  },
+};
