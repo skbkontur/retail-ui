@@ -137,3 +137,15 @@ export const SimpleHint = () => {
   );
 };
 //В storybook не анимируется hint при наведении на него
+
+
+export const SimpleCheckBox = () => {
+  const [value, updateValue] = React.useState(false);
+  return(
+  <Checkbox checked={value} onValueChange={updateValue}>
+    Check it out!
+  </Checkbox>;
+  );
+}
+
+
