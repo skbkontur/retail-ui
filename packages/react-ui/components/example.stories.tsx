@@ -49,11 +49,79 @@ ButtonWithIcon.story = {
   },
 };
 
+export const BasicLink = () => {
+  return (
+    <div style={{ marginTop: '20px' }}>
+      <Link href='#'>Base link 👋</Link>
+    </div>
+  );
+};
+
+/**
+ *  Link. Клик по ссылке
+ *
+ *  0. История BasicLink
+ *  1. Найти элемент на странице
+ *  2. Наведение на ссылку
+ *  3. 📸 состояние "hover"
+ *  4. Нажать клавишу MOUSE_DOWN
+ *  5. 📸 состояние “зажатая кнопка мыши”
+ *  4. Нажать клавишу MOUSE_UP
+ *  5. 📸 состояние “кликнули по ссылке”
+ *
+ *  Profit!
+ */
+
+BasicLink.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async itemSelected(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const link = await this.browser.findElement({ css: 'a' });
+
+          const started = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: link })
+            .perform();
+
+          const hovered = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .press()
+            .perform();
+
+          const pressed = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click()
+            .perform();
+
+          const clicked = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ x: 0, y: 0 })
+            .perform();
+
+          const activated = await element.takeScreenshot();
+
+          await expect({ started, hovered, pressed, clicked, activated }).to.matchImages();
+        },
+      },
+    },
+  },
+};
+
 export const BasicAutocomplete = () => {
   const [value, updateValue] = React.useState('');
   return (
     <div style={{ padding: '4px 200px 200px 4px' }}>
-      <Autocomplete source={['one', 'two', 'three']} value={value} onValueChange={updateValue} />
+      <Autocomplete source={['one', 'two', 'three']} value={value} onValueChange={updateValue}/>
     </div>
   );
 };
