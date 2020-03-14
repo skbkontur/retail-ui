@@ -220,6 +220,7 @@ export const InputWithError = () => {
   const [value, setValue] = useState<string>('');
   const isError = value === 'error';
   const disabled = value === 'disabled';
+  const warning = value === 'warning';
 
   return (
     <section>
@@ -227,6 +228,7 @@ export const InputWithError = () => {
         value={value}
         error={isError}
         disabled={disabled}
+        warning={warning}
         onChange={event => setValue(event.currentTarget.value)}
       />
     </section>
@@ -281,12 +283,20 @@ InputWithError.story = {
           await this.browser
             .actions({ bridge: true })
             .doubleClick(input)
+            .sendKeys('warning')
+            .perform();
+
+          const withWarning = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .doubleClick(input)
             .sendKeys('disabled')
             .perform();
 
           const disabled = await element.takeScreenshot();
 
-          await expect({ focused, typed, withError, disabled }).to.matchImages();
+          await expect({ focused, typed, withError, withWarning, disabled }).to.matchImages();
         },
       },
     },
