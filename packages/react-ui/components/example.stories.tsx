@@ -163,3 +163,27 @@ DisabledCheckbox.story = {
     }
   }
 };
+
+export const ErrorCheckbox = () => {
+  return (
+    <Checkbox error>
+      text
+    </Checkbox>
+  );
+};
+
+ErrorCheckbox.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async showError(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: "#test-element" });
+
+          const error = await element.takeScreenshot();
+
+          await expect({ error }).to.matchImages();
+        }
+      }
+    }
+  }
+}
