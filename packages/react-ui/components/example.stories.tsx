@@ -139,7 +139,7 @@ export const SimpleHint = () => {
 //В storybook не анимируется hint при наведении на него
 
 
-export const SimpleCheckBox = () => {
+export const UnaryCheckbox = () => {
   const [value, updateValue] = React.useState(false);
   return (
     <Checkbox checked={value} onValueChange={updateValue}>
@@ -158,7 +158,43 @@ export const SimpleCheckBox = () => {
  *  4. 📸 состояние "hovered"
  *  5. Выбрать чекбокс
  *  6. 📸 состояние "checked"
- *  7. Снять чекбокс
- *  8. 📸 состояние "unchecked" *
  *  Profit!
  */
+
+UnaryCheckbox.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async ChangeState(this: { browser: WebDriver }) {
+          // 1. находим элемент для скриншота
+          const element = await this.browser.findElement({ css: '#test-element' });
+
+          // 2. делаем скриншот "по умолчанию"
+          const uncheckedUnhovered = await element.takeScreenshot();
+
+          // находим чекбокс
+          const checkbox = await this.browser.findElement({ css: '[data-comp-name~=Checkbox]' });
+
+          // 3. наводим указатель мыши
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: checkbox })
+            .perform();
+
+          // 4. делаем скриншот "при наведении"
+          const hovered = await element.takeScreenshot();
+
+          // 5. выбираем чекбокс
+          await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+
+          // 6. делаем скриншот после выбора чекбокса
+          const checked = await element.takeScreenshot();
+          await expect({ uncheckedUnhovered, hovered, checked }).to.matchImages();
+        },
+      },
+    },
+  },
+};
