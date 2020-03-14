@@ -1,5 +1,5 @@
 export default {
-  title: 'TestRetreat',
+  title: '_TestRetreat',
 };
 
 export const ButtonWithIcon = () => {
