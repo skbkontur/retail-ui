@@ -618,7 +618,7 @@ ModalWithoutStickyElements.story = {
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
         },
         async middle() {
-          await this.browser.executeScript(function() {
+          await this.browser.executeScript(function () {
             const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
             const modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
@@ -629,7 +629,7 @@ ModalWithoutStickyElements.story = {
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
         },
         async bottom() {
-          await this.browser.executeScript(function() {
+          await this.browser.executeScript(function () {
             const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
             const modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
@@ -708,6 +708,44 @@ SmallModalOnTheTop.story = {
             .perform();
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('closes by click on the background');
         },
+        async ['opens from keyboard']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .press()
+            .release()
+            .sendKeys(Key.TAB, Key.ENTER)
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('opens from keyboard');
+        },
+        async ['closes from keyboard focusing cross']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .press()
+            .release()
+            .sendKeys(Key.TAB, Key.ENTER, Key.TAB, Key.ENTER)
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('closes from keyboard focusing cross');
+        },
+        async ['focuses only elements inside']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .press()
+            .release()
+            .sendKeys(Key.TAB, Key.ENTER, Key.TAB, Key.TAB)
+            .pause(1) // otherwise it focuses both cross and the button at once
+            .sendKeys(Key.TAB)
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('focuses only elements inside');
+        }
       },
     },
   },
