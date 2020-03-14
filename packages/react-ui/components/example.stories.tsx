@@ -156,6 +156,30 @@ export const CheckboxWithText: CSFStory<JSX.Element> = () => <CheckboxWithTextCl
  *  Profit!
  */
 
+CheckboxWithText.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async hoverOnLabel() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            move({
+              origin: label,
+            }).
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('hoverOnLabel');
+        },
+      }
+    }
+  }
+}
+
 class CheckboxWithIndeterminateState extends Component<any, any> {
   state = {
     checked: false,
