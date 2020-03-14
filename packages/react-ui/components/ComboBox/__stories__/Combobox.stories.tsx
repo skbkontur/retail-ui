@@ -13,7 +13,7 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
 
-const { getCities } = require('../__mocks__/getCities.js');
+const { getCities } = require('../__mocks__/getCities');
 
 export default { title: 'ComboBox' };
 

@@ -30,7 +30,7 @@ addDecorator(
 );
 
 addDecorator(story => (
-  <div id="test-element" style={{ display: 'inline-block', padding: '0 200px 200px 0' }}>
+  <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
     {story()}
   </div>
 ));
