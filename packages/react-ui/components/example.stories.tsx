@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import { Checkbox } from './Checkbox';
+import React, { Component } from 'react';
 import { CSFStory } from 'creevey';
 
 export default {
@@ -11,6 +12,7 @@ export const ButtonWithIcon = () => {
 
 /**
  *  Button. Состояние “hover”
+ *
  *  0. История ButtonWithIcon
  *  1. Найти элемент на странице
  *  2. 📸 дефолтное состояние
@@ -136,3 +138,34 @@ class CheckboxWithTextClass extends Component<any, any> {
 }
 
 export const CheckboxWithText: CSFStory<JSX.Element> = () => <CheckboxWithTextClass><div data-tid="text">CheckboxWithText</div></CheckboxWithTextClass>;
+class CheckboxWithIndeterminateState extends Component<any, any> {
+  state = {
+    checked: false,
+    initialIndeterminate: true,
+  };
+
+  public render() {
+    const { checked, initialIndeterminate } = this.state;
+    return (
+      <Checkbox
+        initialIndeterminate={initialIndeterminate}
+        onValueChange={() => this.setState({ checked: !checked })}
+        checked={checked}
+      >
+        {this.props.children}
+      </Checkbox>
+    );
+  }
+}
+
+export const SimpleCheckbox: CSFStory<JSX.Element> = () => (
+  <CheckboxWithIndeterminateState>Click me </CheckboxWithIndeterminateState>
+);
+
+/**
+ *  Checkbox.
+ *
+ *  0. История SimpleCheckbox
+ *
+ *  Profit!
+ */
