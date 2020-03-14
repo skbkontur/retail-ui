@@ -1,3 +1,7 @@
+import { Checkbox } from './Checkbox';
+import React, { Component } from 'react';
+import { CSFStory } from 'creevey';
+
 export default {
   title: '😌 TestRetreat ',
 };
@@ -8,13 +12,14 @@ export const ButtonWithIcon = () => {
 
 /**
  *  Button. Состояние “hover”
+ *
  *  0. История ButtonWithIcon
  *  1. Найти элемент на странице
  *  2. 📸 дефолтное состояние
  *  3. Навести мышь на Кнопку
  *  4. 📸 состояние “hover”
  *  5. Наблюдаем изменение цвета фона
- * 
+ *
  *  Profit!
  */
 
@@ -116,3 +121,35 @@ BasicAutocomplete.story = {
     },
   },
 };
+
+class CheckboxWithIndeterminateState extends Component<any, any> {
+  state = {
+    checked: false,
+    initialIndeterminate: true,
+  };
+
+  public render() {
+    const { checked, initialIndeterminate } = this.state;
+    return (
+      <Checkbox
+        initialIndeterminate={initialIndeterminate}
+        onValueChange={() => this.setState({ checked: !checked })}
+        checked={checked}
+      >
+        {this.props.children}
+      </Checkbox>
+    );
+  }
+}
+
+export const SimpleCheckbox: CSFStory<JSX.Element> = () => (
+  <CheckboxWithIndeterminateState>Click me </CheckboxWithIndeterminateState>
+);
+
+/**
+ *  Checkbox.
+ *
+ *  0. История SimpleCheckbox
+ *
+ *  Profit!
+ */
