@@ -4,16 +4,34 @@ export default {
   title: '😌 TestRetreat',
 };
 
-export const LinkPressedThenReleased = () => {
-  return (
-    <Link>Enabled</Link>
-  );
-}
+export const LinkDefault = () => {
+  return <Link>Enabled</Link>;
+};
+
+export const LinkWithIcon = () => {
+  return <Link icon={<OkIcon />}>OK</Link>;
+};
+
+export const LinkWithSpaces = () => {
+  return <Link>Link with spaces</Link>;
+};
+
+export const LinkSuccess = () => {
+  return <Link use="success">Link with spaces</Link>;
+};
+
+export const LinkDanger = () => {
+  return <Link use="danger">Link with spaces</Link>;
+};
+
+export const LinkGrayed = () => {
+  return <Link use="grayed">Link with spaces</Link>;
+};
 
 /**
  * Link
  * 
- * 0. История LinkPressedThenReleased
+ * 0. Истории Link*
  * 1. Найти элемент на странице
  * 2. Сделать скриншот дефолтного состояния
  * 3. Навести курсор на ссылку
@@ -24,79 +42,61 @@ export const LinkPressedThenReleased = () => {
  * 8. Сделать скриншот состояния hover
  */
 
-LinkPressedThenReleased.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async pressedThenReleased(this: { browser: WebDriver }) {
-          const element = await this.browser.findElement({ css: '#test-element' });
-          const link = await this.browser.findElement({ css: '[data-comp-name~=Link]' });
+const linkTests = {
+  async pressedThenReleased(this: { browser: WebDriver }) {
+    const element = await this.browser.findElement({ css: '#test-element' });
+    const link = await this.browser.findElement({ css: '[data-comp-name~=Link]' });
 
-          const idle = await element.takeScreenshot();
+    const idle = await element.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .move({ origin: link })
-            .perform();
+    await this.browser
+      .actions({ bridge: true })
+      .move({ origin: link })
+      .perform();
 
-          const hover = await element.takeScreenshot();
+    const hover = await element.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .press()
-            .perform();
+    await this.browser
+      .actions({ bridge: true })
+      .press()
+      .perform();
 
-          const pressed = await element.takeScreenshot();
+    const pressed = await element.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .release()
-            .perform();
+    await this.browser
+      .actions({ bridge: true })
+      .release()
+      .perform();
 
-          const released = await element.takeScreenshot();
+    const released = await element.takeScreenshot();
 
-          await expect({ idle, hover, pressed, released }).to.matchImages();
-        },
-      },
-    },
+    await expect({ idle, hover, pressed, released }).to.matchImages();
+  },
+  async focused(this: { browser: WebDriver }) {
+    const element = await this.browser.findElement({ css: '#test-element' });
+
+    await this.browser
+      .actions({ bridge: true })
+      .sendKeys(Key.TAB)
+      .perform();
+
+    const focused = await element.takeScreenshot();
+
+    await expect({ focused }).to.matchImages();
   },
 };
 
+LinkDefault.story = { parameters: { creevey: { tests: linkTests } } };
 
-export const LinkFocused = () => {
-  return (
-    <Link>Enabled</Link>
-  );
-}
+LinkWithIcon.story = { parameters: { creevey: { tests: linkTests } } };
 
-LinkFocused.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async hover(this: { browser: WebDriver }) {
-          const element = await this.browser.findElement({ css: '#test-element' });
+LinkWithSpaces.story = { parameters: { creevey: { tests: linkTests } } };
 
-          await this.browser
-            .actions({ bridge: true })
-            .sendKeys(Key.TAB)
-            .perform();
+LinkSuccess.story = { parameters: { creevey: { tests: linkTests } } };
 
-          const focused = await element.takeScreenshot();
+LinkDanger.story = { parameters: { creevey: { tests: linkTests } } };
 
-          await expect({ focused }).to.matchImages();
-        },
-      },
-    },
-  },
-};
-
-
-
-export const LinkDisabled = () => {
-  return (
-    <Link disabled={true}>Disabled</Link>
-  );
-}
+LinkGrayed.story = { parameters: { creevey: { tests: linkTests } } };
 
 /**
  * Link
@@ -107,6 +107,10 @@ export const LinkDisabled = () => {
  * 3. Навести курсор на ссылку
  * 4. Сделать скриншот состояния hover
  */
+
+export const LinkDisabled = () => {
+  return <Link disabled={true}>Disabled</Link>;
+};
 
 LinkDisabled.story = {
   parameters: {
@@ -131,39 +135,6 @@ LinkDisabled.story = {
     },
   },
 };
-
-export const LinkWithIcon = () => {
-  return (
-    <Link icon={<OkIcon/>}>OK</Link>
-  );
-}
-
-export const LinkWithSpaces = () => {
-  return (
-    <Link>Link with spaces</Link>
-  );
-}
-
-export const LinkSuccess = () => {
-  return (
-    <Link use="success">Link with spaces</Link>
-  );
-}
-
-export const LinkDanger = () => {
-  return (
-    <Link use="danger">Link with spaces</Link>
-  );
-}
-
-export const LinkGrayed = () => {
-  return (
-    <Link use="grayed">Link with spaces</Link>
-  );
-}
-
-// TODO повторить первый тест для состояний выше
-
 
 export const ButtonWithIcon = () => {
   return <Button>Hello 👋</Button>;
