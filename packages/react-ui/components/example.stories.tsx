@@ -208,52 +208,126 @@ export const SimpleCheckbox: CSFStory<JSX.Element> = () => (
   <CheckboxWithIndeterminateState>Click me </CheckboxWithIndeterminateState>
 );
 
-/**
- *  Checkbox.
- *
- *  0. История SimpleCheckbox
- *  1. Сделать скриншот чекбокса с частичным выделением.
- *  2. Кликнуть по чекбоксу.
- *  3. Сделать скриншот чекбокса с состоянием полного выделения.
- *  4. Кликнуть по чекбоксу.
- *  5. Сделать скриншот чекбокса с невыделенным состоянием.
- *
- *  Profit!
- */
-
-SimpleCheckbox.story = {
-  name: 'Indeterminate to checked',
+CheckboxWithText.story = {
   parameters: {
     creevey: {
       tests: {
         async idle() {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
         },
-        async clicked() {
+        async hoverOnLabel() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '#test-element' }))
+            .move({
+              origin: label,
+            })
             .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+          await this.expect(await this.takeScreenshot()).to.matchImage('hoverOnLabel');
         },
-        async clickedTwoTimes() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#test-element' }))
-            .perform();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#test-element' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clickedTwoTimes');
+        async pressOnLabel() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            move({
+              origin: label,
+            }).
+            press(0).
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('pressOnLabel');
         },
-      },
-    },
-  },
+        async stayHoveredAfterCheck() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            click(label).
+            move({
+              origin: label,
+            }).
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('stayHoveredAfterCheck');
+        },
+        async stayHoveredAfterUncheck() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            move({
+              origin: label,
+            }).
+            click(label).
+            click(label).
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('stayHoveredAfterUncheck');
+        },
+        async pressWhenChecked() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            click(label).
+            move({
+              origin: label,
+            }).
+            press().
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('pressWhenChecked');
+        },
+        async unhoveredWhenUncheckAfterMoveOver() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            move({
+              origin: label,
+            }).
+            click(label).
+            click(label).
+            move({ origin: this.browser.findElement({ css: 'body' }) }).
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('unhoveredWhenUncheckAfterMoveOver');
+        },
+        async stayUncheckedAfterDragAndDrop() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            move({
+              origin: label,
+            }).
+            press(0).
+            move({ origin: this.browser.findElement({ css: 'body' }) }).
+            release(0).
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('stayUncheckedAfterDragAndDrop');
+        },
+        async stayCheckedAfterDragAndDrop() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser.
+            actions({
+              bridge: true
+            }).
+            move({
+              origin: label,
+            }).
+            click(label).
+            press(0).
+            move({ origin: this.browser.findElement({ css: 'body' }) }).
+            release(0).
+            perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('stayCheckedAfterDragAndDrop');
+        },
+      }
+    }
+  }
 };
