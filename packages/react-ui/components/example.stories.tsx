@@ -138,6 +138,24 @@ class CheckboxWithTextClass extends Component<any, any> {
 }
 
 export const CheckboxWithText: CSFStory<JSX.Element> = () => <CheckboxWithTextClass><div data-tid="text">CheckboxWithText</div></CheckboxWithTextClass>;
+
+/**
+ *  Checkbox.
+ *
+ *  0. История CheckboxWithText
+ *  1. Найти на странице текст у чекбокса
+ *  2. Фокус на текст чекбокса
+ *  3. 📸 состояние "не выбран и в фокусе"
+ *  4. Нажимаем на текст чекбоса
+ *  5. 📸 состояние "нажат и выбран"
+ *  6. Отжимаем
+ *  7. 📸 состояние "выбран и в фокусе"
+ *  8. Снимаем фокус
+ *  9. 📸 состояние "выбран и не в фокусе"
+ *
+ *  Profit!
+ */
+
 class CheckboxWithIndeterminateState extends Component<any, any> {
   state = {
     checked: false,
