@@ -1,0 +1,37 @@
+declare const styles: {
+  readonly "root": string;
+  readonly "link": string;
+  readonly "disabled": string;
+  readonly "caption": string;
+  readonly "active": string;
+  readonly "checked": string;
+  readonly "warning": string;
+  readonly "error": string;
+  readonly "arrow": string;
+  readonly "arrow_loading": string;
+  readonly "arrow_left": string;
+  readonly "default": string;
+  readonly "arrow_warning": string;
+  readonly "arrow_error": string;
+  readonly "icon": string;
+  readonly "focus": string;
+  readonly "errorRoot": string;
+  readonly "warningRoot": string;
+  readonly "sizeSmall": string;
+  readonly "sizeMedium": string;
+  readonly "sizeLarge": string;
+  readonly "buttonWithIcon": string;
+  readonly "wrap": string;
+  readonly "wrap_link": string;
+  readonly "wrap_arrow": string;
+  readonly "wrap_arrow_left": string;
+  readonly "narrow": string;
+  readonly "noPadding": string;
+  readonly "noRightPadding": string;
+  readonly "loading": string;
+  readonly "borderless": string;
+  readonly "btn_loading": string;
+  readonly "btn_loading_arrow": string;
+};
+export = styles;
+

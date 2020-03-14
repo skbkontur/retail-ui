@@ -1,0 +1,30 @@
+declare const styles: {
+  readonly "layout": string;
+  readonly "root": string;
+  readonly "leftSide": string;
+  readonly "container": string;
+  readonly "background": string;
+  readonly "gray": string;
+  readonly "bodyContainer": string;
+  readonly "header": string;
+  readonly "fixed": string;
+  readonly "title": string;
+  readonly "close": string;
+  readonly "closeIcon": string;
+  readonly "body": string;
+  readonly "footer": string;
+  readonly "footerContent": string;
+  readonly "panel": string;
+  readonly "transition-appear": string;
+  readonly "transition-enter": string;
+  readonly "transition-appear-left": string;
+  readonly "transition-enter-left": string;
+  readonly "transition-appear-right": string;
+  readonly "transition-enter-right": string;
+  readonly "transition-appear-active": string;
+  readonly "transition-enter-active": string;
+  readonly "transition-leave": string;
+  readonly "transition-leave-active": string;
+};
+export = styles;
+

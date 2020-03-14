@@ -117,3 +117,49 @@ BasicAutocomplete.story = {
     },
   },
 };
+
+export const DisabledCheckbox = () => {
+  const [value, updateValue] = React.useState(false);
+  return (
+    <Checkbox
+      checked={value}
+      onValueChange={updateValue}
+      disabled
+    >
+      text
+    </Checkbox>
+  )
+};
+
+/**
+* Checkbox: клик по заблокированному чекбоксу
+*
+* 1. Найти элемент на странице
+* 2. Скриншот idle
+* 3. Клик на чекбоксе
+* 4. Скриншот после клика
+* */
+
+DisabledCheckbox.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async itemSelected(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: "#test-element" });
+          const checkbox = await this.browser.findElement({ css: "[data-comp-name~=Checkbox]" });
+
+          const idle = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+
+          const afterClicked = await element.takeScreenshot();
+
+          await expect({ idle, afterClicked }).to.matchImages();
+        }
+      }
+    }
+  }
+};
