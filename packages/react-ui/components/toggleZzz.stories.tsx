@@ -10,107 +10,54 @@ export const ToggleOff = () => {
   return <Toggle checked={false} />;
 };
 
-ToggleOn.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async pressedThenReleased(this: { browser: WebDriver }) {
-          const element = await this.browser.findElement({ css: '#test-element' });
-          const toggle = await this.browser.findElement({ css: '[data-comp-name~=Toggle]' });
+const toggleTests = {
+  async pressedThenReleased(this: { browser: WebDriver }) {
+    const element = await this.browser.findElement({ css: '#test-element' });
+    const toggle = await this.browser.findElement({ css: '[data-comp-name~=Toggle]' });
 
-          const idle = await element.takeScreenshot();
+    const idle = await element.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .move({ origin: toggle })
-            .perform();
+    await this.browser
+      .actions({ bridge: true })
+      .move({ origin: toggle })
+      .perform();
 
-          const hover = await element.takeScreenshot();
+    const hover = await element.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .press()
-            .pause(1000) // ждем конца анимации
-            .perform();
+    await this.browser
+      .actions({ bridge: true })
+      .press()
+      .pause(1000) // ждем конца анимации
+      .perform();
 
-          const pressed = await element.takeScreenshot();
+    const pressed = await element.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .release()
-            .perform();
+    await this.browser
+      .actions({ bridge: true })
+      .release()
+      .perform();
 
-          const released = await element.takeScreenshot();
+    const released = await element.takeScreenshot();
 
-          await expect({ idle, hover, pressed, released }).to.matchImages();
-        },
-        async focused(this: { browser: WebDriver }) {
-          const element = await this.browser.findElement({ css: '#test-element' });
+    await expect({ idle, hover, pressed, released }).to.matchImages();
+  },
+  async focused(this: { browser: WebDriver }) {
+    const element = await this.browser.findElement({ css: '#test-element' });
 
-          await this.browser
-            .actions({ bridge: true })
-            .sendKeys(Key.TAB)
-            .perform();
+    await this.browser
+      .actions({ bridge: true })
+      .sendKeys(Key.TAB)
+      .perform();
 
-          const focused = await element.takeScreenshot();
+    const focused = await element.takeScreenshot();
 
-          await expect({ focused }).to.matchImages();
-        },
-      },
-    },
+    await expect({ focused }).to.matchImages();
   },
 };
 
-ToggleOff.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async pressedThenReleased(this: { browser: WebDriver }) {
-          const element = await this.browser.findElement({ css: '#test-element' });
-          const toggle = await this.browser.findElement({ css: '[data-comp-name~=Toggle]' });
+ToggleOn.story = { parameters: { creevey: { tests: toggleTests } } };
 
-          const idle = await element.takeScreenshot();
-
-          await this.browser
-            .actions({ bridge: true })
-            .move({ origin: toggle })
-            .perform();
-
-          const hover = await element.takeScreenshot();
-
-          await this.browser
-            .actions({ bridge: true })
-            .press()
-            .pause(1000) // ждем конца анимации
-            .perform();
-
-          const pressed = await element.takeScreenshot();
-
-          await this.browser
-            .actions({ bridge: true })
-            .release()
-            .perform();
-
-          const released = await element.takeScreenshot();
-
-          await expect({ idle, hover, pressed, released }).to.matchImages();
-        },
-        async focused(this: { browser: WebDriver }) {
-          const element = await this.browser.findElement({ css: '#test-element' });
-
-          await this.browser
-            .actions({ bridge: true })
-            .sendKeys(Key.TAB)
-            .perform();
-
-          const focused = await element.takeScreenshot();
-
-          await expect({ focused }).to.matchImages();
-        },
-      },
-    },
-  },
-};
+ToggleOff.story = { parameters: { creevey: { tests: toggleTests } } };
 
 class SimpleToggle extends React.Component<any, any> {
   public state = {
