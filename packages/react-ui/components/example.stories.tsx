@@ -466,41 +466,41 @@ AutocompleteWithMask.story = {
           await expect({ withMask, filledMask }).to.matchImages();
         },
 
-        // Тест падает, потому что не срабатывает событие Key.ARROW_DOWN, значение из списка не подсвечивается
-        // async itemSelected(this: { browser: WebDriver }) {
-        //   const element = await this.browser.findElement({ css: '#test-element' });
-        //   const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+        // Тест не проходит, т.к. не срабатывает Key.ARROW_DOWN
+//         async itemSelected(this: { browser: WebDriver }) {
+//           const element = await this.browser.findElement({ css: '#test-element' });
+//           const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
 
-        //   await this.browser
-        //     .actions({ bridge: true })
-        //     .click(input)
-        //     .perform();
+//           await this.browser
+//             .actions({ bridge: true })
+//             .click(input)
+//             .perform();
 
-        //   const focused = await element.takeScreenshot();
+//           const focused = await element.takeScreenshot();
 
-        //   await this.browser
-        //     .actions({ bridge: true })
-        //     .sendKeys('900')
-        //     .perform();
+//           await this.browser
+//             .actions({ bridge: true })
+//             .sendKeys('900')
+//             .perform();
 
-        //   const typed = await element.takeScreenshot();
+//           const typed = await element.takeScreenshot();
 
-        //   await this.browser
-        //     .actions({ bridge: true })
-        //     .sendKeys(Key.ARROW_DOWN)
-        //     .perform();
+//           await this.browser
+//             .actions({ bridge: true })
+//             .sendKeys((this as any).keys.ARROW_DOWN)
+//             .perform();
 
-        //   const highlighted = await element.takeScreenshot();
+//           const highlighted = await element.takeScreenshot();
 
-        //   await this.browser
-        //     .actions({ bridge: true })
-        //     .sendKeys(Key.ENTER)
-        //     .perform();
+//           await this.browser
+//             .actions({ bridge: true })
+//             .sendKeys(Key.ENTER)
+//             .perform();
 
-        //   const selected = await element.takeScreenshot();
+//           const selected = await element.takeScreenshot();
 
-        //   await expect({ focused, typed, highlighted, selected }).to.matchImages();
-        // },
+//           await expect({ focused, typed, highlighted, selected }).to.matchImages();
+//         },
       },
     },
   },
@@ -534,6 +534,74 @@ AutocompleteWithWarning.story = {
     creevey: {
       tests: {
         async showWarning(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+
+          const noFocus = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          const withFocus = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('f')
+            .perform();
+
+          const witnElements = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(Key.ARROW_DOWN)
+            .perform();
+
+          const highlighted = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(Key.ENTER)
+            .perform();
+
+          const valueSelected = await element.takeScreenshot();
+
+          await expect({ noFocus, withFocus, witnElements, highlighted, valueSelected }).to.matchImages();
+        },
+      },
+    },
+  },
+};
+
+export const AutocompleteWithError = () => {
+  const [value, updateValue] = React.useState('');
+  return (
+    <Autocomplete source={['first value', 'second value']} value={value} onValueChange={updateValue} error={true} />
+  );
+};
+
+/**
+ *  Autocomplete. Подсветка при предупреждении
+ *
+ *  0. История AutocompleteWithWarning
+ *  1. 📸 состояние "не в фокусе"
+ *  2. Фокус на поле ввода
+ *  3. 📸 состояние "в фокусе"
+ *  4. Ввести символ "f"
+ *  5. 📸 состояние “введенный символ”
+ *  6. Нажать клавишу ARROW_DOWN
+ *  7. 📸 состояние “подсвечен первый элемент”
+ *  8. Нажать клавишу ENTER
+ *  9. 📸 состояние “выбран элемент”
+ *
+ */
+
+AutocompleteWithError.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async showError(this: { browser: WebDriver }) {
           const element = await this.browser.findElement({ css: '#test-element' });
           const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
 
