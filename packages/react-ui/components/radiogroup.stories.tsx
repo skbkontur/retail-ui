@@ -8,7 +8,7 @@ export const MyTest = () => {
   return (
     <div style={{ padding: '4px 200px 200px 4px' }}>
       <h3>Какой сегодня день?</h3>
-      <RadioGroup name="number-complex" onValueChange={x => setCurrentAnswer(x)}>
+      <RadioGroup name="number-complex" onValueChange={(x: any) => setCurrentAnswer(x)}>
         <Gapped vertical gap={10}>
           <Radio value="friday" error={currentAnswer == 'friday'}>
             Пятница!
