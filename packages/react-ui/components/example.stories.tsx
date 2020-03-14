@@ -1,12 +1,18 @@
 import React, { useRef, useState } from 'react';
+import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { Checkbox } from './Checkbox';
+import { Toggle } from './Toggle';
+import { Link } from './Link';
+import { Toast } from './Toast';
 
 export default {
   title: '😌 TestRetreat ',
 };
 
 export const ButtonWithIcon = () => {
+  // eslint-disable-next-line jsx-a11y/accessible-emoji
   return <Button>Hello 👋</Button>;
 };
 
@@ -297,6 +303,154 @@ InputWithError.story = {
           const disabled = await element.takeScreenshot();
 
           await expect({ focused, typed, withError, withWarning, disabled }).to.matchImages();
+        },
+      },
+    },
+  },
+};
+
+export const UncontrolledToggle = () => <Toggle onValueChange={action('toggle')} />;
+
+/**
+ *  UncontrolledToggle.
+ *
+ *  1. Найти элемент на странице
+ *  2. hover
+ *  3. 📸 состояние hovered
+ *  4. click
+ *  5. 📸 состояние checked
+ *  7. un-hovered
+ *  8. 📸 состояние un-hovered
+ *  9. click
+ *  10. 📸 состояние un-checked
+ *
+ */
+
+UncontrolledToggle.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async hover(this: { browser: WebDriver }) {
+          // 1. находим элемент для скриншота
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const root = await this.browser.findElement({ css: '#root'});
+          // находим кнопку
+          const toggle = await this.browser.findElement({ css: '[data-comp-name*=Toggle]' });
+          const toggle_checkbox = await this.browser.findElement({ css: '[data-prop-type*=checkbox]' });
+
+          // 2. делаем скриншот "по умолчанию"
+          const idle = await element.takeScreenshot();
+
+          // 3. наводим указатель мыши
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: toggle })
+            .perform();
+
+          // 4. делаем скриншот "при наведении"
+          const hover = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(toggle_checkbox)
+            .perform();
+
+          // делаем скриншот "при чеке"
+          const check_on = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: root })
+            .perform();
+
+          // делаем скриншот "без ховера"
+          const hover_off = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(toggle_checkbox)
+            .perform();
+
+          // делаем скриншот "при анчеке"
+          const check_off = await element.takeScreenshot();
+
+          // 5. сравниваем результаты
+          await expect({ idle, hover, check_on, hover_off, check_off }).to.matchImages();
+        },
+      },
+    },
+  },
+};
+
+export const Simple_link: CSFStory<JSX.Element> = () => <Link>Very Simple Link</Link>;
+Simple_link.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async hover(this: { browser: WebDriver }) {
+          // 1. находим элемент для скриншота
+          const element = await this.browser.findElement({ css: '#test-element' });
+
+          // находим link
+          const link = await this.browser.findElement({ css: '[data-comp-name*=Link]' });
+
+          // 2. делаем скриншот "по умолчанию"
+          const idle = await element.takeScreenshot();
+
+          // 3. наводим указатель мыши
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: link })
+            .perform();
+
+          // 4. делаем скриншот "при наведении"
+          const hover = await element.takeScreenshot();
+
+          // 5. сравниваем результаты
+          await expect({ idle, hover }).to.matchImages();
+        },
+      },
+    },
+  },
+};
+
+export const Link_WithOnClick = () => <Link onClick={() => Toast.push('RUN!')}>Another Simple Link</Link>;
+Link_WithOnClick.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async hover(this: { browser: WebDriver }) {
+          // 1. находим элемент для скриншота
+          const element = await this.browser.findElement({ css: '#test-element' });
+
+          // находим link
+          const link = await this.browser.findElement({ css: '[data-comp-name*=Link]' });
+
+          // 2. делаем скриншот "по умолчанию"
+          const idle = await element.takeScreenshot();
+
+          // 3. наводим указатель мыши
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: link })
+            .perform();
+
+          // 4. делаем скриншот "при наведении"
+          const hover = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(link)
+            .perform();
+
+          // Находим тост
+          const toast_element = await this.browser.findElement({ css: '[data-tid*=ToastView__root]'});
+
+          // 5. делаем скриншот "при клике"
+          const toast = await toast_element.takeScreenshot();
+
+          // 6. сравниваем результаты
+          await expect({ idle, hover, toast }).to.matchImages();
         },
       },
     },
