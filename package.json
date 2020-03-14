@@ -19,7 +19,8 @@
     "release": "env-cmd lerna version",
     "storybook": "yarn workspace @skbkontur/react-ui storybook:test-retreat",
     "creevey": "yarn workspace @skbkontur/react-ui creevey:test-retreat",
-    "start": "run-p storybook creevey"
+    "chromedriver": "chromedriver --port=4444",
+    "start": "run-p storybook creevey chromedriver"
   },
   "jest": {
     "projects": [
@@ -38,5 +39,8 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "dependencies": {
+    "chromedriver": "^80.0.1"
   }
 }

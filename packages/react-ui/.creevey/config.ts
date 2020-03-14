@@ -6,21 +6,13 @@ const config: CreeveyConfig = {
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: 'http://screen:shot@grid.testkontur.ru/wd/hub',
+  gridUrl: 'http://localhost:4444',
   storybookUrl: 'http://localhost:6060',
   browsers: {
     chrome: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
-    },
-    firefox: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-    },
-    ie11: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-    },
+    }
   },
 };
 
