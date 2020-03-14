@@ -170,6 +170,24 @@ Plain.story = {
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
         },
+        async hover() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({origin: this.browser.findElement({ css: '[data-comp-name~=Toggle]' })})
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+        },
+        async focused() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(Key.TAB)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('focused');
+        },
       },
     },
   },
