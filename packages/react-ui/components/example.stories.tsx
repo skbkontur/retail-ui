@@ -1,7 +1,7 @@
 import { OkIcon } from './internal/icons/16px';
 
 export default {
-  title: '😌 TestRetreat ',
+  title: '😌 TestRetreat',
 };
 
 export const LinkPressedThenReleased = () => {
