@@ -361,3 +361,15 @@ SimpleTabs.story = {
     },
   },
 };
+
+/**
+ * Ожидает, пока пройдёт указанное кол-во милисекунд
+ *
+ * @param driver
+ * @param msTime
+ */
+async function sleep(driver: WebDriver, msTime: number) {
+  let isDone = false;
+  setTimeout(() => isDone = true, msTime);
+  await driver.wait(() => isDone, msTime);
+}
