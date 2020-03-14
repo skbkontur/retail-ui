@@ -14,3 +14,12 @@ export const WithAction = () => (
   </Toast>
 );
 WithAction.story = { name: 'with action' };
+
+// Фичареквест:
+// В компоненте текст не может быть набран в две строки (по гайдам).
+// Тем не менее, он переносится в случае, если в длинной строке есть пробелы
+// Мы предлагаем обдумать это место в гайдах и в случае, когда текст не помещается в одну строку,
+// обрезать его с троеточием в конце
+
+export const LongName = () => <Toast>longggggggggggggname1234512345123451234512345123451234512345123451234512345123451234512345jgjjjjjgfgfffffffffjgjfgjfgjjfjgjfgverylonggkgkkgkgkvfgkgkkgkgkg</Toast>;
+  LongName.story = {name: "toast with long name"};
