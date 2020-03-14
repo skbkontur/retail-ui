@@ -1,5 +1,5 @@
 export default {
-  title: '😌 TestRetreat ',
+  title: 'TestRetreat',
 };
 
 export const ButtonWithIcon = () => {
@@ -52,7 +52,7 @@ ButtonWithIcon.story = {
 export const BasicLink = () => {
   return (
     <div style={{ marginTop: '20px' }}>
-      <Link href='#'>Base link 👋</Link>
+      <Link href='#'>Base link</Link>
     </div>
   );
 };
