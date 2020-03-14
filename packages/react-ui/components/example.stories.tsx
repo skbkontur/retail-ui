@@ -1,9 +1,9 @@
-import { Checkbox } from './Checkbox';
 import React, { Component } from 'react';
 import { CSFStory } from 'creevey';
+import { Checkbox } from './Checkbox';
 
 export default {
-  title: '😌 TestRetreat ',
+  title: '😌 TestRetreat',
 };
 
 export const ButtonWithIcon = () => {
@@ -137,7 +137,11 @@ class CheckboxWithTextClass extends Component<any, any> {
   }
 }
 
-export const CheckboxWithText: CSFStory<JSX.Element> = () => <CheckboxWithTextClass><div data-tid="text">CheckboxWithText</div></CheckboxWithTextClass>;
+export const CheckboxWithText: CSFStory<JSX.Element> = () => (
+  <CheckboxWithTextClass>
+    <div data-tid="text">CheckboxWithText</div>
+  </CheckboxWithTextClass>
+);
 
 /**
  *  Checkbox.
@@ -165,20 +169,20 @@ CheckboxWithText.story = {
         },
         async hoverOnLabel() {
           const label = await this.browser.findElement({ css: '[data-tid~=text]' });
-          await this.browser.
-            actions({
-              bridge: true
-            }).
-            move({
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
               origin: label,
-            }).
-            perform();
+            })
+            .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('hoverOnLabel');
         },
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 
 class CheckboxWithIndeterminateState extends Component<any, any> {
   state = {
@@ -216,3 +220,40 @@ export const SimpleCheckbox: CSFStory<JSX.Element> = () => (
  *
  *  Profit!
  */
+
+SimpleCheckbox.story = {
+  name: 'Indeterminate to checked',
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#test-element' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+        async clickedTwoTimes() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#test-element' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#test-element' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clickedTwoTimes');
+        },
+      },
+    },
+  },
+};
