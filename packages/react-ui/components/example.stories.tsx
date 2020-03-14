@@ -1,3 +1,7 @@
+import React, { useRef, useState } from 'react';
+
+import { Checkbox } from './Checkbox';
+
 export default {
   title: '😌 TestRetreat ',
 };
@@ -112,6 +116,177 @@ BasicAutocomplete.story = {
           const selected = await element.takeScreenshot();
 
           await expect({ focused, typed, highlighted, selected }).to.matchImages();
+        },
+      },
+    },
+  },
+};
+
+export const CheckBoxDefault = () => {
+  const [checked, setChecked] = useState<boolean>(false);
+  const checkbox = useRef<Checkbox>(null);
+
+  const handleChangeIndeterminate = () => {
+    const currentCheckBox = checkbox?.current;
+    if (currentCheckBox?.state.indeterminate) {
+      currentCheckBox?.resetIndeterminate();
+    } else {
+      currentCheckBox?.setIndeterminate();
+    }
+  };
+
+  return (
+    <section>
+      <Checkbox ref={checkbox} checked={checked} onClick={() => setChecked(!checked)} />
+      <br />
+      <br />
+      <Button onClick={handleChangeIndeterminate}>Изменить initialIndeterminate</Button>
+    </section>
+  );
+};
+
+/**
+ *  CheckBox.
+ *
+ *  0. История CheckBoxDefault
+ *  1. Найти элемент на странице
+ *  2. hover
+ *  3. 📸 состояние hovered
+ *  4. click
+ *  5. 📸 состояние clicked
+ *  7. indeterminate
+ *  8. 📸 состояние indeterminate
+ *  9. reset indeterminate
+ *  10. 📸 состояние reset indeterminate
+ *
+ */
+
+CheckBoxDefault.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async hover(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const checkbox = await this.browser.findElement({ css: '[data-comp-name~=Checkbox]' });
+          const button = await this.browser.findElement({ css: 'button' });
+
+          const idle = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: checkbox })
+            .perform();
+          const hover = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+          const checked = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+          const unChecked = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(button)
+            .perform();
+          const setInitialIndeterminate = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(button)
+            .perform();
+          const resetInitialIndeterminate = await element.takeScreenshot();
+
+          await expect({
+            idle,
+            hover,
+            checked,
+            unChecked,
+            setInitialIndeterminate,
+            resetInitialIndeterminate,
+          }).to.matchImages();
+        },
+      },
+    },
+  },
+};
+
+export const InputWithError = () => {
+  const [value, setValue] = useState<string>('');
+  const isError = value === 'error';
+  const disabled = value === 'disabled';
+
+  return (
+    <section>
+      <Input
+        value={value}
+        error={isError}
+        disabled={disabled}
+        onChange={event => setValue(event.currentTarget.value)}
+      />
+    </section>
+  );
+};
+
+/**
+ *  Input.
+ *
+ *  0. История InputDefault
+ *  1. Найти элемент на странице
+ *  2. focus
+ *  3. 📸 состояние focus
+ *  4. ввести текст err
+ *  5. 📸 состояние с текстом
+ *  7. ввести текст error
+ *  8. 📸 состояние error
+ *  9. ввести текст disable
+ *  10. 📸 состояние disable
+ *
+ */
+
+InputWithError.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async itemSelected(this: { browser: WebDriver }) {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Input]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          const focused = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('err')
+            .perform();
+
+          const typed = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('or')
+            .perform();
+
+          const withError = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .doubleClick(input)
+            .sendKeys('disabled')
+            .perform();
+
+          const disabled = await element.takeScreenshot();
+
+          await expect({ focused, typed, withError, disabled }).to.matchImages();
         },
       },
     },
