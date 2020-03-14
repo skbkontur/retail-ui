@@ -122,7 +122,7 @@ BasicAutocomplete.story = {
   },
 };
 
-export const CheckBoxDefault = () => {
+export const CheckBoxStates = () => {
   const [checked, setChecked] = useState<boolean>(false);
   const checkbox = useRef<Checkbox>(null);
 
@@ -161,11 +161,11 @@ export const CheckBoxDefault = () => {
  *
  */
 
-CheckBoxDefault.story = {
+CheckBoxStates.story = {
   parameters: {
     creevey: {
       tests: {
-        async hover(this: { browser: WebDriver }) {
+        async states(this: { browser: WebDriver }) {
           const element = await this.browser.findElement({ css: '#test-element' });
           const checkbox = await this.browser.findElement({ css: '[data-comp-name~=Checkbox]' });
           const button = await this.browser.findElement({ css: 'button' });
@@ -216,7 +216,7 @@ CheckBoxDefault.story = {
   },
 };
 
-export const InputWithError = () => {
+export const InputStates = () => {
   const [value, setValue] = useState<string>('');
   const isError = value === 'error';
   const disabled = value === 'disabled';
@@ -251,11 +251,11 @@ export const InputWithError = () => {
  *
  */
 
-InputWithError.story = {
+InputStates.story = {
   parameters: {
     creevey: {
       tests: {
-        async itemSelected(this: { browser: WebDriver }) {
+        async states(this: { browser: WebDriver }) {
           const element = await this.browser.findElement({ css: '#test-element' });
           const input = await this.browser.findElement({ css: '[data-comp-name~=Input]' });
 
