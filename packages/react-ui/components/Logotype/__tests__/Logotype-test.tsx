@@ -1,8 +1,8 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
-import { LangCodes, LocaleProvider } from '../../LocaleProvider';
-import { defaultLangCode } from '../../LocaleProvider/constants';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { defaultLangCode } from '../../../lib/locale/constants';
 import { LogotypeLocaleHelper } from '../locale';
 import { Logotype } from '../Logotype';
 
@@ -30,11 +30,7 @@ describe('Logotype', () => {
     });
 
     it('render default locale', () => {
-      wrapper = mount(
-        <LocaleProvider>
-          <Logotype />
-        </LocaleProvider>,
-      );
+      wrapper = mount(<Logotype />);
       const { prefix, suffix } = LogotypeLocaleHelper.get(defaultLangCode);
 
       const { actualPrefix, actualSuffix } = getActual();
@@ -44,9 +40,9 @@ describe('Logotype', () => {
 
     it('render correct locale when set langCode', () => {
       wrapper = mount(
-        <LocaleProvider langCode={LangCodes.en_GB}>
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
           <Logotype />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const { prefix, suffix } = LogotypeLocaleHelper.get(LangCodes.en_GB);
 
@@ -58,13 +54,13 @@ describe('Logotype', () => {
     it('render custom locale', () => {
       const customPrefix = 'custom prefix';
       wrapper = mount(
-        <LocaleProvider
-          locale={{
-            Logotype: { prefix: customPrefix },
+        <LocaleContext.Provider
+          value={{
+            locale: { Logotype: { prefix: customPrefix } }
           }}
         >
           <Logotype />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
 
       const actualPrefix = wrapper
@@ -76,13 +72,13 @@ describe('Logotype', () => {
 
     it('updates when langCode changes', () => {
       wrapper = mount(
-        <LocaleProvider>
+        <LocaleContext.Provider value={{}}>
           <Logotype />
-        </LocaleProvider>,
+        </LocaleContext.Provider>,
       );
       const { prefix, suffix } = LogotypeLocaleHelper.get(LangCodes.en_GB);
 
-      wrapper.setProps({ langCode: LangCodes.en_GB });
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
 
       const { actualPrefix, actualSuffix } = getActual();
       expect(prefix).toBe(actualPrefix);

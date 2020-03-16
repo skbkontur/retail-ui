@@ -1,13 +1,12 @@
-import './Toast.module.less';
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { RenderContainer } from '../RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 
+import { jsStyles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
 import { ToastStatic } from './ToastStatic';
-
 
 export interface Action {
   label: string;
@@ -113,7 +112,12 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     return (
       <CSSTransition
         key={id}
-        classNames="slide-and-fade"
+        classNames={{
+          enter: jsStyles.enter(),
+          enterActive: jsStyles.enterActive(),
+          exit: jsStyles.exit(),
+          exitActive: jsStyles.exitActive(),
+        }}
         timeout={{
           enter: 200,
           exit: 150,

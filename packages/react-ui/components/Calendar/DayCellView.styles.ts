@@ -1,19 +1,28 @@
-import { css } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-export const jsStyles = {
+const styles = {
   cell(t: Theme) {
     return css`
       ${resetButton()};
 
-      text-align: center;
       background: ${t.calendarCellBg};
       border: 1px solid transparent;
+      display: inline-block;
+      font-size: 14px;
+      padding: 0;
+      text-align: center;
+      user-select: none;
 
       &:hover {
         background-color: ${t.calendarCellHoverBgColor};
         color: ${t.calendarCellHoverColor};
+        cursor: pointer;
+      }
+      &:disabled {
+        opacity: 0.5;
+        pointer-events: none;
       }
       &:active:hover {
         color: ${t.calendarCellActiveHoverColor};
@@ -40,3 +49,5 @@ export const jsStyles = {
     `;
   },
 };
+
+export const jsStyles = memoizeStyle(styles);

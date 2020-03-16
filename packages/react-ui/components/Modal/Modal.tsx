@@ -1,5 +1,6 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
+import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -9,8 +10,7 @@ import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ModalStack, ModalStackSubscription } from '../ModalStack';
 import { ResizeDetector } from '../internal/ResizeDetector';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/utils';
 
@@ -20,7 +20,6 @@ import { ModalHeader } from './ModalHeader';
 import { isBody, isFooter, isHeader } from './helpers';
 import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
-import styles from './Modal.module.less';
 import { jsStyles } from './Modal.styles';
 
 let mountedModalsCount = 0;
@@ -141,12 +140,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -195,24 +194,26 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <ZIndex priority={'Modal'} className={styles.root}>
+        <ZIndex priority={'Modal'} className={jsStyles.root()}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={cx(styles.bg, jsStyles.bg(this.theme))} />}
+          {this.state.stackPosition === 0 && <div className={jsStyles.bg(this.theme)} />}
           <div
             ref={this.refContainer}
-            className={styles.container}
+            className={jsStyles.container()}
             onMouseDown={this.handleContainerMouseDown}
             onMouseUp={this.handleContainerMouseUp}
             onClick={this.handleContainerClick}
             data-tid="modal-container"
           >
             <div
-              className={cx(styles.centerContainer, jsStyles.centerContainer(this.theme), {
-                [styles.alignTop]: !!this.props.alignTop,
+              className={cn({
+                [jsStyles.centerContainer(this.theme)]: true,
+                [jsStyles.alignTop(this.theme)]: Boolean(this.props.alignTop),
               })}
               style={containerStyle}
+              data-tid="modal-content"
             >
-              <div className={cx(styles.window, jsStyles.window(this.theme))} style={style}>
+              <div className={jsStyles.window(this.theme)} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={isDisableFocusLock} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (

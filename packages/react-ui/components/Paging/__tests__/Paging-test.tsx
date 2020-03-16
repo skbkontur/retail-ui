@@ -2,11 +2,10 @@ import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
 import { emptyHandler } from '../../../lib/utils';
-import { defaultLangCode } from '../../LocaleProvider/constants';
-import { LangCodes, LocaleProvider } from '../../LocaleProvider';
+import { defaultLangCode } from '../../../lib/locale/constants';
+import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { PagingLocaleHelper } from '../locale';
 import { Paging } from '../Paging';
-import PagingStyles from '../Paging.less';
 
 describe('Pager', () => {
   it('renders', () => {
@@ -15,22 +14,22 @@ describe('Pager', () => {
 
   it('renders links', () => {
     const wrapper = mount(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`span.${PagingStyles.pageLink}`)).toHaveLength(5);
+    expect(wrapper.find(`[data-tid='Paging__pageLink']`)).toHaveLength(5);
   });
 
   it('renders right dots', () => {
     const wrapper = mount(<Paging pagesCount={10} activePage={1} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`span.${PagingStyles.dots}`)).toHaveLength(1);
+    expect(wrapper.find(`[data-tid='Paging__dots']`)).toHaveLength(1);
   });
 
   it('renders left dots', () => {
     const wrapper = mount(<Paging pagesCount={10} activePage={9} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`span.${PagingStyles.dots}`)).toHaveLength(1);
+    expect(wrapper.find(`[data-tid='Paging__dots']`)).toHaveLength(1);
   });
 
   it('renders left and right dots', () => {
     const wrapper = mount(<Paging pagesCount={12} activePage={6} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`span.${PagingStyles.dots}`)).toHaveLength(2);
+    expect(wrapper.find(`[data-tid='Paging__dots']`)).toHaveLength(2);
   });
 
   it('calls onPageChange', () => {
@@ -38,7 +37,7 @@ describe('Pager', () => {
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
 
     wrapper
-      .find(`span.${PagingStyles.pageLink}`)
+      .find(`[data-tid='Paging__pageLink']`)
       .at(1)
       .simulate('click');
     expect(onPageChange).toHaveBeenCalled();
@@ -48,7 +47,7 @@ describe('Pager', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
     wrapper
-      .find(`span.${PagingStyles.pageLink}`)
+      .find(`[data-tid='Paging__pageLink']`)
       .at(1)
       .simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
@@ -56,14 +55,14 @@ describe('Pager', () => {
 
   it('has forward button', () => {
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`span.${PagingStyles.forwardLink}`)).toHaveLength(1);
+    expect(wrapper.find(`[data-tid='Paging__forwardLink']`)).toHaveLength(1);
   });
 
   it('calls onPageChange when clicked on forward button', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
     wrapper
-      .find(`span.${PagingStyles.forwardLink}`)
+      .find(`[data-tid='Paging__forwardLink']`)
       .at(0)
       .simulate('click');
     expect(onPageChange).toHaveBeenCalled();
@@ -73,7 +72,7 @@ describe('Pager', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
     wrapper
-      .find(`span.${PagingStyles.forwardLink}`)
+      .find(`[data-tid='Paging__forwardLink']`)
       .at(0)
       .simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
@@ -83,7 +82,7 @@ describe('Pager', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
     wrapper.setState({ focusedByTab: true, focusedItem: 2 });
-    const root = wrapper.find(`.${PagingStyles.paging}`);
+    const root = wrapper.find(Paging);
     root.simulate('keydown', { key: 'Enter' });
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
@@ -91,7 +90,7 @@ describe('Pager', () => {
   it('handles right key', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    const root = wrapper.find(`span.${PagingStyles.paging}`);
+    const root = wrapper.find(Paging);
     root.simulate('keydown', { key: 'ArrowRight' });
     root.simulate('keydown', { key: 'Enter' });
     expect(onPageChange).toHaveBeenCalledWith(2);
@@ -100,7 +99,7 @@ describe('Pager', () => {
   it('handles ctrl + right keys', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    const root = wrapper.find(`span.${PagingStyles.paging}`);
+    const root = wrapper.find(Paging);
     root.simulate('keydown', { key: 'ArrowRight', ctrlKey: true });
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
@@ -108,7 +107,7 @@ describe('Pager', () => {
   it('handles left key', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
-    const root = wrapper.find(`span.${PagingStyles.paging}`);
+    const root = wrapper.find(`[data-tid='Paging__root']`);
     root.simulate('keydown', { key: 'ArrowLeft' });
     root.simulate('keydown', { key: 'Enter' });
     expect(onPageChange).toHaveBeenCalledWith(1);
@@ -117,7 +116,7 @@ describe('Pager', () => {
   it('handles ctrl + left keys', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
-    const root = wrapper.find(`span.${PagingStyles.paging}`);
+    const root = wrapper.find(`[data-tid='Paging__root']`);
     root.simulate('keydown', { key: 'ArrowLeft', ctrlKey: true });
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
@@ -144,7 +143,7 @@ describe('Pager', () => {
 
   describe('Locale', () => {
     let wrapper: ReactWrapper;
-    const getForwardText = () => wrapper.find(`span.${PagingStyles.forwardLink}`).text();
+    const getForwardText = () => wrapper.find(`[data-tid='Paging__forwardLink']`).text();
     const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />;
 
     it('render without LocaleProvider', () => {
@@ -155,14 +154,14 @@ describe('Pager', () => {
     });
 
     it('render default locale', () => {
-      wrapper = mount(<LocaleProvider>{PagingContext()}</LocaleProvider>);
+      wrapper = mount(<LocaleContext.Provider value={{}}>{PagingContext()}</LocaleContext.Provider>);
       const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
 
       expect(getForwardText()).toBe(expectedText);
     });
 
     it('render default locale', () => {
-      wrapper = mount(<LocaleProvider langCode={LangCodes.en_GB}>{PagingContext()}</LocaleProvider>);
+      wrapper = mount(<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>);
       const expectedText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
 
       expect(getForwardText()).toBe(expectedText);
@@ -171,17 +170,19 @@ describe('Pager', () => {
     it('render custom locale', () => {
       const customPlaceholder = 'custom forward';
       wrapper = mount(
-        <LocaleProvider locale={{ Paging: { forward: customPlaceholder } }}>{PagingContext()}</LocaleProvider>,
+        <LocaleContext.Provider value={{
+          locale:{  Paging: { forward: customPlaceholder } }
+        }}>{PagingContext()}</LocaleContext.Provider>,
       );
 
       expect(getForwardText()).toBe(customPlaceholder);
     });
 
     it('updates when langCode changes', () => {
-      wrapper = mount(<LocaleProvider langCode={LangCodes.en_GB}>{PagingContext()}</LocaleProvider>);
+      wrapper = mount(<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>);
       const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
 
-      wrapper.setProps({ langCode: LangCodes.ru_RU });
+      wrapper.setProps({ value: { langCode: LangCodes.ru_RU }});
 
       expect(getForwardText()).toBe(expectedText);
     });

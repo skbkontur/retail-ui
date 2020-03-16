@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Icon as Icon20 } from '../internal/icons/20px';
@@ -9,13 +10,11 @@ import { PopupMenu } from '../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
 import { PopupPosition } from '../Popup';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../internal/icons/16px';
 
 import { jsStyles } from './Kebab.styles';
-import styles from './Kebab.module.less';
 
 export interface KebabProps {
   disabled?: boolean;
@@ -73,8 +72,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private listener: {
     remove: () => void;
   } = {
-      remove: () => undefined,
-    };
+    remove: () => undefined,
+  };
 
   public componentDidMount() {
     /** addListener'у нужен колбэк в аргумент */
@@ -87,12 +86,12 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   public render(): JSX.Element {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -135,13 +134,12 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cx(
-          styles.kebab,
-          captionProps.opened && styles.opened,
-          disabled && styles.disabled,
-          this.state.focusedByTab && styles.focused,
-          this.state.focusedByTab && jsStyles.focused(this.theme),
-        )}
+        className={cn({
+          [jsStyles.kebab()]: true,
+          [jsStyles.opened()]: captionProps.opened,
+          [jsStyles.disabled()]: disabled,
+          [jsStyles.focused(this.theme)]: this.state.focusedByTab,
+        })}
       >
         {this.renderIcon()}
       </span>
@@ -200,19 +198,19 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     switch (this.props.size) {
       case 'small':
         return (
-          <div className={styles.iconsmall}>
+          <div className={jsStyles.iconsmall()}>
             <MenuKebabIcon size="14px" color="#757575" />
           </div>
         );
       case 'medium':
         return (
-          <div className={styles.iconmedium}>
+          <div className={jsStyles.iconmedium()}>
             <MenuKebabIcon size="18px" color="#757575" />
           </div>
         );
       case 'large':
         return (
-          <div className={styles.iconlarge}>
+          <div className={jsStyles.iconlarge()}>
             <Icon20 name="kebab" color="#757575" />
           </div>
         );

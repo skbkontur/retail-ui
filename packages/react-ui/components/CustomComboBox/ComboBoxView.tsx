@@ -11,9 +11,9 @@ import { Spinner } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDownIcon } from '../internal/icons/16px';
 
-import styles from './CustomComboBox.module.less';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
+import { jsStyles } from './CustomComboBox.styles';
 
 interface ComboBoxViewProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -138,7 +138,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
         <span
           style={{ width }}
-          className={styles.root}
+          className={jsStyles.root()}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           onMouseOver={onMouseOver}
@@ -258,7 +258,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private renderSpinner = () => (
-    <span className={styles.spinnerWrapper}>
+    <span className={jsStyles.spinnerWrapper()}>
       <Spinner type="mini" caption="" dimmed />
     </span>
   );
@@ -272,7 +272,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     if (drawArrow) {
       return (
-        <span className={styles.arrowWrapper}>
+        <span className={jsStyles.arrowWrapper()}>
           <ArrowTriangleDownIcon />
         </span>
       );

@@ -151,7 +151,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     }
 
     try {
-      const items = await Promise.race([getItems(query) || [], cancelPromise]);
+      const items = await Promise.race([getItems(query), cancelPromise]);
       if (this.state.loading) {
         await Promise.race([this.loaderShowDelay, cancelPromise]);
       }

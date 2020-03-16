@@ -1,7 +1,8 @@
 import { addDecorator, configure } from '@storybook/react';
 import { withCreevey } from 'creevey';
 import React from 'react';
-import { ThemeProvider } from '../components/ThemeProvider';
+import { ThemeContext } from '../lib/theming/ThemeContext';
+
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 
 addDecorator(withCreevey({ skip: 'Story tests migration process' }));
@@ -13,7 +14,7 @@ addDecorator(story => (
 ));
 
 if (process.env.STORYBOOK_FLAT_UI) {
-  addDecorator(story => <ThemeProvider value={FLAT_THEME}>{story()}</ThemeProvider>);
+  addDecorator(story => <ThemeContext.Provider value={FLAT_THEME}>{story()}</ThemeContext.Provider>);
 }
 
 configure(require.context('../components', true, /.stories.tsx?$/), module);

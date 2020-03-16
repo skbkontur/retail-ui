@@ -1,12 +1,13 @@
 import React from 'react';
+import warning from 'warning';
 
 import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxProps } from '../Form/FiasComboBox';
-import { AddressResponse, APIProvider, Fields, SearchOptions } from '../types';
-import { locale } from '../../LocaleProvider/decorators';
+import { FiasAddressResponse, FiasAPIProvider, FiasFields, FiasSearchOptions } from '../types';
+import { locale } from '../../../lib/locale/decorators';
 import { filterProps } from '../../filterProps';
 
-import { Address } from '..';
+import { FiasAddress } from '..';
 
 const COMBOBOX_PASS_PROPS = {
   limit: true,
@@ -34,10 +35,14 @@ const COMBOBOX_PASS_PROPS = {
 };
 
 export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
-  api: APIProvider;
-  address?: Address;
-  onValueChange?: (address: Address) => void;
+  api: FiasAPIProvider;
+  address?: FiasAddress;
+  onValueChange?: (address: FiasAddress) => void;
 }
+
+/**
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ */
 
 @locale('Fias', FiasLocaleHelper)
 export class FiasSearch extends React.Component<FiasSearchProps> {
@@ -51,6 +56,14 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   };
 
   private readonly locale!: FiasLocale;
+
+  public constructor(props: FiasSearchProps) {
+    super(props);
+    warning(
+      false,
+      `FiasSearch has been deprecated, use FiasSearch from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+    );
+  }
 
   public render() {
     const restComboBoxProps = filterProps(this.props, COMBOBOX_PASS_PROPS);
@@ -69,23 +82,23 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     );
   }
 
-  private renderItem = (address: Address): string => {
+  private renderItem = (address: FiasAddress): string => {
     return address.getText();
   };
 
-  private renderValue = (address: Address): string => {
-    return address.getText(Fields.room);
+  private renderValue = (address: FiasAddress): string => {
+    return address.getText(FiasFields.room);
   };
 
   private renderNotFound = (): React.ReactNode => {
     return this.locale.searchNotFound;
   };
 
-  private valueToString = (address: Address): string => {
-    return address.getText(Fields.room);
+  private valueToString = (address: FiasAddress): string => {
+    return address.getText(FiasFields.room);
   };
 
-  private onValueChange = (address: Address) => {
+  private onValueChange = (address: FiasAddress) => {
     const { onValueChange } = this.props;
     if (onValueChange) {
       onValueChange(address);
@@ -94,14 +107,14 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
 
   private onUnexpectedInput = (query: string) => {
     if (!query) {
-      return new Address();
+      return new FiasAddress();
     }
   };
 
   private getItems = async (searchText: string) => {
     const { api, limit } = this.props;
 
-    const options: SearchOptions = {
+    const options: FiasSearchOptions = {
       searchText,
       fullAddress: true,
       directParent: false,
@@ -111,7 +124,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
     return api.search(options).then(result => {
       const { success, data, error } = result;
       return success && data
-        ? Promise.resolve(data.map((item: AddressResponse) => Address.createFromResponse(item)))
+        ? Promise.resolve(data.map((item: FiasAddressResponse) => FiasAddress.createFromResponse(item)))
         : Promise.reject(error);
     });
   };

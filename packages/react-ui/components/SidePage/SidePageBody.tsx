@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './SidePage.module.less';
+import { jsStyles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageBodyProps {
@@ -22,6 +22,6 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
   }
 
   public render(): JSX.Element {
-    return <div className={styles.body}>{this.props.children}</div>;
+    return <div className={jsStyles.body()}>{this.props.children}</div>;
   }
 }

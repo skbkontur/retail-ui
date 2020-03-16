@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import warning from 'warning';
+import cn from 'classnames';
 
-import { locale } from '../LocaleProvider/decorators';
-import { cx } from '../../lib/theming/Emotion';
+import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeConsumer } from '../ThemeConsumer';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { hasSvgAnimationSupport } from '../../lib/utils';
 import { SpinnerIcon } from '../internal/icons/SpinnerIcon';
+import { SpinnerOld } from '../internal/SpinnerOld';
 
 import { jsStyles } from './Spinner.styles';
 import { SpinnerFallback, types } from './SpinnerFallback';
-import styles from './Spinner.module.less';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
@@ -20,9 +21,15 @@ export interface SpinnerProps {
   dimmed?: boolean;
   /**
    * Тип спиннера
-   * @default mini
+   * @default normal
    */
   type: SpinnerType;
+  /**
+   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере - исчезнет в 3.0 поведение пересено в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+   *
+   * @default false
+   */
+  cloud?: boolean;
 }
 
 /**
@@ -51,6 +58,12 @@ export class Spinner extends React.Component<SpinnerProps> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(types)),
+    /**
+     * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
+     *
+     * @default false - исчезнет в 3.0
+     */
+    cloud: PropTypes.bool,
   };
 
   public static defaultProps: SpinnerProps = {
@@ -61,24 +74,33 @@ export class Spinner extends React.Component<SpinnerProps> {
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
+  constructor(props: SpinnerProps) {
+    super(props);
+    warning(!this.props.cloud, 'cloud is deprecated, will removed in 3.0. ');
+  }
+
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return !this.props.cloud ? this.renderMain() : this.renderSpinnerOld();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
+  }
+
+  private renderSpinnerOld() {
+    return <SpinnerOld {...this.props} />;
   }
 
   private renderMain() {
     const { type, caption = this.locale.loading, dimmed } = this.props;
 
     return (
-      <div className={styles.spinner}>
-        <span className={styles.inner}>
-          {hasSvgAnimationSupport && this.renderSpinner(type)}
+      <div className={jsStyles.spinner()}>
+        <span className={jsStyles.inner()}>
+          {hasSvgAnimationSupport && this.renderSpinner(type, dimmed)}
           {!hasSvgAnimationSupport && <SpinnerFallback type={type} dimmed={dimmed} />}
         </span>
         {caption && this.renderCaption(type, caption)}
@@ -86,36 +108,13 @@ export class Spinner extends React.Component<SpinnerProps> {
     );
   }
 
-  private renderCloud = (type: Exclude<SpinnerType, 'mini'>) => {
-    const cloudClassName = cx(
-      styles.cloudStroke,
-      this.props.dimmed ? jsStyles.cloudDimmed(this.theme) : jsStyles.cloud(this.theme),
-    );
+  private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
+    const circleClassName = dimmed ? jsStyles.circleDimmed(this.theme) : jsStyles.circle(this.theme);
 
-    return (
-      <span className={styles.cloud}>
-        <SpinnerIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
-      </span>
-    );
+    return <SpinnerIcon size={type} className={circleClassName} />;
   };
 
-  private renderCircle = () => {
-    const theme = this.theme;
-    const circleClassName = this.props.dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
-
-    return <SpinnerIcon size="mini" className={circleClassName} />;
-  };
-
-  private renderSpinner = (type: SpinnerType) => {
-    return type === 'mini' ? this.renderCircle() : this.renderCloud(type);
-  };
-
-  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => {
-    const captionClassName = cx(
-      styles.caption,
-      jsStyles.caption(this.theme),
-      type === 'mini' ? styles.captionRight : styles.captionBottom,
-    );
-    return <span className={captionClassName}>{caption}</span>;
-  };
+  private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (
+    <span className={cn(jsStyles[type](), jsStyles.captionColor(this.theme))}>{caption}</span>
+  );
 }

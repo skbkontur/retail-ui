@@ -24,7 +24,7 @@ describe('DatePicker', function() {
       await this.browser.wait(
         until.elementLocated(
           By.css(
-            '[class^="MonthView-module-month"]:first-child [class^="MonthView-module-headerMonth"] [class^="DateSelect-module-caption"]',
+            '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
           ),
         ),
       );
@@ -33,7 +33,7 @@ describe('DatePicker', function() {
         .click(
           this.browser.findElement(
             By.css(
-              '[class^="MonthView-module-month"]:first-child [class^="MonthView-module-headerMonth"] [class^="DateSelect-module-caption"]',
+              '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             ),
           ),
         )
@@ -51,7 +51,7 @@ describe('DatePicker', function() {
       await this.browser.wait(
         until.elementLocated(
           By.css(
-            '[data-comp-name~="MonthView"]:first-child [class^="MonthView-module-headerYear"] [class^="DateSelect-module-caption"]',
+            '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           ),
         ),
       );
@@ -60,7 +60,7 @@ describe('DatePicker', function() {
         .click(
           this.browser.findElement(
             By.css(
-              '[data-comp-name~="MonthView"]:first-child [class^="MonthView-module-headerYear"] [class^="DateSelect-module-caption"]',
+              '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             ),
           ),
         )
@@ -80,7 +80,7 @@ describe('DatePicker', function() {
       await this.browser.wait(
         until.elementLocated(
           By.css(
-            '[class^="MonthView-module-month"]:first-child [class^="MonthView-module-headerMonth"] [class^="DateSelect-module-caption"]',
+            '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
           ),
         ),
       );
@@ -89,7 +89,7 @@ describe('DatePicker', function() {
         .click(
           this.browser.findElement(
             By.css(
-              '[class^="MonthView-module-month"]:first-child [class^="MonthView-module-headerMonth"] [class^="DateSelect-module-caption"]',
+              '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             ),
           ),
         )
@@ -107,7 +107,7 @@ describe('DatePicker', function() {
       await this.browser.wait(
         until.elementLocated(
           By.css(
-            '[data-comp-name~="MonthView"]:first-child [class^="MonthView-module-headerYear"] [class^="DateSelect-module-caption"]',
+            '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
           ),
         ),
       );
@@ -116,7 +116,7 @@ describe('DatePicker', function() {
         .click(
           this.browser.findElement(
             By.css(
-              '[data-comp-name~="MonthView"]:first-child [class^="MonthView-module-headerYear"] [class^="DateSelect-module-caption"]',
+              '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             ),
           ),
         )

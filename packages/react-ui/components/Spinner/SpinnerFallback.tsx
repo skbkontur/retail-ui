@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { SPINNER_CLOUD_SIZE } from '../internal/icons/SpinnerIcon';
-
-import fallbackImage_mini from './fallback_circle.png';
+import fallbackImage_mini from './fallback_circle_mini.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
-import fallbackImage_big from './fallback_cloud_big.png';
-import fallbackImage_normal from './fallback_cloud_normal.png';
-import styles from './Spinner.module.less';
+import fallbackImage_big from './fallback_circle_big.png';
+import fallbackImage_normal from './fallback_circle_normal.png';
+import { jsStyles } from './Spinner.styles';
 import { SpinnerType } from './Spinner';
 
 export const types: {
@@ -38,10 +36,11 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
 
   private mounted = false;
 
+  // quantity of frames in images
   private _framesCount = {
-    [types.mini]: 180,
-    [types.normal]: 60,
-    [types.big]: 60,
+    [types.mini]: 151,
+    [types.normal]: 151,
+    [types.big]: 151,
     dimmed: 60,
   };
 
@@ -62,45 +61,30 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
   }
 
   public render() {
-    return this.props.type === 'mini' ? this.renderCircle() : this.renderCloud();
+    return this.renderCircle();
   }
 
   private renderCircle() {
     const { dimmed } = this.props;
+    const { type } = this.props;
     const { frame } = this.state;
+    const size = type === 'big' ? 96 : type === 'normal' ? 48 : 16;
+    const backgroundImage = dimmed ? this.imageUrls.dimmed : this.imageUrls[type];
 
     const cssSet: React.CSSProperties = {
-      backgroundImage: `url('${this.imageUrls[dimmed ? 'dimmed' : 'mini']}')`,
-      height: 16,
-      width: 16,
+      backgroundImage: `url('${backgroundImage}')`,
+      height: size,
+      width: size,
       marginBottom: -3,
       marginLeft: -1,
       marginRight: -1,
     };
 
     if (!process.env.enableReactTesting) {
-      cssSet.backgroundPosition = `0 -${frame * 16}px`;
+      cssSet.backgroundPosition = `0 -${frame * size}px`;
     }
 
-    return <span className={styles.fallback} style={cssSet} />;
-  }
-
-  private renderCloud() {
-    const { type } = this.props;
-    const { frame } = this.state;
-    const multiply = type === 'big' ? 2 : 1;
-    const cssSet: React.CSSProperties = {
-      backgroundImage: `url('${this.imageUrls[type]}')`,
-      height: SPINNER_CLOUD_SIZE.height * multiply,
-      top: 0,
-      width: SPINNER_CLOUD_SIZE.width * multiply,
-    };
-
-    if (!process.env.enableReactTesting) {
-      cssSet.backgroundPosition = `0 -${frame * SPINNER_CLOUD_SIZE.height * multiply}px`;
-    }
-
-    return <span className={styles.fallback} style={cssSet} />;
+    return <span className={jsStyles.fallback()} style={cssSet} />;
   }
 
   private animate = () => {

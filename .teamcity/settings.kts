@@ -262,6 +262,8 @@ object ReactUI_BuildRetailUi : BuildType({
 object ReactUI_LintTest : BuildType({
   name = "Lint/Test"
 
+  artifactRules = "packages/react-ui-smoke-test/temp/reactUIControls.png => smokeReactUI.zip"
+
   vcs {
     root(RetailUi)
   }
@@ -281,6 +283,11 @@ object ReactUI_LintTest : BuildType({
       name = "Test"
       type = "jonnyzzz.yarn"
       param("yarn_commands", "workspace @skbkontur/react-ui test")
+    }
+    step {
+      name = "Smoke test"
+      type = "jonnyzzz.yarn"
+      param("yarn_commands", "workspace react-ui-smoke-test test")
     }
   }
 })

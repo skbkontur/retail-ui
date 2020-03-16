@@ -176,7 +176,7 @@ export class CurrencyHelper {
   public static extractValid(value: string, options: DecimalOptions): string {
     value = CurrencyHelper.unformatString(value);
 
-    const match = /[-\.\d]+/.exec(value);
+    const match = /[-.\d]+/.exec(value);
 
     if (!match) {
       return '';

@@ -118,7 +118,7 @@ export class BGRuler extends React.Component<{
         <div style={middleMarks} />
         <div style={shortMarks} />
         {labels}
-        <iframe style={iframe} ref={this.iframeRef} />
+        <iframe title="BGRuler" style={iframe} ref={this.iframeRef} />
       </div>
     );
   }

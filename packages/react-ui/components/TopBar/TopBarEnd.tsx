@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './TopBar.module.less';
+import { jsStyles } from "./TopBar.styles";
 
 /**
  * Контейнер для смещения к концу
@@ -8,5 +8,5 @@ import styles from './TopBar.module.less';
  * @visibleName TopBar.End
  */
 
-export const TopBarEnd: React.SFC = ({ children }) => <div className={styles.endItems}>{children}</div>;
+export const TopBarEnd: React.SFC = ({ children }) => <div className={jsStyles.endItems()}>{children}</div>;
 (TopBarEnd as any).__KONTUR_REACT_UI__ = 'TopBarEnd';

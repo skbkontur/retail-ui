@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
-import { cx } from '../../../lib/theming/Emotion';
-import { ThemeConsumer } from '../../ThemeConsumer';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { Theme } from '../../../lib/theming/Theme';
 
 import { jsStyles } from './MaskedInput.styles';
-import styles from './MaskedInput.module.less';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -59,12 +57,12 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
 
   public render() {
     return (
-      <ThemeConsumer>
+      <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return this.renderMain();
         }}
-      </ThemeConsumer>
+      </ThemeContext.Consumer>
     );
   }
 
@@ -82,7 +80,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     } = this.props;
 
     return (
-      <span className={styles.container}>
+      <span className={jsStyles.container()}>
         <ReactInputMask
           {...inputProps}
           maskChar={null}
@@ -96,7 +94,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
           ref={this.refMaskedInput}
         />
         {this.isMaskVisible() && (
-          <span className={cx(styles.inputMask, jsStyles.inputMask(this.theme))}>
+          <span className={jsStyles.inputMask(this.theme)}>
             <span style={{ color: 'transparent' }}>{this.state.emptyValue.slice(0, this.state.value.length)}</span>
             {this.state.emptyValue.slice(this.state.value.length)}
           </span>
@@ -165,7 +163,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     }
 
     options.mask.split('').forEach((char, index) => {
-      if (options.permanents.indexOf(index) > -1) {
+      if (options.permanents.includes(index)) {
         visibleMaskChars[index] = char;
       }
 

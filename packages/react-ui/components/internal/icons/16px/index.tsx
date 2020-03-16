@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './icon.module.less';
+import { jsStyles } from './icon.styles';
 
 // NOTE Icons copy-pasted from @skbkontur/react-icons package, because it's not fully opensource
 
@@ -10,9 +10,9 @@ export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const SvgIcon: React.SFC<SvgIconProps> = ({ color, size, style, children, ...rest }) => (
-  <span className={styles.root} style={{ ...style, fontSize: size, color }} {...rest}>
+  <span className={jsStyles.root()} style={{ ...style, fontSize: size, color }} {...rest}>
     {React.cloneElement(children as JSX.Element, {
-      className: styles.icon,
+      className: jsStyles.icon(),
       fill: 'currentColor',
       focusable: 'false',
     })}
