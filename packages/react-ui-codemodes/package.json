@@ -3,7 +3,6 @@
   "version": "1.0.2",
   "main": "index.js",
   "license": "MIT",
-  "private": true,
   "dependencies": {
     "ast-types": "0.13.2",
     "jest": "^24.9.0",
