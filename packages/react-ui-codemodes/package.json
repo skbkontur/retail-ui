@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
+  "bin": {
+    "react-ui-codemodes": "./bin.js"
+  },
   "dependencies": {
     "ast-types": "0.13.2",
     "jest": "^24.9.0",
