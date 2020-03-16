@@ -5,7 +5,7 @@
 - **react-ui:** библиотека компонентов ([readme](packages/react-ui/README.md), [changelog](packages/react-ui/CHANGELOG.md), [roadmap](packages/react-ui/ROADMAP.md))
 - **react-ui-validations** - библиотека валидации ([readme](packages/react-ui-validations/README.md))
 - **react-ui-selenium** - пакет для скриншотных тестов библиотеки компонентов
-- **react-ui-codemodes** - коллекция кодмод для разных целей и задач ([readme](packages/react-ui-codemodes/README.md))
+- **react-ui-codemod** - коллекция кодмод для разных целей и задач ([readme](packages/react-ui-codemod/README.md))
 
 ## Установка и запуск
 

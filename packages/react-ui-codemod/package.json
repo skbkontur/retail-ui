@@ -1,10 +1,10 @@
 {
-  "name": "react-ui-codemodes",
+  "name": "react-ui-codemod",
   "version": "1.0.2",
   "main": "index.js",
   "license": "MIT",
   "bin": {
-    "react-ui-codemodes": "./bin.js"
+    "react-ui-codemod": "./bin.js"
   },
   "dependencies": {
     "ast-types": "0.13.2",
