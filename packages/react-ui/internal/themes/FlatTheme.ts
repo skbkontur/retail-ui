@@ -30,6 +30,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDefaultBorder = '1px solid rgba(0, 0, 0, 0.15)';
   public static btnDefaultShadow = 'none';
   public static btnDefaultShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.15)';
+  public static btnDefaultBg = '#fff';
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
   public static btnDefaultHoverBgStart = '#f2f2f2';
