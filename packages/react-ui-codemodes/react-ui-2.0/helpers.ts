@@ -171,30 +171,3 @@ export const isModuleRemoved = (path: string, report?: API['report']) => {
   }
   return false;
 };
-
-export const INTERNAL_COMPONENTS: { [key: string]: string } = {
-  Calendar: 'internal/Calendar',
-  CustomComboBox: 'internal/CustomComboBox',
-  DateSelect: 'internal/DateSelect',
-  DropdownContainer: 'internal/DropdownContainer',
-  HideBodyVerticalScroll: 'internal/HideBodyVerticalScroll',
-  IgnoreLayerClick: 'internal/IgnoreLayerClick',
-  Menu: 'internal/Menu',
-  Popup: 'internal/Popup',
-  RenderContainer: 'internal/RenderContainer',
-  RenderLayer: 'internal/RenderLayer',
-  ZIndex: 'internal/ZIndex',
-  FocusTrap: 'internal/FocusTrap',
-  InputLikeText: 'internal/InputLikeText',
-  InternalMenu: 'internalinternalMenu',
-  MaskedInput: 'internal/MaskedInput',
-  PopupMenu: 'internal/PopupMenu',
-  ResizeDetector: 'internal/ResizeDetector',
-  PerformanceMetrics: 'internal/PerformanceMetrics',
-  ModalStack: 'internal/ModalStack',
-  ThemeShowcase: 'internal/ThemeShowcase',
-  Icon: 'internal/icons/20px',
-  createPropsGetter: 'internal/createPropsGetter',
-  currentEnvironment: 'internal/currentEnvironment',
-  extractKeyboardAction: 'internal/extractKeyboardAction',
-};

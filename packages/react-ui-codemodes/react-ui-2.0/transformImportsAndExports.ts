@@ -10,7 +10,6 @@ import {
   moveSpecifierToSeparateExport,
   deduplicateExports,
   isModuleRemoved,
-  INTERNAL_COMPONENTS,
 } from './helpers';
 
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): Collection<any> => {
@@ -124,16 +123,43 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
 
 const transformInternals = (api: API, collection: Collection<any>, path: string, source: string): void => {
   const j = api.jscodeshift;
+  const INTERNALS: { [key: string]: string } = {
+    Calendar: 'internal/Calendar',
+    CustomComboBox: 'internal/CustomComboBox',
+    DateSelect: 'internal/DateSelect',
+    DropdownContainer: 'internal/DropdownContainer',
+    HideBodyVerticalScroll: 'internal/HideBodyVerticalScroll',
+    IgnoreLayerClick: 'internal/IgnoreLayerClick',
+    Menu: 'internal/Menu',
+    Popup: 'internal/Popup',
+    RenderContainer: 'internal/RenderContainer',
+    RenderLayer: 'internal/RenderLayer',
+    ZIndex: 'internal/ZIndex',
+    FocusTrap: 'internal/FocusTrap',
+    InputLikeText: 'internal/InputLikeText',
+    InternalMenu: 'internalinternalMenu',
+    MaskedInput: 'internal/MaskedInput',
+    PopupMenu: 'internal/PopupMenu',
+    ResizeDetector: 'internal/ResizeDetector',
+    PerformanceMetrics: 'internal/PerformanceMetrics',
+    ModalStack: 'internal/ModalStack',
+    ThemeShowcase: 'internal/ThemeShowcase',
+    Icon: 'internal/icons/20px',
+    createPropsGetter: 'internal/createPropsGetter',
+    currentEnvironment: 'internal/currentEnvironment',
+    extractKeyboardAction: 'internal/extractKeyboardAction',
+  };
+  const INTERNAL_NAMES = Object.keys(INTERNALS);
   const isInternalComponent = (componentName: string): boolean => {
     const whiteList = ['MenuItem', 'MenuHeader', 'MenuSeparator'];
     return (
       whiteList.every(whiteName => !componentName.startsWith(whiteName)) &&
-      Object.keys(INTERNAL_COMPONENTS).some(internal => componentName.startsWith(internal))
+      INTERNAL_NAMES.some(internal => componentName.startsWith(internal))
     );
   };
   const getInternalComponentPath = (name: string): string | null => {
-    const componentName = Object.keys(INTERNAL_COMPONENTS).find(component => name.startsWith(component));
-    return componentName ? `${source}/${INTERNAL_COMPONENTS[componentName]}` : null;
+    const componentName = INTERNAL_NAMES.find(internal => name.startsWith(internal));
+    return componentName ? `${source}/${INTERNALS[componentName]}` : null;
   };
 
   collection
