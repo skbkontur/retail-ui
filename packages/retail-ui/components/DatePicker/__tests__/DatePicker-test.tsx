@@ -114,6 +114,13 @@ describe('DatePicker', () => {
     expect(datePicker.find(DropdownContainer)).toHaveLength(0);
   });
 
+  it('open when autoFocus enabled', () => {
+    const datePicker = renderDatePicker({
+      autoFocus: true,
+    });
+    expect(datePicker.find(DropdownContainer)).toHaveLength(1);
+  });
+
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper<any>): string => {
       return wrapper.find(generateSelector('todayWrapper')).text();
