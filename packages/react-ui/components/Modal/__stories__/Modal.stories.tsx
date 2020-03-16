@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { storiesOf } from '@storybook/react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
+import { CSFStory } from 'creevey';
 
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
+import { delay } from '../../../lib/utils';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -411,56 +412,313 @@ class SmallModalOnTop extends Component<{}, {}> {
   };
 }
 
-storiesOf('Modal', module)
-  .add('With scrollable parent content', () => <ModalWithScrollableContent />)
-  .add('With Icon Input', () => <ModalWithIconInput />)
-  .add('Modal over another modal', () => <ModalOverAnotherModal />)
-  .add('Disabled modal', () => (
-    <Modal disableClose>
-      <Modal.Header>Disabled</Modal.Header>
-      <Modal.Body>Content of disabled body</Modal.Body>
-    </Modal>
-  ))
-  .add('Modal with footer panel', () => <ModalWithFooterPanel />)
-  .add('Modal without footer panel', () => <ModalWithoutFooterPanel />)
-  .add('Modal without footer', () => <ModalWithoutFooter />)
-  .add('Modal without header', () => (
-    <Modal>
-      <Modal.Body>
-        <div>
-          Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров:
-          Firefox, divpera, Chrome.
-        </div>
-      </Modal.Body>
-    </Modal>
-  ))
-  .add('Modal mobile view', () => <ModalMobileView />)
-  .add('Modal with variable height of content', () => (
-    <ModalWithVariableHeight>
-      <ModalInner />
-    </ModalWithVariableHeight>
-  ))
-  .add('Modal without sticky elements', () => (
-    <Modal>
-      <Modal.Header sticky={false}>Header</Modal.Header>
-      <Modal.Body>
-        {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
-          <p key={index}>{item}</p>
-        ))}
-      </Modal.Body>
-      <Modal.Footer sticky={false}>Footer</Modal.Footer>
-    </Modal>
-  ))
-  .add('With alignTop', () => (
-    <Modal alignTop={true}>
-      <Modal.Body>
-        <p>Use rxjs operators with react hooks.</p>
-      </Modal.Body>
-    </Modal>
-  ))
-  .add('Small modal on the Top', () => <SmallModalOnTop />)
-  .add('Modal with veryLongHeaderWithoutSpaces', () => (
-    <Modal width={350}>
-      <Modal.Header>VeryLongAndStrangeHeaderWithoutMeaningAndSpaces</Modal.Header>
-    </Modal>
-  ));
+export default { title: 'Modal' };
+
+export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
+WithScrollableParentContent.story = {
+  name: 'With scrollable parent content',
+  parameters: { creevey: { skip: [true] } },
+};
+
+export const WithIconInput: CSFStory<JSX.Element> = () => <ModalWithIconInput />;
+WithIconInput.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
+        },
+      },
+    },
+  },
+};
+export const ModalOverAnotherModalStory: CSFStory<JSX.Element> = () => <ModalOverAnotherModal />;
+ModalOverAnotherModalStory.story = {
+  name: 'Modal over another modal',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open first modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(200);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open first modal');
+        },
+        async ['open second modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-comp-name~="ModalBody"] button' }))
+            .perform();
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open second modal');
+        },
+      },
+    },
+  },
+};
+
+export const DisabledModal = () => (
+  <Modal disableClose>
+    <Modal.Header>Disabled</Modal.Header>
+    <Modal.Body>Content of disabled body</Modal.Body>
+  </Modal>
+);
+DisabledModal.story = { name: 'Disabled modal', parameters: { creevey: { skip: [true] } } };
+
+export const ModalWithFooterPanelStory: CSFStory<JSX.Element> = () => <ModalWithFooterPanel />;
+ModalWithFooterPanelStory.story = {
+  name: 'Modal with footer panel',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
+        },
+      },
+    },
+  },
+};
+
+export const ModalWithoutFooterPanelStory: CSFStory<JSX.Element> = () => <ModalWithoutFooterPanel />;
+ModalWithoutFooterPanelStory.story = {
+  name: 'Modal without footer panel',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(200);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
+        },
+      },
+    },
+  },
+};
+
+export const ModalWithoutFooterStory: CSFStory<JSX.Element> = () => <ModalWithoutFooter />;
+ModalWithoutFooterStory.story = {
+  name: 'Modal without footer',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
+        },
+      },
+    },
+  },
+};
+
+export const ModalWithoutHeader = () => (
+  <Modal>
+    <Modal.Body>
+      <div>
+        Некоторые функции не работают в вашем браузере. Чтобы все работало, установите один из этих браузеров: Firefox,
+        divpera, Chrome.
+      </div>
+    </Modal.Body>
+  </Modal>
+);
+ModalWithoutHeader.story = { name: 'Modal without header', parameters: { creevey: { captureElement: null } } };
+
+export const ModalMobileViewStory = () => <ModalMobileView />;
+ModalMobileViewStory.story = { name: 'Modal mobile view', parameters: { creevey: { skip: [true] } } };
+
+export const ModalWithVariableHeightOfContent: CSFStory<JSX.Element> = () => (
+  <ModalWithVariableHeight>
+    <ModalInner />
+  </ModalWithVariableHeight>
+);
+ModalWithVariableHeightOfContent.story = {
+  name: 'Modal with variable height of content',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
+        },
+        async ['toggle content height']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '#modal-inner [data-comp-name="Toggle"]' }))
+            .pause(500)
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('toggle content height');
+        },
+      },
+    },
+  },
+};
+
+export const ModalWithoutStickyElements: CSFStory<JSX.Element> = () => (
+  <Modal>
+    <Modal.Header sticky={false}>Header</Modal.Header>
+    <Modal.Body>
+      {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
+        <p key={index}>{item}</p>
+      ))}
+    </Modal.Body>
+    <Modal.Footer sticky={false}>Footer</Modal.Footer>
+  </Modal>
+);
+ModalWithoutStickyElements.story = {
+  name: 'Modal without sticky elements',
+  parameters: {
+    creevey: {
+      tests: {
+        async top() {
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
+        },
+        async middle() {
+          await this.browser.executeScript(function() {
+            const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+            const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+
+            // @ts-ignore
+            modalContainer.scrollTop = modalContent.offsetHeight / 2;
+          });
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
+        },
+        async bottom() {
+          await this.browser.executeScript(function() {
+            const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+            const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+
+            // @ts-ignore
+            modalContainer.scrollTop = modalContent.offsetHeight;
+          });
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
+        },
+      },
+    },
+  },
+};
+
+export const WithAlignTop = () => (
+  <Modal alignTop={true}>
+    <Modal.Body>
+      <p>Use rxjs operators with react hooks.</p>
+    </Modal.Body>
+  </Modal>
+);
+WithAlignTop.story = { name: 'With alignTop', parameters: { creevey: { captureElement: null } } };
+
+export const SmallModalOnTheTop: CSFStory<JSX.Element> = () => <SmallModalOnTop />;
+SmallModalOnTheTop.story = {
+  name: 'Small modal on the Top',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open modal']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
+        },
+        async ['close by click on the cross']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-tid="modal-close"]' }))
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('close by click on the cross');
+        },
+        async ["doesn't close by click on the content"]() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-tid="modal-content-button"]' }))
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage("doesn't close by click on the content");
+        },
+        async ['closes by click on the background']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-tid="modal-container"]' }))
+            .perform();
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('closes by click on the background');
+        },
+      },
+    },
+  },
+};
+
+export const ModalWithVeryLongHeaderWithoutSpaces = () => (
+  <Modal width={350}>
+    <Modal.Header>VeryLongAndStrangeHeaderWithoutMeaningAndSpaces</Modal.Header>
+  </Modal>
+);
+ModalWithVeryLongHeaderWithoutSpaces.story = {
+  name: 'Modal with veryLongHeaderWithoutSpaces',
+  parameters: { creevey: { captureElement: null } },
+};
