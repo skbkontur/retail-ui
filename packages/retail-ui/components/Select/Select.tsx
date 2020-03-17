@@ -70,6 +70,7 @@ export interface SelectProps<TValue, TItem> {
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
+  overflowItems?: boolean;
   onChange?: (e: { target: { value: TValue } }, value: TValue) => void;
   onClose?: () => void;
   onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -408,6 +409,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
+        width={this.props.width}
       >
         <Menu
           ref={this.refMenu}
@@ -438,6 +440,7 @@ class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue
                   state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
                   onClick={this.select.bind(this, iValue)}
                   comment={comment}
+                  overflowContent={this.props.overflowItems}
                 >
                   {this.getProps().renderItem(iValue, item)}
                 </MenuItem>

@@ -38,6 +38,17 @@
       left: 15px;
       top: 5px;
     }
+
+    .overflowed {
+      max-width: 100%;
+
+      .content {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
   }
 }
 
