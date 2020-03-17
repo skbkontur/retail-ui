@@ -158,6 +158,12 @@ class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DateP
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
 
+  public componentDidMount() {
+    if (this.props.autoFocus) {
+      this.focus();
+    }
+  }
+
   public componentWillReceiveProps(nextProps: DatePickerProps<DatePickerValue>) {
     const { disabled } = nextProps;
     const { opened } = this.state;
