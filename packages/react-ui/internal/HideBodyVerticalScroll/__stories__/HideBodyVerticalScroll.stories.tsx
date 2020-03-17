@@ -1,5 +1,4 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { Toggle } from '../../../components/Toggle';
@@ -140,6 +139,8 @@ class Example2 extends React.Component {
   };
 }
 
-storiesOf('HideBodyVerticalScroll', module)
-  .add('Simple', () => <Example />)
-  .add('With page resize', () => <Example2 />);
+export default { title: 'HideBodyVerticalScroll', parameters: { creevey: { skip: [true] } } };
+
+export const Simple = () => <Example />;
+export const WithPageResize = () => <Example2 />;
+WithPageResize.story = { name: 'With page resize' };

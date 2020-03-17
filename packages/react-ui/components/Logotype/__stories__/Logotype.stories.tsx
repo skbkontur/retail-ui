@@ -1,9 +1,34 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { CSFStory } from 'creevey';
 
 import { Logotype } from '../Logotype';
 
-storiesOf('Logotype', module).add('with widget', () => <WithWidgetToggler />);
+export default { title: 'Logotype' };
+
+export const WithWidget: CSFStory<JSX.Element> = () => <WithWidgetToggler />;
+WithWidget.story = {
+  name: 'with widget',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['without widget']() {
+          const element = await this.browser.findElement({ css: '[data-comp-name~="Logotype"' });
+          await this.expect(await element.takeScreenshot()).to.matchImage('without widget');
+        },
+        async ['with widget']() {
+          const element = await this.browser.findElement({ css: '[data-comp-name~="Logotype"' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#toggle-widget' }))
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('with widget');
+        },
+      },
+    },
+  },
+};
 
 class WithWidgetToggler extends React.Component {
   public state = {

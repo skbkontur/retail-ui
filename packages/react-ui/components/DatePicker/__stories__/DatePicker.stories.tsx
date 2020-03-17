@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 import React from 'react';
+import { CSFStory } from 'creevey';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
@@ -9,6 +10,7 @@ import { MockDate } from '../../../lib/MockDate';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
+import { delay } from '../../../lib/utils';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
@@ -25,9 +27,11 @@ class DatePickerWithError extends React.Component<any, any> {
           render={() => 'Такой даты не существует'}
           onCloseClick={this.removeTooltip}
         >
-          <LocaleContext.Provider value={{
-            locale: { DatePicker: { order: InternalDateOrder.MDY } }
-          }}>
+          <LocaleContext.Provider
+            value={{
+              locale: { DatePicker: { order: InternalDateOrder.MDY } },
+            }}
+          >
             <DatePicker
               {...this.props}
               disabled={this.props.disabled}
@@ -109,9 +113,11 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             onChange={e => this.setState({ max: e.target.value })}
           />
         </label>
-        <LocaleContext.Provider value={{
-          locale: { DatePicker: { order: this.state.order, separator: this.state.separator }}
-        }}>
+        <LocaleContext.Provider
+          value={{
+            locale: { DatePicker: { order: this.state.order, separator: this.state.separator } },
+          }}
+        >
           <DatePicker
             width={200}
             value={this.state.value}
@@ -127,50 +133,168 @@ class DatePickerWithMinMax extends React.Component<any, any> {
 
 const dateForMock = new Date('2017-01-02');
 
-storiesOf('DatePicker', module)
-  .addDecorator(story =>
-    process.env.NODE_ENV === 'test' ? (
-      <div>
-        <h2>Mocked date {dateForMock.toDateString()}</h2>
-        <MockDate date={dateForMock} />
-        {story()}
-      </div>
-    ) : (
-      <div>{story()}</div>
-    ),
-  )
-  .add('with mouseevent handlers', () => (
-    <div style={{ padding: '200px 150px 350px 0px' }}>
-      <DatePicker
-        width={200}
-        value="02.07.2017"
-        onMouseEnter={() => console.count('enter')}
-        onMouseLeave={() => console.count('leave')}
-        onValueChange={action('change')}
-      />
+export default {
+  title: 'DatePicker',
+  decorators: [
+    (story: StoryFn<JSX.Element>) =>
+      process.env.NODE_ENV === 'test' ? (
+        <div>
+          <h2>Mocked date {dateForMock.toDateString()}</h2>
+          <MockDate date={dateForMock} />
+          {story()}
+        </div>
+      ) : (
+        <div>{story()}</div>
+      ),
+  ],
+};
+
+export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => (
+  <div style={{ padding: '200px 150px 350px 0px' }}>
+    <DatePicker
+      width={200}
+      value="02.07.2017"
+      onMouseEnter={() => console.count('enter')}
+      onMouseLeave={() => console.count('leave')}
+      onValueChange={action('change')}
+    />
+  </div>
+);
+WithMouseeventHandlers.story = {
+  name: 'with mouseevent handlers',
+  parameters: {
+    creevey: {
+      tests: {
+        async opened() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+        },
+        async ['DateSelect month']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
+        },
+        async ['DateSelect year']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect year');
+        },
+      },
+    },
+  },
+};
+
+export const _DatePickerWithError = () => <DatePickerWithError />;
+_DatePickerWithError.story = { name: 'DatePickerWithError', parameters: { creevey: { skip: [true] } } };
+
+export const DatePickerDisabled = () => <DatePickerWithError disabled />;
+DatePickerDisabled.story = { name: 'DatePicker disabled', parameters: { creevey: { skip: [true] } } };
+
+export const DatePickerMedium = () => <DatePickerWithError size="medium" />;
+DatePickerMedium.story = { name: 'DatePicker medium', parameters: { creevey: { skip: [true] } } };
+
+export const DatePickerLarge = () => <DatePickerWithError size="large" />;
+DatePickerLarge.story = { name: 'DatePicker large', parameters: { creevey: { skip: [true] } } };
+
+export const DatePickerWithMinMaxDate: CSFStory<JSX.Element> = () => (
+  <div style={{ padding: '200px 150px 350px 0px' }}>
+    <DatePickerWithMinMax />
+  </div>
+);
+DatePickerWithMinMaxDate.story = {
+  name: 'DatePicker with min max date',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['DateSelect months']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
+        },
+        async ['DateSelect years']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({ bridge: true })
+            .click(
+              this.browser.findElement({
+                css:
+                  '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              }),
+            )
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
+        },
+      },
+    },
+  },
+};
+
+export const DatePickerLocaleProvider = () => {
+  return (
+    <div style={{ paddingTop: 200 }}>
+      <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+        <DatePicker
+          value="02.07.2017"
+          minDate="02.07.2017"
+          maxDate="30.01.2020"
+          onValueChange={action('change')}
+          enableTodayLink={true}
+        />
+      </LocaleContext.Provider>
     </div>
-  ))
-  .add('DatePickerWithError', () => <DatePickerWithError />)
-  .add('DatePicker disabled', () => <DatePickerWithError disabled />)
-  .add('DatePicker medium', () => <DatePickerWithError size="medium" />)
-  .add('DatePicker large', () => <DatePickerWithError size="large" />)
-  .add('DatePicker with min max date', () => (
-    <div style={{ padding: '200px 150px 350px 0px' }}>
-      <DatePickerWithMinMax />
-    </div>
-  ))
-  .add('DatePicker LocaleProvider', () => {
-    return (
-      <div style={{ paddingTop: 200 }}>
-        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-          <DatePicker
-            value="02.07.2017"
-            minDate="02.07.2017"
-            maxDate="30.01.2020"
-            onValueChange={action('change')}
-            enableTodayLink={true}
-          />
-        </LocaleContext.Provider>
-      </div>
-    );
-  });
+  );
+};
+DatePickerLocaleProvider.story = { name: 'DatePicker LocaleProvider', parameters: { creevey: { skip: [true] } } };

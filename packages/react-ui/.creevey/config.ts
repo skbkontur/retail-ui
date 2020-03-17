@@ -1,26 +1,13 @@
 import path from 'path';
 import { CreeveyConfig } from 'creevey';
 
-const flatComponents = [
-  'Button',
-  'Checkbox',
-  'Input',
-  'Radio',
-  'Textarea',
-  'Toggle',
-  'InputLikeText',
-  'Switcher',
-  'TokenInput',
-];
-const flatRegex = new RegExp(`(\\/|\\\\)(${flatComponents.join('|')})\\.ts$`);
-
 const config: CreeveyConfig = {
-  testDir: path.join(__dirname, 'tests'),
+  enableFastStoriesLoading: true,
+  storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
   gridUrl: 'http://screen:shot@grid.testkontur.ru/wd/hub',
   storybookUrl: 'http://localhost:6060',
-  threshold: 0,
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
   browsers: {
@@ -32,7 +19,6 @@ const config: CreeveyConfig = {
     chromeFlat: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
-      testRegex: flatRegex,
       storybookUrl: 'http://localhost:6061',
     },
     firefox: {
@@ -42,7 +28,6 @@ const config: CreeveyConfig = {
     firefoxFlat: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      testRegex: flatRegex,
       storybookUrl: 'http://localhost:6061',
     },
     ie11: {
@@ -62,7 +47,6 @@ const config: CreeveyConfig = {
     ie11Flat: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      testRegex: flatRegex,
       storybookUrl: 'http://localhost:6061',
     },
   },

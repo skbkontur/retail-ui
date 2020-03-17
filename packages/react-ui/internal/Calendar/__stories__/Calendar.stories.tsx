@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
@@ -8,37 +7,45 @@ import { Gapped } from '../../../components/Gapped';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar } from '../Calendar';
 
-storiesOf('Calendar', module)
-  .add('simple', () => (
-    <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
-  ))
-  .add('LocaleContext.Provider', () => (
-    <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-      <Calendar />
-    </LocaleContext.Provider>
-  ))
-  .add('CalendarWithButtons', () => <CalendarWithButtons />)
-  .add('Calendar with holidays', () => {
-    const holidays: string[] = [];
+export default { title: 'Calendar', parameters: { creevey: { skip: [true] } } };
 
-    do {
-      holidays.push(
-        InternalDateTransformer.dateToInternalString({
-          date: Math.round(31 * Math.random()),
-          month: Math.round(12 * Math.random()),
-          year: new Date().getFullYear(),
-        }),
-      );
-    } while (holidays.length < 100);
+export const Simple = () => (
+  <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
+);
+Simple.story = { name: 'simple' };
 
-    return (
-      <Calendar
-        isHoliday={date => {
-          return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
-        }}
-      />
+export const LocaleContextProvider = () => (
+  <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+    <Calendar />
+  </LocaleContext.Provider>
+);
+LocaleContextProvider.story = { name: 'LocaleContext.Provider' };
+
+export const CalendarWithButtonsStory = () => <CalendarWithButtons />;
+CalendarWithButtonsStory.story = { name: 'CalendarWithButtons' };
+
+export const CalendarWithHolidays = () => {
+  const holidays: string[] = [];
+
+  do {
+    holidays.push(
+      InternalDateTransformer.dateToInternalString({
+        date: Math.round(31 * Math.random()),
+        month: Math.round(12 * Math.random()),
+        year: new Date().getFullYear(),
+      }),
     );
-  });
+  } while (holidays.length < 100);
+
+  return (
+    <Calendar
+      isHoliday={date => {
+        return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
+      }}
+    />
+  );
+};
+CalendarWithHolidays.story = { name: 'Calendar with holidays' };
 
 const initialDate = { year: 2018, month: 0, date: 1 };
 const datesToScroll = [

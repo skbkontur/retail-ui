@@ -1,7 +1,8 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
+import { CSFStory, CreeveyStoryParams } from 'creevey';
 
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
@@ -81,89 +82,218 @@ class SelectWithNull extends React.Component<any, any> {
   }
 }
 
-storiesOf('Select', module)
-  .addDecorator(story => (
-    <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
-      {story()}
-    </div>
-  ))
-  .add('Simple', () => <Select items={['one', 'two', 'three']} />)
-  .add('Complex values', () => <SelectWrapper />)
-  .add('Items with comments', () => <ItemsWithComments />)
-  .add('With null', () => <SelectWithNull />)
-  .add('use link', () => <Select use="link" items={['one', 'two', 'three']} />)
-  .add('use link with icon', () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />)
-  .add('with text overflow', () => <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />)
-  .add('external focus', () => {
-    class Sample extends React.Component {
-      private selectElem: Select | null = null;
-      public render() {
-        return (
-          <div>
-            <Select
-              width="100px"
-              items={['oneoneone', 'twotwotwo', 'twotwotwo']}
-              ref={this.refSelect}
-              onFocus={action('handleFocus')}
-              onBlur={action('handleBlur')}
-            />
-            <br />
-            <button onClick={this.handleClick}>Focus!</button>
-          </div>
-        );
-      }
+export default {
+  title: 'Select',
+  decorators: [
+    (story: StoryFn<JSX.Element>) => (
+      <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+        {story()}
+      </div>
+    ),
+  ],
+};
 
-      private refSelect = (element: Select<any, any> | null) => {
-        this.selectElem = element;
-      };
+const selectTests: CreeveyStoryParams['tests'] = {
+  async idle() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+  },
+  async clicked() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+  },
+  async ['MenuItem hover']() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .move({
+        origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }),
+      })
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('MenuItem hover');
+  },
+  async ['selected item']() {
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+      .perform();
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }))
+      .perform();
+    await this.expect(await this.takeScreenshot()).to.matchImage('selected item');
+  },
+};
 
-      private handleClick = () => {
-        if (this.selectElem) {
-          this.selectElem.focus();
-        }
-      };
+export const Simple: CSFStory<JSX.Element> = () => <Select items={['one', 'two', 'three']} />;
+Simple.story = {
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
+
+export const ComplexValues = () => <SelectWrapper />;
+ComplexValues.story = { name: 'Complex values', parameters: { creevey: { skip: [true] } } };
+
+export const ItemsWithCommentsStory = () => <ItemsWithComments />;
+ItemsWithCommentsStory.story = { name: 'Items with comments', parameters: { creevey: { skip: [true] } } };
+
+export const WithNull = () => <SelectWithNull />;
+WithNull.story = { name: 'With null', parameters: { creevey: { skip: [true] } } };
+
+export const UseLink: CSFStory<JSX.Element> = () => <Select use="link" items={['one', 'two', 'three']} />;
+UseLink.story = {
+  name: 'use link',
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
+
+export const UseLinkWithIcon: CSFStory<JSX.Element> = () => (
+  <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />
+);
+UseLinkWithIcon.story = {
+  name: 'use link with icon',
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
+
+export const WithTextOverflow: CSFStory<JSX.Element> = () => (
+  <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
+);
+WithTextOverflow.story = {
+  name: 'with text overflow',
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
+
+export const ExternalFocus = () => {
+  class Sample extends React.Component {
+    private selectElem: Select | null = null;
+    public render() {
+      return (
+        <div>
+          <Select
+            width="100px"
+            items={['oneoneone', 'twotwotwo', 'twotwotwo']}
+            ref={this.refSelect}
+            onFocus={action('handleFocus')}
+            onBlur={action('handleBlur')}
+          />
+          <br />
+          <button onClick={this.handleClick}>Focus!</button>
+        </div>
+      );
     }
 
-    return <Sample />;
-  })
-  .add('using onKeyDown', () => {
-    class Sample extends React.Component {
-      public state = {
-        opened: false,
-        text: 'wait...',
-      };
-      private button: Button | null = null;
-      public render() {
-        return (
-          <div>
-            <Select
-              items={['one', 'two', 'three']}
-              onKeyDown={this.onKeyDown}
-              onOpen={this.onOpen}
-              onClose={this.onClose}
-            />
-            <br />
-            <Button
-              onFocus={this.onFocus}
-              ref={el => {
-                this.button = el;
-              }}
-            >
-              {this.state.text}
-            </Button>
-          </div>
-        );
-      }
+    private refSelect = (element: Select<any, any> | null) => {
+      this.selectElem = element;
+    };
 
-      private onOpen = () => this.setState({ opened: true });
-      private onClose = () => this.setState({ opened: false });
-      private onFocus = () => this.setState({ text: 'focused!' });
-      private onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-        if (this.button && isKeyEnter(e) && this.state.opened) {
-          this.button.focus();
-        }
-      };
+    private handleClick = () => {
+      if (this.selectElem) {
+        this.selectElem.focus();
+      }
+    };
+  }
+
+  return <Sample />;
+};
+ExternalFocus.story = { name: 'external focus', parameters: { creevey: { skip: [true] } } };
+
+export const UsingOnKeyDown: CSFStory<JSX.Element> = () => {
+  class Sample extends React.Component {
+    public state = {
+      opened: false,
+      text: 'wait...',
+    };
+    private button: Button | null = null;
+    public render() {
+      return (
+        <div>
+          <Select
+            items={['one', 'two', 'three']}
+            onKeyDown={this.onKeyDown}
+            onOpen={this.onOpen}
+            onClose={this.onClose}
+          />
+          <br />
+          <Button
+            onFocus={this.onFocus}
+            ref={el => {
+              this.button = el;
+            }}
+          >
+            {this.state.text}
+          </Button>
+        </div>
+      );
     }
 
-    return <Sample />;
-  });
+    private onOpen = () => this.setState({ opened: true });
+    private onClose = () => this.setState({ opened: false });
+    private onFocus = () => this.setState({ text: 'focused!' });
+    private onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+      if (this.button && isKeyEnter(e) && this.state.opened) {
+        this.button.focus();
+      }
+    };
+  }
+
+  return <Sample />;
+};
+UsingOnKeyDown.story = {
+  name: 'using onKeyDown',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['press Enter']() {
+          const element = await this.browser.findElement({ css: '.dropdown-test-container' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .sendKeys(this.keys.ENTER)
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
+        },
+      },
+    },
+  },
+};

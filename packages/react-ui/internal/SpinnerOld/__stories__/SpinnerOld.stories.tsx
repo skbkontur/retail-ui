@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 
 import { SpinnerOld } from '../SpinnerOld';
 import { OkIcon } from '../../icons/16px';
@@ -20,11 +20,20 @@ const SpinnerOldLikeIcon = () => (
   </>
 );
 
-storiesOf('SpinnerOld', module)
-  .addDecorator(story => <div style={{ height: 150, width: 200, padding: 4 }}>{story()}</div>)
-  .add('Normal', () => <SpinnerOld />)
-  .add('Big', () => <SpinnerOld type="big" />)
-  .add('Mini', () => <SpinnerOld type="mini" />)
-  .add('Mini dimmed', () => <SpinnerOld type="mini" dimmed />)
-  .add('With ReactNode in caption', () => <SpinnerOld type="big" caption={reactNodeCaption} />)
-  .add('Spinner and Icon same sizes', () => <SpinnerOldLikeIcon />);
+export default {
+  title: 'SpinnerOld',
+  parameters: { creevey: { skip: [true] } },
+  decorators: [(story: StoryFn<JSX.Element>) => <div style={{ height: 150, width: 200, padding: 4 }}>{story()}</div>],
+};
+
+export const Normal = () => <SpinnerOld />;
+export const Big = () => <SpinnerOld type="big" />;
+export const Mini = () => <SpinnerOld type="mini" />;
+export const MiniDimmed = () => <SpinnerOld type="mini" dimmed />;
+MiniDimmed.story = { name: 'Mini dimmed' };
+
+export const WithReactNodeInCaption = () => <SpinnerOld type="big" caption={reactNodeCaption} />;
+WithReactNodeInCaption.story = { name: 'With ReactNode in caption' };
+
+export const SpinnerAndIconSameSizes = () => <SpinnerOldLikeIcon />;
+SpinnerAndIconSameSizes.story = { name: 'Spinner and Icon same sizes' };
