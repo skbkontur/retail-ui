@@ -4,7 +4,7 @@ import React from 'react';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SpinnerLocaleHelper } from '../locale';
-import { sizes } from '../../internal/icons/SpinnerIcon';
+import { sizes } from '../../../internal/icons/SpinnerIcon';
 import { Spinner } from '../Spinner';
 import { SpinnerFallback } from '../SpinnerFallback';
 

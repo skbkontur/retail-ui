@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ZIndex } from '../ZIndex';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { jsStyles } from './Modal.styles';
 import { ModalClose } from './ModalClose';

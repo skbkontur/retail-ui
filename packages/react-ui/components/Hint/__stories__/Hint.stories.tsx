@@ -5,7 +5,7 @@ import { CSFStory } from 'creevey';
 import { Hint } from '../Hint';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
-import { PopupPositions } from '../../Popup';
+import { PopupPositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
 
 export default {

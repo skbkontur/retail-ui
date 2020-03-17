@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { filterProps } from '../filterProps';
+import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';
 import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';

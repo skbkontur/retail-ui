@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { Popup, PopupPosition } from '../Popup';
+import { Popup, PopupPosition } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 

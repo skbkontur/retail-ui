@@ -118,7 +118,7 @@ interface ThemeIn extends ThemeInType {}
 ```jsx harmony
 import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const FlatComponents = () => (
   <ThemeContext.Provider value={flatTheme}>
@@ -137,7 +137,7 @@ const FlatComponents = () => (
 ```jsx harmony
 import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
   <>
@@ -160,8 +160,8 @@ const CombinedComponents = () => (
 import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME as defaultTheme } from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
-import { darkTheme } from '@skbkontur/react-ui/components/internal/ThemePlayground/darkTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
+import { darkTheme } from '@skbkontur/react-ui/internal/ThemePlayground/darkTheme';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',

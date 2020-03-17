@@ -2,7 +2,7 @@ import React from 'react';
 import { StoryFn } from '@storybook/addons';
 
 import { Spinner } from '../Spinner';
-import { OkIcon } from '../../internal/icons/16px';
+import { OkIcon } from '../../../internal/icons/16px';
 
 const reactNodeCaption = (
   <div>

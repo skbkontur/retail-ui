@@ -2,9 +2,9 @@ import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
-import { Popup, PopupPosition, PopupProps } from '../Popup';
-import { RenderLayer, RenderLayerProps } from '../RenderLayer';
-import { CrossIcon } from '../internal/icons/CrossIcon';
+import { Popup, PopupPosition, PopupProps } from '../../internal/Popup';
+import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
+import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
