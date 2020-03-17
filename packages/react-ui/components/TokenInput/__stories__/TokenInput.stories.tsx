@@ -1,5 +1,6 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
+import { CSFStory } from 'creevey';
 
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
@@ -12,7 +13,7 @@ interface TokenModel {
   value: string;
 }
 
-const FixedWidthDecorator = (storyFn: any) => (
+const FixedWidthDecorator = (storyFn: StoryFn<JSX.Element>) => (
   <div className="tokens-test-container" style={{ margin: 40, height: 200, width: 400, padding: 4 }}>
     {storyFn()}
   </div>
@@ -159,102 +160,173 @@ class ColoredWrapper extends React.Component<any, any> {
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
-storiesOf('TokenInput', module)
-  .addDecorator(FixedWidthDecorator)
-  .add('validations', () => {
-    return (
-      <Gapped vertical gap={10}>
-        <Wrapper getItems={getItems} placeholder="default" />
-        <Wrapper getItems={getItems} placeholder="warning" warning />
-        <Wrapper getItems={getItems} placeholder="error" error />
-        <Wrapper getItems={getItems} placeholder="warning and error" warning error />
-      </Gapped>
-    );
-  })
-  .add('empty with reference', () => {
-    return <Wrapper getItems={getItems} />;
-  })
-  .add('colored empty with reference', () => {
-    return <ColoredWrapper getItems={getItems} />;
-  })
-  .add('empty without reference', () => {
-    return <Wrapper type={TokenInputType.WithoutReference} />;
-  })
-  .add('empty combined', () => {
-    return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
-  })
-  .add('[with reference] filled', () => {
-    return <FilledWrapper getItems={getItems} />;
-  })
-  .add('[without reference] filled', () => {
-    return <FilledWrapper type={TokenInputType.WithoutReference} getItems={getItems} />;
-  })
-  .add('[combined] filled', () => {
-    return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
-  })
-  .add('with long item 1', () => {
-    return (
-      <Wrapper
-        getItems={getItems}
-        selectedItems={['Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, obcaecati?']}
-      />
-    );
-  })
-  .add('with long item 2', () => {
-    return (
-      <Wrapper getItems={getItems} selectedItems={['qewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiop']} />
-    );
-  })
-  .add('multiple tokens', () => {
-    return (
-      <Gapped vertical gap={10}>
-        <FilledWrapper getItems={getItems} />
-        <Wrapper getItems={getItems} type={TokenInputType.WithoutReference} />
-      </Gapped>
-    );
-  })
-  .add('combined generic token', () => {
-    return <WrapperCustomModel />;
-  })
-  .add('width token', () => {
-    return (
-      <Gapped vertical gap={10}>
-        <Wrapper getItems={getItems} width={'100%'} />
-        <Wrapper getItems={getItems} width={300} />
-        <Wrapper getItems={getItems} width={150} />
-      </Gapped>
-    );
-  })
-  .add('with autofocus', () => {
-    return (
-      <Gapped vertical gap={10}>
-        <Wrapper getItems={getItems} autoFocus={true} />
-      </Gapped>
-    );
-  })
-  .add('use renderToken', () => (
-    <Gapped gap={10}>
-      <Wrapper
-        getItems={getItems}
-        renderToken={(item, { isActive, onClick, onRemove }) => (
-          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
-            {item}
-          </Token>
-        )}
-      />
+export default {
+  title: 'TokenInput',
+  decorators: [FixedWidthDecorator],
+};
+
+export const Validations = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Wrapper getItems={getItems} placeholder="default" />
+      <Wrapper getItems={getItems} placeholder="warning" warning />
+      <Wrapper getItems={getItems} placeholder="error" error />
+      <Wrapper getItems={getItems} placeholder="warning and error" warning error />
     </Gapped>
-  ))
-  .add('identical alignment with other controls', () => (
-    <Gapped gap={10} vertical>
+  );
+};
+Validations.story = { name: 'validations', parameters: { creevey: { skip: [true] } } };
+
+export const EmptyWithReference: CSFStory<JSX.Element> = () => {
+  return <Wrapper getItems={getItems} />;
+};
+EmptyWithReference.story = {
+  name: 'empty with reference',
+  parameters: {
+    creevey: {
+      captureElement: '.tokens-test-container',
+      tests: {
+        async idle() {
+          await delay(100);
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+        async withMenu() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
+        },
+      },
+    },
+  },
+};
+
+export const ColoredEmptyWithReference = () => {
+  return <ColoredWrapper getItems={getItems} />;
+};
+ColoredEmptyWithReference.story = { name: 'colored empty with reference', parameters: { creevey: { skip: [true] } } };
+
+export const EmptyWithoutReference = () => {
+  return <Wrapper type={TokenInputType.WithoutReference} />;
+};
+EmptyWithoutReference.story = { name: 'empty without reference', parameters: { creevey: { skip: [true] } } };
+
+export const EmptyCombined = () => {
+  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
+};
+EmptyCombined.story = { name: 'empty combined', parameters: { creevey: { skip: [true] } } };
+
+export const WithReferenceFilled = () => {
+  return <FilledWrapper getItems={getItems} />;
+};
+WithReferenceFilled.story = { name: '[with reference] filled', parameters: { creevey: { skip: [true] } } };
+
+export const WithoutReferenceFilled = () => {
+  return <FilledWrapper type={TokenInputType.WithoutReference} getItems={getItems} />;
+};
+WithoutReferenceFilled.story = { name: '[without reference] filled', parameters: { creevey: { skip: [true] } } };
+
+export const CombinedFilled = () => {
+  return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
+};
+CombinedFilled.story = { name: '[combined] filled', parameters: { creevey: { skip: [true] } } };
+
+export const WithLongItem1 = () => {
+  return (
+    <Wrapper
+      getItems={getItems}
+      selectedItems={['Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, obcaecati?']}
+    />
+  );
+};
+WithLongItem1.story = { name: 'with long item 1', parameters: { creevey: { skip: [true] } } };
+
+export const WithLongItem2 = () => {
+  return (
+    <Wrapper getItems={getItems} selectedItems={['qewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiop']} />
+  );
+};
+WithLongItem2.story = { name: 'with long item 2', parameters: { creevey: { skip: [true] } } };
+
+export const MultipleTokens = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <FilledWrapper getItems={getItems} />
+      <Wrapper getItems={getItems} type={TokenInputType.WithoutReference} />
+    </Gapped>
+  );
+};
+MultipleTokens.story = { name: 'multiple tokens', parameters: { creevey: { skip: [true] } } };
+
+export const CombinedGenericToken = () => {
+  return <WrapperCustomModel />;
+};
+CombinedGenericToken.story = { name: 'combined generic token', parameters: { creevey: { skip: [true] } } };
+
+export const WidthToken = () => {
+  return (
+    <Gapped vertical gap={10}>
       <Wrapper getItems={getItems} width={'100%'} />
-      <Input value={'value'} width={'100%'} size={'medium'} />
+      <Wrapper getItems={getItems} width={300} />
+      <Wrapper getItems={getItems} width={150} />
     </Gapped>
-  ))
-  .add('disabled', () => {
-    return (
-      <Gapped vertical gap={10}>
-        <FilledWrapper getItems={getItems} disabled={true} />
-        <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
-      </Gapped>
-    );
-  });
+  );
+};
+WidthToken.story = { name: 'width token', parameters: { creevey: { skip: [true] } } };
+
+export const WithAutofocus = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Wrapper getItems={getItems} autoFocus={true} />
+    </Gapped>
+  );
+};
+WithAutofocus.story = { name: 'with autofocus', parameters: { creevey: { skip: [true] } } };
+
+export const UseRenderToken = () => (
+  <Gapped gap={10}>
+    <Wrapper
+      getItems={getItems}
+      renderToken={(item, { isActive, onClick, onRemove }) => (
+        <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+          {item}
+        </Token>
+      )}
+    />
+  </Gapped>
+);
+UseRenderToken.story = { name: 'use renderToken', parameters: { creevey: { skip: [true] } } };
+
+export const IdenticalAlignmentWithOtherControls = () => (
+  <Gapped gap={10} vertical>
+    <Wrapper getItems={getItems} width={'100%'} />
+    <Input value={'value'} width={'100%'} size={'medium'} />
+  </Gapped>
+);
+IdenticalAlignmentWithOtherControls.story = {
+  name: 'identical alignment with other controls',
+  parameters: { creevey: { skip: [true] } },
+};
+
+export const Disabled = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <FilledWrapper getItems={getItems} disabled={true} />
+      <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
+    </Gapped>
+  );
+};
+Disabled.story = { name: 'disabled' };

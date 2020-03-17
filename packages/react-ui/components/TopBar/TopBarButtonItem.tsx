@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IconProps } from '../internal/icons/20px';
+import { IconProps } from '../../internal/icons/20px';
 
 import { TopBarItem, TopBarItemProps } from './TopBarItem';
 import { jsStyles } from "./TopBar.styles";

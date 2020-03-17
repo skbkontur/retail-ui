@@ -16,7 +16,7 @@ import {
   isShortcutSelectAll,
 } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Menu } from '../Menu';
+import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { emptyHandler } from '../../lib/utils';

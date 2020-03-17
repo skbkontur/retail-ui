@@ -1,20 +1,50 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { CSFStory } from 'creevey';
 
-import { BGRuler } from '../../../lib/BGRuler';
+import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
-import { createPropsGetter } from '../../internal/createPropsGetter';
-import { InputType } from '../../Input/Input';
+import { createPropsGetter } from '../../../lib/createPropsGetter';
+import { InputType } from '../../Input';
 
-storiesOf('FxInput', module)
-  .add('type text', () => <TestFxInput />)
-  .add('type currency', () => <TestFxInput type={'currency'} fractionDigits={4} />)
-  .add('borderless', () => (
-    <TestWrapper>
-      <TestFxInput borderless />
-    </TestWrapper>
-  ))
-  .add('with width', () => <WithWidth />);
+export default { title: 'FxInput' };
+
+export const TypeText = () => <TestFxInput />;
+TypeText.story = { name: 'type text' };
+
+export const TypeCurrency = () => <TestFxInput type={'currency'} fractionDigits={4} />;
+TypeCurrency.story = { name: 'type currency' };
+
+export const Borderless = () => (
+  <TestWrapper>
+    <TestFxInput borderless />
+  </TestWrapper>
+);
+Borderless.story = { name: 'borderless' };
+
+export const WithWidthStory: CSFStory<JSX.Element> = () => <WithWidth />;
+WithWidthStory.story = {
+  name: 'with width',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['inside auto container']() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.expect(await element.takeScreenshot()).to.matchImage('inside auto container');
+        },
+        async ['inside fixed container']() {
+          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#toggle-width' }))
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('inside fixed container');
+        },
+      },
+    },
+  },
+};
 
 interface TestFxInputProps {
   type?: 'currency' | InputType;

@@ -7,7 +7,7 @@ import { Link } from '../Link';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { EditIcon } from '../internal/icons/16px';
+import { EditIcon } from '../../internal/icons/16px';
 import { LocaleContext } from '../../lib/locale';
 
 import { FiasLocale, FiasLocaleHelper } from './locale';

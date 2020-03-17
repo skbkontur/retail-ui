@@ -9,7 +9,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import { emptyHandler, isIE11 } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { ArrowChevronRightIcon } from '../internal/icons/16px';
+import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 
 import { jsStyles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';

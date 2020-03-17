@@ -6,7 +6,7 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
-import { ZIndex } from '../ZIndex';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { jsStyles } from './Sticky.styles';
 

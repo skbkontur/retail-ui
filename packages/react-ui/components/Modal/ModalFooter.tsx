@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ZIndex } from '../ZIndex';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { jsStyles } from './Modal.styles';
 import { ModalContext } from './ModalContext';

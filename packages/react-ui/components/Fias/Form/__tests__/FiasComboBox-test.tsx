@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 
 import { FiasComboBox } from '../FiasComboBox';
 import { delay } from '../../../../lib/utils';
-import { Menu } from '../../../Menu';
+import { Menu } from '../../../../internal/Menu';
 import { FiasAddress } from '../../models/FiasAddress';
 
 function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<T>] {

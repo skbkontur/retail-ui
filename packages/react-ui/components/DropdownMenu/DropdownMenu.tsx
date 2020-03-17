@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { PopupMenu, PopupMenuProps } from '../internal/PopupMenu';
-import { isProductionEnv } from '../internal/currentEnvironment';
-import { PopupPosition } from '../Popup';
+import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
+import { isProductionEnv } from '../../lib/currentEnvironment';
+import { PopupPosition } from '../../internal/Popup';
 
 export interface DropdownMenuProps {
   /** Максимальная высота меню */

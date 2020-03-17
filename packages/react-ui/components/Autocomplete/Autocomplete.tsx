@@ -4,11 +4,11 @@ import { findDOMNode } from 'react-dom';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
-import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
-import { Menu } from '../Menu';
+import { DropdownContainer } from '../../internal/DropdownContainer';
+import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
-import { RenderLayer } from '../RenderLayer';
-import { createPropsGetter } from '../internal/createPropsGetter';
+import { RenderLayer } from '../../internal/RenderLayer';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
