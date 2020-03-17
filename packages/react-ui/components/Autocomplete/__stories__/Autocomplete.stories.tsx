@@ -1,40 +1,49 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 
-storiesOf('Autocomplete', module)
-  .add('simple', () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />)
-  .add('with renderItem', () => (
-    <UncontrolledAutocomplete
-      source={['One', 'Two', 'Three']}
-      renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
-    />
-  ))
-  .add('with big renderItem width', () => (
-    <UncontrolledAutocomplete
-      source={['One', 'Two', 'Three']}
-      renderItem={(x: string) => <div style={{ width: 400 }}>Item: {x.toUpperCase()}</div>}
-    />
-  ))
-  .add('with fixed menu size', () => (
-    <UncontrolledAutocomplete
-      source={[
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        'Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed.',
-        'Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh.',
-        'Donec lacus nunc, viverra nec.',
-        'Sed lectus. Integer euismod lacus luctus magna.',
-        'Suspendisse potenti.',
-        ' Sed dignissim lacinia nunc.',
-      ]}
-      renderItem={(x: string) => <div>{x}</div>}
-      menuWidth={400}
-      menuMaxHeight={150}
-    />
-  ))
-  .add('with onBlur/onFocus handlers', () => <WithBlurFocusHandlersExample />);
+export default { title: 'Autocomplete', parameters: { creevey: { skip: [true] } } };
+
+export const Simple = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
+Simple.story = { name: 'simple' };
+
+export const WithRenderItem = () => (
+  <UncontrolledAutocomplete
+    source={['One', 'Two', 'Three']}
+    renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
+  />
+);
+WithRenderItem.story = { name: 'with renderItem' };
+
+export const WithBigRenderItemWidth = () => (
+  <UncontrolledAutocomplete
+    source={['One', 'Two', 'Three']}
+    renderItem={(x: string) => <div style={{ width: 400 }}>Item: {x.toUpperCase()}</div>}
+  />
+);
+WithBigRenderItemWidth.story = { name: 'with big renderItem width' };
+
+export const WithFixedMenuSize = () => (
+  <UncontrolledAutocomplete
+    source={[
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      'Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed.',
+      'Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh.',
+      'Donec lacus nunc, viverra nec.',
+      'Sed lectus. Integer euismod lacus luctus magna.',
+      'Suspendisse potenti.',
+      ' Sed dignissim lacinia nunc.',
+    ]}
+    renderItem={(x: string) => <div>{x}</div>}
+    menuWidth={400}
+    menuMaxHeight={150}
+  />
+);
+WithFixedMenuSize.story = { name: 'with fixed menu size' };
+
+export const WithOnBlurOnFocusHandlers = () => <WithBlurFocusHandlersExample />;
+WithOnBlurOnFocusHandlers.story = { name: 'with onBlur/onFocus handlers' };
 
 class UncontrolledAutocomplete extends React.Component<any, any> {
   public state = {
