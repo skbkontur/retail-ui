@@ -1,4 +1,4 @@
-import { ComboBoxLocale } from '../../components/CustomComboBox/locale';
+import { ComboBoxLocale } from '../../internal/CustomComboBox/locale';
 import { DatePickerLocale } from '../../components/DatePicker/locale';
 import { FiasLocale } from '../../components/Fias/locale';
 import { LogotypeLocale } from '../../components/Logotype/locale';

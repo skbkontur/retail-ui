@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { ArrowChevronDownIcon } from '../internal/icons/16px';
+import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 
 import { TopBarDropdown } from './TopBarDropdown';
 import { jsStyles } from "./TopBar.styles";

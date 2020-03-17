@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
-import { Icon as Icon20 } from '../internal/icons/20px';
+import { Icon as Icon20 } from '../../internal/icons/20px';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { tabListener } from '../../lib/events/tabListener';
-import { PopupMenu } from '../internal/PopupMenu';
+import { PopupMenu , PopupMenuCaptionProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
-import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
-import { PopupPosition } from '../Popup';
+import { PopupPosition } from '../../internal/Popup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { MenuKebabIcon } from '../internal/icons/16px';
+import { MenuKebabIcon } from '../../internal/icons/16px';
 
 import { jsStyles } from './Kebab.styles';
 

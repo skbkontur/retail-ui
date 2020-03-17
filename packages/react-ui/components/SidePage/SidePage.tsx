@@ -5,11 +5,11 @@ import cn from 'classnames';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
-import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { ModalStack, ModalStackSubscription } from '../ModalStack';
-import { RenderContainer } from '../RenderContainer';
-import { RenderLayer } from '../RenderLayer';
-import { ZIndex } from '../ZIndex';
+import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
+import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
+import { RenderContainer } from '../../internal/RenderContainer';
+import { RenderLayer } from '../../internal/RenderLayer';
+import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 

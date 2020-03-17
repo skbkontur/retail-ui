@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { CSFStory } from 'creevey';
 
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
@@ -57,7 +57,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
         </div>
         <div>
           <span>trailing zeros: </span>
-          <Toggle checked={this.state.hideTrailingZeros} onValueChange={this.handleHideTrailingZeros}/>
+          <Toggle checked={this.state.hideTrailingZeros} onValueChange={this.handleHideTrailingZeros} />
         </div>
         <input
           type="range"
@@ -154,41 +154,107 @@ class Sample extends React.Component<
   };
 }
 
-storiesOf('CurrencyInput', module)
-  .add('Demo', () => <CurrencyInputDemo />)
-  .add('With borderless', () => <CurrencyInputDemo borderless={true} />)
-  .add('Sample', () => <Sample fractionDigits={0} />)
-  .add('Manual mount', () => {
-    class ManualMounting extends React.Component<
-      {},
-      {
-        mounted: boolean;
-      }
-    > {
-      public state = {
-        mounted: false,
-      };
+export default { title: 'CurrencyInput' };
 
-      public render() {
-        return (
-          <div>
-            <label>
-              Mounted <input type="checkbox" checked={this.state.mounted} onChange={this.handleChangeMounting} />
-            </label>
-            {this.state.mounted && (
-              <div>
-                <Sample autoFocus value={9909} />
-              </div>
-            )}
-          </div>
-        );
-      }
+export const Demo = () => <CurrencyInputDemo />;
+Demo.story = { parameters: { creevey: { skip: [true] } } };
+export const WithBorderless = () => <CurrencyInputDemo borderless={true} />;
+WithBorderless.story = { name: 'With borderless', parameters: { creevey: { skip: [true] } } };
 
-      private handleChangeMounting = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-          mounted: event.target.checked,
-        });
-      };
+export const SampleStory: CSFStory<JSX.Element> = () => <Sample fractionDigits={0} />;
+SampleStory.story = {
+  name: 'Sample',
+  parameters: {
+    creevey: {
+      tests: {
+        async Plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+        },
+        async Focus() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name*="CurrencyInput"] input' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
+        },
+        async ['Input value']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name*="CurrencyInput"] input' }))
+            .sendKeys('1')
+            .pause(500)
+            .sendKeys('2')
+            .pause(500)
+            .sendKeys('3')
+            .pause(500)
+            .sendKeys('4')
+            .pause(500)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
+        },
+        async ['External focus and input']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('1')
+            .pause(500)
+            .sendKeys('2')
+            .pause(500)
+            .sendKeys('3')
+            .pause(500)
+            .sendKeys('4')
+            .pause(500)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('External focus and input');
+        },
+      },
+    },
+  },
+};
+
+export const ManualMount = () => {
+  class ManualMounting extends React.Component<
+    {},
+    {
+      mounted: boolean;
     }
-    return <ManualMounting />;
-  });
+  > {
+    public state = {
+      mounted: false,
+    };
+
+    public render() {
+      return (
+        <div>
+          <label>
+            Mounted <input type="checkbox" checked={this.state.mounted} onChange={this.handleChangeMounting} />
+          </label>
+          {this.state.mounted && (
+            <div>
+              <Sample autoFocus value={9909} />
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    private handleChangeMounting = (event: React.ChangeEvent<HTMLInputElement>) => {
+      this.setState({
+        mounted: event.target.checked,
+      });
+    };
+  }
+  return <ManualMounting />;
+};
+ManualMount.story = { name: 'Manual mount', parameters: { creevey: { skip: [true] } } };

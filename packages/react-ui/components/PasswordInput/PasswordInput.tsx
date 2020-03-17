@@ -5,7 +5,7 @@ import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
 import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
-import { EyeClosedIcon, EyeOpenedIcon } from '../internal/icons/16px';
+import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/utils';
 
 import { jsStyles } from './PasswordInput.styles';

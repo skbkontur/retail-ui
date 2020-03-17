@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CustomComboBox } from '../CustomComboBox';
+import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 

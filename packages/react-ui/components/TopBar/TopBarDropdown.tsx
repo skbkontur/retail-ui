@@ -2,9 +2,9 @@ import React from 'react';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../typings/utility-types';
-import { IconProps } from '../internal/icons/20px';
+import { IconProps } from '../../internal/icons/20px';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
-import { PopupMenuCaptionProps } from '../internal/PopupMenu/PopupMenu';
+import { PopupMenuCaptionProps } from '../../internal/PopupMenu';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 

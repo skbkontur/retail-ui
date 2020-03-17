@@ -5,9 +5,9 @@ import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/utils';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
-import { polyfillPlaceholder } from '../polyfillPlaceholder';
+import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
-import { MaskedInput } from '../internal/MaskedInput';
+import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 

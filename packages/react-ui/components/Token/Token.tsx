@@ -2,7 +2,7 @@ import React from 'react';
 import warningOutput from 'warning';
 import cn from 'classnames';
 
-import { CrossIcon } from '../internal/icons/CrossIcon';
+import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';

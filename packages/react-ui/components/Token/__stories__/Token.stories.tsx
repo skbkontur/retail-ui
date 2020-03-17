@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { StoryFn } from '@storybook/addons';
 
 import { Token, TokenColors } from '../Token';
 import { Gapped } from '../../Gapped';
@@ -22,96 +22,108 @@ const newToDeprecatedColorNamesMap: { [key: string]: string } = {
   redActive: 'd-red',
 };
 
-const FixedWidthDecorator = (storyFn: any) => (
+const FixedWidthDecorator = (storyFn: StoryFn<JSX.Element>) => (
   <div className="token-test-container" style={{ margin: 40, padding: 4 }}>
     {storyFn()}
   </div>
 );
 
-storiesOf('Token', module)
-  .addDecorator(FixedWidthDecorator)
-  .add('default', () => {
-    return (
-      <>
-        <Token>test</Token>
-        <Token isActive>test</Token>
-      </>
-    );
-  })
-  .add('disabled', () => {
-    return (
-      <>
-        <Token disabled={true}>test disabled 01</Token>
-        <Token disabled={true}>test disabled 02</Token>
-      </>
-    );
-  })
-  .add('long text', () => {
-    return (
-      <>
-        <Token>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Token>
-        <Token isActive>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Token>
-      </>
-    );
-  })
-  .add('colored', () => {
-    const gray: TokenColors = { idle: 'grayIdle' };
-    const blue: TokenColors = { idle: 'blueIdle' };
-    const red: TokenColors = { idle: 'redIdle' };
-    const green: TokenColors = { idle: 'greenIdle' };
-    const yellow: TokenColors = { idle: 'yellowIdle' };
+export default {
+  title: 'Token',
+  decorators: [FixedWidthDecorator],
+};
 
-    const d_gray: TokenColors = { idle: 'grayActive' };
-    const d_blue: TokenColors = { idle: 'blueActive' };
-    const d_red: TokenColors = { idle: 'redActive' };
-    const d_green: TokenColors = { idle: 'greenActive' };
-    const d_yellow: TokenColors = { idle: 'yellowActive' };
+export const Default = () => {
+  return (
+    <>
+      <Token>test</Token>
+      <Token isActive>test</Token>
+    </>
+  );
+};
+Default.story = { name: 'default' };
 
-    const a_default: TokenColors = { idle: 'defaultActive' };
-    const i_default: TokenColors = { idle: 'defaultIdle' };
+export const Disabled = () => {
+  return (
+    <>
+      <Token disabled={true}>test disabled 01</Token>
+      <Token disabled={true}>test disabled 02</Token>
+    </>
+  );
+};
+Disabled.story = { name: 'disabled' };
 
-    const black: TokenColors = { idle: 'black', active: 'greenActive' };
-    const white: TokenColors = { idle: 'white' };
+export const LongText = () => {
+  return (
+    <>
+      <Token>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Token>
+      <Token isActive>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Token>
+    </>
+  );
+};
+LongText.story = { name: 'long text' };
 
-    const default_colors = [i_default, a_default];
-    const l_colors = [gray, red, green, blue, yellow, white];
-    const d_colors = [d_gray, d_red, d_green, d_blue, d_yellow, black];
+export const Colored = () => {
+  const gray: TokenColors = { idle: 'grayIdle' };
+  const blue: TokenColors = { idle: 'blueIdle' };
+  const red: TokenColors = { idle: 'redIdle' };
+  const green: TokenColors = { idle: 'greenIdle' };
+  const yellow: TokenColors = { idle: 'yellowIdle' };
 
-    return (
-      <>
-        <Gapped vertical>
-          <Gapped>
-            {default_colors.map((c, i) => (
-              <Token key={i} colors={c}>
-                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
-              </Token>
-            ))}
-          </Gapped>
-          <Gapped>
-            {l_colors.map((c, i) => (
-              <Token key={i} colors={c}>
-                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
-              </Token>
-            ))}
-          </Gapped>
-          <Gapped>
-            {d_colors.map((c, i) => (
-              <Token key={i} colors={c}>
-                {newToDeprecatedColorNamesMap[c.idle] || c.idle}
-              </Token>
-            ))}
-          </Gapped>
+  const d_gray: TokenColors = { idle: 'grayActive' };
+  const d_blue: TokenColors = { idle: 'blueActive' };
+  const d_red: TokenColors = { idle: 'redActive' };
+  const d_green: TokenColors = { idle: 'greenActive' };
+  const d_yellow: TokenColors = { idle: 'yellowActive' };
+
+  const a_default: TokenColors = { idle: 'defaultActive' };
+  const i_default: TokenColors = { idle: 'defaultIdle' };
+
+  const black: TokenColors = { idle: 'black', active: 'greenActive' };
+  const white: TokenColors = { idle: 'white' };
+
+  const default_colors = [i_default, a_default];
+  const l_colors = [gray, red, green, blue, yellow, white];
+  const d_colors = [d_gray, d_red, d_green, d_blue, d_yellow, black];
+
+  return (
+    <>
+      <Gapped vertical>
+        <Gapped>
+          {default_colors.map((c, i) => (
+            <Token key={i} colors={c}>
+              {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+            </Token>
+          ))}
         </Gapped>
-      </>
-    );
-  })
-  .add('validations', () => {
-    return (
-      <>
-        <Token error={true}>test</Token>
-        <Token warning={true} isActive>
-          test
-        </Token>
-      </>
-    );
-  });
+        <Gapped>
+          {l_colors.map((c, i) => (
+            <Token key={i} colors={c}>
+              {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+            </Token>
+          ))}
+        </Gapped>
+        <Gapped>
+          {d_colors.map((c, i) => (
+            <Token key={i} colors={c}>
+              {newToDeprecatedColorNamesMap[c.idle] || c.idle}
+            </Token>
+          ))}
+        </Gapped>
+      </Gapped>
+    </>
+  );
+};
+Colored.story = { name: 'colored' };
+
+export const Validations = () => {
+  return (
+    <>
+      <Token error={true}>test</Token>
+      <Token warning={true} isActive>
+        test
+      </Token>
+    </>
+  );
+};
+Validations.story = { name: 'validations' };

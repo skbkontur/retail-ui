@@ -79,7 +79,6 @@ const getCommonSections = () => {
     { name: 'Readme', content: path.join(__dirname, '../README.md'), exampleMode: 'expand' },
     { name: 'Changelog', content: path.join(__dirname, '../CHANGELOG.md') },
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
-    { name: 'Icons', content: path.join(__dirname, '../components/Icon/Icon.md') },
     { name: 'LocaleContext', content: path.join(__dirname, '../lib/locale/LOCALECONTEXT.md') },
     {
       content: path.join(__dirname, '../CUSTOMIZATION.md'),
@@ -87,10 +86,10 @@ const getCommonSections = () => {
       sectionDepth: 1,
       sections: [
         { name: 'ThemeContext', content: path.join(__dirname, '../lib/theming/ThemeContext.md') },
-        { name: 'ThemeShowcase', content: path.join(__dirname, '../components/internal/ThemeShowcase/ThemeShowcase.md') },
+        { name: 'ThemeShowcase', content: path.join(__dirname, '../internal/ThemeShowcase/ThemeShowcase.md') },
         {
           name: 'ThemePlayground',
-          content: path.join(__dirname, '../components/internal/ThemePlayground/Playground.md'),
+          content: path.join(__dirname, '../internal/ThemePlayground/Playground.md'),
         },
       ],
     },
