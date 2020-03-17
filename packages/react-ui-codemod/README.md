@@ -19,7 +19,7 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 
 ## Опции
 
-`CODEMOD` - относительный путь до кодмода внутри пакета (см. [примеры использования](#примеры-использования)).
+`CODEMOD` - относительный путь до кодмода внутри пакета.
 
 В качестве `JSCODESHIFT_OPTIONS` принимаются [все опции](https://github.com/facebook/jscodeshift#usage-cli) jscodeshift, кроме `-t (--transform)`. По умолчанию трансформируются файлы с расширением "js, jsx", используя "babel" в качестве парсера. Для typescript и flow файлов стоит передавать соответствующие опции: `--extensions="ts,tsx" --parser=tsx` и `--parser=flow`.
 
@@ -39,13 +39,13 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 - все internal-компоненты перенесены в "@skbkontur/react-ui/internal"
 
 ```
-npx react-ui-codemod react-ui-2.0/transformImportsAndExports.ts FILES_PATH --alias=ALIAS
+npx react-ui-codemod react-ui-2.0/transformImportsAndExports.ts FILES_PATH
 ```
 
-| Опции    | Описание                                                                      | По умолчанию          |
-| -------- | ----------------------------------------------------------------------------- | --------------------- |
-| `alias`  | Имя пакета контролов или его alias, например "retail-ui"                      | `@skbkontur/react-ui` |
-| `dedupe` | Объединять ли ипорты/экспорты из одного источника в общий после трансформации | `true`                |
+| Опции    | Описание                                                                                   | По умолчанию          |
+| -------- | ------------------------------------------------------------------------------------------ | --------------------- |
+| `alias`  | Имя пакета контролов, который используется в проекте, или его alias. Например, "retail-ui" | `@skbkontur/react-ui` |
+| `dedupe` | Объединять ли ипорты/экспорты из одного источника в общий после трансформации              | `true`                |
 
 <a name="transformOnChange"></a>**Внимание**: импорты некоторых непубличных модулей, например `@skbkontur/react-ui/components/DatePicker/DatePickerHelpers`, будут так же трансформированы в импорты из индекса `@skbkontur/react-ui` и сломаются. Такие места нужно будет поправить вручную.
 
