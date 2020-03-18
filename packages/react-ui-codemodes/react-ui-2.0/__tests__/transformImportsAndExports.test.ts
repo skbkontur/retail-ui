@@ -284,7 +284,7 @@ defineInlineTest(
     import { createPropsGetter } from "@skbkontur/react-ui/components/internal/createPropsGetter";
     import { MenuItem } from "@skbkontur/react-ui/components/MenuItem";
     import { Menu } from "@skbkontur/react-ui/components/Menu";
-
+    import { PopupMenu, PopupMenuProps, PopupMenuCaptionProps } from "@skbkontur/react-ui/components/internal/PopupMenu";
 `,
   `
     import { Calendar } from "@skbkontur/react-ui/internal/Calendar";
@@ -295,6 +295,9 @@ defineInlineTest(
     import { createPropsGetter } from "@skbkontur/react-ui/internal/createPropsGetter";
     import { MenuItem } from "@skbkontur/react-ui";
     import { Menu } from "@skbkontur/react-ui/internal/Menu";
+    import { PopupMenuCaptionProps } from "@skbkontur/react-ui/internal/PopupMenu";
+    import { PopupMenuProps } from "@skbkontur/react-ui/internal/PopupMenu";
+    import { PopupMenu } from "@skbkontur/react-ui/internal/PopupMenu";
   `,
   `transforms internals`,
 );

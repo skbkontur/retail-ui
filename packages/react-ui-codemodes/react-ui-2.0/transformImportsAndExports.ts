@@ -131,6 +131,7 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
     HideBodyVerticalScroll: 'internal/HideBodyVerticalScroll',
     IgnoreLayerClick: 'internal/IgnoreLayerClick',
     Menu: 'internal/Menu',
+    PopupMenu: 'internal/PopupMenu',
     Popup: 'internal/Popup',
     RenderContainer: 'internal/RenderContainer',
     RenderLayer: 'internal/RenderLayer',
@@ -139,7 +140,6 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
     InputLikeText: 'internal/InputLikeText',
     InternalMenu: 'internalinternalMenu',
     MaskedInput: 'internal/MaskedInput',
-    PopupMenu: 'internal/PopupMenu',
     ResizeDetector: 'internal/ResizeDetector',
     PerformanceMetrics: 'internal/PerformanceMetrics',
     ModalStack: 'internal/ModalStack',
@@ -149,7 +149,9 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
     currentEnvironment: 'internal/currentEnvironment',
     extractKeyboardAction: 'internal/extractKeyboardAction',
   };
-  const INTERNAL_NAMES = Object.keys(INTERNALS);
+  const INTERNAL_NAMES = Object.keys(INTERNALS)
+    .sort()
+    .reverse();
   const isInternalComponent = (componentName: string): boolean => {
     const whiteList = ['MenuItem', 'MenuHeader', 'MenuSeparator'];
     return (
