@@ -148,6 +148,7 @@ storiesOf('DatePicker', module)
       />
     </div>
   ))
+  .add('with autoFocus', () => <DatePicker width={200} value="02.07.2017" onChange={action('change')} autoFocus />)
   .add('DatePickerWithError', () => <DatePickerWithError />)
   .add('DatePicker disabled', () => <DatePickerWithError disabled />)
   .add('DatePicker medium', () => <DatePickerWithError size="medium" />)
