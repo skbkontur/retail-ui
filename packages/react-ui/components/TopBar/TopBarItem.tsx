@@ -22,7 +22,7 @@ export interface TopBarItemProps {
 /**
  * Статичный элемент топбара
  *
- * @visibleName TopBar.StaticItem
+ * @visibleName TopBar.ItemStatic
  */
 
 export class TopBarItem extends React.Component<TopBarItemProps> {
