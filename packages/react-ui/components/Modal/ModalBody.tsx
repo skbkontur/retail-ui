@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { ZIndex } from '../ZIndex';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { ModalContext } from './ModalContext';
 import { jsStyles } from './Modal.styles';

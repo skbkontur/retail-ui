@@ -6,10 +6,10 @@ import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/cons
 import { InternalDateComponentType } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
-import { InputLikeText } from '../internal/InputLikeText';
+import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CalendarIcon } from '../internal/icons/16px';
+import { CalendarIcon } from '../../internal/icons/16px';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';

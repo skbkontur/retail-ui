@@ -1,5 +1,5 @@
 import * as Keyboard from '../../lib/events/keyboard/identifiers';
-import { KeyboardActionExctracterBuilder } from '../internal/extractKeyboardAction';
+import { KeyboardActionExctracterBuilder } from '../../lib/extractKeyboardAction';
 
 export const CURRENCY_INPUT_ACTIONS = {
   Unknown: 0,

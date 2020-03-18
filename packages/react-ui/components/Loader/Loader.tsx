@@ -8,7 +8,7 @@ import { Spinner, SpinnerProps } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { ZIndex } from '../ZIndex';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { jsStyles } from './Loader.styles';
 

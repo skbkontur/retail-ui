@@ -4,7 +4,7 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import { CSFStory } from 'creevey';
 
-import { BGRuler } from '../../../lib/BGRuler';
+import { BGRuler } from '../../../internal/BGRuler';
 import { Group } from '../Group';
 import { Input } from '../../Input';
 import { Button } from '../../Button';

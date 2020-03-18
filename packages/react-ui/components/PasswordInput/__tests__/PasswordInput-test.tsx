@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { PasswordInput, PasswordInputProps } from '../PasswordInput';
-import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
+import { EyeClosedIcon, EyeOpenedIcon } from '../../../internal/icons/16px';
 import { Input } from '../../Input';
 import { jsStyles } from '../PasswordInput.styles';
 

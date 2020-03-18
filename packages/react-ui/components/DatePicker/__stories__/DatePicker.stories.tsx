@@ -6,7 +6,7 @@ import { CSFStory } from 'creevey';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { MockDate } from '../../internal/MockDate';
+import { MockDate } from '../../../lib/MockDate';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';

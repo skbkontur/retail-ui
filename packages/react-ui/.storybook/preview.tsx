@@ -1,5 +1,5 @@
 import React from 'react';
-import { addDecorator } from '@storybook/react';
+import { addDecorator, addParameters } from '@storybook/react';
 import { withCreevey } from 'creevey';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
@@ -33,3 +33,9 @@ addDecorator(story => (
 if (process.env.STORYBOOK_FLAT_UI) {
   addDecorator(story => <ThemeContext.Provider value={FLAT_THEME}>{story()}</ThemeContext.Provider>);
 }
+
+addParameters({
+  options: {
+    storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
+  },
+});

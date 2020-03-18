@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSFStory } from 'creevey';
 
-import { ThemeContextPlayground } from '../../internal/ThemePlayground/ThemeContextPlayground';
+import { ThemeContextPlayground } from '../../../internal/ThemePlayground/ThemeContextPlayground';
 import { delay } from '../../../lib/utils';
 
 export default { title: 'ThemeProvider' };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CSFStory } from 'creevey';
 
-import { Logotype } from '../../Logotype';
+import { Logotype } from '../Logotype';
 
 export default { title: 'Logotype' };
 

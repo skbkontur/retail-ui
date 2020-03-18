@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import cn from 'classnames';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { polyfillPlaceholder } from '../polyfillPlaceholder';
+import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

@@ -118,7 +118,7 @@ interface ThemeIn extends ThemeInType {}
 ```jsx harmony
 import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const FlatComponents = () => (
   <ThemeContext.Provider value={flatTheme}>
@@ -137,7 +137,7 @@ const FlatComponents = () => (
 ```jsx harmony
 import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
   <>
@@ -160,8 +160,8 @@ const CombinedComponents = () => (
 import { ThemeContext } from '@skbkontur/react-ui';
 import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME as defaultTheme } from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
-import { darkTheme } from '@skbkontur/react-ui/components/internal/ThemePlayground/darkTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/components/internal/ThemePlayground/ShowcaseGroup';
+import { darkTheme } from '@skbkontur/react-ui/internal/ThemePlayground/darkTheme';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',
@@ -193,7 +193,7 @@ const NestedThemes = () => (
 ### Переход с кастомизации с помощью `less`
 
 Для перехода с кастомизации посредстовом переопределения less-переменных, необходимо превратить less-переменные в объект темы.
-Это можно сделать с помощью <a target="_blank" href="https://raw.githubusercontent.com/skbkontur/retail-ui/master/packages/react-ui-codemodes/customization/variablesConverter.js">скрипта</a>
+Это можно сделать с помощью <a target="_blank" href="https://raw.githubusercontent.com/skbkontur/retail-ui/master/packages/react-ui-codemod/customization/variablesConverter.js">скрипта</a>
 
 Скрипту необходимо передать два параметра: `variables` - путь до файла с перменными и `output` - путь до файла, в который нужно записать объект темы. Если по пути, переданному в `output`, файла не существует, файл будет создан. В противном случае, он будет перезаписан.
 

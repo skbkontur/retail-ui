@@ -5,9 +5,9 @@ import cn from 'classnames';
 
 import { getRandomID } from '../../lib/utils';
 import { Radio } from '../Radio';
-import { createPropsGetter } from '../internal/createPropsGetter';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { FocusTrap } from '../internal/FocusTrap';
+import { FocusTrap } from '../../internal/FocusTrap';
 
 import { jsStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';

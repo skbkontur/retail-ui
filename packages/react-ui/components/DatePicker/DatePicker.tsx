@@ -7,10 +7,10 @@ import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer'
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
 import { Nullable } from '../../typings/utility-types';
-import { CalendarDateShape } from '../Calendar';
+import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
-import { DropdownContainer } from '../DropdownContainer/DropdownContainer';
-import { filterProps } from '../filterProps';
+import { DropdownContainer } from '../../internal/DropdownContainer';
+import { filterProps } from '../../lib/filterProps';
 
 import { Picker } from './Picker';
 import { jsStyles } from "./DatePicker.styles";

@@ -1,10 +1,10 @@
 import React from 'react';
 import { CSFStory } from 'creevey';
 
-import { BGRuler } from '../../../lib/BGRuler';
+import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
-import { createPropsGetter } from '../../internal/createPropsGetter';
-import { InputType } from '../../Input/Input';
+import { createPropsGetter } from '../../../lib/createPropsGetter';
+import { InputType } from '../../Input';
 
 export default { title: 'FxInput' };
 
