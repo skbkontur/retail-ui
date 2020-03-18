@@ -3,14 +3,14 @@
 ```jsx harmony
 import isEqual from 'lodash.isequal';
 import { Component } from 'react';
-import { FiasSearch, FiasAPI, Address } from '@skbkontur/react-ui';
+import { FiasSearch, FiasAPI, FiasAddress } from '@skbkontur/react-ui';
 
 class MyCustomFias extends Component {
   constructor(props) {
     super(props);
     this.api = new FiasAPI(props.baseUrl);
     this.state = {
-      address: new Address(),
+      address: new FiasAddress(),
     };
     this.handleValueChange = this.handleValueChange.bind(this);
     this.updateAddress = this.updateAddress.bind(this);
@@ -49,7 +49,7 @@ class MyCustomFias extends Component {
   }
 
   updateAddress() {
-    Address.getAddress(this.api, this.props.value).then(address => {
+    FiasAddress.getAddress(this.api, this.props.value).then(address => {
       this.setState({
         address,
       });
