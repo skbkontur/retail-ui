@@ -72,13 +72,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
-
-    /**
-     * Компонент спиннера
-     *
-     * @default  <Spinner/> из react-ui
-     */
-    component: PropTypes.node,
     /**
      * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
      *
