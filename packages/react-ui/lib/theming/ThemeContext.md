@@ -1,48 +1,23 @@
-Темизация компонентов через контекст `React.Context<Theme>`.
+Для кастомизации компонентов используется ThemeContext, реализуемый через `React.Context<Theme>`
 
-Тема задается с помошью `Provider`:
+Механизм работы: динамические стили генерируются в зависимости от темы в процессе render'а с помощью <a href="https://www.npmjs.com/package/emotion" target="_blank">emotion</a>, полученные классы добавляются в `className` соответствующих элементов.
 
-```jsx static
-<ThemeContext.Provider value={theme}>...</ThemeContext.Provider>
-```
-
-```jsx harmony
-import { Button, ThemeContext, FLAT_THEME } from '@skbkontur/react-ui';
-
-<ThemeContext.Provider value={FLAT_THEME}>
-  <Button>React UI</Button>
-</ThemeContext.Provider>;
-```
-
-Использовать тему в компоненте можно через `Consumer`:
+Тема задается с помощью `ThemeContext.Provider`:
 
 ```jsx static
-<ThemeContext.Consumer>
-    {theme => ... }
-</ThemeContext.Consumer>
+import { ThemeContext } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={theme}>{/* ... */}</ThemeContext.Provider>;
 ```
 
-```jsx harmony
+Использовать тему в компоненте можно через `ThemeContext.Consumer`:
+
+```jsx static
 import { ThemeContext, Button } from '@skbkontur/react-ui';
 
-class ButtonLinkWrapper extends React.Component {
-  render() {
-    return (
-      <ThemeContext.Consumer>
-        {theme => {
-          return (
-            <Button use="link" {...this.props}>
-              {this.props.children}
-              <span style={{ color: theme.textColorDefault }}> ↗</span>
-            </Button>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-}
-
-<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
+<ThemeContext.Consumer>
+  {theme => /* ... */ }
+</ThemeContext.Consumer>
 ```
 
 `useContext` в функциональных компонентах:
@@ -50,6 +25,43 @@ class ButtonLinkWrapper extends React.Component {
 ```typescript static
 const theme = useContext(ThemeContext);
 ```
+
+или задать `contextType` для класса:
+
+```typescript static
+public static contextType = ThemeContext;
+public context: Theme = this.context;
+```
+
+## Примеры использования
+
+### Подключение плоской темы
+
+```jsx harmony
+import { ThemeContext, FLAT_THEME } from '@skbkontur/react-ui';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
+
+<ThemeContext.Provider value={FLAT_THEME}>
+  <ShowcaseGroup title="Flat Theme" />
+</ThemeContext.Provider>;
+```
+
+### Создание собственной темы на основе темы по умолчанию
+
+Собственные значения, нужно передать в `ThemeFactory.create` и получившуюся тему можно использовать в `ThemeContext.Provider`. `ThemeFactory` расширяет переданный объект задавая в качестве прототипа объект темы по умолчанию.
+
+```jsx harmony
+import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
+
+const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' });
+
+<ThemeContext.Provider value={myTheme}>
+  <ShowcaseGroup title="My Theme" />
+</ThemeContext.Provider>;
+```
+
+### Использование темы в своих компонентах
 
 ```jsx harmony
 import { useContext } from 'react';
@@ -69,64 +81,15 @@ function ButtonLinkWrapper(props) {
 <ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
 ```
 
-или задать `contextType` для класса:
+### Кастомизация в legacy-приложениях
+
+В случае, если контролы рендерятся через какую-то общую обертку, достаточно добавить в нее `ThemeContext.Provider` с вашей темой. В противном случае, вам подойдет метод `ThemeFactory.overrideDefaultTheme()`.
 
 ```typescript static
-static contextType = ThemeContext;
-...
-const theme = this.context;
-```
+import theme from './theme/theme';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
 
-```jsx harmony
-import { ThemeContext, Button } from '@skbkontur/react-ui';
-
-class ButtonLinkWrapper extends React.Component {
-  render() {
-    const theme = this.context;
-
-    return (
-      <Button use="link" {...this.props}>
-        {this.props.children}
-        <span style={{ color: theme.textColorDefault }}> ↗</span>
-      </Button>
-    );
-  }
-}
-
-ButtonLinkWrapper.contextType = ThemeContext;
-
-<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
-```
-
-Кастомизация компонентов с помощью библиотеки [`emotion`](https://github.com/emotion-js/emotion)
-
-```typescript
-import defaultThemeVariables from './components/variables.less';
-import flatThemeVariables from './components/variables.flat.less';
-
-type ThemeType = typeof defaultThemeVariables & typeof flatThemeVariables;
-type ThemeInType = Partial<ThemeType>;
-
-interface ThemeIn extends ThemeInType {}
-```
-
-В качестве базовой темы выступает объект, полученный из переменных `variables.less`. Объект, переданный в `value` будет смерджен с объектом базовой темой.
-
-Помимо базовой темы, есть плоская тема, собранная из переменных `variables.flat.less`.
-Объект плоской темы можно импортировать и передавать в ThemeContext.Provider:
-
-```jsx harmony
-import { ThemeContext } from '@skbkontur/react-ui';
-import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
-
-const FlatComponents = () => (
-  <ThemeContext.Provider value={flatTheme}>
-    <ShowcaseGroup />
-  </ThemeContext.Provider>
-);
-
-<FlatComponents />;
+ThemeFactory.overrideDefaultTheme(theme);
 ```
 
 ### Варианты кастомизации:
@@ -135,8 +98,7 @@ const FlatComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeContext } from '@skbkontur/react-ui';
-import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+import { ThemeContext, FLAT_THEME as flatTheme } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
@@ -157,9 +119,7 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeContext } from '@skbkontur/react-ui';
-import { FLAT_THEME as flatTheme } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
-import { DEFAULT_THEME as defaultTheme } from '@skbkontur/react-ui/lib/theming/themes/DefaultTheme';
+import { ThemeContext, FLAT_THEME as flatTheme, DEFAULT_THEME as defaultTheme } from '@skbkontur/react-ui';
 import { darkTheme } from '@skbkontur/react-ui/internal/ThemePlayground/darkTheme';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
@@ -190,79 +150,55 @@ const NestedThemes = () => (
 <NestedThemes />;
 ```
 
-### Переход с кастомизации с помощью `less`
+## Дополнительно
 
-Для перехода с кастомизации посредстовом переопределения less-переменных, необходимо превратить less-переменные в объект темы.
-Это можно сделать с помощью <a target="_blank" href="https://raw.githubusercontent.com/skbkontur/retail-ui/master/packages/react-ui-codemod/customization/variablesConverter.js">скрипта</a>
+### ColorFunctions.ts / DimensionFunctions.ts
 
-Скрипту необходимо передать два параметра: `variables` - путь до файла с перменными и `output` - путь до файла, в который нужно записать объект темы. Если по пути, переданному в `output`, файла не существует, файл будет создан. В противном случае, он будет перезаписан.
-
-Перед запуском скрипт необходимо скачать и положить в папку с проектом. В процессе конвертации используется пакет [less.js](https://www.npmjs.com/package/less), который скрипт возьмет из зависимостей проекта.
-
-Пример использования:
-
-```shell
-node variablesConverter.js variables=../../less/myVariables.less output=../theme/theme.js
-```
-
-Для следующего содержимого myVariables.less:
-
-```less
-@btn-danger-bg: #e14c30;
-@warning-main: #f69c00;
-@error-main: #d70c17;
-@border-color-gray-dark: rgba(0, 0, 0, 0.28);
-@border-color-gray-light: rgba(0, 0, 0, 0.15);
-@tab-color-hover-error: lighten(@btn-danger-bg, 20%);
-@toggle-bg-warning: @warning-main;
-@toggle-bg-error: @error-main;
-```
-
-Сгенерируется файл theme.js:
+Несколько функций по работе с цветом вынесены из less в js, их можно использовать в своих темах (_ColorFunctions.ts_):
 
 ```typescript
-export default {
-  btnDangerBg: '#e14c30',
-  warningMain: '#f69c00',
-  errorMain: '#d70c17',
-  borderColorGrayDark: 'rgba(0, 0, 0, 0.28)',
-  borderColorGrayLight: 'rgba(0, 0, 0, 0.15)',
-  tabColorHoverError: '#ee9989',
-  toggleBgWarning: '#f69c00',
-  toggleBgError: '#d70c17',
-};
+lighten(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
+darken(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
+contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43): string
+red(colorString: string): string
+green(colorString: string): string
+blue(colorString: string): string
+alpha(colorString: string): string
+isValid(colorString: string): boolean // проверяет, можно ли распарсить строку в цвет
 ```
 
-Далее объект из `theme.js` нужно обернуть в `ThemeFactory.create` и можно передавать в ThemeContext.Provider:
+Документацию по их работе можно найти на сайте [less](http://lesscss.org/functions/#color-operations).
+В качестве colorString можно передать цвет в одном из форматов: `keyword`, `hex`, `rgb(r, g, b)`, `rgba(r, g, b, a)`, `hsl(h, s, l)`, `hsla(h, s, l, a)`.
+В качестве `amount` можно передать строку вида 'N%' или число от 0 до 1.
+Все значения больше или меньше возможных обрезаются. Например, для `rgba(300, -100, 123, 20)` `r=255, g=0, b=123, a=1`.
+Если распарсить `colorString` не получилось - выбрасывается исключение.
+Если это возможно, результат возвращается в том же виде, что и входная строка:
 
-```jsx static
-import ReactDOM from 'react-dom';
-import React from 'react';
-import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
-
-import App from './components/App';
-import theme from './theme/theme';
-
-ReactDOM.render(
-  <ThemeContext.Provider value={ThemeFactory.create(theme)}>
-    <App />
-  </ThemeContext.Provider>,
-  document.getElementById('app'),
-);
+```typescript
+lighten('hsl(90, 0.8, 0.2)', '20%') === 'hsl(90, 0.8, 0.4)';
+lighten('rgba(50, 50, 50, 0.2)', '20%') === 'rgba(102, 102, 102, 0.2)';
+lighten('#80e619', 0.2) === '#b3f075';
+lighten('crimson', '20%') === '#f16581';
 ```
 
-В случае, если приложение не является полноценным React-приложением, и тему нужно переопределить единоразово, то можно воспользоваться методом `overrideDefaultTheme` в `ThemeFactory`:
+Для работы с размерами предусмотрена одна функция (_DimensionFunctions.ts_):
 
-```typescript static
-// точка входа в приложение
-...
-import theme from './theme/theme';
-import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+```typescript
+shift(value: string, shift: string): string
 
-ThemeFactory.overrideDefaultTheme(theme);
-...
+// пример
+DimensionFunctions.shift('100%', '-20') === '80%'
+DimensionFunctions.shift('2em', '+2') === '4em'
+DimensionFunctions.shift('12', '+1') === '13px'  //если единица измерения не указана - используется px
+DimensionFunctions.shift('10.2', '12.333451') === '22.5335px' //дробная часть округляется до 4 знаков
 ```
 
 ### Список кастомизируемых компонентов
 
 Посмотреть, какие компоненты можно кастомизировать, а также увидеть, какие переменные используются в каждом из них, можно в [таблице](#/Customization/ThemeShowcase)
+Информация собирается в рантайме с помощью `Proxy`, поэтому в IE таблица не отображается.
+
+### Playground
+
+Внутренний компонент `Playground` (_components/internal/ThemePlayground/Playground.tsx_) можно использовать для построения своей темы.
+Для удобства в редакторе добавлено действие "вывести тему в консоль".
