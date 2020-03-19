@@ -105,7 +105,6 @@ const styles = {
     return css`
       color: #7f9a44;
       font-weight: 400;
-      cursor: pointer;
     `;
   },
 
