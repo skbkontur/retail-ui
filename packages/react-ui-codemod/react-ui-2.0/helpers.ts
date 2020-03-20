@@ -171,3 +171,7 @@ export const isModuleRemoved = (path: string, report?: API['report']) => {
   }
   return false;
 };
+
+export const isReactUISource = (source: string, alias: string) => {
+  return source.match(alias + '(\\/\\w*)*$');
+};

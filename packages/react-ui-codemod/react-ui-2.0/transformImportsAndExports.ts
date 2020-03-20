@@ -10,12 +10,13 @@ import {
   moveSpecifierToSeparateExport,
   deduplicateExports,
   isModuleRemoved,
+  isReactUISource,
 } from './helpers';
 
 const transformDefaultImports = (api: API, collection: Collection<any>, path: string): Collection<any> => {
   const j = api.jscodeshift;
   return collection
-    .find(j.ImportDeclaration, node => node.source.value.match(path))
+    .find(j.ImportDeclaration, node => isReactUISource(node.source.value, path))
     .find(j.ImportDefaultSpecifier)
     .forEach(importSpecifier => {
       const importDeclaration = importSpecifier.parent;
@@ -38,7 +39,7 @@ const transformDefaultImports = (api: API, collection: Collection<any>, path: st
 const transformNamedImports = (api: API, collection: Collection<any>, path: string): Collection<any> => {
   const j = api.jscodeshift;
   return collection
-    .find(j.ImportDeclaration, node => node.source.value.match(path))
+    .find(j.ImportDeclaration, node => isReactUISource(node.source.value, path))
     .find(j.ImportSpecifier)
     .forEach(importSpecifier => {
       const importDeclaration = importSpecifier.parent;
@@ -54,7 +55,7 @@ const transformNamedImports = (api: API, collection: Collection<any>, path: stri
 const changeImportsSource = (api: API, collection: Collection<any>, path: string, value: string): void => {
   const j = api.jscodeshift;
   collection
-    .find(j.ImportDeclaration, node => node.source.value.match(path))
+    .find(j.ImportDeclaration, node => isReactUISource(node.source.value, path))
     .replaceWith(importDeclaration => {
       const source = importDeclaration.node.source.value as string;
       if (!isModuleRemoved(source)) {
@@ -72,7 +73,7 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
   const j = api.jscodeshift;
 
   collection
-    .find(j.ExportAllDeclaration, node => node.source.value.match(path))
+    .find(j.ExportAllDeclaration, node => isReactUISource(node.source.value, path))
     .forEach(exportDeclaration => {
       const originSource = exportDeclaration.node.source.value as string;
       const componentName = getComponentNameFromPath(originSource, path);
@@ -91,7 +92,7 @@ const transformReExports = (api: API, collection: Collection<any>, path: string,
     });
 
   collection
-    .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(path))
+    .find(j.ExportNamedDeclaration, node => node.source && isReactUISource(node.source.value, path))
     .forEach(exportDeclaration => {
       const originSource = exportDeclaration.node.source!.value as string;
       const componentName = getComponentNameFromPath(originSource, path);
@@ -165,7 +166,7 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
   };
 
   collection
-    .find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(path))
+    .find(j.ExportNamedDeclaration, node => node.source && isReactUISource(node.source.value, path))
     .find(j.ExportSpecifier, node => isInternalComponent(node.local.name))
     .forEach(exportSpecifier => {
       if (exportSpecifier.node.local) {
@@ -178,7 +179,7 @@ const transformInternals = (api: API, collection: Collection<any>, path: string,
     });
 
   collection
-    .find(j.ImportDeclaration, node => node.source.value.match(path))
+    .find(j.ImportDeclaration, node => isReactUISource(node.source.value, path))
     .find(j.ImportSpecifier, node => isInternalComponent(node.imported.name))
     .forEach(importSpecifier => {
       const name = importSpecifier.node.imported.name;

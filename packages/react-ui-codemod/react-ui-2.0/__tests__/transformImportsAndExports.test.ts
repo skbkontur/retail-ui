@@ -496,3 +496,36 @@ defineInlineTest(
     `,
   `unsupported cases`,
 );
+
+defineInlineTest(
+  transform,
+  {
+    dedupe: false,
+  },
+  `
+    import { ValidationInfo } from "@skbkontur/react-ui-validations";
+    import AddIcon from "@skbkontur/react-ui-icons/svg-icons/Add";
+    import Something from "@skbkontur/react-ui-whatever";
+`,
+  `
+    import { ValidationInfo } from "@skbkontur/react-ui-validations";
+    import AddIcon from "@skbkontur/react-ui-icons/svg-icons/Add";
+    import Something from "@skbkontur/react-ui-whatever";
+    `,
+  `doesn't transform other packages`,
+);
+
+defineInlineTest(
+  transform,
+  {
+    alias: 'retail-ui',
+    dedupe: false,
+  },
+  `
+    import { ValidationInfo } from "retail-ui-validations";
+`,
+  `
+    import { ValidationInfo } from "retail-ui-validations";
+    `,
+  `dont't transform retail-ui-validations`,
+);
