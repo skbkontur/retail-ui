@@ -1,3 +1,4 @@
+import { createCache } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
@@ -40,16 +41,22 @@ if (IS_PROXY_SUPPORTED) {
   componentsContext.keys().forEach(fileName => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
+    // FIXME
+    if (componentName !== 'Button') {
+      return;
+    }
     const componentDescription: ComponentDescriptionType = {};
-    const jsStyles = componentsContext(fileName).jsStyles;
+    const styles = new (componentsContext(fileName).Styles)(createCache('variables-collector'));
+    const jsStyles = styles.constructor.prototype;
+    const classes = Object.keys(jsStyles).filter(s => !['constructor', 'cache', 'css'].includes(s));
 
-    Object.keys(jsStyles).forEach(elementName => {
+    classes.forEach(elementName => {
       const jsStyle = jsStyles[elementName];
       const variablesAccumulator = new Set<keyof Theme>();
       const dependencies: VariableDependencies = {};
       const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
       const themes = baseThemes.map(t => new Proxy(t, elementProxyHandler));
-      themes.forEach(t => jsStyle(t));
+      themes.forEach(t => jsStyle.bind(styles)(t));
 
       const variables = Array.from(variablesAccumulator);
 

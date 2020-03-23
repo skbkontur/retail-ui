@@ -1,12 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 import { isIE11, isEdge } from '../../lib/utils';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { jsStyles } from './Button.styles';
+import { Styles } from './Button.styles';
 import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -157,6 +158,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderMain() {
+    const jsStyles = getJsStyles(Button, Styles, this.theme);
+
     const { corners = 0 } = this.props;
     const sizeClass = this.getSizeClassName();
 
@@ -282,6 +285,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeClassName() {
+    const jsStyles = getJsStyles(Button, Styles, this.theme);
+
     switch (this.props.size) {
       case 'large':
         return cn(jsStyles.sizeLarge(this.theme), {

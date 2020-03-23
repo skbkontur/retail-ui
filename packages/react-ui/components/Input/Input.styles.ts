@@ -1,11 +1,11 @@
-import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { cssName, GrandStyles, keyframes } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-const styles = {
+export class Styles extends GrandStyles {
   wrapper() {
-    return css`
+    return this.css`
       align-items: center;
       display: flex;
       margin: 0;
@@ -22,10 +22,10 @@ const styles = {
         width: 0;
       }
     `;
-  },
+  }
 
   root(t: Theme) {
-    return css`
+    return this.css`
       ${resetText()};
 
       align-items: center;
@@ -46,49 +46,49 @@ const styles = {
         box-sizing: border-box;
       }
     `;
-  },
+  }
 
   borderless() {
-    return css`
+    return this.css`
       box-shadow: none;
       border-color: transparent;
     `;
-  },
+  }
 
   useDefaultColor(t: Theme) {
-    return css`
+    return this.css`
       color: ${t.inputIconColor};
     `;
-  },
+  }
 
   focus(t: Theme) {
-    return css`
+    return this.css`
       border-color: ${t.borderColorFocus};
       box-shadow: ${t.inputFocusShadow};
       outline: none;
       z-index: 2;
 
-      ${cssName(styles.input(t))}:-moz-placeholder {
+      ${cssName(this.input(t))}:-moz-placeholder {
         color: ${t.placeholderColorLight};
       }
-      ${cssName(styles.input(t))}::-moz-placeholder {
+      ${cssName(this.input(t))}::-moz-placeholder {
         color: ${t.placeholderColorLight};
       }
-      ${cssName(styles.input(t))}::placeholder {
+      ${cssName(this.input(t))}::placeholder {
         color: ${t.placeholderColorLight};
       }
     `;
-  },
+  }
 
   focusFallback(t: Theme) {
-    return css`
+    return this.css`
       box-shadow: none;
       outline: 1px solid ${t.inputFocusOutline};
     `;
-  },
+  }
 
   placeholder(t: Theme) {
-    return css`
+    return this.css`
       -ms-user-select: none;
       color: ${t.placeholderColor};
       cursor: text;
@@ -103,14 +103,14 @@ const styles = {
       white-space: nowrap;
       width: 100%;
 
-      ${cssName(styles.focus(t))} & {
+      ${cssName(this.focus(t))} & {
         color: ${t.placeholderColorLight};
       }
     `;
-  },
+  }
 
   input(t: Theme) {
-    return css`
+    return this.css`
       -webkit-appearance: none;
       background: transparent;
       border: 0 none;
@@ -143,67 +143,67 @@ const styles = {
         color: ${t.placeholderColor};
       }
     `;
-  },
+  }
 
   warning(t: Theme) {
-    return css`
+    return this.css`
       & {
         border-color: ${t.borderColorWarning} !important;
         box-shadow: 0 0 0 1px ${t.borderColorWarning} !important;
         z-index: 2;
       }
     `;
-  },
+  }
 
   warningFallback(t: Theme) {
-    return css`
+    return this.css`
       box-shadow: none !important;
       outline: 1px solid ${t.borderColorWarning} !important;
     `;
-  },
+  }
 
   error(t: Theme) {
-    return css`
+    return this.css`
       border-color: ${t.borderColorError} !important;
       box-shadow: 0 0 0 1px ${t.borderColorError} !important;
       z-index: 2;
     `;
-  },
+  }
 
   errorFallback(t: Theme) {
-    return css`
+    return this.css`
       box-shadow: none !important;
       outline: 1px solid ${t.borderColorError} !important;
     `;
-  },
+  }
 
   disabled(t: Theme) {
-    return css`
+    return this.css`
       background: ${t.inputDisabledBg};
       border-color: ${t.inputDisabledBorderColor} !important;
       box-shadow: none;
 
-      ${cssName(styles.leftIcon())},
-      ${cssName(styles.rightIcon())} {
+      ${cssName(this.leftIcon())},
+      ${cssName(this.rightIcon())} {
         cursor: default;
       }
-      ${cssName(styles.input(t))} {
+      ${cssName(this.input(t))} {
         color: ${t.textColorDisabled};
         pointer-events: none;
         /* fix text color in safari */
         -webkit-text-fill-color: currentcolor;
       }
-      ${cssName(styles.input(t))}:-moz-placeholder {
+      ${cssName(this.input(t))}:-moz-placeholder {
         -webkit-text-fill-color: ${t.placeholderColor};
       }
-      ${cssName(styles.input(t))}::-moz-placeholder {
+      ${cssName(this.input(t))}::-moz-placeholder {
         -webkit-text-fill-color: ${t.placeholderColor};
       }
-      ${cssName(styles.input(t))}::placeholder {
+      ${cssName(this.input(t))}::placeholder {
         -webkit-text-fill-color: ${t.placeholderColor};
       }
     `;
-  },
+  }
 
   blink(t: Theme) {
     const blinkAnimation = keyframes`
@@ -211,13 +211,13 @@ const styles = {
       background-color: ${t.blinkColor};
     }
   `;
-    return css`
+    return this.css`
       animation: ${blinkAnimation} 0.15s ease-in;
     `;
-  },
+  }
 
   sizeSmall(t: Theme) {
-    return css`
+    return this.css`
       & {
         font-size: ${t.inputFontSizeSmall};
         line-height: ${t.controlLineHeightSmall} !important;
@@ -226,66 +226,66 @@ const styles = {
         height: ${t.controlHeightSmall};
       }
     `;
-  },
+  }
 
   sizeSmallFallback(t: Theme) {
-    return css`
+    return this.css`
       padding-top: ${shift(t.controlPaddingYSmall, '-1')};
       padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
       line-height: normal !important;
     `;
-  },
+  }
 
   sizeMedium(t: Theme) {
-    return css`
+    return this.css`
       font-size: ${t.inputFontSizeMedium};
       line-height: ${t.controlLineHeightMedium} !important;
       padding-top: ${t.controlPaddingYMedium};
       padding-bottom: ${t.controlPaddingYMedium};
       height: ${t.controlHeightMedium};
     `;
-  },
+  }
 
   sizeMediumFallback(t: Theme) {
-    return css`
+    return this.css`
       padding-top: ${shift(t.controlPaddingYMedium, '-1')};
       padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
       line-height: normal !important;
     `;
-  },
+  }
 
   sizeLarge(t: Theme) {
-    return css`
+    return this.css`
       font-size: ${t.inputFontSizeLarge};
       line-height: ${t.controlLineHeightLarge} !important;
       height: ${t.controlHeightLarge};
       padding-top: ${shift(t.controlPaddingYLarge, '-1')};
       padding-bottom: ${shift(t.controlPaddingYLarge, '1')};
     `;
-  },
+  }
 
   sizeLargeFallback(t: Theme) {
-    return css`
+    return this.css`
       padding-top: ${shift(t.controlPaddingYLarge, '-2')};
       padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
       line-height: normal !important;
     `;
-  },
+  }
 
   prefix(t: Theme) {
-    return css`
+    return this.css`
       color: ${t.placeholderColor};
     `;
-  },
+  }
 
   suffix(t: Theme) {
-    return css`
+    return this.css`
       color: ${t.placeholderColor};
     `;
-  },
+  }
 
   sideContainer() {
-    return css`
+    return this.css`
       align-items: center;
       display: flex;
       flex-shrink: 0;
@@ -299,34 +299,32 @@ const styles = {
         width: 0;
       }
     `;
-  },
+  }
 
   rightContainer() {
-    return css`
+    return this.css`
       justify-self: flex-end;
       margin: 0 0 0 auto;
       padding-left: 0;
       padding-right: 10px;
     `;
-  },
+  }
 
   leftIcon() {
-    return css`
+    return this.css`
       padding-right: 2px;
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
     `;
-  },
+  }
 
   rightIcon() {
-    return css`
+    return this.css`
       padding-left: 2px;
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
     `;
-  },
-};
-
-export const jsStyles = memoizeStyle(styles);
+  }
+}

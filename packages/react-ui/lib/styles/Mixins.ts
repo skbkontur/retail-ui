@@ -1,4 +1,4 @@
-import { css } from '../theming/Emotion';
+import { cssFromCache as css } from '../theming/Emotion';
 
 export const resetButton = () => {
   return css`

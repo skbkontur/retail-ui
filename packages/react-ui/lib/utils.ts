@@ -16,15 +16,15 @@ const platform = ((navigator && navigator.platform) || '').toLowerCase();
 const userAgent = ((navigator && navigator.userAgent) || '').toLowerCase();
 const vendor = ((navigator && navigator.vendor) || '').toLowerCase();
 
-export const isMac = platform.includes("mac");
-export const isWindows = platform.includes("win");
+export const isMac = platform.includes('mac');
+export const isWindows = platform.includes('win');
 
 export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
 export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
 export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
-export const isChrome = vendor.includes("google inc") && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
-export const isEdge = userAgent.includes("edge/");
-export const isIE11 = userAgent.includes("trident/");
+export const isChrome = vendor.includes('google inc') && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
+export const isEdge = userAgent.includes('edge/');
+export const isIE11 = userAgent.includes('trident/');
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -72,9 +72,25 @@ export const hasSvgAnimationSupport = (() => {
     const element = document.createElementNS(namespaceURI, 'animate');
 
     if (element) {
-      return element.toString().includes("SVGAnimate");
+      return element.toString().includes('SVGAnimate');
     }
   }
 
   return false;
 })();
+
+export function getHashOfObject(obj: object = {}): string {
+  const str = JSON.stringify(obj);
+  let hash = 0;
+  const characters = 'abcdefghij';
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = (hash & hash) >>> 0;
+  }
+  return hash
+    .toString(10)
+    .split('')
+    .map(n => characters[Number(n)])
+    .join('');
+}

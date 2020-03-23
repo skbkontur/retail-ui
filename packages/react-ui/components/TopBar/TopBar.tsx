@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import cn from 'classnames';
 
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 import { Logotype } from '../Logotype';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -16,7 +17,7 @@ import { TopBarUser } from './TopBarUser';
 import { TopBarEnd } from './TopBarEnd';
 import { TopBarStart } from './TopBarStart';
 import { TopBarLogout } from './TopBarLogout';
-import { jsStyles } from './TopBar.styles';
+import { Styles } from './TopBar.styles';
 
 export interface TopBarProps {
   children?: React.ReactNode;
@@ -174,6 +175,7 @@ export class TopBar extends React.Component<TopBarProps> {
     } = this.props;
 
     const _rightItems: Array<React.ReactElement<any>> = [...rightItems];
+    const jsStyles = getJsStyles(TopBar, Styles, this.theme);
 
     if (userName) {
       _rightItems.push(<TopBarUser userName={userName} cabinetUrl={cabinetUrl} />, <TopBarDivider />);

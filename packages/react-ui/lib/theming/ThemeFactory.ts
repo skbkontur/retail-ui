@@ -1,6 +1,9 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
+import { getHashOfObject } from '../utils';
 
-import { Theme, ThemeIn } from './Theme';
+import { DEFAULT_THEME_HASH, Theme, ThemeIn } from './Theme';
+import { deleteCache, setCache } from './ThemeCache';
+import { overrideDefaultTheme } from './ThemeContext';
 
 const IS_THEME_KEY = '__IS_REACT_UI_THEME__';
 
@@ -12,8 +15,13 @@ Object.defineProperty(DefaultThemeInternal, IS_THEME_KEY, {
 });
 
 export class ThemeFactory {
-  public static create<T extends {}>(theme: ThemeIn & T): Readonly<Theme & T> {
-    return Object.freeze(Object.setPrototypeOf(theme, DefaultThemeInternal));
+  public static create<T extends {}>(
+    theme: ThemeIn & T,
+    hash: string = getHashOfObject({ ...theme }),
+  ): Readonly<Theme & T> {
+    const newTheme = Object.setPrototypeOf(theme, DefaultThemeInternal);
+    setCache(newTheme, hash);
+    return Object.freeze(newTheme);
   }
 
   public static isFullTheme(theme: ThemeIn | Theme): theme is Theme {
@@ -22,10 +30,8 @@ export class ThemeFactory {
   }
 
   public static overrideDefaultTheme(theme: ThemeIn) {
-    Object.keys(theme).forEach(variableName => {
-      const descriptor = Object.getOwnPropertyDescriptor(theme, variableName)!;
-      Object.defineProperty(DefaultThemeInternal, variableName, descriptor);
-    });
+    deleteCache(DEFAULT_THEME_HASH);
+    overrideDefaultTheme(theme);
   }
 
   public static getKeys<T extends Theme>(theme: T) {

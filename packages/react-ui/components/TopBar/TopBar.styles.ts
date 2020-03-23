@@ -1,50 +1,50 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { cssName, GrandStyles } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export class Styles extends GrandStyles {
   root(t: Theme) {
-    return css`
+    return this.css`
       background: ${t.tbBg};
       box-shadow: ${t.tbShadow};
       height: 50px;
       margin-bottom: 20px;
       padding: 0 15px;
     `;
-  },
+  }
 
   divider(t: Theme) {
-    return css`
+    return this.css`
       align-self: center;
       background-color: ${t.tdDividerBg};
       height: 30px;
       width: 1px;
     `;
-  },
+  }
 
   endItems() {
-    return css`
+    return this.css`
       align-items: stretch;
       display: flex;
       flex-wrap: nowrap;
     `;
-  },
+  }
 
   startItems() {
-    return css`
-      ${styles.endItems()};
+    return this.css`
+      ${cssName(this.endItems())};
 
       padding-right: 60px;
     `;
-  },
+  }
 
   buttonActive() {
-    return css`
+    return this.css`
       background: rgba(0, 0, 0, 0.06);
     `;
-  },
+  }
 
   button() {
-    return css`
+    return this.css`
       cursor: pointer;
       height: 50px;
       line-height: 50px;
@@ -62,76 +62,76 @@ const styles = {
         background: rgba(0, 0, 0, 0.06);
       }
     `;
-  },
+  }
 
   noShadow() {
-    return css`
-      ${styles.endItems()} & {
+    return this.css`
+      ${cssName(this.endItems())} & {
         box-shadow: none;
       }
     `;
-  },
+  }
 
   icon() {
-    return css`
+    return this.css`
       margin-right: 4px;
     `;
-  },
+  }
 
   iconOnly() {
-    return css`
+    return this.css`
       margin-right: 0;
     `;
-  },
+  }
 
   usePay() {
-    return css`
+    return this.css`
       &,
       &:hover,
-      ${cssName(styles.buttonActive())} {
+      ${cssName(this.buttonActive())} {
         background: #ffeca9;
       }
     `;
-  },
+  }
 
   useDanger() {
-    return css`
+    return this.css`
       &,
       &:hover,
-      ${cssName(styles.buttonActive())} {
+      ${cssName(this.buttonActive())} {
         background: #ffe3e3;
       }
     `;
-  },
+  }
 
   noMargin() {
-    return css`
+    return this.css`
       margin-bottom: 0;
     `;
-  },
+  }
 
   center() {
-    return css`
+    return this.css`
       margin: auto;
     `;
-  },
+  }
 
   containerWrap() {
-    return css`
+    return this.css`
       margin: 0 -10px;
     `;
-  },
+  }
 
   container() {
-    return css`
+    return this.css`
       display: flex;
       flex-wrap: nowrap;
       justify-content: space-between;
     `;
-  },
+  }
 
   item() {
-    return css`
+    return this.css`
       display: inline-block;
       box-sizing: border-box;
       height: 50px;
@@ -140,18 +140,18 @@ const styles = {
       vertical-align: middle;
       white-space: nowrap;
     `;
-  },
+  }
 
   spwDropdown() {
-    return css`
+    return this.css`
       display: table-cell;
       height: 50px;
       white-space: nowrap;
     `;
-  },
+  }
 
   organizationsTitle() {
-    return css`
+    return this.css`
       box-sizing: border-box;
       left: 0;
       overflow: hidden;
@@ -160,41 +160,39 @@ const styles = {
       text-overflow: ellipsis;
       width: 100%;
     `;
-  },
+  }
 
   organizationsComment() {
-    return css`
+    return this.css`
       color: #aaa;
       padding-left: 10px;
       position: absolute;
       right: 20px;
     `;
-  },
+  }
 
   organizationsArrow() {
-    return css`
+    return this.css`
       position: absolute;
       right: 0;
       text-align: center;
       width: 20px;
     `;
-  },
+  }
 
   organizationsTitleDummy() {
-    return css`
+    return this.css`
       box-sizing: border-box;
       height: 0;
       overflow: hidden;
       padding-right: 10px;
       white-space: normal;
     `;
-  },
+  }
 
   organizationsCommentDummy() {
-    return css`
+    return this.css`
       padding-left: 10px;
     `;
-  },
-};
-
-export const jsStyles = memoizeStyle(styles);
+  }
+}

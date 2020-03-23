@@ -1,4 +1,4 @@
-import { css } from '../../lib/theming/Emotion';
+import { cssFromCache as css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset = 0): string => {

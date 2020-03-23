@@ -14,6 +14,26 @@ import { Button, ThemeContext, FLAT_THEME } from '@skbkontur/react-ui';
 </ThemeContext.Provider>;
 ```
 
+```jsx harmony
+import { ThemeContext, ThemeFactory, Button } from '@skbkontur/react-ui';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
+
+const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '1px' });
+const myTheme2 = ThemeFactory.create({ btnSmallBorderRadius: '1px' });
+
+console.log(window.myTheme === myTheme);
+window.myTheme = myTheme;
+
+<ThemeContext.Provider value={myTheme}>
+  <Button>Ok</Button>
+  <ShowcaseGroup title="My Theme" />
+  <ThemeContext.Provider value={myTheme2}>
+    <Button>Ok</Button>
+    <ShowcaseGroup title="My Theme" />
+  </ThemeContext.Provider>
+</ThemeContext.Provider>;
+```
+
 Использовать тему в компоненте можно через `Consumer`:
 
 ```jsx static

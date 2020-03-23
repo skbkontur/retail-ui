@@ -1,9 +1,11 @@
 import React from 'react';
 
 import { IconProps } from '../../internal/icons/20px';
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 
+import { TopBar } from './TopBar';
 import { TopBarItem, TopBarItemProps } from './TopBarItem';
-import { jsStyles } from "./TopBar.styles";
+import { Styles } from "./TopBar.styles";
 
 export interface TopBarButtonItemProps extends TopBarItemProps {
   active?: boolean;
@@ -27,6 +29,7 @@ export class TopBarButtonItem extends React.Component<TopBarButtonItemProps> {
   };
   public render() {
     const { onClick, children, onKeyDown, ...rest } = this.props;
+    const jsStyles = getJsStyles(TopBar, Styles);
     return (
       <TopBarItem {...rest} className={jsStyles.button()} _onKeyDown={onKeyDown} _onClick={onClick}>
         {children}

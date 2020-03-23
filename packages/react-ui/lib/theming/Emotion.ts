@@ -1,14 +1,20 @@
+import createCacheEmotion from '@emotion/cache';
+import { CacheProvider, css as cssFromCache } from '@emotion/core';
 import createEmotion from 'create-emotion';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
 
 import { Upgrade } from '../Upgrades';
 
 import { Theme } from './Theme';
+import { EmotionCacheExtra } from './ThemeCache';
 
 const PREFIX = 'react-ui';
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${PREFIX}`).join('');
 
+const createCache = (themeHash: string) => createCacheEmotion({ key: `${PREFIX}-${themeHash}` });
+
+export { cssFromCache, createCache, CacheProvider };
 export const {
   flush,
   hydrate,
@@ -25,7 +31,7 @@ export const {
   stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
 });
 
-export const cssName = (className: string): string => `.${className}`;
+export const cssName = (className: any): string => `.${className}`;
 
 function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
   return fn.length == 0;
@@ -57,3 +63,16 @@ export const memoizeStyle = <S extends { [className: string]: (() => string) | (
   Object.keys(styles).forEach(className => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
   return styles;
 };
+
+export class GrandStyles {
+  css(...args: any[]) {
+    const serializedStyles = cssFromCache(...args);
+    const className = `${this.cache.key}-${serializedStyles.name}`;
+    if (this.cache.inserted[serializedStyles.name] === undefined) {
+      this.cache.insert(cssName(className), serializedStyles, this.cache.sheet, true);
+    }
+    return className;
+  }
+
+  constructor(protected readonly cache: EmotionCacheExtra, protected readonly theme: Theme) {}
+}

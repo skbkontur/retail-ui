@@ -2,9 +2,14 @@ import React from 'react';
 import { mount } from 'enzyme';
 import MaskedInput from 'react-input-mask';
 
+import { overrideDefaultTheme } from '../../../lib/theming/ThemeContext';
+import { getJsStyles } from '../../../lib/theming/ThemeCache';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { Input, InputProps } from '../Input';
-import { jsStyles } from '../Input.styles';
+import { Styles } from '../Input.styles';
+
+overrideDefaultTheme({});
+const jsStyles = getJsStyles(Input, Styles);
 
 const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
@@ -45,6 +50,7 @@ describe('<Input />', () => {
   });
 
   it('applies error styles on error prop', () => {
+    console.log('jsStyles', jsStyles);
     const wrapper = render({ value: '', error: true });
     expect(wrapper.find(`.${jsStyles.error(DEFAULT_THEME as any)}`)).toHaveLength(1);
   });

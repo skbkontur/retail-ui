@@ -4,6 +4,8 @@ import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 
+import { overrideDefaultTheme } from './lib/theming/ThemeContext';
+
 process.env.enableReactTesting = true;
 
 configure({ adapter: new Adapter() });

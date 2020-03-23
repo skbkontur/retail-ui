@@ -3,6 +3,7 @@ import React from 'react';
 import raf from 'raf';
 import cn from 'classnames';
 
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 import { isIE11, isEdge } from '../../lib/utils';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
@@ -11,7 +12,7 @@ import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
-import { jsStyles } from './Input.styles';
+import { Styles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -274,6 +275,7 @@ export class Input extends React.Component<InputProps, InputState> {
     } = this.props;
 
     const { blinking, focused } = this.state;
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
 
     const labelProps = {
       className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
@@ -356,10 +358,12 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private renderLeftIcon() {
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
     return this.renderIcon(this.props.leftIcon, jsStyles.leftIcon());
   }
 
   private renderRightIcon() {
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
     return this.renderIcon(this.props.rightIcon, jsStyles.rightIcon());
   }
 
@@ -372,6 +376,8 @@ export class Input extends React.Component<InputProps, InputState> {
       return <span className={className}>{icon()}</span>;
     }
 
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
+
     return (
       <span className={cn(className, jsStyles.useDefaultColor(this.theme), jsStyles.useDefaultColor(this.theme))}>
         {icon}
@@ -381,6 +387,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private renderPlaceholder() {
     let placeholder = null;
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
 
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
@@ -397,6 +404,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getSizeClassName() {
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
     switch (this.props.size) {
       case 'large':
         return { [jsStyles.sizeLarge(this.theme)]: true, [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge };
@@ -494,6 +502,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private renderPrefix = () => {
     const { prefix } = this.props;
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
 
     if (!prefix) {
       return null;
@@ -504,6 +513,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private renderSuffix = () => {
     const { suffix } = this.props;
+    const jsStyles = getJsStyles(Input, Styles, this.theme);
 
     if (!suffix) {
       return null;

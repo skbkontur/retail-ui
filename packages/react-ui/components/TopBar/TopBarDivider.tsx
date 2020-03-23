@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { jsStyles } from './TopBar.styles';
+import { TopBar } from './TopBar';
+import { Styles } from './TopBar.styles';
 
 /**
  * Разделитель в топбаре
@@ -11,6 +13,7 @@ import { jsStyles } from './TopBar.styles';
  */
 function TopBarDivider() {
   const theme = useContext(ThemeContext);
+  const jsStyles = getJsStyles(TopBar, Styles, theme);
 
   return <span className={jsStyles.divider(theme)} />;
 }

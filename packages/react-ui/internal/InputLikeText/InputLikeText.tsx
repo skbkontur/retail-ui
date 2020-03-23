@@ -3,11 +3,12 @@ import cn from 'classnames';
 
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 import { isEdge, isIE11 } from '../../lib/utils';
 import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
-import { InputProps, InputIconType, InputState } from '../../components/Input';
-import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
+import { InputProps, InputIconType, InputState, Input } from '../../components/Input';
+import { Styles as InputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -24,6 +25,8 @@ export interface InputLikeTextProps extends InputProps {
 }
 
 export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
+
+const jsInputStyles = getJsStyles(Input, InputStyles);
 
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';

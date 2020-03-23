@@ -12,3 +12,5 @@ export type Override<T, U> = Pick<T, Diff<keyof T, keyof U>> & U;
 export type Entries<T, K> = (o: { [k: string]: K }) => Array<[T, K]>;
 
 export type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+
+export type Constructor<T> = new (...args: any[]) => T;

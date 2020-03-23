@@ -1,10 +1,14 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
 
+import { getJsStyles } from '../../../lib/theming/ThemeCache';
 import { MenuItem } from '../../MenuItem';
+import { TopBar } from '../TopBar';
 import { TopBarDropdown, TopBarDropdownProps } from '../TopBarDropdown';
 import { TopBarItem } from '../TopBarItem';
-import { jsStyles } from "../TopBar.styles";
+import { Styles } from "../TopBar.styles";
+
+const jsStyles = getJsStyles(TopBar, Styles);
 
 describe('TopBarDropdown', () => {
   describe('open/close methods', () => {

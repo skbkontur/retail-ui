@@ -1,12 +1,80 @@
 ## Резюме
 
 Для кастомизации компонентов используется ThemeContext:
+
 - чтобы задать тему `ThemeContext.Provider`;
 - использовать тему в своих компонентах `ThemeContext.Consumer`.
 
 Механизм работы: динамические стили генерируются в зависимости от темы в процессе render'а с помощью <a href="https://www.npmjs.com/package/emotion" target="_blank">emotion</a>, полученные классы добавляются в `className` соответствующих элементов.
 
 ## Мотивация
+
+```jsx harmony
+import { ThemeContext, ThemeFactory, Button, Loader, Logotype, TopBar } from '@skbkontur/react-ui';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
+import BabyIcon from '@skbkontur/react-icons/Baby';
+
+const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '1px' });
+const myTheme2 = ThemeFactory.create({ tdDividerBg: 'red', btnSmallBorderRadius: '10px' });
+const myTheme3 = ThemeFactory.create({ btnSmallBorderRadius: '20px' });
+
+console.log(window.myTheme === myTheme);
+window.myTheme = myTheme;
+
+let pageStyle = {
+  background: '#e6e6e6',
+  height: 400,
+  border: '1px solid #dedfdf',
+  overflow: 'hidden',
+};
+
+let contentStyle = {
+  background: 'white',
+  padding: 15,
+  height: 280,
+};
+
+initialState = {opened: true};
+
+<ThemeContext.Provider value={myTheme}>
+  <Button>Ok</Button>
+  <ShowcaseGroup title="My Theme" />
+  {state.opened ? (
+    <ThemeContext.Provider value={myTheme3}>
+        <Button>Ok</Button>
+      </ThemeContext.Provider>
+  ): null}
+  <ThemeContext.Provider value={myTheme2}>
+    <div style={pageStyle}>
+      <TopBar>
+        <TopBar.Start>
+          <TopBar.ItemStatic>
+            <Logotype suffix="ui" withWidget />
+          </TopBar.ItemStatic>
+          <TopBar.Item>
+            <BabyIcon color="#666" />
+          </TopBar.Item>
+          <TopBar.Item>
+            <BabyIcon color="#666" />
+          </TopBar.Item>
+        </TopBar.Start>
+        <TopBar.End>
+          <TopBar.Item>
+            <Button>Ok</Button>
+            <BabyIcon color="#666" />
+          </TopBar.Item>
+          <TopBar.User userName="Alexander The Great" />
+          <TopBar.Divider />
+          <TopBar.Logout onClick={() => alert('Logout!')} />
+        </TopBar.End>
+      </TopBar>
+      <Loader active caption="neverending...">
+        <div style={contentStyle} />
+      </Loader>
+    </div>
+  </ThemeContext.Provider>
+</ThemeContext.Provider>;
+```
 
 На данный момент существует 2 версии библиотеки:
 
@@ -25,7 +93,7 @@
 
 ### Механизм работы кастомизации
 
-1. Из файла с переменными (variables.less для стандартной темы, variables.flat.less - для плоской) все значения - после "накатывания" переопределенных в сервисе-потребителе значений - экспортируются в camelCase:
+1.  Из файла с переменными (variables.less для стандартной темы, variables.flat.less - для плоской) все значения - после "накатывания" переопределенных в сервисе-потребителе значений - экспортируются в camelCase:
 
     ```less
     @blue_dark: #1e5aa4;
@@ -39,8 +107,8 @@
 
     Это позволит пользователям _retail-ui_ "просто обновиться" - их переопределенные переменные будут учтены на 2ом шаге при сборке тем.
 
-2. В библиотеке из коробки определены два файла с темами: _lib/theming/themes/DefaultTheme.ts_ и _lib/theming/themes/FlatTheme.ts_.
-   В этих файлах определяются вычисляемые (зависящие от других) переменные, например:
+2.  В библиотеке из коробки определены два файла с темами: _lib/theming/themes/DefaultTheme.ts_ и _lib/theming/themes/FlatTheme.ts_.
+    В этих файлах определяются вычисляемые (зависящие от других) переменные, например:
 
     ```typescript
     import DEFAULT_VARIABLES from '../../../components/variables.less';
@@ -85,8 +153,8 @@
 
     **\*ВАЖНО:** файл FlatTheme.ts не используется напрямую ни в одном компоненте и не попадет в итоговый bundle, если не будет использован в явном виде (см. \*Использование плоской темы\_).
 
-3. В статическом классе `ThemeFactory` (_lib/theming/ThemeFactory.ts_) определяется `defaultTheme`.
-   `ThemeFactory` так же предоставляет следующие методы:
+3.  В статическом классе `ThemeFactory` (_lib/theming/ThemeFactory.ts_) определяется `defaultTheme`.
+    `ThemeFactory` так же предоставляет следующие методы:
 
     ```typescript
     class ThemeFactory {
@@ -122,7 +190,7 @@
     };
     ```
 
-4. Перед тем как использовать собственные значение, нужно c помощью `ThemeFactory.create` создать объект `Theme`, и получившуюся тему передать в `ThemeContext.Provider`.
+4.  Перед тем как использовать собственные значение, нужно c помощью `ThemeFactory.create` создать объект `Theme`, и получившуюся тему передать в `ThemeContext.Provider`.
 
     ```jsx harmony static
     import { Button, ButtonProps, Gapped, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
@@ -141,7 +209,7 @@
     };
     ```
 
-5. Для каждого компонента, в less стилях которого использовались (напрямую или косвенно) переменные из variables.less, с помощью codemod создан файл динамических стилей. Например (_ToastView.styles.ts_):
+5.  Для каждого компонента, в less стилях которого использовались (напрямую или косвенно) переменные из variables.less, с помощью codemod создан файл динамических стилей. Например (_ToastView.styles.ts_):
 
     ```typescript
     export const jsStyles = {
@@ -179,59 +247,61 @@
     - чтобы избежать конфликтов с проектами, которые используют или захотят использовать emotion;
     - чтобы задать сгенерированным классам дополнительным `scope` для specificityLevel (см. Specificity Level).
 
-6. В каждом кастомизируемом компоненте `render()` завернут в `ThemeContext.Consumer`:
+6.  В каждом кастомизируемом компоненте `render()` завернут в `ThemeContext.Consumer`:
 
-    ```jsx harmony static
-    class MyComponent extends React.Component<{}, {}> {
-      public render() {
-        return (
-          <ThemeContext.Consumer>
-            {theme => {
-              this.theme = theme;
-              return this.renderMain();
-            }}
-          </ThemeContext.Consumer>
-        );
-      }
-    }
-    ```
+        ```jsx harmony static
+        class MyComponent extends React.Component<{}, {}> {
+          public render() {
+            return (
+              <ThemeContext.Consumer>
+                {theme => {
+                  this.theme = theme;
+                  return this.renderMain();
+                }}
+              </ThemeContext.Consumer>
+            );
+          }
+        }
+        ```
 
-    Это позволяет использовать `this.theme` внутри любого рендерящего метода, например (_Spinner.tsx_):
+        Это позволяет использовать `this.theme` внутри любого рендерящего метода, например (_Spinner.tsx_):
 
-    ```jsx harmony static
-    import styles from './Spinner.less';
-    import { jsStyles } from './Spinner.styles';
+        ```jsx harmony static
+        import styles from './Spinner.less';
+        import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+
+    import { Styles } from './Spinner.styles';
     import { cx } from '../../lib/theming/Emotion';
 
-    private _renderCloud = (type) => {
-      const { props, theme } = this;
-      const bgClassName = jsStyles.cloudBg(this.theme);
-      const strokeClassName = cx(
-        styles.cloudStroke,
-        props.dimmed ? jsStyles.cloudStrokeDimmed(theme) : jsStyles.cloudStroke(theme)
-      );
+        private _renderCloud = (type) => {
+          const { props, theme } = this;
+          const bgClassName = jsStyles.cloudBg(this.theme);
+          const strokeClassName = cx(
+            styles.cloudStroke,
+            props.dimmed ? jsStyles.cloudStrokeDimmed(theme) : jsStyles.cloudStroke(theme)
+          );
 
-      return (
-        <svg className={styles.cloud}>
-          <path className={bgClassName} />
-          <path className={strokeClassName} />
-        </svg>
-      );
-    };
+          return (
+            <svg className={styles.cloud}>
+              <path className={bgClassName} />
+              <path className={strokeClassName} />
+            </svg>
+          );
+        };
 
-    private _renderCircle = (type) => {
-      const { props, theme } = this;
-      const strokeClassName = props.dimmed ?
-        jsStyles.circleStrokeDimmed(theme) :
-        jsStyles.circleStroke(theme);
+        private _renderCircle = (type) => {
+          const { props, theme } = this;
+          const strokeClassName = props.dimmed ?
+            jsStyles.circleStrokeDimmed(theme) :
+            jsStyles.circleStroke(theme);
 
-      return (
-        <svg className={cx(styles.circle, jsStyles.circle(theme))}>
-          <circle className={strokeClassName} />
-        </svg>
-      );
-    };
-    ```
+          return (
+            <svg className={cx(styles.circle, jsStyles.circle(theme))}>
+              <circle className={strokeClassName} />
+            </svg>
+          );
+        };
+        ```
 
 7\. PROFIT :)
 
@@ -243,34 +313,34 @@
 1. Путь джедая:
    В начале времен, где-то в _App.(j|t)sx_
 
-    ```jsx harmony static
-    import { ThemeContext } from '@skbkontur/react-ui';
-    import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+   ```jsx harmony static
+   import { ThemeContext } from '@skbkontur/react-ui';
+   import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
-    const App = (
-      <ThemeContext.Provider value={FLAT_THEME}>
-        <div />
-      </ThemeContext.Provider>
-    );
-    ```
+   const App = (
+     <ThemeContext.Provider value={FLAT_THEME}>
+       <div />
+     </ThemeContext.Provider>
+   );
+   ```
 
 2. Для ленивых:
 
-    - выделить и скопировать "ThemeFactory.overrideDefaultTheme(FlatTheme)"
-    - ctrl+shift+f -> "Uprgades.enableFlatDesign()" -> enter;
-    - вставить "ThemeFactory.overrideDefaultTheme(FlatTheme)";
-    - alt+enter 2 раза (add import statement).
+   - выделить и скопировать "ThemeFactory.overrideDefaultTheme(FlatTheme)"
+   - ctrl+shift+f -> "Uprgades.enableFlatDesign()" -> enter;
+   - вставить "ThemeFactory.overrideDefaultTheme(FlatTheme)";
+   - alt+enter 2 раза (add import statement).
 
-    Должно получиться:
+   Должно получиться:
 
-    ```typescript
-    import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
-    import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+   ```typescript
+   import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+   import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
-    // вместо:
-    // Uprgades.enableFlatDesign();
-    ThemeFactory.overrideDefaultTheme(FLAT_THEME);
-    ```
+   // вместо:
+   // Uprgades.enableFlatDesign();
+   ThemeFactory.overrideDefaultTheme(FLAT_THEME);
+   ```
 
 ### Отказ от less
 

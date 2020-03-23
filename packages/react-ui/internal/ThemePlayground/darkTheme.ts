@@ -264,4 +264,4 @@ export const darkTheme = ThemeFactory.create({
   specificityLevel: '0',
   textareaBg: 'none',
   textareaColor: 'inherit',
-});
+}, 'dark');

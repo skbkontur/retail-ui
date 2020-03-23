@@ -4,8 +4,10 @@ import cn from 'classnames';
 
 import { Icon, IconProps } from '../../internal/icons/20px';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 
-import { jsStyles } from './TopBar.styles';
+import { TopBar } from './TopBar';
+import { Styles } from './TopBar.styles';
 
 export interface TopBarItemProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -41,6 +43,7 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
 
   public render() {
     const { active, children, _onClick, _onKeyDown, iconOnly, icon, minWidth, use, ...rest } = this.props;
+    const jsStyles = getJsStyles(TopBar, Styles);
 
     const className: string = this.getProps().className;
 

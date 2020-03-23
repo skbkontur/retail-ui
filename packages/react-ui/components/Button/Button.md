@@ -11,6 +11,11 @@ Button has different use styles
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
+import { ThemeFactory } from '@skbkontur/react-ui/lib/theming/ThemeFactory';
+
+ThemeFactory.overrideDefaultTheme({
+  btnSmallBorderRadius: '5px'
+});
 
 <Gapped>
   <Button use="default">Default</Button>

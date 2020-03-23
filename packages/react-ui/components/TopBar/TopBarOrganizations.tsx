@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { getJsStyles } from '../../lib/theming/ThemeCache';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 
+import { TopBar } from './TopBar';
 import { TopBarDropdown } from './TopBarDropdown';
-import { jsStyles } from "./TopBar.styles";
+import { Styles } from "./TopBar.styles";
 
 export interface TopBarOrganizationsProps {
   caption: React.ReactNode;
@@ -44,6 +46,7 @@ export class TopBarOrganizations extends React.Component<TopBarOrganizationsProp
 
   public render() {
     const { caption, comment } = this.props;
+    const jsStyles = getJsStyles(TopBar, Styles);
 
     const title = (
       <div>
