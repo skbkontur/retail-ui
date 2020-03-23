@@ -34,11 +34,13 @@ export interface TokenInputProps<T> {
   hideMenuIfEmptyInputValue?: boolean;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
+
   /**
    * Функция должна возвращать строковое представление токена
    * @default item => item
    */
   valueToString: (item: T) => string;
+
   renderNotFound?: () => React.ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
@@ -49,6 +51,12 @@ export interface TokenInputProps<T> {
   disabled?: boolean;
   width?: string | number;
   renderToken?: (item: T, props: Partial<TokenProps & TokenActions>) => ReactNode;
+
+  /**
+   * Вызывается при изменении текста в поле ввода,
+   */
+  onInputValueChange?: (value: string) => void;
+
   /**
    * @deprecated Use `renderToken` prop instead
    */
@@ -404,9 +412,9 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
 
     if (this.type !== TokenInputType.WithReference && (event.key === 'Enter' || this.delimiters.includes(event.key))) {
       event.preventDefault();
-      const newValue = this.state.inputValue as any;
+      const newValue = this.state.inputValue;
       if (newValue !== '') {
-        this.handleAddItem(newValue);
+        this.handleAddItem();
       }
     }
 
@@ -527,7 +535,8 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     this.tryGetItems();
   };
 
-  private handleAddItem = (item: string) => {
+  private handleAddItem = () => {
+    const item = this.state.inputValue;
     const value = this.props.valueToItem!(item);
     if (this.hasValueInItems(this.props.selectedItems, value)) {
       return;
@@ -573,7 +582,12 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     if (this.state.inputValue !== '' && query === '') {
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
     }
-    this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => this.tryGetItems(query));
+    this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => {
+      return this.tryGetItems(query);
+    });
+    if (this.props.onInputValueChange) {
+      this.props.onInputValueChange(query);
+    }
   };
 
   private highlightMenuItem = () => {
