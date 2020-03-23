@@ -21,6 +21,19 @@ describe('<TokenInput />', () => {
     expect(wrapper.find('input').props().placeholder).toBe('Placeholder');
   });
 
+  it('should reset input value', () => {
+    const inputValue = 'eee';
+    const wrapper = mount<TokenInput>(<TokenInput getItems={getItems} selectedItems={[]} />);
+
+    wrapper.setState({ inputValue });
+    wrapper.update();
+    expect(wrapper.find('input').props().value).toBe(inputValue);
+
+    wrapper.instance().reset();
+    wrapper.update();
+    expect(wrapper.find('input').props().value).toBe('');
+  });
+
   describe('Locale', () => {
     let wrapper: ReactWrapper;
     const getTextComment = (): string => wrapper.find(generateSelector('comment')).text();

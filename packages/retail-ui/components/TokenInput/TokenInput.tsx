@@ -260,6 +260,14 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     );
   }
 
+  /**
+   * Сбрасывает введенное пользователем значение
+   * @public
+   */
+  public reset() {
+    this.dispatch({ type: 'CLEAR_INPUT' });
+  }
+
   private hasValueInItems = (items: T[], value: T) => {
     if (typeof value === 'string') {
       return items.includes(value);
@@ -552,7 +560,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const newItems = this.props.selectedItems.concat([item]);
     this.props.onChange(newItems);
 
-    this.dispatch({ type: 'CLEAR_INPUT' });
+    this.reset();
     this.tryGetItems();
   };
 
@@ -565,7 +573,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const newItems = this.props.selectedItems.concat([value]);
     this.props.onChange(newItems);
 
-    this.dispatch({ type: 'CLEAR_INPUT' });
+    this.reset();
     this.tryGetItems();
   };
 
