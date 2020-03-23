@@ -6,6 +6,7 @@ import Input from '../../Input';
 import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
 import Token, { TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
+import MenuItem from '../../MenuItem';
 
 interface TokenModel {
   id?: string;
@@ -155,6 +156,28 @@ class ColoredWrapper extends React.Component<any, any> {
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
+class WrapperCustomAddButton extends React.Component<any, { inputValue: string }> {
+  constructor(props: any) {
+    super(props);
+    this.state = { inputValue: '' };
+  }
+
+  public render() {
+    return (
+      <Wrapper
+        type={TokenInputType.Combined}
+        getItems={getItems}
+        onInputChange={this.onInputChange}
+        renderAddButton={this.renderAddButton}
+      />
+    );
+  }
+
+  private onInputChange = (inputValue: string) => this.setState({ inputValue });
+
+  private renderAddButton = () => <MenuItem key="addButton">{this.state.inputValue}</MenuItem>;
+}
+
 // tslint:disable jsx-no-lambda
 storiesOf('TokenInput', module)
   .addDecorator(FixedWidthDecorator)
@@ -254,4 +277,7 @@ storiesOf('TokenInput', module)
         <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
       </Gapped>
     );
+  })
+  .add('with custom renderAddButton', () => {
+    return <WrapperCustomAddButton />;
   });

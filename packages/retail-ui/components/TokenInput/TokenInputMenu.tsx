@@ -67,6 +67,10 @@ export default class TokenInputMenu<T = string> extends React.Component<TokenInp
       return;
     }
 
+    if (this.props.renderAddButton) {
+      return this.props.renderAddButton();
+    }
+
     const { addButtonComment, addButtonTitle } = this.locale;
 
     return (

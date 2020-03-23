@@ -66,6 +66,7 @@ export interface TokenInputProps<T> {
   disabled?: boolean;
   width?: string | number;
   renderToken?: (item: T, props: Partial<TokenProps & TokenActions>) => ReactNode;
+  renderAddButton?: () => React.ReactNode;
 
   /**
    * Вызывается при изменении текста в поле ввода,
@@ -190,6 +191,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       hideMenuIfEmptyInputValue,
       onMouseEnter,
       onMouseLeave,
+      renderAddButton,
     } = this.props;
 
     const { activeTokens, inFocus, inputValueWidth, inputValue, autocompleteItems, loading } = this.state;
@@ -261,6 +263,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
               onAddItem={this.handleAddItem}
               onChange={this.handleChange}
               showAddItemHint={this.showAddItemHint}
+              renderAddButton={renderAddButton}
             />
           )}
         </label>
