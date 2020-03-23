@@ -71,6 +71,10 @@ export interface TokenInputProps<T> {
    * Вызывается при изменении текста в поле ввода,
    */
   onInputValueChange?: (value: string) => void;
+  /**
+   * Функция отрисовки кнопки добавления в выпадающем списке
+   */
+  renderAddButton?: (query?: string) => ReactNode;
 }
 
 export interface TokenInputState<T> {
@@ -653,6 +657,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private renderAddButton = (value = this.state.inputValue): React.ReactNode | undefined => {
     if (!this.showAddItemHint) {
       return;
+    }
+
+    if (this.props.renderAddButton) {
+      return this.props.renderAddButton(value);
     }
 
     const { addButtonComment, addButtonTitle } = this.locale;
