@@ -10,7 +10,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
   inputValue: string;
   showAddItemHint?: boolean;
-  onAddItem: (item: string) => void;
+  onAddItem: () => void;
 }
 
 @locale('TokenInput', TokenInputLocaleHelper)
@@ -62,18 +62,16 @@ export default class TokenInputMenu<T = string> extends React.Component<TokenInp
   public getMenuRef = (): any | null => this.menu;
   private menuRef = (node: any) => (this.menu = node);
 
-  private renderAddButton = (value = this.props.inputValue): React.ReactNode | undefined => {
+  private renderAddButton = (): React.ReactNode | undefined => {
     if (!this.props.showAddItemHint) {
       return;
     }
 
     const { addButtonComment, addButtonTitle } = this.locale;
 
-    const handleAddItemNoteClick = () => this.props.onAddItem(value);
-
     return (
-      <MenuItem onClick={handleAddItemNoteClick} comment={addButtonComment} key="renderAddButton">
-        {addButtonTitle} {value}
+      <MenuItem onClick={this.props.onAddItem} comment={addButtonComment} key="renderAddButton">
+        {addButtonTitle} {this.props.inputValue}
       </MenuItem>
     );
   };
