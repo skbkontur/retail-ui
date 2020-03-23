@@ -5,6 +5,7 @@ import Gapped from '../../Gapped';
 import Input from '../../Input';
 import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
 import Token, { TokenColors } from '../../Token';
+import MenuItem from '../../MenuItem';
 
 interface TokenModel {
   id?: string;
@@ -63,7 +64,7 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
   }
 }
 
-class MyTokenInput extends TokenInput<TokenModel> { }
+class MyTokenInput extends TokenInput<TokenModel> {}
 
 class WrapperCustomModel extends React.Component<any, { selectedItems: TokenModel[] }> {
   constructor(props: any) {
@@ -88,9 +89,9 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
             colors={
               item.value.includes('aaa')
                 ? {
-                  idle: 'redIdle',
-                  active: 'redActive',
-                }
+                    idle: 'redIdle',
+                    active: 'redActive',
+                  }
                 : undefined
             }
             isActive={isActive}
@@ -152,6 +153,28 @@ class ColoredWrapper extends React.Component<any, any> {
 }
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
+
+class WrapperCustomAddButton extends React.Component<any, { inputValue: string }> {
+  constructor(props: any) {
+    super(props);
+    this.state = { inputValue: '' };
+  }
+
+  public render() {
+    return (
+      <Wrapper
+        type={TokenInputType.Combined}
+        getItems={getItems}
+        onInputChange={this.onInputChange}
+        renderAddButton={this.renderAddButton}
+      />
+    );
+  }
+
+  private onInputChange = (inputValue: string) => this.setState({ inputValue });
+
+  private renderAddButton = () => <MenuItem key="addButton">{this.state.inputValue}</MenuItem>;
+}
 
 // tslint:disable jsx-no-lambda
 storiesOf('TokenInput', module)
@@ -252,4 +275,7 @@ storiesOf('TokenInput', module)
         <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
       </Gapped>
     );
+  })
+  .add('with custom renderAddButton', () => {
+    return <WrapperCustomAddButton />;
   });
