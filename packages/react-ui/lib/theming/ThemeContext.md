@@ -90,6 +90,30 @@ function ButtonLinkWrapper(props) {
 <ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
 ```
 
+### Добавление своих переменных
+
+Если вы хотите дополнить одну из тем новыми переменными для своих компонентов, то вы можете использовать отдельный контекст в расширенным объектом темы.
+
+```jsx harmony
+import { useContext } from 'react';
+import { ThemeFactory } from '@skbkontur/react-ui';
+
+const MyThemeContext = React.createContext(ThemeFactory.create({ myTextColor: 'orange' }));
+
+function ButtonLinkWrapper(props) {
+  const theme = useContext(MyThemeContext);
+
+  return (
+    <Button use="link" {...props}>
+      {props.children}
+      <span style={{ color: theme.myTextColor }}> ↗</span>
+    </Button>
+  );
+}
+
+<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
+```
+
 ### Кастомизация в legacy-приложениях
 
 В случае, если контролы рендерятся через какую-то общую обертку, достаточно добавить в нее `ThemeContext.Provider` с вашей темой. В противном случае, вам подойдет метод `ThemeFactory.overrideDefaultTheme()`.
