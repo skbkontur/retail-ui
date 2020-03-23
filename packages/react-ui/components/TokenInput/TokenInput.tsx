@@ -63,6 +63,10 @@ export interface TokenInputProps<T> {
   width?: string | number;
   maxMenuHeight?: number | string;
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
+  /**
+   * Вызывается при изменении текста в поле ввода,
+   */
+  onInputValueChange?: (value: string) => void;
 }
 
 export interface TokenInputState<T> {
@@ -427,7 +431,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (this.type !== TokenInputType.WithReference && (isKeyEnter(e) || this.delimiters.includes(e.key))) {
       e.preventDefault();
-      const newValue = this.state.inputValue as any;
+      const newValue = this.state.inputValue;
       if (newValue !== '') {
         this.handleAddItem(newValue);
       }
@@ -596,6 +600,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => {
       this.tryGetItems(query);
     });
+    if (this.props.onInputValueChange) {
+      this.props.onInputValueChange(query);
+    }
   };
 
   private highlightMenuItem = () => {
