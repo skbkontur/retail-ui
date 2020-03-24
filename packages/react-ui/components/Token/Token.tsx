@@ -1,5 +1,4 @@
 import React from 'react';
-import warningOutput from 'warning';
 import cn from 'classnames';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
@@ -8,21 +7,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 import { jsStyles, jsTokenColors } from './Token.styles';
-
-const deprecatedColorNames: { [key: string]: TokenColorName } = {
-  'i-default': 'defaultIdle',
-  'a-default': 'defaultActive',
-  'l-gray': 'grayIdle',
-  'd-gray': 'grayActive',
-  'l-blue': 'blueIdle',
-  'd-blue': 'blueActive',
-  'l-green': 'greenIdle',
-  'd-green': 'greenActive',
-  'l-yellow': 'yellowIdle',
-  'd-yellow': 'yellowActive',
-  'l-red': 'redIdle',
-  'd-red': 'redActive',
-};
 
 export type TokenColorName = keyof typeof jsTokenColors;
 
@@ -77,20 +61,6 @@ export class Token extends React.Component<TokenProps> {
       onBlur = emptyHandler,
     } = this.props;
 
-    if (process.env.NODE_ENV !== 'production' && colors) {
-      warningOutput(
-        !deprecatedColorNames[colors.idle],
-        `Color name '${colors.idle}' has been deprecated, use '${deprecatedColorNames[colors.idle]}' instead`,
-      );
-
-      if (colors.active) {
-        warningOutput(
-          !deprecatedColorNames[colors.active],
-          `Color name '${colors.active}' has been deprecated, use '${deprecatedColorNames[colors.active]}' instead`,
-        );
-      }
-    }
-
     const theme = this.theme;
     const validation = error ? 'error' : warning ? 'warning' : null;
     const disableClassNames = cn(jsTokenColors.defaultDisabled(theme), {
@@ -102,10 +72,9 @@ export class Token extends React.Component<TokenProps> {
     let activeTokenClassName = disabled ? disableClassNames : jsTokenColors.defaultActive(theme, validation);
 
     if (!disabled && colors) {
-      const idleClassName = deprecatedColorNames[colors.idle] || colors.idle;
-      tokenClassName = jsTokenColors[idleClassName](theme, validation);
+      tokenClassName = jsTokenColors[colors.idle](theme, validation);
 
-      const activeClassName = colors.active ? deprecatedColorNames[colors.active] || colors.active : idleClassName;
+      const activeClassName = colors.active ? colors.active : colors.idle;
       activeTokenClassName = jsTokenColors[activeClassName](theme, validation);
     }
 

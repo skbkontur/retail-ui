@@ -2,16 +2,14 @@
 
 [![Build Status](https://tc.skbkontur.ru/app/rest/builds/buildType:FrontendInfrastructure_Packages_RunAll/statusIcon)](https://tc.skbkontur.ru/project.html?projectId=FrontendInfrastructure_Packages_ReactUI&tab=projectOverview)
 
-- [Квик-старт](#Квик-старт) **@skbkontur/react-ui** собранная версия библиотеки
-- [FAQ](#FAQ)
+- [Как использовать](#как-использовать)
+- [FAQ](#faq)
 
-### <a name="Квик-старт"></a>Квик-старт
+### Как использовать
 
 ```bash
 yarn add @skbkontur/react-ui
 ```
-
-И используем компонентики у себя в проекте:
 
 ```jsx harmony static
 import { Button, Toast } from '@skbkontur/react-ui';
@@ -22,10 +20,6 @@ const MyApp = () => (
   </div>
 );
 ```
-
-Если ругается, что `regeneratorRuntime` не определен, то необходимо подключить `regenerator-runtime` или `@babel/polyfill`, например в `index.html`
-
-Квик-старт подойдёт, если Вебпак настроен на сборку. Например, вы используете `create-react-app`. В противном случае добавьте в конфиг Вебпака `style-`, `css-` и `file-loader`
 
 ### Хотим другой цвет кнопки!
 
@@ -49,25 +43,9 @@ import { Upgrade } from '@skbkontur/react-ui/lib/Upgrades';
 Upgrade.setSpecificityLevel(1);
 ```
 
-Специфичность должна устанавливаться в коде раньше импорта любых компонентов из библионтеки.
+Специфичность должна устанавливаться в коде раньше импорта любых компонентов из библиотеки.
 
-## <a name="FAQ"></a>FAQ
-
-### Сломались стили при использовании css-loader 2.x (create-react-app/CRA 3.x)
-
-Во [2-й версии](https://github.com/webpack-contrib/css-loader/releases/tag/v2.0.0), `css-loader` отключили использование `css-modules` по умолчанию.
-**Решение**: В опциях к `css-loader` явно задать `modules: 'global'`.
-
-### Как использовать react-ui с storybook 5.x?
-
-В 5-й версии изменилось [API сторибука для кастомизации настроек webpack](https://github.com/storybooks/storybook/blob/v5.0.0/MIGRATION.md#webpack-config-simplifcation).
-Кроме того был изменен дефолтный webpack конфиг. Это порождает проблемы вида [storybooks/storybook#4891](https://github.com/storybooks/storybook/issues/4891).
-**Решение**: Заменить лоадеры для `css/less`. Например [так](https://github.com/storybooks/storybook/issues/6319#issuecomment-477852640) на свои
-
-### Возникает ошибка `Error: Can't resolve 'mask-char-font/font.eot'`
-
-Ошибка проявляется при использовании `css-loader@1.x` с выставленой опцией `modules`.
-**Решение**: Обновить `css-loader` до 2-й версии или дополнительно указать опцию `url: false`
+## FAQ
 
 ### Не могу прокинуть css-класс компонентам. Как кастомизировать?
 
