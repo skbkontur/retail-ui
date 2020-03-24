@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.10.0...retail-ui@1.11.0) (2020-03-24)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix autoFocus behavior ([f4bbce5](https://github.com/skbkontur/retail-ui/commit/f4bbce5))
+
+
+### Features
+
+* **TokenInput:** new prop 'maxMenuHeight' ([ea1da66](https://github.com/skbkontur/retail-ui/commit/ea1da66))
+
+
+
+
+
+# [1.10.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.9.0...retail-ui@1.10.0) (2020-03-11)
+
+
+### Bug Fixes
+
+* **Input:** disable user select mask [#1917](https://github.com/skbkontur/retail-ui/issues/1917) ([ef7038f](https://github.com/skbkontur/retail-ui/commit/ef7038f))
+* **SidePage:** make non-blocking SidePage responsive ([#1904](https://github.com/skbkontur/retail-ui/issues/1904)) ([1c6e71a](https://github.com/skbkontur/retail-ui/commit/1c6e71a))
+* **TopBar:** add typings for topbar dropdown props ([784ae38](https://github.com/skbkontur/retail-ui/commit/784ae38)), closes [#1497](https://github.com/skbkontur/retail-ui/issues/1497)
+
+
+### Features
+
+* **TopBar:** remove header in user dropdown  ([5853cb6](https://github.com/skbkontur/retail-ui/commit/5853cb6)), closes [#1726](https://github.com/skbkontur/retail-ui/issues/1726)
+
+
+
+
+
 # [1.9.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.8.1...retail-ui@1.9.0) (2020-02-13)
 
 
