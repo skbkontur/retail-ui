@@ -29,12 +29,30 @@ export const {
 
 export const cssName = (className: string): string => `.${className}`;
 
+function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
+  return fn.length == 0;
+}
+
 const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
-  const zeroArgsKey = Object.create(null);
-  return (arg: A) => {
+  const getCache = (fn: (() => R) | ((arg: A) => R)) => {
     if (!memoCache.has(fn)) memoCache.set(fn, new WeakMap());
-    const argCache = memoCache.get(fn);
-    const key = arg || zeroArgsKey;
+    return memoCache.get(fn);
+  };
+  const zeroArgsKey = Object.create(null);
+
+  if (isZeroArgs(fn)) {
+    return () => {
+      const argCache = getCache(fn);
+      const key = zeroArgsKey;
+
+      if (!argCache.has(key)) argCache.set(key, fn());
+      return argCache.get(key);
+    };
+  }
+
+  return (arg: A) => {
+    const argCache = getCache(fn);
+    const key = arg;
 
     if (!argCache.has(key)) argCache.set(key, fn(arg));
     return argCache.get(key);
