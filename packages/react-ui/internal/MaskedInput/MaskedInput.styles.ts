@@ -34,6 +34,7 @@ const styles = {
       pointer-events: none;
       font-size: inherit;
       z-index: 5;
+      user-select: none;
     `;
   },
 };
