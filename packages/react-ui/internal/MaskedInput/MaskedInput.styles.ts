@@ -5,17 +5,16 @@ import maskCharFontEot from './mask-char-font/font.eot';
 import maskCharFontWoff from './mask-char-font/font.woff';
 import maskCharFontWoff2 from './mask-char-font/font.woff2';
 
-injectGlobal`
-  @font-face {
-    font-family: kontur-mask-char;
-    src: url('${maskCharFontEot}'); /* For IE11 in IE8 mode. */
-    src: url('${maskCharFontEot}?#iefix') format('embedded-opentype'),
-    url('${maskCharFontWoff2}') format('woff2'), url('${maskCharFontWoff}') format('woff');
-  }
-`;
-
 const styles = {
   container() {
+    injectGlobal`
+      @font-face {
+        font-family: kontur-mask-char;
+        src: url('${maskCharFontEot}'); /* For IE11 in IE8 mode. */
+        src: url('${maskCharFontEot}?#iefix') format('embedded-opentype'),
+        url('${maskCharFontWoff2}') format('woff2'), url('${maskCharFontWoff}') format('woff');
+      }
+    `;
     return css`
       position: relative;
       /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
