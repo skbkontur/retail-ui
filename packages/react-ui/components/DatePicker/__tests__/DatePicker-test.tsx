@@ -113,6 +113,13 @@ describe('DatePicker', () => {
     expect(datePicker.find(DropdownContainer)).toHaveLength(0);
   });
 
+  it('open when autoFocus enabled', () => {
+    const datePicker = renderDatePicker({
+      autoFocus: true,
+    });
+    expect(datePicker.find(DropdownContainer)).toHaveLength(1);
+  });
+
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper<any>): string => {
       return wrapper.find(`[data-tid='Picker__todayWrapper']`).text();
@@ -181,7 +188,7 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
       datePicker.setState({ opened: true });
       wrapper.update();
 

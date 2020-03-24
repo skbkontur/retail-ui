@@ -13,7 +13,7 @@ import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 
 import { Picker } from './Picker';
-import { jsStyles } from "./DatePicker.styles";
+import { jsStyles } from './DatePicker.styles';
 
 const INPUT_PASS_PROPS = {
   autoFocus: true,
@@ -158,6 +158,12 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
+
+  public componentDidMount() {
+    if (this.props.autoFocus) {
+      this.focus();
+    }
+  }
 
   public UNSAFE_componentWillReceiveProps(nextProps: DatePickerProps<DatePickerValue>) {
     const { disabled } = nextProps;
