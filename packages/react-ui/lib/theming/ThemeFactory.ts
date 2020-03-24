@@ -1,6 +1,7 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
 
 import { Theme, ThemeIn } from './Theme';
+import { clearCache } from './Emotion';
 
 const IS_THEME_KEY = '__IS_REACT_UI_THEME__';
 
@@ -13,6 +14,7 @@ Object.defineProperty(DefaultThemeInternal, IS_THEME_KEY, {
 
 export class ThemeFactory {
   public static create<T extends {}>(theme: ThemeIn & T): Readonly<Theme & T> {
+    clearCache();
     return Object.freeze(Object.setPrototypeOf(theme, DefaultThemeInternal));
   }
 
