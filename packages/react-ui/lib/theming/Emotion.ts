@@ -47,3 +47,8 @@ export const memoizeStyle = <S extends { [className: string]: (() => string) | (
   Object.keys(styles).forEach(className => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
   return styles;
 };
+
+export const clearCache = () => {
+  flush();
+  memoCache = new WeakMap();
+};
