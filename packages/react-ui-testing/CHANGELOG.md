@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@2.2.7...react-ui-testing@3.0.0) (2020-03-24)
+
+
+### Bug Fixes
+
+* **react-selenuim-testing:** correct work with react@>=16.5 [#1816](https://github.com/skbkontur/retail-ui/issues/1816) ([b7bd5fb](https://github.com/skbkontur/retail-ui/commit/b7bd5fba1e06dd7d4fef3e057fac90e1357708fb))
+
+
+### Code Refactoring
+
+* **Modal:** rename Header/Footer/Body classes ([c373982](https://github.com/skbkontur/retail-ui/commit/c3739827c93e83b5080fbd177711ab7d0f2e0f6f)), closes [#1883](https://github.com/skbkontur/retail-ui/issues/1883)
+
+
+### BREAKING CHANGES
+
+* **Modal:** Header/Footer/Body classes and props inside Modal have been renamed, e.g.: Header
+-> ModalHeader, HeaderProps -> ModalHeaderProps, etc.
+
+
+
+
+
 ## [2.2.7](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@2.2.6...react-ui-testing@2.2.7) (2020-02-06)
 
 

@@ -3,6 +3,97 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0 (2020-03-24)
+
+
+### Bug Fixes
+
+* button/checkbox theme styles actualize ([10ddc66](https://github.com/skbkontur/retail-ui/commit/10ddc668e84bc997a0a332dedace75982d5ba9bf))
+* **checkbox:** sync styles between defalt and flat themes ([e0dcc7b](https://github.com/skbkontur/retail-ui/commit/e0dcc7bc02c281df74e0b7bf841d66065156ea14))
+* **fias:** warning throw exeption ([bb5aa2c](https://github.com/skbkontur/retail-ui/commit/bb5aa2cce8ae33f42fa9fc80b5708b9b5be211df))
+* **TopBar:** add typings for topbar dropdown props ([0c4d88c](https://github.com/skbkontur/retail-ui/commit/0c4d88c38742b1c07d758673e98d4cc09066564e)), closes [#1497](https://github.com/skbkontur/retail-ui/issues/1497)
+
+
+### Code Refactoring
+
+* **Modal:** rename Header/Footer/Body classes ([c373982](https://github.com/skbkontur/retail-ui/commit/c3739827c93e83b5080fbd177711ab7d0f2e0f6f)), closes [#1883](https://github.com/skbkontur/retail-ui/issues/1883)
+* **SidePage:** use latest Context API instead of HOC ([819cdf7](https://github.com/skbkontur/retail-ui/commit/819cdf7d44952f73d59a6a1044bf3cd94d7ca06d)), closes [#1883](https://github.com/skbkontur/retail-ui/issues/1883)
+* **Tab:** use latest Context API instead of HOC ([10e6c32](https://github.com/skbkontur/retail-ui/commit/10e6c3213d039bc18251af0b38e20a263b00019b))
+* **TopBar:** rename inner classes ([ff974b4](https://github.com/skbkontur/retail-ui/commit/ff974b46879d8f8e27a0e3679699db4863eaecc3)), closes [#1883](https://github.com/skbkontur/retail-ui/issues/1883)
+
+
+### Features
+
+* move all theme variables inside js, remove less support ([e219505](https://github.com/skbkontur/retail-ui/commit/e2195058c70424dc7e097cc8d174afbb05a9fd7d))
+* **localecontext:** add  to export ([ad7bb41](https://github.com/skbkontur/retail-ui/commit/ad7bb41316378fe37af8cc6ad9efe15537804f7a))
+* **ThemeContext:** add to export ([bdeb112](https://github.com/skbkontur/retail-ui/commit/bdeb1123e6eb393b56c27c50ddff2f6721d54850))
+
+
+### Performance Improvements
+
+* **Button:** memoize css-in-js styles ([a7934d0](https://github.com/skbkontur/retail-ui/commit/a7934d0a00fe68a1d8fea55737669394730f6fe2))
+* **calendar:** memoize css-in-js styles ([7865514](https://github.com/skbkontur/retail-ui/commit/7865514f6849088aa4665ff85bfec4825d932147))
+* **center:** memoize css-in-js styles ([275593a](https://github.com/skbkontur/retail-ui/commit/275593ab15eaa84b75412163956b45c7203a91ce))
+* **checkbox:** memoize css-in-js styles ([d808cd0](https://github.com/skbkontur/retail-ui/commit/d808cd02dae9ba9a46efb01033b203f33b3259c8))
+* **customcombobox:** memoize css-in-js styles ([984d565](https://github.com/skbkontur/retail-ui/commit/984d565adb51588f1d8ff0fbd50197a51064f169))
+* **DateFragmentsView:** memoize css-in-js styles ([49c8897](https://github.com/skbkontur/retail-ui/commit/49c8897437b79987f2b0c78b8f4ec331d74c7fb9))
+* **datepicker:** memoize css-in-js styles ([364d49e](https://github.com/skbkontur/retail-ui/commit/364d49eb8a836423ab1e4df5c69af14deb0c1187))
+* **dateselect:** memoize css-in-js styles ([7d4c1ac](https://github.com/skbkontur/retail-ui/commit/7d4c1ac3587568a6ffd5b1e32b55eb7b8db8f4c5))
+* **Fias:** memoize css-in-js styles ([02a3d4e](https://github.com/skbkontur/retail-ui/commit/02a3d4e6639fffee9302ef6791e6d3185bd18037))
+* **group:** memoize css-in-js styles ([b68f50b](https://github.com/skbkontur/retail-ui/commit/b68f50bdfa427abea6b1860dbcf4753670a02c83))
+* **hint:** memoize css-in-js styles ([c3117bb](https://github.com/skbkontur/retail-ui/commit/c3117bb1ec60ee350c28d74a957c37e8cbdafe06))
+* **icon16px:** memoize css-in-js styles ([a2e5ae5](https://github.com/skbkontur/retail-ui/commit/a2e5ae5072769c4805cf4b3ced90b9eccd047079))
+* **icon20px:** memoize css-in-js styles ([83fa890](https://github.com/skbkontur/retail-ui/commit/83fa8909ada6927bcb4dc26c65d9b9d1fbc1a143))
+* **Input:** memoize css-in-js styles ([05c8344](https://github.com/skbkontur/retail-ui/commit/05c8344489f6929b1246c08c498b49304229080a))
+* **InputLikeText:** memoize css-in-js styles ([fb5527d](https://github.com/skbkontur/retail-ui/commit/fb5527dacf63545004387d4d8f194cd2efc60485))
+* **internalmenu:** memoize css-in-js styles ([5ca5d8f](https://github.com/skbkontur/retail-ui/commit/5ca5d8f5693da7bbfd2f2b53b96eb50e0cdb25f2))
+* **kebab:** memoize css-in-js styles ([c95a77a](https://github.com/skbkontur/retail-ui/commit/c95a77a5a1b2ac172d54b9c67e93bb32fb96ed66))
+* **link:** memoize css-in-js styles ([e204263](https://github.com/skbkontur/retail-ui/commit/e2042636ac17b988c098a8ca7f0a26fdd99d7506))
+* **loader:** memoize css-in-js styles ([0fcab14](https://github.com/skbkontur/retail-ui/commit/0fcab14f19dcfa87aff058e1470efe1c69bc5559))
+* **logotype:** memoize css-in-js styles ([16449a1](https://github.com/skbkontur/retail-ui/commit/16449a154cd090ad367caeffb49df23dc50a6b88))
+* **MaskedInput:** memoize css-in-js styles ([7cd3695](https://github.com/skbkontur/retail-ui/commit/7cd3695162faa7b5d2ebdf5f7b40c6586aeeaf60))
+* **menu:** memoize css-in-js styles ([ad46309](https://github.com/skbkontur/retail-ui/commit/ad46309ccf6e47946be7f087402d289d6c1a1274))
+* **menuheader:** memoize css-in-js styles ([eff22b1](https://github.com/skbkontur/retail-ui/commit/eff22b16114d5e030ec258c29a6032f9ba9604bd))
+* **menuitem:** memoize css-in-js styles ([02a2275](https://github.com/skbkontur/retail-ui/commit/02a227505fc55b6b16c9429ae70d29b8407d8739))
+* **menuseparator:** memoize css-in-js styles ([e9ac810](https://github.com/skbkontur/retail-ui/commit/e9ac8102b814aa3377dec2c011d66f1e2aa43882))
+* **modal:** memoize css-in-js styles ([f51e7bf](https://github.com/skbkontur/retail-ui/commit/f51e7bf87d5b66b0c5038b893369beb6b0b7dc41))
+* **paging:** memoize css-in-js styles ([56f247c](https://github.com/skbkontur/retail-ui/commit/56f247c5f367f3576f1443b8647516a1af873f37))
+* **PasswordInput:** memoize css-in-js styles ([f09a61e](https://github.com/skbkontur/retail-ui/commit/f09a61e0c7e23452425ce7abb89dc698aded8946))
+* **popup:** memoize css-in-js styles ([da09c09](https://github.com/skbkontur/retail-ui/commit/da09c098264afe2780b927cd8811a9fba9835703))
+* **radio:** memoize css-in-js styles ([ca776fa](https://github.com/skbkontur/retail-ui/commit/ca776fa9bc1a42fd501d87a17a90e21170f0b8d8))
+* **radiogroup:** memoize css-in-js styles ([c3dcc1d](https://github.com/skbkontur/retail-ui/commit/c3dcc1dbee94759806636e54bfda31f073862405))
+* **resizedetector:** memoize css-in-js styles ([1c72573](https://github.com/skbkontur/retail-ui/commit/1c72573622c541d599a7ce9611dd382d26bed595))
+* **scrollcontainer:** memoize css-in-js styles ([3e0e58f](https://github.com/skbkontur/retail-ui/commit/3e0e58f46df6ca42affaadbedda18f94ad80b237))
+* **Select:** memoize css-in-js styles ([1424478](https://github.com/skbkontur/retail-ui/commit/142447824bf212d4b44cac09fe5e791ee9d96139))
+* **sidepage:** memoize css-in-js styles ([4dd2a2a](https://github.com/skbkontur/retail-ui/commit/4dd2a2a269cb1759ba45b1134f32bbbfc488ef9a))
+* **spinner:** memoize css-in-js styles ([edb1835](https://github.com/skbkontur/retail-ui/commit/edb1835821ceb2e8f103484cf705f443e1d7400f))
+* **spinnericon:** memoize css-in-js styles ([7802c51](https://github.com/skbkontur/retail-ui/commit/7802c510f212b5eff44aa10ceaddecd5690fea45))
+* **sticky:** memoize css-in-js styles ([9882179](https://github.com/skbkontur/retail-ui/commit/988217911bcc3ebe39af440d23549eeed10e5d3b))
+* **switcher:** memoize css-in-js styles ([f93bf4c](https://github.com/skbkontur/retail-ui/commit/f93bf4c5674b530237c792a44ba067750626c7db))
+* **tabs:** memoize css-in-js styles ([5a7b13a](https://github.com/skbkontur/retail-ui/commit/5a7b13a995122d2d5f203f0baeed026f211b74a8))
+* **textarea:** memoize css-in-js styles ([b4dec2b](https://github.com/skbkontur/retail-ui/commit/b4dec2be3a080bcf20592013557b4873361a4f34))
+* **themeplayground:** memoize css-in-js styles ([c522503](https://github.com/skbkontur/retail-ui/commit/c52250362fe6a434e9ccbca8e66b22107741a397))
+* **themeshowcase:** memoize css-in-js styles ([89bd313](https://github.com/skbkontur/retail-ui/commit/89bd313fe8292d2854d46b1239adbc1325b454ec))
+* **toast:** memoize css-in-js styles ([20538cf](https://github.com/skbkontur/retail-ui/commit/20538cf272435401f0965904fc3dca37fc479a7f))
+* **toggle:** memoize css-in-js styles ([af43674](https://github.com/skbkontur/retail-ui/commit/af4367448c4f8c62362de50afb4f130324ca7f03))
+* **Token:** memoize css-in-js styles ([426a7fb](https://github.com/skbkontur/retail-ui/commit/426a7fb76f0b4fc31ec2c261e84ee32c5fb90608))
+* **TokenInput:** memoize css-in-js styles ([26f97b5](https://github.com/skbkontur/retail-ui/commit/26f97b5550224b10755020dada2b4bd84d0bee4d))
+* **tooltip:** memoize css-in-js styles ([84d5966](https://github.com/skbkontur/retail-ui/commit/84d59663e910c649bfe4631ba263f0d7d3916404))
+* **TopBar:** memoize css-in-js styles ([291e395](https://github.com/skbkontur/retail-ui/commit/291e39515608ab6f76f5970a4551a53b6b8d73dd))
+
+
+### BREAKING CHANGES
+
+* **TopBar:** Item/ButtonItem/Devider/Logout/Organizations/User have been renamed with 'TopBar'-prefix, e.g.: TopBarItem, etc.
+* **Tab:** use Context API from react@16.6
+* **SidePage:** use Context API from react@16.6
+* **Modal:** Header/Footer/Body classes and props inside Modal have been renamed, e.g.: Header
+-> ModalHeader, HeaderProps -> ModalHeaderProps, etc.
+
+
+
+
+
 # [1.11.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.10.0...retail-ui@1.11.0) (2020-03-24)
 
 
