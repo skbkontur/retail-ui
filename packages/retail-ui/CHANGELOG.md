@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.11.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.10.0...retail-ui@1.11.0) (2020-03-24)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix autoFocus behavior ([f4bbce5](https://github.com/skbkontur/retail-ui/commit/f4bbce5))
+
+
+### Features
+
+* **TokenInput:** new prop 'maxMenuHeight' ([ea1da66](https://github.com/skbkontur/retail-ui/commit/ea1da66))
+
+
+
+
+
 # [1.10.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.9.0...retail-ui@1.10.0) (2020-03-11)
 
 
