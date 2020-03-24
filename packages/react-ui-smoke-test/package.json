@@ -1,6 +1,7 @@
 {
   "name": "react-ui-smoke-test",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "pretest": "rimraf ./temp",
     "test": "cross-env BABEL_ENV=development jest"
