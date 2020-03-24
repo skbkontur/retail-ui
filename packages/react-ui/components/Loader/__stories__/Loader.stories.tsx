@@ -6,10 +6,6 @@ import { Tooltip } from '../../Tooltip';
 import { Button } from '../../Button';
 import { css } from '../../../lib/theming/Emotion';
 
-const loaderClass = css`
-  height: 100%;
-`;
-
 const wrapperStyle = {
   width: '800px',
   background: 'AliceBlue',
@@ -278,22 +274,32 @@ InactiveLoader.story = {
   },
 };
 
-export const WrapperWithCustomHeightAndInactiveLoader = () => (
-  <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>
-    <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
-      <NumberList itemsCount={10} />
-    </div>
-  </ContentComponent>
-);
+export const WrapperWithCustomHeightAndInactiveLoader = () => {
+  const loaderClass = css`
+    height: 100%;
+  `;
+  return (
+    <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>
+      <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
+        <NumberList itemsCount={10} />
+      </div>
+    </ContentComponent>
+  );
+};
 WrapperWithCustomHeightAndInactiveLoader.story = { name: 'Wrapper with custom height and inactive loader' };
 
-export const WrapperWithCustomHeightAndActiveLoader = () => (
-  <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: true }}>
-    <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
-      <NumberList itemsCount={10} />
-    </div>
-  </ContentComponent>
-);
+export const WrapperWithCustomHeightAndActiveLoader = () => {
+  const loaderClass = css`
+    height: 100%;
+  `;
+  return (
+    <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: true }}>
+      <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
+        <NumberList itemsCount={10} />
+      </div>
+    </ContentComponent>
+  );
+};
 WrapperWithCustomHeightAndActiveLoader.story = { name: 'Wrapper with custom height and active loader' };
 
 export const OldSpinner = () => <LoaderOld />;
