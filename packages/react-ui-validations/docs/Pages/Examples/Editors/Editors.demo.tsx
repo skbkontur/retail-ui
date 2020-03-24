@@ -1,23 +1,20 @@
-import * as React from 'react';
+import React from 'react';
 import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 import ThumbUpIcon from '@skbkontur/react-icons/ThumbUp';
-import Button from 'retail-ui/components/Button';
-import Checkbox from 'retail-ui/components/Checkbox';
-import ComboBox from 'retail-ui/components/ComboBox';
-import DatePicker from 'retail-ui/components/DatePicker';
-import Input from 'retail-ui/components/Input';
-import Link from 'retail-ui/components/Link';
-import RadioGroup from 'retail-ui/components/RadioGroup';
-import Select from 'retail-ui/components/Select';
-import Textarea from 'retail-ui/components/Textarea';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox';
+import { ComboBox } from '@skbkontur/react-ui/components/ComboBox';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Link } from '@skbkontur/react-ui/components/Link';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+import { Select } from '@skbkontur/react-ui/components/Select';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea';
 import styled from 'styled-components';
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
+
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface LinkContainerProps {
   error?: boolean;
@@ -42,7 +39,6 @@ export interface ContactInfo {
   clicked: boolean;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo>(b => {
   b.prop(
     x => x.name,
@@ -109,8 +105,6 @@ const validate = createValidator<ContactInfo>(b => {
   );
 });
 
-/* tslint:enable:no-shadowed-variable */
-
 interface State {
   data: ContactInfo;
 }
@@ -144,7 +138,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
               <Input
                 value={data.name}
-                onChange={(_, value) => this.handleChange({ name: value })}
+                onValueChange={value => this.handleChange({ name: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -153,7 +147,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
               <Input
                 value={data.email}
-                onChange={(_, value) => this.handleChange({ email: value })}
+                onValueChange={value => this.handleChange({ email: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -163,16 +157,16 @@ export default class EditorsDemo extends React.Component<{}, State> {
               <Input
                 mask={'+7 999 999-99-99'}
                 value={data.phone}
-                onChange={(_, value) => this.handleChange({ phone: value })}
+                onValueChange={value => this.handleChange({ phone: value })}
               />
             </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Пол">
             <ValidationWrapper validationInfo={v.getNode(x => x.sex).get()}>
-              <RadioGroup
+              <RadioGroup<ContactInfo['sex']>
                 value={data.sex}
-                onChange={(_, value) => this.handleChange({ sex: value })}
+                onValueChange={value => this.handleChange({ sex: value })}
                 items={['male', 'female']}
                 renderItem={x => <span>{x}</span>}
               />
@@ -187,7 +181,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
                 renderItem={x => x}
                 itemToValue={x => x}
                 value={data.city}
-                onChange={(_, value) => this.handleChange({ city: value })}
+                onValueChange={value => this.handleChange({ city: value })}
                 getItems={async query => {
                   const cities = ['City 1', 'City 2', 'City 3'];
                   return query
@@ -202,7 +196,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
 
           <Form.Line title="Вероисповедание">
             <ValidationWrapper validationInfo={v.getNode(x => x.confession).get()}>
-              <Select
+              <Select<ContactInfo['confession'], string>
                 renderItem={x => x}
                 renderValue={x => x}
                 items={[
@@ -211,7 +205,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
                   ['Мормонизм', 'Мормонизм'],
                 ]}
                 value={data.confession}
-                onChange={(_, value) => this.handleChange({ confession: value })}
+                onValueChange={value => this.handleChange({ confession: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -220,7 +214,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.confirmed).get()}>
               <Checkbox
                 checked={data.confirmed}
-                onChange={(_, value) => this.handleChange({ confirmed: value })}
+                onValueChange={value => this.handleChange({ confirmed: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -230,7 +224,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
               <Textarea
                 placeholder="Введите текст"
                 value={data.about}
-                onChange={(_, value) => this.handleChange({ about: value })}
+                onValueChange={value => this.handleChange({ about: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -239,7 +233,7 @@ export default class EditorsDemo extends React.Component<{}, State> {
             <ValidationWrapper validationInfo={v.getNode(x => x.born).get()}>
               <DatePicker
                 value={data.born}
-                onChange={(_, value) => this.handleChange({ born: value })}
+                onValueChange={value => this.handleChange({ born: value })}
               />
             </ValidationWrapper>
           </Form.Line>

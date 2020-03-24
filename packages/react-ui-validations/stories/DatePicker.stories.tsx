@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react';
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import DatePicker from 'retail-ui/components/DatePicker';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
@@ -31,7 +32,7 @@ class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
       <div style={{ padding: '20px 20px' }}>
         <ValidationContainer ref={this.refContainer}>
           <ValidationWrapper validationInfo={this.validateValue()}>
-            <DatePicker value={this.state.value as any} onChange={(e, value) => this.setState({ value })} />
+            <DatePicker value={this.state.value as any} onValueChange={value => this.setState({ value })} />
           </ValidationWrapper>
           <div style={{ padding: '100px 0' }}>
             <Button onClick={() => this.container && this.container.validate()}>Check</Button>

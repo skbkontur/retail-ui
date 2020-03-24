@@ -211,7 +211,7 @@ object RetailUiTags : GitVcsRoot({
   name = "retail-ui tags"
   url = "https://github.com/skbkontur/retail-ui.git"
   branchSpec = """
-        +:refs/tags/retail-ui@*
+        +:refs/tags/@skbkontur/react-ui@*
     """.trimIndent()
   useTagsAsBranches = true
 })
@@ -232,8 +232,8 @@ object ReactUI_BuildRetailUi : BuildType({
   name = "Build"
 
   artifactRules = """
-        packages\retail-ui\retail-ui-%build.number%.tgz
-        packages\retail-ui\skbkontur-react-ui-%build.number%.tgz
+        packages\react-ui\.storybook\build\default => storybook-default-%build.number%.zip
+        packages\react-ui\skbkontur-react-ui-%build.number%.tgz
     """.trimIndent()
 
   vcs {
@@ -249,23 +249,20 @@ object ReactUI_BuildRetailUi : BuildType({
     step {
       name = "Build"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace retail-ui build")
-    }
-    step {
-      name = "Pack retail-ui"
-      type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace retail-ui pack --filename retail-ui-%build.counter%.tgz")
+      param("yarn_commands", "workspace @skbkontur/react-ui build")
     }
     step {
       name = "Pack @skbkontur/react-ui"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace retail-ui --cwd ./build pack --filename skbkontur-react-ui-%build.counter%.tgz")
+      param("yarn_commands", "workspace @skbkontur/react-ui --cwd ./build pack --filename skbkontur-react-ui-%build.counter%.tgz")
     }
   }
 })
 
 object ReactUI_LintTest : BuildType({
   name = "Lint/Test"
+
+  artifactRules = "packages/react-ui-smoke-test/temp/reactUIControls.png => smokeReactUI.zip"
 
   vcs {
     root(RetailUi)
@@ -280,12 +277,17 @@ object ReactUI_LintTest : BuildType({
     step {
       name = "Lint"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace retail-ui lint")
+      param("yarn_commands", "workspace @skbkontur/react-ui lint")
     }
     step {
       name = "Test"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace retail-ui test")
+      param("yarn_commands", "workspace @skbkontur/react-ui test")
+    }
+    step {
+      name = "Smoke test"
+      type = "jonnyzzz.yarn"
+      param("yarn_commands", "workspace react-ui-smoke-test test")
     }
   }
 })
@@ -314,8 +316,8 @@ object ReactUI_Publish : BuildType({
     }
     step {
       name = "Publish"
-      type = "jonnyzzz.npm"
-      param("npm_commands", "publish ./packages/retail-ui/")
+      type = "jonnyzzz.yarn"
+      param("yarn_commands", "workspace @skbkontur/react-ui release")
     }
     step {
       name = "Clean"
@@ -327,7 +329,7 @@ object ReactUI_Publish : BuildType({
 
   triggers {
     vcs {
-      branchFilter = "+:retail-ui@*"
+      branchFilter = "+:@skbkontur/react-ui@*"
     }
   }
 
@@ -344,7 +346,7 @@ object ReactUI_Publish : BuildType({
 object ReactUI_ScreenshotTests : BuildType({
   name = "Screenshot tests"
 
-  artifactRules = "packages/retail-ui/.creevey/report => report.zip"
+  artifactRules = "packages/react-ui/.creevey/report => report.zip"
 
   vcs {
     root(RetailUi)
@@ -359,19 +361,19 @@ object ReactUI_ScreenshotTests : BuildType({
     step {
       name = "Build Storybook"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace retail-ui storybook:build")
+      param("yarn_commands", "workspace @skbkontur/react-ui storybook:build")
     }
     script {
       name = "Start"
       scriptContent = """
-                start /b yarn workspace retail-ui storybook:serve
+                start /b yarn workspace @skbkontur/react-ui storybook:serve
                 ping 127.0.0.1 -n 11
             """.trimIndent()
     }
     step {
       name = "Test UI"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace retail-ui creevey")
+      param("yarn_commands", "workspace @skbkontur/react-ui creevey")
     }
   }
 
@@ -468,7 +470,7 @@ object SeleniumTesting_Test : BuildType({
       name = "Build"
       type = "jonnyzzz.yarn"
       param("yarn_commands", """
-                workspace retail-ui build
+                workspace @skbkontur/react-ui build
                 workspace react-ui-testing build
             """.trimIndent())
     }

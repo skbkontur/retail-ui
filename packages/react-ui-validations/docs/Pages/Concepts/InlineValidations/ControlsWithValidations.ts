@@ -1,6 +1,7 @@
-import * as React from 'react';
-import DatePicker from 'retail-ui/components/DatePicker';
-import Input from 'retail-ui/components/Input';
+import React from 'react';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
 import { RenderErrorMessage, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 
@@ -65,7 +66,9 @@ function prepareProps<TValue, TProps extends { value?: any }>(
 }
 
 type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer P>
-  ? (P extends { value?: any } ? P : never)
+  ? P extends { value?: any }
+    ? P
+    : never
   : never;
 
 type ExtractValue<TComponent> = ExtractProps<TComponent> extends { value?: null | infer TValue } ? TValue : never;
@@ -81,7 +84,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
   return props => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
-    return React.createElement(ValidationWrapper, { ...validationWrapperProps, children: control });
+    return React.createElement(ValidationWrapper, validationWrapperProps, control);
   };
 }
 
@@ -91,7 +94,7 @@ const WrappedDatePicker = wrapControl(DatePicker);
 export { WrappedInput as Input };
 export { WrappedDatePicker as DatePicker };
 
-export function lessThanDate(value: Date): ((value: Nullable<string>) => Nullable<ValidationInfo>) {
+export function lessThanDate(value: Date): (value: Nullable<string>) => Nullable<ValidationInfo> {
   return actualValue => {
     const actual = parseDate(actualValue);
     if (actual && !(actual < value)) {

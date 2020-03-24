@@ -1,10 +1,9 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Gapped from 'retail-ui/components/Gapped';
-import Input from 'retail-ui/components/Input';
-import { text, ValidationInfo } from '../../src';
-import ValidationContainer from '../../src/ValidationContainer';
-import ValidationWrapper from '../../src/ValidationWrapper';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
@@ -19,7 +18,7 @@ interface SingleInputPageState {
   validation: ValidationState;
 }
 
-export default class SingleInputPage extends React.Component<SingleInputPageProps, SingleInputPageState> {
+export class SingleInputPage extends React.Component<SingleInputPageProps, SingleInputPageState> {
   public state: SingleInputPageState = {
     sending: false,
     value: this.props.initialValue || '',
@@ -44,7 +43,7 @@ export default class SingleInputPage extends React.Component<SingleInputPageProp
         <div style={{ padding: 30 }}>
           <Gapped vertical>
             <ValidationWrapper data-tid="InputValidation" validationInfo={this.validate()} renderMessage={text()}>
-              <Input data-tid={'Input'} value={this.state.value} onChange={(_, value) => this.setState({ value })} />
+              <Input data-tid={'Input'} value={this.state.value} onValueChange={value => this.setState({ value })} />
             </ValidationWrapper>
             <Gapped wrap verticalAlign="middle">
               <Button data-tid={'SubmitButton'} loading={this.state.sending} onClick={this.handleSubmit}>

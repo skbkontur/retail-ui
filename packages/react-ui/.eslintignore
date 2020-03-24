@@ -1,0 +1,12 @@
+node_modules
+/docs/dist/
+/docs/src/components/DemoPage.js
+/testing/react-devtools/
+coverage
+gemini-report
+styleguide
+storybook-static
+build
+lib/**/*.js
+components/**/*.js
+*.d.ts

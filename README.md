@@ -2,14 +2,14 @@
 
 ## Пакеты
 
-- **retail-ui:** библиотека компонентов ([readme](packages/retail-ui/README.md), [changelog](packages/retail-ui/CHANGELOG.md), [roadmap](packages/retail-ui/ROADMAP.md))
+- **react-ui:** библиотека компонентов ([readme](packages/react-ui/README.md), [changelog](packages/react-ui/CHANGELOG.md), [roadmap](packages/react-ui/ROADMAP.md))
 - **react-ui-validations** - библиотека валидации ([readme](packages/react-ui-validations/README.md))
 - **react-ui-selenium** - пакет для скриншотных тестов библиотеки компонентов
-- **react-ui-codemodes** - коллекция кодмод для разных целей и задач
+- **react-ui-codemod** - коллекция кодмод для разных целей и задач ([readme](packages/react-ui-codemod/README.md))
 
 ## Установка и запуск
 
-Для управления репозиторием и пакетами используется **[lernajs](https://lernajs.io/)** (используется для публикации **retail-ui** в npm) и **[yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/)**.
+Для управления репозиторием и пакетами используется **[lernajs](https://lernajs.io/)** (используется для публикации **react-ui** в npm) и **[yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/)**.
 
 Установка зависимостей для всех пакетов:
 
@@ -17,8 +17,8 @@
 $ yarn
 ```
 
-Пример запуска **storybook** в retail-ui:
+Пример запуска **storybook** в react-ui:
 
 ```sh
-$ yarn workspace retail-ui storybook
+$ yarn workspace @skbkontur/react-ui storybook
 ```
