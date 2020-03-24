@@ -5,6 +5,8 @@ import { Upgrade } from '../Upgrades';
 
 import { Theme } from './Theme';
 
+let memoCache = new WeakMap();
+
 const PREFIX = 'react-ui';
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${PREFIX}`).join('');
@@ -27,27 +29,15 @@ export const {
 
 export const cssName = (className: string): string => `.${className}`;
 
-function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
-  return fn.length == 0;
-}
-
 const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
-  if (isZeroArgs(fn)) {
-    let isCalled = false;
-    let result: R;
-    return () => {
-      if (!isCalled) {
-        isCalled = true;
-        result = fn();
-      }
-      return result;
-    };
-  }
-
-  const cache = new WeakMap();
+  const zeroArgsKey = Object.create(null);
   return (arg: A) => {
-    if (!cache.has(arg)) cache.set(arg, fn(arg));
-    return cache.get(arg);
+    if (!memoCache.has(fn)) memoCache.set(fn, new WeakMap());
+    const argCache = memoCache.get(fn);
+    const key = arg || zeroArgsKey;
+
+    if (!argCache.has(key)) argCache.set(key, fn(arg));
+    return argCache.get(key);
   };
 };
 
