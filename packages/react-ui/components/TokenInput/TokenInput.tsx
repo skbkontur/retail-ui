@@ -61,6 +61,7 @@ export interface TokenInputProps<T> {
   warning?: boolean;
   disabled?: boolean;
   width?: string | number;
+  maxMenuHeight?: number | string;
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
 }
 
@@ -161,6 +162,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const {
       selectedItems,
       width,
+      maxMenuHeight,
       error,
       warning,
       disabled,
@@ -233,6 +235,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               items={autocompleteItems}
               loading={loading}
               opened={showMenu}
+              maxMenuHeight={maxMenuHeight}
               anchorElement={this.input!}
               inputValue={inputValue}
               renderNotFound={renderNotFound}

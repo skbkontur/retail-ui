@@ -51,8 +51,6 @@ npx react-ui-codemod react-ui-2.0/transformImportsAndExports.ts FILES_PATH
 
 ### react-ui-2.0/transformOnChange.ts
 
-> Применяется только после `transformInputsAndExports`
-
 Трансформирует пропы "onChange" в соответствии с изменениями #1859. Смотри таблицу изменений в #1843.
 
 ```
@@ -78,8 +76,6 @@ npx react-ui-codemod react-ui-2.0/moveToAddons.ts FILES_PATH --component=COMPONE
 | `component` | Имя отдельного компонента для трансформации, например "Fias" | По умелчанию применяется ко всем компонентам |
 
 ### react-ui-2.0/addCloudProp.ts
-
-> Применяется только после `transformInputsAndExports`
 
 Добавляет проп "cloud" на Loader и Spinner в соответствии с изменениями #1848. Может быть применен к отдельным компонентам.
 

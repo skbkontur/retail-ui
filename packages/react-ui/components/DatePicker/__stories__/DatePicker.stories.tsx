@@ -217,8 +217,13 @@ WithMouseeventHandlers.story = {
   },
 };
 
-export const _DatePickerWithError = () => <DatePickerWithError />;
-_DatePickerWithError.story = { name: 'DatePickerWithError', parameters: { creevey: { skip: [true] } } };
+export const WithAutoFocus = () => (
+  <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
+);
+WithAutoFocus.story = { name: 'with autoFocus', parameters: { creevey: { skip: [true] } } };
+
+export const DatePickerWithErrorStory = () => <DatePickerWithError />;
+DatePickerWithErrorStory.story = { name: 'DatePickerWithError', parameters: { creevey: { skip: [true] } } };
 
 export const DatePickerDisabled = () => <DatePickerWithError disabled />;
 DatePickerDisabled.story = { name: 'DatePicker disabled', parameters: { creevey: { skip: [true] } } };

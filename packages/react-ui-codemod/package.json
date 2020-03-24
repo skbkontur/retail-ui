@@ -1,6 +1,6 @@
 {
   "name": "react-ui-codemod",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "index.js",
   "license": "MIT",
   "bin": {
@@ -9,12 +9,16 @@
   "dependencies": {
     "ast-types": "0.13.2",
     "jest": "^24.9.0",
-    "jscodeshift": "^0.6.4"
+    "jscodeshift": "^0.7.0"
   },
   "scripts": {
     "test": "jest"
   },
   "devDependencies": {
-    "@types/jscodeshift": "^0.6.3"
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jscodeshift": "^0.6.3",
+    "babel-jest": "^24.9.0"
   }
 }
