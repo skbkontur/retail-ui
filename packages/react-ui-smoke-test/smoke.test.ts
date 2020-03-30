@@ -1,9 +1,11 @@
 import path from 'path';
 import fs from 'fs';
+import os from 'os';
 import { ChildProcess, spawn, execSync } from 'child_process';
 
 import puppeteer from 'puppeteer';
 import waitOn from 'wait-on';
+import ip from 'ip';
 
 const LOAD_PAGE_TIMEOUT = 60000;
 const BUILD_REACTUI_TIMEOUT = 120000;
@@ -47,6 +49,9 @@ describe('React-ui smoke test', () => {
     async () => {
       initApplication(appDirectory, templateDirectory, reactUIPackagePath);
       buildServerProcess = runDevServer(appDirectory);
+      execSync(`ping http://localhost:3000`, { stdio: 'inherit' });
+      execSync(`ping http://${os.hostname()}:3000`, { stdio: 'inherit' });
+      execSync(`ping http://${ip.address()}:3000`, { stdio: 'inherit' });
       await openPageOnBrowser(screenshotPath);
 
       expect(console.error).not.toBeCalled();
