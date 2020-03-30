@@ -287,7 +287,7 @@ object ReactUI_LintTest : BuildType({
     step {
       name = "Smoke test"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace react-ui-smoke-test test")
+      param("yarn_commands", "workspace react-ui-smoke-test debug")
     }
   }
 })

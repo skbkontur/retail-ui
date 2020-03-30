@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "pretest": "rimraf ./temp",
-    "test": "cross-env BABEL_ENV=development jest"
+    "test": "cross-env BABEL_ENV=development jest",
+    "debug": "cross-env BABEL_ENV=development rimraf ./temp && node debug.js"
   },
   "license": "MIT",
   "devDependencies": {
