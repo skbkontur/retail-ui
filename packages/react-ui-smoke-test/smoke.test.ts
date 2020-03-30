@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
+import http from 'http';
 import { ChildProcess, spawn, execSync } from 'child_process';
 
 import puppeteer from 'puppeteer';
@@ -50,9 +51,9 @@ describe('React-ui smoke test', () => {
       initApplication(appDirectory, templateDirectory, reactUIPackagePath);
       buildServerProcess = runDevServer(appDirectory);
 
-      execSync(`ping localhost -n 100`, { stdio: 'inherit' });
-      execSync(`ping ${os.hostname()} -n 100`, { stdio: 'inherit' });
-      execSync(`ping ${ip.address()} -n 100`, { stdio: 'inherit' });
+      await wait(LOAD_PAGE_TIMEOUT);
+      const check = await checkUrl(`http://${ip.address()}:3000`);
+      console.log(check);
 
       await openPageOnBrowser(screenshotPath);
 
@@ -139,4 +140,25 @@ function getPackagePathOnTeamcity(): string {
     return path.join(repositoryPath, packageName);
   }
   throw new Error(`react-ui tgz package not found into "${repositoryPath}" directory`);
+}
+
+function wait(time: number): Promise<string> {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function checkUrl(url: string): Promise<string> {
+  return new Promise((resolve, reject) =>
+    http.get(url, res => {
+      if (res.statusCode !== 200) {
+        console.dir(res, { depth: null });
+        return reject(new Error(`Couldn't resolve real ip for \`localhost\`. Status code: ${res.statusCode}`));
+      }
+
+      let data = '';
+
+      res.setEncoding('utf8');
+      res.on('data', chunk => (data += chunk));
+      res.on('end', () => resolve(data));
+    }),
+  );
 }
