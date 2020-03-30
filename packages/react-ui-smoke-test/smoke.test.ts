@@ -49,8 +49,6 @@ describe('React-ui smoke test', () => {
     async () => {
       initApplication(appDirectory, templateDirectory, reactUIPackagePath);
       buildServerProcess = runDevServer(appDirectory);
-      execSync(`ping http://localhost:3000`, { stdio: 'inherit' });
-      execSync(`ping http://${os.hostname()}:3000`, { stdio: 'inherit' });
       execSync(`ping http://${ip.address()}:3000`, { stdio: 'inherit' });
       await openPageOnBrowser(screenshotPath);
 
@@ -116,7 +114,7 @@ async function openPageOnBrowser(screenshotPath: string) {
     console.error(`BROWSER: name: ${msg.name}\nmessage: ${msg.message}\nstack: ${msg.stack}`);
   });
 
-  const applicationHost = `http://localhost:3000`;
+  const applicationHost = `http://${ip.address()}:3000`;
   await waitOn({ resources: [applicationHost], timeout: LOAD_PAGE_TIMEOUT });
   await page.goto(applicationHost);
   await page.screenshot({ path: screenshotPath });
