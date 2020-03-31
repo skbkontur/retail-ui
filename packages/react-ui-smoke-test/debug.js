@@ -2,13 +2,13 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const http = require('http');
-const { ChildProcess, spawn, execSync } = require('child_process');
+const { ChildProcess, spawn, spawnSync, execSync } = require('child_process');
 
 const puppeteer = require('puppeteer');
 const waitOn = require('wait-on');
 const ip = require('ip');
 
-const LOAD_PAGE_TIMEOUT = 60000;
+const LOAD_PAGE_TIMEOUT = 300000;
 const BUILD_REACTUI_TIMEOUT = 120000;
 const TIMEOUT = 240000;
 
@@ -43,10 +43,10 @@ process.on('unhandledRejection', reason => {
   initApplication(appDirectory, templateDirectory, reactUIPackagePath);
   buildServerProcess = runDevServer(appDirectory);
 
-  await wait(LOAD_PAGE_TIMEOUT);
-  console.log(await checkUrl(`http://${os.hostname()}:3000`));
+  // await wait(LOAD_PAGE_TIMEOUT);
+  // console.log(await checkUrl(`http://localhost:3000`));
 
-  await openPageOnBrowser(screenshotPath);
+  // await openPageOnBrowser(screenshotPath);
 })();
 
 // AFTER
@@ -75,7 +75,7 @@ function initApplication(appDirectory, templateDirectory, reactUIPackagePath) {
 }
 
 function runDevServer(appFolder) {
-  return spawn('node', ['node_modules/react-scripts/bin/react-scripts.js', 'start'], {
+  return spawnSync('node', ['node_modules/react-scripts/bin/react-scripts.js', 'start'], {
     env: {
       ...process.env,
       BROWSER: 'none',
