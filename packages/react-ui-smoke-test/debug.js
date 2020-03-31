@@ -1,4 +1,1 @@
-const { spawnSync } = require('child_process');
-const path = require('path');
-
-spawnSync('node', [path.join(__dirname, './child.js')], { stdio: 'inherit' });
+require('child_process').spawnSync('node', ['-e', 'process.stdin.resume()'], { stdio: 'inherit', shell: true });
