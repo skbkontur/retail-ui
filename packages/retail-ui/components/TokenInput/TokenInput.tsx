@@ -83,6 +83,16 @@ export interface TokenInputState<T> {
   loading?: boolean;
 }
 
+export const DefaultState = {
+  inputValue: '',
+  autocompleteItems: undefined,
+  activeTokens: [],
+  inFocus: false,
+  loading: false,
+  preventBlur: false,
+  inputValueWidth: 20,
+};
+
 const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
 const defaultRenderToken = <T extends any>(
@@ -112,11 +122,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     onMouseLeave: emptyHandler,
   };
 
-  public state: TokenInputState<T> = {
-    inputValue: '',
-    inputValueWidth: 20,
-    activeTokens: [],
-  };
+  public state: TokenInputState<T> = DefaultState;
 
   private theme!: ITheme;
   private input: HTMLInputElement | null = null;
@@ -265,7 +271,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
    * @public
    */
   public reset() {
-    this.dispatch({ type: 'CLEAR_INPUT' });
+    this.dispatch({ type: 'RESET' });
   }
 
   private hasValueInItems = (items: T[], value: T) => {
@@ -560,7 +566,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const newItems = this.props.selectedItems.concat([item]);
     this.props.onChange(newItems);
 
-    this.reset();
+    this.dispatch({ type: 'CLEAR_INPUT' });
     this.tryGetItems();
   };
 
@@ -573,7 +579,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     const newItems = this.props.selectedItems.concat([value]);
     this.props.onChange(newItems);
 
-    this.reset();
+    this.dispatch({ type: 'CLEAR_INPUT' });
     this.tryGetItems();
   };
 
