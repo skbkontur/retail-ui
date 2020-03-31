@@ -39,9 +39,9 @@ process.on('unhandledRejection', reason => {
 });
 
 // ACTIOn
-(async () => {
+(() => {
   initApplication(appDirectory, templateDirectory, reactUIPackagePath);
-  buildServerProcess = runDevServer(appDirectory);
+  runDevServer(appDirectory);
 
   // await wait(LOAD_PAGE_TIMEOUT);
   // console.log(await checkUrl(`http://localhost:3000`));
@@ -50,10 +50,10 @@ process.on('unhandledRejection', reason => {
 })();
 
 // AFTER
-console.error = globalConsoleError;
-if (buildServerProcess && !buildServerProcess.killed) {
-  buildServerProcess.kill();
-}
+// console.error = globalConsoleError;
+// if (buildServerProcess && !buildServerProcess.killed) {
+//   buildServerProcess.kill();
+// }
 
 function buildReactUI(reactUIPackagePath) {
   const reactUIPath = path.join(__dirname, '../react-ui');
