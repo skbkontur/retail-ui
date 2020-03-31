@@ -1,25 +1,28 @@
 # 2020
 
+- [ ] Создание компонента Grid Layout
+- [ ] Объединить Popup/DropdownContainer [#913](https://github.com/skbkontur/retail-ui/issues/913)
+- [ ] Поддержка онлайн IDE (codesandbox)
+- [ ] Переезд документации на Storybook
+- [ ] Интеграция скриншотных тестов КЭвеба и CandyForms в релизный цикл
+- [ ] Дизайн решения по сбору [#1539](https://github.com/skbkontur/retail-ui/issues/1539) и отправке [#1566](https://github.com/skbkontur/retail-ui/issues/1566) телеметрии
 - [ ] Реализация компонента списка уведомлений
 - [ ] Реализация компонента загрузки файлов
-- [ ] Компонент Grid Layout
-- [ ] Поддержка онлайн IDE (codesandbox)
-- [ ] Поддержка мобильной версии компонентов
 
-### 2.x.x Февраль — Август 2020
+### 2.x.x Апрель — Июнь 2020
 
-- [ ] Создание и выпуск темы с новыми размерами контролов для поддержки 8px сетки по Контур.Гайдам #1733
+- [ ] Создание и выпуск темы с новыми размерами контролов для поддержки 8px сетки по Контур.Гайдам [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
+- [ ] Старт поддержки мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963)
 - [ ] Встраивание метрик [#1555](https://github.com/skbkontur/retail-ui/issues/1555)
-- [ ] Дизайн решения по сбору [#1539](https://github.com/skbkontur/retail-ui/issues/1539) и отправке [#1566](https://github.com/skbkontur/retail-ui/issues/1566) телеметрии
-- [ ] Интеграция скриншотных тестов КЭвеба и CandyForms в релизный цикл
 
-### 2.0.0 Февраль 2020
+### 2.0.0 Март 2020
 
-- [ ] Уменьшение техдолга [#1578](https://github.com/skbkontur/retail-ui/issues/1578)
-- [ ] Переезд всех стилей с Less на CSS-in-JS [#1625](https://github.com/skbkontur/retail-ui/issues/1625)
-- [ ] Перенос kontur-specific компонентов в приватную библиотеку (Fias, TopBar, Logotype, Spinner) [#1842](https://github.com/skbkontur/retail-ui/issues/1842)
-- [ ] Реорганизация файлов компонентов в библиотеке для упрощения импорта и работы tree-shaking [#1772](https://github.com/skbkontur/retail-ui/issues/1772)
-- [ ] Отказ от retail-ui, паблиш только пакета @skbkontur/react-ui
+- [x] [Релиз 2.0](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md) 
+- [x] Уменьшение техдолга [#1578](https://github.com/skbkontur/retail-ui/issues/1578)
+- [x] Переезд всех стилей с Less на CSS-in-JS [#1625](https://github.com/skbkontur/retail-ui/issues/1625)
+- [x] Перенос kontur-specific компонентов в приватную библиотеку (Fias, TopBar, Logotype, Spinner) [#1842](https://github.com/skbkontur/retail-ui/issues/1842)
+- [x] Реорганизация файлов компонентов в библиотеке для упрощения импорта и работы tree-shaking [#1772](https://github.com/skbkontur/retail-ui/issues/1772)
+- [x] Отказ от retail-ui, паблиш только пакета @skbkontur/react-ui
 
 # 2019
 
