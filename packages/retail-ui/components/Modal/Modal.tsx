@@ -52,6 +52,11 @@ export interface ModalProps {
    * Escape или на крестик).
    */
   onClose?: () => void;
+
+  /**
+   * Не использовать фокус-лок внутри модалки.
+   */
+  disableFocusLock?: boolean;
 }
 
 export interface ModalState {
@@ -295,7 +300,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   // TODO: без порталов ломается сохранение фокуса внутри модалки
   // NOTE: в ie нормально не работает
   private isDisableFocusLock = () => {
-    return !ReactDOM.createPortal || isIE;
+    return !ReactDOM.createPortal || isIE || this.props.disableFocusLock;
   };
 
   private handleResize = (event: UIEvent) => {
