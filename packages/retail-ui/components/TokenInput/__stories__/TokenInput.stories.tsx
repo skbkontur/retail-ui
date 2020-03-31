@@ -154,26 +154,12 @@ class ColoredWrapper extends React.Component<any, any> {
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
-class WrapperCustomAddButton extends React.Component<any, { inputValue: string }> {
-  constructor(props: any) {
-    super(props);
-    this.state = { inputValue: '' };
-  }
-
+class WrapperCustomAddButton extends React.Component {
   public render() {
-    return (
-      <Wrapper
-        type={TokenInputType.Combined}
-        getItems={getItems}
-        onInputChange={this.onInputChange}
-        renderAddButton={this.renderAddButton}
-      />
-    );
+    return <Wrapper type={TokenInputType.Combined} getItems={getItems} renderAddButton={this.renderAddButton} />;
   }
 
-  private onInputChange = (inputValue: string) => this.setState({ inputValue });
-
-  private renderAddButton = () => <MenuItem key="addButton">{this.state.inputValue}</MenuItem>;
+  private renderAddButton = (value?: string) => <MenuItem key="addButton">{value}</MenuItem>;
 }
 
 // tslint:disable jsx-no-lambda
