@@ -29,6 +29,9 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './TokenInput.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { locale } from '../LocaleProvider/decorators';
+import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
+import MenuItem from '../MenuItem/MenuItem';
 
 export enum TokenInputType {
   WithReference,
@@ -47,8 +50,8 @@ export interface TokenInputProps<T> {
   type?: TokenInputType;
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
-  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
-  renderValue: (item: T) => React.ReactNode;
+  renderItem: (item: T, state: MenuItemState) => ReactNode | null;
+  renderValue: (item: T) => ReactNode;
 
   /**
    * Функция должна возвращать строковое представление токена
@@ -56,7 +59,7 @@ export interface TokenInputProps<T> {
    */
   valueToString: (item: T) => string;
 
-  renderNotFound?: () => React.ReactNode;
+  renderNotFound?: () => ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
@@ -66,7 +69,11 @@ export interface TokenInputProps<T> {
   disabled?: boolean;
   width?: string | number;
   renderToken?: (item: T, props: Partial<TokenProps & TokenActions>) => ReactNode;
-  renderAddButton?: () => React.ReactNode;
+
+  /**
+   * Функция отрисовки кнопки добавления в выпадающем списке
+   */
+  renderAddButton?: (query?: string) => ReactNode;
 
   /**
    * Вызывается при изменении текста в поле ввода,
@@ -103,6 +110,7 @@ const defaultRenderToken = <T extends any>(
   </Token>
 );
 
+@locale('TokenInput', TokenInputLocaleHelper)
 export default class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
 
@@ -127,6 +135,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     activeTokens: [],
   };
 
+  private readonly locale!: TokenInputLocale;
   private theme!: ITheme;
   private input: HTMLInputElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
@@ -191,7 +200,6 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       hideMenuIfEmptyInputValue,
       onMouseEnter,
       onMouseLeave,
-      renderAddButton,
     } = this.props;
 
     const { activeTokens, inFocus, inputValueWidth, inputValue, autocompleteItems, loading } = this.state;
@@ -257,13 +265,10 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
               loading={loading}
               opened={showMenu}
               anchorElement={this.input!}
-              inputValue={inputValue}
               renderNotFound={renderNotFound}
               renderItem={renderItem}
-              onAddItem={this.handleAddItem}
               onChange={this.handleChange}
-              showAddItemHint={this.showAddItemHint}
-              renderAddButton={renderAddButton}
+              renderAddButton={this.renderAddButton}
             />
           )}
         </label>
@@ -716,5 +721,23 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
       onRemove: handleIconClick,
       disabled,
     });
+  };
+
+  private renderAddButton = (): React.ReactNode | undefined => {
+    if (!this.showAddItemHint) {
+      return;
+    }
+
+    if (this.props.renderAddButton) {
+      return this.props.renderAddButton(this.state.inputValue);
+    }
+
+    const { addButtonComment, addButtonTitle } = this.locale;
+
+    return (
+      <MenuItem onClick={this.handleAddItem} comment={addButtonComment} key="renderAddButton">
+        {addButtonTitle} {this.state.inputValue}
+      </MenuItem>
+    );
   };
 }
