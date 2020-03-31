@@ -71,7 +71,7 @@ export interface TokenInputProps<T> {
   /**
    * Вызывается при изменении текста в поле ввода,
    */
-  onInputChange?: (value: string) => void;
+  onInputValueChange?: (value: string) => void;
 
   /**
    * @deprecated Use `renderToken` prop instead
@@ -614,13 +614,11 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     if (this.state.inputValue !== '' && query === '') {
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
     }
-    this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => {
-      if (this.props.onInputChange) {
-        this.props.onInputChange(query);
-      }
+    this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => this.tryGetItems(query));
 
-      return this.tryGetItems(query);
-    });
+    if (this.props.onInputValueChange) {
+      this.props.onInputValueChange(query);
+    }
   };
 
   private highlightMenuItem = () => {
