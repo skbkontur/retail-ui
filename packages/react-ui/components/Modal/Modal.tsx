@@ -24,9 +24,6 @@ import { jsStyles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
-// NOTE: в ie нормально не работает
-const isDisableFocusLock = isIE11;
-
 export interface ModalProps {
   /**
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
@@ -54,6 +51,12 @@ export interface ModalProps {
    * Escape или на крестик).
    */
   onClose?: () => void;
+
+  /**
+   * Не использовать фокус-лок внутри модалки.
+   * По умолчанию true для IE11.
+   */
+  disableFocusLock?: boolean;
 }
 
 export interface ModalState {
@@ -93,6 +96,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       }
     },
   };
+
+  // NOTE: в ie нормально не работает
+  public static defaultProps = { disableFocusLock: isIE11 };
 
   public state: ModalState = {
     stackPosition: 0,
@@ -215,7 +221,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             >
               <div className={jsStyles.window(this.theme)} style={style}>
                 <ResizeDetector onResize={this.handleResize}>
-                  <FocusLock disabled={isDisableFocusLock} autoFocus={false}>
+                  <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
                       <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
                         <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
