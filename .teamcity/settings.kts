@@ -262,15 +262,13 @@ object ReactUI_BuildRetailUi : BuildType({
 object ReactUI_LintTest : BuildType({
   name = "Lint/Test"
 
-  artifactRules = "packages/react-ui-smoke-test/temp/reactUIControls.png => smokeReactUI.zip"
-
   vcs {
     root(RetailUi)
   }
 
   steps {
     step {
-        name = "Smoke test"
+        name = "Debug TeamCity"
         type = "jonnyzzz.node"
         param("node_file", "debug-teamcity.js")
         param("node_execution_mode", "file")
