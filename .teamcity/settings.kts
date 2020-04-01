@@ -270,29 +270,16 @@ object ReactUI_LintTest : BuildType({
 
   steps {
     step {
-      name = "Install"
-      type = "jonnyzzz.yarn"
-      param("yarn_commands", "install")
-    }
-    step {
-      name = "Lint"
-      type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace @skbkontur/react-ui lint")
-    }
-    step {
-      name = "Test"
-      type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace @skbkontur/react-ui test")
-    }
-    step {
-      name = "Smoke test"
-      type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace react-ui-smoke-test debug")
+        name = "Smoke test"
+        type = "jonnyzzz.node"
+        param("node_file", "debug-teamcity.js")
+        param("node_execution_mode", "file")
     }
   }
 })
 
 object ReactUI_Publish : BuildType({
+  name = "Publish"
   name = "Publish"
 
   params {
