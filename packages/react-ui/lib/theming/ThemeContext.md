@@ -48,7 +48,7 @@ import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/Show
 
 ### Создание собственной темы на основе темы по умолчанию
 
-Собственные значения, нужно передать в `ThemeFactory.create` и получившуюся тему можно использовать в `ThemeContext.Provider`. `ThemeFactory` расширяет переданный объект задавая в качестве прототипа объект темы по умолчанию.
+Собственные значения нужно передать в `ThemeFactory.create` и получившуюся тему можно использовать в `ThemeContext.Provider`. `ThemeFactory` расширяет переданный объект, задавая в качестве прототипа объект темы по умолчанию.
 
 ```jsx harmony
 import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
@@ -59,6 +59,15 @@ const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' });
 <ThemeContext.Provider value={myTheme}>
   <ShowcaseGroup title="My Theme" />
 </ThemeContext.Provider>;
+```
+
+Вторым аргументом `ThemeFactory.create` может принимать объект, который будет использован в качестве базовой темы.
+
+```jsx harmony
+import { ThemeFactory } from '@skbkontur/react-ui';
+import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
+
+const myFlatTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' }, FLAT_THEME);
 ```
 
 ### Использование темы в своих компонентах
@@ -74,6 +83,30 @@ function ButtonLinkWrapper(props) {
     <Button use="link" {...props}>
       {props.children}
       <span style={{ color: theme.textColorDefault }}> ↗</span>
+    </Button>
+  );
+}
+
+<ButtonLinkWrapper>ButtonLinkWrapper</ButtonLinkWrapper>;
+```
+
+### Добавление своих переменных
+
+Если вы хотите дополнить одну из тем новыми переменными для своих компонентов, то вы можете использовать отдельный контекст в расширенным объектом темы.
+
+```jsx harmony
+import { useContext } from 'react';
+import { ThemeFactory } from '@skbkontur/react-ui';
+
+const MyThemeContext = React.createContext(ThemeFactory.create({ myTextColor: 'orange' }));
+
+function ButtonLinkWrapper(props) {
+  const theme = useContext(MyThemeContext);
+
+  return (
+    <Button use="link" {...props}>
+      {props.children}
+      <span style={{ color: theme.myTextColor }}> ↗</span>
     </Button>
   );
 }

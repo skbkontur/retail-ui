@@ -12,8 +12,8 @@ Object.defineProperty(DefaultThemeInternal, IS_THEME_KEY, {
 });
 
 export class ThemeFactory {
-  public static create<T extends {}>(theme: ThemeIn & T): Readonly<Theme & T> {
-    return Object.freeze(Object.setPrototypeOf(theme, DefaultThemeInternal));
+  public static create<T extends {}>(theme: ThemeIn & T, baseTheme: Theme = DefaultThemeInternal): Readonly<Theme & T> {
+    return Object.freeze(Object.setPrototypeOf(theme, baseTheme));
   }
 
   public static isFullTheme(theme: ThemeIn | Theme): theme is Theme {
