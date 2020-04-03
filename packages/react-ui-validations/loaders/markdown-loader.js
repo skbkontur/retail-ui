@@ -34,7 +34,7 @@ class Renderer {
         const code = content[0];
         if (code && code.startsWith('!!DemoWithCode!!')) {
           const path = './' + code.replace('!!DemoWithCode!!', '') + '.demo.tsx';
-          return `<Demo demo={require('${path}').default} source={require('!raw-loader!${path}')} />`;
+          return `<Demo demo={require('${path}').default} source={require('!raw-loader!${path}').default} />`;
         }
         return `<SourceCode source={\`${code}\`}/>`;
       }
