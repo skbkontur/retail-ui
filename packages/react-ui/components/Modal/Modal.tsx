@@ -97,8 +97,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     },
   };
 
-  // NOTE: в ie нормально не работает
-  public static defaultProps = { disableFocusLock: isIE11 };
+  public static defaultProps = { 
+    // NOTE: в ie нормально не работает
+    disableFocusLock: isIE11 
+  };
 
   public state: ModalState = {
     stackPosition: 0,
