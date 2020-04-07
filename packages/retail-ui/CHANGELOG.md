@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.0...retail-ui@1.11.1) (2020-04-07)
+
+
+### Features
+
+* **Modal:** add 'disableFocusLock' prop ([d553d3a](https://github.com/skbkontur/retail-ui/commit/d553d3a))
+* **TokenInput:** new prop 'renderAddButton' ([f22f66e](https://github.com/skbkontur/retail-ui/commit/f22f66e))
+* **TokenInput:** new prop "onInputChange" ([435e51f](https://github.com/skbkontur/retail-ui/commit/435e51f))
+* **TokenInput:** new public api method 'reset' ([18daa01](https://github.com/skbkontur/retail-ui/commit/18daa01))
+
+
+
+
+
 # [1.11.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.10.0...retail-ui@1.11.0) (2020-03-24)
 
 
