@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@1.1.0...react-ui-smoke-test@1.1.1) (2020-04-07)
+
+
+### Bug Fixes
+
+* **smoke-test:** fix server launch on ci ([b894058](https://github.com/skbkontur/retail-ui/commit/b894058cf91e802a5e9c9b7f238d7942e741c413))
+
+
+
+
+
 # 1.1.0 (2020-03-24)
 
 
