@@ -79,6 +79,25 @@ class Playground extends Component<any, any> {
                 {' On disabled'}
               </div>
             </Gapped>
+            <Gapped vertical gap={10}>
+              <div>
+                <Toggle
+                  checked={this.state.checked}
+                  onValueChange={this.toggle.bind(this)}
+                  loading={this.state.loading}
+                  color='#28bf4f'
+                />{' '}
+                {this.state.checked ? 'On' : 'Off'}
+              </div>
+              <div>
+                <Toggle checked={false} disabled color='#28bf4f' />
+                {' Off disabled'}
+              </div>
+              <div>
+                <Toggle checked={true} disabled color='#28bf4f'/>
+                {' On disabled'}
+              </div>
+            </Gapped>
           </Gapped>
         </div>
         <div style={{ marginTop: '15px' }}>
