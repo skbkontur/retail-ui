@@ -6,6 +6,7 @@ import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/local
 import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
+import { TokenInputMenu } from '../TokenInputMenu';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter(s => s.includes(query)));
@@ -18,6 +19,22 @@ describe('<TokenInput />', () => {
       <TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />,
     );
     expect(wrapper.find('input').props().placeholder).toBe('Placeholder');
+  });
+
+  it('should reset input value', () => {
+    const inputValue = 'eee';
+    const wrapper = mount<TokenInput>(<TokenInput getItems={getItems} selectedItems={[]} />);
+
+    wrapper.find('input').simulate('focus');
+    wrapper.find('input').simulate('change', { target: { value: inputValue } });
+    wrapper.update();
+    expect(wrapper.find(TokenInputMenu).length).toBe(1);
+    expect(wrapper.find('input').props().value).toBe(inputValue);
+
+    wrapper.instance().reset();
+    wrapper.update();
+    expect(wrapper.find(TokenInputMenu).length).toBe(0);
+    expect(wrapper.find('input').props().value).toBe('');
   });
 
   describe('Locale', () => {
