@@ -85,5 +85,37 @@ describe('<TokenInput />', () => {
 
       expect(getTextComment()).toBe(expectedComment);
     });
+
+    it('should call onInputValueChange', () => {
+      const onInputValueChange = jest.fn();
+      const value = 'text';
+      const wrapper = mount(<TokenInput getItems={getItems} onInputValueChange={onInputValueChange} />);
+      wrapper.find('input').simulate('change', { target: { value } });
+      expect(onInputValueChange).toHaveBeenCalledWith(value);
+    });
+
+    it('should render custom AddButton', async () => {
+      const value = 'text';
+      const getButtonText = (v?: string) => `Custom Add: ${v}`;
+      const wrapper = mount(
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={getItems}
+          renderAddButton={v => <span data-tid="AddButton">{getButtonText(v)}</span>}
+        />,
+      );
+
+      wrapper
+        .find(TokenInput)
+        .instance()
+        .setState({ inFocus: true, inputValue: value, loading: false });
+      await delay(0);
+      wrapper.update();
+
+      const addButton = wrapper.find('[data-tid="AddButton"]');
+
+      expect(addButton).toHaveLength(1);
+      expect(addButton.text()).toBe(getButtonText(value));
+    });
   });
 });
