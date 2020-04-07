@@ -84,6 +84,16 @@ export interface TokenInputState<T> {
   loading?: boolean;
 }
 
+export const DefaultState = {
+  inputValue: '',
+  autocompleteItems: undefined,
+  activeTokens: [],
+  inFocus: false,
+  loading: false,
+  preventBlur: false,
+  inputValueWidth: 20,
+};
+
 const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
 const defaultRenderToken = <T extends any>(
@@ -113,11 +123,7 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     onMouseLeave: emptyHandler,
   };
 
-  public state: TokenInputState<T> = {
-    inputValue: '',
-    inputValueWidth: 20,
-    activeTokens: [],
-  };
+  public state: TokenInputState<T> = DefaultState;
 
   private theme!: ITheme;
   private input: HTMLInputElement | null = null;
@@ -164,6 +170,14 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         }}
       </ThemeConsumer>
     );
+  }
+
+  /**
+   * Сбрасывает введенное пользователем значение
+   * @public
+   */
+  public reset() {
+    this.dispatch({ type: 'RESET' });
   }
 
   private renderMain() {
