@@ -1,6 +1,7 @@
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 export class DefaultTheme {
+  //#region Common variables
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#1e79be';
@@ -55,6 +56,40 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
+  public static specificityLevel = '0';
+  public static get bgActive() {
+    return this.blueLight;
+  }
+  public static get borderColorFocus() {
+    return this.blueLight;
+  }
+  public static get borderColorError() {
+    return this.errorMain;
+  }
+  public static get borderColorWarning() {
+    return this.warningMain;
+  }
+  public static get controlHeightSmall() {
+    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
+    const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
+  }
+  public static get controlHeightMedium() {
+    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
+    const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
+  }
+  public static get controlHeightLarge() {
+    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
+    const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
+  }
+
+  //#endregion
+  //#region Link
   public static linkColor = '#3072c4';
   public static linkActiveColor = '#044785';
   public static linkHoverTextDecoration = 'underline';
@@ -64,10 +99,28 @@ export class DefaultTheme {
   public static linkDangerColor = '#e3071c';
   public static linkDangerHoverColor = '#e3071c';
   public static linkDangerActiveColor = '#b00616';
+  public static linkIconMarginRight = '3px';
+  public static get linkHoverColor() {
+    return this.linkColor;
+  }
+  public static get linkDisabledColor() {
+    return this.textColorDisabled;
+  }
+  //#endregion
+  //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1';
+  public static get dropdownMenuHoverBg() {
+    return this.bgActive;
+  }
+  //#endregion
+  //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
+  //#endregion
+  //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
   public static loaderOpacity = '0.8';
+  //#endregion
+  //#region Button
   public static btnWrapPadding = '1px';
   public static btnHeightShift = '-2';
   public static btnLinkBorderRadius = '1px';
@@ -235,9 +288,46 @@ export class DefaultTheme {
   public static btnMediumArrowBg = 'linear-gradient(-58deg, transparent 47.5%, #ccc 0, #ccc 70.5%, transparent 0)';
   public static btnMediumArrowLeftLoadingDelay = '0.2s';
   public static btnLargeArrowLeftLoadingDelay = '0s';
+  public static btnMenuArrowColor = '#a6a6a6';
+  public static get btnFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get btnFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get btnFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  public static get btnPaddingYSmall() {
+    return this.controlPaddingYSmall;
+  }
+  public static get btnPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get btnPaddingYLarge() {
+    return this.controlPaddingYLarge;
+  }
+  public static get btnDisabledBg() {
+    return this.bgDisabled;
+  }
+  public static get btnDisabledShadowColor() {
+    return this.borderColorGrayLight;
+  }
+  public static get btnDisabledShadow() {
+    return `0 0 0 1px ${this.btnDisabledShadowColor}`;
+  }
+  public static get btnDisabledShadowArrow() {
+    return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
+  }
+  //#endregion
+  //#region Select
   public static sltPlaceholderColor = '#a0a0a0';
+  //#endregion
+  //#region Tooltip
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
+  //#endregion
+  //#region Modal
   public static modalBackBg = '#333';
   public static modalBackOpacity = '0.6';
   public static modalCloseButtonColor = '#808080';
@@ -248,13 +338,19 @@ export class DefaultTheme {
   public static modalFixedFooterShadow = '0 -1px 10px #000000';
   public static modalFooterBg = '#e9e9e9';
   public static modalAdaptiveThreshold = '425px';
+  //#endregion
+  //#region SidePage
   public static sidePageFooterPanelBg = '#e9e9e9';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
+  //#endregion
+  //#region DateInput
   public static dateInputIconColor = '#333';
   public static dateInputMaskColor = '#b8b8b8';
   public static dateInputComponentSelectedBgColor = '#cae0f4';
+  //#endregion
+  //#region Calendar
   public static calendarCellBg = 'white';
   public static calendarCellHoverColor = 'white';
   public static calendarCellActiveHoverColor = 'white';
@@ -264,6 +360,11 @@ export class DefaultTheme {
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
+  public static get calendarCellHoverBgColor() {
+    return this.bgActive;
+  }
+  //#endregion
+  //#region DatePicker
   public static dateSelectMenuItemBgSelected = '#ececec';
   public static datePickerOpenBtnColor = '#333';
   public static pickerBg = '#fff';
@@ -271,25 +372,65 @@ export class DefaultTheme {
   public static pickerTodayWrapperBgColor = 'white';
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
+  //#endregion
+  //#region DateSelect
+  public static get dateSelectMenuBg() {
+    return this.bgDefault;
+  }
+  public static get dateSelectMenuItemBgActive() {
+    return this.bgActive;
+  }
+  public static get dateSelectMenuItemBgDisabled() {
+    return this.bgDefault;
+  }
+  public static get dateSelectMenuItemFontActive() {
+    return this.textColorInvert;
+  }
+  public static get dateSelectMenuItemFontSelected() {
+    return this.textColorDefault;
+  }
+  public static get dateSelectMenuItemFontDisabled() {
+    return this.textColorDisabled;
+  }
+  //#endregion
+  //#region Paging
   public static pagingDotsColor = 'gray';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
   public static pagingPageLinkActiveColor = 'black';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
   public static pagingPageLinkHintColor = '#bbb';
+  public static get pagingForwardLinkColor() {
+    return this.linkColor;
+  }
+  public static get pagingForwardLinkDisabledColor() {
+    return this.linkDisabledColor;
+  }
+  //#endregion
+  //#region Menu
   public static menuSeparatorBorderColor = '#e6e6e6';
+  //#endregion
+  //#region Toast
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';
   public static toastCloseColor = '#a0a0a0';
   public static toastCloseHoverColor = 'white';
+  //#endregion
+  //#region TopBar
   public static tbBg = '#fff';
   public static tbShadow = '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)';
   public static tdDividerBg = '#dfdfdf';
+  //#endregion
+  //#region Logotype
   public static logoColor = '#000';
   public static logoHoverColor = '#000';
+  //#endregion
+  //#region Menu
   public static menuItemPaddingForIcon = '36px';
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
+  //#endregion
+  //#region Toggle
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
   public static toggleBgDisabled = 'none';
   public static get toggleBgHover() {
@@ -297,18 +438,66 @@ export class DefaultTheme {
   }
   public static toggleBgChecked = '#3072c4';
   public static toggleBorderColor = '#d0d0d0';
-  public static btnMenuArrowColor = '#a6a6a6';
+  public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
+  public static get toggleBgActive() {
+    return this.toggleBgChecked;
+  }
+  public static get toggleBgError() {
+    return this.errorMain;
+  }
+  public static get toggleBgWarning() {
+    return this.warningMain;
+  }
+  public static get toggleFocusShadowColor() {
+    return this.borderColorFocus;
+  }
+  //#endregion
+  //#region Popup
   public static popupBorder = 'none';
   public static popupBorderRadius = '2px';
   public static popupBorderColor = 'transparent';
   public static popupDropShadow = 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))';
   public static popupBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';
   public static popupTextColor = 'inherit';
+  public static get popupBackground() {
+    return this.bgDefault;
+  }
+  //#endregion
+  //#region Input
   public static inputTextColor = 'none';
   public static inputShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
   public static inputColor = 'inherit';
+  public static get inputFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get inputFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get inputFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  public static get inputFocusShadow() {
+    return `0 0 0 1px ${this.borderColorFocus}`;
+  }
+  public static get inputDisabledBg() {
+    return this.bgDisabled;
+  }
+  public static get inputDisabledBorderColor() {
+    return this.borderColorGrayLight;
+  }
+  public static get inputFocusOutline() {
+    return this.borderColorFocus;
+  }
+  public static get inputBorderWidth() {
+    return this.controlBorderWidth;
+  }
+  public static get inputBorderTopColor() {
+    return this.borderColorGrayDark;
+  }
+  //#endregion
+  //#region Checkbox
   public static chbBgStart = '#fdfdfd';
   public static chbBgEnd = '#ededed';
   public static get chbIndeterminateBg() {
@@ -332,14 +521,62 @@ export class DefaultTheme {
   public static get chbCheckedShadow() {
     return this.chbShadow;
   }
-  public static specificityLevel = '0';
-  public static linkIconMarginRight = '3px';
-  public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
+  public static get chbBorderColorFocus() {
+    return this.borderColorFocus;
+  }
+  public static get chbBg() {
+    return `linear-gradient(${this.chbBgStart}, ${this.chbBgEnd})`;
+  }
+  public static get chbHoverBg() {
+    return `linear-gradient(-180deg, ${this.btnDefaultHoverBgStart} 0, ${this.btnDefaultHoverBgEnd} 100%)`;
+  }
+  public static get chbActiveBg() {
+    return this.btnDefaultActiveBg;
+  }
+  public static get chbCheckedBg() {
+    return this.chbBg;
+  }
+  public static get chbBoxIndeterminateBg() {
+    return this.chbBg;
+  }
+  public static get chbCheckedHoverBg() {
+    return this.chbHoverBg;
+  }
+  public static get chbCheckedActiveBg() {
+    return this.chbBg;
+  }
+  public static get chbShadowActive() {
+    return this.btnDefaultActiveShadow;
+  }
+  //#endregion
+  //#region TextArea
   public static textareaBg = 'none';
   public static get textareaColor() {
     return this.black;
   }
   public static textareaShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
+  public static get textareaLineHeight() {
+    const fontSize = this.fontSizeMedium;
+    switch (fontSize) {
+      case '14px':
+        return '20px';
+      case '16px':
+        return '25px';
+      default:
+        return `${parseInt(fontSize, 10) * 1.5}px`;
+    }
+  }
+  public static get textareaBorderTopColor() {
+    return this.borderColorGrayDark;
+  }
+  public static get textareaDisabledBg() {
+    return this.bgDisabled;
+  }
+  public static get textareaDisabledBorderColor() {
+    return this.borderColorGrayLight;
+  }
+  //#endregion
+  //#region Radio
   public static radioSize = '16px';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
@@ -355,75 +592,8 @@ export class DefaultTheme {
   public static radioCheckedBulletColor = '#404040';
   public static radioDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static radioLabelDisplay = 'inline-table';
-  public static get bgActive() {
-    return this.blueLight;
-  }
-  public static get borderColorFocus() {
-    return this.blueLight;
-  }
-  public static get borderColorError() {
-    return this.errorMain;
-  }
-  public static get borderColorWarning() {
-    return this.warningMain;
-  }
-  public static get btnFontSizeSmall() {
-    return this.fontSizeSmall;
-  }
-  public static get btnFontSizeMedium() {
-    return this.fontSizeMedium;
-  }
-  public static get btnFontSizeLarge() {
-    return this.fontSizeLarge;
-  }
-  public static get btnPaddingYSmall() {
-    return this.controlPaddingYSmall;
-  }
-  public static get btnPaddingYMedium() {
-    return this.controlPaddingYMedium;
-  }
-  public static get btnPaddingYLarge() {
-    return this.controlPaddingYLarge;
-  }
-  public static get btnDisabledBg() {
-    return this.bgDisabled;
-  }
-  public static get controlHeightSmall() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
-    const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
-  }
-  public static get controlHeightMedium() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
-    const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
-  }
-  public static get controlHeightLarge() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
-  }
-  public static get linkHoverColor() {
-    return this.linkColor;
-  }
-  public static get linkDisabledColor() {
-    return this.textColorDisabled;
-  }
-  public static get dropdownMenuHoverBg() {
-    return this.bgActive;
-  }
-  public static get btnDisabledShadowColor() {
-    return this.borderColorGrayLight;
-  }
-  public static get btnDisabledShadow() {
-    return `0 0 0 1px ${this.btnDisabledShadowColor}`;
-  }
-  public static get btnDisabledShadowArrow() {
-    return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
-  }
+  //#endregion
+  //#region Tabs
   public static get tabColorFocus() {
     return this.borderColorFocus;
   }
@@ -454,119 +624,8 @@ export class DefaultTheme {
   public static get tabColorHoverPrimary() {
     return ColorFunctions.lighten(this.tabColorPrimary, '25%');
   }
-  public static get calendarCellHoverBgColor() {
-    return this.bgActive;
-  }
-  public static get dateSelectMenuBg() {
-    return this.bgDefault;
-  }
-  public static get dateSelectMenuItemBgActive() {
-    return this.bgActive;
-  }
-  public static get dateSelectMenuItemBgDisabled() {
-    return this.bgDefault;
-  }
-  public static get dateSelectMenuItemFontActive() {
-    return this.textColorInvert;
-  }
-  public static get dateSelectMenuItemFontSelected() {
-    return this.textColorDefault;
-  }
-  public static get dateSelectMenuItemFontDisabled() {
-    return this.textColorDisabled;
-  }
-  public static get pagingForwardLinkColor() {
-    return this.linkColor;
-  }
-  public static get pagingForwardLinkDisabledColor() {
-    return this.linkDisabledColor;
-  }
-  public static get toggleBgActive() {
-    return this.toggleBgChecked;
-  }
-  public static get toggleBgError() {
-    return this.errorMain;
-  }
-  public static get toggleBgWarning() {
-    return this.warningMain;
-  }
-  public static get toggleFocusShadowColor() {
-    return this.borderColorFocus;
-  }
-  public static get inputFontSizeSmall() {
-    return this.fontSizeSmall;
-  }
-  public static get inputFontSizeMedium() {
-    return this.fontSizeMedium;
-  }
-  public static get inputFontSizeLarge() {
-    return this.fontSizeLarge;
-  }
-  public static get inputFocusShadow() {
-    return `0 0 0 1px ${this.borderColorFocus}`;
-  }
-  public static get inputDisabledBg() {
-    return this.bgDisabled;
-  }
-  public static get inputDisabledBorderColor() {
-    return this.borderColorGrayLight;
-  }
-  public static get inputFocusOutline() {
-    return this.borderColorFocus;
-  }
-  public static get inputBorderWidth() {
-    return this.controlBorderWidth;
-  }
-  public static get inputBorderTopColor() {
-    return this.borderColorGrayDark;
-  }
-  public static get chbBorderColorFocus() {
-    return this.borderColorFocus;
-  }
-  public static get chbBg() {
-    return `linear-gradient(${this.chbBgStart}, ${this.chbBgEnd})`;
-  }
-  public static get chbHoverBg() {
-    return `linear-gradient(-180deg, ${this.btnDefaultHoverBgStart} 0, ${this.btnDefaultHoverBgEnd} 100%)`;
-  }
-  public static get chbActiveBg() {
-    return this.btnDefaultActiveBg;
-  }
-  public static get chbCheckedBg() {
-    return this.chbBg;
-  }
-  public static get chbBoxIndeterminateBg() {
-    return this.chbBg;
-  }
-  public static get chbCheckedHoverBg() {
-    return this.chbHoverBg;
-  }
-  public static get chbCheckedActiveBg() {
-    return this.chbBg;
-  }
-  public static get chbShadowActive() {
-    return this.btnDefaultActiveShadow;
-  }
-  public static get textareaLineHeight() {
-    const fontSize = this.fontSizeMedium;
-    switch (fontSize) {
-      case '14px':
-        return '20px';
-      case '16px':
-        return '25px';
-      default:
-        return `${parseInt(fontSize, 10) * 1.5}px`;
-    }
-  }
-  public static get textareaBorderTopColor() {
-    return this.borderColorGrayDark;
-  }
-  public static get textareaDisabledBg() {
-    return this.bgDisabled;
-  }
-  public static get textareaDisabledBorderColor() {
-    return this.borderColorGrayLight;
-  }
+  //#endregion
+  //#region Spinner
   public static get spinnerBgColor() {
     return this.grayXLight;
   }
@@ -576,9 +635,7 @@ export class DefaultTheme {
   public static get spinnerCaptionColor() {
     return this.gray;
   }
-  public static get popupBackground() {
-    return this.bgDefault;
-  }
+  //#endregion
 }
 
 export const DefaultThemeInternal = DefaultTheme;
