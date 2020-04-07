@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import os from 'os';
-import { ChildProcess, spawn, execSync } from 'child_process';
+import { ChildProcess, spawn, spawnSync, execSync } from 'child_process';
 
 import puppeteer from 'puppeteer';
 import waitOn from 'wait-on';
@@ -13,7 +13,7 @@ const TIMEOUT = 240000;
 const deprecatedComponents = ['Fias', 'FiasSearch', 'Logotype', 'TopBar', 'Logotype', 'LocaleProvider'];
 
 describe('React-ui smoke test', () => {
-  let buildServerProcess: ChildProcess | undefined;
+  let serveProcess: ChildProcess | undefined;
   const globalConsoleError = console.error;
   const runOnTeamcity = 'TEAMCITY_VERSION' in process.env;
 
@@ -38,8 +38,8 @@ describe('React-ui smoke test', () => {
 
   afterEach(() => {
     console.error = globalConsoleError;
-    if (buildServerProcess && !buildServerProcess.killed) {
-      buildServerProcess.kill();
+    if (serveProcess && !serveProcess.killed) {
+      serveProcess.kill();
     }
   });
 
@@ -47,7 +47,8 @@ describe('React-ui smoke test', () => {
     'Build and render all controls',
     async () => {
       initApplication(appDirectory, templateDirectory, reactUIPackagePath);
-      buildServerProcess = runDevServer(appDirectory);
+      buildApplication(appDirectory);
+      serveProcess = serveApplication(appDirectory);
       await openPageOnBrowser(screenshotPath);
 
       expect(console.error).not.toBeCalled();
@@ -75,15 +76,26 @@ function initApplication(appDirectory: string, templateDirectory: string, reactU
   execSync(`npm install ${reactUIPackagePath}`, { cwd: appDirectory, stdio: 'inherit' });
 }
 
-function runDevServer(appFolder: string): ChildProcess {
-  return spawn('node', ['node_modules/react-scripts/bin/react-scripts.js', 'start'], {
+function buildApplication(appFolder: string) {
+  spawnSync('node', ['node_modules/react-scripts/bin/react-scripts.js', 'build'], {
     env: {
       ...process.env,
-      BROWSER: 'none',
       SKIP_PREFLIGHT_CHECK: 'true',
     },
     cwd: appFolder,
     stdio: 'inherit',
+  });
+}
+
+function serveApplication(appFolder: string): ChildProcess {
+  const buildFolder = path.join(appFolder, 'build');
+  return spawn('yarn', ['serve', buildFolder], {
+    env: {
+      ...process.env,
+      PORT: '3000',
+    },
+    stdio: 'inherit',
+    shell: true,
   });
 }
 
