@@ -15,8 +15,8 @@ import { jsStyles } from './Logotype.styles';
 import { ProductWidget } from './ProductWidget';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 
-const INITIAL_WIDTH = 23;
-const INITIAL_HEIGHT = 17;
+const INITIAL_WIDTH = 25;
+const INITIAL_HEIGHT = 18;
 const INITIAL_VERTICAL_ALIGN = -1;
 const INITIAL_FONT_SIZE = 22;
 
