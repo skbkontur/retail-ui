@@ -1,4 +1,4 @@
-import { TokenInputState } from './TokenInput';
+import { TokenInputState, DefaultState } from './TokenInput';
 
 export interface TokenInputAction {
   type: TokenInputActionType;
@@ -16,6 +16,7 @@ export const TokenActions = {
   REMOVE_ALL_ACTIVE_TOKENS: 'REMOVE_ALL_ACTIVE_TOKENS',
   SET_LOADING: 'SET_LOADING',
   CLEAR_INPUT: 'CLEAR_INPUT',
+  RESET: 'RESET',
 };
 
 export type TokenInputActionType = keyof typeof TokenActions;
@@ -62,6 +63,9 @@ export function tokenInputReducer<T = string>(
       return {
         loading: payload,
       };
+    }
+    case TokenActions.RESET: {
+      return DefaultState;
     }
 
     default:
