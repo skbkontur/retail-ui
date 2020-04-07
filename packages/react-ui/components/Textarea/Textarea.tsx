@@ -230,6 +230,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       className,
       style,
       placeholder,
+      onValueChange,
       ...textareaProps
     } = this.props;
 
