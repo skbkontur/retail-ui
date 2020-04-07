@@ -87,7 +87,7 @@ export class Logotype extends React.Component<LogotypeProps> {
   public static defaultProps = {
     color: '#D92932',
     size: INITIAL_FONT_SIZE,
-    textColor: '#000',
+    textColor: '#333333',
     component: 'a',
     href: '/',
   };
