@@ -21,7 +21,7 @@ const styles = {
   divider(t: Theme) {
     return css`
       height: 60%;
-      margin: 0 0 2px 16px;
+      margin: 0 0 2px 15px;
       width: 1px;
       background-color: ${t.tdDividerBg};
     `;
@@ -75,7 +75,7 @@ const styles = {
       margin: 0;
       cursor: pointer;
       outline: 0;
-      padding: 0 8px;
+      padding: 0 10px;
       position: relative;
       background: none;
       border: none;
