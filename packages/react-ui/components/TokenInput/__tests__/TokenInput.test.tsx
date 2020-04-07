@@ -6,6 +6,7 @@ import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/local
 import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
+import { TokenInputMenu } from '../TokenInputMenu';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter(s => s.includes(query)));
@@ -18,6 +19,22 @@ describe('<TokenInput />', () => {
       <TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />,
     );
     expect(wrapper.find('input').props().placeholder).toBe('Placeholder');
+  });
+
+  it('should reset input value', () => {
+    const inputValue = 'eee';
+    const wrapper = mount<TokenInput>(<TokenInput getItems={getItems} selectedItems={[]} />);
+
+    wrapper.find('input').simulate('focus');
+    wrapper.find('input').simulate('change', { target: { value: inputValue } });
+    wrapper.update();
+    expect(wrapper.find(TokenInputMenu).length).toBe(1);
+    expect(wrapper.find('input').props().value).toBe(inputValue);
+
+    wrapper.instance().reset();
+    wrapper.update();
+    expect(wrapper.find(TokenInputMenu).length).toBe(0);
+    expect(wrapper.find('input').props().value).toBe('');
   });
 
   describe('Locale', () => {
@@ -84,6 +101,38 @@ describe('<TokenInput />', () => {
       wrapper.setProps({ value: { langCode: LangCodes.ru_RU }});
 
       expect(getTextComment()).toBe(expectedComment);
+    });
+
+    it('should call onInputValueChange', () => {
+      const onInputValueChange = jest.fn();
+      const value = 'text';
+      const wrapper = mount(<TokenInput getItems={getItems} onInputValueChange={onInputValueChange} />);
+      wrapper.find('input').simulate('change', { target: { value } });
+      expect(onInputValueChange).toHaveBeenCalledWith(value);
+    });
+
+    it('should render custom AddButton', async () => {
+      const value = 'text';
+      const getButtonText = (v?: string) => `Custom Add: ${v}`;
+      const wrapper = mount(
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={getItems}
+          renderAddButton={v => <span data-tid="AddButton">{getButtonText(v)}</span>}
+        />,
+      );
+
+      wrapper
+        .find(TokenInput)
+        .instance()
+        .setState({ inFocus: true, inputValue: value, loading: false });
+      await delay(0);
+      wrapper.update();
+
+      const addButton = wrapper.find('[data-tid="AddButton"]');
+
+      expect(addButton).toHaveLength(1);
+      expect(addButton.text()).toBe(getButtonText(value));
     });
   });
 });

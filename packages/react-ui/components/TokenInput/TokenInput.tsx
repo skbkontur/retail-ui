@@ -22,7 +22,10 @@ import { MenuItemState } from '../MenuItem';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { locale } from '../../lib/locale/decorators';
+import { MenuItem } from '../MenuItem/MenuItem';
 
+import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { jsStyles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
@@ -63,6 +66,14 @@ export interface TokenInputProps<T> {
   width?: string | number;
   maxMenuHeight?: number | string;
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
+  /**
+   * Вызывается при изменении текста в поле ввода,
+   */
+  onInputValueChange?: (value: string) => void;
+  /**
+   * Функция отрисовки кнопки добавления в выпадающем списке
+   */
+  renderAddButton?: (query?: string) => ReactNode;
 }
 
 export interface TokenInputState<T> {
@@ -75,6 +86,16 @@ export interface TokenInputState<T> {
   loading?: boolean;
 }
 
+export const DefaultState = {
+  inputValue: '',
+  autocompleteItems: undefined,
+  activeTokens: [],
+  inFocus: false,
+  loading: false,
+  preventBlur: false,
+  inputValueWidth: 20,
+};
+
 const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
 const defaultRenderToken = <T extends any>(item: T, { isActive, onClick, onRemove, disabled }: Partial<TokenProps>) => (
@@ -83,6 +104,7 @@ const defaultRenderToken = <T extends any>(item: T, { isActive, onClick, onRemov
   </Token>
 );
 
+@locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
 
@@ -101,12 +123,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onMouseLeave: emptyHandler,
   };
 
-  public state: TokenInputState<T> = {
-    inputValue: '',
-    inputValueWidth: 20,
-    activeTokens: [],
-  };
+  public state: TokenInputState<T> = DefaultState;
 
+  private readonly locale!: TokenInputLocale;
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
@@ -237,17 +256,23 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               opened={showMenu}
               maxMenuHeight={maxMenuHeight}
               anchorElement={this.input!}
-              inputValue={inputValue}
               renderNotFound={renderNotFound}
               renderItem={renderItem}
-              onAddItem={this.handleAddItem}
               onValueChange={this.handleValueChange}
-              showAddItemHint={this.showAddItemHint}
+              renderAddButton={this.renderAddButton}
             />
           )}
         </label>
       </div>
     );
+  }
+
+  /**
+   * Сбрасывает введенное пользователем значение
+   * @public
+   */
+  public reset() {
+    this.dispatch({ type: 'RESET' });
   }
 
   private hasValueInItems = (items: T[], value: T) => {
@@ -427,9 +452,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (this.type !== TokenInputType.WithReference && (isKeyEnter(e) || this.delimiters.includes(e.key))) {
       e.preventDefault();
-      const newValue = this.state.inputValue as any;
+      const newValue = this.state.inputValue;
       if (newValue !== '') {
-        this.handleAddItem(newValue);
+        this.handleAddItem();
       }
     }
 
@@ -547,7 +572,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.tryGetItems();
   };
 
-  private handleAddItem = (item: string) => {
+  private handleAddItem = () => {
+    const item = this.state.inputValue;
     const value = this.props.valueToItem(item);
     if (this.hasValueInItems(this.props.selectedItems, value)) {
       return;
@@ -596,6 +622,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.dispatch({ type: 'UPDATE_QUERY', payload: query }, () => {
       this.tryGetItems(query);
     });
+    if (this.props.onInputValueChange) {
+      this.props.onInputValueChange(query);
+    }
   };
 
   private highlightMenuItem = () => {
@@ -636,5 +665,23 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       onRemove: handleIconClick,
       disabled,
     });
+  };
+
+  private renderAddButton = (value = this.state.inputValue): React.ReactNode | undefined => {
+    if (!this.showAddItemHint) {
+      return;
+    }
+
+    if (this.props.renderAddButton) {
+      return this.props.renderAddButton(value);
+    }
+
+    const { addButtonComment, addButtonTitle } = this.locale;
+
+    return (
+      <MenuItem onClick={this.handleAddItem} comment={addButtonComment} key="renderAddButton">
+        {addButtonTitle} {value}
+      </MenuItem>
+    );
   };
 }

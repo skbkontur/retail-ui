@@ -7,6 +7,7 @@ import { Input } from '../../Input';
 import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
 import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
+import { MenuItem } from '../../MenuItem';
 
 interface TokenModel {
   id?: string;
@@ -330,3 +331,32 @@ export const Disabled = () => {
   );
 };
 Disabled.story = { name: 'disabled' };
+
+export const CustomAddButton: CSFStory<JSX.Element> = () => {
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      renderAddButton={value => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
+    />
+  );
+};
+CustomAddButton.story = {
+  name: 'custom add button',
+  parameters: {
+    creevey: {
+      tests: {
+        async addButton() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('zzz')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
