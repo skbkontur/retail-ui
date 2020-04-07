@@ -1,25 +1,15 @@
 import React from 'react';
 
-import { locale } from '../../lib/locale/decorators';
 import { Popup } from '../../internal/Popup';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
-import { MenuItem } from '../MenuItem';
-
-import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
-  inputValue: string;
-  showAddItemHint?: boolean;
-  onAddItem: (item: string) => void;
 }
 
-@locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
-
-  private readonly locale!: TokenInputLocale;
 
   private menu: Menu | null = null;
 
@@ -34,6 +24,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       renderNotFound,
       renderItem,
       onValueChange,
+      renderAddButton,
     } = this.props;
 
     return (
@@ -55,7 +46,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
           renderItem={renderItem}
           renderNotFound={renderNotFound}
           totalCount={totalCount}
-          renderAddButton={this.renderAddButton}
+          renderAddButton={renderAddButton}
         />
       </Popup>
     );
@@ -63,20 +54,4 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   public getMenuRef = (): any | null => this.menu;
   private menuRef = (node: any) => (this.menu = node);
-
-  private renderAddButton = (value = this.props.inputValue): React.ReactNode | undefined => {
-    if (!this.props.showAddItemHint) {
-      return;
-    }
-
-    const { addButtonComment, addButtonTitle } = this.locale;
-
-    const handleAddItemNoteClick = () => this.props.onAddItem(value);
-
-    return (
-      <MenuItem onClick={handleAddItemNoteClick} comment={addButtonComment} key="renderAddButton">
-        {addButtonTitle} {value}
-      </MenuItem>
-    );
-  };
 }
