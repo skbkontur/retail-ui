@@ -7,6 +7,7 @@ import { Input } from '../../Input';
 import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
 import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
+import { MenuItem } from '../../MenuItem';
 
 interface TokenModel {
   id?: string;
@@ -330,3 +331,16 @@ export const Disabled = () => {
   );
 };
 Disabled.story = { name: 'disabled' };
+
+export const CustomAddButton = () => {
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      renderAddButton={value => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
+    />
+  );
+};
+CustomAddButton.story = {
+  parameters: { creevey: { skip: [true] } },
+};
