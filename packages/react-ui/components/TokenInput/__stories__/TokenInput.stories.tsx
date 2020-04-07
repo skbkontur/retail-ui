@@ -332,7 +332,7 @@ export const Disabled = () => {
 };
 Disabled.story = { name: 'disabled' };
 
-export const CustomAddButton = () => {
+export const CustomAddButton: CSFStory<JSX.Element> = () => {
   return (
     <TokenInput
       type={TokenInputType.Combined}
@@ -342,5 +342,21 @@ export const CustomAddButton = () => {
   );
 };
 CustomAddButton.story = {
-  parameters: { creevey: { skip: [true] } },
+  name: 'custom add button',
+  parameters: {
+    creevey: {
+      tests: {
+        async addButton() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('zzz')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
 };
