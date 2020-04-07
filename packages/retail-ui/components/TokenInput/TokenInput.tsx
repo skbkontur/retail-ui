@@ -172,6 +172,14 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
     );
   }
 
+  /**
+   * Сбрасывает введенное пользователем значение
+   * @public
+   */
+  public reset() {
+    this.dispatch({ type: 'RESET' });
+  }
+
   private renderMain() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       throw Error('Missed getItems for type ' + this.type);
@@ -267,14 +275,6 @@ export default class TokenInput<T = string> extends React.PureComponent<TokenInp
         </label>
       </div>
     );
-  }
-
-  /**
-   * Сбрасывает введенное пользователем значение
-   * @public
-   */
-  public reset() {
-    this.dispatch({ type: 'RESET' });
   }
 
   private hasValueInItems = (items: T[], value: T) => {
