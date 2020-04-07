@@ -22,11 +22,10 @@ import { MenuItemState } from '../MenuItem';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-
 import { locale } from '../../lib/locale/decorators';
-import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { MenuItem } from '../MenuItem/MenuItem';
 
+import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { jsStyles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
