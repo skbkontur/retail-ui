@@ -78,7 +78,7 @@ export class Token extends React.Component<TokenProps> {
       activeTokenClassName = jsTokenColors[activeClassName](theme, validation);
     }
 
-    const tokenClassNames = cn(jsStyles.token(), tokenClassName, {
+    const tokenClassNames = cn(jsStyles.token(this.theme), tokenClassName, {
       [activeTokenClassName]: !!isActive,
       [jsStyles.disabled(theme)]: !!disabled,
     });

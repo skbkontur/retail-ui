@@ -115,9 +115,15 @@ export class DefaultTheme {
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
+  public static get tokenFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static tokenLineHeight = 1.5;
+  public static tokenPaddingX = '4px';
+  public static tokenPaddingY = '';
   //#endregion
   //#region Loader
-  public static loaderBg = 'rgba(255, 255, 255, 0.8)';
+  loaderBg = 'rgba(255, 255, 255, 0.8)';
   public static loaderOpacity = '0.8';
   //#endregion
   //#region Button

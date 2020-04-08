@@ -3,14 +3,14 @@ import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 const styles = {
-  token() {
+  token(t: Theme) {
     return css`
       display: inline-flex;
       align-items: center;
       border-radius: 1px;
-      padding: 0 4px;
-      line-height: 1.5;
-      font-size: 14px;
+      padding: 0 ${t.tokenPaddingX};
+      line-height: ${t.tokenLineHeight};
+      font-size: ${t.tokenFontSize};
       margin: 3px;
       min-width: 0;
       word-break: break-word;
@@ -26,7 +26,7 @@ const styles = {
     return css`
       box-shadow: none !important;
       margin: 2px;
-      padding: 1px 4px;
+      padding: 1px ${t.tokenPaddingX};
       user-select: text;
       cursor: text;
       color: ${t.textColorDisabled} !important;
