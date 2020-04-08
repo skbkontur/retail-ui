@@ -39,9 +39,10 @@ const styles = {
 
   layout() {
     return css`
-      align-items: stretch;
+      height: 100%;
       display: flex;
       flex-direction: column;
+      align-items: stretch;
     `;
   },
 
