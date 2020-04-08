@@ -183,7 +183,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
             )}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)}>
+            <div className={styles.layoutWrapper} ref={_ => (this.layoutRef = _)}>
               <SidePageContext.Provider
                 value={{
                   requestClose: this.requestClose,
