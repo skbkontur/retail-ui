@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.9](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.8...retail-ui@0.53.9) (2020-04-08)
+
+
+### Features
+
+* **TokenInput:** new prop 'maxMenuHeight' ([2389fbf](https://github.com/skbkontur/retail-ui/commit/2389fbf7bcdea3e1ccf6af5ca5f4855a65300659))
+* **TokenInput:** new public api method 'reset' ([ce13722](https://github.com/skbkontur/retail-ui/commit/ce13722f3ccede2e949acb130ceacad4b6536edd))
+
+
+
+
+
 ## [0.53.8](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.7...retail-ui@0.53.8) (2020-04-07)
 
 
