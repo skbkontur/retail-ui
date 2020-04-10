@@ -507,6 +507,12 @@ export class DefaultTheme {
   public static chbPaddingX = '10px';
   public static chbBgStart = '#fdfdfd';
   public static chbBgEnd = '#ededed';
+  public static get chbTextColorDefault() {
+    return this.textColorDefault;
+  }
+  public static get chbTextColorDisabled() {
+    return this.textColorDisabled;
+  }
   public static get chbIndeterminateBg() {
     return this.textColorDefault;
   }
@@ -519,6 +525,15 @@ export class DefaultTheme {
   }
   public static get chbCheckedColor() {
     return this.textColorDefault;
+  }
+  public static get chbOutlineColorFocus() {
+    return this.outlineColorFocus;
+  }
+  public static get chbBorderColorWarning() {
+    return this.borderColorWarning;
+  }
+  public static get chbBorderColorError() {
+    return this.borderColorError;
   }
   public static get chbCheckedHoverShadow() {
     return this.chbShadow;
@@ -542,6 +557,9 @@ export class DefaultTheme {
   }
   public static get chbCheckedBg() {
     return this.chbBg;
+  }
+  public static get chbBgDisabled() {
+    return this.bgDisabled;
   }
   public static get chbBoxIndeterminateBg() {
     return this.chbBg;
