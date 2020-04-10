@@ -5,9 +5,12 @@ import { DefaultThemeInternal } from './DefaultTheme';
 // TODO Delete repeated values from flat theme
 
 export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
+  //#region Common variables
   public static outlineColorFocus = '#fff';
   public static borderColorFocus = '#1d85d0';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
+  //#endregion
+  //#region Button
   public static btnHeightShift = '0';
   public static btnWrapPadding = '0';
   public static btnLinkBorderRadius = '2px';
@@ -117,48 +120,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnLargeArrowTransform = 'rotate(53deg) skewX(26deg) skewY(10deg)';
   public static btnLargeArrowBg = 'linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0)';
   public static btnLargeArrowLeftLoadingDelay = '0s';
-  public static chbShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
-  public static chbBg = 'none';
-  public static chbIndeterminateBg = '#fff';
-  public static chbShadowDisabled = '0 0 0 1px #f2f2f2';
-  public static chbShadowActive = '0 0 0 1px #c3c3c3';
-  public static chbShadowHover = '0 0 0 1px #c3c3c3';
-  public static chbShadowWidth = '2px';
-  public static chbCheckedColor = '#fff';
-  public static chbCheckedShadow = '0 0 0 1px #1768a3';
-  public static chbCheckedHoverShadow = '0 0 0 1px #175590';
-  public static chbBorder = 'none';
-  public static chbBorderRadius = '1px';
-  public static inputBg = 'white';
-  public static inputIconColor = '#a9a9a9';
-  public static inputColor = 'inherit';
-  public static inputShadow = 'none';
-  public static inputBorderWidth = '1px';
-  public static inputBorderTopColor = 'rgba(0, 0, 0, 0.15)';
-  public static inputDisabledBg = 'rgba(0, 0, 0, 0.05)';
-  public static toggleBg = '#fff';
-  public static toggleBgDisabled = 'none';
-  public static toggleBgHover = '#f3f3f2';
-  public static toggleBgChecked = '#3072c4';
-  public static toggleBgWarning = '#f69c00';
-  public static toggleBgError = '#d70c17';
-  public static toggleBgActive = '#e5e5e5';
-  public static toggleBorderColor = '#d0d0d0';
-  public static textareaBg = 'white';
-  public static textareaColor = 'inherit';
-  public static textareaShadow = 'none';
-  public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.15)';
-  public static textareaDisabledBg = 'rgba(0, 0, 0, 0.05)';
-  public static radioSize = '18px';
-  public static radioVerticalAlign = 'top';
-  public static radioBgImage = 'none';
-  public static radioBoxShadow = 'none';
-  public static radioBorder = '1px solid rgba(0, 0, 0, 0.15)';
-  public static radioHoverShadow = 'none';
-  public static radioActiveShadow = 'none';
-  public static radioCheckedBulletColor = '#fff';
-  public static radioDisabledShadow = 'none';
-  public static radioLabelDisplay = 'inline-block';
   public static btnFontSizeMedium = '16px';
   public static get btnCheckedShadowArrow() {
     return `0 0 0 1px ${this.btnCheckedBg}`;
@@ -263,9 +224,20 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnPayActiveShadowArrowLeft() {
     return `0 0 0 1px ${this.btnPayActiveBg}`;
   }
-  public static get inputDisabledBorderColor() {
-    return this.inputDisabledBg;
-  }
+  //#endregion
+  //#region Checkbox
+  public static chbShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
+  public static chbBg = 'none';
+  public static chbIndeterminateBg = '#fff';
+  public static chbShadowDisabled = '0 0 0 1px #f2f2f2';
+  public static chbShadowActive = '0 0 0 1px #c3c3c3';
+  public static chbShadowHover = '0 0 0 1px #c3c3c3';
+  public static chbShadowWidth = '2px';
+  public static chbCheckedColor = '#fff';
+  public static chbCheckedShadow = '0 0 0 1px #1768a3';
+  public static chbCheckedHoverShadow = '0 0 0 1px #175590';
+  public static chbBorder = 'none';
+  public static chbBorderRadius = '1px';
   public static get chbBorderColorFocus() {
     return this.borderColorFocus;
   }
@@ -287,6 +259,50 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get chbCheckedActiveBg() {
     return ColorFunctions.darken(this.chbCheckedBg, '15%');
   }
+  //#endregion
+  //#region Input
+  public static inputBg = 'white';
+  public static inputIconColor = '#a9a9a9';
+  public static inputColor = 'inherit';
+  public static inputShadow = 'none';
+  public static inputBorderWidth = '1px';
+  public static inputBorderTopColor = 'rgba(0, 0, 0, 0.15)';
+  public static inputDisabledBg = 'rgba(0, 0, 0, 0.05)';
+  public static get inputDisabledBorderColor() {
+    return this.inputDisabledBg;
+  }
+  //#endregion
+  //#region Toggle
+  public static toggleBg = '#fff';
+  public static toggleBgDisabled = 'none';
+  public static toggleBgHover = '#f3f3f2';
+  public static toggleBgChecked = '#3072c4';
+  public static toggleBgWarning = '#f69c00';
+  public static toggleBgError = '#d70c17';
+  public static toggleBgActive = '#e5e5e5';
+  public static toggleBorderColor = '#d0d0d0';
+  //#endregion
+  //#region Textarea
+  public static textareaBg = 'white';
+  public static textareaColor = 'inherit';
+  public static textareaShadow = 'none';
+  public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.15)';
+  public static textareaDisabledBg = 'rgba(0, 0, 0, 0.05)';
+  public static get textareaDisabledBorderColor() {
+    return this.textareaDisabledBg;
+  }
+  //#endregion
+  //#region Radio
+  public static radioSize = '18px';
+  public static radioVerticalAlign = 'top';
+  public static radioBgImage = 'none';
+  public static radioBoxShadow = 'none';
+  public static radioBorder = '1px solid rgba(0, 0, 0, 0.15)';
+  public static radioHoverShadow = 'none';
+  public static radioActiveShadow = 'none';
+  public static radioCheckedBulletColor = '#fff';
+  public static radioDisabledShadow = 'none';
+  public static radioLabelDisplay = 'inline-block';
   public static get radioHoverBg() {
     return this.chbHoverBg;
   }
@@ -299,9 +315,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get radioCheckedBgColor() {
     return this.chbCheckedBg;
   }
-  public static get textareaDisabledBorderColor() {
-    return this.textareaDisabledBg;
-  }
+  //#endregion
 }
 
 export const FlatThemeInternal = Object.setPrototypeOf(FlatTheme, DefaultThemeInternal) as typeof FlatTheme;
