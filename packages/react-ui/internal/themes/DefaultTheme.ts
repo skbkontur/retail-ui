@@ -498,6 +498,13 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Checkbox
+  public static get chbFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get chbLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static chbPaddingX = '10px';
   public static chbBgStart = '#fdfdfd';
   public static chbBgEnd = '#ededed';
   public static get chbIndeterminateBg() {

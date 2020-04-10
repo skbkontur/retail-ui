@@ -9,7 +9,7 @@ const styles = {
       cursor: pointer;
       position: relative;
       user-select: none;
-      line-height: 20px;
+      line-height: ${t.chbLineHeight};
 
       &:hover ${cssName(styles.box(t))} {
         background: ${t.chbHoverBg};
@@ -44,7 +44,7 @@ const styles = {
       width: 16px;
       height: 16px;
       flex: none;
-      font-size: 14px;
+      font-size: ${t.chbFontSize};
       color: ${t.textColorDefault};
       border: ${t.chbBorder};
       border-radius: ${t.chbBorderRadius};
@@ -151,9 +151,9 @@ const styles = {
     `;
   },
 
-  caption() {
+  caption(t: Theme) {
     return css`
-      padding-left: 10px;
+      padding-left: ${t.chbPaddingX};
     `;
   },
 
