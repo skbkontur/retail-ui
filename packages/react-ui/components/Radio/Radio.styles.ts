@@ -44,6 +44,9 @@ const styles = {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
       }
+      ${cssName(styles.root())}:hover &${cssName(styles.checked(t))} {
+        background: ${t.radioCheckedHoverBgColor};
+      }
       ${cssName(styles.root())}:active & {
         background: ${t.radioActiveBg};
         box-shadow: ${t.radioActiveShadow};
