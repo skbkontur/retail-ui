@@ -635,6 +635,33 @@ export class DefaultTheme {
   public static get spinnerCaptionColor() {
     return this.gray;
   }
+  public static get spinnerFontSizeSmall() {
+    return '14px';
+  }
+  public static get spinnerFontSizeMedium() {
+    return '16px';
+  }
+  public static get spinnerFontSizeLarge() {
+    return '18px';
+  }
+  public static get spinnerLineHeightSmall() {
+    return '1';
+  }
+  public static get spinnerLineHeightMedium() {
+    return '1.375';
+  }
+  public static get spinnerLineHeightLarge() {
+    return '1.33';
+  }
+  public static get spinnerPaddingXSmall() {
+    return '8px';
+  }
+  public static get spinnerPaddingYMedium() {
+    return '-6px';
+  }
+  public static get spinnerPaddingYLarge() {
+    return '-8px';
+  }
   //#endregion
 }
 

@@ -27,28 +27,29 @@ const styles = {
     `;
   },
 
-  mini() {
+  mini(t: Theme) {
     return css`
-      margin-left: 8px;
-      font-size: 14px;
+      margin-left: ${t.spinnerPaddingXSmall};
+      font-size: ${t.spinnerFontSizeSmall};
+      line-height: ${t.spinnerLineHeightSmall};
     `;
   },
 
-  big() {
+  normal(t: Theme) {
     return css`
       display: block;
-      font-size: 18px;
-      line-height: 1.33;
-      margin-top: -8px;
+      font-size: ${t.spinnerFontSizeMedium};
+      line-height: ${t.spinnerLineHeightMedium};
+      margin-top: ${t.spinnerPaddingYMedium};
     `;
   },
 
-  normal() {
+  big(t: Theme) {
     return css`
       display: block;
-      font-size: 16px;
-      line-height: 1.375;
-      margin-top: -6px;
+      font-size: ${t.spinnerFontSizeLarge};
+      line-height: ${t.spinnerLineHeightLarge};
+      margin-top: ${t.spinnerPaddingYLarge};
     `;
   },
 
