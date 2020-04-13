@@ -9,7 +9,7 @@ const styles = {
       cursor: pointer;
       position: relative;
       user-select: none;
-      line-height: 20px;
+      line-height: ${t.chbLineHeight};
 
       &:hover ${cssName(styles.box(t))} {
         background: ${t.chbHoverBg};
@@ -44,8 +44,8 @@ const styles = {
       width: 16px;
       height: 16px;
       flex: none;
-      font-size: 14px;
-      color: ${t.textColorDefault};
+      font-size: ${t.chbFontSize};
+      color: ${t.chbTextColorDefault};
       border: ${t.chbBorder};
       border-radius: ${t.chbBorderRadius};
       box-shadow: ${t.chbShadow};
@@ -68,7 +68,7 @@ const styles = {
   warning(t: Theme) {
     return css`
       & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning} !important;
+        box-shadow: inset 0 0 0 1px ${t.chbOutlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorWarning} !important;
       }
     `;
   },
@@ -76,7 +76,7 @@ const styles = {
   error(t: Theme) {
     return css`
       & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError} !important;
+        box-shadow: inset 0 0 0 1px ${t.chbOutlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorError} !important;
       }
     `;
   },
@@ -121,20 +121,20 @@ const styles = {
   focus(t: Theme) {
     return css`
       & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus} !important;
+        box-shadow: inset 0 0 0 1px ${t.chbOutlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus} !important;
       }
     `;
   },
 
   disabled(t: Theme) {
     return css`
-      color: ${t.textColorDisabled};
+      color: ${t.chbTextColorDisabled};
       cursor: default;
 
       & ${cssName(styles.box(t))} {
         box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
-        background: ${t.bgDisabled} !important;
-        color: ${t.textColorDisabled} !important;
+        background: ${t.chbBgDisabled} !important;
+        color: ${t.chbTextColorDisabled} !important;
       }
     `;
   },
@@ -151,9 +151,9 @@ const styles = {
     `;
   },
 
-  caption() {
+  caption(t: Theme) {
     return css`
-      padding-left: 10px;
+      padding-left: ${t.chbPaddingX};
     `;
   },
 
