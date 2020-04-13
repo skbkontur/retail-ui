@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.0.0...@skbkontur/react-ui@2.1.0) (2020-04-07)
+
+
+### Bug Fixes
+
+* **logotype:** paddings, icon with figma ([6a84800](https://github.com/skbkontur/retail-ui/commit/6a848008b7f431b7294786f5e36155be5b433565))
+* **textarea:** fix react warning ([647f9f4](https://github.com/skbkontur/retail-ui/commit/647f9f4ca0fa7484d974a4ea7a11a0b49d087bd0))
+
+
+### Features
+
+* **Modal:** add 'disableFocusLock' prop ([c046c38](https://github.com/skbkontur/retail-ui/commit/c046c386d1439044ba7ee869e9ce57b203841b90))
+* **ThemeFactory:** accept a base theme as a second arg of create method ([b92b20b](https://github.com/skbkontur/retail-ui/commit/b92b20bcac53face9280dd5951e0cb467b34d4a4))
+* **TokenInput:** new prop 'renderAddButton' ([06a2010](https://github.com/skbkontur/retail-ui/commit/06a201064db9f929aa8b7ff8e35f291457f328c8))
+* **TokenInput:** new prop "onInputValueChange" ([b621c8d](https://github.com/skbkontur/retail-ui/commit/b621c8d8eadbdbb88a7d6fcfd88522fc5ed879a4))
+* **TokenInput:** new public api method 'reset' ([14df810](https://github.com/skbkontur/retail-ui/commit/14df810b1b53896c62c18d16dc0a1d1aef94ee2f))
+
+
+
+
+
 # 2.0.0 (2020-03-24)
 
 
