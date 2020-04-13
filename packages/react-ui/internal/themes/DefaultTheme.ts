@@ -602,13 +602,31 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Radio
-  public static radioSize = '16px';
+  public static get radioSize() {
+    return this.radioFontSize;
+  }
+  public static get radioFontSize() {
+    return this.fontSizeLarge;
+  }
+  public static get radioLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static radioPaddingX = '9px';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
   public static radioHoverBg = 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%)';
   public static radioActiveBg = 'linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%)';
   public static radioBoxShadow = '0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static radioBorder = '0 none';
+  public static get radioBorderColorFocus() {
+    return this.borderColorFocus;
+  }
+  public static get radioBorderColorWarning() {
+    return this.borderColorWarning;
+  }
+  public static get radioBorderColorError() {
+    return this.borderColorError;
+  }
   public static radioHoverShadow = '0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2)';
   public static radioActiveShadow =
     '0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';

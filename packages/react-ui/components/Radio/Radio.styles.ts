@@ -2,7 +2,7 @@ import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  root() {
+  root(t: Theme) {
     return css`
       cursor: pointer;
       position: relative;
@@ -34,24 +34,24 @@ const styles = {
       box-sizing: border-box;
       display: inline-block;
       height: ${t.radioSize};
+      width: ${t.radioSize};
       margin-bottom: 2px;
       margin-top: 2px;
       position: relative;
       vertical-align: ${t.radioVerticalAlign};
-      width: ${t.radioSize};
 
-      ${cssName(styles.root())}:hover & {
+      ${cssName(styles.root(t))}:hover & {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
       }
-      ${cssName(styles.root())}:active & {
+      ${cssName(styles.root(t))}:active & {
         background: ${t.radioActiveBg};
         box-shadow: ${t.radioActiveShadow};
       }
       ${cssName(styles.input())}:focus + &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorFocus};
+        border-color: ${t.radioBorderColorFocus};
       }
       &::after {
         content: ' ';
@@ -65,7 +65,7 @@ const styles = {
       &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorFocus};
+        border-color: ${t.radioBorderColorFocus};
       }
     `;
   },
@@ -75,7 +75,7 @@ const styles = {
       &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorWarning};
+        border-color: ${t.radioBorderColorWarning};
       }
     `;
   },
@@ -85,7 +85,7 @@ const styles = {
       &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorError};
+        border-color: ${t.radioBorderColorError};
       }
     `;
   },
@@ -137,8 +137,8 @@ const styles = {
   label(t: Theme) {
     return css`
       display: ${t.radioLabelDisplay};
-      line-height: 20px;
-      margin-left: 9px;
+      line-height: ${t.radioLineHeight};
+      margin-left: ${t.radioPaddingX};
       white-space: normal;
     `;
   },

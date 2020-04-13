@@ -124,7 +124,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     };
 
     const labelProps = {
-      className: jsStyles.root(),
+      className: jsStyles.root(this.theme),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
