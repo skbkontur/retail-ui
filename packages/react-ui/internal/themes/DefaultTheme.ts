@@ -752,7 +752,7 @@ export class DefaultTheme {
     return '20px';
   }
   public static get tabLineHeight() {
-    return '24px';
+    return 'normal';
   }
   public static get tabTextColorDefault() {
     return this.textColorDefault;
