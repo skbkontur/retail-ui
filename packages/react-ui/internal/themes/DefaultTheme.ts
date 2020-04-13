@@ -629,6 +629,9 @@ export class DefaultTheme {
   public static get spinnerBgColor() {
     return this.grayXLight;
   }
+  public static get spinnerColor() {
+    return this.red;
+  }
   public static get spinnerDimmedColor() {
     return this.gray;
   }
