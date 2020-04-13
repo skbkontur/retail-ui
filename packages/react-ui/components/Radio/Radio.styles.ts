@@ -40,9 +40,12 @@ const styles = {
       vertical-align: ${t.radioVerticalAlign};
       width: ${t.radioSize};
 
-      ${cssName(styles.root())}:hover & {
+      ${cssName(styles.root())}:hover &:not(${cssName(styles.disabled(t))}) {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
+      }
+      ${cssName(styles.root())}:hover &${cssName(styles.checked(t))}:not(${cssName(styles.disabled(t))}) {
+        background: ${t.radioCheckedHoverBgColor};
       }
       ${cssName(styles.root())}:active & {
         background: ${t.radioActiveBg};
@@ -110,7 +113,7 @@ const styles = {
       }
 
       ${cssName(styles.disabled(t))}&::before {
-        background: #808080 !important;
+        background: ${t.gray} !important;
       }
     `;
   },
@@ -128,7 +131,7 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      background: #f2f2f2 !important;
+      background: ${t.bgDisabled} !important;
       border-color: transparent !important;
       box-shadow: ${t.radioDisabledShadow} !important;
     `;
