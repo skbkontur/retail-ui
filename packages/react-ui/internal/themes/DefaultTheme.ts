@@ -115,6 +115,63 @@ export class DefaultTheme {
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
+  public static get tokenTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get tokenFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static tokenLineHeight = '1.5';
+  public static tokenPaddingX = '4px';
+  public static tokenPaddingY = '';
+  public static get tokenDefaultIdle() {
+    return this.grayXLight;
+  }
+  public static get tokenDefaultActive() {
+    return this.brand;
+  }
+  public static get tokenGrayIdle() {
+    return this.grayXLight;
+  }
+  public static get tokenGrayActive() {
+    return this.grayDark;
+  }
+  public static get tokenBlueIdle() {
+    return this.blueLight;
+  }
+  public static get tokenBlueActive() {
+    return this.blueDark;
+  }
+  public static get tokenGreenIdle() {
+    return this.greenXxLight;
+  }
+  public static get tokenGreenActive() {
+    return this.greenDark;
+  }
+  public static get tokenYellowIdle() {
+    return this.yellowXxLight;
+  }
+  public static get tokenYellowActive() {
+    return this.yellowDark;
+  }
+  public static get tokenRedIdle() {
+    return this.redXxLight;
+  }
+  public static get tokenRedActive() {
+    return this.redDark;
+  }
+  public static get tokenWhite() {
+    return this.white;
+  }
+  public static get tokenBlack() {
+    return this.black;
+  }
+  public static get tokenBorderColorWarning() {
+    return this.borderColorWarning;
+  }
+  public static get tokenBorderColorError() {
+    return this.borderColorError;
+  }
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
