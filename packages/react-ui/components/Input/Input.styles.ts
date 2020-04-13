@@ -31,7 +31,7 @@ const styles = {
       align-items: center;
       background-clip: padding-box;
       background-color: ${t.inputBg};
-      border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
+      border: ${t.inputBorderWidth} solid ${t.inputBorderColor};
       border-top-color: ${t.inputBorderTopColor};
       box-shadow: ${t.inputShadow};
       box-sizing: border-box;
@@ -63,19 +63,19 @@ const styles = {
 
   focus(t: Theme) {
     return css`
-      border-color: ${t.borderColorFocus};
+      border-color: ${t.inputBorderColorFocus};
       box-shadow: ${t.inputFocusShadow};
       outline: none;
       z-index: 2;
 
       ${cssName(styles.input(t))}:-moz-placeholder {
-        color: ${t.placeholderColorLight};
+        color: ${t.inputPlaceholderColorLight};
       }
       ${cssName(styles.input(t))}::-moz-placeholder {
-        color: ${t.placeholderColorLight};
+        color: ${t.inputPlaceholderColorLight};
       }
       ${cssName(styles.input(t))}::placeholder {
-        color: ${t.placeholderColorLight};
+        color: ${t.inputPlaceholderColorLight};
       }
     `;
   },
@@ -90,7 +90,7 @@ const styles = {
   placeholder(t: Theme) {
     return css`
       -ms-user-select: none;
-      color: ${t.placeholderColor};
+      color: ${t.inputPlaceholderColor};
       cursor: text;
       font-size: inherit;
       height: 100%;
@@ -104,7 +104,7 @@ const styles = {
       width: 100%;
 
       ${cssName(styles.focus(t))} & {
-        color: ${t.placeholderColorLight};
+        color: ${t.inputPlaceholderColorLight};
       }
     `;
   },
@@ -134,13 +134,13 @@ const styles = {
         display: none;
       }
       &:-moz-placeholder {
-        color: ${t.placeholderColor};
+        color: ${t.inputPlaceholderColor};
       }
       &::-moz-placeholder {
-        color: ${t.placeholderColor};
+        color: ${t.inputPlaceholderColor};
       }
       &::placeholder {
-        color: ${t.placeholderColor};
+        color: ${t.inputPlaceholderColor};
       }
     `;
   },
@@ -148,8 +148,8 @@ const styles = {
   warning(t: Theme) {
     return css`
       & {
-        border-color: ${t.borderColorWarning} !important;
-        box-shadow: 0 0 0 1px ${t.borderColorWarning} !important;
+        border-color: ${t.inputBorderColorWarning} !important;
+        box-shadow: 0 0 0 1px ${t.inputBorderColorWarning} !important;
         z-index: 2;
       }
     `;
@@ -158,14 +158,14 @@ const styles = {
   warningFallback(t: Theme) {
     return css`
       box-shadow: none !important;
-      outline: 1px solid ${t.borderColorWarning} !important;
+      outline: 1px solid ${t.inputBorderColorWarning} !important;
     `;
   },
 
   error(t: Theme) {
     return css`
-      border-color: ${t.borderColorError} !important;
-      box-shadow: 0 0 0 1px ${t.borderColorError} !important;
+      border-color: ${t.inputBorderColorError} !important;
+      box-shadow: 0 0 0 1px ${t.inputBorderColorError} !important;
       z-index: 2;
     `;
   },
@@ -173,7 +173,7 @@ const styles = {
   errorFallback(t: Theme) {
     return css`
       box-shadow: none !important;
-      outline: 1px solid ${t.borderColorError} !important;
+      outline: 1px solid ${t.inputBorderColorError} !important;
     `;
   },
 
@@ -188,19 +188,19 @@ const styles = {
         cursor: default;
       }
       ${cssName(styles.input(t))} {
-        color: ${t.textColorDisabled};
+        color: ${t.inputTextColorDisabled};
         pointer-events: none;
         /* fix text color in safari */
         -webkit-text-fill-color: currentcolor;
       }
       ${cssName(styles.input(t))}:-moz-placeholder {
-        -webkit-text-fill-color: ${t.placeholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColor};
       }
       ${cssName(styles.input(t))}::-moz-placeholder {
-        -webkit-text-fill-color: ${t.placeholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColor};
       }
       ${cssName(styles.input(t))}::placeholder {
-        -webkit-text-fill-color: ${t.placeholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColor};
       }
     `;
   },
@@ -208,7 +208,7 @@ const styles = {
   blink(t: Theme) {
     const blinkAnimation = keyframes`
     0% {
-      background-color: ${t.blinkColor};
+      background-color: ${t.inputBlinkColor};
     }
   `;
     return css`
@@ -220,18 +220,18 @@ const styles = {
     return css`
       & {
         font-size: ${t.inputFontSizeSmall};
-        line-height: ${t.controlLineHeightSmall} !important;
-        padding-top: ${t.controlPaddingYSmall};
-        padding-bottom: ${t.controlPaddingYSmall};
-        height: ${t.controlHeightSmall};
+        line-height: ${t.inputLineHeightSmall} !important;
+        padding-top: ${t.inputPaddingYSmall};
+        padding-bottom: ${t.inputPaddingYSmall};
+        height: ${t.inputHeightSmall};
       }
     `;
   },
 
   sizeSmallFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.controlPaddingYSmall, '-1')};
-      padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
+      padding-top: ${shift(t.inputPaddingYSmall, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
       line-height: normal !important;
     `;
   },
@@ -239,17 +239,17 @@ const styles = {
   sizeMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
-      line-height: ${t.controlLineHeightMedium} !important;
-      padding-top: ${t.controlPaddingYMedium};
-      padding-bottom: ${t.controlPaddingYMedium};
-      height: ${t.controlHeightMedium};
+      line-height: ${t.inputLineHeightMedium} !important;
+      padding-top: ${t.inputPaddingYMedium};
+      padding-bottom: ${t.inputPaddingYMedium};
+      height: ${t.inputHeightMedium};
     `;
   },
 
   sizeMediumFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.controlPaddingYMedium, '-1')};
-      padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
+      padding-top: ${shift(t.inputPaddingYMedium, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
       line-height: normal !important;
     `;
   },
@@ -257,30 +257,30 @@ const styles = {
   sizeLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
-      line-height: ${t.controlLineHeightLarge} !important;
-      height: ${t.controlHeightLarge};
-      padding-top: ${shift(t.controlPaddingYLarge, '-1')};
-      padding-bottom: ${shift(t.controlPaddingYLarge, '1')};
+      line-height: ${t.inputLineHeightLarge} !important;
+      height: ${t.inputHeightLarge};
+      padding-top: ${shift(t.inputPaddingYLarge, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
     `;
   },
 
   sizeLargeFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.controlPaddingYLarge, '-2')};
-      padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
+      padding-top: ${shift(t.inputPaddingYLarge, '-2')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
       line-height: normal !important;
     `;
   },
 
   prefix(t: Theme) {
     return css`
-      color: ${t.placeholderColor};
+      color: ${t.inputPlaceholderColor};
     `;
   },
 
   suffix(t: Theme) {
     return css`
-      color: ${t.placeholderColor};
+      color: ${t.inputPlaceholderColor};
     `;
   },
 

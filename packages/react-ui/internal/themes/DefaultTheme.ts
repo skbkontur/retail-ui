@@ -522,6 +522,9 @@ export class DefaultTheme {
   //#endregion
   //#region Input
   public static inputTextColor = 'none';
+  public static get inputTextColorDisabled() {
+    return this.textColorDisabled;
+  }
   public static inputShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
@@ -534,6 +537,33 @@ export class DefaultTheme {
   }
   public static get inputFontSizeLarge() {
     return this.fontSizeLarge;
+  }
+  public static get inputLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get inputLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get inputLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static get inputHeightSmall() {
+    return this.controlHeightSmall;
+  }
+  public static get inputHeightMedium() {
+    return this.controlHeightMedium;
+  }
+  public static get inputHeightLarge() {
+    return this.controlHeightLarge;
+  }
+  public static get inputPaddingYSmall() {
+    return this.controlPaddingYSmall;
+  }
+  public static get inputPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get inputPaddingYLarge() {
+    return this.controlPaddingYLarge;
   }
   public static get inputFocusShadow() {
     return `0 0 0 1px ${this.borderColorFocus}`;
@@ -550,8 +580,29 @@ export class DefaultTheme {
   public static get inputBorderWidth() {
     return this.controlBorderWidth;
   }
+  public static get inputBorderColor() {
+    return this.borderColorGrayLight;
+  }
+  public static get inputBorderColorFocus() {
+    return this.borderColorFocus;
+  }
+  public static get inputBorderColorError() {
+    return this.borderColorError;
+  }
+  public static get inputBorderColorWarning() {
+    return this.borderColorWarning;
+  }
   public static get inputBorderTopColor() {
     return this.borderColorGrayDark;
+  }
+  public static get inputPlaceholderColor() {
+    return this.placeholderColor;
+  }
+  public static get inputPlaceholderColorLight() {
+    return this.placeholderColorLight;
+  }
+  public static get inputBlinkColor() {
+    return this.blinkColor;
   }
   //#endregion
   //#region Checkbox
