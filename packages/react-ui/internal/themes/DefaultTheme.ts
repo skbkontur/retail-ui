@@ -594,6 +594,15 @@ export class DefaultTheme {
   public static radioLabelDisplay = 'inline-table';
   //#endregion
   //#region Tabs
+  public static get tabFontSize() {
+    return '18px';
+  }
+  public static get tabPaddingX() {
+    return '20px';
+  }
+  public static get tabLineHeight() {
+    return '24px';
+  }
   public static get tabColorFocus() {
     return this.borderColorFocus;
   }

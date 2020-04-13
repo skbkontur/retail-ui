@@ -10,9 +10,10 @@ const styles = {
       color: inherit;
       cursor: pointer;
       display: inline-block;
-      font-size: 18px;
-      margin-left: 20px;
-      margin-right: 20px;
+      font-size: ${t.tabFontSize};
+      line-height: ${t.tabLineHeight};
+      margin-left: ${t.tabPaddingX};
+      margin-right: ${t.tabPaddingX};
       padding-bottom: 11px;
       padding-top: 9px;
       position: relative;
