@@ -577,7 +577,16 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Radio
-  public static radioSize = '16px';
+  public static get radioSize() {
+    return '16px';
+  }
+  public static get radioFontSize() {
+    return '16px';
+  }
+  public static get radioLineHeight() {
+    return '20px';
+  }
+  public static radioPaddingX = '9px';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
   public static radioHoverBg = 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%)';
