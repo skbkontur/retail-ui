@@ -482,8 +482,28 @@ export class DefaultTheme {
   public static logoColor = '#000';
   public static logoHoverColor = '#000';
   //#endregion
-  //#region Menu
+  //#region MenuItem
   public static menuItemPaddingForIcon = '36px';
+  public static get menuItemLineHeight() {
+    return '18px';
+  }
+  public static get menuItemTextColorInvert() {
+    return this.textColorInvert;
+  }
+  public static get menuItemDropdownMenuHoverBg() {
+    return this.dropdownMenuHoverBg;
+  }
+  public static get menuItemDropdownMenuSelectedBg() {
+    return this.dropdownMenuSelectedBg;
+  }
+  public static get menuItemTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get menuItemLinkColor() {
+    return this.linkColor;
+  }
+  //#endregion
+  //#region Menu
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
   //#endregion

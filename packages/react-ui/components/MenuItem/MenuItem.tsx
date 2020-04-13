@@ -105,7 +105,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     }
 
     const className = cn({
-      [jsStyles.root()]: true,
+      [jsStyles.root(this.theme)]: true,
       [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
       [jsStyles.selected(this.theme)]: state === 'selected',

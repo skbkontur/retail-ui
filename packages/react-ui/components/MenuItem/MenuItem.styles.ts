@@ -3,13 +3,13 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
 const styles = {
-  root() {
+  root(t: Theme) {
     return css`
       ${resetButton()};
 
       cursor: pointer;
       display: block;
-      line-height: 18px;
+      line-height: ${t.menuItemLineHeight};
       padding: 6px 18px 7px 8px;
       position: relative;
       text-decoration: none;
@@ -22,25 +22,25 @@ const styles = {
   hover(t: Theme) {
     // Color with !important in purpose to override `a:hover`
     return css`
-      background: ${t.dropdownMenuHoverBg};
-      color: ${t.textColorInvert} !important;
+      background: ${t.menuItemDropdownMenuHoverBg};
+      color: ${t.menuItemTextColorInvert} !important;
     `;
   },
   selected(t: Theme) {
     return css`
-      background: ${t.dropdownMenuSelectedBg};
+      background: ${t.menuItemDropdownMenuSelectedBg};
     `;
   },
   disabled(t: Theme) {
     return css`
       background: transparent;
-      color: ${t.textColorDisabled};
+      color: ${t.menuItemTextColorDisabled};
       cursor: default;
     `;
   },
   link(t: Theme) {
     return css`
-      color: ${t.linkColor};
+      color: ${t.menuItemLinkColor};
     `;
   },
   loose() {
