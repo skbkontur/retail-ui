@@ -578,13 +578,13 @@ export class DefaultTheme {
   //#endregion
   //#region Radio
   public static get radioSize() {
-    return '16px';
+    return this.radioFontSize;
   }
   public static get radioFontSize() {
-    return '16px';
+    return this.fontSizeLarge;
   }
   public static get radioLineHeight() {
-    return '20px';
+    return this.controlLineHeightSmall;
   }
   public static radioPaddingX = '9px';
   public static radioVerticalAlign = '-2px';
