@@ -603,6 +603,9 @@ export class DefaultTheme {
   public static get tabLineHeight() {
     return '24px';
   }
+  public static get tabTextColorDefault() {
+    return this.textColorDefault;
+  }
   public static get tabColorFocus() {
     return this.borderColorFocus;
   }
@@ -621,16 +624,16 @@ export class DefaultTheme {
   public static get tabColorHover() {
     return this.borderColorFocusLight;
   }
-  public static get tabColorHoverError() {
+  public static get tabBorderColorHoverError() {
     return ColorFunctions.lighten(this.tabColorError, '25%');
   }
-  public static get tabColorHoverWarning() {
+  public static get tabBorderColorHoverWarning() {
     return ColorFunctions.lighten(this.tabColorWarning, '25%');
   }
-  public static get tabColorHoverSuccess() {
+  public static get tabBorderColorHoverSuccess() {
     return ColorFunctions.lighten(this.tabColorSuccess, '25%');
   }
-  public static get tabColorHoverPrimary() {
+  public static get tabBorderColorHoverPrimary() {
     return ColorFunctions.lighten(this.tabColorPrimary, '25%');
   }
   //#endregion

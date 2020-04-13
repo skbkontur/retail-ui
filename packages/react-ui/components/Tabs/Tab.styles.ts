@@ -81,9 +81,9 @@ const styles = {
   disabled(t: Theme) {
     return css`
       color: rgba(
-        ${ColorFunctions.red(t.textColorDefault)},
-        ${ColorFunctions.green(t.textColorDefault)},
-        ${ColorFunctions.blue(t.textColorDefault)},
+        ${ColorFunctions.red(t.tabTextColorDefault)},
+        ${ColorFunctions.green(t.tabTextColorDefault)},
+        ${ColorFunctions.blue(t.tabTextColorDefault)},
         0.5
       );
       cursor: default;
@@ -101,10 +101,10 @@ const styles = {
   primary(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabColorHoverPrimary};
+        border-bottom-color: ${t.tabBorderColorHoverPrimary};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabColorHoverPrimary};
+        border-left-color: ${t.tabBorderColorHoverPrimary};
       }
     `;
   },
@@ -112,10 +112,10 @@ const styles = {
   success(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabColorHoverSuccess};
+        border-bottom-color: ${t.tabBorderColorHoverSuccess};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabColorHoverSuccess};
+        border-left-color: ${t.tabBorderColorHoverSuccess};
       }
     `;
   },
@@ -123,10 +123,10 @@ const styles = {
   warning(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabColorHoverWarning};
+        border-bottom-color: ${t.tabBorderColorHoverWarning};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabColorHoverWarning};
+        border-left-color: ${t.tabBorderColorHoverWarning};
       }
     `;
   },
@@ -134,10 +134,10 @@ const styles = {
   error(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabColorHoverError};
+        border-bottom-color: ${t.tabBorderColorHoverError};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabColorHoverError};
+        border-left-color: ${t.tabBorderColorHoverError};
       }
     `;
   },
