@@ -51,7 +51,7 @@ const styles = {
       ${cssName(styles.input())}:focus + &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorFocus};
+        border-color: ${t.radioBorderColorFocus};
       }
       &::after {
         content: ' ';
@@ -65,7 +65,7 @@ const styles = {
       &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorFocus};
+        border-color: ${t.radioBorderColorFocus};
       }
     `;
   },
@@ -75,7 +75,7 @@ const styles = {
       &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorWarning};
+        border-color: ${t.radioBorderColorWarning};
       }
     `;
   },
@@ -85,7 +85,7 @@ const styles = {
       &::after {
         ${styles.after()};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorError};
+        border-color: ${t.radioBorderColorError};
       }
     `;
   },
