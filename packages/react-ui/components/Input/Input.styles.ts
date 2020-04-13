@@ -220,18 +220,18 @@ const styles = {
     return css`
       & {
         font-size: ${t.inputFontSizeSmall};
-        line-height: ${t.controlLineHeightSmall} !important;
-        padding-top: ${t.controlPaddingYSmall};
-        padding-bottom: ${t.controlPaddingYSmall};
-        height: ${t.controlHeightSmall};
+        line-height: ${t.inputLineHeightSmall} !important;
+        padding-top: ${t.inputPaddingYSmall};
+        padding-bottom: ${t.inputPaddingYSmall};
+        height: ${t.inputHeightSmall};
       }
     `;
   },
 
   sizeSmallFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.controlPaddingYSmall, '-1')};
-      padding-bottom: ${shift(t.controlPaddingYSmall, '1')};
+      padding-top: ${shift(t.inputPaddingYSmall, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
       line-height: normal !important;
     `;
   },
@@ -239,17 +239,17 @@ const styles = {
   sizeMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
-      line-height: ${t.controlLineHeightMedium} !important;
-      padding-top: ${t.controlPaddingYMedium};
-      padding-bottom: ${t.controlPaddingYMedium};
-      height: ${t.controlHeightMedium};
+      line-height: ${t.inputLineHeightMedium} !important;
+      padding-top: ${t.inputPaddingYMedium};
+      padding-bottom: ${t.inputPaddingYMedium};
+      height: ${t.inputHeightMedium};
     `;
   },
 
   sizeMediumFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.controlPaddingYMedium, '-1')};
-      padding-bottom: ${shift(t.controlPaddingYMedium, '1')};
+      padding-top: ${shift(t.inputPaddingYMedium, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
       line-height: normal !important;
     `;
   },
@@ -257,17 +257,17 @@ const styles = {
   sizeLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
-      line-height: ${t.controlLineHeightLarge} !important;
-      height: ${t.controlHeightLarge};
-      padding-top: ${shift(t.controlPaddingYLarge, '-1')};
-      padding-bottom: ${shift(t.controlPaddingYLarge, '1')};
+      line-height: ${t.inputLineHeightLarge} !important;
+      height: ${t.inputHeightLarge};
+      padding-top: ${shift(t.inputPaddingYLarge, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
     `;
   },
 
   sizeLargeFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.controlPaddingYLarge, '-2')};
-      padding-bottom: ${shift(t.controlPaddingYLarge, '2')};
+      padding-top: ${shift(t.inputPaddingYLarge, '-2')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
       line-height: normal !important;
     `;
   },

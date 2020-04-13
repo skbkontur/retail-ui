@@ -478,6 +478,33 @@ export class DefaultTheme {
   public static get inputFontSizeLarge() {
     return this.fontSizeLarge;
   }
+  public static get inputLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get inputLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get inputLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static get inputHeightSmall() {
+    return this.controlHeightSmall;
+  }
+  public static get inputHeightMedium() {
+    return this.controlHeightMedium;
+  }
+  public static get inputHeightLarge() {
+    return this.controlHeightLarge;
+  }
+  public static get inputPaddingYSmall() {
+    return this.controlPaddingYSmall;
+  }
+  public static get inputPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get inputPaddingYLarge() {
+    return this.controlPaddingYLarge;
+  }
   public static get inputFocusShadow() {
     return `0 0 0 1px ${this.borderColorFocus}`;
   }
