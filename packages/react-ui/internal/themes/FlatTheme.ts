@@ -299,6 +299,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get radioCheckedBgColor() {
     return this.chbCheckedBg;
   }
+  public static get radioCheckedHoverBgColor() {
+    return ColorFunctions.darken(this.chbCheckedBg, '5%');
+  }
   public static get textareaDisabledBorderColor() {
     return this.textareaDisabledBg;
   }

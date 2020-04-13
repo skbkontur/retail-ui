@@ -352,6 +352,9 @@ export class DefaultTheme {
     '0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static radioFocusShadow = 'none';
   public static radioCheckedBgColor = 'transparent';
+  public static get radioCheckedHoverBgColor() {
+    return this.radioHoverBg;
+  };
   public static radioCheckedBulletColor = '#404040';
   public static radioDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static radioLabelDisplay = 'inline-table';
