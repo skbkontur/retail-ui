@@ -85,10 +85,10 @@ const [name, setName] = useState('');
 
 Чтобы начать использовать пакет `@skbkontur/react-ui-addons` из `nexus` необходимо:
 
-1. Выполнить в проекте команду
+1. Создать в корне проекта файл `.npmrc` со следующим содержимым:
 
-   ```shell
-   npm config set @skbkontur:registry https://nexus.kontur.host/repository/kontur-npm-group/
+   ```
+   @skbkontur:registry https://nexus.kontur.host/repository/kontur-npm-group/
    ```
 
 2. Применить [кодмод `moveToAddons`](https://github.com/skbkontur/retail-ui/pull/1900#moveToAddons), исправляющий импорты Контур-специфичных компонентов на импорты из `@skbkontur/react-ui-addons`
