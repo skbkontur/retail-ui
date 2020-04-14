@@ -65,7 +65,7 @@ export interface LogotypeProps {
 }
 
 /**
- * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
  */
 @locale('Logotype', LogotypeLocaleHelper)
 export class Logotype extends React.Component<LogotypeProps> {
@@ -101,7 +101,7 @@ export class Logotype extends React.Component<LogotypeProps> {
     super(props);
     warning(
       false,
-      `Logotype has been deprecated, use Logotype from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+      `Logotype has been deprecated, use Logotype from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)`,
     );
   }
 
