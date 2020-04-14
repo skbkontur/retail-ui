@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.1.0...@skbkontur/react-ui@2.1.1) (2020-04-14)
+
+
+### Bug Fixes
+
+* **Radio:** add styles for `checked:hover` ([1e99755](https://github.com/skbkontur/retail-ui/commit/1e9975532cc8e4edf15da2572c7914b03037d12a)), closes [#1979](https://github.com/skbkontur/retail-ui/issues/1979)
+* **Toggle:** add custom boxShadow for toggle ([1922285](https://github.com/skbkontur/retail-ui/commit/1922285bd65cca03b79047f8b09f484ec433bba2))
+
+
+
+
+
 # [2.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.0.0...@skbkontur/react-ui@2.1.0) (2020-04-07)
 
 
