@@ -10,7 +10,7 @@ const styles = {
       cursor: pointer;
       display: block;
       line-height: ${t.menuItemLineHeight};
-      padding: 6px 18px 7px 8px;
+      padding: ${t.menuItemPadding};
       position: relative;
       text-decoration: none;
 

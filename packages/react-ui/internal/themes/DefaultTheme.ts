@@ -484,6 +484,10 @@ export class DefaultTheme {
   //#endregion
   //#region MenuItem
   public static menuItemPaddingForIcon = '36px';
+  // TODO почему-то при добавлении font-size ломаются большинство скриншотов
+  public static get menuItemFontSize() {
+    return '14px';
+  }
   public static get menuItemLineHeight() {
     return '18px';
   }
@@ -501,6 +505,14 @@ export class DefaultTheme {
   }
   public static get menuItemLinkColor() {
     return this.linkColor;
+  }
+  //TODO решить какой порядок у PaddingX - оставил сначала левый, потом правый
+  public static menuItemPaddingX = '8px 18px';
+  public static menuItemPaddingY = '6px 7px';
+  public static get menuItemPadding() {
+    const [paddingLeft, paddingRight] = this.menuItemPaddingX.split(' ');
+    const [paddingTop, paddingBottom] = this.menuItemPaddingY.split(' ');
+    return `${paddingTop} ${paddingRight || paddingLeft} ${paddingBottom || paddingTop} ${paddingLeft}`;
   }
   //#endregion
   //#region Menu
