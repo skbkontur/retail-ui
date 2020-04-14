@@ -482,6 +482,28 @@ export class DefaultTheme {
   public static logoColor = '#000';
   public static logoHoverColor = '#000';
   //#endregion
+  //#region MenuHeader
+  //TODO решить какой порядок у PaddingX - оставил сначала левый, потом правый
+  public static menuHeaderPaddingX = '8px 18px';
+  public static menuHeaderPaddingY = '6px 7px';
+  public static get menuHeaderFontSize() {
+    return '12px';
+  }
+  public static get menuHeaderLineHeight() {
+    return 'normal';
+  }
+  public static get menuHeaderTextColor() {
+    return '#a0a0a0';
+  }
+  public static get menuHeaderPaddingForIcon() {
+    return this.menuItemPaddingForIcon;
+  }
+  public static get menuHeaderPadding() {
+    const [paddingLeft, paddingRight] = this.menuHeaderPaddingX.split(' ');
+    const [paddingTop, paddingBottom] = this.menuHeaderPaddingY.split(' ');
+    return `${paddingTop} ${paddingRight || paddingLeft} ${paddingBottom || paddingTop} ${paddingLeft}`;
+  }
+  //#endregion
   //#region Menu
   public static menuItemPaddingForIcon = '36px';
   public static menuBorder = '1px solid #d5d5d5';

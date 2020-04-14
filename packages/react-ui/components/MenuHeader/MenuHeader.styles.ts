@@ -2,18 +2,19 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  root() {
+  root(t: Theme) {
     return css`
-      color: #a0a0a0;
+      color: ${t.menuHeaderTextColor};
       cursor: default;
-      font-size: 12px;
-      padding: 6px 18px 7px 8px;
+      font-size: ${t.menuHeaderFontSize};
+      line-heigh: ${t.menuHeaderLineHeight};
+      padding: ${t.menuHeaderPadding};
     `;
   },
 
   withLeftPadding(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIcon};
+      padding-left: ${t.menuHeaderPaddingForIcon};
     `;
   },
 };
