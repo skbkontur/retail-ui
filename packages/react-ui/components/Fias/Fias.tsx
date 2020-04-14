@@ -130,7 +130,7 @@ function deepMerge<T>(dst: T, ...src: T[]): T {
 }
 
 /**
- * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
  */
 
 @locale('Fias', FiasLocaleHelper)
@@ -166,7 +166,7 @@ export class Fias extends React.Component<FiasProps, FiasState> {
     super(props);
     warning(
       true,
-      `Fias has been deprecated, use Fias from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+      `Fias has been deprecated, use Fias from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)`,
     );
     if (!props.baseUrl && !props.api) {
       FiasLogger.log(FiasLogger.warnings.baseUrlOrApiIsRequired);
