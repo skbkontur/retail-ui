@@ -46,6 +46,8 @@ import Input from '@skbkontur/react-ui/Input';
 import { Button, Input } from '@skbkontur/react-ui;
 ```
 
+В случае использования typescript вам потребуется влючить опцию `compilerOptions.esModuleInterop` в своем `tsconfgi.json` для корректной работы типизации.
+
 Если вы загружаете компоненты библиотеки в nodejs, например, в unit тестах, вам необходимо настроить трансформацию в CommonJS модулей из `@skbkontur/react-ui`, чтобы избежать ошибки `Error [ERR_REQUIRE_ESM]: Must use import to load ES Module`. Для сборки бандла в webpack конфиге ничего дополнительно настраивать не нужно. В скором времени появится нативная поддержка [ES Modules в Jest](https://jestjs.io/blog/2020/01/21/jest-25.html#ecmascript-modules-support)
 
 Публичными компонентами называются те, для которых есть страница с документацией на [витрине компонентов](https://tech.skbkontur.ru/react-ui/). Компоненты, которые отсутствуют на витрине считаются внутренними и не рекомендуются к использованию, для них не гарантируется сохранение обратной совместимости в рамках одной мажорной версии. Но если вам всё же необходимо использовать внутренний компонент, импортировать его можно из `@skbkontur/react-ui/internal/<ComponentName>`.
@@ -79,16 +81,17 @@ const [name, setName] = useState('');
 ```
 
 Мы подготовили [кодмод `transformOnChange`](https://github.com/skbkontur/retail-ui/pull/1900#transformOnChange) для перехода на новое API, в тех местах, где нельзя автоматически преобразовать `onChange` в `onValueChange` будет выводится сообщение о неудачной попытке трансформации и необходимости внести изменения вручную.
+
 ### Отдельный пакет для Контур-специфичных компонентов
 
 Компоненты использующие фирменный стиль или api сервисов Контура с выпуском 2.0 переезжают в отдельный приватный [репозиторий](https://git.skbkontur.ru/ui/ui-parking) и пакет [@skbkontur/react-ui-addons](https://nexus.kontur.host/#browse/browse:kontur-npm:%40skbkontur%2Freact-ui-addons) в приватном npm-репозитории `nexus`.
 
 Чтобы начать использовать пакет `@skbkontur/react-ui-addons` из `nexus` необходимо:
 
-1. Выполнить в проекте команду
+1. Создать в корне проекта файл `.npmrc` со следующим содержимым:
 
-   ```shell
-   npm config set @skbkontur:registry https://nexus.kontur.host/repository/kontur-npm-group/
+   ```
+   @skbkontur:registry https://nexus.kontur.host/repository/kontur-npm-group/
    ```
 
 2. Применить [кодмод `moveToAddons`](https://github.com/skbkontur/retail-ui/pull/1900#moveToAddons), исправляющий импорты Контур-специфичных компонентов на импорты из `@skbkontur/react-ui-addons`

@@ -58,7 +58,7 @@ export interface TopBarDefaultProps {
  */
 
 /**
- * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
  */
 export class TopBar extends React.Component<TopBarProps> {
   public static __KONTUR_REACT_UI__ = 'TopBar';
@@ -145,7 +145,7 @@ export class TopBar extends React.Component<TopBarProps> {
     super(props);
     warning(
       false,
-      `TopBar has been deprecated, use TopBar from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)`,
+      `TopBar has been deprecated, use TopBar from @skbkontur/react-ui-addons instead, see [migration](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)`,
     );
   }
 

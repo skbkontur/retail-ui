@@ -46,7 +46,7 @@ import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/Show
 </ThemeContext.Provider>;
 ```
 
-### Создание собственной темы на основе темы по умолчанию
+### Создание собственной темы
 
 Собственные значения нужно передать в `ThemeFactory.create` и получившуюся тему можно использовать в `ThemeContext.Provider`. `ThemeFactory` расширяет переданный объект, задавая в качестве прототипа объект темы по умолчанию.
 
@@ -63,7 +63,7 @@ const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' });
 
 Вторым аргументом `ThemeFactory.create` может принимать объект, который будет использован в качестве базовой темы.
 
-```jsx harmony
+```jsx static
 import { ThemeFactory } from '@skbkontur/react-ui';
 import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
@@ -96,7 +96,7 @@ function ButtonLinkWrapper(props) {
 
 ```jsx harmony
 import { useContext } from 'react';
-import { ThemeFactory } from '@skbkontur/react-ui';
+import { ThemeFactory, Button } from '@skbkontur/react-ui';
 
 const MyThemeContext = React.createContext(ThemeFactory.create({ myTextColor: 'orange' }));
 

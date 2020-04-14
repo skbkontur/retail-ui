@@ -25,7 +25,7 @@ export interface SpinnerOldProps {
 }
 
 /**
- * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/MIGRATION.md)
+ * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
  */
 @locale('Spinner', SpinnerLocaleHelper)
 export class SpinnerOld extends React.Component<SpinnerOldProps> {
