@@ -2,6 +2,11 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
+  root() {
+    return css`
+      display: inline-block;
+    `;
+  },
   label(t: Theme) {
     return css`
       background-color: ${t.inputBg};
