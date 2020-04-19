@@ -373,7 +373,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
       <div className={jsStyles.search()}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+        <Input autoFocus onValueChange={this.handleSearch} width="100%" />
       </div>
     ) : null;
 
@@ -428,12 +428,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private dropdownContainerGetParent = () => {
     return ReactDOM.findDOMNode(this);
-  };
-
-  private focusInput = (input: Input) => {
-    if (input) {
-      input.focus();
-    }
   };
 
   private refMenu = (menu: Menu) => {

@@ -270,6 +270,7 @@ export class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
+      autoFocus,
       ...rest
     } = this.props;
 
@@ -414,6 +415,8 @@ export class Input extends React.Component<InputProps, InputState> {
     } else {
       this.input = element;
     }
+    // fix cases when an Input is rendered in portal
+    this.props.autoFocus && setTimeout(() => this.input?.focus(), 0);
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
