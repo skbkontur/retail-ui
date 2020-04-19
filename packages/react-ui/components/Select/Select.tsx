@@ -373,7 +373,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
       <div className={jsStyles.search()}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} />
+        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     ) : null;
 
