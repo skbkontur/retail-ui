@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StoryFn } from '@storybook/addons';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
@@ -292,6 +292,69 @@ UsingOnKeyDown.story = {
             .sendKeys(this.keys.ENTER)
             .perform();
           await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
+        },
+      },
+    },
+  },
+};
+
+export const WithSearchAndVariousWidth: CSFStory<JSX.Element> = () => {
+  let selectElem: Select | null = null;
+  const [width, setWidth] = useState();
+  const changeWidth = (w: string) => {
+    setWidth(w);
+    if (selectElem) {
+      selectElem.open();
+    }
+  };
+
+  return (
+    <div data-tid="root" style={{ width: 500, height: 250 }}>
+      <Button data-tid="w100px" onClick={() => changeWidth('100px')}>
+        100px
+      </Button>
+      <Button data-tid="w300px" onClick={() => changeWidth('300px')}>
+        300px
+      </Button>
+      <Button data-tid="w100prc" onClick={() => changeWidth('100%')}>
+        100%
+      </Button>
+      <br />
+      <Select ref={ref => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+    </div>
+  );
+};
+WithSearchAndVariousWidth.story = {
+  name: 'with search',
+  parameters: {
+    creevey: {
+      captureElement: '#test-element',
+      tests: {
+        async ['and various width']() {
+          const root = await this.browser.findElement({ css: '[data-tid="root"]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(await this.browser.findElement({ css: '[data-tid="w100px"]' }))
+            .perform();
+
+          const w100px = await root.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(await this.browser.findElement({ css: '[data-tid="w300px"]' }))
+            .perform();
+
+          const w300px = await root.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(await this.browser.findElement({ css: '[data-tid="w100prc"]' }))
+            .perform();
+
+          const w100prc = await root.takeScreenshot();
+
+          await this.expect({ w100px, w300px, w100prc }).to.matchImages();
         },
       },
     },
