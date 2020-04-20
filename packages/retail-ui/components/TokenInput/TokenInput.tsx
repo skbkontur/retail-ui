@@ -74,7 +74,7 @@ export interface TokenInputProps<T> {
   /**
    * Функция отрисовки кнопки добавления в выпадающем списке
    */
-  renderAddButton?: (query: string, onAddItem: () => void) => ReactNode;
+  renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
 
   /**
    * Вызывается при изменении текста в поле ввода,
