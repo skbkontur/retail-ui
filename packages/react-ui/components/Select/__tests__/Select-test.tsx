@@ -74,7 +74,7 @@ describe('Select', () => {
           3,
           Select.SEP,
           'Four',
-          <Select.Item>Five</Select.Item>,
+          <Select.Item key="random_key">Five</Select.Item>,
           [6, 'Six'],
           [7, 'Seven', 777],
         ]}
