@@ -91,7 +91,7 @@ class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain() {
-    const { disabled, href, icon, use, _button, _buttonOpened, className, style, ...rest } = this.getProps<
+    const { disabled, href, icon, use, _button, _buttonOpened, className, style, rel: relOrigin, ...rest } = this.getProps<
       LinkProps,
       Link
     >();
@@ -105,6 +105,11 @@ class Link extends React.Component<LinkProps, LinkState> {
     if (_button) {
       arrow = <span className={styles.arrow} />;
     }
+    
+    let rel = relOrigin;
+    if (typeof rel === 'undefined' && href) {
+      rel = `noopener${(new RegExp(/^https?:\/\//g)).test(href) ? ' noreferrer' : ''}`;
+    }
 
     const props = {
       className: cx({
@@ -116,6 +121,7 @@ class Link extends React.Component<LinkProps, LinkState> {
         [getUseClasses(this.theme)[use as keyof UseClasses]]: !!use,
       }),
       href,
+      rel,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
