@@ -76,10 +76,18 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain() {
-    const { disabled, href, icon, use, _button, _buttonOpened, className, style, ...rest } = this.getProps<
-      LinkProps,
-      Link
-    >();
+    const {
+      disabled,
+      href,
+      icon,
+      use,
+      _button,
+      _buttonOpened,
+      className,
+      style,
+      rel: relOrigin,
+      ...rest
+    } = this.getProps<LinkProps, Link>();
 
     let iconElement = null;
     if (icon) {
@@ -89,6 +97,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
     let arrow = null;
     if (_button) {
       arrow = <span className={jsStyles.arrow()} />;
+    }
+
+    let rel = relOrigin;
+    if (typeof rel === 'undefined' && href) {
+      const externalPath = new RegExp(`\\bhttps?://(?!${window.location.host})\\S+`, 'gi');
+      rel = `noopener${externalPath.test(href) ? ' noreferrer' : ''}`;
     }
 
     const props = {
@@ -104,6 +118,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [jsStyles.useGrayed(this.theme)]: use === 'grayed',
       }),
       href,
+      rel,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
