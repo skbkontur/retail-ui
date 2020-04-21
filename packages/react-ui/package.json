@@ -1,7 +1,7 @@
 {
   "name": "@skbkontur/react-ui",
   "version": "2.1.1",
-  "description": "UI Components",
+  "description": "The Best UI Components",
   "main": "dist/index.js",
   "sideEffects": false,
   "repository": {
