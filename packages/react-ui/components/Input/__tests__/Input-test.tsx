@@ -61,6 +61,7 @@ describe('<Input />', () => {
 
   it('passes props to input', () => {
     const props = {
+      autoFocus: true,
       disabled: true,
       id: 'someId',
       maxLength: 10,
