@@ -497,7 +497,7 @@ export class DefaultTheme {
     return this.borderColorGrayDark;
   }
   //#endregion
-  //#region Checkbox
+  //#region Checkbox chb
   public static get chbFontSize() {
     return this.fontSizeSmall;
   }
@@ -573,6 +573,104 @@ export class DefaultTheme {
   }
   public static get chbShadowActive() {
     return this.btnDefaultActiveShadow;
+  }
+  //#endregion
+  //#region Checkbox
+  public static get checkboxFontSize() {
+    return this.chbFontSize;
+  }
+  public static get checkboxLineHeight() {
+    return this.chbLineHeight;
+  }
+  public static get checkboxBoxSize() {
+    return this.chbBoxSize;
+  }
+  public static get checkboxPaddingX() {
+    return this.chbPaddingX;
+  }
+  public static get checkboxBgStart() {
+    return this.chbBgStart;
+  }
+  public static get checkboxBgEnd() {
+    return this.chbBgEnd;
+  }
+  public static get checkboxTextColorDefault() {
+    return this.chbTextColorDefault;
+  }
+  public static get checkboxTextColorDisabled() {
+    return this.chbTextColorDisabled;
+  }
+  public static get checkboxIndeterminateBg() {
+    return this.chbIndeterminateBg;
+  }
+  public static get checkboxIndeterminateBorderRadius() {
+    return this.chbIndeterminateBorderRadius;
+  }
+  public static get checkboxShadow() {
+    return this.chbShadow;
+  }
+  public static get checkboxShadowDisabled() {
+    return this.chbShadowDisabled;
+  }
+  public static get checkboxBorder() {
+    return this.chbBorder;
+  }
+  public static get checkboxShadowHover() {
+    return this.chbShadowHover;
+  }
+  public static get checkboxCheckedColor() {
+    return this.chbCheckedColor;
+  }
+  public static get checkboxOutlineColorFocus() {
+    return this.chbOutlineColorFocus;
+  }
+  public static get checkboxBorderColorWarning() {
+    return this.chbBorderColorWarning;
+  }
+  public static get checkboxBorderColorError() {
+    return this.chbBorderColorError;
+  }
+  public static get checkboxCheckedHoverShadow() {
+    return this.chbCheckedHoverShadow;
+  }
+  public static get checkboxBorderRadius() {
+    return this.chbBorderRadius;
+  }
+  public static get checkboxShadowWidth() {
+    return this.chbShadowWidth;
+  }
+  public static get checkboxCheckedShadow() {
+    return this.chbCheckedShadow;
+  }
+  public static get checkboxBorderColorFocus() {
+    return this.chbBorderColorFocus;
+  }
+  public static get checkboxBg() {
+    return this.chbBg;
+  }
+  public static get checkboxHoverBg() {
+    return this.chbHoverBg;
+  }
+  public static get checkboxActiveBg() {
+    return this.chbActiveBg;
+  }
+  public static get checkboxCheckedBg() {
+    return this.chbCheckedBg;
+  }
+  public static get checkboxBgDisabled() {
+    return this.chbBgDisabled;
+  }
+  public static get checkboxBoxIndeterminateBg() {
+    return this.chbBoxIndeterminateBg;
+  }
+  public static get checkboxCheckedHoverBg() {
+    return this.chbCheckedHoverBg;
+  }
+  public static get checkboxCheckedActiveBg() {
+    return this.chbCheckedActiveBg;
+  }
+  public static get checkboxShadowActive() {
+    return this.chbShadowActive;
   }
   //#endregion
   //#region TextArea
