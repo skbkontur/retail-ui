@@ -504,6 +504,7 @@ export class DefaultTheme {
   public static get chbLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static chbBoxSize = '16px';
   public static chbPaddingX = '10px';
   public static chbBgStart = '#fdfdfd';
   public static chbBgEnd = '#ededed';

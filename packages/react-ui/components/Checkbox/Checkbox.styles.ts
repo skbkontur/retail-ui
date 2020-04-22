@@ -41,8 +41,8 @@ const styles = {
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
-      width: 16px;
-      height: 16px;
+      width: ${t.chbBoxSize};
+      height: ${t.chbBoxSize};
       flex: none;
       font-size: ${t.chbFontSize};
       color: ${t.chbTextColorDefault};
