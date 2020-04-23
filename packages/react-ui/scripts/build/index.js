@@ -6,9 +6,12 @@ const readdir = require('fs-readdir-recursive');
 const chalk = require('chalk');
 const babel = require('@babel/core');
 
+const isCommonJS = process.env.BABEL_ENV === 'cjs';
+
 const FoldersToTransform = ['components', 'internal', 'lib', 'typings'];
 const IgnoreTemplates = [/__tests__/, /__mocks__/, /\.stories.tsx?$/];
-const OutDir = path.resolve(process.cwd(), 'build');
+const RootDir = path.resolve(process.cwd(), 'build');
+const OutDir = RootDir + (isCommonJS ? '/cjs' : '');
 
 const BABEL_EXTENSIONS = ['js', '.jsx', '.ts', '.tsx'];
 
@@ -21,9 +24,10 @@ function build() {
     handle(folderPath, dirName);
   });
 
-  generatePackageJson();
-
-  copyReadme();
+  if (OutDir === RootDir) {
+    generatePackageJson();
+    copyReadme();
+  }
 }
 
 function transform(filename, code, opts) {
@@ -125,9 +129,8 @@ function generatePackageJson() {
     license: 'MIT',
     dependencies: packageJson.dependencies,
     homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md',
-    type: 'module',
-    main: './index.js',
-    module: './index.js',
+    main: packageJson.main,
+    module: packageJson.module,
     repository: {
       type: 'git',
       url: 'git@github.com:skbkontur/retail-ui.git',
