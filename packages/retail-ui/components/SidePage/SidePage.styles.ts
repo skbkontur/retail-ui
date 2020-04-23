@@ -3,6 +3,16 @@ import styles from './SidePage.module.less';
 import { ITheme } from '../../lib/theming/Theme';
 
 const jsStyles = {
+  overlay() {
+    return css`
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    `;
+  },
+
   container(t: ITheme) {
     return css`
       background: ${t.bgDefault};
