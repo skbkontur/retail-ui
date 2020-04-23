@@ -112,7 +112,7 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
   private renderCaption = (type: SpinnerOldType, caption: React.ReactNode) => {
     const captionClassName = cn(
       jsStyles.caption(this.theme),
-      type === 'mini' ? jsStyles.captionRight() : jsStyles.captionBottom(),
+      type === 'mini' ? jsStyles.captionRight(this.theme) : jsStyles.captionBottom(this.theme),
     );
     return <span className={captionClassName}>{caption}</span>;
   };

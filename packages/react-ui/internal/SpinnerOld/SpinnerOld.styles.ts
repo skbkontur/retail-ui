@@ -71,15 +71,20 @@ const styles = {
     `;
   },
 
-  captionRight() {
+  captionRight(t: Theme) {
     return css`
-      margin-left: 5px;
+      margin-left: ${t.spinnerPaddingXSmall};
+      font-size: ${t.spinnerFontSizeSmall};
+      line-height: ${t.spinnerLineHeightSmall};
     `;
   },
 
-  captionBottom() {
+  captionBottom(t: Theme) {
     return css`
       display: block;
+      font-size: ${t.spinnerFontSizeMedium};
+      line-height: ${t.spinnerLineHeightMedium};
+      margin-top: ${t.spinnerPaddingYMedium};
     `;
   },
 
