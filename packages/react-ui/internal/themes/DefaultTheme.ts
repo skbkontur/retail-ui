@@ -472,6 +472,7 @@ export class DefaultTheme {
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
   public static inputColor = 'inherit';
+  public static inputWidth = '250px';
   public static get inputFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -509,7 +510,7 @@ export class DefaultTheme {
     return this.controlPaddingYLarge;
   }
   public static get inputFocusShadow() {
-    return `0 0 0 1px ${this.borderColorFocus}`;
+    return `0 0 0 ${this.inputBorderWidth} ${this.borderColorFocus}`;
   }
   public static get inputDisabledBg() {
     return this.bgDisabled;
