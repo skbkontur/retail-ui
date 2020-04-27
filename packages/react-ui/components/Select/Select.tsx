@@ -97,7 +97,7 @@ export interface SelectProps<TValue, TItem> {
    * <Select.Item>My Element</Select.Item>
    * ```
    */
-  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | JSX.Element>;
+  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
@@ -185,8 +185,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static SEP = () => <MenuSeparator />;
 
   public static static = (
-    element: React.ReactElement | (() => JSX.Element),
-  ): React.ReactElement | (() => JSX.Element) => {
+    element: React.ReactElement | (() => React.ReactElement),
+  ) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.static(element) expects element to be a valid react element.',
