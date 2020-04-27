@@ -80,8 +80,6 @@ describe('ZIndex', function() {
   });
   describe('Loader in SidePage.Body', function() {
     it('is covered by Header and Footer', async function() {
-      const element = await this.browser.findElement(By.css('[class^="SidePage-module-root"]'));
-
       await this.browser.executeScript(function() {
         const sidePage = window.document.querySelector('[class^="SidePage-module-container"]') as HTMLElement;
 
@@ -92,7 +90,7 @@ describe('ZIndex', function() {
 
       await delay(500);
 
-      await expect(await element.takeScreenshot()).to.matchImage('is covered by Header and Footer');
+      await expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
     });
   });
   describe('Sidepage and Select', function() {
