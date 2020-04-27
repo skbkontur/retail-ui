@@ -7,11 +7,11 @@ const styles = {
     return css`
       display: inline-flex;
       align-items: center;
-      border-radius: 1px;
+      border-radius: ${t.tokenBorderRadius};
       padding: 0 ${t.tokenPaddingX};
       line-height: ${t.tokenLineHeight};
       font-size: ${t.tokenFontSize};
-      margin: 3px;
+      margin: ${t.tokenMargin};
       min-width: 0;
       word-break: break-word;
       user-select: none;
@@ -40,14 +40,14 @@ const styles = {
     `;
   },
 
-  removeIcon() {
+  removeIcon(t: Theme) {
     return css`
       height: 1em;
       width: 1em;
       flex-shrink: 0;
       padding: 2px;
       box-sizing: border-box;
-      margin-left: 4px;
+      margin-left: ${t.tokenMarginBeforeIcon};
       transition: none;
       fill: currentColor;
       opacity: 0.5;
@@ -116,7 +116,7 @@ export const jsTokenColors = [
 
         ${vStyle}
 
-        & ${cssName(jsStyles.removeIcon())}:hover {
+        & ${cssName(jsStyles.removeIcon(t))}:hover {
           color: ${ColorFunctions.contrast(color(t))};
         }
       `;
@@ -129,7 +129,7 @@ export const jsTokenColors = [
         color: ${ColorFunctions.contrast(t.tokenDisabledBg)};
         box-shadow: 0 0 0 1px ${t.tokenDisabledBg};
 
-        & ${cssName(jsStyles.removeIcon())} {
+        & ${cssName(jsStyles.removeIcon(t))} {
           fill: ${t.tokenTextColorDisabled};
           opacity: 1;
         }

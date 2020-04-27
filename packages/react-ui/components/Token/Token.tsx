@@ -93,7 +93,7 @@ export class Token extends React.Component<TokenProps> {
         onBlur={onBlur}
       >
         <span className={jsStyles.text()}>{children}</span>
-        <span className={jsStyles.removeIcon()} onClick={this.onRemoveClick}>
+        <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick}>
           <CrossIcon />
         </span>
       </div>
