@@ -73,7 +73,7 @@ export interface TokenInputProps<T> {
   /**
    * Функция отрисовки кнопки добавления в выпадающем списке
    */
-  renderAddButton?: (query?: string) => ReactNode;
+  renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
 }
 
 export interface TokenInputState<T> {
@@ -673,7 +673,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
 
     if (this.props.renderAddButton) {
-      return this.props.renderAddButton(value);
+      return this.props.renderAddButton(value, this.handleAddItem);
     }
 
     const { addButtonComment, addButtonTitle } = this.locale;
