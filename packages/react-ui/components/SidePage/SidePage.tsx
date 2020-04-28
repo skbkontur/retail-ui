@@ -126,12 +126,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderMain() {
-    const { disableAnimations } = this.props;
+    const { blockBackground, disableAnimations } = this.props;
 
     return (
       <RenderContainer>
         <div>
-          {this.renderShadow()}
+          {blockBackground && this.renderShadow()}
           <CSSTransition
             in
             classNames={this.getTransitionNames()}
@@ -151,7 +151,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(): JSX.Element {
-    const { fromLeft } = this.props;
+    const { width, blockBackground, fromLeft } = this.props;
 
     return (
       <ZIndex
@@ -163,6 +163,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         })}
         onScroll={LayoutEvents.emit}
         createStackingContext
+        style={{ width: width || (blockBackground ? 800 : 500) }}
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
@@ -196,35 +197,22 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private renderShadow(): JSX.Element {
-    const { blockBackground, fromLeft } = this.props;
-
     return (
-      <ZIndex
-        priority={'Sidepage'}
-        className={cn({
-          [jsStyles.root()]: true,
-          [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
-        })}
-        onScroll={LayoutEvents.emit}
-      >
-        {blockBackground && [
-          <HideBodyVerticalScroll key="hbvs" />,
-          <div
-            key="overlay"
-            className={cn({
-              [jsStyles.background()]: true,
-              [jsStyles.backgroundGray()]: this.state.hasBackground,
-            })}
-          />,
-        ]}
+      <ZIndex priority={'Sidepage'} className={jsStyles.overlay()} onScroll={LayoutEvents.emit}>
+        <HideBodyVerticalScroll key="hbvs" />
+        <div
+          key="overlay"
+          className={cn({
+            [jsStyles.background()]: true,
+            [jsStyles.backgroundGray()]: this.state.hasBackground,
+          })}
+        />
       </ZIndex>
     );
   }
 
   private getSidebarStyle(): React.CSSProperties {
-    const sidePageStyle: React.CSSProperties = {
-      width: this.props.width || (this.props.blockBackground ? 800 : 500),
-    };
+    const sidePageStyle: React.CSSProperties = {};
 
     if (this.state.hasMargin) {
       if (this.props.fromLeft) {
