@@ -3,6 +3,7 @@ import React from 'react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
+import { MenuItem } from '../../MenuItem';
 import { SelectLocaleHelper } from '../locale';
 import { Select } from '../Select';
 
@@ -63,6 +64,36 @@ describe('Select', () => {
     expect(event.key).toBe('k');
   });
 
+  it('should work search with item any types', function() {
+    const wrapper = mount(
+      <Select
+        items={[
+          'One',
+          Select.static(() => <Select.Item>Not selectable</Select.Item>),
+          'Two',
+          3,
+          Select.SEP,
+          'Four',
+          <Select.Item key="random_key">Five</Select.Item>,
+          [6, 'Six'],
+          [7, 'Seven', 777],
+        ]}
+        search
+        disablePortal={true}
+        onValueChange={console.log}
+      />,
+    );
+
+    wrapper.find(Select).setState({ opened: true, searchPattern: 'o' });
+    expect(wrapper.find(MenuItem)).toHaveLength(4);
+
+    wrapper.find(Select).setState({ searchPattern: 's' });
+    expect(wrapper.find(MenuItem)).toHaveLength(3);
+
+    wrapper.find(Select).setState({ searchPattern: '3' });
+    expect(wrapper.find(MenuItem)).toHaveLength(1);
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       const wrapper = mount(<Select />);
@@ -96,9 +127,10 @@ describe('Select', () => {
     it('render custom locale', () => {
       const customPlaceholder = 'custom loading';
       const wrapper = mount(
-        <LocaleContext.Provider value={{
-          locale: { Select: { placeholder: customPlaceholder }}
-        }}
+        <LocaleContext.Provider
+          value={{
+            locale: { Select: { placeholder: customPlaceholder } },
+          }}
         >
           <Select />
         </LocaleContext.Provider>,
@@ -115,7 +147,7 @@ describe('Select', () => {
       );
       const expectedText = SelectLocaleHelper.get(LangCodes.ru_RU).placeholder;
 
-      wrapper.setProps({ value: { langCode: LangCodes.ru_RU }});
+      wrapper.setProps({ value: { langCode: LangCodes.ru_RU } });
 
       expect(wrapper.text()).toBe(expectedText);
     });

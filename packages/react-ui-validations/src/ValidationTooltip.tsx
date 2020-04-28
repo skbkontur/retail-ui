@@ -26,8 +26,8 @@ export interface ValidationTooltipProps {
 export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public render() {
     const onlyChild = React.Children.only(this.props.children);
-    const radioChild = onlyChild && onlyChild.props ? onlyChild.props.children : null;
-    if (ReactUiDetection.isRadioGroup(radioChild)) {
+    const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
+    if (ReactUiDetection.isRadioGroup(child) || ReactUiDetection.isTokenInput(child)) {
       return (
         <Tooltip
           useWrapper={false}
@@ -35,7 +35,7 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
           render={this.props.error && this.props.render}
           trigger={'hover&focus'}
         >
-          {radioChild}
+          {child}
         </Tooltip>
       );
     }

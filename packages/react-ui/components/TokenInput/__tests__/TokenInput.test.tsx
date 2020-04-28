@@ -102,37 +102,66 @@ describe('<TokenInput />', () => {
 
       expect(getTextComment()).toBe(expectedComment);
     });
+  });
 
-    it('should call onInputValueChange', () => {
-      const onInputValueChange = jest.fn();
-      const value = 'text';
-      const wrapper = mount(<TokenInput getItems={getItems} onInputValueChange={onInputValueChange} />);
-      wrapper.find('input').simulate('change', { target: { value } });
-      expect(onInputValueChange).toHaveBeenCalledWith(value);
-    });
+  it('should call onInputValueChange', () => {
+    const onInputValueChange = jest.fn();
+    const value = 'text';
+    const wrapper = mount(<TokenInput getItems={getItems} onInputValueChange={onInputValueChange} />);
+    wrapper.find('input').simulate('change', { target: { value } });
+    expect(onInputValueChange).toHaveBeenCalledWith(value);
+  });
 
-    it('should render custom AddButton', async () => {
-      const value = 'text';
-      const getButtonText = (v?: string) => `Custom Add: ${v}`;
-      const wrapper = mount(
-        <TokenInput
-          type={TokenInputType.Combined}
-          getItems={getItems}
-          renderAddButton={v => <span data-tid="AddButton">{getButtonText(v)}</span>}
-        />,
-      );
+  it('should render custom AddButton', async () => {
+    const value = 'text';
+    const getButtonText = (v?: string) => `Custom Add: ${v}`;
+    const wrapper = mount(
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={getItems}
+        renderAddButton={v => <span data-tid="AddButton">{getButtonText(v)}</span>}
+      />,
+    );
 
-      wrapper
-        .find(TokenInput)
-        .instance()
-        .setState({ inFocus: true, inputValue: value, loading: false });
-      await delay(0);
-      wrapper.update();
+    wrapper
+      .find(TokenInput)
+      .instance()
+      .setState({ inFocus: true, inputValue: value, loading: false });
+    await delay(0);
+    wrapper.update();
 
-      const addButton = wrapper.find('[data-tid="AddButton"]');
+    const addButton = wrapper.find('[data-tid="AddButton"]');
 
-      expect(addButton).toHaveLength(1);
-      expect(addButton.text()).toBe(getButtonText(value));
-    });
+    expect(addButton).toHaveLength(1);
+    expect(addButton.text()).toBe(getButtonText(value));
+  });
+
+  it('should add item by AddButton click', async () => {
+    const value = 'not existing item';
+    const onValueChange = jest.fn();
+    const wrapper = mount(
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={getItems}
+        onValueChange={onValueChange}
+        renderAddButton={(v, addItem) => (
+          <button key="AddButton" data-tid="AddButton" onClick={addItem}>
+            {v}
+          </button>
+        )}
+      />,
+    );
+
+    wrapper
+      .find('input')
+      .simulate('focus')
+      .simulate('change', { target: { value: value } });
+
+    await delay(0);
+    wrapper.update();
+
+    wrapper.find('[data-tid="AddButton"]').simulate('click');
+
+    expect(onValueChange).toHaveBeenCalledWith([value]);
   });
 });
