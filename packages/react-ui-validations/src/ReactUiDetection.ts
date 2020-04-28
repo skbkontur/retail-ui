@@ -7,6 +7,7 @@ const defaultOrNamed = (module: any, component: string) =>
 
 const DatePicker = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/DatePicker'), 'DatePicker');
 const RadioGroup = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/RadioGroup'), 'RadioGroup');
+const TokenInput = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/TokenInput'), 'TokenInput');
 const Tooltip = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/Tooltip'), 'Tooltip');
 
 export { Tooltip };
@@ -18,5 +19,9 @@ export class ReactUiDetection {
 
   public static isRadioGroup(childrenArray: any): boolean {
     return childrenArray != null && childrenArray.type === RadioGroup;
+  }
+
+  public static isTokenInput(childrenArray: any): boolean {
+    return childrenArray != null && childrenArray.type === TokenInput;
   }
 }
