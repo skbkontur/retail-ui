@@ -66,9 +66,7 @@ const styles = {
 
   noShadow() {
     return css`
-      ${styles.endItems()} & {
-        box-shadow: none;
-      }
+      box-shadow: none;
     `;
   },
 
