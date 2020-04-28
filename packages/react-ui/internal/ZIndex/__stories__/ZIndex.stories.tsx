@@ -787,8 +787,6 @@ LoaderInSidePageBody.story = {
     creevey: {
       tests: {
         async ['is covered by Header and Footer']() {
-          const element = await this.browser.findElement({ css: `[data-tid='SidePage__root']` });
-
           await this.browser.executeScript(function() {
             const sidePage = window.document.querySelector(`[data-tid='SidePage__container']`) as HTMLElement;
 
@@ -799,7 +797,7 @@ LoaderInSidePageBody.story = {
 
           await delay(500);
 
-          await this.expect(await element.takeScreenshot()).to.matchImage('is covered by Header and Footer');
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
         },
       },
     },

@@ -90,8 +90,8 @@ const [name, setName] = useState('');
 
 1. Создать в корне проекта файл `.npmrc` со следующим содержимым:
 
-   ```
-   @skbkontur:registry https://nexus.kontur.host/repository/kontur-npm-group/
+   ```shell static
+   @skbkontur:registry = "https://nexus.kontur.host/repository/kontur-npm-group/"
    ```
 
 2. Применить [кодмод `moveToAddons`](https://github.com/skbkontur/retail-ui/pull/1900#moveToAddons), исправляющий импорты Контур-специфичных компонентов на импорты из `@skbkontur/react-ui-addons`
