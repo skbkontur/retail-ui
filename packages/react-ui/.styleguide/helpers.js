@@ -77,6 +77,7 @@ const { sections, components } = findInComponents(COMPONENTS_DIR);
 const getCommonSections = () => {
   return [
     { name: 'Readme', content: path.join(__dirname, '../README.md'), exampleMode: 'expand' },
+    { name: 'Ecosystem', content: path.join(__dirname, '../../../README.md') },
     { name: 'Changelog', content: path.join(__dirname, '../CHANGELOG.md') },
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
     { name: 'Migration', content: path.join(__dirname, '../MIGRATION.md'), exampleMode: 'expand' },
