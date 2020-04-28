@@ -3,6 +3,9 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
+
 import { Indicator } from './Indicator';
 import { jsStyles } from './Tabs.styles';
 import { TabsContext } from './TabsContext';
@@ -63,6 +66,8 @@ export class Tabs extends React.Component<TabsProps> {
 
   public static Tab = Tab;
 
+  private theme!: Theme;
+
   private tabs: Array<{
     getNode: () => Tab | null;
     id: string;
@@ -83,23 +88,30 @@ export class Tabs extends React.Component<TabsProps> {
     const { vertical, value, width, children, indicatorClassName } = this.props;
 
     return (
-      <div className={cn(jsStyles.root(), vertical && jsStyles.vertical())} style={{ width }}>
-        <TabsContext.Provider
-          value={{
-            vertical,
-            activeTab: value,
-            getTab: this.getTab,
-            addTab: this.addTab,
-            removeTab: this.removeTab,
-            notifyUpdate: this.notifyUpdate,
-            shiftFocus: this.shiftFocus,
-            switchTab: this.switchTab,
-          }}
-        >
-          {children}
-          <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
-        </TabsContext.Provider>
-      </div>
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return (
+            <div className={cn(jsStyles.root(this.theme), vertical && jsStyles.vertical())} style={{ width }}>
+              <TabsContext.Provider
+                value={{
+                  vertical,
+                  activeTab: value,
+                  getTab: this.getTab,
+                  addTab: this.addTab,
+                  removeTab: this.removeTab,
+                  notifyUpdate: this.notifyUpdate,
+                  shiftFocus: this.shiftFocus,
+                  switchTab: this.switchTab,
+                }}
+              >
+                {children}
+                <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+              </TabsContext.Provider>
+            </div>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 

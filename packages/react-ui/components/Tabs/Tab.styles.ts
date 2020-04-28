@@ -1,11 +1,12 @@
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   root(t: Theme) {
     return css`
-      border-bottom: 3px solid transparent;
+      border-bottom: ${t.tabBorderWidth} solid transparent;
       box-sizing: border-box;
       color: inherit;
       cursor: pointer;
@@ -14,15 +15,15 @@ const styles = {
       line-height: ${t.tabLineHeight};
       margin-left: ${t.tabPaddingX};
       margin-right: ${t.tabPaddingX};
-      padding-bottom: 11px;
-      padding-top: 9px;
+      padding-bottom: ${shift(t.tabPaddingY, '1px')};
+      padding-top: ${shift(t.tabPaddingY, '-1px')};
       position: relative;
       text-decoration: inherit;
       transition: border-bottom 0.2s ease-out;
 
       &:hover {
         outline: inherit;
-        border-bottom: 3px solid ${t.tabColorHover};
+        border-bottom: ${t.tabBorderWidth} solid ${t.tabColorHover};
       }
 
       &:focus {
@@ -34,21 +35,21 @@ const styles = {
   vertical(t: Theme) {
     return css`
       border-bottom: none;
-      border-left: 3px solid transparent;
+      border-left: ${t.tabBorderWidth} solid transparent;
       display: block;
       margin-left: 0;
       margin-right: 0;
-      padding-left: 17px;
-      padding-right: 20px;
+      padding-left: ${shift(t.tabPaddingX, `-${t.tabBorderWidth}`)};
+      padding-right: ${t.tabPaddingX};
 
       ${cssName(styles.root(t))}&:hover {
         border-bottom: none;
-        border-left: 3px solid ${t.tabColorHover};
+        border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
       }
 
       ${cssName(styles.focus(t))} {
         bottom: 0;
-        left: -3px;
+        left: -${t.tabBorderWidth};
         right: 0;
       }
     `;
@@ -58,22 +59,22 @@ const styles = {
     return css`
       &:hover {
         cursor: default;
-        border-bottom: 3px solid transparent;
+        border-bottom: ${t.tabBorderWidth} solid transparent;
       }
 
       &${cssName(styles.vertical(t))}:hover {
-        border-left: 3px solid transparent;
+        border-left: ${t.tabBorderWidth} solid transparent;
       }
     `;
   },
 
   focus(t: Theme) {
     return css`
-      border: 2px solid ${t.tabColorFocus};
-      bottom: -3px;
-      left: -20px;
+      border: ${t.tabBorderWidthFocus} solid ${t.tabColorFocus};
+      bottom: -${t.tabBorderWidth};
+      left: -${t.tabPaddingX};
       position: absolute;
-      right: -20px;
+      right: -${t.tabPaddingX};
       top: 0;
     `;
   },
