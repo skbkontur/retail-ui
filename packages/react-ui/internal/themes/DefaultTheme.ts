@@ -547,6 +547,9 @@ export class DefaultTheme {
   public static get chbCheckedActiveBg() {
     return this.btnDefaultActiveBg;
   }
+  public static get chbCheckedActiveShadow() {
+    return this.btnDefaultActiveShadow;
+  }
   public static get chbShadowActive() {
     return this.btnDefaultActiveShadow;
   }
