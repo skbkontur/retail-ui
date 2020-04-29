@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.1.1...@skbkontur/react-ui@2.2.0) (2020-04-29)
+
+
+### Bug Fixes
+
+* **Input:** add setTimeout for cases with autoFocus ([e90ebbc](https://github.com/skbkontur/retail-ui/commit/e90ebbcf57e33553bb7d05b44a61f76b50c0ef58)), closes [#1995](https://github.com/skbkontur/retail-ui/issues/1995)
+* **Select:** add support any types value to filterItem ([d63a4d6](https://github.com/skbkontur/retail-ui/commit/d63a4d61a267a6de9389999cdd5c8cb1d27e8233)), closes [#1996](https://github.com/skbkontur/retail-ui/issues/1996)
+* **Select:** re-fix commit with hash "e90ebbc" ([125d11b](https://github.com/skbkontur/retail-ui/commit/125d11b855c6a3fc99eaa9b38b181ac86be62be4)), closes [#1995](https://github.com/skbkontur/retail-ui/issues/1995)
+* **Select:** set width to 100% ([b924d00](https://github.com/skbkontur/retail-ui/commit/b924d00aa6d01ffbe528f2223ffa2f4c7128ae3d)), closes [#1994](https://github.com/skbkontur/retail-ui/issues/1994)
+* **SidePage:** make sidepage to not overlap the rest of the page ([e180c31](https://github.com/skbkontur/retail-ui/commit/e180c3148048b452e1b3b67f9ed0f4b667334ebb)), closes [#1949](https://github.com/skbkontur/retail-ui/issues/1949)
+* **Tooltip:** set default value for `box-sizing`, due to `reset.css` ([5afa08d](https://github.com/skbkontur/retail-ui/commit/5afa08df20a459bde885f26cb4dafb06c296413d)), closes [#2008](https://github.com/skbkontur/retail-ui/issues/2008)
+* **TopBar:** fix noShadow prop ([4ba47af](https://github.com/skbkontur/retail-ui/commit/4ba47af14eb2baf05383bf9270ae99a6195e0e4f)), closes [#1997](https://github.com/skbkontur/retail-ui/issues/1997)
+
+
+### Features
+
+* **TokenInput:** new parameter 'onAddItem' in 'renderAddButton' prop ([6bcfcc6](https://github.com/skbkontur/retail-ui/commit/6bcfcc6a1a2c32592d361b657b0888402219681e))
+
+
+
+
+
 ## [2.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.1.0...@skbkontur/react-ui@2.1.1) (2020-04-14)
 
 

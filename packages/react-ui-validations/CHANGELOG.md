@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.4...react-ui-validations@1.1.5) (2020-04-29)
+
+
+### Bug Fixes
+
+* **tokeninput:** tooltip position of validation ([f9aa9b4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/f9aa9b4cc7c7e8eac0f8cc6cb48e38291b7b0346))
+
+
+
+
+
 ## [1.1.4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.3...react-ui-validations@1.1.4) (2020-04-07)
 
 **Note:** Version bump only for package react-ui-validations
