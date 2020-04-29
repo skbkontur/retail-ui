@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.10](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.9...retail-ui@0.53.10) (2020-04-29)
+
+
+### Features
+
+* **TokenInput:** new parameter 'onAddItem' in 'renderAddButton' prop ([289ae29](https://github.com/skbkontur/retail-ui/commit/289ae29))
+
+
+
+
+
 ## [0.53.9](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.8...retail-ui@0.53.9) (2020-04-08)
 
 
