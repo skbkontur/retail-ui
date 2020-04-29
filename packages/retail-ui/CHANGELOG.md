@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.1...retail-ui@1.11.2) (2020-04-29)
+
+
+### Bug Fixes
+
+* **SidePage:** make sidepage to not overlap the rest of the page ([1935277](https://github.com/skbkontur/retail-ui/commit/1935277))
+
+
+### Features
+
+* **TokenInput:** new parameter 'onAddItem' in 'renderAddButton' prop ([c5fb481](https://github.com/skbkontur/retail-ui/commit/c5fb481))
+
+
+
+
+
 ## [1.11.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.0...retail-ui@1.11.1) (2020-04-07)
 
 
