@@ -131,12 +131,12 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderMain() {
-    const { disableAnimations } = this.props;
+    const { blockBackground, disableAnimations } = this.props;
 
     return (
       <RenderContainer>
         <div>
-          {this.renderShadow()}
+          {blockBackground && this.renderShadow()}
           <CSSTransition
             in
             classNames={this.getTransitionNames()}
@@ -172,6 +172,9 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
         priority={'Sidepage'}
         className={classes}
         onScroll={LayoutEvents.emit}
+        style={{
+          width: this.props.width || (this.props.blockBackground ? 800 : 500),
+        }}
         createStackingContext
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
@@ -210,23 +213,16 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private renderShadow(): JSX.Element {
-    const { classes, style } = this.getZIndexProps();
-    const { blockBackground } = this.props;
-
     return (
-      <ZIndex priority={'Sidepage'} className={classes} onScroll={LayoutEvents.emit} style={style}>
-        {blockBackground && [
-          <HideBodyVerticalScroll key="hbvs" />,
-          <div key="overlay" className={cx(styles.background, this.state.hasBackground && styles.gray)} />,
-        ]}
+      <ZIndex priority={'Sidepage'} className={jsStyles.overlay()} onScroll={LayoutEvents.emit}>
+        <HideBodyVerticalScroll key="hbvs" />
+        <div key="overlay" className={cx(styles.background, this.state.hasBackground && styles.gray)} />
       </ZIndex>
     );
   }
 
   private getSidebarStyle(): React.CSSProperties {
-    const sidePageStyle: React.CSSProperties = {
-      width: this.props.width || (this.props.blockBackground ? 800 : 500),
-    };
+    const sidePageStyle: React.CSSProperties = {};
 
     if (this.state.hasMargin) {
       if (this.props.fromLeft) {
