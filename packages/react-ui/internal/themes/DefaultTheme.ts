@@ -121,9 +121,11 @@ export class DefaultTheme {
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
+  public static tokenMargin = '3px';
   public static tokenLineHeight = '1.5';
   public static tokenPaddingX = '4px';
-  public static tokenPaddingY = '';
+  public static tokenMarginBeforeIcon = '4px';
+  public static tokenBorderRadius = '1px';
   public static get tokenDefaultIdle() {
     return this.grayXLight;
   }
