@@ -687,9 +687,21 @@ export class DefaultTheme {
   public static get textareaColor() {
     return this.black;
   }
+  public static get textareaTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get textareaPlaceholderColorLight() {
+    return this.placeholderColorLight;
+  }
+  public static get textareaPlaceholderColor() {
+    return this.placeholderColor;
+  }
   public static textareaShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
+  public static get textareaFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
   public static get textareaLineHeight() {
-    const fontSize = this.fontSizeMedium;
+    const fontSize = this.textareaFontSizeMedium;
     switch (fontSize) {
       case '14px':
         return '20px';
@@ -699,8 +711,29 @@ export class DefaultTheme {
         return `${parseInt(fontSize, 10) * 1.5}px`;
     }
   }
+  public static get textareaHeightSmall() {
+    return this.controlHeightSmall;
+  }
+  public static get textareaPaddingX() {
+    return '10px';
+  }
+  public static get textareaPaddingY() {
+    return '6px';
+  }
+  public static get textareaBorderColor() {
+    return this.borderColorGrayLight;
+  }
   public static get textareaBorderTopColor() {
     return this.borderColorGrayDark;
+  }
+  public static get textareaBorderColorFocus() {
+    return this.borderColorFocus;
+  }
+  public static get textareaBorderColorWarning() {
+    return this.borderColorWarning;
+  }
+  public static get textareaBorderColorError() {
+    return this.borderColorError;
   }
   public static get textareaDisabledBg() {
     return this.bgDisabled;
