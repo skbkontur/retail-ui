@@ -102,10 +102,10 @@ const styles = {
   primary(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabBorderColorHoverPrimary};
+        border-bottom-color: ${t.tabColorHoverPrimary};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabBorderColorHoverPrimary};
+        border-left-color: ${t.tabColorHoverPrimary};
       }
     `;
   },
@@ -113,10 +113,10 @@ const styles = {
   success(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabBorderColorHoverSuccess};
+        border-bottom-color: ${t.tabColorHoverSuccess};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabBorderColorHoverSuccess};
+        border-left-color: ${t.tabColorHoverSuccess};
       }
     `;
   },
@@ -124,10 +124,10 @@ const styles = {
   warning(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabBorderColorHoverWarning};
+        border-bottom-color: ${t.tabColorHoverWarning};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabBorderColorHoverWarning};
+        border-left-color: ${t.tabColorHoverWarning};
       }
     `;
   },
@@ -135,10 +135,10 @@ const styles = {
   error(t: Theme) {
     return css`
       &:hover {
-        border-bottom-color: ${t.tabBorderColorHoverError};
+        border-bottom-color: ${t.tabColorHoverError};
       }
       &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabBorderColorHoverError};
+        border-left-color: ${t.tabColorHoverError};
       }
     `;
   },

@@ -929,16 +929,16 @@ export class DefaultTheme {
   public static get tabColorHover() {
     return this.borderColorFocusLight;
   }
-  public static get tabBorderColorHoverError() {
+  public static get tabColorHoverError() {
     return ColorFunctions.lighten(this.tabColorError, '25%');
   }
-  public static get tabBorderColorHoverWarning() {
+  public static get tabColorHoverWarning() {
     return ColorFunctions.lighten(this.tabColorWarning, '25%');
   }
-  public static get tabBorderColorHoverSuccess() {
+  public static get tabColorHoverSuccess() {
     return ColorFunctions.lighten(this.tabColorSuccess, '25%');
   }
-  public static get tabBorderColorHoverPrimary() {
+  public static get tabColorHoverPrimary() {
     return ColorFunctions.lighten(this.tabColorPrimary, '25%');
   }
   //#endregion
