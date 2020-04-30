@@ -294,6 +294,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region Radio
   public static radioSize = '18px';
+  public static radioSizeAfter = '20px';
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
   public static radioBoxShadow = 'none';

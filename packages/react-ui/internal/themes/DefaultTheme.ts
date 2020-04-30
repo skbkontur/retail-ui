@@ -850,8 +850,13 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Radio
+  public static radioBulletSize = '8px';
+  public static radioBorderWidthFocus = '2px';
   public static get radioSize() {
     return this.radioFontSize;
+  }
+  public static get radioSizeAfter() {
+    return `calc(${this.radioSize} + 2 * ${this.radioBorderWidthFocus})`;
   }
   public static get radioFontSize() {
     return this.fontSizeLarge;

@@ -10,15 +10,15 @@ const styles = {
     `;
   },
 
-  after() {
+  after(t: Theme) {
     return css`
       content: ' ';
       position: absolute;
-      left: -2px;
-      top: -2px;
-      width: 20px;
-      height: 20px;
-      border-width: 2px;
+      left: -${t.radioBorderWidthFocus};
+      top: -${t.radioBorderWidthFocus};
+      width: ${t.radioSizeAfter};
+      height: ${t.radioSizeAfter};
+      border-width: ${t.radioBorderWidthFocus};
       border-style: solid;
       border-radius: 50%;
       box-sizing: border-box;
@@ -49,7 +49,7 @@ const styles = {
         box-shadow: ${t.radioActiveShadow};
       }
       ${cssName(styles.input())}:focus + &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorFocus};
       }
@@ -63,7 +63,7 @@ const styles = {
   focus(t: Theme) {
     return css`
       &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorFocus};
       }
@@ -73,7 +73,7 @@ const styles = {
   warning(t: Theme) {
     return css`
       &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorWarning};
       }
@@ -83,7 +83,7 @@ const styles = {
   error(t: Theme) {
     return css`
       &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorError};
       }
@@ -103,8 +103,8 @@ const styles = {
         bottom: 0;
         left: 0;
         margin: auto;
-        height: 8px;
-        width: 8px;
+        height: ${t.radioBulletSize};
+        width: ${t.radioBulletSize};
         border-radius: 50%;
         background: ${t.radioCheckedBulletColor} !important;
       }
