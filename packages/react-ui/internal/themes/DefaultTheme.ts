@@ -488,12 +488,20 @@ export class DefaultTheme {
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
   //#endregion
   //#region Toggle
+  public static get toggleSwitcherSize() {
+    return `calc(${this.toggleHeight} - 2 * ${this.toggleBorderWidth})`;
+  }
+  public static toggleSwitcherBorderRadius = '9px';
+  public static toggleHeight = '20px';
+  public static toggleWidth = '34px';
+  public static toggleBorderRadius = '10px';
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
   public static toggleBgDisabled = 'none';
   public static get toggleBgHover() {
     return this.toggleBgFocus;
   }
   public static toggleBgChecked = '#3072c4';
+  public static toggleBorderWidth = '1px';
   public static toggleBorderColor = '#d0d0d0';
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static get toggleBgActive() {
