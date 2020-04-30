@@ -899,9 +899,15 @@ export class DefaultTheme {
   public static get tabPaddingX() {
     return '20px';
   }
+  public static get tabsMarginX() {
+    return this.tabPaddingX;
+  }
+  public static tabPaddingY = '10px';
   public static get tabLineHeight() {
     return 'normal';
   }
+  public static tabBorderWidth = '3px';
+  public static tabBorderWidthFocus = '2px';
   public static get tabTextColorDefault() {
     return this.textColorDefault;
   }
