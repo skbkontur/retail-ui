@@ -40,7 +40,7 @@ const styles = {
       display: inline-flex;
       outline: none;
       position: relative;
-      width: 250px;
+      width: ${t.inputWidth};
 
       & * {
         box-sizing: border-box;
@@ -83,7 +83,7 @@ const styles = {
   focusFallback(t: Theme) {
     return css`
       box-shadow: none;
-      outline: 1px solid ${t.inputFocusOutline};
+      outline: ${t.inputBorderWidth} solid ${t.inputFocusOutline};
     `;
   },
 
@@ -149,7 +149,7 @@ const styles = {
     return css`
       & {
         border-color: ${t.inputBorderColorWarning} !important;
-        box-shadow: 0 0 0 1px ${t.inputBorderColorWarning} !important;
+        box-shadow: 0 0 0 ${t.inputBorderWidth} ${t.inputBorderColorWarning} !important;
         z-index: 2;
       }
     `;
@@ -158,14 +158,14 @@ const styles = {
   warningFallback(t: Theme) {
     return css`
       box-shadow: none !important;
-      outline: 1px solid ${t.inputBorderColorWarning} !important;
+      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorWarning} !important;
     `;
   },
 
   error(t: Theme) {
     return css`
       border-color: ${t.inputBorderColorError} !important;
-      box-shadow: 0 0 0 1px ${t.inputBorderColorError} !important;
+      box-shadow: 0 0 0 ${t.inputBorderWidth} ${t.inputBorderColorError} !important;
       z-index: 2;
     `;
   },
@@ -173,7 +173,7 @@ const styles = {
   errorFallback(t: Theme) {
     return css`
       box-shadow: none !important;
-      outline: 1px solid ${t.inputBorderColorError} !important;
+      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorError} !important;
     `;
   },
 
