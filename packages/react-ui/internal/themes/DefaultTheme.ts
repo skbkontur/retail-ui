@@ -576,6 +576,8 @@ export class DefaultTheme {
   public static get inputPaddingYLarge() {
     return this.controlPaddingYLarge;
   }
+  public static inputPaddingX = '10px';
+  public static inputPaddingBetweenIcon = '2px';
   public static get inputFocusShadow() {
     return `0 0 0 ${this.inputBorderWidth} ${this.borderColorFocus}`;
   }

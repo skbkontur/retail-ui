@@ -183,8 +183,8 @@ const styles = {
       border-color: ${t.inputDisabledBorderColor} !important;
       box-shadow: none;
 
-      ${cssName(styles.leftIcon())},
-      ${cssName(styles.rightIcon())} {
+      ${cssName(styles.leftIcon(t))},
+      ${cssName(styles.rightIcon(t))} {
         cursor: default;
       }
       ${cssName(styles.input(t))} {
@@ -284,14 +284,14 @@ const styles = {
     `;
   },
 
-  sideContainer() {
+  sideContainer(t: Theme) {
     return css`
       align-items: center;
       display: flex;
       flex-shrink: 0;
       height: 100%;
-      min-width: 10px;
-      padding-left: 10px;
+      min-width: ${t.inputPaddingX}
+      padding-left: ${t.inputPaddingX}
 
       &::before {
         content: '\\a0';
@@ -301,27 +301,27 @@ const styles = {
     `;
   },
 
-  rightContainer() {
+  rightContainer(t: Theme) {
     return css`
       justify-self: flex-end;
       margin: 0 0 0 auto;
       padding-left: 0;
-      padding-right: 10px;
+      padding-right: ${t.inputPaddingX};
     `;
   },
 
-  leftIcon() {
+  leftIcon(t: Theme) {
     return css`
-      padding-right: 2px;
+      padding-right: ${t.inputPaddingBetweenIcon};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
     `;
   },
 
-  rightIcon() {
+  rightIcon(t: Theme) {
     return css`
-      padding-left: 2px;
+      padding-left: ${t.inputPaddingBetweenIcon};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;

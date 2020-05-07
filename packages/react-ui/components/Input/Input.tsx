@@ -317,7 +317,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        <span className={jsStyles.sideContainer()}>
+        <span className={jsStyles.sideContainer(this.theme)}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
         </span>
@@ -325,7 +325,7 @@ export class Input extends React.Component<InputProps, InputState> {
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={cn(jsStyles.sideContainer(), jsStyles.rightContainer())}>
+        <span className={cn(jsStyles.sideContainer(this.theme), jsStyles.rightContainer(this.theme))}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -356,11 +356,11 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, jsStyles.leftIcon());
+    return this.renderIcon(this.props.leftIcon, jsStyles.leftIcon(this.theme));
   }
 
   private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, jsStyles.rightIcon());
+    return this.renderIcon(this.props.rightIcon, jsStyles.rightIcon(this.theme));
   }
 
   private renderIcon(icon: InputIconType, className: string) {
