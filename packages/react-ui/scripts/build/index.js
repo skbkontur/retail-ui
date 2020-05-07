@@ -131,6 +131,7 @@ function generatePackageJson() {
     homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md',
     main: packageJson.main,
     module: packageJson.module,
+    sideEffects: packageJson.sideEffects,
     repository: {
       type: 'git',
       url: 'git@github.com:skbkontur/retail-ui.git',
