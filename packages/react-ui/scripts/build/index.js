@@ -25,8 +25,7 @@ function build() {
   });
 
   if (OutDir === RootDir) {
-    copyPackageJson();
-    copyReadme();
+    copyFilesForPublish();
   }
 }
 
@@ -121,12 +120,11 @@ function handle(filename, dirName) {
   }
 }
 
-function copyPackageJson() {
-  const packageJson = fs.readFileSync(path.join(process.cwd(), 'package.json'));
-  outputFileSync(path.join(OutDir, 'package.json'), packageJson);
-}
-
-function copyReadme() {
-  const readmeFile = fs.readFileSync(path.join(process.cwd(), 'README.md'));
-  outputFileSync(path.join(OutDir, 'README.md'), readmeFile);
+function copyFilesForPublish() {
+  const files = ['package.json', 'README.md', 'CHANGELOG.md', 'LICENSE'];
+  files.forEach(filename => {
+    const src = path.join(process.cwd(), filename);
+    const dest = path.join(OutDir, filename);
+    fs.copyFileSync(src, dest)
+  });
 }
