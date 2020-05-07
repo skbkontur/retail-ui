@@ -25,7 +25,7 @@ function build() {
   });
 
   if (OutDir === RootDir) {
-    generatePackageJson();
+    copyPackageJson();
     copyReadme();
   }
 }
@@ -121,29 +121,9 @@ function handle(filename, dirName) {
   }
 }
 
-function generatePackageJson() {
-  const packageJson = require('../../package.json');
-  const result = {
-    name: '@skbkontur/react-ui',
-    version: packageJson.version,
-    license: 'MIT',
-    dependencies: packageJson.dependencies,
-    homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md',
-    main: packageJson.main,
-    module: packageJson.module,
-    sideEffects: packageJson.sideEffects,
-    repository: {
-      type: 'git',
-      url: 'git@github.com:skbkontur/retail-ui.git',
-    },
-    bugs: {
-      url: 'https://github.com/skbkontur/retail-ui/issues',
-    },
-    peerDependencies: packageJson.peerDependencies,
-    publishConfig: packageJson.publishConfig,
-  };
-  const source = JSON.stringify(result, null, 2);
-  outputFileSync(path.join(OutDir, 'package.json'), source);
+function copyPackageJson() {
+  const packageJson = fs.readFileSync(path.join(process.cwd(), 'package.json'));
+  outputFileSync(path.join(OutDir, 'package.json'), packageJson);
 }
 
 function copyReadme() {
