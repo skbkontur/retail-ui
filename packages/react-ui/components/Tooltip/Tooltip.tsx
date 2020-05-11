@@ -320,6 +320,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
       case 'closed':
         return {
+          layerProps: {
+            active: false,
+            onClickOutside: this.handleClickOutsideAnchor,
+          },
           popupProps: {
             opened: false,
             useWrapper,
@@ -329,6 +333,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       case 'hoverAnchor':
       case 'hover':
         return {
+          layerProps: {
+            active: false,
+            onClickOutside: this.handleClickOutsideAnchor,
+          },
           popupProps: {
             onMouseEnter: this.handleMouseEnter,
             onMouseLeave: this.handleMouseLeave,
@@ -350,6 +358,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
       case 'focus':
         return {
+          layerProps: {
+            active: this.state.opened,
+            onClickOutside: this.handleClickOutsideAnchor,
+          },
           popupProps: {
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
@@ -360,6 +372,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       case 'hover&focus':
         return {
           layerProps: {
+            active: this.state.opened,
             onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
