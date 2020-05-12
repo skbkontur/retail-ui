@@ -108,7 +108,8 @@ class Link extends React.Component<LinkProps, LinkState> {
     
     let rel = relOrigin;
     if (typeof rel === 'undefined' && href) {
-      rel = `noopener${(new RegExp(/^https?:\/\//g)).test(href) ? ' noreferrer' : ''}`;
+      const externalPath = new RegExp(`\\bhttps?://(?!${window.location.host})\\S+`,'gi');
+      rel = `noopener${externalPath.test(href) ? ' noreferrer' : ''}`;
     }
 
     const props = {
