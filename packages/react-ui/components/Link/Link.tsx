@@ -63,6 +63,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private theme!: Theme;
   private getProps = createPropsGetter(Link.defaultProps);
+  private readonly  externalLinkExpression = new RegExp(`^(https?:)?//(?!${window.location.host})\\S+`, 'gi');
 
   public render(): JSX.Element {
     return (
@@ -101,8 +102,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     let rel = relOrigin;
     if (typeof rel === 'undefined' && href) {
-      const externalPath = new RegExp(`\\bhttps?://(?!${window.location.host})\\S+`, 'gi');
-      rel = `noopener${externalPath.test(href) ? ' noreferrer' : ''}`;
+      rel = `noopener${this.externalLinkExpression.test(href) ? ' noreferrer' : ''}`;
     }
 
     const props = {
