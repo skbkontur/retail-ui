@@ -7,6 +7,7 @@ import { Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isExternalLink } from '../../lib/utils';
 
 import { jsStyles } from './Link.styles';
 
@@ -76,10 +77,18 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain() {
-    const { disabled, href, icon, use, _button, _buttonOpened, className, style, ...rest } = this.getProps<
-      LinkProps,
-      Link
-    >();
+    const {
+      disabled,
+      href,
+      icon,
+      use,
+      _button,
+      _buttonOpened,
+      className,
+      style,
+      rel: relOrigin,
+      ...rest
+    } = this.getProps<LinkProps, Link>();
 
     let iconElement = null;
     if (icon) {
@@ -89,6 +98,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     let arrow = null;
     if (_button) {
       arrow = <span className={jsStyles.arrow()} />;
+    }
+
+    let rel = relOrigin;
+    if (typeof rel === 'undefined' && href) {
+      rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
     const props = {
@@ -104,6 +118,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [jsStyles.useGrayed(this.theme)]: use === 'grayed',
       }),
       href,
+      rel,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
