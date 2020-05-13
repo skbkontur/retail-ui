@@ -95,6 +95,7 @@ const styles = {
       }
 
       &:active ${cssName(styles.box(t))} {
+        box-shadow: ${t.chbCheckedActiveShadow};
         background: ${t.chbCheckedActiveBg};
       }
     `;
@@ -113,6 +114,7 @@ const styles = {
         background: ${t.chbCheckedHoverBg};
       }
       &:active ${cssName(styles.box(t))} {
+        box-shadow: ${t.chbCheckedActiveShadow};
         background: ${t.chbCheckedActiveBg};
       }
     `;

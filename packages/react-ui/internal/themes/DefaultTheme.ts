@@ -545,7 +545,10 @@ export class DefaultTheme {
     return this.chbHoverBg;
   }
   public static get chbCheckedActiveBg() {
-    return this.chbBg;
+    return this.btnDefaultActiveBg;
+  }
+  public static get chbCheckedActiveShadow() {
+    return this.btnDefaultActiveShadow;
   }
   public static get chbShadowActive() {
     return this.btnDefaultActiveShadow;
