@@ -125,10 +125,9 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
       if (this.props.onValueChange) {
         this.props.onValueChange(event.target.value);
       }
-    }
-
-    if (this.props.onChange) {
-      this.props.onChange(event);
+      if (this.props.onChange) {
+        this.props.onChange(event);
+      }
     }
   };
 

@@ -339,11 +339,9 @@ export class Input extends React.Component<InputProps, InputState> {
     },
     mask: string,
   ) {
-    const { onChange, onKeyDown, onKeyPress, ...maskedProps } = inputProps;
-
     return (
       <MaskedInput
-        {...maskedProps}
+        {...inputProps}
         mask={mask}
         maskChar={this.props.maskChar === undefined ? '_' : this.props.maskChar}
         alwaysShowMask={this.props.alwaysShowMask}
