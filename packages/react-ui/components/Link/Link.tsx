@@ -7,6 +7,7 @@ import { Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isExternalLink } from '../../lib/utils';
 
 import { jsStyles } from './Link.styles';
 
@@ -63,7 +64,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private theme!: Theme;
   private getProps = createPropsGetter(Link.defaultProps);
-  private readonly  externalLinkExpression = new RegExp(`^(https?:)?//(?!${window.location.host})\\S+`, 'gi');
 
   public render(): JSX.Element {
     return (
@@ -102,7 +102,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     let rel = relOrigin;
     if (typeof rel === 'undefined' && href) {
-      rel = `noopener${this.externalLinkExpression.test(href) ? ' noreferrer' : ''}`;
+      rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
     const props = {

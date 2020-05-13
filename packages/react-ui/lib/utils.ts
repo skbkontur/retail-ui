@@ -78,3 +78,7 @@ export const hasSvgAnimationSupport = (() => {
 
   return false;
 })();
+
+export const isExternalLink = (link: string): boolean => {
+  return (new RegExp(`^(https?:)?//(?!${window.location.host})\\S+`, 'gi')).test(link)
+}
