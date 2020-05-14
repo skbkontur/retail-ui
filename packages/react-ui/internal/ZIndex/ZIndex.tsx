@@ -4,6 +4,8 @@ import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from '
 
 const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
 
+ZIndexContext.displayName = 'ZIndexContext';
+
 export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Приращение к z-index
