@@ -18,6 +18,7 @@
     "build:cjs": "cross-env BABEL_ENV=cjs node scripts/build",
     "build:esm": "node scripts/build",
     "build": "run-p build:esm build:cjs",
+    "postbuild": "node scripts/build/postbuild",
     "clean": "git clean -fdxqe node_modules",
     "prerelease": "node scripts/publish/prepublish && yarn build",
     "release": "npm publish ./build",
@@ -103,6 +104,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "chalk": "3.0.0",
+    "copyfiles": "^2.2.0",
     "core-js": "^3.4.8",
     "creevey": "0.4.11",
     "cross-env": "^6.0.3",
@@ -135,6 +137,7 @@
     "stylelint-config-css-modules": "^2.1.0",
     "stylelint-config-standard": "^19.0.0",
     "typescript": "^3.7.3",
+    "upath": "^1.2.0",
     "url-loader": "^3.0.0",
     "wait-on": "^3.3.0",
     "webpack": "^4.41.2"
