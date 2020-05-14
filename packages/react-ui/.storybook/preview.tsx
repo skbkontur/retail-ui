@@ -5,15 +5,8 @@ import { ThemeContext } from '../lib/theming/ThemeContext';
 
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 
-// TODO This need to hack enableFastLoading option
-import { delay } from '../lib/utils';
-import Icons from '@skbkontur/react-icons';
-delay(0);
-Icons;
-// TODO This need to hack enableFastLoading option
-
-addDecorator(
-  withCreevey({
+addParameters({
+  creevey: {
     captureElement: '#test-element',
     skip: [
       {
@@ -21,8 +14,9 @@ addDecorator(
         kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
     ],
-  }),
-);
+  },
+});
+addDecorator(withCreevey());
 
 addDecorator(story => (
   <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
