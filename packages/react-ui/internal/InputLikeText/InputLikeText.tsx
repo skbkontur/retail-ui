@@ -193,11 +193,11 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   private renderLeftIcon = () => {
-    return this.renderIcon(this.props.leftIcon, jsInputStyles.leftIcon());
+    return this.renderIcon(this.props.leftIcon, jsInputStyles.leftIcon(this.theme));
   };
 
   private renderRightIcon = () => {
-    return this.renderIcon(this.props.rightIcon, jsInputStyles.rightIcon());
+    return this.renderIcon(this.props.rightIcon, jsInputStyles.rightIcon(this.theme));
   };
 
   private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
@@ -241,7 +241,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={jsInputStyles.sideContainer()}>
+      <span className={jsInputStyles.sideContainer(this.theme)}>
         {leftIcon}
         {prefix}
       </span>
@@ -257,7 +257,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={jsInputStyles.sideContainer()}>
+      <span className={jsInputStyles.sideContainer(this.theme)}>
         {rightIcon}
         {suffix}
       </span>
