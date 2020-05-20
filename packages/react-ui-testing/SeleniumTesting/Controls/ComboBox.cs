@@ -26,33 +26,40 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> z) where T : ControlBase
         {
-            return GetReactProp<bool>("disablePortal") ?
-                       new ControlListBase<T>(this, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z) :
-                       new ControlListBase<T>(portal, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z);
+            return GetReactProp<bool>("disablePortal")
+                ? new ControlListBase<T>(this, new UniversalSelector("##Items"), new UniversalSelector("##Item"), z)
+                : new ControlListBase<T>(portal, new UniversalSelector("##Items"), new UniversalSelector("##Item"), z);
         }
 
         public void InputTextAndSelectSingle(string inputText, Timings timings = null)
         {
             Click();
             InputText(inputText);
-            GetItemsAs((x, y) => new Label(x, y)).Count.Wait().That(x => x.AssertEqualTo(1), timings);
-            var result = GetItemsAs((x, y) => new Label(x, y)).First();
-            if(result != null)
+            DoWithItems((x, y) => new Label(x, y), items =>
             {
-                SelectByIndex(0);
-            }
+                items.Count.Wait().That(x => x.AssertEqualTo(1), timings);
+                var result = items.First();
+                result?.Click();
+            });
+        }
+
+        public void DoWithItems<T>(Func<ISearchContainer, ISelector, T> itemCreator, Action<ControlListBase<T>> action, Timings timings = null) where T : ControlBase
+        {
+            var collection = GetItemsAs(itemCreator);
+            collection.IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
+            action(collection);
         }
 
         public void InputTextAndSelectFirst(string inputText, Timings timings = null)
         {
             Click();
             InputText(inputText);
-            GetItemsAs((x, y) => new Label(x, y)).Count.Wait().That(x => x.AssertGreaterThan(0), timings);
-            var result = GetItemsAs((x, y) => new Label(x, y)).First();
-            if(result != null)
+            DoWithItems((x, y) => new Label(x, y), items =>
             {
-                SelectByIndex(0);
-            }
+                items.Count.Wait().That(x => x.AssertGreaterThan(0), timings);
+                var result = items.First();
+                result?.Click();
+            }, timings);
         }
 
         public void InputText([NotNull] string text)
