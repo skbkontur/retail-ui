@@ -15,3 +15,5 @@ export const SidePageContext = React.createContext<SidePageContextType>({
   updateLayout: () => undefined,
   footerRef: () => undefined,
 });
+
+SidePageContext.displayName = 'SidePageContext';
