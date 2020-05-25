@@ -13,3 +13,5 @@ export interface ModalContextProps {
 }
 
 export const ModalContext = React.createContext<ModalContextProps>({});
+
+ModalContext.displayName = 'ModalContext';

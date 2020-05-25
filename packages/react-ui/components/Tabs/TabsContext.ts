@@ -26,3 +26,5 @@ export const TabsContextDefaultValue: TabsContextType = {
   switchTab: emptyHandler,
 };
 export const TabsContext = React.createContext<TabsContextType>(TabsContextDefaultValue);
+
+TabsContext.displayName = 'TabsContext';
