@@ -100,6 +100,8 @@ import { ThemeFactory, Button } from '@skbkontur/react-ui';
 
 const MyThemeContext = React.createContext(ThemeFactory.create({ myTextColor: 'orange' }));
 
+MyThemeContext.displayName = 'MyThemeContext';
+
 function ButtonLinkWrapper(props) {
   const theme = useContext(MyThemeContext);
 

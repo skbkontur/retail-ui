@@ -360,6 +360,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       case 'hover&focus':
         return {
           layerProps: {
+            active: this.state.opened,
             onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {

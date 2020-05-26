@@ -6,9 +6,12 @@ const readdir = require('fs-readdir-recursive');
 const chalk = require('chalk');
 const babel = require('@babel/core');
 
+const isCommonJS = process.env.BABEL_ENV === 'cjs';
+
 const FoldersToTransform = ['components', 'internal', 'lib', 'typings'];
 const IgnoreTemplates = [/__tests__/, /__mocks__/, /\.stories.tsx?$/];
-const OutDir = path.resolve(process.cwd(), 'build');
+const RootDir = path.resolve(process.cwd(), 'build');
+const OutDir = RootDir + (isCommonJS ? '/cjs' : '');
 
 const BABEL_EXTENSIONS = ['js', '.jsx', '.ts', '.tsx'];
 
@@ -21,9 +24,9 @@ function build() {
     handle(folderPath, dirName);
   });
 
-  generatePackageJson();
-
-  copyReadme();
+  if (OutDir === RootDir) {
+    copyFilesForPublish();
+  }
 }
 
 function transform(filename, code, opts) {
@@ -117,32 +120,11 @@ function handle(filename, dirName) {
   }
 }
 
-function generatePackageJson() {
-  const packageJson = require('../../package.json');
-  const result = {
-    name: '@skbkontur/react-ui',
-    version: packageJson.version,
-    license: 'MIT',
-    dependencies: packageJson.dependencies,
-    homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md',
-    type: 'module',
-    main: './index.js',
-    module: './index.js',
-    repository: {
-      type: 'git',
-      url: 'git@github.com:skbkontur/retail-ui.git',
-    },
-    bugs: {
-      url: 'https://github.com/skbkontur/retail-ui/issues',
-    },
-    peerDependencies: packageJson.peerDependencies,
-    publishConfig: packageJson.publishConfig,
-  };
-  const source = JSON.stringify(result, null, 2);
-  outputFileSync(path.join(OutDir, 'package.json'), source);
-}
-
-function copyReadme() {
-  const readmeFile = fs.readFileSync(path.join(process.cwd(), 'README.md'));
-  outputFileSync(path.join(OutDir, 'README.md'), readmeFile);
+function copyFilesForPublish() {
+  const files = ['package.json', 'README.md', 'CHANGELOG.md', 'LICENSE'];
+  files.forEach(filename => {
+    const src = path.join(process.cwd(), filename);
+    const dest = path.join(OutDir, filename);
+    fs.copyFileSync(src, dest)
+  });
 }
