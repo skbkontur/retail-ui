@@ -25,8 +25,7 @@ function build() {
   });
 
   if (OutDir === RootDir) {
-    generatePackageJson();
-    copyReadme();
+    copyFilesForPublish();
   }
 }
 
@@ -121,31 +120,11 @@ function handle(filename, dirName) {
   }
 }
 
-function generatePackageJson() {
-  const packageJson = require('../../package.json');
-  const result = {
-    name: '@skbkontur/react-ui',
-    version: packageJson.version,
-    license: 'MIT',
-    dependencies: packageJson.dependencies,
-    homepage: 'https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md',
-    main: packageJson.main,
-    module: packageJson.module,
-    repository: {
-      type: 'git',
-      url: 'git@github.com:skbkontur/retail-ui.git',
-    },
-    bugs: {
-      url: 'https://github.com/skbkontur/retail-ui/issues',
-    },
-    peerDependencies: packageJson.peerDependencies,
-    publishConfig: packageJson.publishConfig,
-  };
-  const source = JSON.stringify(result, null, 2);
-  outputFileSync(path.join(OutDir, 'package.json'), source);
-}
-
-function copyReadme() {
-  const readmeFile = fs.readFileSync(path.join(process.cwd(), 'README.md'));
-  outputFileSync(path.join(OutDir, 'README.md'), readmeFile);
+function copyFilesForPublish() {
+  const files = ['package.json', 'README.md', 'CHANGELOG.md', 'LICENSE'];
+  files.forEach(filename => {
+    const src = path.join(process.cwd(), filename);
+    const dest = path.join(OutDir, filename);
+    fs.copyFileSync(src, dest)
+  });
 }
