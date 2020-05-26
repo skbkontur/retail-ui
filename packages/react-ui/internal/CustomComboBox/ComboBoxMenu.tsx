@@ -103,7 +103,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     return (
-      <Menu ref={refMenu} maxHeight={maxMenuHeight}>
+      <Menu data-tid="ComboBoxMenu__items" ref={refMenu} maxHeight={maxMenuHeight}>
         {items && items.map(this.renderItem)}
         {total}
         {renderAddButton && [<MenuSeparator key="separator" />, renderAddButton]}
@@ -129,7 +129,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     return (
-      <MenuItem onClick={() => onValueChange(item)} key={index}>
+      <MenuItem data-tid="ComboBoxMenu__item" onClick={() => onValueChange(item)} key={index}>
         {state => renderItem(item, state)}
       </MenuItem>
     );
