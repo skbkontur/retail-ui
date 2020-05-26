@@ -27,8 +27,8 @@ namespace SKBKontur.SeleniumTesting.Controls
         public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> z) where T : ControlBase
         {
             return GetReactProp<bool>("disablePortal")
-                ? new ControlListBase<T>(this, new UniversalSelector("##Items"), new UniversalSelector("##Item"), z)
-                : new ControlListBase<T>(portal, new UniversalSelector("##Items"), new UniversalSelector("##Item"), z);
+                ? new ControlListBase<T>(this, new UniversalSelector("##ComboBoxMenu__items"), new UniversalSelector("##ComboBoxMenu__item"), z)
+                : new ControlListBase<T>(portal, new UniversalSelector("##ComboBoxMenu__items"), new UniversalSelector("##ComboBoxMenu__item"), z);
         }
 
         public void InputTextAndSelectSingle(string inputText, Timings timings = null)
