@@ -137,7 +137,7 @@ export const buttonSizeMixin = (
   selectorFallback: string,
 ) => {
   return css`
-    font-size: ${fontSize} !important;
+    font-size: ${fontSize};
 
     &:not(${selectorLink}) {
       height: ${shift(height, heightShift)};
