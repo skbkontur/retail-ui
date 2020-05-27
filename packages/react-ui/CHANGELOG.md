@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.2.0...@skbkontur/react-ui@2.3.0) (2020-05-27)
+
+
+### Bug Fixes
+
+* **[combobox]:** fix DebounsedSearch bug and several bugs in test wrap ([507c189](https://github.com/skbkontur/retail-ui/commit/507c189c91a3ecdbfcf965fc41ee6a712c81bd51)), closes [#2031](https://github.com/skbkontur/retail-ui/issues/2031)
+* **Checkbox:** change variable theme `chbCheckedActiveBg` ([7fd2464](https://github.com/skbkontur/retail-ui/commit/7fd2464d4f63bc2ef0bea7561146ab7907e0255e)), closes [#1935](https://github.com/skbkontur/retail-ui/issues/1935)
+* **Input:** recovery of event trigger: onChange, onKeyDown, onKeyPress ([4aebf7a](https://github.com/skbkontur/retail-ui/commit/4aebf7afbbe1995383db739fa4f98fdbcd452462)), closes [#1938](https://github.com/skbkontur/retail-ui/issues/1938)
+* **MaskedInput:** add specific property of the IE/EDGE ([271a4c2](https://github.com/skbkontur/retail-ui/commit/271a4c2d330562a63a1753fee93ea8ddde6aa28b)), closes [#1911](https://github.com/skbkontur/retail-ui/issues/1911)
+* **react-ui:** fix tree-shaking that isn't working ([9545add](https://github.com/skbkontur/retail-ui/commit/9545add7748119fcb252e45188ebab953c47bf8e))
+* **SidePage:** add ignore mousedown on window scrollbar ([0aa3eec](https://github.com/skbkontur/retail-ui/commit/0aa3eec296cd38400870fb9d6503e8bd71c5882c)), closes [#1934](https://github.com/skbkontur/retail-ui/issues/1934)
+* **tooltip:** fix active props to RenderLayer ([347004e](https://github.com/skbkontur/retail-ui/commit/347004eb52ef52cd637379062ea8ca6c0cab7849))
+* **tooltip:** only hover&focus ([b61fb3b](https://github.com/skbkontur/retail-ui/commit/b61fb3bbadb2dca467ac42d5aef773f1f293a4ff))
+
+
+### Features
+
+* **Checkbox:** add variable theme `chbCheckedActiveShadow` ([183d198](https://github.com/skbkontur/retail-ui/commit/183d198bfc4885eb0fbcd7dcda34f6245f22d2f7))
+* **Link:** fill rel attr with 'noopener  noreferrer' ([8f3b79b](https://github.com/skbkontur/retail-ui/commit/8f3b79b82e3a0c5f63761f7f25b02914735808ac))
+
+
+
+
+
 # [2.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.1.1...@skbkontur/react-ui@2.2.0) (2020-04-29)
 
 
