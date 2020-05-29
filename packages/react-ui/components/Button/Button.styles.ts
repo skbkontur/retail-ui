@@ -1,5 +1,5 @@
-import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import { css, cssName, keyframes } from '../../lib/theming/Emotion';
+// import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
 import {
@@ -22,7 +22,8 @@ const btn_loading_arrow = keyframes`
 `;
 
 const styles = {
-  root(t: Theme) {
+  root(s: any) {
+    const { theme: t } = s;
     return css`
       ${resetButton()};
       ${resetText()};
@@ -37,6 +38,7 @@ const styles = {
       position: relative;
       text-align: center;
       width: 100%;
+      border-radius: ${t.btnBorderRadius};
 
       &::-moz-focus-inner {
         border: 0;
@@ -48,21 +50,21 @@ const styles = {
         vertical-align: baseline;
         width: 0;
       }
-      &:not(${cssName(styles.sizeSmall(t))}) {
-        border-radius: ${t.btnBorderRadius};
+
+      &:active ${cssName(styles.caption(s))} {
+        ${styles.captionActive(s)}
       }
-      ${cssName(styles.link(t))}& {
-        padding: 0;
-      }
-      &:active:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
-        ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
-        }
-      }
+
+      ${s.state.isEdgeOrIE &&
+        `
+        line-height: normal;
+      `}
     `;
   },
 
-  warning(t: Theme) {
+  warning(s: any) {
+    const { theme: t } = s;
+    const isLink = s.props.use === 'link';
     return css`
       border-radius: inherit;
       position: absolute;
@@ -71,10 +73,20 @@ const styles = {
       left: 0;
       right: 0;
       box-shadow: 0 0 0 2px ${t.borderColorWarning};
+
+      ${isLink &&
+        `
+        box-shadow: none;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+      `}
     `;
   },
 
-  error(t: Theme) {
+  error(s: any) {
+    const { theme: t } = s;
+    const isLink = s.props.use === 'link';
     return css`
       border-radius: inherit;
       position: absolute;
@@ -83,10 +95,20 @@ const styles = {
       left: 0;
       right: 0;
       box-shadow: 0 0 0 2px ${t.borderColorError};
+
+      ${isLink &&
+        `
+        box-shadow: none;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: ${t.errorSecondary};
+      `}
     `;
   },
 
-  sizeSmall(t: Theme) {
+  sizeSmall(s: any) {
+    const { theme: t } = s;
     return css`
       border-radius: ${t.btnSmallBorderRadius};
 
@@ -97,11 +119,11 @@ const styles = {
         t.controlLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
-        cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
+        s.state.isEdgeOrIE,
+        s.props.use === 'link',
       )};
 
-      ${cssName(styles.arrow())} {
+      ${cssName(styles.arrow(s))} {
         border-radius: ${t.btnSmallArrowBorderRadius};
       }
 
@@ -111,13 +133,14 @@ const styles = {
         t.btnSmallArrowRight,
         t.btnSmallArrowLength,
         'rotate(53deg) skewX(24deg) skewY(10deg)',
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s.props.arrow === 'left',
       )};
     `;
   },
 
-  sizeMedium(t: Theme) {
+  sizeMedium(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonSizeMixin(
         t.btnFontSizeMedium,
@@ -126,8 +149,8 @@ const styles = {
         t.controlLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
-        cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
+        s.state.isEdgeOrIE,
+        s.props.use === 'link',
       )};
 
       ${buttonArrowMixin(
@@ -136,13 +159,14 @@ const styles = {
         t.btnMediumArrowRight,
         '20.2px',
         t.btnMediumArrowTransform,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s.props.arrow === 'left',
       )};
     `;
   },
 
-  sizeLarge(t: Theme) {
+  sizeLarge(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonSizeMixin(
         t.btnFontSizeLarge,
@@ -151,8 +175,8 @@ const styles = {
         t.controlLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
-        cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
+        s.state.isEdgeOrIE,
+        s.props.use === 'link',
       )};
 
       ${buttonArrowMixin(
@@ -161,13 +185,14 @@ const styles = {
         '-10.8px',
         '22.2px',
         t.btnLargeArrowTransform,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s.props.arrow === 'left',
       )};
     `;
   },
 
-  sizeSmallLoading(t: Theme) {
+  sizeSmallLoading(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonLoadingArrowMixin(
         t.btnSmallArrowTop,
@@ -177,13 +202,14 @@ const styles = {
         t.btnSmallArrowBg,
         t.btnSmallArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s.props.arrow === 'left',
       )};
     `;
   },
 
-  sizeMediumLoading(t: Theme) {
+  sizeMediumLoading(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonLoadingArrowMixin(
         '0',
@@ -193,13 +219,14 @@ const styles = {
         t.btnMediumArrowBg,
         t.btnMediumArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s.props.arrow === 'left',
       )};
     `;
   },
 
-  sizeLargeLoading(t: Theme) {
+  sizeLargeLoading(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonLoadingArrowMixin(
         '-32px',
@@ -209,21 +236,23 @@ const styles = {
         t.btnLargeArrowBg,
         t.btnLargeArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s.props.arrow === 'left',
       )};
     `;
   },
 
-  link(t: Theme) {
+  link(s: any) {
+    const { theme: t } = s;
+    const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
     return css`
       background: none;
-      border-radius: ${t.btnLinkBorderRadius} !important;
+      border-radius: ${t.btnLinkBorderRadius};
       border: none;
       box-shadow: none;
-      color: ${t.linkColor} !important;
+      color: ${t.linkColor};
       display: inline;
-      line-height: inherit !important;
+      line-height: inherit;
       margin: 0;
       padding: 0;
 
@@ -232,132 +261,114 @@ const styles = {
         text-decoration: ${t.linkHoverTextDecoration};
       }
       &:active {
-        color: ${t.linkActiveColor} !important;
+        color: ${t.linkActiveColor};
       }
-      ${cssName(styles.caption())} {
-        display: inline;
-      }
-      ${cssName(styles.icon())} {
-        padding-right: ${t.linkIconMarginRight};
-      }
-      ${cssName(styles.warning(t))} ,
-      ${cssName(styles.error(t))}  {
-        box-shadow: none;
-        left: -2px !important;
-        right: -2px !important;
-        bottom: -2px !important;
-      }
-      ${cssName(styles.error(t))}  {
-        background: ${t.errorSecondary} !important;
-      }
+
+      ${s.state.isEdgeOrIE &&
+        `
+        line-height: normal;
+      `}
+
+      ${focus &&
+        `
+        color: ${t.linkColor};
+        text-decoration: ${t.linkHoverTextDecoration};
+      `}
+
+      ${s.props.disabled &&
+        `
+        color: ${t.linkDisabledColor};
+      `}
     `;
   },
 
-  focus(t: Theme) {
+  focus(s: any) {
+    const { theme: t } = s;
+    const { disabled, warning, use, error } = s.props;
+    const link = use === 'link';
     return css`
       position: relative;
       z-index: 2;
 
-      &${cssName(styles.link(t))} {
-        color: ${t.linkColor};
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
-
-      &:not(${cssName(styles.disabled(t))}):not(${cssName(styles.link(t))}) {
+      ${!disabled &&
+        !link &&
+        `
         border: ${t.btnFocusBorder};
 
         &,
         &:hover,
-        &:active,
-        ${cssName(styles.active(t))} {
+        &:active {
           box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
 
-          &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
-            box-shadow: inset 0 0 0 1px ${t.outlineColorFocus} !important;
-            border-color: transparent !important;
-          }
-          ${cssName(styles.arrow())} {
-            box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
-
-            &${cssName(styles.arrowWarning(t))} {
-              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning} !important;
-            }
-
-            &${cssName(styles.arrowError(t))} {
-              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError} !important;
-            }
-          }
+          ${(warning || error) &&
+            `
+            box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
+            border-color: transparent;
+          `}
         }
-      }
+      `}
     `;
   },
 
-  disabled(t: Theme) {
+  disabled(s: any) {
+    const { theme: t } = s;
+    const link = s.props.use === 'link';
     return css`
       cursor: default;
       pointer-events: none;
-      border-color: transparent !important;
+      border-color: transparent;
 
-      &:not(${cssName(styles.link(t))}) {
-        background: ${t.btnDisabledBg} !important;
-        color: ${t.btnDisabledTextColor} !important;
-        box-shadow: ${t.btnDisabledShadow} !important;
+      ${!link &&
+        `
+        background: ${t.btnDisabledBg};
+        color: ${t.btnDisabledTextColor};
+        box-shadow: ${t.btnDisabledShadow};
 
-        ${cssName(styles.arrow())} {
-          background: ${t.btnDisabledBg} !important;
-          box-shadow: ${t.btnDisabledShadowArrow} !important;
+        ${cssName(styles.arrow(s))} {
+          background: ${t.btnDisabledBg};
+          box-shadow: ${t.btnDisabledShadowArrow};
         }
-      }
+      `}
 
-      &${cssName(styles.link(t))} {
-        color: ${t.linkDisabledColor} !important;
-      }
-    `;
-  },
-
-  fallback(t: Theme) {
-    return css`
-      &${cssName(styles.disabled(t))} {
+      ${s.state.isEdgeOrIE &&
+        `
         outline-color: transparent;
-      }
-      &:not(${cssName(styles.link(t))}) {
-        line-height: normal !important;
-      }
+      `}
     `;
   },
 
-  validationRoot(t: Theme) {
-    return css`
-      ${cssName(styles.focus(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
-        border-color: transparent !important;
-      }
-    `;
-  },
-
-  arrowWarning(t: Theme) {
-    return css`
-      box-shadow: 2px -2px 0 0 ${t.borderColorWarning} !important;
-    `;
-  },
-
-  arrowError(t: Theme) {
-    return css`
-      box-shadow: 2px -2px 0 0 ${t.borderColorError} !important;
-    `;
-  },
-
-  arrowLeft(t: Theme) {
+  fallback(s: any) {
     return css`
       visibility: visible;
-
-      ${cssName(styles.checked(t))}:not(${cssName(styles.focus(t))}) & {
-        box-shadow: ${t.btnCheckedShadowArrowLeft} !important;
-      }
     `;
   },
 
-  default(t: Theme) {
+  validationRoot(s: any) {
+    return css`
+      visibility: visible;
+    `;
+  },
+
+  arrowWarning(s: any) {
+    return css`
+      visibility: visible;
+    `;
+  },
+
+  arrowError(s: any) {
+    return css`
+      visibility: visible;
+    `;
+  },
+
+  arrowLeft(s: any) {
+    return css`
+      visibility: visible;
+    `;
+  },
+
+  default(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonUseMixin(
         t.btnDefaultBg,
@@ -370,9 +381,9 @@ const styles = {
         t.btnDefaultShadowArrowLeft,
         t.btnDefaultTextColor,
         t.btnDefaultBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        s.props.checked,
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonHoverMixin(
@@ -385,8 +396,8 @@ const styles = {
         t.btnDefaultHoverShadowArrow,
         t.btnDefaultHoverShadowArrowLeft,
         t.btnDefaultHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonActiveMixin(
@@ -396,14 +407,14 @@ const styles = {
         t.btnDefaultActiveShadow,
         t.btnDefaultActiveShadowArrow,
         t.btnDefaultActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
     `;
   },
 
-  primary(t: Theme) {
+  primary(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonUseMixin(
         t.btnPrimaryBg,
@@ -416,9 +427,9 @@ const styles = {
         t.btnPrimaryShadowArrowLeft,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        s.props.checked,
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonHoverMixin(
@@ -431,8 +442,8 @@ const styles = {
         t.btnPrimaryHoverShadowArrow,
         t.btnPrimaryHoverShadowArrowLeft,
         t.btnPrimaryHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonActiveMixin(
@@ -442,14 +453,14 @@ const styles = {
         t.btnPrimaryActiveShadow,
         t.btnPrimaryActiveShadowArrow,
         t.btnPrimaryActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
     `;
   },
 
-  success(t: Theme) {
+  success(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonUseMixin(
         t.btnSuccessBg,
@@ -462,9 +473,9 @@ const styles = {
         t.btnSuccessShadowArrowLeft,
         t.btnSuccessTextColor,
         t.btnSuccessBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        s.props.checked,
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonHoverMixin(
@@ -477,8 +488,8 @@ const styles = {
         t.btnSuccessHoverShadowArrow,
         t.btnSuccessHoverShadowArrowLeft,
         t.btnSuccessHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonActiveMixin(
@@ -488,14 +499,14 @@ const styles = {
         t.btnSuccessActiveShadow,
         t.btnSuccessActiveShadowArrow,
         t.btnSuccessActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
     `;
   },
 
-  danger(t: Theme) {
+  danger(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonUseMixin(
         t.btnDangerBg,
@@ -508,9 +519,9 @@ const styles = {
         t.btnDangerShadowArrowLeft,
         t.btnDangerTextColor,
         t.btnDangerBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        s.props.checked,
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonHoverMixin(
@@ -523,8 +534,8 @@ const styles = {
         t.btnDangerHoverShadowArrow,
         t.btnDangerHoverShadowArrowLeft,
         t.btnDangerHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonActiveMixin(
@@ -534,14 +545,14 @@ const styles = {
         t.btnDangerActiveShadow,
         t.btnDangerActiveShadowArrow,
         t.btnDangerActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
     `;
   },
 
-  pay(t: Theme) {
+  pay(s: any) {
+    const { theme: t } = s;
     return css`
       ${buttonUseMixin(
         t.btnPayBg,
@@ -554,9 +565,9 @@ const styles = {
         t.btnPayShadowArrowLeft,
         t.btnPayTextColor,
         t.btnPayBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        s.props.checked,
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonHoverMixin(
@@ -569,8 +580,8 @@ const styles = {
         t.btnPayHoverShadowArrow,
         t.btnPayHoverShadowArrowLeft,
         t.btnPayHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
 
       ${buttonActiveMixin(
@@ -580,106 +591,128 @@ const styles = {
         t.btnPayActiveShadow,
         t.btnPayActiveShadowArrow,
         t.btnPayActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        cssName(styles.arrow(s)),
+        s,
       )};
     `;
   },
 
-  checked(t: Theme) {
+  checked(s: any) {
+    const { theme: t } = s;
+    const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
     return css`
-      box-shadow: ${t.btnCheckedShadow} !important;
-      background: ${t.btnCheckedBg} !important;
-      color: ${t.btnCheckedTextColor} !important;
-      border: ${t.btnDefaultCheckedBorder} !important;
-
-      &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
-        ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
-        }
-      }
-
       &,
-      &:not(${cssName(styles.focus(t))}) {
-        ${cssName(styles.arrow())} {
-          background: ${t.btnCheckedBg} !important;
-          box-shadow: ${t.btnCheckedShadowArrow} !important;
-        }
+      &:hover,
+      &:active {
+        box-shadow: ${t.btnCheckedShadow};
+        background: ${t.btnCheckedBg};
+        color: ${t.btnCheckedTextColor};
+        border: ${t.btnDefaultCheckedBorder};
+
+        ${!focus &&
+          `
+          ${cssName(styles.arrow(s))} {
+            background: ${t.btnCheckedBg};
+            box-shadow: ${t.btnCheckedShadowArrow};
+
+            ${s.props.arrow === 'left' &&
+              `
+              box-shadow: ${t.btnCheckedShadowArrowLeft};
+            `}
+          }
+        `}
       }
     `;
   },
 
-  active(t: Theme) {
-    return css`
-      &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
-        ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
-        }
-      }
-    `;
+  active(s: any) {
+    return css``;
   },
 
-  caption() {
+  caption(s: any) {
+    const link = s.props.use === 'link';
     return css`
       position: relative;
       white-space: nowrap;
       display: inline-block;
       width: 100%;
       vertical-align: top;
+
+      ${(s.props.active || s.props.checked) && styles.captionActive(s)}
+
+      ${link && styles.captionInline(s)}
     `;
   },
 
-  wrap(t: Theme) {
+  captionActive(s: any) {
+    const link = s.props.use === 'link';
+    return !link && !s.props.disabled
+      ? css`
+          transform: translateY(1px);
+        `
+      : ``;
+  },
+
+  captionInline(s: any) {
+    return css`
+      display: inline;
+    `;
+  },
+
+  wrap(s: any) {
+    const { theme: t } = s;
     return css`
       padding: ${t.btnWrapPadding};
       box-sizing: border-box;
       display: inline-block;
+
+      ${s.props.use === 'link' &&
+        `
+        padding: 0;
+      `}
     `;
   },
 
-  narrow() {
+  narrow(s: any) {
     return css`
-      padding-left: 5px !important;
-      padding-right: 5px !important;
+      padding-left: 5px;
+      padding-right: 5px;
     `;
   },
 
-  noPadding() {
+  noPadding(s: any) {
     return css`
-      padding-left: 0 !important;
-      padding-right: 0 !important;
+      padding-left: 0;
+      padding-right: 0;
     `;
   },
 
-  noRightPadding() {
+  noRightPadding(s: any) {
     return css`
-      padding-right: 0 !important;
+      padding-right: 0;
     `;
   },
 
-  wrapLink(t: Theme) {
+  wrapLink(s: any) {
     return css`
-      ${styles.wrap(t)};
-
-      padding: 0;
+      visibility: visible;
     `;
   },
 
-  wrapArrow() {
+  wrapArrow(s: any) {
     return css`
       margin-right: 10px;
     `;
   },
 
-  wrapArrowLeft() {
+  wrapArrowLeft(s: any) {
     return css`
       margin-right: 0;
       margin-left: 10px;
     `;
   },
 
-  arrow() {
+  arrow(s: any) {
     return css`
       position: absolute;
       border-radius: 2px 2px 2px 16px;
@@ -688,38 +721,48 @@ const styles = {
     `;
   },
 
-  icon() {
+  icon(s: any) {
+    const { theme: t } = s;
+    const isLink = s.props.use === 'link';
     return css`
       display: inline-block;
       padding-right: 7px;
+
+      ${isLink &&
+        `
+        padding-right: ${t.linkIconMarginRight};
+      `}
     `;
   },
 
-  buttonWithIcon() {
+  buttonWithIcon(s: any) {
     return css`
       padding-right: 15px;
       padding-left: 15px;
     `;
   },
 
-  borderless(t: Theme) {
-    const focus = cssName(styles.focus(t));
-    const disabled = cssName(styles.disabled(t));
-    const checked = cssName(styles.checked(t));
-    const active = cssName(styles.active(t));
+  borderless(s: any) {
+    const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
+    const { disabled, checked, active, loading } = s.props;
 
     return css`
-      &:not(${focus}):not(${disabled}):not(${active}):not(${checked}) {
+      ${!focus &&
+        !disabled &&
+        !checked &&
+        !active &&
+        !loading &&
+        `
         &,
         &:hover,
         &:active {
-          box-shadow: none !important;
+          box-shadow: none;
         }
-      }
+      `}
     `;
   },
 
-  loading() {
+  loading(s: any) {
     const btn_loading = keyframes`
     0% {
       transform: translateX(0) rotateY(180deg);
@@ -755,4 +798,5 @@ const styles = {
   },
 };
 
-export const jsStyles = memoizeStyle(styles);
+// export const jsStyles = memoizeStyle(styles);
+export const jsStyles = styles;

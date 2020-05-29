@@ -1,7 +1,7 @@
 import { Theme } from '../../lib/theming/Theme';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
 import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
-import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
+// import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 
 export interface DescriptionsType {
   [componentName: string]: ComponentDescriptionType;
@@ -31,7 +31,7 @@ const ALL_USED_VARIABLES_SET = new Set<keyof Theme>();
 export const COMPONENT_DESCRIPTIONS: DescriptionsType = {};
 export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {};
 
-if (IS_PROXY_SUPPORTED) {
+if (false) {
   const baseThemes: Theme[] = [];
   baseThemes.push(DEFAULT_THEME);
   baseThemes.push(FLAT_THEME);

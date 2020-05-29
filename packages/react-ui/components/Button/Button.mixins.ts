@@ -30,10 +30,11 @@ export const buttonUseMixin = (
   shadowArrowLeft: string,
   color: string,
   border: string,
-  selectorChecked: string,
+  checked: boolean,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  s: any,
 ) => {
+  const isArrowLeft = s.props.arrow === 'left';
   return css`
     background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
       ? btnBackground
@@ -42,19 +43,27 @@ export const buttonUseMixin = (
     box-shadow: ${shadow};
     border: ${border};
 
-    &:not(${selectorChecked}) ${selectorArrow} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrow};
-    }
+    ${!checked &&
+      `
+        ${selectorArrow} {
+          background: ${
+            arrowBackgroundStart === arrowBackgroundEnd
+              ? arrowBackgroundStart
+              : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+          };
+          box-shadow: ${getButtonArrowShadow(shadowArrow, s)};
 
-    &:not(${selectorChecked}) ${selectorArrowLeft} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrowLeft};
-    }
+          ${isArrowLeft &&
+            `
+            background: ${
+              arrowBackgroundStart === arrowBackgroundEnd
+                ? arrowBackgroundStart
+                : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+            };
+            box-shadow: ${getButtonArrowShadow(shadowArrowLeft, s)};
+          `}
+        }
+    `}
   `;
 };
 
@@ -69,30 +78,42 @@ export const buttonHoverMixin = (
   arrowLeftShadow: string,
   btnBorder: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  s: any,
 ) => {
+  const isActive = s.props.active;
+  const isArrowLeft = s.props.arrow === 'left';
   return css`
-    &:hover {
-      background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
-        ? btnBackground
-        : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
-      box-shadow: ${btnShadow};
-      border-color: ${btnBorder};
+    ${!isActive &&
+      `
+      &:hover {
+        background: ${
+          btnBackgroundStart === btnBackgroundEnd && btnBackground
+            ? btnBackground
+            : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`
+        };
+        box-shadow: ${btnShadow};
+        border-color: ${btnBorder};
 
-      ${selectorArrow} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowShadow};
-      }
+        ${selectorArrow} {
+          background: ${
+            arrowBackgroundStart === arrowBackgroundEnd
+              ? arrowBackgroundStart
+              : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+          };
+          box-shadow: ${getButtonArrowShadow(arrowShadow, s)};
 
-      ${selectorArrowLeft} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowLeftShadow};
+          ${isArrowLeft &&
+            `
+            background: ${
+              arrowBackgroundStart === arrowBackgroundEnd
+                ? arrowBackgroundStart
+                : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+            };
+            box-shadow: ${getButtonArrowShadow(arrowLeftShadow, s)};
+          `}
+        }
       }
-    }
+    `}
   `;
 };
 
@@ -103,26 +124,32 @@ export const buttonActiveMixin = (
   btnShadow: string,
   arrowShadow: string,
   arrowLeftShadow: string,
-  selectorActive: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  s: any,
 ) => {
-  return css`
-    &:active,
-    &${selectorActive} {
-      background: ${btnBackground};
-      box-shadow: ${btnShadow};
+  const isActive = s.props.active;
+  const isArrowLeft = s.props.arrow === 'left';
+  const activeStyles = css`
+    background: ${btnBackground};
+    box-shadow: ${btnShadow};
 
-      ${selectorArrow} {
-        background: ${arrowBackground};
-        box-shadow: ${arrowShadow};
-      }
+    ${selectorArrow} {
+      background: ${arrowBackground};
+      box-shadow: ${getButtonArrowShadow(arrowShadow, s)};
 
-      ${selectorArrowLeft} {
+      ${isArrowLeft &&
+        `
         background: ${arrowLeftBackground};
-        box-shadow: ${arrowLeftShadow};
-      }
+        box-shadow: ${getButtonArrowShadow(arrowLeftShadow, s)};
+      `}
     }
+  `;
+  return css`
+    &:active {
+      ${activeStyles}
+    }
+
+    ${isActive && activeStyles}
   `;
 };
 
@@ -133,21 +160,24 @@ export const buttonSizeMixin = (
   lineHeight: string,
   paddingX: string,
   paddingY: string,
-  selectorLink: string,
-  selectorFallback: string,
+  isFallback: boolean,
+  isLink: boolean,
 ) => {
   return css`
-    font-size: ${fontSize} !important;
+    font-size: ${fontSize};
 
-    &:not(${selectorLink}) {
-      height: ${shift(height, heightShift)};
-      padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
-      line-height: ${lineHeight};
+    ${!isLink
+      ? `
+        height: ${shift(height, heightShift)};
+        padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
+        line-height: ${lineHeight};
 
-      &${selectorFallback} {
-        padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
-      }
-    }
+        ${isFallback &&
+          `
+          padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
+        `}
+      `
+      : ``}
   `;
 };
 
@@ -158,8 +188,9 @@ export const buttonArrowMixin = (
   size: string,
   transform: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  isArrowLeft: boolean,
 ) => {
+  console.log(isArrowLeft);
   return css`
     ${selectorArrow} {
       top: ${top};
@@ -168,11 +199,12 @@ export const buttonArrowMixin = (
       width: ${size};
       transform: ${transform};
       overflow: hidden;
-    }
 
-    ${selectorArrowLeft} {
-      left: ${left};
-      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
+      ${isArrowLeft &&
+        `
+        left: ${left};
+        transform: rotate(232deg) skewX(25deg) skewY(8deg);
+      `}
     }
   `;
 };
@@ -186,7 +218,7 @@ export const buttonLoadingArrowMixin = (
   delay: string,
   btn_loading_arrow: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  isArrowLeft: boolean,
 ) => {
   return css`
     ${selectorArrow}::before {
@@ -202,14 +234,37 @@ export const buttonLoadingArrowMixin = (
       opacity: 0.2;
       transform: translateX(50px) rotate(-44.3deg);
       animation: ${btn_loading_arrow} 1s linear infinite;
-    }
 
-    ${selectorArrowLeft}::before {
-      top: ${leftArrowTop};
-      left: ${left};
-      animation-direction: reverse;
-      transform: translateX(42px) rotate(-44.3deg);
-      animation-delay: ${delay};
+      ${isArrowLeft &&
+        `
+        top: ${leftArrowTop};
+        left: ${left};
+        animation-direction: reverse;
+        transform: translateX(42px) rotate(-44.3deg);
+        animation-delay: ${delay};
+      `}
     }
   `;
+};
+
+const getButtonArrowShadow = (useColor: string, s: any): string => {
+  const { theme: t } = s;
+  const { error, warning, visuallyFocused } = s.props;
+  const focus = s.state.focusedByTab || !!visuallyFocused;
+  if (focus) {
+    if (error) {
+      return `inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError}`;
+    }
+    if (warning) {
+      return `inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning}`;
+    }
+    return `inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus}`;
+  }
+  if (error) {
+    return `2px -2px 0 0 ${t.borderColorError}`;
+  }
+  if (warning) {
+    return `2px -2px 0 0 ${t.borderColorWarning}`;
+  }
+  return useColor;
 };
