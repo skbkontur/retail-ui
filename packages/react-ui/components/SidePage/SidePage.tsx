@@ -255,8 +255,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     });
   };
 
-  private handleClickOutside = () => {
+  private handleClickOutside = (e: Event) => {
     if (this.state.stackPosition === 0 && !this.props.ignoreBackgroundClick) {
+      // ignore mousedown on window scrollbar
+      if (e instanceof MouseEvent && e.clientX > document.documentElement.clientWidth) {
+        return;
+      }
       this.requestClose();
     }
   };

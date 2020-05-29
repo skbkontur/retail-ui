@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.0.0...react-ui-testing@3.0.1) (2020-05-27)
+
+
+### Bug Fixes
+
+* **[combobox]:** fix DebounsedSearch bug and several bugs in test wrap ([507c189](https://github.com/skbkontur/retail-ui/commit/507c189c91a3ecdbfcf965fc41ee6a712c81bd51)), closes [#2031](https://github.com/skbkontur/retail-ui/issues/2031)
+
+
+
+
+
 # [3.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@2.2.7...react-ui-testing@3.0.0) (2020-03-24)
 
 
