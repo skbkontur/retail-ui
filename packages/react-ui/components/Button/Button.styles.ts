@@ -31,7 +31,7 @@ const styles = {
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      color: ${t.textColorDefault};
+      color: ${t.btnTextColorDefault};
       cursor: pointer;
       display: inline-block;
       position: relative;
@@ -70,7 +70,7 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 2px ${t.borderColorWarning};
+      box-shadow: 0 0 0 2px ${t.btnBorderColorWarning};
     `;
   },
 
@@ -82,19 +82,19 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 2px ${t.borderColorError};
+      box-shadow: 0 0 0 2px ${t.btnBorderColorError};
     `;
   },
 
   sizeSmall(t: Theme) {
     return css`
-      border-radius: ${t.btnSmallBorderRadius};
+      border-radius: ${t.btnBorderRadiusSmall};
 
       ${buttonSizeMixin(
         t.btnFontSizeSmall,
-        t.controlHeightSmall,
+        t.btnHeightSmall,
         t.btnHeightShift,
-        t.controlLineHeightSmall,
+        t.btnLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
         cssName(styles.link(t)),
@@ -119,11 +119,13 @@ const styles = {
 
   sizeMedium(t: Theme) {
     return css`
+      border-radius: ${t.btnBorderRadiusMedium};
+
       ${buttonSizeMixin(
         t.btnFontSizeMedium,
-        t.controlHeightMedium,
+        t.btnHeightMedium,
         t.btnHeightShift,
-        t.controlLineHeightMedium,
+        t.btnLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
         cssName(styles.link(t)),
@@ -144,11 +146,13 @@ const styles = {
 
   sizeLarge(t: Theme) {
     return css`
+      border-radius: ${t.btnBorderRadiusLarge};
+
       ${buttonSizeMixin(
         t.btnFontSizeLarge,
-        t.controlHeightLarge,
+        t.btnHeightLarge,
         t.btnHeightShift,
-        t.controlLineHeightLarge,
+        t.btnLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
         cssName(styles.link(t)),
@@ -221,15 +225,15 @@ const styles = {
       border-radius: ${t.btnLinkBorderRadius} !important;
       border: none;
       box-shadow: none;
-      color: ${t.linkColor} !important;
+      color: ${t.btnLinkColor} !important;
       display: inline;
       line-height: inherit !important;
       margin: 0;
       padding: 0;
 
       &:hover {
-        color: ${t.linkHoverColor};
-        text-decoration: ${t.linkHoverTextDecoration};
+        color: ${t.btnLinkHoverColor};
+        text-decoration: ${t.btnLinkHoverTextDecoration};
       }
       &:active {
         color: ${t.linkActiveColor} !important;
@@ -237,8 +241,8 @@ const styles = {
       ${cssName(styles.caption())} {
         display: inline;
       }
-      ${cssName(styles.icon())} {
-        padding-right: ${t.linkIconMarginRight};
+      ${cssName(styles.icon(t))} {
+        padding-right: ${t.btnLinkIconMarginRight};
       }
       ${cssName(styles.warning(t))} ,
       ${cssName(styles.error(t))}  {
@@ -248,7 +252,7 @@ const styles = {
         bottom: -2px !important;
       }
       ${cssName(styles.error(t))}  {
-        background: ${t.errorSecondary} !important;
+        background: ${t.btnErrorSecondary} !important;
       }
     `;
   },
@@ -259,8 +263,8 @@ const styles = {
       z-index: 2;
 
       &${cssName(styles.link(t))} {
-        color: ${t.linkColor};
-        text-decoration: ${t.linkHoverTextDecoration};
+        color: ${t.btnLinkColor};
+        text-decoration: ${t.btnLinkHoverTextDecoration};
       }
 
       &:not(${cssName(styles.disabled(t))}):not(${cssName(styles.link(t))}) {
@@ -270,21 +274,21 @@ const styles = {
         &:hover,
         &:active,
         ${cssName(styles.active(t))} {
-          box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
+          box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
 
           &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
-            box-shadow: inset 0 0 0 1px ${t.outlineColorFocus} !important;
+            box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
             border-color: transparent !important;
           }
           ${cssName(styles.arrow())} {
-            box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorFocus};
+            box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorFocus};
 
             &${cssName(styles.arrowWarning(t))} {
-              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorWarning} !important;
+              box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorWarning} !important;
             }
 
             &${cssName(styles.arrowError(t))} {
-              box-shadow: inset -1px 1px 0 0 ${t.outlineColorFocus}, 2px -2px 0 0 ${t.borderColorError} !important;
+              box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorError} !important;
             }
           }
         }
@@ -310,7 +314,7 @@ const styles = {
       }
 
       &${cssName(styles.link(t))} {
-        color: ${t.linkDisabledColor} !important;
+        color: ${t.btnLinkDisabledColor} !important;
       }
     `;
   },
@@ -329,7 +333,7 @@ const styles = {
   validationRoot(t: Theme) {
     return css`
       ${cssName(styles.focus(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
+        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus};
         border-color: transparent !important;
       }
     `;
@@ -337,13 +341,13 @@ const styles = {
 
   arrowWarning(t: Theme) {
     return css`
-      box-shadow: 2px -2px 0 0 ${t.borderColorWarning} !important;
+      box-shadow: 2px -2px 0 0 ${t.btnBorderColorWarning} !important;
     `;
   },
 
   arrowError(t: Theme) {
     return css`
-      box-shadow: 2px -2px 0 0 ${t.borderColorError} !important;
+      box-shadow: 2px -2px 0 0 ${t.btnBorderColorError} !important;
     `;
   },
 
@@ -688,17 +692,10 @@ const styles = {
     `;
   },
 
-  icon() {
+  icon(t: Theme) {
     return css`
       display: inline-block;
-      padding-right: 7px;
-    `;
-  },
-
-  buttonWithIcon() {
-    return css`
-      padding-right: 15px;
-      padding-left: 15px;
+      padding-right: ${t.btnPaddingAfterIconSmall};
     `;
   },
 

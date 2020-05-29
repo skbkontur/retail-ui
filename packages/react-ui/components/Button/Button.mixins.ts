@@ -128,8 +128,8 @@ export const buttonActiveMixin = (
 
 export const buttonSizeMixin = (
   fontSize: string,
-  height: string,
-  heightShift: string,
+  height: string, // todo: remove, in IE broke screenshots without height
+  heightShift: string, // todo: remove, in IE broke screenshots without height
   lineHeight: string,
   paddingX: string,
   paddingY: string,
@@ -140,6 +140,7 @@ export const buttonSizeMixin = (
     font-size: ${fontSize} !important;
 
     &:not(${selectorLink}) {
+      box-sizing: border-box;
       height: ${shift(height, heightShift)};
       padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
       line-height: ${lineHeight};

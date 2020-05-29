@@ -44,9 +44,21 @@ export class DefaultTheme {
   public static placeholderColorLight = '#cdcdcd';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
   public static controlBorderWidth = '1px';
+  public static controlBorderRadiusSmall = '1px';
+  public static controlBorderRadiusMedium = '1px';
+  public static controlBorderRadiusLarge = '1px';
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '20px';
   public static controlLineHeightLarge = '22px';
+  public static get controlFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get controlFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get controlFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
   public static controlPaddingYSmall = '6px';
   public static controlPaddingYMedium = '9px';
   public static controlPaddingYLarge = '10px';
@@ -195,10 +207,20 @@ export class DefaultTheme {
   public static btnCheckedShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3)';
   public static btnBorderRadius = '2px';
   public static btnArrowBorderRadius = '2px 2px 2px 16px';
-  public static btnSmallBorderRadius = '1px';
+  public static btnSmallBorderRadius = '1px'; // todo: deprecated
+  public static get btnBorderRadiusSmall() {
+    return this.controlBorderRadiusSmall;
+  }
+  public static get btnBorderRadiusMedium() {
+    return this.controlBorderRadiusMedium;
+  }
+  public static get btnBorderRadiusLarge() {
+    return this.controlBorderRadiusLarge;
+  }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '20px';
+  public static btnPaddingAfterIconSmall = '7px';
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';
@@ -357,6 +379,15 @@ export class DefaultTheme {
   public static get btnFontSizeLarge() {
     return this.fontSizeLarge;
   }
+  public static get btnLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get btnLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get btnLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
   public static get btnPaddingYSmall() {
     return this.controlPaddingYSmall;
   }
@@ -377,6 +408,51 @@ export class DefaultTheme {
   }
   public static get btnDisabledShadowArrow() {
     return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
+  }
+  public static get btnTextColorDefault() {
+    return this.textColorDefault;
+  }
+  public static get btnBorderColorWarning() {
+    return this.borderColorWarning;
+  }
+  public static get btnBorderColorError() {
+    return this.borderColorError;
+  }
+  public static get btnHeightSmall() {
+    return this.controlHeightSmall;
+  }
+  public static get btnHeightMedium() {
+    return this.controlHeightMedium;
+  }
+  public static get btnHeightLarge() {
+    return this.controlHeightLarge;
+  }
+  public static get btnLinkColor() {
+    return this.linkColor;
+  }
+  public static get btnLinkHoverColor() {
+    return this.linkHoverColor;
+  }
+  public static get btnLinkHoverTextDecoration() {
+    return this.linkHoverTextDecoration;
+  }
+  public static get btnLinkActiveColor() {
+    return this.linkActiveColor;
+  }
+  public static get btnLinkIconMarginRight() {
+    return this.linkIconMarginRight;
+  }
+  public static get btnErrorSecondary() {
+    return this.errorSecondary;
+  }
+  public static get btnOutlineColorFocus() {
+    return this.outlineColorFocus;
+  }
+  public static get btnBorderColorFocus() {
+    return this.borderColorFocus;
+  }
+  public static get btnLinkDisabledColor() {
+    return this.linkDisabledColor;
   }
   //#endregion
   //#region Select

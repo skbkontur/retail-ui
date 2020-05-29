@@ -9,6 +9,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static outlineColorFocus = '#fff';
   public static borderColorFocus = '#1d85d0';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
+  public static controlBorderRadiusSmall = '2px';
+  public static controlBorderRadiusMedium = '2px';
+  public static controlBorderRadiusLarge = '2px';
   //#endregion
   //#region Button
   public static btnHeightShift = '0';
@@ -16,6 +19,15 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnLinkBorderRadius = '2px';
   public static btnArrowBorderRadius = '2px 2px 2px 16px';
   public static btnSmallBorderRadius = '2px';
+  public static get btnBorderRadiusSmall() {
+    return this.controlBorderRadiusSmall;
+  }
+  public static get btnBorderRadiusMedium() {
+    return this.controlBorderRadiusMedium;
+  }
+  public static get btnBorderRadiusLarge() {
+    return this.controlBorderRadiusLarge;
+  }
   public static btnFocusShadowWidth = '1px';
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedTextColor = '#fff';
