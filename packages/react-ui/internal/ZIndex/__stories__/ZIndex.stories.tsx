@@ -694,13 +694,13 @@ LoaderCoversTooltipStory.story = { name: 'Loader covers tooltip' };
 export const ModalWithTooltipInLoaderStory: CSFStory<JSX.Element> = () => <ModalWithTooltipInLoader />;
 ModalWithTooltipInLoaderStory.story = {
   name: 'Modal With Tooltip In Loader',
-  parameters: { creevey: { captureElement: '[data-comp-name~="Loader"]' } },
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const NestedElementsInLoaderStory: CSFStory<JSX.Element> = () => <NestedElementsInLoader />;
 NestedElementsInLoaderStory.story = {
   name: 'Nested elements in loader',
-  parameters: { creevey: { captureElement: '[data-comp-name~="Loader"]' } },
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const TooltipNearLoaderStory = () => <TooltipNearLoader />;
