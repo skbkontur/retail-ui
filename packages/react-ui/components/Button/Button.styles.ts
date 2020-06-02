@@ -12,6 +12,7 @@ import {
   c,
   buttonActiveCaptionMixin,
 } from './Button.mixins';
+import { ButtonStylesProps } from './Button';
 
 const btn_loading_arrow = keyframes`
 0% {
@@ -24,8 +25,8 @@ const btn_loading_arrow = keyframes`
 `;
 
 const styles = {
-  root(s: any) {
-    const { theme: t } = s;
+  root(s: ButtonStylesProps) {
+    const { theme: t, isEdgeOrIE } = s;
     return css`
       ${resetButton()};
       ${resetText()};
@@ -57,16 +58,15 @@ const styles = {
         ${buttonActiveCaptionMixin(s)}
       }
 
-      ${s.state.isEdgeOrIE &&
+      ${isEdgeOrIE &&
         `
         line-height: normal;
       `}
     `;
   },
 
-  warning(s: any) {
-    const { theme: t } = s;
-    const isLink = s.props.use === 'link';
+  warning(s: ButtonStylesProps) {
+    const { theme: t, isLink } = s;
     return css`
       border-radius: inherit;
       position: absolute;
@@ -79,9 +79,8 @@ const styles = {
     `;
   },
 
-  error(s: any) {
-    const { theme: t } = s;
-    const isLink = s.props.use === 'link';
+  error(s: ButtonStylesProps) {
+    const { theme: t, isLink } = s;
     return css`
       border-radius: inherit;
       position: absolute;
@@ -98,20 +97,19 @@ const styles = {
     `;
   },
 
-  sizeSmall(s: any) {
-    const { theme: t } = s;
+  sizeSmall(s: ButtonStylesProps) {
+    const { theme: t, isLoading } = s;
     return css`
       border-radius: ${t.btnSmallBorderRadius};
 
       ${buttonSizeMixin(
+        s,
         t.btnFontSizeSmall,
         t.controlHeightSmall,
         t.btnHeightShift,
         t.controlLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
-        s.state.isEdgeOrIE,
-        s.props.use === 'link',
       )};
 
       ${cssName(styles.arrow(s))} {
@@ -119,144 +117,133 @@ const styles = {
       }
 
       ${buttonArrowMixin(
+        s,
         t.btnSmallArrowTop,
         t.btnSmallArrowLeft,
         t.btnSmallArrowRight,
         t.btnSmallArrowLength,
         'rotate(53deg) skewX(24deg) skewY(10deg)',
         cssName(styles.arrow(s)),
-        s.props.arrow === 'left',
       )};
+
+      ${isLoading
+        ? buttonLoadingArrowMixin(
+            s,
+            t.btnSmallArrowTop,
+            t.btnSmallArrowTop,
+            '-207px',
+            '441%',
+            t.btnSmallArrowBg,
+            t.btnSmallArrowLeftLoadingDelay,
+            btn_loading_arrow,
+            cssName(styles.arrow(s)),
+          )
+        : ``}
     `;
   },
 
-  sizeMedium(s: any) {
-    const { theme: t } = s;
+  sizeMedium(s: ButtonStylesProps) {
+    const { theme: t, isLoading } = s;
     return css`
       ${buttonSizeMixin(
+        s,
         t.btnFontSizeMedium,
         t.controlHeightMedium,
         t.btnHeightShift,
         t.controlLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
-        s.state.isEdgeOrIE,
-        s.props.use === 'link',
       )};
 
       ${buttonArrowMixin(
+        s,
         '9px',
         t.btnMediumArrowLeft,
         t.btnMediumArrowRight,
         '20.2px',
         t.btnMediumArrowTransform,
         cssName(styles.arrow(s)),
-        s.props.arrow === 'left',
       )};
+
+      ${
+        isLoading
+          ? buttonLoadingArrowMixin(
+              s,
+              '0',
+              '0',
+              t.btnMediumArrowLeftLoadingLeft,
+              '441%',
+              t.btnMediumArrowBg,
+              t.btnMediumArrowLeftLoadingDelay,
+              btn_loading_arrow,
+              cssName(styles.arrow(s)),
+            )
+          : ``
+      }
+    }
     `;
   },
 
-  sizeLarge(s: any) {
-    const { theme: t } = s;
+  sizeLarge(s: ButtonStylesProps) {
+    const { theme: t, isLoading } = s;
     return css`
       ${buttonSizeMixin(
+        s,
         t.btnFontSizeLarge,
         t.controlHeightLarge,
         t.btnHeightShift,
         t.controlLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
-        s.state.isEdgeOrIE,
-        s.props.use === 'link',
       )};
 
       ${buttonArrowMixin(
+        s,
         '10.2px',
         t.btnLargeArrowLeft,
         '-10.8px',
         '22.2px',
         t.btnLargeArrowTransform,
         cssName(styles.arrow(s)),
-        s.props.arrow === 'left',
       )};
+
+      ${isLoading
+        ? buttonLoadingArrowMixin(
+            s,
+            '-32px',
+            '-36px',
+            ' -198px',
+            '700%',
+            t.btnLargeArrowBg,
+            t.btnLargeArrowLeftLoadingDelay,
+            btn_loading_arrow,
+            cssName(styles.arrow(s)),
+          )
+        : ``}
     `;
   },
 
-  sizeSmallLoading(s: any) {
-    const { theme: t } = s;
-    return css`
-      ${buttonLoadingArrowMixin(
-        t.btnSmallArrowTop,
-        t.btnSmallArrowTop,
-        '-207px',
-        '441%',
-        t.btnSmallArrowBg,
-        t.btnSmallArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow(s)),
-        s.props.arrow === 'left',
-      )};
-    `;
-  },
-
-  sizeMediumLoading(s: any) {
-    const { theme: t } = s;
-    return css`
-      ${buttonLoadingArrowMixin(
-        '0',
-        '0',
-        t.btnMediumArrowLeftLoadingLeft,
-        '441%',
-        t.btnMediumArrowBg,
-        t.btnMediumArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow(s)),
-        s.props.arrow === 'left',
-      )};
-    `;
-  },
-
-  sizeLargeLoading(s: any) {
-    const { theme: t } = s;
-    return css`
-      ${buttonLoadingArrowMixin(
-        '-32px',
-        '-36px',
-        ' -198px',
-        '700%',
-        t.btnLargeArrowBg,
-        t.btnLargeArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow(s)),
-        s.props.arrow === 'left',
-      )};
-    `;
-  },
-
-  link(s: any) {
-    const { theme: t } = s;
-    const { focusedByTab, isEdgeOrIE } = s.state;
-    const { disabled, visuallyFocused } = s.props;
-    const focus = focusedByTab || !!visuallyFocused;
+  link(s: ButtonStylesProps) {
+    const { theme: t, isFocused, isDisabled, isEdgeOrIE } = s;
     return css`
       background: none;
       border-radius: ${t.btnLinkBorderRadius};
       border: none;
       box-shadow: none;
-      color: ${c(t.linkColor, disabled && t.linkDisabledColor)};
+      color: ${c(t.linkColor, isDisabled && t.linkDisabledColor)};
       display: inline;
       line-height: ${c(`inherit`, isEdgeOrIE && `normal`)};
       margin: 0;
       padding: 0;
 
       &:hover {
-        color: ${c(!focus && t.linkHoverColor)};
+        color: ${c(!isFocused && t.linkHoverColor)};
         text-decoration: ${t.linkHoverTextDecoration};
       }
       &:active {
         color: ${t.linkActiveColor};
       }
-      ${focus &&
+      ${isFocused &&
         `
         color: ${t.linkColor};
         text-decoration: ${t.linkHoverTextDecoration};
@@ -264,16 +251,14 @@ const styles = {
     `;
   },
 
-  focus(s: any) {
-    const { theme: t } = s;
-    const { disabled, warning, use, error } = s.props;
-    const link = use === 'link';
+  focus(s: ButtonStylesProps) {
+    const { theme: t, isDisabled, isWarning, isError, isLink } = s;
     return css`
       position: relative;
       z-index: 2;
 
-      ${!disabled &&
-        !link &&
+      ${!isDisabled &&
+        !isLink &&
         `
         border: ${t.btnFocusBorder};
 
@@ -282,42 +267,42 @@ const styles = {
         &:active {
           box-shadow: ${c(
             `inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus}`,
-            (warning || error) && `inset 0 0 0 1px ${t.outlineColorFocus}`,
+            (isWarning || isError) && `inset 0 0 0 1px ${t.outlineColorFocus}`,
           )};
-          border-color: ${c((warning || error) && `transparent`)};
+          border-color: ${c((isWarning || isError) && `transparent`)};
         }
       `}
     `;
   },
 
-  disabled(s: any) {
-    const { theme: t } = s;
-    const link = s.props.use === 'link';
-    const { isEdgeOrIE } = s.state;
+  disabled(s: ButtonStylesProps) {
+    const { theme: t, isLink, isEdgeOrIE } = s;
     return css`
       cursor: default;
       pointer-events: none;
       border-color: transparent;
       outline-color: ${c(isEdgeOrIE && `transparent`)};
 
-      ${!link &&
-        `
-        background: ${t.btnDisabledBg};
-        color: ${t.btnDisabledTextColor};
-        box-shadow: ${t.btnDisabledShadow};
-
-        ${cssName(styles.arrow(s))} {
+      ${!isLink
+        ? `
           background: ${t.btnDisabledBg};
-          box-shadow: ${t.btnDisabledShadowArrow};
-        }
-      `}
+          color: ${t.btnDisabledTextColor};
+          box-shadow: ${t.btnDisabledShadow};
+
+          ${cssName(styles.arrow(s))} {
+            background: ${t.btnDisabledBg};
+            box-shadow: ${t.btnDisabledShadowArrow};
+          }
+        `
+        : ``}
     `;
   },
 
-  default(s: any) {
+  default(s: ButtonStylesProps) {
     const { theme: t } = s;
     return css`
       ${buttonUseMixin(
+        s,
         t.btnDefaultBg,
         t.btnDefaultBgStart,
         t.btnDefaultBgEnd,
@@ -328,12 +313,11 @@ const styles = {
         t.btnDefaultShadowArrowLeft,
         t.btnDefaultTextColor,
         t.btnDefaultBorder,
-        s.props.checked,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonHoverMixin(
+        s,
         t.btnDefaultHoverBg,
         t.btnDefaultHoverBgStart,
         t.btnDefaultHoverBgEnd,
@@ -344,10 +328,10 @@ const styles = {
         t.btnDefaultHoverShadowArrowLeft,
         t.btnDefaultHoverBorderColor,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonActiveMixin(
+        s,
         t.btnDefaultActiveBg,
         t.btnDefaultActiveBg,
         t.btnDefaultActiveBg,
@@ -355,15 +339,15 @@ const styles = {
         t.btnDefaultActiveShadowArrow,
         t.btnDefaultActiveShadowArrowLeft,
         cssName(styles.arrow(s)),
-        s,
       )};
     `;
   },
 
-  primary(s: any) {
+  primary(s: ButtonStylesProps) {
     const { theme: t } = s;
     return css`
       ${buttonUseMixin(
+        s,
         t.btnPrimaryBg,
         t.btnPrimaryBgStart,
         t.btnPrimaryBgEnd,
@@ -374,12 +358,11 @@ const styles = {
         t.btnPrimaryShadowArrowLeft,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorder,
-        s.props.checked,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonHoverMixin(
+        s,
         t.btnPrimaryHoverBg,
         t.btnPrimaryHoverBgStart,
         t.btnPrimaryHoverBgEnd,
@@ -390,10 +373,10 @@ const styles = {
         t.btnPrimaryHoverShadowArrowLeft,
         t.btnPrimaryHoverBorderColor,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonActiveMixin(
+        s,
         t.btnPrimaryActiveBg,
         t.btnPrimaryActiveBg,
         t.btnPrimaryActiveBg,
@@ -401,15 +384,15 @@ const styles = {
         t.btnPrimaryActiveShadowArrow,
         t.btnPrimaryActiveShadowArrowLeft,
         cssName(styles.arrow(s)),
-        s,
       )};
     `;
   },
 
-  success(s: any) {
+  success(s: ButtonStylesProps) {
     const { theme: t } = s;
     return css`
       ${buttonUseMixin(
+        s,
         t.btnSuccessBg,
         t.btnSuccessBgStart,
         t.btnSuccessBgEnd,
@@ -420,12 +403,11 @@ const styles = {
         t.btnSuccessShadowArrowLeft,
         t.btnSuccessTextColor,
         t.btnSuccessBorder,
-        s.props.checked,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonHoverMixin(
+        s,
         t.btnSuccessHoverBg,
         t.btnSuccessHoverBgStart,
         t.btnSuccessHoverBgEnd,
@@ -436,10 +418,10 @@ const styles = {
         t.btnSuccessHoverShadowArrowLeft,
         t.btnSuccessHoverBorderColor,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonActiveMixin(
+        s,
         t.btnSuccessActiveBg,
         t.btnSuccessActiveBg,
         t.btnSuccessActiveBg,
@@ -447,15 +429,15 @@ const styles = {
         t.btnSuccessActiveShadowArrow,
         t.btnSuccessActiveShadowArrowLeft,
         cssName(styles.arrow(s)),
-        s,
       )};
     `;
   },
 
-  danger(s: any) {
+  danger(s: ButtonStylesProps) {
     const { theme: t } = s;
     return css`
       ${buttonUseMixin(
+        s,
         t.btnDangerBg,
         t.btnDangerBgStart,
         t.btnDangerBgEnd,
@@ -466,12 +448,11 @@ const styles = {
         t.btnDangerShadowArrowLeft,
         t.btnDangerTextColor,
         t.btnDangerBorder,
-        s.props.checked,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonHoverMixin(
+        s,
         t.btnDangerHoverBg,
         t.btnDangerHoverBgStart,
         t.btnDangerHoverBgEnd,
@@ -482,10 +463,10 @@ const styles = {
         t.btnDangerHoverShadowArrowLeft,
         t.btnDangerHoverBorderColor,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonActiveMixin(
+        s,
         t.btnDangerActiveBg,
         t.btnDangerActiveBg,
         t.btnDangerActiveBg,
@@ -493,15 +474,15 @@ const styles = {
         t.btnDangerActiveShadowArrow,
         t.btnDangerActiveShadowArrowLeft,
         cssName(styles.arrow(s)),
-        s,
       )};
     `;
   },
 
-  pay(s: any) {
+  pay(s: ButtonStylesProps) {
     const { theme: t } = s;
     return css`
       ${buttonUseMixin(
+        s,
         t.btnPayBg,
         t.btnPayBgStart,
         t.btnPayBgEnd,
@@ -512,12 +493,11 @@ const styles = {
         t.btnPayShadowArrowLeft,
         t.btnPayTextColor,
         t.btnPayBorder,
-        s.props.checked,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonHoverMixin(
+        s,
         t.btnPayHoverBg,
         t.btnPayHoverBgStart,
         t.btnPayHoverBgEnd,
@@ -528,10 +508,10 @@ const styles = {
         t.btnPayHoverShadowArrowLeft,
         t.btnPayHoverBorderColor,
         cssName(styles.arrow(s)),
-        s,
       )};
 
       ${buttonActiveMixin(
+        s,
         t.btnPayActiveBg,
         t.btnPayActiveBg,
         t.btnPayActiveBg,
@@ -539,15 +519,12 @@ const styles = {
         t.btnPayActiveShadowArrow,
         t.btnPayActiveShadowArrowLeft,
         cssName(styles.arrow(s)),
-        s,
       )};
     `;
   },
 
-  checked(s: any) {
-    const { theme: t } = s;
-    const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
-    const isArrowLeft = s.props.arrow === 'left';
+  checked(s: ButtonStylesProps) {
+    const { theme: t, isFocused, isArrowLeft } = s;
     return css`
       &,
       &:hover,
@@ -557,33 +534,33 @@ const styles = {
         color: ${t.btnCheckedTextColor};
         border: ${t.btnDefaultCheckedBorder};
 
-        ${!focus &&
+        ${!isFocused
+          ? `
+            ${cssName(styles.arrow(s))} {
+              background: ${t.btnCheckedBg};
+              box-shadow: ${c(t.btnCheckedShadowArrow, isArrowLeft && t.btnCheckedShadowArrowLeft)};
+            }
           `
-          ${cssName(styles.arrow(s))} {
-            background: ${t.btnCheckedBg};
-            box-shadow: ${c(t.btnCheckedShadowArrow, isArrowLeft && t.btnCheckedShadowArrowLeft)};
-          }
-        `}
+          : ``}
       }
     `;
   },
 
-  caption(s: any) {
-    const link = s.props.use === 'link';
+  caption(s: ButtonStylesProps) {
+    const { isLink, isActive, isChecked } = s;
     return css`
       position: relative;
       white-space: nowrap;
-      display: ${c(`inline-block`, link && `inline`)};
+      display: ${c(`inline-block`, isLink && `inline`)};
       width: 100%;
       vertical-align: top;
 
-      ${s.props.active || s.props.checked ? buttonActiveCaptionMixin(s) : ``}
+      ${isActive || isChecked ? buttonActiveCaptionMixin(s) : ``}
     `;
   },
 
-  wrap(s: any) {
-    const { theme: t } = s;
-    const isLink = s.props.use === 'link';
+  wrap(s: ButtonStylesProps) {
+    const { theme: t, isLink } = s;
     return css`
       padding: ${c(t.btnWrapPadding, isLink && `0`)};
       box-sizing: border-box;
@@ -591,40 +568,35 @@ const styles = {
     `;
   },
 
-  narrow(s: any) {
+  narrow(s: ButtonStylesProps) {
     return css`
       padding-left: 5px;
       padding-right: 5px;
     `;
   },
 
-  noPadding(s: any) {
+  noPadding(s: ButtonStylesProps) {
     return css`
       padding-left: 0;
       padding-right: 0;
     `;
   },
 
-  noRightPadding(s: any) {
+  noRightPadding(s: ButtonStylesProps) {
     return css`
       padding-right: 0;
     `;
   },
 
-  wrapArrow(s: any) {
+  wrapArrow(s: ButtonStylesProps) {
+    const { isArrowLeft } = s;
     return css`
-      margin-right: 10px;
+      margin-left: ${isArrowLeft ? `10px` : `0px`};
+      margin-right: ${isArrowLeft ? `0px` : `10px`};
     `;
   },
 
-  wrapArrowLeft(s: any) {
-    return css`
-      margin-right: 0;
-      margin-left: 10px;
-    `;
-  },
-
-  arrow(s: any) {
+  arrow(s: ButtonStylesProps) {
     return css`
       position: absolute;
       border-radius: 2px 2px 2px 16px;
@@ -633,26 +605,24 @@ const styles = {
     `;
   },
 
-  icon(s: any) {
-    const { theme: t } = s;
-    const isLink = s.props.use === 'link';
+  icon(s: ButtonStylesProps) {
+    const { theme: t, isLink } = s;
     return css`
       display: inline-block;
       padding-right: ${c(`7px`, isLink && t.linkIconMarginRight)};
     `;
   },
 
-  buttonWithIcon(s: any) {
+  buttonWithIcon(s: ButtonStylesProps) {
     return css`
       padding-right: 15px;
       padding-left: 15px;
     `;
   },
 
-  borderless(s: any) {
-    const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
-    const { disabled, checked, active, loading } = s.props;
-    return !focus && !disabled && !checked && !active && !loading
+  borderless(s: ButtonStylesProps) {
+    const { isFocused, isDisabled, isChecked, isActive, isLoading } = s;
+    return !isFocused && !isDisabled && !isChecked && !isActive && !isLoading
       ? css`
           &,
           &:hover,
@@ -663,7 +633,7 @@ const styles = {
       : ``;
   },
 
-  loading(s: any) {
+  loading(s: ButtonStylesProps) {
     const btn_loading = keyframes`
     0% {
       transform: translateX(0) rotateY(180deg);
