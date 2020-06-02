@@ -652,8 +652,12 @@ export class DefaultTheme {
   public static get inputPaddingYLarge() {
     return this.controlPaddingYLarge;
   }
-  public static inputPaddingX = '10px';
-  public static inputPaddingBetweenIcon = '2px';
+  public static inputPaddingXSmall = '10px';
+  public static inputPaddingXMedium = '10px';
+  public static inputPaddingXLarge = '10px';
+  public static inputPaddingIconSmall = '2px';
+  public static inputPaddingIconMedium = '2px';
+  public static inputPaddingIconLarge = '2px';
   public static get inputFocusShadow() {
     return `0 0 0 ${this.inputBorderWidth} ${this.borderColorFocus}`;
   }
@@ -669,6 +673,9 @@ export class DefaultTheme {
   public static get inputBorderWidth() {
     return this.controlBorderWidth;
   }
+  public static inputBorderRadiusSmall = '0';
+  public static inputBorderRadiusMedium = '0';
+  public static inputBorderRadiusLarge = '0';
   public static get inputBorderColor() {
     return this.borderColorGrayLight;
   }

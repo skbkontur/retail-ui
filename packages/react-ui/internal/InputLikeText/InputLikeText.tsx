@@ -192,12 +192,24 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   }
 
+  private getIconClassname(right = false) {
+    switch (this.props.size) {
+      case 'large':
+        return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
+      case 'medium':
+        return right ? jsInputStyles.rightIconMedium(this.theme) : jsInputStyles.leftIconMedium(this.theme);
+      case 'small':
+      default:
+        return right ? jsInputStyles.rightIconSmall(this.theme) : jsInputStyles.leftIconSmall(this.theme);
+    }
+  }
+
   private renderLeftIcon = () => {
-    return this.renderIcon(this.props.leftIcon, jsInputStyles.leftIcon(this.theme));
+    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
   };
 
   private renderRightIcon = () => {
-    return this.renderIcon(this.props.rightIcon, jsInputStyles.rightIcon(this.theme));
+    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
   };
 
   private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
@@ -241,7 +253,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={jsInputStyles.sideContainer(this.theme)}>
+      <span className={this.getContainerClassName()}>
         {leftIcon}
         {prefix}
       </span>
@@ -257,7 +269,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={jsInputStyles.sideContainer(this.theme)}>
+      <span className={this.getContainerClassName()}>
         {rightIcon}
         {suffix}
       </span>
@@ -394,6 +406,17 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private defrost = (): void => {
     this.frozen = false;
     this.frozenBlur = false;
+  };
+  private getContainerClassName = () => {
+    switch (this.props.size) {
+      case 'large':
+        return jsInputStyles.sideContainerLarge(this.theme);
+      case 'medium':
+        return jsInputStyles.sideContainerMedium(this.theme);
+      case 'small':
+      default:
+        return jsInputStyles.sideContainerSmall(this.theme);
+    }
   };
 
   private getSizeClassName = () => {

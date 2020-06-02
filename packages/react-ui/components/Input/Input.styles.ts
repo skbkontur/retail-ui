@@ -183,8 +183,12 @@ const styles = {
       border-color: ${t.inputDisabledBorderColor} !important;
       box-shadow: none;
 
-      ${cssName(styles.leftIcon(t))},
-      ${cssName(styles.rightIcon(t))} {
+      ${cssName(styles.leftIconSmall(t))},
+      ${cssName(styles.rightIconSmall(t))},
+      ${cssName(styles.leftIconMedium(t))},
+      ${cssName(styles.rightIconMedium(t))},
+      ${cssName(styles.leftIconLarge(t))},
+      ${cssName(styles.rightIconLarge(t))} {
         cursor: default;
       }
       ${cssName(styles.input(t))} {
@@ -218,13 +222,14 @@ const styles = {
 
   sizeSmall(t: Theme) {
     return css`
-      & {
-        font-size: ${t.inputFontSizeSmall};
-        line-height: ${t.inputLineHeightSmall} !important;
-        padding-top: ${t.inputPaddingYSmall};
-        padding-bottom: ${t.inputPaddingYSmall};
-        height: ${t.inputHeightSmall};
-      }
+      font-size: ${t.inputFontSizeSmall};
+      line-height: ${t.inputLineHeightSmall} !important;
+      padding-top: ${t.inputPaddingYSmall};
+      padding-bottom: ${t.inputPaddingYSmall};
+      padding-left: ${t.inputPaddingXSmall};
+      padding-right: ${t.inputPaddingXSmall};
+      height: ${t.inputHeightSmall};
+      border-radius: ${t.inputBorderRadiusSmall};
     `;
   },
 
@@ -232,17 +237,22 @@ const styles = {
     return css`
       padding-top: ${shift(t.inputPaddingYSmall, '-1')};
       padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
-      line-height: normal !important;
+      padding-left: ${t.inputPaddingXSmall};
+      padding-right: ${t.inputPaddingXSmall};
+      line-height: normal;
     `;
   },
 
   sizeMedium(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeMedium};
-      line-height: ${t.inputLineHeightMedium} !important;
+      line-height: ${t.inputLineHeightMedium};
       padding-top: ${t.inputPaddingYMedium};
       padding-bottom: ${t.inputPaddingYMedium};
+      padding-left: ${t.inputPaddingXMedium};
+      padding-right: ${t.inputPaddingXMedium};
       height: ${t.inputHeightMedium};
+      border-radius: ${t.inputBorderRadiusMedium};
     `;
   },
 
@@ -250,17 +260,22 @@ const styles = {
     return css`
       padding-top: ${shift(t.inputPaddingYMedium, '-1')};
       padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
-      line-height: normal !important;
+      padding-left: ${t.inputPaddingXMedium};
+      padding-right: ${t.inputPaddingXMedium};
+      line-height: normal;
     `;
   },
 
   sizeLarge(t: Theme) {
     return css`
       font-size: ${t.inputFontSizeLarge};
-      line-height: ${t.inputLineHeightLarge} !important;
+      line-height: ${t.inputLineHeightLarge};
       height: ${t.inputHeightLarge};
       padding-top: ${shift(t.inputPaddingYLarge, '-1')};
       padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
+      padding-left: ${t.inputPaddingXLarge};
+      padding-right: ${t.inputPaddingXLarge};
+      border-radius: ${t.inputBorderRadiusLarge};
     `;
   },
 
@@ -268,7 +283,9 @@ const styles = {
     return css`
       padding-top: ${shift(t.inputPaddingYLarge, '-2')};
       padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
-      line-height: normal !important;
+      padding-left: ${t.inputPaddingXLarge};
+      padding-right: ${t.inputPaddingXLarge};
+      line-height: normal;
     `;
   },
 
@@ -284,14 +301,15 @@ const styles = {
     `;
   },
 
-  sideContainer(t: Theme) {
+  sideContainerSmall(t: Theme) {
     return css`
       align-items: center;
       display: flex;
       flex-shrink: 0;
       height: 100%;
-      min-width: ${t.inputPaddingX}
-      padding-left: ${t.inputPaddingX}
+      min-width: ${t.inputPaddingIconSmall}
+      padding-left: ${t.inputPaddingIconSmall}
+      margin-left: -${t.inputPaddingIconSmall}
 
       &::before {
         content: '\\a0';
@@ -301,27 +319,118 @@ const styles = {
     `;
   },
 
-  rightContainer(t: Theme) {
+  rightContainerSmall(t: Theme) {
     return css`
       justify-self: flex-end;
       margin: 0 0 0 auto;
       padding-left: 0;
-      padding-right: ${t.inputPaddingX};
+      padding-right: ${t.inputPaddingIconSmall};
+      margin-right: -${t.inputPaddingIconSmall};
     `;
   },
 
-  leftIcon(t: Theme) {
+  leftIconSmall(t: Theme) {
     return css`
-      padding-right: ${t.inputPaddingBetweenIcon};
+      padding-right: ${t.inputPaddingIconSmall};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
     `;
   },
 
-  rightIcon(t: Theme) {
+  rightIconSmall(t: Theme) {
     return css`
-      padding-left: ${t.inputPaddingBetweenIcon};
+      padding-left: ${t.inputPaddingIconSmall};
+      flex-shrink: 0;
+      cursor: text;
+      z-index: 2;
+    `;
+  },
+  sideContainerMedium(t: Theme) {
+    return css`
+      align-items: center;
+      display: flex;
+      flex-shrink: 0;
+      height: 100%;
+      min-width: ${t.inputPaddingIconMedium}
+      padding-left: ${t.inputPaddingIconMedium}
+      margin-left: -${t.inputPaddingIconMedium}
+
+      &::before {
+        content: '\\a0';
+        display: inline-block;
+        width: 0;
+      }
+    `;
+  },
+
+  rightContainerMedium(t: Theme) {
+    return css`
+      justify-self: flex-end;
+      margin: 0 0 0 auto;
+      padding-left: 0;
+      padding-right: ${t.inputPaddingIconMedium};
+      margin-right: -${t.inputPaddingIconMedium};
+    `;
+  },
+
+  leftIconMedium(t: Theme) {
+    return css`
+      padding-right: ${t.inputPaddingIconMedium};
+      flex-shrink: 0;
+      cursor: text;
+      z-index: 2;
+    `;
+  },
+
+  rightIconMedium(t: Theme) {
+    return css`
+      padding-left: ${t.inputPaddingIconMedium};
+      flex-shrink: 0;
+      cursor: text;
+      z-index: 2;
+    `;
+  },
+  sideContainerLarge(t: Theme) {
+    return css`
+      align-items: center;
+      display: flex;
+      flex-shrink: 0;
+      height: 100%;
+      min-width: ${t.inputPaddingIconLarge}
+      padding-left: ${t.inputPaddingIconLarge}
+      margin-left: -${t.inputPaddingIconLarge}
+
+      &::before {
+        content: '\\a0';
+        display: inline-block;
+        width: 0;
+      }
+    `;
+  },
+
+  rightContainerLarge(t: Theme) {
+    return css`
+      justify-self: flex-end;
+      margin: 0 0 0 auto;
+      padding-left: 0;
+      padding-right: ${t.inputPaddingIconLarge};
+      margin-right: -${t.inputPaddingIconLarge};
+    `;
+  },
+
+  leftIconLarge(t: Theme) {
+    return css`
+      padding-right: ${t.inputPaddingIconLarge};
+      flex-shrink: 0;
+      cursor: text;
+      z-index: 2;
+    `;
+  },
+
+  rightIconLarge(t: Theme) {
+    return css`
+      padding-left: ${t.inputPaddingIconLarge};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;

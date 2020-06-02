@@ -317,7 +317,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        <span className={jsStyles.sideContainer(this.theme)}>
+        <span className={this.getContainerClassname()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
         </span>
@@ -325,7 +325,7 @@ export class Input extends React.Component<InputProps, InputState> {
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={cn(jsStyles.sideContainer(this.theme), jsStyles.rightContainer(this.theme))}>
+        <span className={this.getContainerClassname(true)}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -355,12 +355,42 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
+  private getContainerClassname(right = false) {
+    switch (this.props.size) {
+      case 'large':
+        return right
+          ? cn(jsStyles.sideContainerLarge(this.theme), jsStyles.rightContainerLarge(this.theme))
+          : jsStyles.sideContainerLarge(this.theme);
+      case 'medium':
+        return right
+          ? cn(jsStyles.sideContainerMedium(this.theme), jsStyles.rightContainerMedium(this.theme))
+          : jsStyles.sideContainerMedium(this.theme);
+      case 'small':
+      default:
+        return right
+          ? cn(jsStyles.sideContainerSmall(this.theme), jsStyles.rightContainerSmall(this.theme))
+          : jsStyles.sideContainerSmall(this.theme);
+    }
+  }
+
+  private getIconClassname(right = false) {
+    switch (this.props.size) {
+      case 'large':
+        return right ? jsStyles.rightIconLarge(this.theme) : jsStyles.leftIconLarge(this.theme);
+      case 'medium':
+        return right ? jsStyles.rightIconMedium(this.theme) : jsStyles.leftIconMedium(this.theme);
+      case 'small':
+      default:
+        return right ? jsStyles.rightIconSmall(this.theme) : jsStyles.leftIconSmall(this.theme);
+    }
+  }
+
   private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, jsStyles.leftIcon(this.theme));
+    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
   }
 
   private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, jsStyles.rightIcon(this.theme));
+    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
   }
 
   private renderIcon(icon: InputIconType, className: string) {
