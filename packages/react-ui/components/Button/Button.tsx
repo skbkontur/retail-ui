@@ -166,8 +166,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       state: this.state,
     };
     const sizeClass = this.getSizeClassName(stylesArg);
-    const isError = !!this.props.error;
-    const isWarning = !!this.props.warning;
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -176,10 +174,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       className: cx({
         [jsStyles.root(stylesArg)]: true,
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](stylesArg)) || jsStyles.default(stylesArg)]: true,
-        [jsStyles.active(stylesArg)]: !!this.props.active,
-        [jsStyles.validationRoot(stylesArg)]: isError || isWarning,
-        // [jsStyles.error(stylesArg)]: isError,
-        // [jsStyles.warning(stylesArg)]: isWarning,
         [jsStyles.buttonWithIcon(stylesArg)]: !!this.props.icon,
         [sizeClass]: true,
         [jsStyles.narrow(stylesArg)]: !!this.props.narrow,
@@ -189,7 +183,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [jsStyles.focus(stylesArg)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsStyles.checked(stylesArg)]: !!this.props.checked && !this.props.disabled,
         [jsStyles.disabled(stylesArg)]: !!this.props.disabled || !!this.props.loading,
-        [jsStyles.fallback(stylesArg)]: isIE11 || isEdge,
       }),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
@@ -262,9 +255,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [jsStyles.disabled(stylesArg)]: !!this.props.disabled,
       });
       Object.assign(wrapProps, {
-        className: cx(jsStyles.wrap(stylesArg), {
-          [jsStyles.wrapLink(stylesArg)]: this.props.use === 'link',
-        }),
+        className: jsStyles.wrap(stylesArg),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;

@@ -175,6 +175,7 @@ export const buttonSizeMixin = (
         ${isFallback &&
           `
           padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
+          line-height: normal;
         `}
       `
       : ``}
@@ -245,6 +246,24 @@ export const buttonLoadingArrowMixin = (
       `}
     }
   `;
+};
+
+export const buttonActiveCaptionMixin = (s: any) => {
+  const { use, disabled } = s.props;
+  const link = use === 'link';
+  return css`
+    transform: ${c(!link && !disabled && `translateY(1px)`)};
+  `;
+};
+
+export const c = (...args: Array<string | false>): string | undefined => {
+  let result;
+  for (const arg of args) {
+    if (arg) {
+      result = arg;
+    }
+  }
+  return result;
 };
 
 const getButtonArrowShadow = (useColor: string, s: any): string => {

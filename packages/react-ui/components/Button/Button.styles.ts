@@ -9,6 +9,8 @@ import {
   buttonSizeMixin,
   buttonArrowMixin,
   buttonLoadingArrowMixin,
+  c,
+  buttonActiveCaptionMixin,
 } from './Button.mixins';
 
 const btn_loading_arrow = keyframes`
@@ -52,7 +54,7 @@ const styles = {
       }
 
       &:active ${cssName(styles.caption(s))} {
-        ${styles.captionActive(s)}
+        ${buttonActiveCaptionMixin(s)}
       }
 
       ${s.state.isEdgeOrIE &&
@@ -70,17 +72,10 @@ const styles = {
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 0 0 2px ${t.borderColorWarning};
-
-      ${isLink &&
-        `
-        box-shadow: none;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
-      `}
+      left: ${c(`0`, isLink && `-2px`)};
+      right: ${c(`0`, isLink && `-2px`)};
+      bottom: ${c(`0`, isLink && `-2px`)};
+      box-shadow: ${c(`0 0 0 2px ${t.borderColorWarning}`, isLink && `none`)};
     `;
   },
 
@@ -91,17 +86,13 @@ const styles = {
       border-radius: inherit;
       position: absolute;
       top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 0 0 2px ${t.borderColorError};
+      left: ${c(`0`, isLink && `-2px`)};
+      right: ${c(`0`, isLink && `-2px`)};
+      bottom: ${c(`0`, isLink && `-2px`)};
+      box-shadow: ${c(`0 0 0 2px ${t.borderColorError}`, isLink && `none`)};
 
       ${isLink &&
         `
-        box-shadow: none;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
         background: ${t.errorSecondary};
       `}
     `;
@@ -244,40 +235,31 @@ const styles = {
 
   link(s: any) {
     const { theme: t } = s;
-    const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
+    const { focusedByTab, isEdgeOrIE } = s.state;
+    const { disabled, visuallyFocused } = s.props;
+    const focus = focusedByTab || !!visuallyFocused;
     return css`
       background: none;
       border-radius: ${t.btnLinkBorderRadius};
       border: none;
       box-shadow: none;
-      color: ${t.linkColor};
+      color: ${c(t.linkColor, disabled && t.linkDisabledColor)};
       display: inline;
-      line-height: inherit;
+      line-height: ${c(`inherit`, isEdgeOrIE && `normal`)};
       margin: 0;
       padding: 0;
 
       &:hover {
-        color: ${t.linkHoverColor};
+        color: ${c(!focus && t.linkHoverColor)};
         text-decoration: ${t.linkHoverTextDecoration};
       }
       &:active {
         color: ${t.linkActiveColor};
       }
-
-      ${s.state.isEdgeOrIE &&
-        `
-        line-height: normal;
-      `}
-
       ${focus &&
         `
         color: ${t.linkColor};
         text-decoration: ${t.linkHoverTextDecoration};
-      `}
-
-      ${s.props.disabled &&
-        `
-        color: ${t.linkDisabledColor};
       `}
     `;
   },
@@ -298,13 +280,11 @@ const styles = {
         &,
         &:hover,
         &:active {
-          box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus};
-
-          ${(warning || error) &&
-            `
-            box-shadow: inset 0 0 0 1px ${t.outlineColorFocus};
-            border-color: transparent;
-          `}
+          box-shadow: ${c(
+            `inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.borderColorFocus}`,
+            (warning || error) && `inset 0 0 0 1px ${t.outlineColorFocus}`,
+          )};
+          border-color: ${c((warning || error) && `transparent`)};
         }
       `}
     `;
@@ -313,10 +293,12 @@ const styles = {
   disabled(s: any) {
     const { theme: t } = s;
     const link = s.props.use === 'link';
+    const { isEdgeOrIE } = s.state;
     return css`
       cursor: default;
       pointer-events: none;
       border-color: transparent;
+      outline-color: ${c(isEdgeOrIE && `transparent`)};
 
       ${!link &&
         `
@@ -329,41 +311,6 @@ const styles = {
           box-shadow: ${t.btnDisabledShadowArrow};
         }
       `}
-
-      ${s.state.isEdgeOrIE &&
-        `
-        outline-color: transparent;
-      `}
-    `;
-  },
-
-  fallback(s: any) {
-    return css`
-      visibility: visible;
-    `;
-  },
-
-  validationRoot(s: any) {
-    return css`
-      visibility: visible;
-    `;
-  },
-
-  arrowWarning(s: any) {
-    return css`
-      visibility: visible;
-    `;
-  },
-
-  arrowError(s: any) {
-    return css`
-      visibility: visible;
-    `;
-  },
-
-  arrowLeft(s: any) {
-    return css`
-      visibility: visible;
     `;
   },
 
@@ -600,6 +547,7 @@ const styles = {
   checked(s: any) {
     const { theme: t } = s;
     const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
+    const isArrowLeft = s.props.arrow === 'left';
     return css`
       &,
       &:hover,
@@ -613,20 +561,11 @@ const styles = {
           `
           ${cssName(styles.arrow(s))} {
             background: ${t.btnCheckedBg};
-            box-shadow: ${t.btnCheckedShadowArrow};
-
-            ${s.props.arrow === 'left' &&
-              `
-              box-shadow: ${t.btnCheckedShadowArrowLeft};
-            `}
+            box-shadow: ${c(t.btnCheckedShadowArrow, isArrowLeft && t.btnCheckedShadowArrowLeft)};
           }
         `}
       }
     `;
-  },
-
-  active(s: any) {
-    return css``;
   },
 
   caption(s: any) {
@@ -634,42 +573,21 @@ const styles = {
     return css`
       position: relative;
       white-space: nowrap;
-      display: inline-block;
+      display: ${c(`inline-block`, link && `inline`)};
       width: 100%;
       vertical-align: top;
 
-      ${(s.props.active || s.props.checked) && styles.captionActive(s)}
-
-      ${link && styles.captionInline(s)}
-    `;
-  },
-
-  captionActive(s: any) {
-    const link = s.props.use === 'link';
-    return !link && !s.props.disabled
-      ? css`
-          transform: translateY(1px);
-        `
-      : ``;
-  },
-
-  captionInline(s: any) {
-    return css`
-      display: inline;
+      ${s.props.active || s.props.checked ? buttonActiveCaptionMixin(s) : ``}
     `;
   },
 
   wrap(s: any) {
     const { theme: t } = s;
+    const isLink = s.props.use === 'link';
     return css`
-      padding: ${t.btnWrapPadding};
+      padding: ${c(t.btnWrapPadding, isLink && `0`)};
       box-sizing: border-box;
       display: inline-block;
-
-      ${s.props.use === 'link' &&
-        `
-        padding: 0;
-      `}
     `;
   },
 
@@ -690,12 +608,6 @@ const styles = {
   noRightPadding(s: any) {
     return css`
       padding-right: 0;
-    `;
-  },
-
-  wrapLink(s: any) {
-    return css`
-      visibility: visible;
     `;
   },
 
@@ -726,12 +638,7 @@ const styles = {
     const isLink = s.props.use === 'link';
     return css`
       display: inline-block;
-      padding-right: 7px;
-
-      ${isLink &&
-        `
-        padding-right: ${t.linkIconMarginRight};
-      `}
+      padding-right: ${c(`7px`, isLink && t.linkIconMarginRight)};
     `;
   },
 
@@ -745,21 +652,15 @@ const styles = {
   borderless(s: any) {
     const focus = s.state.focusedByTab || !!s.props.visuallyFocused;
     const { disabled, checked, active, loading } = s.props;
-
-    return css`
-      ${!focus &&
-        !disabled &&
-        !checked &&
-        !active &&
-        !loading &&
+    return !focus && !disabled && !checked && !active && !loading
+      ? css`
+          &,
+          &:hover,
+          &:active {
+            box-shadow: none;
+          }
         `
-        &,
-        &:hover,
-        &:active {
-          box-shadow: none;
-        }
-      `}
-    `;
+      : ``;
   },
 
   loading(s: any) {
@@ -798,5 +699,4 @@ const styles = {
   },
 };
 
-// export const jsStyles = memoizeStyle(styles);
 export const jsStyles = styles;
