@@ -960,11 +960,16 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static radioPaddingX = '9px';
+  public static radioPaddingY = '0';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
   public static radioHoverBg = 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%)';
   public static radioActiveBg = 'linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%)';
-  public static radioBoxShadow = '0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15)';
+  public static radioBorderWidth = '1px';
+  public static radioBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static get radioBoxShadow() {
+    return `0 ${this.radioBorderWidth} 0 0 ${this.radioBorderColor}, 0 0 0 ${this.radioBorderWidth} ${this.radioBorderColor}`;
+  }
   public static radioBorder = '0 none';
   public static get radioBorderColorFocus() {
     return this.borderColorFocus;

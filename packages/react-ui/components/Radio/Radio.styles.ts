@@ -7,6 +7,8 @@ const styles = {
       cursor: pointer;
       position: relative;
       white-space: nowrap;
+      padding-top: ${t.radioPaddingY};
+      padding-bottom: ${t.radioPaddingY};
     `;
   },
 
