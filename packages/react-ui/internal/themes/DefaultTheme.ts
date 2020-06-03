@@ -710,6 +710,7 @@ export class DefaultTheme {
   }
   public static chbBoxSize = '16px';
   public static chbPaddingX = '10px';
+  public static chbPaddingY = '0';
   public static chbBgStart = '#fdfdfd';
   public static chbBgEnd = '#ededed';
   public static get chbTextColorDefault() {
@@ -722,7 +723,9 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static chbIndeterminateBorderRadius = '1px';
-  public static chbShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
+  public static get chbShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
+  }
   public static chbShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static chbBorder = 'none';
   public static get chbShadowHover() {
@@ -792,6 +795,9 @@ export class DefaultTheme {
   public static get checkboxPaddingX() {
     return this.chbPaddingX;
   }
+  public static get checkboxPaddingY() {
+    return this.chbPaddingY;
+  }
   public static get checkboxBgStart() {
     return this.chbBgStart;
   }
@@ -810,14 +816,15 @@ export class DefaultTheme {
   public static get checkboxIndeterminateBorderRadius() {
     return this.chbIndeterminateBorderRadius;
   }
-  public static get checkboxShadow() {
-    return this.chbShadow;
-  }
   public static get checkboxShadowDisabled() {
     return this.chbShadowDisabled;
   }
   public static get checkboxBorder() {
     return this.chbBorder;
+  }
+  public static checkboxBorderWidth = '1px';
+  public static get checkboxShadow() {
+    return this.chbShadow;
   }
   public static get checkboxShadowHover() {
     return this.chbShadowHover;
@@ -840,7 +847,7 @@ export class DefaultTheme {
   public static get checkboxBorderRadius() {
     return this.chbBorderRadius;
   }
-  public static get checkboxShadowWidth() {
+  public static get checkboxBorderWidthFocus() {
     return this.chbShadowWidth;
   }
   public static get checkboxCheckedShadow() {

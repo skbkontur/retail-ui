@@ -10,6 +10,7 @@ const styles = {
       position: relative;
       user-select: none;
       line-height: ${t.checkboxLineHeight};
+      padding: ${t.checkboxPaddingY} 0;
 
       &:hover ${cssName(styles.box(t))} {
         background: ${t.checkboxHoverBg};
@@ -69,7 +70,7 @@ const styles = {
     return css`
       & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxShadowWidth} ${t.checkboxBorderColorWarning} !important;
+          0 0 0 ${t.checkboxBorderWidthFocus} ${t.checkboxBorderColorWarning} !important;
       }
     `;
   },
@@ -78,7 +79,7 @@ const styles = {
     return css`
       & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxShadowWidth} ${t.checkboxBorderColorError} !important;
+          0 0 0 ${t.checkboxBorderWidthFocus} ${t.checkboxBorderColorError} !important;
       }
     `;
   },
@@ -124,7 +125,7 @@ const styles = {
     return css`
       & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxShadowWidth} ${t.checkboxBorderColorFocus} !important;
+          0 0 0 ${t.checkboxBorderWidthFocus} ${t.checkboxBorderColorFocus} !important;
       }
     `;
   },
