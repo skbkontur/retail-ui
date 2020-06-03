@@ -21,7 +21,6 @@ export default {
 
 export const Horizontal = () => (
   <Gapped gap={20}>
-    {null}
     <Button>Button</Button>
     <Button>Button</Button>
   </Gapped>
