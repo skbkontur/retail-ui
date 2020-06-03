@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using JetBrains.Annotations;
 using Kontur.Selone.Properties;
 using OpenQA.Selenium;
-
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Internals.Selectors;
 
@@ -21,14 +19,15 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
 
+        public Label NotFound => new Label(GetItemsContainer(), new UniversalSelector("##ComboBoxMenu__notFound"));
+
         [Obsolete]
         public string Text { get { return GetValueFromElement(x => x.Text); } }
 
-        public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> z) where T : ControlBase
+        public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> itemCreator) where T : ControlBase
         {
-            return GetReactProp<bool>("disablePortal")
-                ? new ControlListBase<T>(this, new UniversalSelector("##ComboBoxMenu__items"), new UniversalSelector("##ComboBoxMenu__item"), z)
-                : new ControlListBase<T>(portal, new UniversalSelector("##ComboBoxMenu__items"), new UniversalSelector("##ComboBoxMenu__item"), z);
+            var itemsContainer = GetItemsContainer();
+            return new ControlListBase<T>(itemsContainer, new UniversalSelector("##ComboBoxMenu__items"), new UniversalSelector("##ComboBoxMenu__item"), itemCreator);
         }
 
         public void InputTextAndSelectSingle(string inputText, Timings timings = null)
@@ -135,6 +134,11 @@ namespace SKBKontur.SeleniumTesting.Controls
             var items = renderContainer.FindElements(By.CssSelector("[data-comp-name~='MenuItem']"));
             var item = items.ElementAt(index);
             item.Click();
+        }
+
+        public ISearchContainer GetItemsContainer()
+        {
+            return GetReactProp<bool>("disablePortal") ? (ISearchContainer) this : portal;
         }
 
         protected Portal portal;
