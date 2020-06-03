@@ -56,7 +56,7 @@ const styles = {
   focused(t: Theme) {
     return css`
       ${cssName(styles.container(t))}&, ${cssName(styles.input(t))}:checked ~ & {
-        box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 3px ${t.toggleFocusShadowColor};
+        box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleBorderWidthFocus} ${t.toggleFocusShadowColor};
       }
     `;
   },

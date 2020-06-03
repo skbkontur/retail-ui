@@ -580,6 +580,7 @@ export class DefaultTheme {
   }
   public static toggleBgChecked = '#3072c4';
   public static toggleBorderWidth = '1px';
+  public static toggleBorderWidthFocus = '3px';
   public static toggleBorderColor = '#d0d0d0';
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static get toggleBgActive() {
