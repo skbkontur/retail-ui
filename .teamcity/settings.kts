@@ -47,7 +47,7 @@ version = "2019.2"
 project {
 
     vcsRoot(RetailUiTags)
-    vcsRoot(RetailUi)
+    vcsRoot(RetailUiSettings)
     vcsRoot(ReactUiTestingTags)
     vcsRoot(ReactUiValidationsTags)
 
@@ -100,7 +100,7 @@ object RunAll : BuildType({
     type = BuildTypeSettings.Type.COMPOSITE
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
 
         showDependenciesChanges = true
     }
@@ -207,9 +207,10 @@ object ReactUiValidationsTags : GitVcsRoot({
     useTagsAsBranches = true
 })
 
-object RetailUi : GitVcsRoot({
-    name = "retail-ui"
+object RetailUiSettings : GitVcsRoot({
+    name = "retail-ui settings"
     url = "https://github.com/skbkontur/retail-ui.git"
+    branch = "refs/heads/teamcity-settings"
     branchSpec = """
         +:refs/heads/*
         +:refs/tags/*
@@ -249,7 +250,7 @@ object ReactUI_BuildRetailUi : BuildType({
     """.trimIndent()
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -280,7 +281,7 @@ object ReactUI_LintTest : BuildType({
     artifactRules = "packages/react-ui-smoke-test/temp/reactUIControls.png => smokeReactUI.zip"
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -332,7 +333,7 @@ object ReactUI_Publish : BuildType({
     }
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -386,7 +387,7 @@ object ReactUI_ScreenshotTests : BuildType({
     artifactRules = "packages/react-ui/.creevey/report => report.zip"
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -488,7 +489,7 @@ object SeleniumTesting_Test : BuildType({
     }
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -545,7 +546,7 @@ object Validations_Build : BuildType({
     """.trimIndent()
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -586,7 +587,7 @@ object Validations_LintTest : BuildType({
     name = "Lint/Test"
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
