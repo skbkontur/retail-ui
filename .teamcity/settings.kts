@@ -47,7 +47,6 @@ version = "2019.2"
 project {
 
     vcsRoot(RetailUiTags)
-    vcsRoot(RetailUiSettings)
     vcsRoot(ReactUiTestingTags)
     vcsRoot(ReactUiValidationsTags)
 
@@ -205,21 +204,6 @@ object ReactUiValidationsTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/react-ui-validations@*"
     useTagsAsBranches = true
-})
-
-object RetailUiSettings : GitVcsRoot({
-    name = "retail-ui settings"
-    url = "https://github.com/skbkontur/retail-ui.git"
-    branch = "refs/heads/teamcity-settings"
-    branchSpec = """
-        +:refs/heads/*
-        +:refs/tags/*
-    """.trimIndent()
-    useTagsAsBranches = true
-    authMethod = password {
-        userName = "skbkontur-bot"
-        password = "credentialsJSON:8159ccad-3d3e-43fa-9684-5cd8d9e83d0e"
-    }
 })
 
 object RetailUiTags : GitVcsRoot({
