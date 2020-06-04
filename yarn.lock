@@ -6075,10 +6075,10 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@0.6.0-beta.2:
-  version "0.6.0-beta.2"
-  resolved "https://registry.npmjs.org/creevey/-/creevey-0.6.0-beta.2.tgz#9ca3d0537f309b0f357186da398d3c8600e56fa0"
-  integrity sha512-HyUOtXKLW5pX6QXPWlyRzef4xRA41BUXCGzCPQ2iOkbTTaxpQEIfyn+KVIJfu6pzF242/NEAyyrq7pSvLWPyeA==
+creevey@^0.6.0-beta.8:
+  version "0.6.0-beta.8"
+  resolved "https://registry.npmjs.org/creevey/-/creevey-0.6.0-beta.8.tgz#f9caae57e4ac72262a9662901be5c3228097b102"
+  integrity sha512-4ZNwWEQCsFNpKXtZmcP0WOAkl0I1+80Jwo8+nd+5a59b6ea88oNeNhbvDXhwNYOvHIKF/9KDAm0AzaDbPPmbkg==
   dependencies:
     "@babel/generator" "^7.9.6"
     "@babel/parser" "^7.9.6"
@@ -6099,7 +6099,7 @@ creevey@0.6.0-beta.2:
     koa-static "^5.0.0"
     loader-utils "^2.0.0"
     minimist "^1.2.5"
-    mocha "^7.1.2"
+    mocha "~7.1.2"
     pixelmatch "^5.2.0"
     pngjs "^5.0.0"
     schema-utils "^2.6.6"
@@ -12030,7 +12030,7 @@ mkdirp@0.5.5:
   dependencies:
     minimist "^1.2.5"
 
-mocha@^7.1.2:
+mocha@~7.1.2:
   version "7.1.2"
   resolved "https://registry.npmjs.org/mocha/-/mocha-7.1.2.tgz#8e40d198acf91a52ace122cd7599c9ab857b29e6"
   integrity sha512-o96kdRKMKI3E8U0bjnfqW4QMk12MwZ4mhdBTf+B5a1q9+aq2HRnj+3ZdJu0B/ZhJeK78MgYuv6L8d/rA5AeBJA==
