@@ -1,5 +1,5 @@
 import React from 'react';
-import Gapped from '../Gapped';
+import Gapped, { GappedProps } from '../Gapped';
 import Button from '../../Button';
 
 export default {
@@ -50,3 +50,51 @@ export const HorizontalNoWrap = () => (
     <Button>Button</Button>
   </Gapped>
 );
+
+export const WithNullChilds = () => {
+  const GappedWithNulls = (props: Partial<Pick<GappedProps, 'vertical' | 'wrap'>>) => (
+    <Gapped gap={10} {...props}>
+      {null}
+      <Button>Button</Button>
+      {null}
+      <Button>Button</Button>
+      {null}
+    </Gapped>
+  );
+  return (
+    <table cellPadding="10">
+      <thead>
+        <tr>
+          <th />
+          <th>with null childs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>no wrap</td>
+          <td>
+            <GappedWithNulls />
+          </td>
+        </tr>
+        <tr>
+          <td>wrap</td>
+          <td>
+            <GappedWithNulls wrap />
+          </td>
+        </tr>
+        <tr>
+          <td>vert / no wrap</td>
+          <td>
+            <GappedWithNulls vertical />
+          </td>
+        </tr>
+        <tr>
+          <td>vert / wrap</td>
+          <td>
+            <GappedWithNulls wrap vertical />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  );
+};
