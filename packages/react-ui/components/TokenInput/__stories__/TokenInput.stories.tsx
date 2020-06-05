@@ -8,6 +8,7 @@ import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
 import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
 import { MenuItem } from '../../MenuItem';
+import { isTestEnv } from '../../../lib/currentEnvironment';
 
 interface TokenModel {
   id?: string;
@@ -21,7 +22,7 @@ const FixedWidthDecorator = (storyFn: StoryFn<JSX.Element>) => (
 );
 
 async function getItems(query: string) {
-  if (!process.env.enableReactTesting) {
+  if (!isTestEnv) {
     await delay(400);
   }
   return ['aaa', 'bbb'].filter(s => s.includes(query));

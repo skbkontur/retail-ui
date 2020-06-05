@@ -4,6 +4,7 @@ import cn from 'classnames';
 import { Popup, PopupPosition } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { jsStyles } from './Hint.styles';
 
@@ -68,7 +69,7 @@ export class Hint extends React.Component<HintProps, HintState> {
     manual: false,
     opened: false,
     maxWidth: 200,
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: isTestEnv,
     useWrapper: true,
   };
 

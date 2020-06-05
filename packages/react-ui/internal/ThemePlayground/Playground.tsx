@@ -17,6 +17,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -34,7 +35,7 @@ import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import { jsStyles } from './Playground.styles';
 
-const useSticky = process.env.enableReactTesting !== 'true';
+const useSticky = !isTestEnv;
 
 export interface ComponentsListProps {
   currentThemeType: ThemeType;
