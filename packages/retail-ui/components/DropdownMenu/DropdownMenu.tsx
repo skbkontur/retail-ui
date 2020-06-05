@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Nullable } from '../../typings/utility-types';
 import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
-import { isProductionEnv } from '../internal/currentEnvironment';
+import { isProductionEnv, isTestEnv } from '../internal/currentEnvironment';
 import { PopupPosition } from '../Popup';
 
 export interface DropdownMenuProps {
@@ -41,7 +41,7 @@ export default class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
 
   public static defaultProps = {
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: Boolean(isTestEnv),
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };
 

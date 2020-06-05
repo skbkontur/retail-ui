@@ -20,6 +20,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Popup.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { isTestEnv } from '../internal/currentEnvironment';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
@@ -172,7 +173,7 @@ export default class Popup extends React.Component<PopupProps, PopupState> {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
   };

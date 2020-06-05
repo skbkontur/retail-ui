@@ -32,9 +32,9 @@ import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import Sticky from '../../Sticky';
 import { PlaygroundTheme } from './ThemeProviderPlayground';
+import { isTestEnv } from '../../internal/currentEnvironment';
 
-const enableReactTesting = process.env.enableReactTesting === 'true';
-const useSticky = !enableReactTesting;
+const useSticky = !isTestEnv;
 
 export interface IComponentsListProps {
   currentThemeType: ThemeType;

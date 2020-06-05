@@ -7,6 +7,7 @@ import TokenInput, { TokenInputProps, TokenInputType } from '../TokenInput';
 import Token, { TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
 import MenuItem from '../../MenuItem';
+import { isTestEnv } from '../../internal/currentEnvironment';
 
 interface TokenModel {
   id?: string;
@@ -20,7 +21,7 @@ const FixedWidthDecorator = (storyFn: any) => (
 );
 
 async function getItems(query: string) {
-  if (!process.env.enableReactTesting) {
+  if (!isTestEnv) {
     await delay(400);
   }
   return ['aaa', 'bbb'].filter(s => s.includes(query));
@@ -45,8 +46,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 
@@ -124,8 +125,8 @@ class ColoredWrapper extends React.Component<any, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 

@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const enableReactTesting = process.env.enableReactTesting;
+const isTestEnv = process.env.NODE_ENV === 'test';
 const REACT_SELENIUM_TESTING_PATH = path.resolve(__dirname, '../../react-ui-testing/react-selenium-testing.js');
 
 module.exports = async ({ config, mode }) => {
@@ -11,7 +11,7 @@ module.exports = async ({ config, mode }) => {
 
   config.devtool = 'eval-source-map';
 
-  if (enableReactTesting) {
+  if (isTestEnv) {
     // needs to be inserted before React (i.e. config.js)
     config.entry.unshift(REACT_SELENIUM_TESTING_PATH);
   }
@@ -66,7 +66,7 @@ module.exports = async ({ config, mode }) => {
 
   config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.enableReactTesting': JSON.stringify(enableReactTesting),
+      'process.env.enableReactTesting': JSON.stringify(isTestEnv),
     }),
     new WatchExternalFilesPlugin({
       files: ['*.less'],
