@@ -14,6 +14,12 @@ describe('FxInput', function() {
       await expect(await element.takeScreenshot()).to.matchImage('type currency');
     });
   });
+  describe('with disabled', function() {
+    it('with disabled', async function() {
+      const element = await this.browser.findElement(By.css('#test-element'));
+      await expect(await element.takeScreenshot()).to.matchImage('with disabled');
+    });
+  });
   describe('borderless', function() {
     it('borderless', async function() {
       const element = await this.browser.findElement(By.css('#test-element'));
