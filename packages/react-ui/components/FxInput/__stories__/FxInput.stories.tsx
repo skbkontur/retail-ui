@@ -14,6 +14,9 @@ TypeText.story = { name: 'type text' };
 export const TypeCurrency = () => <TestFxInput type={'currency'} fractionDigits={4} />;
 TypeCurrency.story = { name: 'type currency' };
 
+export const WithDisabled = () => <FxInput disabled onValueChange={console.log} />;
+WithDisabled.story = { name: 'with disabled' };
+
 export const Borderless = () => (
   <TestWrapper>
     <TestFxInput borderless />
