@@ -86,7 +86,13 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     if ((items == null || items.length === 0) && renderNotFound) {
       return (
         <Menu ref={refMenu}>
-          {renderAddButton ? renderAddButton : <MenuItem disabled>{renderNotFound()}</MenuItem>}
+          {renderAddButton ? (
+            renderAddButton
+          ) : (
+            <MenuItem data-tid="ComboBoxMenu__notFound" disabled>
+              {renderNotFound()}
+            </MenuItem>
+          )}
         </Menu>
       );
     }
@@ -101,7 +107,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     return (
-      <Menu ref={refMenu} maxHeight={maxMenuHeight}>
+      <Menu data-tid="ComboBoxMenu__items" ref={refMenu} maxHeight={maxMenuHeight}>
         {items && items.map(this.renderItem)}
         {total}
         {renderAddButton && [<MenuSeparator key="separator" />, renderAddButton]}
@@ -128,7 +134,7 @@ class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     return (
       // tslint:disable-next-line:jsx-no-lambda
-      <MenuItem onClick={event => onChange(item, event)} key={index}>
+      <MenuItem data-tid="ComboBoxMenu__item" onClick={event => onChange(item, event)} key={index}>
         {state => renderItem(item, state)}
       </MenuItem>
     );
