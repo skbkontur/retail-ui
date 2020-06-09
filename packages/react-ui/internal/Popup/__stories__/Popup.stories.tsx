@@ -7,6 +7,7 @@ import { ComboBox } from '../../../components/ComboBox';
 import { Hint } from '../../../components/Hint';
 import { Select } from '../../../components/Select';
 import { RenderLayer } from '../../RenderLayer';
+import { isTestEnv } from '../../../lib/currentEnvironment';
 
 export default { title: 'Popup' };
 
@@ -237,7 +238,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
             backgroundColor={'#fff'}
             pinSize={10}
             pinOffset={7}
-            disableAnimations={Boolean(process.env.enableReactTesting)}
+            disableAnimations={isTestEnv}
           >
             <div
               style={{
