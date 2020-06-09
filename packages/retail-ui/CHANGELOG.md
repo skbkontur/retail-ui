@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.3](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.2...retail-ui@1.11.3) (2020-06-09)
+
+
+### Bug Fixes
+
+* **ComboBox:** add data-tids ([85cd166](https://github.com/skbkontur/retail-ui/commit/85cd166)), closes [#2032](https://github.com/skbkontur/retail-ui/issues/2032) [#2042](https://github.com/skbkontur/retail-ui/issues/2042)
+* **ComboBox:** cancel search if item has been selected ([fdcd9b8](https://github.com/skbkontur/retail-ui/commit/fdcd9b8)), closes [#2032](https://github.com/skbkontur/retail-ui/issues/2032)
+* **Gapped:** fix left margin for single child ([339f4da](https://github.com/skbkontur/retail-ui/commit/339f4da))
+* **react-ui:** use NODE_ENV=test for animations disabling ([c1f5bca](https://github.com/skbkontur/retail-ui/commit/c1f5bca))
+* **Tooltip:** don't add event listeners while tooltip isn't opened ([dabd815](https://github.com/skbkontur/retail-ui/commit/dabd815)), closes [#2024](https://github.com/skbkontur/retail-ui/issues/2024)
+
+
+
+
+
 ## [1.11.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.1...retail-ui@1.11.2) (2020-04-29)
 
 
