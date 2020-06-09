@@ -27,7 +27,7 @@ const styles = {
     return css`
       border: 4px solid transparent;
       border-bottom-width: 0;
-      border-top-color: ${t.btnMenuArrowColor};
+      border-top-color: ${t.selectMenuArrowColor};
 
       ${cssName(styles.arrowWrap())} & {
         display: inline-block;

@@ -457,6 +457,54 @@ export class DefaultTheme {
   //#endregion
   //#region Select
   public static sltPlaceholderColor = '#a0a0a0';
+  public static get selectPlaceholderColor() {
+    return this.sltPlaceholderColor;
+  }
+  public static get selectLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get selectFontSizeSmall() {
+    return this.controlFontSizeSmall;
+  }
+  public static selectPaddingXSmall = '7px';
+  public static get selectPaddingYSmall() {
+    return this.controlPaddingYSmall;
+  }
+  public static get selectBorderRadiusSmall() {
+    return this.controlBorderRadiusSmall;
+  }
+  public static selectPaddingIconSmall = '4px';
+  public static get selectLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get selectFontSizeMedium() {
+    return this.controlFontSizeMedium;
+  }
+  public static selectPaddingXMedium = '11px';
+  public static get selectPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get selectBorderRadiusMedium() {
+    return this.controlBorderRadiusMedium;
+  }
+  public static selectPaddingIconMedium = '8px';
+  public static get selectLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static get selectFontSizeLarge() {
+    return this.controlFontSizeLarge;
+  }
+  public static selectPaddingXLarge = '15px';
+  public static get selectPaddingYLarge() {
+    return this.controlPaddingYLarge;
+  }
+  public static get selectBorderRadiusLarge() {
+    return this.controlBorderRadiusLarge;
+  }
+  public static selectPaddingIconLarge = '1px';
+  public static get selectMenuArrowColor() {
+    return this.btnMenuArrowColor;
+  }
   //#endregion
   //#region Tooltip
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
