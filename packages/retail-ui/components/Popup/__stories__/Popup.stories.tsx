@@ -8,6 +8,7 @@ import ComboBox from '../../ComboBox';
 import Hint from '../../Hint';
 import Select from '../../Select';
 import RenderLayer from '../../RenderLayer';
+import { isTestEnv } from '../../internal/currentEnvironment';
 
 storiesOf('Popup', module)
   .add('All pin opened', () => <AllCases small={false} padding={'50px 100px'} />)
@@ -222,7 +223,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
             backgroundColor={'#fff'}
             pinSize={10}
             pinOffset={7}
-            disableAnimations={Boolean(process.env.enableReactTesting)}
+            disableAnimations={isTestEnv}
           >
             <div
               style={{
@@ -389,7 +390,10 @@ const renderPopupContent = () => {
   return <span>Popup content</span>;
 };
 
-const COMBOBOX_ITEMS = [{ value: 1, label: 'First' }, { value: 2, label: 'Second' }];
+const COMBOBOX_ITEMS = [
+  { value: 1, label: 'First' },
+  { value: 2, label: 'Second' },
+];
 const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 

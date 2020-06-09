@@ -5,7 +5,6 @@ import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/type
 // tslint:disable:jsx-no-lambda no-console
 import Button from '../../Button/index';
 import Gapped from '../../Gapped/index';
-import MockDate from '../../internal/MockDate';
 import { LangCodes } from '../../LocaleProvider';
 import LocaleProvider from '../../LocaleProvider/LocaleProvider';
 import Tooltip from '../../Tooltip/index';
@@ -122,21 +121,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
   }
 }
 
-const dateForMock = new Date('2017-01-02');
-
 storiesOf('DatePicker', module)
-  .addDecorator(
-    story =>
-      process.env.NODE_ENV === 'test' ? (
-        <div>
-          <h2>Mocked date {dateForMock.toDateString()}</h2>
-          <MockDate date={dateForMock} />
-          {story()}
-        </div>
-      ) : (
-        <div>{story()}</div>
-      ),
-  )
   .add('with mouseevent handlers', () => (
     <div style={{ padding: '200px 150px 350px 0px' }}>
       <DatePicker

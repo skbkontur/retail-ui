@@ -78,12 +78,11 @@ export const Effect: EffectFactory = {
     searchEffect(dispatch, getState, getProps, getInstance);
   }, DEBOUNCE_DELAY),
   CancelRequest: (dispatch, getState, getProps, getInstance) => {
+    Effect.DebouncedSearch.cancel();
     getInstance().cancelSearch();
   },
   Blur: (dispatch, getState, getProps) => {
     const { onBlur } = getProps();
-
-    Effect.DebouncedSearch.cancel();
 
     if (onBlur) {
       onBlur();
@@ -291,7 +290,7 @@ export function reducer<T>(
           };
           break;
       }
-      return [nextState, [...effects, Effect.InputKeyDown(e)]]
+      return [nextState, [...effects, Effect.InputKeyDown(e)]];
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {

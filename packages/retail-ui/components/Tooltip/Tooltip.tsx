@@ -12,6 +12,7 @@ import jsStyles from './Tooltip.styles';
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { isTestEnv } from '../internal/currentEnvironment';
 const POPUP_MARGIN = 15;
 const POPUP_PIN_OFFSET = 17;
 
@@ -170,7 +171,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: isTestEnv,
     useWrapper: true,
     closeOnChildrenMouseLeave: false,
   };
@@ -359,6 +360,7 @@ class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       case 'hover&focus':
         return {
           layerProps: {
+            active: this.state.opened,
             onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {

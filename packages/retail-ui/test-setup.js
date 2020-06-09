@@ -6,8 +6,6 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import ThemeFactory from './lib/theming/ThemeFactory';
 
-process.env.enableReactTesting = true;
-
 configure({ adapter: new Adapter() });
 
 jest.mock('react-focus-lock', () => props => <div>{props.children}</div>);
