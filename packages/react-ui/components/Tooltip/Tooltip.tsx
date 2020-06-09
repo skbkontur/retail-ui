@@ -10,6 +10,7 @@ import { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { jsStyles } from './Tooltip.styles';
 
@@ -171,7 +172,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     pos: 'top left',
     trigger: 'hover',
     allowedPositions: Positions,
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: isTestEnv,
     useWrapper: true,
     closeOnChildrenMouseLeave: false,
   };

@@ -1,12 +1,10 @@
 import { action } from '@storybook/addon-actions';
-import { StoryFn } from '@storybook/addons';
 import React from 'react';
 import { CSFStory } from 'creevey';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { MockDate } from '../../../lib/MockDate';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
@@ -131,22 +129,8 @@ class DatePickerWithMinMax extends React.Component<any, any> {
   }
 }
 
-const dateForMock = new Date('2017-01-02');
-
 export default {
   title: 'DatePicker',
-  decorators: [
-    (story: StoryFn<JSX.Element>) =>
-      process.env.NODE_ENV === 'test' ? (
-        <div>
-          <h2>Mocked date {dateForMock.toDateString()}</h2>
-          <MockDate date={dateForMock} />
-          {story()}
-        </div>
-      ) : (
-        <div>{story()}</div>
-      ),
-  ],
 };
 
 export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => (
