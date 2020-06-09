@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PopupMenu, { PopupMenuProps } from '../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem/MenuItem';
-import { isProductionEnv } from '../internal/currentEnvironment';
+import { isProductionEnv, isTestEnv } from '../internal/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPosition } from '../Popup';
 
@@ -42,7 +42,7 @@ export default class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
 
   public static defaultProps = {
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: isTestEnv,
   };
   constructor(props: TooltipMenuProps) {
     super(props);

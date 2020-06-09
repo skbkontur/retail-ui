@@ -8,6 +8,7 @@ import fallbackImage_normal from './fallback_cloud_normal.png';
 import { SpinnerType } from '.';
 
 import styles from './Spinner.module.less';
+import { isTestEnv } from '../internal/currentEnvironment';
 
 export interface SpinnerFallbackProps {
   type: SpinnerType;
@@ -64,7 +65,7 @@ export default class SpinnerFallback extends React.Component<SpinnerFallbackProp
       width: size.width,
     };
 
-    if (!process.env.enableReactTesting) {
+    if (!isTestEnv) {
       cssSet.backgroundPosition = `0 -${frame * size.height}px`;
     }
 
