@@ -16,7 +16,7 @@ const styles = {
       -webkit-appearance: none;
       background-clip: padding-box;
       background: ${t.textareaBg};
-      border: 1px solid ${t.textareaBorderColor};
+      border: ${t.textareaBorderWidth} solid ${t.textareaBorderColor};
       border-top-color: ${t.textareaBorderTopColor};
       box-shadow: ${t.textareaShadow};
       box-sizing: border-box;
@@ -25,7 +25,8 @@ const styles = {
       font-size: inherit;
       line-height: inherit;
       max-width: 100%;
-      min-height: ${t.textareaHeightSmall};
+      min-width: ${t.textareaWidth};
+      min-height: ${t.textareaHeight};
       outline: none;
       padding: ${t.textareaPaddingY} ${t.textareaPaddingX};
       transition: height 0.2s ease-out;
@@ -34,7 +35,7 @@ const styles = {
 
       &:focus {
         border-color: ${t.textareaBorderColorFocus};
-        box-shadow: 0 0 0 1px ${t.textareaBorderColorFocus};
+        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorFocus};
         position: relative;
         z-index: 2;
 
@@ -67,11 +68,11 @@ const styles = {
     return css`
       ${cssName(styles.textarea(t))}& {
         border-color: ${t.textareaBorderColorError};
-        box-shadow: 0 0 0 1px ${t.textareaBorderColorError};
+        box-shadow: 0 0 0 ${t.textareaBorderWidth} ${t.textareaBorderColorError};
       }
       ${cssName(styles.textarea(t))}&:focus {
         border-color: ${t.textareaBorderColorError};
-        box-shadow: 0 0 0 1px ${t.textareaBorderColorError};
+        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorError};
       }
     `;
   },
@@ -80,11 +81,11 @@ const styles = {
     return css`
       ${cssName(styles.textarea(t))}& {
         border-color: ${t.textareaBorderColorWarning};
-        box-shadow: 0 0 0 1px ${t.textareaBorderColorWarning};
+        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorWarning};
       }
       ${cssName(styles.textarea(t))}&:focus {
         border-color: ${t.textareaBorderColorWarning};
-        box-shadow: 0 0 0 1px ${t.textareaBorderColorWarning};
+        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorWarning};
       }
     `;
   },

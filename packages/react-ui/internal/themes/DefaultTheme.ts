@@ -44,6 +44,7 @@ export class DefaultTheme {
   public static placeholderColorLight = '#cdcdcd';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
   public static controlBorderWidth = '1px';
+  public static controlBorderWidthFocus = '2px';
   public static controlBorderRadiusSmall = '1px';
   public static controlBorderRadiusMedium = '1px';
   public static controlBorderRadiusLarge = '1px';
@@ -962,9 +963,19 @@ export class DefaultTheme {
         return `${parseInt(fontSize, 10) * 1.5}px`;
     }
   }
-  public static get textareaHeightSmall() {
-    return this.controlHeightSmall;
+  public static get textareaBorderWidth() {
+    return this.controlBorderWidth;
   }
+  public static get textareaBorderWidthFocus() {
+    return this.controlBorderWidth;
+  }
+  public static get textareaHeight() {
+    const textareaLineHeight = parseInt(this.textareaLineHeight, 10) * 3;
+    const textareaPaddingY = parseInt(this.textareaPaddingY, 10) * 2;
+    const textareaBorderWidth = parseInt(this.textareaBorderWidth, 10) * 2;
+    return '68px' || `${textareaLineHeight + textareaPaddingY + textareaBorderWidth}px`;
+  }
+  public static textareaWidth = '250px';
   public static get textareaPaddingX() {
     return '10px';
   }
