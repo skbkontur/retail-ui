@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { isTestEnv } from '../../lib/currentEnvironment';
+
 import fallbackImage_mini from './fallback_circle_mini.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
 import fallbackImage_big from './fallback_circle_big.png';
@@ -80,7 +82,7 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
       marginRight: -1,
     };
 
-    if (!process.env.enableReactTesting) {
+    if (!isTestEnv) {
       cssSet.backgroundPosition = `0 -${frame * size}px`;
     }
 
