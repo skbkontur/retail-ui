@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.9.0...retail-ui@1.9.1) (2020-06-09)
+
+
+### Bug Fixes
+
+* **ComboBox:** add data-tids and fix debounced search ([e608100](https://github.com/skbkontur/retail-ui/commit/e608100)), closes [#2032](https://github.com/skbkontur/retail-ui/issues/2032) [#2042](https://github.com/skbkontur/retail-ui/issues/2042)
+
+
+
+
+
 # [1.9.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.8.1...retail-ui@1.9.0) (2020-02-13)
 
 
