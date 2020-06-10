@@ -172,8 +172,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
         [jsStyles.active(this.theme)]: !!this.props.active,
         [jsStyles.validationRoot(this.theme)]: isError || isWarning,
-        [jsStyles.error(this.theme)]: isError,
-        [jsStyles.warning(this.theme)]: isWarning,
         [jsStyles.narrow()]: !!this.props.narrow,
         [jsStyles.noPadding()]: !!this.props._noPadding,
         [jsStyles.noRightPadding()]: !!this.props._noRightPadding,

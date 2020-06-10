@@ -48,15 +48,10 @@ const styles = {
         vertical-align: baseline;
         width: 0;
       }
-      &:not(${cssName(styles.sizeSmall(t))}) {
-        border-radius: ${t.btnBorderRadius};
-      }
-      ${cssName(styles.link(t))}& {
-        padding: 0;
-      }
-      &:active:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
+
+      &:active {
         ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
+          transform: translateY(1px);
         }
       }
     `;
@@ -229,7 +224,7 @@ const styles = {
       display: inline;
       line-height: inherit !important;
       margin: 0;
-      padding: 0;
+      padding: 0 !important;
 
       &:hover {
         color: ${t.btnLinkHoverColor};
@@ -240,6 +235,7 @@ const styles = {
       }
       ${cssName(styles.caption())} {
         display: inline;
+        transform: none !important;
       }
       ${cssName(styles.icon(t))} {
         padding-right: ${t.btnLinkIconMarginRight};
@@ -259,36 +255,39 @@ const styles = {
 
   focus(t: Theme) {
     return css`
-      position: relative;
-      z-index: 2;
+      ${cssName(styles.root(t))}& {
+        position: relative;
+        z-index: 2;
 
-      &${cssName(styles.link(t))} {
-        color: ${t.btnLinkColor};
-        text-decoration: ${t.btnLinkHoverTextDecoration};
-      }
+        &${cssName(styles.link(t))} {
+          color: ${t.btnLinkColor};
+          text-decoration: ${t.btnLinkHoverTextDecoration};
+        }
 
-      &:not(${cssName(styles.disabled(t))}):not(${cssName(styles.link(t))}) {
-        border: ${t.btnFocusBorder};
+        &:not(${cssName(styles.disabled(t))}):not(${cssName(styles.link(t))}) {
+          border: ${t.btnFocusBorder};
 
-        &,
-        &:hover,
-        &:active,
-        ${cssName(styles.active(t))} {
-          box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
+          &,
+          &:hover,
+          &:active,
+          ${cssName(styles.active(t))} {
+            box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus},
+              0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
 
-          &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
-            box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
-            border-color: transparent !important;
-          }
-          ${cssName(styles.arrow())} {
-            box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorFocus};
-
-            &${cssName(styles.arrowWarning(t))} {
-              box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorWarning} !important;
+            &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
+              box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
+              border-color: transparent !important;
             }
+            ${cssName(styles.arrow())} {
+              box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorFocus};
 
-            &${cssName(styles.arrowError(t))} {
-              box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorError} !important;
+              &${cssName(styles.arrowWarning(t))} {
+                box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorWarning} !important;
+              }
+
+              &${cssName(styles.arrowError(t))} {
+                box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorError} !important;
+              }
             }
           }
         }
@@ -298,23 +297,29 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      cursor: default;
-      pointer-events: none;
-      border-color: transparent !important;
+      ${cssName(styles.root(t))}& {
+        cursor: default;
+        pointer-events: none;
+        border-color: transparent !important;
 
-      &:not(${cssName(styles.link(t))}) {
-        background: ${t.btnDisabledBg} !important;
-        color: ${t.btnDisabledTextColor} !important;
-        box-shadow: ${t.btnDisabledShadow} !important;
-
-        ${cssName(styles.arrow())} {
+        &:not(${cssName(styles.link(t))}) {
           background: ${t.btnDisabledBg} !important;
-          box-shadow: ${t.btnDisabledShadowArrow} !important;
-        }
-      }
+          color: ${t.btnDisabledTextColor} !important;
+          box-shadow: ${t.btnDisabledShadow} !important;
 
-      &${cssName(styles.link(t))} {
-        color: ${t.btnLinkDisabledColor} !important;
+          ${cssName(styles.arrow())} {
+            background: ${t.btnDisabledBg} !important;
+            box-shadow: ${t.btnDisabledShadowArrow} !important;
+          }
+        }
+
+        &${cssName(styles.link(t))} {
+          color: ${t.btnLinkDisabledColor} !important;
+        }
+
+        ${cssName(styles.caption())} {
+          transform: none !important;
+        }
       }
     `;
   },
@@ -332,8 +337,8 @@ const styles = {
 
   validationRoot(t: Theme) {
     return css`
-      ${cssName(styles.focus(t))} {
-        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus};
+      ${cssName(styles.focus(t))}& {
+        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
         border-color: transparent !important;
       }
     `;
@@ -363,231 +368,241 @@ const styles = {
 
   default(t: Theme) {
     return css`
-      ${buttonUseMixin(
-        t.btnDefaultBg,
-        t.btnDefaultBgStart,
-        t.btnDefaultBgEnd,
-        t.btnDefaultBgArrowStart,
-        t.btnDefaultBgArrowEnd,
-        t.btnDefaultShadow,
-        t.btnDefaultShadowArrow,
-        t.btnDefaultShadowArrowLeft,
-        t.btnDefaultTextColor,
-        t.btnDefaultBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+      ${cssName(styles.root(t))}& {
+        ${buttonUseMixin(
+          t.btnDefaultBg,
+          t.btnDefaultBgStart,
+          t.btnDefaultBgEnd,
+          t.btnDefaultBgArrowStart,
+          t.btnDefaultBgArrowEnd,
+          t.btnDefaultShadow,
+          t.btnDefaultShadowArrow,
+          t.btnDefaultShadowArrowLeft,
+          t.btnDefaultTextColor,
+          t.btnDefaultBorder,
+          cssName(styles.checked(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonHoverMixin(
-        t.btnDefaultHoverBg,
-        t.btnDefaultHoverBgStart,
-        t.btnDefaultHoverBgEnd,
-        t.btnDefaultHoverBgStart,
-        t.btnDefaultHoverBgEnd,
-        t.btnDefaultHoverShadow,
-        t.btnDefaultHoverShadowArrow,
-        t.btnDefaultHoverShadowArrowLeft,
-        t.btnDefaultHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonHoverMixin(
+          t.btnDefaultHoverBg,
+          t.btnDefaultHoverBgStart,
+          t.btnDefaultHoverBgEnd,
+          t.btnDefaultHoverBgStart,
+          t.btnDefaultHoverBgEnd,
+          t.btnDefaultHoverShadow,
+          t.btnDefaultHoverShadowArrow,
+          t.btnDefaultHoverShadowArrowLeft,
+          t.btnDefaultHoverBorderColor,
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonActiveMixin(
-        t.btnDefaultActiveBg,
-        t.btnDefaultActiveBg,
-        t.btnDefaultActiveBg,
-        t.btnDefaultActiveShadow,
-        t.btnDefaultActiveShadowArrow,
-        t.btnDefaultActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonActiveMixin(
+          t.btnDefaultActiveBg,
+          t.btnDefaultActiveBg,
+          t.btnDefaultActiveBg,
+          t.btnDefaultActiveShadow,
+          t.btnDefaultActiveShadowArrow,
+          t.btnDefaultActiveShadowArrowLeft,
+          cssName(styles.active(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
+      }
     `;
   },
 
   primary(t: Theme) {
     return css`
-      ${buttonUseMixin(
-        t.btnPrimaryBg,
-        t.btnPrimaryBgStart,
-        t.btnPrimaryBgEnd,
-        t.btnPrimaryBgArrowStart,
-        t.btnPrimaryBgArrowEnd,
-        t.btnPrimaryShadow,
-        t.btnPrimaryShadowArrow,
-        t.btnPrimaryShadowArrowLeft,
-        t.btnPrimaryTextColor,
-        t.btnPrimaryBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+      ${cssName(styles.root(t))}& {
+        ${buttonUseMixin(
+          t.btnPrimaryBg,
+          t.btnPrimaryBgStart,
+          t.btnPrimaryBgEnd,
+          t.btnPrimaryBgArrowStart,
+          t.btnPrimaryBgArrowEnd,
+          t.btnPrimaryShadow,
+          t.btnPrimaryShadowArrow,
+          t.btnPrimaryShadowArrowLeft,
+          t.btnPrimaryTextColor,
+          t.btnPrimaryBorder,
+          cssName(styles.checked(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonHoverMixin(
-        t.btnPrimaryHoverBg,
-        t.btnPrimaryHoverBgStart,
-        t.btnPrimaryHoverBgEnd,
-        t.btnPrimaryHoverBgStart,
-        t.btnPrimaryHoverBgEnd,
-        t.btnPrimaryHoverShadow,
-        t.btnPrimaryHoverShadowArrow,
-        t.btnPrimaryHoverShadowArrowLeft,
-        t.btnPrimaryHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonHoverMixin(
+          t.btnPrimaryHoverBg,
+          t.btnPrimaryHoverBgStart,
+          t.btnPrimaryHoverBgEnd,
+          t.btnPrimaryHoverBgStart,
+          t.btnPrimaryHoverBgEnd,
+          t.btnPrimaryHoverShadow,
+          t.btnPrimaryHoverShadowArrow,
+          t.btnPrimaryHoverShadowArrowLeft,
+          t.btnPrimaryHoverBorderColor,
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonActiveMixin(
-        t.btnPrimaryActiveBg,
-        t.btnPrimaryActiveBg,
-        t.btnPrimaryActiveBg,
-        t.btnPrimaryActiveShadow,
-        t.btnPrimaryActiveShadowArrow,
-        t.btnPrimaryActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonActiveMixin(
+          t.btnPrimaryActiveBg,
+          t.btnPrimaryActiveBg,
+          t.btnPrimaryActiveBg,
+          t.btnPrimaryActiveShadow,
+          t.btnPrimaryActiveShadowArrow,
+          t.btnPrimaryActiveShadowArrowLeft,
+          cssName(styles.active(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
+      }
     `;
   },
 
   success(t: Theme) {
     return css`
-      ${buttonUseMixin(
-        t.btnSuccessBg,
-        t.btnSuccessBgStart,
-        t.btnSuccessBgEnd,
-        t.btnSuccessBgArrowStart,
-        t.btnSuccessBgArrowEnd,
-        t.btnSuccessShadow,
-        t.btnSuccessShadowArrow,
-        t.btnSuccessShadowArrowLeft,
-        t.btnSuccessTextColor,
-        t.btnSuccessBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+      ${cssName(styles.root(t))}& {
+        ${buttonUseMixin(
+          t.btnSuccessBg,
+          t.btnSuccessBgStart,
+          t.btnSuccessBgEnd,
+          t.btnSuccessBgArrowStart,
+          t.btnSuccessBgArrowEnd,
+          t.btnSuccessShadow,
+          t.btnSuccessShadowArrow,
+          t.btnSuccessShadowArrowLeft,
+          t.btnSuccessTextColor,
+          t.btnSuccessBorder,
+          cssName(styles.checked(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonHoverMixin(
-        t.btnSuccessHoverBg,
-        t.btnSuccessHoverBgStart,
-        t.btnSuccessHoverBgEnd,
-        t.btnSuccessHoverBgStart,
-        t.btnSuccessHoverBgEnd,
-        t.btnSuccessHoverShadow,
-        t.btnSuccessHoverShadowArrow,
-        t.btnSuccessHoverShadowArrowLeft,
-        t.btnSuccessHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonHoverMixin(
+          t.btnSuccessHoverBg,
+          t.btnSuccessHoverBgStart,
+          t.btnSuccessHoverBgEnd,
+          t.btnSuccessHoverBgStart,
+          t.btnSuccessHoverBgEnd,
+          t.btnSuccessHoverShadow,
+          t.btnSuccessHoverShadowArrow,
+          t.btnSuccessHoverShadowArrowLeft,
+          t.btnSuccessHoverBorderColor,
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonActiveMixin(
-        t.btnSuccessActiveBg,
-        t.btnSuccessActiveBg,
-        t.btnSuccessActiveBg,
-        t.btnSuccessActiveShadow,
-        t.btnSuccessActiveShadowArrow,
-        t.btnSuccessActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonActiveMixin(
+          t.btnSuccessActiveBg,
+          t.btnSuccessActiveBg,
+          t.btnSuccessActiveBg,
+          t.btnSuccessActiveShadow,
+          t.btnSuccessActiveShadowArrow,
+          t.btnSuccessActiveShadowArrowLeft,
+          cssName(styles.active(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
+      }
     `;
   },
 
   danger(t: Theme) {
     return css`
-      ${buttonUseMixin(
-        t.btnDangerBg,
-        t.btnDangerBgStart,
-        t.btnDangerBgEnd,
-        t.btnDangerBgArrowStart,
-        t.btnDangerBgArrowEnd,
-        t.btnDangerShadow,
-        t.btnDangerShadowArrow,
-        t.btnDangerShadowArrowLeft,
-        t.btnDangerTextColor,
-        t.btnDangerBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+      ${cssName(styles.root(t))}& {
+        ${buttonUseMixin(
+          t.btnDangerBg,
+          t.btnDangerBgStart,
+          t.btnDangerBgEnd,
+          t.btnDangerBgArrowStart,
+          t.btnDangerBgArrowEnd,
+          t.btnDangerShadow,
+          t.btnDangerShadowArrow,
+          t.btnDangerShadowArrowLeft,
+          t.btnDangerTextColor,
+          t.btnDangerBorder,
+          cssName(styles.checked(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonHoverMixin(
-        t.btnDangerHoverBg,
-        t.btnDangerHoverBgStart,
-        t.btnDangerHoverBgEnd,
-        t.btnDangerHoverBgStart,
-        t.btnDangerHoverBgEnd,
-        t.btnDangerHoverShadow,
-        t.btnDangerHoverShadowArrow,
-        t.btnDangerHoverShadowArrowLeft,
-        t.btnDangerHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonHoverMixin(
+          t.btnDangerHoverBg,
+          t.btnDangerHoverBgStart,
+          t.btnDangerHoverBgEnd,
+          t.btnDangerHoverBgStart,
+          t.btnDangerHoverBgEnd,
+          t.btnDangerHoverShadow,
+          t.btnDangerHoverShadowArrow,
+          t.btnDangerHoverShadowArrowLeft,
+          t.btnDangerHoverBorderColor,
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonActiveMixin(
-        t.btnDangerActiveBg,
-        t.btnDangerActiveBg,
-        t.btnDangerActiveBg,
-        t.btnDangerActiveShadow,
-        t.btnDangerActiveShadowArrow,
-        t.btnDangerActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonActiveMixin(
+          t.btnDangerActiveBg,
+          t.btnDangerActiveBg,
+          t.btnDangerActiveBg,
+          t.btnDangerActiveShadow,
+          t.btnDangerActiveShadowArrow,
+          t.btnDangerActiveShadowArrowLeft,
+          cssName(styles.active(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
+      }
     `;
   },
 
   pay(t: Theme) {
     return css`
-      ${buttonUseMixin(
-        t.btnPayBg,
-        t.btnPayBgStart,
-        t.btnPayBgEnd,
-        t.btnPayBgArrowStart,
-        t.btnPayBgArrowEnd,
-        t.btnPayShadow,
-        t.btnPayShadowArrow,
-        t.btnPayShadowArrowLeft,
-        t.btnPayTextColor,
-        t.btnPayBorder,
-        cssName(styles.checked(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+      ${cssName(styles.root(t))}& {
+        ${buttonUseMixin(
+          t.btnPayBg,
+          t.btnPayBgStart,
+          t.btnPayBgEnd,
+          t.btnPayBgArrowStart,
+          t.btnPayBgArrowEnd,
+          t.btnPayShadow,
+          t.btnPayShadowArrow,
+          t.btnPayShadowArrowLeft,
+          t.btnPayTextColor,
+          t.btnPayBorder,
+          cssName(styles.checked(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonHoverMixin(
-        t.btnPayHoverBg,
-        t.btnPayHoverBgStart,
-        t.btnPayHoverBgEnd,
-        t.btnPayHoverBgStart,
-        t.btnPayHoverBgEnd,
-        t.btnPayHoverShadow,
-        t.btnPayHoverShadowArrow,
-        t.btnPayHoverShadowArrowLeft,
-        t.btnPayHoverBorderColor,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonHoverMixin(
+          t.btnPayHoverBg,
+          t.btnPayHoverBgStart,
+          t.btnPayHoverBgEnd,
+          t.btnPayHoverBgStart,
+          t.btnPayHoverBgEnd,
+          t.btnPayHoverShadow,
+          t.btnPayHoverShadowArrow,
+          t.btnPayHoverShadowArrowLeft,
+          t.btnPayHoverBorderColor,
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
 
-      ${buttonActiveMixin(
-        t.btnPayActiveBg,
-        t.btnPayActiveBg,
-        t.btnPayActiveBg,
-        t.btnPayActiveShadow,
-        t.btnPayActiveShadowArrow,
-        t.btnPayActiveShadowArrowLeft,
-        cssName(styles.active(t)),
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        ${buttonActiveMixin(
+          t.btnPayActiveBg,
+          t.btnPayActiveBg,
+          t.btnPayActiveBg,
+          t.btnPayActiveShadow,
+          t.btnPayActiveShadowArrow,
+          t.btnPayActiveShadowArrowLeft,
+          cssName(styles.active(t)),
+          cssName(styles.arrow()),
+          cssName(styles.arrowLeft(t)),
+        )};
+      }
     `;
   },
 
