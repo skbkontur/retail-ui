@@ -46,8 +46,8 @@ export class DefaultTheme {
   public static controlBorderWidth = '1px';
   public static controlBorderWidthFocus = '2px';
   public static controlBorderRadiusSmall = '1px';
-  public static controlBorderRadiusMedium = '1px';
-  public static controlBorderRadiusLarge = '1px';
+  public static controlBorderRadiusMedium = '2px';
+  public static controlBorderRadiusLarge = '2px';
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '20px';
   public static controlLineHeightLarge = '22px';
