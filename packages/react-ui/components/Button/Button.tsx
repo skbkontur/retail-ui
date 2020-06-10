@@ -227,7 +227,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={jsStyles.icon(this.theme)}>{this.props.icon}</span>;
+      icon = <span className={this.getSizeIconClassName()}>{this.props.icon}</span>;
     }
 
     let arrow = null;
@@ -294,6 +294,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         return cn(jsStyles.sizeSmall(this.theme), {
           [jsStyles.sizeSmallLoading(this.theme)]: this.props.loading,
         });
+    }
+  }
+  private getSizeIconClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return jsStyles.iconLarge(this.theme);
+      case 'medium':
+        return jsStyles.iconMedium(this.theme);
+      case 'small':
+      default:
+        return jsStyles.iconSmall(this.theme);
     }
   }
 

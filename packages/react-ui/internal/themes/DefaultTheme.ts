@@ -119,6 +119,8 @@ export class DefaultTheme {
   public static get linkDisabledColor() {
     return this.textColorDisabled;
   }
+  public static linkButtonLineHeight = '34px';
+  public static linkButtonPaddingX = '10px';
   //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1';
@@ -221,7 +223,9 @@ export class DefaultTheme {
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '20px';
-  public static btnPaddingAfterIconSmall = '7px';
+  public static btnPaddingIconSmall = '7px';
+  public static btnPaddingIconMedium = '7px';
+  public static btnPaddingIconLarge = '7px';
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';
@@ -709,7 +713,7 @@ export class DefaultTheme {
   public static inputPaddingIconMedium = '2px';
   public static inputPaddingIconLarge = '2px';
   public static get inputFocusShadow() {
-    return `0 0 0 ${this.inputBorderWidth} ${this.borderColorFocus}`;
+    return `0 0 0 ${this.inputBorderWidthFocus} ${this.borderColorFocus}`;
   }
   public static get inputDisabledBg() {
     return this.bgDisabled;
@@ -722,6 +726,9 @@ export class DefaultTheme {
   }
   public static get inputBorderWidth() {
     return this.controlBorderWidth;
+  }
+  public static get inputBorderWidthFocus() {
+    return '1px';
   }
   public static inputBorderRadiusSmall = '0';
   public static inputBorderRadiusMedium = '0';

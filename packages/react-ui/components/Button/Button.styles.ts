@@ -695,7 +695,25 @@ const styles = {
   icon(t: Theme) {
     return css`
       display: inline-block;
-      padding-right: ${t.btnPaddingAfterIconSmall};
+      padding-right: ${t.btnPaddingIconSmall};
+    `;
+  },
+  iconSmall(t: Theme) {
+    return css`
+      display: inline-block;
+      padding-right: ${t.btnPaddingIconSmall};
+    `;
+  },
+  iconMedium(t: Theme) {
+    return css`
+      display: inline-block;
+      padding-right: ${t.btnPaddingIconMedium};
+    `;
+  },
+  iconLarge(t: Theme) {
+    return css`
+      display: inline-block;
+      padding-right: ${t.btnPaddingIconLarge};
     `;
   },
 
