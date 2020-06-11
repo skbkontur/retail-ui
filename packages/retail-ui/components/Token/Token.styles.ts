@@ -4,12 +4,50 @@ import ColorFunctions from '../../lib/styles/ColorFunctions';
 import styles from './Token.module.less';
 
 export default {
-  disabled(t: ITheme) {
+  token(t:ITheme) {
     return css`
-      color: ${t.textColorDisabled};
+      display: inline-flex;
+      align-items: center;
+      border-radius: ${t.tokenBorderRadius};
+      padding: 0 ${t.tokenPaddingX};
+      line-height: ${t.tokenLineHeight};
+      font-size: ${t.tokenFontSize};
+      margin: ${t.tokenMargin};
+      min-width: 0;
+      word-break: break-word;
+      user-select: none;
+      &:hover {
+        cursor: pointer;
+      }
     `;
   },
-};
+  disabled(t: ITheme) {
+    return css`
+      box-shadow: none !important;
+      margin: 2px;
+      padding: 1px ${t.tokenPaddingX};
+      user-select: text;
+      cursor: text;
+      color: ${t.tokenTextColorDisabled} !important;
+     `;
+  },
+  removeIcon(t: ITheme) {
+    return css`
+      height: 1em;
+      width: 1em;
+      flex-shrink: 0;
+      padding: 2px;
+      box-sizing: border-box;
+      margin-left: ${t.tokenMarginBeforeIcon};
+      transition: none;
+      fill: currentColor;
+      opacity: 0.5;
+      line-height: 0;
+      &:hover {
+        opacity: 1;
+      }
+    `
+},};
 
 interface TokenColors {
   defaultIdle: (t: ITheme) => string;
@@ -75,7 +113,7 @@ export const jsTokenColors = [
         box-shadow: 0 0 0 1px ${t.tokenDisabledBg};
 
         & .${styles.removeIcon} {
-          fill: ${t.textColorDisabled};
+          fill: ${t.tokenTextColorDisabled};
           opacity: 1;
         }
 

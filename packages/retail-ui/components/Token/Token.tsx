@@ -105,7 +105,7 @@ export default class Token extends React.Component<TokenProps & TokenActions> {
       activeTokenClassName = jsTokenColors[activeClassName](theme);
     }
 
-    const tokenClassNames = cx(styles.token, tokenClassName, {
+    const tokenClassNames = cx(jsStyles.token(this.theme), tokenClassName, {
       [styles.disabled]: !!disabled,
       [activeTokenClassName]: !!isActive,
       [styles.warning]: !!warning,
@@ -123,7 +123,7 @@ export default class Token extends React.Component<TokenProps & TokenActions> {
         onBlur={onBlur}
       >
         <span className={styles.text}>{children}</span>
-        <TokenRemoveIcon className={styles.removeIcon} onClick={this.onRemoveClick} />
+        <TokenRemoveIcon className={cx(styles.removeIcon, jsStyles.removeIcon(this.theme))} onClick={this.onRemoveClick} />
       </div>
     );
   }
