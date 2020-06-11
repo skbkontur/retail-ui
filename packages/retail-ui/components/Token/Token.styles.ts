@@ -4,7 +4,7 @@ import ColorFunctions from '../../lib/styles/ColorFunctions';
 import styles from './Token.module.less';
 
 export default {
-  token(t:ITheme) {
+  token(t: ITheme) {
     return css`
       display: inline-flex;
       align-items: center;
@@ -29,7 +29,7 @@ export default {
       user-select: text;
       cursor: text;
       color: ${t.tokenTextColorDisabled} !important;
-     `;
+    `;
   },
   removeIcon(t: ITheme) {
     return css`
@@ -46,8 +46,9 @@ export default {
       &:hover {
         opacity: 1;
       }
-    `
-},};
+    `;
+  },
+};
 
 interface TokenColors {
   defaultIdle: (t: ITheme) => string;
@@ -96,11 +97,11 @@ export const jsTokenColors = [
         }
 
         &.${styles.warning} {
-          box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${t[color]};
+          box-shadow: 0 0 0 2px ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t[color]};
         }
 
         &.${styles.error} {
-          box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${t[color]};
+          box-shadow: 0 0 0 2px ${t.tokenBorderColorError}, inset 0 0 0 1px ${t[color]};
         }
       `;
     },
@@ -118,11 +119,11 @@ export const jsTokenColors = [
         }
 
         &.${styles.warning} {
-          box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
+          box-shadow: 0 0 0 2px ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
         }
 
         &.${styles.error} {
-          box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
+          box-shadow: 0 0 0 2px ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
         }
       `;
     },
