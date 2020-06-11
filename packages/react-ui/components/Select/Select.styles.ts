@@ -11,7 +11,7 @@ const styles = {
 
   placeholder(t: Theme) {
     return css`
-      color: ${t.sltPlaceholderColor};
+      color: ${t.selectPlaceholderColor};
       text-overflow: ellipsis;
     `;
   },
@@ -43,7 +43,6 @@ const styles = {
       top: 0;
       bottom: 0;
       right: 0;
-      padding: 0 10px;
 
       &::before {
         content: '';
@@ -51,6 +50,21 @@ const styles = {
         height: 100%;
         vertical-align: middle;
       }
+    `;
+  },
+  arrowWrapSmall(t: Theme) {
+    return css`
+      padding: 0 ${t.selectPaddingIconSmall};
+    `;
+  },
+  arrowWrapLarge(t: Theme) {
+    return css`
+      padding: 0 ${t.selectPaddingIconLarge};
+    `;
+  },
+  arrowWrapMedium(t: Theme) {
+    return css`
+      padding: 0 ${t.selectPaddingIconMedium};
     `;
   },
 

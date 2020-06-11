@@ -956,11 +956,11 @@ export class DefaultTheme {
     return this.placeholderColor;
   }
   public static textareaShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
-  public static get textareaFontSizeMedium() {
+  public static get textareaFontSize() {
     return this.fontSizeMedium;
   }
   public static get textareaLineHeight() {
-    const fontSize = this.textareaFontSizeMedium;
+    const fontSize = this.textareaFontSize;
     switch (fontSize) {
       case '14px':
         return '20px';
@@ -970,6 +970,7 @@ export class DefaultTheme {
         return `${parseInt(fontSize, 10) * 1.5}px`;
     }
   }
+  public static textareaBorderRadius = '0px';
   public static get textareaBorderWidth() {
     return this.controlBorderWidth;
   }

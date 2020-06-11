@@ -380,11 +380,23 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         <span {...labelProps}>
           <span className={jsStyles.labelText()}>{params.label}</span>
         </span>
-        <div className={jsStyles.arrowWrap()}>
+        <div className={this.getArrowWrapClassName()}>
           <div className={cn(jsStyles.arrow(this.theme), useIsCustom && jsStyles.customUseArrow())} />
         </div>
       </Button>
     );
+  }
+
+  private getArrowWrapClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return cn(jsStyles.arrowWrap(), jsStyles.arrowWrapLarge(this.theme));
+      case 'medium':
+        return cn(jsStyles.arrowWrap(), jsStyles.arrowWrapMedium(this.theme));
+      case 'small':
+      default:
+        return cn(jsStyles.arrowWrap(), jsStyles.arrowWrapSmall(this.theme));
+    }
   }
 
   private renderLinkButton(params: ButtonParams): React.ReactNode {

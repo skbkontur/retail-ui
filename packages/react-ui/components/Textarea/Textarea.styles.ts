@@ -5,7 +5,7 @@ const styles = {
   root(t: Theme) {
     return css`
       display: inline-block;
-      font-size: ${t.textareaFontSizeMedium};
+      font-size: ${t.textareaFontSize};
       line-height: ${t.textareaLineHeight};
       position: relative;
     `;
@@ -32,6 +32,7 @@ const styles = {
       transition: height 0.2s ease-out;
       vertical-align: middle;
       width: 100%;
+      border-radius: ${t.textareaBorderRadius};
 
       &:focus {
         border-color: ${t.textareaBorderColorFocus};
