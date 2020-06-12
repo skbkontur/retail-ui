@@ -3,6 +3,9 @@ import { Theme } from '../../lib/theming/Theme';
 
 const selectOverrideVariables = (theme: Theme) => {
   return {
+    btnBorderWidth: theme.selectBorderWidth,
+    btnBorderWidthFocus: theme.selectBorderWidthFocus,
+
     btnLineHeightSmall: theme.selectLineHeightSmall,
     btnFontSizeSmall: theme.selectFontSizeSmall,
     btnPaddingXSmall: theme.selectPaddingXSmall,

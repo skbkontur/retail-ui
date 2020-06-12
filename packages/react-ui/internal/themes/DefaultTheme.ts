@@ -487,6 +487,8 @@ export class DefaultTheme {
   public static get selectPlaceholderColor() {
     return this.sltPlaceholderColor;
   }
+  public static selectBorderWidth = '1px';
+  public static selectBorderWidthFocus = '2px';
   public static get selectLineHeightSmall() {
     return this.controlLineHeightSmall;
   }
