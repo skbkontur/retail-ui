@@ -65,7 +65,7 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 2px ${t.btnBorderColorWarning};
+      box-shadow: 0 0 0 ${t.btnBorderWidthFocus} ${t.btnBorderColorWarning};
     `;
   },
 
@@ -77,7 +77,7 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 2px ${t.btnBorderColorError};
+      box-shadow: 0 0 0 ${t.btnBorderWidthFocus} ${t.btnBorderColorError};
     `;
   },
 
@@ -271,22 +271,25 @@ const styles = {
           &:hover,
           &:active,
           ${cssName(styles.active(t))} {
-            box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus},
+            box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus},
               0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
 
             &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
-              box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
+              box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus} !important;
               border-color: transparent !important;
             }
             ${cssName(styles.arrow())} {
-              box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorFocus};
+              box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+                ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorFocus};
 
               &${cssName(styles.arrowWarning(t))} {
-                box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorWarning} !important;
+                box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+                  ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorWarning} !important;
               }
 
               &${cssName(styles.arrowError(t))} {
-                box-shadow: inset -1px 1px 0 0 ${t.btnOutlineColorFocus}, 2px -2px 0 0 ${t.btnBorderColorError} !important;
+                box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+                  ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorError} !important;
               }
             }
           }
@@ -346,13 +349,13 @@ const styles = {
 
   arrowWarning(t: Theme) {
     return css`
-      box-shadow: 2px -2px 0 0 ${t.btnBorderColorWarning} !important;
+      box-shadow: ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorWarning} !important;
     `;
   },
 
   arrowError(t: Theme) {
     return css`
-      box-shadow: 2px -2px 0 0 ${t.btnBorderColorError} !important;
+      box-shadow: ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorError} !important;
     `;
   },
 
