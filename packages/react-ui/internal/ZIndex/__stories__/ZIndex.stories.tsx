@@ -18,7 +18,7 @@ import { Toast } from '../../../components/Toast';
 import { Input } from '../../../components/Input';
 import { SidePage } from '../../../components/SidePage';
 import { ToastView } from '../../../components/Toast/ToastView';
-import { LoaderAndButton } from '../../../components/Loader/__stories__/Loader.stories';
+import { LoaderAndButton } from '../../../components/Loader/__stories__/LoaderAndButton';
 import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { delay } from '../../../lib/utils';
@@ -694,13 +694,13 @@ LoaderCoversTooltipStory.story = { name: 'Loader covers tooltip' };
 export const ModalWithTooltipInLoaderStory: CSFStory<JSX.Element> = () => <ModalWithTooltipInLoader />;
 ModalWithTooltipInLoaderStory.story = {
   name: 'Modal With Tooltip In Loader',
-  parameters: { creevey: { captureElement: '[data-comp-name~="Loader"]' } },
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const NestedElementsInLoaderStory: CSFStory<JSX.Element> = () => <NestedElementsInLoader />;
 NestedElementsInLoaderStory.story = {
   name: 'Nested elements in loader',
-  parameters: { creevey: { captureElement: '[data-comp-name~="Loader"]' } },
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const TooltipNearLoaderStory = () => <TooltipNearLoader />;
