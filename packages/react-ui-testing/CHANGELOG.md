@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.0.1...react-ui-testing@3.1.0) (2020-06-09)
+
+
+### Features
+
+* **react-ui-testing:** add not found to test wrap ([2a3a4f5](https://github.com/skbkontur/retail-ui/commit/2a3a4f5db3a13c303e8a75141efa9116e98dbf18))
+
+
+
+
+
 ## [3.0.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.0.0...react-ui-testing@3.0.1) (2020-05-27)
 
 

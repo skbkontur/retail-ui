@@ -86,6 +86,19 @@ export default class ComboBoxTestPage extends React.Component {
             />
           </Case.Body>
         </Case>
+        <Case title="Комбобокс, который ничего не находит">
+          <Case.Body>
+            <ComboBox
+              data-tid="NotFoundComboBox"
+              getItems={withDelay(2000, q => [])}
+              value={null}
+              renderItem={x => x.value1}
+              valueToString={x => x.value1}
+              renderValue={x => x.value1}
+              itemToValue={x => x.id}
+            />
+          </Case.Body>
+        </Case>
       </CaseSuite>
     );
   }

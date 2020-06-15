@@ -47,7 +47,6 @@ version = "2019.2"
 project {
 
     vcsRoot(RetailUiTags)
-    vcsRoot(RetailUi)
     vcsRoot(ReactUiTestingTags)
     vcsRoot(ReactUiValidationsTags)
 
@@ -100,7 +99,7 @@ object RunAll : BuildType({
     type = BuildTypeSettings.Type.COMPOSITE
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
 
         showDependenciesChanges = true
     }
@@ -207,20 +206,6 @@ object ReactUiValidationsTags : GitVcsRoot({
     useTagsAsBranches = true
 })
 
-object RetailUi : GitVcsRoot({
-    name = "retail-ui"
-    url = "https://github.com/skbkontur/retail-ui.git"
-    branchSpec = """
-        +:refs/heads/*
-        +:refs/tags/*
-    """.trimIndent()
-    useTagsAsBranches = true
-    authMethod = password {
-        userName = "skbkontur-bot"
-        password = "credentialsJSON:8159ccad-3d3e-43fa-9684-5cd8d9e83d0e"
-    }
-})
-
 object RetailUiTags : GitVcsRoot({
     name = "retail-ui tags"
     url = "https://github.com/skbkontur/retail-ui.git"
@@ -249,7 +234,7 @@ object ReactUI_BuildRetailUi : BuildType({
     """.trimIndent()
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -280,7 +265,7 @@ object ReactUI_LintTest : BuildType({
     artifactRules = "packages/react-ui-smoke-test/temp/reactUIControls.png => smokeReactUI.zip"
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -332,7 +317,7 @@ object ReactUI_Publish : BuildType({
     }
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -386,7 +371,7 @@ object ReactUI_ScreenshotTests : BuildType({
     artifactRules = "packages/react-ui/.creevey/report => report.zip"
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -488,7 +473,7 @@ object SeleniumTesting_Test : BuildType({
     }
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -545,7 +530,7 @@ object Validations_Build : BuildType({
     """.trimIndent()
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {
@@ -586,7 +571,7 @@ object Validations_LintTest : BuildType({
     name = "Lint/Test"
 
     vcs {
-        root(RetailUi)
+        root(DslContext.settingsRoot)
     }
 
     steps {

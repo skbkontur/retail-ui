@@ -1,13 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-
-const enableReactTesting = process.env.enableReactTesting;
+const isTestEnv = process.env.NODE_ENV === 'test';
 
 module.exports = async ({ config, mode }) => {
   config.devtool = 'eval-source-map';
 
-  if (enableReactTesting) {
+  if (isTestEnv) {
     // needs to be inserted before React (i.e. config.js)
     config.entry.unshift('react-ui-testing/react-selenium-testing');
   }
@@ -53,7 +52,7 @@ module.exports = async ({ config, mode }) => {
 
   config.plugins.push(
     new webpack.DefinePlugin({
-      'process.env.enableReactTesting': JSON.stringify(enableReactTesting),
+      'process.env.enableReactTesting': JSON.stringify(isTestEnv),
     }),
     new ForkTsCheckerWebpackPlugin({
       tsconfig: path.resolve(__dirname, '../prod.tsconfig.json'),

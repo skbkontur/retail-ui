@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.3.0...@skbkontur/react-ui@2.3.1) (2020-06-09)
+
+
+### Bug Fixes
+
+* **FxInput:** add prop `disabled` to button `restore` ([f4b3723](https://github.com/skbkontur/retail-ui/commit/f4b372386b1d7fa9a9ae761e6d20d3ad0d097386)), closes [#2050](https://github.com/skbkontur/retail-ui/issues/2050)
+* **Gapped:** fix left margin for single child ([7bf690a](https://github.com/skbkontur/retail-ui/commit/7bf690afabfff99095e2b1d183c9744e886d7917))
+* **react-ui:** use NODE_ENV=test for animations disabling ([d1fda47](https://github.com/skbkontur/retail-ui/commit/d1fda4755e3b38248aa51d9e06a4a068c13b770e))
+
+
+
+
+
 # [2.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.2.0...@skbkontur/react-ui@2.3.0) (2020-05-27)
 
 
