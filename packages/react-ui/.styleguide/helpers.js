@@ -6,6 +6,7 @@ const { version: styleguidistVersion } = require('react-styleguidist/package.jso
 const { getPackageInfo } = require('../scripts/package');
 
 const ROOT_DIR = path.join(__dirname, 'build');
+const DEPLOY_DIR = path.join(__dirname, 'deploy');
 const VERSION_DIR = path.join(ROOT_DIR, packageVersion);
 const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
@@ -157,4 +158,5 @@ module.exports = {
   removeUnsupportedConfigOptions,
   ROOT_DIR,
   VERSION_DIR,
+  DEPLOY_DIR,
 };
