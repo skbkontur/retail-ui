@@ -1,7 +1,9 @@
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 
-export const getSelectTheme = (theme: Theme): Theme => {
+import { SelectProps } from './Select';
+
+export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Theme => {
   return ThemeFactory.create(
     {
       btnBorderWidth: theme.selectBorderWidth,
@@ -9,24 +11,24 @@ export const getSelectTheme = (theme: Theme): Theme => {
 
       btnLineHeightSmall: theme.selectLineHeightSmall,
       btnFontSizeSmall: theme.selectFontSizeSmall,
-      btnPaddingXSmall: theme.selectPaddingXSmall,
+      btnPaddingXSmall: props._icon ? theme.btnPaddingXSmall : theme.selectPaddingXSmall,
       btnPaddingYSmall: theme.selectPaddingYSmall,
-      btnBorderRadiusSmall: theme.selectBorderRadiusSmall,
       btnPaddingIconSmall: theme.selectPaddingIconSmall,
+      btnBorderRadiusSmall: theme.selectBorderRadiusSmall,
 
       btnLineHeightMedium: theme.selectLineHeightMedium,
       btnFontSizeMedium: theme.selectFontSizeMedium,
-      btnPaddingXMedium: theme.selectPaddingXMedium,
+      btnPaddingXMedium: props._icon ? theme.btnPaddingXMedium : theme.selectPaddingXMedium,
       btnPaddingYMedium: theme.selectPaddingYMedium,
-      btnBorderRadiusMedium: theme.selectBorderRadiusMedium,
       btnPaddingIconMedium: theme.selectPaddingIconMedium,
+      btnBorderRadiusMedium: theme.selectBorderRadiusMedium,
 
       btnLineHeightLarge: theme.selectLineHeightLarge,
       btnFontSizeLarge: theme.selectFontSizeLarge,
-      btnPaddingXLarge: theme.selectPaddingXLarge,
+      btnPaddingXLarge: props._icon ? theme.btnPaddingXLarge : theme.selectPaddingXLarge,
       btnPaddingYLarge: theme.selectPaddingYLarge,
-      btnBorderRadiusLarge: theme.selectBorderRadiusLarge,
       btnPaddingIconLarge: theme.selectPaddingIconLarge,
+      btnBorderRadiusLarge: theme.selectBorderRadiusLarge,
     },
     theme,
   );

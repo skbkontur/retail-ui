@@ -235,8 +235,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <ThemeContext.Consumer>
         {theme => {
-          this.theme = getSelectTheme(theme);
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+          this.theme = theme;
+          return (
+            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -341,6 +343,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     if (this.props._icon) {
       Object.assign(buttonProps, {
         icon: this.props._icon,
+        _noRightPadding: true,
       });
     }
 
@@ -370,25 +373,37 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getLabelPaddingRight(): number {
-    const getIconPadding = () => {
+    const getArrowPadding = () => {
       switch (this.props.size) {
         case 'large':
-          return this.theme.selectPaddingIconLarge;
+          return this.theme.selectPaddingArrowLarge;
         case 'medium':
-          return this.theme.selectPaddingIconMedium;
+          return this.theme.selectPaddingArrowMedium;
         case 'small':
         default:
-          return this.theme.selectPaddingIconSmall;
+          return this.theme.selectPaddingArrowSmall;
       }
     };
     const ARROW_WIDTH = 8;
-    const arrowLeftPadding = parseFloat(getIconPadding()) || 0;
+    const arrowLeftPadding = parseFloat(getArrowPadding()) || 0;
 
     return ARROW_WIDTH + arrowLeftPadding + (this.props._icon ? 10 : 0) + this.getLegacyArrowShift();
   }
 
   private getLegacyArrowShift(): number {
-    return this.props.use === 'link' ? 10 : 1;
+    const getSelectPadding = () => {
+      switch (this.props.size) {
+        case 'large':
+          return this.theme.selectPaddingXLarge;
+        case 'medium':
+          return this.theme.selectPaddingXMedium;
+        case 'small':
+        default:
+          return this.theme.selectPaddingXSmall;
+      }
+    };
+    const selectPadding = parseFloat(getSelectPadding()) || 0;
+    return this.props.use === 'link' ? 10 : 1 + (this.props._icon ? selectPadding : 0);
   }
 
   private renderLinkButton(params: ButtonParams): React.ReactNode {

@@ -502,7 +502,10 @@ export class DefaultTheme {
   public static get selectBorderRadiusSmall() {
     return this.controlBorderRadiusSmall;
   }
-  public static selectPaddingIconSmall = '10px';
+  public static get selectPaddingIconSmall() {
+    return this.btnPaddingIconSmall;
+  }
+  public static selectPaddingArrowSmall = '10px';
   public static get selectLineHeightMedium() {
     return this.controlLineHeightMedium;
   }
@@ -516,7 +519,10 @@ export class DefaultTheme {
   public static get selectBorderRadiusMedium() {
     return this.controlBorderRadiusMedium;
   }
-  public static selectPaddingIconMedium = '10px';
+  public static get selectPaddingIconMedium() {
+    return this.btnPaddingIconMedium;
+  }
+  public static selectPaddingArrowMedium = '10px';
   public static get selectLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
@@ -530,7 +536,10 @@ export class DefaultTheme {
   public static get selectBorderRadiusLarge() {
     return this.controlBorderRadiusLarge;
   }
-  public static selectPaddingIconLarge = '13px';
+  public static get selectPaddingIconLarge() {
+    return this.btnPaddingIconLarge;
+  }
+  public static selectPaddingArrowLarge = '13px';
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }
