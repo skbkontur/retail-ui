@@ -685,7 +685,7 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
           <Input size={size} prefix="Prefix" defaultValue="Value" />
         </div>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <div style={{ ...styles, width: 100 }}>Suffix</div>
         <div style={styles}>
           <Input size={size} suffix="suffix" placeholder="Placeholder" />

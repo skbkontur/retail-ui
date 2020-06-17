@@ -239,7 +239,7 @@ const styles = {
       padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
       padding-left: ${t.inputPaddingXSmall};
       padding-right: ${t.inputPaddingXSmall};
-      line-height: normal;
+      line-height: normal !important;
     `;
   },
 
@@ -262,7 +262,7 @@ const styles = {
       padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
       padding-left: ${t.inputPaddingXMedium};
       padding-right: ${t.inputPaddingXMedium};
-      line-height: normal;
+      line-height: normal !important;
     `;
   },
 
@@ -285,7 +285,7 @@ const styles = {
       padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
       padding-left: ${t.inputPaddingXLarge};
       padding-right: ${t.inputPaddingXLarge};
-      line-height: normal;
+      line-height: normal !important;
     `;
   },
 
