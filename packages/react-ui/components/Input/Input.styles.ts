@@ -307,9 +307,6 @@ const styles = {
       display: flex;
       flex-shrink: 0;
       height: 100%;
-      min-width: ${t.inputPaddingIconSmall};
-      padding-left: ${t.inputPaddingIconSmall};
-      margin-left: -${t.inputPaddingIconSmall};
 
       &::before {
         content: '\\a0';
@@ -324,8 +321,6 @@ const styles = {
       justify-self: flex-end;
       margin: 0 0 0 auto;
       padding-left: 0;
-      padding-right: ${t.inputPaddingIconSmall};
-      margin-right: -${t.inputPaddingIconSmall};
     `;
   },
 
@@ -352,9 +347,6 @@ const styles = {
       display: flex;
       flex-shrink: 0;
       height: 100%;
-      min-width: ${t.inputPaddingIconMedium};
-      padding-left: ${t.inputPaddingIconMedium};
-      margin-left: -${t.inputPaddingIconMedium};
 
       &::before {
         content: '\\a0';
@@ -369,8 +361,6 @@ const styles = {
       justify-self: flex-end;
       margin: 0 0 0 auto;
       padding-left: 0;
-      padding-right: ${t.inputPaddingIconMedium};
-      margin-right: -${t.inputPaddingIconMedium};
     `;
   },
 
@@ -397,9 +387,6 @@ const styles = {
       display: flex;
       flex-shrink: 0;
       height: 100%;
-      min-width: ${t.inputPaddingIconLarge};
-      padding-left: ${t.inputPaddingIconLarge};
-      margin-left: -${t.inputPaddingIconLarge};
 
       &::before {
         content: '\\a0';
@@ -414,8 +401,6 @@ const styles = {
       justify-self: flex-end;
       margin: 0 0 0 auto;
       padding-left: 0;
-      padding-right: ${t.inputPaddingIconLarge};
-      margin-right: -${t.inputPaddingIconLarge};
     `;
   },
 
