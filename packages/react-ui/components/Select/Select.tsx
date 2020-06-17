@@ -32,7 +32,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { jsStyles } from './Select.styles';
-import { getVariablesSelect } from './selectTheme';
+import { getSelectTheme } from './selectTheme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -102,7 +102,6 @@ export interface SelectState<TValue> {
 interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
-const SelectThemeContext = ThemeContext;
 
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
@@ -236,23 +235,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <ThemeContext.Consumer>
         {theme => {
-          const customTheme = getVariablesSelect(theme);
-          return this.renderTheme(customTheme);
+          this.theme = getSelectTheme(theme);
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
-    );
-  }
-
-  public renderTheme(customTheme: Theme) {
-    return (
-      <SelectThemeContext.Provider value={customTheme}>
-        <SelectThemeContext.Consumer>
-          {theme => {
-            this.theme = theme;
-            return this.renderMain();
-          }}
-        </SelectThemeContext.Consumer>
-      </SelectThemeContext.Provider>
     );
   }
 
