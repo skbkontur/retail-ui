@@ -346,7 +346,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       ...filterProps(this.props, PASS_BUTTON_PROPS),
       align: 'left' as React.CSSProperties['textAlign'],
       disabled: this.props.disabled,
-      _noPadding: true,
       width: '100%',
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
@@ -355,8 +354,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (this.props._icon) {
       Object.assign(buttonProps, {
-        _noPadding: false,
-        _noRightPadding: true,
         icon: this.props._icon,
       });
     }
@@ -364,12 +361,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const labelProps = {
       className: cn({
         [jsStyles.label()]: this.props.use !== 'link',
-        [jsStyles.labelWithLeftIcon()]: !!this.props._icon,
         [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
-        paddingRight: (buttonProps.size === 'large' ? 31 : 28) + (this.props._icon ? 10 : 0),
+        paddingRight: this.getLabelPaddingRight(),
       },
     };
 
@@ -380,23 +376,33 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         <span {...labelProps}>
           <span className={jsStyles.labelText()}>{params.label}</span>
         </span>
-        <div className={this.getArrowWrapClassName()}>
+        <div className={jsStyles.arrowWrap()} style={{ right: this.getLegacyArrowShift() }}>
           <div className={cn(jsStyles.arrow(this.theme), useIsCustom && jsStyles.customUseArrow())} />
         </div>
       </Button>
     );
   }
 
-  private getArrowWrapClassName() {
-    switch (this.props.size) {
-      case 'large':
-        return cn(jsStyles.arrowWrap(), jsStyles.arrowWrapLarge(this.theme));
-      case 'medium':
-        return cn(jsStyles.arrowWrap(), jsStyles.arrowWrapMedium(this.theme));
-      case 'small':
-      default:
-        return cn(jsStyles.arrowWrap(), jsStyles.arrowWrapSmall(this.theme));
-    }
+  private getLabelPaddingRight(): number {
+    const getIconPadding = () => {
+      switch (this.props.size) {
+        case 'large':
+          return this.theme.selectPaddingIconLarge;
+        case 'medium':
+          return this.theme.selectPaddingIconMedium;
+        case 'small':
+        default:
+          return this.theme.selectPaddingIconSmall;
+      }
+    };
+    const ARROW_WIDTH = 8;
+    const arrowLeftPadding = parseFloat(getIconPadding()) || 0;
+
+    return ARROW_WIDTH + arrowLeftPadding + (this.props._icon ? 10 : 0) + this.getLegacyArrowShift();
+  }
+
+  private getLegacyArrowShift(): number {
+    return this.props.use === 'link' ? 10 : 1;
   }
 
   private renderLinkButton(params: ButtonParams): React.ReactNode {
