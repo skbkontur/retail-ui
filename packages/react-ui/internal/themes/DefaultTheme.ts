@@ -1153,33 +1153,38 @@ export class DefaultTheme {
   public static get spinnerCaptionColor() {
     return this.gray;
   }
-  public static get spinnerFontSizeSmall() {
-    return '14px';
+  public static spinnerFontSizeSmall = '14px';
+  public static spinnerFontSizeMedium = '16px';
+  public static spinnerFontSizeLarge = '18px';
+  public static spinnerLineHeightSmall = '1';
+  public static spinnerLineHeightMedium = '1.375';
+  public static spinnerLineHeightLarge = '1.33';
+  public static spinnerPaddingXSmall = '8px';
+  public static spinnerPaddingYMedium = '-6px';
+  public static spinnerPaddingYLarge = '-8px';
+  //#endregion
+  //#region SpinnerOld
+  public static get spinnerOldBgColor() {
+    return this.grayXLight;
   }
-  public static get spinnerFontSizeMedium() {
-    return '16px';
+  public static get spinnerOldColor() {
+    return this.red;
   }
-  public static get spinnerFontSizeLarge() {
-    return '18px';
+  public static get spinnerOldDimmedColor() {
+    return this.gray;
   }
-  public static get spinnerLineHeightSmall() {
-    return '1';
+  public static get spinnerOldCaptionColor() {
+    return this.gray;
   }
-  public static get spinnerLineHeightMedium() {
-    return '1.375';
-  }
-  public static get spinnerLineHeightLarge() {
-    return '1.33';
-  }
-  public static get spinnerPaddingXSmall() {
-    return '8px';
-  }
-  public static get spinnerPaddingYMedium() {
-    return '-6px';
-  }
-  public static get spinnerPaddingYLarge() {
-    return '-8px';
-  }
+  public static spinnerOldFontSizeSmall = '14px';
+  public static spinnerOldFontSizeMedium = '14px';
+  public static spinnerOldFontSizeLarge = '14px';
+  public static spinnerOldLineHeightSmall = 'inherit';
+  public static spinnerOldLineHeightMedium = 'inherit';
+  public static spinnerOldLineHeightLarge = 'inherit';
+  public static spinnerOldPaddingXSmall = '0px';
+  public static spinnerOldPaddingYMedium = '0px';
+  public static spinnerOldPaddingYLarge = '0px';
   //#endregion
 }
 

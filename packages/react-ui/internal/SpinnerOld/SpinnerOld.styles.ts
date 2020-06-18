@@ -53,8 +53,7 @@ const styles = {
 
   caption(t: Theme) {
     return css`
-      font-size: ${t.spinnerFontSizeSmall};
-      color: ${t.spinnerCaptionColor};
+      color: ${t.spinnerOldCaptionColor};
     `;
   },
 
@@ -71,20 +70,29 @@ const styles = {
     `;
   },
 
-  captionRight(t: Theme) {
+  mini(t: Theme) {
     return css`
-      margin-left: ${t.spinnerPaddingXSmall};
-      font-size: ${t.spinnerFontSizeSmall};
-      line-height: ${t.spinnerLineHeightSmall};
+      margin-left: ${t.spinnerOldPaddingXSmall};
+      font-size: ${t.spinnerOldFontSizeSmall};
+      line-height: ${t.spinnerOldLineHeightSmall};
     `;
   },
 
-  captionBottom(t: Theme) {
+  normal(t: Theme) {
     return css`
       display: block;
-      font-size: ${t.spinnerFontSizeMedium};
-      line-height: ${t.spinnerLineHeightMedium};
-      margin-top: ${t.spinnerPaddingYMedium};
+      font-size: ${t.spinnerOldFontSizeMedium};
+      line-height: ${t.spinnerOldLineHeightMedium};
+      margin-top: ${t.spinnerOldPaddingYMedium};
+    `;
+  },
+
+  big(t: Theme) {
+    return css`
+      display: block;
+      font-size: ${t.spinnerOldFontSizeLarge};
+      line-height: ${t.spinnerOldLineHeightLarge};
+      margin-top: ${t.spinnerOldPaddingYLarge};
     `;
   },
 

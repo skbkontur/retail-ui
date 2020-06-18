@@ -33,14 +33,14 @@ describe('SpinnerOld', () => {
 
     it('renders correct default SpinnerOld caption text', () => {
       const component = render();
-      const captionText = component.find(`.${jsStyles.captionBottom(DEFAULT_THEME as any)}`).text();
+      const captionText = component.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`).text();
 
       expect(captionText).toEqual('Загрузка');
     });
 
     it('prints correct caption text', () => {
       const component = render({ caption: 'test' });
-      const captionText = component.find(`.${jsStyles.captionBottom(DEFAULT_THEME as any)}`).text();
+      const captionText = component.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`).text();
 
       expect(captionText).toEqual('test');
     });
@@ -48,7 +48,7 @@ describe('SpinnerOld', () => {
     it('should render mini SpinnerOld', () => {
       const component = render({ type: 'mini' });
       const circle = component.find(SpinnerOldIcon);
-      const captionRight = component.find(`.${jsStyles.captionRight(DEFAULT_THEME as any)}`);
+      const captionRight = component.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`);
 
       expect(circle).toHaveLength(1);
       expect(captionRight).toHaveLength(1);
@@ -107,7 +107,7 @@ describe('SpinnerOld', () => {
 
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper): string => {
-      return wrapper.find(`.${jsStyles.captionBottom(DEFAULT_THEME as any)}`).text();
+      return wrapper.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`).text();
     };
 
     it('render without LocaleProvider', () => {
