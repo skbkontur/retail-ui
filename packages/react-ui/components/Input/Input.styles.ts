@@ -222,70 +222,82 @@ const styles = {
 
   sizeSmall(t: Theme) {
     return css`
-      font-size: ${t.inputFontSizeSmall};
-      line-height: ${t.inputLineHeightSmall} !important;
-      padding-top: ${t.inputPaddingYSmall};
-      padding-bottom: ${t.inputPaddingYSmall};
-      padding-left: ${t.inputPaddingXSmall};
-      padding-right: ${t.inputPaddingXSmall};
-      height: ${t.inputHeightSmall};
-      border-radius: ${t.inputBorderRadiusSmall};
+      ${cssName(styles.root(t))}& {
+        font-size: ${t.inputFontSizeSmall};
+        line-height: ${t.inputLineHeightSmall} !important;
+        padding-top: ${t.inputPaddingYSmall};
+        padding-bottom: ${t.inputPaddingYSmall};
+        padding-left: ${t.inputPaddingXSmall};
+        padding-right: ${t.inputPaddingXSmall};
+        height: ${t.inputHeightSmall};
+        border-radius: ${t.inputBorderRadiusSmall};
+      }
     `;
   },
 
   sizeSmallFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.inputPaddingYSmall, '-1')};
-      padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
-      padding-left: ${t.inputPaddingXSmall};
-      padding-right: ${t.inputPaddingXSmall};
-      line-height: normal !important;
+      ${cssName(styles.root(t))}& {
+        padding-top: ${shift(t.inputPaddingYSmall, '-1')};
+        padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
+        padding-left: ${t.inputPaddingXSmall};
+        padding-right: ${t.inputPaddingXSmall};
+        line-height: normal !important;
+      }
     `;
   },
 
   sizeMedium(t: Theme) {
     return css`
-      font-size: ${t.inputFontSizeMedium};
-      line-height: ${t.inputLineHeightMedium};
-      padding-top: ${t.inputPaddingYMedium};
-      padding-bottom: ${t.inputPaddingYMedium};
-      padding-left: ${t.inputPaddingXMedium};
-      padding-right: ${t.inputPaddingXMedium};
-      height: ${t.inputHeightMedium};
-      border-radius: ${t.inputBorderRadiusMedium};
+      ${cssName(styles.root(t))}& {
+        font-size: ${t.inputFontSizeMedium};
+        line-height: ${t.inputLineHeightMedium};
+        padding-top: ${t.inputPaddingYMedium};
+        padding-bottom: ${t.inputPaddingYMedium};
+        padding-left: ${t.inputPaddingXMedium};
+        padding-right: ${t.inputPaddingXMedium};
+        height: ${t.inputHeightMedium};
+        border-radius: ${t.inputBorderRadiusMedium};
+      }
     `;
   },
 
   sizeMediumFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.inputPaddingYMedium, '-1')};
-      padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
-      padding-left: ${t.inputPaddingXMedium};
-      padding-right: ${t.inputPaddingXMedium};
-      line-height: normal !important;
+      ${cssName(styles.root(t))}& {
+        padding-top: ${shift(t.inputPaddingYMedium, '-1')};
+        padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
+        padding-left: ${t.inputPaddingXMedium};
+        padding-right: ${t.inputPaddingXMedium};
+        line-height: normal !important;
+      }
     `;
   },
 
   sizeLarge(t: Theme) {
     return css`
-      font-size: ${t.inputFontSizeLarge};
-      line-height: ${t.inputLineHeightLarge};
-      height: ${t.inputHeightLarge};
-      padding-top: ${shift(t.inputPaddingYLarge, '-1')};
-      padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
-      padding-left: ${t.inputPaddingXLarge};
-      padding-right: ${t.inputPaddingXLarge};
-      border-radius: ${t.inputBorderRadiusLarge};
+      ${cssName(styles.root(t))}& {
+        font-size: ${t.inputFontSizeLarge};
+        line-height: ${t.inputLineHeightLarge};
+        height: ${t.inputHeightLarge};
+        padding-top: ${shift(t.inputPaddingYLarge, '-1')};
+        padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
+        padding-left: ${t.inputPaddingXLarge};
+        padding-right: ${t.inputPaddingXLarge};
+        border-radius: ${t.inputBorderRadiusLarge};
+      }
     `;
   },
 
   sizeLargeFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.inputPaddingYLarge, '-2')};
-      padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
-      padding-left: ${t.inputPaddingXLarge};
-      padding-right: ${t.inputPaddingXLarge};
-      line-height: normal !important;
+      ${cssName(styles.root(t))}& {
+        padding-top: ${shift(t.inputPaddingYLarge, '-2')};
+        padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
+        padding-left: ${t.inputPaddingXLarge};
+        padding-right: ${t.inputPaddingXLarge};
+        line-height: normal !important;
+      }
     `;
   },
 
