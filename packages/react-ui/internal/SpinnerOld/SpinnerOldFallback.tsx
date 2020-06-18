@@ -2,6 +2,7 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 
 import { SPINNER_CLOUD_SIZE } from '../icons/SpinnerOldIcon';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import fallbackImage_mini from './fallback_circle.png';
 import fallbackImage_mini_dimmed from './fallback_circle_dimmed.png';
@@ -78,7 +79,7 @@ export class SpinnerOldFallback extends React.Component<SpinnerOldFallbackProps>
       marginRight: -1,
     };
 
-    if (!process.env.enableReactTesting) {
+    if (!isTestEnv) {
       cssSet.backgroundPosition = `0 -${frame * 16}px`;
     }
 

@@ -14,6 +14,7 @@ import {
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
+import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
@@ -63,11 +64,41 @@ export interface SelectProps<TValue, TItem> {
   defaultValue?: TValue;
   /** @deprecated @ignore */
   diadocLinkIcon?: React.ReactElement<any>;
+  /**
+   * Отключает использование портала
+   */
   disablePortal?: boolean;
   disabled?: boolean;
+  /**
+   * Визуально показать наличие ошибки.
+   */
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
-  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement<any> | (() => React.ReactElement<any>)>;
+  /**
+   * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
+   * `Array`, `Map`, `Immutable.Map`.
+   *
+   * Элементы воспринимаются следующим образом: если элемент — это массив, то
+   * первый элемент является значением, второй — отображается в списке,
+   * а третий – комментарий;
+   * если элемент не является массивом, то он используется и для отображения,
+   * и для значения.
+   *
+   * Для вставки разделителя можно использовать `Select.SEP`.
+   *
+   * Вставить невыделяемый элемент со своей разметкой можно так:
+   * ```
+   * <Select ...
+   *   items={[Select.static(() => <div>My Element</div>)]}
+   * />
+   * ```
+   *
+   * Чтобы добавить стандартный отступ для статического элемента:
+   * ```
+   * <Select.Item>My Element</Select.Item>
+   * ```
+   */
+  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
@@ -80,9 +111,22 @@ export interface SelectProps<TValue, TItem> {
   onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   onOpen?: () => void;
   placeholder?: React.ReactNode;
+  /**
+   * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
+   * *item*.
+   */
   renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
+  /**
+   * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
+   */
   renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
+  /**
+   * Функция для сравнения `value` с элементом из `items`
+   */
   areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
+  /**
+   * Показывать строку поиска в списке.
+   */
   search?: boolean;
   value?: TValue;
   width?: number | string;
@@ -108,87 +152,25 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static __KONTUR_REACT_UI__ = 'Select';
 
   public static propTypes = {
-    /**
-     * Функция для сравнения `value` с элементом из `items`
-     */
     areValuesEqual: PropTypes.func,
-
     defaultValue: PropTypes.any,
-
-    /**
-     * Отключает использование портала
-     */
     disablePortal: PropTypes.bool,
-
     disabled: PropTypes.bool,
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
     error: PropTypes.bool,
-
     filterItem: PropTypes.func,
-
-    /**
-     * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
-     * `Array`, `Map`, `Immutable.Map`.
-     *
-     * Элементы воспринимаются следующим образом: если элемент — это массив, то
-     * первый элемент является значением , второй — отображается в списке,
-     * а третий – комментарий;
-     * если элемент не является массивом, то он используется и для отображения,
-     * и для значения.
-     *
-     * Для вставки разделителя можно использовать `Select.SEP`.
-     *
-     * Вставить невыделяемый элемент со своей разметкой можно так:
-     * ```
-     * <Select ...
-     *   items={[Select.static(() => <div>My Element</div>)]}
-     * />
-     * ```
-     *
-     * Чтобы добавить стандартный отступ для статического элемента:
-     * ```
-     * <Select.Item>My Element</Select.Item>
-     * ```?
-     */
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-
     maxMenuHeight: PropTypes.number,
-
     maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
     placeholder: PropTypes.node,
-
-    /**
-     * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
-     * *item*.
-     */
     renderItem: PropTypes.func,
-
-    /**
-     * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-     */
     renderValue: PropTypes.func,
-
-    /**
-     * Показывать строку поиска в списке.
-     */
     search: PropTypes.bool,
-
     value: PropTypes.any,
-
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
     onValueChange: PropTypes.func,
-
     onMouseEnter: PropTypes.func,
-
     onMouseLeave: PropTypes.func,
-
     onMouseOver: PropTypes.func,
-
     onKeyDown: PropTypes.func,
   };
 
@@ -203,7 +185,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
 
-  public static static = (element: React.ReactNode | (() => React.ReactNode)) => {
+  public static static = (
+    element: React.ReactElement | (() => React.ReactElement),
+  ) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.static(element) expects element to be a valid react element.',
@@ -423,7 +407,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
       <div className={jsStyles.search()}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} />
+        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     ) : null;
 
@@ -481,9 +465,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private focusInput = (input: Input) => {
-    if (input) {
-      input.focus();
-    }
+    // fix cases when an Input is rendered in portal
+    setTimeout(() => input?.focus(), 0);
   };
 
   private refMenu = (menu: Menu) => {
@@ -635,5 +618,17 @@ function normalizeEntry(entry: any) {
 }
 
 function filterItem(value: any, item: any, pattern: string) {
+  if (item === Select.SEP) {
+    return false;
+  }
+  if (React.isValidElement(item) || (isFunction(item) && React.isValidElement((item = item())))) {
+    item = reactGetTextContent(item);
+  }
+  if (typeof item === 'number') {
+    item = item.toString(10);
+  }
+  if (typeof item !== 'string') {
+    return false;
+  }
   return item.toLowerCase().indexOf(pattern) !== -1;
 }

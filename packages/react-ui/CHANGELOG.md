@@ -3,6 +3,98 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.3.0...@skbkontur/react-ui@2.3.1) (2020-06-09)
+
+
+### Bug Fixes
+
+* **FxInput:** add prop `disabled` to button `restore` ([f4b3723](https://github.com/skbkontur/retail-ui/commit/f4b372386b1d7fa9a9ae761e6d20d3ad0d097386)), closes [#2050](https://github.com/skbkontur/retail-ui/issues/2050)
+* **Gapped:** fix left margin for single child ([7bf690a](https://github.com/skbkontur/retail-ui/commit/7bf690afabfff99095e2b1d183c9744e886d7917))
+* **react-ui:** use NODE_ENV=test for animations disabling ([d1fda47](https://github.com/skbkontur/retail-ui/commit/d1fda4755e3b38248aa51d9e06a4a068c13b770e))
+
+
+
+
+
+# [2.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.2.0...@skbkontur/react-ui@2.3.0) (2020-05-27)
+
+
+### Bug Fixes
+
+* **[combobox]:** fix DebounsedSearch bug and several bugs in test wrap ([507c189](https://github.com/skbkontur/retail-ui/commit/507c189c91a3ecdbfcf965fc41ee6a712c81bd51)), closes [#2031](https://github.com/skbkontur/retail-ui/issues/2031)
+* **Checkbox:** change variable theme `chbCheckedActiveBg` ([7fd2464](https://github.com/skbkontur/retail-ui/commit/7fd2464d4f63bc2ef0bea7561146ab7907e0255e)), closes [#1935](https://github.com/skbkontur/retail-ui/issues/1935)
+* **Input:** recovery of event trigger: onChange, onKeyDown, onKeyPress ([4aebf7a](https://github.com/skbkontur/retail-ui/commit/4aebf7afbbe1995383db739fa4f98fdbcd452462)), closes [#1938](https://github.com/skbkontur/retail-ui/issues/1938)
+* **MaskedInput:** add specific property of the IE/EDGE ([271a4c2](https://github.com/skbkontur/retail-ui/commit/271a4c2d330562a63a1753fee93ea8ddde6aa28b)), closes [#1911](https://github.com/skbkontur/retail-ui/issues/1911)
+* **react-ui:** fix tree-shaking that isn't working ([9545add](https://github.com/skbkontur/retail-ui/commit/9545add7748119fcb252e45188ebab953c47bf8e))
+* **SidePage:** add ignore mousedown on window scrollbar ([0aa3eec](https://github.com/skbkontur/retail-ui/commit/0aa3eec296cd38400870fb9d6503e8bd71c5882c)), closes [#1934](https://github.com/skbkontur/retail-ui/issues/1934)
+* **tooltip:** fix active props to RenderLayer ([347004e](https://github.com/skbkontur/retail-ui/commit/347004eb52ef52cd637379062ea8ca6c0cab7849))
+* **tooltip:** only hover&focus ([b61fb3b](https://github.com/skbkontur/retail-ui/commit/b61fb3bbadb2dca467ac42d5aef773f1f293a4ff))
+
+
+### Features
+
+* **Checkbox:** add variable theme `chbCheckedActiveShadow` ([183d198](https://github.com/skbkontur/retail-ui/commit/183d198bfc4885eb0fbcd7dcda34f6245f22d2f7))
+* **Link:** fill rel attr with 'noopener  noreferrer' ([8f3b79b](https://github.com/skbkontur/retail-ui/commit/8f3b79b82e3a0c5f63761f7f25b02914735808ac))
+
+
+
+
+
+# [2.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.1.1...@skbkontur/react-ui@2.2.0) (2020-04-29)
+
+
+### Bug Fixes
+
+* **Input:** add setTimeout for cases with autoFocus ([e90ebbc](https://github.com/skbkontur/retail-ui/commit/e90ebbcf57e33553bb7d05b44a61f76b50c0ef58)), closes [#1995](https://github.com/skbkontur/retail-ui/issues/1995)
+* **Select:** add support any types value to filterItem ([d63a4d6](https://github.com/skbkontur/retail-ui/commit/d63a4d61a267a6de9389999cdd5c8cb1d27e8233)), closes [#1996](https://github.com/skbkontur/retail-ui/issues/1996)
+* **Select:** re-fix commit with hash "e90ebbc" ([125d11b](https://github.com/skbkontur/retail-ui/commit/125d11b855c6a3fc99eaa9b38b181ac86be62be4)), closes [#1995](https://github.com/skbkontur/retail-ui/issues/1995)
+* **Select:** set width to 100% ([b924d00](https://github.com/skbkontur/retail-ui/commit/b924d00aa6d01ffbe528f2223ffa2f4c7128ae3d)), closes [#1994](https://github.com/skbkontur/retail-ui/issues/1994)
+* **SidePage:** make sidepage to not overlap the rest of the page ([e180c31](https://github.com/skbkontur/retail-ui/commit/e180c3148048b452e1b3b67f9ed0f4b667334ebb)), closes [#1949](https://github.com/skbkontur/retail-ui/issues/1949)
+* **Tooltip:** set default value for `box-sizing`, due to `reset.css` ([5afa08d](https://github.com/skbkontur/retail-ui/commit/5afa08df20a459bde885f26cb4dafb06c296413d)), closes [#2008](https://github.com/skbkontur/retail-ui/issues/2008)
+* **TopBar:** fix noShadow prop ([4ba47af](https://github.com/skbkontur/retail-ui/commit/4ba47af14eb2baf05383bf9270ae99a6195e0e4f)), closes [#1997](https://github.com/skbkontur/retail-ui/issues/1997)
+
+
+### Features
+
+* **TokenInput:** new parameter 'onAddItem' in 'renderAddButton' prop ([6bcfcc6](https://github.com/skbkontur/retail-ui/commit/6bcfcc6a1a2c32592d361b657b0888402219681e))
+
+
+
+
+
+## [2.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.1.0...@skbkontur/react-ui@2.1.1) (2020-04-14)
+
+
+### Bug Fixes
+
+* **Radio:** add styles for `checked:hover` ([1e99755](https://github.com/skbkontur/retail-ui/commit/1e9975532cc8e4edf15da2572c7914b03037d12a)), closes [#1979](https://github.com/skbkontur/retail-ui/issues/1979)
+* **Toggle:** add custom boxShadow for toggle ([1922285](https://github.com/skbkontur/retail-ui/commit/1922285bd65cca03b79047f8b09f484ec433bba2))
+
+
+
+
+
+# [2.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.0.0...@skbkontur/react-ui@2.1.0) (2020-04-07)
+
+
+### Bug Fixes
+
+* **logotype:** paddings, icon with figma ([6a84800](https://github.com/skbkontur/retail-ui/commit/6a848008b7f431b7294786f5e36155be5b433565))
+* **textarea:** fix react warning ([647f9f4](https://github.com/skbkontur/retail-ui/commit/647f9f4ca0fa7484d974a4ea7a11a0b49d087bd0))
+
+
+### Features
+
+* **Modal:** add 'disableFocusLock' prop ([c046c38](https://github.com/skbkontur/retail-ui/commit/c046c386d1439044ba7ee869e9ce57b203841b90))
+* **ThemeFactory:** accept a base theme as a second arg of create method ([b92b20b](https://github.com/skbkontur/retail-ui/commit/b92b20bcac53face9280dd5951e0cb467b34d4a4))
+* **TokenInput:** new prop 'renderAddButton' ([06a2010](https://github.com/skbkontur/retail-ui/commit/06a201064db9f929aa8b7ff8e35f291457f328c8))
+* **TokenInput:** new prop "onInputValueChange" ([b621c8d](https://github.com/skbkontur/retail-ui/commit/b621c8d8eadbdbb88a7d6fcfd88522fc5ed879a4))
+* **TokenInput:** new public api method 'reset' ([14df810](https://github.com/skbkontur/retail-ui/commit/14df810b1b53896c62c18d16dc0a1d1aef94ee2f))
+
+
+
+
+
 # 2.0.0 (2020-03-24)
 
 

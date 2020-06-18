@@ -4,7 +4,7 @@ const { copySync, removeSync, emptyDirSync } = require('fs-extra');
 const { getPackageInfo, TAGS } = require('../scripts/package');
 const { distTag, publishVersion } = getPackageInfo();
 const { LATEST, LTS, UNSTABLE, OLD } = TAGS;
-const { ROOT_DIR, VERSION_DIR } = require('./helpers');
+const { ROOT_DIR, VERSION_DIR, DEPLOY_DIR } = require('./helpers');
 
 const ROOT_CONFIG = path.join(__dirname, 'config/root.config.js');
 const VERSION_CONFIG = path.join(__dirname, 'config/version.config.js');
@@ -13,6 +13,10 @@ const buildConfig = config => {
   execSync(`yarn styleguidist build --config ${config}`, {
     shell: true,
   });
+  // styleguidist clears the directory before each build,
+  // so we need to copy the files somewhere after each one
+  // in order to deploy them together
+  copySync(ROOT_DIR, DEPLOY_DIR, { overwrite: true });
 };
 
 const buildStyleguideRoot = () => {

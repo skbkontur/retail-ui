@@ -47,7 +47,9 @@ class TopBarDropdownWithButton extends React.Component {
   private close = () => this.ref && this.ref.close();
 }
 
-export default { title: 'TopBar' };
+const Wrapper = (storyFn: () => JSX.Element) => <div style={{ width: 1024 }}>{storyFn()}</div>;
+
+export default { title: 'TopBar', decorators: [Wrapper] };
 
 export const TopBarOld = () => (
   <TopBar

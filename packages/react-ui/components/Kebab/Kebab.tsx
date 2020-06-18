@@ -6,12 +6,13 @@ import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/
 import { Icon as Icon20 } from '../../internal/icons/20px';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { tabListener } from '../../lib/events/tabListener';
-import { PopupMenu , PopupMenuCaptionProps } from '../../internal/PopupMenu';
+import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupPosition } from '../../internal/Popup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../../internal/icons/16px';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { jsStyles } from './Kebab.styles';
 
@@ -57,7 +58,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: isTestEnv,
   };
 
   public state = {

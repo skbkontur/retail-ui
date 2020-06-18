@@ -7,6 +7,8 @@ import { Input } from '../../Input';
 import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
 import { Token, TokenColors } from '../../Token';
 import { delay } from '../../../lib/utils';
+import { MenuItem } from '../../MenuItem';
+import { isTestEnv } from '../../../lib/currentEnvironment';
 
 interface TokenModel {
   id?: string;
@@ -20,7 +22,7 @@ const FixedWidthDecorator = (storyFn: StoryFn<JSX.Element>) => (
 );
 
 async function getItems(query: string) {
-  if (!process.env.enableReactTesting) {
+  if (!isTestEnv) {
     await delay(400);
   }
   return ['aaa', 'bbb'].filter(s => s.includes(query));
@@ -330,3 +332,32 @@ export const Disabled = () => {
   );
 };
 Disabled.story = { name: 'disabled' };
+
+export const CustomAddButton: CSFStory<JSX.Element> = () => {
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      renderAddButton={value => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
+    />
+  );
+};
+CustomAddButton.story = {
+  name: 'custom add button',
+  parameters: {
+    creevey: {
+      tests: {
+        async addButton() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('zzz')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};

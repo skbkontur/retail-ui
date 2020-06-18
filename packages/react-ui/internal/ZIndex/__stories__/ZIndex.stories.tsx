@@ -18,7 +18,7 @@ import { Toast } from '../../../components/Toast';
 import { Input } from '../../../components/Input';
 import { SidePage } from '../../../components/SidePage';
 import { ToastView } from '../../../components/Toast/ToastView';
-import { LoaderAndButton } from '../../../components/Loader/__stories__/Loader.stories';
+import { LoaderAndButton } from '../../../components/Loader/__stories__/LoaderAndButton';
 import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { delay } from '../../../lib/utils';
@@ -694,13 +694,13 @@ LoaderCoversTooltipStory.story = { name: 'Loader covers tooltip' };
 export const ModalWithTooltipInLoaderStory: CSFStory<JSX.Element> = () => <ModalWithTooltipInLoader />;
 ModalWithTooltipInLoaderStory.story = {
   name: 'Modal With Tooltip In Loader',
-  parameters: { creevey: { captureElement: '[data-comp-name~="Loader"]' } },
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const NestedElementsInLoaderStory: CSFStory<JSX.Element> = () => <NestedElementsInLoader />;
 NestedElementsInLoaderStory.story = {
   name: 'Nested elements in loader',
-  parameters: { creevey: { captureElement: '[data-comp-name~="Loader"]' } },
+  parameters: { creevey: { captureElement: null } },
 };
 
 export const TooltipNearLoaderStory = () => <TooltipNearLoader />;
@@ -787,8 +787,6 @@ LoaderInSidePageBody.story = {
     creevey: {
       tests: {
         async ['is covered by Header and Footer']() {
-          const element = await this.browser.findElement({ css: `[data-tid='SidePage__root']` });
-
           await this.browser.executeScript(function() {
             const sidePage = window.document.querySelector(`[data-tid='SidePage__container']`) as HTMLElement;
 
@@ -799,7 +797,7 @@ LoaderInSidePageBody.story = {
 
           await delay(500);
 
-          await this.expect(await element.takeScreenshot()).to.matchImage('is covered by Header and Footer');
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
         },
       },
     },

@@ -99,6 +99,7 @@ const styles = {
 
       &:active ${cssName(styles.box(t))} {
         background: ${t.checkboxCheckedActiveBg};
+        box-shadow: ${t.checkboxCheckedActiveShadow};
       }
     `;
   },
@@ -117,6 +118,7 @@ const styles = {
       }
       &:active ${cssName(styles.box(t))} {
         background: ${t.checkboxCheckedActiveBg};
+        box-shadow: ${t.checkboxCheckedActiveShadow};
       }
     `;
   },

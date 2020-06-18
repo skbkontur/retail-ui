@@ -94,12 +94,13 @@ export class Gapped extends React.Component<GappedProps> {
     return (
       <div style={rootStyle}>
         <div style={contStyle}>
-          {React.Children.map(children, (child, index) => {
-            if (!child) {
-              return child;
-            }
+          {React.Children.toArray(children).map((child, index) => {
             const marginLeft = index === 0 ? undefined : gap;
-            return <span style={{ marginLeft, ...itemStyle }}>{child}</span>;
+            return (
+              <span key={index} style={{ marginLeft, ...itemStyle }}>
+                {child}
+              </span>
+            );
           })}
         </div>
       </div>

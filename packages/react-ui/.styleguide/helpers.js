@@ -6,6 +6,7 @@ const { version: styleguidistVersion } = require('react-styleguidist/package.jso
 const { getPackageInfo } = require('../scripts/package');
 
 const ROOT_DIR = path.join(__dirname, 'build');
+const DEPLOY_DIR = path.join(__dirname, 'deploy');
 const VERSION_DIR = path.join(ROOT_DIR, packageVersion);
 const COMPONENTS_DIR = path.resolve(__dirname, '../components');
 
@@ -77,6 +78,7 @@ const { sections, components } = findInComponents(COMPONENTS_DIR);
 const getCommonSections = () => {
   return [
     { name: 'Readme', content: path.join(__dirname, '../README.md'), exampleMode: 'expand' },
+    { name: 'Ecosystem', content: path.join(__dirname, '../../../README.md') },
     { name: 'Changelog', content: path.join(__dirname, '../CHANGELOG.md') },
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
     { name: 'Migration', content: path.join(__dirname, '../MIGRATION.md'), exampleMode: 'expand' },
@@ -156,4 +158,5 @@ module.exports = {
   removeUnsupportedConfigOptions,
   ROOT_DIR,
   VERSION_DIR,
+  DEPLOY_DIR,
 };

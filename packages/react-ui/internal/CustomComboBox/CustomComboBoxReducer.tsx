@@ -78,13 +78,11 @@ export const Effect: EffectFactory = {
     searchEffect(dispatch, getState, getProps, getInstance);
   }, DEBOUNCE_DELAY),
   CancelRequest: (dispatch, getState, getProps, getInstance) => {
+    Effect.DebouncedSearch.cancel();
     getInstance().cancelSearch();
   },
   Blur: (dispatch, getState, getProps) => {
     const { onBlur } = getProps();
-
-    Effect.DebouncedSearch.cancel();
-
     if (onBlur) {
       onBlur();
     }

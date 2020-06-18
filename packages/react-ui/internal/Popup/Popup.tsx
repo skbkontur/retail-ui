@@ -15,6 +15,7 @@ import { isFunction, isIE11, isEdge } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { safePropTypesInstanceOf } from "../../lib/SSRSafe";
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -172,7 +173,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     pinOffset: 16,
     hasPin: false,
     hasShadow: false,
-    disableAnimations: Boolean(process.env.enableReactTesting),
+    disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
   };

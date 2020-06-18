@@ -5,10 +5,19 @@ const styles = {
   root() {
     return css`
       height: 100%;
-      width: 100%;
       position: fixed;
       right: 0;
       top: 0;
+    `;
+  },
+
+  overlay() {
+    return css`
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
     `;
   },
 
@@ -31,6 +40,7 @@ const styles = {
       background: ${t.bgDefault};
       float: right;
       height: 100%;
+      width: 100%;
       overflow-y: auto;
       position: relative;
       white-space: normal;

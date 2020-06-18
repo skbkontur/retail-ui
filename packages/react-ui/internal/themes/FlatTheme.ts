@@ -251,6 +251,8 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static chbCheckedColor = '#fff';
   public static chbCheckedShadow = '0 0 0 1px #1768a3';
   public static chbCheckedHoverShadow = '0 0 0 1px #175590';
+  public static chbCheckedActiveShadow = '0 0 0 1px #175590';
+
   public static chbBorder = 'none';
   public static chbBorderRadius = '1px';
   public static get chbBorderColorFocus() {
@@ -330,6 +332,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static get radioCheckedBgColor() {
     return this.chbCheckedBg;
+  }
+  public static get radioCheckedHoverBgColor() {
+    return ColorFunctions.darken(this.chbCheckedBg, '5%');
   }
   //#endregion
 }

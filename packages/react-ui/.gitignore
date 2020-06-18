@@ -11,6 +11,7 @@ gemini-report
 /build
 /reports
 .styleguide/build
+.styleguide/deploy
 .storybook/build
 *.less.d.ts
 /lib/**/*.js

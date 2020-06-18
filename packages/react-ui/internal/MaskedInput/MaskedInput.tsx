@@ -80,7 +80,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     } = this.props;
 
     return (
-      <span className={jsStyles.container()}>
+      <span className={jsStyles.container()} x-ms-format-detection="none">
         <ReactInputMask
           {...inputProps}
           maskChar={null}
@@ -125,10 +125,9 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
       if (this.props.onValueChange) {
         this.props.onValueChange(event.target.value);
       }
-    }
-
-    if (this.props.onChange) {
-      this.props.onChange(event);
+      if (this.props.onChange) {
+        this.props.onChange(event);
+      }
     }
   };
 

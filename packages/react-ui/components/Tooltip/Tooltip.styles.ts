@@ -13,6 +13,7 @@ const styles = {
       right: 4px;
       top: 4px;
       width: 8px;
+      box-sizing: content-box;
 
       &:hover {
         color: ${t.tooltipCloseBtnHoverColor};
