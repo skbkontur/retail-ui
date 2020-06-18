@@ -237,6 +237,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
     return `0 0 0 1px ${this.btnPayActiveBg}`;
   }
   //#endregion
+  //#region Select
+  public static selectFontSizeMedium = '16px';
+  //#endregion
   //#region Checkbox
   public static chbShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static chbBg = 'none';
