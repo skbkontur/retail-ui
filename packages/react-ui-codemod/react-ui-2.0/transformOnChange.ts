@@ -89,6 +89,7 @@ const listOfComponents: Array<CustomJSXElement> = [
 ];
 const transformExpression = (api: API, node: any, change: CustomChange, report: () => void) => {
   const j = api.jscodeshift;
+  let modified = true;
   switch (change.conditions) {
     case ChangeCondition.RemoveFirstParam: {
       const { expression } = node.value;
@@ -103,12 +104,14 @@ const transformExpression = (api: API, node: any, change: CustomChange, report: 
             node.value.expression.params.shift();
           } else {
             report();
+            modified = false;
           }
         } else {
           node.name = change.after;
         }
       } else {
         report();
+        modified = false;
       }
       break;
     }
@@ -118,35 +121,47 @@ const transformExpression = (api: API, node: any, change: CustomChange, report: 
       break;
     }
   }
-  return node;
+  return { node, modified };
 };
 
 const transform = (file: FileInfo, api: API, JsxElement: CustomJSXElement) => {
   const j = api.jscodeshift;
   const result = j(file.source).findJSXElements(JsxElement.name);
 
+  let modified = false;
   JsxElement.changes.forEach(change => {
-    result
-      .find(j.JSXAttribute, n => n.name.name === change.before)
-      .forEach((node: any) => {
-        const report = () => {
-          api.report &&
-            api.report(
-              `${JsxElement.name}: can't transform "${change.before}" to "${change.after}". Please, try to do it manually.`,
-            );
-        };
-        node.value = transformExpression(api, node.value, change, report);
-      });
+    const jsxAttributeCollection = result.find(j.JSXAttribute, n => n.name.name === change.before);
+
+    if (!jsxAttributeCollection.length) {
+      return;
+    }
+
+    jsxAttributeCollection.forEach((node: any) => {
+      const report = () => {
+        api.report &&
+          api.report(
+            `${JsxElement.name}: can't transform "${change.before}" to "${change.after}". Please, try to do it manually.`,
+          );
+      };
+      const transformResult = transformExpression(api, node.value, change, report);
+      if (transformResult.modified) {
+        node.value = transformResult.node;
+        modified = transformResult.modified;
+      }
+    });
   });
 
-  file.source = result.toSource();
+  if (modified) {
+    file.source = result.toSource();
+  }
 
   return file;
 };
 
 export default function(fileInfo: FileInfo, api: API) {
+  const originalSource = fileInfo.source;
   const result = listOfComponents.reduce((prev, cur) => {
     return transform(prev, api, cur);
   }, fileInfo);
-  return result.source;
+  return result.source !== originalSource ? result.source : null;
 }
