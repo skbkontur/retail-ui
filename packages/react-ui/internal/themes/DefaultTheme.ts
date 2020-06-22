@@ -657,7 +657,13 @@ export class DefaultTheme {
   //#endregion
   //#region Toggle
   public static get toggleSwitcherSize() {
-    return `calc(${this.toggleHeight} - 2 * ${this.toggleBorderWidth})`;
+    const height = parseInt(this.toggleHeight, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${height - 2 * borderWidth}px`;
+  }
+  public static get toggleSwitcherWidthActive() {
+    const switcherSize = parseInt(this.toggleSwitcherSize, 10) || 0;
+    return `${switcherSize + 4}px`;
   }
   public static toggleSwitcherBorderRadius = '9px';
   public static toggleHeight = '20px';

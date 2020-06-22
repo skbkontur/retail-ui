@@ -35,7 +35,8 @@ const styles = {
         background: ${t.toggleBgChecked};
       }
       &:checked ~ ${cssName(styles.handle(t))} {
-        transform: translateX(14px);
+        transform: translateX(${t.toggleWidth}) translateX(-${t.toggleSwitcherSize}) translateX(-${t.toggleBorderWidth})
+          translateX(-${t.toggleBorderWidth});
       }
     `;
   },
@@ -130,10 +131,11 @@ const styles = {
         display: inline-block;
       }
       &:active:not(${wrapperDisabled}) ${cssName(styles.handle(t))} {
-        width: 22px;
+        width: ${t.toggleSwitcherWidthActive};
       }
       &:active:not(${wrapperDisabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
-        transform: translateX(10px);
+        transform: translateX(${t.toggleWidth}) translateX(-${t.toggleSwitcherWidthActive})
+          translateX(-${t.toggleBorderWidth}) translateX(-${t.toggleBorderWidth});
       }
     `;
   },
