@@ -86,39 +86,43 @@ const styles = {
 
   checked(t: Theme) {
     return css`
-      & ${cssName(styles.box(t))} {
-        background: ${t.checkboxCheckedBg};
-        color: ${t.checkboxCheckedColor};
-        box-shadow: ${t.checkboxCheckedShadow};
-      }
+      ${cssName(styles.root(t))}& {
+        & ${cssName(styles.box(t))} {
+          background: ${t.checkboxCheckedBg};
+          color: ${t.checkboxCheckedColor};
+          box-shadow: ${t.checkboxCheckedShadow};
+        }
 
-      &:hover ${cssName(styles.box(t))} {
-        box-shadow: ${t.checkboxCheckedHoverShadow};
-        background: ${t.checkboxCheckedHoverBg};
-      }
+        &:hover ${cssName(styles.box(t))} {
+          box-shadow: ${t.checkboxCheckedHoverShadow};
+          background: ${t.checkboxCheckedHoverBg};
+        }
 
-      &:active ${cssName(styles.box(t))} {
-        background: ${t.checkboxCheckedActiveBg};
-        box-shadow: ${t.checkboxCheckedActiveShadow};
+        &:active ${cssName(styles.box(t))} {
+          background: ${t.checkboxCheckedActiveBg};
+          box-shadow: ${t.checkboxCheckedActiveShadow};
+        }
       }
     `;
   },
 
   indeterminate(t: Theme) {
     return css`
-      & ${cssName(styles.box(t))} {
-        background: ${t.checkboxBoxIndeterminateBg};
-        color: ${t.checkboxIndeterminateBg};
-        box-shadow: ${t.checkboxCheckedShadow};
-      }
+      ${cssName(styles.root(t))}& {
+        & ${cssName(styles.box(t))} {
+          background: ${t.checkboxBoxIndeterminateBg};
+          color: ${t.checkboxIndeterminateBg};
+          box-shadow: ${t.checkboxCheckedShadow};
+        }
 
-      &:hover ${cssName(styles.box(t))} {
-        box-shadow: ${t.checkboxCheckedHoverShadow};
-        background: ${t.checkboxCheckedHoverBg};
-      }
-      &:active ${cssName(styles.box(t))} {
-        background: ${t.checkboxCheckedActiveBg};
-        box-shadow: ${t.checkboxCheckedActiveShadow};
+        &:hover ${cssName(styles.box(t))} {
+          box-shadow: ${t.checkboxCheckedHoverShadow};
+          background: ${t.checkboxCheckedHoverBg};
+        }
+        &:active ${cssName(styles.box(t))} {
+          background: ${t.checkboxCheckedActiveBg};
+          box-shadow: ${t.checkboxCheckedActiveShadow};
+        }
       }
     `;
   },
