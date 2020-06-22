@@ -92,7 +92,7 @@ export class Tabs extends React.Component<TabsProps> {
         {theme => {
           this.theme = theme;
           return (
-            <div className={cn(jsStyles.root(this.theme), vertical && jsStyles.vertical())} style={{ width }}>
+            <div className={cn(jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))} style={{ width }}>
               <TabsContext.Provider
                 value={{
                   vertical,
