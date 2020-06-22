@@ -402,13 +402,13 @@ export class DefaultTheme {
   public static btnLargeArrowLeftLoadingDelay = '0s';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
-    return this.fontSizeSmall;
+    return this.controlFontSizeSmall;
   }
   public static get btnFontSizeMedium() {
-    return this.fontSizeMedium;
+    return this.controlFontSizeMedium;
   }
   public static get btnFontSizeLarge() {
-    return this.fontSizeLarge;
+    return this.controlFontSizeLarge;
   }
   public static get btnLineHeightSmall() {
     return this.controlLineHeightSmall;
