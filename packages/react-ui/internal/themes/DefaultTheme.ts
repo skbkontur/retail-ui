@@ -208,7 +208,6 @@ export class DefaultTheme {
   public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3)';
-  public static btnBorderRadius = '2px';
   public static btnArrowBorderRadius = '2px 2px 2px 16px';
   public static btnSmallBorderRadius = '1px'; // todo: deprecated
   public static get btnBorderRadiusSmall() {
@@ -235,12 +234,17 @@ export class DefaultTheme {
   public static btnSmallArrowRight = '-8.8px';
   public static btnSmallArrowLeft = '-8px';
   public static btnSmallArrowBorderRadius = '2px 2px 2px 16px';
+  public static btnMediumArrowTop = '9px';
+  public static btnMediumArrowLength = '20.2px';
   public static btnMediumArrowLeft = '-9.8px';
   public static btnMediumArrowLeftLoadingLeft = '-208px';
   public static btnMediumArrowTransform = 'rotate(53deg) skewX(24deg) skewY(8deg)';
   public static btnDeprecatedSizeMediumFontSize = '16px';
   public static btnDeprecatedSizeMediumPaddingShift = '1';
+  public static btnLargeArrowTop = '10.2px';
+  public static btnLargeArrowLength = '22.2px';
   public static btnLargeArrowLeft = '-10px';
+  public static btnLargeArrowRight = '-10.8px';
   public static btnLargeArrowTransform = 'rotate(53deg) skewX(25deg) skewY(10deg)';
   public static btnLargeArrowBg = 'linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0)';
   public static btnDefaultBgArrowStart = '#fff';

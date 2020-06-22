@@ -128,10 +128,10 @@ const styles = {
       )};
 
       ${buttonArrowMixin(
-        '9px',
+        t.btnMediumArrowTop,
         t.btnMediumArrowLeft,
         t.btnMediumArrowRight,
-        '20.2px',
+        t.btnMediumArrowLength,
         t.btnMediumArrowTransform,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
@@ -155,10 +155,10 @@ const styles = {
       )};
 
       ${buttonArrowMixin(
-        '10.2px',
+        t.btnLargeArrowTop,
         t.btnLargeArrowLeft,
-        '-10.8px',
-        '22.2px',
+        t.btnLargeArrowRight,
+        t.btnLargeArrowLength,
         t.btnLargeArrowTransform,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
