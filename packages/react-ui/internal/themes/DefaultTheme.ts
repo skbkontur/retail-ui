@@ -137,10 +137,21 @@ export class DefaultTheme {
     return this.fontSizeSmall;
   }
   public static tokenMargin = '3px';
+  public static get tokenMarginY() {
+    return this.tokenMargin;
+  }
+  public static get tokenMarginX() {
+    return this.tokenMargin;
+  }
   public static tokenLineHeight = '1.5';
+  public static tokenPaddingY = '0px';
   public static tokenPaddingX = '4px';
   public static tokenMarginBeforeIcon = '4px';
   public static tokenBorderRadius = '1px';
+  public static tokenBorderWidth = '1px';
+  public static get tokenBorderColorDisabled() {
+    return this.tokenDisabledBg;
+  }
   public static get tokenDefaultIdle() {
     return this.grayXLight;
   }
@@ -189,6 +200,15 @@ export class DefaultTheme {
   public static get tokenBorderColorError() {
     return this.borderColorError;
   }
+  public static tokenBorderWidthFocus = '2px';
+  public static tokenLegacyTextShift = '1px';
+  public static tokenPaddingYDisabled = '1px';
+  public static get tokenPaddingXDisabled() {
+    return this.tokenPaddingX;
+  }
+  public static tokenMarginYDisabled = '2px';
+  public static tokenMarginXDisabled = '2px';
+  public static tokenShadowDisabled = 'none';
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';

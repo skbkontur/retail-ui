@@ -8,10 +8,10 @@ const styles = {
       display: inline-flex;
       align-items: center;
       border-radius: ${t.tokenBorderRadius};
-      padding: 0 ${t.tokenPaddingX};
+      padding: ${t.tokenPaddingY} ${t.tokenPaddingX};
       line-height: ${t.tokenLineHeight};
       font-size: ${t.tokenFontSize};
-      margin: ${t.tokenMargin};
+      margin: ${t.tokenMarginY} ${t.tokenMarginX};
       min-width: 0;
       word-break: break-word;
       user-select: none;
@@ -24,19 +24,18 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      box-shadow: none !important;
-      margin: 2px;
-      padding: 1px ${t.tokenPaddingX};
+      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
+      margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
-      color: ${t.tokenTextColorDisabled} !important;
+      color: ${t.tokenTextColorDisabled};
     `;
   },
 
-  text() {
+  text(t: Theme) {
     return css`
       display: inline-block;
-      padding-bottom: 1px;
+      padding-bottom: ${t.tokenLegacyTextShift};
     `;
   },
 
@@ -102,17 +101,17 @@ export const jsTokenColors = [
     ...colors,
     [name](t: Theme, v: 'error' | 'warning') {
       const warning = css`
-        box-shadow: 0 0 0 2px ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
       `;
       const error = css`
-        box-shadow: 0 0 0 2px ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
       `;
       const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
 
       return css`
         background-color: ${color(t)};
         color: ${ColorFunctions.contrast(color(t))};
-        box-shadow: 0 0 0 1px ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
 
         ${vStyle}
 
@@ -126,8 +125,7 @@ export const jsTokenColors = [
     defaultDisabled(t: Theme) {
       return css`
         background-color: ${t.tokenDisabledBg};
-        color: ${ColorFunctions.contrast(t.tokenDisabledBg)};
-        box-shadow: 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: ${t.tokenShadowDisabled}};
 
         & ${cssName(jsStyles.removeIcon(t))} {
           fill: ${t.tokenTextColorDisabled};
@@ -137,12 +135,12 @@ export const jsTokenColors = [
     },
     defaultDisabledWarning(t: Theme) {
       return css`
-        box-shadow: 0 0 0 2px ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
     defaultDisabledError(t: Theme) {
       return css`
-        box-shadow: 0 0 0 2px ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
   } as TokenColors,
