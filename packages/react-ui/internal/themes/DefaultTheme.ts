@@ -1141,7 +1141,7 @@ export class DefaultTheme {
     return this.radioFontSize;
   }
   public static get radioSizeAfter() {
-    return `calc(${this.radioSize} + 2 * ${this.radioBorderWidthFocus})`;
+    return `calc(${this.radioSize} + 2 * ${this.radioBorderWidthFocus} - 2 * ${this.radioBorderWidthCompensation})`;
   }
   public static get radioFontSize() {
     return this.fontSizeLarge;
@@ -1181,6 +1181,8 @@ export class DefaultTheme {
   }
   public static radioDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static radioLabelDisplay = 'inline-table';
+  public static radioBorderWidthCompensation = '0px';
+  public static radioMarginY = '2px';
   //#endregion
   //#region Tabs
   public static get tabFontSize() {

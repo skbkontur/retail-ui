@@ -28,6 +28,9 @@ const styles = {
   },
 
   radio(t: Theme) {
+    const radioSize = `calc(${t.radioSize} - 2 * ${t.radioBorderWidthCompensation})`;
+    const radioMarginY = `calc(${t.radioMarginY} + ${t.radioBorderWidthCompensation})`;
+    const radioMarginX = t.radioBorderWidthCompensation;
     return css`
       background-image: ${t.radioBgImage};
       border-radius: 50%;
@@ -35,12 +38,11 @@ const styles = {
       box-shadow: ${t.radioBoxShadow};
       box-sizing: border-box;
       display: inline-block;
-      height: ${t.radioSize};
-      width: ${t.radioSize};
-      margin-bottom: 2px;
-      margin-top: 2px;
+      height: ${radioSize};
+      width: ${radioSize};
       position: relative;
       vertical-align: ${t.radioVerticalAlign};
+      margin: ${radioMarginY} ${radioMarginX};
 
       ${cssName(styles.root(t))}:hover &:not(${cssName(styles.disabled(t))}) {
         background: ${t.radioHoverBg};
