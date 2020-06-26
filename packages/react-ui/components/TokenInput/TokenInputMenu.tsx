@@ -32,7 +32,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         opened={opened!}
         positions={['bottom left']}
         anchorElement={this.props.anchorElement}
-        margin={6}
+        margin={4}
         popupOffset={5}
       >
         <ComboBoxMenu

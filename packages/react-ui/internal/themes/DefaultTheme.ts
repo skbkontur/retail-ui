@@ -210,6 +210,58 @@ export class DefaultTheme {
   public static tokenMarginXDisabled = '2px';
   public static tokenShadowDisabled = 'none';
   //#endregion
+  //#region TokenInput
+  public static get tokenInputBorderColor() {
+    return this.inputBorderColor;
+  }
+  public static get tokenInputBorderColorFocus() {
+    return this.inputBorderColorFocus;
+  }
+  public static get tokenInputBorderColorError() {
+    return this.inputBorderColorError;
+  }
+  public static get tokenInputBorderColorWarning() {
+    return this.inputBorderColorWarning;
+  }
+  public static get tokenInputBorderTopColor() {
+    return this.inputBorderTopColor;
+  }
+  public static get tokenInputPlaceholderColor() {
+    return this.inputPlaceholderColor;
+  }
+  public static get tokenInputPlaceholderColorLight() {
+    return this.inputPlaceholderColorLight;
+  }
+  public static get tokenInputDisabledBg() {
+    return this.inputDisabledBg;
+  }
+  public static get tokenInputDisabledBorderColor() {
+    return this.inputDisabledBorderColor;
+  }
+  public static get tokenInputBorderWidth() {
+    return this.inputBorderWidth;
+  }
+  public static get tokenInputBorderWidthFocus() {
+    return this.inputBorderWidthFocus;
+  }
+  public static get tokenInputBg() {
+    return this.inputBg;
+  }
+  public static get tokenInputShadow() {
+    return this.inputShadow;
+  }
+  public static get tokenInputTextColorDisabled() {
+    return this.inputTextColorDisabled;
+  }
+  public static tokenInputPaddingY = '2px';
+  public static tokenInputPaddingX = '4px';
+  public static get tokenInputInnerHeight() {
+    return `calc(${this.controlHeightSmall} - 2 * ${this.tokenInputPaddingY} - 2 * ${this.tokenInputBorderWidth})`;
+  }
+  public static get tokenInputLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
   public static loaderOpacity = '0.8';
