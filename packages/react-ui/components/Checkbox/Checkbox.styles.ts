@@ -37,13 +37,14 @@ const styles = {
   },
 
   box(t: Theme) {
+    const boxSize = `calc(${t.chbBoxSize} - 2 * ${t.checkboxBorderWidthCompensation})`;
     return css`
       display: inline-flex;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
-      width: ${t.checkboxBoxSize};
-      height: ${t.checkboxBoxSize};
+      width: ${boxSize};
+      height: ${boxSize};
       flex: none;
       font-size: ${t.checkboxFontSize};
       color: ${t.checkboxTextColorDefault};
@@ -52,6 +53,7 @@ const styles = {
       box-shadow: ${t.checkboxShadow};
       background: ${t.checkboxBg};
       align-self: baseline;
+      margin: ${t.checkboxBorderWidthCompensation};
     `;
   },
 

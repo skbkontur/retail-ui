@@ -956,6 +956,7 @@ export class DefaultTheme {
   public static get chbShadowActive() {
     return this.btnDefaultActiveShadow;
   }
+  public static checkboxBorderWidthCompensation = '0px';
   //#endregion
   //#region Checkbox
   public static get checkboxFontSize() {
