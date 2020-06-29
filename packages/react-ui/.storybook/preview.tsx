@@ -4,6 +4,9 @@ import { withCreevey } from 'creevey';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
+import { FLAT_THEME_8PX } from '../lib/theming/themes/FlatTheme8px';
+import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
+import { DEFAULT_THEME_8PX } from '../lib/theming/themes/DefaultTheme8px';
 
 addParameters({
   creevey: {
@@ -24,9 +27,25 @@ addDecorator(story => (
   </div>
 ));
 
-if (process.env.STORYBOOK_FLAT_UI) {
-  addDecorator(story => <ThemeContext.Provider value={FLAT_THEME}>{story()}</ThemeContext.Provider>);
-}
+addDecorator(story => {
+  const getTheme = () => {
+    switch (true) {
+      case Boolean(process.env.STORYBOOK_8PX):
+        return DEFAULT_THEME_8PX;
+      case Boolean(process.env.STORYBOOK_FLAT_8PX):
+        return FLAT_THEME_8PX;
+      case Boolean(process.env.STORYBOOK_FLAT_UI):
+        return FLAT_THEME;
+      default:
+        return DEFAULT_THEME;
+    }
+  };
+  const theme = getTheme();
+  if (theme !== DEFAULT_THEME) {
+    return <ThemeContext.Provider value={theme}>{story()}</ThemeContext.Provider>;
+  }
+  return story();
+});
 
 addParameters({
   options: {

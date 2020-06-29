@@ -15,20 +15,40 @@ const config: CreeveyConfig = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
     },
+    // chrome8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   storybookUrl: 'http://localhost:6061',
+    // },
     chromeFlat: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
-      storybookUrl: 'http://localhost:6061',
+      storybookUrl: 'http://localhost:6062',
     },
+    // chromeFlat8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   storybookUrl: 'http://localhost:6063',
+    // },
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
     },
+    // firefox8px: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   storybookUrl: 'http://localhost:6061',
+    // },
     firefoxFlat: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      storybookUrl: 'http://localhost:6061',
+      storybookUrl: 'http://localhost:6062',
     },
+    // firefoxFlat8px: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   storybookUrl: 'http://localhost:6063',
+    // },
     ie11: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
@@ -43,11 +63,21 @@ const config: CreeveyConfig = {
       //   'ie.ensureCleanSession': true,
       // },
     },
+    // ie118px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   storybookUrl: 'http://localhost:6061',
+    // },
     ie11Flat: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      storybookUrl: 'http://localhost:6061',
+      storybookUrl: 'http://localhost:6062',
     },
+    // ie11Flat8px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   storybookUrl: 'http://localhost:6063',
+    // },
   },
 };
 
