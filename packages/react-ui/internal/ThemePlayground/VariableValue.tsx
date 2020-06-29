@@ -41,10 +41,10 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   public render() {
     const { variable, theme, baseVariables } = this.props;
     return (
-      <Gapped gap={30}>
+      <div className={jsStyles.variable(theme)}>
         <div className={jsStyles.variableName(theme)} title={variable}>{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
-      </Gapped>
+      </div>
     );
   }
 
@@ -116,7 +116,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
         onValueChange={this.handleChange}
         onBlur={this.handleBlur}
         align={'right'}
-        width={this.state.editing ? 225 : undefined}
+        width={this.state.editing ? 225 : 250}
         ref={this.inputRef}
         error={this.props.isError}
       />

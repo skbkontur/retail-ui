@@ -25,14 +25,20 @@ const styles = {
 
   sidePageBody() {
     return css`
-      padding-left: 30px;
-      padding-bottom: 30px;
+      padding: 0 30px 30px;
+    `;
+  },
+
+  variable(t: Theme) {
+    return css`
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
     `;
   },
 
   variableName(t: Theme) {
     return css`
-      margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -41,6 +47,7 @@ const styles = {
       z-index: 1;
       line-height: 34px;
       color: ${t.textColorDefault};
+      flex: 1 1 auto;
     `;
   },
 
@@ -87,11 +94,12 @@ const styles = {
     `;
   },
 
-  tabsWrapper() {
+  tabsWrapper(t: Theme) {
     return css`
       margin: 0 -32px;
       padding: 11px 32px;
       position: relative;
+      color: ${t.textColorDefault};
 
       &::after {
         content: '';

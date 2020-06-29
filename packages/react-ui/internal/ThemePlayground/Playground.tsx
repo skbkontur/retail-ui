@@ -99,7 +99,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
     const { currentThemeType, onThemeChange, is8px, on8pxChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
     const tabsOuterWrapperClass = cn({
-      [jsStyles.tabsWrapper()]: true,
+      [jsStyles.tabsWrapper(this.theme)]: true,
       [jsStyles.stickyTabsWrapper(this.theme)]: useSticky,
     });
 

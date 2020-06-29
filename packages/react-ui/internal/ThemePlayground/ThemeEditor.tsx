@@ -57,7 +57,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
     const keys = ThemeFactory.getKeys(editingTheme);
 
     return (
-      <Gapped wrap verticalAlign="middle">
+      <Gapped vertical>
         {this.state.groups.map((i: Group) => (
           <Group
             editingTheme={editingTheme}
@@ -92,23 +92,21 @@ const Group = (props: GroupProps) => {
   return variables.length > 0 ? (
     <React.Fragment>
       <h2 className={jsStyles.editorGroupHeader(currentTheme)}>{title}</h2>
-      <Gapped gap={16} wrap verticalAlign="middle">
-        {variables.map(variable => {
-          const value = editingTheme[variable] as string;
-          const isError = currentErrors[variable];
-          return (
-            <VariableValue
-              theme={currentTheme}
-              onChange={onValueChange}
-              value={value}
-              isError={isError || false}
-              variable={variable}
-              key={variable}
-              baseVariables={getBaseVariables(editingTheme, variable)}
-            />
-          );
-        })}
-      </Gapped>
+      {variables.map(variable => {
+        const value = editingTheme[variable] as string;
+        const isError = currentErrors[variable];
+        return (
+          <VariableValue
+            theme={currentTheme}
+            onChange={onValueChange}
+            value={value}
+            isError={isError || false}
+            variable={variable}
+            key={variable}
+            baseVariables={getBaseVariables(editingTheme, variable)}
+          />
+        );
+      })}
     </React.Fragment>
   ) : null;
 };
