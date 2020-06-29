@@ -1,4 +1,5 @@
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
@@ -1282,4 +1283,4 @@ export class DefaultTheme {
   //#endregion
 }
 
-export const DefaultThemeInternal = DefaultTheme;
+export const DefaultThemeInternal = exposeGetters(DefaultTheme);

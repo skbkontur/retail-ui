@@ -1,4 +1,5 @@
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 import { DefaultThemeInternal } from './DefaultTheme';
 
@@ -339,4 +340,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const FlatThemeInternal = Object.setPrototypeOf(FlatTheme, DefaultThemeInternal) as typeof FlatTheme;
+export const FlatThemeInternal = Object.setPrototypeOf(
+  exposeGetters(FlatTheme),
+  DefaultThemeInternal,
+) as typeof FlatTheme;
