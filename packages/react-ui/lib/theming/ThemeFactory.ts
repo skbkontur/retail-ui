@@ -13,7 +13,7 @@ Object.defineProperty(DefaultThemeInternal, IS_THEME_KEY, {
 
 export class ThemeFactory {
   public static create<T extends {}>(theme: ThemeIn & T, baseTheme: Theme = DefaultThemeInternal): Readonly<Theme & T> {
-    return Object.freeze(Object.setPrototypeOf(theme, baseTheme));
+    return this.constructTheme(baseTheme, theme);
   }
 
   public static isFullTheme(theme: ThemeIn | Theme): theme is Theme {
@@ -39,5 +39,14 @@ export class ThemeFactory {
       theme = Object.getPrototypeOf(theme);
     }
     return keys.sort();
+  }
+
+  private static constructTheme(base: Theme, theme: ThemeIn) {
+    const newTheme = Object.create(base);
+    Object.keys(theme).forEach(propName => {
+      const descriptor = Object.getOwnPropertyDescriptor(theme, propName)!;
+      Object.defineProperty(newTheme, propName, descriptor);
+    });
+    return Object.freeze(newTheme);
   }
 }
