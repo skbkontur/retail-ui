@@ -1276,7 +1276,7 @@ export class DefaultTheme {
   public static spinnerOldLineHeightSmall = 'inherit';
   public static spinnerOldLineHeightMedium = 'inherit';
   public static spinnerOldLineHeightLarge = 'inherit';
-  public static spinnerOldPaddingXSmall = '0px';
+  public static spinnerOldPaddingXSmall = '5px';
   public static spinnerOldPaddingYMedium = '0px';
   public static spinnerOldPaddingYLarge = '0px';
   //#endregion
