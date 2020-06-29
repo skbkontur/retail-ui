@@ -5,6 +5,8 @@ import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
+import { DEFAULT_THEME_8PX } from '../../lib/theming/themes/DefaultTheme8px';
+import { FLAT_THEME_8PX } from '../../lib/theming/themes/FlatTheme8px';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
@@ -25,16 +27,21 @@ interface PlaygroundState {
   themesErrors: ThemesErrors;
   currentTheme: Theme;
   currentThemeType: ThemeType;
+  is8px: boolean;
 }
 interface Themes {
   default: Theme;
+  default8px: Theme;
   dark: Theme;
   flat: Theme;
+  flat8px: Theme;
 }
 interface ThemesErrors {
   default: ThemeErrorsType;
+  default8px: ThemeErrorsType;
   dark: ThemeErrorsType;
   flat: ThemeErrorsType;
+  flat8px: ThemeErrorsType;
 }
 interface EditingThemeItem {
   value: ThemeType;
@@ -48,7 +55,9 @@ export type ThemeErrorsType = Writeable<{ [key in keyof Theme]?: boolean }>;
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
+    { value: ThemeType.Default8px, label: 'Дефолтная 8px' },
     { value: ThemeType.Flat, label: 'Плоская' },
+    { value: ThemeType.Flat8px, label: 'Плоская 8px' },
     { value: ThemeType.Dark, label: 'Темная' },
   ];
 
@@ -57,16 +66,21 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     this.state = {
       currentTheme: DEFAULT_THEME,
       currentThemeType: ThemeType.Default,
+      is8px: false,
       editorOpened: false,
       themes: {
         default: DEFAULT_THEME,
+        default8px: DEFAULT_THEME_8PX,
         dark: darkTheme,
         flat: FLAT_THEME,
+        flat8px: FLAT_THEME_8PX,
       },
       themesErrors: {
         default: {},
+        default8px: {},
         dark: {},
         flat: {},
+        flat8px: {},
       },
     };
   }
@@ -81,6 +95,8 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
             onThemeChange={this.handleThemeChange}
             currentThemeType={currentThemeType}
             onEditLinkClick={this.handleOpen}
+            is8px={this.state.is8px}
+            on8pxChange={this.handle8pxChange}
           />
         }
       </ThemeContext.Provider>
@@ -149,10 +165,33 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
   private handleThemeChange = (value: string) => {
     const themeType = value as ThemeType;
+    const { is8px } = this.state;
     this.setState({
       currentThemeType: themeType,
-      currentTheme: this.state.themes[themeType],
+      currentTheme: this.getCurrentTheme(themeType, is8px),
     });
+  };
+
+  private handle8pxChange = (value: boolean) => {
+    const { currentThemeType } = this.state;
+    this.setState({
+      is8px: value,
+      currentTheme: this.getCurrentTheme(currentThemeType, value),
+    });
+  };
+
+  private getCurrentTheme = (theme: ThemeType, is8px: boolean) => {
+    const { default: defaultTheme, default8px, flat, flat8px, dark } = this.state.themes;
+    switch (theme) {
+      case ThemeType.Dark:
+        return dark;
+      case ThemeType.Default:
+        return is8px ? default8px : defaultTheme;
+      case ThemeType.Flat:
+        return is8px ? flat8px : flat;
+      default:
+        return defaultTheme;
+    }
   };
 
   private handleThemeVariableChange = (variable: keyof Theme, value: string) => {

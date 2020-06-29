@@ -13,6 +13,7 @@ import { Tabs } from '../../components/Tabs';
 import { Gapped } from '../../components/Gapped';
 import { Link, LinkProps } from '../../components/Link';
 import { Input, InputProps } from '../../components/Input';
+import { Toggle } from '../../components/Toggle';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
@@ -41,6 +42,8 @@ export interface ComponentsListProps {
   currentThemeType: ThemeType;
   onThemeChange: (value: string) => void;
   onEditLinkClick: () => void;
+  is8px: boolean;
+  on8pxChange: (value: boolean) => void;
 }
 
 export class Playground extends React.Component<ComponentsListProps, {}> {
@@ -93,7 +96,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
   };
 
   private renderTabs() {
-    const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
+    const { currentThemeType, onThemeChange, is8px, on8pxChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
     const tabsOuterWrapperClass = cn({
       [jsStyles.tabsWrapper()]: true,
@@ -110,6 +113,10 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
               <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
             </div>
           </Tabs>
+          <Gapped>
+            <Toggle checked={is8px} onValueChange={on8pxChange} disabled={currentThemeType === ThemeType.Dark} />
+            <span>8px</span>
+          </Gapped>
           <Link onClick={onEditLinkClick}>Настроить тему</Link>
         </Gapped>
       </div>
