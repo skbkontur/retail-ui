@@ -50,6 +50,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
 
   public componentDidMount(): void {
     if (!this.subscription) {
+      emitter.addListener('clicked', this.emitterEventHandler);
       this.subscription = {
         remove: () => {
           emitter.removeListener('clicked', this.emitterEventHandler);
