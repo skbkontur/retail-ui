@@ -9,6 +9,7 @@ const styles = {
       white-space: nowrap;
       padding-top: ${t.radioPaddingY};
       padding-bottom: ${t.radioPaddingY};
+      display: inline-block;
     `;
   },
 
