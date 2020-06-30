@@ -257,7 +257,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={jsInputStyles.sideContainer()}>
+      <span className={cn(jsInputStyles.sideContainer(), jsStyles.rightSide())}>
         {rightIcon}
         {suffix}
       </span>
