@@ -282,14 +282,15 @@ export class DefaultTheme {
   public static btnCheckedShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3)';
   public static btnArrowBorderRadius = '2px 2px 2px 16px';
   public static btnSmallBorderRadius = '1px'; // todo: deprecated
+  public static btnBorderRadius = '2px'; // todo: deprecated
   public static get btnBorderRadiusSmall() {
-    return this.controlBorderRadiusSmall;
+    return this.btnSmallBorderRadius;
   }
   public static get btnBorderRadiusMedium() {
-    return this.controlBorderRadiusMedium;
+    return this.btnBorderRadius;
   }
   public static get btnBorderRadiusLarge() {
-    return this.controlBorderRadiusLarge;
+    return this.btnBorderRadius;
   }
   public static btnBorderWidth = '1px';
   public static btnBorderWidthFocus = '2px';
