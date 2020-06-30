@@ -976,6 +976,7 @@ export class DefaultTheme {
   public static get checkboxPaddingY() {
     return this.chbPaddingY;
   }
+  public static checkboxMarginY = '2px';
   public static get checkboxBgStart() {
     return this.chbBgStart;
   }

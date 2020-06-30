@@ -39,6 +39,8 @@ const styles = {
 
   box(t: Theme) {
     const boxSize = `calc(${t.checkboxBoxSize} - 2 * ${t.checkboxBorderWidthCompensation})`;
+    const boxMarginY = `calc(${t.checkboxMarginY} + ${t.checkboxBorderWidthCompensation})`;
+    const boxMarginX = t.checkboxBorderWidthCompensation;
     return css`
       display: inline-flex;
       align-items: center;
@@ -54,7 +56,7 @@ const styles = {
       box-shadow: ${t.checkboxShadow};
       background: ${t.checkboxBg};
       align-self: baseline;
-      margin: ${t.checkboxBorderWidthCompensation};
+      margin: ${boxMarginY} ${boxMarginX};
     `;
   },
 
