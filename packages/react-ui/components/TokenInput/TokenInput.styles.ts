@@ -19,22 +19,22 @@ const styles = {
 
   warning(t: Theme) {
     return css`
-      border: 1px solid ${t.tokenInputBorderColorWarning};
-      box-shadow: 0 0 0 1px ${t.tokenInputBorderColorWarning};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning};
+      box-shadow: 0 0 0 ${t.tokenInputBorderWidthFocus} ${t.tokenInputBorderColorWarning};
     `;
   },
 
   error(t: Theme) {
     return css`
-      border: 1px solid ${t.tokenInputBorderColorError};
-      box-shadow: 0 0 0 1px ${t.tokenInputBorderColorError};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError};
+      box-shadow: 0 0 0 ${t.tokenInputBorderWidthFocus} ${t.tokenInputBorderColorError};
     `;
   },
 
   labelFocused(t: Theme) {
     return css`
-      border: 1px solid ${t.tokenInputBorderColorFocus};
-      box-shadow: 0 0 0 1px ${t.tokenInputBorderColorFocus};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus};
+      box-shadow: 0 0 0 ${t.tokenInputBorderWidthFocus} ${t.tokenInputBorderColorFocus};
     `;
   },
 
