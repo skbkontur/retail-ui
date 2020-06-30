@@ -293,7 +293,9 @@ export class DefaultTheme {
     return this.btnBorderRadius;
   }
   public static btnBorderWidth = '1px';
-  public static btnBorderWidthFocus = '2px';
+  public static get btnBorderWidthFocus() {
+    return this.controlBorderWidthFocus;
+  }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '20px';
@@ -565,7 +567,9 @@ export class DefaultTheme {
     return this.sltPlaceholderColor;
   }
   public static selectBorderWidth = '1px';
-  public static selectBorderWidthFocus = '2px';
+  public static get selectBorderWidthFocus() {
+    return this.controlBorderWidthFocus;
+  }
   public static get selectLineHeightSmall() {
     return this.controlLineHeightSmall;
   }
@@ -844,7 +848,9 @@ export class DefaultTheme {
     return this.controlBorderWidth;
   }
   public static get inputBorderWidthFocus() {
-    return '1px';
+    const borderWidthFocus = parseInt(this.controlBorderWidthFocus, 10) || 0;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    return `${borderWidthFocus - borderWidth}px`;
   }
   public static inputBorderRadiusSmall = '0';
   public static inputBorderRadiusMedium = '0';
@@ -1137,7 +1143,9 @@ export class DefaultTheme {
   //#endregion
   //#region Radio
   public static radioBulletSize = '8px';
-  public static radioBorderWidthFocus = '2px';
+  public static get radioBorderWidthFocus() {
+    return this.controlBorderWidthFocus;
+  }
   public static get radioSize() {
     return this.radioFontSize;
   }
