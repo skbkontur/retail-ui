@@ -17,7 +17,12 @@ export function search(searchText: string, levels: string, parentCode: ?string):
   });
   return fetch(`${kladrUrl}suggest?${data}`)
     .then(res => res.json())
-    .then(toJS);
+    .then(toJS)
+    .then(removeEmpty);
+}
+
+export function removeEmpty(address: Array<Address>): Array<Address> {
+  return address.filter(a => !Object.values(a).every(i => i === null));
 }
 
 export function searchIndex(code: string, house: ?string) {
