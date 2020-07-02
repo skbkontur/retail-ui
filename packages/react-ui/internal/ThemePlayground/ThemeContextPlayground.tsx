@@ -27,7 +27,6 @@ interface PlaygroundState {
   themesErrors: ThemesErrors;
   currentTheme: Theme;
   currentThemeType: ThemeType;
-  is8px: boolean;
 }
 interface Themes {
   default: Theme;
@@ -66,7 +65,6 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     this.state = {
       currentTheme: DEFAULT_THEME,
       currentThemeType: ThemeType.Default,
-      is8px: false,
       editorOpened: false,
       themes: {
         default: DEFAULT_THEME,
@@ -95,8 +93,6 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
             onThemeChange={this.handleThemeChange}
             currentThemeType={currentThemeType}
             onEditLinkClick={this.handleOpen}
-            is8px={this.state.is8px}
-            on8pxChange={this.handle8pxChange}
           />
         }
       </ThemeContext.Provider>
@@ -165,33 +161,10 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
   private handleThemeChange = (value: string) => {
     const themeType = value as ThemeType;
-    const { is8px } = this.state;
     this.setState({
       currentThemeType: themeType,
-      currentTheme: this.getCurrentTheme(themeType, is8px),
+      currentTheme: this.state.themes[themeType],
     });
-  };
-
-  private handle8pxChange = (value: boolean) => {
-    const { currentThemeType } = this.state;
-    this.setState({
-      is8px: value,
-      currentTheme: this.getCurrentTheme(currentThemeType, value),
-    });
-  };
-
-  private getCurrentTheme = (theme: ThemeType, is8px: boolean) => {
-    const { default: defaultTheme, default8px, flat, flat8px, dark } = this.state.themes;
-    switch (theme) {
-      case ThemeType.Dark:
-        return dark;
-      case ThemeType.Default:
-        return is8px ? default8px : defaultTheme;
-      case ThemeType.Flat:
-        return is8px ? flat8px : flat;
-      default:
-        return defaultTheme;
-    }
   };
 
   private handleThemeVariableChange = (variable: keyof Theme, value: string) => {

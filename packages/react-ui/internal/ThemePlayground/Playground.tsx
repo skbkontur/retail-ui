@@ -38,15 +38,13 @@ import { jsStyles } from './Playground.styles';
 
 const useSticky = !isTestEnv;
 
-export interface ComponentsListProps {
+export interface PlaygroundProps {
   currentThemeType: ThemeType;
   onThemeChange: (value: string) => void;
   onEditLinkClick: () => void;
-  is8px: boolean;
-  on8pxChange: (value: boolean) => void;
 }
 
-export class Playground extends React.Component<ComponentsListProps, {}> {
+export class Playground extends React.Component<PlaygroundProps, {}> {
   private theme!: Theme;
   private stopEl = React.createRef<HTMLDivElement>();
 
@@ -96,7 +94,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
   };
 
   private renderTabs() {
-    const { currentThemeType, onThemeChange, is8px, on8pxChange, onEditLinkClick } = this.props;
+    const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
     const tabsOuterWrapperClass = cn({
       [jsStyles.tabsWrapper(this.theme)]: true,
@@ -106,7 +104,7 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
     return (
       <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
         <Gapped gap={40}>
-          <Tabs value={currentThemeType} onValueChange={onThemeChange} vertical={false}>
+          <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
             <div className={jsStyles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
@@ -114,7 +112,11 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
             </div>
           </Tabs>
           <Gapped>
-            <Toggle checked={is8px} onValueChange={on8pxChange} disabled={currentThemeType === ThemeType.Dark} />
+            <Toggle
+              checked={this.is8pxTheme}
+              onValueChange={this.toggle8pxTheme}
+              disabled={currentThemeType === ThemeType.Dark}
+            />
             <span>8px</span>
           </Gapped>
           <Link onClick={onEditLinkClick}>Настроить тему</Link>
@@ -122,6 +124,48 @@ export class Playground extends React.Component<ComponentsListProps, {}> {
       </div>
     );
   }
+
+  private getCurrentTab = () => {
+    switch (this.props.currentThemeType) {
+      case ThemeType.Dark:
+        return ThemeType.Dark;
+      case ThemeType.Flat:
+      case ThemeType.Flat8px:
+        return ThemeType.Flat;
+      case ThemeType.Default:
+      case ThemeType.Default8px:
+      default:
+        return ThemeType.Default;
+    }
+  };
+
+  private get is8pxTheme(): boolean {
+    switch (this.props.currentThemeType) {
+      case ThemeType.Default8px:
+      case ThemeType.Flat8px:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  private toggle8pxTheme = (value: boolean) => {
+    const { currentThemeType, onThemeChange } = this.props;
+    switch (currentThemeType) {
+      case ThemeType.Default:
+        onThemeChange(ThemeType.Default8px);
+        break;
+      case ThemeType.Default8px:
+        onThemeChange(ThemeType.Default);
+        break;
+      case ThemeType.Flat:
+        onThemeChange(ThemeType.Flat8px);
+        break;
+      case ThemeType.Flat8px:
+        onThemeChange(ThemeType.Flat);
+        break;
+    }
+  };
 
   private renderSizesGroup = () => {
     const Group = ({ size }: { size: 'small' | 'medium' | 'large' }) => (
