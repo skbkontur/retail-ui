@@ -1146,14 +1146,12 @@ export class DefaultTheme {
   public static get radioBorderWidthFocus() {
     return this.controlBorderWidthFocus;
   }
-  public static get radioSize() {
-    return this.radioFontSize;
-  }
+  public static radioSize = '16px';
   public static get radioSizeAfter() {
     return `calc(${this.radioSize} + 2 * ${this.radioBorderWidthFocus} - 2 * ${this.radioBorderWidthCompensation})`;
   }
   public static get radioFontSize() {
-    return this.fontSizeLarge;
+    return this.fontSizeSmall;
   }
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;

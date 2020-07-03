@@ -148,6 +148,7 @@ const styles = {
       line-height: ${t.radioLineHeight};
       margin-left: ${t.radioPaddingX};
       white-space: normal;
+      font-size: ${t.radioFontSize};
     `;
   },
 
