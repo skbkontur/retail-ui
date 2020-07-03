@@ -38,7 +38,7 @@ const styles = {
   },
 
   box(t: Theme) {
-    const boxSize = `calc(${t.chbBoxSize} - 2 * ${t.checkboxBorderWidthCompensation})`;
+    const boxSize = `calc(${t.checkboxBoxSize} - 2 * ${t.checkboxBorderWidthCompensation})`;
     return css`
       display: inline-flex;
       align-items: center;
