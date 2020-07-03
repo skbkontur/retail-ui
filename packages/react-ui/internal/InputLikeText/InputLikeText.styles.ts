@@ -36,7 +36,6 @@ const styles = {
   rightSide() {
     return css`
       padding-left: 0;
-      visibility: visible;
     `;
   },
 };
