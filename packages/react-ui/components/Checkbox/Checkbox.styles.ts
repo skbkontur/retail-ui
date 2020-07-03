@@ -10,6 +10,7 @@ const styles = {
       position: relative;
       user-select: none;
       line-height: ${t.checkboxLineHeight};
+      font-size: ${t.checkboxFontSize};
       padding: ${t.checkboxPaddingY} 0;
 
       &:hover ${cssName(styles.box(t))} {
