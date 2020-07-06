@@ -407,6 +407,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
       this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
     return `calc(${this.radioSize} + 2 * ${this.radioBorderWidthFocus} - 2 * ${borderCompensation})`;
   }
+  public static radioVerticalAlign = 'top';
   //#endregion
 }
 
