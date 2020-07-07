@@ -39,3 +39,13 @@ defineInlineTest(
   `,
   `add prop only for specified component`,
 );
+
+defineInlineTest(
+  transform,
+  { component: 'Loader' },
+  `
+    <div/>
+`,
+  ``,
+  `doesn't change source if there is no modifications`,
+);
