@@ -431,8 +431,8 @@ defineInlineTest(
     export { Switcher, Toggle, Button, Input as default } from "@skbkontur/react-ui";
 
     export * from "@skbkontur/react-ui/components/Button";
-    export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
     import { Calendar } from "@skbkontur/react-ui/internal/Calendar";
+    export { RenderContainer } from "@skbkontur/react-ui/internal/RenderContainer";
     import { FocusTrap } from "@skbkontur/react-ui/internal/FocusTrap";
 
   `,
@@ -503,11 +503,13 @@ defineInlineTest(
     dedupe: false,
   },
   `
+    import Button from "@skbkontur/react-ui/Button";
     import { ValidationInfo } from "@skbkontur/react-ui-validations";
     import AddIcon from "@skbkontur/react-ui-icons/svg-icons/Add";
     import Something from "@skbkontur/react-ui-whatever";
 `,
   `
+    import { Button } from "@skbkontur/react-ui";
     import { ValidationInfo } from "@skbkontur/react-ui-validations";
     import AddIcon from "@skbkontur/react-ui-icons/svg-icons/Add";
     import Something from "@skbkontur/react-ui-whatever";
@@ -522,10 +524,22 @@ defineInlineTest(
     dedupe: false,
   },
   `
+    import Button from "retail-ui/components/Button";
     import { ValidationInfo } from "retail-ui-validations";
 `,
   `
+    import { Button } from "@skbkontur/react-ui";
     import { ValidationInfo } from "retail-ui-validations";
-    `,
+  `,
   `dont't transform retail-ui-validations`,
+);
+
+defineInlineTest(
+  transform,
+  {},
+  `
+    import Button from "@material-ui/core";
+  `,
+  ``,
+  `doesn't modify file if there is no changes`,
 );

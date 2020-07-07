@@ -38,6 +38,7 @@ const createAttribute = (api: API, identifier: string, value: any): JSXAttribute
 
 function transform(file: FileInfo, api: API, JsxElement: CustomJSXElement) {
   const j = api.jscodeshift;
+  let modified = false;
 
   const result = j(file.source)
     .findJSXElements(JsxElement.name)
@@ -45,9 +46,12 @@ function transform(file: FileInfo, api: API, JsxElement: CustomJSXElement) {
       JsxElement.attributes.forEach(attr => {
         const attribute = createAttribute(api, attr.identifier, attr.value);
         element.value.openingElement.attributes.push(attribute);
+        modified = true;
       });
     });
-  file.source = result.toSource();
+  if (modified) {
+    file.source = result.toSource();
+  }
   return file;
 }
 
@@ -60,9 +64,10 @@ interface TransformOptions {
 
 export default function(fileInfo: FileInfo, api: API, options: TransformOptions) {
   const { component } = options;
+  const originalSource = fileInfo.source;
   const componentsToTransform = component ? listOfAttributes.filter(c => c.name === component) : listOfAttributes;
   const result = componentsToTransform.reduce((prev, cur) => {
     return transform(prev, api, cur);
   }, fileInfo);
-  return result.source;
+  return originalSource !== result.source ? result.source : null;
 }

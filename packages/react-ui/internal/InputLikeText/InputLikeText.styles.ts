@@ -32,6 +32,13 @@ const styles = {
       padding-left: 10px;
     `;
   },
+
+  rightSide() {
+    return css`
+      padding-left: 0;
+      visibility: visible;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);
