@@ -31,7 +31,6 @@ const styles = {
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      color: ${t.textColorDefault};
       cursor: pointer;
       display: inline-block;
       position: relative;
@@ -47,9 +46,6 @@ const styles = {
         display: inline-block;
         vertical-align: baseline;
         width: 0;
-      }
-      &:not(${cssName(styles.sizeSmall(t))}) {
-        border-radius: ${t.btnBorderRadius};
       }
       ${cssName(styles.link(t))}& {
         padding: 0;
@@ -119,6 +115,8 @@ const styles = {
 
   sizeMedium(t: Theme) {
     return css`
+      border-radius: ${t.btnBorderRadius};
+
       ${buttonSizeMixin(
         t.btnFontSizeMedium,
         t.controlHeightMedium,
@@ -144,6 +142,8 @@ const styles = {
 
   sizeLarge(t: Theme) {
     return css`
+      border-radius: ${t.btnBorderRadius};
+
       ${buttonSizeMixin(
         t.btnFontSizeLarge,
         t.controlHeightLarge,

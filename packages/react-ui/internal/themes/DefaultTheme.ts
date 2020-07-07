@@ -106,7 +106,9 @@ export class DefaultTheme {
   public static btnDefaultBgArrowEnd = '#ebebeb';
   public static btnDefaultCheckedShadowArrow = 'none';
   public static btnDefaultCheckedBorder = 'none';
-  public static btnDefaultTextColor = 'none';
+  public static get btnDefaultTextColor() {
+    return this.textColorDefault;
+  }
   public static btnDefaultHoverBg = 'none';
   public static btnDefaultHoverBorderColor = 'transparent';
   public static btnDefaultActiveBorderColor = 'none';
@@ -210,7 +212,9 @@ export class DefaultTheme {
   public static btnPayBgEnd = '#ffbb39';
   public static btnPayBgArrowStart = '#ffd54b';
   public static btnPayBgArrowEnd = '#ffbb39';
-  public static btnPayTextColor = 'none';
+  public static get btnPayTextColor() {
+    return this.textColorDefault;
+  }
   public static btnPayShadow = '0 0 0 1px rgba(238, 169, 34, 0.7), 0 1px 0 0 rgba(77, 16, 0, 0.56)';
   public static btnPayShadowArrow = '1px -1px 0 0 rgba(238, 169, 34, 0.7), 1px -0.3px 0 0 rgba(77, 16, 0, 0.56)';
   public static btnPayShadowArrowLeft =
@@ -354,7 +358,7 @@ export class DefaultTheme {
   public static radioCheckedBgColor = 'transparent';
   public static get radioCheckedHoverBgColor() {
     return this.radioHoverBg;
-  };
+  }
   public static radioCheckedBulletColor = '#404040';
   public static radioDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
   public static radioLabelDisplay = 'inline-table';
