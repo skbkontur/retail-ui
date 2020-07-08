@@ -243,14 +243,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Toggle
   public static toggleWidth = '32px';
   public static toggleHeight = '20px';
-  public static toggleBorderRadius = '10px';
-  public static get toggleSwitcherSize() {
-    const height = parseInt(this.toggleHeight, 10) || 0;
-    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
-
-    return `${height - 2 * borderWidth}px`;
-  }
-  public static toggleSwitcherBorderRadius = '9px';
+  public static toggleBorderRadius = '50%';
   public static get toggleBorderWidth() {
     return this.controlBorderWidth;
   }
