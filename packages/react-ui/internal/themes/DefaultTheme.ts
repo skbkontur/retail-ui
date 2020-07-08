@@ -136,13 +136,8 @@ export class DefaultTheme {
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
-  public static tokenMargin = '3px';
-  public static get tokenMarginY() {
-    return this.tokenMargin;
-  }
-  public static get tokenMarginX() {
-    return this.tokenMargin;
-  }
+  public static tokenMarginY = '3px';
+  public static tokenMarginX = '3px';
   public static tokenLineHeight = '1.5';
   public static tokenPaddingY = '0px';
   public static tokenPaddingX = '4px';
