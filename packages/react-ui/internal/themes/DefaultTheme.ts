@@ -732,16 +732,13 @@ export class DefaultTheme {
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
   //#endregion
   //#region Toggle
-  public static get toggleSwitcherSize() {
+  public static toggleHandleActiveWidthIncrement = '4px';
+  public static get toggleHandleBorderRadius() {
     const height = parseInt(this.toggleHeight, 10) || 0;
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
-    return `${height - 2 * borderWidth}px`;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize / 2}px`;
   }
-  public static get toggleSwitcherWidthActive() {
-    const switcherSize = parseInt(this.toggleSwitcherSize, 10) || 0;
-    return `${switcherSize + 4}px`;
-  }
-  public static toggleSwitcherBorderRadius = '9px';
   public static toggleHeight = '20px';
   public static toggleWidth = '34px';
   public static toggleBorderRadius = '10px';

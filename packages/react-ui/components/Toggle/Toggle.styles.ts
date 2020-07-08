@@ -3,21 +3,23 @@ import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   handle(t: Theme) {
+    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
       background: ${t.toggleBg};
-      border-radius: ${t.toggleSwitcherBorderRadius};
+      border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
       box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
-      height: ${t.toggleSwitcherSize};
+      height: ${handleSize};
       left: ${t.toggleBorderWidth};
       position: absolute;
       top: ${t.toggleBorderWidth};
       transition: 0.2s ease-in;
-      width: ${t.toggleSwitcherSize};
+      width: ${handleSize};
     `;
   },
 
   input(t: Theme) {
+    const handleWidthWithBorders = t.toggleHeight;
     return css`
       position: absolute;
       opacity: 0;
@@ -35,8 +37,7 @@ const styles = {
         background: ${t.toggleBgChecked};
       }
       &:checked ~ ${cssName(styles.handle(t))} {
-        transform: translateX(${t.toggleWidth}) translateX(-${t.toggleSwitcherSize}) translateX(-${t.toggleBorderWidth})
-          translateX(-${t.toggleBorderWidth});
+        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
       }
     `;
   },
@@ -114,6 +115,8 @@ const styles = {
 
   wrapper(t: Theme) {
     const wrapperDisabled = cssName(styles.wrapperDisabled(t));
+    const handleWidthWithBorders = t.toggleHeight;
+    const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       cursor: pointer;
       display: inline-block;
@@ -131,11 +134,11 @@ const styles = {
         display: inline-block;
       }
       &:active:not(${wrapperDisabled}) ${cssName(styles.handle(t))} {
-        width: ${t.toggleSwitcherWidthActive};
+        width: ${handleActiveWidth};
       }
       &:active:not(${wrapperDisabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
-        transform: translateX(${t.toggleWidth}) translateX(-${t.toggleSwitcherWidthActive})
-          translateX(-${t.toggleBorderWidth}) translateX(-${t.toggleBorderWidth});
+        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
+          translateX(-${t.toggleHandleActiveWidthIncrement});
       }
     `;
   },
