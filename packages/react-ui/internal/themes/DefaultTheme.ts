@@ -901,7 +901,6 @@ export class DefaultTheme {
   public static get chbIndeterminateBg() {
     return this.textColorDefault;
   }
-  public static chbIndeterminateBorderRadius = '1px';
   public static get chbShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
@@ -934,7 +933,7 @@ export class DefaultTheme {
     return this.borderColorFocus;
   }
   public static get chbBg() {
-    return `linear-gradient(${this.chbBgStart}, ${this.chbBgEnd})`;
+    return `linear-gradient(${this.checkboxBgStart}, ${this.checkboxBgEnd})`;
   }
   public static get chbHoverBg() {
     return `linear-gradient(-180deg, ${this.btnDefaultHoverBgStart} 0, ${this.btnDefaultHoverBgEnd} 100%)`;
@@ -995,9 +994,6 @@ export class DefaultTheme {
   }
   public static get checkboxIndeterminateBg() {
     return this.chbIndeterminateBg;
-  }
-  public static get checkboxIndeterminateBorderRadius() {
-    return this.chbIndeterminateBorderRadius;
   }
   public static get checkboxShadowDisabled() {
     return this.chbShadowDisabled;
