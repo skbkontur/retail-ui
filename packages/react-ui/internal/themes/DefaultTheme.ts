@@ -142,6 +142,10 @@ export class DefaultTheme {
   public static tokenPaddingY = '0px';
   public static tokenPaddingX = '4px';
   public static tokenMarginBeforeIcon = '4px';
+  public static tokenCloseIconSize = '1em';
+  public static tokenCloseIconPaddingY = '2px';
+  public static tokenCloseIconPaddingX = '2px';
+  public static tokenCloseIconGap = '4px';
   public static tokenBorderRadius = '1px';
   public static tokenBorderWidth = '1px';
   public static get tokenBorderColorDisabled() {
