@@ -225,7 +225,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 <ResizeDetector onResize={this.handleResize}>
                   <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
                     {!hasHeader && !this.props.noClose ? (
-                      <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
+                      <ZIndex className={jsStyles.closeWrapper()}>
                         <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
                       </ZIndex>
                     ) : null}

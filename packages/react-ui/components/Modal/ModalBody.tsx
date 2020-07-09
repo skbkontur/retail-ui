@@ -20,8 +20,6 @@ export class ModalBody extends React.Component {
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
           <ZIndex
-            priority={'ModalBody'}
-            createStackingContext
             className={cn({
               [jsStyles.body()]: true,
               [jsStyles.bodyWithoutHeader()]: !hasHeader,

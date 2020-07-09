@@ -45,7 +45,7 @@ function ModalFooter(props: ModalFooterProps) {
   );
 
   return (
-    <ZIndex style={{ position: 'relative' }} priority={'ModalFooter'}>
+    <ZIndex>
       <ModalContext.Consumer>
         {({ horizontalScroll }) => {
           if (sticky) {

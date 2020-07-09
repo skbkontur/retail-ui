@@ -41,7 +41,7 @@ function ModalHeader({ sticky = true, children }: ModalHeaderProps) {
   };
 
   return (
-    <ZIndex style={{ position: 'relative' }} priority={'ModalHeader'}>
+    <ZIndex>
       <ModalContext.Consumer>
         {({ close, additionalPadding }) => {
           if (sticky) {
