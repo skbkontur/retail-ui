@@ -902,7 +902,9 @@ export class DefaultTheme {
   public static get chbShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
-  public static chbShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.15)';
+  public static get chbShadowDisabled() {
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
+  }
   public static chbBorder = 'none';
   public static get chbShadowHover() {
     return this.chbShadow;
