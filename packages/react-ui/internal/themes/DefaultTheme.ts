@@ -269,7 +269,9 @@ export class DefaultTheme {
   public static btnWrapPadding = '1px';
   public static btnHeightShift = '-2';
   public static btnLinkBorderRadius = '1px';
-  public static btnFocusShadowWidth = '2px';
+  public static get btnFocusShadowWidth() {
+    return this.controlBorderWidthFocus;
+  }
   public static btnFocusBorder = 'none';
   public static btnDisabledTextColor = '#a0a0a0';
   public static btnCheckedBg = '#737373';
@@ -293,7 +295,7 @@ export class DefaultTheme {
   }
   public static btnBorderWidth = '1px';
   public static get btnBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+    return this.btnFocusShadowWidth;
   }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
