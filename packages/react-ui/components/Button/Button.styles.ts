@@ -272,7 +272,7 @@ const styles = {
           &:active,
           ${cssName(styles.active(t))} {
             box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus},
-              0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
+              0 0 0 ${t.btnBorderWidthFocus} ${t.btnBorderColorFocus};
 
             &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
               box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus} !important;
