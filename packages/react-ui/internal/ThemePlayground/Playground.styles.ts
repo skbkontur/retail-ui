@@ -34,6 +34,11 @@ const styles = {
       display: flex;
       align-items: center;
       margin-bottom: 16px;
+
+      &:focus {
+        outline: 1px solid ${t.borderColorFocus};
+        outline-offset: 8px;
+      }
     `;
   },
 

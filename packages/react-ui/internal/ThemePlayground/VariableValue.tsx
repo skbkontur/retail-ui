@@ -34,14 +34,14 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     editing: false,
   };
   private subscription: { remove: () => void } | null = null;
-  private inputInstance: Input | null = null;
+  private rootElement: HTMLElement | null = null;
   private readonly debounceTimeout = 500;
   private debounceInterval: number | undefined = undefined;
 
   public render() {
     const { variable, theme, baseVariables } = this.props;
     return (
-      <div className={jsStyles.variable(theme)}>
+      <div className={jsStyles.variable(theme)} ref={this.rootRef} tabIndex={0}>
         <div className={jsStyles.variableName(theme)} title={variable}>{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
       </div>
@@ -117,7 +117,6 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
         onBlur={this.handleBlur}
         align={'right'}
         width={this.state.editing ? 225 : 250}
-        ref={this.inputRef}
         error={this.props.isError}
       />
     );
@@ -125,7 +124,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
 
   private renderRollbackIcon() {
     return (
-      <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
+      <Hint text={'Вернуться к базовой переменной'}>
         <div className={jsStyles.linkRoot()}>
           <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
         </div>
@@ -133,8 +132,8 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     );
   }
 
-  private inputRef = (instance: Input) => {
-    this.inputInstance = instance;
+  private rootRef = (instance: HTMLElement | null) => {
+    this.rootElement = instance;
   };
 
   private colorIcon = () => {
@@ -183,8 +182,8 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   };
 
   private emitterEventHandler = (name: keyof Theme) => {
-    if (name === this.props.variable && this.inputInstance) {
-      this.inputInstance.focus();
+    if (name === this.props.variable && this.rootElement) {
+      this.rootElement.focus();
     }
   };
 }
