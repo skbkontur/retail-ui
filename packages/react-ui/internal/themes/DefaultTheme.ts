@@ -270,7 +270,7 @@ export class DefaultTheme {
   public static btnHeightShift = '-2';
   public static btnLinkBorderRadius = '1px';
   public static get btnFocusShadowWidth() {
-    return this.controlBorderWidthFocus;
+    return this.btnBorderWidthFocus;
   }
   public static btnFocusBorder = 'none';
   public static btnDisabledTextColor = '#a0a0a0';
@@ -295,7 +295,7 @@ export class DefaultTheme {
   }
   public static btnBorderWidth = '1px';
   public static get btnBorderWidthFocus() {
-    return this.btnFocusShadowWidth;
+    return this.controlBorderWidthFocus;
   }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';

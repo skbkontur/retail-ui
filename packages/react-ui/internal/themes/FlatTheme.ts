@@ -28,7 +28,11 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnBorderRadiusLarge() {
     return this.controlBorderRadiusLarge;
   }
-  public static btnFocusShadowWidth = '1px';
+  public static get btnFocusShadowWidth() {
+    const borderFocus = parseInt(this.btnBorderWidthFocus, 10) || 0;
+    const border = parseInt(this.btnBorderWidth, 10) || 0;
+    return `${borderFocus - border}px`;
+  }
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedTextColor = '#fff';
   public static btnCheckedShadow = 'none';
