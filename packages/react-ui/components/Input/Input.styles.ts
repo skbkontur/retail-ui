@@ -337,7 +337,7 @@ const styles = {
       cursor: text;
       z-index: 2;
       text-align: center;
-      box-sizing: content-box;
+      box-sizing: content-box !important;
     `;
   },
 
