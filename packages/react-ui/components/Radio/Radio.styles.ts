@@ -146,7 +146,7 @@ const styles = {
     return css`
       display: ${t.radioLabelDisplay};
       line-height: ${t.radioLineHeight};
-      margin-left: ${t.radioPaddingX};
+      margin-left: ${t.radioLabelGap};
       white-space: normal;
       font-size: ${t.radioFontSize};
     `;

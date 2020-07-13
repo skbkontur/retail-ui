@@ -1149,7 +1149,7 @@ export class DefaultTheme {
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static radioPaddingX = '9px';
+  public static radioLabelGap = '9px';
   public static radioPaddingY = '0';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
