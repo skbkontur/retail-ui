@@ -71,9 +71,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlBorderRadiusLarge;
   }
 
-  public static btnPaddingIconSmall = '4px';
-  public static btnPaddingIconMedium = '4px';
-  public static btnPaddingIconLarge = '4px';
+  public static btnIconGapSmall = '4px';
+  public static btnIconGapMedium = '4px';
+  public static btnIconGapLarge = '4px';
   public static btnSmallArrowTop = '7px';
   public static btnSmallArrowRight = '-8px';
 
@@ -134,9 +134,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get inputHeightLarge() {
     return this.controlHeightLarge;
   }
-  public static inputPaddingIconSmall = '4px';
-  public static inputPaddingIconMedium = '8px';
-  public static inputPaddingIconLarge = '12px';
+  public static inputIconGapSmall = '4px';
+  public static inputIconGapMedium = '8px';
+  public static inputIconGapLarge = '12px';
   //#endregion
   //#region Select
   public static selectWidth = '200px';
@@ -185,9 +185,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get selectBorderRadiusLarge() {
     return this.controlBorderRadiusLarge;
   }
-  public static selectPaddingIconSmall = '4px';
-  public static selectPaddingIconMedium = '8px';
-  public static selectPaddingIconLarge = '12px';
+  public static selectIconGapSmall = '4px';
+  public static selectIconGapMedium = '8px';
+  public static selectIconGapLarge = '12px';
   //#endregion
   //#region Checkbox
   public static get checkboxLineHeight() {
@@ -196,7 +196,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get checkboxFontSize() {
     return this.controlFontSizeSmall;
   }
-  public static checkboxPaddingX = '8px';
+  public static checkboxLabelGap = '8px';
   public static get checkboxPaddingY() {
     const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
     const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
@@ -381,7 +381,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get radioFontSize() {
     return this.controlFontSizeSmall;
   }
-  public static radioPaddingX = '8px';
+  public static radioLabelGap = '8px';
   public static get radioPaddingY() {
     const paddingY = parseInt(this.controlPaddingYSmall, 10) || 0;
     const borderWidth = parseInt(this.radioBorderWidth, 10) || 0;
