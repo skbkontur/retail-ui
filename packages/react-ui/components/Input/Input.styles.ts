@@ -336,41 +336,49 @@ const styles = {
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
+      text-align: center;
+      box-sizing: content-box;
     `;
   },
 
   leftIconSmall(t: Theme) {
     return css`
+      width: ${t.inputIconSizeSmall};
       padding-right: ${t.inputIconGapSmall};
     `;
   },
 
   rightIconSmall(t: Theme) {
     return css`
+      width: ${t.inputIconSizeSmall};
       padding-left: ${t.inputIconGapSmall};
     `;
   },
 
   leftIconMedium(t: Theme) {
     return css`
+      width: ${t.inputIconSizeMedium};
       padding-right: ${t.inputIconGapMedium};
     `;
   },
 
   rightIconMedium(t: Theme) {
     return css`
+      width: ${t.inputIconSizeMedium};
       padding-left: ${t.inputIconGapMedium};
     `;
   },
 
   leftIconLarge(t: Theme) {
     return css`
+      width: ${t.inputIconSizeLarge};
       padding-right: ${t.inputIconGapLarge};
     `;
   },
 
   rightIconLarge(t: Theme) {
     return css`
+      width: ${t.inputIconSizeLarge};
       padding-left: ${t.inputIconGapLarge};
     `;
   },

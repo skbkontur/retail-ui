@@ -824,6 +824,9 @@ export class DefaultTheme {
   public static inputIconGapSmall = '2px';
   public static inputIconGapMedium = '2px';
   public static inputIconGapLarge = '2px';
+  public static inputIconSizeSmall = 'auto';
+  public static inputIconSizeMedium = 'auto';
+  public static inputIconSizeLarge = 'auto';
   public static get inputFocusShadow() {
     return `0 0 0 ${this.inputBorderWidthFocus} ${this.borderColorFocus}`;
   }
