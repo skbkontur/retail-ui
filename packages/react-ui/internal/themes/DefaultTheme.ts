@@ -294,6 +294,9 @@ export class DefaultTheme {
   public static btnIconGapSmall = '7px';
   public static btnIconGapMedium = '7px';
   public static btnIconGapLarge = '7px';
+  public static btnIconSizeSmall = 'auto';
+  public static btnIconSizeMedium = 'auto';
+  public static btnIconSizeLarge = 'auto';
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';

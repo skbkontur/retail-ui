@@ -237,7 +237,7 @@ const styles = {
         display: inline;
         transform: none !important;
       }
-      ${cssName(styles.icon(t))} {
+      ${cssName(styles.icon())} {
         padding-right: ${t.btnLinkIconMarginRight};
       }
       ${cssName(styles.warning(t))} ,
@@ -710,27 +710,26 @@ const styles = {
     `;
   },
 
-  icon(t: Theme) {
+  icon() {
     return css`
       display: inline-block;
-      padding-right: ${t.btnIconGapSmall};
     `;
   },
   iconSmall(t: Theme) {
     return css`
-      display: inline-block;
+      width: ${t.btnIconSizeSmall};
       padding-right: ${t.btnIconGapSmall};
     `;
   },
   iconMedium(t: Theme) {
     return css`
-      display: inline-block;
+      width: ${t.btnIconSizeMedium};
       padding-right: ${t.btnIconGapMedium};
     `;
   },
   iconLarge(t: Theme) {
     return css`
-      display: inline-block;
+      width: ${t.btnIconSizeLarge};
       padding-right: ${t.btnIconGapLarge};
     `;
   },
