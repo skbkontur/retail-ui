@@ -291,9 +291,9 @@ export class DefaultTheme {
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '20px';
-  public static btnPaddingIconSmall = '7px';
-  public static btnPaddingIconMedium = '7px';
-  public static btnPaddingIconLarge = '7px';
+  public static btnIconGapSmall = '7px';
+  public static btnIconGapMedium = '7px';
+  public static btnIconGapLarge = '7px';
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';
@@ -575,8 +575,8 @@ export class DefaultTheme {
   public static get selectBorderRadiusSmall() {
     return this.controlBorderRadiusSmall;
   }
-  public static get selectPaddingIconSmall() {
-    return this.btnPaddingIconSmall;
+  public static get selectIconGapSmall() {
+    return this.btnIconGapSmall;
   }
   public static selectPaddingArrowSmall = '10px';
   public static get selectLineHeightMedium() {
@@ -592,8 +592,8 @@ export class DefaultTheme {
   public static get selectBorderRadiusMedium() {
     return this.controlBorderRadiusMedium;
   }
-  public static get selectPaddingIconMedium() {
-    return this.btnPaddingIconMedium;
+  public static get selectIconGapMedium() {
+    return this.btnIconGapMedium;
   }
   public static selectPaddingArrowMedium = '10px';
   public static get selectLineHeightLarge() {
@@ -609,8 +609,8 @@ export class DefaultTheme {
   public static get selectBorderRadiusLarge() {
     return this.controlBorderRadiusLarge;
   }
-  public static get selectPaddingIconLarge() {
-    return this.btnPaddingIconLarge;
+  public static get selectIconGapLarge() {
+    return this.btnIconGapLarge;
   }
   public static selectPaddingArrowLarge = '13px';
   public static get selectMenuArrowColor() {
@@ -818,9 +818,9 @@ export class DefaultTheme {
   public static inputPaddingXSmall = '10px';
   public static inputPaddingXMedium = '10px';
   public static inputPaddingXLarge = '10px';
-  public static inputPaddingIconSmall = '2px';
-  public static inputPaddingIconMedium = '2px';
-  public static inputPaddingIconLarge = '2px';
+  public static inputIconGapSmall = '2px';
+  public static inputIconGapMedium = '2px';
+  public static inputIconGapLarge = '2px';
   public static get inputFocusShadow() {
     return `0 0 0 ${this.inputBorderWidthFocus} ${this.borderColorFocus}`;
   }

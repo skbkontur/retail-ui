@@ -338,7 +338,7 @@ const styles = {
 
   leftIconSmall(t: Theme) {
     return css`
-      padding-right: ${t.inputPaddingIconSmall};
+      padding-right: ${t.inputIconGapSmall};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
@@ -347,7 +347,7 @@ const styles = {
 
   rightIconSmall(t: Theme) {
     return css`
-      padding-left: ${t.inputPaddingIconSmall};
+      padding-left: ${t.inputIconGapSmall};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
@@ -378,7 +378,7 @@ const styles = {
 
   leftIconMedium(t: Theme) {
     return css`
-      padding-right: ${t.inputPaddingIconMedium};
+      padding-right: ${t.inputIconGapMedium};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
@@ -387,7 +387,7 @@ const styles = {
 
   rightIconMedium(t: Theme) {
     return css`
-      padding-left: ${t.inputPaddingIconMedium};
+      padding-left: ${t.inputIconGapMedium};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
@@ -418,7 +418,7 @@ const styles = {
 
   leftIconLarge(t: Theme) {
     return css`
-      padding-right: ${t.inputPaddingIconLarge};
+      padding-right: ${t.inputIconGapLarge};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;
@@ -427,7 +427,7 @@ const styles = {
 
   rightIconLarge(t: Theme) {
     return css`
-      padding-left: ${t.inputPaddingIconLarge};
+      padding-left: ${t.inputIconGapLarge};
       flex-shrink: 0;
       cursor: text;
       z-index: 2;

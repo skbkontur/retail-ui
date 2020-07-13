@@ -713,25 +713,25 @@ const styles = {
   icon(t: Theme) {
     return css`
       display: inline-block;
-      padding-right: ${t.btnPaddingIconSmall};
+      padding-right: ${t.btnIconGapSmall};
     `;
   },
   iconSmall(t: Theme) {
     return css`
       display: inline-block;
-      padding-right: ${t.btnPaddingIconSmall};
+      padding-right: ${t.btnIconGapSmall};
     `;
   },
   iconMedium(t: Theme) {
     return css`
       display: inline-block;
-      padding-right: ${t.btnPaddingIconMedium};
+      padding-right: ${t.btnIconGapMedium};
     `;
   },
   iconLarge(t: Theme) {
     return css`
       display: inline-block;
-      padding-right: ${t.btnPaddingIconLarge};
+      padding-right: ${t.btnIconGapLarge};
     `;
   },
 
