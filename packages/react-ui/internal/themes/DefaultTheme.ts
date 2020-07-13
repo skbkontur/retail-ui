@@ -51,15 +51,6 @@ export class DefaultTheme {
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '20px';
   public static controlLineHeightLarge = '22px';
-  public static get controlFontSizeSmall() {
-    return this.fontSizeSmall;
-  }
-  public static get controlFontSizeMedium() {
-    return this.fontSizeMedium;
-  }
-  public static get controlFontSizeLarge() {
-    return this.fontSizeLarge;
-  }
   public static controlPaddingYSmall = '6px';
   public static controlPaddingYMedium = '9px';
   public static controlPaddingYLarge = '10px';
@@ -478,13 +469,13 @@ export class DefaultTheme {
   public static btnLargeArrowLeftLoadingDelay = '0s';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static get btnFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static get btnFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static get btnLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -575,7 +566,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static get selectFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static selectPaddingXSmall = '9px';
   public static get selectPaddingYSmall() {
@@ -592,7 +583,7 @@ export class DefaultTheme {
     return this.controlLineHeightMedium;
   }
   public static get selectFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static selectPaddingXMedium = '9px';
   public static get selectPaddingYMedium() {
@@ -609,7 +600,7 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get selectFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static selectPaddingXLarge = '9px';
   public static get selectPaddingYLarge() {
