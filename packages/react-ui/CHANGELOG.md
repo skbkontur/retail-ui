@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.3.1...@skbkontur/react-ui@2.3.2) (2020-07-08)
+
+
+### Bug Fixes
+
+* **Button:** fix styles order ([d372600](https://github.com/skbkontur/retail-ui/commit/d3726009a420143222e562eb9a035835b46ce38c)), closes [#2061](https://github.com/skbkontur/retail-ui/issues/2061) [#1952](https://github.com/skbkontur/retail-ui/issues/1952)
+* **InputLikeText:** add class for icon on right side ([6235e21](https://github.com/skbkontur/retail-ui/commit/6235e21a504c09799c601d35b64465df02374f05)), closes [#2025](https://github.com/skbkontur/retail-ui/issues/2025)
+
+
+
+
+
 ## [2.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.3.0...@skbkontur/react-ui@2.3.1) (2020-06-09)
 
 

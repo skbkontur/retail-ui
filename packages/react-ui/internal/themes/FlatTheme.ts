@@ -29,7 +29,11 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnBorderRadiusLarge() {
     return this.controlBorderRadiusLarge;
   }
-  public static btnFocusShadowWidth = '1px';
+  public static get btnFocusShadowWidth() {
+    const borderFocus = parseInt(this.btnBorderWidthFocus, 10) || 0;
+    const border = parseInt(this.btnBorderWidth, 10) || 0;
+    return `${borderFocus - border}px`;
+  }
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedTextColor = '#fff';
   public static btnCheckedShadow = 'none';
@@ -38,7 +42,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDisabledShadowColor = '#f2f2f2';
   public static btnDefaultBgArrowStart = '#fff';
   public static btnDefaultBgArrowEnd = '#fff';
-  public static btnDefaultTextColor = 'none';
   public static btnDefaultHoverBg = 'rgba(0, 0, 0, 0.05)';
   public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static btnDefaultActiveBg = '#e5e5e5';
@@ -99,7 +102,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDangerHoverShadow = 'none';
   public static btnDangerActiveShadow = 'none';
   public static btnPayBg = '#ffca43';
-  public static btnPayTextColor = 'none';
   public static btnPayHoverBg = '#f0be3f';
   public static btnPayActiveBg = '#e0b13a';
   public static btnPayDisabledBg = '#ffca43';

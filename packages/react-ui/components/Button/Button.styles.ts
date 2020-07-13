@@ -31,7 +31,6 @@ const styles = {
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      color: ${t.btnTextColorDefault};
       cursor: pointer;
       display: inline-block;
       position: relative;
@@ -237,7 +236,7 @@ const styles = {
         display: inline;
         transform: none !important;
       }
-      ${cssName(styles.icon(t))} {
+      ${cssName(styles.icon())} {
         padding-right: ${t.btnLinkIconMarginRight};
       }
       ${cssName(styles.warning(t))} ,
@@ -710,28 +709,27 @@ const styles = {
     `;
   },
 
-  icon(t: Theme) {
+  icon() {
     return css`
       display: inline-block;
-      padding-right: ${t.btnPaddingIconSmall};
     `;
   },
   iconSmall(t: Theme) {
     return css`
-      display: inline-block;
-      padding-right: ${t.btnPaddingIconSmall};
+      width: ${t.btnIconSizeSmall};
+      padding-right: ${t.btnIconGapSmall};
     `;
   },
   iconMedium(t: Theme) {
     return css`
-      display: inline-block;
-      padding-right: ${t.btnPaddingIconMedium};
+      width: ${t.btnIconSizeMedium};
+      padding-right: ${t.btnIconGapMedium};
     `;
   },
   iconLarge(t: Theme) {
     return css`
-      display: inline-block;
-      padding-right: ${t.btnPaddingIconLarge};
+      width: ${t.btnIconSizeLarge};
+      padding-right: ${t.btnIconGapLarge};
     `;
   },
 

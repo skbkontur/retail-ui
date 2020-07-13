@@ -183,12 +183,7 @@ const styles = {
       border-color: ${t.inputDisabledBorderColor} !important;
       box-shadow: none;
 
-      ${cssName(styles.leftIconSmall(t))},
-      ${cssName(styles.rightIconSmall(t))},
-      ${cssName(styles.leftIconMedium(t))},
-      ${cssName(styles.rightIconMedium(t))},
-      ${cssName(styles.leftIconLarge(t))},
-      ${cssName(styles.rightIconLarge(t))} {
+      ${cssName(styles.icon())} {
         cursor: default;
       }
       ${cssName(styles.input(t))} {
@@ -313,7 +308,7 @@ const styles = {
     `;
   },
 
-  sideContainerSmall(t: Theme) {
+  sideContainer() {
     return css`
       align-items: center;
       display: flex;
@@ -328,109 +323,63 @@ const styles = {
     `;
   },
 
-  rightContainerSmall(t: Theme) {
+  rightContainer() {
     return css`
       justify-self: flex-end;
       margin: 0 0 0 auto;
       padding-left: 0;
+    `;
+  },
+
+  icon() {
+    return css`
+      flex-shrink: 0;
+      cursor: text;
+      z-index: 2;
+      text-align: center;
+      box-sizing: content-box !important;
     `;
   },
 
   leftIconSmall(t: Theme) {
     return css`
-      padding-right: ${t.inputPaddingIconSmall};
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
+      width: ${t.inputIconSizeSmall};
+      padding-right: ${t.inputIconGapSmall};
     `;
   },
 
   rightIconSmall(t: Theme) {
     return css`
-      padding-left: ${t.inputPaddingIconSmall};
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
-    `;
-  },
-  sideContainerMedium(t: Theme) {
-    return css`
-      align-items: center;
-      display: flex;
-      flex-shrink: 0;
-      height: 100%;
-
-      &::before {
-        content: '\\a0';
-        display: inline-block;
-        width: 0;
-      }
-    `;
-  },
-
-  rightContainerMedium(t: Theme) {
-    return css`
-      justify-self: flex-end;
-      margin: 0 0 0 auto;
-      padding-left: 0;
+      width: ${t.inputIconSizeSmall};
+      padding-left: ${t.inputIconGapSmall};
     `;
   },
 
   leftIconMedium(t: Theme) {
     return css`
-      padding-right: ${t.inputPaddingIconMedium};
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
+      width: ${t.inputIconSizeMedium};
+      padding-right: ${t.inputIconGapMedium};
     `;
   },
 
   rightIconMedium(t: Theme) {
     return css`
-      padding-left: ${t.inputPaddingIconMedium};
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
-    `;
-  },
-  sideContainerLarge(t: Theme) {
-    return css`
-      align-items: center;
-      display: flex;
-      flex-shrink: 0;
-      height: 100%;
-
-      &::before {
-        content: '\\a0';
-        display: inline-block;
-        width: 0;
-      }
-    `;
-  },
-
-  rightContainerLarge(t: Theme) {
-    return css`
-      justify-self: flex-end;
-      margin: 0 0 0 auto;
-      padding-left: 0;
+      width: ${t.inputIconSizeMedium};
+      padding-left: ${t.inputIconGapMedium};
     `;
   },
 
   leftIconLarge(t: Theme) {
     return css`
-      padding-right: ${t.inputPaddingIconLarge};
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
+      width: ${t.inputIconSizeLarge};
+      padding-right: ${t.inputIconGapLarge};
     `;
   },
 
   rightIconLarge(t: Theme) {
     return css`
-      padding-left: ${t.inputPaddingIconLarge};
-      flex-shrink: 0;
-      cursor: text;
-      z-index: 2;
+      width: ${t.inputIconSizeLarge};
+      padding-left: ${t.inputIconGapLarge};
     `;
   },
 };

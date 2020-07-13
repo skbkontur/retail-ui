@@ -317,7 +317,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        <span className={this.getContainerClassname()}>
+        <span className={jsStyles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
         </span>
@@ -325,7 +325,7 @@ export class Input extends React.Component<InputProps, InputState> {
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={this.getContainerClassname(true)}>
+        <span className={cn(jsStyles.sideContainer(), jsStyles.rightContainer())}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -353,25 +353,7 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  private getContainerClassname(right = false) {
-    switch (this.props.size) {
-      case 'large':
-        return right
-          ? cn(jsStyles.sideContainerLarge(this.theme), jsStyles.rightContainerLarge(this.theme))
-          : jsStyles.sideContainerLarge(this.theme);
-      case 'medium':
-        return right
-          ? cn(jsStyles.sideContainerMedium(this.theme), jsStyles.rightContainerMedium(this.theme))
-          : jsStyles.sideContainerMedium(this.theme);
-      case 'small':
-      default:
-        return right
-          ? cn(jsStyles.sideContainerSmall(this.theme), jsStyles.rightContainerSmall(this.theme))
-          : jsStyles.sideContainerSmall(this.theme);
-    }
-  }
-
-  private getIconClassname(right = false) {
+  private getIconSizeClassname(right = false) {
     switch (this.props.size) {
       case 'large':
         return right ? jsStyles.rightIconLarge(this.theme) : jsStyles.leftIconLarge(this.theme);
@@ -384,24 +366,30 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
+    return this.renderIcon(this.props.leftIcon, this.getIconSizeClassname());
   }
 
   private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
+    return this.renderIcon(this.props.rightIcon, this.getIconSizeClassname(true));
   }
 
-  private renderIcon(icon: InputIconType, className: string) {
+  private renderIcon(icon: InputIconType, sizeClassName: string) {
     if (!icon) {
       return null;
     }
 
     if (icon instanceof Function) {
-      return <span className={className}>{icon()}</span>;
+      return <span className={cn(jsStyles.icon(), sizeClassName)}>{icon()}</span>;
     }
 
     return (
-      <span className={cn(className, jsStyles.useDefaultColor(this.theme), jsStyles.useDefaultColor(this.theme))}>
+      <span
+        className={cn(
+          cn(jsStyles.icon(), sizeClassName),
+          jsStyles.useDefaultColor(this.theme),
+          jsStyles.useDefaultColor(this.theme),
+        )}
+      >
         {icon}
       </span>
     );

@@ -131,10 +131,20 @@ defineInlineTest(
   transform,
   {},
   `
-    export * from "@skbkontur/react-ui/components/Fias/types"
+    export * from "@skbkontur/react-ui/components/Fias/types";
 `,
   `
-    export * from "@skbkontur/react-ui-addons/components/Fias/types"
+    export * from "@skbkontur/react-ui-addons/components/Fias/types";
   `,
   `transforms reexport of all Fias's types`,
+);
+
+defineInlineTest(
+  transform,
+  {},
+  `
+    export * from "@skbkontur/react-ui";
+  `,
+  ``,
+  `doesn't change source if there is no modidications`,
 );

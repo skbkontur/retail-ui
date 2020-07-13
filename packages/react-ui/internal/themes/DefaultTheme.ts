@@ -52,15 +52,6 @@ export class DefaultTheme {
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '20px';
   public static controlLineHeightLarge = '22px';
-  public static get controlFontSizeSmall() {
-    return this.fontSizeSmall;
-  }
-  public static get controlFontSizeMedium() {
-    return this.fontSizeMedium;
-  }
-  public static get controlFontSizeLarge() {
-    return this.fontSizeLarge;
-  }
   public static controlPaddingYSmall = '6px';
   public static controlPaddingYMedium = '9px';
   public static controlPaddingYLarge = '10px';
@@ -270,7 +261,9 @@ export class DefaultTheme {
   public static btnWrapPadding = '1px';
   public static btnHeightShift = '-2';
   public static btnLinkBorderRadius = '1px';
-  public static btnFocusShadowWidth = '2px';
+  public static get btnFocusShadowWidth() {
+    return this.btnBorderWidthFocus;
+  }
   public static btnFocusBorder = 'none';
   public static btnDisabledTextColor = '#a0a0a0';
   public static btnCheckedBg = '#737373';
@@ -299,9 +292,12 @@ export class DefaultTheme {
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
   public static btnPaddingXLarge = '20px';
-  public static btnPaddingIconSmall = '7px';
-  public static btnPaddingIconMedium = '7px';
-  public static btnPaddingIconLarge = '7px';
+  public static btnIconGapSmall = '7px';
+  public static btnIconGapMedium = '7px';
+  public static btnIconGapLarge = '7px';
+  public static btnIconSizeSmall = 'auto';
+  public static btnIconSizeMedium = 'auto';
+  public static btnIconSizeLarge = 'auto';
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';
@@ -326,7 +322,9 @@ export class DefaultTheme {
   public static btnDefaultBgArrowEnd = '#ebebeb';
   public static btnDefaultCheckedShadowArrow = 'none';
   public static btnDefaultCheckedBorder = 'none';
-  public static btnDefaultTextColor = 'none';
+  public static get btnDefaultTextColor() {
+    return this.textColorDefault;
+  }
   public static btnDefaultHoverBg = 'none';
   public static btnDefaultHoverBorderColor = 'transparent';
   public static btnDefaultActiveBorderColor = 'none';
@@ -446,9 +444,11 @@ export class DefaultTheme {
   public static btnPayBgEnd = '#ffbb39';
   public static btnPayBgArrowStart = '#ffd54b';
   public static btnPayBgArrowEnd = '#ffbb39';
-  public static btnPayTextColor = 'none';
   public static get btnPayShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(238, 169, 34, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(77, 16, 0, 0.56)`;
+  }
+  public static get btnPayTextColor() {
+    return this.textColorDefault;
   }
   public static btnPayShadowArrow = '1px -1px 0 0 rgba(238, 169, 34, 0.7), 1px -0.3px 0 0 rgba(77, 16, 0, 0.56)';
   public static btnPayShadowArrowLeft =
@@ -477,13 +477,13 @@ export class DefaultTheme {
   public static btnLargeArrowLeftLoadingDelay = '0s';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static get btnFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static get btnFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static get btnLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -574,7 +574,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static get selectFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static selectPaddingXSmall = '9px';
   public static get selectPaddingYSmall() {
@@ -583,15 +583,15 @@ export class DefaultTheme {
   public static get selectBorderRadiusSmall() {
     return this.controlBorderRadiusSmall;
   }
-  public static get selectPaddingIconSmall() {
-    return this.btnPaddingIconSmall;
+  public static get selectIconGapSmall() {
+    return this.btnIconGapSmall;
   }
   public static selectPaddingArrowSmall = '10px';
   public static get selectLineHeightMedium() {
     return this.controlLineHeightMedium;
   }
   public static get selectFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static selectPaddingXMedium = '9px';
   public static get selectPaddingYMedium() {
@@ -600,15 +600,15 @@ export class DefaultTheme {
   public static get selectBorderRadiusMedium() {
     return this.controlBorderRadiusMedium;
   }
-  public static get selectPaddingIconMedium() {
-    return this.btnPaddingIconMedium;
+  public static get selectIconGapMedium() {
+    return this.btnIconGapMedium;
   }
   public static selectPaddingArrowMedium = '10px';
   public static get selectLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
   public static get selectFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static selectPaddingXLarge = '9px';
   public static get selectPaddingYLarge() {
@@ -617,8 +617,8 @@ export class DefaultTheme {
   public static get selectBorderRadiusLarge() {
     return this.controlBorderRadiusLarge;
   }
-  public static get selectPaddingIconLarge() {
-    return this.btnPaddingIconLarge;
+  public static get selectIconGapLarge() {
+    return this.btnIconGapLarge;
   }
   public static selectPaddingArrowLarge = '13px';
   public static get selectMenuArrowColor() {
@@ -826,9 +826,12 @@ export class DefaultTheme {
   public static inputPaddingXSmall = '10px';
   public static inputPaddingXMedium = '10px';
   public static inputPaddingXLarge = '10px';
-  public static inputPaddingIconSmall = '2px';
-  public static inputPaddingIconMedium = '2px';
-  public static inputPaddingIconLarge = '2px';
+  public static inputIconGapSmall = '2px';
+  public static inputIconGapMedium = '2px';
+  public static inputIconGapLarge = '2px';
+  public static inputIconSizeSmall = 'auto';
+  public static inputIconSizeMedium = 'auto';
+  public static inputIconSizeLarge = 'auto';
   public static get inputFocusShadow() {
     return `0 0 0 ${this.inputBorderWidthFocus} ${this.borderColorFocus}`;
   }
@@ -901,7 +904,9 @@ export class DefaultTheme {
   public static get chbShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
-  public static chbShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.15)';
+  public static get chbShadowDisabled() {
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
+  }
   public static chbBorder = 'none';
   public static get chbShadowHover() {
     return this.chbShadow;
@@ -971,7 +976,7 @@ export class DefaultTheme {
   public static get checkboxBoxSize() {
     return this.chbBoxSize;
   }
-  public static get checkboxPaddingX() {
+  public static get checkboxLabelGap() {
     return this.chbPaddingX;
   }
   public static get checkboxPaddingY() {
@@ -1149,7 +1154,7 @@ export class DefaultTheme {
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static radioPaddingX = '9px';
+  public static radioLabelGap = '9px';
   public static radioPaddingY = '0';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
@@ -1179,7 +1184,9 @@ export class DefaultTheme {
   public static get radioCheckedHoverBgColor() {
     return this.radioHoverBg;
   }
-  public static radioDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.15)';
+  public static get radioDisabledShadow() {
+    return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.15)`;
+  }
   public static radioLabelDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
   public static radioMarginY = '2px';

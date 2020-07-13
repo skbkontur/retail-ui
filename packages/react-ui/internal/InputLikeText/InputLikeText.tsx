@@ -253,7 +253,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={this.getContainerClassName()}>
+      <span className={jsInputStyles.sideContainer()}>
         {leftIcon}
         {prefix}
       </span>
@@ -269,7 +269,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={this.getContainerClassName()}>
+      <span className={cn(jsInputStyles.sideContainer(), jsInputStyles.rightContainer())}>
         {rightIcon}
         {suffix}
       </span>
@@ -406,17 +406,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private defrost = (): void => {
     this.frozen = false;
     this.frozenBlur = false;
-  };
-  private getContainerClassName = () => {
-    switch (this.props.size) {
-      case 'large':
-        return jsInputStyles.sideContainerLarge(this.theme);
-      case 'medium':
-        return jsInputStyles.sideContainerMedium(this.theme);
-      case 'small':
-      default:
-        return jsInputStyles.sideContainerSmall(this.theme);
-    }
   };
 
   private getSizeClassName = () => {

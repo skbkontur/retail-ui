@@ -225,7 +225,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={this.getSizeIconClassName()}>{this.props.icon}</span>;
+      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
     }
 
     let arrow = null;
