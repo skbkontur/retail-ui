@@ -74,6 +74,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconGapSmall = '4px';
   public static btnIconGapMedium = '4px';
   public static btnIconGapLarge = '4px';
+  public static btnIconSizeSmall = '16px';
+  public static btnIconSizeMedium = '18px';
+  public static btnIconSizeLarge = '20px';
   public static btnSmallArrowTop = '7px';
   public static btnSmallArrowRight = '-8px';
 
@@ -137,6 +140,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static inputIconGapSmall = '4px';
   public static inputIconGapMedium = '8px';
   public static inputIconGapLarge = '12px';
+  public static inputIconSizeSmall = '16px';
+  public static inputIconSizeMedium = '18px';
+  public static inputIconSizeLarge = '20px';
   //#endregion
   //#region Select
   public static selectWidth = '200px';
@@ -198,10 +204,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   public static checkboxLabelGap = '8px';
   public static get checkboxPaddingY() {
-    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
 
-    return `${paddingYSmall + borderWidth}px`;
+    return `${(controlHeight - lineHeight) / 2}px`;
   }
   public static get checkboxBorderRadius() {
     return this.controlBorderRadiusSmall;
@@ -383,10 +389,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   public static radioLabelGap = '8px';
   public static get radioPaddingY() {
-    const paddingY = parseInt(this.controlPaddingYSmall, 10) || 0;
-    const borderWidth = parseInt(this.radioBorderWidth, 10) || 0;
+    const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeight, 10) || 0;
 
-    return `${paddingY + borderWidth}px`;
+    return `${(controlHeight - lineHeight) / 2}px`;
   }
   public static radioSize = '16px';
   public static get radioBorderWidth() {
