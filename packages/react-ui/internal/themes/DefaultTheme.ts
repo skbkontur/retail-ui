@@ -971,7 +971,7 @@ export class DefaultTheme {
   public static get checkboxBoxSize() {
     return this.chbBoxSize;
   }
-  public static get checkboxPaddingX() {
+  public static get checkboxLabelGap() {
     return this.chbPaddingX;
   }
   public static get checkboxPaddingY() {

@@ -166,7 +166,7 @@ const styles = {
 
   caption(t: Theme) {
     return css`
-      padding-left: ${t.checkboxPaddingX};
+      padding-left: ${t.checkboxLabelGap};
     `;
   },
 
