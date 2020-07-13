@@ -31,7 +31,6 @@ const styles = {
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      color: ${t.btnTextColorDefault};
       cursor: pointer;
       display: inline-block;
       position: relative;

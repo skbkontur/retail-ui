@@ -92,10 +92,6 @@ defineInlineTest(
       <Input onChange={(e, v) => handle(e, v)} />
     </>
 `,
-  `
-    <>
-      <Input onChange={(e, v) => handle(e, v)} />
-    </>
-  `,
+  ``,
   `doesn't transform onChange if "event" arg is being used`,
 );

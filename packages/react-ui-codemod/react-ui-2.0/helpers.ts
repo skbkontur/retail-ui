@@ -140,14 +140,24 @@ export const dedupe: (collection: Collection<any>) => void = (collection): void 
     });
 };
 
-export const deduplicateImports = (api: API, collection: Collection<any>, source: RegExp | string): void => {
+export const deduplicateImports = (api: API, collection: Collection<any>, source: RegExp | string): boolean => {
   const j = api.jscodeshift;
-  dedupe(collection.find(j.ImportDeclaration, node => node.source.value.match(source)));
+  const suspects = collection.find(j.ImportDeclaration, node => node.source.value.match(source));
+  if (suspects.length) {
+    dedupe(suspects);
+    return true;
+  }
+  return false;
 };
 
-export const deduplicateExports = (api: API, collection: Collection<any>, source: RegExp | string): void => {
+export const deduplicateExports = (api: API, collection: Collection<any>, source: RegExp | string): boolean => {
   const j = api.jscodeshift;
-  dedupe(collection.find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(source)));
+  const suspects = collection.find(j.ExportNamedDeclaration, node => node.source && node.source.value.match(source));
+  if (suspects.length) {
+    dedupe(suspects);
+    return true;
+  }
+  return false;
 };
 
 export const isModuleRemoved = (path: string, report?: API['report']) => {

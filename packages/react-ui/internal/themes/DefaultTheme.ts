@@ -321,7 +321,9 @@ export class DefaultTheme {
   public static btnDefaultBgArrowEnd = '#ebebeb';
   public static btnDefaultCheckedShadowArrow = 'none';
   public static btnDefaultCheckedBorder = 'none';
-  public static btnDefaultTextColor = 'none';
+  public static get btnDefaultTextColor() {
+    return this.textColorDefault;
+  }
   public static btnDefaultHoverBg = 'none';
   public static btnDefaultHoverBorderColor = 'transparent';
   public static btnDefaultActiveBorderColor = 'none';
@@ -441,9 +443,11 @@ export class DefaultTheme {
   public static btnPayBgEnd = '#ffbb39';
   public static btnPayBgArrowStart = '#ffd54b';
   public static btnPayBgArrowEnd = '#ffbb39';
-  public static btnPayTextColor = 'none';
   public static get btnPayShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(238, 169, 34, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(77, 16, 0, 0.56)`;
+  }
+  public static get btnPayTextColor() {
+    return this.textColorDefault;
   }
   public static btnPayShadowArrow = '1px -1px 0 0 rgba(238, 169, 34, 0.7), 1px -0.3px 0 0 rgba(77, 16, 0, 0.56)';
   public static btnPayShadowArrowLeft =
