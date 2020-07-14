@@ -79,6 +79,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDangerShadow = 'none';
   public static btnDangerHoverShadow = 'none';
   public static btnDangerActiveShadow = 'none';
+  public static btnPayBg = '#ffca43';
   public static btnPayHoverBg = '#f0be3f';
   public static btnPayActiveBg = '#e0b13a';
   public static btnPayDisabledBg = '#ffca43';
