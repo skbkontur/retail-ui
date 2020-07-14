@@ -528,12 +528,9 @@ export class DefaultTheme {
     return this.borderColorError;
   }
   public static get btnHeightSmall() {
-    console.log(this.btnBorderWidth, this.btnPaddingYSmall, this.btnLineHeightSmall);
-
     const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
     const padding = parseInt(this.btnPaddingYSmall, 10) || 0;
     const lineHeigh = parseInt(this.btnLineHeightSmall, 10) || 0;
-    console.log(`${2 * borderWidth + 2 * padding + lineHeigh}px`);
     return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnHeightMedium() {
