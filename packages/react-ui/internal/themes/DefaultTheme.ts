@@ -45,9 +45,6 @@ export class DefaultTheme {
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
   public static controlBorderWidth = '1px';
   public static controlBorderWidthFocus = '2px';
-  public static controlBorderRadiusSmall = '1px';
-  public static controlBorderRadiusMedium = '2px';
-  public static controlBorderRadiusLarge = '2px';
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '20px';
   public static controlLineHeightLarge = '22px';
@@ -580,7 +577,7 @@ export class DefaultTheme {
     return this.controlPaddingYSmall;
   }
   public static get selectBorderRadiusSmall() {
-    return this.controlBorderRadiusSmall;
+    return this.btnBorderRadiusSmall;
   }
   public static get selectIconGapSmall() {
     return this.btnIconGapSmall;
@@ -597,7 +594,7 @@ export class DefaultTheme {
     return this.controlPaddingYMedium;
   }
   public static get selectBorderRadiusMedium() {
-    return this.controlBorderRadiusMedium;
+    return this.btnBorderRadiusMedium;
   }
   public static get selectIconGapMedium() {
     return this.btnIconGapMedium;
@@ -614,7 +611,7 @@ export class DefaultTheme {
     return this.controlPaddingYLarge;
   }
   public static get selectBorderRadiusLarge() {
-    return this.controlBorderRadiusLarge;
+    return this.btnBorderRadiusLarge;
   }
   public static get selectIconGapLarge() {
     return this.btnIconGapLarge;
