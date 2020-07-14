@@ -639,6 +639,15 @@ export class DefaultTheme {
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }
+  public static get selectIconSizeSmall() {
+    return this.btnIconSizeSmall;
+  }
+  public static get selectIconSizeMedium() {
+    return this.btnIconSizeMedium;
+  }
+  public static get selectIconSizeLarge() {
+    return this.btnIconSizeLarge;
+  }
   //#endregion
   //#region Tooltip
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
