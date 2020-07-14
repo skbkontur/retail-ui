@@ -102,9 +102,7 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Token
-  public static get tokenDisabledBg() {
-    return this.borderColorGrayLight;
-  }
+  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
   public static get tokenTextColorDisabled() {
     return this.textColorDisabled;
   }
@@ -320,25 +318,17 @@ export class DefaultTheme {
   public static btnDefaultActiveBorderColor = 'none';
   public static btnDefaultBorder = 'none';
   public static get btnDefaultShadow() {
-    return `0 ${this.btnBorderWidth} 0 0 ${this.borderColorGrayLight}, 0 0 0 ${this.btnBorderWidth} ${this.borderColorGrayLight}`;
+    return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
-  public static get btnDefaultShadowArrow() {
-    return `1.2px -1px 0 0 ${this.borderColorGrayLight}, 1px 0 0 0 ${this.borderColorGrayLight}`;
-  }
-  public static get btnDefaultShadowArrowLeft() {
-    return `1px -1px 0 0 ${this.borderColorGrayLight}, 0 -1px 0 0 ${this.borderColorGrayLight}`;
-  }
+  public static btnDefaultShadowArrow = '1.2px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.15)';
+  public static btnDefaultShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.15)';
   public static btnDefaultHoverBgStart = '#f2f2f2';
   public static btnDefaultHoverBgEnd = '#dfdfdf';
   public static get btnDefaultHoverShadow() {
-    return `0 ${this.btnBorderWidth} 0 0 ${this.borderColorGrayLight}, 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2)`;
+    return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2)`;
   }
-  public static get btnDefaultHoverShadowArrow() {
-    return `1px -1px 0 0 ${this.borderColorGrayLight}, 1px 0 0 0 rgba(0, 0, 0, 0.2)`;
-  }
-  public static get btnDefaultHoverShadowArrowLeft() {
-    return `1px -1px 0 0 ${this.borderColorGrayLight}, 0 -1px 0 0 ${this.borderColorGrayLight}`;
-  }
+  public static btnDefaultHoverShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.2)';
+  public static btnDefaultHoverShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.2)';
   public static btnDefaultActiveBg = '#e1e1e1';
   public static get btnDefaultActiveShadow() {
     return `0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.1), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
@@ -932,10 +922,10 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static get chbShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} ${this.borderColorGrayLight}`;
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
   public static get chbShadowDisabled() {
-    return `0 0 0 ${this.checkboxBorderWidth} ${this.borderColorGrayLight}`;
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
   public static chbBorder = 'none';
   public static get chbShadowHover() {
@@ -1191,9 +1181,7 @@ export class DefaultTheme {
   public static radioHoverBg = 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%)';
   public static radioActiveBg = 'linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%)';
   public static radioBorderWidth = '1px';
-  public static get radioBorderColor() {
-    return this.borderColorGrayLight;
-  }
+  public static radioBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static get radioBoxShadow() {
     return `0 ${this.radioBorderWidth} 0 0 ${this.radioBorderColor}, 0 0 0 ${this.radioBorderWidth} ${this.radioBorderColor}`;
   }
@@ -1208,7 +1196,7 @@ export class DefaultTheme {
     return this.borderColorError;
   }
   public static get radioHoverShadow() {
-    return `0 ${this.radioBorderWidth} 0 0 ${this.borderColorGrayLight}, 0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.2)`;
+    return `0 ${this.radioBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.2)`;
   }
   public static get radioActiveShadow() {
     return `0 -${this.radioBorderWidth} 0 0 rgba(0, 0, 0, 0.1), 0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
@@ -1220,7 +1208,7 @@ export class DefaultTheme {
     return this.radioHoverBg;
   }
   public static get radioDisabledShadow() {
-    return `0 0 0 ${this.radioBorderWidth} ${this.borderColorGrayLight}`;
+    return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
   public static radioLabelDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
