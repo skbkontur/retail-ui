@@ -843,8 +843,8 @@ export class DefaultTheme {
   }
   public static get inputHeightLarge() {
     const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
-    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
-    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
+    const padding = parseInt(this.inputPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightLarge, 10) || 0;
     return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputPaddingYSmall() {
