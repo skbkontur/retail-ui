@@ -15,9 +15,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static controlPaddingYSmall = '5px';
   public static controlPaddingYMedium = '8px';
   public static controlPaddingYLarge = '11px';
-  public static controlBorderRadiusSmall = '1px';
-  public static controlBorderRadiusMedium = '1px';
-  public static controlBorderRadiusLarge = '1px';
   //#region Button
   public static get btnBorderWidth() {
     return this.controlBorderWidth;
@@ -55,15 +52,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get btnPaddingYLarge() {
     return this.controlPaddingYLarge;
   }
-  public static get btnBorderRadiusSmall() {
-    return this.controlBorderRadiusSmall;
-  }
-  public static get btnBorderRadiusMedium() {
-    return this.controlBorderRadiusMedium;
-  }
-  public static get btnBorderRadiusLarge() {
-    return this.controlBorderRadiusLarge;
-  }
+  public static btnBorderRadiusSmall = '1px';
+  public static btnBorderRadiusMedium = '1px';
+  public static btnBorderRadiusLarge = '1px';
 
   public static btnIconGapSmall = '4px';
   public static btnIconGapMedium = '4px';
@@ -168,13 +159,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlPaddingYLarge;
   }
   public static get selectBorderRadiusSmall() {
-    return this.controlBorderRadiusSmall;
+    return this.btnBorderRadiusSmall;
   }
   public static get selectBorderRadiusMedium() {
-    return this.controlBorderRadiusMedium;
+    return this.btnBorderRadiusMedium;
   }
   public static get selectBorderRadiusLarge() {
-    return this.controlBorderRadiusLarge;
+    return this.btnBorderRadiusLarge;
   }
   public static selectIconGapSmall = '4px';
   public static selectIconGapMedium = '8px';
@@ -194,9 +185,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
     return `${(controlHeight - lineHeight) / 2}px`;
   }
-  public static get checkboxBorderRadius() {
-    return this.controlBorderRadiusSmall;
-  }
+  public static checkboxBorderRadius = '1px';
   public static get checkboxBorderWidth() {
     return this.controlBorderWidth;
   }
