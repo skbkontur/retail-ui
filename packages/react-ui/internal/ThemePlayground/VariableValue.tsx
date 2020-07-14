@@ -2,6 +2,7 @@ import React from 'react';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import EventEmitter from 'eventemitter3';
+import cn from 'classnames';
 
 import { Input } from '../../components/Input';
 import { Gapped } from '../../components/Gapped';
@@ -21,6 +22,7 @@ export interface VariableValueProps {
   variable: string;
   theme: Theme;
   baseVariables: Array<keyof Theme>;
+  deprecated: boolean;
 }
 
 export interface VariableValueState {
@@ -29,6 +31,9 @@ export interface VariableValueState {
 }
 
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
+  public static defaultProps = {
+    deprecated: false,
+  };
   public state = {
     value: this.props.value,
     editing: false,
@@ -39,10 +44,13 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private debounceInterval: number | undefined = undefined;
 
   public render() {
-    const { variable, theme, baseVariables } = this.props;
+    const { variable, theme, baseVariables, deprecated } = this.props;
     return (
       <div className={jsStyles.variable(theme)} ref={this.rootRef} tabIndex={0}>
-        <div className={jsStyles.variableName(theme)} title={variable}>{`${variable}: `}</div>
+        <div
+          className={cn(jsStyles.variableName(theme), { [jsStyles.deprecated()]: deprecated })}
+          title={variable}
+        >{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
       </div>
     );

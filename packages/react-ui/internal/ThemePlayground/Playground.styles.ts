@@ -56,6 +56,12 @@ const styles = {
     `;
   },
 
+  deprecated() {
+    return css`
+      text-decoration: line-through;
+    `;
+  },
+
   colorIcon() {
     return css`
       height: 16px;

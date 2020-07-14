@@ -6,7 +6,7 @@ import { Gapped } from '../../components/Gapped';
 import { Loader } from '../../components/Loader';
 
 import { VariableValue } from './VariableValue';
-import { VARIABLES_GROUPS } from './constants';
+import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
 import { ThemeErrorsType } from './ThemeContextPlayground';
 import { jsStyles } from './Playground.styles';
 
@@ -54,7 +54,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
   private renderGroups = () => {
     const { editingTheme, currentTheme, currentErrors, onValueChange } = this.props;
-    const keys = ThemeFactory.getKeys(editingTheme);
+    const keys = ThemeFactory.getKeys(editingTheme).filter(key => !isDeprecatedVariable(key));
 
     return (
       <Gapped vertical>
@@ -73,6 +73,16 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
             key={i.title}
           />
         ))}
+        {DEPRECATED_VARIABLES.length > 0 ? (
+          <Group
+            editingTheme={editingTheme}
+            currentTheme={currentTheme}
+            currentErrors={currentErrors}
+            onValueChange={onValueChange}
+            title={'Deprecated Variables'}
+            variables={DEPRECATED_VARIABLES}
+          />
+        ) : null}
       </Gapped>
     );
   };
@@ -104,11 +114,16 @@ const Group = (props: GroupProps) => {
             variable={variable}
             key={variable}
             baseVariables={getBaseVariables(editingTheme, variable)}
+            deprecated={isDeprecatedVariable(variable)}
           />
         );
       })}
     </React.Fragment>
   ) : null;
+};
+
+const isDeprecatedVariable = (name: keyof Theme) => {
+  return DEPRECATED_VARIABLES.includes(name);
 };
 
 const isGroupVariable = (prefix: string, name: string) => {
