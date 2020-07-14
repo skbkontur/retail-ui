@@ -233,12 +233,22 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get chbShadowDisabled() {
     return `0 0 0 ${this.checkboxBorderWidth} #f2f2f2`;
   }
-  public static chbShadowActive = '0 0 0 1px #c3c3c3';
-  public static chbShadowHover = '0 0 0 1px #c3c3c3';
+  public static get chbShadowActive() {
+    return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
+  }
+  public static get chbShadowHover() {
+    return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
+  }
   public static chbCheckedColor = '#fff';
-  public static chbCheckedShadow = '0 0 0 1px #1768a3';
-  public static chbCheckedHoverShadow = '0 0 0 1px #175590';
-  public static chbCheckedActiveShadow = '0 0 0 1px #175590';
+  public static get chbCheckedShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} #1768a3`;
+  }
+  public static get chbCheckedHoverShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+  }
+  public static get chbCheckedActiveShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+  }
   public static get chbHoverBg() {
     return this.btnDefaultHoverBg;
   }
