@@ -14,6 +14,7 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnPaddingXSmall: props._icon ? theme.btnPaddingXSmall : theme.selectPaddingXSmall,
       btnPaddingYSmall: theme.selectPaddingYSmall,
       btnIconGapSmall: theme.selectIconGapSmall,
+      btnIconSizeSmall: theme.selectIconSizeSmall,
       btnBorderRadiusSmall: theme.selectBorderRadiusSmall,
 
       btnLineHeightMedium: theme.selectLineHeightMedium,
@@ -21,6 +22,7 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnPaddingXMedium: props._icon ? theme.btnPaddingXMedium : theme.selectPaddingXMedium,
       btnPaddingYMedium: theme.selectPaddingYMedium,
       btnIconGapMedium: theme.selectIconGapMedium,
+      btnIconSizeMedium: theme.selectIconSizeMedium,
       btnBorderRadiusMedium: theme.selectBorderRadiusMedium,
 
       btnLineHeightLarge: theme.selectLineHeightLarge,
@@ -28,6 +30,7 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnPaddingXLarge: props._icon ? theme.btnPaddingXLarge : theme.selectPaddingXLarge,
       btnPaddingYLarge: theme.selectPaddingYLarge,
       btnIconGapLarge: theme.selectIconGapLarge,
+      btnIconSizeLarge: theme.selectIconSizeLarge,
       btnBorderRadiusLarge: theme.selectBorderRadiusLarge,
     },
     theme,

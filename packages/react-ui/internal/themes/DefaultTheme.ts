@@ -46,9 +46,6 @@ export class DefaultTheme {
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
   public static controlBorderWidth = '1px';
   public static controlBorderWidthFocus = '2px';
-  public static controlBorderRadiusSmall = '1px';
-  public static controlBorderRadiusMedium = '2px';
-  public static controlBorderRadiusLarge = '2px';
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '20px';
   public static controlLineHeightLarge = '22px';
@@ -74,24 +71,9 @@ export class DefaultTheme {
   public static get borderColorWarning() {
     return this.warningMain;
   }
-  public static get controlHeightSmall() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
-    const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
-  }
-  public static get controlHeightMedium() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
-    const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
-  }
-  public static get controlHeightLarge() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
-  }
+  public static controlHeightSmall = '34px';
+  public static controlHeightMedium = '40px';
+  public static controlHeightLarge = '44px';
 
   //#endregion
   //#region Link
@@ -258,8 +240,13 @@ export class DefaultTheme {
   public static loaderOpacity = '0.8';
   //#endregion
   //#region Button
-  public static btnWrapPadding = '1px';
-  public static btnHeightShift = '-2';
+  public static get btnWrapPadding() {
+    return this.btnBorderWidth;
+  }
+  public static get btnHeightShift() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    return `-${2 * borderWidth}px`;
+  }
   public static btnLinkBorderRadius = '1px';
   public static get btnFocusShadowWidth() {
     return this.btnBorderWidthFocus;
@@ -269,7 +256,9 @@ export class DefaultTheme {
   public static btnCheckedBg = '#737373';
   public static btnCheckedHoverBorderColor = 'transparent';
   public static btnCheckedTextColor = '#fff';
-  public static btnCheckedShadow = '0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)';
+  public static get btnCheckedShadow() {
+    return `0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)`;
+  }
   public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3)';
@@ -342,8 +331,9 @@ export class DefaultTheme {
   public static btnDefaultHoverShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.2)';
   public static btnDefaultHoverShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.2)';
   public static btnDefaultActiveBg = '#e1e1e1';
-  public static btnDefaultActiveShadow =
-    '0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
+  public static get btnDefaultActiveShadow() {
+    return `0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.1), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
+  }
   public static btnDefaultActiveShadowArrow =
     '0 -2px 0 -1px rgba(0, 0, 0, 0.1), 1px -1px 0 0 rgba(0, 0, 0, 0.2), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1)';
   public static btnDefaultActiveShadowArrowLeft =
@@ -371,8 +361,9 @@ export class DefaultTheme {
   public static btnSuccessHoverShadowArrow = '1px -1px 0 0 rgba(7, 73, 1, 0.7), 1px 0 0 0 rgba(16, 70, 4, 0.3)';
   public static btnSuccessHoverShadowArrowLeft = '1px -1px 0 0 rgba(7, 73, 1, 0.7), 0 -1px 0 0 rgba(16, 70, 4, 0.3)';
   public static btnSuccessActiveBg = '#35840e';
-  public static btnSuccessActiveShadow =
-    '0 0 0 1px rgba(4, 63, 0, 0.75), 0 -1px 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
+  public static get btnSuccessActiveShadow() {
+    return `0 0 0 ${this.btnBorderWidth} rgba(4, 63, 0, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
+  }
   public static btnSuccessActiveShadowArrow =
     '1px -1px 0 0 rgba(4, 63, 0, 0.75), 0 -2px 0 -1px rgba(9, 32, 4, 0.6), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1)';
   public static btnSuccessActiveShadowArrowLeft =
@@ -400,8 +391,9 @@ export class DefaultTheme {
   public static btnPrimaryHoverShadowArrow = '1px -1px 0 0 rgba(5, 60, 99, 0.7), 1px 0 0 0 rgba(7, 37, 80, 0.3)';
   public static btnPrimaryHoverShadowArrowLeft = '1px -1px 0 0 rgba(5, 60, 99, 0.7), 0 -1px 0 0 rgba(7, 37, 80, 0.3)';
   public static btnPrimaryActiveBg = '#0079c3';
-  public static btnPrimaryActiveShadow =
-    '0 0 0 1px rgba(10, 63, 99, 0.75), 0 -1px 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)';
+  public static get btnPrimaryActiveShadow() {
+    return `0 0 0 ${this.btnBorderWidth} rgba(10, 63, 99, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)`;
+  }
   public static btnPrimaryActiveShadowArrow =
     '1px -1px 0 0 rgba(10, 63, 99, 0.75), 0 -2px 0 -1px rgba(8, 45, 96, 0.5), inset 0 4px 5px -4px rgba(0, 0, 0, 0.2)';
   public static btnPrimaryActiveShadowArrowLeft =
@@ -429,8 +421,9 @@ export class DefaultTheme {
   public static btnDangerHoverShadowArrow = '1px -1px 0 0 rgba(145, 0, 0, 0.7), 1px 0 0 0 rgba(90, 3, 3, 0.4)';
   public static btnDangerHoverShadowArrowLeft = '1px -1px 0 0 rgba(145, 0, 0, 0.7), 0 -1px 0 0 rgba(90, 3, 3, 0.4)';
   public static btnDangerActiveBg = '#cd381b';
-  public static btnDangerActiveShadow =
-    '0 0 0 1px rgba(108, 7, 7, 0.75), 0 -1px 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
+  public static get btnDangerActiveShadow() {
+    return `0 0 0 ${this.btnBorderWidth} rgba(108, 7, 7, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
+  }
   public static btnDangerActiveShadowArrow =
     '1px -1px 0 0 rgba(108, 7, 7, 0.75), 0 -2px 0 -1px rgba(90, 3, 3, 0.4), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1)';
   public static btnDangerActiveShadowArrowLeft =
@@ -461,8 +454,9 @@ export class DefaultTheme {
   public static btnPayHoverShadowArrow = '1px -1px 0 0 rgba(227, 142, 8, 0.7), 1px -0.3px 0 0 rgba(93, 20, 3, 0.4)';
   public static btnPayHoverShadowArrowLeft = '1px -1px 0 0 rgba(227, 142, 8, 0.7), 0 -1px 0 0 rgba(93, 20, 3, 0.4)';
   public static btnPayActiveBg = '#fbb028';
-  public static btnPayActiveShadow =
-    '0 0 0 1px rgba(210, 144, 0, 0.7), 0 -1px 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)';
+  public static get btnPayActiveShadow() {
+    return `0 0 0 ${this.btnBorderWidth} rgba(210, 144, 0, 0.7), 0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)`;
+  }
   public static btnPayActiveShadowArrow =
     '1px -1px 0 0 rgba(210, 144, 0, 0.7), 0 -2px 0 -1px rgba(0, 0, 0, 0.44), inset 0 4px 5px -4px rgba(0, 0, 0, 0.05)';
   public static btnPayActiveShadowArrowLeft =
@@ -510,7 +504,7 @@ export class DefaultTheme {
     return this.borderColorGrayLight;
   }
   public static get btnDisabledShadow() {
-    return `0 0 0 1px ${this.btnDisabledShadowColor}`;
+    return `0 0 0 ${this.btnBorderWidth} ${this.btnDisabledShadowColor}`;
   }
   public static get btnDisabledShadowArrow() {
     return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
@@ -525,13 +519,22 @@ export class DefaultTheme {
     return this.borderColorError;
   }
   public static get btnHeightSmall() {
-    return this.controlHeightSmall;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnHeightMedium() {
-    return this.controlHeightMedium;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnHeightLarge() {
-    return this.controlHeightLarge;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnLinkColor() {
     return this.linkColor;
@@ -581,7 +584,7 @@ export class DefaultTheme {
     return this.controlPaddingYSmall;
   }
   public static get selectBorderRadiusSmall() {
-    return this.controlBorderRadiusSmall;
+    return this.btnBorderRadiusSmall;
   }
   public static get selectIconGapSmall() {
     return this.btnIconGapSmall;
@@ -598,7 +601,7 @@ export class DefaultTheme {
     return this.controlPaddingYMedium;
   }
   public static get selectBorderRadiusMedium() {
-    return this.controlBorderRadiusMedium;
+    return this.btnBorderRadiusMedium;
   }
   public static get selectIconGapMedium() {
     return this.btnIconGapMedium;
@@ -615,7 +618,7 @@ export class DefaultTheme {
     return this.controlPaddingYLarge;
   }
   public static get selectBorderRadiusLarge() {
-    return this.controlBorderRadiusLarge;
+    return this.btnBorderRadiusLarge;
   }
   public static get selectIconGapLarge() {
     return this.btnIconGapLarge;
@@ -623,6 +626,15 @@ export class DefaultTheme {
   public static selectPaddingArrowLarge = '13px';
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
+  }
+  public static get selectIconSizeSmall() {
+    return this.btnIconSizeSmall;
+  }
+  public static get selectIconSizeMedium() {
+    return this.btnIconSizeMedium;
+  }
+  public static get selectIconSizeLarge() {
+    return this.btnIconSizeLarge;
   }
   //#endregion
   //#region Tooltip
@@ -806,13 +818,22 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get inputHeightSmall() {
-    return this.controlHeightSmall;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputHeightMedium() {
-    return this.controlHeightMedium;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputHeightLarge() {
-    return this.controlHeightLarge;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputPaddingYSmall() {
     return this.controlPaddingYSmall;
@@ -1175,9 +1196,12 @@ export class DefaultTheme {
   public static get radioBorderColorError() {
     return this.borderColorError;
   }
-  public static radioHoverShadow = '0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.2)';
-  public static radioActiveShadow =
-    '0 -1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
+  public static get radioHoverShadow() {
+    return `0 ${this.radioBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.2)`;
+  }
+  public static get radioActiveShadow() {
+    return `0 -${this.radioBorderWidth} 0 0 rgba(0, 0, 0, 0.1), 0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
+  }
   public static radioFocusShadow = 'none';
   public static radioCheckedBgColor = 'transparent';
   public static radioCheckedBulletColor = '#404040';
