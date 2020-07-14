@@ -9,15 +9,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static controlHeightSmall = '32px';
   public static controlHeightMedium = '40px';
   public static controlHeightLarge = '48px';
-  public static get controlFontSizeSmall() {
-    return this.fontSizeSmall;
-  }
-  public static get controlFontSizeMedium() {
-    return this.fontSizeMedium;
-  }
-  public static get controlFontSizeLarge() {
-    return this.fontSizeLarge;
-  }
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '22px';
   public static controlLineHeightLarge = '24px';
@@ -44,13 +35,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightLarge;
   }
   public static get btnFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static get btnFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static get btnFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
@@ -108,13 +99,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightLarge;
   }
   public static get inputFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static get inputFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static get inputFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static inputPaddingXSmall = '7px';
   public static inputPaddingXMedium = '11px';
@@ -156,13 +147,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightLarge;
   }
   public static get selectFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static get selectFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static get selectFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static selectPaddingXSmall = '7px';
   public static selectPaddingXMedium = '11px';
@@ -194,7 +185,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightSmall;
   }
   public static get checkboxFontSize() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static checkboxLabelGap = '8px';
   public static get checkboxPaddingY() {
@@ -230,7 +221,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return `${paddingYSmall + borderWidth}px`;
   }
   public static get tabFontSize() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static get tabLineHeight() {
     return this.controlLineHeightSmall;
@@ -258,7 +249,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightSmall;
   }
   public static get tokenFontSize() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static tokenMarginY = '2px';
   public static tokenMarginX = '4px';
@@ -292,13 +283,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Spinner
 
   public static get spinnerFontSizeSmall() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static get spinnerFontSizeMedium() {
-    return this.controlFontSizeMedium;
+    return this.fontSizeMedium;
   }
   public static get spinnerFontSizeLarge() {
-    return this.controlFontSizeLarge;
+    return this.fontSizeLarge;
   }
   public static get spinnerLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -356,7 +347,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return `calc(${this.controlBorderWidthFocus} - 1px)`;
   }
   public static get textareaFontSize() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static textareaBorderRadius = '0px';
   public static textareaPaddingX = '7px';
@@ -379,7 +370,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightSmall;
   }
   public static get radioFontSize() {
-    return this.controlFontSizeSmall;
+    return this.fontSizeSmall;
   }
   public static radioLabelGap = '8px';
   public static get radioPaddingY() {
