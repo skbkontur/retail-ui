@@ -70,24 +70,9 @@ export class DefaultTheme {
   public static get borderColorWarning() {
     return this.warningMain;
   }
-  public static get controlHeightSmall() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
-    const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
-  }
-  public static get controlHeightMedium() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
-    const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
-  }
-  public static get controlHeightLarge() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
-  }
+  public static controlHeightSmall = '34px';
+  public static controlHeightMedium = '40px';
+  public static controlHeightLarge = '44px';
 
   //#endregion
   //#region Link
@@ -259,7 +244,10 @@ export class DefaultTheme {
   public static get btnWrapPadding() {
     return this.btnBorderWidth;
   }
-  public static btnHeightShift = '-2';
+  public static get btnHeightShift() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    return `-${2 * borderWidth}px`;
+  }
   public static btnLinkBorderRadius = '1px';
   public static get btnFocusShadowWidth() {
     return this.btnBorderWidthFocus;
@@ -540,13 +528,25 @@ export class DefaultTheme {
     return this.borderColorError;
   }
   public static get btnHeightSmall() {
-    return this.controlHeightSmall;
+    console.log(this.btnBorderWidth, this.btnPaddingYSmall, this.btnLineHeightSmall);
+
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightSmall, 10) || 0;
+    console.log(`${2 * borderWidth + 2 * padding + lineHeigh}px`);
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnHeightMedium() {
-    return this.controlHeightMedium;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnHeightLarge() {
-    return this.controlHeightLarge;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnLinkColor() {
     return this.linkColor;
@@ -821,13 +821,22 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get inputHeightSmall() {
-    return this.controlHeightSmall;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputHeightMedium() {
-    return this.controlHeightMedium;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputHeightLarge() {
-    return this.controlHeightLarge;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputPaddingYSmall() {
     return this.controlPaddingYSmall;
