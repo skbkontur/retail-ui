@@ -26,12 +26,18 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnDefaultBgArrowEnd = '#fff';
   public static btnDefaultHoverBg = 'rgba(0, 0, 0, 0.05)';
-  public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static get btnDefaultHoverBorderColor() {
+    return this.borderColorGrayLight;
+  }
   public static btnDefaultActiveBg = '#e5e5e5';
   public static btnDefaultActiveBorderColor = '#cccccc';
-  public static btnDefaultBorder = '1px solid rgba(0, 0, 0, 0.15)';
+  public static get btnDefaultBorder() {
+    return `1px solid ${this.borderColorGrayLight}`;
+  }
   public static btnDefaultShadow = 'none';
-  public static btnDefaultShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.15)';
+  public static get btnDefaultShadowArrow() {
+    return `1px -1px 0 0 ${this.borderColorGrayLight}`;
+  }
   public static btnDefaultBg = '#fff';
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
@@ -125,7 +131,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnDefaultCheckedBorder = '1px solid transparent';
   public static get btnDefaultCheckedShadowArrow() {
-    return `1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px ${this.btnCheckedBg}`;
+    return `1px -1px 0 0 ${this.borderColorGrayLight}, 0 0 0 1px ${this.btnCheckedBg}`;
   }
   public static get btnDefaultHoverShadowArrow() {
     return `1px -1px 0 0 ${this.btnDefaultHoverBorderColor}, 1px -1px 0 0 ${this.btnDefaultHoverBg}`;
@@ -243,7 +249,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region Input
   public static inputShadow = 'none';
-  public static inputBorderTopColor = 'rgba(0, 0, 0, 0.15)';
+  public static get inputBorderTopColor() {
+    return this.borderColorGrayLight;
+  }
   public static inputDisabledBg = 'rgba(0, 0, 0, 0.05)';
   public static get inputDisabledBorderColor() {
     return this.inputDisabledBg;
@@ -258,7 +266,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static textareaBg = 'white';
   public static textareaColor = 'inherit';
   public static textareaShadow = 'none';
-  public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.15)';
+  public static get textareaBorderTopColor() {
+    return this.borderColorGrayLight;
+  }
   public static textareaDisabledBg = 'rgba(0, 0, 0, 0.05)';
   public static get textareaDisabledBorderColor() {
     return this.textareaDisabledBg;
@@ -270,7 +280,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
   public static radioBoxShadow = 'none';
-  public static radioBorder = '1px solid rgba(0, 0, 0, 0.15)';
+  public static get radioBorder() {
+    return `1px solid ${this.borderColorGrayLight}`;
+  }
   public static radioHoverShadow = 'none';
   public static radioActiveShadow = 'none';
   public static radioCheckedBulletColor = '#fff';
