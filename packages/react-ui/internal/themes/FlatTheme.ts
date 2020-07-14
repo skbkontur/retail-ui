@@ -32,7 +32,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDefaultActiveBg = '#e5e5e5';
   public static btnDefaultActiveBorderColor = '#cccccc';
   public static get btnDefaultBorder() {
-    return `1px solid ${this.borderColorGrayLight}`;
+    return `${this.btnBorderWidth} solid ${this.borderColorGrayLight}`;
   }
   public static btnDefaultShadow = 'none';
   public static get btnDefaultShadowArrow() {
@@ -48,7 +48,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryHoverBg = '#1b7dc3';
   public static btnPrimaryActiveBg = '#1974b6';
   public static btnPrimaryDisabledBg = '#1d85d0';
-  public static btnPrimaryBorder = '1px solid transparent';
+  public static get btnPrimaryBorder() {
+    return `${this.btnBorderWidth} solid transparent`;
+  }
   public static btnPrimaryBgStart = '#1d85d0';
   public static btnPrimaryBgEnd = '#1d85d0';
   public static btnPrimaryBgArrowStart = '#1d85d0';
@@ -61,7 +63,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnSuccessHoverBg = '#3c9312';
   public static btnSuccessActiveBg = '#398911';
   public static btnSuccessDisabledBg = '#419d14';
-  public static btnSuccessBorder = '1px solid transparent';
+  public static get btnSuccessBorder() {
+    return `${this.btnBorderWidth} solid transparent`;
+  }
   public static btnSuccessBgStart = '#419d14';
   public static btnSuccessBgEnd = '#419d14';
   public static btnSuccessBgArrowStart = '#419d14';
@@ -75,7 +79,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDangerHoverBg = '#cc4228';
   public static btnDangerActiveBg = '#be3e25';
   public static btnDangerDisabledBg = '#d9472b';
-  public static btnDangerBorder = '1px solid transparent';
+  public static get btnDangerBorder() {
+    return `${this.btnBorderWidth} solid transparent`;
+  }
   public static btnDangerBgStart = '#d9472b';
   public static btnDangerBgEnd = '#d9472b';
   public static btnDangerBgArrowStart = '#d9472b';
@@ -89,7 +95,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnPayHoverBg = '#f0be3f';
   public static btnPayActiveBg = '#e0b13a';
   public static btnPayDisabledBg = '#ffca43';
-  public static btnPayBorder = '1px solid transparent';
+  public static get btnPayBorder() {
+    return `${this.btnBorderWidth} solid transparent`;
+  }
   public static btnPayBgStart = '#ffca43';
   public static btnPayBgEnd = '#ffca43';
   public static btnPayBgArrowStart = '#ffca43';
@@ -121,7 +129,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
     return `0 0 0 1px ${this.btnCheckedBg}`;
   }
   public static get btnFocusBorder() {
-    return `1px solid ${this.borderColorFocus}`;
+    return `${this.btnBorderWidth} solid ${this.borderColorFocus}`;
   }
   public static get btnCheckedHoverBorderColor() {
     return this.btnCheckedBg;
@@ -129,7 +137,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnDefaultShadowArrowLeft() {
     return this.btnDefaultShadowArrow;
   }
-  public static btnDefaultCheckedBorder = '1px solid transparent';
+  public static get btnDefaultCheckedBorder() {
+    return `${this.btnBorderWidth} solid transparent`;
+  }
   public static get btnDefaultCheckedShadowArrow() {
     return `1px -1px 0 0 ${this.borderColorGrayLight}, 0 0 0 1px ${this.btnCheckedBg}`;
   }
@@ -224,7 +234,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Checkbox
   public static chbBg = 'none';
   public static chbIndeterminateBg = '#fff';
-  public static chbShadowDisabled = '0 0 0 1px #f2f2f2';
+  public static get chbShadowDisabled() {
+    return `0 0 0 ${this.checkboxBorderWidth} #f2f2f2`;
+  }
   public static chbShadowActive = '0 0 0 1px #c3c3c3';
   public static chbShadowHover = '0 0 0 1px #c3c3c3';
   public static chbCheckedColor = '#fff';
@@ -281,7 +293,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioBgImage = 'none';
   public static radioBoxShadow = 'none';
   public static get radioBorder() {
-    return `1px solid ${this.borderColorGrayLight}`;
+    return `${this.radioBorderWidth} solid ${this.borderColorGrayLight}`;
   }
   public static radioHoverShadow = 'none';
   public static radioActiveShadow = 'none';
