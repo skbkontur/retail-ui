@@ -6,6 +6,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '16px';
   public static fontSizeLarge = '18px';
+  public static controlHeightSmall = '32px';
+  public static controlHeightMedium = '40px';
+  public static controlHeightLarge = '48px';
   public static get controlFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -128,15 +131,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static inputBorderRadiusSmall = '0px';
   public static inputBorderRadiusMedium = '0px';
   public static inputBorderRadiusLarge = '0px';
-  public static get inputHeightSmall() {
-    return this.controlHeightSmall;
-  }
-  public static get inputHeightMedium() {
-    return this.controlHeightMedium;
-  }
-  public static get inputHeightLarge() {
-    return this.controlHeightLarge;
-  }
   public static inputIconGapSmall = '4px';
   public static inputIconGapMedium = '8px';
   public static inputIconGapLarge = '12px';
