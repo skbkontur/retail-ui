@@ -201,7 +201,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
   //#region Tab
-  public static tabPaddingX = '16px';
+  public static tabPaddingX = '8px';
   public static get tabsMarginX() {
     return this.tabPaddingX;
   }
