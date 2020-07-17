@@ -245,7 +245,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tokenMarginY = '2px';
   public static tokenMarginX = '4px';
   public static tokenPaddingY = '1px';
-  public static tokenPaddingX = '4px';
+  public static tokenPaddingX = '3px';
   public static tokenBorderRadius = '1px';
   public static tokenCloseIconSize = '8px';
   public static tokenCloseIconPaddingY = '4px';
