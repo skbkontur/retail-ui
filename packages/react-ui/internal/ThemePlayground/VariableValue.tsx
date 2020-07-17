@@ -2,6 +2,7 @@ import React from 'react';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import EventEmitter from 'eventemitter3';
+import cn from 'classnames';
 
 import { Input } from '../../components/Input';
 import { Gapped } from '../../components/Gapped';
@@ -21,6 +22,7 @@ export interface VariableValueProps {
   variable: string;
   theme: Theme;
   baseVariables: Array<keyof Theme>;
+  deprecated: boolean;
 }
 
 export interface VariableValueState {
@@ -29,27 +31,34 @@ export interface VariableValueState {
 }
 
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
+  public static defaultProps = {
+    deprecated: false,
+  };
   public state = {
     value: this.props.value,
     editing: false,
   };
   private subscription: { remove: () => void } | null = null;
-  private inputInstance: Input | null = null;
+  private rootElement: HTMLElement | null = null;
   private readonly debounceTimeout = 500;
   private debounceInterval: number | undefined = undefined;
 
   public render() {
-    const { variable, theme, baseVariables } = this.props;
+    const { variable, theme, baseVariables, deprecated } = this.props;
     return (
-      <Gapped gap={30}>
-        <div className={jsStyles.variableName(theme)} title={variable}>{`${variable}: `}</div>
+      <div className={jsStyles.variable(theme)} ref={this.rootRef} tabIndex={0}>
+        <div
+          className={cn(jsStyles.variableName(theme), { [jsStyles.deprecated()]: deprecated })}
+          title={variable}
+        >{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
-      </Gapped>
+      </div>
     );
   }
 
   public componentDidMount(): void {
     if (!this.subscription) {
+      emitter.addListener('clicked', this.emitterEventHandler);
       this.subscription = {
         remove: () => {
           emitter.removeListener('clicked', this.emitterEventHandler);
@@ -115,8 +124,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
         onValueChange={this.handleChange}
         onBlur={this.handleBlur}
         align={'right'}
-        width={this.state.editing ? 225 : undefined}
-        ref={this.inputRef}
+        width={this.state.editing ? 225 : 250}
         error={this.props.isError}
       />
     );
@@ -124,7 +132,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
 
   private renderRollbackIcon() {
     return (
-      <Hint text={'Вернуться к базовой переменной'} pos={'left'}>
+      <Hint text={'Вернуться к базовой переменной'}>
         <div className={jsStyles.linkRoot()}>
           <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
         </div>
@@ -132,8 +140,8 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     );
   }
 
-  private inputRef = (instance: Input) => {
-    this.inputInstance = instance;
+  private rootRef = (instance: HTMLElement | null) => {
+    this.rootElement = instance;
   };
 
   private colorIcon = () => {
@@ -182,8 +190,8 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   };
 
   private emitterEventHandler = (name: keyof Theme) => {
-    if (name === this.props.variable && this.inputInstance) {
-      this.inputInstance.focus();
+    if (name === this.props.variable && this.rootElement) {
+      this.rootElement.focus();
     }
   };
 }

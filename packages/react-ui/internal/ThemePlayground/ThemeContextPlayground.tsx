@@ -5,6 +5,8 @@ import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
+import { DEFAULT_THEME_8PX } from '../../lib/theming/themes/DefaultTheme8px';
+import { FLAT_THEME_8PX } from '../../lib/theming/themes/FlatTheme8px';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
@@ -28,13 +30,17 @@ interface PlaygroundState {
 }
 interface Themes {
   default: Theme;
+  default8px: Theme;
   dark: Theme;
   flat: Theme;
+  flat8px: Theme;
 }
 interface ThemesErrors {
   default: ThemeErrorsType;
+  default8px: ThemeErrorsType;
   dark: ThemeErrorsType;
   flat: ThemeErrorsType;
+  flat8px: ThemeErrorsType;
 }
 interface EditingThemeItem {
   value: ThemeType;
@@ -48,7 +54,9 @@ export type ThemeErrorsType = Writeable<{ [key in keyof Theme]?: boolean }>;
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
+    { value: ThemeType.Default8px, label: 'Дефолтная 8px' },
     { value: ThemeType.Flat, label: 'Плоская' },
+    { value: ThemeType.Flat8px, label: 'Плоская 8px' },
     { value: ThemeType.Dark, label: 'Темная' },
   ];
 
@@ -60,13 +68,17 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
       editorOpened: false,
       themes: {
         default: DEFAULT_THEME,
+        default8px: DEFAULT_THEME_8PX,
         dark: darkTheme,
         flat: FLAT_THEME,
+        flat8px: FLAT_THEME_8PX,
       },
       themesErrors: {
         default: {},
+        default8px: {},
         dark: {},
         flat: {},
+        flat8px: {},
       },
     };
   }

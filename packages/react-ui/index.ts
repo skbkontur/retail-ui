@@ -49,4 +49,6 @@ export * from './lib/locale';
 export * from './lib/theming/ThemeContext';
 export * from './lib/theming/ThemeFactory';
 export * from './lib/theming/themes/DefaultTheme';
+export * from './lib/theming/themes/DefaultTheme8px';
 export * from './lib/theming/themes/FlatTheme';
+export * from './lib/theming/themes/FlatTheme8px';

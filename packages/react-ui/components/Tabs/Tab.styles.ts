@@ -2,9 +2,12 @@ import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
+import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 const styles = {
   root(t: Theme) {
+    const paddingTop = is8pxTheme(t) ? t.tabPaddingY : shift(t.tabPaddingY, '-1px');
+    const paddingBottom = is8pxTheme(t) ? `calc(${t.tabPaddingY} - ${t.tabBorderWidth})` : shift(t.tabPaddingY, '1px');
     return css`
       border-bottom: ${t.tabBorderWidth} solid transparent;
       box-sizing: border-box;
@@ -15,8 +18,8 @@ const styles = {
       line-height: ${t.tabLineHeight};
       margin-left: ${t.tabPaddingX};
       margin-right: ${t.tabPaddingX};
-      padding-bottom: ${shift(t.tabPaddingY, '1px')};
-      padding-top: ${shift(t.tabPaddingY, '-1px')};
+      padding-bottom: ${paddingBottom};
+      padding-top: ${paddingTop};
       position: relative;
       text-decoration: inherit;
       transition: border-bottom 0.2s ease-out;
