@@ -67,9 +67,11 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   public static btnSmallArrowLength = '16px';
   public static btnMediumArrowTop = '8px';
-  public static btnLargeArrowLength = '24px';
-  public static btnLargeArrowLeft = '-11px';
-  public static btnLargeArrowRight = '-11px';
+  public static btnMediumArrowLength = '21.2px';
+  public static btnMediumArrowRight = '-11px';
+  public static btnLargeArrowLength = '25px';
+  public static btnLargeArrowLeft = '-12px';
+  public static btnLargeArrowRight = '-12px';
 
   //#endregion
   //#region Input
