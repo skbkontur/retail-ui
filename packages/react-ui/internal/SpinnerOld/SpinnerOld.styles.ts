@@ -72,7 +72,7 @@ const styles = {
 
   mini(t: Theme) {
     return css`
-      margin-left: ${t.spinnerOldPaddingXSmall};
+      margin-left: ${t.spinnerOldCaptionGapSmall};
       font-size: ${t.spinnerOldFontSizeSmall};
       line-height: ${t.spinnerOldLineHeightSmall};
     `;
@@ -83,7 +83,7 @@ const styles = {
       display: block;
       font-size: ${t.spinnerOldFontSizeMedium};
       line-height: ${t.spinnerOldLineHeightMedium};
-      margin-top: ${t.spinnerOldPaddingYMedium};
+      margin-top: ${t.spinnerOldCaptionGapMedium};
     `;
   },
 
@@ -92,7 +92,7 @@ const styles = {
       display: block;
       font-size: ${t.spinnerOldFontSizeLarge};
       line-height: ${t.spinnerOldLineHeightLarge};
-      margin-top: ${t.spinnerOldPaddingYLarge};
+      margin-top: ${t.spinnerOldCaptionGapLarge};
     `;
   },
 

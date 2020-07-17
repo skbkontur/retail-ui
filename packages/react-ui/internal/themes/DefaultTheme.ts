@@ -1284,9 +1284,9 @@ export class DefaultTheme {
   public static spinnerLineHeightSmall = '1';
   public static spinnerLineHeightMedium = '1.375';
   public static spinnerLineHeightLarge = '1.33';
-  public static spinnerPaddingXSmall = '8px';
-  public static spinnerPaddingYMedium = '-6px';
-  public static spinnerPaddingYLarge = '-8px';
+  public static spinnerCaptionGapSmall = '8px';
+  public static spinnerCaptionGapMedium = '-6px';
+  public static spinnerCaptionGapLarge = '-8px';
   //#endregion
   //#region SpinnerOld
   public static get spinnerOldBgColor() {
@@ -1307,9 +1307,9 @@ export class DefaultTheme {
   public static spinnerOldLineHeightSmall = 'inherit';
   public static spinnerOldLineHeightMedium = 'inherit';
   public static spinnerOldLineHeightLarge = 'inherit';
-  public static spinnerOldPaddingXSmall = '5px';
-  public static spinnerOldPaddingYMedium = '0px';
-  public static spinnerOldPaddingYLarge = '0px';
+  public static spinnerOldCaptionGapSmall = '5px';
+  public static spinnerOldCaptionGapMedium = '0px';
+  public static spinnerOldCaptionGapLarge = '0px';
   //#endregion
 }
 

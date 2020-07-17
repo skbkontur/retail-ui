@@ -29,7 +29,7 @@ const styles = {
 
   mini(t: Theme) {
     return css`
-      margin-left: ${t.spinnerPaddingXSmall};
+      margin-left: ${t.spinnerCaptionGapSmall};
       font-size: ${t.spinnerFontSizeSmall};
       line-height: ${t.spinnerLineHeightSmall};
     `;
@@ -40,7 +40,7 @@ const styles = {
       display: block;
       font-size: ${t.spinnerFontSizeMedium};
       line-height: ${t.spinnerLineHeightMedium};
-      margin-top: ${t.spinnerPaddingYMedium};
+      margin-top: ${t.spinnerCaptionGapMedium};
     `;
   },
 
@@ -49,7 +49,7 @@ const styles = {
       display: block;
       font-size: ${t.spinnerFontSizeLarge};
       line-height: ${t.spinnerLineHeightLarge};
-      margin-top: ${t.spinnerPaddingYLarge};
+      margin-top: ${t.spinnerCaptionGapLarge};
     `;
   },
 
