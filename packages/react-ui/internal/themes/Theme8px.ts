@@ -251,6 +251,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tokenRemoveIconPaddingY = '4px';
   public static tokenRemoveIconPaddingX = '4px';
   public static tokenRemoveIconGap = '4px';
+  public static tokenRemoveIconBoxSizing = 'content-box';
   public static tokenBorderColorDisabled = '#dadada';
   public static tokenDisabledBg = '#e5e5e5';
   public static tokenLegacyTextShift = '0px';
