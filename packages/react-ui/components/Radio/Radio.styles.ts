@@ -17,11 +17,11 @@ const styles = {
     return css`
       content: ' ';
       position: absolute;
-      left: -${t.radioBorderWidthFocus};
-      top: -${t.radioBorderWidthFocus};
+      left: -${t.radioOutlineWidth};
+      top: -${t.radioOutlineWidth};
       width: ${t.radioSizeAfter};
       height: ${t.radioSizeAfter};
-      border-width: ${t.radioBorderWidthFocus};
+      border-width: ${t.radioOutlineWidth};
       border-style: solid;
       border-radius: 50%;
       box-sizing: border-box;

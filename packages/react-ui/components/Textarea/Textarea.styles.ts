@@ -36,7 +36,7 @@ const styles = {
 
       &:focus {
         border-color: ${t.textareaBorderColorFocus};
-        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorFocus};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorFocus};
         position: relative;
         z-index: 2;
 
@@ -73,7 +73,7 @@ const styles = {
       }
       ${cssName(styles.textarea(t))}&:focus {
         border-color: ${t.textareaBorderColorError};
-        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorError};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorError};
       }
     `;
   },
@@ -82,11 +82,11 @@ const styles = {
     return css`
       ${cssName(styles.textarea(t))}& {
         border-color: ${t.textareaBorderColorWarning};
-        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorWarning};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
       }
       ${cssName(styles.textarea(t))}&:focus {
         border-color: ${t.textareaBorderColorWarning};
-        box-shadow: 0 0 0 ${t.textareaBorderWidthFocus} ${t.textareaBorderColorWarning};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
       }
     `;
   },

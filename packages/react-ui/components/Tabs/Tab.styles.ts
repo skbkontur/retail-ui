@@ -70,7 +70,7 @@ const styles = {
 
   focus(t: Theme) {
     return css`
-      border: ${t.tabBorderWidthFocus} solid ${t.tabColorFocus};
+      border: ${t.tabOutlineWidth} solid ${t.tabColorFocus};
       bottom: -${t.tabBorderWidth};
       left: -${t.tabPaddingX};
       position: absolute;

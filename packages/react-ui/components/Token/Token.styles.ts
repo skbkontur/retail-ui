@@ -101,10 +101,10 @@ export const jsTokenColors = [
     ...colors,
     [name](t: Theme, v: 'error' | 'warning') {
       const warning = css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
       `;
       const error = css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
       `;
       const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
 
@@ -135,12 +135,12 @@ export const jsTokenColors = [
     },
     defaultDisabledWarning(t: Theme) {
       return css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
     defaultDisabledError(t: Theme) {
       return css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
   } as TokenColors,

@@ -83,7 +83,7 @@ const styles = {
   focusFallback(t: Theme) {
     return css`
       box-shadow: none;
-      outline: ${t.inputBorderWidthFocus} solid ${t.inputFocusOutline};
+      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
     `;
   },
 
@@ -149,7 +149,7 @@ const styles = {
     return css`
       & {
         border-color: ${t.inputBorderColorWarning} !important;
-        box-shadow: 0 0 0 ${t.inputBorderWidthFocus} ${t.inputBorderColorWarning} !important;
+        box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning} !important;
         z-index: 2;
       }
     `;
@@ -165,7 +165,7 @@ const styles = {
   error(t: Theme) {
     return css`
       border-color: ${t.inputBorderColorError} !important;
-      box-shadow: 0 0 0 ${t.inputBorderWidthFocus} ${t.inputBorderColorError} !important;
+      box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError} !important;
       z-index: 2;
     `;
   },

@@ -44,7 +44,7 @@ export class DefaultTheme {
   public static placeholderColorLight = '#cdcdcd';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
   public static controlBorderWidth = '1px';
-  public static controlBorderWidthFocus = '2px';
+  public static controlOutlineWidth = '2px';
   public static controlLineHeightSmall = '20px';
   public static controlLineHeightMedium = '20px';
   public static controlLineHeightLarge = '22px';
@@ -173,7 +173,7 @@ export class DefaultTheme {
   public static get tokenBorderColorError() {
     return this.borderColorError;
   }
-  public static tokenBorderWidthFocus = '2px';
+  public static tokenOutlineWidth = '2px';
   public static tokenLegacyTextShift = '1px';
   public static tokenPaddingYDisabled = '1px';
   public static get tokenPaddingXDisabled() {
@@ -214,8 +214,8 @@ export class DefaultTheme {
   public static get tokenInputBorderWidth() {
     return this.inputBorderWidth;
   }
-  public static get tokenInputBorderWidthFocus() {
-    return this.inputBorderWidthFocus;
+  public static get tokenInputOutlineWidth() {
+    return this.inputOutlineWidth;
   }
   public static get tokenInputBg() {
     return this.inputBg;
@@ -249,7 +249,7 @@ export class DefaultTheme {
   }
   public static btnLinkBorderRadius = '1px';
   public static get btnFocusShadowWidth() {
-    return this.btnBorderWidthFocus;
+    return this.btnOutlineWidth;
   }
   public static btnFocusBorder = 'none';
   public static btnDisabledTextColor = '#a0a0a0';
@@ -275,8 +275,8 @@ export class DefaultTheme {
     return this.btnBorderRadius;
   }
   public static btnBorderWidth = '1px';
-  public static get btnBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get btnOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
@@ -570,8 +570,8 @@ export class DefaultTheme {
     return this.sltPlaceholderColor;
   }
   public static selectBorderWidth = '1px';
-  public static get selectBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get selectOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   public static get selectLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -762,7 +762,7 @@ export class DefaultTheme {
   }
   public static toggleBgChecked = '#3072c4';
   public static toggleBorderWidth = '1px';
-  public static toggleBorderWidthFocus = '3px';
+  public static toggleOutlineWidth = '3px';
   public static toggleBorderColor = '#d0d0d0';
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static get toggleBgActive() {
@@ -854,7 +854,7 @@ export class DefaultTheme {
   public static inputIconSizeMedium = 'auto';
   public static inputIconSizeLarge = 'auto';
   public static get inputFocusShadow() {
-    return `0 0 0 ${this.inputBorderWidthFocus} ${this.borderColorFocus}`;
+    return `0 0 0 ${this.inputOutlineWidth} ${this.borderColorFocus}`;
   }
   public static get inputDisabledBg() {
     return this.bgDisabled;
@@ -868,10 +868,10 @@ export class DefaultTheme {
   public static get inputBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get inputBorderWidthFocus() {
-    const borderWidthFocus = parseInt(this.controlBorderWidthFocus, 10) || 0;
+  public static get inputOutlineWidth() {
+    const OutlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
     const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
-    return `${borderWidthFocus - borderWidth}px`;
+    return `${OutlineWidth - borderWidth}px`;
   }
   public static inputBorderRadiusSmall = '0';
   public static inputBorderRadiusMedium = '0';
@@ -1049,7 +1049,7 @@ export class DefaultTheme {
   public static get checkboxBorderRadius() {
     return this.chbBorderRadius;
   }
-  public static get checkboxBorderWidthFocus() {
+  public static get checkboxOutlineWidth() {
     return this.chbShadowWidth;
   }
   public static get checkboxCheckedShadow() {
@@ -1122,7 +1122,7 @@ export class DefaultTheme {
   public static get textareaBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get textareaBorderWidthFocus() {
+  public static get textareaOutlineWidth() {
     return this.controlBorderWidth;
   }
   public static get textareaHeight() {
@@ -1162,12 +1162,12 @@ export class DefaultTheme {
   //#endregion
   //#region Radio
   public static radioBulletSize = '8px';
-  public static get radioBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get radioOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   public static radioSize = '16px';
   public static get radioSizeAfter() {
-    return `calc(${this.radioSize} + 2 * ${this.radioBorderWidthFocus} - 2 * ${this.radioBorderWidthCompensation})`;
+    return `calc(${this.radioSize} + 2 * ${this.radioOutlineWidth} - 2 * ${this.radioBorderWidthCompensation})`;
   }
   public static get radioFontSize() {
     return this.fontSizeSmall;
@@ -1230,7 +1230,7 @@ export class DefaultTheme {
     return 'normal';
   }
   public static tabBorderWidth = '3px';
-  public static tabBorderWidthFocus = '2px';
+  public static tabOutlineWidth = '2px';
   public static get tabTextColorDefault() {
     return this.textColorDefault;
   }

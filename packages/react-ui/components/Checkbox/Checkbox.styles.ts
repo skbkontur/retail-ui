@@ -73,7 +73,7 @@ const styles = {
     return css`
       & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxBorderWidthFocus} ${t.checkboxBorderColorWarning} !important;
+          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorWarning} !important;
       }
     `;
   },
@@ -82,7 +82,7 @@ const styles = {
     return css`
       & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxBorderWidthFocus} ${t.checkboxBorderColorError} !important;
+          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorError} !important;
       }
     `;
   },
@@ -134,7 +134,7 @@ const styles = {
     return css`
       & ${cssName(styles.box(t))} {
         box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxBorderWidthFocus} ${t.checkboxBorderColorFocus} !important;
+          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorFocus} !important;
       }
     `;
   },

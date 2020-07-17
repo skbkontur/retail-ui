@@ -7,7 +7,7 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
   return ThemeFactory.create(
     {
       btnBorderWidth: theme.selectBorderWidth,
-      btnBorderWidthFocus: theme.selectBorderWidthFocus,
+      btnOutlineWidth: theme.selectOutlineWidth,
 
       btnLineHeightSmall: theme.selectLineHeightSmall,
       btnFontSizeSmall: theme.selectFontSizeSmall,

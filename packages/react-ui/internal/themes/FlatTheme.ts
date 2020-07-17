@@ -14,7 +14,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnLinkBorderRadius = '2px';
   public static btnBorderRadiusSmall = '2px';
   public static get btnFocusShadowWidth() {
-    const borderFocus = parseInt(this.btnBorderWidthFocus, 10) || 0;
+    const borderFocus = parseInt(this.btnOutlineWidth, 10) || 0;
     const border = parseInt(this.btnBorderWidth, 10) || 0;
     return `${borderFocus - border}px`;
   }
