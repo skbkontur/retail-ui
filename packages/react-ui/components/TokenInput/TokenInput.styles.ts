@@ -20,21 +20,21 @@ const styles = {
   warning(t: Theme) {
     return css`
       border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning};
-      box-shadow: 0 0 0 ${t.tokenInputBorderWidthFocus} ${t.tokenInputBorderColorWarning};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning};
     `;
   },
 
   error(t: Theme) {
     return css`
       border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError};
-      box-shadow: 0 0 0 ${t.tokenInputBorderWidthFocus} ${t.tokenInputBorderColorError};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError};
     `;
   },
 
   labelFocused(t: Theme) {
     return css`
       border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus};
-      box-shadow: 0 0 0 ${t.tokenInputBorderWidthFocus} ${t.tokenInputBorderColorFocus};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus};
     `;
   },
 

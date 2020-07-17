@@ -41,12 +41,12 @@ const styles = {
 
   removeIcon(t: Theme) {
     return css`
-      height: ${t.tokenCloseIconSize};
-      width: ${t.tokenCloseIconSize};
+      height: ${t.tokenRemoveIconSize};
+      width: ${t.tokenRemoveIconSize};
       flex-shrink: 0;
-      padding: ${t.tokenCloseIconPaddingY} ${t.tokenCloseIconPaddingX};
-      box-sizing: border-box;
-      margin-left: ${t.tokenCloseIconGap};
+      padding: ${t.tokenRemoveIconPaddingY} ${t.tokenRemoveIconPaddingX};
+      box-sizing: ${t.tokenRemoveIconBoxSizing};
+      margin-left: ${t.tokenRemoveIconGap};
       transition: none;
       fill: currentColor;
       opacity: 0.5;
@@ -101,10 +101,10 @@ export const jsTokenColors = [
     ...colors,
     [name](t: Theme, v: 'error' | 'warning') {
       const warning = css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
       `;
       const error = css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
       `;
       const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
 
@@ -135,12 +135,12 @@ export const jsTokenColors = [
     },
     defaultDisabledWarning(t: Theme) {
       return css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
     defaultDisabledError(t: Theme) {
       return css`
-        box-shadow: 0 0 0 ${t.tokenBorderWidthFocus} ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
   } as TokenColors,

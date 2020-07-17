@@ -64,7 +64,7 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 ${t.btnBorderWidthFocus} ${t.btnBorderColorWarning};
+      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
     `;
   },
 
@@ -76,7 +76,7 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 ${t.btnBorderWidthFocus} ${t.btnBorderColorError};
+      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
     `;
   },
 
@@ -279,16 +279,16 @@ const styles = {
             }
             ${cssName(styles.arrow())} {
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorFocus};
+                ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorFocus};
 
               &${cssName(styles.arrowWarning(t))} {
                 box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorWarning} !important;
+                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;
               }
 
               &${cssName(styles.arrowError(t))} {
                 box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorError} !important;
+                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
               }
             }
           }
@@ -348,13 +348,13 @@ const styles = {
 
   arrowWarning(t: Theme) {
     return css`
-      box-shadow: ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorWarning} !important;
+      box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;
     `;
   },
 
   arrowError(t: Theme) {
     return css`
-      box-shadow: ${t.btnBorderWidthFocus} -${t.btnBorderWidthFocus} 0 0 ${t.btnBorderColorError} !important;
+      box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
     `;
   },
 
