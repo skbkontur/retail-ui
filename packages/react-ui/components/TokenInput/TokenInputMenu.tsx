@@ -71,8 +71,8 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   private getPopupMargin = (): number => {
     const paddingY = parseInt(this.theme.tokenInputPaddingY, 10) || 0;
-    const borderWidthFocus = parseInt(this.theme.controlBorderWidthFocus, 10) || 0;
-    return paddingY + borderWidthFocus;
+    const outlineWidth = parseInt(this.theme.controlOutlineWidth, 10) || 0;
+    return paddingY + outlineWidth;
   };
 
   private menuRef = (node: any) => (this.menu = node);

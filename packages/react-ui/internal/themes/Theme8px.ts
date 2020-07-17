@@ -19,8 +19,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get btnBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get btnBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get btnOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   public static get btnLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -79,8 +79,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get inputBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get inputBorderWidthFocus() {
-    return `calc(${this.controlBorderWidthFocus} - 1px)`;
+  public static get inputOutlineWidth() {
+    return `calc(${this.controlOutlineWidth} - 1px)`;
   }
   public static get inputLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -127,8 +127,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get selectBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get selectBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get selectOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   public static get selectLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -191,8 +191,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get checkboxBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get checkboxBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get checkboxOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   public static checkboxBorder = 'none';
   public static get checkboxBorderWidthCompensation() {
@@ -218,8 +218,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightSmall;
   }
   public static tabBorderWidth = '2px';
-  public static get tabBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get tabOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   //#endregion
   //#region Toggle
@@ -231,8 +231,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get toggleBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get toggleBorderWidthFocus() {
-    return `calc(${this.controlBorderWidthFocus} + 1px)`;
+  public static get toggleOutlineWidth() {
+    return `calc(${this.controlOutlineWidth} + 1px)`;
   }
   //#endregion
   //#region Token
@@ -335,8 +335,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get textareaBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get textareaBorderWidthFocus() {
-    return `calc(${this.controlBorderWidthFocus} - 1px)`;
+  public static get textareaOutlineWidth() {
+    return `calc(${this.controlOutlineWidth} - 1px)`;
   }
   public static get textareaFontSize() {
     return this.fontSizeSmall;
@@ -375,8 +375,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get radioBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static get radioBorderWidthFocus() {
-    return this.controlBorderWidthFocus;
+  public static get radioOutlineWidth() {
+    return this.controlOutlineWidth;
   }
   public static radioBulletSize = '8px';
   public static get radioBorderWidthCompensation() {
@@ -385,7 +385,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get radioSizeAfter() {
     const borderCompensation =
       this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
-    return `calc(${this.radioSize} + 2 * ${this.radioBorderWidthFocus} - 2 * ${borderCompensation})`;
+    return `calc(${this.radioSize} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
   }
   public static radioVerticalAlign = 'top';
   //#endregion
