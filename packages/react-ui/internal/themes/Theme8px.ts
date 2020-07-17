@@ -291,9 +291,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get spinnerLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
-  public static spinnerPaddingXSmall = '6px';
-  public static spinnerPaddingYMedium = '4px';
-  public static spinnerPaddingYLarge = '12px';
+  public static spinnerPaddingXSmall = '9px';
+  public static spinnerPaddingYMedium = '-2px';
+  public static spinnerPaddingYLarge = '2px';
   //#endregion
   //#region SpinnerOld
   public static get spinnerOldFontSizeSmall() {
