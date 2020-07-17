@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.3.2...@skbkontur/react-ui@2.4.0) (2020-07-17)
+
+
+### Bug Fixes
+
+* **ThemeEditor:** restore scroll to variable by link click ([0454ae6](https://github.com/skbkontur/retail-ui/commit/0454ae6d2b92cd61935fc2ded857b79aef86e9bc))
+* **ThemeFactory:** don't ignore computed properties in factory methods ([9eb6cd8](https://github.com/skbkontur/retail-ui/commit/9eb6cd844a38ed182d35dde58bb443abcb1ffd23))
+* **ThemePlayground:** fix ThemeEditor's styles ([0ab8225](https://github.com/skbkontur/retail-ui/commit/0ab82253bfa26f65a4998a51cbf0742a1d0f90a5))
+
+
+### Features
+
+* **react-ui:** add 8px theme ([652f193](https://github.com/skbkontur/retail-ui/commit/652f193c244fcf6bc82afe324c46ccec1f63bff1))
+* **ThemePlayground:** add 8px toggle ([7cd6681](https://github.com/skbkontur/retail-ui/commit/7cd668178b5a65bd5564e86254bf8c4f5faf8839))
+
+
+
+
+
 ## [2.3.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.3.1...@skbkontur/react-ui@2.3.2) (2020-07-08)
 
 
