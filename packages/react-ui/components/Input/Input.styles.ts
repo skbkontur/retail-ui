@@ -50,8 +50,8 @@ const styles = {
 
   borderless() {
     return css`
-      box-shadow: none;
-      border-color: transparent;
+      box-shadow: none !important;
+      border-color: transparent !important;
     `;
   },
 
