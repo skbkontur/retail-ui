@@ -41,12 +41,12 @@ const styles = {
 
   removeIcon(t: Theme) {
     return css`
-      height: ${t.tokenCloseIconSize};
-      width: ${t.tokenCloseIconSize};
+      height: ${t.tokenRemoveIconSize};
+      width: ${t.tokenRemoveIconSize};
       flex-shrink: 0;
-      padding: ${t.tokenCloseIconPaddingY} ${t.tokenCloseIconPaddingX};
-      box-sizing: ${t.tokenCloseIconBoxSizing};
-      margin-left: ${t.tokenCloseIconGap};
+      padding: ${t.tokenRemoveIconPaddingY} ${t.tokenRemoveIconPaddingX};
+      box-sizing: ${t.tokenRemoveIconBoxSizing};
+      margin-left: ${t.tokenRemoveIconGap};
       transition: none;
       fill: currentColor;
       opacity: 0.5;
