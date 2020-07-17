@@ -33,6 +33,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { jsStyles } from './Select.styles';
+import { getSelectTheme } from './selectTheme';
 
 export interface ButtonParams {
   disabled?: boolean;
@@ -219,7 +220,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -315,7 +318,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       ...filterProps(this.props, PASS_BUTTON_PROPS),
       align: 'left' as React.CSSProperties['textAlign'],
       disabled: this.props.disabled,
-      _noPadding: true,
       width: '100%',
       onClick: params.onClick,
       onKeyDown: params.onKeyDown,
@@ -324,21 +326,19 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (this.props._icon) {
       Object.assign(buttonProps, {
-        _noPadding: false,
-        _noRightPadding: true,
         icon: this.props._icon,
+        _noRightPadding: true,
       });
     }
 
     const labelProps = {
       className: cn({
         [jsStyles.label()]: this.props.use !== 'link',
-        [jsStyles.labelWithLeftIcon()]: !!this.props._icon,
         [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
-        paddingRight: (buttonProps.size === 'large' ? 31 : 28) + (this.props._icon ? 10 : 0),
+        paddingRight: this.getLabelPaddingRight(),
       },
     };
 
@@ -349,11 +349,45 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         <span {...labelProps}>
           <span className={jsStyles.labelText()}>{params.label}</span>
         </span>
-        <div className={jsStyles.arrowWrap()}>
+        <div className={jsStyles.arrowWrap()} style={{ right: this.getLegacyArrowShift() }}>
           <div className={cn(jsStyles.arrow(this.theme), useIsCustom && jsStyles.customUseArrow())} />
         </div>
       </Button>
     );
+  }
+
+  private getLabelPaddingRight(): number {
+    const getArrowPadding = () => {
+      switch (this.props.size) {
+        case 'large':
+          return this.theme.selectPaddingArrowLarge;
+        case 'medium':
+          return this.theme.selectPaddingArrowMedium;
+        case 'small':
+        default:
+          return this.theme.selectPaddingArrowSmall;
+      }
+    };
+    const ARROW_WIDTH = 8;
+    const arrowLeftPadding = parseFloat(getArrowPadding()) || 0;
+
+    return ARROW_WIDTH + arrowLeftPadding + (this.props._icon ? 10 : 0) + this.getLegacyArrowShift();
+  }
+
+  private getLegacyArrowShift(): number {
+    const getSelectPadding = () => {
+      switch (this.props.size) {
+        case 'large':
+          return this.theme.selectPaddingXLarge;
+        case 'medium':
+          return this.theme.selectPaddingXMedium;
+        case 'small':
+        default:
+          return this.theme.selectPaddingXSmall;
+      }
+    };
+    const selectPadding = parseFloat(getSelectPadding()) || 0;
+    return this.props.use === 'link' ? 10 : 1 + (this.props._icon ? selectPadding : 0);
   }
 
   private renderLinkButton(params: ButtonParams): React.ReactNode {

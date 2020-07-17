@@ -172,12 +172,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
         [jsStyles.active(this.theme)]: !!this.props.active,
         [jsStyles.validationRoot(this.theme)]: isError || isWarning,
-        [jsStyles.error(this.theme)]: isError,
-        [jsStyles.warning(this.theme)]: isWarning,
         [jsStyles.narrow()]: !!this.props.narrow,
         [jsStyles.noPadding()]: !!this.props._noPadding,
         [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
-        [jsStyles.buttonWithIcon()]: !!this.props.icon,
         [sizeClass]: true,
         [jsStyles.borderless(this.theme)]: !!this.props.borderless,
         [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
@@ -228,7 +225,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={jsStyles.icon()}>{this.props.icon}</span>;
+      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
     }
 
     let arrow = null;
@@ -249,7 +246,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.use === 'link') {
       rootProps.className = cn({
         [jsStyles.root(this.theme)]: true,
-        [jsStyles.buttonWithIcon()]: !!this.props.icon,
         [sizeClass]: true,
         [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsStyles.link(this.theme)]: true,
@@ -296,6 +292,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         return cn(jsStyles.sizeSmall(this.theme), {
           [jsStyles.sizeSmallLoading(this.theme)]: this.props.loading,
         });
+    }
+  }
+  private getSizeIconClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return jsStyles.iconLarge(this.theme);
+      case 'medium':
+        return jsStyles.iconMedium(this.theme);
+      case 'small':
+      default:
+        return jsStyles.iconSmall(this.theme);
     }
   }
 

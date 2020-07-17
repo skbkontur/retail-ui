@@ -10,12 +10,12 @@ const styles = {
     `;
   },
 
-  button() {
+  button(t: Theme) {
     return css`
       display: inline-block;
-      line-height: 34px;
-      padding-left: 10px;
-      padding-right: 10px;
+      line-height: ${t.linkButtonLineHeight};
+      padding-left: ${t.linkButtonPaddingX};
+      padding-right: ${t.linkButtonPaddingX};
     `;
   },
 

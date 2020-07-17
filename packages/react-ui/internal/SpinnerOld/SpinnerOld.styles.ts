@@ -5,7 +5,7 @@ import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 const styles = {
   cloudStroke(t: Theme) {
     return css`
-      stroke: ${t.spinnerBgColor};
+      stroke: ${t.spinnerOldBgColor};
     `;
   },
   cloudWrapper() {
@@ -18,7 +18,7 @@ const styles = {
     return css`
       stroke-dasharray: 20, 86;
       stroke-dashoffset: 15;
-      stroke: ${t.red};
+      stroke: ${t.spinnerColor};
       animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
         ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
@@ -28,14 +28,14 @@ const styles = {
     return css`
       stroke-dasharray: 20, 86;
       stroke-dashoffset: 15;
-      stroke: ${t.spinnerDimmedColor};
+      stroke: ${t.spinnerOldDimmedColor};
       animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite;
     `;
   },
   circle(t: Theme) {
     return css`
-      stroke: ${t.red};
+      stroke: ${t.spinnerOldColor};
       animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
         ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite,
@@ -44,7 +44,7 @@ const styles = {
   },
   circleDimmed(t: Theme) {
     return css`
-      stroke: ${t.spinnerDimmedColor};
+      stroke: ${t.spinnerOldDimmedColor};
       animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
         ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite;
@@ -53,8 +53,7 @@ const styles = {
 
   caption(t: Theme) {
     return css`
-      font-size: 14px;
-      color: ${t.spinnerCaptionColor};
+      color: ${t.spinnerOldCaptionColor};
     `;
   },
 
@@ -71,15 +70,29 @@ const styles = {
     `;
   },
 
-  captionRight() {
+  mini(t: Theme) {
     return css`
-      margin-left: 5px;
+      margin-left: ${t.spinnerOldCaptionGapSmall};
+      font-size: ${t.spinnerOldFontSizeSmall};
+      line-height: ${t.spinnerOldLineHeightSmall};
     `;
   },
 
-  captionBottom() {
+  normal(t: Theme) {
     return css`
       display: block;
+      font-size: ${t.spinnerOldFontSizeMedium};
+      line-height: ${t.spinnerOldLineHeightMedium};
+      margin-top: ${t.spinnerOldCaptionGapMedium};
+    `;
+  },
+
+  big(t: Theme) {
+    return css`
+      display: block;
+      font-size: ${t.spinnerOldFontSizeLarge};
+      line-height: ${t.spinnerOldLineHeightLarge};
+      margin-top: ${t.spinnerOldCaptionGapLarge};
     `;
   },
 

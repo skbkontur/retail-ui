@@ -3,15 +3,15 @@ import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 const styles = {
-  token() {
+  token(t: Theme) {
     return css`
       display: inline-flex;
       align-items: center;
-      border-radius: 1px;
-      padding: 0 4px;
-      line-height: 1.5;
-      font-size: 14px;
-      margin: 3px;
+      border-radius: ${t.tokenBorderRadius};
+      padding: ${t.tokenPaddingY} ${t.tokenPaddingX};
+      line-height: ${t.tokenLineHeight};
+      font-size: ${t.tokenFontSize};
+      margin: ${t.tokenMarginY} ${t.tokenMarginX};
       min-width: 0;
       word-break: break-word;
       user-select: none;
@@ -24,30 +24,29 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      box-shadow: none !important;
-      margin: 2px;
-      padding: 1px 4px;
+      padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};
+      margin: ${t.tokenMarginYDisabled} ${t.tokenMarginXDisabled};
       user-select: text;
       cursor: text;
-      color: ${t.textColorDisabled} !important;
+      color: ${t.tokenTextColorDisabled};
     `;
   },
 
-  text() {
+  text(t: Theme) {
     return css`
       display: inline-block;
-      padding-bottom: 1px;
+      padding-bottom: ${t.tokenLegacyTextShift};
     `;
   },
 
-  removeIcon() {
+  removeIcon(t: Theme) {
     return css`
-      height: 1em;
-      width: 1em;
+      height: ${t.tokenRemoveIconSize};
+      width: ${t.tokenRemoveIconSize};
       flex-shrink: 0;
-      padding: 2px;
-      box-sizing: border-box;
-      margin-left: 4px;
+      padding: ${t.tokenRemoveIconPaddingY} ${t.tokenRemoveIconPaddingX};
+      box-sizing: ${t.tokenRemoveIconBoxSizing};
+      margin-left: ${t.tokenRemoveIconGap};
       transition: none;
       fill: currentColor;
       opacity: 0.5;
@@ -83,40 +82,40 @@ interface TokenColors {
 export const jsStyles = memoizeStyle(styles);
 
 export const jsTokenColors = [
-  { name: 'defaultIdle', color: (t: Theme) => t.grayXLight },
-  { name: 'defaultActive', color: (t: Theme) => t.brand },
-  { name: 'grayIdle', color: (t: Theme) => t.grayXLight },
-  { name: 'grayActive', color: (t: Theme) => t.grayDark },
-  { name: 'blueIdle', color: (t: Theme) => t.blueLight },
-  { name: 'blueActive', color: (t: Theme) => t.blueDark },
-  { name: 'greenIdle', color: (t: Theme) => t.greenXxLight },
-  { name: 'greenActive', color: (t: Theme) => t.greenDark },
-  { name: 'yellowIdle', color: (t: Theme) => t.yellowXxLight },
-  { name: 'yellowActive', color: (t: Theme) => t.yellowDark },
-  { name: 'redIdle', color: (t: Theme) => t.redXxLight },
-  { name: 'redActive', color: (t: Theme) => t.redDark },
-  { name: 'white', color: (t: Theme) => t.white },
-  { name: 'black', color: (t: Theme) => t.black },
+  { name: 'defaultIdle', color: (t: Theme) => t.tokenDefaultIdle },
+  { name: 'defaultActive', color: (t: Theme) => t.tokenDefaultActive },
+  { name: 'grayIdle', color: (t: Theme) => t.tokenGrayIdle },
+  { name: 'grayActive', color: (t: Theme) => t.tokenGrayActive },
+  { name: 'blueIdle', color: (t: Theme) => t.tokenBlueIdle },
+  { name: 'blueActive', color: (t: Theme) => t.tokenBlueActive },
+  { name: 'greenIdle', color: (t: Theme) => t.tokenGreenIdle },
+  { name: 'greenActive', color: (t: Theme) => t.tokenGreenActive },
+  { name: 'yellowIdle', color: (t: Theme) => t.tokenYellowIdle },
+  { name: 'yellowActive', color: (t: Theme) => t.tokenYellowActive },
+  { name: 'redIdle', color: (t: Theme) => t.tokenRedIdle },
+  { name: 'redActive', color: (t: Theme) => t.tokenRedActive },
+  { name: 'white', color: (t: Theme) => t.tokenWhite },
+  { name: 'black', color: (t: Theme) => t.tokenBlack },
 ].reduce(
   (colors: TokenColors, { name, color }) => ({
     ...colors,
     [name](t: Theme, v: 'error' | 'warning') {
       const warning = css`
-        box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
       `;
       const error = css`
-        box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
       `;
       const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
 
       return css`
         background-color: ${color(t)};
         color: ${ColorFunctions.contrast(color(t))};
-        box-shadow: 0 0 0 1px ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
+        box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
 
         ${vStyle}
 
-        & ${cssName(jsStyles.removeIcon())}:hover {
+        & ${cssName(jsStyles.removeIcon(t))}:hover {
           color: ${ColorFunctions.contrast(color(t))};
         }
       `;
@@ -126,23 +125,22 @@ export const jsTokenColors = [
     defaultDisabled(t: Theme) {
       return css`
         background-color: ${t.tokenDisabledBg};
-        color: ${ColorFunctions.contrast(t.tokenDisabledBg)};
-        box-shadow: 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: ${t.tokenShadowDisabled}};
 
-        & ${cssName(jsStyles.removeIcon())} {
-          fill: ${t.textColorDisabled};
+        & ${cssName(jsStyles.removeIcon(t))} {
+          fill: ${t.tokenTextColorDisabled};
           opacity: 1;
         }
       `;
     },
     defaultDisabledWarning(t: Theme) {
       return css`
-        box-shadow: 0 0 0 2px ${t.borderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
     defaultDisabledError(t: Theme) {
       return css`
-        box-shadow: 0 0 0 2px ${t.borderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
+        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${t.tokenDisabledBg};
       `;
     },
   } as TokenColors,

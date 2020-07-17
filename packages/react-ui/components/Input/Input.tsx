@@ -353,25 +353,43 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
+  private getIconSizeClassname(right = false) {
+    switch (this.props.size) {
+      case 'large':
+        return right ? jsStyles.rightIconLarge(this.theme) : jsStyles.leftIconLarge(this.theme);
+      case 'medium':
+        return right ? jsStyles.rightIconMedium(this.theme) : jsStyles.leftIconMedium(this.theme);
+      case 'small':
+      default:
+        return right ? jsStyles.rightIconSmall(this.theme) : jsStyles.leftIconSmall(this.theme);
+    }
+  }
+
   private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, jsStyles.leftIcon());
+    return this.renderIcon(this.props.leftIcon, this.getIconSizeClassname());
   }
 
   private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, jsStyles.rightIcon());
+    return this.renderIcon(this.props.rightIcon, this.getIconSizeClassname(true));
   }
 
-  private renderIcon(icon: InputIconType, className: string) {
+  private renderIcon(icon: InputIconType, sizeClassName: string) {
     if (!icon) {
       return null;
     }
 
     if (icon instanceof Function) {
-      return <span className={className}>{icon()}</span>;
+      return <span className={cn(jsStyles.icon(), sizeClassName)}>{icon()}</span>;
     }
 
     return (
-      <span className={cn(className, jsStyles.useDefaultColor(this.theme), jsStyles.useDefaultColor(this.theme))}>
+      <span
+        className={cn(
+          cn(jsStyles.icon(), sizeClassName),
+          jsStyles.useDefaultColor(this.theme),
+          jsStyles.useDefaultColor(this.theme),
+        )}
+      >
         {icon}
       </span>
     );

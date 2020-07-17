@@ -8,6 +8,7 @@ import { SpinnerOld } from '../SpinnerOld';
 import { jsStyles } from '../SpinnerOld.styles';
 import { SpinnerOldFallback } from '../SpinnerOldFallback';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 const render = (props = {}) => mount(<SpinnerOld {...props} />);
 
@@ -32,14 +33,14 @@ describe('SpinnerOld', () => {
 
     it('renders correct default SpinnerOld caption text', () => {
       const component = render();
-      const captionText = component.find(`.${jsStyles.captionBottom()}`).text();
+      const captionText = component.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`).text();
 
       expect(captionText).toEqual('Загрузка');
     });
 
     it('prints correct caption text', () => {
       const component = render({ caption: 'test' });
-      const captionText = component.find(`.${jsStyles.captionBottom()}`).text();
+      const captionText = component.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`).text();
 
       expect(captionText).toEqual('test');
     });
@@ -47,7 +48,7 @@ describe('SpinnerOld', () => {
     it('should render mini SpinnerOld', () => {
       const component = render({ type: 'mini' });
       const circle = component.find(SpinnerOldIcon);
-      const captionRight = component.find(`.${jsStyles.captionRight()}`);
+      const captionRight = component.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`);
 
       expect(circle).toHaveLength(1);
       expect(captionRight).toHaveLength(1);
@@ -106,7 +107,7 @@ describe('SpinnerOld', () => {
 
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper): string => {
-      return wrapper.find(`.${jsStyles.captionBottom()}`).text();
+      return wrapper.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`).text();
     };
 
     it('render without LocaleProvider', () => {
@@ -141,10 +142,11 @@ describe('SpinnerOld', () => {
     it('render custom locale', () => {
       const customText = 'custom loading';
       const wrapper = mount(
-        <LocaleContext.Provider value={{
-          langCode: defaultLangCode,
-          locale: { Spinner: { loading: customText } }
-        }}
+        <LocaleContext.Provider
+          value={{
+            langCode: defaultLangCode,
+            locale: { Spinner: { loading: customText } },
+          }}
         >
           <SpinnerOld />
         </LocaleContext.Provider>,
@@ -161,7 +163,7 @@ describe('SpinnerOld', () => {
       );
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
 
       expect(getTextLoading(wrapper)).toBe(expectedText);
     });

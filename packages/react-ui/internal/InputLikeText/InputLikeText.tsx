@@ -192,12 +192,24 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   }
 
+  private getIconClassname(right = false) {
+    switch (this.props.size) {
+      case 'large':
+        return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
+      case 'medium':
+        return right ? jsInputStyles.rightIconMedium(this.theme) : jsInputStyles.leftIconMedium(this.theme);
+      case 'small':
+      default:
+        return right ? jsInputStyles.rightIconSmall(this.theme) : jsInputStyles.leftIconSmall(this.theme);
+    }
+  }
+
   private renderLeftIcon = () => {
-    return this.renderIcon(this.props.leftIcon, jsInputStyles.leftIcon());
+    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
   };
 
   private renderRightIcon = () => {
-    return this.renderIcon(this.props.rightIcon, jsInputStyles.rightIcon());
+    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
   };
 
   private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
@@ -257,7 +269,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={cn(jsInputStyles.sideContainer(), jsStyles.rightSide())}>
+      <span className={cn(jsInputStyles.sideContainer(), jsInputStyles.rightContainer())}>
         {rightIcon}
         {suffix}
       </span>

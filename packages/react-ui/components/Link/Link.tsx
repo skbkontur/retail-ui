@@ -109,7 +109,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       className: cn({
         [jsStyles.root(this.theme)]: true,
         [jsStyles.disabled(this.theme)]: !!disabled,
-        [jsStyles.button()]: !!_button,
+        [jsStyles.button(this.theme)]: !!_button,
         [jsStyles.buttonOpened()]: !!_buttonOpened,
         [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
         [jsStyles.useDefault(this.theme)]: use === 'default',

@@ -5,7 +5,7 @@ import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 const styles = {
   circle(t: Theme) {
     return css`
-      stroke: ${t.red};
+      stroke: ${t.spinnerColor};
       animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
         ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
         ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite,
@@ -27,28 +27,29 @@ const styles = {
     `;
   },
 
-  mini() {
+  mini(t: Theme) {
     return css`
-      margin-left: 8px;
-      font-size: 14px;
+      margin-left: ${t.spinnerCaptionGapSmall};
+      font-size: ${t.spinnerFontSizeSmall};
+      line-height: ${t.spinnerLineHeightSmall};
     `;
   },
 
-  big() {
+  normal(t: Theme) {
     return css`
       display: block;
-      font-size: 18px;
-      line-height: 1.33;
-      margin-top: -8px;
+      font-size: ${t.spinnerFontSizeMedium};
+      line-height: ${t.spinnerLineHeightMedium};
+      margin-top: ${t.spinnerCaptionGapMedium};
     `;
   },
 
-  normal() {
+  big(t: Theme) {
     return css`
       display: block;
-      font-size: 16px;
-      line-height: 1.375;
-      margin-top: -6px;
+      font-size: ${t.spinnerFontSizeLarge};
+      line-height: ${t.spinnerLineHeightLarge};
+      margin-top: ${t.spinnerCaptionGapLarge};
     `;
   },
 

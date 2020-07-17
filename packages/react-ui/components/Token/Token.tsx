@@ -78,7 +78,7 @@ export class Token extends React.Component<TokenProps> {
       activeTokenClassName = jsTokenColors[activeClassName](theme, validation);
     }
 
-    const tokenClassNames = cn(jsStyles.token(), tokenClassName, {
+    const tokenClassNames = cn(jsStyles.token(this.theme), tokenClassName, {
       [activeTokenClassName]: !!isActive,
       [jsStyles.disabled(theme)]: !!disabled,
     });
@@ -92,8 +92,8 @@ export class Token extends React.Component<TokenProps> {
         onFocus={onFocus}
         onBlur={onBlur}
       >
-        <span className={jsStyles.text()}>{children}</span>
-        <span className={jsStyles.removeIcon()} onClick={this.onRemoveClick}>
+        <span className={jsStyles.text(this.theme)}>{children}</span>
+        <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick}>
           <CrossIcon />
         </span>
       </div>

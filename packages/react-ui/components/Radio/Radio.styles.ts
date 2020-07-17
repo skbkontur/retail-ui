@@ -2,23 +2,26 @@ import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  root() {
+  root(t: Theme) {
     return css`
       cursor: pointer;
       position: relative;
       white-space: nowrap;
+      padding-top: ${t.radioPaddingY};
+      padding-bottom: ${t.radioPaddingY};
+      display: inline-block;
     `;
   },
 
-  after() {
+  after(t: Theme) {
     return css`
       content: ' ';
       position: absolute;
-      left: -2px;
-      top: -2px;
-      width: 20px;
-      height: 20px;
-      border-width: 2px;
+      left: -${t.radioOutlineWidth};
+      top: -${t.radioOutlineWidth};
+      width: ${t.radioSizeAfter};
+      height: ${t.radioSizeAfter};
+      border-width: ${t.radioOutlineWidth};
       border-style: solid;
       border-radius: 50%;
       box-sizing: border-box;
@@ -26,6 +29,9 @@ const styles = {
   },
 
   radio(t: Theme) {
+    const radioSize = `calc(${t.radioSize} - 2 * ${t.radioBorderWidthCompensation})`;
+    const radioMarginY = `calc(${t.radioMarginY} + ${t.radioBorderWidthCompensation})`;
+    const radioMarginX = t.radioBorderWidthCompensation;
     return css`
       background-image: ${t.radioBgImage};
       border-radius: 50%;
@@ -33,28 +39,27 @@ const styles = {
       box-shadow: ${t.radioBoxShadow};
       box-sizing: border-box;
       display: inline-block;
-      height: ${t.radioSize};
-      margin-bottom: 2px;
-      margin-top: 2px;
+      height: ${radioSize};
+      width: ${radioSize};
       position: relative;
       vertical-align: ${t.radioVerticalAlign};
-      width: ${t.radioSize};
+      margin: ${radioMarginY} ${radioMarginX};
 
-      ${cssName(styles.root())}:hover &:not(${cssName(styles.disabled(t))}) {
+      ${cssName(styles.root(t))}:hover &:not(${cssName(styles.disabled(t))}) {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
       }
-      ${cssName(styles.root())}:hover &${cssName(styles.checked(t))}:not(${cssName(styles.disabled(t))}) {
+      ${cssName(styles.root(t))}:hover &${cssName(styles.checked(t))}:not(${cssName(styles.disabled(t))}) {
         background: ${t.radioCheckedHoverBgColor};
       }
-      ${cssName(styles.root())}:active & {
+      ${cssName(styles.root(t))}:active & {
         background: ${t.radioActiveBg};
         box-shadow: ${t.radioActiveShadow};
       }
       ${cssName(styles.input())}:focus + &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorFocus};
+        border-color: ${t.radioBorderColorFocus};
       }
       &::after {
         content: ' ';
@@ -66,9 +71,9 @@ const styles = {
   focus(t: Theme) {
     return css`
       &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorFocus};
+        border-color: ${t.radioBorderColorFocus};
       }
     `;
   },
@@ -76,9 +81,9 @@ const styles = {
   warning(t: Theme) {
     return css`
       &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorWarning};
+        border-color: ${t.radioBorderColorWarning};
       }
     `;
   },
@@ -86,9 +91,9 @@ const styles = {
   error(t: Theme) {
     return css`
       &::after {
-        ${styles.after()};
+        ${styles.after(t)};
         box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.borderColorError};
+        border-color: ${t.radioBorderColorError};
       }
     `;
   },
@@ -106,8 +111,8 @@ const styles = {
         bottom: 0;
         left: 0;
         margin: auto;
-        height: 8px;
-        width: 8px;
+        height: ${t.radioBulletSize};
+        width: ${t.radioBulletSize};
         border-radius: 50%;
         background: ${t.radioCheckedBulletColor} !important;
       }
@@ -140,9 +145,10 @@ const styles = {
   label(t: Theme) {
     return css`
       display: ${t.radioLabelDisplay};
-      line-height: 20px;
-      margin-left: 9px;
+      line-height: ${t.radioLineHeight};
+      margin-left: ${t.radioLabelGap};
       white-space: normal;
+      font-size: ${t.radioFontSize};
     `;
   },
 

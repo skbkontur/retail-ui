@@ -3,21 +3,23 @@ import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   handle(t: Theme) {
+    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
       background: ${t.toggleBg};
-      border-radius: 9px;
-      bottom: 1px;
-      box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.15);
-      height: 18px;
-      left: 1px;
+      border-radius: ${t.toggleHandleBorderRadius};
+      bottom: ${t.toggleBorderWidth};
+      box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
+      height: ${handleSize};
+      left: ${t.toggleBorderWidth};
       position: absolute;
-      top: 1px;
+      top: ${t.toggleBorderWidth};
       transition: 0.2s ease-in;
-      width: 18px;
+      width: ${handleSize};
     `;
   },
 
   input(t: Theme) {
+    const handleWidthWithBorders = t.toggleHeight;
     return css`
       position: absolute;
       opacity: 0;
@@ -26,7 +28,7 @@ const styles = {
         outline: none;
       }
       &:checked ~ ${cssName(styles.container(t))} {
-        box-shadow: inset 0 0 0 1px ${t.toggleBgChecked};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
@@ -35,15 +37,15 @@ const styles = {
         background: ${t.toggleBgChecked};
       }
       &:checked ~ ${cssName(styles.handle(t))} {
-        transform: translateX(14px);
+        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
       }
     `;
   },
 
   container(t: Theme) {
     return css`
-      border-radius: 10px;
-      box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
+      border-radius: ${t.toggleBorderRadius};
+      box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
       height: 100%;
       overflow: hidden;
       position: absolute;
@@ -56,7 +58,7 @@ const styles = {
   focused(t: Theme) {
     return css`
       ${cssName(styles.container(t))}&, ${cssName(styles.input(t))}:checked ~ & {
-        box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 3px ${t.toggleFocusShadowColor};
+        box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
       }
     `;
   },
@@ -77,7 +79,7 @@ const styles = {
     return css`
       ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
         background: ${t.toggleBorderColor};
-        box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
       }
       ${cssName(styles.activeBackground())} {
         background: ${t.toggleBgActive};
@@ -89,7 +91,7 @@ const styles = {
     return css`
       ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
         background: ${t.toggleBgWarning};
-        box-shadow: inset 0 0 0 1px ${t.toggleBgWarning};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgWarning};
 
         ${cssName(styles.activeBackground())} {
           background: ${t.toggleBgWarning};
@@ -102,7 +104,7 @@ const styles = {
     return css`
       ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
         background: ${t.toggleBgError};
-        box-shadow: inset 0 0 0 1px ${t.toggleBgError};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgError};
 
         ${cssName(styles.activeBackground())} {
           background: ${t.toggleBgError};
@@ -113,12 +115,14 @@ const styles = {
 
   wrapper(t: Theme) {
     const wrapperDisabled = cssName(styles.wrapperDisabled(t));
+    const handleWidthWithBorders = t.toggleHeight;
+    const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       cursor: pointer;
       display: inline-block;
-      height: 20px;
+      height: ${t.toggleHeight};
       position: relative;
-      width: 34px;
+      width: ${t.toggleWidth};
 
       &:hover:not(${wrapperDisabled}) {
         ${cssName(styles.handle(t))} {
@@ -130,10 +134,11 @@ const styles = {
         display: inline-block;
       }
       &:active:not(${wrapperDisabled}) ${cssName(styles.handle(t))} {
-        width: 22px;
+        width: ${handleActiveWidth};
       }
       &:active:not(${wrapperDisabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
-        transform: translateX(10px);
+        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
+          translateX(-${t.toggleHandleActiveWidthIncrement});
       }
     `;
   },

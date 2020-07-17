@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
@@ -11,7 +11,7 @@ const styles = {
 
   placeholder(t: Theme) {
     return css`
-      color: ${t.sltPlaceholderColor};
+      color: ${t.selectPlaceholderColor};
       text-overflow: ellipsis;
     `;
   },
@@ -27,13 +27,11 @@ const styles = {
     return css`
       border: 4px solid transparent;
       border-bottom-width: 0;
-      border-top-color: ${t.btnMenuArrowColor};
+      border-top-color: ${t.selectMenuArrowColor};
 
-      ${cssName(styles.arrowWrap())} & {
-        display: inline-block;
-        margin-bottom: 3px;
-        vertical-align: middle;
-      }
+      display: inline-block;
+      margin-bottom: 3px;
+      vertical-align: middle;
     `;
   },
 
@@ -43,7 +41,6 @@ const styles = {
       top: 0;
       bottom: 0;
       right: 0;
-      padding: 0 10px;
 
       &::before {
         content: '';
@@ -66,7 +63,6 @@ const styles = {
     return css`
       box-sizing: border-box;
       display: inline-block;
-      padding: 0 28px 0 9px;
       max-width: 100%;
       width: 100%;
       position: relative;
@@ -81,12 +77,6 @@ const styles = {
       text-overflow: ellipsis;
       vertical-align: top;
       white-space: nowrap;
-    `;
-  },
-
-  labelWithLeftIcon() {
-    return css`
-      padding-left: 0;
     `;
   },
 

@@ -4,13 +4,13 @@ import { Theme } from '../../lib/theming/Theme';
 const styles = {
   label(t: Theme) {
     return css`
-      background-color: ${t.inputBg};
-      box-shadow: ${t.inputShadow};
-      border: ${t.inputBorderWidth} solid ${t.borderColorGrayLight};
-      border-top-color: ${t.inputBorderTopColor};
+      background-color: ${t.tokenInputBg};
+      box-shadow: ${t.tokenInputShadow};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColor};
+      border-top-color: ${t.tokenInputBorderTopColor};
       box-sizing: border-box;
       cursor: text;
-      padding: 2px 4px;
+      padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
       display: flex;
       flex-wrap: wrap;
       outline: none;
@@ -19,29 +19,29 @@ const styles = {
 
   warning(t: Theme) {
     return css`
-      border: 1px solid ${t.borderColorWarning};
-      box-shadow: 0 0 0 1px ${t.borderColorWarning};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning};
     `;
   },
 
   error(t: Theme) {
     return css`
-      border: 1px solid ${t.borderColorError};
-      box-shadow: 0 0 0 1px ${t.borderColorError};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError};
     `;
   },
 
   labelFocused(t: Theme) {
     return css`
-      border: 1px solid ${t.borderColorFocus};
-      box-shadow: 0 0 0 1px ${t.borderColorFocus};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus};
     `;
   },
 
   labelDisabled(t: Theme) {
     return css`
-      background: ${t.inputDisabledBg};
-      border-color: ${t.inputDisabledBorderColor};
+      background: ${t.tokenInputDisabledBg};
+      border-color: ${t.tokenInputDisabledBorderColor};
       box-shadow: none;
     `;
   },
@@ -55,12 +55,11 @@ const styles = {
       border: none;
       box-shadow: none;
       outline: none;
-      margin: 2px 0;
       font-family: inherit;
       font-size: 14px;
       padding: 0 0 0 5px;
-      height: 24px;
-      line-height: 24px;
+      height: ${t.tokenInputInnerHeight};
+      line-height: ${t.tokenInputInnerHeight};
       -webkit-appearance: none;
       white-space: nowrap;
       text-overflow: clip;
@@ -71,12 +70,12 @@ const styles = {
         display: none;
       }
       &::placeholder {
-        color: ${t.placeholderColor};
-        -webkit-text-fill-color: ${t.placeholderColor};
+        color: ${t.tokenInputPlaceholderColor};
+        -webkit-text-fill-color: ${t.tokenInputPlaceholderColor};
       }
       &:focus::placeholder {
-        color: ${t.placeholderColorLight};
-        -webkit-text-fill-color: ${t.placeholderColorLight};
+        color: ${t.tokenInputPlaceholderColorLight};
+        -webkit-text-fill-color: ${t.tokenInputPlaceholderColorLight};
       }
       /* fix firefox placeholder opacity */
       &:-moz-placeholder {
@@ -93,7 +92,7 @@ const styles = {
       pointer-events: none;
       /* fix text color in safari */
       -webkit-text-fill-color: currentcolor;
-      color: ${t.textColorDisabled};
+      color: ${t.tokenInputTextColorDisabled};
     `;
   },
 };

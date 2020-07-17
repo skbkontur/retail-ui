@@ -9,16 +9,18 @@ const styles = {
       cursor: pointer;
       position: relative;
       user-select: none;
-      line-height: 20px;
+      line-height: ${t.checkboxLineHeight};
+      font-size: ${t.checkboxFontSize};
+      padding: ${t.checkboxPaddingY} 0;
 
       &:hover ${cssName(styles.box(t))} {
-        background: ${t.chbHoverBg};
-        box-shadow: ${t.chbShadowHover};
+        background: ${t.checkboxHoverBg};
+        box-shadow: ${t.checkboxShadowHover};
       }
 
       &:active ${cssName(styles.box(t))} {
-        box-shadow: ${t.chbShadowActive};
-        background: ${t.chbActiveBg};
+        box-shadow: ${t.checkboxShadowActive};
+        background: ${t.checkboxActiveBg};
       }
     `;
   },
@@ -36,21 +38,23 @@ const styles = {
   },
 
   box(t: Theme) {
+    const boxSize = `calc(${t.checkboxBoxSize} - 2 * ${t.checkboxBorderWidthCompensation})`;
     return css`
       display: inline-flex;
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
-      width: 16px;
-      height: 16px;
+      width: ${boxSize};
+      height: ${boxSize};
       flex: none;
-      font-size: 14px;
-      color: ${t.textColorDefault};
-      border: ${t.chbBorder};
-      border-radius: ${t.chbBorderRadius};
-      box-shadow: ${t.chbShadow};
-      background: ${t.chbBg};
+      font-size: ${t.checkboxFontSize};
+      color: ${t.checkboxTextColorDefault};
+      border: ${t.checkboxBorder};
+      border-radius: ${t.checkboxBorderRadius};
+      box-shadow: ${t.checkboxShadow};
+      background: ${t.checkboxBg};
       align-self: baseline;
+      margin: ${t.checkboxBorderWidthCompensation};
     `;
   },
 
@@ -68,7 +72,8 @@ const styles = {
   warning(t: Theme) {
     return css`
       & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorWarning} !important;
+        box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorWarning} !important;
       }
     `;
   },
@@ -76,46 +81,51 @@ const styles = {
   error(t: Theme) {
     return css`
       & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.borderColorError} !important;
+        box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorError} !important;
       }
     `;
   },
 
   checked(t: Theme) {
     return css`
-      & ${cssName(styles.box(t))} {
-        background: ${t.chbCheckedBg};
-        color: ${t.chbCheckedColor};
-        box-shadow: ${t.chbCheckedShadow};
-      }
+      ${cssName(styles.root(t))}& {
+        & ${cssName(styles.box(t))} {
+          background: ${t.checkboxCheckedBg};
+          color: ${t.checkboxCheckedColor};
+          box-shadow: ${t.checkboxCheckedShadow};
+        }
 
-      &:hover ${cssName(styles.box(t))} {
-        box-shadow: ${t.chbCheckedHoverShadow};
-        background: ${t.chbCheckedHoverBg};
-      }
+        &:hover ${cssName(styles.box(t))} {
+          box-shadow: ${t.checkboxCheckedHoverShadow};
+          background: ${t.checkboxCheckedHoverBg};
+        }
 
-      &:active ${cssName(styles.box(t))} {
-        box-shadow: ${t.chbCheckedActiveShadow};
-        background: ${t.chbCheckedActiveBg};
+        &:active ${cssName(styles.box(t))} {
+          background: ${t.checkboxCheckedActiveBg};
+          box-shadow: ${t.checkboxCheckedActiveShadow};
+        }
       }
     `;
   },
 
   indeterminate(t: Theme) {
     return css`
-      & ${cssName(styles.box(t))} {
-        background: ${t.chbBoxIndeterminateBg};
-        color: ${t.chbIndeterminateBg};
-        box-shadow: ${t.chbCheckedShadow};
-      }
+      ${cssName(styles.root(t))}& {
+        & ${cssName(styles.box(t))} {
+          background: ${t.checkboxBoxIndeterminateBg};
+          color: ${t.checkboxIndeterminateBg};
+          box-shadow: ${t.checkboxCheckedShadow};
+        }
 
-      &:hover ${cssName(styles.box(t))} {
-        box-shadow: ${t.chbCheckedHoverShadow};
-        background: ${t.chbCheckedHoverBg};
-      }
-      &:active ${cssName(styles.box(t))} {
-        box-shadow: ${t.chbCheckedActiveShadow};
-        background: ${t.chbCheckedActiveBg};
+        &:hover ${cssName(styles.box(t))} {
+          box-shadow: ${t.checkboxCheckedHoverShadow};
+          background: ${t.checkboxCheckedHoverBg};
+        }
+        &:active ${cssName(styles.box(t))} {
+          background: ${t.checkboxCheckedActiveBg};
+          box-shadow: ${t.checkboxCheckedActiveShadow};
+        }
       }
     `;
   },
@@ -123,20 +133,21 @@ const styles = {
   focus(t: Theme) {
     return css`
       & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.chbShadowWidth} ${t.chbBorderColorFocus} !important;
+        box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorFocus} !important;
       }
     `;
   },
 
   disabled(t: Theme) {
     return css`
-      color: ${t.textColorDisabled};
+      color: ${t.checkboxTextColorDisabled};
       cursor: default;
 
       & ${cssName(styles.box(t))} {
-        box-shadow: ${t.chbShadowDisabled} !important; //to override hover and active
-        background: ${t.bgDisabled} !important;
-        color: ${t.textColorDisabled} !important;
+        box-shadow: ${t.checkboxShadowDisabled} !important; //to override hover and active
+        background: ${t.checkboxBgDisabled} !important;
+        color: ${t.checkboxTextColorDisabled} !important;
       }
     `;
   },
@@ -153,9 +164,9 @@ const styles = {
     `;
   },
 
-  caption() {
+  caption(t: Theme) {
     return css`
-      padding-left: 10px;
+      padding-left: ${t.checkboxLabelGap};
     `;
   },
 

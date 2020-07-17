@@ -115,6 +115,6 @@ export class Spinner extends React.Component<SpinnerProps> {
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (
-    <span className={cn(jsStyles[type](), jsStyles.captionColor(this.theme))}>{caption}</span>
+    <span className={cn(jsStyles[type](this.theme), jsStyles.captionColor(this.theme))}>{caption}</span>
   );
 }

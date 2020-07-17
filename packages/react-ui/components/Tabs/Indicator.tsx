@@ -120,7 +120,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
       const rect = node.getBoundingClientRect();
       if (this.props.vertical) {
         return {
-          width: 3,
+          width: this.theme.tabBorderWidth,
           left: node.offsetLeft,
           top: node.offsetTop,
           height: rect.bottom - rect.top,

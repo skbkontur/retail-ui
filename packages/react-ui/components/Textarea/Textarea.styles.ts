@@ -5,7 +5,7 @@ const styles = {
   root(t: Theme) {
     return css`
       display: inline-block;
-      font-size: ${t.fontSizeMedium};
+      font-size: ${t.textareaFontSize};
       line-height: ${t.textareaLineHeight};
       position: relative;
     `;
@@ -16,7 +16,7 @@ const styles = {
       -webkit-appearance: none;
       background-clip: padding-box;
       background: ${t.textareaBg};
-      border: 1px solid ${t.borderColorGrayLight};
+      border: ${t.textareaBorderWidth} solid ${t.textareaBorderColor};
       border-top-color: ${t.textareaBorderTopColor};
       box-shadow: ${t.textareaShadow};
       box-sizing: border-box;
@@ -25,32 +25,34 @@ const styles = {
       font-size: inherit;
       line-height: inherit;
       max-width: 100%;
-      min-height: ${t.controlHeightSmall};
+      min-width: ${t.textareaWidth};
+      min-height: ${t.textareaHeight};
       outline: none;
-      padding: 6px 10px;
+      padding: ${t.textareaPaddingY} ${t.textareaPaddingX};
       transition: height 0.2s ease-out;
       vertical-align: middle;
       width: 100%;
+      border-radius: ${t.textareaBorderRadius};
 
       &:focus {
-        border-color: ${t.borderColorFocus};
-        box-shadow: 0 0 0 1px ${t.borderColorFocus};
+        border-color: ${t.textareaBorderColorFocus};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorFocus};
         position: relative;
         z-index: 2;
 
         &::placeholder {
-          color: ${t.placeholderColorLight};
+          color: ${t.textareaPlaceholderColorLight};
         }
       }
       &:disabled {
-        color: ${t.textColorDisabled};
+        color: ${t.textareaTextColorDisabled};
         background: ${t.textareaDisabledBg};
         border-color: ${t.textareaDisabledBorderColor};
         box-shadow: none;
       }
 
       &::placeholder {
-        color: ${t.placeholderColor};
+        color: ${t.textareaPlaceholderColor};
       }
 
       &:-moz-placeholder {
@@ -66,12 +68,12 @@ const styles = {
   error(t: Theme) {
     return css`
       ${cssName(styles.textarea(t))}& {
-        border-color: ${t.borderColorError};
-        box-shadow: 0 0 0 1px ${t.borderColorError};
+        border-color: ${t.textareaBorderColorError};
+        box-shadow: 0 0 0 ${t.textareaBorderWidth} ${t.textareaBorderColorError};
       }
       ${cssName(styles.textarea(t))}&:focus {
-        border-color: ${t.borderColorError};
-        box-shadow: 0 0 0 1px ${t.borderColorError};
+        border-color: ${t.textareaBorderColorError};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorError};
       }
     `;
   },
@@ -79,12 +81,12 @@ const styles = {
   warning(t: Theme) {
     return css`
       ${cssName(styles.textarea(t))}& {
-        border-color: ${t.borderColorWarning};
-        box-shadow: 0 0 0 1px ${t.borderColorWarning};
+        border-color: ${t.textareaBorderColorWarning};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
       }
       ${cssName(styles.textarea(t))}&:focus {
-        border-color: ${t.borderColorWarning};
-        box-shadow: 0 0 0 1px ${t.borderColorWarning};
+        border-color: ${t.textareaBorderColorWarning};
+        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
       }
     `;
   },
