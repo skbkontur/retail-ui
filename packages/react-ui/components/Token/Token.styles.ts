@@ -45,7 +45,7 @@ const styles = {
       width: ${t.tokenCloseIconSize};
       flex-shrink: 0;
       padding: ${t.tokenCloseIconPaddingY} ${t.tokenCloseIconPaddingX};
-      box-sizing: border-box;
+      box-sizing: ${t.tokenCloseIconBoxSizing};
       margin-left: ${t.tokenCloseIconGap};
       transition: none;
       fill: currentColor;
