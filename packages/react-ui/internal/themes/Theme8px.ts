@@ -247,10 +247,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tokenPaddingY = '1px';
   public static tokenPaddingX = '3px';
   public static tokenBorderRadius = '1px';
-  public static tokenCloseIconSize = '8px';
-  public static tokenCloseIconPaddingY = '4px';
-  public static tokenCloseIconPaddingX = '4px';
-  public static tokenCloseIconGap = '4px';
+  public static tokenRemoveIconSize = '8px';
+  public static tokenRemoveIconPaddingY = '4px';
+  public static tokenRemoveIconPaddingX = '4px';
+  public static tokenRemoveIconGap = '4px';
   public static tokenBorderColorDisabled = '#dadada';
   public static tokenDisabledBg = '#e5e5e5';
   public static tokenLegacyTextShift = '0px';
