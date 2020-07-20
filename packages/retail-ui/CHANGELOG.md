@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.10](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.9...retail-ui@1.6.10) (2020-07-20)
+
+
+### Bug Fixes
+
+* **Kladr:** add filter for "empty" addresses from backend ([08326fb](https://github.com/skbkontur/retail-ui/commit/08326fb))
+
+
+
+
+
 ## [1.6.9](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.8...retail-ui@1.6.9) (2019-12-24)
 
 
