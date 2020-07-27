@@ -141,7 +141,7 @@ export const buttonSizeMixin = (
 
     &:not(${selectorLink}) {
       box-sizing: border-box;
-      height: ${shift(height, heightShift)};
+      min-height: ${shift(height, heightShift)};
       padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
       line-height: ${lineHeight};
 
