@@ -179,7 +179,7 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      background: ${t.inputDisabledBg};
+      background: ${t.inputDisabledBg} !important;
       border-color: ${t.inputDisabledBorderColor} !important;
       box-shadow: none;
 
