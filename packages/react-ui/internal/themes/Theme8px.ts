@@ -16,6 +16,24 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static controlPaddingYMedium = '8px';
   public static controlPaddingYLarge = '11px';
   //#region Button
+  public static get btnHeightSmall() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get btnHeightMedium() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get btnHeightLarge() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
   public static get btnBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -75,6 +93,24 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
   //#region Input
+  public static get inputHeightSmall() {
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get inputHeightMedium() {
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get inputHeightLarge() {
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
   public static inputWidth = '200px';
   public static get inputBorderWidth() {
     return this.controlBorderWidth;
