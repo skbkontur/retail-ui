@@ -504,7 +504,7 @@ object SeleniumTesting_Test : BuildType({
             name = "Test"
             id = "RUNNER_4"
             projects = "packages/react-ui-testing/Tests/Tests.csproj"
-            framework = "netcoreapp2.1"
+            framework = "netcoreapp3.1"
             param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
     }
