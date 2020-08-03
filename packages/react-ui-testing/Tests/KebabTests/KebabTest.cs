@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-
+using FluentAssertions;
 using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
@@ -65,7 +65,7 @@ namespace SKBKontur.SeleniumTesting.Tests.KebabTests
         public void TestSelectItemByText()
         {
             page.Output.Text.Wait().That(Is.EqualTo("none"));
-            page.SimpleKebab.SelectItem(x => x.Text.Assert(Is.EqualTo("Second")));
+            page.SimpleKebab.SelectItem(x => x.Text.Get().Should().Be("Second"));
             page.Output.Text.Wait().That(Is.EqualTo("second"));
         }
 

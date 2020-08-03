@@ -7,7 +7,7 @@ using Kontur.RetryableAssertions.ValueProviding;
 using Kontur.Selone.Properties;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
-
+using NUnit.Framework.Internal;
 using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Tests.Helpers
@@ -26,11 +26,19 @@ namespace SKBKontur.SeleniumTesting.Tests.Helpers
 
         public static IAssertionResult<T, TSource> That<T, TSource>(this IValueProvider<T, TSource> provider, IResolveConstraint constraint)
         {
+            var reusableConstraint = new ReusableConstraint(constraint);
+            var assertion = Assertion.FromDelegate<T>(x =>
+                {
+                    using (new TestExecutionContext.IsolatedContext())
+                    {
+                        NUnit.Framework.Assert.That(x, reusableConstraint);
+                    }
+                });
             var configuration = new AssertionConfiguration<T>
                 {
                     Timeout = 2000,
                     Interval = 100,
-                    Assertion = Assertion.FromDelegate<T>(x => NUnit.Framework.Assert.That(x, new ReusableConstraint(constraint))),
+                    Assertion = assertion,
                     ExceptionMatcher = ExceptionMatcher.FromTypes(typeof(WebDriverException), typeof(InvalidOperationException), typeof(ElementNotFoundException))
                 };
             return Kontur.RetryableAssertions.Wait.Assertion(provider, configuration);

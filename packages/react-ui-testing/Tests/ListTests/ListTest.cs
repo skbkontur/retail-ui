@@ -72,11 +72,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         public void Test1()
         {
             page.InputWithoutTidList[1].ClearAndInputText("value 1");
-            Following.CodeFails(() =>
-                {
-                    // TODO
-                    // page.InputWithoutTidList.ExpectTo().AllItems().ExpectTo().Satisfy(x => x.Value == "value", "ожадалось значение 'value'");
-                });
+            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().AllItems().ExpectTo().Satisfy(x => x.Value.Get() == "value", "ожадалось значение 'value'"); });
         }
 
         [Test]
