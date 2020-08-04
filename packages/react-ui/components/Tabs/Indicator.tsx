@@ -127,9 +127,10 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
         };
       }
 
+      const tabBorderWidth = parseInt(this.theme.tabBorderWidth, 10) || 0;
       return {
         left: node.offsetLeft,
-        top: node.offsetHeight + node.offsetTop - 3,
+        top: node.offsetHeight + node.offsetTop - tabBorderWidth,
         width: rect.right - rect.left,
       };
     }
