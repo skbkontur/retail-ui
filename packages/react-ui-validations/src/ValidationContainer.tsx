@@ -13,10 +13,15 @@ export interface ValidationContainerProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
   scrollOffset?: number | ScrollOffset;
+  disableSmoothScroll: boolean;
 }
 
 export class ValidationContainer extends React.Component<ValidationContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationContainer';
+
+  public static defaultProps = {
+    disableSmoothScroll: false
+  };
 
   public static propTypes = {
     scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
@@ -50,6 +55,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
       <ValidationContext
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
+        disableSmoothScroll={this.props.disableSmoothScroll}
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}
