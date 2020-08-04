@@ -237,21 +237,21 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
   //#region Tab
-  public static tabPaddingX = '8px';
+  public static tabPaddingX = '12px';
   public static get tabsMarginX() {
     return this.tabPaddingX;
   }
   public static get tabPaddingY() {
-    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
+    const paddingY = parseInt(this.controlPaddingYLarge, 10) || 0;
     const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
 
-    return `${paddingYSmall + borderWidth}px`;
+    return `${paddingY + borderWidth}px`;
   }
   public static get tabFontSize() {
-    return this.fontSizeSmall;
+    return this.fontSizeLarge;
   }
   public static get tabLineHeight() {
-    return this.controlLineHeightSmall;
+    return this.controlLineHeightLarge;
   }
   public static tabBorderWidth = '2px';
   public static get tabOutlineWidth() {
