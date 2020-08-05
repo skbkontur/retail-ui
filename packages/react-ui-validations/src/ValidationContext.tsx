@@ -6,6 +6,7 @@ import { ScrollOffset } from './ValidationContainer';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
+  disableSmoothScroll: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/interface-name-prefix
@@ -22,6 +23,7 @@ export interface ValidationContextProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: boolean) => void;
   scrollOffset?: number | ScrollOffset;
+  disableSmoothScroll: boolean;
 }
 
 export class ValidationContext extends React.Component<ValidationContextProps> implements IValidationContext {
@@ -51,6 +53,7 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
         top,
         bottom,
       },
+      disableSmoothScroll: this.props.disableSmoothScroll
     };
   }
 
