@@ -244,12 +244,10 @@ export class DefaultTheme {
   }
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '4px';
-  public static get tokenInputInnerHeight() {
-    return `calc(${this.controlHeightSmall} - 2 * ${this.tokenInputPaddingY} - 2 * ${this.tokenInputBorderWidth})`;
+  public static get tokenInputFontSize() {
+    return this.inputFontSizeSmall;
   }
-  public static get tokenInputLineHeight() {
-    return this.controlLineHeightSmall;
-  }
+  public static tokenInputLineHeight = '28px';
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';

@@ -306,7 +306,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get tokenShadowDisabled() {
     return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
   }
-
+  //#endregion
+  //#region TokenInput
+  public static tokenInputLineHeight = '26px';
   //#endregion
   //#region Spinner
 

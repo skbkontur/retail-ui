@@ -13,6 +13,7 @@ const styles = {
       padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
       display: flex;
       flex-wrap: wrap;
+      align-items: start;
       outline: none;
     `;
   },
@@ -56,10 +57,10 @@ const styles = {
       box-shadow: none;
       outline: none;
       font-family: inherit;
-      font-size: 14px;
       padding: 0 0 0 5px;
-      height: ${t.tokenInputInnerHeight};
-      line-height: ${t.tokenInputInnerHeight};
+      font-size: ${t.tokenInputFontSize};
+      height: ${t.tokenInputLineHeight};
+      line-height: ${t.tokenInputLineHeight};
       -webkit-appearance: none;
       white-space: nowrap;
       text-overflow: clip;
