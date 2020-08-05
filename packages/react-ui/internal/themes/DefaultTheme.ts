@@ -1309,6 +1309,18 @@ export class DefaultTheme {
   public static spinnerOldCaptionGapMedium = '0px';
   public static spinnerOldCaptionGapLarge = '0px';
   //#endregion
+  //#region Switcher
+  public static switcherOutlineWidth = '2px';
+  public static switcherLabelFontSizeSmall = 'inherit';
+  public static switcherLabelFontSizeMedium = 'inherit';
+  public static switcherLabelFontSizeLarge = 'inherit';
+  public static switcherLabelLineHeightSmall = 'inherit';
+  public static switcherLabelLineHeightMedium = 'inherit';
+  public static switcherLabelLineHeightLarge = 'inherit';
+  public static switcherLabelGapSmall = '15px';
+  public static switcherLabelGapMedium = '15px';
+  public static switcherLabelGapLarge = '15px';
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(markAsFullTheme(DefaultTheme));

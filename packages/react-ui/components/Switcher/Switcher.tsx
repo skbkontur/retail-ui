@@ -89,9 +89,11 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       className: jsStyles.input(),
     };
 
+    const lableClassName = cn(jsStyles.label(), this.getLabelSizeClassName());
+
     return (
       <div>
-        {this.props.label ? <div className={jsStyles.label()}>{this.props.label}</div> : null}
+        {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
         <div className={jsStyles.wrap()}>
           <input {...inputProps} />
           <div className={listClassName}>
@@ -195,5 +197,17 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         </Button>
       );
     });
+  };
+
+  private getLabelSizeClassName = (): string => {
+    switch (this.props.size) {
+      case 'large':
+        return jsStyles.labelLarge(this.theme);
+      case 'medium':
+        return jsStyles.labelMedium(this.theme);
+      case 'small':
+      default:
+        return jsStyles.labelSmall(this.theme);
+    }
   };
 }

@@ -20,16 +20,39 @@ const styles = {
 
   label() {
     return css`
-      margin-right: 15px;
       vertical-align: middle;
       display: inline-block;
+    `;
+  },
+
+  labelSmall(t: Theme) {
+    return css`
+      margin-right: ${t.switcherLabelGapSmall};
+      font-size: ${t.switcherLabelFontSizeSmall};
+      line-height: ${t.switcherLabelLineHeightSmall};
+    `;
+  },
+
+  labelMedium(t: Theme) {
+    return css`
+      margin-right: ${t.switcherLabelGapMedium};
+      font-size: ${t.switcherLabelFontSizeMedium};
+      line-height: ${t.switcherLabelLineHeightMedium};
+    `;
+  },
+
+  labelLarge(t: Theme) {
+    return css`
+      margin-right: ${t.switcherLabelGapLarge};
+      font-size: ${t.switcherLabelFontSizeLarge};
+      line-height: ${t.switcherLabelLineHeightLarge};
     `;
   },
 
   error(t: Theme) {
     return css`
       border-radius: 2px;
-      box-shadow: 0 0 0 2px ${t.borderColorError};
+      box-shadow: 0 0 0 ${t.switcherOutlineWidth} ${t.borderColorError};
     `;
   },
 };

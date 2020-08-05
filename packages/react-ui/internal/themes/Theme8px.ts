@@ -425,6 +425,37 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   public static radioVerticalAlign = 'top';
   //#endregion
+  //#region Switcher
+  public static get switcherOutlineWidth() {
+    return this.btnOutlineWidth;
+  }
+  public static get switcherLabelFontSizeSmall() {
+    return this.btnFontSizeSmall;
+  }
+  public static get switcherLabelFontSizeMedium() {
+    return this.btnFontSizeMedium;
+  }
+  public static get switcherLabelFontSizeLarge() {
+    return this.btnFontSizeLarge;
+  }
+  public static get switcherLabelLineHeightSmall() {
+    return this.btnLineHeightSmall;
+  }
+  public static get switcherLabelLineHeightMedium() {
+    return this.btnLineHeightMedium;
+  }
+  public static get switcherLabelLineHeightLarge() {
+    return this.btnLineHeightLarge;
+  }
+  public static get switcherLabelGapSmall() {
+    return this.btnPaddingXSmall;
+  }
+  public static get switcherLabelGapMedium() {
+    return this.btnPaddingXMedium;
+  }
+  public static get switcherLabelGapLarge() {
+    return this.btnPaddingXLarge;
+  }
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
