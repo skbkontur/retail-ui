@@ -458,6 +458,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get switcherLabelGapLarge() {
     return this.btnPaddingXLarge;
   }
+  public static switcherButtonPaddingXSmall = '7px';
+  public static switcherButtonPaddingXMedium = '11px';
+  public static switcherButtonPaddingXLarge = '15px';
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
