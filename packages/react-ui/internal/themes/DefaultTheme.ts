@@ -1318,6 +1318,54 @@ export class DefaultTheme {
   public static switcherLabelGapSmall = '15px';
   public static switcherLabelGapMedium = '15px';
   public static switcherLabelGapLarge = '15px';
+  public static get switcherButtonPaddingXSmall() {
+    return this.btnPaddingXSmall;
+  }
+  public static get switcherButtonPaddingXMedium() {
+    return this.btnPaddingXMedium;
+  }
+  public static get switcherButtonPaddingXLarge() {
+    return this.btnPaddingXLarge;
+  }
+  public static get switcherButtonPaddingYSmall() {
+    return this.btnPaddingYSmall;
+  }
+  public static get switcherButtonPaddingYMedium() {
+    return this.btnPaddingYMedium;
+  }
+  public static get switcherButtonPaddingYLarge() {
+    return this.btnPaddingYLarge;
+  }
+  public static get switcherButtonLineHeightSmall() {
+    return this.btnLineHeightSmall;
+  }
+  public static get switcherButtonLineHeightMedium() {
+    return this.btnLineHeightMedium;
+  }
+  public static get switcherButtonLineHeightLarge() {
+    return this.btnLineHeightLarge;
+  }
+  public static get switcherButtonFontSizeSmall() {
+    return this.btnFontSizeSmall;
+  }
+  public static get switcherButtonFontSizeMedium() {
+    return this.btnFontSizeMedium;
+  }
+  public static get switcherButtonFontSizeLarge() {
+    return this.btnFontSizeLarge;
+  }
+  public static get switcherButtonBorderRadiusSmall() {
+    return this.btnBorderRadiusSmall;
+  }
+  public static get switcherButtonBorderRadiusMedium() {
+    return this.btnBorderRadiusMedium;
+  }
+  public static get switcherButtonBorderRadiusLarge() {
+    return this.btnBorderRadiusLarge;
+  }
+  public static get switcherButtonBorderWidth() {
+    return this.btnBorderWidth;
+  }
   //#endregion
 }
 
