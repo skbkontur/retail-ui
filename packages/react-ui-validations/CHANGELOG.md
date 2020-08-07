@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.5...react-ui-validations@1.2.0) (2020-08-07)
+
+
+### Features
+
+* **ValidationContainer:** added new prop disableSmoothScroll ([ecf75fd](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/ecf75fdabd2c0dc15cc293d74b1fde28a72d4e81))
+* **ValidationContainer:** disable smooth scroll in test env ([8a7825c](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/8a7825c2cf16cc804a0dcd3bd63c35ecc36e74c3))
+
+
+
+
+
 ## [1.1.5](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.4...react-ui-validations@1.1.5) (2020-04-29)
 
 

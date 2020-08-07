@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.0...react-ui-testing@3.1.1) (2020-08-07)
+
+
+### Bug Fixes
+
+* **react-ui-testing:** target netstandard2.0; update deps ([4187596](https://github.com/skbkontur/retail-ui/commit/4187596dc3d514f35df59d356175dedcdf2f809a))
+
+
+
+
+
 # [3.1.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.0.1...react-ui-testing@3.1.0) (2020-06-09)
 
 

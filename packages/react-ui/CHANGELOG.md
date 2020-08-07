@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.0...@skbkontur/react-ui@2.4.1) (2020-08-07)
+
+
+### Bug Fixes
+
+* **Input:** fix disabled bg color for 8px theme ([a4c8b28](https://github.com/skbkontur/retail-ui/commit/a4c8b286ebbf732a8c919527243beb76674647db))
+* **react-ui:** fix controlHeight vars for non-8px themes ([db08994](https://github.com/skbkontur/retail-ui/commit/db089943e6e342551bcc1e4ae3b1a31e10e99a1c))
+* **Switcher:** add button vars ([2b932df](https://github.com/skbkontur/retail-ui/commit/2b932df248da61bee182af96c208ec6626338cdb))
+* **Switcher:** add variables for label ([fe0f8d1](https://github.com/skbkontur/retail-ui/commit/fe0f8d16c76f4cc636c9729ba71c66021e885291))
+* **Switcher:** adjust button's paddings for 8px theme ([3d4ad29](https://github.com/skbkontur/retail-ui/commit/3d4ad29975cc0aa11c1a057e438f956513fceee7))
+* **Tab:** fix Indicator position for 8px theme ([19b5b7f](https://github.com/skbkontur/retail-ui/commit/19b5b7fc71b02f3030ac4aac9e251f418a611955))
+* **Tab:** use large size values in 8px theme ([a2a1f0d](https://github.com/skbkontur/retail-ui/commit/a2a1f0d28195c0bbd1f2cde585c99f66a26935ab))
+* **TokenInput:** fix styles issue ([5ce5578](https://github.com/skbkontur/retail-ui/commit/5ce55783b10ae676afe47ccfea5f0d952f1c7981)), closes [#1952](https://github.com/skbkontur/retail-ui/issues/1952)
+* **TokenInput:** use font-size and line-height vars; align tokens ([8a9dc0b](https://github.com/skbkontur/retail-ui/commit/8a9dc0b9bdd3d2fc42279035935f34a11f404bb6))
+
+
+
+
+
 # [2.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.3.2...@skbkontur/react-ui@2.4.0) (2020-07-17)
 
 
