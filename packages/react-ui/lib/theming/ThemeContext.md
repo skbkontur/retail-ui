@@ -33,6 +33,15 @@ public static contextType = ThemeContext;
 public context: Theme = this.context;
 ```
 
+Список существующих тем:
+
+| Имя                 | Описание          |
+| ------------------- | ----------------- |
+| `DEFAULT_THEME`     | Тема по умолчанию |
+| `FLAT_THEME`        | Плоская тема      |
+| `DEFAULT_THEME_8PX` | 8px тема          |
+| `FLAT_THEME_8PX`    | Плоская 8px тема  |
+
 ## Примеры использования
 
 ### Подключение плоской темы
