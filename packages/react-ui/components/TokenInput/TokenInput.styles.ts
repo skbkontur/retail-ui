@@ -20,30 +20,30 @@ const styles = {
 
   warning(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning};
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning} !important;
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning} !important;
     `;
   },
 
   error(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError};
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError} !important;
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError} !important;
     `;
   },
 
   labelFocused(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus};
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus} !important;
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus} !important;
     `;
   },
 
   labelDisabled(t: Theme) {
     return css`
-      background: ${t.tokenInputDisabledBg};
-      border-color: ${t.tokenInputDisabledBorderColor};
-      box-shadow: none;
+      background: ${t.tokenInputDisabledBg} !important;
+      border-color: ${t.tokenInputDisabledBorderColor} !important;
+      box-shadow: none !important;
     `;
   },
 
