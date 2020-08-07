@@ -13,36 +13,37 @@ const styles = {
       padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
       display: flex;
       flex-wrap: wrap;
+      align-items: start;
       outline: none;
     `;
   },
 
   warning(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning};
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning} !important;
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning} !important;
     `;
   },
 
   error(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError};
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError} !important;
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError} !important;
     `;
   },
 
   labelFocused(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus};
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus};
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus} !important;
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus} !important;
     `;
   },
 
   labelDisabled(t: Theme) {
     return css`
-      background: ${t.tokenInputDisabledBg};
-      border-color: ${t.tokenInputDisabledBorderColor};
-      box-shadow: none;
+      background: ${t.tokenInputDisabledBg} !important;
+      border-color: ${t.tokenInputDisabledBorderColor} !important;
+      box-shadow: none !important;
     `;
   },
 
@@ -56,10 +57,10 @@ const styles = {
       box-shadow: none;
       outline: none;
       font-family: inherit;
-      font-size: 14px;
       padding: 0 0 0 5px;
-      height: ${t.tokenInputInnerHeight};
-      line-height: ${t.tokenInputInnerHeight};
+      font-size: ${t.tokenInputFontSize};
+      height: ${t.tokenInputLineHeight};
+      line-height: ${t.tokenInputLineHeight};
       -webkit-appearance: none;
       white-space: nowrap;
       text-overflow: clip;

@@ -33,6 +33,7 @@ export const VARIABLES_GROUPS = [
   { title: 'TokenInput', prefix: 'tokenInput' },
   { title: 'Select', prefix: 'select' },
   { title: 'Spinner', prefix: 'spinner' },
+  { title: 'Switcher', prefix: 'switcher' },
   { title: 'Legacy', prefix: 'chb slt' },
 ];
 

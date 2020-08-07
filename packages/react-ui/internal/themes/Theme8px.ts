@@ -16,6 +16,24 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static controlPaddingYMedium = '8px';
   public static controlPaddingYLarge = '11px';
   //#region Button
+  public static get btnHeightSmall() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get btnHeightMedium() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get btnHeightLarge() {
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
   public static get btnBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -75,6 +93,24 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
   //#region Input
+  public static get inputHeightSmall() {
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get inputHeightMedium() {
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
+  public static get inputHeightLarge() {
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+  }
   public static inputWidth = '200px';
   public static get inputBorderWidth() {
     return this.controlBorderWidth;
@@ -201,21 +237,21 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
   //#region Tab
-  public static tabPaddingX = '8px';
+  public static tabPaddingX = '12px';
   public static get tabsMarginX() {
     return this.tabPaddingX;
   }
   public static get tabPaddingY() {
-    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
+    const paddingY = parseInt(this.controlPaddingYLarge, 10) || 0;
     const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
 
-    return `${paddingYSmall + borderWidth}px`;
+    return `${paddingY + borderWidth}px`;
   }
   public static get tabFontSize() {
-    return this.fontSizeSmall;
+    return this.fontSizeLarge;
   }
   public static get tabLineHeight() {
-    return this.controlLineHeightSmall;
+    return this.controlLineHeightLarge;
   }
   public static tabBorderWidth = '2px';
   public static get tabOutlineWidth() {
@@ -270,7 +306,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get tokenShadowDisabled() {
     return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
   }
-
+  //#endregion
+  //#region TokenInput
+  public static tokenInputLineHeight = '26px';
   //#endregion
   //#region Spinner
 
@@ -389,6 +427,40 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   public static radioVerticalAlign = 'top';
   //#endregion
+  //#region Switcher
+  public static get switcherOutlineWidth() {
+    return this.btnOutlineWidth;
+  }
+  public static get switcherLabelFontSizeSmall() {
+    return this.btnFontSizeSmall;
+  }
+  public static get switcherLabelFontSizeMedium() {
+    return this.btnFontSizeMedium;
+  }
+  public static get switcherLabelFontSizeLarge() {
+    return this.btnFontSizeLarge;
+  }
+  public static get switcherLabelLineHeightSmall() {
+    return this.btnLineHeightSmall;
+  }
+  public static get switcherLabelLineHeightMedium() {
+    return this.btnLineHeightMedium;
+  }
+  public static get switcherLabelLineHeightLarge() {
+    return this.btnLineHeightLarge;
+  }
+  public static get switcherLabelGapSmall() {
+    return this.btnPaddingXSmall;
+  }
+  public static get switcherLabelGapMedium() {
+    return this.btnPaddingXMedium;
+  }
+  public static get switcherLabelGapLarge() {
+    return this.btnPaddingXLarge;
+  }
+  public static switcherButtonPaddingXSmall = '7px';
+  public static switcherButtonPaddingXMedium = '11px';
+  public static switcherButtonPaddingXLarge = '15px';
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));

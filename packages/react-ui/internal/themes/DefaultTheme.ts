@@ -71,9 +71,24 @@ export class DefaultTheme {
   public static get borderColorWarning() {
     return this.warningMain;
   }
-  public static controlHeightSmall = '34px';
-  public static controlHeightMedium = '40px';
-  public static controlHeightLarge = '44px';
+  public static get controlHeightSmall() {
+    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
+    const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
+  }
+  public static get controlHeightMedium() {
+    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
+    const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
+  }
+  public static get controlHeightLarge() {
+    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
+    const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
+  }
 
   //#endregion
   //#region Link
@@ -229,12 +244,10 @@ export class DefaultTheme {
   }
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '4px';
-  public static get tokenInputInnerHeight() {
-    return `calc(${this.controlHeightSmall} - 2 * ${this.tokenInputPaddingY} - 2 * ${this.tokenInputBorderWidth})`;
+  public static get tokenInputFontSize() {
+    return this.inputFontSizeSmall;
   }
-  public static get tokenInputLineHeight() {
-    return this.controlLineHeightSmall;
-  }
+  public static tokenInputLineHeight = '28px';
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
@@ -520,22 +533,13 @@ export class DefaultTheme {
     return this.borderColorError;
   }
   public static get btnHeightSmall() {
-    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
-    const padding = parseInt(this.btnPaddingYSmall, 10) || 0;
-    const lineHeigh = parseInt(this.btnLineHeightSmall, 10) || 0;
-    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+    return this.controlHeightSmall;
   }
   public static get btnHeightMedium() {
-    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
-    const padding = parseInt(this.btnPaddingYMedium, 10) || 0;
-    const lineHeigh = parseInt(this.btnLineHeightMedium, 10) || 0;
-    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+    return this.controlHeightMedium;
   }
   public static get btnHeightLarge() {
-    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
-    const padding = parseInt(this.btnPaddingYLarge, 10) || 0;
-    const lineHeigh = parseInt(this.btnLineHeightLarge, 10) || 0;
-    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+    return this.controlHeightLarge;
   }
   public static get btnLinkColor() {
     return this.linkColor;
@@ -819,22 +823,13 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get inputHeightSmall() {
-    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
-    const padding = parseInt(this.inputPaddingYSmall, 10) || 0;
-    const lineHeigh = parseInt(this.inputLineHeightSmall, 10) || 0;
-    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+    return this.controlHeightSmall;
   }
   public static get inputHeightMedium() {
-    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
-    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
-    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
-    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+    return this.controlHeightMedium;
   }
   public static get inputHeightLarge() {
-    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
-    const padding = parseInt(this.inputPaddingYLarge, 10) || 0;
-    const lineHeigh = parseInt(this.inputLineHeightLarge, 10) || 0;
-    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
+    return this.controlHeightLarge;
   }
   public static get inputPaddingYSmall() {
     return this.controlPaddingYSmall;
@@ -1311,6 +1306,66 @@ export class DefaultTheme {
   public static spinnerOldCaptionGapSmall = '5px';
   public static spinnerOldCaptionGapMedium = '0px';
   public static spinnerOldCaptionGapLarge = '0px';
+  //#endregion
+  //#region Switcher
+  public static switcherOutlineWidth = '2px';
+  public static switcherLabelFontSizeSmall = 'inherit';
+  public static switcherLabelFontSizeMedium = 'inherit';
+  public static switcherLabelFontSizeLarge = 'inherit';
+  public static switcherLabelLineHeightSmall = 'inherit';
+  public static switcherLabelLineHeightMedium = 'inherit';
+  public static switcherLabelLineHeightLarge = 'inherit';
+  public static switcherLabelGapSmall = '15px';
+  public static switcherLabelGapMedium = '15px';
+  public static switcherLabelGapLarge = '15px';
+  public static get switcherButtonPaddingXSmall() {
+    return this.btnPaddingXSmall;
+  }
+  public static get switcherButtonPaddingXMedium() {
+    return this.btnPaddingXMedium;
+  }
+  public static get switcherButtonPaddingXLarge() {
+    return this.btnPaddingXLarge;
+  }
+  public static get switcherButtonPaddingYSmall() {
+    return this.btnPaddingYSmall;
+  }
+  public static get switcherButtonPaddingYMedium() {
+    return this.btnPaddingYMedium;
+  }
+  public static get switcherButtonPaddingYLarge() {
+    return this.btnPaddingYLarge;
+  }
+  public static get switcherButtonLineHeightSmall() {
+    return this.btnLineHeightSmall;
+  }
+  public static get switcherButtonLineHeightMedium() {
+    return this.btnLineHeightMedium;
+  }
+  public static get switcherButtonLineHeightLarge() {
+    return this.btnLineHeightLarge;
+  }
+  public static get switcherButtonFontSizeSmall() {
+    return this.btnFontSizeSmall;
+  }
+  public static get switcherButtonFontSizeMedium() {
+    return this.btnFontSizeMedium;
+  }
+  public static get switcherButtonFontSizeLarge() {
+    return this.btnFontSizeLarge;
+  }
+  public static get switcherButtonBorderRadiusSmall() {
+    return this.btnBorderRadiusSmall;
+  }
+  public static get switcherButtonBorderRadiusMedium() {
+    return this.btnBorderRadiusMedium;
+  }
+  public static get switcherButtonBorderRadiusLarge() {
+    return this.btnBorderRadiusLarge;
+  }
+  public static get switcherButtonBorderWidth() {
+    return this.btnBorderWidth;
+  }
   //#endregion
 }
 
