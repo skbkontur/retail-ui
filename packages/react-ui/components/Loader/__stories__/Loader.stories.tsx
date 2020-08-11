@@ -250,5 +250,47 @@ export const WrapperWithCustomHeightAndActiveLoader = () => (
 );
 WrapperWithCustomHeightAndActiveLoader.story = { name: 'Wrapper with custom height and active loader' };
 
+export const ActivateLoaderAfterMountOnHighContent = () => {
+  const [active, setActive] = React.useState(false);
+  React.useEffect(() => {
+    setActive(true);
+  }, [])
+
+  return (<Loader active={active} type={'big'}>
+    <div style={{ width: 600, backgroundColor: '#DEDEDE' }}>
+      <NumberList itemsCount={100} />
+    </div>
+  </Loader>)
+}
+ActivateLoaderAfterMountOnHighContent.story = { name: 'Activate loader after mount on high content' };
+
+export const ActivateLoaderAfterMountOnWideContent = () => {
+  const [active, setActive] = React.useState(false);
+  React.useEffect(() => {
+    setActive(true);
+  }, [])
+
+  return (<Loader active={active} type={'big'}>
+    <div style={{ width: 6000, backgroundColor: '#DEDEDE' }}>
+      <NumberList itemsCount={10} />
+    </div>
+  </Loader>)
+}
+ActivateLoaderAfterMountOnWideContent.story = { name: 'Activate loader after mount on wide content' };
+
+export const ActivateLoaderAfterMountOnLargeContent = () => {
+  const [active, setActive] = React.useState(false);
+  React.useEffect(() => {
+    setActive(true);
+  }, [])
+
+  return (<Loader active={active} type={'big'}>
+    <div style={{ width: 6000, backgroundColor: '#DEDEDE' }}>
+      <NumberList itemsCount={100} />
+    </div>
+  </Loader>)
+}
+ActivateLoaderAfterMountOnLargeContent.story = { name: 'Activate loader after mount on large content' };
+
 export const OldSpinner = () => <LoaderOld />;
 OldSpinner.story = { name: 'Old spinner' };
