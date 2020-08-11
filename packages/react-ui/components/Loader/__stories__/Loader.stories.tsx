@@ -256,11 +256,11 @@ export const ActivateLoaderAfterMountOnHighContent = () => {
     setActive(true);
   }, [])
 
-  return (<Loader active={active} type={'big'}>
-    <div style={{ width: 600, backgroundColor: '#DEDEDE' }}>
+  return (<ContentComponent additionalStyle={{height: 600, overflow: 'auto'}} loaderProps={{active}}>
+    <div style={{ width: '100%', backgroundColor: '#DEDEDE' }}>
       <NumberList itemsCount={100} />
     </div>
-  </Loader>)
+  </ContentComponent>)
 }
 ActivateLoaderAfterMountOnHighContent.story = { name: 'Activate loader after mount on high content' };
 
@@ -270,11 +270,11 @@ export const ActivateLoaderAfterMountOnWideContent = () => {
     setActive(true);
   }, [])
 
-  return (<Loader active={active} type={'big'}>
-    <div style={{ width: 6000, backgroundColor: '#DEDEDE' }}>
+  return (<ContentComponent additionalStyle={{height: 600, overflow: 'auto'}} loaderProps={{active}}>
+    <div style={{ height: '100%', width: 6000, backgroundColor: '#DEDEDE' }}>
       <NumberList itemsCount={10} />
     </div>
-  </Loader>)
+  </ContentComponent>)
 }
 ActivateLoaderAfterMountOnWideContent.story = { name: 'Activate loader after mount on wide content' };
 
@@ -284,11 +284,11 @@ export const ActivateLoaderAfterMountOnLargeContent = () => {
     setActive(true);
   }, [])
 
-  return (<Loader active={active} type={'big'}>
+  return (<ContentComponent additionalStyle={{height: 600, overflow: 'auto'}} loaderProps={{active}}>
     <div style={{ width: 6000, backgroundColor: '#DEDEDE' }}>
       <NumberList itemsCount={100} />
     </div>
-  </Loader>)
+  </ContentComponent>)
 }
 ActivateLoaderAfterMountOnLargeContent.story = { name: 'Activate loader after mount on large content' };
 
