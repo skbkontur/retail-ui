@@ -7,6 +7,10 @@ const styles = {
   root(t: Theme) {
     return css`
       ${linkMixin()};
+      
+      &:hover {
+        text-decoration: ${t.linkHoverTextDecoration};
+      }
     `;
   },
 
