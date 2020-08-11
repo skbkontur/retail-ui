@@ -112,7 +112,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
-    if(this.props.active && !prevProps.active) {
+    if (this.props.active && !prevProps.active) {
       this.checkSpinnerPosition();
     }
   }
