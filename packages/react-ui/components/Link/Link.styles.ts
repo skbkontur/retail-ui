@@ -6,11 +6,7 @@ import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins'
 const styles = {
   root(t: Theme) {
     return css`
-      ${linkMixin()};
-      
-      &:hover {
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
+      ${linkMixin(t.linkHoverTextDecoration)};
     `;
   },
 
