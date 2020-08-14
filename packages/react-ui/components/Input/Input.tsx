@@ -3,7 +3,6 @@ import React from 'react';
 import raf from 'raf';
 import cn from 'classnames';
 
-import { isIE11, isEdge } from '../../lib/utils';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
@@ -276,16 +275,8 @@ export class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
-        [jsStyles.borderless()]: !!borderless,
-        [jsStyles.focus(this.theme)]: focused,
+      className: cn(jsStyles.root(this.theme, focused, !!error, !!warning, !!disabled, !!borderless, size), {
         [jsStyles.blink(this.theme)]: !!blinking,
-        [jsStyles.warning(this.theme)]: !!warning,
-        [jsStyles.error(this.theme)]: !!error,
-        [jsStyles.disabled(this.theme)]: !!disabled,
-        [jsStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-        [jsStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
-        [jsStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
       }),
       style: { width },
       onMouseEnter,
@@ -295,7 +286,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: jsStyles.input(this.theme),
+      className: jsStyles.input(this.theme, !!disabled, focused),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -353,75 +344,43 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  private getIconSizeClassname(right = false) {
-    switch (this.props.size) {
-      case 'large':
-        return right ? jsStyles.rightIconLarge(this.theme) : jsStyles.leftIconLarge(this.theme);
-      case 'medium':
-        return right ? jsStyles.rightIconMedium(this.theme) : jsStyles.leftIconMedium(this.theme);
-      case 'small':
-      default:
-        return right ? jsStyles.rightIconSmall(this.theme) : jsStyles.leftIconSmall(this.theme);
-    }
-  }
-
   private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, this.getIconSizeClassname());
+    const { leftIcon, size } = this.props;
+    return this.renderIcon(leftIcon, jsStyles.leftIcon(this.theme, size));
   }
 
   private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, this.getIconSizeClassname(true));
+    const { rightIcon, size } = this.props;
+
+    return this.renderIcon(rightIcon, jsStyles.rightIcon(this.theme, size));
   }
 
-  private renderIcon(icon: InputIconType, sizeClassName: string) {
+  private renderIcon(icon: InputIconType, sideClassName: string) {
     if (!icon) {
       return null;
     }
-
-    if (icon instanceof Function) {
-      return <span className={cn(jsStyles.icon(), sizeClassName)}>{icon()}</span>;
-    }
-
+    const { size, disabled } = this.props;
     return (
-      <span
-        className={cn(
-          cn(jsStyles.icon(), sizeClassName),
-          jsStyles.useDefaultColor(this.theme),
-          jsStyles.useDefaultColor(this.theme),
-        )}
-      >
-        {icon}
+      <span className={cn(jsStyles.icon(this.theme, size, !!disabled), sideClassName)}>
+        {icon instanceof Function ? icon() : icon}
       </span>
     );
   }
 
   private renderPlaceholder() {
-    let placeholder = null;
+    const { placeholder, value, align } = this.props;
+    const { polyfillPlaceholder, focused } = this.state;
+    let result = null;
 
-    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
-      placeholder = (
-        <div
-          className={cn(jsStyles.placeholder(this.theme), jsStyles.placeholder(this.theme))}
-          style={{ textAlign: this.props.align || 'inherit' }}
-        >
-          {this.props.placeholder}
+    if (polyfillPlaceholder && placeholder && !this.isMaskVisible && !value) {
+      result = (
+        <div className={cn(jsStyles.placeholder(this.theme, focused))} style={{ textAlign: align || 'inherit' }}>
+          {placeholder}
         </div>
       );
     }
 
-    return placeholder;
-  }
-
-  private getSizeClassName() {
-    switch (this.props.size) {
-      case 'large':
-        return { [jsStyles.sizeLarge(this.theme)]: true, [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge };
-      case 'medium':
-        return { [jsStyles.sizeMedium(this.theme)]: true, [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge };
-      case 'small':
-      default:
-        return { [jsStyles.sizeSmall(this.theme)]: true, [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge };
-    }
+    return result;
   }
 
   private refInput = (element: HTMLInputElement | MaskedInput | null) => {

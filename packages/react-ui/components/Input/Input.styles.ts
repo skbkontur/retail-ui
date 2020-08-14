@@ -1,7 +1,10 @@
-import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, keyframes /*memoizeStyle*/ } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
+import { isIE11, isEdge } from '../../lib/utils';
+
+import { InputProps } from './Input';
 
 const styles = {
   wrapper() {
@@ -24,23 +27,42 @@ const styles = {
     `;
   },
 
-  root(t: Theme) {
+  root(
+    t: Theme,
+    focus: boolean,
+    error: boolean,
+    warning: boolean,
+    disabled: boolean,
+    borderless: boolean,
+    size: InputProps['size'],
+  ) {
     return css`
       ${resetText()};
 
       align-items: center;
-      background-clip: padding-box;
-      background-color: ${t.inputBg};
-      border: ${t.inputBorderWidth} solid ${t.inputBorderColor};
-      border-top-color: ${t.inputBorderTopColor};
-      box-shadow: ${t.inputShadow};
+      background-clip: ${getRootBackgroundClip(disabled)};
+      background-color: ${getRootBackgroundColor(t, disabled)};
+      border-width: ${t.inputBorderWidth};
+      border-style: solid;
+      border-color: ${getRootBorderColor(t, borderless, focus, error, warning, disabled)};
+      box-shadow: ${getRootBoxShadow(t, borderless, focus, error, warning, disabled)};
       box-sizing: border-box;
       color: ${t.inputColor};
       cursor: text;
       display: inline-flex;
-      outline: none;
+      outline: ${getRootOutline(t, focus, error, warning)};
       position: relative;
       width: ${t.inputWidth};
+      z-index: ${getRootZIndex(focus, error, warning)};
+
+      font-size: ${getRootFontSize(t, size)};
+      line-height: ${getRootLineHeight(t, size)};
+      height: ${getRootHeight(t, size)};
+      padding-top: ${getRootPaddingTop(t, size)};
+      padding-bottom: ${getRootPaddingBottom(t, size)};
+      padding-left: ${getRootPaddingX(t, size)};
+      padding-right: ${getRootPaddingX(t, size)};
+      border-radius: ${getRootBorderRadius(t, size)};
 
       & * {
         box-sizing: border-box;
@@ -48,49 +70,10 @@ const styles = {
     `;
   },
 
-  borderless() {
-    return css`
-      box-shadow: none !important;
-      border-color: transparent !important;
-    `;
-  },
-
-  useDefaultColor(t: Theme) {
-    return css`
-      color: ${t.inputIconColor};
-    `;
-  },
-
-  focus(t: Theme) {
-    return css`
-      border-color: ${t.inputBorderColorFocus};
-      box-shadow: ${t.inputFocusShadow};
-      outline: none;
-      z-index: 2;
-
-      ${cssName(styles.input(t))}:-moz-placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
-      ${cssName(styles.input(t))}::-moz-placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
-      ${cssName(styles.input(t))}::placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
-    `;
-  },
-
-  focusFallback(t: Theme) {
-    return css`
-      box-shadow: none;
-      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
-    `;
-  },
-
-  placeholder(t: Theme) {
+  placeholder(t: Theme, focus: boolean) {
     return css`
       -ms-user-select: none;
-      color: ${t.inputPlaceholderColor};
+      color: ${getPlaceholderColor(t, focus)};
       cursor: text;
       font-size: inherit;
       height: 100%;
@@ -102,19 +85,15 @@ const styles = {
       user-select: none;
       white-space: nowrap;
       width: 100%;
-
-      ${cssName(styles.focus(t))} & {
-        color: ${t.inputPlaceholderColorLight};
-      }
     `;
   },
 
-  input(t: Theme) {
+  input(t: Theme, disabled: boolean, focus: boolean) {
     return css`
       -webkit-appearance: none;
       background: transparent;
       border: 0 none;
-      color: ${t.inputTextColor};
+      color: ${getInputColor(t, disabled)};
       font: inherit;
       line-height: inherit;
       margin: 0;
@@ -123,6 +102,10 @@ const styles = {
       text-overflow: clip;
       white-space: nowrap;
       width: 100%;
+      pointer-events: ${getInputPointerEvents(disabled)};
+
+      /* fix text color in safari */
+      -webkit-text-fill-color: currentcolor;
 
       &:-moz-placeholder {
         opacity: 1;
@@ -134,72 +117,16 @@ const styles = {
         display: none;
       }
       &:-moz-placeholder {
-        color: ${t.inputPlaceholderColor};
+        color: ${getPlaceholderColor(t, focus)};
+        -webkit-text-fill-color: ${getPlaceholderColor(t, focus)};
       }
       &::-moz-placeholder {
-        color: ${t.inputPlaceholderColor};
+        color: ${getPlaceholderColor(t, focus)};
+        -webkit-text-fill-color: ${getPlaceholderColor(t, focus)};
       }
       &::placeholder {
-        color: ${t.inputPlaceholderColor};
-      }
-    `;
-  },
-
-  warning(t: Theme) {
-    return css`
-      & {
-        border-color: ${t.inputBorderColorWarning} !important;
-        box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning} !important;
-        z-index: 2;
-      }
-    `;
-  },
-
-  warningFallback(t: Theme) {
-    return css`
-      box-shadow: none !important;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorWarning} !important;
-    `;
-  },
-
-  error(t: Theme) {
-    return css`
-      border-color: ${t.inputBorderColorError} !important;
-      box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError} !important;
-      z-index: 2;
-    `;
-  },
-
-  errorFallback(t: Theme) {
-    return css`
-      box-shadow: none !important;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorError} !important;
-    `;
-  },
-
-  disabled(t: Theme) {
-    return css`
-      background: ${t.inputDisabledBg} !important;
-      border-color: ${t.inputDisabledBorderColor} !important;
-      box-shadow: none;
-
-      ${cssName(styles.icon())} {
-        cursor: default;
-      }
-      ${cssName(styles.input(t))} {
-        color: ${t.inputTextColorDisabled};
-        pointer-events: none;
-        /* fix text color in safari */
-        -webkit-text-fill-color: currentcolor;
-      }
-      ${cssName(styles.input(t))}:-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
-      }
-      ${cssName(styles.input(t))}::-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
-      }
-      ${cssName(styles.input(t))}::placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
+        color: ${getPlaceholderColor(t, focus)};
+        -webkit-text-fill-color: ${getPlaceholderColor(t, focus)};
       }
     `;
   },
@@ -212,87 +139,6 @@ const styles = {
   `;
     return css`
       animation: ${blinkAnimation} 0.15s ease-in;
-    `;
-  },
-
-  sizeSmall(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        font-size: ${t.inputFontSizeSmall};
-        line-height: ${t.inputLineHeightSmall} !important;
-        padding-top: ${t.inputPaddingYSmall};
-        padding-bottom: ${t.inputPaddingYSmall};
-        padding-left: ${t.inputPaddingXSmall};
-        padding-right: ${t.inputPaddingXSmall};
-        height: ${t.inputHeightSmall};
-        border-radius: ${t.inputBorderRadiusSmall};
-      }
-    `;
-  },
-
-  sizeSmallFallback(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        padding-top: ${shift(t.inputPaddingYSmall, '-1')};
-        padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
-        padding-left: ${t.inputPaddingXSmall};
-        padding-right: ${t.inputPaddingXSmall};
-        line-height: normal !important;
-      }
-    `;
-  },
-
-  sizeMedium(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        font-size: ${t.inputFontSizeMedium};
-        line-height: ${t.inputLineHeightMedium};
-        padding-top: ${t.inputPaddingYMedium};
-        padding-bottom: ${t.inputPaddingYMedium};
-        padding-left: ${t.inputPaddingXMedium};
-        padding-right: ${t.inputPaddingXMedium};
-        height: ${t.inputHeightMedium};
-        border-radius: ${t.inputBorderRadiusMedium};
-      }
-    `;
-  },
-
-  sizeMediumFallback(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        padding-top: ${shift(t.inputPaddingYMedium, '-1')};
-        padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
-        padding-left: ${t.inputPaddingXMedium};
-        padding-right: ${t.inputPaddingXMedium};
-        line-height: normal !important;
-      }
-    `;
-  },
-
-  sizeLarge(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        font-size: ${t.inputFontSizeLarge};
-        line-height: ${t.inputLineHeightLarge};
-        height: ${t.inputHeightLarge};
-        padding-top: ${shift(t.inputPaddingYLarge, '-1')};
-        padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
-        padding-left: ${t.inputPaddingXLarge};
-        padding-right: ${t.inputPaddingXLarge};
-        border-radius: ${t.inputBorderRadiusLarge};
-      }
-    `;
-  },
-
-  sizeLargeFallback(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        padding-top: ${shift(t.inputPaddingYLarge, '-2')};
-        padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
-        padding-left: ${t.inputPaddingXLarge};
-        padding-right: ${t.inputPaddingXLarge};
-        line-height: normal !important;
-      }
     `;
   },
 
@@ -331,57 +177,266 @@ const styles = {
     `;
   },
 
-  icon() {
+  icon(t: Theme, size: InputProps['size'], disabled: boolean) {
     return css`
+      color: ${t.inputIconColor};
+      width: ${getIconWidth(t, size)}
       flex-shrink: 0;
-      cursor: text;
+      cursor: ${getIconCursor(disabled)};
       z-index: 2;
       text-align: center;
       box-sizing: content-box !important;
     `;
   },
 
-  leftIconSmall(t: Theme) {
+  leftIcon(t: Theme, size: InputProps['size']) {
     return css`
-      width: ${t.inputIconSizeSmall};
-      padding-right: ${t.inputIconGapSmall};
+      padding-right: ${getIconPaddingX(t, size)};
     `;
   },
 
-  rightIconSmall(t: Theme) {
+  rightIcon(t: Theme, size: InputProps['size']) {
     return css`
-      width: ${t.inputIconSizeSmall};
-      padding-left: ${t.inputIconGapSmall};
-    `;
-  },
-
-  leftIconMedium(t: Theme) {
-    return css`
-      width: ${t.inputIconSizeMedium};
-      padding-right: ${t.inputIconGapMedium};
-    `;
-  },
-
-  rightIconMedium(t: Theme) {
-    return css`
-      width: ${t.inputIconSizeMedium};
-      padding-left: ${t.inputIconGapMedium};
-    `;
-  },
-
-  leftIconLarge(t: Theme) {
-    return css`
-      width: ${t.inputIconSizeLarge};
-      padding-right: ${t.inputIconGapLarge};
-    `;
-  },
-
-  rightIconLarge(t: Theme) {
-    return css`
-      width: ${t.inputIconSizeLarge};
-      padding-left: ${t.inputIconGapLarge};
+      padding-left: ${getIconPaddingX(t, size)};
     `;
   },
 };
 
-export const jsStyles = memoizeStyle(styles);
+const getRootBackgroundColor = (t: Theme, disabled: boolean): string => {
+  switch (true) {
+    case disabled:
+      return t.inputDisabledBg;
+    default:
+      return t.inputBg;
+  }
+};
+
+const getRootBackgroundClip = (disabled: boolean): string => {
+  switch (true) {
+    case disabled:
+      return 'inherit';
+    default:
+      return 'padding-box';
+  }
+};
+
+const getRootBoxShadow = (
+  t: Theme,
+  borderless: boolean,
+  focus: boolean,
+  error: boolean,
+  warning: boolean,
+  disabled: boolean,
+): string => {
+  switch (true) {
+    case borderless:
+    case disabled:
+      return 'none';
+    case (error || warning) && (isIE11 || isEdge):
+      return 'none';
+    case error:
+      return `0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError}`;
+    case warning:
+      return `0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning}`;
+    case focus && (isIE11 || isEdge):
+      return 'none';
+    case focus:
+      return t.inputFocusShadow;
+    default:
+      return t.inputShadow;
+  }
+};
+
+const getRootBorderColor = (
+  t: Theme,
+  borderless: boolean,
+  focus: boolean,
+  error: boolean,
+  warning: boolean,
+  disabled: boolean,
+): string => {
+  switch (true) {
+    case borderless:
+      return 'transparent';
+    case disabled:
+      return t.inputDisabledBorderColor;
+    case error:
+      return t.inputBorderColorError;
+    case warning:
+      return t.inputBorderColorWarning;
+    case focus:
+      return t.inputBorderColorFocus;
+    default:
+      return `${t.inputBorderTopColor} ${t.inputBorderColor} ${t.inputBorderColor}`;
+  }
+};
+
+const getRootOutline = (t: Theme, focus: boolean, error: boolean, warning: boolean): string => {
+  switch (true) {
+    case error && (isIE11 || isEdge):
+      return `${t.inputBorderWidth} solid ${t.inputBorderColorError}`;
+    case warning && (isIE11 || isEdge):
+      return `${t.inputBorderWidth} solid ${t.inputBorderColorWarning}`;
+    case focus && (isIE11 || isEdge):
+      return `${t.inputOutlineWidth} solid ${t.inputFocusOutline}`;
+    case focus:
+    default:
+      return 'none';
+  }
+};
+
+const getRootZIndex = (focus: boolean, error: boolean, warning: boolean): string => {
+  switch (true) {
+    case focus:
+    case error:
+    case warning:
+      return '2';
+    default:
+      return 'inherit';
+  }
+};
+
+const getRootFontSize = (t: Theme, size: InputProps['size']): string => {
+  switch (size) {
+    case 'large':
+      return t.inputFontSizeLarge;
+    case 'medium':
+      return t.inputFontSizeMedium;
+    case 'small':
+    default:
+      return t.inputFontSizeSmall;
+  }
+};
+
+const getRootLineHeight = (t: Theme, size: InputProps['size']): string => {
+  if (isIE11 || isEdge) {
+    return 'normal';
+  }
+
+  switch (size) {
+    case 'large':
+      return t.inputLineHeightLarge;
+    case 'medium':
+      return t.inputLineHeightMedium;
+    case 'small':
+    default:
+      return t.inputLineHeightSmall;
+  }
+};
+
+const getRootHeight = (t: Theme, size: InputProps['size']): string => {
+  switch (size) {
+    case 'large':
+      return t.inputHeightLarge;
+    case 'medium':
+      return t.inputHeightMedium;
+    case 'small':
+    default:
+      return t.inputHeightSmall;
+  }
+};
+
+const getRootPaddingY = (t: Theme, size: InputProps['size']): string => {
+  switch (size) {
+    case 'large':
+      return t.inputPaddingYLarge;
+    case 'medium':
+      return t.inputPaddingYMedium;
+    case 'small':
+    default:
+      return t.inputPaddingYSmall;
+  }
+};
+
+const getRootPaddingX = (t: Theme, size: InputProps['size']): string => {
+  switch (size) {
+    case 'large':
+      return t.inputPaddingXLarge;
+    case 'medium':
+      return t.inputPaddingXMedium;
+    case 'small':
+    default:
+      return t.inputPaddingXSmall;
+  }
+};
+
+const getRootPaddingTop = (t: Theme, size: InputProps['size']): string => {
+  let paddingTop = getRootPaddingY(t, size);
+
+  if (size === 'large') {
+    paddingTop = shift(paddingTop, '-1');
+  }
+  if (isIE11 || isEdge) {
+    paddingTop = shift(paddingTop, '-1');
+  }
+
+  return paddingTop;
+};
+
+const getRootPaddingBottom = (t: Theme, size: InputProps['size']): string => {
+  let paddingBottom = getRootPaddingY(t, size);
+
+  if (size === 'large') {
+    paddingBottom = shift(paddingBottom, '1');
+  }
+  if (isIE11 || isEdge) {
+    paddingBottom = shift(paddingBottom, '1');
+  }
+
+  return paddingBottom;
+};
+
+const getRootBorderRadius = (t: Theme, size: InputProps['size']): string => {
+  switch (size) {
+    case 'large':
+      return t.inputBorderRadiusLarge;
+    case 'medium':
+      return t.inputBorderRadiusMedium;
+    case 'small':
+    default:
+      return t.inputBorderRadiusSmall;
+  }
+};
+
+const getPlaceholderColor = (t: Theme, focus: boolean): string => {
+  return focus ? t.inputPlaceholderColorLight : t.inputPlaceholderColor;
+};
+
+const getInputColor = (t: Theme, disabled: boolean): string => {
+  return disabled ? t.inputTextColorDisabled : t.inputTextColor;
+};
+
+const getInputPointerEvents = (disabled: boolean): string => {
+  return disabled ? 'none' : 'inherit';
+};
+
+const getIconWidth = (t: Theme, size: InputProps['size']): string => {
+  switch (size) {
+    case 'large':
+      return t.inputIconSizeLarge;
+    case 'medium':
+      return t.inputIconSizeMedium;
+    case 'small':
+    default:
+      return t.inputIconSizeSmall;
+  }
+};
+
+const getIconPaddingX = (t: Theme, size: InputProps['size']): string => {
+  switch (size) {
+    case 'large':
+      return t.inputIconGapLarge;
+    case 'medium':
+      return t.inputIconGapMedium;
+    case 'small':
+    default:
+      return t.inputIconGapSmall;
+  }
+};
+
+const getIconCursor = (disabled: boolean): string => {
+  return disabled ? 'default' : 'text';
+};
+
+// export const jsStyles = memoizeStyle(styles);
+export const jsStyles = styles;

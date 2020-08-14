@@ -149,18 +149,14 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const leftSide = this.renderLeftSide();
     const rightSide = this.renderRightSide();
 
-    const className = cn(jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
-      [jsInputStyles.borderless()]: !!borderless,
-      [jsStyles.withoutLeftSide()]: !leftSide,
-      [jsInputStyles.focus(this.theme)]: focused,
-      [jsInputStyles.blink(this.theme)]: blinking,
-      [jsInputStyles.warning(this.theme)]: !!warning,
-      [jsInputStyles.error(this.theme)]: !!error,
-      [jsInputStyles.disabled(this.theme)]: !!disabled,
-      [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-      [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
-      [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
-    });
+    const className = cn(
+      jsStyles.root(),
+      jsInputStyles.root(this.theme, focused, !!error, !!warning, !!disabled, !!borderless, this.props.size),
+      {
+        [jsStyles.withoutLeftSide()]: !leftSide,
+        [jsInputStyles.blink(this.theme)]: blinking,
+      },
+    );
 
     const wrapperClass = cn(jsInputStyles.wrapper(), {
       [jsStyles.userSelectContain()]: focused,
@@ -181,7 +177,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         <input type="hidden" value={value} />
         {leftSide}
         <span className={wrapperClass}>
-          <span data-tid="InputLikeText__input" className={cn(jsStyles.input(), jsInputStyles.input(this.theme))}>
+          <span
+            data-tid="InputLikeText__input"
+            className={cn(jsStyles.input(), jsInputStyles.input(this.theme, !!disabled, focused))}
+          >
             {children}
           </span>
           {this.renderPlaceholder()}
@@ -192,36 +191,26 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   }
 
-  private getIconClassname(right = false) {
-    switch (this.props.size) {
-      case 'large':
-        return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
-      case 'medium':
-        return right ? jsInputStyles.rightIconMedium(this.theme) : jsInputStyles.leftIconMedium(this.theme);
-      case 'small':
-      default:
-        return right ? jsInputStyles.rightIconSmall(this.theme) : jsInputStyles.leftIconSmall(this.theme);
-    }
-  }
-
   private renderLeftIcon = () => {
-    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
+    const { leftIcon, size } = this.props;
+    return this.renderIcon(leftIcon, jsInputStyles.leftIcon(this.theme, size));
   };
 
   private renderRightIcon = () => {
-    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
+    const { rightIcon, size } = this.props;
+    return this.renderIcon(rightIcon, jsInputStyles.rightIcon(this.theme, size));
   };
 
   private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
     if (!icon) {
       return null;
     }
-
-    if (icon instanceof Function) {
-      return <span className={className}>{icon()}</span>;
-    }
-
-    return <span className={cn(className, jsInputStyles.useDefaultColor(this.theme))}>{icon}</span>;
+    const { size, disabled } = this.props;
+    return (
+      <span className={cn(jsInputStyles.icon(this.theme, size, !!disabled), className)}>
+        {icon instanceof Function ? icon() : icon}
+      </span>
+    );
   };
 
   private renderPrefix = (): JSX.Element | null => {
@@ -280,7 +269,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const { children, placeholder } = this.props;
 
     if (!children && placeholder) {
-      return <span className={jsInputStyles.placeholder(this.theme)}>{placeholder}</span>;
+      return <span className={jsInputStyles.placeholder(this.theme, this.state.focused)}>{placeholder}</span>;
     }
     return null;
   };
@@ -406,26 +395,5 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private defrost = (): void => {
     this.frozen = false;
     this.frozenBlur = false;
-  };
-
-  private getSizeClassName = () => {
-    switch (this.props.size) {
-      case 'large':
-        return {
-          [jsInputStyles.sizeLarge(this.theme)]: true,
-          [jsInputStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
-        };
-      case 'medium':
-        return {
-          [jsInputStyles.sizeMedium(this.theme)]: true,
-          [jsInputStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
-        };
-      case 'small':
-      default:
-        return {
-          [jsInputStyles.sizeSmall(this.theme)]: true,
-          [jsInputStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
-        };
-    }
   };
 }
