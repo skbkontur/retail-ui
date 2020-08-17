@@ -56,3 +56,9 @@ export const Errored = () => {
   return <Component error items={['One', 'Two', 'Three']} />;
 };
 Errored.story = { name: 'errored', parameters: { creevey: { skip: [{ in: 'chromeFlat' }] } } };
+
+export const Disabled = () => {
+  return <Switcher disabled value={'One'} label={'Label for Switcher'} items={['One', 'Two', 'Three']} />;
+};
+
+Disabled.story = { name: 'disabled', parameters: { creevey: { skip: [{ in: 'chromeFlat' }] } } };

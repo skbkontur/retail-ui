@@ -621,6 +621,13 @@ const styles = {
         }
       }
 
+      &:not(${cssName(styles.link(t))})${cssName(styles.disabled(t))} {
+        box-shadow: ${t.btnCheckedShadow} !important;
+        background: ${t.btnCheckedBg} !important;
+        color: ${t.btnCheckedTextColor} !important;
+        border: ${t.btnDefaultCheckedBorder} !important;
+      }
+
       &,
       &:not(${cssName(styles.focus(t))}) {
         ${cssName(styles.arrow())} {
