@@ -124,6 +124,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
     return (
       <Component
         {...rest}
+        state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         className={className}
