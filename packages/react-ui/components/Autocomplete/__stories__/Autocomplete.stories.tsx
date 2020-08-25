@@ -90,3 +90,23 @@ class WithBlurFocusHandlersExample extends React.Component<any, any> {
     );
   }
 }
+
+export const WithMaxWidth = () => (
+  <div style={{width: '600px'}}>
+    <UncontrolledAutocomplete
+      width="100%"
+      source={['One', 'Two', 'Three']}
+      renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
+    />
+  </div>
+);
+WithMaxWidth.story = { name: 'with max width' };
+
+export const WithFixedWidth = () => (
+  <UncontrolledAutocomplete
+    width="200px"
+    source={['One', 'Two', 'Three']}
+    renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
+  />
+);
+WithFixedWidth.story = { name: 'with fixed width' };
