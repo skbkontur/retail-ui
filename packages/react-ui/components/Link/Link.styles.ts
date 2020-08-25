@@ -6,7 +6,7 @@ import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins'
 const styles = {
   root(t: Theme) {
     return css`
-      ${linkMixin()};
+      ${linkMixin(t.linkHoverTextDecoration)};
     `;
   },
 
