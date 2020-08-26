@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { isIE11, isEdge } from '../../lib/utils';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -181,7 +180,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [jsStyles.focus(stylesProps)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsStyles.checked(stylesProps)]: !!this.props.checked && !this.props.disabled,
         [jsStyles.disabled(stylesProps)]: !!this.props.disabled || !!this.props.loading,
-        [jsStyles.fallback(stylesProps)]: isIE11 || isEdge,
       }),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
@@ -226,7 +224,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cx(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      icon = <span className={jsStyles.icon(stylesProps)}>{this.props.icon}</span>;
     }
 
     let arrow = null;
@@ -285,17 +283,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         return cx(jsStyles.sizeSmall(stylesProps), {
           [jsStyles.sizeSmallLoading(stylesProps)]: !!this.props.loading,
         });
-    }
-  }
-  private getSizeIconClassName() {
-    switch (this.props.size) {
-      case 'large':
-        return jsStyles.iconLarge(this.theme);
-      case 'medium':
-        return jsStyles.iconMedium(this.theme);
-      case 'small':
-      default:
-        return jsStyles.iconSmall(this.theme);
     }
   }
 

@@ -1,6 +1,7 @@
 import { css, cssName, keyframes /* memoizeStyle */ } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
+import { isIE11, isEdge } from '../../lib/utils';
 
 import {
   buttonUseMixin,
@@ -110,7 +111,7 @@ const styles = {
   },
 
   sizeSmall(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+    const { t, arrow, use } = p;
     return css`
       border-radius: ${t.btnBorderRadiusSmall};
 
@@ -121,8 +122,7 @@ const styles = {
         t.btnLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
-        cssName(styles.link(p)),
-        cssName(styles.fallback(p)),
+        use === 'link',
       )};
 
       ${cssName(styles.arrow(p))} {
@@ -142,7 +142,7 @@ const styles = {
   },
 
   sizeMedium(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+    const { t, arrow, use } = p;
     return css`
       border-radius: ${t.btnBorderRadiusMedium};
 
@@ -153,8 +153,7 @@ const styles = {
         t.btnLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
-        cssName(styles.link(p)),
-        cssName(styles.fallback(p)),
+        use === 'link',
       )};
 
       ${buttonArrowMixin(
@@ -170,7 +169,7 @@ const styles = {
   },
 
   sizeLarge(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+    const { t, arrow, use } = p;
     return css`
       border-radius: ${t.btnBorderRadiusLarge};
 
@@ -181,8 +180,7 @@ const styles = {
         t.btnLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
-        cssName(styles.link(p)),
-        cssName(styles.fallback(p)),
+        use === 'link',
       )};
 
       ${buttonArrowMixin(
@@ -272,9 +270,6 @@ const styles = {
         display: inline;
         transform: none !important;
       }
-      ${cssName(styles.icon())} {
-        padding-right: ${t.btnLinkIconMarginRight};
-      }
       ${cssName(styles.warning(t))} ,
       ${cssName(styles.error(t))}  {
         box-shadow: none;
@@ -294,15 +289,15 @@ const styles = {
       position: relative;
       z-index: 2;
 
-      ${use === 'link' &&
-        `
+      ${use === 'link'
+        ? `
           color: ${t.btnLinkColor};
           text-decoration: ${t.btnLinkHoverTextDecoration};
-        `}
-
-      ${use !== 'link' &&
-        !disabled &&
         `
+        : ``}
+
+      ${use !== 'link' && !disabled
+        ? `
           border: ${t.btnFocusBorder};
 
           &,
@@ -312,30 +307,39 @@ const styles = {
             box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus},
               0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
 
-            ${((error || warning) &&
-              `
+            ${
+              error || warning
+                ? `
               box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus} !important;
               border-color: transparent !important;
-            `) ||
-              ''}
+            `
+                : ''
+            }
 
             ${cssName(styles.arrow(p))} {
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
                 ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorFocus};
 
-              ${warning &&
-                `
+              ${
+                warning
+                  ? `
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;`}
+                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;`
+                  : ``
+              }
 
-              ${error &&
-                `
+              ${
+                error
+                  ? `
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
                   ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
-              `}
+              `
+                  : ``
+              }
             }
           }
-        `}
+        `
+        : ``}
     `;
   },
 
@@ -346,8 +350,17 @@ const styles = {
       pointer-events: none;
       border-color: transparent !important;
 
-      ${use !== 'link' &&
-        `
+      ${
+        isIE11 || isEdge
+          ? `
+        outline-color: transparent;
+      `
+          : ``
+      }
+
+      ${
+        use !== 'link'
+          ? `
         background: ${t.btnDisabledBg} !important;
         color: ${t.btnDisabledTextColor} !important;
         box-shadow: ${t.btnDisabledShadow} !important;
@@ -356,12 +369,17 @@ const styles = {
           background: ${t.btnDisabledBg} !important;
           box-shadow: ${t.btnDisabledShadowArrow} !important;
         }
-      `}
+      `
+          : ``
+      }
 
-      ${use === 'link' &&
-        `
+      ${
+        use === 'link'
+          ? `
           color: ${t.btnLinkDisabledColor} !important;
-        `}
+        `
+          : ``
+      }
 
       ${cssName(styles.caption())} {
         transform: none !important;
@@ -369,29 +387,15 @@ const styles = {
     `;
   },
 
-  fallback(p: ButtonStylesProps) {
-    const { use, disabled } = p;
-    return css`
-      ${disabled &&
-        `
-      outline-color: transparent;
-      `}
-
-      ${use !== 'link' &&
-        `
-      line-height: normal !important;
-      `}
-    `;
-  },
-
   validationRoot(p: ButtonStylesProps) {
     const { t, focus } = p;
     return css`
-      ${focus &&
-        `
+      ${focus
+        ? `
         box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
         border-color: transparent !important;
-      `}
+      `
+        : ``}
     `;
   },
 
@@ -633,35 +637,36 @@ const styles = {
       color: ${t.btnCheckedTextColor} !important;
       border: ${t.btnDefaultCheckedBorder} !important;
 
-      ${use !== 'link' &&
-        !disabled &&
-        `
+      ${use !== 'link' && !disabled
+        ? `
         ${cssName(styles.caption())} {
           transform: translateY(1px) !important;
         }
-      `}
+      `
+        : ``}
 
       ${cssName(styles.arrow(p))} {
         background: ${t.btnCheckedBg} !important;
         box-shadow: ${t.btnCheckedShadowArrow} !important;
 
-        ${arrow === 'left' &&
-          `
+        ${arrow === 'left'
+          ? `
           box-shadow: ${t.btnCheckedShadowArrowLeft} !important;
-        `}
+        `
+          : ``}
       }
     `;
   },
 
   active({ use, disabled }: ButtonStylesProps) {
     return css`
-      ${use !== 'link' &&
-        !disabled &&
-        `
+      ${use !== 'link' && !disabled
+        ? `
         ${cssName(styles.caption())} {
           transform: translateY(1px) !important;
         }
-      `}
+      `
+        : ``}
     `;
   },
 
@@ -731,55 +736,70 @@ const styles = {
       box-sizing: border-box;
       z-index: 1;
 
-      ${error &&
-        `
+      ${error
+        ? `
         box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
-      `}
+      `
+        : ``}
 
-      ${warning &&
-        `
+      ${warning
+        ? `
         box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;
-      `}
+      `
+        : ``}
     `;
   },
 
-  icon() {
+  icon(p: ButtonStylesProps) {
+    const { t, use, size } = p;
     return css`
       display: inline-block;
-    `;
-  },
-  iconSmall(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeSmall};
-      padding-right: ${t.btnIconGapSmall};
-    `;
-  },
-  iconMedium(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeMedium};
-      padding-right: ${t.btnIconGapMedium};
-    `;
-  },
-  iconLarge(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeLarge};
-      padding-right: ${t.btnIconGapLarge};
+
+      ${
+        size === 'small'
+          ? `
+        width: ${t.btnIconSizeSmall};
+        padding-right: ${t.btnIconGapSmall};
+      `
+          : ``
+      }
+      ${
+        size === 'medium'
+          ? `
+        width: ${t.btnIconSizeMedium};
+        padding-right: ${t.btnIconGapMedium};
+      `
+          : ``
+      }
+      ${
+        size === 'large'
+          ? `
+        width: ${t.btnIconSizeLarge};
+        padding-right: ${t.btnIconGapLarge};
+      `
+          : ``
+      }
+      ${
+        use === 'link'
+          ? `
+        padding-right: ${t.btnLinkIconMarginRight};
+      `
+          : ``
+      }
     `;
   },
 
   borderless({ focus, disabled, checked, active }: ButtonStylesProps) {
     return css`
-      ${!focus &&
-        !disabled &&
-        !checked &&
-        !active &&
-        `
+      ${!focus && !disabled && !checked && !active
+        ? `
         &,
         &:hover,
         &:active {
           box-shadow: none !important;
         }
-      `}
+      `
+        : ``}
     `;
   },
 

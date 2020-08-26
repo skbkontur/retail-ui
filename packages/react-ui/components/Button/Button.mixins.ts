@@ -1,5 +1,6 @@
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
+import { isIE11, isEdge } from '../../lib/utils';
 
 const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset = 0): string => {
   let paddingTop = paddingY;
@@ -119,24 +120,26 @@ export const buttonActiveMixin = (
   isLeftArrow: boolean,
 ) => {
   const activeStyles = css`
-    background: ${btnBackground};
-    box-shadow: ${btnShadow};
+    &,
+    &:hover {
+      background: ${btnBackground};
+      box-shadow: ${btnShadow};
 
-    ${selectorArrow} {
-      ${isLeftArrow
-        ? `
-          background: ${arrowLeftBackground};
-          box-shadow: ${arrowLeftShadow};
-        `
-        : `
-          background: ${arrowBackground};
-          box-shadow: ${arrowShadow};
-        `}
+      ${selectorArrow} {
+        ${isLeftArrow
+          ? `
+            background: ${arrowLeftBackground};
+            box-shadow: ${arrowLeftShadow};
+          `
+          : `
+            background: ${arrowBackground};
+            box-shadow: ${arrowShadow};
+          `}
+      }
     }
   `;
   return css`
-    &:active,
-    &:hover {
+    &:active {
       ${activeStyles};
     }
     ${(isActive && activeStyles) || ``}
@@ -150,22 +153,28 @@ export const buttonSizeMixin = (
   lineHeight: string,
   paddingX: string,
   paddingY: string,
-  selectorLink: string,
-  selectorFallback: string,
+  isLink: boolean,
 ) => {
   return css`
     font-size: ${fontSize} !important;
 
-    &:not(${selectorLink}) {
+    ${!isLink
+      ? `
       box-sizing: border-box;
       height: ${shift(height, heightShift)};
       padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
       line-height: ${lineHeight};
 
-      &${selectorFallback} {
+      ${
+        isIE11 || isEdge
+          ? `
         padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
+        line-height: normal !important;
+      `
+          : ``
       }
-    }
+    `
+      : ``}
   `;
 };
 
