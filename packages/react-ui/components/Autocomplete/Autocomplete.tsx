@@ -156,6 +156,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     const inputProps = {
       ...rest,
+      width: '100%',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -177,7 +178,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || this.props.width,
+      width: this.props.menuWidth,
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
