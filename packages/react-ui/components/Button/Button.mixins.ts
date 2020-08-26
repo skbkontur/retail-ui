@@ -30,9 +30,8 @@ export const buttonUseMixin = (
   shadowArrowLeft: string,
   color: string,
   border: string,
-  selectorChecked: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  isLeftArrow: boolean,
 ) => {
   return css`
     background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
@@ -42,18 +41,24 @@ export const buttonUseMixin = (
     box-shadow: ${shadow};
     border: ${border};
 
-    &:not(${selectorChecked}) ${selectorArrow} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrow};
-    }
-
-    &:not(${selectorChecked}) ${selectorArrowLeft} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrowLeft};
+    ${selectorArrow} {
+      ${isLeftArrow
+        ? `
+        background: ${
+          arrowBackgroundStart === arrowBackgroundEnd
+            ? arrowBackgroundStart
+            : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+        };
+        box-shadow: ${shadowArrowLeft};
+      `
+        : `
+        background: ${
+          arrowBackgroundStart === arrowBackgroundEnd
+            ? arrowBackgroundStart
+            : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+        };
+        box-shadow: ${shadowArrow};
+      `}
     }
   `;
 };
@@ -69,7 +74,7 @@ export const buttonHoverMixin = (
   arrowLeftShadow: string,
   btnBorder: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  isLeftArrow: boolean,
 ) => {
   return css`
     &:hover {
@@ -80,17 +85,23 @@ export const buttonHoverMixin = (
       border-color: ${btnBorder};
 
       ${selectorArrow} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowShadow};
-      }
-
-      ${selectorArrowLeft} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowLeftShadow};
+        ${isLeftArrow
+          ? `
+            background: ${
+              arrowBackgroundStart === arrowBackgroundEnd
+                ? arrowBackgroundStart
+                : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+            };
+            box-shadow: ${arrowLeftShadow};
+          `
+          : `
+            background: ${
+              arrowBackgroundStart === arrowBackgroundEnd
+                ? arrowBackgroundStart
+                : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
+            };
+            box-shadow: ${arrowShadow};
+          `}
       }
     }
   `;
@@ -103,26 +114,32 @@ export const buttonActiveMixin = (
   btnShadow: string,
   arrowShadow: string,
   arrowLeftShadow: string,
-  selectorActive: string,
+  isActive: boolean,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  isLeftArrow: boolean,
 ) => {
+  const activeStyles = css`
+    background: ${btnBackground};
+    box-shadow: ${btnShadow};
+
+    ${selectorArrow} {
+      ${isLeftArrow
+        ? `
+          background: ${arrowLeftBackground};
+          box-shadow: ${arrowLeftShadow};
+        `
+        : `
+          background: ${arrowBackground};
+          box-shadow: ${arrowShadow};
+        `}
+    }
+  `;
   return css`
     &:active,
-    &${selectorActive} {
-      background: ${btnBackground};
-      box-shadow: ${btnShadow};
-
-      ${selectorArrow} {
-        background: ${arrowBackground};
-        box-shadow: ${arrowShadow};
-      }
-
-      ${selectorArrowLeft} {
-        background: ${arrowLeftBackground};
-        box-shadow: ${arrowLeftShadow};
-      }
+    &:hover {
+      ${activeStyles};
     }
+    ${(isActive && activeStyles) || ``}
   `;
 };
 
@@ -159,7 +176,7 @@ export const buttonArrowMixin = (
   size: string,
   transform: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  isLeftArrow: boolean,
 ) => {
   return css`
     ${selectorArrow} {
@@ -169,11 +186,12 @@ export const buttonArrowMixin = (
       width: ${size};
       transform: ${transform};
       overflow: hidden;
-    }
 
-    ${selectorArrowLeft} {
-      left: ${left};
-      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
+      ${isLeftArrow &&
+        `
+        left: ${left};
+        transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
+      `}
     }
   `;
 };
@@ -187,7 +205,7 @@ export const buttonLoadingArrowMixin = (
   delay: string,
   btn_loading_arrow: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  isLeftArrow: boolean,
 ) => {
   return css`
     ${selectorArrow}::before {
@@ -203,14 +221,15 @@ export const buttonLoadingArrowMixin = (
       opacity: 0.2;
       transform: translateX(50px) rotate(-44.3deg);
       animation: ${btn_loading_arrow} 1s linear infinite;
-    }
 
-    ${selectorArrowLeft}::before {
-      top: ${leftArrowTop};
-      left: ${left};
-      animation-direction: reverse;
-      transform: translateX(42px) rotate(-44.3deg);
-      animation-delay: ${delay};
+      ${isLeftArrow &&
+        `
+        top: ${leftArrowTop};
+        left: ${left};
+        animation-direction: reverse;
+        transform: translateX(42px) rotate(-44.3deg);
+        animation-delay: ${delay};
+      `}
     }
   `;
 };
