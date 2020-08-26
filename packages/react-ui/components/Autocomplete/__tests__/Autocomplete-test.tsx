@@ -108,7 +108,7 @@ describe('<Autocomplete />', () => {
       type: 'text' as AutocompleteProps['type'],
       value: 'hel',
       warning: true,
-      width: 300,
+      width: '100%',
       onCopy: () => undefined,
       onCut: () => undefined,
       onInput: () => undefined,
