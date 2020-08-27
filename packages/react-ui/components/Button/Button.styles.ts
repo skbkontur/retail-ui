@@ -129,7 +129,7 @@ const styles = {
 
       ${focus ? styles.focus(p) : ``}
       ${checked ? styles.checked(p) : ``}
-      ${disabled || loading ? styles.disabled(p) : ``}
+      ${disabled || (loading && use !== 'link') ? styles.disabled(p) : ``}
 
       ${narrow ? styles.narrow() : ``}
       ${noPadding ? styles.noPadding() : ``}
@@ -758,29 +758,27 @@ const styles = {
       box-sizing: border-box;
       display: inline-block;
 
-      ${
-        arrow === true
-          ? `
-        margin-right: 10px;
-      `
-          : ``
-      }
-
-      ${
-        arrow === 'left'
-          ? `
-        margin-left: 10px;
-      `
-          : ``
-      }
-
-      ${
-        use !== 'link'
-          ? `
+      ${use !== 'link'
+        ? `
         padding: ${t.btnWrapPadding};
+
+        ${
+          arrow === true
+            ? `
+          margin-right: 10px;
+        `
+            : ``
+        }
+
+        ${
+          arrow === 'left'
+            ? `
+          margin-left: 10px;
+        `
+            : ``
+        }
       `
-          : ``
-      }
+        : ``}
     `;
   },
 
