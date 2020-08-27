@@ -251,35 +251,35 @@ const styles = {
     const { t } = p;
     return css`
       background: none;
-      border-radius: ${t.btnLinkBorderRadius} !important;
+      border-radius: ${t.btnLinkBorderRadius};
       border: none;
       box-shadow: none;
-      color: ${t.btnLinkColor} !important;
+      color: ${t.btnLinkColor};
       display: inline;
-      line-height: inherit !important;
+      line-height: inherit;
       margin: 0;
-      padding: 0 !important;
+      padding: 0;
 
       &:hover {
-        color: ${t.btnLinkHoverColor} !important;
+        color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
       &:active {
-        color: ${t.linkActiveColor} !important;
+        color: ${t.linkActiveColor};
       }
       ${cssName(styles.caption())} {
         display: inline;
-        transform: none !important;
+        transform: none;
       }
       ${cssName(styles.warning(t))} ,
       ${cssName(styles.error(t))}  {
         box-shadow: none;
-        left: -2px !important;
-        right: -2px !important;
-        bottom: -2px !important;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
       }
       ${cssName(styles.error(t))}  {
-        background: ${t.btnErrorSecondary} !important;
+        background: ${t.btnErrorSecondary};
       }
     `;
   },
@@ -311,8 +311,8 @@ const styles = {
             ${
               error || warning
                 ? `
-              box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus} !important;
-              border-color: transparent !important;
+              box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
+              border-color: transparent;
             `
                 : ''
             }
@@ -325,7 +325,7 @@ const styles = {
                 warning
                   ? `
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;`
+                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};`
                   : ``
               }
 
@@ -333,7 +333,7 @@ const styles = {
                 error
                   ? `
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
+                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
               `
                   : ``
               }
@@ -349,7 +349,7 @@ const styles = {
     return css`
       cursor: default;
       pointer-events: none;
-      border-color: transparent !important;
+      border-color: transparent;
 
       ${
         isIE11 || isEdge
@@ -362,13 +362,13 @@ const styles = {
       ${
         use !== 'link'
           ? `
-        background: ${t.btnDisabledBg} !important;
-        color: ${t.btnDisabledTextColor} !important;
-        box-shadow: ${t.btnDisabledShadow} !important;
+        background: ${t.btnDisabledBg};
+        color: ${t.btnDisabledTextColor};
+        box-shadow: ${t.btnDisabledShadow};
 
         ${cssName(styles.arrow(p))} {
-          background: ${t.btnDisabledBg} !important;
-          box-shadow: ${t.btnDisabledShadowArrow} !important;
+          background: ${t.btnDisabledBg};
+          box-shadow: ${t.btnDisabledShadowArrow};
         }
       `
           : ``
@@ -377,13 +377,13 @@ const styles = {
       ${
         use === 'link'
           ? `
-          color: ${t.btnLinkDisabledColor} !important;
+          color: ${t.btnLinkDisabledColor};
         `
           : ``
       }
 
       ${cssName(styles.caption())} {
-        transform: none !important;
+        transform: none;
       }
     `;
   },
@@ -393,8 +393,8 @@ const styles = {
     return css`
       ${focus
         ? `
-        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
-        border-color: transparent !important;
+        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus};
+        border-color: transparent;
       `
         : ``}
     `;
@@ -633,26 +633,26 @@ const styles = {
   checked(p: ButtonStylesProps) {
     const { t, use, disabled, arrow } = p;
     return css`
-      box-shadow: ${t.btnCheckedShadow} !important;
-      background: ${t.btnCheckedBg} !important;
-      color: ${t.btnCheckedTextColor} !important;
-      border: ${t.btnDefaultCheckedBorder} !important;
+      box-shadow: ${t.btnCheckedShadow};
+      background: ${t.btnCheckedBg};
+      color: ${t.btnCheckedTextColor};
+      border: ${t.btnDefaultCheckedBorder};
 
       ${use !== 'link' && !disabled
         ? `
         ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
+          transform: translateY(1px);
         }
       `
         : ``}
 
       ${cssName(styles.arrow(p))} {
-        background: ${t.btnCheckedBg} !important;
-        box-shadow: ${t.btnCheckedShadowArrow} !important;
+        background: ${t.btnCheckedBg};
+        box-shadow: ${t.btnCheckedShadowArrow};
 
         ${arrow === 'left'
           ? `
-          box-shadow: ${t.btnCheckedShadowArrowLeft} !important;
+          box-shadow: ${t.btnCheckedShadowArrowLeft};
         `
           : ``}
       }
@@ -664,7 +664,7 @@ const styles = {
       ${use !== 'link' && !disabled
         ? `
         ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
+          transform: translateY(1px);
         }
       `
         : ``}
@@ -691,21 +691,21 @@ const styles = {
 
   narrow() {
     return css`
-      padding-left: 5px !important;
-      padding-right: 5px !important;
+      padding-left: 5px;
+      padding-right: 5px;
     `;
   },
 
   noPadding() {
     return css`
-      padding-left: 0 !important;
-      padding-right: 0 !important;
+      padding-left: 0;
+      padding-right: 0;
     `;
   },
 
   noRightPadding() {
     return css`
-      padding-right: 0 !important;
+      padding-right: 0;
     `;
   },
 
@@ -739,13 +739,13 @@ const styles = {
 
       ${error
         ? `
-        box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
+        box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
       `
         : ``}
 
       ${warning
         ? `
-        box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;
+        box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};
       `
         : ``}
     `;

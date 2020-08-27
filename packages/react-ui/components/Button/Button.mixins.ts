@@ -156,7 +156,7 @@ export const buttonSizeMixin = (
   isLink: boolean,
 ) => {
   return css`
-    font-size: ${fontSize} !important;
+    font-size: ${fontSize};
 
     ${!isLink
       ? `
@@ -169,7 +169,7 @@ export const buttonSizeMixin = (
         isIE11 || isEdge
           ? `
         padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
-        line-height: normal !important;
+        line-height: normal;
       `
           : ``
       }
@@ -199,7 +199,7 @@ export const buttonArrowMixin = (
       ${isLeftArrow &&
         `
         left: ${left};
-        transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
+        transform: rotate(232deg) skewX(25deg) skewY(8deg);
       `}
     }
   `;
