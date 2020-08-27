@@ -41,6 +41,7 @@ export interface ButtonStylesProps {
   focus: boolean;
   active: boolean;
   disabled: boolean;
+  loading: boolean;
   checked: boolean;
   narrow: boolean;
   noPadding: boolean;
@@ -789,14 +790,14 @@ const styles = {
     `;
   },
 
-  borderless({ focus, disabled, checked, active }: ButtonStylesProps) {
+  borderless({ focus, disabled, loading, checked, active }: ButtonStylesProps) {
     return css`
-      ${!focus && !disabled && !checked && !active
+      ${!focus && !disabled && !loading && !checked && !active
         ? `
         &,
         &:hover,
         &:active {
-          box-shadow: none !important;
+          box-shadow: none;
         }
       `
         : ``}
