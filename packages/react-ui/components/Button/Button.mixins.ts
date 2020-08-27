@@ -119,31 +119,35 @@ export const buttonActiveMixin = (
   selectorArrow: string,
   isLeftArrow: boolean,
 ) => {
-  const activeStyles = css`
-    &,
-    &:hover:
-    &:active {
-      background: ${btnBackground};
-      box-shadow: ${btnShadow};
+  const activeStyles = `
+    background: ${btnBackground};
+    box-shadow: ${btnShadow};
 
-      ${selectorArrow} {
-        ${isLeftArrow
+    ${selectorArrow} {
+      ${
+        isLeftArrow
           ? `
-            background: ${arrowLeftBackground};
-            box-shadow: ${arrowLeftShadow};
-          `
+        background: ${arrowLeftBackground};
+        box-shadow: ${arrowLeftShadow};
+      `
           : `
-            background: ${arrowBackground};
-            box-shadow: ${arrowShadow};
-          `}
+        background: ${arrowBackground};
+        box-shadow: ${arrowShadow};
+      `
       }
     }
   `;
   return css`
-    & {
+    &:active {
       ${activeStyles};
     }
-    ${(isActive && activeStyles) || ``}
+    ${isActive
+      ? `
+        &, &:hover {
+          ${activeStyles};
+        }
+      `
+      : ``}
   `;
 };
 

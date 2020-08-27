@@ -72,6 +72,7 @@ const styles = {
       focus,
       checked,
       disabled,
+      loading,
       narrow,
       noPadding,
       noRightPadding,
@@ -117,6 +118,10 @@ const styles = {
       ${size === 'medium' ? styles.sizeMedium(p) : ``}
       ${size === 'large' ? styles.sizeLarge(p) : ``}
 
+      ${size === 'small' && loading ? styles.sizeSmallLoading(p) : ``}
+      ${size === 'medium' && loading ? styles.sizeMediumLoading(p) : ``}
+      ${size === 'large' && loading ? styles.sizeLargeLoading(p) : ``}
+
       ${error ? styles.error(p) : ``}
       ${warning ? styles.warning(p) : ``}
 
@@ -124,7 +129,7 @@ const styles = {
 
       ${focus ? styles.focus(p) : ``}
       ${checked ? styles.checked(p) : ``}
-      ${disabled ? styles.disabled(p) : ``}
+      ${disabled || loading ? styles.disabled(p) : ``}
 
       ${narrow ? styles.narrow() : ``}
       ${noPadding ? styles.noPadding() : ``}
@@ -324,12 +329,13 @@ const styles = {
         left: -2px;
         right: -2px;
         bottom: -2px;
+
+        ${error
+          ? `
+          background: ${t.btnErrorSecondary};
+        `
+          : ``}
       }
-      ${error
-        ? `
-        background: ${t.btnErrorSecondary};
-      `
-        : ``}
     `;
   },
 
@@ -746,11 +752,35 @@ const styles = {
     `;
   },
 
-  wrap(t: Theme) {
+  wrap(p: ButtonStylesProps) {
+    const { t, arrow, use } = p;
     return css`
-      padding: ${t.btnWrapPadding};
       box-sizing: border-box;
       display: inline-block;
+
+      ${
+        arrow === true
+          ? `
+        margin-right: 10px;
+      `
+          : ``
+      }
+
+      ${
+        arrow === 'left'
+          ? `
+        margin-left: 10px;
+      `
+          : ``
+      }
+
+      ${
+        use !== 'link'
+          ? `
+        padding: ${t.btnWrapPadding};
+      `
+          : ``
+      }
     `;
   },
 
@@ -771,27 +801,6 @@ const styles = {
   noRightPadding() {
     return css`
       padding-right: 0;
-    `;
-  },
-
-  wrapLink(t: Theme) {
-    return css`
-      ${styles.wrap(t)};
-
-      padding: 0;
-    `;
-  },
-
-  wrapArrow() {
-    return css`
-      margin-right: 10px;
-    `;
-  },
-
-  wrapArrowLeft() {
-    return css`
-      margin-right: 0;
-      margin-left: 10px;
     `;
   },
 

@@ -3,7 +3,6 @@ import React from 'react';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles, ButtonStylesProps } from './Button.styles';
 import { Corners } from './Corners';
@@ -158,7 +157,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   private renderMain() {
     const stylesProps = this.getStylesProps();
     const { corners = 0 } = this.props;
-    const sizeClass = this.getSizeClassName();
 
     const isError = !!this.props.error;
     const isWarning = !!this.props.warning;
@@ -187,11 +185,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: cx({
-        [jsStyles.wrap(this.theme)]: true,
-        [jsStyles.wrapArrow()]: this.props.arrow === true,
-        [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
-      }),
+      className: jsStyles.wrap(stylesProps),
       style: {
         width: this.props.width,
       },
@@ -219,19 +213,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     // Force disable all props and features, that cannot be use with Link
     if (this.props.use === 'link') {
-      rootProps.className = cx({
-        [jsStyles.root(stylesProps)]: true,
-        [sizeClass]: true,
-        [jsStyles.focus(stylesProps)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.link(stylesProps)]: true,
-        [jsStyles.disabled(stylesProps)]: !!this.props.disabled,
-      });
-      Object.assign(wrapProps, {
-        className: cx(jsStyles.wrap(this.theme), {
-          [jsStyles.wrapLink(this.theme)]: this.props.use === 'link',
-        }),
-        style: { width: wrapProps.style.width },
-      });
       rootProps.style.textAlign = undefined;
       loading = null;
       arrow = null;
@@ -250,25 +231,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         </button>
       </span>
     );
-  }
-
-  private getSizeClassName() {
-    const stylesProps = this.getStylesProps();
-    switch (this.props.size) {
-      case 'large':
-        return cx(jsStyles.sizeLarge(stylesProps), {
-          [jsStyles.sizeLargeLoading(stylesProps)]: !!this.props.loading,
-        });
-      case 'medium':
-        return cx(jsStyles.sizeMedium(stylesProps), {
-          [jsStyles.sizeMediumLoading(stylesProps)]: !!this.props.loading,
-        });
-      case 'small':
-      default:
-        return cx(jsStyles.sizeSmall(stylesProps), {
-          [jsStyles.sizeSmallLoading(stylesProps)]: !!this.props.loading,
-        });
-    }
   }
 
   private getStylesProps(): ButtonStylesProps {
