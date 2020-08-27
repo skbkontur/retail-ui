@@ -167,20 +167,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
-      className: cx({
-        [jsStyles.root(stylesProps)]: true,
-        [(jsStyles[this.props.use!] && jsStyles[this.props.use!](stylesProps)) || jsStyles.default(stylesProps)]: true,
-        [jsStyles.active(stylesProps)]: !!this.props.active,
-        [jsStyles.validationRoot(stylesProps)]: isError || isWarning,
-        [sizeClass]: true,
-        [jsStyles.borderless(stylesProps)]: !!this.props.borderless,
-        [jsStyles.focus(stylesProps)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.checked(stylesProps)]: !!this.props.checked && !this.props.disabled,
-        [jsStyles.disabled(stylesProps)]: !!this.props.disabled || !!this.props.loading,
-        [jsStyles.narrow()]: !!this.props.narrow,
-        [jsStyles.noPadding()]: !!this.props._noPadding,
-        [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
-      }),
+      className: jsStyles.root(stylesProps),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
         borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
@@ -210,11 +197,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       },
     };
 
-    let error = null;
-    if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
-    } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+    let outline = null;
+    if (isError || isWarning) {
+      outline = <div className={jsStyles.outline(stylesProps)} />;
     }
 
     let loading = null;
@@ -255,7 +240,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <span {...wrapProps}>
         <button ref={this._ref} {...rootProps}>
-          {error}
+          {outline}
           {loading}
           {arrow}
           <div className={jsStyles.caption()}>
@@ -301,13 +286,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       error = false,
       warning = false,
       arrow = false,
+      visuallyFocused = false,
     } = this.props;
-    const { focusedByTab: focus } = this.state;
+    const { focusedByTab } = this.state;
     return {
       t: this.theme,
+      focus: visuallyFocused || focusedByTab,
       size,
       use,
-      focus,
       active,
       disabled,
       loading,

@@ -13,6 +13,25 @@ import {
 } from './Button.mixins';
 import { ButtonProps } from './Button';
 
+export const match = <T extends {}>(value: T, defaultResult = '') => {
+  let result = defaultResult;
+  let matched = false;
+
+  return {
+    on(v: T, r: string): string {
+      if (!matched && value === v) {
+        matched = true;
+        result = r;
+      }
+      //@ts-ignore
+      return this;
+    },
+    toString() {
+      return result;
+    },
+  };
+};
+
 const btn_loading_arrow = keyframes`
 0% {
   transform: translateX(50px) rotate(-44.3deg);
@@ -22,17 +41,6 @@ const btn_loading_arrow = keyframes`
   transform: translateX(21px) translateY(30px) rotate(-44.3deg);
 }
 `;
-
-// ${use === 'default' && styles.default(t)}
-// ${use === 'primary' && styles.primary(t)}
-// ${use === 'success' && styles.success(t)}
-// ${use === 'danger' && styles.danger(t)}
-// ${use === 'pay' && styles.pay(t)}
-// ${use === 'link' && styles.link(p)}
-
-// ${size === 'small' && styles.sizeSmall(t)}
-// ${size === 'medium' && styles.sizeMedium(t)}
-// ${size === 'large' && styles.sizeLarge(t)}
 
 export interface ButtonStylesProps {
   t: Theme;
@@ -53,7 +61,21 @@ export interface ButtonStylesProps {
 }
 
 const styles = {
-  root({ t, use, size }: ButtonStylesProps) {
+  root(p: ButtonStylesProps) {
+    const {
+      active,
+      use,
+      size,
+      error,
+      warning,
+      borderless,
+      focus,
+      checked,
+      disabled,
+      narrow,
+      noPadding,
+      noRightPadding,
+    } = p;
     return css`
       ${resetButton()};
       ${resetText()};
@@ -80,14 +102,38 @@ const styles = {
       }
 
       &:active {
-        ${cssName(styles.caption())} {
-          transform: translateY(1px);
-        }
+        ${styles.active(p)}
       }
+      ${active ? styles.active(p) : ``}
+
+      ${use === 'default' ? styles.default(p) : ``}
+      ${use === 'primary' ? styles.primary(p) : ``}
+      ${use === 'success' ? styles.success(p) : ``}
+      ${use === 'danger' ? styles.danger(p) : ``}
+      ${use === 'pay' ? styles.pay(p) : ``}
+      ${use === 'link' ? styles.link(p) : ``}
+
+      ${size === 'small' ? styles.sizeSmall(p) : ``}
+      ${size === 'medium' ? styles.sizeMedium(p) : ``}
+      ${size === 'large' ? styles.sizeLarge(p) : ``}
+
+      ${error ? styles.error(p) : ``}
+      ${warning ? styles.warning(p) : ``}
+
+      ${borderless ? styles.borderless(p) : ``}
+
+      ${focus ? styles.focus(p) : ``}
+      ${checked ? styles.checked(p) : ``}
+      ${disabled ? styles.disabled(p) : ``}
+
+      ${narrow ? styles.narrow() : ``}
+      ${noPadding ? styles.noPadding() : ``}
+      ${noRightPadding ? styles.noRightPadding() : ``}
     `;
   },
 
-  warning(t: Theme) {
+  outline(p: ButtonStylesProps) {
+    const { t, error, warning } = p;
     return css`
       border-radius: inherit;
       position: absolute;
@@ -95,19 +141,18 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
-    `;
-  },
 
-  error(t: Theme) {
-    return css`
-      border-radius: inherit;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
+      ${error
+        ? `
+          box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
+        `
+        : ``}
+
+      ${warning
+        ? `
+          box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
+        `
+        : ``}
     `;
   },
 
@@ -248,7 +293,7 @@ const styles = {
   },
 
   link(p: ButtonStylesProps) {
-    const { t } = p;
+    const { t, error } = p;
     return css`
       background: none;
       border-radius: ${t.btnLinkBorderRadius};
@@ -274,22 +319,24 @@ const styles = {
       ${cssName(styles.caption())} {
         display: inline;
       }
-      ${cssName(styles.warning(t))} ,
-      ${cssName(styles.error(t))}  {
+      ${cssName(styles.outline(p))} {
         box-shadow: none;
         left: -2px;
         right: -2px;
         bottom: -2px;
       }
-      ${cssName(styles.error(t))}  {
+      ${error
+        ? `
         background: ${t.btnErrorSecondary};
-      }
+      `
+        : ``}
     `;
   },
 
   focus(p: ButtonStylesProps) {
     const { t, use, disabled, error, warning } = p;
     return css`
+      border-color: transparent;
       position: relative;
       z-index: 2;
 
@@ -306,8 +353,7 @@ const styles = {
 
           &,
           &:hover,
-          &:active,
-          ${cssName(styles.active(p))} {
+          &:active {
             box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus},
               0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
 
@@ -391,29 +437,25 @@ const styles = {
     `;
   },
 
-  validationRoot(p: ButtonStylesProps) {
-    const { t, focus, error, warning } = p;
+  error({ t }: ButtonStylesProps) {
     return css`
-      ${focus
-        ? `
-        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus};
-        border-color: transparent;
-      `
-        : ``}
-
-      &, &:hover, &:active, &:hover:active {
+      &,
+      &:hover,
+      &:active {
         ${cssName(styles.arrow())} {
-          ${error
-            ? `
-              box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
-            `
-            : ``}
+          box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
+        }
+      }
+    `;
+  },
 
-          ${warning
-            ? `
-              box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};
-            `
-            : ``}
+  warning({ t }: ButtonStylesProps) {
+    return css`
+      &,
+      &:hover,
+      &:active {
+        ${cssName(styles.arrow())} {
+          box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};
         }
       }
     `;
@@ -652,28 +694,32 @@ const styles = {
   checked(p: ButtonStylesProps) {
     const { t, use, disabled, arrow } = p;
     return css`
-      box-shadow: ${t.btnCheckedShadow};
-      background: ${t.btnCheckedBg};
-      color: ${t.btnCheckedTextColor};
-      border: ${t.btnDefaultCheckedBorder};
-
-      ${use !== 'link' && !disabled
-        ? `
-        ${cssName(styles.caption())} {
-          transform: translateY(1px);
-        }
-      `
-        : ``}
-
-      ${cssName(styles.arrow())} {
+      &,
+      &:hover,
+      &:active {
+        box-shadow: ${t.btnCheckedShadow};
         background: ${t.btnCheckedBg};
-        box-shadow: ${t.btnCheckedShadowArrow};
+        color: ${t.btnCheckedTextColor};
+        border: ${t.btnDefaultCheckedBorder};
 
-        ${arrow === 'left'
+        ${use !== 'link' && !disabled
           ? `
-          box-shadow: ${t.btnCheckedShadowArrowLeft};
+          ${cssName(styles.caption())} {
+            transform: translateY(1px);
+          }
         `
           : ``}
+
+        ${cssName(styles.arrow())} {
+          background: ${t.btnCheckedBg};
+          box-shadow: ${t.btnCheckedShadowArrow};
+
+          ${arrow === 'left'
+            ? `
+            box-shadow: ${t.btnCheckedShadowArrowLeft};
+          `
+            : ``}
+        }
       }
     `;
   },

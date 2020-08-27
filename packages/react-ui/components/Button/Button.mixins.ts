@@ -121,7 +121,8 @@ export const buttonActiveMixin = (
 ) => {
   const activeStyles = css`
     &,
-    &:hover {
+    &:hover:
+    &:active {
       background: ${btnBackground};
       box-shadow: ${btnShadow};
 
@@ -139,7 +140,7 @@ export const buttonActiveMixin = (
     }
   `;
   return css`
-    &:active {
+    & {
       ${activeStyles};
     }
     ${(isActive && activeStyles) || ``}
