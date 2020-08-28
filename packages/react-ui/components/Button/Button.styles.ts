@@ -136,21 +136,21 @@ const styles = {
               'small',
               css`
                 ${styles.sizeSmall(p)}
-                ${styles.sizeSmallLoading(p)}
+                ${loading ? styles.sizeSmallLoading(p) : ``}
               `,
             )
             .case(
               'medium',
               css`
                 ${styles.sizeMedium(p)}
-                ${styles.sizeMediumLoading(p)}
+                ${loading ? styles.sizeMediumLoading(p) : ``}
               `,
             )
             .case(
               'large',
               css`
                 ${styles.sizeLarge(p)}
-                ${styles.sizeLargeLoading(p)}
+                ${loading ? styles.sizeLargeLoading(p) : ``}
               `,
             )
             .default('')}
