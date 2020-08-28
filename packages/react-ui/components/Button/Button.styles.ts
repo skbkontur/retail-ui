@@ -13,24 +13,27 @@ import {
 } from './Button.mixins';
 import { ButtonProps } from './Button';
 
-export const match = <T extends {}>(value: T, defaultResult = '') => {
-  let result = defaultResult;
-  let matched = false;
-
-  return {
-    on(v: T, r: string): string {
-      if (!matched && value === v) {
-        matched = true;
-        result = r;
-      }
-      //@ts-ignore
-      return this;
-    },
-    toString() {
-      return result;
-    },
-  };
-};
+// ${f
+//   .if(use === 'link')
+//   .then(
+//     () => `
+//       ${styles.link(p)}
+//       ${styles.focus(p)}
+//       ${styles.disabled(p)}
+//     `,
+//   )
+//   .else(
+//     () => `
+//       ${f
+//         .switch(use)
+//         .case('default', styles.default(p))
+//         .case('primary', styles.primary(p))
+//         .case('success', styles.success(p))
+//         .case('danger', styles.danger(p))
+//         .case('pay', styles.pay(p))
+//         .default(``)}
+//     `,
+//   )}
 
 const btn_loading_arrow = keyframes`
 0% {
@@ -131,9 +134,9 @@ const styles = {
       ${checked ? styles.checked(p) : ``}
       ${disabled || (loading && use !== 'link') ? styles.disabled(p) : ``}
 
-      ${narrow ? styles.narrow() : ``}
-      ${noPadding ? styles.noPadding() : ``}
-      ${noRightPadding ? styles.noRightPadding() : ``}
+      ${narrow ? styles.narrow(p) : ``}
+      ${noPadding ? styles.noPadding(p) : ``}
+      ${noRightPadding ? styles.noRightPadding(p) : ``}
     `;
   },
 
@@ -782,23 +785,35 @@ const styles = {
     `;
   },
 
-  narrow() {
+  narrow({ use }: ButtonStylesProps) {
     return css`
-      padding-left: 5px;
-      padding-right: 5px;
+      ${use !== 'link'
+        ? `
+          padding-left: 5px;
+          padding-right: 5px;
+        `
+        : ``}
     `;
   },
 
-  noPadding() {
+  noPadding({ use }: ButtonStylesProps) {
     return css`
-      padding-left: 0;
-      padding-right: 0;
+      ${use !== 'link'
+        ? `
+          padding-left: 0;
+          padding-right: 0;
+        `
+        : ``}
     `;
   },
 
-  noRightPadding() {
+  noRightPadding({ use }: ButtonStylesProps) {
     return css`
-      padding-right: 0;
+      ${use !== 'link'
+        ? `
+          padding-right: 0;
+        `
+        : ``}
     `;
   },
 
