@@ -13,27 +13,36 @@ import {
 } from './Button.mixins';
 import { ButtonProps } from './Button';
 
-// ${f
-//   .if(use === 'link')
-//   .then(
-//     () => `
-//       ${styles.link(p)}
-//       ${styles.focus(p)}
-//       ${styles.disabled(p)}
-//     `,
-//   )
-//   .else(
-//     () => `
-//       ${f
-//         .switch(use)
-//         .case('default', styles.default(p))
-//         .case('primary', styles.primary(p))
-//         .case('success', styles.success(p))
-//         .case('danger', styles.danger(p))
-//         .case('pay', styles.pay(p))
-//         .default(``)}
-//     `,
-//   )}
+export const f = {
+  if<R extends {}>(condition: boolean /*, thenStatement?: R, elseStatement?: R*/) {
+    // if (thenStatement !== undefined) {
+    //   return condition ? thenStatement : elseStatement;
+    // }
+    return {
+      then(thenResult: R) {
+        return {
+          else(elseResult: R) {
+            return condition ? thenResult : elseResult;
+          },
+        };
+      },
+    };
+  },
+  switch<C, R>(arg: C) {
+    let matched: R | undefined = undefined;
+    return {
+      case(value: C, result: R) {
+        if (matched === undefined && arg === value) {
+          matched = result;
+        }
+        return this;
+      },
+      default(result: R) {
+        return matched || result;
+      },
+    };
+  },
+};
 
 const btn_loading_arrow = keyframes`
 0% {
@@ -105,27 +114,46 @@ const styles = {
         width: 0;
       }
 
-      ${use === 'link'
-        ? styles.link(p)
-        : css`
+      ${f.if(use === 'link').then(styles.link(p)).else(css`
           &:active {
             ${styles.active(p)}
           }
           ${active ? styles.active(p) : ``}
 
-          ${use === 'default' ? styles.default(p) : ``}
-          ${use === 'primary' ? styles.primary(p) : ``}
-          ${use === 'success' ? styles.success(p) : ``}
-          ${use === 'danger' ? styles.danger(p) : ``}
-          ${use === 'pay' ? styles.pay(p) : ``}
+          ${f
+            .switch<ButtonProps['use'], string>(use)
+            .case('default', styles.default(p))
+            .case('primary', styles.primary(p))
+            .case('success', styles.success(p))
+            .case('danger', styles.danger(p))
+            .case('pay', styles.pay(p))
+            .default('')}
 
-          ${size === 'small' ? styles.sizeSmall(p) : ``}
-          ${size === 'medium' ? styles.sizeMedium(p) : ``}
-          ${size === 'large' ? styles.sizeLarge(p) : ``}
 
-          ${size === 'small' && loading ? styles.sizeSmallLoading(p) : ``}
-          ${size === 'medium' && loading ? styles.sizeMediumLoading(p) : ``}
-          ${size === 'large' && loading ? styles.sizeLargeLoading(p) : ``}
+          ${f
+            .switch<ButtonProps['size'], string>(size)
+            .case(
+              'small',
+              css`
+                ${styles.sizeSmall(p)}
+                ${styles.sizeSmallLoading(p)}
+              `,
+            )
+            .case(
+              'medium',
+              css`
+                ${styles.sizeMedium(p)}
+                ${styles.sizeMediumLoading(p)}
+              `,
+            )
+            .case(
+              'large',
+              css`
+                ${styles.sizeLarge(p)}
+                ${styles.sizeLargeLoading(p)}
+              `,
+            )
+            .default('')}
 
           ${error ? styles.error(p) : ``}
           ${warning ? styles.warning(p) : ``}
@@ -139,7 +167,7 @@ const styles = {
           ${narrow ? styles.narrow() : ``}
           ${noPadding ? styles.noPadding() : ``}
           ${noRightPadding ? styles.noRightPadding() : ``}
-        `}
+        `)}
     `;
   },
 
@@ -333,57 +361,34 @@ const styles = {
         right: -2px;
         bottom: -2px;
 
-        ${
-          error
-            ? `
-          background: ${t.btnErrorSecondary};
+        ${error
+          ? `
+              background: ${t.btnErrorSecondary};
+            `
+          : ``}
+      }
+
+      font-size: ${f
+        .switch<ButtonProps['size'], string>(size)
+        .case('small', t.btnFontSizeSmall)
+        .case('medium', t.btnFontSizeMedium)
+        .case('large', t.btnFontSizeLarge)
+        .default(t.btnFontSizeSmall)};
+
+      ${focus
+        ? `
+          color: ${t.btnLinkColor};
+          text-decoration: ${t.btnLinkHoverTextDecoration};
         `
-            : ``
-        }
-      }
+        : ``}
 
-      ${
-        size === 'small'
-          ? `
-          font-size: ${t.btnFontSizeSmall};
+      ${disabled
+        ? `
+          cursor: default;
+          pointer-events: none;
+          color: ${t.btnLinkDisabledColor};
         `
-          : ``
-      }
-
-      ${
-        size === 'medium'
-          ? `
-          font-size: ${t.btnFontSizeMedium};
-        `
-          : ``
-      }
-
-      ${
-        size === 'large'
-          ? `
-          font-size: ${t.btnFontSizeLarge};
-        `
-          : ``
-      }
-
-      ${
-        focus
-          ? `
-        color: ${t.btnLinkColor};
-        text-decoration: ${t.btnLinkHoverTextDecoration};
-      `
-          : ``
-      }
-
-      ${
-        disabled
-          ? `
-        cursor: default;
-        pointer-events: none;
-        color: ${t.btnLinkDisabledColor};
-      `
-          : ``
-      }
+        : ``};
     `;
   },
 
@@ -407,9 +412,9 @@ const styles = {
             ${
               error || warning
                 ? `
-              box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
-              border-color: transparent;
-            `
+                  box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
+                  border-color: transparent;
+                `
                 : ''
             }
 
@@ -420,17 +425,17 @@ const styles = {
               ${
                 warning
                   ? `
-              box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};`
+                    box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+                    ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};`
                   : ``
               }
 
               ${
                 error
                   ? `
-              box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
-              `
+                    box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+                    ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
+                  `
                   : ``
               }
             }
@@ -452,8 +457,8 @@ const styles = {
 
       ${isIE11 || isEdge
         ? `
-        outline-color: transparent;
-      `
+          outline-color: transparent;
+        `
         : ``}
 
       ${cssName(styles.arrow())} {
@@ -734,10 +739,10 @@ const styles = {
 
         ${!disabled
           ? `
-          ${cssName(styles.caption())} {
-            transform: translateY(1px);
-          }
-        `
+            ${cssName(styles.caption())} {
+              transform: translateY(1px);
+            }
+          `
           : ``}
 
         ${cssName(styles.arrow())} {
@@ -746,8 +751,8 @@ const styles = {
 
           ${arrow === 'left'
             ? `
-            box-shadow: ${t.btnCheckedShadowArrowLeft};
-          `
+              box-shadow: ${t.btnCheckedShadowArrowLeft};
+            `
             : ``}
         }
       }
@@ -758,10 +763,10 @@ const styles = {
     return css`
       ${!disabled
         ? `
-        ${cssName(styles.caption())} {
-          transform: translateY(1px);
-        }
-      `
+          ${cssName(styles.caption())} {
+            transform: translateY(1px);
+          }
+        `
         : ``}
     `;
   },
@@ -786,22 +791,13 @@ const styles = {
         ? `
         padding: ${t.btnWrapPadding};
 
-        ${
-          arrow === true
-            ? `
-          margin-right: 10px;
-        `
-            : ``
-        }
+        ${f
+          .switch(arrow)
+          .case(true, 'margin-right: 10px')
+          .case('left', 'margin-left: 10px')
+          .default('')}
 
-        ${
-          arrow === 'left'
-            ? `
-          margin-left: 10px;
         `
-            : ``
-        }
-      `
         : ``}
     `;
   },
@@ -839,38 +835,20 @@ const styles = {
     const { t, use, size } = p;
     return css`
       display: inline-block;
+      width: ${f
+        .switch<ButtonProps['size'], string>(size)
+        .case('small', t.btnIconSizeSmall)
+        .case('medium', t.btnIconSizeMedium)
+        .case('large', t.btnIconSizeLarge)
+        .default(t.btnIconSizeSmall)};
 
-      ${
-        size === 'small'
-          ? `
-        width: ${t.btnIconSizeSmall};
-        padding-right: ${t.btnIconGapSmall};
-      `
-          : ``
-      }
-      ${
-        size === 'medium'
-          ? `
-        width: ${t.btnIconSizeMedium};
-        padding-right: ${t.btnIconGapMedium};
-      `
-          : ``
-      }
-      ${
-        size === 'large'
-          ? `
-        width: ${t.btnIconSizeLarge};
-        padding-right: ${t.btnIconGapLarge};
-      `
-          : ``
-      }
-      ${
-        use === 'link'
-          ? `
-        padding-right: ${t.btnLinkIconMarginRight};
-      `
-          : ``
-      }
+      padding-right: ${f
+        .switch<boolean, string>(true)
+        .case(use === 'link', t.btnLinkIconMarginRight)
+        .case(size === 'small', t.btnIconGapSmall)
+        .case(size === 'medium', t.btnIconGapMedium)
+        .case(size === 'large', t.btnIconGapLarge)
+        .default(t.btnIconGapSmall)};
     `;
   },
 
@@ -878,12 +856,12 @@ const styles = {
     return css`
       ${!focus && !disabled && !loading && !checked && !active
         ? `
-        &,
-        &:hover,
-        &:active {
-          box-shadow: none;
-        }
-      `
+          &,
+          &:hover,
+          &:active {
+            box-shadow: none;
+          }
+        `
         : ``}
     `;
   },
