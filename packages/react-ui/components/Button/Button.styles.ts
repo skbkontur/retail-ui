@@ -13,36 +13,36 @@ import {
 } from './Button.mixins';
 import { ButtonProps } from './Button';
 
-export const f = {
-  if<R extends {}>(condition: boolean /*, thenStatement?: R, elseStatement?: R*/) {
-    // if (thenStatement !== undefined) {
-    //   return condition ? thenStatement : elseStatement;
-    // }
-    return {
-      then(thenResult: R) {
-        return {
-          else(elseResult: R) {
-            return condition ? thenResult : elseResult;
-          },
-        };
-      },
-    };
-  },
-  switch<C, R>(arg: C) {
-    let matched: R | undefined = undefined;
-    return {
-      case(value: C, result: R) {
-        if (matched === undefined && arg === value) {
-          matched = result;
-        }
-        return this;
-      },
-      default(result: R) {
-        return matched || result;
-      },
-    };
-  },
-};
+// export const f = {
+//   if<R extends {}>(condition: boolean /*, thenStatement?: R, elseStatement?: R*/) {
+//     // if (thenStatement !== undefined) {
+//     //   return condition ? thenStatement : elseStatement;
+//     // }
+//     return {
+//       then(thenResult: R) {
+//         return {
+//           else(elseResult: R) {
+//             return condition ? thenResult : elseResult;
+//           },
+//         };
+//       },
+//     };
+//   },
+//   switch<C, R>(arg: C) {
+//     let matched: R | undefined = undefined;
+//     return {
+//       case(value: C, result: R) {
+//         if (matched === undefined && arg === value) {
+//           matched = result;
+//         }
+//         return this;
+//       },
+//       default(result: R) {
+//         return matched || result;
+//       },
+//     };
+//   },
+// };
 
 const btn_loading_arrow = keyframes`
 0% {
@@ -114,60 +114,40 @@ const styles = {
         width: 0;
       }
 
-      ${f.if(use === 'link').then(styles.link(p)).else(css`
-          &:active {
-            ${styles.active(p)}
-          }
-          ${active ? styles.active(p) : ``}
+      ${use === 'link'
+        ? css`
+            ${styles.link(p)}
+          `
+        : css`
+            ${use === 'default' ? styles.default(p) : ``}
+            ${use === 'primary' ? styles.primary(p) : ``}
+            ${use === 'success' ? styles.success(p) : ``}
+            ${use === 'danger' ? styles.danger(p) : ``}
+            ${use === 'pay' ? styles.pay(p) : ``}
 
-          ${f
-            .switch<ButtonProps['use'], string>(use)
-            .case('default', styles.default(p))
-            .case('primary', styles.primary(p))
-            .case('success', styles.success(p))
-            .case('danger', styles.danger(p))
-            .case('pay', styles.pay(p))
-            .default('')}
+            ${size === 'small' ? styles.sizeSmall(p) : ``}
+            ${size === 'medium' ? styles.sizeMedium(p) : ``}
+            ${size === 'large' ? styles.sizeLarge(p) : ``}
 
+            ${error ? styles.error(p) : ``}
+            ${warning ? styles.warning(p) : ``}
 
-          ${f
-            .switch<ButtonProps['size'], string>(size)
-            .case(
-              'small',
-              css`
-                ${styles.sizeSmall(p)}
-                ${loading ? styles.sizeSmallLoading(p) : ``}
-              `,
-            )
-            .case(
-              'medium',
-              css`
-                ${styles.sizeMedium(p)}
-                ${loading ? styles.sizeMediumLoading(p) : ``}
-              `,
-            )
-            .case(
-              'large',
-              css`
-                ${styles.sizeLarge(p)}
-                ${loading ? styles.sizeLargeLoading(p) : ``}
-              `,
-            )
-            .default('')}
+            ${borderless ? styles.borderless(p) : ``}
 
-          ${error ? styles.error(p) : ``}
-          ${warning ? styles.warning(p) : ``}
+            ${focus ? styles.focus(p) : ``}
+            ${checked ? styles.checked(p) : ``}
+            ${disabled || loading ? styles.disabled(p) : ``}
+            ${loading ? styles.loading(p) : ``}
 
-          ${borderless ? styles.borderless(p) : ``}
+            ${narrow ? styles.narrow() : ``}
+            ${noPadding ? styles.noPadding() : ``}
+            ${noRightPadding ? styles.noRightPadding() : ``}
 
-          ${focus ? styles.focus(p) : ``}
-          ${checked ? styles.checked(p) : ``}
-          ${disabled || loading ? styles.disabled(p) : ``}
-
-          ${narrow ? styles.narrow() : ``}
-          ${noPadding ? styles.noPadding() : ``}
-          ${noRightPadding ? styles.noRightPadding() : ``}
-        `)}
+            &:active {
+              ${styles.active(p)}
+            }
+            ${active ? styles.active(p) : ``}
+          `}
     `;
   },
 
@@ -290,7 +270,7 @@ const styles = {
         btn_loading_arrow,
         cssName(styles.arrow()),
         arrow === 'left',
-      )};
+      )}
     `;
   },
 
@@ -341,6 +321,10 @@ const styles = {
       margin: 0;
       padding: 0;
 
+      ${size === 'small' ? styles.linkSmall(p) : ``}
+      ${size === 'medium' ? styles.linkMedium(p) : ``}
+      ${size === 'large' ? styles.linkLarge(p) : ``}
+
       &:hover {
         color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
@@ -361,34 +345,51 @@ const styles = {
         right: -2px;
         bottom: -2px;
 
-        ${error
-          ? `
+        ${
+          error
+            ? `
               background: ${t.btnErrorSecondary};
             `
-          : ``}
+            : ``
+        }
       }
 
-      font-size: ${f
-        .switch<ButtonProps['size'], string>(size)
-        .case('small', t.btnFontSizeSmall)
-        .case('medium', t.btnFontSizeMedium)
-        .case('large', t.btnFontSizeLarge)
-        .default(t.btnFontSizeSmall)};
-
-      ${focus
-        ? `
+      ${
+        focus
+          ? `
           color: ${t.btnLinkColor};
           text-decoration: ${t.btnLinkHoverTextDecoration};
         `
-        : ``}
+          : ``
+      }
 
-      ${disabled
-        ? `
+      ${
+        disabled
+          ? `
           cursor: default;
           pointer-events: none;
           color: ${t.btnLinkDisabledColor};
         `
-        : ``};
+          : ``
+      };
+    `;
+  },
+
+  linkSmall({ t }: ButtonStylesProps) {
+    return css`
+      font-size: ${t.btnFontSizeSmall};
+    `;
+  },
+
+  linkMedium({ t }: ButtonStylesProps) {
+    return css`
+      font-size: ${t.btnFontSizeMedium};
+    `;
+  },
+
+  linkLarge({ t }: ButtonStylesProps) {
+    return css`
+      font-size: ${t.btnFontSizeLarge};
     `;
   },
 
@@ -791,11 +792,21 @@ const styles = {
         ? `
         padding: ${t.btnWrapPadding};
 
-        ${f
-          .switch(arrow)
-          .case(true, 'margin-right: 10px')
-          .case('left', 'margin-left: 10px')
-          .default('')}
+        ${
+          arrow === true
+            ? `
+              margin-right: 10px
+            `
+            : ``
+        };
+
+        ${
+          arrow === 'left'
+            ? `
+              margin-left: 10px
+            `
+            : ``
+        };
 
         `
         : ``}
@@ -835,20 +846,39 @@ const styles = {
     const { t, use, size } = p;
     return css`
       display: inline-block;
-      width: ${f
-        .switch<ButtonProps['size'], string>(size)
-        .case('small', t.btnIconSizeSmall)
-        .case('medium', t.btnIconSizeMedium)
-        .case('large', t.btnIconSizeLarge)
-        .default(t.btnIconSizeSmall)};
 
-      padding-right: ${f
-        .switch<boolean, string>(true)
-        .case(use === 'link', t.btnLinkIconMarginRight)
-        .case(size === 'small', t.btnIconGapSmall)
-        .case(size === 'medium', t.btnIconGapMedium)
-        .case(size === 'large', t.btnIconGapLarge)
-        .default(t.btnIconGapSmall)};
+      ${size === 'small' ? styles.iconSmall(p) : ``}
+      ${size === 'medium' ? styles.iconMedium(p) : ``}
+      ${size === 'large' ? styles.iconLarge(p) : ``}
+
+      ${
+        use === 'link'
+          ? `
+            padding-right: ${t.btnLinkIconMarginRight};
+          `
+          : ``
+      }
+    `;
+  },
+
+  iconSmall({ t }: ButtonStylesProps) {
+    return css`
+      width: ${t.btnIconSizeSmall};
+      padding-right: ${t.btnIconGapSmall};
+    `;
+  },
+
+  iconMedium({ t }: ButtonStylesProps) {
+    return css`
+      width: ${t.btnIconSizeMedium};
+      padding-right: ${t.btnIconGapMedium};
+    `;
+  },
+
+  iconLarge({ t }: ButtonStylesProps) {
+    return css`
+      width: ${t.btnIconSizeLarge};
+      padding-right: ${t.btnIconGapLarge};
     `;
   },
 
@@ -866,7 +896,16 @@ const styles = {
     `;
   },
 
-  loading() {
+  loading(p: ButtonStylesProps) {
+    const { size } = p;
+    return css`
+      ${size === 'small' ? styles.sizeSmallLoading(p) : ``}
+      ${size === 'medium' ? styles.sizeMediumLoading(p) : ``}
+      ${size === 'large' ? styles.sizeLargeLoading(p) : ``}
+    `;
+  },
+
+  loader() {
     const btn_loading = keyframes`
     0% {
       transform: translateX(0) rotateY(180deg);

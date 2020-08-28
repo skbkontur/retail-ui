@@ -198,7 +198,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let loading = null;
     if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+      loading = <div className={jsStyles.loader()} />;
     }
 
     let icon = this.props.icon;
