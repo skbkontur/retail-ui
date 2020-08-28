@@ -105,38 +105,41 @@ const styles = {
         width: 0;
       }
 
-      &:active {
-        ${styles.active(p)}
-      }
-      ${active ? styles.active(p) : ``}
+      ${use === 'link'
+        ? styles.link(p)
+        : css`
+          &:active {
+            ${styles.active(p)}
+          }
+          ${active ? styles.active(p) : ``}
 
-      ${use === 'default' ? styles.default(p) : ``}
-      ${use === 'primary' ? styles.primary(p) : ``}
-      ${use === 'success' ? styles.success(p) : ``}
-      ${use === 'danger' ? styles.danger(p) : ``}
-      ${use === 'pay' ? styles.pay(p) : ``}
-      ${use === 'link' ? styles.link(p) : ``}
+          ${use === 'default' ? styles.default(p) : ``}
+          ${use === 'primary' ? styles.primary(p) : ``}
+          ${use === 'success' ? styles.success(p) : ``}
+          ${use === 'danger' ? styles.danger(p) : ``}
+          ${use === 'pay' ? styles.pay(p) : ``}
 
-      ${size === 'small' ? styles.sizeSmall(p) : ``}
-      ${size === 'medium' ? styles.sizeMedium(p) : ``}
-      ${size === 'large' ? styles.sizeLarge(p) : ``}
+          ${size === 'small' ? styles.sizeSmall(p) : ``}
+          ${size === 'medium' ? styles.sizeMedium(p) : ``}
+          ${size === 'large' ? styles.sizeLarge(p) : ``}
 
-      ${size === 'small' && loading ? styles.sizeSmallLoading(p) : ``}
-      ${size === 'medium' && loading ? styles.sizeMediumLoading(p) : ``}
-      ${size === 'large' && loading ? styles.sizeLargeLoading(p) : ``}
+          ${size === 'small' && loading ? styles.sizeSmallLoading(p) : ``}
+          ${size === 'medium' && loading ? styles.sizeMediumLoading(p) : ``}
+          ${size === 'large' && loading ? styles.sizeLargeLoading(p) : ``}
 
-      ${error ? styles.error(p) : ``}
-      ${warning ? styles.warning(p) : ``}
+          ${error ? styles.error(p) : ``}
+          ${warning ? styles.warning(p) : ``}
 
-      ${borderless ? styles.borderless(p) : ``}
+          ${borderless ? styles.borderless(p) : ``}
 
-      ${focus ? styles.focus(p) : ``}
-      ${checked ? styles.checked(p) : ``}
-      ${disabled || (loading && use !== 'link') ? styles.disabled(p) : ``}
+          ${focus ? styles.focus(p) : ``}
+          ${checked ? styles.checked(p) : ``}
+          ${disabled || loading ? styles.disabled(p) : ``}
 
-      ${narrow ? styles.narrow(p) : ``}
-      ${noPadding ? styles.noPadding(p) : ``}
-      ${noRightPadding ? styles.noRightPadding(p) : ``}
+          ${narrow ? styles.narrow() : ``}
+          ${noPadding ? styles.noPadding() : ``}
+          ${noRightPadding ? styles.noRightPadding() : ``}
+        `}
     `;
   },
 
@@ -165,7 +168,7 @@ const styles = {
   },
 
   sizeSmall(p: ButtonStylesProps) {
-    const { t, arrow, use } = p;
+    const { t, arrow } = p;
     return css`
       border-radius: ${t.btnBorderRadiusSmall};
 
@@ -176,7 +179,6 @@ const styles = {
         t.btnLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
-        use === 'link',
       )};
 
       ${cssName(styles.arrow())} {
@@ -196,7 +198,7 @@ const styles = {
   },
 
   sizeMedium(p: ButtonStylesProps) {
-    const { t, arrow, use } = p;
+    const { t, arrow } = p;
     return css`
       border-radius: ${t.btnBorderRadiusMedium};
 
@@ -207,7 +209,6 @@ const styles = {
         t.btnLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
-        use === 'link',
       )};
 
       ${buttonArrowMixin(
@@ -223,7 +224,7 @@ const styles = {
   },
 
   sizeLarge(p: ButtonStylesProps) {
-    const { t, arrow, use } = p;
+    const { t, arrow } = p;
     return css`
       border-radius: ${t.btnBorderRadiusLarge};
 
@@ -234,7 +235,6 @@ const styles = {
         t.btnLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
-        use === 'link',
       )};
 
       ${buttonArrowMixin(
@@ -301,7 +301,7 @@ const styles = {
   },
 
   link(p: ButtonStylesProps) {
-    const { t, error } = p;
+    const { t, error, size, disabled, focus } = p;
     return css`
       background: none;
       border-radius: ${t.btnLinkBorderRadius};
@@ -333,30 +333,68 @@ const styles = {
         right: -2px;
         bottom: -2px;
 
-        ${error
-          ? `
+        ${
+          error
+            ? `
           background: ${t.btnErrorSecondary};
         `
-          : ``}
+            : ``
+        }
+      }
+
+      ${
+        size === 'small'
+          ? `
+          font-size: ${t.btnFontSizeSmall};
+        `
+          : ``
+      }
+
+      ${
+        size === 'medium'
+          ? `
+          font-size: ${t.btnFontSizeMedium};
+        `
+          : ``
+      }
+
+      ${
+        size === 'large'
+          ? `
+          font-size: ${t.btnFontSizeLarge};
+        `
+          : ``
+      }
+
+      ${
+        focus
+          ? `
+        color: ${t.btnLinkColor};
+        text-decoration: ${t.btnLinkHoverTextDecoration};
+      `
+          : ``
+      }
+
+      ${
+        disabled
+          ? `
+        cursor: default;
+        pointer-events: none;
+        color: ${t.btnLinkDisabledColor};
+      `
+          : ``
       }
     `;
   },
 
   focus(p: ButtonStylesProps) {
-    const { t, use, disabled, error, warning } = p;
+    const { t, disabled, error, warning } = p;
     return css`
       border-color: transparent;
       position: relative;
       z-index: 2;
 
-      ${use === 'link'
-        ? `
-          color: ${t.btnLinkColor};
-          text-decoration: ${t.btnLinkHoverTextDecoration};
-        `
-        : ``}
-
-      ${use !== 'link' && !disabled
+      ${!disabled
         ? `
           border: ${t.btnFocusBorder};
 
@@ -403,41 +441,24 @@ const styles = {
   },
 
   disabled(p: ButtonStylesProps) {
-    const { t, use } = p;
+    const { t } = p;
     return css`
       cursor: default;
       pointer-events: none;
       border-color: transparent;
+      background: ${t.btnDisabledBg};
+      color: ${t.btnDisabledTextColor};
+      box-shadow: ${t.btnDisabledShadow};
 
-      ${
-        isIE11 || isEdge
-          ? `
+      ${isIE11 || isEdge
+        ? `
         outline-color: transparent;
       `
-          : ``
-      }
+        : ``}
 
-      ${
-        use !== 'link'
-          ? `
+      ${cssName(styles.arrow())} {
         background: ${t.btnDisabledBg};
-        color: ${t.btnDisabledTextColor};
-        box-shadow: ${t.btnDisabledShadow};
-
-        ${cssName(styles.arrow())} {
-          background: ${t.btnDisabledBg};
-          box-shadow: ${t.btnDisabledShadowArrow};
-        }
-      `
-          : ``
-      }
-
-      ${
-        use === 'link'
-          ? `
-          color: ${t.btnLinkDisabledColor};
-        `
-          : ``
+        box-shadow: ${t.btnDisabledShadowArrow};
       }
 
       ${cssName(styles.caption())} {
@@ -701,7 +722,7 @@ const styles = {
   },
 
   checked(p: ButtonStylesProps) {
-    const { t, use, disabled, arrow } = p;
+    const { t, disabled, arrow } = p;
     return css`
       &,
       &:hover,
@@ -711,7 +732,7 @@ const styles = {
         color: ${t.btnCheckedTextColor};
         border: ${t.btnDefaultCheckedBorder};
 
-        ${use !== 'link' && !disabled
+        ${!disabled
           ? `
           ${cssName(styles.caption())} {
             transform: translateY(1px);
@@ -733,9 +754,9 @@ const styles = {
     `;
   },
 
-  active({ use, disabled }: ButtonStylesProps) {
+  active({ disabled }: ButtonStylesProps) {
     return css`
-      ${use !== 'link' && !disabled
+      ${!disabled
         ? `
         ${cssName(styles.caption())} {
           transform: translateY(1px);
@@ -785,35 +806,23 @@ const styles = {
     `;
   },
 
-  narrow({ use }: ButtonStylesProps) {
+  narrow() {
     return css`
-      ${use !== 'link'
-        ? `
-          padding-left: 5px;
-          padding-right: 5px;
-        `
-        : ``}
+      padding-left: 5px;
+      padding-right: 5px;
     `;
   },
 
-  noPadding({ use }: ButtonStylesProps) {
+  noPadding() {
     return css`
-      ${use !== 'link'
-        ? `
-          padding-left: 0;
-          padding-right: 0;
-        `
-        : ``}
+      padding-left: 0;
+      padding-right: 0;
     `;
   },
 
-  noRightPadding({ use }: ButtonStylesProps) {
+  noRightPadding() {
     return css`
-      ${use !== 'link'
-        ? `
-          padding-right: 0;
-        `
-        : ``}
+      padding-right: 0;
     `;
   },
 

@@ -158,26 +158,18 @@ export const buttonSizeMixin = (
   lineHeight: string,
   paddingX: string,
   paddingY: string,
-  isLink: boolean,
 ) => {
   return css`
     font-size: ${fontSize};
+    box-sizing: border-box;
+    height: ${shift(height, heightShift)};
+    padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
+    line-height: ${lineHeight};
 
-    ${!isLink
+    ${isIE11 || isEdge
       ? `
-      box-sizing: border-box;
-      height: ${shift(height, heightShift)};
-      padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
-      line-height: ${lineHeight};
-
-      ${
-        isIE11 || isEdge
-          ? `
-        padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
-        line-height: normal;
-      `
-          : ``
-      }
+      padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
+      line-height: normal;
     `
       : ``}
   `;
