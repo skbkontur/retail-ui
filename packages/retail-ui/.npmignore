@@ -17,3 +17,4 @@ __mocks__
 !/lib/**/*.d.ts
 !/testing/**/*.d.ts
 !/typings/**/*.d.ts
+.babelrc
