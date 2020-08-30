@@ -33,7 +33,6 @@ export interface ButtonStylesProps extends ButtonProps {
 const styles = {
   root(t: Theme, p: ButtonStylesProps) {
     const {
-      active,
       use,
       size,
       error,
