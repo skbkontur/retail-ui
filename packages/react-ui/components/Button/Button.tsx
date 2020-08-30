@@ -165,7 +165,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
-      className: jsStyles.root(stylesProps),
+      className: jsStyles.root(this.theme, stylesProps),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
         borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
@@ -185,7 +185,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: jsStyles.wrap(stylesProps),
+      className: jsStyles.wrap(this.theme, stylesProps),
       style: {
         width: this.props.width,
       },
@@ -193,7 +193,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let outline = null;
     if (isError || isWarning) {
-      outline = <div className={jsStyles.outline(stylesProps)} />;
+      outline = <div className={jsStyles.outline(this.theme, stylesProps)} />;
     }
 
     let loading = null;
@@ -203,12 +203,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={jsStyles.icon(stylesProps)}>{this.props.icon}</span>;
+      icon = <span className={jsStyles.icon(this.theme, stylesProps)}>{this.props.icon}</span>;
     }
 
     let arrow = null;
     if (this.props.arrow) {
-      arrow = <div className={jsStyles.arrow()} />;
+      arrow = <div className={jsStyles.arrow(this.theme, stylesProps)} />;
     }
 
     // Force disable all props and features, that cannot be use with Link
@@ -224,7 +224,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           {outline}
           {loading}
           {arrow}
-          <div className={jsStyles.caption()}>
+          <div className={jsStyles.caption(this.theme, stylesProps)}>
             {icon}
             {this.props.children}
           </div>
@@ -234,39 +234,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getStylesProps(): ButtonStylesProps {
-    const {
-      size = 'small',
-      use = 'default',
-      active = false,
-      disabled = false,
-      loading = false,
-      checked = false,
-      narrow = false,
-      _noPadding: noPadding = false,
-      _noRightPadding: noRightPadding = false,
-      borderless = false,
-      error = false,
-      warning = false,
-      arrow = false,
-      visuallyFocused = false,
-    } = this.props;
-    const { focusedByTab } = this.state;
     return {
-      t: this.theme,
-      focus: visuallyFocused || focusedByTab,
-      size,
-      use,
-      active,
-      disabled,
-      loading,
-      checked,
-      narrow,
-      noPadding,
-      noRightPadding,
-      borderless,
-      error,
-      warning,
-      arrow,
+      ...this.props,
+      focus: this.props.visuallyFocused || this.state.focusedByTab,
     };
   }
 

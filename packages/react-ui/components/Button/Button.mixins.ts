@@ -108,14 +108,20 @@ export const buttonHoverMixin = (
   `;
 };
 
+export const buttonActiveCaptionMixin = () => {
+  return css`
+    transform: translateY(1px);
+  `;
+};
+
 export const buttonActiveMixin = (
+  isActive: boolean,
   btnBackground: string,
   arrowBackground: string,
   arrowLeftBackground: string,
   btnShadow: string,
   arrowShadow: string,
   arrowLeftShadow: string,
-  isActive: boolean,
   selectorArrow: string,
   isLeftArrow: boolean,
 ) => {
@@ -151,6 +157,19 @@ export const buttonActiveMixin = (
   `;
 };
 
+export const buttonIconSizeMixin = (size: string, gap: string) => {
+  return css`
+    width: ${size};
+    padding-right: ${gap};
+  `;
+};
+
+export const buttonLinkSizeMixin = (fontSize: string) => {
+  return css`
+    font-size: ${fontSize};
+  `;
+};
+
 export const buttonSizeMixin = (
   fontSize: string,
   height: string, // todo: remove, in IE broke screenshots without height
@@ -158,6 +177,7 @@ export const buttonSizeMixin = (
   lineHeight: string,
   paddingX: string,
   paddingY: string,
+  borderRadius: string,
 ) => {
   return css`
     font-size: ${fontSize};
@@ -165,17 +185,18 @@ export const buttonSizeMixin = (
     height: ${shift(height, heightShift)};
     padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
     line-height: ${lineHeight};
+    border-radius: ${borderRadius};
 
     ${isIE11 || isEdge
       ? `
-      padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
-      line-height: normal;
-    `
+        padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
+        line-height: normal;
+      `
       : ``}
   `;
 };
 
-export const buttonArrowMixin = (
+export const buttonArrowSizeMixin = (
   top: string,
   left: string,
   right: string,

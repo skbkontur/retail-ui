@@ -7,42 +7,14 @@ import {
   buttonUseMixin,
   buttonHoverMixin,
   buttonActiveMixin,
+  buttonActiveCaptionMixin,
   buttonSizeMixin,
-  buttonArrowMixin,
+  buttonLinkSizeMixin,
+  buttonArrowSizeMixin,
+  buttonIconSizeMixin,
   buttonLoadingArrowMixin,
 } from './Button.mixins';
 import { ButtonProps } from './Button';
-
-// export const f = {
-//   if<R extends {}>(condition: boolean /*, thenStatement?: R, elseStatement?: R*/) {
-//     // if (thenStatement !== undefined) {
-//     //   return condition ? thenStatement : elseStatement;
-//     // }
-//     return {
-//       then(thenResult: R) {
-//         return {
-//           else(elseResult: R) {
-//             return condition ? thenResult : elseResult;
-//           },
-//         };
-//       },
-//     };
-//   },
-//   switch<C, R>(arg: C) {
-//     let matched: R | undefined = undefined;
-//     return {
-//       case(value: C, result: R) {
-//         if (matched === undefined && arg === value) {
-//           matched = result;
-//         }
-//         return this;
-//       },
-//       default(result: R) {
-//         return matched || result;
-//       },
-//     };
-//   },
-// };
 
 const btn_loading_arrow = keyframes`
 0% {
@@ -54,26 +26,12 @@ const btn_loading_arrow = keyframes`
 }
 `;
 
-export interface ButtonStylesProps {
-  t: Theme;
-  size: NonNullable<ButtonProps['size']>;
-  use: NonNullable<ButtonProps['use']>;
+export interface ButtonStylesProps extends ButtonProps {
   focus: boolean;
-  active: boolean;
-  disabled: boolean;
-  loading: boolean;
-  checked: boolean;
-  narrow: boolean;
-  noPadding: boolean;
-  noRightPadding: boolean;
-  borderless: boolean;
-  error: boolean;
-  warning: boolean;
-  arrow: NonNullable<ButtonProps['arrow']>;
 }
 
 const styles = {
-  root(p: ButtonStylesProps) {
+  root(t: Theme, p: ButtonStylesProps) {
     const {
       active,
       use,
@@ -86,8 +44,8 @@ const styles = {
       disabled,
       loading,
       narrow,
-      noPadding,
-      noRightPadding,
+      _noPadding,
+      _noRightPadding,
     } = p;
     return css`
       ${resetButton()};
@@ -114,151 +72,184 @@ const styles = {
         width: 0;
       }
 
-      ${use === 'link'
-        ? css`
-            ${styles.link(p)}
-          `
-        : css`
-            ${use === 'default' ? styles.default(p) : ``}
-            ${use === 'primary' ? styles.primary(p) : ``}
-            ${use === 'success' ? styles.success(p) : ``}
-            ${use === 'danger' ? styles.danger(p) : ``}
-            ${use === 'pay' ? styles.pay(p) : ``}
+      ${size === 'small' ? styles.sizeSmall(t, p) : ``}
+      ${size === 'medium' ? styles.sizeMedium(t, p) : ``}
+      ${size === 'large' ? styles.sizeLarge(t, p) : ``}
 
-            ${size === 'small' ? styles.sizeSmall(p) : ``}
-            ${size === 'medium' ? styles.sizeMedium(p) : ``}
-            ${size === 'large' ? styles.sizeLarge(p) : ``}
+      ${
+        use === 'link'
+          ? css`
+              ${styles.link(t, p)}
+            `
+          : css`
+            ${use === 'default' ? styles.default(t, p) : ``}
+            ${use === 'primary' ? styles.primary(t, p) : ``}
+            ${use === 'success' ? styles.success(t, p) : ``}
+            ${use === 'danger' ? styles.danger(t, p) : ``}
+            ${use === 'pay' ? styles.pay(t, p) : ``}
 
-            ${error ? styles.error(p) : ``}
-            ${warning ? styles.warning(p) : ``}
+            ${error ? styles.error(t, p) : ``}
+            ${warning ? styles.warning(t, p) : ``}
 
-            ${borderless ? styles.borderless(p) : ``}
+            ${borderless ? styles.borderless(t, p) : ``}
 
-            ${focus ? styles.focus(p) : ``}
-            ${checked ? styles.checked(p) : ``}
-            ${disabled || loading ? styles.disabled(p) : ``}
-            ${loading ? styles.loading(p) : ``}
+            ${focus ? styles.focus(t, p) : ``}
+            ${checked ? styles.checked(t, p) : ``}
+            ${disabled || loading ? styles.disabled(t, p) : ``}
+            ${loading ? styles.loading(t, p) : ``}
 
             ${narrow ? styles.narrow() : ``}
-            ${noPadding ? styles.noPadding() : ``}
-            ${noRightPadding ? styles.noRightPadding() : ``}
+            ${_noPadding ? styles.noPadding() : ``}
+            ${_noRightPadding ? styles.noRightPadding() : ``}
 
             &:active {
-              ${styles.active(p)}
+              ${buttonActiveCaptionMixin()}
             }
-            ${active ? styles.active(p) : ``}
-          `}
+          `
+      }
     `;
   },
 
-  outline(p: ButtonStylesProps) {
-    const { t, error, warning } = p;
+  outline(t: Theme, p: ButtonStylesProps) {
+    const { use, error, warning } = p;
     return css`
       border-radius: inherit;
       position: absolute;
       top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
 
-      ${error
+      ${use === 'link'
         ? `
-          box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
-        `
-        : ``}
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
 
-      ${warning
+            ${
+              error
+                ? `
+                  background: ${t.btnErrorSecondary};
+                `
+                : ``
+            }
+          `
+        : `
+          bottom: 0;
+          left: 0;
+          right: 0;
+
+          ${
+            error
+              ? `
+                box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
+              `
+              : ``
+          }
+
+          ${
+            warning
+              ? `
+                box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
+              `
+              : ``
+          }
+        `}
+    `;
+  },
+
+  sizeSmall(t: Theme, p: ButtonStylesProps) {
+    const { use, arrow } = p;
+    return css`
+      ${use === 'link'
         ? `
-          box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
+          ${buttonLinkSizeMixin(t.btnFontSizeSmall)};
         `
-        : ``}
+        : `
+          ${buttonSizeMixin(
+            t.btnFontSizeSmall,
+            t.btnHeightSmall,
+            t.btnHeightShift,
+            t.btnLineHeightSmall,
+            t.btnPaddingXSmall,
+            t.btnPaddingYSmall,
+            t.btnBorderRadiusSmall,
+          )};
+
+          ${buttonArrowSizeMixin(
+            t.btnSmallArrowTop,
+            t.btnSmallArrowLeft,
+            t.btnSmallArrowRight,
+            t.btnSmallArrowLength,
+            'rotate(53deg) skewX(24deg) skewY(10deg)',
+            cssName(styles.arrow(t, p)),
+            arrow === 'left',
+          )};
+      `}
     `;
   },
 
-  sizeSmall(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+  sizeMedium(t: Theme, p: ButtonStylesProps) {
+    const { use, arrow } = p;
     return css`
-      border-radius: ${t.btnBorderRadiusSmall};
+      ${use === 'link'
+        ? `
+          ${buttonLinkSizeMixin(t.btnFontSizeMedium)};
+        `
+        : `
+          ${buttonSizeMixin(
+            t.btnFontSizeMedium,
+            t.btnHeightMedium,
+            t.btnHeightShift,
+            t.btnLineHeightMedium,
+            t.btnPaddingXMedium,
+            t.btnPaddingYMedium,
+            t.btnBorderRadiusMedium,
+          )};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeSmall,
-        t.btnHeightSmall,
-        t.btnHeightShift,
-        t.btnLineHeightSmall,
-        t.btnPaddingXSmall,
-        t.btnPaddingYSmall,
-      )};
-
-      ${cssName(styles.arrow())} {
-        border-radius: ${t.btnSmallArrowBorderRadius};
-      }
-
-      ${buttonArrowMixin(
-        t.btnSmallArrowTop,
-        t.btnSmallArrowLeft,
-        t.btnSmallArrowRight,
-        t.btnSmallArrowLength,
-        'rotate(53deg) skewX(24deg) skewY(10deg)',
-        cssName(styles.arrow()),
-        arrow === 'left',
-      )};
+          ${buttonArrowSizeMixin(
+            t.btnMediumArrowTop,
+            t.btnMediumArrowLeft,
+            t.btnMediumArrowRight,
+            t.btnMediumArrowLength,
+            t.btnMediumArrowTransform,
+            cssName(styles.arrow(t, p)),
+            arrow === 'left',
+          )};
+        `}
     `;
   },
 
-  sizeMedium(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+  sizeLarge(t: Theme, p: ButtonStylesProps) {
+    const { use, arrow } = p;
     return css`
-      border-radius: ${t.btnBorderRadiusMedium};
+      ${use === 'link'
+        ? `
+          ${buttonLinkSizeMixin(t.btnFontSizeLarge)};
+        `
+        : `
+          ${buttonSizeMixin(
+            t.btnFontSizeLarge,
+            t.btnHeightLarge,
+            t.btnHeightShift,
+            t.btnLineHeightLarge,
+            t.btnPaddingXLarge,
+            t.btnPaddingYLarge,
+            t.btnBorderRadiusLarge,
+          )};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeMedium,
-        t.btnHeightMedium,
-        t.btnHeightShift,
-        t.btnLineHeightMedium,
-        t.btnPaddingXMedium,
-        t.btnPaddingYMedium,
-      )};
-
-      ${buttonArrowMixin(
-        t.btnMediumArrowTop,
-        t.btnMediumArrowLeft,
-        t.btnMediumArrowRight,
-        t.btnMediumArrowLength,
-        t.btnMediumArrowTransform,
-        cssName(styles.arrow()),
-        arrow === 'left',
-      )};
+          ${buttonArrowSizeMixin(
+            t.btnLargeArrowTop,
+            t.btnLargeArrowLeft,
+            t.btnLargeArrowRight,
+            t.btnLargeArrowLength,
+            t.btnLargeArrowTransform,
+            cssName(styles.arrow(t, p)),
+            arrow === 'left',
+          )};
+      `}
     `;
   },
 
-  sizeLarge(p: ButtonStylesProps) {
-    const { t, arrow } = p;
-    return css`
-      border-radius: ${t.btnBorderRadiusLarge};
-
-      ${buttonSizeMixin(
-        t.btnFontSizeLarge,
-        t.btnHeightLarge,
-        t.btnHeightShift,
-        t.btnLineHeightLarge,
-        t.btnPaddingXLarge,
-        t.btnPaddingYLarge,
-      )};
-
-      ${buttonArrowMixin(
-        t.btnLargeArrowTop,
-        t.btnLargeArrowLeft,
-        t.btnLargeArrowRight,
-        t.btnLargeArrowLength,
-        t.btnLargeArrowTransform,
-        cssName(styles.arrow()),
-        arrow === 'left',
-      )};
-    `;
-  },
-
-  sizeSmallLoading(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+  sizeSmallLoading(t: Theme, p: ButtonStylesProps) {
+    const { arrow } = p;
     return css`
       ${buttonLoadingArrowMixin(
         t.btnSmallArrowTop,
@@ -268,14 +259,14 @@ const styles = {
         t.btnSmallArrowBg,
         t.btnSmallArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )}
     `;
   },
 
-  sizeMediumLoading(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+  sizeMediumLoading(t: Theme, p: ButtonStylesProps) {
+    const { arrow } = p;
     return css`
       ${buttonLoadingArrowMixin(
         '0',
@@ -285,14 +276,14 @@ const styles = {
         t.btnMediumArrowBg,
         t.btnMediumArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
     `;
   },
 
-  sizeLargeLoading(p: ButtonStylesProps) {
-    const { t, arrow } = p;
+  sizeLargeLoading(t: Theme, p: ButtonStylesProps) {
+    const { arrow } = p;
     return css`
       ${buttonLoadingArrowMixin(
         '-32px',
@@ -302,14 +293,14 @@ const styles = {
         t.btnLargeArrowBg,
         t.btnLargeArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
     `;
   },
 
-  link(p: ButtonStylesProps) {
-    const { t, error, size, disabled, focus } = p;
+  link(t: Theme, p: ButtonStylesProps) {
+    const { disabled, focus } = p;
     return css`
       background: none;
       border-radius: ${t.btnLinkBorderRadius};
@@ -321,10 +312,6 @@ const styles = {
       margin: 0;
       padding: 0;
 
-      ${size === 'small' ? styles.linkSmall(p) : ``}
-      ${size === 'medium' ? styles.linkMedium(p) : ``}
-      ${size === 'large' ? styles.linkLarge(p) : ``}
-
       &:hover {
         color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
@@ -332,69 +319,30 @@ const styles = {
       &:active {
         color: ${t.linkActiveColor};
 
-        ${cssName(styles.caption())} {
+        ${cssName(styles.caption(t, p))} {
           transform: none;
         }
       }
-      ${cssName(styles.caption())} {
-        display: inline;
-      }
-      ${cssName(styles.outline(p))} {
-        box-shadow: none;
-        left: -2px;
-        right: -2px;
-        bottom: -2px;
 
-        ${
-          error
-            ? `
-              background: ${t.btnErrorSecondary};
-            `
-            : ``
-        }
-      }
-
-      ${
-        focus
-          ? `
+      ${focus
+        ? `
           color: ${t.btnLinkColor};
           text-decoration: ${t.btnLinkHoverTextDecoration};
         `
-          : ``
-      }
+        : ``}
 
-      ${
-        disabled
-          ? `
+      ${disabled
+        ? `
           cursor: default;
           pointer-events: none;
           color: ${t.btnLinkDisabledColor};
         `
-          : ``
-      };
+        : ``};
     `;
   },
 
-  linkSmall({ t }: ButtonStylesProps) {
-    return css`
-      font-size: ${t.btnFontSizeSmall};
-    `;
-  },
-
-  linkMedium({ t }: ButtonStylesProps) {
-    return css`
-      font-size: ${t.btnFontSizeMedium};
-    `;
-  },
-
-  linkLarge({ t }: ButtonStylesProps) {
-    return css`
-      font-size: ${t.btnFontSizeLarge};
-    `;
-  },
-
-  focus(p: ButtonStylesProps) {
-    const { t, disabled, error, warning } = p;
+  focus(t: Theme, p: ButtonStylesProps) {
+    const { disabled, error, warning } = p;
     return css`
       border-color: transparent;
       position: relative;
@@ -419,7 +367,7 @@ const styles = {
                 : ''
             }
 
-            ${cssName(styles.arrow())} {
+            ${cssName(styles.arrow(t, p))} {
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
                 ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorFocus};
 
@@ -446,8 +394,7 @@ const styles = {
     `;
   },
 
-  disabled(p: ButtonStylesProps) {
-    const { t } = p;
+  disabled(t: Theme, p: ButtonStylesProps) {
     return css`
       cursor: default;
       pointer-events: none;
@@ -462,43 +409,39 @@ const styles = {
         `
         : ``}
 
-      ${cssName(styles.arrow())} {
+      ${cssName(styles.arrow(t, p))} {
         background: ${t.btnDisabledBg};
         box-shadow: ${t.btnDisabledShadowArrow};
-      }
-
-      ${cssName(styles.caption())} {
-        transform: none;
       }
     `;
   },
 
-  error({ t }: ButtonStylesProps) {
+  error(t: Theme, p: ButtonStylesProps) {
     return css`
       &,
       &:hover,
       &:active {
-        ${cssName(styles.arrow())} {
+        ${cssName(styles.arrow(t, p))} {
           box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
         }
       }
     `;
   },
 
-  warning({ t }: ButtonStylesProps) {
+  warning(t: Theme, p: ButtonStylesProps) {
     return css`
       &,
       &:hover,
       &:active {
-        ${cssName(styles.arrow())} {
+        ${cssName(styles.arrow(t, p))} {
           box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};
         }
       }
     `;
   },
 
-  default(p: ButtonStylesProps) {
-    const { t, arrow, active } = p;
+  default(t: Theme, p: ButtonStylesProps) {
+    const { arrow, active } = p;
     return css`
       ${buttonUseMixin(
         t.btnDefaultBg,
@@ -511,7 +454,7 @@ const styles = {
         t.btnDefaultShadowArrowLeft,
         t.btnDefaultTextColor,
         t.btnDefaultBorder,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
@@ -525,26 +468,26 @@ const styles = {
         t.btnDefaultHoverShadowArrow,
         t.btnDefaultHoverShadowArrowLeft,
         t.btnDefaultHoverBorderColor,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
       ${buttonActiveMixin(
+        !!active,
         t.btnDefaultActiveBg,
         t.btnDefaultActiveBg,
         t.btnDefaultActiveBg,
         t.btnDefaultActiveShadow,
         t.btnDefaultActiveShadowArrow,
         t.btnDefaultActiveShadowArrowLeft,
-        active,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
     `;
   },
 
-  primary(p: ButtonStylesProps) {
-    const { t, arrow, active } = p;
+  primary(t: Theme, p: ButtonStylesProps) {
+    const { arrow, active } = p;
     return css`
       ${buttonUseMixin(
         t.btnPrimaryBg,
@@ -557,7 +500,7 @@ const styles = {
         t.btnPrimaryShadowArrowLeft,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorder,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
@@ -571,26 +514,26 @@ const styles = {
         t.btnPrimaryHoverShadowArrow,
         t.btnPrimaryHoverShadowArrowLeft,
         t.btnPrimaryHoverBorderColor,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
       ${buttonActiveMixin(
+        !!active,
         t.btnPrimaryActiveBg,
         t.btnPrimaryActiveBg,
         t.btnPrimaryActiveBg,
         t.btnPrimaryActiveShadow,
         t.btnPrimaryActiveShadowArrow,
         t.btnPrimaryActiveShadowArrowLeft,
-        active,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
     `;
   },
 
-  success(p: ButtonStylesProps) {
-    const { t, arrow, active } = p;
+  success(t: Theme, p: ButtonStylesProps) {
+    const { arrow, active } = p;
     return css`
       ${buttonUseMixin(
         t.btnSuccessBg,
@@ -603,7 +546,7 @@ const styles = {
         t.btnSuccessShadowArrowLeft,
         t.btnSuccessTextColor,
         t.btnSuccessBorder,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
@@ -617,26 +560,26 @@ const styles = {
         t.btnSuccessHoverShadowArrow,
         t.btnSuccessHoverShadowArrowLeft,
         t.btnSuccessHoverBorderColor,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
       ${buttonActiveMixin(
+        !!active,
         t.btnSuccessActiveBg,
         t.btnSuccessActiveBg,
         t.btnSuccessActiveBg,
         t.btnSuccessActiveShadow,
         t.btnSuccessActiveShadowArrow,
         t.btnSuccessActiveShadowArrowLeft,
-        active,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
     `;
   },
 
-  danger(p: ButtonStylesProps) {
-    const { t, arrow, active } = p;
+  danger(t: Theme, p: ButtonStylesProps) {
+    const { arrow, active } = p;
     return css`
       ${buttonUseMixin(
         t.btnDangerBg,
@@ -649,7 +592,7 @@ const styles = {
         t.btnDangerShadowArrowLeft,
         t.btnDangerTextColor,
         t.btnDangerBorder,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
@@ -663,26 +606,26 @@ const styles = {
         t.btnDangerHoverShadowArrow,
         t.btnDangerHoverShadowArrowLeft,
         t.btnDangerHoverBorderColor,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
       ${buttonActiveMixin(
+        !!active,
         t.btnDangerActiveBg,
         t.btnDangerActiveBg,
         t.btnDangerActiveBg,
         t.btnDangerActiveShadow,
         t.btnDangerActiveShadowArrow,
         t.btnDangerActiveShadowArrowLeft,
-        active,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
     `;
   },
 
-  pay(p: ButtonStylesProps) {
-    const { t, arrow, active } = p;
+  pay(t: Theme, p: ButtonStylesProps) {
+    const { arrow, active } = p;
     return css`
       ${buttonUseMixin(
         t.btnPayBg,
@@ -695,7 +638,7 @@ const styles = {
         t.btnPayShadowArrowLeft,
         t.btnPayTextColor,
         t.btnPayBorder,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
@@ -709,26 +652,26 @@ const styles = {
         t.btnPayHoverShadowArrow,
         t.btnPayHoverShadowArrowLeft,
         t.btnPayHoverBorderColor,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
 
       ${buttonActiveMixin(
+        !!active,
         t.btnPayActiveBg,
         t.btnPayActiveBg,
         t.btnPayActiveBg,
         t.btnPayActiveShadow,
         t.btnPayActiveShadowArrow,
         t.btnPayActiveShadowArrowLeft,
-        active,
-        cssName(styles.arrow()),
+        cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
     `;
   },
 
-  checked(p: ButtonStylesProps) {
-    const { t, disabled, arrow } = p;
+  checked(t: Theme, p: ButtonStylesProps) {
+    const { arrow } = p;
     return css`
       &,
       &:hover,
@@ -738,15 +681,7 @@ const styles = {
         color: ${t.btnCheckedTextColor};
         border: ${t.btnDefaultCheckedBorder};
 
-        ${!disabled
-          ? `
-            ${cssName(styles.caption())} {
-              transform: translateY(1px);
-            }
-          `
-          : ``}
-
-        ${cssName(styles.arrow())} {
+        ${cssName(styles.arrow(t, p))} {
           background: ${t.btnCheckedBg};
           box-shadow: ${t.btnCheckedShadowArrow};
 
@@ -760,30 +695,32 @@ const styles = {
     `;
   },
 
-  active({ disabled }: ButtonStylesProps) {
+  caption(t: Theme, p: ButtonStylesProps) {
+    const { use, active, checked, disabled } = p;
     return css`
-      ${!disabled
+      position: relative;
+      white-space: nowrap;
+      width: 100%;
+      vertical-align: top;
+
+      ${use === 'link'
         ? `
-          ${cssName(styles.caption())} {
-            transform: translateY(1px);
-          }
+          display: inline;
+        `
+        : `
+          display: inline-block;
+        `}
+
+      ${(active || checked) && !(use === 'link' || disabled)
+        ? `
+          ${buttonActiveCaptionMixin()}
         `
         : ``}
     `;
   },
 
-  caption() {
-    return css`
-      position: relative;
-      white-space: nowrap;
-      display: inline-block;
-      width: 100%;
-      vertical-align: top;
-    `;
-  },
-
-  wrap(p: ButtonStylesProps) {
-    const { t, arrow, use } = p;
+  wrap(t: Theme, p: ButtonStylesProps) {
+    const { arrow, use } = p;
     return css`
       box-sizing: border-box;
       display: inline-block;
@@ -833,23 +770,23 @@ const styles = {
     `;
   },
 
-  arrow() {
+  arrow(t: Theme, p: ButtonStylesProps) {
     return css`
       position: absolute;
-      border-radius: 2px 2px 2px 16px;
+      border-radius: ${t.btnSmallArrowBorderRadius};
       box-sizing: border-box;
       z-index: 1;
     `;
   },
 
-  icon(p: ButtonStylesProps) {
-    const { t, use, size } = p;
+  icon(t: Theme, p: ButtonStylesProps) {
+    const { use, size } = p;
     return css`
       display: inline-block;
 
-      ${size === 'small' ? styles.iconSmall(p) : ``}
-      ${size === 'medium' ? styles.iconMedium(p) : ``}
-      ${size === 'large' ? styles.iconLarge(p) : ``}
+      ${size === 'small' ? styles.iconSmall(t, p) : ``}
+      ${size === 'medium' ? styles.iconMedium(t, p) : ``}
+      ${size === 'large' ? styles.iconLarge(t, p) : ``}
 
       ${
         use === 'link'
@@ -861,28 +798,26 @@ const styles = {
     `;
   },
 
-  iconSmall({ t }: ButtonStylesProps) {
+  iconSmall(t: Theme, p: ButtonStylesProps) {
     return css`
-      width: ${t.btnIconSizeSmall};
-      padding-right: ${t.btnIconGapSmall};
+      ${buttonIconSizeMixin(t.btnIconSizeSmall, t.btnIconGapSmall)}
     `;
   },
 
-  iconMedium({ t }: ButtonStylesProps) {
+  iconMedium(t: Theme, p: ButtonStylesProps) {
     return css`
-      width: ${t.btnIconSizeMedium};
-      padding-right: ${t.btnIconGapMedium};
+      ${buttonIconSizeMixin(t.btnIconSizeMedium, t.btnIconGapMedium)}
     `;
   },
 
-  iconLarge({ t }: ButtonStylesProps) {
+  iconLarge(t: Theme, p: ButtonStylesProps) {
     return css`
-      width: ${t.btnIconSizeLarge};
-      padding-right: ${t.btnIconGapLarge};
+      ${buttonIconSizeMixin(t.btnIconSizeLarge, t.btnIconGapLarge)}
     `;
   },
 
-  borderless({ focus, disabled, loading, checked, active }: ButtonStylesProps) {
+  borderless(t: Theme, p: ButtonStylesProps) {
+    const { focus, disabled, loading, checked, active } = p;
     return css`
       ${!focus && !disabled && !loading && !checked && !active
         ? `
@@ -896,12 +831,12 @@ const styles = {
     `;
   },
 
-  loading(p: ButtonStylesProps) {
+  loading(t: Theme, p: ButtonStylesProps) {
     const { size } = p;
     return css`
-      ${size === 'small' ? styles.sizeSmallLoading(p) : ``}
-      ${size === 'medium' ? styles.sizeMediumLoading(p) : ``}
-      ${size === 'large' ? styles.sizeLargeLoading(p) : ``}
+      ${size === 'small' ? styles.sizeSmallLoading(t, p) : ``}
+      ${size === 'medium' ? styles.sizeMediumLoading(t, p) : ``}
+      ${size === 'large' ? styles.sizeLargeLoading(t, p) : ``}
     `;
   },
 
