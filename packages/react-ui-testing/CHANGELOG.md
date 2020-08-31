@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.1...react-ui-testing@3.1.2) (2020-08-31)
+
+
+### Bug Fixes
+
+* **ComboBox, SeleniumTesting:** fix combobox methods stability ([44ca706](https://github.com/skbkontur/retail-ui/commit/44ca706231ef1ca8f1487eba5e2a59751ef94790))
+
+
+
+
+
 ## [3.1.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.0...react-ui-testing@3.1.1) (2020-08-07)
 
 

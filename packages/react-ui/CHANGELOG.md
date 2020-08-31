@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.1...@skbkontur/react-ui@2.4.2) (2020-08-31)
+
+
+### Bug Fixes
+
+* **Link, Button:** use hover styles from theme ([e23b3e1](https://github.com/skbkontur/retail-ui/commit/e23b3e186890a5b02072a142c54eab0df3b743df)), closes [#2072](https://github.com/skbkontur/retail-ui/issues/2072)
+* **Loader:** обновление позиции лоадера при переключении active на true ([acb5bbe](https://github.com/skbkontur/retail-ui/commit/acb5bbe31a9d2d1132d88862a6be94bb8ef227c1)), closes [#2092](https://github.com/skbkontur/retail-ui/issues/2092)
+* **MenuItem:** pass state into custom component ([073f1fa](https://github.com/skbkontur/retail-ui/commit/073f1fa6e542e06cc4f830e418118ace8cb4648f))
+
+
+
+
+
 ## [2.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.0...@skbkontur/react-ui@2.4.1) (2020-08-07)
 
 
