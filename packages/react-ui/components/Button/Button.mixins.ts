@@ -1,4 +1,3 @@
-import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { isIE11, isEdge } from '../../lib/utils';
 
@@ -34,17 +33,20 @@ export const buttonUseMixin = (
   selectorArrow: string,
   isLeftArrow: boolean,
 ) => {
-  return css`
-    background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
-      ? btnBackground
-      : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
+  return `
+    background: ${
+      btnBackgroundStart === btnBackgroundEnd && btnBackground
+        ? btnBackground
+        : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`
+    };
     color: ${color};
     box-shadow: ${shadow};
     border: ${border};
 
     ${selectorArrow} {
-      ${isLeftArrow
-        ? `
+      ${
+        isLeftArrow
+          ? `
         background: ${
           arrowBackgroundStart === arrowBackgroundEnd
             ? arrowBackgroundStart
@@ -52,14 +54,15 @@ export const buttonUseMixin = (
         };
         box-shadow: ${shadowArrowLeft};
       `
-        : `
+          : `
         background: ${
           arrowBackgroundStart === arrowBackgroundEnd
             ? arrowBackgroundStart
             : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
         };
         box-shadow: ${shadowArrow};
-      `}
+      `
+      }
     }
   `;
 };
@@ -77,17 +80,20 @@ export const buttonHoverMixin = (
   selectorArrow: string,
   isLeftArrow: boolean,
 ) => {
-  return css`
+  return `
     &:hover {
-      background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
-        ? btnBackground
-        : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
+      background: ${
+        btnBackgroundStart === btnBackgroundEnd && btnBackground
+          ? btnBackground
+          : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`
+      };
       box-shadow: ${btnShadow};
       border-color: ${btnBorder};
 
       ${selectorArrow} {
-        ${isLeftArrow
-          ? `
+        ${
+          isLeftArrow
+            ? `
             background: ${
               arrowBackgroundStart === arrowBackgroundEnd
                 ? arrowBackgroundStart
@@ -95,21 +101,22 @@ export const buttonHoverMixin = (
             };
             box-shadow: ${arrowLeftShadow};
           `
-          : `
+            : `
             background: ${
               arrowBackgroundStart === arrowBackgroundEnd
                 ? arrowBackgroundStart
                 : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`
             };
             box-shadow: ${arrowShadow};
-          `}
+          `
+        }
       }
     }
   `;
 };
 
 export const buttonActiveCaptionMixin = () => {
-  return css`
+  return `
     transform: translateY(1px);
   `;
 };
@@ -143,29 +150,31 @@ export const buttonActiveMixin = (
       }
     }
   `;
-  return css`
+  return `
     &:active {
       ${activeStyles};
     }
-    ${isActive
-      ? `
+    ${
+      isActive
+        ? `
         &, &:hover {
           ${activeStyles};
         }
       `
-      : ``}
+        : ``
+    }
   `;
 };
 
 export const buttonIconSizeMixin = (size: string, gap: string) => {
-  return css`
+  return `
     width: ${size};
     padding-right: ${gap};
   `;
 };
 
 export const buttonLinkSizeMixin = (fontSize: string) => {
-  return css`
+  return `
     font-size: ${fontSize};
   `;
 };
@@ -179,7 +188,7 @@ export const buttonSizeMixin = (
   paddingY: string,
   borderRadius: string,
 ) => {
-  return css`
+  return `
     font-size: ${fontSize};
     box-sizing: border-box;
     height: ${shift(height, heightShift)};
@@ -187,12 +196,14 @@ export const buttonSizeMixin = (
     line-height: ${lineHeight};
     border-radius: ${borderRadius};
 
-    ${isIE11 || isEdge
-      ? `
+    ${
+      isIE11 || isEdge
+        ? `
         padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
         line-height: normal;
       `
-      : ``}
+        : ``
+    }
   `;
 };
 
@@ -205,7 +216,7 @@ export const buttonArrowSizeMixin = (
   selectorArrow: string,
   isLeftArrow: boolean,
 ) => {
-  return css`
+  return `
     ${selectorArrow} {
       top: ${top};
       right: ${right};
@@ -234,7 +245,7 @@ export const buttonLoadingArrowMixin = (
   selectorArrow: string,
   isLeftArrow: boolean,
 ) => {
-  return css`
+  return `
     ${selectorArrow}::before {
       content: '';
       display: block;

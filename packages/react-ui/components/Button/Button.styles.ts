@@ -90,8 +90,6 @@ const styles = {
             ${error ? styles.error(t, p) : ``}
             ${warning ? styles.warning(t, p) : ``}
 
-            ${borderless ? styles.borderless(t, p) : ``}
-
             ${focus ? styles.focus(t, p) : ``}
             ${checked ? styles.checked(t, p) : ``}
             ${disabled || loading ? styles.disabled(t, p) : ``}
@@ -100,9 +98,12 @@ const styles = {
             ${narrow ? styles.narrow() : ``}
             ${_noPadding ? styles.noPadding() : ``}
             ${_noRightPadding ? styles.noRightPadding() : ``}
+            ${borderless ? styles.borderless(t, p) : ``}
 
             &:active {
-              ${buttonActiveCaptionMixin()}
+              ${cssName(styles.caption(t, p))} {
+                ${buttonActiveCaptionMixin()}
+              }
             }
           `
       }
