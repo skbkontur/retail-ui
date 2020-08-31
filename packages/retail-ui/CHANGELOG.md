@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.12](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.11...retail-ui@0.53.12) (2020-08-31)
+
+
+### Bug Fixes
+
+* **MenuItem:** pass state into custom component ([fb7fbf9](https://github.com/skbkontur/retail-ui/commit/fb7fbf9)), closes [#2102](https://github.com/skbkontur/retail-ui/issues/2102)
+
+
+
+
+
 ## [0.53.11](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.10...retail-ui@0.53.11) (2020-07-20)
 
 
