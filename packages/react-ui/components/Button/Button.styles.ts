@@ -173,13 +173,17 @@ const styles = {
             t.btnBorderRadiusSmall,
           )};
 
+          ${cssName(styles.arrow())} {
+            border-radius: ${t.btnSmallArrowBorderRadius};
+          }
+
           ${buttonArrowSizeMixin(
             t.btnSmallArrowTop,
             t.btnSmallArrowLeft,
             t.btnSmallArrowRight,
             t.btnSmallArrowLength,
             'rotate(53deg) skewX(24deg) skewY(10deg)',
-            cssName(styles.arrow(t, p)),
+            cssName(styles.arrow()),
             arrow === 'left',
           )};
       `}
@@ -210,7 +214,7 @@ const styles = {
             t.btnMediumArrowRight,
             t.btnMediumArrowLength,
             t.btnMediumArrowTransform,
-            cssName(styles.arrow(t, p)),
+            cssName(styles.arrow()),
             arrow === 'left',
           )};
         `}
@@ -241,7 +245,7 @@ const styles = {
             t.btnLargeArrowRight,
             t.btnLargeArrowLength,
             t.btnLargeArrowTransform,
-            cssName(styles.arrow(t, p)),
+            cssName(styles.arrow()),
             arrow === 'left',
           )};
       `}
@@ -259,7 +263,7 @@ const styles = {
         t.btnSmallArrowBg,
         t.btnSmallArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )}
     `;
@@ -276,7 +280,7 @@ const styles = {
         t.btnMediumArrowBg,
         t.btnMediumArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
     `;
@@ -293,7 +297,7 @@ const styles = {
         t.btnLargeArrowBg,
         t.btnLargeArrowLeftLoadingDelay,
         btn_loading_arrow,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
     `;
@@ -367,7 +371,7 @@ const styles = {
                 : ''
             }
 
-            ${cssName(styles.arrow(t, p))} {
+            ${cssName(styles.arrow())} {
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
                 ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorFocus};
 
@@ -409,7 +413,7 @@ const styles = {
         `
         : ``}
 
-      ${cssName(styles.arrow(t, p))} {
+      ${cssName(styles.arrow())} {
         background: ${t.btnDisabledBg};
         box-shadow: ${t.btnDisabledShadowArrow};
       }
@@ -421,7 +425,7 @@ const styles = {
       &,
       &:hover,
       &:active {
-        ${cssName(styles.arrow(t, p))} {
+        ${cssName(styles.arrow())} {
           box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
         }
       }
@@ -433,7 +437,7 @@ const styles = {
       &,
       &:hover,
       &:active {
-        ${cssName(styles.arrow(t, p))} {
+        ${cssName(styles.arrow())} {
           box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};
         }
       }
@@ -454,7 +458,7 @@ const styles = {
         t.btnDefaultShadowArrowLeft,
         t.btnDefaultTextColor,
         t.btnDefaultBorder,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -468,7 +472,7 @@ const styles = {
         t.btnDefaultHoverShadowArrow,
         t.btnDefaultHoverShadowArrowLeft,
         t.btnDefaultHoverBorderColor,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -480,7 +484,7 @@ const styles = {
         t.btnDefaultActiveShadow,
         t.btnDefaultActiveShadowArrow,
         t.btnDefaultActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
     `;
@@ -500,7 +504,7 @@ const styles = {
         t.btnPrimaryShadowArrowLeft,
         t.btnPrimaryTextColor,
         t.btnPrimaryBorder,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -514,7 +518,7 @@ const styles = {
         t.btnPrimaryHoverShadowArrow,
         t.btnPrimaryHoverShadowArrowLeft,
         t.btnPrimaryHoverBorderColor,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -526,7 +530,7 @@ const styles = {
         t.btnPrimaryActiveShadow,
         t.btnPrimaryActiveShadowArrow,
         t.btnPrimaryActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
     `;
@@ -546,7 +550,7 @@ const styles = {
         t.btnSuccessShadowArrowLeft,
         t.btnSuccessTextColor,
         t.btnSuccessBorder,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -560,7 +564,7 @@ const styles = {
         t.btnSuccessHoverShadowArrow,
         t.btnSuccessHoverShadowArrowLeft,
         t.btnSuccessHoverBorderColor,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -572,7 +576,7 @@ const styles = {
         t.btnSuccessActiveShadow,
         t.btnSuccessActiveShadowArrow,
         t.btnSuccessActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
     `;
@@ -592,7 +596,7 @@ const styles = {
         t.btnDangerShadowArrowLeft,
         t.btnDangerTextColor,
         t.btnDangerBorder,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -606,7 +610,7 @@ const styles = {
         t.btnDangerHoverShadowArrow,
         t.btnDangerHoverShadowArrowLeft,
         t.btnDangerHoverBorderColor,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -618,7 +622,7 @@ const styles = {
         t.btnDangerActiveShadow,
         t.btnDangerActiveShadowArrow,
         t.btnDangerActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
     `;
@@ -638,7 +642,7 @@ const styles = {
         t.btnPayShadowArrowLeft,
         t.btnPayTextColor,
         t.btnPayBorder,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -652,7 +656,7 @@ const styles = {
         t.btnPayHoverShadowArrow,
         t.btnPayHoverShadowArrowLeft,
         t.btnPayHoverBorderColor,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
 
@@ -664,7 +668,7 @@ const styles = {
         t.btnPayActiveShadow,
         t.btnPayActiveShadowArrow,
         t.btnPayActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
+        cssName(styles.arrow()),
         arrow === 'left',
       )};
     `;
@@ -681,7 +685,7 @@ const styles = {
         color: ${t.btnCheckedTextColor};
         border: ${t.btnDefaultCheckedBorder};
 
-        ${cssName(styles.arrow(t, p))} {
+        ${cssName(styles.arrow())} {
           background: ${t.btnCheckedBg};
           box-shadow: ${t.btnCheckedShadowArrow};
 
@@ -770,10 +774,10 @@ const styles = {
     `;
   },
 
-  arrow(t: Theme, p: ButtonStylesProps) {
+  arrow() {
     return css`
       position: absolute;
-      border-radius: ${t.btnSmallArrowBorderRadius};
+      border-radius: 2px 2px 2px 16px;
       box-sizing: border-box;
       z-index: 1;
     `;

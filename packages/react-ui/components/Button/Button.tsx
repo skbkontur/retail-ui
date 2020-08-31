@@ -196,9 +196,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       outline = <div className={jsStyles.outline(this.theme, stylesProps)} />;
     }
 
-    let loading = null;
+    let loader = null;
     if (this.props.loading) {
-      loading = <div className={jsStyles.loader()} />;
+      loader = <div className={jsStyles.loader()} />;
     }
 
     let icon = this.props.icon;
@@ -208,13 +208,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let arrow = null;
     if (this.props.arrow) {
-      arrow = <div className={jsStyles.arrow(this.theme, stylesProps)} />;
+      arrow = <div className={jsStyles.arrow()} />;
     }
 
     // Force disable all props and features, that cannot be use with Link
     if (this.props.use === 'link') {
       rootProps.style.textAlign = undefined;
-      loading = null;
+      loader = null;
       arrow = null;
     }
 
@@ -222,7 +222,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       <span {...wrapProps}>
         <button ref={this._ref} {...rootProps}>
           {outline}
-          {loading}
+          {loader}
           {arrow}
           <div className={jsStyles.caption(this.theme, stylesProps)}>
             {icon}
