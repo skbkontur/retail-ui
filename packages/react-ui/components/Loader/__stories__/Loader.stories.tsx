@@ -250,5 +250,17 @@ export const WrapperWithCustomHeightAndActiveLoader = () => (
 );
 WrapperWithCustomHeightAndActiveLoader.story = { name: 'Wrapper with custom height and active loader' };
 
+export const ActivateLoaderAfterMountOnLargeContent = () => {
+  const [active, setActive] = React.useState(false);
+  React.useEffect(() => {
+    setActive(true);
+  }, []);
+
+  return (
+    <ContentComponent additionalStyle={{ height: 600, overflow: 'auto' }} loaderProps={{ active }}>
+      <NumberList itemsCount={100} />
+    </ContentComponent>
+  );
+};
 export const OldSpinner = () => <LoaderOld />;
 OldSpinner.story = { name: 'Old spinner' };
