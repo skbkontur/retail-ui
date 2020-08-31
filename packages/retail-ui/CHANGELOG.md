@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.5](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.4...retail-ui@1.11.5) (2020-08-31)
+
+
+### Bug Fixes
+
+* **MenuItem:** pass state into custom component ([ed9eb21](https://github.com/skbkontur/retail-ui/commit/ed9eb21)), closes [#2102](https://github.com/skbkontur/retail-ui/issues/2102)
+* add babelrc to npmignore ([#2108](https://github.com/skbkontur/retail-ui/issues/2108)) ([1672418](https://github.com/skbkontur/retail-ui/commit/1672418))
+
+
+
+
+
 ## [1.11.4](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.3...retail-ui@1.11.4) (2020-08-07)
 
 
