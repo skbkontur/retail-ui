@@ -26,6 +26,11 @@ create(AbsoluteId("Common_ReactSorge"), BuildType({
             type = "jonnyzzz.npm"
             param("npm_commands", "install")
         }
+        step {
+            name = "Lint"
+            type = "jonnyzzz.npm"
+            param("npm_commands", "lint")
+        }
         script {
             name = "Debug (run dev-server)"
             scriptContent = """
@@ -37,11 +42,6 @@ create(AbsoluteId("Common_ReactSorge"), BuildType({
             name = "Test"
             type = "jonnyzzz.npm"
             param("npm_commands", "run test")
-        }
-        step {
-            name = "Lint"
-            type = "jonnyzzz.npm"
-            param("npm_commands", "lint")
         }
     }
 
