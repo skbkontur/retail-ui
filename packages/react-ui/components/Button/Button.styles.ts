@@ -94,6 +94,7 @@ const styles = {
       display: ${use === 'link' ? 'inline' : 'inline-block'};
       cursor: ${disabled ? 'default' : 'pointer'};
       pointer-events: ${match([[disabled === true, 'none']])};
+      z-index: ${match([[focus === true, '2']])};
 
       text-decoration: ${match([
         [
@@ -211,6 +212,13 @@ const styles = {
       box-shadow: ${match([
         [use === 'link', 'none'],
         [
+          focus === true && !disabled,
+          match(
+            [[error === true || warning === true, `inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus}`]],
+            `inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus}`,
+          ),
+        ],
+        [
           active === true,
           match([
             [use === 'default', t.btnDefaultActiveShadow],
@@ -239,6 +247,7 @@ const styles = {
 
       border: ${match([
         [use === 'link', 'none'],
+        [focus === true && !disabled, t.btnFocusBorder],
         [use === 'default', t.btnDefaultBorder],
         [use === 'primary', t.btnPrimaryBorder],
         [use === 'success', t.btnSuccessBorder],
@@ -247,6 +256,7 @@ const styles = {
       ])};
 
       border-color: ${match([
+        [focus === true && !disabled, 'transparent'],
         [
           hover === true,
           match([
@@ -259,10 +269,6 @@ const styles = {
         ],
       ])};
 
-      ${error ? styles.error(t, p) : ``}
-      ${warning ? styles.warning(t, p) : ``}
-
-      ${focus ? styles.focus(t, p) : ``}
       ${checked ? styles.checked(t, p) : ``}
       ${disabled || loading ? styles.disabled(t, p) : ``}
       ${loading ? styles.loading(t, p) : ``}
@@ -341,59 +347,6 @@ const styles = {
     `;
   },
 
-  focus(t: Theme, p: ButtonStylesProps) {
-    const { disabled, error, warning } = p;
-    return css`
-      border-color: transparent;
-      position: relative;
-      z-index: 2;
-
-      ${!disabled
-        ? `
-          border: ${t.btnFocusBorder};
-
-          &,
-          &:hover,
-          &:active {
-            box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus},
-              0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
-
-            ${
-              error || warning
-                ? `
-                  box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
-                  border-color: transparent;
-                `
-                : ''
-            }
-
-            ${cssName(styles.arrow(t, p))} {
-              box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorFocus};
-
-              ${
-                warning
-                  ? `
-                    box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                    ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};`
-                  : ``
-              }
-
-              ${
-                error
-                  ? `
-                    box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                    ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
-                  `
-                  : ``
-              }
-            }
-          }
-        `
-        : ``}
-    `;
-  },
-
   disabled(t: Theme, p: ButtonStylesProps) {
     return css`
       cursor: default;
@@ -412,30 +365,6 @@ const styles = {
       ${cssName(styles.arrow(t, p))} {
         background: ${t.btnDisabledBg};
         box-shadow: ${t.btnDisabledShadowArrow};
-      }
-    `;
-  },
-
-  error(t: Theme, p: ButtonStylesProps) {
-    return css`
-      &,
-      &:hover,
-      &:active {
-        ${cssName(styles.arrow(t, p))} {
-          box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
-        }
-      }
-    `;
-  },
-
-  warning(t: Theme, p: ButtonStylesProps) {
-    return css`
-      &,
-      &:hover,
-      &:active {
-        ${cssName(styles.arrow(t, p))} {
-          box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};
-        }
       }
     `;
   },
@@ -530,7 +459,7 @@ const styles = {
     `;
   },
 
-  arrow(t: Theme, { size, arrow, use, active, hover }: ButtonStylesProps) {
+  arrow(t: Theme, { size, arrow, use, active, hover, error, warning, focus, disabled }: ButtonStylesProps) {
     return css`
       position: absolute;
       box-sizing: border-box;
@@ -606,6 +535,27 @@ const styles = {
       ])};
 
       box-shadow: ${match([
+        [
+          focus === true && !disabled,
+          match(
+            [
+              [
+                error === true,
+                `inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+            ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError}`,
+              ],
+              [
+                warning === true,
+                `inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+            ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning}`,
+              ],
+            ],
+            `inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+        ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorFocus}`,
+          ),
+        ],
+        [error === true, `${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError}`],
+        [warning === true, `${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning}`],
         [
           active === true,
           match([
