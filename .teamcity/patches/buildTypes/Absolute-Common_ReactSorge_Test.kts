@@ -38,6 +38,11 @@ create(AbsoluteId("Common_ReactSorge"), BuildType({
             type = "jonnyzzz.npm"
             param("npm_commands", "run test")
         }
+        step {
+            name = "Lint"
+            type = "jonnyzzz.npm"
+            param("npm_commands", "lint")
+        }
     }
 
     triggers {
