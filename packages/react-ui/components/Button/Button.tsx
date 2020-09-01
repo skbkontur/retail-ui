@@ -208,7 +208,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let arrow = null;
     if (this.props.arrow) {
-      arrow = <div className={jsStyles.arrow()} />;
+      arrow = <div className={jsStyles.arrow(this.theme, stylesProps)} />;
     }
 
     // Force disable all props and features, that cannot be use with Link

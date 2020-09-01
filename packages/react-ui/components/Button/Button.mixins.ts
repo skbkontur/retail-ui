@@ -1,7 +1,7 @@
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { isIE11, isEdge } from '../../lib/utils';
 
-const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset = 0): string => {
+export const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset = 0): string => {
   let paddingTop = paddingY;
   let paddingBottom = paddingY;
 
@@ -18,6 +18,14 @@ const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, add
 
   return `${paddingTop} ${paddingX} ${paddingBottom}`;
 };
+
+export const getButtonBackground = (background: string, gradientStart: string, gradientEnd: string) =>
+  gradientStart === gradientEnd && background ? background : `linear-gradient(${gradientStart}, ${gradientEnd})`;
+
+export const getButtonArrowUseBackground = (isArrowLeft: boolean, gradientStart: string, gradientEnd: string) =>
+  gradientStart === gradientEnd
+    ? gradientStart
+    : `linear-gradient(${isArrowLeft ? 'to top left' : 'to bottom right'}, ${gradientStart}, ${gradientEnd})`;
 
 export const buttonUseMixin = (
   btnBackground: string,
