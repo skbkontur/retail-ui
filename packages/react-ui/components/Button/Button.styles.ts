@@ -5,14 +5,11 @@ import { isIE11, isEdge } from '../../lib/utils';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
 import {
-  buttonHoverMixin,
-  buttonActiveMixin,
-  buttonActiveCaptionMixin,
   buttonIconSizeMixin,
   buttonLoadingArrowMixin,
   getBtnPadding,
-  getButtonBackground,
-  getButtonArrowUseBackground,
+  getBtnUseBg,
+  getBtnArrowUseBg,
 } from './Button.mixins';
 import { ButtonProps } from './Button';
 
@@ -26,23 +23,30 @@ const btn_loading_arrow = keyframes`
 }
 `;
 
-const fSwitch = <C, R>(arg: C) => {
-  let matched: R | undefined = undefined;
-  return {
-    case(value: C, result: R) {
-      if (matched === undefined && arg === value) {
-        matched = result;
-      }
-      return this;
-    },
-    default(result: R) {
-      return matched || result;
-    },
-  };
+function match<R>(cases: Array<[boolean, R]>): R;
+function match<R, D>(cases: Array<[boolean, R]>, defaultResult: D): R | D;
+function match(cases: any, defaultResult?: any) {
+  for (const [condition, result] of cases) {
+    if (condition) return result;
+  }
+  return defaultResult;
+}
+
+const bySize = <T>(size: ButtonProps['size'], [small, medium, large]: T[]) => {
+  switch (size) {
+    case 'large':
+      return large;
+    case 'medium':
+      return medium;
+    case 'small':
+    default:
+      return small;
+  }
 };
 
 export interface ButtonStylesProps extends ButtonProps {
   focus: boolean;
+  hover: boolean;
 }
 
 const styles = {
@@ -53,6 +57,8 @@ const styles = {
       error,
       warning,
       borderless,
+      active,
+      hover,
       focus,
       checked,
       disabled,
@@ -69,11 +75,10 @@ const styles = {
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
-      cursor: pointer;
-      display: inline-block;
       position: relative;
       text-align: center;
       width: 100%;
+      box-sizing: border-box;
 
       &::-moz-focus-inner {
         border: 0;
@@ -86,117 +91,186 @@ const styles = {
         width: 0;
       }
 
-      font-size: ${fSwitch<ButtonProps['size'], string>(size)
-        .case('small', t.btnFontSizeSmall)
-        .case('medium', t.btnFontSizeMedium)
-        .case('large', t.btnFontSizeLarge)
-        .default(t.btnFontSizeSmall)};
+      display: ${use === 'link' ? 'inline' : 'inline-block'};
+      cursor: ${disabled ? 'default' : 'pointer'};
+      pointer-events: ${match([[disabled === true, 'none']])};
 
-      box-sizing: border-box;
+      text-decoration: ${match([
+        [
+          use === 'link',
+          match([
+            [focus === true, t.btnLinkHoverTextDecoration],
+            [hover === true, t.btnLinkHoverTextDecoration],
+          ]),
+        ],
+      ])};
 
-      height: ${shift(
-        fSwitch<ButtonProps['size'], string>(size)
-          .case('small', t.btnHeightSmall)
-          .case('medium', t.btnHeightMedium)
-          .case('large', t.btnHeightLarge)
-          .default(t.btnHeightSmall),
-        t.btnHeightShift,
-      )};
+      font-size: ${bySize(size, [t.btnFontSizeSmall, t.btnFontSizeMedium, t.btnFontSizeLarge])};
 
-      padding: ${getBtnPadding(
-        fSwitch<ButtonProps['size'], string>(size)
-          .case('small', t.btnFontSizeSmall)
-          .case('medium', t.btnFontSizeMedium)
-          .case('large', t.btnFontSizeLarge)
-          .default(t.btnFontSizeSmall),
-        fSwitch<ButtonProps['size'], string>(size)
-          .case('small', t.btnPaddingYSmall)
-          .case('medium', t.btnPaddingYMedium)
-          .case('large', t.btnPaddingYLarge)
-          .default(t.btnPaddingYSmall),
-        fSwitch<ButtonProps['size'], string>(size)
-          .case('small', t.btnPaddingXSmall)
-          .case('medium', t.btnPaddingXMedium)
-          .case('large', t.btnPaddingXLarge)
-          .default(t.btnPaddingXSmall),
-        isIE11 || isEdge ? 1 : 0,
-      )};
+      height: ${match([
+        [
+          use !== 'link',
+          shift(
+            match([
+              [size === 'small', t.btnHeightSmall],
+              [size === 'medium', t.btnHeightMedium],
+              [size === 'large', t.btnHeightLarge],
+            ]),
+            t.btnHeightShift,
+          ),
+        ],
+      ])};
 
-      line-height: ${fSwitch<boolean, string>(true)
-        .case(isIE11 || isEdge, 'normal')
-        .case(size === 'small', t.btnLineHeightSmall)
-        .case(size === 'medium', t.btnLineHeightMedium)
-        .case(size === 'large', t.btnLineHeightLarge)
-        .default(t.btnLineHeightSmall)};
+      padding: ${
+        use === 'link'
+          ? '0'
+          : getBtnPadding(
+              match([
+                [size === 'small', t.btnFontSizeSmall],
+                [size === 'medium', t.btnFontSizeMedium],
+                [size === 'large', t.btnFontSizeLarge],
+              ]),
+              match([
+                [size === 'small', t.btnPaddingYSmall],
+                [size === 'medium', t.btnPaddingYMedium],
+                [size === 'large', t.btnPaddingYLarge],
+              ]),
+              match([
+                [size === 'small', t.btnPaddingXSmall],
+                [size === 'medium', t.btnPaddingXMedium],
+                [size === 'large', t.btnPaddingXLarge],
+              ]),
+              isIE11 || isEdge ? 1 : 0,
+            )
+      };
 
-      border-radius: ${fSwitch<ButtonProps['size'], string>(size)
-        .case('small', t.btnBorderRadiusSmall)
-        .case('medium', t.btnBorderRadiusMedium)
-        .case('large', t.btnBorderRadiusLarge)
-        .default(t.btnBorderRadiusSmall)};
+      line-height: ${match([
+        [use === 'link', 'inherit'],
+        [isIE11 || isEdge, 'normal'],
+        [size === 'small', t.btnLineHeightSmall],
+        [size === 'medium', t.btnLineHeightMedium],
+        [size === 'large', t.btnLineHeightLarge],
+      ])};
 
-      background: ${fSwitch<boolean, string>(true)
-        .case(use === 'default', getButtonBackground(t.btnDefaultBg, t.btnDefaultBgStart, t.btnDefaultBgEnd))
-        .case(use === 'primary', getButtonBackground(t.btnPrimaryBg, t.btnPrimaryBgStart, t.btnPrimaryBgEnd))
-        .case(use === 'success', getButtonBackground(t.btnSuccessBg, t.btnSuccessBgStart, t.btnSuccessBgEnd))
-        .case(use === 'danger', getButtonBackground(t.btnDangerBg, t.btnDangerBgStart, t.btnDangerBgEnd))
-        .case(use === 'pay', getButtonBackground(t.btnPayBg, t.btnPayBgStart, t.btnPayBgEnd))
-        .default('inherit')};
+      border-radius: ${match([
+        [use === 'link', t.btnLinkBorderRadius],
+        [size === 'small', t.btnBorderRadiusSmall],
+        [size === 'medium', t.btnBorderRadiusMedium],
+        [size === 'large', t.btnBorderRadiusLarge],
+      ])};
 
-      color: ${fSwitch<boolean, string>(true)
-        .case(use === 'default', t.btnDefaultTextColor)
-        .case(use === 'primary', t.btnPrimaryTextColor)
-        .case(use === 'success', t.btnSuccessTextColor)
-        .case(use === 'danger', t.btnDangerTextColor)
-        .case(use === 'pay', t.btnPayTextColor)
-        .default('inherit')};
+      background: ${match([
+        [use === 'link', 'none'],
+        [
+          active === true,
+          match([
+            [use === 'default', t.btnDefaultActiveBg],
+            [use === 'primary', t.btnPrimaryActiveBg],
+            [use === 'success', t.btnSuccessActiveBg],
+            [use === 'danger', t.btnDangerActiveBg],
+            [use === 'pay', t.btnPayActiveBg],
+          ]),
+        ],
+        [
+          hover === true,
+          match([
+            [use === 'default', getBtnUseBg(t.btnDefaultHoverBg, t.btnDefaultHoverBgStart, t.btnDefaultHoverBgEnd)],
+            [use === 'primary', getBtnUseBg(t.btnPrimaryHoverBg, t.btnPrimaryHoverBgStart, t.btnPrimaryHoverBgEnd)],
+            [use === 'success', getBtnUseBg(t.btnSuccessHoverBg, t.btnSuccessHoverBgStart, t.btnSuccessHoverBgEnd)],
+            [use === 'danger', getBtnUseBg(t.btnDangerHoverBg, t.btnDangerHoverBgStart, t.btnDangerHoverBgEnd)],
+            [use === 'pay', getBtnUseBg(t.btnPayHoverBg, t.btnPayHoverBgStart, t.btnPayHoverBgEnd)],
+          ]),
+        ],
+        [use === 'default', getBtnUseBg(t.btnDefaultBg, t.btnDefaultBgStart, t.btnDefaultBgEnd)],
+        [use === 'primary', getBtnUseBg(t.btnPrimaryBg, t.btnPrimaryBgStart, t.btnPrimaryBgEnd)],
+        [use === 'success', getBtnUseBg(t.btnSuccessBg, t.btnSuccessBgStart, t.btnSuccessBgEnd)],
+        [use === 'danger', getBtnUseBg(t.btnDangerBg, t.btnDangerBgStart, t.btnDangerBgEnd)],
+        [use === 'pay', getBtnUseBg(t.btnPayBg, t.btnPayBgStart, t.btnPayBgEnd)],
+      ])};
 
-      box-shadow: ${fSwitch<boolean, string>(true)
-        .case(use === 'default', t.btnDefaultShadow)
-        .case(use === 'primary', t.btnPrimaryShadow)
-        .case(use === 'success', t.btnSuccessShadow)
-        .case(use === 'danger', t.btnDangerShadow)
-        .case(use === 'pay', t.btnPayShadow)
-        .default('inherit')};
+      color: ${match([
+        [
+          use === 'link',
+          match(
+            [
+              [disabled === true, t.btnLinkDisabledColor],
+              [focus === true, t.btnLinkColor],
+              [active === true, t.btnLinkActiveColor],
+              [hover === true, t.linkHoverColor],
+            ],
+            t.btnLinkColor,
+          ),
+        ],
+        [use === 'default', t.btnDefaultTextColor],
+        [use === 'primary', t.btnPrimaryTextColor],
+        [use === 'success', t.btnSuccessTextColor],
+        [use === 'danger', t.btnDangerTextColor],
+        [use === 'pay', t.btnPayTextColor],
+      ])};
 
-      border: ${fSwitch<boolean, string>(true)
-        .case(use === 'default', t.btnDefaultBorder)
-        .case(use === 'primary', t.btnPrimaryBorder)
-        .case(use === 'success', t.btnSuccessBorder)
-        .case(use === 'danger', t.btnDangerBorder)
-        .case(use === 'pay', t.btnPayBorder)
-        .default('inherit')};
+      box-shadow: ${match([
+        [use === 'link', 'none'],
+        [
+          active === true,
+          match([
+            [use === 'default', t.btnDefaultActiveShadow],
+            [use === 'primary', t.btnPrimaryActiveShadow],
+            [use === 'success', t.btnSuccessActiveShadow],
+            [use === 'danger', t.btnDangerActiveShadow],
+            [use === 'pay', t.btnPayActiveShadow],
+          ]),
+        ],
+        [
+          hover === true,
+          match([
+            [use === 'default', t.btnDefaultHoverShadow],
+            [use === 'primary', t.btnPrimaryHoverShadow],
+            [use === 'success', t.btnSuccessHoverShadow],
+            [use === 'danger', t.btnDangerHoverShadow],
+            [use === 'pay', t.btnPayHoverShadow],
+          ]),
+        ],
+        [use === 'default', t.btnDefaultShadow],
+        [use === 'primary', t.btnPrimaryShadow],
+        [use === 'success', t.btnSuccessShadow],
+        [use === 'danger', t.btnDangerShadow],
+        [use === 'pay', t.btnPayShadow],
+      ])};
 
-      ${use === 'link'
-        ? css`
-            ${styles.link(t, p)}
-          `
-        : css`
-            ${use === 'default' ? styles.default(t, p) : ``}
-            ${use === 'primary' ? styles.primary(t, p) : ``}
-            ${use === 'success' ? styles.success(t, p) : ``}
-            ${use === 'danger' ? styles.danger(t, p) : ``}
-            ${use === 'pay' ? styles.pay(t, p) : ``}
+      border: ${match([
+        [use === 'link', 'none'],
+        [use === 'default', t.btnDefaultBorder],
+        [use === 'primary', t.btnPrimaryBorder],
+        [use === 'success', t.btnSuccessBorder],
+        [use === 'danger', t.btnDangerBorder],
+        [use === 'pay', t.btnPayBorder],
+      ])};
 
-            ${error ? styles.error(t, p) : ``}
-            ${warning ? styles.warning(t, p) : ``}
+      border-color: ${match([
+        [
+          hover === true,
+          match([
+            [use === 'default', t.btnDefaultHoverBorderColor],
+            [use === 'primary', t.btnPrimaryHoverBorderColor],
+            [use === 'success', t.btnSuccessHoverBorderColor],
+            [use === 'danger', t.btnDangerHoverBorderColor],
+            [use === 'pay', t.btnPayHoverBorderColor],
+          ]),
+        ],
+      ])};
 
-            ${focus ? styles.focus(t, p) : ``}
-            ${checked ? styles.checked(t, p) : ``}
-            ${disabled || loading ? styles.disabled(t, p) : ``}
-            ${loading ? styles.loading(t, p) : ``}
+      ${error ? styles.error(t, p) : ``}
+      ${warning ? styles.warning(t, p) : ``}
 
-            ${narrow ? styles.narrow() : ``}
-            ${_noPadding ? styles.noPadding() : ``}
-            ${_noRightPadding ? styles.noRightPadding() : ``}
-            ${borderless ? styles.borderless(t, p) : ``}
+      ${focus ? styles.focus(t, p) : ``}
+      ${checked ? styles.checked(t, p) : ``}
+      ${disabled || loading ? styles.disabled(t, p) : ``}
+      ${loading ? styles.loading(t, p) : ``}
 
-            &:active {
-              ${cssName(styles.caption(t, p))} {
-                ${buttonActiveCaptionMixin()}
-              }
-            }
-          `};
+      ${narrow ? styles.narrow() : ``}
+      ${_noPadding ? styles.noPadding() : ``}
+      ${_noRightPadding ? styles.noRightPadding() : ``}
+      ${borderless ? styles.borderless(t, p) : ``}
     `;
   },
 
@@ -205,20 +279,14 @@ const styles = {
       borderRadius: 'inherit',
       position: 'absolute',
       top: 0,
-      left: fSwitch<ButtonProps['use'], number>(use)
-        .case('link', -2)
-        .default(0),
-      right: fSwitch<ButtonProps['use'], number>(use)
-        .case('link', -2)
-        .default(0),
-      bottom: fSwitch<ButtonProps['use'], number>(use)
-        .case('link', -2)
-        .default(0),
-      boxShadow: fSwitch<boolean, string>(true)
-        .case(use === 'link', 'inherit')
-        .case(error === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}`)
-        .case(warning === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning}`)
-        .default('inherit'),
+      left: match([[use === 'link', -2]], 0),
+      right: match([[use === 'link', -2]], 0),
+      bottom: match([[use === 'link', -2]], 0),
+      boxShadow: match([
+        [use === 'link', 'inherit'],
+        [error === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}`],
+        [warning === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning}`],
+      ]),
     });
   },
 
@@ -270,48 +338,6 @@ const styles = {
         cssName(styles.arrow(t, p)),
         arrow === 'left',
       )};
-    `;
-  },
-
-  link(t: Theme, p: ButtonStylesProps) {
-    const { disabled, focus } = p;
-    return css`
-      background: none;
-      border-radius: ${t.btnLinkBorderRadius};
-      border: none;
-      box-shadow: none;
-      color: ${t.btnLinkColor};
-      display: inline;
-      line-height: inherit;
-      margin: 0;
-      padding: 0;
-
-      &:hover {
-        color: ${t.btnLinkHoverColor};
-        text-decoration: ${t.btnLinkHoverTextDecoration};
-      }
-      &:active {
-        color: ${t.linkActiveColor};
-
-        ${cssName(styles.caption(t, p))} {
-          transform: none;
-        }
-      }
-
-      ${focus
-        ? `
-          color: ${t.btnLinkColor};
-          text-decoration: ${t.btnLinkHoverTextDecoration};
-        `
-        : ``}
-
-      ${disabled
-        ? `
-          cursor: default;
-          pointer-events: none;
-          color: ${t.btnLinkDisabledColor};
-        `
-        : ``};
     `;
   },
 
@@ -414,161 +440,6 @@ const styles = {
     `;
   },
 
-  default(t: Theme, p: ButtonStylesProps) {
-    const { arrow, active } = p;
-    return css`
-      ${buttonHoverMixin(
-        t.btnDefaultHoverBg,
-        t.btnDefaultHoverBgStart,
-        t.btnDefaultHoverBgEnd,
-        t.btnDefaultHoverBgStart,
-        t.btnDefaultHoverBgEnd,
-        t.btnDefaultHoverShadow,
-        t.btnDefaultHoverShadowArrow,
-        t.btnDefaultHoverShadowArrowLeft,
-        t.btnDefaultHoverBorderColor,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-
-      ${buttonActiveMixin(
-        !!active,
-        t.btnDefaultActiveBg,
-        t.btnDefaultActiveBg,
-        t.btnDefaultActiveBg,
-        t.btnDefaultActiveShadow,
-        t.btnDefaultActiveShadowArrow,
-        t.btnDefaultActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-    `;
-  },
-
-  primary(t: Theme, p: ButtonStylesProps) {
-    const { arrow, active } = p;
-    return css`
-      ${buttonHoverMixin(
-        t.btnPrimaryHoverBg,
-        t.btnPrimaryHoverBgStart,
-        t.btnPrimaryHoverBgEnd,
-        t.btnPrimaryHoverBgStart,
-        t.btnPrimaryHoverBgEnd,
-        t.btnPrimaryHoverShadow,
-        t.btnPrimaryHoverShadowArrow,
-        t.btnPrimaryHoverShadowArrowLeft,
-        t.btnPrimaryHoverBorderColor,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-
-      ${buttonActiveMixin(
-        !!active,
-        t.btnPrimaryActiveBg,
-        t.btnPrimaryActiveBg,
-        t.btnPrimaryActiveBg,
-        t.btnPrimaryActiveShadow,
-        t.btnPrimaryActiveShadowArrow,
-        t.btnPrimaryActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-    `;
-  },
-
-  success(t: Theme, p: ButtonStylesProps) {
-    const { arrow, active } = p;
-    return css`
-      ${buttonHoverMixin(
-        t.btnSuccessHoverBg,
-        t.btnSuccessHoverBgStart,
-        t.btnSuccessHoverBgEnd,
-        t.btnSuccessHoverBgStart,
-        t.btnSuccessHoverBgEnd,
-        t.btnSuccessHoverShadow,
-        t.btnSuccessHoverShadowArrow,
-        t.btnSuccessHoverShadowArrowLeft,
-        t.btnSuccessHoverBorderColor,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-
-      ${buttonActiveMixin(
-        !!active,
-        t.btnSuccessActiveBg,
-        t.btnSuccessActiveBg,
-        t.btnSuccessActiveBg,
-        t.btnSuccessActiveShadow,
-        t.btnSuccessActiveShadowArrow,
-        t.btnSuccessActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-    `;
-  },
-
-  danger(t: Theme, p: ButtonStylesProps) {
-    const { arrow, active } = p;
-    return css`
-      ${buttonHoverMixin(
-        t.btnDangerHoverBg,
-        t.btnDangerHoverBgStart,
-        t.btnDangerHoverBgEnd,
-        t.btnDangerHoverBgStart,
-        t.btnDangerHoverBgEnd,
-        t.btnDangerHoverShadow,
-        t.btnDangerHoverShadowArrow,
-        t.btnDangerHoverShadowArrowLeft,
-        t.btnDangerHoverBorderColor,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-
-      ${buttonActiveMixin(
-        !!active,
-        t.btnDangerActiveBg,
-        t.btnDangerActiveBg,
-        t.btnDangerActiveBg,
-        t.btnDangerActiveShadow,
-        t.btnDangerActiveShadowArrow,
-        t.btnDangerActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-    `;
-  },
-
-  pay(t: Theme, p: ButtonStylesProps) {
-    const { arrow, active } = p;
-    return css`
-      ${buttonHoverMixin(
-        t.btnPayHoverBg,
-        t.btnPayHoverBgStart,
-        t.btnPayHoverBgEnd,
-        t.btnPayHoverBgStart,
-        t.btnPayHoverBgEnd,
-        t.btnPayHoverShadow,
-        t.btnPayHoverShadowArrow,
-        t.btnPayHoverShadowArrowLeft,
-        t.btnPayHoverBorderColor,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-
-      ${buttonActiveMixin(
-        !!active,
-        t.btnPayActiveBg,
-        t.btnPayActiveBg,
-        t.btnPayActiveBg,
-        t.btnPayActiveShadow,
-        t.btnPayActiveShadowArrow,
-        t.btnPayActiveShadowArrowLeft,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-    `;
-  },
-
   checked(t: Theme, p: ButtonStylesProps) {
     const { arrow } = p;
     return css`
@@ -601,20 +472,10 @@ const styles = {
       white-space: nowrap;
       width: 100%;
       vertical-align: top;
-
-      ${use === 'link'
-        ? `
-          display: inline;
-        `
-        : `
-          display: inline-block;
-        `}
-
-      ${(active || checked) && !(use === 'link' || disabled)
-        ? `
-          ${buttonActiveCaptionMixin()}
-        `
-        : ``}
+      display: ${use === 'link' ? 'inline' : 'inline-block'};
+      transform: ${match([
+        [(active === true || checked === true) && !(use === 'link' || disabled === true), 'translateY(1px)'],
+      ])};
     `;
   },
 
@@ -669,7 +530,7 @@ const styles = {
     `;
   },
 
-  arrow(t: Theme, { size, arrow, use }: ButtonStylesProps) {
+  arrow(t: Theme, { size, arrow, use, active, hover }: ButtonStylesProps) {
     return css`
       position: absolute;
       box-sizing: border-box;
@@ -678,59 +539,99 @@ const styles = {
 
       border-radius: ${size === 'small' ? t.btnSmallArrowBorderRadius : `2px 2px 2px 16px`};
 
-      top: ${fSwitch<ButtonProps['size'], string>(size)
-        .case('small', t.btnSmallArrowTop)
-        .case('medium', t.btnMediumArrowTop)
-        .case('large', t.btnLargeArrowTop)
-        .default(t.btnSmallArrowTop)};
+      top: ${match([
+        [size === 'small', t.btnSmallArrowTop],
+        [size === 'medium', t.btnMediumArrowTop],
+        [size === 'large', t.btnLargeArrowTop],
+      ])};
 
-      right: ${fSwitch<ButtonProps['size'], string>(size)
-        .case('small', t.btnSmallArrowRight)
-        .case('medium', t.btnMediumArrowRight)
-        .case('large', t.btnLargeArrowRight)
-        .default(t.btnSmallArrowRight)};
+      right: ${match([
+        [size === 'small', t.btnSmallArrowRight],
+        [size === 'medium', t.btnMediumArrowRight],
+        [size === 'large', t.btnLargeArrowRight],
+      ])};
 
-      height: ${fSwitch<ButtonProps['size'], string>(size)
-        .case('small', t.btnSmallArrowLength)
-        .case('medium', t.btnMediumArrowLength)
-        .case('large', t.btnLargeArrowLength)
-        .default(t.btnSmallArrowLength)};
+      height: ${match([
+        [size === 'small', t.btnSmallArrowLength],
+        [size === 'medium', t.btnMediumArrowLength],
+        [size === 'large', t.btnLargeArrowLength],
+      ])};
 
-      width: ${fSwitch<ButtonProps['size'], string>(size)
-        .case('small', t.btnSmallArrowLength)
-        .case('medium', t.btnMediumArrowLength)
-        .case('large', t.btnLargeArrowLength)
-        .default(t.btnSmallArrowLength)};
+      width: ${match([
+        [size === 'small', t.btnSmallArrowLength],
+        [size === 'medium', t.btnMediumArrowLength],
+        [size === 'large', t.btnLargeArrowLength],
+      ])};
 
-      transform: ${fSwitch<boolean, string>(true)
-        .case(arrow === 'left', 'rotate(232deg) skewX(25deg) skewY(8deg)')
-        .case(size === 'small', 'rotate(53deg) skewX(24deg) skewY(10deg)')
-        .case(size === 'medium', t.btnMediumArrowTransform)
-        .case(size === 'large', t.btnLargeArrowTransform)
-        .default('rotate(53deg) skewX(24deg) skewY(10deg)')};
+      transform: ${match([
+        [arrow === 'left', 'rotate(232deg) skewX(25deg) skewY(8deg)'],
+        [size === 'small', 'rotate(53deg) skewX(24deg) skewY(10deg)'],
+        [size === 'medium', t.btnMediumArrowTransform],
+        [size === 'large', t.btnLargeArrowTransform],
+      ])};
 
-      left: ${fSwitch<boolean, string>(true)
-        .case(arrow !== 'left', 'inherit')
-        .case(size === 'small', t.btnSmallArrowLeft)
-        .case(size === 'medium', t.btnMediumArrowLeft)
-        .case(size === 'large', t.btnLargeArrowLeft)
-        .default(t.btnSmallArrowLeft)};
+      left: ${match([
+        [arrow !== 'left', 'inherit'],
+        [size === 'small', t.btnSmallArrowLeft],
+        [size === 'medium', t.btnMediumArrowLeft],
+        [size === 'large', t.btnLargeArrowLeft],
+      ])};
 
-      background: ${fSwitch<boolean, string>(true)
-        .case(use === 'default', getButtonArrowUseBackground(arrow === 'left', t.btnDefaultBgStart, t.btnDefaultBgEnd))
-        .case(use === 'primary', getButtonArrowUseBackground(arrow === 'left', t.btnPrimaryBgStart, t.btnPrimaryBgEnd))
-        .case(use === 'success', getButtonArrowUseBackground(arrow === 'left', t.btnSuccessBgStart, t.btnSuccessBgEnd))
-        .case(use === 'danger', getButtonArrowUseBackground(arrow === 'left', t.btnDangerBgStart, t.btnDangerBgEnd))
-        .case(use === 'pay', getButtonArrowUseBackground(arrow === 'left', t.btnPayBgStart, t.btnPayBgEnd))
-        .default('inherit')};
+      background: ${match([
+        [
+          active === true,
+          match([
+            [use === 'default', t.btnDefaultActiveBg],
+            [use === 'primary', t.btnPrimaryActiveBg],
+            [use === 'success', t.btnSuccessActiveBg],
+            [use === 'danger', t.btnDangerActiveBg],
+            [use === 'pay', t.btnPayActiveBg],
+          ]),
+        ],
+        [
+          hover === true,
+          match([
+            [use === 'default', getBtnArrowUseBg(arrow === 'left', t.btnDefaultHoverBgStart, t.btnDefaultHoverBgEnd)],
+            [use === 'primary', getBtnArrowUseBg(arrow === 'left', t.btnPrimaryHoverBgStart, t.btnPrimaryHoverBgEnd)],
+            [use === 'success', getBtnArrowUseBg(arrow === 'left', t.btnSuccessHoverBgStart, t.btnSuccessHoverBgEnd)],
+            [use === 'danger', getBtnArrowUseBg(arrow === 'left', t.btnDangerHoverBgStart, t.btnDangerHoverBgEnd)],
+            [use === 'pay', getBtnArrowUseBg(arrow === 'left', t.btnPayHoverBgStart, t.btnPayHoverBgEnd)],
+          ]),
+        ],
+        [use === 'default', getBtnArrowUseBg(arrow === 'left', t.btnDefaultBgStart, t.btnDefaultBgEnd)],
+        [use === 'primary', getBtnArrowUseBg(arrow === 'left', t.btnPrimaryBgStart, t.btnPrimaryBgEnd)],
+        [use === 'success', getBtnArrowUseBg(arrow === 'left', t.btnSuccessBgStart, t.btnSuccessBgEnd)],
+        [use === 'danger', getBtnArrowUseBg(arrow === 'left', t.btnDangerBgStart, t.btnDangerBgEnd)],
+        [use === 'pay', getBtnArrowUseBg(arrow === 'left', t.btnPayBgStart, t.btnPayBgEnd)],
+      ])};
 
-      box-shadow: ${fSwitch<boolean, string>(true)
-        .case(use === 'default', arrow === 'left' ? t.btnDefaultShadowArrowLeft : t.btnDefaultShadowArrow)
-        .case(use === 'primary', arrow === 'left' ? t.btnPrimaryShadowArrowLeft : t.btnPrimaryShadowArrow)
-        .case(use === 'success', arrow === 'left' ? t.btnSuccessShadowArrowLeft : t.btnSuccessShadowArrow)
-        .case(use === 'danger', arrow === 'left' ? t.btnDangerShadowArrowLeft : t.btnDangerShadowArrow)
-        .case(use === 'pay', arrow === 'left' ? t.btnPayShadowArrowLeft : t.btnPayShadowArrow)
-        .default('inherit')};
+      box-shadow: ${match([
+        [
+          active === true,
+          match([
+            [use === 'default', arrow === 'left' ? t.btnDefaultActiveShadowArrowLeft : t.btnDefaultActiveShadowArrow],
+            [use === 'primary', arrow === 'left' ? t.btnPrimaryActiveShadowArrowLeft : t.btnPrimaryActiveShadowArrow],
+            [use === 'success', arrow === 'left' ? t.btnSuccessActiveShadowArrowLeft : t.btnSuccessActiveShadowArrow],
+            [use === 'danger', arrow === 'left' ? t.btnDangerActiveShadowArrowLeft : t.btnDangerActiveShadowArrow],
+            [use === 'pay', arrow === 'left' ? t.btnPayActiveShadowArrowLeft : t.btnPayActiveShadowArrow],
+          ]),
+        ],
+        [
+          hover === true,
+          match([
+            [use === 'default', arrow === 'left' ? t.btnDefaultHoverShadowArrowLeft : t.btnDefaultHoverShadowArrow],
+            [use === 'primary', arrow === 'left' ? t.btnPrimaryHoverShadowArrowLeft : t.btnPrimaryHoverShadowArrow],
+            [use === 'success', arrow === 'left' ? t.btnSuccessHoverShadowArrowLeft : t.btnSuccessHoverShadowArrow],
+            [use === 'danger', arrow === 'left' ? t.btnDangerHoverShadowArrowLeft : t.btnDangerHoverShadowArrow],
+            [use === 'pay', arrow === 'left' ? t.btnPayHoverShadowArrowLeft : t.btnPayHoverShadowArrow],
+          ]),
+        ],
+        [use === 'default', arrow === 'left' ? t.btnDefaultShadowArrowLeft : t.btnDefaultShadowArrow],
+        [use === 'primary', arrow === 'left' ? t.btnPrimaryShadowArrowLeft : t.btnPrimaryShadowArrow],
+        [use === 'success', arrow === 'left' ? t.btnSuccessShadowArrowLeft : t.btnSuccessShadowArrow],
+        [use === 'danger', arrow === 'left' ? t.btnDangerShadowArrowLeft : t.btnDangerShadowArrow],
+        [use === 'pay', arrow === 'left' ? t.btnPayShadowArrowLeft : t.btnPayShadowArrow],
+      ])};
     `;
   },
 

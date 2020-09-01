@@ -19,10 +19,10 @@ export const getBtnPadding = (fontSize: string, paddingY: string, paddingX: stri
   return `${paddingTop} ${paddingX} ${paddingBottom}`;
 };
 
-export const getButtonBackground = (background: string, gradientStart: string, gradientEnd: string) =>
+export const getBtnUseBg = (background: string, gradientStart: string, gradientEnd: string) =>
   gradientStart === gradientEnd && background ? background : `linear-gradient(${gradientStart}, ${gradientEnd})`;
 
-export const getButtonArrowUseBackground = (isArrowLeft: boolean, gradientStart: string, gradientEnd: string) =>
+export const getBtnArrowUseBg = (isArrowLeft: boolean, gradientStart: string, gradientEnd: string) =>
   gradientStart === gradientEnd
     ? gradientStart
     : `linear-gradient(${isArrowLeft ? 'to top left' : 'to bottom right'}, ${gradientStart}, ${gradientEnd})`;

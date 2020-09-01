@@ -99,6 +99,8 @@ export interface ButtonProps {
 
 export interface ButtonState {
   focusedByTab: boolean;
+  hovered: boolean;
+  pressed: boolean;
 }
 
 export class Button extends React.Component<ButtonProps, ButtonState> {
@@ -117,6 +119,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   public state = {
     focusedByTab: false,
+    hovered: false,
+    pressed: false,
   };
 
   private theme!: Theme;
@@ -178,9 +182,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
       onKeyDown: this.props.onKeyDown,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
+      onMouseEnter: this.handleMouseEnter,
+      onMouseLeave: this.handleMouseLeave,
       onMouseOver: this.props.onMouseOver,
+      onMouseDown: this.handleMouseDown,
+      onMouseUp: this.handleMouseUp,
       tabIndex: this.props.disableFocus ? -1 : 0,
     };
 
@@ -237,6 +243,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return {
       ...this.props,
       focus: this.props.visuallyFocused || this.state.focusedByTab,
+      hover: this.state.hovered,
+      active: this.props.active || this.state.pressed,
     };
   }
 
@@ -258,6 +266,24 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (!this.props.disabled && !this.props.disableFocus) {
       this.props.onBlur?.(e);
     }
+  };
+
+  private handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({ hovered: true });
+    this.props.onMouseEnter?.(e);
+  };
+
+  private handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({ hovered: false });
+    this.props.onMouseLeave?.(e);
+  };
+
+  private handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({ pressed: true });
+  };
+
+  private handleMouseUp = (e: React.MouseEvent<HTMLButtonElement>) => {
+    this.setState({ pressed: false });
   };
 
   private _ref = (node: HTMLButtonElement | null) => {
