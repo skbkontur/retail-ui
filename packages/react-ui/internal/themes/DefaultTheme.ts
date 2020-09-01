@@ -239,6 +239,9 @@ export class DefaultTheme {
   public static get tokenInputShadow() {
     return this.inputShadow;
   }
+  public static get tokenInputTextColor() {
+    return this.inputTextColor;
+  }
   public static get tokenInputTextColorDisabled() {
     return this.inputTextColorDisabled;
   }
