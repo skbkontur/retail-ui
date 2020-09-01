@@ -119,6 +119,7 @@ const styles = {
           .case('medium', t.btnPaddingXMedium)
           .case('large', t.btnPaddingXLarge)
           .default(t.btnPaddingXSmall),
+        isIE11 || isEdge ? 1 : 0,
       )};
 
       line-height: ${fSwitch<boolean, string>(true)
@@ -710,10 +711,10 @@ const styles = {
 
       left: ${fSwitch<boolean, string>(true)
         .case(arrow !== 'left', 'inherit')
-        .case(size === 'small', t.btnSmallArrowRight)
-        .case(size === 'medium', t.btnMediumArrowRight)
-        .case(size === 'large', t.btnLargeArrowRight)
-        .default(t.btnSmallArrowRight)};
+        .case(size === 'small', t.btnSmallArrowLeft)
+        .case(size === 'medium', t.btnMediumArrowLeft)
+        .case(size === 'large', t.btnLargeArrowLeft)
+        .default(t.btnSmallArrowLeft)};
 
       background: ${fSwitch<boolean, string>(true)
         .case(use === 'default', getButtonArrowUseBackground(arrow === 'left', t.btnDefaultBgStart, t.btnDefaultBgEnd))
