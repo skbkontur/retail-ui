@@ -14,7 +14,7 @@ in the project with absolute id = 'Common_ReactSorge', and delete the patch scri
 */
 create(AbsoluteId("Common_ReactSorge"), BuildType({
     id = AbsoluteId("Common_ReactSorge_Test")
-    name = "Test"
+    name = "List/Test"
 
     vcs {
         root(AbsoluteId("Common_ReactSorge_HttpsGithubComSkbkonturReactSorgeGitRefsHeadsMaster"))
