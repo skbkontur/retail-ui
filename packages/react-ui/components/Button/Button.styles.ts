@@ -1,16 +1,10 @@
-import { css, cssName, keyframes /* memoizeStyle */ } from '../../lib/theming/Emotion';
+import { css, keyframes /* memoizeStyle */ } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 import { isIE11, isEdge } from '../../lib/utils';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
-import {
-  buttonIconSizeMixin,
-  buttonLoadingArrowMixin,
-  getBtnPadding,
-  getBtnUseBg,
-  getBtnArrowUseBg,
-} from './Button.mixins';
+import { getBtnPaddingTop, getBtnPaddingBottom, getBtnUseBg, getBtnArrowUseBg } from './Button.mixins';
 import { ButtonProps } from './Button';
 
 const btn_loading_arrow = keyframes`
@@ -31,18 +25,6 @@ function match(cases: any, defaultResult?: any) {
   }
   return defaultResult;
 }
-
-const bySize = <T>(size: ButtonProps['size'], [small, medium, large]: T[]) => {
-  switch (size) {
-    case 'large':
-      return large;
-    case 'medium':
-      return medium;
-    case 'small':
-    default:
-      return small;
-  }
-};
 
 export interface ButtonStylesProps extends ButtonProps {
   focus: boolean;
@@ -67,6 +49,12 @@ const styles = {
       _noPadding,
       _noRightPadding,
     } = p;
+    const fontSize = match([
+      [size === 'small', t.btnFontSizeSmall],
+      [size === 'medium', t.btnFontSizeMedium],
+      [size === 'large', t.btnFontSizeLarge],
+    ]);
+
     return css`
       ${resetButton()};
       ${resetText()};
@@ -92,9 +80,10 @@ const styles = {
       }
 
       display: ${use === 'link' ? 'inline' : 'inline-block'};
-      cursor: ${disabled ? 'default' : 'pointer'};
-      pointer-events: ${match([[disabled === true, 'none']])};
+      cursor: ${disabled || loading ? 'default' : 'pointer'};
+      pointer-events: ${match([[disabled || loading === true, 'none']])};
       z-index: ${match([[focus === true, '2']])};
+      outline-color: ${match([[isIE11 || isEdge, 'transparent']])};
 
       text-decoration: ${match([
         [
@@ -106,7 +95,7 @@ const styles = {
         ],
       ])};
 
-      font-size: ${bySize(size, [t.btnFontSizeSmall, t.btnFontSizeMedium, t.btnFontSizeLarge])};
+      font-size: ${fontSize};
 
       height: ${match([
         [
@@ -122,28 +111,46 @@ const styles = {
         ],
       ])};
 
-      padding: ${
-        use === 'link'
-          ? '0'
-          : getBtnPadding(
-              match([
-                [size === 'small', t.btnFontSizeSmall],
-                [size === 'medium', t.btnFontSizeMedium],
-                [size === 'large', t.btnFontSizeLarge],
-              ]),
-              match([
-                [size === 'small', t.btnPaddingYSmall],
-                [size === 'medium', t.btnPaddingYMedium],
-                [size === 'large', t.btnPaddingYLarge],
-              ]),
-              match([
-                [size === 'small', t.btnPaddingXSmall],
-                [size === 'medium', t.btnPaddingXMedium],
-                [size === 'large', t.btnPaddingXLarge],
-              ]),
-              isIE11 || isEdge ? 1 : 0,
-            )
-      };
+      padding-top: ${use === 'link'
+        ? '0'
+        : getBtnPaddingTop(
+            fontSize,
+            match([
+              [size === 'small', t.btnPaddingYSmall],
+              [size === 'medium', t.btnPaddingYMedium],
+              [size === 'large', t.btnPaddingYLarge],
+            ]),
+          )};
+
+      padding-bottom: ${use === 'link'
+        ? '0'
+        : getBtnPaddingBottom(
+            fontSize,
+            match([
+              [size === 'small', t.btnPaddingYSmall],
+              [size === 'medium', t.btnPaddingYMedium],
+              [size === 'large', t.btnPaddingYLarge],
+            ]),
+          )};
+
+      padding-left: ${match([
+        [use === 'link', '0'],
+        [_noPadding === true, '0'],
+        [narrow === true, '5px'],
+        [size === 'small', t.btnPaddingXSmall],
+        [size === 'medium', t.btnPaddingXMedium],
+        [size === 'large', t.btnPaddingXLarge],
+      ])};
+
+      padding-right: ${match([
+        [use === 'link', '0'],
+        [_noRightPadding === true, '0'],
+        [_noPadding === true, '0'],
+        [narrow === true, '5px'],
+        [size === 'small', t.btnPaddingXSmall],
+        [size === 'medium', t.btnPaddingXMedium],
+        [size === 'large', t.btnPaddingXLarge],
+      ])};
 
       line-height: ${match([
         [use === 'link', 'inherit'],
@@ -162,6 +169,8 @@ const styles = {
 
       background: ${match([
         [use === 'link', 'none'],
+        [disabled === true || loading === true, t.btnDisabledBg],
+        [checked === true, t.btnCheckedBg],
         [
           active === true,
           match([
@@ -194,7 +203,7 @@ const styles = {
           use === 'link',
           match(
             [
-              [disabled === true, t.btnLinkDisabledColor],
+              [disabled === true || loading === true, t.btnLinkDisabledColor],
               [focus === true, t.btnLinkColor],
               [active === true, t.btnLinkActiveColor],
               [hover === true, t.linkHoverColor],
@@ -202,6 +211,8 @@ const styles = {
             t.btnLinkColor,
           ),
         ],
+        [disabled === true || loading === true, t.btnDisabledTextColor],
+        [checked === true, t.btnCheckedTextColor],
         [use === 'default', t.btnDefaultTextColor],
         [use === 'primary', t.btnPrimaryTextColor],
         [use === 'success', t.btnSuccessTextColor],
@@ -211,6 +222,8 @@ const styles = {
 
       box-shadow: ${match([
         [use === 'link', 'none'],
+        [disabled === true || loading === true, t.btnDisabledShadow],
+        [checked === true, t.btnCheckedShadow],
         [
           focus === true && !disabled,
           match(
@@ -228,6 +241,7 @@ const styles = {
             [use === 'pay', t.btnPayActiveShadow],
           ]),
         ],
+        [borderless === true, 'none'],
         [
           hover === true,
           match([
@@ -247,6 +261,7 @@ const styles = {
 
       border: ${match([
         [use === 'link', 'none'],
+        [checked === true, t.btnDefaultCheckedBorder],
         [focus === true && !disabled, t.btnFocusBorder],
         [use === 'default', t.btnDefaultBorder],
         [use === 'primary', t.btnPrimaryBorder],
@@ -256,6 +271,7 @@ const styles = {
       ])};
 
       border-color: ${match([
+        [disabled === true || loading === true, 'transparent'],
         [focus === true && !disabled, 'transparent'],
         [
           hover === true,
@@ -268,15 +284,6 @@ const styles = {
           ]),
         ],
       ])};
-
-      ${checked ? styles.checked(t, p) : ``}
-      ${disabled || loading ? styles.disabled(t, p) : ``}
-      ${loading ? styles.loading(t, p) : ``}
-
-      ${narrow ? styles.narrow() : ``}
-      ${_noPadding ? styles.noPadding() : ``}
-      ${_noRightPadding ? styles.noRightPadding() : ``}
-      ${borderless ? styles.borderless(t, p) : ``}
     `;
   },
 
@@ -293,105 +300,8 @@ const styles = {
         [error === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}`],
         [warning === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning}`],
       ]),
+      background: match([[use === 'link', t.btnErrorSecondary]]),
     });
-  },
-
-  sizeSmallLoading(t: Theme, p: ButtonStylesProps) {
-    const { arrow } = p;
-    return css`
-      ${buttonLoadingArrowMixin(
-        t.btnSmallArrowTop,
-        t.btnSmallArrowTop,
-        '-207px',
-        '441%',
-        t.btnSmallArrowBg,
-        t.btnSmallArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )}
-    `;
-  },
-
-  sizeMediumLoading(t: Theme, p: ButtonStylesProps) {
-    const { arrow } = p;
-    return css`
-      ${buttonLoadingArrowMixin(
-        '0',
-        '0',
-        t.btnMediumArrowLeftLoadingLeft,
-        '441%',
-        t.btnMediumArrowBg,
-        t.btnMediumArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-    `;
-  },
-
-  sizeLargeLoading(t: Theme, p: ButtonStylesProps) {
-    const { arrow } = p;
-    return css`
-      ${buttonLoadingArrowMixin(
-        '-32px',
-        '-36px',
-        ' -198px',
-        '700%',
-        t.btnLargeArrowBg,
-        t.btnLargeArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow(t, p)),
-        arrow === 'left',
-      )};
-    `;
-  },
-
-  disabled(t: Theme, p: ButtonStylesProps) {
-    return css`
-      cursor: default;
-      pointer-events: none;
-      border-color: transparent;
-      background: ${t.btnDisabledBg};
-      color: ${t.btnDisabledTextColor};
-      box-shadow: ${t.btnDisabledShadow};
-
-      ${isIE11 || isEdge
-        ? `
-          outline-color: transparent;
-        `
-        : ``}
-
-      ${cssName(styles.arrow(t, p))} {
-        background: ${t.btnDisabledBg};
-        box-shadow: ${t.btnDisabledShadowArrow};
-      }
-    `;
-  },
-
-  checked(t: Theme, p: ButtonStylesProps) {
-    const { arrow } = p;
-    return css`
-      &,
-      &:hover,
-      &:active {
-        box-shadow: ${t.btnCheckedShadow};
-        background: ${t.btnCheckedBg};
-        color: ${t.btnCheckedTextColor};
-        border: ${t.btnDefaultCheckedBorder};
-
-        ${cssName(styles.arrow(t, p))} {
-          background: ${t.btnCheckedBg};
-          box-shadow: ${t.btnCheckedShadowArrow};
-
-          ${arrow === 'left'
-            ? `
-              box-shadow: ${t.btnCheckedShadowArrowLeft};
-            `
-            : ``}
-        }
-      }
-    `;
   },
 
   caption(t: Theme, p: ButtonStylesProps) {
@@ -413,53 +323,16 @@ const styles = {
     return css`
       box-sizing: border-box;
       display: inline-block;
-
-      ${use !== 'link'
-        ? `
-        padding: ${t.btnWrapPadding};
-
-        ${
-          arrow === true
-            ? `
-              margin-right: 10px
-            `
-            : ``
-        };
-
-        ${
-          arrow === 'left'
-            ? `
-              margin-left: 10px
-            `
-            : ``
-        };
-
-        `
-        : ``}
+      padding: ${match([[use !== 'link', t.btnWrapPadding]])};
+      margin-right: ${match([[use !== 'link' && arrow === true, '10px']])};
+      margin-left: ${match([[use !== 'link' && arrow === 'left', '10px']])};
     `;
   },
 
-  narrow() {
-    return css`
-      padding-left: 5px;
-      padding-right: 5px;
-    `;
-  },
-
-  noPadding() {
-    return css`
-      padding-left: 0;
-      padding-right: 0;
-    `;
-  },
-
-  noRightPadding() {
-    return css`
-      padding-right: 0;
-    `;
-  },
-
-  arrow(t: Theme, { size, arrow, use, active, hover, error, warning, focus, disabled }: ButtonStylesProps) {
+  arrow(
+    t: Theme,
+    { size, arrow, use, active, hover, error, warning, focus, disabled, checked, loading }: ButtonStylesProps,
+  ) {
     return css`
       position: absolute;
       box-sizing: border-box;
@@ -507,6 +380,8 @@ const styles = {
       ])};
 
       background: ${match([
+        [disabled === true || loading === true, t.btnDisabledBg],
+        [checked === true, t.btnCheckedBg],
         [
           active === true,
           match([
@@ -535,6 +410,8 @@ const styles = {
       ])};
 
       box-shadow: ${match([
+        [disabled === true || loading === true, t.btnDisabledShadowArrow],
+        [checked === true, arrow === 'left' ? t.btnCheckedShadowArrowLeft : t.btnCheckedShadowArrow],
         [
           focus === true && !disabled,
           match(
@@ -582,6 +459,61 @@ const styles = {
         [use === 'danger', arrow === 'left' ? t.btnDangerShadowArrowLeft : t.btnDangerShadowArrow],
         [use === 'pay', arrow === 'left' ? t.btnPayShadowArrowLeft : t.btnPayShadowArrow],
       ])};
+
+      &::before {
+        content: ${match([[loading === true, '']])};
+        display: block;
+        opacity: 0.2;
+        position: absolute;
+
+        top: ${match([
+          [
+            arrow === 'left',
+            match([
+              [size === 'small', t.btnSmallArrowTop],
+              [size === 'medium', '0'],
+              [size === 'large', '-36px'],
+            ]),
+          ],
+          [size === 'small', t.btnSmallArrowTop],
+          [size === 'medium', '0'],
+          [size === 'large', '-32px'],
+        ])};
+        left: ${match([
+          [arrow !== 'left', '-207px'],
+          [size === 'small', '-207px'],
+          [size === 'medium', t.btnMediumArrowLeftLoadingLeft],
+          [size === 'large', '-198px'],
+        ])};
+        right: -72px;
+        height: ${match([
+          [size === 'small', '441%'],
+          [size === 'medium', '441%'],
+          [size === 'large', '700%'],
+        ])};
+        background: ${match([
+          [size === 'small', t.btnSmallArrowBg],
+          [size === 'medium', t.btnMediumArrowBg],
+          [size === 'large', t.btnLargeArrowBg],
+        ])};
+        background-size: 41px 100%;
+        animation: ${btn_loading_arrow} 1s linear infinite;
+        animation-direction: ${match([[arrow === 'left', 'reverse']])};
+        animation-delay: ${match([
+          [
+            arrow === 'left',
+            match([
+              [size === 'small', t.btnSmallArrowLeftLoadingDelay],
+              [size === 'medium', t.btnMediumArrowLeftLoadingDelay],
+              [size === 'large', t.btnLargeArrowLeftLoadingDelay],
+            ]),
+          ],
+        ])};
+        transform: ${match(
+          [[arrow === 'left', 'translateX(42px) rotate(-44.3deg)']],
+          'translateX(50px) rotate(-44.3deg)',
+        )};
+      }
     `;
   },
 
@@ -590,59 +522,18 @@ const styles = {
     return css`
       display: inline-block;
 
-      ${size === 'small' ? styles.iconSmall(t, p) : ``}
-      ${size === 'medium' ? styles.iconMedium(t, p) : ``}
-      ${size === 'large' ? styles.iconLarge(t, p) : ``}
+      width: ${match([
+        [size === 'small', t.btnIconSizeSmall],
+        [size === 'medium', t.btnIconSizeMedium],
+        [size === 'large', t.btnIconSizeLarge],
+      ])};
 
-      ${
-        use === 'link'
-          ? `
-            padding-right: ${t.btnLinkIconMarginRight};
-          `
-          : ``
-      }
-    `;
-  },
-
-  iconSmall(t: Theme, p: ButtonStylesProps) {
-    return css`
-      ${buttonIconSizeMixin(t.btnIconSizeSmall, t.btnIconGapSmall)}
-    `;
-  },
-
-  iconMedium(t: Theme, p: ButtonStylesProps) {
-    return css`
-      ${buttonIconSizeMixin(t.btnIconSizeMedium, t.btnIconGapMedium)}
-    `;
-  },
-
-  iconLarge(t: Theme, p: ButtonStylesProps) {
-    return css`
-      ${buttonIconSizeMixin(t.btnIconSizeLarge, t.btnIconGapLarge)}
-    `;
-  },
-
-  borderless(t: Theme, p: ButtonStylesProps) {
-    const { focus, disabled, loading, checked, active } = p;
-    return css`
-      ${!focus && !disabled && !loading && !checked && !active
-        ? `
-          &,
-          &:hover,
-          &:active {
-            box-shadow: none;
-          }
-        `
-        : ``}
-    `;
-  },
-
-  loading(t: Theme, p: ButtonStylesProps) {
-    const { size } = p;
-    return css`
-      ${size === 'small' ? styles.sizeSmallLoading(t, p) : ``}
-      ${size === 'medium' ? styles.sizeMediumLoading(t, p) : ``}
-      ${size === 'large' ? styles.sizeLargeLoading(t, p) : ``}
+      padding-right: ${match([
+        [use === 'link', t.btnLinkIconMarginRight],
+        [size === 'small', t.btnIconGapSmall],
+        [size === 'medium', t.btnIconGapMedium],
+        [size === 'large', t.btnIconGapLarge],
+      ])};
     `;
   },
 
