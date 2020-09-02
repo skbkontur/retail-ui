@@ -121,7 +121,7 @@ object RunAll : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
         }
     }
