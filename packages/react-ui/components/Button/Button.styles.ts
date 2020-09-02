@@ -272,7 +272,6 @@ const styles = {
 
       border-color: ${match([
         [disabled === true || loading === true, 'transparent'],
-        [focus === true && !disabled, 'transparent'],
         [
           hover === true,
           match([
@@ -402,11 +401,11 @@ const styles = {
             [use === 'pay', getBtnArrowUseBg(arrow === 'left', t.btnPayHoverBgStart, t.btnPayHoverBgEnd)],
           ]),
         ],
-        [use === 'default', getBtnArrowUseBg(arrow === 'left', t.btnDefaultBgStart, t.btnDefaultBgEnd)],
-        [use === 'primary', getBtnArrowUseBg(arrow === 'left', t.btnPrimaryBgStart, t.btnPrimaryBgEnd)],
-        [use === 'success', getBtnArrowUseBg(arrow === 'left', t.btnSuccessBgStart, t.btnSuccessBgEnd)],
-        [use === 'danger', getBtnArrowUseBg(arrow === 'left', t.btnDangerBgStart, t.btnDangerBgEnd)],
-        [use === 'pay', getBtnArrowUseBg(arrow === 'left', t.btnPayBgStart, t.btnPayBgEnd)],
+        [use === 'default', getBtnArrowUseBg(arrow === 'left', t.btnDefaultBgArrowStart, t.btnDefaultBgArrowEnd)],
+        [use === 'primary', getBtnArrowUseBg(arrow === 'left', t.btnPrimaryBgArrowStart, t.btnPrimaryBgArrowEnd)],
+        [use === 'success', getBtnArrowUseBg(arrow === 'left', t.btnSuccessBgArrowStart, t.btnSuccessBgArrowEnd)],
+        [use === 'danger', getBtnArrowUseBg(arrow === 'left', t.btnDangerBgArrowStart, t.btnDangerBgArrowEnd)],
+        [use === 'pay', getBtnArrowUseBg(arrow === 'left', t.btnPayBgArrowStart, t.btnPayBgArrowEnd)],
       ])};
 
       box-shadow: ${match([
