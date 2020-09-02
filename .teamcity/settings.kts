@@ -185,7 +185,7 @@ object ReactUI_GitHubFeatures : Template({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:5b441be5-9aec-4b9d-80cf-975d778b95f5"
+                    token = "credentialsJSON:753f3391-1e06-4223-8a34-70a7c9adb2af"
                 }
             }
         }
@@ -361,7 +361,7 @@ object ReactUI_Publish : BuildType({
             teamcitySshKey = "GitHub"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
 })
 
@@ -458,7 +458,7 @@ object SeleniumTesting_Publish : BuildType({
             id = "TRIGGER_1"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
 })
 
@@ -685,6 +685,6 @@ object Validations_Publish : BuildType({
             teamcitySshKey = "GitHub"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
 })
