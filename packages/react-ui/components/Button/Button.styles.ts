@@ -203,7 +203,7 @@ const styles = {
           use === 'link',
           match(
             [
-              [disabled === true || loading === true, t.btnLinkDisabledColor],
+              [disabled === true, t.btnLinkDisabledColor],
               [focus === true, t.btnLinkColor],
               [hover === true, t.linkHoverColor],
             ],
