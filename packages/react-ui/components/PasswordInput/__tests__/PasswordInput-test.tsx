@@ -22,12 +22,12 @@ describe('PasswordInput', () => {
 
   it('has Icon with 14px size', () => {
     const component = setup();
-    expect(component.find(EyeClosedIcon).props().size).toEqual(14);
+    expect(component.find(EyeOpenedIcon).props().size).toEqual(14);
   });
 
-  it('should render eye-slash Icon', () => {
+  it('should render eye Icon', () => {
     const component = setup();
-    expect(component.find(EyeClosedIcon)).toHaveLength(1);
+    expect(component.find(EyeOpenedIcon)).toHaveLength(1);
   });
 
   it('should render password Input', () => {
@@ -35,15 +35,15 @@ describe('PasswordInput', () => {
     expect(component.find(Input).props().type).toBe('password');
   });
 
-  it('should render eye Icon after click on eye-slash Icon', () => {
+  it('should render eye-slash Icon after click on eye Icon', () => {
     const component = setup();
-    component.find(EyeClosedIcon).simulate('click');
-    expect(component.find(EyeOpenedIcon)).toHaveLength(1);
+    component.find(EyeOpenedIcon).simulate('click');
+    expect(component.find(EyeClosedIcon)).toHaveLength(1);
   });
 
-  it('should render text Input after click on eye-slash Icon', () => {
+  it('should render text Input after click on eye Icon', () => {
     const component = setup();
-    component.find(EyeClosedIcon).simulate('click');
+    component.find(EyeOpenedIcon).simulate('click');
     expect(component.find(Input).props().type).toBe('text');
   });
 
