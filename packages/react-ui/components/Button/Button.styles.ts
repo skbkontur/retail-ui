@@ -205,7 +205,6 @@ const styles = {
             [
               [disabled === true || loading === true, t.btnLinkDisabledColor],
               [focus === true, t.btnLinkColor],
-              [active === true, t.btnLinkActiveColor],
               [hover === true, t.linkHoverColor],
             ],
             t.btnLinkColor,
@@ -219,6 +218,11 @@ const styles = {
         [use === 'danger', t.btnDangerTextColor],
         [use === 'pay', t.btnPayTextColor],
       ])};
+
+      &:active {
+        /* historically, link doesn't change color by active "prop" */
+        color: ${match([[use === 'link', t.linkActiveColor]])};
+      }
 
       box-shadow: ${match([
         [use === 'link', 'none'],
@@ -272,6 +276,7 @@ const styles = {
 
       border-color: ${match([
         [disabled === true || loading === true, 'transparent'],
+        [focus === true && !disabled && (error === true || warning === true), 'transparent'],
         [
           hover === true,
           match([
@@ -299,7 +304,7 @@ const styles = {
         [error === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}`],
         [warning === true, `0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning}`],
       ]),
-      background: match([[use === 'link', t.btnErrorSecondary]]),
+      background: match([[use === 'link' && error === true, t.btnErrorSecondary]]),
     });
   },
 
@@ -460,7 +465,7 @@ const styles = {
       ])};
 
       &::before {
-        content: ${match([[loading === true, '']])};
+        content: ${match([[loading === true, '""']])};
         display: block;
         opacity: 0.2;
         position: absolute;
