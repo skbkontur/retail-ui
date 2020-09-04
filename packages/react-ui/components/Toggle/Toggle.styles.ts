@@ -153,6 +153,25 @@ const styles = {
       }
     `;
   },
+
+  caption() {
+    return css`
+      display: table-cell;
+      cursor: pointer;
+    `;
+  },
+
+  captionLeft(t: Theme) {
+    return css`
+      padding-right: ${t.toggleLabelGap};
+    `;
+  },
+
+  captionRight(t: Theme) {
+    return css`
+      padding-left: ${t.toggleLabelGap};
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

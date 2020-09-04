@@ -9,6 +9,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './Toggle.styles';
 
 export interface ToggleProps {
+  children?: React.ReactNode;
+  /**
+   * Положение children справа или слева от переключателя
+   * @default 'right'
+   */
+  captionPosition: 'left' | 'right';
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
@@ -44,6 +50,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static defaultProps = {
     disabled: false,
     loading: false,
+    captionPosition: 'right',
   };
 
   private theme!: Theme;
@@ -87,7 +94,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { warning, error, loading, color } = this.props;
+    const { children, captionPosition, warning, error, loading, color } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
@@ -98,40 +105,53 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       [jsStyles.isError(this.theme)]: !color && !!error,
     });
 
+    let caption = null;
+    if (children) {
+      const captionClass = cn(jsStyles.caption(), {
+        [jsStyles.captionLeft(this.theme)]: captionPosition === 'left',
+        [jsStyles.captionRight(this.theme)]: captionPosition === 'right',
+      });
+      caption = <span className={captionClass}>{children}</span>;
+    }
+
     return (
       <label
-        className={cn(jsStyles.wrapper(this.theme), {
+        className={cn({
           [jsStyles.wrapperDisabled(this.theme)]: !!disabled,
         })}
       >
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={this.handleChange}
-          className={jsStyles.input(this.theme)}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          ref={this.inputRef}
-          disabled={disabled}
-        />
-        <div
-          className={containerClassNames}
-          style={
-            checked && color
-              ? {
-                  backgroundColor: color,
-                  borderColor: color,
-                  boxShadow: `inset 0 0 0 1px ${color}`,
-                }
-              : undefined
-          }
-        >
-          <div
-            className={jsStyles.activeBackground()}
-            style={checked && color ? { backgroundColor: color } : undefined}
+        {captionPosition === 'left' ? caption : null}
+        <span className={jsStyles.wrapper(this.theme)}>
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={this.handleChange}
+            className={jsStyles.input(this.theme)}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            ref={this.inputRef}
+            disabled={disabled}
           />
-        </div>
-        <div className={jsStyles.handle(this.theme)} />
+          <div
+            className={containerClassNames}
+            style={
+              checked && color
+                ? {
+                    backgroundColor: color,
+                    borderColor: color,
+                    boxShadow: `inset 0 0 0 1px ${color}`,
+                  }
+                : undefined
+            }
+          >
+            <div
+              className={jsStyles.activeBackground()}
+              style={checked && color ? { backgroundColor: color } : undefined}
+            />
+          </div>
+          <div className={jsStyles.handle(this.theme)} />
+        </span>
+        {captionPosition === 'right' ? caption : null}
       </label>
     );
   }
