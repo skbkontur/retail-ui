@@ -64,7 +64,7 @@ const styles = {
       box-sizing: border-box;
       display: inline-block;
       max-width: 100%;
-      width: 100%;
+      width: auto;
       position: relative;
     `;
   },
