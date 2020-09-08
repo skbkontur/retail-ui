@@ -302,7 +302,7 @@ const styles = {
       ${cssName(styles.root(t))}& {
         cursor: default;
         pointer-events: none;
-        border-color: transparent !important;
+        border-color: ${t.btnDisabledBorderColor} !important;
 
         &:not(${cssName(styles.link(t))}) {
           background: ${t.btnDisabledBg} !important;
@@ -618,6 +618,18 @@ const styles = {
       &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
         ${cssName(styles.caption())} {
           transform: translateY(1px) !important;
+        }
+      }
+
+      &:not(${cssName(styles.link(t))})${cssName(styles.disabled(t))} {
+        box-shadow: ${t.btnCheckedDisabledShadow} !important;
+        background: ${t.btnCheckedDisabledBg} !important;
+        color: ${t.btnCheckedDisabledColor} !important;
+        border-color: ${t.btnCheckedDisabledBorderColor} !important;
+
+        ${cssName(styles.arrow())} {
+          background: ${t.btnCheckedDisabledBg} !important;
+          box-shadow: ${t.btnCheckedDisabledShadowArrow} !important;
         }
       }
 

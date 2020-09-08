@@ -178,7 +178,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [sizeClass]: true,
         [jsStyles.borderless(this.theme)]: !!this.props.borderless,
         [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.checked(this.theme)]: !!this.props.checked && !this.props.disabled,
+        [jsStyles.checked(this.theme)]: !!this.props.checked,
         [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
         [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
       }),
