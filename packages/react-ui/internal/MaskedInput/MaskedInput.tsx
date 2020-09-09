@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -76,8 +77,10 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
       onValueChange,
       onUnexpectedInput,
       defaultValue,
+      style,
       ...inputProps
     } = this.props;
+    const { emptyValue, value } = this.state;
 
     return (
       <span className={jsStyles.container()} x-ms-format-detection="none">
@@ -89,16 +92,20 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          value={this.state.value}
+          value={value}
           inputRef={this.refInput}
           ref={this.refMaskedInput}
+          style={{ ...style }}
         />
-        {this.isMaskVisible() && (
-          <span className={jsStyles.inputMask(this.theme)}>
-            <span style={{ color: 'transparent' }}>{this.state.emptyValue.slice(0, this.state.value.length)}</span>
-            {this.state.emptyValue.slice(this.state.value.length)}
-          </span>
-        )}
+        {this.isMaskVisible() &&
+          (style?.textAlign === 'right' ? (
+            <span className={jsStyles.inputMask(this.theme)}>{emptyValue.slice(value.length)}</span>
+          ) : (
+            <span className={cn(jsStyles.inputMask(this.theme), jsStyles.inputMaskLeft())}>
+              <span style={{ color: 'transparent' }}>{emptyValue.slice(0, value.length)}</span>
+              {emptyValue.slice(value.length)}
+            </span>
+          ))}
       </span>
     );
   }
