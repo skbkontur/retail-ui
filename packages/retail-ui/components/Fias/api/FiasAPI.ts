@@ -83,6 +83,7 @@ export class FiasAPI implements APIProvider {
     const query = {
       directParent: true,
       search: false,
+      version: this.version,
     };
     return this.send<VerifyResponse[]>(`verify?${FiasAPI.createQuery(query)}`, {
       method: 'POST',
@@ -181,7 +182,10 @@ export class FiasAPI implements APIProvider {
   };
 
   private resolveFiasId = (fiasId: FiasId): Promise<APIResult<SearchResponse>> => {
-    return this.send<AddressResponse>(`addresses/structural/${fiasId}`).then(result => {
+    const query = {
+      version: this.version,
+    };
+    return this.send<AddressResponse>(`addresses/structural/${fiasId}?${FiasAPI.createQuery(query)}`).then(result => {
       const { success, data, error } = result;
       if (success && data) {
         return APIResultFactory.success<SearchResponse>([data]);
@@ -205,6 +209,7 @@ export class FiasAPI implements APIProvider {
         address,
         limit,
         level,
+        version: this.version,
       })}`,
     );
   };
