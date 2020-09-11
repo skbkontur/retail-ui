@@ -116,7 +116,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     return (
       <label
-        className={cn({
+        className={cn(jsStyles.root(), {
           [jsStyles.wrapperDisabled(this.theme)]: !!disabled,
         })}
       >

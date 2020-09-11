@@ -2,6 +2,12 @@ import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
+  root() {
+    return css`
+      display: inline-flex;
+    `;
+  },
+
   handle(t: Theme) {
     const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
@@ -156,7 +162,6 @@ const styles = {
 
   caption() {
     return css`
-      display: table-cell;
       cursor: pointer;
     `;
   },
