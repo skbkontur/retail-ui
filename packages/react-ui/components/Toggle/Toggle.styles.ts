@@ -168,13 +168,13 @@ const styles = {
 
   captionLeft(t: Theme) {
     return css`
-      padding-right: ${t.toggleLabelGap};
+      padding-right: ${t.toggleCaptionGap};
     `;
   },
 
   captionRight(t: Theme) {
     return css`
-      padding-left: ${t.toggleLabelGap};
+      padding-left: ${t.toggleCaptionGap};
     `;
   },
 };

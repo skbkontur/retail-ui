@@ -12,8 +12,6 @@ let toggle = () => setState(state => ({ checked: !state.checked }));
 Положение `children` относительно переключателя указывается в `captionPosition`.
 
 ```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
-
 let initialState = { checked: false };
 
 let toggle = () => setState(state => ({ checked: !state.checked }));

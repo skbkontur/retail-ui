@@ -786,7 +786,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
-  public static get toggleLabelGap() {
+  public static get toggleCaptionGap() {
     return this.togglePaddingX;
   }
   //#endregion
