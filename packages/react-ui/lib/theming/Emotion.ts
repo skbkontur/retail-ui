@@ -31,7 +31,9 @@ function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is
   return fn.length == 0;
 }
 
-const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
+const memoize = <R>(
+  fn: (() => R) | ((theme: Theme, ...args: any[]) => R),
+): (() => R) | ((theme: Theme, ...args: any[]) => R) => {
   if (isZeroArgs(fn)) {
     let isCalled = false;
     let result: R;
@@ -45,13 +47,20 @@ const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R
   }
 
   const cache = new WeakMap();
-  return (arg: A) => {
-    if (!cache.has(arg)) cache.set(arg, fn(arg));
-    return cache.get(arg);
+  return (theme: Theme, ...args: any[]) => {
+    if (!cache.has(theme)) cache.set(theme, new Map());
+    const argsCache = cache.get(theme);
+    const argsHash = JSON.stringify(args);
+    if (!argsCache.get(argsHash)) {
+      argsCache.set(argsHash, fn(theme, ...args));
+    }
+    return argsCache.get(argsHash);
   };
 };
 
-export const memoizeStyle = <S extends { [className: string]: (() => string) | ((t: Theme) => string) }>(
+export const memoizeStyle = <
+  S extends { [className: string]: (() => string) | ((t: Theme, ...args: any[]) => string) }
+>(
   styles: S,
 ): S => {
   Object.keys(styles).forEach(className => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
