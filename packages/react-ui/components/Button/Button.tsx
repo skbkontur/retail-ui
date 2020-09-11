@@ -1,7 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
 
-import { isIE11, isEdge } from '../../lib/utils';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -157,31 +155,49 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderMain() {
-    const { corners = 0 } = this.props;
-    const sizeClass = this.getSizeClassName();
+    const {
+      corners = 0,
+      use,
+      size,
+      error,
+      warning,
+      active,
+      borderless,
+      visuallyFocused,
+      checked,
+      disabled,
+      loading,
+      narrow,
+      _noPadding,
+      _noRightPadding,
+    } = this.props;
 
     const isError = !!this.props.error;
     const isWarning = !!this.props.warning;
+    const isFocus = visuallyFocused || this.state.focusedByTab;
+
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
-      className: cn({
-        [jsStyles.root(this.theme)]: true,
-        [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
-        [jsStyles.active(this.theme)]: !!this.props.active,
-        [jsStyles.validationRoot(this.theme)]: isError || isWarning,
-        [jsStyles.narrow()]: !!this.props.narrow,
-        [jsStyles.noPadding()]: !!this.props._noPadding,
-        [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
-        [sizeClass]: true,
-        [jsStyles.borderless(this.theme)]: !!this.props.borderless,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.checked(this.theme)]: !!this.props.checked && !this.props.disabled,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
-        [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
-      }),
+      className: jsStyles.root(
+        this.theme,
+        use,
+        size,
+        error,
+        warning,
+        active,
+        borderless,
+        checked,
+        disabled,
+        loading,
+        narrow,
+        _noPadding,
+        _noRightPadding,
+        this.props.arrow,
+        isFocus,
+      ),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
         borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
@@ -201,109 +217,52 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     const wrapProps = {
-      className: cn({
-        [jsStyles.wrap(this.theme)]: true,
-        [jsStyles.wrapArrow()]: this.props.arrow === true,
-        [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
-      }),
+      className: jsStyles.wrap(this.theme, this.props.arrow, use),
       style: {
         width: this.props.width,
       },
     };
 
-    let error = null;
-    if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
-    } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+    let outline = null;
+    if (isError || isWarning) {
+      outline = <div className={jsStyles.outline(this.theme, use, error, warning)} />;
     }
 
-    let loading = null;
+    let loader = null;
     if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+      loader = <div className={jsStyles.loader()} />;
     }
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      icon = <span className={jsStyles.icon(this.theme, use, size)}>{this.props.icon}</span>;
     }
 
     let arrow = null;
     if (this.props.arrow) {
-      arrow = (
-        <div
-          className={cn({
-            [jsStyles.arrowWarning(this.theme)]: isWarning,
-            [jsStyles.arrowError(this.theme)]: isError,
-            [jsStyles.arrow()]: true,
-            [jsStyles.arrowLeft(this.theme)]: this.props.arrow === 'left',
-          })}
-        />
-      );
+      arrow = <div className={jsStyles.arrow()} />;
     }
 
     // Force disable all props and features, that cannot be use with Link
     if (this.props.use === 'link') {
-      rootProps.className = cn({
-        [jsStyles.root(this.theme)]: true,
-        [sizeClass]: true,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.link(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled,
-      });
-      Object.assign(wrapProps, {
-        className: cn(jsStyles.wrap(this.theme), {
-          [jsStyles.wrapLink(this.theme)]: this.props.use === 'link',
-        }),
-        style: { width: wrapProps.style.width },
-      });
       rootProps.style.textAlign = undefined;
-      loading = null;
+      loader = null;
       arrow = null;
     }
 
     return (
       <span {...wrapProps}>
         <button ref={this._ref} {...rootProps}>
-          {error}
-          {loading}
+          {outline}
+          {loader}
           {arrow}
-          <div className={jsStyles.caption()}>
+          <div className={jsStyles.caption(this.theme, use, active, checked, disabled)}>
             {icon}
             {this.props.children}
           </div>
         </button>
       </span>
     );
-  }
-
-  private getSizeClassName() {
-    switch (this.props.size) {
-      case 'large':
-        return cn(jsStyles.sizeLarge(this.theme), {
-          [jsStyles.sizeLargeLoading(this.theme)]: this.props.loading,
-        });
-      case 'medium':
-        return cn(jsStyles.sizeMedium(this.theme), {
-          [jsStyles.sizeMediumLoading(this.theme)]: this.props.loading,
-        });
-      case 'small':
-      default:
-        return cn(jsStyles.sizeSmall(this.theme), {
-          [jsStyles.sizeSmallLoading(this.theme)]: this.props.loading,
-        });
-    }
-  }
-  private getSizeIconClassName() {
-    switch (this.props.size) {
-      case 'large':
-        return jsStyles.iconLarge(this.theme);
-      case 'medium':
-        return jsStyles.iconMedium(this.theme);
-      case 'small':
-      default:
-        return jsStyles.iconSmall(this.theme);
-    }
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {

@@ -1,15 +1,20 @@
 import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
+import { isIE11, isEdge } from '../../lib/utils';
 
 import {
   buttonUseMixin,
   buttonHoverMixin,
   buttonActiveMixin,
+  buttonActiveCaptionMixin,
   buttonSizeMixin,
-  buttonArrowMixin,
+  buttonLinkSizeMixin,
+  buttonArrowSizeMixin,
+  buttonIconSizeMixin,
   buttonLoadingArrowMixin,
 } from './Button.mixins';
+import { ButtonProps } from './Button';
 
 const btn_loading_arrow = keyframes`
 0% {
@@ -22,7 +27,23 @@ const btn_loading_arrow = keyframes`
 `;
 
 const styles = {
-  root(t: Theme) {
+  root(
+    t: Theme,
+    use: ButtonProps['use'],
+    size: ButtonProps['size'],
+    error: ButtonProps['error'],
+    warning: ButtonProps['warning'],
+    active: ButtonProps['active'],
+    borderless: ButtonProps['borderless'],
+    checked: ButtonProps['checked'],
+    disabled: ButtonProps['disabled'],
+    loading: ButtonProps['loading'],
+    narrow: ButtonProps['narrow'],
+    noPadding: ButtonProps['_noPadding'],
+    noRightPadding: ButtonProps['_noRightPadding'],
+    arrow: ButtonProps['arrow'],
+    focus: boolean,
+  ) {
     return css`
       ${resetButton()};
       ${resetText()};
@@ -48,124 +69,184 @@ const styles = {
         width: 0;
       }
 
-      &:active {
-        ${cssName(styles.caption())} {
-          transform: translateY(1px);
-        }
+      ${size === 'small' ? styles.sizeSmall(t, use, arrow) : ``}
+      ${size === 'medium' ? styles.sizeMedium(t, use, arrow) : ``}
+      ${size === 'large' ? styles.sizeLarge(t, use, arrow) : ``}
+
+      ${
+        use === 'link'
+          ? css`
+              ${styles.link(t, disabled, focus)}
+            `
+          : css`
+            ${use === 'default' ? styles.default(t, arrow, active) : ``}
+            ${use === 'primary' ? styles.primary(t, arrow, active) : ``}
+            ${use === 'success' ? styles.success(t, arrow, active) : ``}
+            ${use === 'danger' ? styles.danger(t, arrow, active) : ``}
+            ${use === 'pay' ? styles.pay(t, arrow, active) : ``}
+
+            ${error ? styles.error(t) : ``}
+            ${warning ? styles.warning(t) : ``}
+
+            ${focus ? styles.focus(t, disabled, error, warning) : ``}
+            ${checked ? styles.checked(t, arrow) : ``}
+            ${disabled || loading ? styles.disabled(t) : ``}
+            ${loading ? styles.loading(t, size, arrow) : ``}
+
+            ${narrow ? styles.narrow() : ``}
+            ${noPadding ? styles.noPadding() : ``}
+            ${noRightPadding ? styles.noRightPadding() : ``}
+            ${borderless ? styles.borderless(t, focus, disabled, loading, checked, active) : ``}
+
+            &:active {
+              ${cssName(styles.caption(t, use, active, checked, disabled))} {
+                ${buttonActiveCaptionMixin()}
+              }
+            }
+          `
       }
     `;
   },
 
-  warning(t: Theme) {
+  outline(t: Theme, use: ButtonProps['use'], error: ButtonProps['error'], warning: ButtonProps['warning']) {
     return css`
       border-radius: inherit;
       position: absolute;
       top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
+
+      ${use === 'link'
+        ? `
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+
+            ${
+              error
+                ? `
+                  background: ${t.btnErrorSecondary};
+                `
+                : ``
+            }
+          `
+        : `
+          bottom: 0;
+          left: 0;
+          right: 0;
+
+          ${
+            error
+              ? `
+                box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
+              `
+              : ``
+          }
+
+          ${
+            warning
+              ? `
+                box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
+              `
+              : ``
+          }
+        `}
     `;
   },
 
-  error(t: Theme) {
+  sizeSmall(t: Theme, use: ButtonProps['use'], arrow: ButtonProps['arrow']) {
     return css`
-      border-radius: inherit;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
+      ${use === 'link'
+        ? `
+          ${buttonLinkSizeMixin(t.btnFontSizeSmall)};
+        `
+        : `
+          ${buttonSizeMixin(
+            t.btnFontSizeSmall,
+            t.btnHeightSmall,
+            t.btnHeightShift,
+            t.btnLineHeightSmall,
+            t.btnPaddingXSmall,
+            t.btnPaddingYSmall,
+            t.btnBorderRadiusSmall,
+          )};
+
+          ${cssName(styles.arrow())} {
+            border-radius: ${t.btnSmallArrowBorderRadius};
+          }
+
+          ${buttonArrowSizeMixin(
+            t.btnSmallArrowTop,
+            t.btnSmallArrowLeft,
+            t.btnSmallArrowRight,
+            t.btnSmallArrowLength,
+            'rotate(53deg) skewX(24deg) skewY(10deg)',
+            cssName(styles.arrow()),
+            arrow === 'left',
+          )};
+      `}
     `;
   },
 
-  sizeSmall(t: Theme) {
+  sizeMedium(t: Theme, use: ButtonProps['use'], arrow: ButtonProps['arrow']) {
     return css`
-      border-radius: ${t.btnBorderRadiusSmall};
+      ${use === 'link'
+        ? `
+          ${buttonLinkSizeMixin(t.btnFontSizeMedium)};
+        `
+        : `
+          ${buttonSizeMixin(
+            t.btnFontSizeMedium,
+            t.btnHeightMedium,
+            t.btnHeightShift,
+            t.btnLineHeightMedium,
+            t.btnPaddingXMedium,
+            t.btnPaddingYMedium,
+            t.btnBorderRadiusMedium,
+          )};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeSmall,
-        t.btnHeightSmall,
-        t.btnHeightShift,
-        t.btnLineHeightSmall,
-        t.btnPaddingXSmall,
-        t.btnPaddingYSmall,
-        cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
-      )};
-
-      ${cssName(styles.arrow())} {
-        border-radius: ${t.btnSmallArrowBorderRadius};
-      }
-
-      ${buttonArrowMixin(
-        t.btnSmallArrowTop,
-        t.btnSmallArrowLeft,
-        t.btnSmallArrowRight,
-        t.btnSmallArrowLength,
-        'rotate(53deg) skewX(24deg) skewY(10deg)',
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+          ${buttonArrowSizeMixin(
+            t.btnMediumArrowTop,
+            t.btnMediumArrowLeft,
+            t.btnMediumArrowRight,
+            t.btnMediumArrowLength,
+            t.btnMediumArrowTransform,
+            cssName(styles.arrow()),
+            arrow === 'left',
+          )};
+        `}
     `;
   },
 
-  sizeMedium(t: Theme) {
+  sizeLarge(t: Theme, use: ButtonProps['use'], arrow: ButtonProps['arrow']) {
     return css`
-      border-radius: ${t.btnBorderRadiusMedium};
+      ${use === 'link'
+        ? `
+          ${buttonLinkSizeMixin(t.btnFontSizeLarge)};
+        `
+        : `
+          ${buttonSizeMixin(
+            t.btnFontSizeLarge,
+            t.btnHeightLarge,
+            t.btnHeightShift,
+            t.btnLineHeightLarge,
+            t.btnPaddingXLarge,
+            t.btnPaddingYLarge,
+            t.btnBorderRadiusLarge,
+          )};
 
-      ${buttonSizeMixin(
-        t.btnFontSizeMedium,
-        t.btnHeightMedium,
-        t.btnHeightShift,
-        t.btnLineHeightMedium,
-        t.btnPaddingXMedium,
-        t.btnPaddingYMedium,
-        cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
-      )};
-
-      ${buttonArrowMixin(
-        t.btnMediumArrowTop,
-        t.btnMediumArrowLeft,
-        t.btnMediumArrowRight,
-        t.btnMediumArrowLength,
-        t.btnMediumArrowTransform,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+          ${buttonArrowSizeMixin(
+            t.btnLargeArrowTop,
+            t.btnLargeArrowLeft,
+            t.btnLargeArrowRight,
+            t.btnLargeArrowLength,
+            t.btnLargeArrowTransform,
+            cssName(styles.arrow()),
+            arrow === 'left',
+          )};
+      `}
     `;
   },
 
-  sizeLarge(t: Theme) {
-    return css`
-      border-radius: ${t.btnBorderRadiusLarge};
-
-      ${buttonSizeMixin(
-        t.btnFontSizeLarge,
-        t.btnHeightLarge,
-        t.btnHeightShift,
-        t.btnLineHeightLarge,
-        t.btnPaddingXLarge,
-        t.btnPaddingYLarge,
-        cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
-      )};
-
-      ${buttonArrowMixin(
-        t.btnLargeArrowTop,
-        t.btnLargeArrowLeft,
-        t.btnLargeArrowRight,
-        t.btnLargeArrowLength,
-        t.btnLargeArrowTransform,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
-    `;
-  },
-
-  sizeSmallLoading(t: Theme) {
+  sizeSmallLoading(t: Theme, arrow: ButtonProps['arrow']) {
     return css`
       ${buttonLoadingArrowMixin(
         t.btnSmallArrowTop,
@@ -176,12 +257,12 @@ const styles = {
         t.btnSmallArrowLeftLoadingDelay,
         btn_loading_arrow,
         cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
+        arrow === 'left',
+      )}
     `;
   },
 
-  sizeMediumLoading(t: Theme) {
+  sizeMediumLoading(t: Theme, arrow: ButtonProps['arrow']) {
     return css`
       ${buttonLoadingArrowMixin(
         '0',
@@ -192,12 +273,12 @@ const styles = {
         t.btnMediumArrowLeftLoadingDelay,
         btn_loading_arrow,
         cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        arrow === 'left',
       )};
     `;
   },
 
-  sizeLargeLoading(t: Theme) {
+  sizeLargeLoading(t: Theme, arrow: ButtonProps['arrow']) {
     return css`
       ${buttonLoadingArrowMixin(
         '-32px',
@@ -208,495 +289,471 @@ const styles = {
         t.btnLargeArrowLeftLoadingDelay,
         btn_loading_arrow,
         cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
+        arrow === 'left',
       )};
     `;
   },
 
-  link(t: Theme) {
+  link(t: Theme, disabled: ButtonProps['disabled'], focus: boolean) {
     return css`
       background: none;
-      border-radius: ${t.btnLinkBorderRadius} !important;
+      border-radius: ${t.btnLinkBorderRadius};
       border: none;
       box-shadow: none;
-      color: ${t.btnLinkColor} !important;
+      color: ${t.btnLinkColor};
       display: inline;
-      line-height: inherit !important;
+      line-height: inherit;
       margin: 0;
-      padding: 0 !important;
+      padding: 0;
 
       &:hover {
-        color: ${t.btnLinkHoverColor} !important;
+        color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
       &:active {
-        color: ${t.linkActiveColor} !important;
+        color: ${t.linkActiveColor};
       }
-      ${cssName(styles.caption())} {
-        display: inline;
-        transform: none !important;
-      }
-      ${cssName(styles.icon())} {
-        padding-right: ${t.btnLinkIconMarginRight};
-      }
-      ${cssName(styles.warning(t))} ,
-      ${cssName(styles.error(t))}  {
-        box-shadow: none;
-        left: -2px !important;
-        right: -2px !important;
-        bottom: -2px !important;
-      }
-      ${cssName(styles.error(t))}  {
-        background: ${t.btnErrorSecondary} !important;
-      }
+
+      ${focus
+        ? `
+          color: ${t.btnLinkColor};
+          text-decoration: ${t.btnLinkHoverTextDecoration};
+        `
+        : ``}
+
+      ${disabled
+        ? `
+          cursor: default;
+          pointer-events: none;
+          color: ${t.btnLinkDisabledColor};
+        `
+        : ``};
     `;
   },
 
-  focus(t: Theme) {
+  focus(t: Theme, disabled: ButtonProps['disabled'], error: ButtonProps['error'], warning: ButtonProps['warning']) {
     return css`
-      ${cssName(styles.root(t))}& {
-        position: relative;
-        z-index: 2;
+      border-color: transparent;
+      position: relative;
+      z-index: 2;
 
-        &${cssName(styles.link(t))} {
-          color: ${t.btnLinkColor};
-          text-decoration: ${t.btnLinkHoverTextDecoration};
-        }
-
-        &:not(${cssName(styles.disabled(t))}):not(${cssName(styles.link(t))}) {
+      ${!disabled
+        ? `
           border: ${t.btnFocusBorder};
 
           &,
           &:hover,
-          &:active,
-          ${cssName(styles.active(t))} {
+          &:active {
             box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus},
               0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
 
-            &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
-              box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus} !important;
-              border-color: transparent !important;
+            ${
+              error || warning
+                ? `
+                  box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
+                  border-color: transparent;
+                `
+                : ''
             }
+
             ${cssName(styles.arrow())} {
               box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
                 ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorFocus};
 
-              &${cssName(styles.arrowWarning(t))} {
-                box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;
+              ${
+                warning
+                  ? `
+                    box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+                    ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};`
+                  : ``
               }
 
-              &${cssName(styles.arrowError(t))} {
-                box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-                  ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
+              ${
+                error
+                  ? `
+                    box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+                    ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
+                  `
+                  : ``
               }
             }
           }
-        }
-      }
+        `
+        : ``}
     `;
   },
 
   disabled(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        cursor: default;
-        pointer-events: none;
-        border-color: transparent !important;
+      cursor: default;
+      pointer-events: none;
+      border-color: transparent;
+      background: ${t.btnDisabledBg};
+      color: ${t.btnDisabledTextColor};
+      box-shadow: ${t.btnDisabledShadow};
 
-        &:not(${cssName(styles.link(t))}) {
-          background: ${t.btnDisabledBg} !important;
-          color: ${t.btnDisabledTextColor} !important;
-          box-shadow: ${t.btnDisabledShadow} !important;
+      ${isIE11 || isEdge
+        ? `
+          outline-color: transparent;
+        `
+        : ``}
 
-          ${cssName(styles.arrow())} {
-            background: ${t.btnDisabledBg} !important;
-            box-shadow: ${t.btnDisabledShadowArrow} !important;
-          }
-        }
-
-        &${cssName(styles.link(t))} {
-          color: ${t.btnLinkDisabledColor} !important;
-        }
-
-        ${cssName(styles.caption())} {
-          transform: none !important;
-        }
+      ${cssName(styles.arrow())} {
+        background: ${t.btnDisabledBg};
+        box-shadow: ${t.btnDisabledShadowArrow};
       }
     `;
   },
 
-  fallback(t: Theme) {
+  error(t: Theme) {
     return css`
-      &${cssName(styles.disabled(t))} {
-        outline-color: transparent;
-      }
-      &:not(${cssName(styles.link(t))}) {
-        line-height: normal !important;
-      }
-    `;
-  },
-
-  validationRoot(t: Theme) {
-    return css`
-      ${cssName(styles.focus(t))}& {
-        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
-        border-color: transparent !important;
-      }
-    `;
-  },
-
-  arrowWarning(t: Theme) {
-    return css`
-      box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning} !important;
-    `;
-  },
-
-  arrowError(t: Theme) {
-    return css`
-      box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError} !important;
-    `;
-  },
-
-  arrowLeft(t: Theme) {
-    return css`
-      visibility: visible;
-
-      ${cssName(styles.checked(t))}:not(${cssName(styles.focus(t))}) & {
-        box-shadow: ${t.btnCheckedShadowArrowLeft} !important;
-      }
-    `;
-  },
-
-  default(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        ${buttonUseMixin(
-          t.btnDefaultBg,
-          t.btnDefaultBgStart,
-          t.btnDefaultBgEnd,
-          t.btnDefaultBgArrowStart,
-          t.btnDefaultBgArrowEnd,
-          t.btnDefaultShadow,
-          t.btnDefaultShadowArrow,
-          t.btnDefaultShadowArrowLeft,
-          t.btnDefaultTextColor,
-          t.btnDefaultBorder,
-          cssName(styles.checked(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonHoverMixin(
-          t.btnDefaultHoverBg,
-          t.btnDefaultHoverBgStart,
-          t.btnDefaultHoverBgEnd,
-          t.btnDefaultHoverBgStart,
-          t.btnDefaultHoverBgEnd,
-          t.btnDefaultHoverShadow,
-          t.btnDefaultHoverShadowArrow,
-          t.btnDefaultHoverShadowArrowLeft,
-          t.btnDefaultHoverBorderColor,
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonActiveMixin(
-          t.btnDefaultActiveBg,
-          t.btnDefaultActiveBg,
-          t.btnDefaultActiveBg,
-          t.btnDefaultActiveShadow,
-          t.btnDefaultActiveShadowArrow,
-          t.btnDefaultActiveShadowArrowLeft,
-          cssName(styles.active(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-      }
-    `;
-  },
-
-  primary(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        ${buttonUseMixin(
-          t.btnPrimaryBg,
-          t.btnPrimaryBgStart,
-          t.btnPrimaryBgEnd,
-          t.btnPrimaryBgArrowStart,
-          t.btnPrimaryBgArrowEnd,
-          t.btnPrimaryShadow,
-          t.btnPrimaryShadowArrow,
-          t.btnPrimaryShadowArrowLeft,
-          t.btnPrimaryTextColor,
-          t.btnPrimaryBorder,
-          cssName(styles.checked(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonHoverMixin(
-          t.btnPrimaryHoverBg,
-          t.btnPrimaryHoverBgStart,
-          t.btnPrimaryHoverBgEnd,
-          t.btnPrimaryHoverBgStart,
-          t.btnPrimaryHoverBgEnd,
-          t.btnPrimaryHoverShadow,
-          t.btnPrimaryHoverShadowArrow,
-          t.btnPrimaryHoverShadowArrowLeft,
-          t.btnPrimaryHoverBorderColor,
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonActiveMixin(
-          t.btnPrimaryActiveBg,
-          t.btnPrimaryActiveBg,
-          t.btnPrimaryActiveBg,
-          t.btnPrimaryActiveShadow,
-          t.btnPrimaryActiveShadowArrow,
-          t.btnPrimaryActiveShadowArrowLeft,
-          cssName(styles.active(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-      }
-    `;
-  },
-
-  success(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        ${buttonUseMixin(
-          t.btnSuccessBg,
-          t.btnSuccessBgStart,
-          t.btnSuccessBgEnd,
-          t.btnSuccessBgArrowStart,
-          t.btnSuccessBgArrowEnd,
-          t.btnSuccessShadow,
-          t.btnSuccessShadowArrow,
-          t.btnSuccessShadowArrowLeft,
-          t.btnSuccessTextColor,
-          t.btnSuccessBorder,
-          cssName(styles.checked(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonHoverMixin(
-          t.btnSuccessHoverBg,
-          t.btnSuccessHoverBgStart,
-          t.btnSuccessHoverBgEnd,
-          t.btnSuccessHoverBgStart,
-          t.btnSuccessHoverBgEnd,
-          t.btnSuccessHoverShadow,
-          t.btnSuccessHoverShadowArrow,
-          t.btnSuccessHoverShadowArrowLeft,
-          t.btnSuccessHoverBorderColor,
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonActiveMixin(
-          t.btnSuccessActiveBg,
-          t.btnSuccessActiveBg,
-          t.btnSuccessActiveBg,
-          t.btnSuccessActiveShadow,
-          t.btnSuccessActiveShadowArrow,
-          t.btnSuccessActiveShadowArrowLeft,
-          cssName(styles.active(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-      }
-    `;
-  },
-
-  danger(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        ${buttonUseMixin(
-          t.btnDangerBg,
-          t.btnDangerBgStart,
-          t.btnDangerBgEnd,
-          t.btnDangerBgArrowStart,
-          t.btnDangerBgArrowEnd,
-          t.btnDangerShadow,
-          t.btnDangerShadowArrow,
-          t.btnDangerShadowArrowLeft,
-          t.btnDangerTextColor,
-          t.btnDangerBorder,
-          cssName(styles.checked(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonHoverMixin(
-          t.btnDangerHoverBg,
-          t.btnDangerHoverBgStart,
-          t.btnDangerHoverBgEnd,
-          t.btnDangerHoverBgStart,
-          t.btnDangerHoverBgEnd,
-          t.btnDangerHoverShadow,
-          t.btnDangerHoverShadowArrow,
-          t.btnDangerHoverShadowArrowLeft,
-          t.btnDangerHoverBorderColor,
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonActiveMixin(
-          t.btnDangerActiveBg,
-          t.btnDangerActiveBg,
-          t.btnDangerActiveBg,
-          t.btnDangerActiveShadow,
-          t.btnDangerActiveShadowArrow,
-          t.btnDangerActiveShadowArrowLeft,
-          cssName(styles.active(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-      }
-    `;
-  },
-
-  pay(t: Theme) {
-    return css`
-      ${cssName(styles.root(t))}& {
-        ${buttonUseMixin(
-          t.btnPayBg,
-          t.btnPayBgStart,
-          t.btnPayBgEnd,
-          t.btnPayBgArrowStart,
-          t.btnPayBgArrowEnd,
-          t.btnPayShadow,
-          t.btnPayShadowArrow,
-          t.btnPayShadowArrowLeft,
-          t.btnPayTextColor,
-          t.btnPayBorder,
-          cssName(styles.checked(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonHoverMixin(
-          t.btnPayHoverBg,
-          t.btnPayHoverBgStart,
-          t.btnPayHoverBgEnd,
-          t.btnPayHoverBgStart,
-          t.btnPayHoverBgEnd,
-          t.btnPayHoverShadow,
-          t.btnPayHoverShadowArrow,
-          t.btnPayHoverShadowArrowLeft,
-          t.btnPayHoverBorderColor,
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-
-        ${buttonActiveMixin(
-          t.btnPayActiveBg,
-          t.btnPayActiveBg,
-          t.btnPayActiveBg,
-          t.btnPayActiveShadow,
-          t.btnPayActiveShadowArrow,
-          t.btnPayActiveShadowArrowLeft,
-          cssName(styles.active(t)),
-          cssName(styles.arrow()),
-          cssName(styles.arrowLeft(t)),
-        )};
-      }
-    `;
-  },
-
-  checked(t: Theme) {
-    return css`
-      box-shadow: ${t.btnCheckedShadow} !important;
-      background: ${t.btnCheckedBg} !important;
-      color: ${t.btnCheckedTextColor} !important;
-      border: ${t.btnDefaultCheckedBorder} !important;
-
-      &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
-        ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
-        }
-      }
-
       &,
-      &:not(${cssName(styles.focus(t))}) {
+      &:hover,
+      &:active {
         ${cssName(styles.arrow())} {
-          background: ${t.btnCheckedBg} !important;
-          box-shadow: ${t.btnCheckedShadowArrow} !important;
+          box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorError};
         }
       }
     `;
   },
 
-  active(t: Theme) {
+  warning(t: Theme) {
     return css`
-      &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
-        ${cssName(styles.caption())} {
-          transform: translateY(1px) !important;
+      &,
+      &:hover,
+      &:active {
+        ${cssName(styles.arrow())} {
+          box-shadow: ${t.btnOutlineWidth} -${t.btnOutlineWidth} 0 0 ${t.btnBorderColorWarning};
         }
       }
     `;
   },
 
-  caption() {
+  default(t: Theme, arrow: ButtonProps['arrow'], active: ButtonProps['active']) {
+    return css`
+      ${buttonUseMixin(
+        t.btnDefaultBg,
+        t.btnDefaultBgStart,
+        t.btnDefaultBgEnd,
+        t.btnDefaultBgArrowStart,
+        t.btnDefaultBgArrowEnd,
+        t.btnDefaultShadow,
+        t.btnDefaultShadowArrow,
+        t.btnDefaultShadowArrowLeft,
+        t.btnDefaultTextColor,
+        t.btnDefaultBorder,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonHoverMixin(
+        t.btnDefaultHoverBg,
+        t.btnDefaultHoverBgStart,
+        t.btnDefaultHoverBgEnd,
+        t.btnDefaultHoverBgStart,
+        t.btnDefaultHoverBgEnd,
+        t.btnDefaultHoverShadow,
+        t.btnDefaultHoverShadowArrow,
+        t.btnDefaultHoverShadowArrowLeft,
+        t.btnDefaultHoverBorderColor,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonActiveMixin(
+        !!active,
+        t.btnDefaultActiveBg,
+        t.btnDefaultActiveBg,
+        t.btnDefaultActiveBg,
+        t.btnDefaultActiveShadow,
+        t.btnDefaultActiveShadowArrow,
+        t.btnDefaultActiveShadowArrowLeft,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+    `;
+  },
+
+  primary(t: Theme, arrow: ButtonProps['arrow'], active: ButtonProps['active']) {
+    return css`
+      ${buttonUseMixin(
+        t.btnPrimaryBg,
+        t.btnPrimaryBgStart,
+        t.btnPrimaryBgEnd,
+        t.btnPrimaryBgArrowStart,
+        t.btnPrimaryBgArrowEnd,
+        t.btnPrimaryShadow,
+        t.btnPrimaryShadowArrow,
+        t.btnPrimaryShadowArrowLeft,
+        t.btnPrimaryTextColor,
+        t.btnPrimaryBorder,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonHoverMixin(
+        t.btnPrimaryHoverBg,
+        t.btnPrimaryHoverBgStart,
+        t.btnPrimaryHoverBgEnd,
+        t.btnPrimaryHoverBgStart,
+        t.btnPrimaryHoverBgEnd,
+        t.btnPrimaryHoverShadow,
+        t.btnPrimaryHoverShadowArrow,
+        t.btnPrimaryHoverShadowArrowLeft,
+        t.btnPrimaryHoverBorderColor,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonActiveMixin(
+        !!active,
+        t.btnPrimaryActiveBg,
+        t.btnPrimaryActiveBg,
+        t.btnPrimaryActiveBg,
+        t.btnPrimaryActiveShadow,
+        t.btnPrimaryActiveShadowArrow,
+        t.btnPrimaryActiveShadowArrowLeft,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+    `;
+  },
+
+  success(t: Theme, arrow: ButtonProps['arrow'], active: ButtonProps['active']) {
+    return css`
+      ${buttonUseMixin(
+        t.btnSuccessBg,
+        t.btnSuccessBgStart,
+        t.btnSuccessBgEnd,
+        t.btnSuccessBgArrowStart,
+        t.btnSuccessBgArrowEnd,
+        t.btnSuccessShadow,
+        t.btnSuccessShadowArrow,
+        t.btnSuccessShadowArrowLeft,
+        t.btnSuccessTextColor,
+        t.btnSuccessBorder,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonHoverMixin(
+        t.btnSuccessHoverBg,
+        t.btnSuccessHoverBgStart,
+        t.btnSuccessHoverBgEnd,
+        t.btnSuccessHoverBgStart,
+        t.btnSuccessHoverBgEnd,
+        t.btnSuccessHoverShadow,
+        t.btnSuccessHoverShadowArrow,
+        t.btnSuccessHoverShadowArrowLeft,
+        t.btnSuccessHoverBorderColor,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonActiveMixin(
+        !!active,
+        t.btnSuccessActiveBg,
+        t.btnSuccessActiveBg,
+        t.btnSuccessActiveBg,
+        t.btnSuccessActiveShadow,
+        t.btnSuccessActiveShadowArrow,
+        t.btnSuccessActiveShadowArrowLeft,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+    `;
+  },
+
+  danger(t: Theme, arrow: ButtonProps['arrow'], active: ButtonProps['active']) {
+    return css`
+      ${buttonUseMixin(
+        t.btnDangerBg,
+        t.btnDangerBgStart,
+        t.btnDangerBgEnd,
+        t.btnDangerBgArrowStart,
+        t.btnDangerBgArrowEnd,
+        t.btnDangerShadow,
+        t.btnDangerShadowArrow,
+        t.btnDangerShadowArrowLeft,
+        t.btnDangerTextColor,
+        t.btnDangerBorder,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonHoverMixin(
+        t.btnDangerHoverBg,
+        t.btnDangerHoverBgStart,
+        t.btnDangerHoverBgEnd,
+        t.btnDangerHoverBgStart,
+        t.btnDangerHoverBgEnd,
+        t.btnDangerHoverShadow,
+        t.btnDangerHoverShadowArrow,
+        t.btnDangerHoverShadowArrowLeft,
+        t.btnDangerHoverBorderColor,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonActiveMixin(
+        !!active,
+        t.btnDangerActiveBg,
+        t.btnDangerActiveBg,
+        t.btnDangerActiveBg,
+        t.btnDangerActiveShadow,
+        t.btnDangerActiveShadowArrow,
+        t.btnDangerActiveShadowArrowLeft,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+    `;
+  },
+
+  pay(t: Theme, arrow: ButtonProps['arrow'], active: ButtonProps['active']) {
+    return css`
+      ${buttonUseMixin(
+        t.btnPayBg,
+        t.btnPayBgStart,
+        t.btnPayBgEnd,
+        t.btnPayBgArrowStart,
+        t.btnPayBgArrowEnd,
+        t.btnPayShadow,
+        t.btnPayShadowArrow,
+        t.btnPayShadowArrowLeft,
+        t.btnPayTextColor,
+        t.btnPayBorder,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonHoverMixin(
+        t.btnPayHoverBg,
+        t.btnPayHoverBgStart,
+        t.btnPayHoverBgEnd,
+        t.btnPayHoverBgStart,
+        t.btnPayHoverBgEnd,
+        t.btnPayHoverShadow,
+        t.btnPayHoverShadowArrow,
+        t.btnPayHoverShadowArrowLeft,
+        t.btnPayHoverBorderColor,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+
+      ${buttonActiveMixin(
+        !!active,
+        t.btnPayActiveBg,
+        t.btnPayActiveBg,
+        t.btnPayActiveBg,
+        t.btnPayActiveShadow,
+        t.btnPayActiveShadowArrow,
+        t.btnPayActiveShadowArrowLeft,
+        cssName(styles.arrow()),
+        arrow === 'left',
+      )};
+    `;
+  },
+
+  checked(t: Theme, arrow: ButtonProps['arrow']) {
+    return css`
+      &,
+      &:hover,
+      &:active {
+        box-shadow: ${t.btnCheckedShadow};
+        background: ${t.btnCheckedBg};
+        color: ${t.btnCheckedTextColor};
+        border: ${t.btnDefaultCheckedBorder};
+
+        ${cssName(styles.arrow())} {
+          background: ${t.btnCheckedBg};
+          box-shadow: ${t.btnCheckedShadowArrow};
+
+          ${arrow === 'left'
+            ? `
+              box-shadow: ${t.btnCheckedShadowArrowLeft};
+            `
+            : ``}
+        }
+      }
+    `;
+  },
+
+  caption(
+    t: Theme,
+    use: ButtonProps['use'],
+    active: ButtonProps['active'],
+    checked: ButtonProps['checked'],
+    disabled: ButtonProps['disabled'],
+  ) {
     return css`
       position: relative;
       white-space: nowrap;
-      display: inline-block;
       width: 100%;
       vertical-align: top;
+
+      ${use === 'link'
+        ? `
+          display: inline;
+        `
+        : `
+          display: inline-block;
+        `}
+
+      ${(active || checked) && !(use === 'link' || disabled)
+        ? `
+          ${buttonActiveCaptionMixin()}
+        `
+        : ``}
     `;
   },
 
-  wrap(t: Theme) {
+  wrap(t: Theme, arrow: ButtonProps['arrow'], use: ButtonProps['use']) {
     return css`
-      padding: ${t.btnWrapPadding};
       box-sizing: border-box;
       display: inline-block;
+
+      ${use !== 'link'
+        ? `
+        padding: ${t.btnWrapPadding};
+
+        ${
+          arrow === true
+            ? `
+              margin-right: 10px
+            `
+            : ``
+        };
+
+        ${
+          arrow === 'left'
+            ? `
+              margin-left: 10px
+            `
+            : ``
+        };
+
+        `
+        : ``}
     `;
   },
 
   narrow() {
     return css`
-      padding-left: 5px !important;
-      padding-right: 5px !important;
+      padding-left: 5px;
+      padding-right: 5px;
     `;
   },
 
   noPadding() {
     return css`
-      padding-left: 0 !important;
-      padding-right: 0 !important;
+      padding-left: 0;
+      padding-right: 0;
     `;
   },
 
   noRightPadding() {
     return css`
-      padding-right: 0 !important;
-    `;
-  },
-
-  wrapLink(t: Theme) {
-    return css`
-      ${styles.wrap(t)};
-
-      padding: 0;
-    `;
-  },
-
-  wrapArrow() {
-    return css`
-      margin-right: 10px;
-    `;
-  },
-
-  wrapArrowLeft() {
-    return css`
-      margin-right: 0;
-      margin-left: 10px;
+      padding-right: 0;
     `;
   },
 
@@ -709,48 +766,72 @@ const styles = {
     `;
   },
 
-  icon() {
+  icon(t: Theme, use: ButtonProps['use'], size: ButtonProps['size']) {
     return css`
       display: inline-block;
-    `;
-  },
-  iconSmall(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeSmall};
-      padding-right: ${t.btnIconGapSmall};
-    `;
-  },
-  iconMedium(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeMedium};
-      padding-right: ${t.btnIconGapMedium};
-    `;
-  },
-  iconLarge(t: Theme) {
-    return css`
-      width: ${t.btnIconSizeLarge};
-      padding-right: ${t.btnIconGapLarge};
-    `;
-  },
 
-  borderless(t: Theme) {
-    const focus = cssName(styles.focus(t));
-    const disabled = cssName(styles.disabled(t));
-    const checked = cssName(styles.checked(t));
-    const active = cssName(styles.active(t));
+      ${size === 'small' ? styles.iconSmall(t) : ``}
+      ${size === 'medium' ? styles.iconMedium(t) : ``}
+      ${size === 'large' ? styles.iconLarge(t) : ``}
 
-    return css`
-      &:not(${focus}):not(${disabled}):not(${active}):not(${checked}) {
-        &,
-        &:hover,
-        &:active {
-          box-shadow: none !important;
-        }
+      ${
+        use === 'link'
+          ? `
+            padding-right: ${t.btnLinkIconMarginRight};
+          `
+          : ``
       }
     `;
   },
 
-  loading() {
+  iconSmall(t: Theme) {
+    return css`
+      ${buttonIconSizeMixin(t.btnIconSizeSmall, t.btnIconGapSmall)}
+    `;
+  },
+
+  iconMedium(t: Theme) {
+    return css`
+      ${buttonIconSizeMixin(t.btnIconSizeMedium, t.btnIconGapMedium)}
+    `;
+  },
+
+  iconLarge(t: Theme) {
+    return css`
+      ${buttonIconSizeMixin(t.btnIconSizeLarge, t.btnIconGapLarge)}
+    `;
+  },
+
+  borderless(
+    t: Theme,
+    focus: boolean,
+    disabled: ButtonProps['disabled'],
+    loading: ButtonProps['loading'],
+    checked: ButtonProps['checked'],
+    active: ButtonProps['active'],
+  ) {
+    return css`
+      ${!focus && !disabled && !loading && !checked && !active
+        ? `
+          &,
+          &:hover,
+          &:active {
+            box-shadow: none;
+          }
+        `
+        : ``}
+    `;
+  },
+
+  loading(t: Theme, size: ButtonProps['size'], arrow: ButtonProps['arrow']) {
+    return css`
+      ${size === 'small' ? styles.sizeSmallLoading(t, arrow) : ``}
+      ${size === 'medium' ? styles.sizeMediumLoading(t, arrow) : ``}
+      ${size === 'large' ? styles.sizeLargeLoading(t, arrow) : ``}
+    `;
+  },
+
+  loader() {
     const btn_loading = keyframes`
     0% {
       transform: translateX(0) rotateY(180deg);
