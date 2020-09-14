@@ -180,7 +180,7 @@ class SimpleChildrenLines extends React.Component<any, any> {
 
   public render() {
     return (
-      <div>
+      <div style={{ width: 250 }}>
         <Toggle
           checked={this.state.checked}
           onValueChange={() => {
@@ -188,8 +188,9 @@ class SimpleChildrenLines extends React.Component<any, any> {
             this.setState({ checked: !checked });
           }}
         >
-          <span style={{ display: 'block' }}>State:</span>
-          <span style={{ display: 'block' }}>{this.state.checked ? 'On' : 'Off'}</span>
+          <span>
+            Возможно очень длинный текст, который может не влезть в одну строку и частично перенесётся на следующую.
+          </span>
         </Toggle>
       </div>
     );

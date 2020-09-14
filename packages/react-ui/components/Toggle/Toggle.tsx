@@ -108,7 +108,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     let caption = null;
     if (children) {
       const captionClass = cn(jsStyles.caption(), {
-        [jsStyles.wrapperDisabled(this.theme)]: !!disabled,
         [jsStyles.captionLeft(this.theme)]: captionPosition === 'left',
         [jsStyles.captionRight(this.theme)]: captionPosition === 'right',
       });
@@ -116,13 +115,13 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <label className={jsStyles.root()}>
+      <label
+        className={cn(jsStyles.root(this.theme), {
+          [jsStyles.disabled(this.theme)]: !!disabled,
+        })}
+      >
         {captionPosition === 'left' ? caption : null}
-        <span
-          className={cn(jsStyles.wrapper(this.theme), {
-            [jsStyles.wrapperDisabled(this.theme)]: !!disabled,
-          })}
-        >
+        <span className={jsStyles.wrapper(this.theme)}>
           <input
             type="checkbox"
             checked={checked}
