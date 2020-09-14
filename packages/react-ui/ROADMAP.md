@@ -1,23 +1,32 @@
-# 2020
+# 2021
 
 - [ ] Создание компонента Grid Layout
-- [ ] Объединить Popup/DropdownContainer [#913](https://github.com/skbkontur/retail-ui/issues/913)
-- [ ] Поддержка онлайн IDE (codesandbox)
-- [ ] Переезд документации на Storybook
-- [ ] Интеграция скриншотных тестов КЭвеба и CandyForms в релизный цикл
-- [ ] Дизайн решения по сбору [#1539](https://github.com/skbkontur/retail-ui/issues/1539) и отправке [#1566](https://github.com/skbkontur/retail-ui/issues/1566) телеметрии
 - [ ] Реализация компонента списка уведомлений
 - [ ] Реализация компонента загрузки файлов
+- [ ] Объединить Popup/DropdownContainer [#913](https://github.com/skbkontur/retail-ui/issues/913)
+- [ ] Переезд документации на Storybook
+- [ ] Интеграция скриншотных тестов КЭвеба и CandyForms в релизный цикл
 
-### 2.x.x Апрель — Июнь 2020
 
-- [ ] Создание и выпуск темы с новыми размерами контролов для поддержки 8px сетки по Контур.Гайдам [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
+# 2020
+
+- [ ] Релиз версии 3.0 [#2123](https://github.com/skbkontur/retail-ui/issues/2123)
 - [ ] Старт поддержки мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963)
+- [ ] Второй этап поддержки 8px сетки по Контур.Гайдам [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
+- [ ] Второй этап дизайн-решения по сбору телеметрии — пакет react-ui-telemetry. [#1539](https://github.com/skbkontur/retail-ui/issues/1539)
+- [ ] Дизайн решения по отправке телеметрии. [#1566](https://github.com/skbkontur/retail-ui/issues/1566)
 - [ ] Встраивание метрик [#1555](https://github.com/skbkontur/retail-ui/issues/1555)
+
+
+### 2.4 Август 2020
+
+- [x] Первый этап дизайн-решения по сбору телеметрии — пакет React Sorge. [#1539](https://github.com/skbkontur/retail-ui/issues/1539)
+- [x] Создание и выпуск темы с новыми размерами контролов для поддержки 8px сетки по Контур.Гайдам. [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
+
 
 ### 2.0.0 Март 2020
 
-- [x] [Релиз 2.0](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md) 
+- [x] Релиз версмии [2.0](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md) 
 - [x] Уменьшение техдолга [#1578](https://github.com/skbkontur/retail-ui/issues/1578)
 - [x] Переезд всех стилей с Less на CSS-in-JS [#1625](https://github.com/skbkontur/retail-ui/issues/1625)
 - [x] Перенос kontur-specific компонентов в приватную библиотеку (Fias, TopBar, Logotype, Spinner) [#1842](https://github.com/skbkontur/retail-ui/issues/1842)
