@@ -107,7 +107,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     let caption = null;
     if (children) {
-      const captionClass = cn(jsStyles.caption(), {
+      const captionClass = cn({
         [jsStyles.captionLeft(this.theme)]: captionPosition === 'left',
         [jsStyles.captionRight(this.theme)]: captionPosition === 'right',
       });

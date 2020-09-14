@@ -8,15 +8,11 @@ const styles = {
     const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       display: inline-flex;
+      cursor: pointer;
 
       &:hover:not(${disabled}) {
         ${cssName(styles.handle(t))} {
           background: ${t.toggleBgHover};
-        }
-      }
-      &:hover${disabled} {
-        ${cssName(styles.caption())}, ${cssName(styles.wrapper(t))} {
-          cursor: default;
         }
       }
       &:active:not(${disabled}) ${cssName(styles.handle(t))} {
@@ -142,7 +138,6 @@ const styles = {
 
   wrapper(t: Theme) {
     return css`
-      cursor: pointer;
       display: inline-block;
       height: ${t.toggleHeight};
       position: relative;
@@ -159,16 +154,11 @@ const styles = {
   disabled(t: Theme) {
     return css`
       opacity: 0.3;
+      cursor: default !important;
 
       ${cssName(styles.container(t))} {
         background: ${t.toggleBgDisabled};
       }
-    `;
-  },
-
-  caption() {
-    return css`
-      cursor: pointer;
     `;
   },
 

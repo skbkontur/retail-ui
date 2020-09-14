@@ -297,9 +297,9 @@ WithChildren.story = {
   },
 };
 
-export const WithTwoChildren: CSFStory<JSX.Element> = () => <SimpleChildrenLines />;
-WithTwoChildren.story = {
-  name: 'with two children',
+export const WithLongDescription: CSFStory<JSX.Element> = () => <SimpleChildrenLines />;
+WithLongDescription.story = {
+  name: 'with long description',
   parameters: {
     creevey: {
       tests: {
