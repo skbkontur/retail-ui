@@ -116,11 +116,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     return (
       <label
+        style={{ flexDirection: captionPosition === 'left' ? 'row-reverse' : 'row' }}
         className={cn(jsStyles.root(this.theme), {
           [jsStyles.disabled(this.theme)]: !!disabled,
         })}
       >
-        {captionPosition === 'left' ? caption : null}
         <span className={jsStyles.wrapper(this.theme)}>
           <input
             type="checkbox"
@@ -151,7 +151,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
           </div>
           <div className={jsStyles.handle(this.theme)} />
         </span>
-        {captionPosition === 'right' ? caption : null}
+        {caption}
       </label>
     );
   }
