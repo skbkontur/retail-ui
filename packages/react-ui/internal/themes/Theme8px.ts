@@ -392,7 +392,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     const paddingY = parseInt(this.textareaPaddingY, 10) || 0;
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
 
-    return `${lineHeight * 3 + paddingY * 2 + borderWidth * 2}px`;
+    return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
   }
   //#endregion
   //#region Radio
