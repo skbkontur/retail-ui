@@ -70,7 +70,7 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
     const { dimmed } = this.props;
     const { type } = this.props;
     const { frame } = this.state;
-    const size = type === 'big' ? 96 : type === 'normal' ? 48 : 16;
+    const size = type === 'big' ? 96 : type === 'normal' ? 48 : 18;
     const backgroundImage = dimmed ? this.imageUrls.dimmed : this.imageUrls[type];
 
     const cssSet: React.CSSProperties = {
