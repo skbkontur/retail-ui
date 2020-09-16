@@ -82,6 +82,11 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     } = this.props;
     const { emptyValue, value } = this.state;
 
+    const leftHelper = style?.textAlign !== 'right' && (
+      <span style={{ color: 'transparent' }}>{emptyValue.slice(0, value.length)}</span>
+    );
+    const leftClass = style?.textAlign !== 'right' && jsStyles.inputMaskLeft();
+
     return (
       <span className={jsStyles.container()} x-ms-format-detection="none">
         <ReactInputMask
@@ -97,15 +102,12 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
           ref={this.refMaskedInput}
           style={{ ...style }}
         />
-        {this.isMaskVisible() &&
-          (style?.textAlign === 'right' ? (
-            <span className={jsStyles.inputMask(this.theme)}>{emptyValue.slice(value.length)}</span>
-          ) : (
-            <span className={cn(jsStyles.inputMask(this.theme), jsStyles.inputMaskLeft())}>
-              <span style={{ color: 'transparent' }}>{emptyValue.slice(0, value.length)}</span>
-              {emptyValue.slice(value.length)}
-            </span>
-          ))}
+        {this.isMaskVisible() && (
+          <span className={cn(jsStyles.inputMask(this.theme), leftClass)}>
+            {leftHelper}
+            {emptyValue.slice(value.length)}
+          </span>
+        )}
       </span>
     );
   }
