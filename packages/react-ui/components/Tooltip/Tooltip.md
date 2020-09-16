@@ -50,6 +50,38 @@ const render = () => (
 </div>;
 ```
 
+Выравнивание базовой линии с RadioGroup требует дополнительных отступов.
+
+```jsx harmony
+import { Gapped, Tooltip, RadioGroup, Radio } from '@skbkontur/react-ui';
+
+const render = () => (
+  <div
+    style={{
+      fontSize: 14,
+      fontFamily: 'Segoe UI',
+    }}
+  >
+    Выровнено по первому Radio
+  </div>
+);
+
+<div style={{ fontFamily: 'Segoe UI' }}>
+  <Tooltip useWrapper={false} render={render} pos="right top">
+    <div style={{ padding: '16px 0', display: 'inline-block' }}>
+      <RadioGroup>
+        <Gapped vertical gap={10}>
+          <Radio value="2">Two</Radio>
+          <Radio value="4">Four</Radio>
+          <Radio value="6">Six</Radio>
+          <Radio value="8">Eight</Radio>
+        </Gapped>
+      </RadioGroup>
+    </div>
+  </Tooltip>
+</div>;
+```
+
 Тултип может располагаться в одной из 12 позиции и триггериться одним из 5 способов
 
 ```jsx harmony
