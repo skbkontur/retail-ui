@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.6](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.5...retail-ui@1.11.6) (2020-09-16)
+
+
+### Bug Fixes
+
+* **Fias:** add "version" param to all requests ([38b6d1a](https://github.com/skbkontur/retail-ui/commit/38b6d1a))
+
+
+
+
+
 ## [1.11.5](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.4...retail-ui@1.11.5) (2020-08-31)
 
 
