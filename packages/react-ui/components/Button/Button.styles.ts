@@ -615,7 +615,7 @@ const styles = {
       color: ${t.btnCheckedTextColor} !important;
       border: ${t.btnDefaultCheckedBorder} !important;
 
-      &:not(${cssName(styles.link(t))}):not(${cssName(styles.disabled(t))}) {
+      &:not(${cssName(styles.link(t))}) {
         ${cssName(styles.caption())} {
           transform: translateY(1px) !important;
         }
