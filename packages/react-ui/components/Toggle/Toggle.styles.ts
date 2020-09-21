@@ -142,7 +142,7 @@ const styles = {
       height: ${t.toggleHeight};
       position: relative;
       width: ${t.toggleWidth};
-      min-width: ${t.toggleWidth};
+      flex: 1 0 ${t.toggleWidth};
 
       &::after {
         content: '';
@@ -159,6 +159,17 @@ const styles = {
       ${cssName(styles.container(t))} {
         background: ${t.toggleBgDisabled};
       }
+    `;
+  },
+
+  rootRow() {
+    return css`
+      flex-direction: row;
+    `;
+  },
+  rootRowReverse() {
+    return css`
+      flex-direction: row-reverse;
     `;
   },
 

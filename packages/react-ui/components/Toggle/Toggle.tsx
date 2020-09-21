@@ -105,6 +105,12 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       [jsStyles.isError(this.theme)]: !color && !!error,
     });
 
+    const labelClassNames = cn(jsStyles.root(this.theme), {
+      [jsStyles.rootRowReverse()]: captionPosition === 'left',
+      [jsStyles.rootRow()]: captionPosition === 'right',
+      [jsStyles.disabled(this.theme)]: !!disabled,
+    });
+
     let caption = null;
     if (children) {
       const captionClass = cn({
@@ -115,12 +121,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <label
-        style={{ flexDirection: captionPosition === 'left' ? 'row-reverse' : 'row' }}
-        className={cn(jsStyles.root(this.theme), {
-          [jsStyles.disabled(this.theme)]: !!disabled,
-        })}
-      >
+      <label className={labelClassNames}>
         <span className={jsStyles.wrapper(this.theme)}>
           <input
             type="checkbox"
