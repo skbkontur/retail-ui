@@ -765,7 +765,6 @@ export class DefaultTheme {
   public static toggleBorderRadius = '10px';
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
   public static toggleBgDisabled = 'none';
-  public static togglePaddingX = '10px';
   public static get toggleBgHover() {
     return this.toggleBgFocus;
   }
@@ -786,9 +785,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
-  public static get toggleCaptionGap() {
-    return this.togglePaddingX;
-  }
+  public static toggleCaptionGap = '10px';
   //#endregion
   //#region Popup
   public static popupBorder = 'none';
