@@ -17,6 +17,7 @@ injectGlobal`
 const styles = {
   container() {
     return css`
+      display: inline-flex;
       position: relative;
       /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
       font-family: kontur-mask-char, Segoe UI, Helevetica Neue; /* IE use Times New Roman as default font */
@@ -27,14 +28,18 @@ const styles = {
   inputMask(t: Theme) {
     return css`
       color: ${t.placeholderColor};
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
       pointer-events: none;
       font-size: inherit;
       z-index: 5;
       user-select: none;
+    `;
+  },
+  inputMaskLeft() {
+    return css`
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
     `;
   },
 };

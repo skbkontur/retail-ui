@@ -32,7 +32,6 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public void InputTextAndSelectSingle(string inputText, Timings timings = null)
         {
-            Click();
             InputText(inputText);
             DoWithItems((x, y) => new Label(x, y), items =>
             {
@@ -51,7 +50,6 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public void InputTextAndSelectFirst(string inputText, Timings timings = null)
         {
-            Click();
             InputText(inputText);
             DoWithItems((x, y) => new Label(x, y), items =>
             {

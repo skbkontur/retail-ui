@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.2...@skbkontur/react-ui@2.4.3) (2020-09-16)
+
+
+### Bug Fixes
+
+* **Fias:** add "version" param to all requests ([6c1f200](https://github.com/skbkontur/retail-ui/commit/6c1f200f5eb1b04f753eeb0860340049bfd16a16)), closes [#2126](https://github.com/skbkontur/retail-ui/issues/2126)
+* **Input:** fixed wrong right mask position ([88116d6](https://github.com/skbkontur/retail-ui/commit/88116d6994c58ebea5dacfa1e0ffa498fe2f1963)), closes [#1379](https://github.com/skbkontur/retail-ui/issues/1379)
+* **PasswordInput:** change eye icon ([e36c1ba](https://github.com/skbkontur/retail-ui/commit/e36c1baa647993450e9f88e7e48f2f6f24066745)), closes [#2111](https://github.com/skbkontur/retail-ui/issues/2111)
+* **Popup:** prevent wrong styles order ([08c7c4c](https://github.com/skbkontur/retail-ui/commit/08c7c4ce45238f72357b1ab2210dccda337f5f45)), closes [#2005](https://github.com/skbkontur/retail-ui/issues/2005)
+* **Select.styles:** fix span width with left icon ([e2dceec](https://github.com/skbkontur/retail-ui/commit/e2dceec963c9c2b038abc13e8012666635b18098))
+* **theme:** add var 'tokenInputTextColor' ([cbad454](https://github.com/skbkontur/retail-ui/commit/cbad454a701f31fb97f33da423c0317e8340f429)), closes [#2099](https://github.com/skbkontur/retail-ui/issues/2099)
+
+
+
+
+
+## [2.4.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.1...@skbkontur/react-ui@2.4.2) (2020-08-31)
+
+
+### Bug Fixes
+
+* **Link, Button:** use hover styles from theme ([e23b3e1](https://github.com/skbkontur/retail-ui/commit/e23b3e186890a5b02072a142c54eab0df3b743df)), closes [#2072](https://github.com/skbkontur/retail-ui/issues/2072)
+* **Loader:** обновление позиции лоадера при переключении active на true ([acb5bbe](https://github.com/skbkontur/retail-ui/commit/acb5bbe31a9d2d1132d88862a6be94bb8ef227c1)), closes [#2092](https://github.com/skbkontur/retail-ui/issues/2092)
+* **MenuItem:** pass state into custom component ([073f1fa](https://github.com/skbkontur/retail-ui/commit/073f1fa6e542e06cc4f830e418118ace8cb4648f))
+
+
+
+
+
 ## [2.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.0...@skbkontur/react-ui@2.4.1) (2020-08-07)
 
 

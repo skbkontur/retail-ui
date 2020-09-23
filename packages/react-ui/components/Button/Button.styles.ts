@@ -226,7 +226,7 @@ const styles = {
       padding: 0 !important;
 
       &:hover {
-        color: ${t.btnLinkHoverColor};
+        color: ${t.btnLinkHoverColor} !important;
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
       &:active {
