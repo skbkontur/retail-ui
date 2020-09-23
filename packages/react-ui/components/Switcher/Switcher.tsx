@@ -30,6 +30,8 @@ export interface SwitcherProps {
 
   /** Размер */
   size?: SwitcherSize;
+
+  disabled?: boolean;
 }
 
 export interface SwitcherState {
@@ -46,6 +48,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   public static propTypes = {
     error: PropTypes.bool,
+    disabled: PropTypes.bool,
     items: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.arrayOf(
@@ -191,6 +194,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         },
         disableFocus: true,
         size: this.props.size,
+        disabled: this.props.disabled,
       };
       return (
         <Button key={value} {...buttonProps}>
