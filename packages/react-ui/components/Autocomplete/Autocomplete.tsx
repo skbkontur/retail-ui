@@ -162,9 +162,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       onFocus: this.handleFocus,
       ref: this.refInput,
     };
+
+    const defaultProps = '250px';
+
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width: this.props.width }}>
+        <span style={{ display: 'inline-block', width: this.props.width || defaultProps }}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>

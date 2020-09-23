@@ -6129,7 +6129,7 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@^0.6.2:
+creevey@0.6.2:
   version "0.6.2"
   resolved "https://registry.npmjs.org/creevey/-/creevey-0.6.2.tgz#e1becd7efaadef6c5630d017f8dff96ffddcadad"
   integrity sha512-2RoLeXhKmhzk60n3Da+9k7T5epIevRhaRxlGAaTP5FWUP3zSfPLakvhfdD1nEy55UnAA70GU7bvA4eTkoO+2JQ==
