@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.3...@skbkontur/react-ui@2.5.0) (2020-09-23)
+
+
+### Bug Fixes
+
+* **Button:** checked + disabled кнопка сдвигает текст на 1 px ([da2e822](https://github.com/skbkontur/retail-ui/commit/da2e822df3d12c2afb743e941120bc52f910efe5))
+* **spinner:** fix spinner fallback mini ([9a766e3](https://github.com/skbkontur/retail-ui/commit/9a766e3b9110dfa19babf3446555f5d8da68b182))
+* **Tab:** return operability with links from react-router-dom ([8da96a9](https://github.com/skbkontur/retail-ui/commit/8da96a97511459f8164862a1dc61d4a591fff466))
+
+
+### Features
+
+* **Switcher:** Добавляет disabled состояние ([d5b13a8](https://github.com/skbkontur/retail-ui/commit/d5b13a8d0c345fc5bba97f6b407b9b2df0f78d2c))
+
+
+
+
+
 ## [2.4.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.2...@skbkontur/react-ui@2.4.3) (2020-09-16)
 
 
