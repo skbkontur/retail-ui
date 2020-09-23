@@ -5,6 +5,8 @@ export const getSwitcherTheme = (theme: Theme): Theme => {
   return ThemeFactory.create(
     {
       btnBorderWidth: theme.switcherButtonBorderWidth,
+      btnDisabledBorderColor: theme.switcherButtonDisabledBorderColor,
+      btnCheckedDisabledShadow: theme.switcherButtonCheckedDisabledShadow,
 
       btnLineHeightSmall: theme.switcherButtonLineHeightSmall,
       btnFontSizeSmall: theme.switcherButtonFontSizeSmall,
