@@ -40,7 +40,7 @@ export class SpinnerFallback extends React.Component<SpinnerFallbackProps> {
 
   // quantity of frames in images
   private _framesCount = {
-    [types.mini]: 151,
+    [types.mini]: 119,
     [types.normal]: 151,
     [types.big]: 151,
     dimmed: 60,
