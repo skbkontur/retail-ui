@@ -382,6 +382,22 @@ CheckedCombinations.story = {
   },
 };
 
+export const CheckedDisabledCombinations: CSFStory<JSX.Element> = () => (
+  <ComponentCombinator
+    Component={Button}
+    presetProps={{ children: 'Button', checked: true, disabled: true }}
+    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
+  />
+);
+CheckedDisabledCombinations.story = {
+  name: 'checked disabled combinations',
+  parameters: {
+    creevey: {
+      tests: combinationTest,
+    },
+  },
+};
+
 type ButtonState = Partial<ButtonProps>;
 
 const alignStates: ButtonState[] = [
