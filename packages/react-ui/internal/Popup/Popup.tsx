@@ -14,7 +14,7 @@ import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction, isIE11, isEdge } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { safePropTypesInstanceOf } from "../../lib/SSRSafe";
+import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { PopupPin } from './PopupPin';
@@ -68,6 +68,7 @@ export interface PopupHandlerProps {
   onFocus?: (event: FocusEventType) => void;
   onBlur?: (event: FocusEventType) => void;
   onOpen?: () => void;
+  onClose?: () => void;
 }
 
 export interface PopupProps extends PopupHandlerProps {
@@ -209,6 +210,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     if (hadNoLocation && hasLocation && this.props.onOpen) {
       this.props.onOpen();
     }
+    if (!hadNoLocation && !this.state.location && this.props.onClose) {
+      this.props.onClose();
+    }
   }
 
   public componentWillUnmount() {
@@ -217,6 +221,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     if (this.layoutEventsToken) {
       this.layoutEventsToken.remove();
       this.layoutEventsToken = null;
+    }
+    if (this.state.location && this.props.onClose) {
+      this.props.onClose();
     }
   }
 

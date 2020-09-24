@@ -46,7 +46,9 @@ export type TooltipTrigger =
   /** Просто закрыт */
   | 'closed'
   /** Наведение ТОЛЬКО на children, а не на тултип */
-  | 'hoverAnchor';
+  | 'hoverAnchor'
+  /** Управление через публичные функции show и hide */
+  | 'manual';
 
 export interface TooltipProps {
   /**
@@ -87,7 +89,8 @@ export interface TooltipProps {
    * | 'hover&focus'
    * | 'opened'
    * | 'closed'
-   * | 'hoverAnchor';
+   * | 'hoverAnchor'
+   * | 'manual';
    * ```
    */
   trigger: TooltipTrigger;
@@ -102,6 +105,11 @@ export interface TooltipProps {
    * снаружи тултипа
    */
   onCloseRequest?: () => void;
+
+  /**
+   * Хэндлер, вызываемый при закрытии тултипа
+   */
+  onClose?: () => void;
 
   /**
    * Хэндлер, вызываемый при открытии тултипа
@@ -247,6 +255,29 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     );
   }
 
+  /**
+   * @public Программно открывает тултип (кроме тиггеров 'opened' и 'closed').
+   */
+  public show() {
+    if (this.state.opened) return;
+    if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
+      warning(true, `Function 'show' is not supported with trigger specified '${this.props.trigger}'`);
+      return;
+    }
+    this.open();
+  }
+
+  /**
+   * @public Программно закрывает тултип (кроме тиггеров 'opened' и 'closed').
+   */
+  public hide() {
+    if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
+      warning(true, `Function 'hide' is not supported with trigger specified '${this.props.trigger}'`);
+      return;
+    }
+    this.close();
+  }
+
   private renderMain() {
     const props = this.props;
     const content = this.renderContent();
@@ -275,6 +306,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         positions={this.getPositions()}
         ignoreHover={this.props.trigger === 'hoverAnchor'}
         onOpen={this.props.onOpen}
+        onClose={this.props.onClose}
         {...popupProps}
       >
         {content}
@@ -336,7 +368,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
             useWrapper,
           },
         };
-
+      case 'manual':
+        return {
+          popupProps: {
+            useWrapper,
+          },
+        };
       case 'click':
         return {
           layerProps: {
