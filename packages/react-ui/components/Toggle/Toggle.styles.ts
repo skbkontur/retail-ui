@@ -8,6 +8,7 @@ const styles = {
     const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       display: inline-flex;
+      flex-direction: row;
       cursor: pointer;
 
       &:hover:not(${disabled}) {
@@ -162,26 +163,21 @@ const styles = {
     `;
   },
 
-  rootRow() {
-    return css`
-      flex-direction: row;
-    `;
-  },
-  rootRowReverse() {
+  rootLeft() {
     return css`
       flex-direction: row-reverse;
     `;
   },
 
-  captionLeft(t: Theme) {
+  caption(t: Theme) {
     return css`
-      padding-right: ${t.toggleCaptionGap};
+      padding: 0 0 0 ${t.toggleCaptionGap};
     `;
   },
 
-  captionRight(t: Theme) {
+  captionLeft(t: Theme) {
     return css`
-      padding-left: ${t.toggleCaptionGap};
+      padding: 0 ${t.toggleCaptionGap} 0 0;
     `;
   },
 };
