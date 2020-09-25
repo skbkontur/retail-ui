@@ -258,7 +258,7 @@ export class Tab extends React.Component<TabProps, TabState> {
     if (typeof id === 'string') {
       this.context.switchTab(id);
     }
-    if (!this.props.href) {
+    if (this.props.component === 'a' && !this.props.href) {
       event.preventDefault();
     }
   };

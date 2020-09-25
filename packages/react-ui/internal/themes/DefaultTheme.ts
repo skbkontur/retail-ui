@@ -239,6 +239,9 @@ export class DefaultTheme {
   public static get tokenInputShadow() {
     return this.inputShadow;
   }
+  public static get tokenInputTextColor() {
+    return this.inputTextColor;
+  }
   public static get tokenInputTextColorDisabled() {
     return this.inputTextColorDisabled;
   }
@@ -267,15 +270,23 @@ export class DefaultTheme {
   }
   public static btnFocusBorder = 'none';
   public static btnDisabledTextColor = '#a0a0a0';
+  public static btnDisabledBorderColor = 'transparent';
   public static btnCheckedBg = '#737373';
+  public static btnCheckedDisabledBg = '#a0a0a0';
+  public static btnCheckedDisabledColor = 'rgba(255, 255, 255, 0.7)';
   public static btnCheckedHoverBorderColor = 'transparent';
   public static btnCheckedTextColor = '#fff';
+  public static btnCheckedDisabledBorderColor = 'transparent';
+
   public static get btnCheckedShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)`;
   }
   public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3)';
+  public static btnCheckedDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.37)';
+  public static btnCheckedDisabledShadowArrow = '1px -1px 0 0 #a0a0a0, inset 0 4px 2px -3px #a0a0a0';
+
   public static btnArrowBorderRadius = '2px 2px 2px 16px';
   public static btnSmallBorderRadius = '1px'; // todo: deprecated
   public static btnBorderRadius = '2px'; // todo: deprecated
@@ -1365,6 +1376,12 @@ export class DefaultTheme {
   }
   public static get switcherButtonBorderWidth() {
     return this.btnBorderWidth;
+  }
+  public static get switcherButtonDisabledBorderColor() {
+    return this.btnDisabledBorderColor;
+  }
+  public static get switcherButtonCheckedDisabledShadow() {
+    return this.btnCheckedDisabledShadow;
   }
   //#endregion
 }

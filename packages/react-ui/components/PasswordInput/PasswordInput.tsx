@@ -133,8 +133,12 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     return (
       <span className={jsStyles.iconWrapper()}>
         {capsLockEnabled && <span className={jsStyles.capsLockDetector()} />}
-        <span data-tid="PasswordInputEyeIcon" className={jsStyles.toggleVisibility()} onClick={this.handleToggleVisibility}>
-          {this.state.visible ? <EyeOpenedIcon size={14} /> : <EyeClosedIcon size={14} />}
+        <span
+          data-tid="PasswordInputEyeIcon"
+          className={jsStyles.toggleVisibility()}
+          onClick={this.handleToggleVisibility}
+        >
+          {this.state.visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />}
         </span>
       </span>
     );

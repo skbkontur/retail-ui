@@ -42,7 +42,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2019.2"
+version = "2020.1"
 
 project {
 
@@ -121,7 +121,7 @@ object RunAll : BuildType({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
         }
     }
@@ -185,7 +185,7 @@ object ReactUI_GitHubFeatures : Template({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:5b441be5-9aec-4b9d-80cf-975d778b95f5"
+                    token = "credentialsJSON:753f3391-1e06-4223-8a34-70a7c9adb2af"
                 }
             }
         }
@@ -361,7 +361,7 @@ object ReactUI_Publish : BuildType({
             teamcitySshKey = "GitHub"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
 })
 
@@ -458,7 +458,7 @@ object SeleniumTesting_Publish : BuildType({
             id = "TRIGGER_1"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
 })
 
@@ -685,6 +685,6 @@ object Validations_Publish : BuildType({
             teamcitySshKey = "GitHub"
         }
     }
-    
+
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
 })
