@@ -156,7 +156,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     const inputProps = {
       ...rest,
-      width: this.props.width || undefined,
+      width: this.props.width ? '100%' : undefined,
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -165,7 +165,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width: '100%' }}>
+        <span style={{ display: 'inline-block', width: this.props.width }}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>

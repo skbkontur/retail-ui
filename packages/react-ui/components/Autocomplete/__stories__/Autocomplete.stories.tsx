@@ -91,7 +91,7 @@ class WithBlurFocusHandlersExample extends React.Component<any, any> {
   }
 }
 
-export const WithMaxWidth = () => (
+export const WithPercentageWidth = () => (
   <div style={{width: '600px'}}>
     <UncontrolledAutocomplete
       width="50%"
@@ -100,7 +100,7 @@ export const WithMaxWidth = () => (
     />
   </div>
 );
-WithMaxWidth.story = { name: 'with max width' };
+WithPercentageWidth.story = { name: 'with percentage width' };
 
 export const WithFixedWidth = () => (
   <UncontrolledAutocomplete
@@ -110,3 +110,12 @@ export const WithFixedWidth = () => (
   />
 );
 WithFixedWidth.story = { name: 'with fixed width' };
+
+export const WithZeroWidth = () => (
+    <UncontrolledAutocomplete
+      width={0}
+      source={['One', 'Two', 'Three']}
+      renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
+    />
+);
+WithZeroWidth.story = { name: 'with zero width' };
