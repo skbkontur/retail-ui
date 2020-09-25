@@ -156,7 +156,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     const inputProps = {
       ...rest,
-      width: this.props.width ? '100%' : undefined,
+      width: this.props.width && '100%',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
