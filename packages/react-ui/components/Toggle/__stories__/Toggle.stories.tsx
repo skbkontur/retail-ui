@@ -319,3 +319,5 @@ WithLongDescription.story = {
     },
   },
 };
+
+export const WithLeftCaption: CSFStory<JSX.Element> = () => <Toggle captionPosition="left">left caption</Toggle>;
