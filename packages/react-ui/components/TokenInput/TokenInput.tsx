@@ -612,6 +612,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
+    this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     let query = event.target.value.trimLeft();
     if (query.endsWith(' ')) {
       query = query.trimRight() + ' ';
