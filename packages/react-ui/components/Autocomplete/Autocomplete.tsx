@@ -12,6 +12,8 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
+type DOMNode = Element | Text | null;
+
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
     return Promise.resolve([]);
@@ -59,6 +61,7 @@ export type AutocompleteProps = Override<
 export interface AutocompleteState {
   items: Nullable<string[]>;
   selected: number;
+  inputWidth: number;
 }
 
 /**
@@ -105,6 +108,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public state: AutocompleteState = {
     items: null,
     selected: -1,
+    inputWidth: 0,
   };
 
   private opened = false;
@@ -136,6 +140,10 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     if (prevProps.value !== this.props.value) {
       this.updateItems(this.props.value || '');
     }
+  }
+
+  public componentDidMount() {
+    this.getInputWidth();
   }
 
   public render() {
@@ -179,7 +187,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth,
+      width: this.props.menuWidth || this.props.width && this.state.inputWidth,
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -204,6 +212,21 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         </Menu>
       </DropdownContainer>
     );
+  }
+
+  private isElement = (node: DOMNode): node is Element => {
+    return node instanceof Element;
+  };
+
+  private getInputWidth = () => {
+    const target = this.getAnchor();
+    if (!this.isElement(target)) {
+      return 0;
+    }
+
+    this.setState({
+      inputWidth: target.getBoundingClientRect().width
+    });
   }
 
   private handleValueChange = (value: string) => {
