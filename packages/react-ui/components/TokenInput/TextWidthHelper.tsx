@@ -1,33 +1,31 @@
 import React from 'react';
 
-import { RenderContainer } from '../../internal/RenderContainer';
+import { jsStyles } from './TokenInput.styles';
 
 export interface TextWidthHelperProps {
   text?: string;
+  classHelp: string;
 }
-
-const styles: React.CSSProperties = {
-  position: 'absolute',
-  left: -1000,
-  top: -1000,
-  fontSize: 14,
-};
 
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
   public render() {
     return (
-      <RenderContainer>
-        <div style={styles} ref={this.elementRef}>
+      <div className={jsStyles.helperContainer()}>
+        <div className={this.props.classHelp} ref={this.elementRef}>
           {this.props.text}
         </div>
-      </RenderContainer>
+      </div>
     );
   }
 
   public getTextWidth(): number {
     return this.element!.getBoundingClientRect().width;
+  }
+
+  public getTextHeight(): number {
+    return this.element!.getBoundingClientRect().height;
   }
 
   private elementRef = (node: HTMLDivElement) => (this.element = node);
