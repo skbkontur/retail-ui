@@ -57,12 +57,14 @@ const styles = {
       box-shadow: none;
       outline: none;
       font-family: inherit;
-      padding: 0 0 0 5px;
+      margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
+      padding: 0 ${t.tokenTextareaPaddingXRight} 0 5px;
+      overflow: hidden;
+      resize: none;
       font-size: ${t.tokenInputFontSize};
       height: ${t.tokenInputLineHeight};
       line-height: ${t.tokenInputLineHeight};
       -webkit-appearance: none;
-      white-space: nowrap;
       text-overflow: clip;
       background-clip: padding-box;
       transition: background-color 0.15s ease-in;
@@ -89,11 +91,41 @@ const styles = {
     `;
   },
 
+  helperContainer() {
+    return css`
+      position: relative;
+      width: 100%;
+    `;
+  },
+
+  helperText(t: Theme) {
+    return css`
+      position: absolute;
+      top: -100000px;
+      max-width: 100%;
+      word-break: break-word;
+      margin: 0 ${t.tokenTextareaPaddingXRight} 0 ${t.tokenTextareaPaddingXLeft};
+      font-size: ${t.tokenInputFontSize};
+      line-height: ${t.tokenInputLineHeight};
+    `;
+  },
+
   inputDisabled(t: Theme) {
     return css`
       pointer-events: none;
       /* fix text color in safari */
       -webkit-text-fill-color: currentcolor;
+      color: ${t.tokenInputTextColorDisabled};
+    `;
+  },
+
+  reservedInput(t: Theme) {
+    return css`
+      min-height: ${t.tokenInputLineHeight};
+      line-height: ${t.tokenInputLineHeight};
+      font-size: ${t.tokenInputFontSize};
+      margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
+      padding: 0 ${t.tokenTextareaPaddingXRight} 0 ${t.tokenTextareaPaddingXLeft};
       color: ${t.tokenInputTextColorDisabled};
     `;
   },

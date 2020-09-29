@@ -250,7 +250,18 @@ export class DefaultTheme {
   public static get tokenInputFontSize() {
     return this.inputFontSizeSmall;
   }
-  public static tokenInputLineHeight = '28px';
+  public static tokenInputLineHeight = '22px';
+  public static get tokenTextareaPaddingXLeft() {
+    const paddingX = parseInt(this.tokenInputPaddingX, 10) || 0;
+    const marginX = parseInt(this.tokenMarginX, 10) || 0;
+    return `${paddingX + marginX}px`;
+  }
+  public static get tokenTextareaPaddingXRight() {
+    const paddingX = parseInt(this.tokenTextareaPaddingXLeft, 10) || 0;
+    const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
+    const removeIconSizeX = parseInt(this.tokenInputFontSize, 10) || 0;
+    return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
+  }
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
