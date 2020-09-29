@@ -377,6 +377,28 @@ EditToken.story = {
   parameters: {
     creevey: {
       tests: {
+        async editFirstToken() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('aab')
+            .pause(500)
+            .sendKeys(this.keys.ENTER)
+            .sendKeys('aad')
+            .pause(500)
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('editToken');
+        },
         async selectAndWrite() {
           await this.browser
             .actions({
