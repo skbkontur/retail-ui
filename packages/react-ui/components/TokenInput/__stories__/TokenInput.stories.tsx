@@ -369,6 +369,45 @@ async function getFourItems(query: string) {
   return ['aaa', 'aab', 'aac', 'aad'].filter(s => s.includes(query));
 }
 
+export const EditToken: CSFStory<JSX.Element> = () => {
+  return <Wrapper getItems={getFourItems} />;
+};
+EditToken.story = {
+  name: 'edit tokens',
+  parameters: {
+    creevey: {
+      tests: {
+        async selectAndWrite() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('aab')
+            .pause(500)
+            .sendKeys(this.keys.ENTER)
+            .sendKeys('aad')
+            .pause(500)
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('editToken');
+        },
+      },
+    },
+  },
+};
 
 export const SelectFirstItem: CSFStory<JSX.Element> = () => {
   return (
