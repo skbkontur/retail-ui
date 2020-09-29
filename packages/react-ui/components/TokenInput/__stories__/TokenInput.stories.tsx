@@ -226,10 +226,28 @@ export const EmptyWithoutReference = () => {
 };
 EmptyWithoutReference.story = { name: 'empty without reference', parameters: { creevey: { skip: [true] } } };
 
-export const EmptyCombined = () => {
+export const EmptyCombined: CSFStory = () => {
   return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-EmptyCombined.story = { name: 'empty combined', parameters: { creevey: { skip: [true] } } };
+EmptyCombined.story = {
+  name: 'empty combined',
+  parameters: {
+    creevey: {
+      tests: {
+        async selectFirst() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
 
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
