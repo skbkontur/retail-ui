@@ -306,7 +306,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private get delimiters() {
-    return this.props.delimiters ? this.props.delimiters : [','];
+    return this.props.delimiters ? this.props.delimiters : [',', ' '];
   }
 
   private get menuRef(): Menu | null {
@@ -435,6 +435,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           LayoutEvents.emit();
           this.highlightMenuItem();
         });
+      }
+      const selectItemIndex = autocompleteItemsUnique.findIndex(
+        item => this.props.valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
+      );
+      if (this.menuRef) {
+        this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
       }
     }
   };

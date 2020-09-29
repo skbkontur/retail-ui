@@ -72,12 +72,12 @@ interface TokenInputLocale {
 }
 
 const ru_RU = {
-  addButtonComment: 'Нажмите Enter или поставьте запятую',
+  addButtonComment: 'Нажмите запятую или пробел',
   addButtonTitle: 'Добавить',
 };
 
 const en_GB = {
-  addButtonComment: 'Press Enter or type comma',
+  addButtonComment: 'Type comma or space',
   addButtonTitle: 'Add',
 };
 ```
