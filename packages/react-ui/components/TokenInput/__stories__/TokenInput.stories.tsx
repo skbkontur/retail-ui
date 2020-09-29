@@ -361,3 +361,40 @@ CustomAddButton.story = {
     },
   },
 };
+
+async function getFourItems(query: string) {
+  if (!isTestEnv) {
+    await delay(400);
+  }
+  return ['aaa', 'aab', 'aac', 'aad'].filter(s => s.includes(query));
+}
+
+
+export const SelectFirstItem: CSFStory<JSX.Element> = () => {
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getFourItems}
+      renderAddButton={value => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
+    />
+  );
+};
+SelectFirstItem.story = {
+  name: 'select first item in menu',
+  parameters: {
+    creevey: {
+      tests: {
+        async selectFirst() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
