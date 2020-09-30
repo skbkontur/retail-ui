@@ -8,7 +8,6 @@ const styles = {
     const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       display: inline-flex;
-      flex-direction: row;
       cursor: pointer;
 
       &:hover:not(${disabled}) {
