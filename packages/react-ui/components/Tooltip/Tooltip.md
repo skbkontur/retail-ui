@@ -82,7 +82,7 @@ const render = () => (
 </div>;
 ```
 
-Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов
+Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов.
 
 ```jsx harmony
 import { Button, Center, Gapped, Select, Tooltip } from '@skbkontur/react-ui';
@@ -210,7 +210,7 @@ const isManual = state.trigger === 'manual';
           width={S * 2}
           size="small"
           value={state.trigger}
-          items={['click', 'hover', 'focus', 'hover&focus', 'opened', 'closed', 'manual']}
+          items={['click', 'hover', 'focus', 'hover&focus', 'hoverAnchor', 'opened', 'closed', 'manual']}
           onValueChange={v => setState({ trigger: v })}
         />
       </Gapped>
@@ -222,7 +222,7 @@ const isManual = state.trigger === 'manual';
 </div>;
 ```
 
-Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендерится в совершенно другом месте приложения
+Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения.
 
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';

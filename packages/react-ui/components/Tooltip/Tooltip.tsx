@@ -256,7 +256,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   }
 
   /**
-   * @public Программно открывает тултип (кроме тиггеров 'opened' и 'closed').
+   * Программно открывает тултип.
+   * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
+   * @public
    */
   public show() {
     if (this.state.opened) return;
@@ -268,7 +270,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   }
 
   /**
-   * @public Программно закрывает тултип (кроме тиггеров 'opened' и 'closed').
+   * Программно закрывает тултип.
+   * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
+   * @public
    */
   public hide() {
     if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
