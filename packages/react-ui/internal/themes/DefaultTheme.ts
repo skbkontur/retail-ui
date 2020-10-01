@@ -793,6 +793,7 @@ export class DefaultTheme {
   public static get toggleFocusShadowColor() {
     return this.borderColorFocus;
   }
+  public static toggleCaptionGap = '10px';
   //#endregion
   //#region Popup
   public static popupBorder = 'none';
