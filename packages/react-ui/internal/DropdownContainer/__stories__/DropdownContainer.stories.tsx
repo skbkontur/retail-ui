@@ -233,6 +233,7 @@ class Grid extends React.Component<{
           style={{
             display: 'flex',
             justifyContent: 'space-between',
+            flex: '0 0 auto',
           }}
         >
           {this.props.children}

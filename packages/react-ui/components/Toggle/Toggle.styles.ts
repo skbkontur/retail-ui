@@ -2,6 +2,29 @@ import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
+  root(t: Theme) {
+    const disabled = cssName(styles.disabled(t));
+    const handleWidthWithBorders = t.toggleHeight;
+    const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
+    return css`
+      display: inline-flex;
+      cursor: pointer;
+
+      &:hover:not(${disabled}) {
+        ${cssName(styles.handle(t))} {
+          background: ${t.toggleBgHover};
+        }
+      }
+      &:active:not(${disabled}) ${cssName(styles.handle(t))} {
+        width: ${handleActiveWidth};
+      }
+      &:active:not(${disabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
+        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
+          translateX(-${t.toggleHandleActiveWidthIncrement});
+      }
+    `;
+  },
+
   handle(t: Theme) {
     const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
@@ -114,43 +137,46 @@ const styles = {
   },
 
   wrapper(t: Theme) {
-    const wrapperDisabled = cssName(styles.wrapperDisabled(t));
-    const handleWidthWithBorders = t.toggleHeight;
-    const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
-      cursor: pointer;
       display: inline-block;
       height: ${t.toggleHeight};
       position: relative;
       width: ${t.toggleWidth};
+      flex: 1 0 ${t.toggleWidth};
 
-      &:hover:not(${wrapperDisabled}) {
-        ${cssName(styles.handle(t))} {
-          background: ${t.toggleBgHover};
-        }
-      }
       &::after {
         content: '';
         display: inline-block;
       }
-      &:active:not(${wrapperDisabled}) ${cssName(styles.handle(t))} {
-        width: ${handleActiveWidth};
-      }
-      &:active:not(${wrapperDisabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
-        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
-          translateX(-${t.toggleHandleActiveWidthIncrement});
-      }
     `;
   },
 
-  wrapperDisabled(t: Theme) {
+  disabled(t: Theme) {
     return css`
       opacity: 0.3;
-      cursor: default;
+      cursor: default !important;
 
       ${cssName(styles.container(t))} {
         background: ${t.toggleBgDisabled};
       }
+    `;
+  },
+
+  rootLeft() {
+    return css`
+      flex-direction: row-reverse;
+    `;
+  },
+
+  caption(t: Theme) {
+    return css`
+      padding: 0 0 0 ${t.toggleCaptionGap};
+    `;
+  },
+
+  captionLeft(t: Theme) {
+    return css`
+      padding: 0 ${t.toggleCaptionGap} 0 0;
     `;
   },
 };

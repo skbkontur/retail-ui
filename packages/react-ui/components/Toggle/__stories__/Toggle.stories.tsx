@@ -85,16 +85,16 @@ class Playground extends Component<any, any> {
                   checked={this.state.checked}
                   onValueChange={this.toggle.bind(this)}
                   loading={this.state.loading}
-                  color='#28bf4f'
+                  color="#28bf4f"
                 />{' '}
                 {this.state.checked ? 'On' : 'Off'}
               </div>
               <div>
-                <Toggle checked={false} disabled color='#28bf4f' />
+                <Toggle checked={false} disabled color="#28bf4f" />
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled color='#28bf4f'/>
+                <Toggle checked={true} disabled color="#28bf4f" />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -146,6 +146,52 @@ class Simple extends React.Component<any, any> {
           }}
         />{' '}
         {this.state.checked ? 'On' : 'Off'}
+      </div>
+    );
+  }
+}
+
+class SimpleChildren extends React.Component<any, any> {
+  public state = {
+    checked: true,
+  };
+
+  public render() {
+    return (
+      <div>
+        <Toggle
+          checked={this.state.checked}
+          onValueChange={() => {
+            const { checked } = this.state;
+            this.setState({ checked: !checked });
+          }}
+        >
+          {this.state.checked ? 'On' : 'Off'}
+        </Toggle>
+      </div>
+    );
+  }
+}
+
+class SimpleChildrenLines extends React.Component<any, any> {
+  public state = {
+    checked: true,
+  };
+
+  public render() {
+    return (
+      <div style={{ width: 250 }}>
+        <Toggle
+          checked={this.state.checked}
+          onValueChange={() => {
+            const { checked } = this.state;
+            this.setState({ checked: !checked });
+          }}
+        >
+          <span>
+            Возможно очень длинный текст, который может не влезть в одну строку и частично перенесётся на следующую.
+          </span>
+        </Toggle>
       </div>
     );
   }
@@ -236,3 +282,42 @@ DisabledWithTooltip.story = {
     },
   },
 };
+
+export const WithChildren: CSFStory<JSX.Element> = () => <SimpleChildren />;
+WithChildren.story = {
+  name: 'with children',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+      },
+    },
+  },
+};
+
+export const WithLongDescription: CSFStory<JSX.Element> = () => <SimpleChildrenLines />;
+WithLongDescription.story = {
+  name: 'with long description',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'label' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+      },
+    },
+  },
+};
+
+export const WithLeftCaption: CSFStory<JSX.Element> = () => <Toggle captionPosition="left">left caption</Toggle>;
