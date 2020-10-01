@@ -150,6 +150,7 @@ WithMouseeventHandlers.story = {
     creevey: {
       tests: {
         async opened() {
+          await delay(1000);
           await this.browser
             .actions({
               bridge: true,
@@ -159,6 +160,7 @@ WithMouseeventHandlers.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('opened');
         },
         async ['DateSelect month']() {
+          await delay(1000);
           await this.browser
             .actions({
               bridge: true,
@@ -178,6 +180,7 @@ WithMouseeventHandlers.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
         },
         async ['DateSelect year']() {
+          await delay(1000);
           await this.browser
             .actions({
               bridge: true,
@@ -229,6 +232,7 @@ DatePickerWithMinMaxDate.story = {
     creevey: {
       tests: {
         async ['DateSelect months']() {
+          await delay(1000);
           await this.browser
             .actions({
               bridge: true,
@@ -248,6 +252,7 @@ DatePickerWithMinMaxDate.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
         },
         async ['DateSelect years']() {
+          await delay(1000);
           await this.browser
             .actions({
               bridge: true,
