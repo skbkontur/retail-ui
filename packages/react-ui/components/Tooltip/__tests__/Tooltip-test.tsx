@@ -99,6 +99,87 @@ describe('Tooltip', () => {
     });
   });
 
+  describe('calls `onClose`', () => {
+    const onClose = jest.fn();
+    let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
+
+    beforeEach(() => {
+      onClose.mockClear();
+    });
+
+    it('with "click" trigger', () => {
+      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
+        <Tooltip render={render} onClose={onClose}>
+          <div />
+        </Tooltip>,
+      );
+      wrapper.setProps({ trigger: 'click' });
+      wrapper.setState({ opened: true });
+      wrapper.update();
+
+      clickOutside();
+
+      expect(onClose).toBeCalledTimes(1);
+    });
+
+    it('when trigger changes to "closed"', () => {
+      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
+        <Tooltip trigger="opened" onClose={onClose} render={render}>
+          <div />
+        </Tooltip>,
+      );
+
+      wrapper.setProps({ trigger: 'closed' });
+      wrapper.update();
+
+      expect(onClose).toBeCalledTimes(1);
+    });
+  });
+
+  describe('calls `show/hide` functions', () => {
+    const Content = () => <div />;
+    let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
+    let tooltip: Tooltip;
+
+    beforeEach(() => {
+      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
+        <Tooltip trigger="click" render={() => <Content />}>
+          <div />
+        </Tooltip>,
+      );
+      tooltip = wrapper.instance();
+    });
+
+    it('when trigger is "manual"', () => {
+      wrapper.setProps({ trigger: 'manual' });
+      wrapper.update();
+
+      tooltip.show();
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(1);
+
+      tooltip.hide();
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(0);
+    });
+
+    it('when trigger is "opened"', () => {
+      wrapper.setProps({ trigger: 'opened' });
+      wrapper.update();
+      tooltip.hide();
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(1);
+    });
+
+    it('when trigger is "closed"', () => {
+      wrapper.setProps({ trigger: 'closed' });
+      wrapper.update();
+      tooltip.show();
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(0);
+    });
+  });
+
   it('renders stateless children component without errors', () => {
     function PureComponent() {
       return <div>i&apos;m pure component!</div>;
