@@ -6,7 +6,8 @@ import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/ke
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
-import { emptyHandler, isIE11 } from '../../lib/utils';
+import { emptyHandler } from '../../lib/utils';
+import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';

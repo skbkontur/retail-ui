@@ -5,7 +5,7 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
-import { isChrome, isOpera, isSafari } from '../../lib/utils';
+import { isChrome, isOpera, isSafari } from '../../lib/client';
 
 import { jsStyles } from './ScrollContainer.styles';
 

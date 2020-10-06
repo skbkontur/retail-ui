@@ -12,7 +12,7 @@ import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isIE11 } from '../../lib/utils';
+import { isIE11 } from '../../lib/client';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';

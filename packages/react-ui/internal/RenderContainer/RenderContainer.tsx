@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 
@@ -17,7 +18,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   constructor(props: RenderContainerProps) {
     super(props);
 
-    if (props.children) {
+    if (isBrowser && props.children) {
       this.mountContainer();
     }
   }
@@ -36,6 +37,9 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
+    if (!isBrowser) {
+      return this.props && this.props.children;
+    }
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   }
 

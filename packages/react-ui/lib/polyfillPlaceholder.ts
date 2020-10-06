@@ -1,6 +1,8 @@
+import { canUseDOM } from './client';
+
 let polyfilled = false;
 
-if (typeof window !== 'undefined' && window.document && window.document.createElement) {
+if (canUseDOM) {
   const sAgent = window.navigator.userAgent;
 
   if (

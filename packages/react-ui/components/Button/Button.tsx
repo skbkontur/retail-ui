@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { isIE11, isEdge } from '../../lib/utils';
+import { isIE11, isEdge } from '../../lib/client';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';

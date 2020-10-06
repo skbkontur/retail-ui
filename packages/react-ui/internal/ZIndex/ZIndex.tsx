@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { isBrowser } from '../../lib/client';
+
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
 const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Infinity });
@@ -83,7 +85,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
             if (createStackingContext) {
-              'isolation' in document.body.style
+              isBrowser && 'isolation' in document.body.style
                 ? (wrapperStyle.isolation = 'isolate')
                 : (wrapperStyle.transform = 'rotate(0)');
             }

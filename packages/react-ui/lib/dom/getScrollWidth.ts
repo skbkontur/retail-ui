@@ -1,5 +1,6 @@
+import { canUseDOM } from '../client';
+
 let scrollbarWidth: number | null = null;
-const canUseDOM = typeof window !== 'undefined' && window.document && window.document.createElement;
 
 export function getScrollWidth() {
   if (!canUseDOM) {

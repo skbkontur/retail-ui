@@ -2,6 +2,7 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import cn from 'classnames';
 
+import { isBrowser } from '../../lib/client';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -76,12 +77,11 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
 
   private renderMain() {
     const { type, caption = this.locale.loading, dimmed } = this.props;
-
     return (
       <div className={jsStyles.spinner()}>
         <span className={jsStyles.inner()}>
           {hasSvgAnimationSupport && this.renderSpinnerOld(type)}
-          {!hasSvgAnimationSupport && <SpinnerOldFallback type={type} dimmed={dimmed} />}
+          {!hasSvgAnimationSupport && isBrowser && <SpinnerOldFallback type={type} dimmed={dimmed} />}
         </span>
         {caption && this.renderCaption(type, caption)}
       </div>

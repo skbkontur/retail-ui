@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import cn from 'classnames';
 
+import { isBrowser } from '../../lib/client';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -101,7 +102,7 @@ export class Spinner extends React.Component<SpinnerProps> {
       <div className={jsStyles.spinner()}>
         <span className={jsStyles.inner()}>
           {hasSvgAnimationSupport && this.renderSpinner(type, dimmed)}
-          {!hasSvgAnimationSupport && <SpinnerFallback type={type} dimmed={dimmed} />}
+          {!hasSvgAnimationSupport && isBrowser && <SpinnerFallback type={type} dimmed={dimmed} />}
         </span>
         {caption && this.renderCaption(type, caption)}
       </div>

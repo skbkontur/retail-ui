@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import debounce from 'lodash.debounce';
 
-import { isFirefox } from './utils';
+import { isBrowser, isFirefox } from './client';
 
 interface FocusOutsideEventHandler {
   elements: HTMLElement[] | (() => HTMLElement[]);
@@ -26,7 +26,7 @@ function addHandleEvent() {
   );
 }
 
-if (typeof(document) !== 'undefined') {
+if (isBrowser) {
   if (document.readyState === 'complete') {
     addHandleEvent();
   } else {

@@ -5,11 +5,12 @@ import warning from 'warning';
 
 import { Nullable } from '../typings/Types';
 
+import { isBrowser } from './client';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 
-if (typeof HTMLElement === 'undefined') {
+if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
   w.HTMLElement = w.Element;
 }
@@ -90,7 +91,7 @@ export class ValidationWrapperInternal extends React.Component<
   public async focus(): Promise<void> {
     const htmlElement = ReactDom.findDOMNode(this);
     if (htmlElement instanceof HTMLElement) {
-      const {disableSmoothScroll, scrollOffset} = this.context.validationContext.getSettings();
+      const { disableSmoothScroll, scrollOffset } = this.context.validationContext.getSettings();
       if (!disableSmoothScroll) {
         await smoothScrollIntoView(htmlElement, scrollOffset);
       }
