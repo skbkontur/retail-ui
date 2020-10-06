@@ -25,10 +25,21 @@ function createConfig(publicPath, output) {
         {
           test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
-          loader: 'ts-loader',
-          options: {
-            transpileOnly: true,
-          },
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+              },
+            },
+            {
+              loader: 'string-replace-loader',
+              options: {
+                search: /__REACT_UI_PACKAGE__/g,
+                replace: '@skbkontur/react-ui',
+              },
+            },
+          ],
         },
         {
           test: /\.md$/,
@@ -74,7 +85,6 @@ function createConfig(publicPath, output) {
       new webpack.DefinePlugin({
         'process.env.libraryVersion': JSON.stringify(libraryVersion),
         'process.env.libraryVersionEscaped': JSON.stringify(libraryVersion.replace('-', '--')),
-        REACT_UI_PACKAGE: JSON.stringify('@skbkontur/react-ui'),
       }),
     ],
     devServer: {
