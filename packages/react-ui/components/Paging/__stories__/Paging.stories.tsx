@@ -153,7 +153,7 @@ GoToAbsensePageStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
+            .click(this.browser.findElement({ css: `[data-prop-pageNumber='forward']` }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('change page by forwardLink');
         },

@@ -55,7 +55,8 @@ export class ToastView extends React.Component<ToastViewProps> {
   }
 
   private renderMain() {
-    const { children, action, onClose, ...rest } = this.props;
+    // @ts-ignore
+    const { children, action, onClose, 'data-tid': _, ...rest } = this.props;
 
     const link = action ? (
       <span className={jsStyles.link(this.theme)} onClick={action.handler}>
@@ -73,7 +74,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     return (
       <ZIndex priority="Toast" className={jsStyles.wrapper()}>
-        <div data-tid="ToastView__root" className={jsStyles.root(this.theme)} {...rest}>
+        <div className={jsStyles.root(this.theme)} {...rest}>
           <span>{children}</span>
           {link}
           {close}

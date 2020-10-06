@@ -135,7 +135,6 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     return (
       <span
         tabIndex={0}
-        data-tid="Paging__root"
         className={jsStyles.paging()}
         onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
         onFocus={this.handleFocus}
@@ -186,7 +185,6 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     return (
       <Component
         key={'forward'}
-        data-tid="Paging__forwardLink"
         active={false}
         className={classes}
         onClick={disabled ? emptyHandler : this.goForward}
@@ -218,7 +216,6 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component
-          data-tid="Paging__pageLink"
           active={active}
           className={classes}
           onClick={handleClick}

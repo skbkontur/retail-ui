@@ -2480,6 +2480,20 @@
   dependencies:
     tslib "^1.9.2"
 
+"@skbkontur/react-props2attrs@0.1.1", "@skbkontur/react-props2attrs@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@skbkontur/react-props2attrs/-/react-props2attrs-0.1.1.tgz#f6718f28ede44d1a431c4a2a87adb7b06b5b28b6"
+  integrity sha512-bz82exMTvwC4TCVsXrW8COTcJNJTKE314fHHwmUAPhbDlTeSOzIhIyJHs7Xr1swci+WmwCLg2IutwdZY1aiBlA==
+  dependencies:
+    "@skbkontur/react-sorge" "0.1.0"
+
+"@skbkontur/react-sorge@0.1.0", "@skbkontur/react-sorge@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@skbkontur/react-sorge/-/react-sorge-0.1.0.tgz#14215d1f49068644fa5d59f5f2bac32a2c1b05ea"
+  integrity sha512-a6AoE/Eg26vM494iNbR3VOpzXXa8O/qRYTS2V7qlkW0xUJako9FwySF1FG9m1+eIYqYUsYQrnHozPq99kBIy1g==
+  dependencies:
+    semver "6.3.0"
+
 "@storybook/addon-actions@5.3.14":
   version "5.3.14"
   resolved "https://registry.npmjs.org/@storybook/addon-actions/-/addon-actions-5.3.14.tgz#aacc4d2703fc200a4565bfaa9f5870ed70a6fe32"
@@ -6129,7 +6143,7 @@ create-react-context@^0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@^0.6.2:
+creevey@0.6.2:
   version "0.6.2"
   resolved "https://registry.npmjs.org/creevey/-/creevey-0.6.2.tgz#e1becd7efaadef6c5630d017f8dff96ffddcadad"
   integrity sha512-2RoLeXhKmhzk60n3Da+9k7T5epIevRhaRxlGAaTP5FWUP3zSfPLakvhfdD1nEy55UnAA70GU7bvA4eTkoO+2JQ==
@@ -15354,15 +15368,15 @@ semver@6.2.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.2.0.tgz#4d813d9590aaf8a9192693d6c85b9344de5901db"
   integrity sha512-jdFC1VdUGT/2Scgbimf7FSx9iJLXoqfglSF+gJeuNWVpiE37OIbc1jywR/GJyFdz3mnkz2/id0L0J/cr0izR5A==
 
+semver@6.3.0, semver@^6.0.0, semver@^6.1.2, semver@^6.2.0, semver@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
+  integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
+
 semver@7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.0.0.tgz#5f3ca35761e47e05b206c6daff2cf814f0316b8e"
   integrity sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==
-
-semver@^6.0.0, semver@^6.1.2, semver@^6.2.0, semver@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
-  integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
 semver@^7.1.1:
   version "7.1.3"

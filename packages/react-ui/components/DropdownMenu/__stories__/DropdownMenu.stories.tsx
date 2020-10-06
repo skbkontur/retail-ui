@@ -33,7 +33,7 @@ export default {
 };
 
 export const SimpleExample: CSFStory<JSX.Element> = () => (
-  <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+  <DropdownMenu data-tid="PopupMenu__caption" caption={<Button use="primary">Открыть меню</Button>}>
     <MenuHeader>Заголовок меню</MenuHeader>
     <MenuSeparator />
     <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
@@ -220,6 +220,7 @@ WithoutAnimations.story = { name: 'Without animations', parameters: { creevey: {
 
 export const WithHeaderAndFooter: CSFStory<JSX.Element> = () => (
   <DropdownWithScrollStateChange
+    data-tid="PopupMenu__caption"
     disableAnimations
     caption={<Button use="primary">Открыть меню</Button>}
     menuWidth={250}
