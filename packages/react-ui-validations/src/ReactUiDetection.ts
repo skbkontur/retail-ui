@@ -1,11 +1,9 @@
-declare const REACT_UI_PACKAGE: string;
-
 declare function require(name: string): any;
 
 const defaultOrNamed = (module: any, component: string) =>
   module && module.__esModule && module.default ? module.default : module[component];
 
-const Tooltip = defaultOrNamed(require(REACT_UI_PACKAGE + '/components/Tooltip'), 'Tooltip');
+const Tooltip = defaultOrNamed(require('__REACT_UI_PACKAGE__/components/Tooltip'), 'Tooltip');
 
 export { Tooltip };
 
