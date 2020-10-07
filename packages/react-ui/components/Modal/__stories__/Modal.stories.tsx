@@ -722,3 +722,17 @@ ModalWithVeryLongHeaderWithoutSpaces.story = {
   name: 'Modal with veryLongHeaderWithoutSpaces',
   parameters: { creevey: { captureElement: null } },
 };
+
+export const ModalWithHeaderFromOtherComponent = () => {
+  const Header = () => <Modal.Header>Header </Modal.Header>;
+  return (
+    <Modal width={350}>
+      <Header></Header>
+      <Modal.Body>asdjhaklsdkajs</Modal.Body>
+    </Modal>
+  );
+};
+ModalWithHeaderFromOtherComponent.story = {
+  name: 'Modal with Header from other Component',
+  parameters: { creevey: { skip: [true] } },
+};
