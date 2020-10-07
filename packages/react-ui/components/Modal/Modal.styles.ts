@@ -81,40 +81,37 @@ const styles = {
   close(t: Theme) {
     return css`
       ${resetButton()};
-
+      position: absolute;
+      right: 26px;
+      top: 26px;
+      width: 32px;
+      height: 32px;
       background: none;
-      margin: 2px 2px 0 0;
-      width: 76px;
-      height: 65px;
+      background: transparent;
+      cursor: pointer;
+      color: ${t.modalCloseButtonColor};
+      text-align: center;
+      vertical-align: middle;
+
+      &:focus,
+      &:hover {
+        color: ${t.modalCloseButtonHoverColor};
+      }
+
+      & > svg {
+        width: 12px;
+        height: 12px;
+        padding: 10px;
+      }
+    `;
+  },
+
+  closeWrapper() {
+    return css`
       position: relative;
       float: right;
-      cursor: pointer;
-
-      &:after,
-      &:before {
-        content: '';
-        position: absolute;
-        top: 30px;
-        right: 40px;
-        height: 18px;
-        width: 2px;
-        background: ${t.modalCloseButtonColor};
-      }
-
-      &:after {
-        transform: rotate(45deg);
-      }
-
-      &:before {
-        transform: rotate(-45deg);
-      }
-
-      &:focus::before,
-      &:focus::after,
-      &:hover::before,
-      &:hover::after {
-        background: ${t.modalCloseButtonHoverColor};
-      }
+      width: 76px;
+      height: 76px;
     `;
   },
 
@@ -138,25 +135,11 @@ const styles = {
         border: 2px solid ${t.borderColorFocus};
         position: absolute;
         display: block;
-        top: 24px;
-        right: 26px;
+        top: 0px;
+        right: 0px;
         width: 26px;
         height: 26px;
       }
-    `;
-  },
-
-  absoluteClose() {
-    return css`
-      position: absolute;
-      right: 0;
-      top: 0;
-    `;
-  },
-
-  closeWrapper() {
-    return css`
-      position: relative;
     `;
   },
 
