@@ -739,6 +739,21 @@ export class DefaultTheme {
   //#region Menu
   public static menuSeparatorBorderColor = '#e6e6e6';
   //#endregion
+  //#region Hint
+  public static get hintColor() {
+    return this.textColorInvert;
+  }
+  public static get hintFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get hintLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static hintMaxWidth = '200px';
+  public static hintPaddingY = '6px';
+  public static hintPaddingX = '8px';
+  public static hintTextAlign = 'center';
+  //#endregion
   //#region Toast
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
