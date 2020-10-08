@@ -1,14 +1,17 @@
 import React from 'react';
 
-import { isBrowser } from '../../lib/client';
+import { canUseDOM, isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
-import { RenderContainerProps } from './RenderContainerTypes';
+import { RenderContainerProps, RenderContainerState } from './RenderContainerTypes';
 
-export class RenderContainer extends React.Component<RenderContainerProps> {
+export class RenderContainer extends React.Component<RenderContainerProps, RenderContainerState> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
+  public state: RenderContainerState = {
+    isBrowser: false,
+  };
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
@@ -32,23 +35,23 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 
+  public componentDidMount() {
+    this.setState({ isBrowser: true });
+  }
+
   public componentWillUnmount() {
     this.destroyContainer();
   }
 
   public render() {
-    if (!isBrowser) {
-      return this.props && this.props.children;
+    if (!this.state.isBrowser) {
+      return null;
     }
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   }
 
   private createContainer() {
-    if (!document || !document.body) {
-      throw Error('There is no "body" in "document"');
-    }
-
-    if (!this.domContainer) {
+    if (canUseDOM) {
       const domContainer = document.createElement('div');
       domContainer.setAttribute('class', 'react-ui');
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);

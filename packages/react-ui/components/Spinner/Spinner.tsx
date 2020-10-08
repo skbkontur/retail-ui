@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import cn from 'classnames';
 
-import { isBrowser } from '../../lib/client';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -33,12 +32,16 @@ export interface SpinnerProps {
   cloud?: boolean;
 }
 
+interface SpinnerState {
+  isBrowser: boolean;
+}
+
 /**
  * DRAFT - инлайн-лоадер
  */
 
 @locale('Spinner', SpinnerLocaleHelper)
-export class Spinner extends React.Component<SpinnerProps> {
+export class Spinner extends React.Component<SpinnerProps, SpinnerState> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
 
   public static propTypes = {
@@ -72,12 +75,19 @@ export class Spinner extends React.Component<SpinnerProps> {
   };
 
   public static Types: typeof types = types;
+  public state: SpinnerState = {
+    isBrowser: false,
+  };
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   constructor(props: SpinnerProps) {
     super(props);
     warning(!this.props.cloud, 'cloud is deprecated, will removed in 3.0. ');
+  }
+
+  public componentDidMount() {
+    this.setState({ isBrowser: true });
   }
 
   public render() {
@@ -98,12 +108,16 @@ export class Spinner extends React.Component<SpinnerProps> {
   private renderMain() {
     const { type, caption = this.locale.loading, dimmed } = this.props;
 
+    const spinnerInner = this.state.isBrowser && (
+      <>
+        {hasSvgAnimationSupport && this.renderSpinner(type, dimmed)}
+        {!hasSvgAnimationSupport && <SpinnerFallback type={type} dimmed={dimmed} />}
+      </>
+    );
+
     return (
       <div className={jsStyles.spinner()}>
-        <span className={jsStyles.inner()}>
-          {hasSvgAnimationSupport && this.renderSpinner(type, dimmed)}
-          {!hasSvgAnimationSupport && isBrowser && <SpinnerFallback type={type} dimmed={dimmed} />}
-        </span>
+        <span className={jsStyles.inner()}>{spinnerInner}</span>
         {caption && this.renderCaption(type, caption)}
       </div>
     );
