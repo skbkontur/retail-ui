@@ -18,20 +18,19 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
   public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
 
   public render() {
-    if (this.props.children) {
-      if (!this.props.domContainer) {
-        throw Error('There is no "this.domContainer"');
-      }
+    const { anchor, children, domContainer, rootId } = this.props;
+    let inner = anchor;
 
-      return (
+    if (children) {
+      inner = (
         <React.Fragment>
-          {this.props.anchor}
-          {ReactDOM.createPortal(this.props.children, this.props.domContainer)}
-          <Portal key="portal-ref" rt_rootID={this.props.rootId} />
+          {anchor}
+          {domContainer && ReactDOM.createPortal(children, domContainer)}
+          <Portal key="portal-ref" rt_rootID={rootId} />
         </React.Fragment>
       );
     }
 
-    return this.props.anchor;
+    return inner;
   }
 }

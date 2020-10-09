@@ -37,9 +37,6 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
-    if (!isBrowser) {
-      return this.props.anchor || null;
-    }
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   }
 
