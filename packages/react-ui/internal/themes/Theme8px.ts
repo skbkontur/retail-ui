@@ -387,13 +387,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get textareaLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static get textareaHeight() {
-    const lineHeight = parseInt(this.textareaLineHeight, 10) || 0;
-    const paddingY = parseInt(this.textareaPaddingY, 10) || 0;
-    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
-
-    return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
-  }
   //#endregion
   //#region Radio
   public static get radioLineHeight() {

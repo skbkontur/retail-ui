@@ -1140,6 +1140,9 @@ export class DefaultTheme {
 
     return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
   }
+  public static get textareaMinHeight() {
+    return this.textareaHeight;
+  }
   public static textareaWidth = '250px';
   public static get textareaPaddingX() {
     return '10px';
