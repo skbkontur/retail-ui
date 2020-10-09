@@ -46,7 +46,7 @@ describe('Pager', () => {
 
     wrapper
       .find(`[data-tid='Paging__pageLink']`)
-      .at(1)
+      .at(2)
       .simulate('click');
     expect(onPageChange).toHaveBeenCalled();
   });
@@ -58,7 +58,7 @@ describe('Pager', () => {
     );
     wrapper
       .find(`[data-tid='Paging__pageLink']`)
-      .at(1)
+      .at(2)
       .simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
@@ -156,7 +156,7 @@ describe('Pager', () => {
     let wrapper: ReactWrapper;
     const getForwardText = () =>
       wrapper
-        .find(`[data-tid='Paging__pageLink']`)
+        .find(`[data-tid='Paging__forwardLink']`)
         .last()
         .text();
     const PagingContext = () => (

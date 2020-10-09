@@ -156,6 +156,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return (
       <ZIndex
         priority={'Sidepage'}
+        data-tid="SidePage__root"
         className={cn({
           [jsStyles.root()]: true,
           [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
