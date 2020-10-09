@@ -1136,10 +1136,10 @@ export class DefaultTheme {
     return this.controlBorderWidth;
   }
   public static get textareaHeight() {
-    const textareaLineHeight = parseInt(this.textareaLineHeight, 10) * 3;
+    const textareaLineHeight = parseInt(this.textareaLineHeight, 10) * 2;
     const textareaPaddingY = parseInt(this.textareaPaddingY, 10) * 2;
     const textareaBorderWidth = parseInt(this.textareaBorderWidth, 10) * 2;
-    return '68px' || `${textareaLineHeight + textareaPaddingY + textareaBorderWidth}px`;
+    return `${textareaLineHeight + textareaPaddingY + textareaBorderWidth}px`;
   }
   public static textareaWidth = '250px';
   public static get textareaPaddingX() {
