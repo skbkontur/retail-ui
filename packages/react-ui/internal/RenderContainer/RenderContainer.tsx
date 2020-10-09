@@ -5,13 +5,10 @@ import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
-import { RenderContainerProps, RenderContainerState } from './RenderContainerTypes';
+import { RenderContainerProps } from './RenderContainerTypes';
 
-export class RenderContainer extends React.Component<RenderContainerProps, RenderContainerState> {
+export class RenderContainer extends React.Component<RenderContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
-  public state: RenderContainerState = {
-    isBrowser: false,
-  };
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
@@ -35,17 +32,13 @@ export class RenderContainer extends React.Component<RenderContainerProps, Rende
     }
   }
 
-  public componentDidMount() {
-    this.setState({ isBrowser: true });
-  }
-
   public componentWillUnmount() {
     this.destroyContainer();
   }
 
   public render() {
-    if (!this.state.isBrowser) {
-      return null;
+    if (!isBrowser) {
+      return this.props.anchor || null;
     }
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   }

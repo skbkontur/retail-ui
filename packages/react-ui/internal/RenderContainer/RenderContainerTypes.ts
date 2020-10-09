@@ -8,7 +8,3 @@ export interface RenderContainerProps {
   anchor?: React.ReactNode;
   children?: React.ReactNode;
 }
-
-export interface RenderContainerState {
-  isBrowser: boolean;
-}
