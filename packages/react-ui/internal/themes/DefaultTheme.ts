@@ -1136,10 +1136,13 @@ export class DefaultTheme {
     return this.controlBorderWidth;
   }
   public static get textareaHeight() {
-    const textareaLineHeight = parseInt(this.textareaLineHeight, 10) * 2;
-    const textareaPaddingY = parseInt(this.textareaPaddingY, 10) * 2;
-    const textareaBorderWidth = parseInt(this.textareaBorderWidth, 10) * 2;
-    return `${textareaLineHeight + textareaPaddingY + textareaBorderWidth}px`;
+    return this.textareaMinHeight;
+  }
+  public static get textareaMinHeight() {
+    const lineHeight = parseInt(this.textareaLineHeight, 10);
+    const paddingY = parseInt(this.textareaPaddingY, 10);
+    const borderWidth = parseInt(this.textareaBorderWidth, 10);
+    return `${2 * lineHeight + 2 * paddingY + 2 * borderWidth}px`;
   }
   public static textareaWidth = '250px';
   public static get textareaPaddingX() {
