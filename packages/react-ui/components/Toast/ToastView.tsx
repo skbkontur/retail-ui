@@ -55,8 +55,7 @@ export class ToastView extends React.Component<ToastViewProps> {
   }
 
   private renderMain() {
-    // @ts-ignore
-    const { children, action, onClose, 'data-tid': _, ...rest } = this.props;
+    const { children, action, onClose, ...rest } = this.props;
 
     const link = action ? (
       <span className={jsStyles.link(this.theme)} onClick={action.handler}>
