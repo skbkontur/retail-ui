@@ -65,11 +65,11 @@ const getPageFromHash = () => +document.location.hash.slice(1);
 
 const CustomComponent: React.SFC<any> = ({ active, pageNumber, ...props }) =>
   Paging.isForward(pageNumber) ? (
-    <a data-tid="Paging__pageLink" href={'#' + (getPageFromHash() + 1)} {...props}>
+    <a href={'#' + (getPageFromHash() + 1)} {...props}>
       {props.children}
     </a>
   ) : (
-    <a data-tid="Paging__pageLink" href={'#' + pageNumber} {...props}>
+    <a href={'#' + pageNumber} {...props}>
       {props.children}
     </a>
   );
@@ -153,7 +153,7 @@ GoToAbsensePageStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: `[data-prop-pageNumber='forward']` }))
+            .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('change page by forwardLink');
         },
