@@ -15,8 +15,8 @@ const styles = {
   todayWrapper(t: Theme) {
     return css`
       background-color: ${t.pickerTodayWrapperBgColor};
-      border-top: ${t.pickerTodayWrapperBorderTop};
       border: none;
+      border-top: ${t.pickerTodayWrapperBorderTop};
       color: ${t.linkColor};
       display: block;
       font-size: 14px;
