@@ -1098,7 +1098,9 @@ export class DefaultTheme {
   }
   //#endregion
   //#region TextArea
-  public static textareaBg = 'none';
+  public static get textareaBg() {
+    return this.bgDefault;
+  }
   public static get textareaColor() {
     return this.black;
   }
