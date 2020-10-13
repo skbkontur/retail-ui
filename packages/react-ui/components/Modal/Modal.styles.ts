@@ -79,13 +79,18 @@ const styles = {
   },
 
   close(t: Theme) {
+    const iconSize = 14;
+    const margin = 0;
+    const paddingTop = 35;
+    const paddingBottom = 20;
+    const blockSize = iconSize + paddingTop + paddingBottom;
     return css`
       ${resetButton()};
       position: absolute;
-      right: 26px;
-      top: 26px;
-      width: 32px;
-      height: 32px;
+      right: ${margin}px;
+      top: ${margin}px;
+      width: ${blockSize}px;
+      height: ${blockSize}px;
       background: none;
       background: transparent;
       cursor: pointer;
@@ -99,9 +104,9 @@ const styles = {
       }
 
       & > svg {
-        width: 12px;
-        height: 12px;
-        padding: 10px;
+        width: ${iconSize}px;
+        height: ${iconSize}px;
+        padding: ${paddingTop}px ${paddingTop}px ${paddingBottom}px ${paddingBottom}px;
       }
     `;
   },
@@ -135,8 +140,8 @@ const styles = {
         border: 2px solid ${t.borderColorFocus};
         position: absolute;
         display: block;
-        top: 0px;
-        right: 0px;
+        top: 27px;
+        right: 27px;
         width: 26px;
         height: 26px;
       }
