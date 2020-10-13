@@ -241,6 +241,13 @@ const styles = {
     `;
   },
 
+  bodyWithoutPadding() {
+    return css`
+      padding-left: 0px;
+      padding-right: 0px;
+    `;
+  },
+
   bodyAddPadding() {
     return css`
       padding-bottom: 30px;
