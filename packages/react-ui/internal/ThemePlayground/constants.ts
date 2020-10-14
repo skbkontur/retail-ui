@@ -74,4 +74,5 @@ export const DEPRECATED_VARIABLES: Array<keyof Theme> = [
   'chbCheckedActiveBg',
   'chbCheckedActiveShadow',
   'chbShadowActive',
+  'textareaHeight',
 ];
