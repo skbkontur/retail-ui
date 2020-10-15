@@ -243,8 +243,7 @@ const styles = {
 
   bodyWithoutPadding() {
     return css`
-      padding-left: 0px;
-      padding-right: 0px;
+      padding: 0 !important;
     `;
   },
 
