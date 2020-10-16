@@ -8,7 +8,7 @@ import { jsStyles } from './Modal.styles';
 
 export interface ModalBodyProps {
   /**
-   * убирает отступы справа и слева
+   * убирает отступы
    */
   noPadding?: boolean;
 }
