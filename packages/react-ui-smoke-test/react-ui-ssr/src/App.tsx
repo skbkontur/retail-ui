@@ -134,6 +134,7 @@ export const App = () => {
         <SidePage.Footer panel />
       </SidePage>
       <Spinner type="big" caption="big" />
+      <Spinner cloud />
       <Sticky side="top" getStop={() => null}>
         {_ => 'Small loan of a million dollars'}
       </Sticky>

@@ -2,7 +2,6 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import cn from 'classnames';
 
-import { isBrowser } from '../../lib/client';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -25,11 +24,15 @@ export interface SpinnerOldProps {
   type: SpinnerOldType;
 }
 
+export interface SpinnerOldState {
+  isBrowser: boolean;
+}
+
 /**
  * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
  */
 @locale('Spinner', SpinnerLocaleHelper)
-export class SpinnerOld extends React.Component<SpinnerOldProps> {
+export class SpinnerOld extends React.Component<SpinnerOldProps, SpinnerOldState> {
   public static __KONTUR_REACT_UI__ = 'SpinnerOld';
 
   public static propTypes = {
@@ -57,11 +60,18 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
   };
 
   public static Types: typeof types = types;
+  public state: SpinnerOldState = {
+    isBrowser: false,
+  };
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   public constructor(props: SpinnerOldProps) {
     super(props);
+  }
+
+  public componentDidMount() {
+    this.setState({ isBrowser: true });
   }
 
   public render() {
@@ -77,12 +87,17 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
 
   private renderMain() {
     const { type, caption = this.locale.loading, dimmed } = this.props;
+
+    const spinnerInner = this.state.isBrowser && (
+      <>
+        {hasSvgAnimationSupport && this.renderSpinnerOld(type)}
+        {!hasSvgAnimationSupport && <SpinnerOldFallback type={type} dimmed={dimmed} />}
+      </>
+    );
+
     return (
       <div className={jsStyles.spinner()}>
-        <span className={jsStyles.inner()}>
-          {hasSvgAnimationSupport && this.renderSpinnerOld(type)}
-          {!hasSvgAnimationSupport && isBrowser && <SpinnerOldFallback type={type} dimmed={dimmed} />}
-        </span>
+        <span className={jsStyles.inner()}>{spinnerInner}</span>
         {caption && this.renderCaption(type, caption)}
       </div>
     );
