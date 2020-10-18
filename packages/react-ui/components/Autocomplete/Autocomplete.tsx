@@ -12,8 +12,6 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
-type DOMNode = Element | Text | null;
-
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
     return Promise.resolve([]);
@@ -142,10 +140,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
   }
 
-  public componentDidMount() {
-    this.getInputWidth();
-  }
-
   public render() {
     const {
       onValueChange,
@@ -173,7 +167,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width: this.props.width }}>
+        <span style={{ display: 'inline-block', width: this.props.width }} ref={this.getInputWidth}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
@@ -214,13 +208,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
-  private isElement = (node: DOMNode): node is Element => {
-    return node instanceof Element;
-  };
-
-  private getInputWidth = () => {
-    const target = this.getAnchor();
-    if (!this.isElement(target)) {
+  private getInputWidth = (target: HTMLSpanElement) => {
+    if (!(target instanceof Element)) {
       return 0;
     }
 
