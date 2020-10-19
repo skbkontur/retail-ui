@@ -104,6 +104,12 @@ export const Opened = () => (
           />
         </td>
       </tr>
+      <tr>
+        <td style={{ paddingBottom: 120, paddingRight: 10 }}>
+          <ComboBoxView editing items={[]} opened textValue="null" renderNotFound={() => null} />
+        </td>
+        <td style={{ paddingBottom: 120 }}></td>
+      </tr>
     </tbody>
   </table>
 );
