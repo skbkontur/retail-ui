@@ -241,6 +241,12 @@ const styles = {
     `;
   },
 
+  bodyWithoutPadding() {
+    return css`
+      padding: 0 !important;
+    `;
+  },
+
   bodyAddPadding() {
     return css`
       padding-bottom: 30px;
