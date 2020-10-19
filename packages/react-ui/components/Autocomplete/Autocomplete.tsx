@@ -59,7 +59,6 @@ export type AutocompleteProps = Override<
 export interface AutocompleteState {
   items: Nullable<string[]>;
   selected: number;
-  inputWidth: number;
 }
 
 /**
@@ -106,12 +105,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public state: AutocompleteState = {
     items: null,
     selected: -1,
-    inputWidth: 0,
   };
 
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
+  private rootSpan: Nullable<HTMLSpanElement>;
 
   private focused = false;
   private requestId = 0;
@@ -167,7 +166,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width: this.props.width }} ref={this.getInputWidth}>
+        <span style={{ display: 'inline-block', width: this.props.width }} ref={this.refRootSpan}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
@@ -181,7 +180,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || this.props.width && this.state.inputWidth,
+      width: this.props.menuWidth || this.props.width && this.getInputWidth(this.rootSpan),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -208,14 +207,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
-  private getInputWidth = (target: HTMLSpanElement) => {
-    if (!(target instanceof Element)) {
-      return 0;
+  private getInputWidth = (target: Nullable<HTMLSpanElement>) => {
+    if (target instanceof Element) {
+      return target.getBoundingClientRect().width;
     }
 
-    this.setState({
-      inputWidth: target.getBoundingClientRect().width
-    });
+    return 0;
   }
 
   private handleValueChange = (value: string) => {
@@ -362,4 +359,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private refMenu = (menu: Menu | null) => {
     this.menu = menu;
   };
+
+  private refRootSpan = (span: HTMLSpanElement) => {
+    this.rootSpan = span;
+  }
 }
