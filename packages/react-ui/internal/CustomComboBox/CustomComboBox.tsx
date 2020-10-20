@@ -98,8 +98,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (this.props.disabled) {
       return;
     }
-
-    this.handleFocus();
+    if (this.input) {
+      this.input.focus();
+    } else {
+      this.handleFocus();
+    }
   };
 
   /**
