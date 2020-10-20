@@ -13,7 +13,15 @@ const initialState = { active: 'fuji' };
 ```jsx harmony
 const initialState = { active: '/fuji' };
 
-const NavLink = props => <a {...props} />;
+const NavLink = props => (
+  <a
+    {...props}
+    onClick={e => {
+      e.preventDefault();
+      props.onClick(e);
+    }}
+  />
+);
 const TabLink = ({ id, children }) => (
   <Tabs.Tab id={id} component={props => <NavLink {...props} to={props.id} />}>
     {children}

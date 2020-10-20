@@ -66,6 +66,7 @@ const styles = {
       text-overflow: clip;
       background-clip: padding-box;
       transition: background-color 0.15s ease-in;
+      color: ${t.tokenInputTextColor};
 
       &::-ms-clear {
         display: none;

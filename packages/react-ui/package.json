@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "2.4.1",
+  "version": "2.6.0",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -85,6 +85,8 @@
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "7.8.3",
     "@skbkontur/react-icons": "3.2.1",
+    "@skbkontur/react-props2attrs": "0.1.1",
+    "@skbkontur/react-sorge": "0.1.0",
     "@storybook/addon-actions": "5.3.14",
     "@storybook/addon-links": "^5.3.14",
     "@storybook/addons": "5.3.14",

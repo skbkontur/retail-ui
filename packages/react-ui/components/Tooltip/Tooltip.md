@@ -50,10 +50,42 @@ const render = () => (
 </div>;
 ```
 
-Тултип может располагаться в одной из 12 позиции и триггериться одним из 5 способов
+Выравнивание базовой линии с RadioGroup требует дополнительных отступов.
 
 ```jsx harmony
-import { Center, Gapped, Select, Tooltip } from '@skbkontur/react-ui';
+import { Gapped, Tooltip, RadioGroup, Radio } from '@skbkontur/react-ui';
+
+const render = () => (
+  <div
+    style={{
+      fontSize: 14,
+      fontFamily: 'Segoe UI',
+    }}
+  >
+    Выровнено по первому Radio
+  </div>
+);
+
+<div style={{ fontFamily: 'Segoe UI' }}>
+  <Tooltip useWrapper={false} render={render} pos="right top">
+    <div style={{ padding: '16px 0', display: 'inline-block' }}>
+      <RadioGroup>
+        <Gapped vertical gap={10}>
+          <Radio value="2">Two</Radio>
+          <Radio value="4">Four</Radio>
+          <Radio value="6">Six</Radio>
+          <Radio value="8">Eight</Radio>
+        </Gapped>
+      </RadioGroup>
+    </div>
+  </Tooltip>
+</div>;
+```
+
+Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов.
+
+```jsx harmony
+import { Button, Center, Gapped, Select, Tooltip } from '@skbkontur/react-ui';
 
 const S = 60;
 
@@ -81,6 +113,60 @@ const Block = ({ pos, trigger, top, left, onMouseDown }) => (
   </div>
 );
 
+class UseManualTooltip extends React.Component {
+  constructor(props) {
+    super(props);
+    this.tooltip = null;
+  }
+
+  render() {
+    return (
+      <Gapped vertical>
+        <Gapped>
+          <Button width={1.5 * S - 5} onClick={this.handleClickOnShow.bind(this)}>
+            Show
+          </Button>
+          <Button width={1.5 * S - 5} onClick={this.handleClickOnHide.bind(this)}>
+            Hide
+          </Button>
+        </Gapped>
+        <Tooltip
+          render={() => 'Manual tooltip'}
+          pos="bottom center"
+          trigger="manual"
+          ref={element => {
+            this.tooltip = element;
+          }}
+        >
+          <div
+            style={{
+              width: 3 * S,
+              height: S,
+              lineHeight: `${S}px`,
+              background: 'white',
+              boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
+              textAlign: 'center',
+            }}
+          >
+            Manual control
+          </div>
+        </Tooltip>
+      </Gapped>
+    );
+  }
+
+  handleClickOnShow() {
+    if (this.tooltip) {
+      this.tooltip.show();
+    }
+  }
+  handleClickOnHide() {
+    if (this.tooltip) {
+      this.tooltip.hide();
+    }
+  }
+}
+
 let initialState = {
   trigger: 'hover',
   blocks: [
@@ -99,6 +185,8 @@ let initialState = {
   ],
 };
 
+const isManual = state.trigger === 'manual';
+
 <div
   style={{
     width: S * 9,
@@ -115,25 +203,26 @@ let initialState = {
   }}
 >
   <Center>
-    <Gapped>
-      Trigger
-      <Select
-        width={S * 2}
-        size="small"
-        value={state.trigger}
-        items={['click', 'hover', 'focus', 'hover&focus', 'opened', 'closed']}
-        onValueChange={v => setState({ trigger: v })}
-      />
+    <Gapped vertical>
+      <Gapped>
+        Trigger
+        <Select
+          width={S * 2}
+          size="small"
+          value={state.trigger}
+          items={['click', 'hover', 'focus', 'hover&focus', 'hoverAnchor', 'opened', 'closed', 'manual']}
+          onValueChange={v => setState({ trigger: v })}
+        />
+      </Gapped>
+      {isManual ? <UseManualTooltip /> : null}
     </Gapped>
   </Center>
 
-  {state.blocks.map((block, i) => (
-    <Block key={i} {...block} trigger={state.trigger} />
-  ))}
+  {!isManual && state.blocks.map((block, i) => <Block key={i} {...block} trigger={state.trigger} />)}
 </div>;
 ```
 
-Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендерится в совершенно другом месте приложения
+Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения.
 
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';

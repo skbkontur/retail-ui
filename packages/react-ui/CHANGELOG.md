@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.5.0...@skbkontur/react-ui@2.6.0) (2020-10-13)
+
+
+### Bug Fixes
+
+* **customization:** replace textareaHeight with textareaMinHeight ([42e3d4f](https://github.com/skbkontur/retail-ui/commit/42e3d4f04956235572c967f1891615bf409b5ed8))
+* **DatePicker:** return TodayLink's border ([9206bee](https://github.com/skbkontur/retail-ui/commit/9206bee72389bfa00885c8ab5d0d7431e11e0d1a))
+* **Textarea:** fix background color regress  ([#2170](https://github.com/skbkontur/retail-ui/issues/2170)) ([d206ff2](https://github.com/skbkontur/retail-ui/commit/d206ff2bbfb174e7799241fabcac9123a607950b))
+* **Textarea:** fix min height ([2777ac5](https://github.com/skbkontur/retail-ui/commit/2777ac5fd57370256f44606f7baa12373cf1b5a5)), closes [#2120](https://github.com/skbkontur/retail-ui/issues/2120) [#2160](https://github.com/skbkontur/retail-ui/issues/2160)
+
+
+### Features
+
+* **Toggle:** add use 'children' ([33e725c](https://github.com/skbkontur/retail-ui/commit/33e725c69373cd44dc7a2ec6fd2d4c1855b456fb)), closes [#1723](https://github.com/skbkontur/retail-ui/issues/1723)
+* **Tooltip:** add manual control ([ad0d0a2](https://github.com/skbkontur/retail-ui/commit/ad0d0a29da1f13628cc54c92b36b38dfb45156a6)), closes [#914](https://github.com/skbkontur/retail-ui/issues/914)
+
+
+
+
+
+
+# [2.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.3...@skbkontur/react-ui@2.5.0) (2020-09-23)
+
+
+### Bug Fixes
+
+* **Button:** checked + disabled кнопка сдвигает текст на 1 px ([da2e822](https://github.com/skbkontur/retail-ui/commit/da2e822df3d12c2afb743e941120bc52f910efe5))
+* **spinner:** fix spinner fallback mini ([9a766e3](https://github.com/skbkontur/retail-ui/commit/9a766e3b9110dfa19babf3446555f5d8da68b182))
+* **Tab:** return operability with links from react-router-dom ([8da96a9](https://github.com/skbkontur/retail-ui/commit/8da96a97511459f8164862a1dc61d4a591fff466))
+
+
+### Features
+
+* **Switcher:** Добавляет disabled состояние ([d5b13a8](https://github.com/skbkontur/retail-ui/commit/d5b13a8d0c345fc5bba97f6b407b9b2df0f78d2c))
+
+
+
+
+
+## [2.4.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.2...@skbkontur/react-ui@2.4.3) (2020-09-16)
+
+
+### Bug Fixes
+
+* **Fias:** add "version" param to all requests ([6c1f200](https://github.com/skbkontur/retail-ui/commit/6c1f200f5eb1b04f753eeb0860340049bfd16a16)), closes [#2126](https://github.com/skbkontur/retail-ui/issues/2126)
+* **Input:** fixed wrong right mask position ([88116d6](https://github.com/skbkontur/retail-ui/commit/88116d6994c58ebea5dacfa1e0ffa498fe2f1963)), closes [#1379](https://github.com/skbkontur/retail-ui/issues/1379)
+* **PasswordInput:** change eye icon ([e36c1ba](https://github.com/skbkontur/retail-ui/commit/e36c1baa647993450e9f88e7e48f2f6f24066745)), closes [#2111](https://github.com/skbkontur/retail-ui/issues/2111)
+* **Popup:** prevent wrong styles order ([08c7c4c](https://github.com/skbkontur/retail-ui/commit/08c7c4ce45238f72357b1ab2210dccda337f5f45)), closes [#2005](https://github.com/skbkontur/retail-ui/issues/2005)
+* **Select.styles:** fix span width with left icon ([e2dceec](https://github.com/skbkontur/retail-ui/commit/e2dceec963c9c2b038abc13e8012666635b18098))
+* **theme:** add var 'tokenInputTextColor' ([cbad454](https://github.com/skbkontur/retail-ui/commit/cbad454a701f31fb97f33da423c0317e8340f429)), closes [#2099](https://github.com/skbkontur/retail-ui/issues/2099)
+
+
+
+
+
+## [2.4.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.1...@skbkontur/react-ui@2.4.2) (2020-08-31)
+
+
+### Bug Fixes
+
+* **Link, Button:** use hover styles from theme ([e23b3e1](https://github.com/skbkontur/retail-ui/commit/e23b3e186890a5b02072a142c54eab0df3b743df)), closes [#2072](https://github.com/skbkontur/retail-ui/issues/2072)
+* **Loader:** обновление позиции лоадера при переключении active на true ([acb5bbe](https://github.com/skbkontur/retail-ui/commit/acb5bbe31a9d2d1132d88862a6be94bb8ef227c1)), closes [#2092](https://github.com/skbkontur/retail-ui/issues/2092)
+* **MenuItem:** pass state into custom component ([073f1fa](https://github.com/skbkontur/retail-ui/commit/073f1fa6e542e06cc4f830e418118ace8cb4648f))
+
+
+
+
+
 ## [2.4.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.0...@skbkontur/react-ui@2.4.1) (2020-08-07)
 
 

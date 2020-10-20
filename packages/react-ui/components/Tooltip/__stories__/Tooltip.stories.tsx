@@ -1050,3 +1050,75 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
     });
   };
 }
+
+class TestTooltipForManual extends React.Component {
+  private tooltip: Tooltip | null = null;
+
+  render() {
+    return (
+      <div style={{ padding: '100px' }}>
+        <Gapped>
+          <Button key={'Show'} onClick={this.handleClickOnShow.bind(this)}>
+            Show()
+          </Button>
+          <Button key={'Hide'} onClick={this.handleClickOnHide.bind(this)}>
+            Hide()
+          </Button>
+        </Gapped>
+        <Tooltip
+          render={() => 'Opened by Show()'}
+          trigger="manual"
+          pos="bottom left"
+          ref={element => {
+            this.tooltip = element;
+          }}
+        >
+          <Button disabled>Anchor</Button>
+        </Tooltip>
+      </div>
+    );
+  }
+
+  handleClickOnShow() {
+    if (this.tooltip) {
+      this.tooltip.show();
+    }
+  }
+  handleClickOnHide() {
+    if (this.tooltip) {
+      this.tooltip.hide();
+    }
+  }
+}
+
+export const TooltipWithManualControl: CSFStory<JSX.Element> = () => <TestTooltipForManual />;
+TooltipWithManualControl.story = {
+  name: 'manual control',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['call show']() {
+          const btns = await this.browser.findElements({ css: '[type="button"]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(btns[0])
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('call show');
+        },
+        async ['call hide after show']() {
+          const btns = await this.browser.findElements({ css: '[type="button"]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(btns[0])
+            .click(btns[1])
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('call hide after show');
+        },
+      },
+    },
+  },
+};

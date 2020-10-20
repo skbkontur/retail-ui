@@ -234,6 +234,7 @@ SimpleComboboxStory.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: 'body' }))
+            .pause(500)
             .perform();
           await this.browser
             .actions({

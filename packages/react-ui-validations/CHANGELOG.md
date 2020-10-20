@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.2.0...react-ui-validations@1.3.0) (2020-10-13)
+
+
+### Bug Fixes
+
+* **validations:** give up dynamic require, fix codesandbox compatibility ([6e00f39](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/6e00f392c5d86756cbe9a83094dbc274261d1584)), closes [#2151](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2151) [#2039](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2039)
+
+
+### Features
+
+* **validations:** optimize ReactUiDetection, inc min react-ui to 0.53.7 ([df4deaa](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/df4deaad013db5ad8aac09aa99dd3326b93d17b2)), closes [#2150](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2150)
+
+
+
+
+
+
 # [1.2.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.5...react-ui-validations@1.2.0) (2020-08-07)
 
 
