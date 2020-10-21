@@ -106,8 +106,18 @@ export const DefaultState = {
 
 const defaultToKey = <T extends any>(item: T): string => item.toString();
 const identity = <T extends any>(item: T): T => item;
-const defaultRenderToken = <T extends any>(item: T, { isActive, onClick, onRemove, disabled }: Partial<TokenProps>) => (
-  <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
+const defaultRenderToken = <T extends any>(
+  item: T,
+  { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
+) => (
+  <Token
+    key={item.toString()}
+    isActive={isActive}
+    onClick={onClick}
+    onDoubleClick={onDoubleClick}
+    onRemove={onRemove}
+    disabled={disabled}
+  >
     {item}
   </Token>
 );
@@ -750,23 +760,20 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // TODO useCallback
     const handleTokenClick: React.MouseEventHandler<HTMLDivElement> = event => {
       event.stopPropagation();
-      if (this.state.clickedToken === item && this.state.editingTokenIndex < 0) {
-        this.handleTokenEdit(item);
-        this.dispatch({ type: 'REMOVE_CLICKED_TOKEN' });
-        return;
-      }
       this.handleTokenClick(event, item);
-      this.dispatch({ type: 'SET_CLICKED_TOKEN', payload: item });
-      clearTimeout(this.state.clickedTokenTimeout);
-      const timer = setTimeout(() => {
-        this.dispatch({ type: 'REMOVE_CLICKED_TOKEN' });
-      }, 400);
-      this.dispatch({ type: 'SET_CLICKED_TOKEN_TIMER', payload: timer });
+    };
+
+    const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = event => {
+      event.stopPropagation();
+      if (this.state.editingTokenIndex < 0) {
+        this.handleTokenEdit(item);
+      }
     };
 
     return renderToken(item, {
       isActive,
       onClick: handleTokenClick,
+      onDoubleClick: handleTokenDoubleClick,
       onRemove: handleIconClick,
       disabled,
     });

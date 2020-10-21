@@ -20,11 +20,8 @@ export const TokenActions = {
   RESET: 'RESET',
   SET_EDITING_TOKEN_INDEX: 'SET_EDITING_TOKEN_INDEX',
   REMOVE_EDITING_TOKEN_INDEX: 'REMOVE_EDITING_TOKEN_INDEX',
-  SET_CLICKED_TOKEN: 'SET_CLICKED_TOKEN',
-  REMOVE_CLICKED_TOKEN: 'REMOVE_CLICKED_TOKEN',
   SET_TEMPORARY_QUERY: 'SET_TEMPORARY_QUERY',
   REMOVE_TEMPORARY_QUERY: 'REMOVE_TEMPORARY_QUERY',
-  SET_CLICKED_TOKEN_TIMER: 'SET_CLICKED_TOKEN_TIMER',
 };
 
 export type TokenInputActionType = keyof typeof TokenActions;
@@ -90,16 +87,6 @@ export function tokenInputReducer<T = string>(
     case TokenActions.REMOVE_TEMPORARY_QUERY: {
       return { reservedInputValue: undefined };
     }
-    case TokenActions.SET_CLICKED_TOKEN: {
-      return { clickedToken: payload };
-    }
-    case TokenActions.REMOVE_CLICKED_TOKEN: {
-      return { clickedToken: undefined };
-    }
-    case TokenActions.SET_CLICKED_TOKEN_TIMER: {
-      return { clickedTokenTimeout: payload };
-    }
-
     default:
       return state;
   }
