@@ -4,6 +4,7 @@ import { CSFStory } from 'creevey';
 import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
+import { MenuItem } from '../../../components/MenuItem';
 
 export default { title: 'ComboBoxView' };
 
@@ -108,7 +109,15 @@ export const Opened = () => (
         <td style={{ paddingBottom: 120, paddingRight: 10 }}>
           <ComboBoxView editing items={[]} opened textValue="null" renderNotFound={() => null} />
         </td>
-        <td style={{ paddingBottom: 120 }}></td>
+        <td style={{ paddingBottom: 120 }}>
+          <ComboBoxView
+            editing
+            items={[]}
+            opened
+            textValue="something"
+            renderAddButton={query => <MenuItem>Add {query}</MenuItem>}
+          />
+        </td>
       </tr>
     </tbody>
   </table>
