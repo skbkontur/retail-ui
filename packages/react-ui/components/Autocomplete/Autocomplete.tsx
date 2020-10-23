@@ -194,7 +194,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || this.props.width && this.getInputWidth(this.rootSpan),
+      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -227,7 +227,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     return 0;
-  }
+  };
 
   private handleValueChange = (value: string) => {
     this.opened = true;
@@ -376,5 +376,5 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private refRootSpan = (span: HTMLSpanElement) => {
     this.rootSpan = span;
-  }
+  };
 }
