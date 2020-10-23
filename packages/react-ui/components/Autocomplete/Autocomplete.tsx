@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { DropdownContainer } from '../../internal/DropdownContainer';
@@ -107,6 +109,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     selected: -1,
   };
 
+  private theme!: Theme;
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
@@ -140,6 +143,16 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+  public renderMain() {
     const {
       onValueChange,
       onKeyDown,
@@ -152,12 +165,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuMaxHeight,
       preventWindowScroll,
       source,
+      width = this.theme.inputWidth,
       ...rest
     } = this.props;
 
     const inputProps = {
       ...rest,
-      width: this.props.width && '100%',
+      width: '100%',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
@@ -166,7 +180,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width: this.props.width }} ref={this.refRootSpan}>
+        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
