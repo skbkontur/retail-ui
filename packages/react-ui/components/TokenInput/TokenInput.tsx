@@ -418,6 +418,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         .filter(item => !this.hasValueInItems(this.props.selectedItems, item));
       const newItems = this.props.selectedItems.concat(items);
       this.props.onValueChange(newItems);
+
+      this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
+      this.tryGetItems();
     }
   };
 
