@@ -234,6 +234,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const inputInlineStyles: React.CSSProperties = {
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
+      // минимальная ширина 2px для видимости каретки
       width: Math.max(2, inputValueWidth),
       height: Math.max(lineHeight, inputValueHeight),
       // input растягивается на всю ширину чтобы placeholder не обрезался
@@ -241,9 +242,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // в ie не работает, но альтернативный способ --- дать tabindex для label --- предположительно ещё сложнее
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
-    if (reservedInputValue !== undefined) {
-      inputInlineStyles.paddingLeft = theme.tokenTextareaPaddingXLeft;
-    }
 
     const labelClassName = cn(jsStyles.label(theme), {
       [jsStyles.labelFocused(theme)]: !!inFocus,
@@ -253,6 +251,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     });
     const inputClassName = cn(jsStyles.input(theme), {
       [jsStyles.inputDisabled(theme)]: !!disabled,
+      [jsStyles.inputEditing(theme)]: this.state.editingTokenIndex > -1,
     });
     return (
       <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -264,7 +263,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           onMouseUp={this.handleWrapperMouseUp}
         >
           {/* расчёт ширины текста с последующим обновлением ширины input */}
-          <TextWidthHelper ref={this.textHelperRef} classHelp={jsStyles.helperText(theme)} text={inputValue} />
+          <TextWidthHelper
+            ref={this.textHelperRef}
+            classHelp={cn(jsStyles.helperText(theme), {
+              [jsStyles.helperTextEditing(theme)]: this.state.editingTokenIndex > -1,
+            })}
+            text={inputValue}
+          />
           {this.renderTokensStart()}
           <textarea
             ref={this.inputRef}
@@ -296,9 +301,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             />
           )}
           {this.renderTokensEnd()}
-          {reservedInputValue !== undefined && (
+          {this.state.editingTokenIndex > -1 ? (
             <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span>
-          )}
+          ) : null}
         </label>
       </div>
     );
@@ -516,6 +521,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         if (this.menuRef) {
           this.menuRef.enter(e);
         }
+        // don't allow textarea
+        // became multiline
+        e.preventDefault();
         break;
       case isKeyArrowVertical(e):
         e.preventDefault();

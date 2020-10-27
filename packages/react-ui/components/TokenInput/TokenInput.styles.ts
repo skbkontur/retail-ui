@@ -58,7 +58,7 @@ const styles = {
       outline: none;
       font-family: inherit;
       margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
-      padding: 0 ${t.tokenTextareaPaddingXRight} 0 5px;
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
       overflow: hidden;
       resize: none;
       font-size: ${t.tokenInputFontSize};
@@ -104,9 +104,16 @@ const styles = {
       top: -100000px;
       max-width: 100%;
       word-break: break-word;
-      margin: 0 ${t.tokenTextareaPaddingXRight} 0 ${t.tokenTextareaPaddingXLeft};
       font-size: ${t.tokenInputFontSize};
       line-height: ${t.tokenInputLineHeight};
+    `;
+  },
+
+  helperTextEditing(t: Theme) {
+    return css`
+      font-size: ${t.tokenFontSize};
+      line-height: ${t.tokenLineHeight};
+      padding-bottom: ${t.tokenLegacyTextShift};
     `;
   },
 
@@ -119,13 +126,22 @@ const styles = {
     `;
   },
 
+  inputEditing(t: Theme) {
+    return css`
+      margin: ${t.tokenMarginY} ${t.tokenMarginX};
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenPaddingX};
+      line-height: ${t.tokenLineHeight};
+    `;
+  },
+
   reservedInput(t: Theme) {
     return css`
+      min-width: 2px;
       min-height: ${t.tokenInputLineHeight};
       line-height: ${t.tokenInputLineHeight};
       font-size: ${t.tokenInputFontSize};
       margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
-      padding: 0 ${t.tokenTextareaPaddingXRight} 0 ${t.tokenTextareaPaddingXLeft};
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
       color: ${t.tokenInputTextColorDisabled};
     `;
   },
