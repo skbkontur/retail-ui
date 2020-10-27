@@ -722,3 +722,20 @@ ModalWithVeryLongHeaderWithoutSpaces.story = {
   name: 'Modal with veryLongHeaderWithoutSpaces',
   parameters: { creevey: { captureElement: null } },
 };
+
+export const ModalBodyWithoutPadding = () => (
+  <Modal width={250}>
+    <Modal.Body noPadding>
+      <div style={{ background: 'white' }}>
+        <p>Loooooooong content content content</p>
+        <p>Loooooooong content content content</p>
+        <p>Loooooooong content content content</p>
+        <p>Loooooooong content content content</p>
+      </div>
+    </Modal.Body>
+  </Modal>
+);
+ModalBodyWithoutPadding.story = {
+  name: 'Modal with no-padding',
+  parameters: { creevey: { captureElement: null } },
+};
