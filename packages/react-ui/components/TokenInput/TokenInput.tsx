@@ -172,7 +172,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       LayoutEvents.emit();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
-      this.tryGetItems(this.state.inputValue);
+      this.tryGetItems(this.state.editingTokenIndex > -1 ? '' : this.state.inputValue);
     }
   }
 
@@ -402,7 +402,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
-      }
+    }
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
@@ -478,9 +478,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const autocompleteItems = await this.props.getItems(query);
       this.dispatch({ type: 'SET_LOADING', payload: false });
 
-      const autocompleteItemsUnique = autocompleteItems.filter(
-        item => !this.hasValueInItems(this.props.selectedItems, item),
-      );
+      const isSelectedItem = (item: T) => this.hasValueInItems(this.props.selectedItems, item);
+      const isEditingItem = (item: T) => {
+        const editingItem = this.props.selectedItems[this.state.editingTokenIndex];
+        return !!editingItem && isEqual(item, editingItem);
+      };
+
+      const autocompleteItemsUnique = autocompleteItems.filter(item => !isSelectedItem(item) || isEditingItem(item));
+
       if (query === '' || this.state.inputValue !== '') {
         this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: autocompleteItemsUnique }, () => {
           LayoutEvents.emit();
@@ -514,9 +519,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         if (this.state.editingTokenIndex > -1) {
           this.finishTokenEdit();
         } else {
-        this.handleAddItem();
+          this.handleAddItem();
+        }
       }
-    }
     }
 
     switch (true) {
@@ -653,7 +658,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     } else {
       if (!this.hasValueInItems(selectedItems, item)) {
         this.handleValueChange(selectedItems.concat([item]));
-    this.dispatch({ type: 'CLEAR_INPUT' });
+        this.dispatch({ type: 'CLEAR_INPUT' });
         this.tryGetItems();
       }
     }
@@ -687,12 +692,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleTokenEdit = (itemNew: T) => {
     const editingTokenIndex = this.props.selectedItems.findIndex(item => item === itemNew);
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
-    
+
     if (this.state.inputValue !== '') {
       if (this.state.reservedInputValue === undefined)
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
     }
-    this.handleRemoveToken(itemNew);
     this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) });
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
 
@@ -759,7 +763,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private renderTokensEnd = () => {
     if (this.state.editingTokenIndex >= 0) {
-      return this.props.selectedItems.slice(this.state.editingTokenIndex).map(this.renderToken);
+      return this.props.selectedItems.slice(this.state.editingTokenIndex + 1).map(this.renderToken);
     }
   };
 
