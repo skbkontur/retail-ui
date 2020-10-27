@@ -1,9 +1,18 @@
 import React from 'react';
 import EventEmitter from 'eventemitter3';
 
+export class StackedComponent extends React.Component {
+  get blockedBackground(): boolean {
+    return false;
+  }
+  set blockedBackground(val: boolean) {
+    this.blockedBackground = val;
+  }
+}
+
 interface StackInfo {
   emitter: EventEmitter;
-  mounted: React.Component[];
+  mounted: StackedComponent[];
 }
 
 interface GlobalWithStackInfo {
@@ -16,8 +25,8 @@ export interface ModalStackSubscription {
 
 export class ModalStack {
   public static add(
-    component: React.Component,
-    onChange: (stack: ReadonlyArray<React.Component>) => void,
+    component: StackedComponent,
+    onChange: (stack: ReadonlyArray<StackedComponent>) => void,
   ): ModalStackSubscription {
     const { emitter, mounted } = ModalStack.getStackInfo();
     mounted.unshift(component);
@@ -31,7 +40,7 @@ export class ModalStack {
     };
   }
 
-  public static remove(component: React.Component) {
+  public static remove(component: StackedComponent) {
     const { emitter, mounted } = ModalStack.getStackInfo();
     const index = mounted.indexOf(component);
     if (index !== -1) {

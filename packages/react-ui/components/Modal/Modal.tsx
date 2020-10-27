@@ -8,12 +8,11 @@ import { RenderContainer } from '../../internal/RenderContainer';
 import { ZIndex } from '../../internal/ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
-import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
+import { ModalStack, ModalStackSubscription, StackedComponent } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/utils';
-import { SidePage } from '../SidePage';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -79,7 +78,7 @@ export interface ModalState {
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
-export class Modal extends React.Component<ModalProps, ModalState> {
+export class Modal extends React.Component<ModalProps, ModalState> implements StackedComponent {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
   public static Header = ModalHeader;
@@ -254,8 +253,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.containerNode = center;
   };
 
+  get blockedBackground() {
+    return true;
+  }
+
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
-    const modals = stack.filter(x => x instanceof Modal || (x instanceof SidePage && x.props.blockBackground));
+    const modals = stack.filter(x => x instanceof Modal && x.blockedBackground);
     this.setState({ stackPosition: modals.indexOf(this) });
   };
 
