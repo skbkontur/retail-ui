@@ -296,7 +296,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               anchorElement={this.input!}
               renderNotFound={renderNotFound}
               renderItem={renderItem}
-              onValueChange={this.handleValueChange}
+              onValueChange={this.selectItem}
               renderAddButton={this.renderAddButton}
             />
           )}
@@ -389,7 +389,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleInputBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
-    if (this.isBlurToMenu(event) || this.state.preventBlur) {
+    const isBlurToMenu = this.isBlurToMenu(event);
+    if (!isBlurToMenu && this.state.editingTokenIndex > -1) {
+      this.finishTokenEdit();
+    }
+    if (isBlurToMenu || this.state.preventBlur) {
       event.preventDefault();
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input!.focus();
@@ -398,12 +402,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
-      if (this.state.inputValue === '') {
-        this.dispatch({ type: 'REMOVE_EDITING_TOKEN_INDEX' });
-        this.dispatch({ type: 'UPDATE_QUERY', payload: this.state.reservedInputValue });
-        this.dispatch({ type: 'REMOVE_TEMPORARY_QUERY' });
       }
-    }
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
@@ -512,8 +511,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {
+        if (this.state.editingTokenIndex > -1) {
+          this.finishTokenEdit();
+        } else {
         this.handleAddItem();
       }
+    }
     }
 
     switch (true) {
@@ -631,35 +634,29 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
-  private handleValueChange = (item: T) => {
-    const { selectedItems } = this.props;
-    const { editingTokenIndex, reservedInputValue } = this.state;
-    if (this.hasValueInItems(selectedItems, item)) {
-      return;
-    }
-
-    const spliceIndex = editingTokenIndex < 0 ? selectedItems.length : editingTokenIndex;
-    const newItems = selectedItems.concat([]);
-    newItems.splice(spliceIndex, 0, item);
-
-    this.props.onValueChange(newItems);
-
-    this.dispatch({ type: 'CLEAR_INPUT' });
-
-    if (editingTokenIndex >= 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
-      this.dispatch({ type: 'UPDATE_QUERY', payload: reservedInputValue });
-      this.dispatch({ type: 'REMOVE_TEMPORARY_QUERY' });
-      this.dispatch({ type: 'REMOVE_EDITING_TOKEN_INDEX' });
-    }
-
-    this.tryGetItems();
+  private handleValueChange = (items: T[]) => {
+    this.props.onValueChange(items);
   };
 
   private handleAddItem = () => {
-    const item = this.state.inputValue;
-    const value = this.props.valueToItem(item);
-    this.handleValueChange(value);
+    const item = this.props.valueToItem(this.state.inputValue);
+    if (item) {
+      this.selectItem(item);
+    }
+  };
+
+  private selectItem = (item: T) => {
+    const { selectedItems } = this.props;
+
+    if (this.state.editingTokenIndex > -1) {
+      this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(item) }, this.finishTokenEdit);
+    } else {
+      if (!this.hasValueInItems(selectedItems, item)) {
+        this.handleValueChange(selectedItems.concat([item]));
+    this.dispatch({ type: 'CLEAR_INPUT' });
+        this.tryGetItems();
+      }
+    }
   };
 
   private handleRemoveToken = (item: T) => {
@@ -698,6 +695,31 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.handleRemoveToken(itemNew);
     this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) });
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
+
+    this.tryGetItems();
+  };
+
+  private finishTokenEdit = () => {
+    const { editingTokenIndex, inputValue, reservedInputValue } = this.state;
+    const { selectedItems, valueToItem } = this.props;
+    const editedItem = valueToItem(inputValue);
+
+    if (!this.hasValueInItems(selectedItems, editedItem)) {
+      const newItems = selectedItems.concat([]);
+      newItems.splice(editingTokenIndex, 1, ...(inputValue !== '' ? [editedItem] : []));
+      this.handleValueChange(newItems);
+    }
+
+    this.dispatch({ type: 'REMOVE_EDITING_TOKEN_INDEX' });
+
+    if (reservedInputValue) {
+      this.dispatch({ type: 'UPDATE_QUERY', payload: reservedInputValue });
+      this.dispatch({ type: 'REMOVE_TEMPORARY_QUERY' });
+    } else {
+      this.dispatch({ type: 'CLEAR_INPUT' });
+    }
+
+    this.tryGetItems();
   };
 
   private handleChangeInputValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
