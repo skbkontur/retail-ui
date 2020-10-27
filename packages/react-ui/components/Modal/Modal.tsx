@@ -13,6 +13,7 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/utils';
+import { SidePage } from '../SidePage';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -254,7 +255,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
-    const modals = stack.filter(x => x instanceof Modal);
+    const modals = stack.filter(x => x instanceof Modal || (x instanceof SidePage && x.props.blockBackground));
     this.setState({ stackPosition: modals.indexOf(this) });
   };
 
