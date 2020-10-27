@@ -97,9 +97,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     },
   };
 
-  public static defaultProps = { 
+  public static defaultProps = {
     // NOTE: в ie нормально не работает
-    disableFocusLock: isIE11 
+    disableFocusLock: isIE11,
   };
 
   public state: ModalState = {
@@ -254,7 +254,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
-    this.setState({ stackPosition: stack.indexOf(this) });
+    const modals = stack.filter(x => x instanceof Modal);
+    this.setState({ stackPosition: modals.indexOf(this) });
   };
 
   private handleContainerMouseDown = (event: React.MouseEvent) => {
