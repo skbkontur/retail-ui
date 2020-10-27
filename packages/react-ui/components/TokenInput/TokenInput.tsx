@@ -625,7 +625,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleValueChange = (item: T) => {
     const { selectedItems } = this.props;
-    const { editingTokenIndex, activeTokens, reservedInputValue } = this.state;
+    const { editingTokenIndex, reservedInputValue } = this.state;
     if (this.hasValueInItems(selectedItems, item)) {
       return;
     }
@@ -633,32 +633,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const spliceIndex = editingTokenIndex < 0 ? selectedItems.length : editingTokenIndex;
     const newItems = selectedItems.concat([]);
     newItems.splice(spliceIndex, 0, item);
-    let newEditingTokenIndex;
-
-    this.dispatch({ type: 'CLEAR_INPUT' });
-    if (editingTokenIndex >= 0) {
-      if (activeTokens.length === 1) {
-        const itemNew = activeTokens[0];
-        newEditingTokenIndex = newItems.findIndex(item => item === itemNew);
-        newItems.splice(newEditingTokenIndex, 1);
-        this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) });
-      }
-    }
 
     this.props.onValueChange(newItems);
 
-    this.dispatch({ type: 'REMOVE_EDITING_TOKEN_INDEX' });
+    this.dispatch({ type: 'CLEAR_INPUT' });
+
     if (editingTokenIndex >= 0) {
-      if (newEditingTokenIndex !== undefined) {
-        if (newEditingTokenIndex !== newItems.length || reservedInputValue !== '')
-          this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: newEditingTokenIndex });
-        this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
-      } else {
-        this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
-        this.dispatch({ type: 'UPDATE_QUERY', payload: reservedInputValue });
-        this.dispatch({ type: 'REMOVE_TEMPORARY_QUERY' });
-      }
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
+      this.dispatch({ type: 'UPDATE_QUERY', payload: reservedInputValue });
+      this.dispatch({ type: 'REMOVE_TEMPORARY_QUERY' });
+      this.dispatch({ type: 'REMOVE_EDITING_TOKEN_INDEX' });
     }
+
     this.tryGetItems();
   };
 
@@ -695,8 +681,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleTokenEdit = (itemNew: T) => {
     const editingTokenIndex = this.props.selectedItems.findIndex(item => item === itemNew);
-    if (editingTokenIndex + 1 !== this.props.selectedItems.length || this.state.inputValue !== '') {
-      this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
+    this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
+    
+    if (this.state.inputValue !== '') {
       if (this.state.reservedInputValue === undefined)
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
     }
