@@ -241,10 +241,36 @@ export const WithoutReferenceFilled = () => {
 };
 WithoutReferenceFilled.story = { name: '[without reference] filled', parameters: { creevey: { skip: [true] } } };
 
-export const CombinedFilled = () => {
+export const CombinedFilled: CSFStory = () => {
   return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-CombinedFilled.story = { name: '[combined] filled', parameters: { creevey: { skip: [true] } } };
+CombinedFilled.story = {
+  name: '[combined] filled',
+  parameters: {
+    creevey: {
+      tests: {
+        async selectAndType() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .perform();
+          const selected = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('a')
+            .perform();
+          const typed = await this.takeScreenshot();
+
+          await this.expect({ selected, typed }).to.matchImages();
+        },
+      },
+    },
+  },
+};
 
 export const WithLongItem1 = () => {
   return (
