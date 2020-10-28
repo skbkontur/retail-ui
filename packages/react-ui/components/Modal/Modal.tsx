@@ -8,7 +8,7 @@ import { RenderContainer } from '../../internal/RenderContainer';
 import { ZIndex } from '../../internal/ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
-import { ModalStack, ModalStackSubscription, StackedComponent } from '../../lib/ModalStack';
+import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -61,6 +61,7 @@ export interface ModalProps {
 
 export interface ModalState {
   stackPosition: number;
+  hasBackground: boolean;
   horizontalScroll: boolean;
 }
 
@@ -78,7 +79,7 @@ export interface ModalState {
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
-export class Modal extends React.Component<ModalProps, ModalState> implements StackedComponent {
+export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
   public static Header = ModalHeader;
@@ -104,6 +105,7 @@ export class Modal extends React.Component<ModalProps, ModalState> implements St
 
   public state: ModalState = {
     stackPosition: 0,
+    hasBackground: true,
     horizontalScroll: false,
   };
 
@@ -204,7 +206,7 @@ export class Modal extends React.Component<ModalProps, ModalState> implements St
       <RenderContainer>
         <ZIndex priority={'Modal'} className={jsStyles.root()}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={jsStyles.bg(this.theme)} />}
+          {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
           <div
             ref={this.refContainer}
             className={jsStyles.container()}
@@ -253,13 +255,8 @@ export class Modal extends React.Component<ModalProps, ModalState> implements St
     this.containerNode = center;
   };
 
-  get blockedBackground() {
-    return true;
-  }
-
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
-    const modals = stack.filter(x => x instanceof Modal && x.blockedBackground);
-    this.setState({ stackPosition: modals.indexOf(this) });
+    this.setState({ stackPosition: stack.indexOf(this), hasBackground: ModalStack.isBlocking(this) });
   };
 
   private handleContainerMouseDown = (event: React.MouseEvent) => {

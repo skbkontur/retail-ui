@@ -1,18 +1,11 @@
 import React from 'react';
 import EventEmitter from 'eventemitter3';
-
-export class StackedComponent extends React.Component {
-  get blockedBackground(): boolean {
-    return false;
-  }
-  set blockedBackground(val: boolean) {
-    this.blockedBackground = val;
-  }
-}
+import { SidePageProps } from '../components/SidePage';
+import { ModalProps } from '../components/Modal';
 
 interface StackInfo {
   emitter: EventEmitter;
-  mounted: StackedComponent[];
+  mounted: React.Component[];
 }
 
 interface GlobalWithStackInfo {
@@ -25,8 +18,8 @@ export interface ModalStackSubscription {
 
 export class ModalStack {
   public static add(
-    component: StackedComponent,
-    onChange: (stack: ReadonlyArray<StackedComponent>) => void,
+    component: React.Component,
+    onChange: (stack: ReadonlyArray<React.Component>) => void,
   ): ModalStackSubscription {
     const { emitter, mounted } = ModalStack.getStackInfo();
     mounted.unshift(component);
@@ -40,13 +33,23 @@ export class ModalStack {
     };
   }
 
-  public static remove(component: StackedComponent) {
+  public static remove(component: React.Component) {
     const { emitter, mounted } = ModalStack.getStackInfo();
     const index = mounted.indexOf(component);
     if (index !== -1) {
       mounted.splice(index, 1);
     }
     emitter.emit('change');
+  }
+
+  public static isBlocking(component: React.Component): boolean {
+    const { mounted } = ModalStack.getStackInfo();
+    for (let index = 0; index < mounted.length; index++) {
+      if (ModalStack.wantsToBlock(mounted[index])) {
+        return component === mounted[index];
+      }
+    }
+    return false;
   }
 
   private static getStackInfo(): StackInfo {
@@ -59,4 +62,38 @@ export class ModalStack {
       })
     );
   }
+
+  private static wantsToBlock(component: React.Component): boolean {
+    if (isModal(component)) {
+      return true;
+    }
+
+    if (isSidePage(component)) {
+      const { mounted } = ModalStack.getStackInfo();
+      const deepestSidePages = mounted.filter(i => isSidePage(i)).pop();
+      return !!component.props.blockBackground && component === deepestSidePages;
+    }
+
+    return false;
+  }
 }
+
+export const isSidePage = (component: React.Component): component is React.Component<SidePageProps> => {
+  const { constructor } = component;
+  return (
+    constructor &&
+    Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
+    // @ts-ignore
+    constructor.__KONTUR_REACT_UI__ === 'SidePage'
+  );
+};
+
+export const isModal = (component: React.Component): component is React.Component<ModalProps> => {
+  const { constructor } = component;
+  return (
+    constructor &&
+    Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
+    // @ts-ignore
+    constructor.__KONTUR_REACT_UI__ === 'Modal'
+  );
+};

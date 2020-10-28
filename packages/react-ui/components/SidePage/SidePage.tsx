@@ -6,7 +6,7 @@ import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
-import { ModalStack, ModalStackSubscription, StackedComponent } from '../../lib/ModalStack';
+import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ZIndex } from '../../internal/ZIndex';
@@ -78,7 +78,7 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-export class SidePage extends React.Component<SidePageProps, SidePageState> implements StackedComponent {
+export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
   public static Header = SidePageHeader;
@@ -238,19 +238,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> impl
     };
   }
 
-  get blockedBackground() {
-    const { blockBackground } = this.props;
-    return !!blockBackground;
-  }
-
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
     const sidePages = stack.filter(x => x instanceof SidePage);
     const currentSidePagePosition = sidePages.indexOf(this);
-    const isSidePageOnStackTop = stack[0] instanceof SidePage;
 
     const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
     const hasShadow = sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
-    const hasBackground = currentSidePagePosition === sidePages.length - 1 && isSidePageOnStackTop;
+    const hasBackground = ModalStack.isBlocking(this);
 
     this.setState({
       stackPosition: stack.indexOf(this),
