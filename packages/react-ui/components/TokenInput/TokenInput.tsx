@@ -376,8 +376,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private updateInputTextWidth() {
     if (this.textHelper) {
-      const inputValueWidth = this.textHelper.getTextWidth();
-      const inputValueHeight = this.textHelper.getTextHeight();
+      // в IE текст иногда не помещается в input
+      // из-за округления, поэтому округляем явно
+      const inputValueWidth = this.textHelper.getTextWidth().toFixed(2);
+      const inputValueHeight = this.textHelper.getTextHeight().toFixed(2);
+
       this.dispatch({ type: 'SET_INPUT_VALUE_WIDTH', payload: inputValueWidth }, LayoutEvents.emit);
       this.dispatch({ type: 'SET_INPUT_VALUE_HEIGHT', payload: inputValueHeight }, LayoutEvents.emit);
     }
