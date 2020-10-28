@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.5.0...@skbkontur/react-ui@2.6.0) (2020-10-13)
+
+
+### Bug Fixes
+
+* **customization:** replace textareaHeight with textareaMinHeight ([42e3d4f](https://github.com/skbkontur/retail-ui/commit/42e3d4f04956235572c967f1891615bf409b5ed8))
+* **DatePicker:** return TodayLink's border ([9206bee](https://github.com/skbkontur/retail-ui/commit/9206bee72389bfa00885c8ab5d0d7431e11e0d1a))
+* **Textarea:** fix background color regress  ([#2170](https://github.com/skbkontur/retail-ui/issues/2170)) ([d206ff2](https://github.com/skbkontur/retail-ui/commit/d206ff2bbfb174e7799241fabcac9123a607950b))
+* **Textarea:** fix min height ([2777ac5](https://github.com/skbkontur/retail-ui/commit/2777ac5fd57370256f44606f7baa12373cf1b5a5)), closes [#2120](https://github.com/skbkontur/retail-ui/issues/2120) [#2160](https://github.com/skbkontur/retail-ui/issues/2160)
+
+
+### Features
+
+* **Toggle:** add use 'children' ([33e725c](https://github.com/skbkontur/retail-ui/commit/33e725c69373cd44dc7a2ec6fd2d4c1855b456fb)), closes [#1723](https://github.com/skbkontur/retail-ui/issues/1723)
+* **Tooltip:** add manual control ([ad0d0a2](https://github.com/skbkontur/retail-ui/commit/ad0d0a29da1f13628cc54c92b36b38dfb45156a6)), closes [#914](https://github.com/skbkontur/retail-ui/issues/914)
+
+
+
+
+
+
 # [2.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.4.3...@skbkontur/react-ui@2.5.0) (2020-09-23)
 
 

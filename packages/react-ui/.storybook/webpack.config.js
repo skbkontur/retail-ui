@@ -6,10 +6,6 @@ const isTestEnv = process.env.NODE_ENV === 'test';
 module.exports = async ({ config, mode }) => {
   config.devtool = 'eval-source-map';
 
-  if (isTestEnv) {
-    // needs to be inserted before React (i.e. config.js)
-    config.entry.unshift('react-ui-testing/react-selenium-testing');
-  }
   config.entry.unshift('core-js/stable');
 
   config.resolve.extensions.unshift('.ts', '.tsx');

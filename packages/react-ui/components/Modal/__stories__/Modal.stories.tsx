@@ -736,3 +736,20 @@ ModalWithHeaderFromOtherComponent.story = {
   name: 'Modal with Header from other Component',
   parameters: { creevey: { skip: [true] } },
 };
+
+export const ModalBodyWithoutPadding = () => (
+  <Modal width={250}>
+    <Modal.Body noPadding>
+      <div style={{ background: 'white' }}>
+        <p>Loooooooong content content content</p>
+        <p>Loooooooong content content content</p>
+        <p>Loooooooong content content content</p>
+        <p>Loooooooong content content content</p>
+      </div>
+    </Modal.Body>
+  </Modal>
+);
+ModalBodyWithoutPadding.story = {
+  name: 'Modal with no-padding',
+  parameters: { creevey: { captureElement: null } },
+};

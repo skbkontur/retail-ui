@@ -26,7 +26,7 @@ const styles = {
       line-height: inherit;
       max-width: 100%;
       min-width: ${t.textareaWidth};
-      min-height: ${t.textareaHeight};
+      min-height: ${t.textareaMinHeight};
       outline: none;
       padding: ${t.textareaPaddingY} ${t.textareaPaddingX};
       transition: height 0.2s ease-out;

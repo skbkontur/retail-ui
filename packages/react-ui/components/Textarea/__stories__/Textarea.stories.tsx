@@ -157,7 +157,7 @@ TextareaInInlineFlexAndText.story = {
 };
 
 export const AutoresizableTextareaStory = () => <AutoresizableTextarea />;
-AutoresizableTextareaStory.story = { name: 'Autoresizable textarea', parameters: { creevey: { skip: [true] } } };
+AutoresizableTextareaStory.story = { name: 'Autoresizable textarea' };
 
 export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
 TextareaWithCustomWidth.story = { name: 'Textarea with custom width' };

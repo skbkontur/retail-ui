@@ -1098,7 +1098,9 @@ export class DefaultTheme {
   }
   //#endregion
   //#region TextArea
-  public static textareaBg = 'none';
+  public static get textareaBg() {
+    return this.bgDefault;
+  }
   public static get textareaColor() {
     return this.black;
   }
@@ -1134,17 +1136,21 @@ export class DefaultTheme {
     return this.controlBorderWidth;
   }
   public static get textareaHeight() {
-    const textareaLineHeight = parseInt(this.textareaLineHeight, 10) * 3;
-    const textareaPaddingY = parseInt(this.textareaPaddingY, 10) * 2;
-    const textareaBorderWidth = parseInt(this.textareaBorderWidth, 10) * 2;
-    return '68px' || `${textareaLineHeight + textareaPaddingY + textareaBorderWidth}px`;
+    const lineHeight = parseInt(this.textareaLineHeight, 10) || 0;
+    const paddingY = parseInt(this.textareaPaddingY, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+
+    return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
+  }
+  public static get textareaMinHeight() {
+    return this.textareaHeight;
   }
   public static textareaWidth = '250px';
   public static get textareaPaddingX() {
     return '10px';
   }
   public static get textareaPaddingY() {
-    return '6px';
+    return this.controlPaddingYSmall;
   }
   public static get textareaBorderColor() {
     return this.borderColorGrayLight;
