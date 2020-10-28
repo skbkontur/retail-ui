@@ -459,7 +459,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && (isKeyEnter(e) || this.delimiters.includes(e.key))) {
+    if (this.type !== TokenInputType.WithReference && this.delimiters.includes(e.key)) {
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {
