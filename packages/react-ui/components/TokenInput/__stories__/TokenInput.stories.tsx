@@ -283,6 +283,51 @@ CombinedFilled.story = {
 
           await this.expect({ selected, typed }).to.matchImages();
         },
+        async editToken() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .perform();
+          const doubleClickOnToken = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+            .perform();
+          const clickOnMenuItem = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          const enterOnActiveToken = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('EDITED')
+            .perform();
+          const editToken = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          const enterAfterEdit = await this.takeScreenshot();
+
+          await this.expect({
+            doubleClickOnToken,
+            clickOnMenuItem,
+            enterOnActiveToken,
+            editToken,
+            enterAfterEdit,
+          }).to.matchImages();
+        },
       },
     },
   },
