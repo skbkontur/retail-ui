@@ -172,7 +172,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       LayoutEvents.emit();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
-      this.tryGetItems(this.state.editingTokenIndex > -1 ? '' : this.state.inputValue);
+      this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
     }
   }
 
@@ -251,7 +251,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     });
     const inputClassName = cn(jsStyles.input(theme), {
       [jsStyles.inputDisabled(theme)]: !!disabled,
-      [jsStyles.inputEditing(theme)]: this.state.editingTokenIndex > -1,
+      [jsStyles.inputEditing(theme)]: this.isEditingMode,
     });
     return (
       <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -266,7 +266,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           <TextWidthHelper
             ref={this.textHelperRef}
             classHelp={cn(jsStyles.helperText(theme), {
-              [jsStyles.helperTextEditing(theme)]: this.state.editingTokenIndex > -1,
+              [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
             })}
             text={inputValue}
           />
@@ -301,9 +301,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
             />
           )}
           {this.renderTokensEnd()}
-          {this.state.editingTokenIndex > -1 ? (
-            <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span>
-          ) : null}
+          {this.isEditingMode ? <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span> : null}
         </label>
       </div>
     );
@@ -359,6 +357,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return this.isCursorVisibleForState(this.state);
   }
 
+  private get isEditingMode() {
+    return this.state.editingTokenIndex > -1;
+  }
+
   private isCursorVisibleForState(state: TokenInputState<T>) {
     return state.inFocus && (state.inputValue !== '' || state.activeTokens.length === 0);
   }
@@ -390,7 +392,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleInputBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
     const isBlurToMenu = this.isBlurToMenu(event);
-    if (!isBlurToMenu && this.state.editingTokenIndex > -1) {
+    if (!isBlurToMenu && this.isEditingMode) {
       this.finishTokenEdit();
     }
     if (isBlurToMenu || this.state.preventBlur) {
@@ -516,7 +518,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {
-        if (this.state.editingTokenIndex > -1) {
+        if (this.isEditingMode) {
           this.finishTokenEdit();
         } else {
           this.handleAddItem();
@@ -547,7 +549,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input!.blur();
         break;
       case isKeyBackspace(e):
-        if (this.state.editingTokenIndex < 0) this.moveFocusToLastToken();
+        if (!this.isEditingMode) this.moveFocusToLastToken();
         break;
       case isKeyArrowLeft(e):
         if (this.input!.selectionStart === 0) {
@@ -572,7 +574,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
-        if (this.state.editingTokenIndex < 0) {
+        if (!this.isEditingMode) {
           const itemsNew = this.props.selectedItems.filter(
             item => !this.hasValueInItems(this.state.activeTokens, item),
           );
@@ -653,7 +655,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private selectItem = (item: T) => {
     const { selectedItems } = this.props;
 
-    if (this.state.editingTokenIndex > -1) {
+    if (this.isEditingMode) {
       this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(item) }, this.finishTokenEdit);
     } else {
       if (!this.hasValueInItems(selectedItems, item)) {
@@ -790,7 +792,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = event => {
       event.stopPropagation();
-      if (this.state.editingTokenIndex < 0) {
+      if (!this.isEditingMode) {
         this.handleTokenEdit(item);
       }
     };
