@@ -699,17 +699,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
     this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) });
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
-
-    this.tryGetItems();
   };
 
   private finishTokenEdit = () => {
     const { editingTokenIndex, inputValue, reservedInputValue } = this.state;
     const { selectedItems, valueToItem } = this.props;
     const editedItem = valueToItem(inputValue);
+    let newItems = selectedItems.concat([]);
 
     if (!this.hasValueInItems(selectedItems, editedItem)) {
-      const newItems = selectedItems.concat([]);
       newItems.splice(editingTokenIndex, 1, ...(inputValue !== '' ? [editedItem] : []));
       this.handleValueChange(newItems);
     }
@@ -723,7 +721,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'CLEAR_INPUT' });
     }
 
-    this.tryGetItems();
+    if (newItems.length === selectedItems.length) {
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
+    } else if (editingTokenIndex > 0) {
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex - 1]] });
+    } else if (newItems.length > 0) {
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[0]] });
+    }
   };
 
   private handleChangeInputValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
