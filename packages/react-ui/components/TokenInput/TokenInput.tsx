@@ -707,7 +707,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const { editingTokenIndex, inputValue, reservedInputValue } = this.state;
     const { selectedItems, valueToItem } = this.props;
     const editedItem = valueToItem(inputValue);
-    let newItems = selectedItems.concat([]);
+    const newItems = selectedItems.concat([]);
 
     if (!this.hasValueInItems(selectedItems, editedItem)) {
       newItems.splice(editingTokenIndex, 1, ...(inputValue !== '' ? [editedItem] : []));
