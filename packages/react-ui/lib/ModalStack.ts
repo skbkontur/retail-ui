@@ -1,5 +1,6 @@
 import React from 'react';
 import EventEmitter from 'eventemitter3';
+
 import { SidePageProps } from '../components/SidePage';
 import { ModalProps } from '../components/Modal';
 
