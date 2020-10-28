@@ -58,8 +58,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
         {...this.props}
         selectedItems={this.state.selectedItems}
         onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
-        renderToken={(item, { isActive, onClick, onRemove, disabled }) => (
-          <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove} disabled={disabled}>
+        renderToken={(item, tokenProps) => (
+          <Token key={item.toString()} {...tokenProps}>
             {item}
           </Token>
         )}
@@ -87,7 +87,7 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
         onValueChange={this.onChange}
         placeholder="placeholder"
         type={TokenInputType.Combined}
-        renderToken={(item, { isActive, onClick, onRemove }) => (
+        renderToken={(item, tokenProps) => (
           <Token
             key={item.id}
             colors={
@@ -98,9 +98,7 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
                   }
                 : undefined
             }
-            isActive={isActive}
-            onClick={onClick}
-            onRemove={onRemove}
+            {...tokenProps}
           >
             {item.value}
           </Token>
@@ -136,7 +134,7 @@ class ColoredWrapper extends React.Component<any, any> {
       <TokenInput
         {...this.props}
         selectedItems={this.state.selectedItems}
-        renderToken={(value, { isActive, onClick, onRemove }) => {
+        renderToken={(value, tokenProps) => {
           let colors: TokenColors = {
             idle: 'greenIdle',
             active: 'greenActive',
@@ -149,7 +147,7 @@ class ColoredWrapper extends React.Component<any, any> {
             };
           }
           return (
-            <Token key={value} colors={colors} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+            <Token key={value} colors={colors} {...tokenProps}>
               {value}
             </Token>
           );
@@ -346,8 +344,8 @@ export const UseRenderToken = () => (
   <Gapped gap={10}>
     <Wrapper
       getItems={getItems}
-      renderToken={(item, { isActive, onClick, onRemove }) => (
-        <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+      renderToken={(item, tokenProps) => (
+        <Token key={item.toString()} {...tokenProps}>
           {item}
         </Token>
       )}
