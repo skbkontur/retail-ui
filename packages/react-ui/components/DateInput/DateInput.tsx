@@ -25,6 +25,7 @@ export interface DateInputState {
 }
 
 export interface DateInputProps {
+  autoFocus?: boolean;
   value: string;
   error?: boolean;
   warning?: boolean;
@@ -139,6 +140,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   public componentDidMount(): void {
     this.updateFromProps();
+    if (this.props.autoFocus) {
+      this.focus();
+    }
   }
 
   public blur() {
