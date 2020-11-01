@@ -6,14 +6,6 @@ const styles = {
       position: relative;
     `;
   },
-  rootIE11() {
-    return css`
-      &:before {
-        content: '0';
-        color: transparent;
-      }
-    `;
-  },
   char() {
     return css`
       &:after {
@@ -40,9 +32,6 @@ const styles = {
   },
   notFixedWidth() {
     return css`
-      &:before {
-        display: none;
-      }
       &:after {
         position: static !important;
       }

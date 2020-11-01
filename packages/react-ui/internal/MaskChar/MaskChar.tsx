@@ -1,8 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { isIE11 } from '../../lib/utils';
-
 import { jsStyles } from './MaskChar.styles';
 
 /**
@@ -29,13 +27,12 @@ export function MaskChar({ char, fixedWidth }: MaskCharProps) {
     <span
       data-char={char}
       className={cn(jsStyles.root(), {
-        [jsStyles.rootIE11()]: isIE11,
         [jsStyles.char()]: char !== '_',
         [jsStyles.charLowLine()]: char === '_',
         [jsStyles.notFixedWidth()]: !finallyFixedWidth,
       })}
     >
-      {finallyFixedWidth && !isIE11 && MASK_CHAR_EXEMPLAR}
+      {finallyFixedWidth && MASK_CHAR_EXEMPLAR}
     </span>
   );
 }
