@@ -10,7 +10,7 @@ import { jsStyles } from './MaskedInput.styles';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
-  maskChar?: string | null;
+  maskChar: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
   hasLeftIcon?: boolean;
@@ -28,9 +28,14 @@ interface MaskedInputState {
 export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
+  public static defaultProps: Partial<MaskedInputProps> = {
+    maskChar: '_',
+  };
+
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
   private reactInputMask: ReactInputMask | null = null;
+  private mapIndexMaskCharToFixedWidth: { [index: number]: boolean } = {};
 
   public constructor(props: MaskedInputProps) {
     super(props);
@@ -89,9 +94,15 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     const leftClass = style?.textAlign !== 'right' && jsStyles.inputMaskLeft();
 
     const rightHelper = emptyValue
-      .slice(value.length)
       .split('')
-      .map((_char, i) => (_char === maskChar ? <MaskChar key={i} char={_char} /> : _char));
+      .map((_char, i) =>
+        maskChar && i >= value.length && typeof this.mapIndexMaskCharToFixedWidth[i] === 'boolean' ? (
+          <MaskChar key={i} char={maskChar} fixedWidth={this.mapIndexMaskCharToFixedWidth[i]} />
+        ) : (
+          _char
+        ),
+      )
+      .slice(value.length);
 
     return (
       <span className={jsStyles.container()} x-ms-format-detection="none">
@@ -169,6 +180,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     options: MaskOptions & Pick<MaskedInputProps, 'mask'>,
   ) => {
     const visibleMaskChars = new Array(options.mask.length).fill(this.props.maskChar);
+    this.mapIndexMaskCharToFixedWidth = {};
 
     if (newState.value !== oldState.value && userInput === null) {
       this.setState({
@@ -179,10 +191,17 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     options.mask.split('').forEach((char, index) => {
       if (options.permanents.includes(index)) {
         visibleMaskChars[index] = char;
+        return;
       }
 
       if (newState.value[index]) {
         visibleMaskChars[index] = newState.value[index];
+        return;
+      }
+
+      if (options.formatChars[char]) {
+        // 9 - default value for digits of formatChars
+        this.mapIndexMaskCharToFixedWidth[index] = char === '9';
       }
     });
 
