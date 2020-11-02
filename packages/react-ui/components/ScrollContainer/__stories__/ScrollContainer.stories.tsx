@@ -16,7 +16,7 @@ const wrapperStyle = {
   border: '1px solid #000',
 };
 
-export default { title: 'ScrollContainer', parameters: { creevey: { skip: [true] } } };
+export default { title: 'ScrollContainer' };
 
 export const WithLargeContentHeight = () => {
   return (
@@ -30,6 +30,20 @@ export const WithLargeContentHeight = () => {
   );
 };
 WithLargeContentHeight.story = { name: 'with large content height' };
+
+export const WithHorizontalScroll = () => {
+  return (
+    <div style={wrapperStyle}>
+      <ScrollContainer>
+        {getItems(100).map(i => (
+          <div style={{ width: 200 }} key={i}>
+            {i}
+          </div>
+        ))}
+      </ScrollContainer>
+    </div>
+  );
+};
 
 export const WithScrollState = () => {
   class Wrapper extends React.Component<{}, { scrollState: ScrollContainerScrollState }> {
