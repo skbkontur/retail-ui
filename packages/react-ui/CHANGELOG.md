@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.6.0...@skbkontur/react-ui@2.7.0) (2020-10-29)
+
+
+### Bug Fixes
+
+* **Autocomplete:** support relative width ([#2104](https://github.com/skbkontur/retail-ui/issues/2104)) ([3bd9a13](https://github.com/skbkontur/retail-ui/commit/3bd9a13b2309b9051054c419500786d98196e6c9))
+* **ComboBox:** support () => null in renderNotFound ([bb7a01a](https://github.com/skbkontur/retail-ui/commit/bb7a01ae96436baca900651378545adb6138a4c1))
+* **modal:** fix crossicon into svg ([996dc90](https://github.com/skbkontur/retail-ui/commit/996dc90a15d45d13ff7d98129a863579a05ec915))
+* **modal:** fix modal blackout if sidepage have bigger z-index ([24c9e1d](https://github.com/skbkontur/retail-ui/commit/24c9e1df487b953e77fa968794d429bb781ef378)), closes [#2175](https://github.com/skbkontur/retail-ui/issues/2175)
+* **modalclose:** up in Zindex, now upper than ModalHeader ([de8d81c](https://github.com/skbkontur/retail-ui/commit/de8d81cc343d31a4a6c49b6cc065086f817a216b))
+
+
+### Features
+
+* **modalbody:** add prop noPadding ([7163909](https://github.com/skbkontur/retail-ui/commit/71639091d9fa2e96fe4bd803245fd22a09045e8d))
+
+
+
+
+
+
 # [2.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.5.0...@skbkontur/react-ui@2.6.0) (2020-10-13)
 
 
