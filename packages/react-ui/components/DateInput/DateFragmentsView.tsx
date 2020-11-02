@@ -1,8 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { MaskChar } from '../../internal/MaskChar';
-import { CHAR_MASK } from '../../lib/date/constants';
+import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
@@ -90,7 +89,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
           {Array(lengthMask)
             .fill('')
             .map((_, i) => (
-              <MaskChar key={i} char={CHAR_MASK} />
+              <MaskCharLowLine key={i} />
             ))}
         </span>
       </span>

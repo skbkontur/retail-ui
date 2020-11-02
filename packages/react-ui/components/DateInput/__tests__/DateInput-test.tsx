@@ -1,7 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React, { HTMLAttributes } from 'react';
 
-import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskChar';
+import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { DefaultizeProps } from '../../../lib/utils';
 import { InternalDateOrder } from '../../../lib/date/types';
 import { DateInput, DateInputProps } from '../DateInput';

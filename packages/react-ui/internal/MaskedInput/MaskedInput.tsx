@@ -4,7 +4,7 @@ import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { MaskChar } from '../MaskChar';
+import { MaskCharLowLine } from '../MaskCharLowLine';
 
 import { jsStyles } from './MaskedInput.styles';
 
@@ -35,7 +35,6 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
   private reactInputMask: ReactInputMask | null = null;
-  private mapIndexMaskCharToFixedWidth: { [index: number]: boolean } = {};
 
   public constructor(props: MaskedInputProps) {
     super(props);
@@ -94,15 +93,9 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     const leftClass = style?.textAlign !== 'right' && jsStyles.inputMaskLeft();
 
     const rightHelper = emptyValue
+      .slice(value.length)
       .split('')
-      .map((_char, i) =>
-        maskChar && i >= value.length && typeof this.mapIndexMaskCharToFixedWidth[i] === 'boolean' ? (
-          <MaskChar key={i} char={maskChar} fixedWidth={this.mapIndexMaskCharToFixedWidth[i]} />
-        ) : (
-          _char
-        ),
-      )
-      .slice(value.length);
+      .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
 
     return (
       <span className={jsStyles.container()} x-ms-format-detection="none">
@@ -180,7 +173,6 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     options: MaskOptions & Pick<MaskedInputProps, 'mask'>,
   ) => {
     const visibleMaskChars = new Array(options.mask.length).fill(this.props.maskChar);
-    this.mapIndexMaskCharToFixedWidth = {};
 
     if (newState.value !== oldState.value && userInput === null) {
       this.setState({
@@ -191,17 +183,10 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     options.mask.split('').forEach((char, index) => {
       if (options.permanents.includes(index)) {
         visibleMaskChars[index] = char;
-        return;
       }
 
       if (newState.value[index]) {
         visibleMaskChars[index] = newState.value[index];
-        return;
-      }
-
-      if (options.formatChars[char]) {
-        // 9 - default value for digits of formatChars
-        this.mapIndexMaskCharToFixedWidth[index] = char === '9';
       }
     });
 

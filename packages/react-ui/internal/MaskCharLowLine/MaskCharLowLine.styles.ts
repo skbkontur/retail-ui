@@ -4,21 +4,7 @@ const styles = {
   root() {
     return css`
       position: relative;
-    `;
-  },
-  char() {
-    return css`
-      &:after {
-        content: attr(data-char);
-        position: absolute;
-        left: 0;
-        width: 100%;
-        text-align: center;
-      }
-    `;
-  },
-  charLowLine() {
-    return css`
+
       &:after {
         content: '';
         position: absolute;
@@ -27,13 +13,6 @@ const styles = {
         left: 0.05em;
         bottom: 0.11em;
         border-bottom: solid 0.05em;
-      }
-    `;
-  },
-  notFixedWidth() {
-    return css`
-      &:after {
-        position: static !important;
       }
     `;
   },
