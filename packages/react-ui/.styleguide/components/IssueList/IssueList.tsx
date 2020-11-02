@@ -5,6 +5,7 @@ import Styled from 'react-styleguidist/lib/client/rsg-components/Styled';
 import { Spinner } from '../../../components/Spinner';
 import { Link } from '../../../components/Link';
 import { Gapped } from '../../../components/Gapped';
+import { Button } from '../../../components/Button';
 import { fetch } from '../../../lib/net/fetch';
 
 interface GithubIssue {
@@ -28,6 +29,7 @@ interface IssueListState {
   isFetching: boolean;
   hasGuidesLink: boolean;
   componentExistsInGuide: boolean;
+  issuesIsOpen: boolean;
 }
 
 const styles = ({ baseBackground, color }): Classes => ({
@@ -57,6 +59,7 @@ export class IssueList extends React.Component<IssueListProps, IssueListState> {
     isFetching: true,
     hasGuidesLink: false,
     componentExistsInGuide: false,
+    issuesIsOpen: false,
   };
 
   public componentDidMount = async () => {
@@ -73,7 +76,7 @@ export class IssueList extends React.Component<IssueListProps, IssueListState> {
   };
 
   public checkGuideForComponent = (component: string) => {
-    return fetch(`${GUIDES_LINK}${component}`).then(response =>
+    return fetch(`${GUIDES_LINK}${component.toLowerCase()}`).then(response =>
       this.setState({ componentExistsInGuide: response.status === 200 }),
     );
   };
@@ -89,30 +92,49 @@ export class IssueList extends React.Component<IssueListProps, IssueListState> {
     const component = componentPathArray[componentPathArray.length - 1];
     const componentName = component.split('.')[0];
 
-    return componentName.toLowerCase();
+    return componentName;
   };
 
   public getCreateNewIssueLink = () => {
     let componentName = this.getComponentName();
-    componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1);
-
     return `${CREATE_ISSUE_LINK}?title=[${componentName}]&labels=bug,${componentName}`;
   };
 
+  private toggleIssuesVisibility = () => {
+    this.setState({ issuesIsOpen: !this.state.issuesIsOpen });
+  };
+
+  private get toggleSymbol() {
+    return this.state.issuesIsOpen ? '-' : '+';
+  }
+
+  private get hasIssues() {
+    return this.state.issueList.length > 0;
+  }
+
   public render() {
     const { classes } = this.props;
-    const { issueList, isFetching, componentExistsInGuide } = this.state;
+    const { issueList, isFetching, componentExistsInGuide, issuesIsOpen } = this.state;
     const componentName = this.getComponentName();
 
     return (
       <div className={classes.root}>
         <div>
-          <details>
-            <summary className={classes.issues}>
-              {isFetching ? <Spinner type="mini" caption="Загрузка issues" /> : 'Список связанных issues:'}
-            </summary>
-            <ul>
-              {issueList.map(issue => {
+          <span className={classes.issues}>
+            {isFetching ? (
+              <Spinner type="mini" caption="Загрузка issues" />
+            ) : this.hasIssues ? (
+              <Button onClick={this.toggleIssuesVisibility} use="link">
+                <span>{this.toggleSymbol}</span>&nbsp; Список связанных issues:
+              </Button>
+            ) : (
+              <span>Нет связанных issues</span>
+            )}
+          </span>
+          <ul>
+            {issuesIsOpen &&
+              this.hasIssues &&
+              issueList.map(issue => {
                 return (
                   <li key={issue.id}>
                     <Link href={issue.html_url} target="_blank">
@@ -121,12 +143,11 @@ export class IssueList extends React.Component<IssueListProps, IssueListState> {
                   </li>
                 );
               })}
-            </ul>
-          </details>
+          </ul>
         </div>
         <Gapped gap={20}>
           {componentExistsInGuide && (
-            <Link target="_blank" href={`${GUIDES_LINK}${componentName}`}>
+            <Link target="_blank" href={`${GUIDES_LINK}${componentName.toLowerCase()}`}>
               Компонент в гайдах
             </Link>
           )}
