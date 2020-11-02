@@ -5,13 +5,11 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
-import { isChrome, isOpera, isSafari } from '../../lib/utils';
 
 import { jsStyles } from './ScrollContainer.styles';
 
-const PADDING_RIGHT = 30;
+const HIDE_SCROLLBAR_OFFSET = 30;
 const MIN_SCROLL_SIZE = 20;
-const SCROLL_HIDDEN = isChrome || isOpera || isSafari;
 
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
@@ -110,9 +108,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
 
     const innerStyle: React.CSSProperties = {
-      marginRight: this.getMarginRight(),
+      // hide vertical scrollbar with a little extra space
+      marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
+      paddingRight: HIDE_SCROLLBAR_OFFSET - getScrollWidth(),
+
       maxHeight: props.maxHeight,
-      paddingRight: PADDING_RIGHT,
       scrollBehavior: props.scrollBehaviour,
     };
 
@@ -351,9 +351,5 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     } else {
       return 'scroll';
     }
-  }
-
-  private getMarginRight(): number {
-    return -1 * (PADDING_RIGHT + (SCROLL_HIDDEN ? 0 : getScrollWidth()));
   }
 }
