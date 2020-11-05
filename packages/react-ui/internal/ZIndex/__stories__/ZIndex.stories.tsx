@@ -143,10 +143,8 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
               positions={['left middle']}
               popupOffset={10}
               opened={this.state.popup}
-              margin={5}
               hasShadow
               hasPin
-              pinOffset={15}
             >
               {this.renderBlock('POPUP POPUP POPUP', 300, 50)}
             </Popup>

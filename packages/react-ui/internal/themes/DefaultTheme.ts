@@ -805,6 +805,8 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
+  public static popupArrowPadding = '7px';
+  public static popupPadding = '10px';
   //#endregion
   //#region Input
   public static inputTextColor = 'none';

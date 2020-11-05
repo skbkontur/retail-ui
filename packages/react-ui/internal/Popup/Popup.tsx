@@ -79,10 +79,8 @@ export interface PopupProps extends PopupHandlerProps {
   hasPin: boolean;
   hasShadow: boolean;
   disableAnimations: boolean;
-  margin: number;
   maxWidth?: number | string;
   opened: boolean;
-  pinOffset: number;
   pinSize: number;
   popupOffset: number;
   positions: PopupPosition[];
@@ -129,19 +127,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     hasShadow: PropTypes.bool,
 
     /**
-     * Отступ попапа от элемента
-     */
-    margin: PropTypes.number,
-
-    /**
      * Показан или скрыт попап
      */
     opened: PropTypes.bool,
-
-    /**
-     * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
-     */
-    pinOffset: PropTypes.number,
 
     /**
      * Сторона пина без учёта границы.
@@ -168,10 +156,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   public static defaultProps = {
-    margin: 10,
     popupOffset: 0,
     pinSize: 8,
-    pinOffset: 16,
     hasPin: false,
     hasShadow: false,
     disableAnimations: isTestEnv,
@@ -413,7 +399,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
-    const { pinSize, pinOffset, hasShadow, backgroundColor, borderColor } = this.props;
+    const { pinSize, hasShadow, backgroundColor, borderColor } = this.props;
 
     return (
       this.props.hasPin && (
@@ -421,7 +407,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           popupElement={this.lastPopupElement}
           popupPosition={position}
           size={pinSize}
-          offset={pinOffset}
+          offset={parseInt(this.theme.popupArrowPadding)}
           borderWidth={hasShadow ? 1 : 0}
           backgroundColor={backgroundColor || this.theme.popupBackground}
           borderColor={borderColor || pinBorder}
@@ -528,12 +514,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const anchorSize = /top|bottom/.test(position.direction) ? anchorRect.width : anchorRect.height;
 
-    const { pinOffset, pinSize } = this.props;
-    return Math.max(0, pinOffset + pinSize - anchorSize / 2);
+    const { pinSize } = this.props;
+    return Math.max(0, parseInt(this.theme.popupArrowPadding) + pinSize - anchorSize / 2);
   }
 
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
-    const margin = this.props.margin;
+    const margin = parseInt(this.theme.popupPadding);
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
