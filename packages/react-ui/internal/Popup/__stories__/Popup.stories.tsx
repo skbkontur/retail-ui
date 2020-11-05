@@ -237,6 +237,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
             positions={this.props.positions}
             backgroundColor={'#fff'}
             pinSize={10}
+            pinOffset={7}
             disableAnimations={isTestEnv}
           >
             <div
@@ -297,9 +298,11 @@ class PopupWithPositions extends Component<any, any> {
               hasShadow
               anchorElement={this.state.anchor}
               opened={this.state.opened}
+              margin={13}
               positions={['bottom left', 'bottom right', 'top left', 'top right']}
               backgroundColor={'#fff'}
               pinSize={10}
+              pinOffset={7}
               disableAnimations={this.props.disableAnimations}
             >
               <div style={{ padding: '10px 20px', fontSize: '30px' }}>{this.props.placeholder || 'Placeholder'}</div>
@@ -349,8 +352,10 @@ class FakeHint extends Component<any, any> {
             opened
             anchorElement={this.state.anchor}
             positions={this.props.positions}
+            margin={this.props.margin}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
             pinSize={10}
+            pinOffset={7}
           >
             <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
           </Popup>
@@ -386,6 +391,7 @@ class Toast extends Component<any, any> {
             positions={this.props.positions}
             backgroundColor={'rgba(0, 0, 0, 0.65)'}
             pinSize={10}
+            pinOffset={7}
           >
             <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
           </Popup>
