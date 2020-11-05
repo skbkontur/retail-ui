@@ -47,6 +47,8 @@ export interface PopupMenuProps {
   onChangeMenuState?: (isOpened: boolean, restoreFocus: boolean) => void;
   /** Пропсы, передающиеся в Popup */
   popupHasPin?: boolean;
+  popupMargin?: number;
+  popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
 }
@@ -68,6 +70,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
+    popupMargin: 0,
     disableAnimations: false,
   };
 
@@ -96,7 +99,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
               anchorElement={this.captionWrapper}
               opened={this.state.menuVisible}
               hasShadow
+              margin={this.props.popupMargin}
               hasPin={this.props.popupHasPin}
+              pinOffset={this.props.popupPinOffset}
               positions={this.getPositions()}
               disableAnimations={this.props.disableAnimations}
               onOpen={this.handleOpen}
