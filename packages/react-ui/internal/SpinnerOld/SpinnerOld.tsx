@@ -5,12 +5,19 @@ import cn from 'classnames';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { hasSvgAnimationSupport } from '../../lib/utils';
-import { SpinnerOldIcon } from '../icons/SpinnerOldIcon';
+import { SpinnerIcon } from '../icons/SpinnerIcon';
 
+import { SpinnerOldCloudIcon } from './SpinnerOldCloudIcon';
 import { jsStyles } from './SpinnerOld.styles';
-import { types, SpinnerOldFallback } from './SpinnerOldFallback';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
+
+export const types: {
+  [key: string]: SpinnerOldType;
+} = {
+  big: 'big',
+  mini: 'mini',
+  normal: 'normal',
+};
 
 export type SpinnerOldType = 'mini' | 'normal' | 'big';
 
@@ -75,34 +82,38 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
   }
 
   private renderMain() {
-    const { type, caption = this.locale.loading, dimmed } = this.props;
+    const { type, caption = this.locale.loading } = this.props;
 
     return (
       <div className={jsStyles.spinner()}>
-        <span className={jsStyles.inner()}>
-          {hasSvgAnimationSupport && this.renderSpinnerOld(type)}
-          {!hasSvgAnimationSupport && <SpinnerOldFallback type={type} dimmed={dimmed} />}
-        </span>
+        <span className={jsStyles.inner()}>{this.renderSpinnerOld(type)}</span>
         {caption && this.renderCaption(type, caption)}
       </div>
     );
   }
 
   private renderCloud = (type: Exclude<SpinnerOldType, 'mini'>) => {
-    const cloudClassName = this.props.dimmed ? jsStyles.cloudDimmed(this.theme) : jsStyles.cloud(this.theme);
+    const { dimmed } = this.props;
+    const cloudClassName = dimmed ? jsStyles.cloudDimmed(this.theme) : jsStyles.cloud(this.theme);
 
     return (
       <span className={jsStyles.cloudWrapper()}>
-        <SpinnerOldIcon size={type} className={cloudClassName} strokeClassName={jsStyles.cloudStroke(this.theme)} />
+        <SpinnerOldCloudIcon
+          dimmed={dimmed}
+          size={type}
+          className={cloudClassName}
+          strokeClassName={jsStyles.cloudStroke(this.theme)}
+        />
       </span>
     );
   };
 
   private renderCircle = () => {
     const theme = this.theme;
-    const circleClassName = this.props.dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
+    const { dimmed } = this.props;
+    const circleClassName = dimmed ? jsStyles.circleDimmed(theme) : jsStyles.circle(theme);
 
-    return <SpinnerOldIcon size="mini" className={circleClassName} />;
+    return <SpinnerIcon dimmed={dimmed} size="mini" className={circleClassName} />;
   };
 
   private renderSpinnerOld = (type: SpinnerOldType) => {
