@@ -4,12 +4,13 @@ import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { MaskCharLowLine } from '../MaskCharLowLine';
 
 import { jsStyles } from './MaskedInput.styles';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
-  maskChar?: string | null;
+  maskChar: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
   hasLeftIcon?: boolean;
@@ -26,6 +27,10 @@ interface MaskedInputState {
 
 export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
+
+  public static defaultProps: Partial<MaskedInputProps> = {
+    maskChar: '_',
+  };
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
@@ -87,6 +92,11 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     );
     const leftClass = style?.textAlign !== 'right' && jsStyles.inputMaskLeft();
 
+    const rightHelper = emptyValue
+      .slice(value.length)
+      .split('')
+      .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
+
     return (
       <span className={jsStyles.container()} x-ms-format-detection="none">
         <ReactInputMask
@@ -105,7 +115,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
         {this.isMaskVisible() && (
           <span className={cn(jsStyles.inputMask(this.theme), leftClass)}>
             {leftHelper}
-            {emptyValue.slice(value.length)}
+            {rightHelper}
           </span>
         )}
       </span>
