@@ -239,4 +239,7 @@ module.exports = {
   getExampleFilename(componentPath) {
     return componentPath.replace(path.extname(componentPath), '.md');
   },
+  styleguideComponents: {
+    PathlineRenderer: require.resolve('../components/Pathline/PathlineRenderer.tsx'),
+  },
 };

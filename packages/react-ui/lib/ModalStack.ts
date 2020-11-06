@@ -25,10 +25,17 @@ export class ModalStack {
     const { emitter, mounted } = ModalStack.getStackInfo();
     mounted.unshift(component);
     const changeHandler = () => onChange([...mounted]);
-    emitter.addListener('change', changeHandler);
+    const _token = emitter.addListener('change', changeHandler);
     emitter.emit('change');
     return {
       remove: () => {
+        // Backwards compatible with versions 0.x and 1.w which using the fbemitter package
+        if ('remove' in _token) {
+          // @ts-ignore
+          _token.remove();
+          return;
+        }
+
         emitter.removeListener('change', changeHandler);
       },
     };

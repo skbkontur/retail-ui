@@ -4,9 +4,6 @@ const { commonSections, versionsSection, ROOT_DIR, removeUnsupportedConfigOption
 const config = Object.assign({}, baseConfig, {
   styleguideDir: ROOT_DIR,
   sections: [...commonSections, versionsSection],
-  styleguideComponents: {
-    PathlineRenderer: require.resolve('../components/Pathline/PathlineRenderer.tsx'),
-  },
 });
 
 module.exports = removeUnsupportedConfigOptions(config);
