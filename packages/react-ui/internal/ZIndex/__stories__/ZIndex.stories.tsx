@@ -918,3 +918,25 @@ StickyAndTooltipsStory.story = {
     },
   },
 };
+
+export const ModalSidePageStack = () => {
+  const [isModalOpen, setModalOpen] = React.useState(false);
+  const [isSidePanelOpen, setSidePanelOpen] = React.useState(false);
+
+  return (
+    <div>
+      <button onClick={() => setModalOpen(true)}>Open Modal</button>
+      {isModalOpen && (
+        <Modal onClose={() => setModalOpen(false)}>
+          <Modal.Body>
+            <div style={{ height: 300, width: 200, background: 'lightgrey' }} />
+            <button onClick={() => setSidePanelOpen(true)}>Open Side Page</button>
+          </Modal.Body>
+        </Modal>
+      )}
+
+      {isSidePanelOpen && <SidePage onClose={() => setSidePanelOpen(false)}></SidePage>}
+    </div>
+  );
+};
+ModalSidePageStack.story = { name: 'Modal and SidePage Stack', parameters: { creevey: { skip: [true] } } };

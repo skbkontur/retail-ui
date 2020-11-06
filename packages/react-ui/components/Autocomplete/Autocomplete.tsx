@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { DropdownContainer } from '../../internal/DropdownContainer';
@@ -107,9 +109,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     selected: -1,
   };
 
+  private theme!: Theme;
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
+  private rootSpan: Nullable<HTMLSpanElement>;
 
   private focused = false;
   private requestId = 0;
@@ -139,6 +143,16 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+  public renderMain() {
     const {
       onValueChange,
       onKeyDown,
@@ -151,19 +165,22 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuMaxHeight,
       preventWindowScroll,
       source,
+      width = this.theme.inputWidth,
       ...rest
     } = this.props;
 
     const inputProps = {
       ...rest,
+      width: '100%',
       onValueChange: this.handleValueChange,
       onKeyDown: this.handleKeyDown,
       onFocus: this.handleFocus,
       ref: this.refInput,
     };
+
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block' }}>
+        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
@@ -177,7 +194,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || this.props.width,
+      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -203,6 +220,14 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       </DropdownContainer>
     );
   }
+
+  private getInputWidth = (target: Nullable<HTMLSpanElement>) => {
+    if (target instanceof Element) {
+      return target.getBoundingClientRect().width;
+    }
+
+    return 0;
+  };
 
   private handleValueChange = (value: string) => {
     this.opened = true;
@@ -347,5 +372,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private refMenu = (menu: Menu | null) => {
     this.menu = menu;
+  };
+
+  private refRootSpan = (span: HTMLSpanElement) => {
+    this.rootSpan = span;
   };
 }

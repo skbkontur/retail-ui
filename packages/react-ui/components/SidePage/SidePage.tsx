@@ -241,11 +241,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
     const sidePages = stack.filter(x => x instanceof SidePage);
     const currentSidePagePosition = sidePages.indexOf(this);
-    const isSidePageOnStackTop = stack[0] instanceof SidePage;
 
     const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
     const hasShadow = sidePages.length < 3 || currentSidePagePosition > sidePages.length - 3;
-    const hasBackground = currentSidePagePosition === sidePages.length - 1 && isSidePageOnStackTop;
+    const hasBackground = ModalStack.isBlocking(this);
 
     this.setState({
       stackPosition: stack.indexOf(this),

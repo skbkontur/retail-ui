@@ -1,8 +1,8 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React, { HTMLAttributes } from 'react';
 
+import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { DefaultizeProps } from '../../../lib/utils';
-import { CHAR_MASK } from '../../../lib/date/constants';
 import { InternalDateOrder } from '../../../lib/date/types';
 import { DateInput, DateInputProps } from '../DateInput';
 import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -12,10 +12,12 @@ interface LocaleDateInputProps {
   propsLocale: LocaleContextProps;
 }
 const LocaleDateInput: React.FunctionComponent<LocaleDateInputProps> = ({ propsDateInput, propsLocale }) => (
-  <LocaleContext.Provider value={{
-    langCode: propsLocale.langCode,
-    locale: propsLocale.locale,
-  }}>
+  <LocaleContext.Provider
+    value={{
+      langCode: propsLocale.langCode,
+      locale: propsLocale.locale,
+    }}
+  >
     <DateInput {...propsDateInput} />
   </LocaleContext.Provider>
 );
@@ -55,7 +57,7 @@ describe('DateInput as InputlikeText', () => {
 
       root.setProps({ propsDateInput: { value: '99.9' } });
 
-      expect(getValue(getInput(root))).toBe(`99.09.${CHAR_MASK.repeat(4)}`);
+      expect(getValue(getInput(root))).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
     });
 
     it('does not show mask if value is empty', () => {
@@ -66,7 +68,9 @@ describe('DateInput as InputlikeText', () => {
     it('shows mask if value is empty on focus', () => {
       const root = render({ value: '' });
       getInput(root).simulate('focus');
-      expect(getValue(getInput(root))).toBe(`${CHAR_MASK.repeat(2)}.${CHAR_MASK.repeat(2)}.${CHAR_MASK.repeat(4)}`);
+      expect(getValue(getInput(root))).toBe(
+        `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`,
+      );
     });
 
     const KeyDownCases: Array<[string, string[], string]> = [
@@ -153,9 +157,12 @@ describe('DateInput as InputlikeText', () => {
       it(`handles paste "${pasted}"`, () => {
         const onValueChange = jest.fn();
         const input = getInput(
-          render({ onValueChange }, {
-            locale: { DatePicker: { order: order as InternalDateOrder } }
-          }),
+          render(
+            { onValueChange },
+            {
+              locale: { DatePicker: { order: order as InternalDateOrder } },
+            },
+          ),
         );
         input.simulate('paste', { clipboardData: { getData: () => pasted } });
         const [value] = onValueChange.mock.calls[0];
