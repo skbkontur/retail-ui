@@ -35,7 +35,7 @@ function ModalFooter(props: ModalFooterProps) {
   const renderContent = (fixed = false) => (
     <div
       className={cn({
-        [jsStyles.footer()]: true,
+        [jsStyles.footer(theme)]: true,
         [jsStyles.panel(theme)]: Boolean(panel),
         [jsStyles.fixedFooter(theme)]: fixed,
       })}

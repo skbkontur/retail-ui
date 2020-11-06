@@ -663,11 +663,26 @@ export class DefaultTheme {
   public static modalCloseButtonColor = '#808080';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = '#333';
+  public static modalCloseBtnPadding = '35px';
   public static modalFixedHeaderBg = '#fff';
   public static modalFixedHeaderShadow = '0 1px 10px #000000';
   public static modalFixedFooterShadow = '0 -1px 10px #000000';
   public static modalFooterBg = '#e9e9e9';
   public static modalAdaptiveThreshold = '425px';
+  public static modalPaddingTop = '24px';
+  public static modalPaddingBottom = '14px';
+  public static modalPaddingLeft = '30px';
+  public static modalPaddingRight = '35px';
+  public static modalHeaderFontSize = '22px';
+  public static modalHeaderLineHeight = '30px';
+  public static modalHeaderPaddingBottom = '11px';
+  public static modalFixedHeaderPaddingBottom = '22px';
+  public static modalBodyPaddingBottom = '25px';
+  public static modalFooterPaddingTop = '0px';
+  public static modalFooterPaddingBottom = '30px';
+  public static modalBodyPanelPaddingBottom = '0px';
+  public static modalFooterPanelPaddingTop = '20px';
+  public static modalFooterPanelPaddingBottom = '20px';
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e9e9e9';

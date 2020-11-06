@@ -25,9 +25,9 @@ function ModalHeader({ sticky = true, children }: ModalHeaderProps) {
     return (
       <div
         className={cn({
-          [jsStyles.header()]: true,
+          [jsStyles.header(theme)]: true,
           [jsStyles.fixedHeader(theme)]: fixed,
-          [jsStyles.headerAddPadding()]: Boolean(additionalPadding),
+          [jsStyles.headerAddPadding(theme)]: Boolean(additionalPadding),
         })}
       >
         {close && <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />}

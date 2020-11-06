@@ -81,7 +81,7 @@ const styles = {
   close(t: Theme) {
     const iconSize = 14;
     const margin = 0;
-    const paddingTop = 35;
+    const paddingTop = parseInt(t.modalCloseBtnPadding);
     const paddingBottom = 20;
     const blockSize = iconSize + paddingTop + paddingBottom;
     return css`
@@ -148,34 +148,37 @@ const styles = {
     `;
   },
 
-  header() {
+  header(t: Theme) {
     return css`
-      font-size: 22px;
-      line-height: 30px;
-      padding: 24px 110px 11px 30px;
+      font-size: ${t.modalHeaderFontSize};
+      line-height: ${t.modalHeaderLineHeight};
+      padding: ${t.modalPaddingTop} 110px ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
     `;
   },
 
-  body() {
+  body(t: Theme) {
     return css`
-      padding: 0 35px 25px 30px;
+      padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
     `;
   },
 
-  footer() {
+  footer(t: Theme) {
     return css`
-      padding: 0 35px 30px 30px;
+      padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
     `;
   },
 
   panel(t: Theme) {
     return css`
-      ${cssName(styles.footer())}& {
-        padding-top: 20px;
-        padding-bottom: 20px;
+      ${cssName(styles.footer(t))}& {
+        padding-top: ${t.modalFooterPanelPaddingTop};
+        padding-bottom: ${t.modalFooterPanelPaddingBottom};
         background: ${t.modalFooterBg};
+      }
+      ${cssName(styles.body(t))}& {
+        padding-bottom: ${t.modalBodyPanelPaddingBottom};
       }
     `;
   },
@@ -217,9 +220,9 @@ const styles = {
     `;
   },
 
-  headerAddPadding() {
+  headerAddPadding(t: Theme) {
     return css`
-      padding-bottom: 22px;
+      padding-bottom: ${t.modalFixedHeaderPaddingBottom};
     `;
   },
 
