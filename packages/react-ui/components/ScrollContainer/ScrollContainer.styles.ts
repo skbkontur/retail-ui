@@ -17,11 +17,6 @@ const styles = {
       /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
       padding-bottom: 1px;
       overflow-y: scroll;
-
-      &::-webkit-scrollbar {
-        visibility: hidden;
-        width: 0;
-      }
     `;
   },
 
