@@ -46,6 +46,14 @@ export interface TokenInputProps<T> {
   onBlur: FocusEventHandler<HTMLInputElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
+
+  /**
+   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
+   * По умолчанию ожидаются строки.
+   *
+   * Элементы могут быть любого типа. В этом случае необходимо определить
+   * свойства `renderItem`, `valueToString`
+   */
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
