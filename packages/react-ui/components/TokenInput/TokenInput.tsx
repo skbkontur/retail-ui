@@ -46,6 +46,14 @@ export interface TokenInputProps<T> {
   onBlur: FocusEventHandler<HTMLInputElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
+
+  /**
+   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
+   * По умолчанию ожидаются строки.
+   *
+   * Элементы могут быть любого типа. В этом случае необходимо определить
+   * свойства `renderItem`, `valueToString`
+   */
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
@@ -59,7 +67,7 @@ export interface TokenInputProps<T> {
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
-  delimiters?: string[];
+  delimiters: string[];
   error?: boolean;
   warning?: boolean;
   disabled?: boolean;
@@ -110,6 +118,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public static defaultProps: Partial<TokenInputProps<any>> = {
     selectedItems: [],
+    delimiters: [',', ' '],
     renderItem: identity,
     renderValue: identity,
     valueToString: identity,
@@ -305,10 +314,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return this.props.type ? this.props.type : TokenInputType.WithReference;
   }
 
-  private get delimiters() {
-    return this.props.delimiters ? this.props.delimiters : [','];
-  }
-
   private get menuRef(): Menu | null {
     return this.tokensInputMenu && this.tokensInputMenu.getMenuRef();
   }
@@ -397,7 +402,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       .sort()
       .map(index => this.props.selectedItems[index])
       .map(item => this.props.valueToString(item));
-    event.clipboardData.setData('text/plain', tokens.join(this.delimiters[0]));
+    event.clipboardData.setData('text/plain', tokens.join(this.props.delimiters[0]));
   };
 
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
@@ -405,7 +410,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
     let paste = event.clipboardData.getData('text');
-    const delimiters = this.delimiters;
+    const { delimiters } = this.props;
     if (delimiters.some(delimiter => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
@@ -418,6 +423,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         .filter(item => !this.hasValueInItems(this.props.selectedItems, item));
       const newItems = this.props.selectedItems.concat(items);
       this.props.onValueChange(newItems);
+
+      this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
+      this.tryGetItems();
     }
   };
 
@@ -436,6 +444,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           this.highlightMenuItem();
         });
       }
+      const selectItemIndex = autocompleteItemsUnique.findIndex(
+        item => this.props.valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
+      );
+      if (this.menuRef) {
+        this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
+      }
     }
   };
 
@@ -450,7 +464,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && (isKeyEnter(e) || this.delimiters.includes(e.key))) {
+    if (this.type !== TokenInputType.WithReference && this.props.delimiters.includes(e.key)) {
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {
@@ -612,6 +626,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
+    this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     let query = event.target.value.trimLeft();
     if (query.endsWith(' ')) {
       query = query.trimRight() + ' ';
