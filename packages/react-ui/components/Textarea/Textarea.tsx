@@ -157,7 +157,10 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private resizeTextArea = () => {
-    this.setState({ textareaWidth: this.node?.offsetWidth ?? 0 });
+    if (this.node) {
+      const scrollBarWidth = this.node.offsetWidth - this.node.clientWidth;
+      this.setState({ textareaWidth: this.node.offsetWidth - scrollBarWidth });
+    }
   };
 
   private theme!: Theme;
