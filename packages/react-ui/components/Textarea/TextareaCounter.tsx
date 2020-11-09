@@ -27,14 +27,14 @@ export const TextareaCounter: FC<TextareaCounterProps> = props => {
   const isError = counterValue < 0;
   const counterStyle: CSSProperties = {
     left: textareaWidth - counterWidth - parseInt(theme.textareaPaddingX),
-    visibility: counterWidth ? 'visible' : 'hidden',
+    visibility: (counterWidth && textareaWidth && !!counterNode.current) ? 'visible' : 'hidden',
   };
 
   useEffect(() => {
     if (counterNode.current) {
       setCounterWidth(counterNode.current.offsetWidth);
     }
-  }, [counterNode, value]);
+  }, [counterNode.current, counterWidth, textareaValue]);
 
   return (
     <section

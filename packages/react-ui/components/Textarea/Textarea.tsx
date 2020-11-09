@@ -314,7 +314,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     const maxAllowedCharsLength: number = counterCharsLength ?? maxLength ?? 0;
     const textareaCounter = showCharsCounter && isFocused && !!textareaWidth && (
       <TextareaCounter
-        value={textareaProps.value}
+        value={this.props.value}
         textareaWidth={textareaWidth}
         maxAllowedCharsLength={maxAllowedCharsLength}
         counterHelp={counterHelp}
