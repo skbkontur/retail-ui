@@ -233,3 +233,90 @@ SelectAllByButton.story = {
     },
   },
 };
+
+export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
+  const blockStyle = {
+    padding: 5,
+  };
+
+  const headingStyle = {
+    padding: 5,
+  };
+
+  return (
+    <div>
+      <div style={headingStyle}>Plain</div>
+      <div id="CounterPlain" style={blockStyle}>
+        <Textarea value={TEXT_SAMPLE} width={400} counterCharsLength={700} showCharsCounter={true} />
+      </div>
+
+      <div style={headingStyle}>Autoresize</div>
+      <div id="CounterAutoresizeTextarea" style={blockStyle}>
+        <Textarea value={TEXT_SAMPLE} width={400} counterCharsLength={50} autoResize={true} showCharsCounter={true} />
+      </div>
+
+      <div style={headingStyle}>Disabled</div>
+      <div id="CounterDisabled" style={blockStyle}>
+        <Textarea value={TEXT_SAMPLE} width={400} maxLength={50} disabled={true} showCharsCounter={true} />
+      </div>
+
+      <div style={headingStyle}>With help</div>
+      <div id="CounterWithHelp" style={blockStyle}>
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          maxLength={50}
+          showCharsCounter={true}
+          counterHelp={{ tooltipContent: 'test' }}
+        />
+      </div>
+    </div>
+  );
+};
+TextareaWithCounters.story = {
+  name: 'Textarea with max length counter',
+  parameters: {
+    creevey: {
+      tests: {
+        async Plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+        },
+        async Focus() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#CounterPlain textarea' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
+        },
+        async FocusAutoresize() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#CounterAutoresizeTextarea textarea' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('FocusAutoresize');
+        },
+        async FocusWithHelp() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelp');
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name="TextareaCounterHelp"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelpOpened');
+        },
+      },
+    },
+  },
+};

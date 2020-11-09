@@ -115,6 +115,34 @@ const styles = {
       z-index: 3;
     `;
   },
+
+  counter(t: Theme) {
+    return css`
+      position: absolute;
+      bottom: 2px;
+      z-index: 3;
+      text-align: right;
+      background: ${t.textareaCounterBackground};
+      color: ${t.textareaCounterColor};
+      height: 26px;
+      padding-left: 4px;
+      display: flex;
+    `;
+  },
+
+  counterError(t: Theme) {
+    return css`
+      ${cssName(styles.counter(t))}& {
+        color: ${t.textareaCounterErrorColor}
+      }
+    `;
+  },
+
+  counterHelp() {
+    return css`
+      margin-left: 4px;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);
