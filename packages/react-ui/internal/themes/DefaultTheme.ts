@@ -655,6 +655,9 @@ export class DefaultTheme {
   //#endregion
   //#region Tooltip
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
+  public static tooltipPaddingY = '15px';
+  public static tooltipPaddingX = '20px';
+  public static tooltipCloseBtnPadding = '4px';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   //#endregion
   //#region Modal
