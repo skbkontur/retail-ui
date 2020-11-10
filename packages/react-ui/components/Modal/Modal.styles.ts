@@ -149,10 +149,12 @@ const styles = {
   },
 
   header(t: Theme) {
+    const iconSize = 14;
+    const rightPadding = parseInt(t.modalCloseBtnPadding) + iconSize + parseInt(t.modalHeaderPaddingRight);
     return css`
       font-size: ${t.modalHeaderFontSize};
       line-height: ${t.modalHeaderLineHeight};
-      padding: ${t.modalPaddingTop} 110px ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
+      padding: ${t.modalPaddingTop} ${rightPadding}px ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
     `;
