@@ -66,7 +66,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPadding: '0px',
+                  popupMargin: '0px',
                 },
                 theme,
               )}

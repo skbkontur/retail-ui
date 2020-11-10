@@ -220,8 +220,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupArrowPadding: '17px',
-                  popupPadding: '15px',
+                  popupPinOffset: '17px',
+                  popupMargin: '15px',
                 },
                 theme,
               )}

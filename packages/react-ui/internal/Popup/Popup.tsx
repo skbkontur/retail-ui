@@ -83,7 +83,7 @@ export interface PopupProps extends PopupHandlerProps {
   maxWidth?: number | string;
   opened: boolean;
   pinOffset?: number;
-  pinSize: number;
+  pinSize?: number;
   popupOffset: number;
   positions: PopupPosition[];
   useWrapper: boolean;
@@ -169,7 +169,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   public static defaultProps = {
     popupOffset: 0,
-    pinSize: 8,
     hasPin: false,
     hasShadow: false,
     disableAnimations: isTestEnv,
@@ -418,8 +417,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         <PopupPin
           popupElement={this.lastPopupElement}
           popupPosition={position}
-          size={pinSize}
-          offset={pinOffset || parseInt(this.theme.popupArrowPadding)}
+          size={pinSize || parseInt(this.theme.popupPinSize)}
+          offset={pinOffset || parseInt(this.theme.popupPinOffset)}
           borderWidth={hasShadow ? 1 : 0}
           backgroundColor={backgroundColor || this.theme.popupBackground}
           borderColor={borderColor || pinBorder}
@@ -527,11 +526,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorSize = /top|bottom/.test(position.direction) ? anchorRect.width : anchorRect.height;
 
     const { pinSize, pinOffset } = this.props;
-    return Math.max(0, (pinOffset || parseInt(this.theme.popupArrowPadding)) + pinSize - anchorSize / 2);
+    return Math.max(
+      0,
+      (pinOffset || parseInt(this.theme.popupPinOffset)) +
+        (pinSize || parseInt(this.theme.popupPinSize)) -
+        anchorSize / 2,
+    );
   }
 
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
-    const margin = this.props.margin || parseInt(this.theme.popupPadding);
+    const margin = this.props.margin || parseInt(this.theme.popupMargin);
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
