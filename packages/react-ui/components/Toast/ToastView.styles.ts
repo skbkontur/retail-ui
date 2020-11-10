@@ -38,13 +38,14 @@ const styles = {
   },
 
   link(t: Theme) {
+    const halfPaddingX = `${Math.round(parseInt(t.toastPaddingX) / 2)}px`;
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
-      margin: -${t.toastPaddingY} 24px -${t.toastPaddingY} 4px;
-      padding: ${t.toastPaddingY} ${t.toastPaddingX};
+      margin: -${t.toastPaddingY} ${halfPaddingX} -${t.toastPaddingY} 0px;
+      padding: ${t.toastPaddingY} ${halfPaddingX};
 
       &:hover {
         text-decoration: underline;

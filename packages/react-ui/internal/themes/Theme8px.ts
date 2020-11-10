@@ -454,6 +454,20 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toastLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '16px';
+  public static toastBorderRadius = '2px';
+  public static toastTop = '24px';
+  public static toastCloseBtnPadding = '16px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));

@@ -743,13 +743,11 @@ export class DefaultTheme {
   public static get toastFontSize() {
     return this.fontSizeSmall;
   }
-  public static get toastLineHeight() {
-    return this.controlLineHeightSmall;
-  }
+  public static toastLineHeight = 'internal';
   public static toastPaddingY = '10px';
-  public static toastPaddingX = '20px';
+  public static toastPaddingX = '20px'; //hack for bottom padding
   public static toastBorderRadius = '2px';
-  public static toastTop = '50px';
+  public static toastTop = '20px';
   public static toastCloseBtnPadding = '10px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
