@@ -458,6 +458,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Tooltip
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
+  public static tooltipCloseBtnPadding = '8px';
   //#endregion
 }
 
