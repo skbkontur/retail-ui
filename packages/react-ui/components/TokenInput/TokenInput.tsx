@@ -573,6 +573,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     process.nextTick(() => this.input!.focus());
   };
 
+  private selectInputText = () => {
+    if (this.input) {
+      this.input.setSelectionRange(0, this.state.inputValue.length);
+    }
+  };
+
   private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
     switch (true) {
       case isKeyBackspace(e):
@@ -702,7 +708,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       if (this.state.reservedInputValue === undefined)
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
     }
-    this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) });
+    this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) }, this.selectInputText);
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
   };
 
