@@ -1175,7 +1175,7 @@ export class DefaultTheme {
   }
   public static textareaCounterHeight = '20px';
   public static textareaCounterColor = '#808080';
-  public static textareaCounterBackground = 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 43%, rgba(255,255,255,0.0718662464985994) 87%)';
+  public static textareaCounterBackground = 'rgb(255, 255, 255, 0.9)';
   public static get textareaCounterErrorColor() {
     return this.errorText;
   }

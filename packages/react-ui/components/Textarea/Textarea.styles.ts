@@ -119,7 +119,7 @@ const styles = {
   counter(t: Theme) {
     return css`
       position: absolute;
-      bottom: 2px;
+      bottom: 1px;
       z-index: 3;
       text-align: right;
       background: ${t.textareaCounterBackground};
@@ -127,6 +127,9 @@ const styles = {
       height: 26px;
       padding-left: 4px;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
     `;
   },
 
