@@ -11,11 +11,12 @@ type TextareaCounterProps = {
   value: Nullable<string | string[] | number>;
   textareaWidth: number;
   maxAllowedCharsLength: number;
+  bottom: number;
   counterHelp?: TextareaCounterHelpProps;
 };
 
 export const TextareaCounter: FC<TextareaCounterProps> = props => {
-  const { textareaWidth, maxAllowedCharsLength, value, counterHelp } = props;
+  const { textareaWidth, maxAllowedCharsLength, value, counterHelp, bottom } = props;
   const [counterWidth, setCounterWidth] = useState<number>(0);
 
   const theme = useContext(ThemeContext);
@@ -27,7 +28,8 @@ export const TextareaCounter: FC<TextareaCounterProps> = props => {
   const isError = counterValue < 0;
   const counterStyle: CSSProperties = {
     left: textareaWidth - counterWidth - parseInt(theme.textareaPaddingX),
-    visibility: (counterWidth && textareaWidth && !!counterNode.current) ? 'visible' : 'hidden',
+    visibility: counterWidth && textareaWidth && !!counterNode.current ? 'visible' : 'hidden',
+    bottom,
   };
 
   useEffect(() => {

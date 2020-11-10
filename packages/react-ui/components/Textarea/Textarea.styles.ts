@@ -119,7 +119,6 @@ const styles = {
   counter(t: Theme) {
     return css`
       position: absolute;
-      bottom: 1px;
       z-index: 3;
       text-align: right;
       background: ${t.textareaCounterBackground};

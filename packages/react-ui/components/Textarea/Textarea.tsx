@@ -12,7 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 
-import { getTextAreaHeight } from './TextareaHelpers';
+import { getTextareaCounterBottom, getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
 import { TextareaCounter } from './TextareaCounter';
 import { TextareaCounterHelpProps } from './TextareaCounterHelp';
@@ -173,7 +173,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = new MutationObserver(this.resizeTextArea);
+  // private textareaObserver = new MutationObserver(this.resizeTextArea);
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -182,7 +182,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
 
     if (this.node && this.props.showCharsCounter) {
-      this.textareaObserver.observe(this.node, { attributes: true });
+      // this.textareaObserver.observe(this.node, { attributes: true });
       this.resizeTextArea();
     }
   }
@@ -323,6 +323,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         textareaWidth={textareaWidth}
         maxAllowedCharsLength={maxAllowedCharsLength}
         counterHelp={counterHelp}
+        bottom={getTextareaCounterBottom(this.node!)}
       />
     );
 
@@ -343,9 +344,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               onFocus={this.handleFocus}
               onKeyDown={this.handleKeyDown}
             />
+            {textareaCounter}
           </ResizeDetector>
           {fakeTextarea}
-          {textareaCounter}
         </label>
       </RenderLayer>
     );

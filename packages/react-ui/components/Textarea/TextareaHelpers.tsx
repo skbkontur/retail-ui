@@ -13,3 +13,9 @@ export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, ma
     exceededMaxHeight: expectedHeight > maxHeight + lineHeight,
   };
 }
+
+export const getTextareaCounterBottom = (node: HTMLTextAreaElement): number => {
+  const style: CSSStyleDeclaration = getComputedStyle(node);
+
+  return parseInt(style.borderBottomWidth, 10) + parseInt(style.marginBottom, 10);
+};
