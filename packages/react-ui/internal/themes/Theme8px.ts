@@ -454,6 +454,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region Hint
+  public static hintBorder = 'none';
+  public static hintBorderRadius = '2px';
+  public static hintPinOffset = '16px';
+  public static hintMargin = '2px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));

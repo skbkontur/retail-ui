@@ -107,8 +107,10 @@ export class Hint extends React.Component<HintProps, HintState> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: '8px',
-                  popupMargin: '15px',
+                  popupPinOffset: theme.hintPinOffset,
+                  popupMargin: theme.hintMargin,
+                  popupBorder: theme.hintBorder,
+                  popupBorderRadius: theme.hintBorderRadius,
                 },
                 this.theme,
               )}

@@ -753,6 +753,18 @@ export class DefaultTheme {
   public static hintPaddingY = '6px';
   public static hintPaddingX = '8px';
   public static hintTextAlign = 'center';
+  public static get hintBorder() {
+    return this.popupBorder;
+  }
+  public static get hintBorderRadius() {
+    return this.popupBorderRadius;
+  }
+  public static get hintPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static get hintMargin() {
+    return this.popupMargin;
+  }
   //#endregion
   //#region Toast
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
