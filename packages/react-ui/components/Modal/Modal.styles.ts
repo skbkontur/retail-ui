@@ -173,12 +173,10 @@ const styles = {
   panel(t: Theme) {
     return css`
       ${cssName(styles.footer(t))}& {
+        margin-top: ${t.modalBodyPanelPaddingBottom};
         padding-top: ${t.modalFooterPanelPaddingTop};
         padding-bottom: ${t.modalFooterPanelPaddingBottom};
         background: ${t.modalFooterBg};
-      }
-      ${cssName(styles.body(t))}& {
-        padding-bottom: ${t.modalBodyPanelPaddingBottom};
       }
     `;
   },
