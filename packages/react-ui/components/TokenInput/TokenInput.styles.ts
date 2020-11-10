@@ -1,4 +1,4 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
@@ -58,17 +58,17 @@ const styles = {
       outline: none;
       font-family: inherit;
       margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
-      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
       overflow: hidden;
       resize: none;
-      font-size: ${t.tokenInputFontSize};
       height: ${t.tokenInputLineHeight};
-      line-height: ${t.tokenInputLineHeight};
       -webkit-appearance: none;
       text-overflow: clip;
       background-clip: padding-box;
       transition: background-color 0.15s ease-in;
       color: ${t.tokenInputTextColor};
+      box-sizing: border-box;
+
+      ${styles.inputAndHelperCommonStyles(t)};
 
       &::-ms-clear {
         display: none;
@@ -104,15 +104,16 @@ const styles = {
       top: -100000px;
       max-width: 100%;
       word-break: break-word;
-      font-size: ${t.tokenInputFontSize};
-      line-height: ${t.tokenInputLineHeight};
+
+      ${styles.inputAndHelperCommonStyles(t)}
     `;
   },
 
   helperTextEditing(t: Theme) {
     return css`
+      ${styles.inputAndHelperCommonEditingStyles(t)};
+
       font-size: ${t.tokenFontSize};
-      line-height: ${t.tokenLineHeight};
       padding-bottom: ${t.tokenLegacyTextShift};
     `;
   },
@@ -126,11 +127,27 @@ const styles = {
     `;
   },
 
-  inputEditing(t: Theme) {
+  inputAndHelperCommonStyles(t: Theme) {
+    return css`
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
+      line-height: ${t.tokenInputLineHeight};
+      font-size: ${t.tokenInputFontSize};
+    `;
+  },
+
+  inputAndHelperCommonEditingStyles(t: Theme) {
     return css`
       margin: ${t.tokenMarginY} ${t.tokenMarginX};
       padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenPaddingX};
       line-height: ${t.tokenLineHeight};
+    `;
+  },
+
+  inputEditing(t: Theme) {
+    return css`
+      ${cssName(styles.input(t))}& {
+        ${styles.inputAndHelperCommonEditingStyles(t)};
+      }
     `;
   },
 
@@ -143,6 +160,8 @@ const styles = {
       margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
       padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
       color: ${t.tokenInputTextColorDisabled};
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     `;
   },
 };
