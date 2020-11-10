@@ -740,6 +740,17 @@ export class DefaultTheme {
   public static menuSeparatorBorderColor = '#e6e6e6';
   //#endregion
   //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toastLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '20px';
+  public static toastBorderRadius = '2px';
+  public static toastTop = '50px';
+  public static toastCloseBtnPadding = '10px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';

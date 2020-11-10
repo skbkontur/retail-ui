@@ -5,14 +5,15 @@ const styles = {
   root(t: Theme) {
     return css`
       background: ${t.toastBg};
-      border-radius: 2px;
+      border-radius: ${t.toastBorderRadius};
       color: ${t.toastColor};
       display: inline-block;
-      font-size: 14px;
+      font-size: ${t.toastFontSize};
+      line-height: ${t.toastLineHeight};
       opacity: 1;
-      padding: 10px 20px 11px;
+      padding: ${t.toastPaddingY} ${t.toastPaddingX};
       position: relative;
-      top: 20px;
+      top: ${t.toastTop};
     `;
   },
 
@@ -27,13 +28,12 @@ const styles = {
     `;
   },
 
-  closeWrapper() {
+  closeWrapper(t: Theme) {
     return css`
       display: inline-block;
       position: absolute;
-      top: 0;
-      bottom: 0;
-      line-height: 40px;
+      top: ${t.toastCloseBtnPadding};
+      right: ${t.toastCloseBtnPadding};
     `;
   },
 
@@ -43,8 +43,8 @@ const styles = {
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
-      margin: -10px 24px -11px 4px;
-      padding: 10px 10px 11px;
+      margin: -${t.toastPaddingY} 24px -${t.toastPaddingY} 4px;
+      padding: ${t.toastPaddingY} ${t.toastPaddingX};
 
       &:hover {
         text-decoration: underline;
