@@ -241,7 +241,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <div ref={this.refContent} className={jsStyles.tooltipContent()}>
+      <div ref={this.refContent} className={jsStyles.tooltipContent(this.theme)}>
         {content}
         {this.renderCloseButton()}
       </div>
