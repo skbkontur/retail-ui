@@ -680,7 +680,7 @@ export class DefaultTheme {
   public static modalBodyPaddingBottom = '25px';
   public static modalFooterPaddingTop = '0px';
   public static modalFooterPaddingBottom = '30px';
-  public static modalBodyPanelPaddingBottom = '0px';
+  public static modalBodyPanelPaddingBottom = '30px';
   public static modalFooterPanelPaddingTop = '20px';
   public static modalFooterPanelPaddingBottom = '20px';
   //#endregion

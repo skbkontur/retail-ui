@@ -173,7 +173,6 @@ const styles = {
   panel(t: Theme) {
     return css`
       ${cssName(styles.footer(t))}& {
-        margin-top: ${t.modalBodyPanelPaddingBottom};
         padding-top: ${t.modalFooterPanelPaddingTop};
         padding-bottom: ${t.modalFooterPanelPaddingBottom};
         background: ${t.modalFooterBg};
@@ -236,9 +235,9 @@ const styles = {
     `;
   },
 
-  bodyAddPadding() {
+  bodyAddPadding(t: Theme) {
     return css`
-      padding-bottom: 30px;
+      padding-bottom: ${t.modalBodyPanelPaddingBottom};
     `;
   },
 };
