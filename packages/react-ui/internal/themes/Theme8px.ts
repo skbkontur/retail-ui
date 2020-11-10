@@ -454,6 +454,22 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region Modal
+  public static modalCloseBtnPadding = '36px';
+  public static modalPaddingBottom = '24px';
+  public static modalPaddingLeft = '32px';
+  public static modalPaddingRight = '36px';
+  public static modalHeaderFontSize = '24px';
+  public static modalHeaderLineHeight = '32px';
+  public static modalHeaderPaddingBottom = '16px';
+  public static get modalFixedHeaderPaddingBottom() {
+    return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
+  }
+  public static modalBodyPaddingBottom = '24px';
+  public static modalFooterPaddingBottom = '32px';
+  public static modalBodyPanelPaddingBottom = '40px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
