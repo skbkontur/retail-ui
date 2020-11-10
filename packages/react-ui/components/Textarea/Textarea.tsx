@@ -10,6 +10,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
+import { ResizeDetector } from '../../internal/ResizeDetector';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
@@ -158,8 +159,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   private resizeTextArea = () => {
     if (this.node) {
-      const scrollBarWidth = this.node.offsetWidth - this.node.clientWidth;
-      this.setState({ textareaWidth: this.node.offsetWidth - scrollBarWidth });
+      const { clientWidth, offsetWidth } = this.node;
+      const scrollBarWidth = offsetWidth - clientWidth;
+      const newTextareaWidth = offsetWidth - scrollBarWidth;
+
+      if (this.state.textareaWidth !== newTextareaWidth) {
+        this.setState({ textareaWidth: newTextareaWidth });
+      }
     }
   };
 
@@ -262,7 +268,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       style,
       placeholder,
       onValueChange,
-      maxLength,
       showCharsCounter,
       counterCharsLength,
       counterHelp,
@@ -311,7 +316,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
-    const maxAllowedCharsLength: number = counterCharsLength ?? maxLength ?? 0;
+    const maxAllowedCharsLength: number = counterCharsLength ?? textareaProps.maxLength ?? 0;
     const textareaCounter = showCharsCounter && isFocused && !!textareaWidth && (
       <TextareaCounter
         value={textareaProps.value}
@@ -325,18 +330,20 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       <RenderLayer onFocusOutside={this.handleEventOutside} onClickOutside={this.handleEventOutside} active={isFocused}>
         <label {...rootProps} className={jsStyles.root(this.theme)}>
           {placeholderPolyfill}
-          <textarea
-            {...textareaProps}
-            className={textareaClassNames}
-            style={textAreaStyle}
-            placeholder={!placeholderPolyfill ? placeholder : undefined}
-            ref={this.ref}
-            onChange={this.handleChange}
-            onCut={this.handleCut}
-            onPaste={this.handlePaste}
-            onFocus={this.handleFocus}
-            onKeyDown={this.handleKeyDown}
-          />
+          <ResizeDetector onResize={this.resizeTextArea}>
+            <textarea
+              {...textareaProps}
+              className={textareaClassNames}
+              style={textAreaStyle}
+              placeholder={!placeholderPolyfill ? placeholder : undefined}
+              ref={this.ref}
+              onChange={this.handleChange}
+              onCut={this.handleCut}
+              onPaste={this.handlePaste}
+              onFocus={this.handleFocus}
+              onKeyDown={this.handleKeyDown}
+            />
+          </ResizeDetector>
           {fakeTextarea}
           {textareaCounter}
         </label>
