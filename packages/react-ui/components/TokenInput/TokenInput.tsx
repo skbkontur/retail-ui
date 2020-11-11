@@ -262,7 +262,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           onMouseDown={this.handleWrapperMouseDown}
           onMouseUp={this.handleWrapperMouseUp}
         >
-          {/* расчёт ширины текста с последующим обновлением ширины input */}
           <TextWidthHelper
             ref={this.textHelperRef}
             classHelp={cn(jsStyles.helperText(theme), {
