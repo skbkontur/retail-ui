@@ -1,3 +1,5 @@
+import { Theme } from '../../lib/theming/Theme';
+
 export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, maxRows: number) {
   const style: CSSStyleDeclaration = getComputedStyle(node);
   const borderTop = style.borderTopWidth ? parseInt(style.borderTopWidth, 10) : 0;
@@ -13,6 +15,12 @@ export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, ma
     exceededMaxHeight: expectedHeight > maxHeight + lineHeight,
   };
 }
+
+export const getTextareaPaddingBottom = (theme: Theme): number => {
+  const { textareaPaddingY, textareaCounterHeight } = theme;
+
+  return parseInt(textareaPaddingY, 10) + parseInt(textareaCounterHeight, 10);
+};
 
 export const getTextareaCounterBottom = (node: HTMLTextAreaElement): number => {
   const style: CSSStyleDeclaration = getComputedStyle(node);

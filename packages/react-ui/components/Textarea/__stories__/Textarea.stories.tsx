@@ -244,7 +244,7 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: 550 }}>
       <div style={headingStyle}>Plain</div>
       <div id="CounterPlain" style={blockStyle}>
         <Textarea value={TEXT_SAMPLE} width={400} counterCharsLength={700} showCharsCounter={true} />
@@ -274,7 +274,7 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
   );
 };
 TextareaWithCounters.story = {
-  name: 'Textarea with max length counter',
+  name: 'Textarea with chars length counter',
   parameters: {
     creevey: {
       tests: {
@@ -299,7 +299,7 @@ TextareaWithCounters.story = {
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('FocusAutoresize');
         },
-        async FocusWithHelp() {
+        async FocusWithHelpClosed() {
           await this.browser
             .actions({
               bridge: true,
@@ -307,12 +307,19 @@ TextareaWithCounters.story = {
             .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelp');
-
+        },
+        async FocusWithHelpOpened() {
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="TextareaCounterHelp"]' }))
+            .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TextareaCounterHelp"]' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelpOpened');
         },

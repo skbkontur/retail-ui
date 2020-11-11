@@ -12,7 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 
-import { getTextareaCounterBottom, getTextAreaHeight } from './TextareaHelpers';
+import { getTextareaCounterBottom, getTextAreaHeight, getTextareaPaddingBottom } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
 import { TextareaCounter } from './TextareaCounter';
 import { TextareaCounterHelpProps } from './TextareaCounterHelp';
@@ -173,7 +173,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  // private textareaObserver = new MutationObserver(this.resizeTextArea);
+  private textareaObserver = new MutationObserver(this.resizeTextArea);
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -182,7 +182,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
 
     if (this.node && this.props.showCharsCounter) {
-      // this.textareaObserver.observe(this.node, { attributes: true });
+      this.textareaObserver.observe(this.node, { attributes: true });
       this.resizeTextArea();
     }
   }
@@ -276,8 +276,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const { isFocused, textareaWidth } = this.state;
 
-    const { textareaPaddingY, textareaCounterHeight } = this.theme;
-
     const rootProps = {
       style: {
         width,
@@ -290,13 +288,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       [jsStyles.warning(this.theme)]: !!warning,
     });
 
-    const textareaPaddingBottom = showCharsCounter
-      ? parseInt(textareaPaddingY, 10) + parseInt(textareaCounterHeight, 10)
-      : textareaPaddingY;
-
     const textAreaStyle = {
       resize: autoResize ? 'none' : resize,
-      paddingBottom: textareaPaddingBottom,
+      paddingBottom: showCharsCounter ? getTextareaPaddingBottom(this.theme) : this.theme.textareaPaddingY,
     };
 
     let placeholderPolyfill = null;
@@ -344,9 +338,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               onFocus={this.handleFocus}
               onKeyDown={this.handleKeyDown}
             />
-            {textareaCounter}
           </ResizeDetector>
           {fakeTextarea}
+          {textareaCounter}
         </label>
       </RenderLayer>
     );
