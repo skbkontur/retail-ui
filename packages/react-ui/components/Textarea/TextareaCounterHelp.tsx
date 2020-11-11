@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useContext } from 'react';
 import { HelpDot } from '@skbkontur/react-icons';
-import { TooltipPosition } from 'react-ui-validations/src';
 
+import { PopupPosition as TooltipPosition } from '../../internal/Popup';
 import { ThemeContext, Tooltip } from '../..';
 
 import { jsStyles } from './Textarea.styles';
