@@ -237,6 +237,7 @@ SelectAllByButton.story = {
 export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
   const blockStyle = {
     padding: 5,
+    width: '100%',
   };
 
   const headingStyle = {
