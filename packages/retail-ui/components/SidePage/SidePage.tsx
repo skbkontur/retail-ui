@@ -1,11 +1,11 @@
 import classNames from 'classnames';
-import { EventSubscription } from 'fbemitter';
 import * as React from 'react';
 
 import LayoutEvents from '../../lib/LayoutEvents';
 import stopPropagation from '../../lib/events/stopPropagation';
 import HideBodyVerticalScroll from '../HideBodyVerticalScroll/HideBodyVerticalScroll';
 import ModalStack from '../ModalStack';
+import { ModalStackSubscription } from '../ModalStack/ModalStack';
 import RenderContainer from '../RenderContainer/RenderContainer';
 import RenderLayer from '../RenderLayer';
 import ZIndex from '../ZIndex';
@@ -92,7 +92,7 @@ class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public state: SidePageState = {};
 
-  private stackSubscription: EventSubscription | null = null;
+  private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
 
