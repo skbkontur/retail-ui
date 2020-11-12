@@ -91,6 +91,7 @@ export interface ComboBoxProps<T> {
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
+   * Если есть renderAddButton - не работает
    */
   renderNotFound?: () => React.ReactNode;
 

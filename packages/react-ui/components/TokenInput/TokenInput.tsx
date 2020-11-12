@@ -46,6 +46,14 @@ export interface TokenInputProps<T> {
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
+
+  /**
+   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
+   * По умолчанию ожидаются строки.
+   *
+   * Элементы могут быть любого типа. В этом случае необходимо определить
+   * свойства `renderItem`, `valueToString`
+   */
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
@@ -59,7 +67,7 @@ export interface TokenInputProps<T> {
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
-  delimiters?: string[];
+  delimiters: string[];
   error?: boolean;
   warning?: boolean;
   disabled?: boolean;
@@ -128,6 +136,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   public static defaultProps: Partial<TokenInputProps<any>> = {
     selectedItems: [],
+    delimiters: [',', ' '],
     renderItem: identity,
     renderValue: identity,
     valueToString: identity,
@@ -343,10 +352,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return this.props.type ? this.props.type : TokenInputType.WithReference;
   }
 
-  private get delimiters() {
-    return this.props.delimiters ? this.props.delimiters : [',', ' '];
-  }
-
   private get menuRef(): Menu | null {
     return this.tokensInputMenu && this.tokensInputMenu.getMenuRef();
   }
@@ -448,7 +453,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       .sort()
       .map(index => this.props.selectedItems[index])
       .map(item => this.props.valueToString(item));
-    event.clipboardData.setData('text/plain', tokens.join(this.delimiters[0]));
+    event.clipboardData.setData('text/plain', tokens.join(this.props.delimiters[0]));
   };
 
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
@@ -456,7 +461,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
     let paste = event.clipboardData.getData('text');
-    const delimiters = this.delimiters;
+    const { delimiters } = this.props;
     if (delimiters.some(delimiter => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
@@ -515,7 +520,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && this.delimiters.includes(e.key)) {
+    if (this.type !== TokenInputType.WithReference && this.props.delimiters.includes(e.key)) {
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {
