@@ -234,8 +234,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const inputInlineStyles: React.CSSProperties = {
       // вычисляем ширину чтобы input автоматически перенёсся на следующую строку при необходимости
-      // минимальная ширина 2px для видимости каретки
-      width: Math.max(2, inputValueWidth),
+      width: inputValueWidth,
       height: Math.max(lineHeight, inputValueHeight),
       // input растягивается на всю ширину чтобы placeholder не обрезался
       flex: selectedItems && selectedItems.length === 0 ? 1 : undefined,
@@ -377,8 +376,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.textHelper) {
       // в IE текст иногда не помещается в input
       // из-за округления, поэтому округляем явно
-      const inputValueWidth = this.textHelper.getTextWidth().toFixed(2);
-      const inputValueHeight = this.textHelper.getTextHeight().toFixed(2);
+      const inputValueWidth = parseFloat(this.textHelper.getTextWidth().toFixed(2));
+      const inputValueHeight = parseFloat(this.textHelper.getTextHeight().toFixed(2));
 
       this.dispatch({ type: 'SET_INPUT_VALUE_WIDTH', payload: inputValueWidth }, LayoutEvents.emit);
       this.dispatch({ type: 'SET_INPUT_VALUE_HEIGHT', payload: inputValueHeight }, LayoutEvents.emit);
