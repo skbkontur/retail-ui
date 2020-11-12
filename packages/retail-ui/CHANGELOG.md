@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.13](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.12...retail-ui@0.53.13) (2020-11-12)
+
+
+### Bug Fixes
+
+* **ModalStack:** add fallback for `eventemitter3` from latest versions ([5342aa3](https://github.com/skbkontur/retail-ui/commit/5342aa3)), closes [#2197](https://github.com/skbkontur/retail-ui/issues/2197)
+
+
+
+
+
 ## [0.53.12](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.11...retail-ui@0.53.12) (2020-08-31)
 
 
