@@ -6,6 +6,7 @@ const styles = {
     return css`
       background: ${t.toastBg};
       border-radius: ${t.toastBorderRadius};
+      border: ${t.toastBorder};
       color: ${t.toastColor};
       display: inline-block;
       font-size: ${t.toastFontSize};

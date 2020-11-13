@@ -747,6 +747,7 @@ export class DefaultTheme {
   public static toastPaddingY = '10px';
   public static toastPaddingX = '20px'; //hack for bottom padding
   public static toastBorderRadius = '2px';
+  public static toastBorder = 'none';
   public static toastTop = '20px';
   public static toastCloseBtnPadding = '10px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
