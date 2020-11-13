@@ -7,7 +7,7 @@ const styles = {
       color: ${t.menuHeaderColor};
       cursor: default;
       font-size: ${t.menuHeaderFontSize};
-      padding: ${t.menuHeaderPaddingTopY} ${t.menuHeaderPaddingX} ${t.menuHeaderPaddingBottomY};
+      padding: ${t.menuHeaderPaddingTop} ${t.menuHeaderPaddingX} ${t.menuHeaderPaddingBottom};
     `;
   },
 

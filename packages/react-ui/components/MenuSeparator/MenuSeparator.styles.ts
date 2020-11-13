@@ -4,7 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 const styles = {
   root(t: Theme) {
     return css`
-      margin: ${t.menuSeparatorPadding} 0;
+      margin: ${t.menuSeparatorMarginY} 0;
       border-top: ${t.menuSeparatorBorderWidth} solid ${t.menuSeparatorBorderColor};
     `;
   },

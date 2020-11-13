@@ -746,16 +746,26 @@ export class DefaultTheme {
   public static logoColor = '#000';
   public static logoHoverColor = '#000';
   //#endregion
+  //#region Dropdown
+  public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
+  public static get dropdownMenuHoverBg() //deprecated
+  {
+    return this.bgActive;
+  }
+  //#endregion
   //#region Menu
   public static get menuBgDefault() {
     return this.bgDefault;
   }
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
+  public static menuMarginY = '5px';
   // menuItem
-  public static menuItemSelectedBg = '#f1f1f1';
+  public static get menuItemSelectedBg() {
+    return this.dropdownMenuSelectedBg;
+  }
   public static get menuItemHoverBg() {
-    return this.bgActive;
+    return this.dropdownMenuHoverBg;
   }
   public static menuItemPaddingForIcon = '36px';
   public static menuItemPaddingIcon = '5px';
@@ -781,11 +791,11 @@ export class DefaultTheme {
   public static menuHeaderLineHeight = '18px';
   public static menuHeaderFontSize = '12px';
   public static menuHeaderPaddingX = '18px';
-  public static menuHeaderPaddingTopY = '6px ';
-  public static menuHeaderPaddingBottomY = '7px 8px'; //hack for don't crash screenshots
+  public static menuHeaderPaddingTop = '6px ';
+  public static menuHeaderPaddingBottom = '7px 8px'; //hack for don't crash screenshots
   //menuSeparator
   public static menuSeparatorBorderColor = '#e6e6e6';
-  public static menuSeparatorPadding = '5px';
+  public static menuSeparatorMarginY = '5px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
