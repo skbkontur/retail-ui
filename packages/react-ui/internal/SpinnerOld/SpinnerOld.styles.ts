@@ -21,13 +21,12 @@ const styles = {
       stroke-dashoffset: 15;
       stroke: ${t.spinnerColor};
 
-      ${!isIE11
-        ? `
+      ${!isIE11 &&
+        `
         animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
           ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
           ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
-        `
-        : ``}
+        `}
     `;
   },
   cloudDimmed(t: Theme) {
@@ -36,39 +35,36 @@ const styles = {
       stroke-dashoffset: 15;
       stroke: ${t.spinnerOldDimmedColor};
 
-      ${!isIE11
-        ? `
+      ${!isIE11 &&
+        `
         animation: ${AnimationKeyframes.spinnerCloudOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
           ${AnimationKeyframes.spinnerCloudLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite;
-        `
-        : ``}
+        `}
     `;
   },
   circle(t: Theme) {
     return css`
       stroke: ${t.spinnerOldColor};
 
-      ${!isIE11
-        ? `
+      ${!isIE11 &&
+        `
         animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
           ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
           ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite,
           ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
-        `
-        : ``}
+        `}
     `;
   },
   circleDimmed(t: Theme) {
     return css`
       stroke: ${t.spinnerOldDimmedColor};
 
-      ${!isIE11
-        ? `
+      ${!isIE11 &&
+        `
         animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
           ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
           ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite;
-        `
-        : ``}
+        `}
     `;
   },
 
