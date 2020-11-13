@@ -759,7 +759,7 @@ export class DefaultTheme {
   }
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
-  public static menuMarginY = '5px';
+  public static menuPaddingY = '5px';
   // menuItem
   public static get menuItemSelectedBg() {
     return this.dropdownMenuSelectedBg;

@@ -7,7 +7,7 @@ const styles = {
       background: ${t.menuBgDefault};
       box-sizing: content-box;
       overflow: auto;
-      margin: ${t.menuMarginY} 0;
+      padding: ${t.menuPaddingY} 0;
     `;
   },
 
