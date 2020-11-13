@@ -2,6 +2,7 @@ import React from 'react';
 import { StoryFn } from '@storybook/addons';
 import { CSFStory } from 'creevey';
 
+import { OkIcon } from '../../../internal/icons/16px';
 import { Menu } from '../Menu';
 import { MenuItem } from '../../../components/MenuItem';
 import { MenuHeader } from '../../../components/MenuHeader';
@@ -27,6 +28,14 @@ export const WithItems = () => (
   </Menu>
 );
 WithItems.story = { name: 'with Items' };
+
+export const WithItemsWithIcons = () => (
+  <Menu>
+    <MenuItem icon={<OkIcon />}>MenuItem1</MenuItem>
+    <MenuItem icon={<OkIcon />}>MenuItem2</MenuItem>
+    <MenuItem>MenuItem3</MenuItem>
+  </Menu>
+);
 
 export const WithHeader = () => (
   <Menu>
