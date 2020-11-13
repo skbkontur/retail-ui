@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Theme } from '../../lib/theming/Theme';
+
 import { jsStyles } from './TokenInput.styles';
 
 // a thin character to preserve some space
