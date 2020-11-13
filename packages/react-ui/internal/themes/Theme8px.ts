@@ -454,6 +454,23 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region Menu
+  public static get menuItemLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static menuItemPaddingX = '8px';
+  public static get menuItemPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+  public static menuItemPaddingForIcon = '36px';
+  public static menuHeaderLineHeight = '16px';
+  public static menuHeaderPaddingX = '8px';
+  public static menuHeaderPaddingTopY = '12px ';
+  public static menuHeaderPaddingBottomY = '6px';
+  public static menuSeparatorPadding = '2px';
+  public static menuSeparatorBorderWidth = '1px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
