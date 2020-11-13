@@ -11,9 +11,7 @@ import { SpinnerOldCloudIcon } from './SpinnerOldCloudIcon';
 import { jsStyles } from './SpinnerOld.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
-export const types: {
-  [key: string]: SpinnerOldType;
-} = {
+const types: Record<SpinnerOldType, SpinnerOldType> = {
   big: 'big',
   mini: 'mini',
   normal: 'normal',

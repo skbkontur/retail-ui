@@ -12,9 +12,7 @@ import { SpinnerOld } from '../../internal/SpinnerOld';
 import { jsStyles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
-export const types: {
-  [key: string]: SpinnerType;
-} = {
+const types: Record<SpinnerType, SpinnerType> = {
   big: 'big',
   mini: 'mini',
   normal: 'normal',
