@@ -81,16 +81,17 @@ const styles = {
   close(t: Theme) {
     const iconSize = 14;
     const margin = 0;
-    const paddingTop = parseInt(t.modalCloseBtnPadding);
+    const padding = parseInt(t.modalCloseBtnPadding);
     const paddingBottom = 20;
-    const blockSize = iconSize + paddingTop + paddingBottom;
+    const blockSizeX = iconSize + padding * 2;
+    const blockSizeY = iconSize + padding + paddingBottom;
     return css`
       ${resetButton()};
       position: absolute;
       right: ${margin}px;
       top: ${margin}px;
-      width: ${blockSize}px;
-      height: ${blockSize}px;
+      width: ${blockSizeX}px;
+      height: ${blockSizeY}px;
       background: none;
       background: transparent;
       cursor: pointer;
@@ -106,7 +107,7 @@ const styles = {
       & > svg {
         width: ${iconSize}px;
         height: ${iconSize}px;
-        padding: ${paddingTop}px ${paddingTop}px ${paddingBottom}px ${paddingBottom}px;
+        padding: ${padding}px ${padding}px ${paddingBottom}px ${padding}px;
       }
     `;
   },
@@ -150,7 +151,7 @@ const styles = {
 
   header(t: Theme) {
     const iconSize = 14;
-    const rightPadding = parseInt(t.modalCloseBtnPadding) + iconSize + parseInt(t.modalHeaderPaddingRight);
+    const rightPadding = parseInt(t.modalCloseBtnPadding) * 2 + iconSize;
     return css`
       font-size: ${t.modalHeaderFontSize};
       line-height: ${t.modalHeaderLineHeight};

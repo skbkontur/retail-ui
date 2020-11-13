@@ -469,7 +469,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static modalBodyPaddingBottom = '24px';
   public static modalFooterPaddingBottom = '32px';
   public static modalBodyPanelPaddingBottom = '40px';
-  public static modalHeaderPaddingRight = '60px';
   //#endregion
 }
 
