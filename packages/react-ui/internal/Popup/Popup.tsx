@@ -79,11 +79,11 @@ export interface PopupProps extends PopupHandlerProps {
   hasPin: boolean;
   hasShadow: boolean;
   disableAnimations: boolean;
-  margin: number;
+  margin?: number;
   maxWidth?: number | string;
   opened: boolean;
-  pinOffset: number;
-  pinSize: number;
+  pinOffset?: number;
+  pinSize?: number;
   popupOffset: number;
   positions: PopupPosition[];
   useWrapper: boolean;
@@ -168,10 +168,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   public static defaultProps = {
-    margin: 10,
     popupOffset: 0,
-    pinSize: 8,
-    pinOffset: 16,
     hasPin: false,
     hasShadow: false,
     disableAnimations: isTestEnv,
@@ -413,15 +410,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
-    const { pinSize, pinOffset, hasShadow, backgroundColor, borderColor } = this.props;
+    const { pinSize, hasShadow, backgroundColor, borderColor, pinOffset } = this.props;
 
     return (
       this.props.hasPin && (
         <PopupPin
           popupElement={this.lastPopupElement}
           popupPosition={position}
-          size={pinSize}
-          offset={pinOffset}
+          size={pinSize || parseInt(this.theme.popupPinSize)}
+          offset={pinOffset || parseInt(this.theme.popupPinOffset)}
           borderWidth={hasShadow ? 1 : 0}
           backgroundColor={backgroundColor || this.theme.popupBackground}
           borderColor={borderColor || pinBorder}
@@ -528,12 +525,17 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const anchorSize = /top|bottom/.test(position.direction) ? anchorRect.width : anchorRect.height;
 
-    const { pinOffset, pinSize } = this.props;
-    return Math.max(0, pinOffset + pinSize - anchorSize / 2);
+    const { pinSize, pinOffset } = this.props;
+    return Math.max(
+      0,
+      (pinOffset || parseInt(this.theme.popupPinOffset)) +
+        (pinSize || parseInt(this.theme.popupPinSize)) -
+        anchorSize / 2,
+    );
   }
 
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
-    const margin = this.props.margin;
+    const margin = this.props.margin || parseInt(this.theme.popupMargin);
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 

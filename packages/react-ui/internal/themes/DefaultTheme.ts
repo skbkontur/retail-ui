@@ -805,6 +805,9 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
+  public static popupPinOffset = '16px';
+  public static popupMargin = '10px';
+  public static popupPinSize = '8px';
   //#endregion
   //#region Input
   public static inputTextColor = 'none';
