@@ -276,6 +276,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
             })}
             text={inputValue}
+            theme={this.theme}
           />
           {this.renderTokensStart()}
           <textarea

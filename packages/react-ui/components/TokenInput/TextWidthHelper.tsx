@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './TokenInput.styles';
 
 // a thin character to preserve some space
@@ -9,6 +10,7 @@ const THIN_SPACE = '\u2009';
 export interface TextWidthHelperProps {
   text?: string;
   classHelp: string;
+  theme: Theme;
 }
 /**
  * Херпер позволяет вычислить размеры блока с текстом
@@ -19,7 +21,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
 
   public render() {
     return (
-      <div className={jsStyles.helperContainer()}>
+      <div className={jsStyles.helperContainer(this.props.theme)}>
         <div className={this.props.classHelp} ref={this.elementRef}>
           {this.props.text || THIN_SPACE}
         </div>

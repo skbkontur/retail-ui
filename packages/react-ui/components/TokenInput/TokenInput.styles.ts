@@ -15,6 +15,7 @@ const styles = {
       flex-wrap: wrap;
       align-items: start;
       outline: none;
+      position: relative;
     `;
   },
 
@@ -67,6 +68,7 @@ const styles = {
       transition: background-color 0.15s ease-in;
       color: ${t.tokenInputTextColor};
       box-sizing: border-box;
+      word-break: break-all;
 
       ${styles.inputAndHelperCommonStyles(t)};
 
@@ -91,19 +93,26 @@ const styles = {
     `;
   },
 
-  helperContainer() {
+  helperContainer(t: Theme) {
     return css`
-      position: relative;
-      width: 100%;
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
+      visibility: hidden;
     `;
   },
 
   helperText(t: Theme) {
     return css`
-      position: absolute;
-      top: -100000px;
       max-width: 100%;
-      word-break: break-word;
+      word-break: break-all;
+
+      // don't collapse spaces
+      // so they get counted in width
+      white-space: pre-wrap;
 
       ${styles.inputAndHelperCommonStyles(t)}
     `;
@@ -160,8 +169,7 @@ const styles = {
       margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
       padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
       color: ${t.tokenInputTextColorDisabled};
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      word-break: break-all;
     `;
   },
 };
