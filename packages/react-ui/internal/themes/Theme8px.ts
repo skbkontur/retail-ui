@@ -454,6 +454,15 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region TooltipMenu
+  public static get tooltipMenuPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static get tooltipMenuMargin() {
+    return this.popupMargin;
+  }
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));

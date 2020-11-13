@@ -657,6 +657,10 @@ export class DefaultTheme {
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   //#endregion
+  //#region TooltipMenu
+  public static tooltipMenuPinOffset = '15px';
+  public static tooltipMenuMargin = '10px';
+  //#endregion
   //#region Modal
   public static modalBackBg = '#333';
   public static modalBackOpacity = '0.6';
