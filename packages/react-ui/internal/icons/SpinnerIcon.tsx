@@ -42,7 +42,7 @@ export const SpinnerIcon = ({ size, className, dimmed }: SpinnerIconProps) => {
   const currentSize = sizes[size];
   const svgRef = React.useRef<SVGSVGElement>(null);
   const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
-  const theme = React.useContext(ThemeContext);
+  const { red, yellow, green, brand } = React.useContext(ThemeContext);
 
   React.useEffect(() => {
     if (isIE11 && !isTestEnv) {
@@ -52,8 +52,6 @@ export const SpinnerIcon = ({ size, className, dimmed }: SpinnerIconProps) => {
           svg.style.setProperty(...args);
         }
       };
-
-      const { red, yellow, green, brand } = theme;
 
       fallbackAnimationRef.current = new SpinnerFallbackAnimationRunner(
         [
@@ -76,7 +74,7 @@ export const SpinnerIcon = ({ size, className, dimmed }: SpinnerIconProps) => {
         }
       };
     }
-  });
+  }, [dimmed, red, yellow, green, brand]);
 
   return (
     <span className={jsStyles.root()}>

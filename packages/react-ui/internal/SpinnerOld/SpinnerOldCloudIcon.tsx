@@ -34,7 +34,7 @@ export interface SpinnerOldCloudIconProps {
 export const SpinnerOldCloudIcon = ({ size, strokeClassName, className, dimmed }: SpinnerOldCloudIconProps) => {
   const pathRef = React.useRef<SVGPathElement>(null);
   const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
-  const theme = React.useContext(ThemeContext);
+  const { red, yellow, green, brand } = React.useContext(ThemeContext);
 
   React.useEffect(() => {
     if (isIE11 && !isTestEnv) {
@@ -44,8 +44,6 @@ export const SpinnerOldCloudIcon = ({ size, strokeClassName, className, dimmed }
           path.style.setProperty(...args);
         }
       };
-
-      const { red, yellow, green, brand } = theme;
 
       fallbackAnimationRef.current = new SpinnerFallbackAnimationRunner(
         [
@@ -67,7 +65,7 @@ export const SpinnerOldCloudIcon = ({ size, strokeClassName, className, dimmed }
         }
       };
     }
-  });
+  }, [dimmed, red, yellow, green, brand]);
 
   const multiply = size === 'big' ? 2 : 1;
   return (
