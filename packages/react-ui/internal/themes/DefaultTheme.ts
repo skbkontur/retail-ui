@@ -785,6 +785,13 @@ export class DefaultTheme {
   }
   public static menuItemCommentColor = '#a0a0a0';
   public static menuItemCommentColorHover = '#fff';
+  //menuHeader
+  public static menuHeaderColor = '#a0a0a0';
+  public static menuHeaderLineHeight = '18px';
+  public static menuHeaderFontSize = '12px';
+  public static menuHeaderPaddingX = '8px';
+  public static menuHeaderPaddingTopY = '6px';
+  public static menuHeaderPaddingBottomY = '7px';
   //#endregion
   //#region Toggle
   public static toggleHandleActiveWidthIncrement = '4px';

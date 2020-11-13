@@ -2,12 +2,12 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  root() {
+  root(t: Theme) {
     return css`
-      color: #a0a0a0;
+      color: ${t.menuHeaderColor};
       cursor: default;
-      font-size: 12px;
-      padding: 6px 18px 7px 8px;
+      font-size: ${t.menuHeaderFontSize};
+      padding: ${t.menuHeaderPaddingTopY} ${t.menuHeaderPaddingX} ${t.menuHeaderPaddingBottomY};
     `;
   },
 

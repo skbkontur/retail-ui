@@ -19,7 +19,7 @@ function MenuHeader({ _enableIconPadding = false, children }: MenuHeaderProps) {
   return (
     <div
       className={cn({
-        [jsStyles.root()]: true,
+        [jsStyles.root(theme)]: true,
         [jsStyles.withLeftPadding(theme)]: _enableIconPadding,
       })}
     >
