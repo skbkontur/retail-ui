@@ -3,14 +3,15 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
 const styles = {
-  root() {
+  root(t: Theme) {
     return css`
       ${resetButton()};
 
       cursor: pointer;
       display: block;
-      line-height: 18px;
-      padding: 6px 18px 7px 8px;
+      line-height: ${t.menuItemLineHeight};
+      font-size: ${t.menuItemFontSize};
+      padding: ${t.menuItemPaddingY} ${t.menuItemPaddingX};
       position: relative;
       text-decoration: none;
 
@@ -22,25 +23,25 @@ const styles = {
   hover(t: Theme) {
     // Color with !important in purpose to override `a:hover`
     return css`
-      background: ${t.dropdownMenuHoverBg};
-      color: ${t.textColorInvert} !important;
+      background: ${t.menuItemHoverBg};
+      color: ${t.menuItemTextColorInvert} !important;
     `;
   },
   selected(t: Theme) {
     return css`
-      background: ${t.dropdownMenuSelectedBg};
+      background: ${t.menuItemSelectedBg};
     `;
   },
   disabled(t: Theme) {
     return css`
       background: transparent;
-      color: ${t.textColorDisabled};
+      color: ${t.menuItemTextColorDisabled};
       cursor: default;
     `;
   },
   link(t: Theme) {
     return css`
-      color: ${t.linkColor};
+      color: ${t.menuItemLinkColor};
     `;
   },
   loose() {
@@ -55,24 +56,24 @@ const styles = {
       }
     `;
   },
-  comment() {
+  comment(t: Theme) {
     return css`
-      color: #a0a0a0;
+      color: ${t.menuItemCommentColor};
       white-space: normal;
     `;
   },
-  commentHover() {
+  commentHover(t: Theme) {
     return css`
-      color: #fff;
+      color: ${t.menuItemCommentColorHover};
       opacity: 0.6;
     `;
   },
-  icon() {
+  icon(t: Theme) {
     return css`
       display: inline-block;
       position: absolute;
-      left: 15px;
-      top: 5px;
+      left: ${parseInt(t.menuItemPaddingForIcon) - 16 - parseInt(t.menuItemPaddingIcon)}px;
+      top: ${t.menuItemPaddingY};
     `;
   },
 };

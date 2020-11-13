@@ -759,6 +759,32 @@ export class DefaultTheme {
   public static menuItemPaddingForIcon = '36px';
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
+  // menuItem
+  public static menuItemSelectedBg = '#f1f1f1';
+  public static get menuItemHoverBg() {
+    return this.bgActive;
+  }
+  public static menuItemPaddingForIcon = '36px';
+  public static menuItemPaddingIcon = '5px';
+  public static menuItemLineHeight = '18px';
+  public static get menuItemFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static menuItemPaddingX = '8px';
+  public static get menuItemPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+  public static get menuItemTextColorInvert() {
+    return this.textColorInvert;
+  }
+  public static get menuItemTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get menuItemLinkColor() {
+    return this.linkColor;
+  }
+  public static menuItemCommentColor = '#a0a0a0';
+  public static menuItemCommentColorHover = '#fff';
   //#endregion
   //#region Toggle
   public static toggleHandleActiveWidthIncrement = '4px';
