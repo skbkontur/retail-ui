@@ -111,12 +111,6 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
   //#endregion
-  //#region Dropdown
-  public static dropdownMenuSelectedBg = '#f1f1f1';
-  public static get dropdownMenuHoverBg() {
-    return this.bgActive;
-  }
-  //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
   public static get tokenTextColorDisabled() {
@@ -736,9 +730,6 @@ export class DefaultTheme {
     return this.linkDisabledColor;
   }
   //#endregion
-  //#region Menu
-  public static menuSeparatorBorderColor = '#e6e6e6';
-  //#endregion
   //#region Toast
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
@@ -756,7 +747,9 @@ export class DefaultTheme {
   public static logoHoverColor = '#000';
   //#endregion
   //#region Menu
-  public static menuItemPaddingForIcon = '36px';
+  public static get menuBgDefault() {
+    return this.bgDefault;
+  }
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
   // menuItem

@@ -4,7 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 const styles = {
   root(t: Theme) {
     return css`
-      background: ${t.bgDefault};
+      background: ${t.menuBgDefault};
       box-sizing: content-box;
       overflow: auto;
       padding: 5px 0;
