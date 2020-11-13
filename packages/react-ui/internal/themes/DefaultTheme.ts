@@ -792,6 +792,10 @@ export class DefaultTheme {
   public static menuHeaderPaddingX = '8px';
   public static menuHeaderPaddingTopY = '6px';
   public static menuHeaderPaddingBottomY = '7px';
+  //menuSeparator
+  public static menuSeparatorBorderColor = '#e6e6e6';
+  public static menuSeparatorPadding = '5px';
+  public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
   public static toggleHandleActiveWidthIncrement = '4px';
