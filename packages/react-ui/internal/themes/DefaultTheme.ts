@@ -661,6 +661,14 @@ export class DefaultTheme {
   public static tooltipMenuPinOffset = '15px';
   public static tooltipMenuMargin = '10px';
   //#endregion
+  //#region Kebab
+  public static kebabPinOffset = '15px';
+  public static kebabMargin = '5px';
+  public static kebabBackground = 'inherit';
+  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
+  public static kebabBorderRadius = '50%';
+  public static kebabBorder = '2px solid transparent';
+  //#endregion
   //#region Modal
   public static modalBackBg = '#333';
   public static modalBackOpacity = '0.6';

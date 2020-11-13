@@ -463,6 +463,14 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.popupMargin;
   }
   //#endregion
+  //#region Kebab
+  public static get kebabPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static get kebabMargin() {
+    return this.popupMargin;
+  }
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
