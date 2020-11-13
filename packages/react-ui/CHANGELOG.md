@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.7.0...@skbkontur/react-ui@2.8.0) (2020-11-09)
+
+
+### Bug Fixes
+
+* **Input:** allow to scroll and select text while disabled ([63f5176](https://github.com/skbkontur/retail-ui/commit/63f5176c0804758f5acdd8d21c1d9c5d1eb17250)), closes [#2192](https://github.com/skbkontur/retail-ui/issues/2192) [#2054](https://github.com/skbkontur/retail-ui/issues/2054)
+* **ModalStack:** add fallback for `fbemitter` from old versions ([c1ece9c](https://github.com/skbkontur/retail-ui/commit/c1ece9ce279a113c82fa325a3001d0067db18436))
+* **ScrollContainer:** don't hide horizontal scrollbars ([d8f734f](https://github.com/skbkontur/retail-ui/commit/d8f734fe7e050b929c76d5ecd4ef636cc6c3ed3e)), closes [#2190](https://github.com/skbkontur/retail-ui/issues/2190)
+* **ScrollContainer:** fix scroll state calculation ([4eb0142](https://github.com/skbkontur/retail-ui/commit/4eb0142844ca9145da1aae4c5a9a1b3cd5045310)), closes [#2190](https://github.com/skbkontur/retail-ui/issues/2190)
+* **Textarea:** fix placeholder's color for FF ([9eb31d5](https://github.com/skbkontur/retail-ui/commit/9eb31d58105a475ec0ecac28c24181d4526d730b)), closes [#2186](https://github.com/skbkontur/retail-ui/issues/2186)
+* **TokenInput:** deselect active tokens after edit ([c40f067](https://github.com/skbkontur/retail-ui/commit/c40f06748590f5cb208e139811ff525295c800c4)), closes [#1879](https://github.com/skbkontur/retail-ui/issues/1879)
+* **TokenInput:** refresh items after paste from clipboard ([fcf09c6](https://github.com/skbkontur/retail-ui/commit/fcf09c6000da720a3f585b288edc8157a92d8de7))
+* **TokenInput:** select first item ([2ff4df2](https://github.com/skbkontur/retail-ui/commit/2ff4df23ecfb20601a674b11f3c324aa1fa87d01)), closes [#1878](https://github.com/skbkontur/retail-ui/issues/1878) [#1187](https://github.com/skbkontur/retail-ui/issues/1187)
+
+
+### Features
+
+* **DateInput:** add prop `autoFocus` ([2960ab9](https://github.com/skbkontur/retail-ui/commit/2960ab9af4fc2519e15caf5782418999efcb9270))
+
+
+
+
+
 # [2.7.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.6.0...@skbkontur/react-ui@2.7.0) (2020-10-29)
 
 
