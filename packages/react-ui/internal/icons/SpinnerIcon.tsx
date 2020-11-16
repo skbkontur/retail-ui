@@ -41,11 +41,18 @@ export const sizes = {
 export const SpinnerIcon = ({ size, className, dimmed }: SpinnerIconProps) => {
   const currentSize = sizes[size];
   const svgRef = React.useRef<SVGSVGElement>(null);
-  const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
-  const { red, yellow, green, brand } = React.useContext(ThemeContext);
 
-  React.useEffect(() => {
-    if (isIE11 && !isTestEnv) {
+  if (isIE11 && !isTestEnv) {
+    // This condition will not change during app's life time
+    // So its OK to use hooks here
+    // https://reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { red, yellow, green, brand } = React.useContext(ThemeContext);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    React.useEffect(() => {
       const setStyleProperty: CSSStyleDeclaration['setProperty'] = (...args) => {
         const svg = svgRef.current;
         if (svg) {
@@ -73,8 +80,8 @@ export const SpinnerIcon = ({ size, className, dimmed }: SpinnerIconProps) => {
           svg.removeAttribute('style');
         }
       };
-    }
-  }, [dimmed, red, yellow, green, brand]);
+    }, [dimmed, red, yellow, green, brand]);
+  }
 
   return (
     <span className={jsStyles.root()}>

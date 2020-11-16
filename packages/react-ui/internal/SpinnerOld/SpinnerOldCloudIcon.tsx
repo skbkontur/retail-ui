@@ -33,39 +33,48 @@ export interface SpinnerOldCloudIconProps {
 
 export const SpinnerOldCloudIcon = ({ size, strokeClassName, className, dimmed }: SpinnerOldCloudIconProps) => {
   const pathRef = React.useRef<SVGPathElement>(null);
-  const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
-  const { red, yellow, green, brand } = React.useContext(ThemeContext);
 
-  React.useEffect(() => {
-    if (isIE11 && !isTestEnv) {
-      const setStyleProperty: CSSStyleDeclaration['setProperty'] = (...args) => {
-        const path = pathRef.current;
-        if (path) {
-          path.style.setProperty(...args);
-        }
-      };
+  if (isIE11 && !isTestEnv) {
+    // This condition will not change during app's life time
+    // So its OK to use hooks here
+    // https://reactjs.org/docs/hooks-rules.html#only-call-hooks-at-the-top-level
 
-      fallbackAnimationRef.current = new SpinnerFallbackAnimationRunner(
-        [
-          createOffsetAnimation(10, 116, 1000, setStyleProperty),
-          createLengthAnimation([10, 96], [50, 56], 2000, setStyleProperty),
-          ...(dimmed ? [] : [createColorAnimation([red, yellow, green, brand], 1500, setStyleProperty)]),
-        ],
-        1000 / 60,
-      );
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const fallbackAnimationRef = React.useRef<SpinnerFallbackAnimationRunner | null>(null);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { red, yellow, green, brand } = React.useContext(ThemeContext);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    React.useEffect(() => {
+      if (isIE11 && !isTestEnv) {
+        const setStyleProperty: CSSStyleDeclaration['setProperty'] = (...args) => {
+          const path = pathRef.current;
+          if (path) {
+            path.style.setProperty(...args);
+          }
+        };
 
-      return () => {
-        const fallbackAnimation = fallbackAnimationRef.current;
-        const path = pathRef.current;
-        if (fallbackAnimation) {
-          fallbackAnimation.stop();
-        }
-        if (path) {
-          path.removeAttribute('style');
-        }
-      };
-    }
-  }, [dimmed, red, yellow, green, brand]);
+        fallbackAnimationRef.current = new SpinnerFallbackAnimationRunner(
+          [
+            createOffsetAnimation(10, 116, 1000, setStyleProperty),
+            createLengthAnimation([10, 96], [50, 56], 2000, setStyleProperty),
+            ...(dimmed ? [] : [createColorAnimation([red, yellow, green, brand], 1500, setStyleProperty)]),
+          ],
+          1000 / 60,
+        );
+
+        return () => {
+          const fallbackAnimation = fallbackAnimationRef.current;
+          const path = pathRef.current;
+          if (fallbackAnimation) {
+            fallbackAnimation.stop();
+          }
+          if (path) {
+            path.removeAttribute('style');
+          }
+        };
+      }
+    }, [dimmed, red, yellow, green, brand]);
+  }
 
   const multiply = size === 'big' ? 2 : 1;
   return (
