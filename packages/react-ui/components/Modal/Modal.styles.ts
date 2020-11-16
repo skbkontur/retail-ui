@@ -240,7 +240,7 @@ const styles = {
 
   bodyAddPadding(t: Theme) {
     return css`
-      padding-bottom: ${t.modalBodyPanelPaddingBottom};
+      padding-bottom: ${t.modalPaddingBottom};
     `;
   },
 };

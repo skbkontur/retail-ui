@@ -670,7 +670,6 @@ export class DefaultTheme {
   public static modalFooterBg = '#e9e9e9';
   public static modalAdaptiveThreshold = '425px';
   public static modalPaddingTop = '24px';
-  public static modalPaddingBottom = '14px';
   public static modalPaddingLeft = '30px';
   public static modalPaddingRight = '35px';
   public static modalHeaderFontSize = '22px';
@@ -680,7 +679,7 @@ export class DefaultTheme {
   public static modalBodyPaddingBottom = '25px';
   public static modalFooterPaddingTop = '0px';
   public static modalFooterPaddingBottom = '30px';
-  public static modalBodyPanelPaddingBottom = '30px';
+  public static modalPaddingBottom = '30px';
   public static modalFooterPanelPaddingTop = '20px';
   public static modalFooterPanelPaddingBottom = '20px';
   //#endregion

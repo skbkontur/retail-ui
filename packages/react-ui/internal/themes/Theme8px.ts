@@ -457,7 +457,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region Modal
   public static modalCloseBtnPadding = '36px';
-  public static modalPaddingBottom = '24px';
   public static modalPaddingLeft = '32px';
   public static modalPaddingRight = '36px';
   public static modalHeaderFontSize = '24px';
@@ -468,7 +467,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   public static modalBodyPaddingBottom = '24px';
   public static modalFooterPaddingBottom = '32px';
-  public static modalBodyPanelPaddingBottom = '40px';
+  public static modalPaddingBottom = '40px';
   //#endregion
 }
 
