@@ -99,6 +99,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       return;
     }
 
+    this.input?.focus();
     this.handleFocus();
   };
 
