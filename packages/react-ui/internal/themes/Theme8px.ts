@@ -459,6 +459,12 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
   public static tooltipCloseBtnPadding = '8px';
+  public static get tooltipPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static get tooltipMargin() {
+    return this.popupMargin;
+  }
   //#endregion
 }
 

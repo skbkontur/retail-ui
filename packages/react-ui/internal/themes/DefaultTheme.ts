@@ -665,12 +665,8 @@ export class DefaultTheme {
   public static get tooltipBorderRadius() {
     return this.popupBorderRadius;
   }
-  public static get tooltipPinOffset() {
-    return this.popupPinOffset;
-  }
-  public static get tooltipMargin() {
-    return this.popupMargin;
-  }
+  public static tooltipPinOffset = '17px';
+  public static tooltipMargin = '15px';
   //#endregion
   //#region Modal
   public static modalBackBg = '#333';
