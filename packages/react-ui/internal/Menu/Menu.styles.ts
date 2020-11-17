@@ -7,6 +7,11 @@ const styles = {
       background: ${t.menuBgDefault};
       box-sizing: content-box;
       overflow: auto;
+    `;
+  },
+
+  scrollContainer(t: Theme) {
+    return css`
       padding: ${t.menuPaddingY} 0;
     `;
   },
