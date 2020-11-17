@@ -759,12 +759,8 @@ export class DefaultTheme {
   public static get hintBorderRadius() {
     return this.popupBorderRadius;
   }
-  public static get hintPinOffset() {
-    return this.popupPinOffset;
-  }
-  public static get hintMargin() {
-    return this.popupMargin;
-  }
+  public static hintPinOffset = '8px';
+  public static hintMargin = '15px';
   //#endregion
   //#region Toast
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
