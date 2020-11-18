@@ -226,10 +226,28 @@ export const EmptyWithoutReference = () => {
 };
 EmptyWithoutReference.story = { name: 'empty without reference', parameters: { creevey: { skip: [true] } } };
 
-export const EmptyCombined = () => {
+export const EmptyCombined: CSFStory = () => {
   return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-EmptyCombined.story = { name: 'empty combined', parameters: { creevey: { skip: [true] } } };
+EmptyCombined.story = {
+  name: 'empty combined',
+  parameters: {
+    creevey: {
+      tests: {
+        async selectFirst() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
 
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
@@ -241,10 +259,36 @@ export const WithoutReferenceFilled = () => {
 };
 WithoutReferenceFilled.story = { name: '[without reference] filled', parameters: { creevey: { skip: [true] } } };
 
-export const CombinedFilled = () => {
+export const CombinedFilled: CSFStory = () => {
   return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-CombinedFilled.story = { name: '[combined] filled', parameters: { creevey: { skip: [true] } } };
+CombinedFilled.story = {
+  name: '[combined] filled',
+  parameters: {
+    creevey: {
+      tests: {
+        async selectAndType() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .perform();
+          const selected = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('a')
+            .perform();
+          const typed = await this.takeScreenshot();
+
+          await this.expect({ selected, typed }).to.matchImages();
+        },
+      },
+    },
+  },
+};
 
 export const WithLongItem1 = () => {
   return (

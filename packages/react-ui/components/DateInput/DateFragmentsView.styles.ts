@@ -4,7 +4,6 @@ import { Theme } from '../../lib/theming/Theme';
 const styles = {
   root(t: Theme) {
     return css`
-      font-family: kontur-mask-char, Segoe UI, Helevetica Neue, sans-serif;
       cursor: text;
 
       & ::selection {
