@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup } from '../../internal/Popup';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
@@ -22,7 +23,18 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupMargin: this.getPopupMargin() + 'px',
+                },
+                theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -45,13 +57,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     } = this.props;
 
     return (
-      <Popup
-        opened={opened!}
-        positions={['bottom left']}
-        anchorElement={this.props.anchorElement}
-        margin={this.getPopupMargin()}
-        popupOffset={5}
-      >
+      <Popup opened={opened!} positions={['bottom left']} anchorElement={this.props.anchorElement} popupOffset={5}>
         <ComboBoxMenu
           items={items}
           loading={loading}
