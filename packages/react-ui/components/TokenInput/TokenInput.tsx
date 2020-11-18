@@ -495,6 +495,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
       const autocompleteItemsUnique = autocompleteItems.filter(item => !isSelectedItem(item) || isEditingItem(item));
 
+      if (this.isEditingMode) {
+        const editingItem = this.props.selectedItems[this.state.editingTokenIndex];
+        if (
+          isEqual(editingItem, this.props.valueToItem(this.state.inputValue)) &&
+          !this.hasValueInItems(autocompleteItemsUnique, editingItem)
+        ) {
+          autocompleteItemsUnique.unshift(editingItem);
+        }
+      }
+
       if (query === '' || this.state.inputValue !== '') {
         this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: autocompleteItemsUnique }, () => {
           LayoutEvents.emit();
