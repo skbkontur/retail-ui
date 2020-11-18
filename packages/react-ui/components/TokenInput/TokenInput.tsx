@@ -180,8 +180,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
       LayoutEvents.emit();
     }
-    if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
-      this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
+    if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible && !this.isEditingMode) {
+      this.tryGetItems(this.state.inputValue);
     }
   }
 
@@ -714,6 +714,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
     this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) }, this.selectInputText);
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
+
+    this.tryGetItems();
   };
 
   private finishTokenEdit = () => {
