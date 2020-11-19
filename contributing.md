@@ -18,8 +18,8 @@
     - [Code Style](#code-style)
 - [Тесты](#тесты)
   - [Unit-тесты](#unit-тесты)
-  - [Скриншотные тесты](#скриншотные-тесты)
   - [Storybook](#storybook)
+  - [Скриншотные тесты](#скриншотные-тесты)
 - [Документация](#документация)
 - [Pull Request](#pull-request)
 - [Помощь](#помощь)
@@ -69,12 +69,12 @@
 
 - `yarn workspace @skbkontur/react-ui <command>` - контролы
   - `test` — unit-тесты `Jest` + `Enzyme`
-  - `test:ui` — скриншотные тесты `Creevey`
+  - `creevey:ui` — скриншотные тесты `Creevey`
   - `lint` — `tsc --noEmit` + `eslint` + `stylelint`
   - `build` — сборка библиотеки
-  - `storybook:test` — Storybook
+  - `storybook` — Storybook
+  - `storybook:test` — Storybook со стилями для тестов
   - `storybook:flat` — Storybook c flat-темой
-  - `creevey:ui` — Creevey
   - `styleguide` — Styleguidist server
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
@@ -242,37 +242,6 @@ packages/
 
 Для unit-тестирования используются [Jest](https://jestjs.io/) и [Enzyme](https://airbnb.io/enzyme/). Тесты находятся в поддиректориях `__tests__` внутри почти каждого компонента. Для их запуска служит команда `yarn workspace @skbkontur/react-ui test`. Её тоже желательно выполнять перед отправкой своих изменений, чтобы убетится в том, что они не сломали существующие сценарии.
 
-### Скриншотные тесты
-
-Скриншотные тесты пишут для проверки функциональности в различных браузерах (Chrome, Firefox, IE11). Они построены на основе [Creevey](https://github.com/wKich/creevey) и [Storybook](https://storybook.js.org/).
-
-#### Запуск
-
-`yarn workspace @skbkontur/react-ui storybook:test` - запуск storybook со стилями для тестов
-
-`yarn workspace @skbkontur/react-ui creevey:ui` - запуск creevey с web-интерфейсом
-
-#### Создание скриншотного теста
-
-1. Создать или выбрать готовую [story](#создание-story)
-2. Добавить новый сценарий в `packages/react-ui/components/[ComponentName]/__tests__/[ComponentName]-test.tsx`, например (где `Button` и `playground`, это `kind` и `story` в `Storybook` соответственно):
-
-```
-describe('Button', function() {
-  describe('playground', function() {
-    it('idle', async function() {
-      const element = await this.browser.findElement(By.css('#test-element'));
-      await expect(await element.takeScreenshot()).to.matchImage('idle');
-    });
-  });
-});
-```
-
-3. Через [gui](#запуск) запустить добавленный тест
-4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace @skbkontur/react-ui creevey --update`
-
-Существующие тесты обновляются тем же образом (шаги 3 и 4).
-
 ### Storybook
 
 [Storybook](https://storybook.js.org/) позволяет описывать и просматривать все имеющиеся компоненты в различных состояниях, а также взаимодействовать с ними. Он используется для ручного и скриншотного тестирования.
@@ -286,6 +255,40 @@ describe('Button', function() {
 ```
 export const ButtonWithError = () => <Button error>Error</Button>;
 ```
+
+### Скриншотные тесты
+
+Скриншотные тесты пишут для проверки функциональности в различных браузерах (Chrome, Firefox, IE11). Они построены на основе [Creevey](https://github.com/wKich/creevey) и [Storybook](https://storybook.js.org/).
+
+#### Запуск
+
+`yarn workspace @skbkontur/react-ui storybook:test` - запуск storybook со стилями для тестов
+
+`yarn workspace @skbkontur/react-ui creevey:ui` - запуск creevey с web-интерфейсом
+
+#### Создание скриншотного теста
+
+1. Создать или выбрать готовую [story](#создание-story)
+2. Добавить сценарий в параметры story
+
+```
+ButtonWithError.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        }
+      },
+    },
+  },
+};
+```
+
+3. Через [gui](#запуск) запустить добавленный тест
+4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace @skbkontur/react-ui creevey --update`
+
+Существующие тесты обновляются тем же образом (шаги 3 и 4).
 
 # Документация
 
