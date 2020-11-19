@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.9.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.8.0...@skbkontur/react-ui@2.9.0) (2020-11-19)
+
+
+### Features
+
+* **TokenInput:** ability to edit tokens ([#2189](https://github.com/skbkontur/retail-ui/issues/2189)) ([7ae8ea6](https://github.com/skbkontur/retail-ui/commit/7ae8ea6f1625600f3935ccd15b0fa797813f4f7b)), closes [#2112](https://github.com/skbkontur/retail-ui/issues/2112)
+
+
+
+
+
 # [2.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.7.0...@skbkontur/react-ui@2.8.0) (2020-11-09)
 
 
