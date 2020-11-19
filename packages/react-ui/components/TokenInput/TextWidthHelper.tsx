@@ -1,33 +1,41 @@
 import React from 'react';
 
-import { RenderContainer } from '../../internal/RenderContainer';
+import { Theme } from '../../lib/theming/Theme';
+
+import { jsStyles } from './TokenInput.styles';
+
+// a thin character to preserve some space
+// for the caret visibillity in the input
+const THIN_SPACE = '\u2009';
 
 export interface TextWidthHelperProps {
   text?: string;
+  classHelp: string;
+  theme: Theme;
 }
-
-const styles: React.CSSProperties = {
-  position: 'absolute',
-  left: -1000,
-  top: -1000,
-  fontSize: 14,
-};
-
+/**
+ * Херпер позволяет вычислить размеры блока с текстом
+ * для последующего выставления размеров input
+ */
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   private element: HTMLDivElement | null = null;
 
   public render() {
     return (
-      <RenderContainer>
-        <div style={styles} ref={this.elementRef}>
-          {this.props.text}
+      <div className={jsStyles.helperContainer(this.props.theme)}>
+        <div className={this.props.classHelp} ref={this.elementRef}>
+          {this.props.text || THIN_SPACE}
         </div>
-      </RenderContainer>
+      </div>
     );
   }
 
   public getTextWidth(): number {
     return this.element!.getBoundingClientRect().width;
+  }
+
+  public getTextHeight(): number {
+    return this.element!.getBoundingClientRect().height;
   }
 
   private elementRef = (node: HTMLDivElement) => (this.element = node);
