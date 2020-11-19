@@ -23,6 +23,7 @@ export interface TokenProps {
   disabled?: boolean;
 
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;
   onRemove?: React.MouseEventHandler<HTMLElement>;
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
@@ -55,6 +56,7 @@ export class Token extends React.Component<TokenProps> {
       warning,
       disabled,
       onClick = emptyHandler,
+      onDoubleClick = emptyHandler,
       onMouseEnter = emptyHandler,
       onMouseLeave = emptyHandler,
       onFocus = emptyHandler,
@@ -87,6 +89,7 @@ export class Token extends React.Component<TokenProps> {
       <div
         className={tokenClassNames}
         onClick={onClick}
+        onDoubleClick={onDoubleClick}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onFocus={onFocus}
