@@ -112,12 +112,17 @@ const styles = {
     `;
   },
 
-  closeWrapper() {
+  closeWrapper(t: Theme) {
+    const iconSize = 14;
+    const padding = parseInt(t.modalCloseBtnPadding);
+    const paddingBottom = 20;
+    const blockSizeX = iconSize + padding * 2;
+    const blockSizeY = iconSize + padding + paddingBottom;
     return css`
       position: relative;
       float: right;
-      width: 76px;
-      height: 76px;
+      width: ${blockSizeX}px;
+      height: ${blockSizeY}px;
     `;
   },
 
@@ -132,6 +137,8 @@ const styles = {
   },
 
   closeOutline(t: Theme) {
+    const iconSize = 14;
+    const padding = parseInt(t.modalCloseBtnPadding) - iconSize / 2 - 2;
     return css`
       ${cssName(styles.close(t))} & {
         display: none;
@@ -141,10 +148,10 @@ const styles = {
         border: 2px solid ${t.borderColorFocus};
         position: absolute;
         display: block;
-        top: 27px;
-        right: 27px;
-        width: 26px;
-        height: 26px;
+        top: ${padding}px;
+        right: ${padding}px;
+        width: ${iconSize * 2}px;
+        height: ${iconSize * 2}px;
       }
     `;
   },
@@ -186,6 +193,7 @@ const styles = {
   fixedHeader(t: Theme) {
     return css`
       margin-bottom: 10px;
+      padding-bottom: ${t.modalFixedHeaderPaddingBottom};
       background: ${t.modalFixedHeaderBg};
 
       &:after {
@@ -220,15 +228,15 @@ const styles = {
     `;
   },
 
-  headerAddPadding(t: Theme) {
+  headerAddPadding() {
     return css`
-      padding-bottom: ${t.modalFixedHeaderPaddingBottom};
+      padding-bottom: 22px;
     `;
   },
 
-  bodyWithoutHeader() {
+  bodyWithoutHeader(t: Theme) {
     return css`
-      padding-top: 30px;
+      padding-top: ${t.modalPaddingTop} !important;
     `;
   },
 

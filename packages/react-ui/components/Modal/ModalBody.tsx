@@ -47,7 +47,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
             createStackingContext
             className={cn({
               [jsStyles.body(this.theme)]: true,
-              [jsStyles.bodyWithoutHeader()]: !hasHeader,
+              [jsStyles.bodyWithoutHeader(this.theme)]: !hasHeader,
               [jsStyles.bodyAddPadding(this.theme)]: additionalPadding,
               [jsStyles.bodyWithoutPadding()]: noPadding,
             })}

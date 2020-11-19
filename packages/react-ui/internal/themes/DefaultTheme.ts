@@ -675,7 +675,7 @@ export class DefaultTheme {
   public static modalHeaderFontSize = '22px';
   public static modalHeaderLineHeight = '30px';
   public static modalHeaderPaddingBottom = '11px';
-  public static modalFixedHeaderPaddingBottom = '22px';
+  public static modalFixedHeaderPaddingBottom = '11px';
   public static modalBodyPaddingBottom = '25px';
   public static modalFooterPaddingTop = '0px';
   public static modalFooterPaddingBottom = '30px';
