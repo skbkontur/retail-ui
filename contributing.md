@@ -36,12 +36,14 @@
   - [@skbkontur/react-ui](https://www.npmjs.com/package/@skbkontur/react-ui)
   - [react-ui-validations](https://www.npmjs.com/package/react-ui-validations)
   - [@skbkontur/react-ui-validations](https://www.npmjs.com/package/@skbkontur/react-ui-validations)
+  - [@skbkontur/react-icons](https://www.npmjs.com/package/@skbkontur/react-icons)
+  - [react-ui-codemod](https://www.npmjs.com/package/react-ui-codemod)
 - [Контур.Гайды](https://guides.kontur.ru/)
 
 ### Технологии
 
 - JS: React, TypeScript;
-- CSS: LESS и CSS-in-JS;
+- CSS: CSS-in-JS;
 - Сборка: Babel;
 - CI: TeamCity;
 
@@ -51,7 +53,7 @@
 
 ### Планы
 
-Наши планы по развитию описаны в [Roadmap](packages/retail-ui/ROADMAP.md).
+Наши планы по развитию описаны в [Roadmap](packages/react-ui/ROADMAP.md).
 
 ## Краткая инструкция
 
@@ -70,8 +72,9 @@
   - `test:ui` — скриншотные тесты `Creevey`
   - `lint` — `tsc --noEmit` + `eslint` + `stylelint`
   - `build` — сборка библиотеки
-  - `storybook` — Storybook
+  - `storybook:test` — Storybook
   - `storybook:flat` — Storybook c flat-темой
+  - `creevey:ui` — Creevey
   - `styleguide` — Styleguidist server
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
@@ -207,7 +210,6 @@ packages/
             ├── __stories__/
             ├── __tests__/
             ├── Button.tsx
-            ├── Button.less
             ├── Button.styles.ts
             ├── ...
             └── README.md
@@ -224,8 +226,7 @@ packages/
 | `react-ui/components/Button`                  | Компонент кнопки                         |
 | `react-ui/components/Button/__stories__/`     | [Stories](#создание-story) для Storybook |
 | `react-ui/components/Button/__tests__/`       | [Unit-тесты](#unit-тесты)                |
-| `react-ui/components/Button/Button.tsx`       | Код компонента                           |
-| `react-ui/components/Button/Button.less`      | Основные стили                           |
+| `react-ui/components/Button/Button.tsx`       | Код компонента                        |
 | `react-ui/components/Button/Button.styles.ts` | Кастомизируемые стили                    |
 | `react-ui/components/Button/README.md`        | [Документация](#документация)            |
 
@@ -248,12 +249,13 @@ packages/
 #### Запуск
 
 `yarn workspace @skbkontur/react-ui storybook:test` - запуск storybook со стилями для тестов
+
 `yarn workspace @skbkontur/react-ui creevey:ui` - запуск creevey с web-интерфейсом
 
 #### Создание скриншотного теста
 
 1. Создать или выбрать готовую [story](#создание-story)
-2. Добавить новый сценарий в `packages/react-ui/.creevey/tests/[ComponentName].ts`, например (где `Button` и `playground`, это `kind` и `story` в `Storybook` соответственно):
+2. Добавить новый сценарий в `packages/react-ui/components/[ComponentName]/__tests__/[ComponentName]-test.tsx`, например (где `Button` и `playground`, это `kind` и `story` в `Storybook` соответственно):
 
 ```
 describe('Button', function() {
@@ -267,7 +269,7 @@ describe('Button', function() {
 ```
 
 3. Через [gui](#запуск) запустить добавленный тест
-4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace @skbkontur/react-ui test:ui --update`
+4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace @skbkontur/react-ui creevey --update`
 
 Существующие тесты обновляются тем же образом (шаги 3 и 4).
 
@@ -275,14 +277,14 @@ describe('Button', function() {
 
 [Storybook](https://storybook.js.org/) позволяет описывать и просматривать все имеющиеся компоненты в различных состояниях, а также взаимодействовать с ними. Он используется для ручного и скриншотного тестирования.
 
-Запускается командой `yarn workspace @skbkontur/react-ui storybook` или `yarn workspace @skbkontur/react-ui storybook:flat` в плоском варианте.
+Запускается командой `yarn workspace @skbkontur/react-ui storybook:test` или `yarn workspace @skbkontur/react-ui storybook:flat` в плоском варианте.
 
 #### Создание story
 
 Все story находятся в файлах `__stories__/[ComponentName].stories.tsx`, в директориях своих компонентов. Просто добавьте новое состояние и оно появится в storybook:
 
 ```
-.add('with width', () => <Button width="300px">Hello</Button>)
+export const ButtonWithError = () => <Button error>Error</Button>;
 ```
 
 # Документация
