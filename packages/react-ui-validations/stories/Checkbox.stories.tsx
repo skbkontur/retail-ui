@@ -2,11 +2,12 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
+import { CSFStory } from 'creevey';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
+storiesOf('Checkbox', module).add('required', () => <CheckboxStoryComponent />);
 
 interface CheckboxStoryState {
   checked: boolean;
@@ -21,7 +22,7 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
 
   public validateSex(): Nullable<ValidationInfo> {
     const { checked } = this.state;
-    if (checked === false) {
+    if (!checked) {
       return { message: 'Поле обязательно', type: 'submit' };
     }
     return null;
@@ -34,7 +35,7 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
           <ValidationWrapper validationInfo={this.validateSex()}>
             <Checkbox
               checked={this.state.checked ? this.state.checked : false}
-              onValueChange={v => this.setState({ checked: v })}
+              onValueChange={(v) => this.setState({ checked: v })}
             >
               Checkbox
             </Checkbox>
@@ -49,3 +50,44 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
 
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
+
+const CheckboxStoryComponent: CSFStory<JSX.Element> = () => {
+  const [checked, update] = React.useState<boolean>(false);
+
+  let container: ValidationContainer | null = null;
+
+  const refContainer = (el: ValidationContainer | null) => (container = el);
+
+  const validateSex = (): Nullable<ValidationInfo> => {
+    if (!checked) {
+      return { message: 'Поле обязательно', type: 'submit' };
+    }
+    return null;
+  };
+  return (
+    <div style={{ padding: '20px 20px' }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validateSex()}>
+          <Checkbox checked={checked} onValueChange={update}>
+            Checkbox
+          </Checkbox>
+        </ValidationWrapper>
+        <div style={{ padding: '20px 0' }}>
+          <Button onClick={() => container && container.validate()}>Check</Button>
+        </div>
+      </ValidationContainer>
+    </div>
+  );
+};
+
+CheckboxStoryComponent.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+      },
+    },
+  },
+};

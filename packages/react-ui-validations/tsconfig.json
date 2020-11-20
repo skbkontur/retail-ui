@@ -1,4 +1,15 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"]
+  "include": [
+    "./src/**/*",
+    "./docs/**/*",
+    "./typings/**/*",
+    "../react-ui/typings/**/*",
+    "./.creevey/*",
+    "../react-ui/lib/**/*",
+    "./.storybook/*"
+  ],
+  "compilerOptions": {
+    "jsx": "react"
+  }
 }

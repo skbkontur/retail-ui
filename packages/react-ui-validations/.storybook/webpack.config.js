@@ -14,12 +14,12 @@ module.exports = async ({ config, mode }) => {
   config.module.rules = [
     {
       test: /\.(ts|tsx)$/,
-      exclude: /node_moduels/,
+      // exclude: /node_moduels/,
       use: [
         {
-          loader: 'ts-loader',
+          loader: 'babel-loader',
           options: {
-            transpileOnly: true,
+            babelrc: false,
           },
         },
         {
