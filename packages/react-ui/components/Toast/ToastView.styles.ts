@@ -12,7 +12,8 @@ const styles = {
       font-size: ${t.toastFontSize};
       line-height: ${t.toastLineHeight};
       opacity: 1;
-      padding: ${t.toastPaddingY} ${t.toastPaddingX};
+      padding: ${t.toastPaddingY} ${t.toastPaddingX}
+        ${parseInt(t.toastPaddingY) + parseInt(t.fontFamilyCompensationBaseline)}px;
       position: relative;
       top: ${t.toastTop};
     `;
@@ -45,8 +46,11 @@ const styles = {
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
-      margin: -${t.toastPaddingY} ${halfPaddingX} -${t.toastPaddingY} 0px;
-      padding: ${t.toastPaddingY} ${halfPaddingX};
+      margin: -${t.toastPaddingY} ${halfPaddingX} -${parseInt(t.toastPaddingY) +
+          parseInt(t.fontFamilyCompensationBaseline)}px
+        0px;
+      padding: ${t.toastPaddingY} ${halfPaddingX}
+        ${parseInt(t.toastPaddingY) + parseInt(t.fontFamilyCompensationBaseline)}px;
 
       &:hover {
         text-decoration: underline;
