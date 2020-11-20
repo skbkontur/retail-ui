@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { ReactNode, useContext } from 'react';
+
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './SidePage.styles';
+
+export interface SidePageContainerProps {
+  children?: ReactNode;
+}
 
 /**
  * Контейнер с отступами
  *
  * @visibleName SidePage.Container
  */
-export class SidePageContainer extends React.Component {
-  public static __KONTUR_REACT_UI__ = 'SidePageContainer';
+const SidePageContainer = ({ children }: SidePageContainerProps) => {
+  const theme = useContext(ThemeContext);
+  return <div className={jsStyles.bodyContainer(theme)}>{children}</div>;
+};
 
-  public render(): JSX.Element {
-    return (
-      <div className={jsStyles.bodyContainer()}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
+export { SidePageContainer };

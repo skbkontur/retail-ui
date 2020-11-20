@@ -671,9 +671,33 @@ export class DefaultTheme {
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e9e9e9';
+  public static sidePageBackingBg = '#333';
+  public static sidePageBackingBgOpacity = '0.6';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
+  public static sidePagePaddingLeft = '30px';
+  public static sidePagePaddingRight = '35px';
+  public static sidePagePaddingTop = '25px';
+  public static sidePagePaddingBottom = '20px';
+  public static sidePageFooterPaddingTop = '20px';
+  public static sidePageBodyPaddingBottom = '0px';
+  public static get sidePageBgDefault() {
+    return this.bgDefault;
+  }
+  public static get sidePageBorderColor() {
+    return this.borderColorGrayLight;
+  }
+
+  public static sidePageHeaderFontSize = '22px';
+  public static sidePageHeaderLineHeight = '30px';
+  public static sidePageHeaderPaddingBottom = '25px';
+  public static sidePageHeaderFixedFontSize = '18px';
+  public static sidePageHeaderFixedLineHeight = '24px';
+  public static sidePageHeaderFixedPadding = '13px';
+  public static sidePageCloseBtnPadding = '30px';
+  public static sidePageFooterPanelPaddingTop = '20px';
+  public static sidePageFooterPanelPaddingBottom = '20px';
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';

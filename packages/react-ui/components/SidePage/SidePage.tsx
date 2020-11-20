@@ -204,7 +204,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           key="overlay"
           className={cn({
             [jsStyles.background()]: true,
-            [jsStyles.backgroundGray()]: this.state.hasBackground,
+            [jsStyles.backgroundGray(this.theme)]: this.state.hasBackground,
           })}
         />
       </ZIndex>

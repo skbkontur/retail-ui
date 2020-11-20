@@ -454,6 +454,32 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region SidePage
+  public static sidePageFooterPanelBg = '#e9e9e9';
+  public static sidePagePaddingLeft = '32px';
+  public static sidePagePaddingRight = '36px';
+  public static sidePagePaddingTop = '24px';
+  public static sidePagePaddingBottom = '32px';
+  public static sidePageFooterPaddingTop = '0px';
+  public static sidePageBodyPaddingBottom = '24px';
+  public static get sidePageBgDefault() {
+    return this.bgDefault;
+  }
+  public static get sidePageBorderColor() {
+    return this.borderColorGrayLight;
+  }
+
+  public static sidePageHeaderFontSize = '24px';
+  public static sidePageHeaderLineHeight = '32px';
+  public static sidePageHeaderPaddingBottom = '16px';
+  public static sidePageHeaderFixedFontSize = '18px';
+  public static sidePageHeaderFixedLineHeight = '28px';
+  public static sidePageHeaderFixedPadding = '10px';
+  public static sidePageCloseBtnPadding = '36px';
+  public static sidePageFooterPanelPaddingTop = '20px';
+  public static sidePageFooterPanelPaddingBottom = '20px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));

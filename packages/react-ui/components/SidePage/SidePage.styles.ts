@@ -28,16 +28,17 @@ const styles = {
     `;
   },
 
-  bodyContainer() {
+  bodyContainer(t: Theme) {
     return css`
-      padding-left: 30px;
-      padding-right: 35px;
+      padding-left: ${t.sidePagePaddingLeft};
+      padding-right: ${t.sidePagePaddingRight};
+      padding-bottom: ${t.sidePageBodyPaddingBottom};
     `;
   },
 
   container(t: Theme) {
     return css`
-      background: ${t.bgDefault};
+      background: ${t.sidePageBgDefault};
       float: right;
       height: 100%;
       width: 100%;
@@ -55,11 +56,11 @@ const styles = {
     `;
   },
 
-  header() {
+  header(t: Theme) {
     return css`
-      font-size: 22px;
-      line-height: 30px;
-      padding: 25px 0;
+      font-size: ${t.sidePageHeaderFontSize};
+      line-height: ${t.sidePageHeaderLineHeight};
+      padding: ${t.sidePagePaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       position: relative;
       width: 100%;
     `;
@@ -67,18 +68,20 @@ const styles = {
 
   headerFixed(t: Theme) {
     return css`
-      background: ${t.bgDefault};
-      box-shadow: 0 1px ${t.borderColorGrayLight};
-      font-size: 18px;
-      line-height: 24px;
-      padding: 13px 0;
+      background: ${t.sidePageBgDefault};
+      box-shadow: 0 1px ${t.sidePageBorderColor};
+      font-size: ${t.sidePageHeaderFixedFontSize};
+      line-height: ${t.sidePageHeaderFixedLineHeight};
+      padding: ${t.sidePageHeaderFixedPadding} 0;
     `;
   },
 
-  title() {
+  title(t: Theme) {
+    const paddingClose = 50;
+    const paddingRight = parseInt(t.sidePagePaddingRight) + paddingClose;
     return css`
-      padding-right: 85px;
-      padding-left: 30px;
+      padding-left: ${t.sidePagePaddingLeft};
+      padding-right: ${paddingRight}px;
     `;
   },
 
@@ -98,10 +101,10 @@ const styles = {
     `;
   },
 
-  backgroundGray() {
+  backgroundGray(t: Theme) {
     return css`
-      background: #333;
-      opacity: 0.6;
+      background: ${t.sidePageBackingBg};
+      opacity: ${t.sidePageBackingBgOpacity};
     `;
   },
 
@@ -129,7 +132,7 @@ const styles = {
       color: ${t.sidePageCloseButtonColor};
       cursor: pointer;
       position: absolute;
-      right: 30px;
+      right: ${t.sidePageCloseBtnPadding};
       text-align: center;
       text-decoration: none;
       width: 24px;
@@ -148,15 +151,18 @@ const styles = {
     return css`
       background: ${t.sidePageFooterPanelBg} !important;
       border-top: 0 !important;
+      padding: ${t.sidePageFooterPanelPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPanelPaddingBottom}
+        ${t.sidePagePaddingLeft};
     `;
   },
 
   closeIcon() {
+    const iconSize = 12;
     return css`
       display: inline-block;
-      height: 12px;
+      height: ${iconSize}px;
+      width: ${iconSize}px;
       line-height: 0;
-      width: 12px;
     `;
   },
 
@@ -174,16 +180,17 @@ const styles = {
     `;
   },
 
-  footerContent() {
+  footerContent(t: Theme) {
     return css`
-      padding: 20px 35px 20px 30px;
+      padding: ${t.sidePageFooterPaddingTop} ${t.sidePagePaddingRight} ${t.sidePagePaddingBottom}
+        ${t.sidePagePaddingLeft};
     `;
   },
 
   footerFixed(t: Theme) {
     return css`
-      background: ${t.bgDefault};
-      border-top: 1px solid ${t.borderColorGrayLight};
+      background: ${t.sidePageBgDefault};
+      border-top: 1px solid ${t.sidePageBorderColor};
     `;
   },
 
