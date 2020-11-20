@@ -188,7 +188,6 @@ const styles = {
       }
       ${cssName(styles.input(t))} {
         color: ${t.inputTextColorDisabled};
-        pointer-events: none;
         /* fix text color in safari */
         -webkit-text-fill-color: currentcolor;
       }

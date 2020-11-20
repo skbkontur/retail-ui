@@ -1,4 +1,4 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
@@ -15,6 +15,7 @@ const styles = {
       flex-wrap: wrap;
       align-items: start;
       outline: none;
+      position: relative;
     `;
   },
 
@@ -57,16 +58,19 @@ const styles = {
       box-shadow: none;
       outline: none;
       font-family: inherit;
-      padding: 0 0 0 5px;
-      font-size: ${t.tokenInputFontSize};
+      margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
+      overflow: hidden;
+      resize: none;
       height: ${t.tokenInputLineHeight};
-      line-height: ${t.tokenInputLineHeight};
       -webkit-appearance: none;
-      white-space: nowrap;
       text-overflow: clip;
       background-clip: padding-box;
       transition: background-color 0.15s ease-in;
       color: ${t.tokenInputTextColor};
+      box-sizing: border-box;
+      word-break: break-all;
+
+      ${styles.inputAndHelperCommonStyles(t)};
 
       &::-ms-clear {
         display: none;
@@ -89,12 +93,83 @@ const styles = {
     `;
   },
 
+  helperContainer(t: Theme) {
+    return css`
+      display: flex;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
+      visibility: hidden;
+    `;
+  },
+
+  helperText(t: Theme) {
+    return css`
+      max-width: 100%;
+      word-break: break-all;
+
+      // don't collapse spaces
+      // so they get counted in width
+      white-space: pre-wrap;
+
+      ${styles.inputAndHelperCommonStyles(t)}
+    `;
+  },
+
+  helperTextEditing(t: Theme) {
+    return css`
+      ${styles.inputAndHelperCommonEditingStyles(t)};
+
+      font-size: ${t.tokenFontSize};
+      padding-bottom: ${t.tokenLegacyTextShift};
+    `;
+  },
+
   inputDisabled(t: Theme) {
     return css`
       pointer-events: none;
       /* fix text color in safari */
       -webkit-text-fill-color: currentcolor;
       color: ${t.tokenInputTextColorDisabled};
+    `;
+  },
+
+  inputAndHelperCommonStyles(t: Theme) {
+    return css`
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
+      line-height: ${t.tokenInputLineHeight};
+      font-size: ${t.tokenInputFontSize};
+    `;
+  },
+
+  inputAndHelperCommonEditingStyles(t: Theme) {
+    return css`
+      margin: ${t.tokenMarginY} ${t.tokenMarginX};
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenPaddingX};
+      line-height: ${t.tokenLineHeight};
+    `;
+  },
+
+  inputEditing(t: Theme) {
+    return css`
+      ${cssName(styles.input(t))}& {
+        ${styles.inputAndHelperCommonEditingStyles(t)};
+      }
+    `;
+  },
+
+  reservedInput(t: Theme) {
+    return css`
+      min-width: 2px;
+      min-height: ${t.tokenInputLineHeight};
+      line-height: ${t.tokenInputLineHeight};
+      font-size: ${t.tokenInputFontSize};
+      margin: ${t.tokenMarginY} 0 ${t.tokenMarginY} 0;
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
+      color: ${t.tokenInputTextColorDisabled};
+      word-break: break-all;
     `;
   },
 };
