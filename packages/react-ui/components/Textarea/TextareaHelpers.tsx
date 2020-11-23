@@ -17,9 +17,9 @@ export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, ma
 }
 
 export const getTextareaPaddingBottom = (theme: Theme): number => {
-  const { textareaPaddingY, textareaCounterHeight } = theme;
+  const { textareaPaddingY } = theme;
 
-  return parseInt(textareaPaddingY, 10) + parseInt(textareaCounterHeight, 10);
+  return parseInt(textareaPaddingY, 10);
 };
 
 export const getTextareaCounterBottom = (node: HTMLTextAreaElement): number => {

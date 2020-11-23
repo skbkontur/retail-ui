@@ -1173,7 +1173,6 @@ export class DefaultTheme {
   public static get textareaDisabledBorderColor() {
     return this.borderColorGrayLight;
   }
-  public static textareaCounterHeight = '20px';
   public static textareaCounterColor = '#808080';
   public static textareaCounterBackground = 'rgb(255, 255, 255, 0.9)';
   public static get textareaCounterErrorColor() {

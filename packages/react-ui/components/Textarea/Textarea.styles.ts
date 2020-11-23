@@ -124,8 +124,8 @@ const styles = {
       background: ${t.textareaCounterBackground};
       color: ${t.textareaCounterColor};
       line-height: 26px;
-      padding-left: 4px;
-      border-radius: 4px;
+      padding: 0 2px;
+      border-radius: 2px;
     `;
   },
 
