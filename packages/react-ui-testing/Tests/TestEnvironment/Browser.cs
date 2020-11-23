@@ -68,7 +68,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             {
                 if (webDriver != null) return webDriver;
 
-                var wdHub = "http://screen:shot@grid.testkontur.ru/wd/hub";
+                var wdHub = "http://localhost:4444";
                 ChromeOptions options = new ChromeOptions();
 
                 options.AddAdditionalCapability(CapabilityType.Platform, "Windows 10", true);

@@ -8,8 +8,14 @@
     "postinstall": "yarn --cwd ./TestPages install",
     "build": "dotnet build --configuration Release",
     "test": "dotnet test ./Tests/Tests.csproj --configuration Release --verbosity detailed --framework netcoreapp3.1",
-    "start": "yarn --cwd ./TestPages start"
+    "start": "yarn install-chrome && run-p start:*",
+    "start:pages": "yarn --cwd ./TestPages start",
+    "start:chrome": "chromedriver --port=4444",
+    "install-chrome": "npm install chromedriver --no-save"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "npm-run-all": "4.1.5"
+  }
 }
