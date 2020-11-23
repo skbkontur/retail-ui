@@ -1,4 +1,4 @@
 module.exports = {
-  addons: ['@storybook/addon-actions/register', '@storybook/addon-links/register', 'creevey'],
+  addons: ['creevey'],
   stories: ['../stories/*.stories.tsx'],
 };

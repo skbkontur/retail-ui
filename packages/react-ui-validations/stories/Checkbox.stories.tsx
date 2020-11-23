@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
@@ -7,7 +6,9 @@ import { CSFStory } from 'creevey';
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('Checkbox', module).add('required', () => <CheckboxStoryComponent />);
+export default {
+  title: 'Checkbox',
+};
 
 interface CheckboxStoryState {
   checked: boolean;
@@ -35,7 +36,7 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
           <ValidationWrapper validationInfo={this.validateSex()}>
             <Checkbox
               checked={this.state.checked ? this.state.checked : false}
-              onValueChange={(v) => this.setState({ checked: v })}
+              onValueChange={v => this.setState({ checked: v })}
             >
               Checkbox
             </Checkbox>
@@ -51,7 +52,7 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-const CheckboxStoryComponent: CSFStory<JSX.Element> = () => {
+export const CheckboxStoryComponent: CSFStory<JSX.Element> = () => {
   const [checked, update] = React.useState<boolean>(false);
 
   let container: ValidationContainer | null = null;
@@ -81,6 +82,7 @@ const CheckboxStoryComponent: CSFStory<JSX.Element> = () => {
 };
 
 CheckboxStoryComponent.story = {
+  name: 'required',
   parameters: {
     creevey: {
       tests: {

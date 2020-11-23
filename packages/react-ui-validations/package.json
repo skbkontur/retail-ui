@@ -23,7 +23,7 @@
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
     "fix:eslint": "yarn lint:eslint --fix",
     "test": "jest",
-    "creevey": "wait-on -t 300000 http-get://localhost:8081/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.ts",
+    "creevey": "wait-on -t 300000 http-get://localhost:8081/ && creevey -c .creevey/config.ts",
     "creevey:ui": "yarn creevey --ui",
     "test:watch": "jest --watch"
   },
@@ -56,7 +56,7 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
-    "@babel/preset-typescript": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.7",
     "@babel/register": "^7.12.1",
     "@hot-loader/react-dom": "^16.11.0",
     "@skbkontur/react-icons": "^3.2.1",

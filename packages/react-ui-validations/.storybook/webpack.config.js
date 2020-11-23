@@ -14,12 +14,13 @@ module.exports = async ({ config, mode }) => {
   config.module.rules = [
     {
       test: /\.(ts|tsx)$/,
-      // exclude: /node_moduels/,
+      exclude: /node_modules(\/|\\)(?!@skbkontur(\/|\\)react-ui)/,
       use: [
         {
           loader: 'babel-loader',
           options: {
             babelrc: false,
+            extends: path.join(__dirname, '../.babelrc'),
           },
         },
         {
