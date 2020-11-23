@@ -123,11 +123,8 @@ const styles = {
       text-align: right;
       background: ${t.textareaCounterBackground};
       color: ${t.textareaCounterColor};
-      height: 26px;
+      line-height: 26px;
       padding-left: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       border-radius: 4px;
     `;
   },

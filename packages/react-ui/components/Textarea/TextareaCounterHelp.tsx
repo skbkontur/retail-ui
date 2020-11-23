@@ -19,7 +19,7 @@ export const TextareaCounterHelp: FC<TextareaCounterHelpProps> = props => {
   const defaultIcon = <HelpDot color={textareaCounterDefaultHelpColor} />;
 
   return (
-    <section className={jsStyles.counterHelp()}>
+    <span className={jsStyles.counterHelp()}>
       <Tooltip
         pos={pos ?? 'right bottom'}
         trigger={'click'}
@@ -28,6 +28,6 @@ export const TextareaCounterHelp: FC<TextareaCounterHelpProps> = props => {
       >
         {icon ?? defaultIcon}
       </Tooltip>
-    </section>
+    </span>
   );
 };

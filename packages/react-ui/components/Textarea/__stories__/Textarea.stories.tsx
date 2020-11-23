@@ -248,17 +248,34 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
     <div style={{ width: 550 }}>
       <div style={headingStyle}>Plain</div>
       <div id="CounterPlain" style={blockStyle}>
-        <Textarea value={TEXT_SAMPLE} width={400} counterCharsLength={700} showCharsCounter={true} />
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          maxRecommendedLengthCounter={700}
+          showMaxRecommendedLengthCounter={true}
+        />
       </div>
 
       <div style={headingStyle}>Autoresize</div>
       <div id="CounterAutoresizeTextarea" style={blockStyle}>
-        <Textarea value={TEXT_SAMPLE} width={400} counterCharsLength={50} autoResize={true} showCharsCounter={true} />
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          maxRecommendedLengthCounter={50}
+          autoResize={true}
+          showMaxRecommendedLengthCounter={true}
+        />
       </div>
 
       <div style={headingStyle}>Disabled</div>
       <div id="CounterDisabled" style={blockStyle}>
-        <Textarea value={TEXT_SAMPLE} width={400} maxLength={50} disabled={true} showCharsCounter={true} />
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          maxLength={50}
+          disabled={true}
+          showMaxRecommendedLengthCounter={true}
+        />
       </div>
 
       <div style={headingStyle}>With help</div>
@@ -267,7 +284,7 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
           value={TEXT_SAMPLE}
           width={400}
           maxLength={50}
-          showCharsCounter={true}
+          showMaxRecommendedLengthCounter={true}
           counterHelp={{ tooltipContent: 'test' }}
         />
       </div>

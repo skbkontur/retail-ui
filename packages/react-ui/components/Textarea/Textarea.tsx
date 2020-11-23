@@ -64,12 +64,12 @@ export type TextareaProps = Override<
     selectAllOnFocus?: boolean;
 
     /** Показывать счетчик оставшихся букв */
-    showCharsCounter?: boolean;
+    showMaxRecommendedLengthCounter?: boolean;
 
     /** Допустимое количество букв в счетчике
      * Если не указано, равно `maxLength`
      */
-    counterCharsLength?: number;
+    maxRecommendedLengthCounter?: number;
 
     /** Подсказка-тултип и настройки  */
     counterHelp?: TextareaCounterHelpProps;
@@ -181,7 +181,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.layoutEvents = LayoutEvents.addListener(this.autoResize);
     }
 
-    if (this.node && this.props.showCharsCounter) {
+    if (this.node && this.props.showMaxRecommendedLengthCounter) {
       this.textareaObserver.observe(this.node, { attributes: true });
       this.resizeTextArea();
     }
@@ -268,8 +268,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       style,
       placeholder,
       onValueChange,
-      showCharsCounter,
-      counterCharsLength,
+      showMaxRecommendedLengthCounter,
+      maxRecommendedLengthCounter,
       counterHelp,
       ...textareaProps
     } = this.props;
@@ -290,7 +290,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textAreaStyle = {
       resize: autoResize ? 'none' : resize,
-      paddingBottom: showCharsCounter ? getTextareaPaddingBottom(this.theme) : this.theme.textareaPaddingY,
+      paddingBottom: showMaxRecommendedLengthCounter
+        ? getTextareaPaddingBottom(this.theme)
+        : this.theme.textareaPaddingY,
     };
 
     let placeholderPolyfill = null;
@@ -310,8 +312,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
-    const maxAllowedCharsLength: number = counterCharsLength ?? textareaProps.maxLength ?? 0;
-    const textareaCounter = showCharsCounter && isFocused && !!textareaWidth && (
+    const maxAllowedCharsLength: number = textareaProps.maxLength ?? maxRecommendedLengthCounter ?? 0;
+    const textareaCounter = showMaxRecommendedLengthCounter && isFocused && !!textareaWidth && (
       <TextareaCounter
         value={this.props.value}
         textareaWidth={textareaWidth}

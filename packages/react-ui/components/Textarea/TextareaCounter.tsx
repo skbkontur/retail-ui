@@ -39,7 +39,7 @@ export const TextareaCounter: FC<TextareaCounterProps> = props => {
   }, [counterNode.current, counterWidth, textareaValue]);
 
   return (
-    <section
+    <span
       ref={counterNode}
       className={cn({
         [jsStyles.counter(theme)]: true,
@@ -49,6 +49,6 @@ export const TextareaCounter: FC<TextareaCounterProps> = props => {
     >
       <span>{counterValue}</span>
       {!!counterHelp && <TextareaCounterHelp {...counterHelp} />}
-    </section>
+    </span>
   );
 };
