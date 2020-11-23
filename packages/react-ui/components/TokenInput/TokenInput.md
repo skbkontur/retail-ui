@@ -48,14 +48,8 @@ const tokenColors = {
     getItems={getItems}
     selectedItems={state.selectedItems}
     onValueChange={itemsNew => setState({ selectedItems: itemsNew })}
-    renderToken={(item, { isActive, onClick, onRemove }) => (
-      <Token
-        key={item.toString()}
-        colors={tokenColors[item] || tokenColors.default}
-        isActive={isActive}
-        onClick={onClick}
-        onRemove={onRemove}
-      >
+    renderToken={(item, tokenProps) => (
+      <Token key={item.toString()} colors={tokenColors[item] || tokenColors.default} {...tokenProps}>
         {item}
       </Token>
     )}
@@ -72,12 +66,12 @@ interface TokenInputLocale {
 }
 
 const ru_RU = {
-  addButtonComment: 'Нажмите Enter или поставьте запятую',
+  addButtonComment: 'Нажмите запятую или пробел',
   addButtonTitle: 'Добавить',
 };
 
 const en_GB = {
-  addButtonComment: 'Press Enter or type comma',
+  addButtonComment: 'Type comma or space',
   addButtonTitle: 'Add',
 };
 ```

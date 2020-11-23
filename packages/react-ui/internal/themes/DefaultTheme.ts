@@ -250,7 +250,16 @@ export class DefaultTheme {
   public static get tokenInputFontSize() {
     return this.inputFontSizeSmall;
   }
-  public static tokenInputLineHeight = '28px';
+  public static tokenInputLineHeight = '22px';
+
+  public static tokenInputInputPaddingLeft = '5px';
+
+  public static get tokenInputInputPaddingRight() {
+    const paddingX = parseInt(this.tokenPaddingX, 10) || 0;
+    const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
+    const removeIconSizeX = parseInt(this.tokenInputFontSize, 10) || 0;
+    return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
+  }
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
@@ -805,6 +814,9 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
+  public static popupPinOffset = '16px';
+  public static popupMargin = '10px';
+  public static popupPinSize = '8px';
   //#endregion
   //#region Input
   public static inputTextColor = 'none';
