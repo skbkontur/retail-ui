@@ -744,9 +744,9 @@ export class DefaultTheme {
   public static get toastFontSize() {
     return this.fontSizeSmall;
   }
-  public static toastLineHeight = 'internal';
+  public static toastLineHeight = 'inherit';
   public static toastPaddingY = '10px';
-  public static toastPaddingX = '20px'; //hack for bottom padding
+  public static toastPaddingX = '20px';
   public static toastBorderRadius = '2px';
   public static toastBorder = 'none';
   public static toastTop = '20px';

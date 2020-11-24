@@ -46,9 +46,9 @@ const styles = {
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
-      margin: -${t.toastPaddingY} ${halfPaddingX} -${parseInt(t.toastPaddingY) +
+      margin: -${t.toastPaddingY} ${t.toastPaddingX} -${parseInt(t.toastPaddingY) +
           parseInt(t.fontFamilyCompensationBaseline)}px
-        0px;
+        ${halfPaddingX};
       padding: ${t.toastPaddingY} ${halfPaddingX}
         ${parseInt(t.toastPaddingY) + parseInt(t.fontFamilyCompensationBaseline)}px;
 
