@@ -1,46 +1,35 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { CSFStory } from 'creevey';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('DatePicker', module).add('Example1', () => <DatePickerStory />);
+export default { title: `DatePicker` };
 
-interface DatePickerStoryState {
-  value: Date | string | null;
-}
-
-class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
-  public state: DatePickerStoryState = {
-    value: null,
-  };
-
-  private container: ValidationContainer | null = null;
-
-  public validateValue(): Nullable<ValidationInfo> {
-    const { value } = this.state;
+export const DatePickerStory: CSFStory<JSX.Element> = () => {
+  const [value, setValue] = React.useState<Date | string | null>(null);
+  let container: ValidationContainer | null = null;
+  const validateValue = (): Nullable<ValidationInfo> => {
     if (value == null) {
       return { message: 'Должно быть не пусто', type: 'submit' };
     }
     return null;
   }
+  const refContainer = (el: ValidationContainer | null) => (container = el);
 
-  public render() {
-    return (
-      <div style={{ padding: '20px 20px' }}>
-        <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapper validationInfo={this.validateValue()}>
-            <DatePicker value={this.state.value as any} onValueChange={value => this.setState({ value })} />
-          </ValidationWrapper>
-          <div style={{ padding: '100px 0' }}>
-            <Button onClick={() => this.container && this.container.validate()}>Check</Button>
-          </div>
-        </ValidationContainer>
+  return <div style={{ padding: '20px 20px' }}>
+    <ValidationContainer ref={refContainer}>
+      <ValidationWrapper validationInfo={validateValue()}>
+        <DatePicker value={value as any} onValueChange={setValue} />
+      </ValidationWrapper>
+      <div style={{ padding: '100px 0' }}>
+        <Button onClick={() => container && container.validate()}>Check</Button>
       </div>
-    );
-  }
+    </ValidationContainer>
+  </div>
 
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
+
+DatePickerStory.storyName = `Example1`;

@@ -1,97 +1,63 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Radio } from '@skbkontur/react-ui/components/Radio';
+import { CSFStory } from 'creevey';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('RadioGroup', module)
-  .add('Example1', () => <RadioGroupStory />)
-  .add('RadioGroup with children', () => <RadioGroupChildrenStory />);
+export default { title: `RadioGroup` };
 
 type Sex = 'male' | 'female';
 
-interface RadioGroupStoryState {
-  sex: Nullable<Sex>;
-}
-
-class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
-  public state: RadioGroupStoryState = {
-    sex: null,
-  };
-
-  private container: ValidationContainer | null = null;
-
-  public validateSex(): Nullable<ValidationInfo> {
-    const { sex } = this.state;
-    if (sex == null) {
-      return { message: 'Должно быть не пусто', type: 'submit' };
-    }
-    return null;
+const validateSex = (sex: Nullable<Sex>): Nullable<ValidationInfo> => {
+  if (sex == null) {
+    return { message: 'Должно быть не пусто', type: 'submit' };
   }
+  return null;
+};
 
-  public render() {
-    return (
-      <div style={{ padding: '20px 20px' }}>
-        <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapper validationInfo={this.validateSex()}>
-            <RadioGroup<RadioGroupStoryState['sex']>
-              value={this.state.sex}
-              items={['male', 'female'] as Sex[]}
-              renderItem={x => <span>{x}</span>}
-              onValueChange={value => this.setState({ sex: value })}
-            />
-          </ValidationWrapper>
-          <div style={{ padding: '100px 0' }}>
-            <Button onClick={() => this.container && this.container.validate()}>Check</Button>
-          </div>
-        </ValidationContainer>
-      </div>
-    );
-  }
+export const RadioGroupStory: CSFStory<JSX.Element> = () => {
+  const [sex, setSex] = React.useState<Nullable<Sex>>(null);
+  const [container, refContainer] = React.useState<ValidationContainer | null>(null);
+  return (
+    <div style={{ padding: '20px 20px' }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validateSex(sex)}>
+          <RadioGroup<Nullable<Sex>>
+            value={sex}
+            items={['male', 'female'] as Sex[]}
+            renderItem={(x) => <span>{x}</span>}
+            onValueChange={setSex}
+          />
+        </ValidationWrapper>
+        <div style={{ padding: '100px 0' }}>
+          <Button onClick={() => container && container.validate()}>Check</Button>
+        </div>
+      </ValidationContainer>
+    </div>
+  );
+};
 
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
-
-class RadioGroupChildrenStory extends React.Component<{}, RadioGroupStoryState> {
-  public state: RadioGroupStoryState = {
-    sex: null,
-  };
-
-  private container: ValidationContainer | null = null;
-
-  public validateSex(): Nullable<ValidationInfo> {
-    const { sex } = this.state;
-    if (sex == null) {
-      return { message: 'Должно быть не пусто', type: 'submit' };
-    }
-    return null;
-  }
-
-  public render() {
-    return (
-      <div style={{ padding: '20px 20px' }}>
-        <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapper validationInfo={this.validateSex()}>
-            <RadioGroup<RadioGroupStoryState['sex']>
-              value={this.state.sex}
-              onValueChange={value => this.setState({ sex: value })}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Radio value={'male'}>male</Radio>
-                <Radio value={'female'}>female</Radio>
-              </div>
-            </RadioGroup>
-          </ValidationWrapper>
-          <div style={{ padding: '100px 0' }}>
-            <Button onClick={() => this.container && this.container.validate()}>Check</Button>
-          </div>
-        </ValidationContainer>
-      </div>
-    );
-  }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
+export const RadioGroupChildrenStory: CSFStory<JSX.Element> = () => {
+  const [sex, setSex] = React.useState<Nullable<Sex>>(null);
+  const [container, refContainer] = React.useState<ValidationContainer | null>(null);
+  return (
+    <div style={{ padding: '20px 20px' }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validateSex(sex)}>
+          <RadioGroup<Nullable<Sex>> value={sex} onValueChange={setSex}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Radio value={'male'}>male</Radio>
+              <Radio value={'female'}>female</Radio>
+            </div>
+          </RadioGroup>
+        </ValidationWrapper>
+        <div style={{ padding: '100px 0' }}>
+          <Button onClick={() => container && container.validate()}>Check</Button>
+        </div>
+      </ValidationContainer>
+    </div>
+  );
+};

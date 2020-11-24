@@ -1,58 +1,44 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Token } from '@skbkontur/react-ui/components/Token';
 import { TokenInput } from '@skbkontur/react-ui/components/TokenInput';
+import { CSFStory } from 'creevey';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper, tooltip, text } from '../src';
+import { tooltip, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('TokenInput', module).add('required', () => <TokenInputStory />);
-
 async function getItems(query: string) {
-  return ['aaa', 'bbb'].filter(s => s.includes(query));
+  return ['aaa', 'bbb'].filter((s) => s.includes(query));
 }
 
-interface TokenInputStoryState {
-  checked: boolean;
-  selectedItems: Array<any>;
-}
+export default { title: `TokenInput` };
 
-class TokenInputStory extends React.Component<{}, TokenInputStoryState> {
-  public state: TokenInputStoryState = {
-    checked: false,
-    selectedItems: [],
-  };
+export const TokenInputStory: CSFStory<JSX.Element> = () => {
+  const [checked] = React.useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = React.useState<any[]>([]);
+  const [, refContainer] = React.useState<ValidationContainer | null>(null);
 
-  private container: ValidationContainer | null = null;
-
-  public validate(): Nullable<ValidationInfo> {
-    const { checked } = this.state;
-    if (checked === false) {
+  const validate = (): Nullable<ValidationInfo> => {
+    if (checked) {
       return { message: 'Поле обязательно', type: 'immediate' };
     }
     return null;
-  }
-
-  public render() {
-    return (
-      <div style={{ padding: '10px' }}>
-        <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapper validationInfo={this.validate()} renderMessage={tooltip('right middle')}>
-            <TokenInput
-              getItems={getItems}
-              selectedItems={this.state.selectedItems}
-              onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
-              renderToken={(item, { isActive, onClick, onRemove }) => (
-                <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
-                  {item}
-                </Token>
-              )}
-            />
-          </ValidationWrapper>
-        </ValidationContainer>
-      </div>
-    );
-  }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
-}
+  };
+  return (
+    <div style={{ padding: '10px' }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('right middle')}>
+          <TokenInput
+            getItems={getItems}
+            selectedItems={selectedItems}
+            onValueChange={setSelectedItems}
+            renderToken={(item, { isActive, onClick, onRemove }) => (
+              <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+                {item}
+              </Token>
+            )}
+          />
+        </ValidationWrapper>
+      </ValidationContainer>
+    </div>
+  );
+};
