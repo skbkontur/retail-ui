@@ -1,3 +1,7 @@
+require('@babel/register')({
+  extensions: ['.js', '.jsx', '.ts', '.tsx'],
+});
+
 import path from 'path';
 import { CreeveyConfig } from 'creevey';
 
