@@ -146,9 +146,6 @@ export class Input extends React.Component<InputProps, InputState> {
    * @public
    */
   public focus() {
-    if (this.state.focused) {
-      return;
-    }
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
     this.input!.focus();
   }
