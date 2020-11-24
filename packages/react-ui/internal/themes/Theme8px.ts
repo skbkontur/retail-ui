@@ -466,7 +466,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static toastPaddingX = '16px';
   public static toastBorderRadius = '2px';
   public static toastTop = '24px';
-  public static toastCloseBtnPadding = '10px';
+  public static toastCloseBtnPadding = '16px';
   //#endregion
 }
 

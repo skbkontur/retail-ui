@@ -32,7 +32,7 @@ const styles = {
 
   closeWrapper(t: Theme) {
     return css`
-      display: inline-block;
+      display: flex;
       position: absolute;
       top: ${t.toastCloseBtnPadding};
       right: ${t.toastCloseBtnPadding};
