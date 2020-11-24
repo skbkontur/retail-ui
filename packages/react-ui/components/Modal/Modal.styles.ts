@@ -183,9 +183,9 @@ const styles = {
   panel(t: Theme) {
     return css`
       ${cssName(styles.footer(t))}& {
-        padding-top: ${t.modalFooterPanelPaddingTop};
-        padding-bottom: ${t.modalFooterPanelPaddingBottom};
-        background: ${t.modalFooterBg};
+        padding-top: ${t.modalFooterPanelPaddingTop} !important;
+        padding-bottom: ${t.modalFooterPanelPaddingBottom} !important;
+        background: ${t.modalFooterBg} !important;
       }
     `;
   },
@@ -211,9 +211,11 @@ const styles = {
 
   fixedFooter(t: Theme) {
     return css`
-      padding-top: 20px;
-      margin-top: 10px;
-      background: ${t.modalFixedHeaderBg};
+      ${cssName(styles.footer(t))}& {
+        padding-top: 20px;
+        margin-top: 10px;
+        background: ${t.modalFixedHeaderBg};
+      }
 
       &:before {
         top: 11px;
