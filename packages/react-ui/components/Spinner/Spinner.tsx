@@ -36,16 +36,12 @@ export interface SpinnerProps {
   cloud?: boolean;
 }
 
-interface SpinnerState {
-  isBrowser: boolean;
-}
-
 /**
  * DRAFT - инлайн-лоадер
  */
 
 @locale('Spinner', SpinnerLocaleHelper)
-export class Spinner extends React.Component<SpinnerProps, SpinnerState> {
+export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
 
   public static propTypes = {
@@ -79,19 +75,12 @@ export class Spinner extends React.Component<SpinnerProps, SpinnerState> {
   };
 
   public static Types: typeof types = types;
-  public state: SpinnerState = {
-    isBrowser: false,
-  };
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   constructor(props: SpinnerProps) {
     super(props);
     warning(!this.props.cloud, 'cloud is deprecated, will removed in 3.0. ');
-  }
-
-  public componentDidMount() {
-    this.setState({ isBrowser: true });
   }
 
   public render() {

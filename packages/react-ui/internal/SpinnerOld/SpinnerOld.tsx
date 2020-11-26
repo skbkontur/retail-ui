@@ -29,15 +29,11 @@ export interface SpinnerOldProps {
   type: SpinnerOldType;
 }
 
-export interface SpinnerOldState {
-  isBrowser: boolean;
-}
-
 /**
  * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
  */
 @locale('Spinner', SpinnerLocaleHelper)
-export class SpinnerOld extends React.Component<SpinnerOldProps, SpinnerOldState> {
+export class SpinnerOld extends React.Component<SpinnerOldProps> {
   public static __KONTUR_REACT_UI__ = 'SpinnerOld';
 
   public static propTypes = {
@@ -65,18 +61,11 @@ export class SpinnerOld extends React.Component<SpinnerOldProps, SpinnerOldState
   };
 
   public static Types: typeof types = types;
-  public state: SpinnerOldState = {
-    isBrowser: false,
-  };
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   public constructor(props: SpinnerOldProps) {
     super(props);
-  }
-
-  public componentDidMount() {
-    this.setState({ isBrowser: true });
   }
 
   public render() {

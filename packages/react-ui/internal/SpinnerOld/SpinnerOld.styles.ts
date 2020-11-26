@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
-import { isIE11 } from '../../lib/utils';
+import { isIE11 } from '../../lib/client';
 
 const styles = {
   cloudStroke(t: Theme) {
