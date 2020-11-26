@@ -702,9 +702,36 @@ export class DefaultTheme {
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
   }
+  public static calendarDayHeight = ' 30px';
+  public static calendarDayMarginLeft = '0';
+  public static calendarDayMarginBottom = '0';
+  public static calendarPaddingX = '15px';
+  public static calendarMonthTitleHeight = ' 40px';
+  public static calendarMonthTitleOffsetHeight = ' 51px';
+  public static calendarWrapperHeight = ' 330px';
+  public static calendarMonthBottomMargin = ' 10px';
+  public static calendarMaxMonthsToAppendOnScroll = ' 5px';
   //#endregion
   //#region DatePicker
+  public static dateSelectLineHeight = '24px';
+  public static dateSelectFontSize = '14px';
+  public static dateSelectFontWeight = 'bold';
   public static dateSelectMenuItemBgSelected = '#ececec';
+  public static get dateSelectTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get dateSelectTextColorDefault() {
+    return this.textColorDefault;
+  }
+  public static get dateSelectLinkColor() {
+    return this.linkColor;
+  }
+  public static get dateSelectPopupBoxShadow() {
+    return this.popupBoxShadow;
+  }
+  public static get dateSelectTextColorInvert() {
+    return this.textColorInvert;
+  }
   public static datePickerOpenBtnColor = '#333';
   public static pickerBg = '#fff';
   public static pickerShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';

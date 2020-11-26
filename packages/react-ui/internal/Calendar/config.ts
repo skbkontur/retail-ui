@@ -1,3 +1,5 @@
+import { Theme } from '../../lib/theming/Theme';
+
 export const config = {
   /**
    * Day cell size
@@ -26,4 +28,15 @@ export const config = {
    * with large intervals
    */
   MAX_MONTHS_TO_APPEND_ON_SCROLL: 5,
+};
+
+export const themeConfig = (t: Theme) => {
+  return {
+    DAY_HEIGHT: parseInt(t.calendarDayHeight),
+    MONTH_TITLE_HEIGHT: parseInt(t.calendarMonthTitleHeight),
+    MONTH_TITLE_OFFSET_HEIGHT: parseInt(t.calendarMonthTitleOffsetHeight),
+    WRAPPER_HEIGHT: parseInt(t.calendarWrapperHeight),
+    MONTH_BOTTOM_MARGIN: parseInt(t.calendarMonthBottomMargin),
+    MAX_MONTHS_TO_APPEND_ON_SCROLL: parseInt(t.calendarMaxMonthsToAppendOnScroll),
+  };
 };

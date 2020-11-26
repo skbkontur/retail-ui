@@ -3,12 +3,13 @@ import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   root(t: Theme) {
+    const width = parseInt(t.calendarDayHeight) * 7 + parseInt(t.calendarDayMarginLeft) * 6;
     return css`
       box-sizing: content-box;
       color: ${t.textColorDefault};
       display: block;
-      padding: 0 15px;
-      width: 210px;
+      padding: 0 ${t.calendarPaddingX};
+      width: ${width}px;
     `;
   },
 

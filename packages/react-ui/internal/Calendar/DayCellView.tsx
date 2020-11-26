@@ -5,7 +5,6 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import * as CDS from './CalendarDateShape';
-import { config } from './config';
 import { jsStyles } from './DayCellView.styles';
 
 interface DayCellViewProps {
@@ -18,15 +17,6 @@ interface DayCellViewProps {
   isWeekend?: boolean;
 }
 
-const size = config.DAY_HEIGHT;
-
-const cellStyle = {
-  width: size,
-  height: size,
-  lineHeight: size - 2 + 'px',
-  borderRadius: size / 2,
-};
-
 export function DayCellView(props: DayCellViewProps) {
   const { date, minDate, maxDate, today, value, isWeekend, onDateClick } = props;
   const theme = useContext(ThemeContext);
@@ -34,6 +24,14 @@ export function DayCellView(props: DayCellViewProps) {
   const handleClick = () => {
     const { date, month, year } = props.date;
     onDateClick?.({ date, month, year });
+  };
+
+  const cellStyle = {
+    width: theme.calendarDayHeight,
+    height: theme.calendarDayHeight,
+    margin: ` 0 ${theme.calendarDayMarginLeft} ${theme.calendarDayMarginBottom} 0 `,
+    lineHeight: parseInt(theme.calendarDayHeight) - 2 + 'px',
+    borderRadius: parseInt(theme.calendarDayHeight) / 2,
   };
 
   return (

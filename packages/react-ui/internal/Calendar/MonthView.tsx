@@ -78,7 +78,7 @@ export function MonthView(props: MonthViewProps) {
   };
 
   return (
-    <div data-tid="MonthView__month" className={jsStyles.month()} style={{ top }} key={month + '-' + year}>
+    <div data-tid="MonthView__month" className={jsStyles.month(theme)} style={{ top }} key={month + '-' + year}>
       <div
         style={{ lineHeight: `${config.MONTH_TITLE_HEIGHT}px`, top: headerTop, borderBottomColor }}
         className={cn({

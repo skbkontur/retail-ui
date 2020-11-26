@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Animation } from '../../lib/animation';
 
-import { config } from './config';
+import { config, themeConfig } from './config';
 import * as CalendarUtils from './CalendarUtils';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
@@ -41,8 +41,6 @@ const getTodayDate = () => {
     year: date.getFullYear(),
   };
 };
-
-const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
@@ -151,7 +149,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (diffInMonths > 0) {
       const monthsToPrependCount = Math.min(Math.abs(diffInMonths) - 1, maxMonthsToAdd);
       const monthsToPrepend = Array.from({ length: monthsToPrependCount }, (_, index) =>
-        MonthViewModel.create(month + index, year),
+        MonthViewModel.create(month + index, year, this.theme),
       );
       this.setState(
         state => {
@@ -182,7 +180,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (diffInMonths < 0) {
       const monthsToAppendCount = Math.min(Math.abs(diffInMonths), maxMonthsToAdd);
       const monthsToAppend = Array.from({ length: monthsToAppendCount }, (_, index) =>
-        MonthViewModel.create(month + index - monthsToAppendCount + 2, year),
+        MonthViewModel.create(month + index - monthsToAppendCount + 2, year, this.theme),
       );
       this.setState(
         state => {
@@ -207,6 +205,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private renderMain = () => {
     const positions = this.getMonthPositions();
+    const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (
       <div ref={this.refRoot} className={jsStyles.root(this.theme)}>
         <div style={wrapperStyle} className={jsStyles.wrapper()}>
@@ -248,6 +247,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private getMonthPositions() {
     const { scrollPosition, months } = this.state;
+
     const positions = [scrollPosition - months[0].height];
     for (let i = 1; i < months.length; i++) {
       const position = positions[i - 1] + months[i - 1].height;
@@ -290,7 +290,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;
 
-    const trasholdHeight = config.MONTH_TITLE_OFFSET_HEIGHT + config.DAY_HEIGHT;
+    const trasholdHeight = themeConfig(this.theme).MONTH_TITLE_OFFSET_HEIGHT + themeConfig(this.theme).DAY_HEIGHT;
 
     if (scrollTarget < trasholdHeight) {
       let targetPosition = 0;

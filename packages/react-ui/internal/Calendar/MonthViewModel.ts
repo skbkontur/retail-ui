@@ -1,10 +1,17 @@
-import { memo } from '../../lib/memo';
+import { Theme } from 'react-ui/lib/theming/Theme';
 
-import { config } from './config';
+import { memo } from '../../lib/memo';
+import { DefaultTheme } from '../themes/DefaultTheme';
+
+import { themeConfig } from './config';
 import { DayCellViewModel } from './DayCellViewModel';
 
 export class MonthViewModel {
-  public static create = memo((month: number, year: number): MonthViewModel => new MonthViewModel(month, year));
+  public static create = memo(
+    (month: number, year: number, theme: Theme = DefaultTheme): MonthViewModel => {
+      return new MonthViewModel(month, year, theme);
+    },
+  );
 
   public readonly daysCount: number;
 
@@ -24,7 +31,7 @@ export class MonthViewModel {
   // FIXME: shouldbe readonly
   public isFirstInYear: boolean;
 
-  private constructor(month: number, year: number) {
+  private constructor(month: number, year: number, theme: Theme) {
     if (month < 0) {
       year -= Math.ceil(-month / 12);
       month = 12 + (month % 12);
@@ -39,7 +46,7 @@ export class MonthViewModel {
     this.offset = offset;
     this.month = month;
     this.year = year;
-    this.height = getMonthHeight(daysCount, offset);
+    this.height = getMonthHeight(daysCount, offset, theme);
     this.isLastInYear = month === 11;
     this.isFirstInYear = month === 0;
     this.days = Array.from({ length: daysCount }, (_, i) => {
@@ -50,10 +57,10 @@ export class MonthViewModel {
 }
 
 const getMonthHeight = memo(
-  (daysCount: number, offset: number) =>
-    Math.ceil((daysCount + offset) / 7) * config.DAY_HEIGHT +
-    config.MONTH_TITLE_OFFSET_HEIGHT +
-    config.MONTH_BOTTOM_MARGIN,
+  (daysCount: number, offset: number, theme: Theme) =>
+    Math.ceil((daysCount + offset) / 7) * themeConfig(theme).DAY_HEIGHT +
+    themeConfig(theme).MONTH_TITLE_OFFSET_HEIGHT +
+    themeConfig(theme).MONTH_BOTTOM_MARGIN,
 );
 
 const getMonthsDays = memo((month: number, year: number) => new Date(year, month + 1, 0).getDate());
