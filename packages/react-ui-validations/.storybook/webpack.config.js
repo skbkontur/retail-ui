@@ -5,21 +5,24 @@ module.exports = async ({ config, mode }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   config.entry.unshift('react-ui-testing/react-selenium-testing');
+  config.entry.unshift('core-js/stable');
 
   config.entry.push(
     path.join(__dirname, '../stories/styles/reset.less'),
     path.join(__dirname, '../stories/styles/typography.less'),
   );
 
+
   config.module.rules = [
     {
-      test: /\.(ts|tsx)$/,
+      test: /\.(ts|tsx|js|jsx)$/,
       exclude: /node_modules(\/|\\)(?!@skbkontur(\/|\\)react-ui)/,
       use: [
         {
           loader: 'babel-loader',
           options: {
             babelrc: false,
+            envName: 'cjs',
             extends: path.join(__dirname, '../.babelrc'),
           },
         },

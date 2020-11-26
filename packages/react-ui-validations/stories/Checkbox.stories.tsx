@@ -1,16 +1,19 @@
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
-import { CSFStory } from 'creevey';
+import { CreeveyStory } from 'creevey';
+import { Story } from '@storybook/react';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
+
+import { delay } from './tools/tools';
 
 export default {
   title: 'Checkbox',
 };
 
-export const CheckboxStoryComponent: CSFStory<JSX.Element> = () => {
+export const CheckboxStoryComponent: Story & CreeveyStory = () => {
   const [checked, update] = React.useState<boolean>(false);
 
   let container: ValidationContainer | null = null;
@@ -45,7 +48,31 @@ CheckboxStoryComponent.parameters = {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+      },
+      async checked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'span' }))
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('checked');
+      }
     },
   },
-}
-
+};

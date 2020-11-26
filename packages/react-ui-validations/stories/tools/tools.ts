@@ -18,3 +18,7 @@ export const submit = (container: ValidationContainer | null): Promise<void> | v
     return container.submit();
   }
 };
+
+export const delay = (time: number) => {
+  return new Promise(resolve => setTimeout(resolve, time));
+};
