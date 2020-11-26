@@ -664,7 +664,7 @@ export class DefaultTheme {
   //#region Kebab
   public static kebabPinOffset = '15px';
   public static kebabMargin = '5px';
-  public static kebabBackground = 'inherit';
+  public static kebabBackground = 'transparent';
   public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
   public static kebabBorderRadius = '50%';
   public static kebabBorder = '2px solid transparent';
