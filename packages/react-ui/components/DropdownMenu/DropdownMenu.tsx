@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
@@ -57,6 +59,27 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupMargin: '0px',
+                },
+                theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
     if (!this.props.caption) {
       return null;
     }
@@ -68,7 +91,6 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
         menuWidth={this.props.menuWidth}
         onChangeMenuState={this.handleChangeMenuState}
         popupHasPin={false}
-        popupMargin={0}
         positions={this.props.positions}
         disableAnimations={this.props.disableAnimations}
         header={this.props.header}

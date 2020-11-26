@@ -459,6 +459,11 @@ export const WithCenterAlign = () => (
 );
 WithCenterAlign.story = { name: 'with center align', parameters: { creevey: { skip: [true] } } };
 
+export const NotRenderNotFound = () => (
+  <SimpleCombobox placeholder={'placeholder'} noInitialValue={true} renderNotFound={() => null} />
+);
+NotRenderNotFound.story = { name: 'not render NotFound', parameters: { creevey: { skip: [true] } } };
+
 export const WithRightAlign = () => (
   <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue={true} />
 );

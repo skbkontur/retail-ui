@@ -6,13 +6,17 @@ import cn from 'classnames';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { hasSvgAnimationSupport } from '../../lib/utils';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { SpinnerOld } from '../../internal/SpinnerOld';
 
 import { jsStyles } from './Spinner.styles';
-import { SpinnerFallback, types } from './SpinnerFallback';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
+
+const types: Record<SpinnerType, SpinnerType> = {
+  big: 'big',
+  mini: 'mini',
+  normal: 'normal',
+};
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
@@ -108,16 +112,9 @@ export class Spinner extends React.Component<SpinnerProps, SpinnerState> {
   private renderMain() {
     const { type, caption = this.locale.loading, dimmed } = this.props;
 
-    const spinnerInner = this.state.isBrowser && (
-      <>
-        {hasSvgAnimationSupport && this.renderSpinner(type, dimmed)}
-        {!hasSvgAnimationSupport && <SpinnerFallback type={type} dimmed={dimmed} />}
-      </>
-    );
-
     return (
       <div className={jsStyles.spinner()}>
-        <span className={jsStyles.inner()}>{spinnerInner}</span>
+        <span className={jsStyles.inner()}>{this.renderSpinner(type, dimmed)}</span>
         {caption && this.renderCaption(type, caption)}
       </div>
     );
@@ -126,7 +123,7 @@ export class Spinner extends React.Component<SpinnerProps, SpinnerState> {
   private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
     const circleClassName = dimmed ? jsStyles.circleDimmed(this.theme) : jsStyles.circle(this.theme);
 
-    return <SpinnerIcon size={type} className={circleClassName} />;
+    return <SpinnerIcon size={type} className={circleClassName} dimmed={dimmed} />;
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (

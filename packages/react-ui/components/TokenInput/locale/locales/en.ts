@@ -1,6 +1,6 @@
 import { TokenInputLocale } from '../types';
 
 export const componentsLocales: TokenInputLocale = {
-  addButtonComment: 'Press Enter or type comma',
+  addButtonComment: 'Type comma or space',
   addButtonTitle: 'Add',
 };

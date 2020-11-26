@@ -74,7 +74,7 @@ function buildReactUI(reactUIPackagePath: string) {
 }
 
 function initApplication(appDirectory: string, templateDirectory: string, reactUIPackagePath: string) {
-  execSync(`npx create-react-app@next ${appDirectory} --template file:${templateDirectory}`, { stdio: 'inherit' });
+  execSync(`npx create-react-app@latest ${appDirectory} --template file:${templateDirectory}`, { stdio: 'inherit' });
 
   execSync(`npm i @types/node @types/react @types/react-dom @types/jest -D`, { cwd: appDirectory, stdio: 'inherit' });
 

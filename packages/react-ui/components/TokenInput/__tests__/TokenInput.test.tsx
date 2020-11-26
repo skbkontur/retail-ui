@@ -18,23 +18,23 @@ describe('<TokenInput />', () => {
     const wrapper = mount(
       <TokenInput getItems={getItems} selectedItems={[]} onValueChange={onChange} placeholder="Placeholder" />,
     );
-    expect(wrapper.find('input').props().placeholder).toBe('Placeholder');
+    expect(wrapper.find('textarea').props().placeholder).toBe('Placeholder');
   });
 
   it('should reset input value', () => {
     const inputValue = 'eee';
     const wrapper = mount<TokenInput>(<TokenInput getItems={getItems} selectedItems={[]} />);
 
-    wrapper.find('input').simulate('focus');
-    wrapper.find('input').simulate('change', { target: { value: inputValue } });
+    wrapper.find('textarea').simulate('focus');
+    wrapper.find('textarea').simulate('change', { target: { value: inputValue } });
     wrapper.update();
     expect(wrapper.find(TokenInputMenu).length).toBe(1);
-    expect(wrapper.find('input').props().value).toBe(inputValue);
+    expect(wrapper.find('textarea').props().value).toBe(inputValue);
 
     wrapper.instance().reset();
     wrapper.update();
     expect(wrapper.find(TokenInputMenu).length).toBe(0);
-    expect(wrapper.find('input').props().value).toBe('');
+    expect(wrapper.find('textarea').props().value).toBe('');
   });
 
   describe('Locale', () => {
@@ -51,10 +51,18 @@ describe('<TokenInput />', () => {
     const contextMount = (props: LocaleContextProps = { langCode: defaultLangCode }, wrappedLocale = true) => {
       const tokeninput = <TokenInput type={TokenInputType.Combined} getItems={getItems} />;
       wrapper =
-        wrappedLocale === false ? mount(tokeninput) : mount(<LocaleContext.Provider value={{
-          langCode: props.langCode ?? defaultLangCode,
-          locale: props.locale,
-        }}>{tokeninput}</LocaleContext.Provider>);
+        wrappedLocale === false
+          ? mount(tokeninput)
+          : mount(
+              <LocaleContext.Provider
+                value={{
+                  langCode: props.langCode ?? defaultLangCode,
+                  locale: props.locale,
+                }}
+              >
+                {tokeninput}
+              </LocaleContext.Provider>,
+            );
     };
 
     it('render without LocaleProvider', async () => {
@@ -98,7 +106,7 @@ describe('<TokenInput />', () => {
       const expectedComment = TokenInputLocaleHelper.get(LangCodes.ru_RU).addButtonComment;
 
       await focus();
-      wrapper.setProps({ value: { langCode: LangCodes.ru_RU }});
+      wrapper.setProps({ value: { langCode: LangCodes.ru_RU } });
 
       expect(getTextComment()).toBe(expectedComment);
     });
@@ -108,7 +116,7 @@ describe('<TokenInput />', () => {
     const onInputValueChange = jest.fn();
     const value = 'text';
     const wrapper = mount(<TokenInput getItems={getItems} onInputValueChange={onInputValueChange} />);
-    wrapper.find('input').simulate('change', { target: { value } });
+    wrapper.find('textarea').simulate('change', { target: { value } });
     expect(onInputValueChange).toHaveBeenCalledWith(value);
   });
 
@@ -153,7 +161,7 @@ describe('<TokenInput />', () => {
     );
 
     wrapper
-      .find('input')
+      .find('textarea')
       .simulate('focus')
       .simulate('change', { target: { value: value } });
 

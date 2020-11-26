@@ -61,6 +61,7 @@ export interface ModalProps {
 
 export interface ModalState {
   stackPosition: number;
+  hasBackground: boolean;
   horizontalScroll: boolean;
 }
 
@@ -97,13 +98,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     },
   };
 
-  public static defaultProps = { 
+  public static defaultProps = {
     // NOTE: в ie нормально не работает
-    disableFocusLock: isIE11 
+    disableFocusLock: isIE11,
   };
 
   public state: ModalState = {
     stackPosition: 0,
+    hasBackground: true,
     horizontalScroll: false,
   };
 
@@ -204,7 +206,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       <RenderContainer>
         <ZIndex priority={'Modal'} className={jsStyles.root()}>
           <HideBodyVerticalScroll />
-          {this.state.stackPosition === 0 && <div className={jsStyles.bg(this.theme)} />}
+          {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
           <div
             ref={this.refContainer}
             className={jsStyles.container()}
@@ -254,7 +256,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   };
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
-    this.setState({ stackPosition: stack.indexOf(this) });
+    this.setState({ stackPosition: stack.indexOf(this), hasBackground: ModalStack.isBlocking(this) });
   };
 
   private handleContainerMouseDown = (event: React.MouseEvent) => {
