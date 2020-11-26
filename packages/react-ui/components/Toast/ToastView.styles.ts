@@ -41,12 +41,13 @@ const styles = {
 
   link(t: Theme) {
     const halfPaddingX = `${Math.round(parseInt(t.toastPaddingX) / 2)}px`;
+    const linkPaddingRight = parseInt(halfPaddingX) + parseInt(t.toastCloseBtnPadding) + 8;
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
-      margin: -${t.toastPaddingY} ${t.toastPaddingX} -${parseInt(t.toastPaddingY) +
+      margin: -${t.toastPaddingY} ${linkPaddingRight}px -${parseInt(t.toastPaddingY) +
           parseInt(t.fontFamilyCompensationBaseline)}px
         ${halfPaddingX};
       padding: ${t.toastPaddingY} ${halfPaddingX}
