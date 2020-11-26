@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../DateSelect';
 import { Nullable } from '../../typings/utility-types';
 
-import { config } from './config';
+import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 import { MonthViewModel } from './MonthViewModel';
 import { DayCellViewModel } from './DayCellViewModel';
@@ -126,6 +128,8 @@ interface MonthDayGridProps {
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
+  private theme!: Theme;
+
   public static defaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
   };
@@ -148,10 +152,22 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
 
   public render() {
     return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
+    return (
       <div>
         <div
           style={{
-            width: this.props.offset * config.DAY_HEIGHT,
+            width:
+              this.props.offset * (themeConfig(this.theme).DAY_HEIGHT + parseInt(this.theme.calendarDayMarginRight)),
             display: 'inline-block',
           }}
         />

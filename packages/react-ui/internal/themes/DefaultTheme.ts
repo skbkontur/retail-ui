@@ -703,7 +703,7 @@ export class DefaultTheme {
     return this.bgActive;
   }
   public static calendarDayHeight = ' 30px';
-  public static calendarDayMarginLeft = '0';
+  public static calendarDayMarginRight = '0';
   public static calendarDayMarginBottom = '0';
   public static calendarPaddingX = '15px';
   public static calendarMonthTitleHeight = ' 40px';

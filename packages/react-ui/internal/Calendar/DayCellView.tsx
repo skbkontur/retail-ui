@@ -29,7 +29,7 @@ export function DayCellView(props: DayCellViewProps) {
   const cellStyle = {
     width: theme.calendarDayHeight,
     height: theme.calendarDayHeight,
-    margin: ` 0 ${theme.calendarDayMarginLeft} ${theme.calendarDayMarginBottom} 0 `,
+    margin: ` 0 ${theme.calendarDayMarginRight} ${theme.calendarDayMarginBottom} 0`,
     lineHeight: parseInt(theme.calendarDayHeight) - 2 + 'px',
     borderRadius: parseInt(theme.calendarDayHeight) / 2,
   };

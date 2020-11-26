@@ -454,6 +454,14 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region Calendar
+  public static calendarDayHeight = ' 20px';
+  public static calendarDayMarginRight = '12px';
+  public static calendarDayMarginBottom = '10px';
+  public static calendarPaddingX = '24px';
+  public static calendarMonthBottomMargin = '24px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));

@@ -17,7 +17,7 @@ const styles = {
   },
 
   month(t: Theme) {
-    const width = parseInt(t.calendarDayHeight) * 7 + parseInt(t.calendarDayMarginLeft) * 6;
+    const width = parseInt(t.calendarDayHeight) * 7 + parseInt(t.calendarDayMarginRight) * 7;
     return css`
       position: absolute;
       width: ${width}px;
@@ -32,11 +32,13 @@ const styles = {
   },
 
   monthTitle(t: Theme) {
+    const width = parseInt(t.calendarDayHeight) * 7 + parseInt(t.calendarDayMarginRight) * 6;
     return css`
       border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
       font-weight: ${t.dateSelectFontWeight};
       margin-bottom: 10px;
       position: relative;
+      width: ${width}px;
     `;
   },
 };
