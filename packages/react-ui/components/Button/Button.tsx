@@ -211,26 +211,26 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       },
     };
 
-    let error = null;
+    let errorNode = null;
     if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
+      errorNode = <div className={jsStyles.error(this.theme)} />;
     } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+      errorNode = <div className={jsStyles.warning(this.theme)} />;
     }
 
-    let loading = null;
+    let loadingNode = null;
     if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+      loadingNode = <div className={jsStyles.loading()} />;
     }
 
-    let icon = this.props.icon;
+    let iconNode = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      iconNode = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
     }
 
-    let arrow = null;
+    let arrowNode = null;
     if (this.props.arrow) {
-      arrow = (
+      arrowNode = (
         <div
           className={cn({
             [jsStyles.arrowWarning(this.theme)]: isWarning,
@@ -258,18 +258,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      loading = null;
-      arrow = null;
+      loadingNode = null;
+      arrowNode = null;
     }
 
     return (
       <span {...wrapProps}>
         <button ref={this._ref} {...rootProps}>
-          {error}
-          {loading}
-          {arrow}
+          {errorNode}
+          {loadingNode}
+          {arrowNode}
           <div className={jsStyles.caption()}>
-            {icon}
+            {iconNode}
             {this.props.children}
           </div>
         </button>
