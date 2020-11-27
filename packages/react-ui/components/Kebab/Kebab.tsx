@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
-import { Icon as Icon20 } from '../../internal/icons/20px';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { tabListener } from '../../lib/events/tabListener';
 import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
@@ -222,7 +221,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       case 'large':
         return (
           <div className={jsStyles.iconlarge()}>
-            <Icon20 name="kebab" color="#757575" />
+            <MenuKebabIcon size="20px" color="#757575" style={{ verticalAlign: -2 }} />
           </div>
         );
       default:
