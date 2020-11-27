@@ -13,7 +13,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLSpanElement> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -35,18 +35,12 @@ export interface ButtonProps {
    */
   arrow?: boolean | 'left';
 
-  autoFocus?: boolean;
-
   borderless?: boolean;
 
   checked?: boolean;
 
-  children?: React.ReactNode;
-
   /** @ignore */
   corners?: number;
-
-  disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
@@ -64,25 +58,11 @@ export interface ButtonProps {
 
   narrow?: boolean;
 
-  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 
   onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-
-  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
-
   /** `type ButtonSize = "small" | "medium" | "large"` */
   size?: ButtonSize;
-
-  /** `type ButtonType = "button" | "submit" | "reset"` */
-  type?: ButtonType;
 
   /**
    * Вариант использования. Влияет на цвет кнопки.
@@ -114,6 +94,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static defaultProps = {
     use: 'default',
     size: 'small',
+    tabIndex: 0,
+    // By default the type attribute is 'submit'. IE8 will fire a click event
+    // on this button if somewhere on the page user presses Enter while some
+    // input is focused. So we set type to 'button' by default.
     type: 'button',
   };
 
@@ -157,16 +141,42 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderMain() {
-    const { corners = 0 } = this.props;
+    const {
+      // bussiness props
+      corners = 0,
+      _noPadding,
+      _noRightPadding,
+      active,
+      align,
+      arrow,
+      borderless,
+      checked,
+      disableFocus,
+      error,
+      focused,
+      icon,
+      loading,
+      narrow,
+      size,
+      use,
+      visuallyFocused,
+      warning,
+      width,
+      // props that get handled manually
+      onFocus,
+      onBlur,
+
+      ...rest
+    } = this.props;
+    const [generalProps, buttonProps] = this.extractButtonProps(rest);
+
     const sizeClass = this.getSizeClassName();
 
-    const isError = !!this.props.error;
-    const isWarning = !!this.props.warning;
+    const isError = !!error;
+    const isWarning = !!warning;
+
     const rootProps = {
-      // By default the type attribute is 'submit'. IE8 will fire a click event
-      // on this button if somewhere on the page user presses Enter while some
-      // input is focused. So we set type to 'button' by default.
-      type: this.props.type,
+      ...buttonProps,
       className: cn({
         [jsStyles.root(this.theme)]: true,
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
@@ -190,18 +200,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         textAlign: this.props.align,
       },
       disabled: this.props.disabled || this.props.loading,
-      onClick: this.props.onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: this.props.onKeyDown,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
-      tabIndex: this.props.disableFocus ? -1 : 0,
     };
 
     const wrapProps = {
+      ...generalProps,
       className: cn({
+        // @ts-ignore
+        [generalProps.className]: true,
         [jsStyles.wrap(this.theme)]: true,
         [jsStyles.wrapArrow()]: this.props.arrow === true,
         [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
@@ -328,6 +335,44 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private _ref = (node: HTMLButtonElement | null) => {
     this.node = node;
+  };
+
+  private extractButtonProps = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+    const buttonSpecificProps = [
+      'autoFocus',
+      'disabled',
+      'form',
+      'formAction',
+      'formEncType',
+      'formMethod',
+      'formNoValidate',
+      'formTarget',
+      'name',
+      'type',
+      'value',
+      // some extra
+      'id',
+      'tabIndex',
+      'aria-label',
+      'aria-labeledby',
+    ];
+    type extraProps = 'id' | 'tabIndex' | 'aria-label' | 'aria-labeledby';
+    const generalProps: Omit<React.HTMLAttributes<HTMLButtonElement>, extraProps> = {};
+    const buttonProps: Omit<
+      React.ButtonHTMLAttributes<HTMLButtonElement>,
+      Exclude<keyof React.HTMLAttributes<HTMLButtonElement>, extraProps>
+    > = {};
+
+    for (const key in props) {
+      if (buttonSpecificProps.indexOf(key) >= 0) {
+        // @ts-ignore
+        buttonProps[key] = props[key];
+      } else {
+        // @ts-ignore
+        generalProps[key] = props[key];
+      }
+    }
+    return [generalProps, buttonProps];
   };
 }
 
