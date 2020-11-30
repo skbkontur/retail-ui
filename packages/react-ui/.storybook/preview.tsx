@@ -1,5 +1,5 @@
-import { setFilter } from '@skbkontur/react-props2attrs';
 import React from 'react';
+import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { addDecorator, addParameters } from '@storybook/react';
 import { withCreevey } from 'creevey';
