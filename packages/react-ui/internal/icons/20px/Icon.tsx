@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import { Warning, Ok, Gear, User, Wait, Clear, Money, HelpCircle, Kebab } from './svg';
 
 const MAP = {
-  warning: <Warning />,
-  ok: <Ok />,
-  gear: <Gear />,
-  user: <User />,
-  wait: <Wait />,
-  clear: <Clear />,
-  money: <Money />,
-  'help-circle': <HelpCircle />,
-  kebab: <Kebab />,
+  warning: Warning,
+  ok: Ok,
+  gear: Gear,
+  user: User,
+  wait: Wait,
+  clear: Clear,
+  money: Money,
+  'help-circle': HelpCircle,
+  kebab: Kebab,
 };
 
 export interface IconProps {
@@ -38,6 +38,6 @@ export class Icon extends React.Component<IconProps> {
 
   public render() {
     const { name, color } = this.props;
-    return React.cloneElement(MAP[name], { color });
+    return React.createElement(MAP[name], { color });
   }
 }
