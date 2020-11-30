@@ -1,7 +1,12 @@
 const env: NodeJS.ProcessEnv = (typeof process === 'object' && process && process.env) || {};
-const { enableReactTesting, NODE_ENV } = env;
+const { enableReactTesting, NODE_ENV, REACT_UI_TEST, REACT_APP_REACT_UI_TEST, STORYBOOK_REACT_UI_TEST } = env;
 
-const isReactTesting = enableReactTesting != null ? Boolean(enableReactTesting) : false;
-export const isTestEnv: boolean = NODE_ENV === 'test' || isReactTesting;
+const isReactUITestEnv =
+  Boolean(REACT_UI_TEST) || // for cases when NODE_ENV is not usable (dev/prod)
+  Boolean(REACT_APP_REACT_UI_TEST) || // for usage with CRA
+  Boolean(STORYBOOK_REACT_UI_TEST) || // for usage with storybook
+  Boolean(enableReactTesting); // deprecated, legacy variable
+
+export const isTestEnv: boolean = NODE_ENV === 'test' || isReactUITestEnv;
 export const isProductionEnv: boolean = NODE_ENV === 'production';
 export const isDevelopmentEnv: boolean = NODE_ENV === 'development';

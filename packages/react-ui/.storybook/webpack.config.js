@@ -47,9 +47,6 @@ module.exports = async ({ config, mode }) => {
   ];
 
   config.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.enableReactTesting': JSON.stringify(isTestEnv),
-    }),
     new ForkTsCheckerWebpackPlugin({
       typescript: {
         configFile: path.resolve(__dirname, '../prod.tsconfig.json'),

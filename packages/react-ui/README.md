@@ -49,7 +49,7 @@ Upgrade.setSpecificityLevel(1);
 
 ### Есть ли способ отключить анимации во время тестирования?
 
-Анимации в компонентах отключаются переменной окружения `process.env.NODE_ENV === 'test'`.
+Анимации в компонентах отключаются переменной окружения `process.env.NODE_ENV === 'test'` или `process.env.BROWSER_ENV === 'test'`.
 
 ### Прокидывание className и style компонентам
 
