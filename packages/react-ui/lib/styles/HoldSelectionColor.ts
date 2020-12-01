@@ -1,8 +1,8 @@
 import { injectGlobal } from '../theming/Emotion';
-import { isChrome, isFirefox, isIE11 } from '../utils';
+import { isChrome } from '../utils';
 
 // This is for screenshot tests
-const Highlight = isIE11 || isFirefox ? '#3399ff' : isChrome ? '#3390ff' : 'Highlight';
+const Highlight = isChrome ? '#3390ff' : '#3399ff';
 
 injectGlobal`
   *::selection {
