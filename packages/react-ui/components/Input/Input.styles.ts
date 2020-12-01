@@ -188,8 +188,8 @@ const styles = {
       }
       ${cssName(styles.input(t))} {
         color: ${t.inputTextColorDisabled};
-        /* fix text color in safari */
-        -webkit-text-fill-color: currentcolor;
+        /* fix text color in safari https://bugs.webkit.org/show_bug.cgi?id=115510 */
+        -webkit-text-fill-color: ${t.inputTextColorDisabled};
       }
       ${cssName(styles.input(t))}:-moz-placeholder {
         -webkit-text-fill-color: ${t.inputPlaceholderColor};
