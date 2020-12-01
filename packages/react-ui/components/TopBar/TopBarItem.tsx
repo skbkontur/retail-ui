@@ -13,7 +13,7 @@ export interface TopBarItemProps {
   active?: boolean;
   children?: React.ReactNode;
   className?: string;
-  icon?: IconProps['name'];
+  icon?: IconProps['name'] | React.ReactElement;
   iconOnly?: boolean;
   minWidth?: string | number;
   use: 'danger' | 'pay' | 'default';
@@ -56,14 +56,11 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
       [jsStyles.icon()]: !!icon,
       [jsStyles.iconOnly()]: !!iconOnly,
     });
+    const iconNode = typeof icon === 'string' ? <Icon name={icon} /> : icon;
 
     return (
       <div {...rest} className={classes} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
-        {icon && (
-          <span className={iconClasses}>
-            <Icon color="#666" name={icon} />
-          </span>
-        )}
+        {icon && <span className={iconClasses}>{iconNode}</span>}
         {icon && iconOnly ? null : children}
       </div>
     );
