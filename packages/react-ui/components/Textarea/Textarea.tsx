@@ -364,8 +364,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.autoResize();
     }
 
-    if (this.props.onPaste) {
-      this.props.onPaste(event);
+    if (this.props.onCut) {
+      this.props.onCut(event);
     }
   };
 
@@ -374,8 +374,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.autoResize();
     }
 
-    if (this.props.onCut) {
-      this.props.onCut(event);
+    if (this.props.onPaste) {
+      this.props.onPaste(event);
     }
   };
 
