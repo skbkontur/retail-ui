@@ -17,7 +17,7 @@ const MAP = {
 
 export interface IconProps {
   name: keyof typeof MAP;
-  color: React.CSSProperties['color'];
+  color?: React.CSSProperties['color'];
 }
 
 export class Icon extends React.Component<IconProps> {

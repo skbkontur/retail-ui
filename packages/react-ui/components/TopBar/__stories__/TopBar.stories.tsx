@@ -1,5 +1,5 @@
-import BabyIcon from '@skbkontur/react-icons/Baby';
 import React from 'react';
+import { Baby as BabyIcon, Dot12, Ok } from '@skbkontur/react-icons';
 
 import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../Button';
@@ -134,6 +134,8 @@ export const TopBarWithIcons = () => (
       <TopBar.Item icon="money" />
       <TopBar.Item icon="help-circle" />
       <TopBar.Item icon="kebab" />
+      <TopBar.Item icon={<Dot12 size="17.5px" />}>Hello</TopBar.Item>
+      <TopBar.Item icon={<Ok size="17.5px" />} />
     </TopBar.Start>
     <TopBar.End>
       <TopBarDropdown icon="gear" label="Dropdown" />
