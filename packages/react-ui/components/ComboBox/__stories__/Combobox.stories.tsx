@@ -1053,4 +1053,4 @@ export const WithLeftIcon = () => (
     <SimpleCombobox leftIcon={<SearchIcon />} size="large" drawArrow={false}/>
   </Gapped>
 );
-WithLeftIcon.story = { name: 'with left icon', parameters: { creevey: { skip: [true] } } };
+WithLeftIcon.story = { name: 'with left icon' };
