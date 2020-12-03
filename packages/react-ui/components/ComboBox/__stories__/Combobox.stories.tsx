@@ -1045,12 +1045,12 @@ class ComboBoxWithExternalValue extends React.Component {
   };
 }
 
-
 export const WithLeftIcon = () => (
   <Gapped vertical>
-    <SimpleCombobox leftIcon={<SearchIcon />} size="small" drawArrow={false}/>
-    <SimpleCombobox leftIcon={<SearchIcon />} size="medium" drawArrow={false}/>
-    <SimpleCombobox leftIcon={<SearchIcon />} size="large" drawArrow={false}/>
+    <SimpleCombobox leftIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="small" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="medium" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="large" drawArrow={false} />
   </Gapped>
 );
 WithLeftIcon.story = { name: 'with left icon' };
