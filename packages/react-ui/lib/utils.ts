@@ -1,7 +1,5 @@
 import { ReactComponentLike } from 'prop-types';
 
-import { isBrowser } from './client';
-
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
   ? string extends keyof P
@@ -52,19 +50,6 @@ export const getRandomID = (): string =>
   Math.random()
     .toString(16)
     .slice(2);
-
-export const hasSvgAnimationSupport = (() => {
-  if (isBrowser && document.createElementNS) {
-    const namespaceURI = 'http://www.w3.org/2000/svg';
-    const element = document.createElementNS(namespaceURI, 'animate');
-
-    if (element) {
-      return element.toString().includes('SVGAnimate');
-    }
-  }
-
-  return false;
-})();
 
 export const isExternalLink = (link: string): boolean => {
   return new RegExp(`^(https?:)?//(?!${window.location.host})\\S+`, 'gi').test(link);

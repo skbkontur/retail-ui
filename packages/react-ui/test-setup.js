@@ -13,11 +13,6 @@ jest.mock('lodash.debounce', () =>
     return fn;
   }),
 );
-jest.mock('./lib/utils', () => {
-  const utils = jest.requireActual('./lib/utils');
-  utils.__setSvgAnimationSupport = flag => (utils.hasSvgAnimationSupport = flag);
-  return utils;
-});
 
 /**
  * Since React v15.5, there's a warning printed if you access `React.createClass` or `React.PropTypes`
