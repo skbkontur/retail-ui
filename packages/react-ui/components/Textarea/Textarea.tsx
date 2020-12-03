@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import cn from 'classnames';
@@ -12,10 +12,9 @@ import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 
-import { getTextareaCounterBottom, getTextAreaHeight, getTextareaPaddingBottom } from './TextareaHelpers';
+import { getTextAreaHeight, getTextareaPaddingBottom } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
 import { TextareaCounter } from './TextareaCounter';
-import { TextareaCounterHelpProps } from './TextareaCounterHelp';
 
 const DEFAULT_WIDTH = 250;
 
@@ -63,16 +62,16 @@ export type TextareaProps = Override<
     /** Выделение значения при фокусе */
     selectAllOnFocus?: boolean;
 
-    /** Показывать счетчик оставшихся букв */
-    showMaxRecommendedLengthCounter?: boolean;
+    /** Показывать счетчик букв */
+    showLengthCounter?: boolean;
 
     /** Допустимое количество букв в счетчике
      * Если не указано, равно `maxLength`
      */
-    maxRecommendedLengthCounter?: number;
+    lengthCounter?: number;
 
-    /** Подсказка-тултип и настройки  */
-    counterHelp?: TextareaCounterHelpProps;
+    /** Подсказка-тултип  */
+    counterHelp?: ReactNode | string;
   }
 >;
 
@@ -81,6 +80,7 @@ export interface TextareaState {
   rows: number | string;
   isFocused: boolean;
   textareaWidth: number;
+  textareaHeight: number;
 }
 
 /**
@@ -155,16 +155,22 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 1,
     isFocused: false,
     textareaWidth: 0,
+    textareaHeight: 0,
   };
 
   private resizeTextArea = () => {
     if (this.node) {
-      const { clientWidth, offsetWidth } = this.node;
-      const scrollBarWidth = offsetWidth - clientWidth;
-      const newTextareaWidth = offsetWidth - scrollBarWidth;
+      const { textareaWidth, textareaHeight } = this.state;
+      const { clientWidth, offsetHeight, offsetWidth } = this.node;
+      const scrollWidth = offsetWidth - clientWidth;
+      const newWidth = offsetWidth - scrollWidth;
 
-      if (this.state.textareaWidth !== newTextareaWidth) {
-        this.setState({ textareaWidth: newTextareaWidth });
+      if (textareaWidth !== newWidth) {
+        this.setState({ textareaWidth: newWidth });
+      }
+
+      if (textareaHeight !== offsetHeight) {
+        this.setState({ textareaHeight: offsetHeight });
       }
     }
   };
@@ -181,7 +187,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.layoutEvents = LayoutEvents.addListener(this.autoResize);
     }
 
-    if (this.node && this.props.showMaxRecommendedLengthCounter) {
+    if (this.node && this.props.showLengthCounter) {
       this.textareaObserver.observe(this.node, { attributes: true });
       this.resizeTextArea();
     }
@@ -190,6 +196,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public componentWillUnmount() {
     if (this.layoutEvents) {
       this.layoutEvents.remove();
+    }
+    if (this.props.showLengthCounter) {
+      this.textareaObserver.disconnect();
     }
   }
 
@@ -268,13 +277,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       style,
       placeholder,
       onValueChange,
-      showMaxRecommendedLengthCounter,
-      maxRecommendedLengthCounter,
+      showLengthCounter,
+      lengthCounter,
       counterHelp,
       ...textareaProps
     } = this.props;
 
-    const { isFocused, textareaWidth } = this.state;
+    const { isFocused, textareaWidth, textareaHeight } = this.state;
 
     const rootProps = {
       style: {
@@ -290,9 +299,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textAreaStyle = {
       resize: autoResize ? 'none' : resize,
-      paddingBottom: showMaxRecommendedLengthCounter
-        ? getTextareaPaddingBottom(this.theme)
-        : this.theme.textareaPaddingY,
+      paddingBottom: showLengthCounter ? getTextareaPaddingBottom(this.theme) : this.theme.textareaPaddingY,
     };
 
     let placeholderPolyfill = null;
@@ -312,14 +319,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
-    const maxAllowedCharsLength: number = textareaProps.maxLength ?? maxRecommendedLengthCounter ?? 0;
-    const textareaCounter = showMaxRecommendedLengthCounter && isFocused && !!textareaWidth && (
+    const textareaCounter = showLengthCounter && isFocused && !!textareaWidth && (
       <TextareaCounter
-        value={this.props.value}
         textareaWidth={textareaWidth}
-        maxAllowedCharsLength={maxAllowedCharsLength}
+        textareaHeight={textareaHeight}
         counterHelp={counterHelp}
-        bottom={getTextareaCounterBottom(this.node!)}
+        value={textareaProps.value}
+        length={textareaProps.maxLength ?? lengthCounter ?? 0}
       />
     );
 

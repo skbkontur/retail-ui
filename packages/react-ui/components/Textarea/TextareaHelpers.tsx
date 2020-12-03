@@ -21,9 +21,3 @@ export const getTextareaPaddingBottom = (theme: Theme): number => {
 
   return parseInt(textareaPaddingY, 10);
 };
-
-export const getTextareaCounterBottom = (node: HTMLTextAreaElement): number => {
-  const style: CSSStyleDeclaration = getComputedStyle(node);
-
-  return parseInt(style.borderBottomWidth, 10) + parseInt(style.marginBottom, 10);
-};

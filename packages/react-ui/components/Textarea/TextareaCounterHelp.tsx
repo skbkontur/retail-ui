@@ -1,33 +1,22 @@
 import React, { FC, ReactNode, useContext } from 'react';
 import { HelpDot } from '@skbkontur/react-icons';
 
-import { PopupPosition as TooltipPosition } from '../../internal/Popup';
 import { ThemeContext, Tooltip } from '../..';
 
 import { jsStyles } from './Textarea.styles';
 
-export type TextareaCounterHelpProps = {
-  tooltipContent: ReactNode;
-  pos?: TooltipPosition;
-  allowedPositions?: TooltipPosition[];
-  icon?: ReactNode;
+type TextareaCounterHelpProps = {
+  counterHelp: ReactNode | string;
 };
 
-export const TextareaCounterHelp: FC<TextareaCounterHelpProps> = props => {
-  const { icon, tooltipContent, allowedPositions, pos } = props;
+export const TextareaCounterHelp: FC<TextareaCounterHelpProps> = ({ counterHelp }) => {
   const { textareaCounterDefaultHelpColor } = useContext(ThemeContext);
-  const defaultIcon = <HelpDot color={textareaCounterDefaultHelpColor} />;
-
-  return (
-    <span className={jsStyles.counterHelp()}>
-      <Tooltip
-        pos={pos ?? 'right bottom'}
-        trigger={'click'}
-        allowedPositions={allowedPositions}
-        render={() => tooltipContent}
-      >
-        {icon ?? defaultIcon}
-      </Tooltip>
-    </span>
+  const defaultHelp = (
+    <Tooltip pos={'right bottom'} trigger={'click'} render={() => counterHelp}>
+      <HelpDot color={textareaCounterDefaultHelpColor} />
+    </Tooltip>
   );
+  const isString = typeof counterHelp === 'string';
+
+  return <span className={jsStyles.counterHelp()}>{isString ? defaultHelp : counterHelp}</span>;
 };

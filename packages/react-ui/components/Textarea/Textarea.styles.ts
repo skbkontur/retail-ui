@@ -116,6 +116,13 @@ const styles = {
     `;
   },
 
+  counterContainer() {
+    return css`
+      position: absolute;
+      top: 0
+    `
+  },
+
   counter(t: Theme) {
     return css`
       position: absolute;
@@ -126,6 +133,7 @@ const styles = {
       line-height: 26px;
       padding: 0 2px;
       border-radius: 2px;
+      right: 0;
     `;
   },
 

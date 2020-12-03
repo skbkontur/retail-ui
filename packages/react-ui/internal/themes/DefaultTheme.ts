@@ -1174,7 +1174,7 @@ export class DefaultTheme {
     return this.borderColorGrayLight;
   }
   public static textareaCounterColor = '#808080';
-  public static textareaCounterBackground = 'rgb(255, 255, 255, 0.9)';
+  public static textareaCounterBackground = 'rgba(255, 255, 255, 0.9)';
   public static get textareaCounterErrorColor() {
     return this.errorText;
   }

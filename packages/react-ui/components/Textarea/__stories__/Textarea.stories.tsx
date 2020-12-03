@@ -249,10 +249,11 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
       <div style={headingStyle}>Plain</div>
       <div id="CounterPlain" style={blockStyle}>
         <Textarea
-          value={TEXT_SAMPLE}
+          value={TEXT_SAMPLE.split('').join(' ')}
           width={400}
-          maxRecommendedLengthCounter={700}
-          showMaxRecommendedLengthCounter={true}
+          lengthCounter={700}
+          showLengthCounter={true}
+          spellCheck={false}
         />
       </div>
 
@@ -261,9 +262,10 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
         <Textarea
           value={TEXT_SAMPLE}
           width={400}
-          maxRecommendedLengthCounter={50}
+          lengthCounter={50}
           autoResize={true}
-          showMaxRecommendedLengthCounter={true}
+          showLengthCounter={true}
+          spellCheck={false}
         />
       </div>
 
@@ -274,7 +276,8 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
           width={400}
           maxLength={50}
           disabled={true}
-          showMaxRecommendedLengthCounter={true}
+          showLengthCounter={true}
+          spellCheck={false}
         />
       </div>
 
@@ -284,15 +287,16 @@ export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
           value={TEXT_SAMPLE}
           width={400}
           maxLength={50}
-          showMaxRecommendedLengthCounter={true}
-          counterHelp={{ tooltipContent: 'test' }}
+          showLengthCounter={true}
+          counterHelp={'test'}
+          spellCheck={false}
         />
       </div>
     </div>
   );
 };
 TextareaWithCounters.story = {
-  name: 'Textarea with chars length counter',
+  name: 'Textarea with length counter',
   parameters: {
     creevey: {
       tests: {
