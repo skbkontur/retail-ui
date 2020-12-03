@@ -319,7 +319,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
-    const textareaCounter = showLengthCounter && isFocused && !!textareaWidth && (
+    const textareaCounter = showLengthCounter && isFocused && !!textareaWidth && !!textareaHeight && (
       <TextareaCounter
         textareaWidth={textareaWidth}
         textareaHeight={textareaHeight}

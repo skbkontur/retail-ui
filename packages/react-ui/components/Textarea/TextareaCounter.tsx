@@ -27,7 +27,6 @@ export const TextareaCounter: FC<TextareaCounterProps> = props => {
   const counterStyle: CSSProperties = {
     right: parseInt(theme.textareaPaddingX, 10),
     bottom: parseInt(theme.textareaBorderWidth, 10),
-    visibility: textareaWidth && textareaHeight ? 'visible' : 'hidden',
   };
 
   return (
