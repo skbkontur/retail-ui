@@ -3,6 +3,7 @@ import React from 'react';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
+import { InputIconType } from '../Input';
 
 export interface ComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
@@ -31,6 +32,8 @@ export interface ComboBoxProps<T> {
   disabled?: boolean;
 
   error?: boolean;
+
+  leftIcon?: InputIconType;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
