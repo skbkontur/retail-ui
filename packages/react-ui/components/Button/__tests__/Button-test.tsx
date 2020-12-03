@@ -34,4 +34,36 @@ describe('Button', () => {
 
     expect(onClick.mock.calls.length).toBe(1);
   });
+
+  it('forwards props', () => {
+    const handler = () => null;
+    const rootProps = {
+      'data-tid': 'tid',
+      onFocus: handler,
+      onPaste: handler,
+    };
+    const buttonProps: React.ButtonHTMLAttributes<HTMLElement> = {
+      id: 'id',
+      tabIndex: 2,
+      'aria-label': 'aria-label',
+      'aria-labelledby': 'aria-labelledby',
+      name: 'name',
+      form: 'form',
+      autoFocus: true,
+      disabled: true,
+      formAction: 'url',
+      formEncType: 'multipart/form-data',
+      formMethod: 'post',
+      formNoValidate: true,
+      formTarget: '_self',
+      type: 'submit',
+      value: 'value',
+    };
+    const wrapper = mount(<Button {...rootProps} {...buttonProps} />);
+    const root = wrapper.children();
+    const button = wrapper.find('button');
+
+    expect(root.props()).toMatchObject(rootProps);
+    expect(button.props()).toMatchObject(buttonProps);
+  });
 });

@@ -13,7 +13,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLSpanElement> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -35,18 +35,12 @@ export interface ButtonProps {
    */
   arrow?: boolean | 'left';
 
-  autoFocus?: boolean;
-
   borderless?: boolean;
 
   checked?: boolean;
 
-  children?: React.ReactNode;
-
   /** @ignore */
   corners?: number;
-
-  disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
@@ -64,25 +58,8 @@ export interface ButtonProps {
 
   narrow?: boolean;
 
-  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-
-  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
-
   /** `type ButtonSize = "small" | "medium" | "large"` */
   size?: ButtonSize;
-
-  /** `type ButtonType = "button" | "submit" | "reset"` */
-  type?: ButtonType;
 
   /**
    * Вариант использования. Влияет на цвет кнопки.
@@ -114,6 +91,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static defaultProps = {
     use: 'default',
     size: 'small',
+    tabIndex: 0,
+    // By default the type attribute is 'submit'. IE8 will fire a click event
+    // on this button if somewhere on the page user presses Enter while some
+    // input is focused. So we set type to 'button' by default.
     type: 'button',
   };
 
@@ -127,7 +108,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public componentDidMount() {
     if (this.props.autoFocus) {
       tabListener.isTabPressed = true;
-      this.focus();
+      // handleFocus will do the rest
     }
   }
 
@@ -157,16 +138,71 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderMain() {
-    const { corners = 0 } = this.props;
+    const {
+      // business props
+      corners = 0,
+      _noPadding,
+      _noRightPadding,
+      active,
+      align,
+      arrow,
+      borderless,
+      checked,
+      disableFocus,
+      error,
+      focused,
+      icon,
+      loading,
+      narrow,
+      size,
+      use,
+      visuallyFocused,
+      warning,
+      width,
+
+      // button props
+      autoFocus,
+      disabled,
+      form,
+      formAction,
+      formEncType,
+      formMethod,
+      formNoValidate,
+      formTarget,
+      name,
+      type,
+      value,
+      // some common props that
+      // are reasonable for button
+      id,
+      tabIndex,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabeledBy,
+
+      // wrapper props
+      ...rest
+    } = this.props;
+
     const sizeClass = this.getSizeClassName();
 
-    const isError = !!this.props.error;
-    const isWarning = !!this.props.warning;
-    const rootProps = {
-      // By default the type attribute is 'submit'. IE8 will fire a click event
-      // on this button if somewhere on the page user presses Enter while some
-      // input is focused. So we set type to 'button' by default.
-      type: this.props.type,
+    const isError = !!error;
+    const isWarning = !!warning;
+
+    const buttonProps = {
+      autoFocus,
+      form,
+      formAction,
+      formEncType,
+      formMethod,
+      formNoValidate,
+      formTarget,
+      name,
+      type,
+      value,
+      id,
+      tabIndex,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabeledBy,
       className: cn({
         [jsStyles.root(this.theme)]: true,
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
@@ -190,47 +226,43 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         textAlign: this.props.align,
       },
       disabled: this.props.disabled || this.props.loading,
-      onClick: this.props.onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: this.props.onKeyDown,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
-      tabIndex: this.props.disableFocus ? -1 : 0,
     };
 
     const wrapProps = {
-      className: cn({
+      ...rest,
+      className: cn(this.props.className, {
         [jsStyles.wrap(this.theme)]: true,
         [jsStyles.wrapArrow()]: this.props.arrow === true,
         [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
       }),
       style: {
+        ...this.props.style,
         width: this.props.width,
       },
     };
 
-    let error = null;
+    let errorNode = null;
     if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
+      errorNode = <div className={jsStyles.error(this.theme)} />;
     } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+      errorNode = <div className={jsStyles.warning(this.theme)} />;
     }
 
-    let loading = null;
+    let loadingNode = null;
     if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+      loadingNode = <div className={jsStyles.loading()} />;
     }
 
-    let icon = this.props.icon;
+    let iconNode = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      iconNode = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
     }
 
-    let arrow = null;
+    let arrowNode = null;
     if (this.props.arrow) {
-      arrow = (
+      arrowNode = (
         <div
           className={cn({
             [jsStyles.arrowWarning(this.theme)]: isWarning,
@@ -244,7 +276,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     // Force disable all props and features, that cannot be use with Link
     if (this.props.use === 'link') {
-      rootProps.className = cn({
+      buttonProps.className = cn({
         [jsStyles.root(this.theme)]: true,
         [sizeClass]: true,
         [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
@@ -257,19 +289,19 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         }),
         style: { width: wrapProps.style.width },
       });
-      rootProps.style.textAlign = undefined;
-      loading = null;
-      arrow = null;
+      buttonProps.style.textAlign = undefined;
+      loadingNode = null;
+      arrowNode = null;
     }
 
     return (
       <span {...wrapProps}>
-        <button ref={this._ref} {...rootProps}>
-          {error}
-          {loading}
-          {arrow}
+        <button ref={this._ref} {...buttonProps}>
+          {errorNode}
+          {loadingNode}
+          {arrowNode}
           <div className={jsStyles.caption()}>
-            {icon}
+            {iconNode}
             {this.props.children}
           </div>
         </button>
@@ -310,12 +342,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
+      // also this helps during autoFocus
       process.nextTick(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });
-      this.props.onFocus?.(e);
+    } else {
+      e.stopPropagation();
     }
   };
 
@@ -323,6 +357,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     this.setState({ focusedByTab: false });
     if (!this.props.disabled && !this.props.disableFocus) {
       this.props.onBlur?.(e);
+    } else {
+      e.stopPropagation();
     }
   };
 
