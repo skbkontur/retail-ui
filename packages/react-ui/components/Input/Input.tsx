@@ -10,16 +10,16 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { extractProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
-export type InputProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
+export type InputProps<T = HTMLLabelElement> = Override<
+  React.InputHTMLAttributes<T>,
   {
     /**
      * Иконка слева
@@ -56,16 +56,9 @@ export type InputProps = Override<
     size?: InputSize;
     /** onValueChange */
     onValueChange?: (value: string) => void;
-    /** Вызывается на label */
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Тип */
-    type?: InputType;
     /** Значение */
     value?: string;
+    defaultValue?: string;
     capture?: boolean;
 
     /**
@@ -90,6 +83,22 @@ export type InputProps = Override<
      * @param value значение инпута.
      */
     onUnexpectedInput?: (value: string) => void;
+
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+
+    onChange?: React.FormEventHandler<HTMLInputElement>;
+    onInput?: React.FormEventHandler<HTMLInputElement>;
+    onBeforeInput?: React.FormEventHandler<HTMLInputElement>;
+    onInvalid?: React.FormEventHandler<HTMLInputElement>;
+
+    onCopy?: React.ClipboardEventHandler<HTMLInputElement>;
+    onCut?: React.ClipboardEventHandler<HTMLInputElement>;
+    onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
+
+    onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+    onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
+    onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
   }
 >;
 
@@ -105,6 +114,10 @@ export interface InputState {
  */
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
+
+  public static extractProps = <T extends InputProps>(props: T) => extractProps(props, INPUT_PROPS);
+  public static extractCustomProps = <T extends InputProps>(props: T) => extractProps(props, INPUT_CUSTOM_PROPS);
+  public static extractNativeProps = <T extends InputProps>(props: T) => extractProps(props, INPUT_NATIVE_PROPS);
 
   public static defaultProps: {
     size: InputSize;
@@ -241,77 +254,42 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private renderMain() {
-    const {
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onKeyDown,
-      onKeyPress,
-      onValueChange,
-      width,
-      error,
-      warning,
-      leftIcon,
-      rightIcon,
-      borderless,
-      value,
-      align,
-      type,
-      mask,
-      maskChar,
-      alwaysShowMask,
-      style,
-      className,
-      size,
-      placeholder,
-      selectAllOnFocus,
-      disabled,
-      onUnexpectedInput,
-      prefix,
-      suffix,
-      formatChars,
-      ...rest
-    } = this.props;
+    const [customProps, otherProps] = Input.extractCustomProps(this.props);
+    const [nativeProps, restProps] = Input.extractNativeProps(otherProps);
+    const { width, style, className, ...wrapperProps } = restProps;
+    const { borderless, warning, error, align, mask } = customProps;
 
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
+      ...wrapperProps,
+      className: cn(className, jsStyles.root(this.theme), this.getSizeClassName(), {
         [jsStyles.borderless()]: !!borderless,
         [jsStyles.focus(this.theme)]: focused,
         [jsStyles.blink(this.theme)]: !!blinking,
         [jsStyles.warning(this.theme)]: !!warning,
         [jsStyles.error(this.theme)]: !!error,
-        [jsStyles.disabled(this.theme)]: !!disabled,
+        [jsStyles.disabled(this.theme)]: !!nativeProps.disabled,
         [jsStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
         [jsStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
         [jsStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
       }),
-      style: { width },
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
+      style: { width, ...style },
     };
 
     const inputProps = {
-      ...rest,
+      ...nativeProps,
       className: jsStyles.input(this.theme),
-      value,
+      style: { textAlign: align },
+      ref: this.refInput,
+      placeholder: !this.isMaskVisible && !polyfillPlaceholder ? nativeProps.placeholder : undefined,
+
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onKeyDown: this.handleKeyDown,
       onKeyPress: this.handleKeyPress,
       onBlur: this.handleBlur,
-      style: { textAlign: align },
-      ref: this.refInput,
-      type: 'text',
-      placeholder: !this.isMaskVisible && !polyfillPlaceholder ? placeholder : undefined,
-      disabled,
     };
-
-    if (type === 'password') {
-      inputProps.type = type;
-    }
 
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
@@ -444,9 +422,7 @@ export class Input extends React.Component<InputProps, InputState> {
       this.props.onValueChange(event.target.value);
     }
 
-    if (this.props.onChange) {
-      this.props.onChange(event);
-    }
+    this.props.onChange?.(event);
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -459,15 +435,11 @@ export class Input extends React.Component<InputProps, InputState> {
       this.input ? this.selectAll() : this.delaySelectAll();
     }
 
-    if (this.props.onFocus) {
-      this.props.onFocus(event);
-    }
+    this.props.onFocus?.(event);
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e);
-    }
+    this.props.onKeyDown?.(e);
 
     const isDeleteKey = someKeys(isKeyBackspace, isKeyDelete)(e);
 
@@ -477,9 +449,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (this.props.onKeyPress) {
-      this.props.onKeyPress(event);
-    }
+    this.props.onKeyPress?.(event);
 
     if (this.props.maxLength === event.currentTarget.value.length) {
       this.handleUnexpectedInput(event.currentTarget.value);
@@ -503,9 +473,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     this.setState({ focused: false });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
+    this.props.onBlur?.(event);
   };
 
   private renderPrefix = () => {
@@ -528,3 +496,81 @@ export class Input extends React.Component<InputProps, InputState> {
     return <span className={jsStyles.suffix(this.theme)}>{suffix}</span>;
   };
 }
+
+const INPUT_CUSTOM_PROPS = {
+  error: true,
+  warning: true,
+  leftIcon: true,
+  rightIcon: true,
+  borderless: true,
+  align: true,
+  mask: true,
+  maskChar: true,
+  alwaysShowMask: true,
+  size: true,
+  selectAllOnFocus: true,
+  onUnexpectedInput: true,
+  prefix: true,
+  suffix: true,
+  formatChars: true,
+  onValueChange: true,
+};
+
+const INPUT_NATIVE_PROPS = {
+  accept: true,
+  alt: true,
+  autoComplete: true,
+  autoFocus: true,
+  capture: true,
+  checked: true,
+  defaultChecked: true,
+  defaultValue: true,
+  disabled: true,
+  form: true,
+  formAction: true,
+  formEncType: true,
+  formMethod: true,
+  formNoValidate: true,
+  formTarget: true,
+  height: true,
+  inputMode: true,
+  hidden: true,
+  list: true,
+  max: true,
+  maxLength: true,
+  min: true,
+  minLength: true,
+  multiple: true,
+  name: true,
+  pattern: true,
+  placeholder: true,
+  readOnly: true,
+  required: true,
+  src: true,
+  step: true,
+  type: true,
+  value: true,
+
+  onFocus: true,
+  onBlur: true,
+  onChange: true,
+  onInput: true,
+  onBeforeInput: true,
+  onInvalid: true,
+  onCopy: true,
+  onCut: true,
+  onPaste: true,
+  onKeyDown: true,
+  onKeyPress: true,
+  onKeyUp: true,
+
+  id: true,
+  tabIndex: true,
+  'aria-label': true,
+  'aria-labelledby': true,
+};
+
+const INPUT_PROPS = {
+  ...INPUT_CUSTOM_PROPS,
+  ...INPUT_NATIVE_PROPS,
+};

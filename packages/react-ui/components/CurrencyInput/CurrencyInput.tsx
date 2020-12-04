@@ -16,6 +16,7 @@ export type CurrencyInputProps = Override<
   {
     /** Значение */
     value: Nullable<number>;
+    defaultValue?: Nullable<number>;
     /** Убрать лишние нули после запятой */
     hideTrailingZeros: boolean;
     /** Кол-во цифр после зяпятой */
@@ -120,16 +121,29 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = this.props;
+    const {
+      // business props
+      fractionDigits,
+      signed,
+      onSubmit,
+      integerDigits,
+      hideTrailingZeros,
+      onValueChange,
+      // Input props
+      value,
+      defaultValue,
+      ...rest
+    } = this.props;
     const placeholder =
       this.props.placeholder == null
-        ? CurrencyHelper.format(0, {fractionDigits, hideTrailingZeros})
+        ? CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros })
         : this.props.placeholder;
 
     return (
       <Input
         {...rest}
         value={this.state.formatted}
+        defaultValue={CurrencyHelper.format(defaultValue, { fractionDigits, hideTrailingZeros })}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onMouseUp={this.handleMouseUp}
@@ -172,10 +186,12 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     };
   }
 
-  private handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
-    const selection = getInputSelection(event.target);
-    const normilized = CurrencyInputHelper.normalizeSelection(this.state.formatted, selection);
-    this.setState({ selection: normilized });
+  private handleMouseUp = (event: React.MouseEvent) => {
+    if (event.target instanceof HTMLInputElement) {
+      const selection = getInputSelection(event.target);
+      const normilized = CurrencyInputHelper.normalizeSelection(this.state.formatted, selection);
+      this.setState({ selection: normilized });
+    }
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -328,6 +344,8 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     const selection = this.getSelection(event.target);
     this.inputValue(selection.start, selection.end, data);
     event.preventDefault();
+
+    this.props.onPaste?.(event);
   };
 
   private handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {
@@ -338,6 +356,8 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       event.clipboardData.setData('text', data);
     }
     event.preventDefault();
+
+    this.props.onCopy?.(event);
   };
 
   private handleCut = (event: React.ClipboardEvent<HTMLInputElement>) => {
@@ -349,6 +369,8 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       this.inputValue(selection.start, selection.end, '');
     }
     event.preventDefault();
+
+    this.props.onCut?.(event);
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -366,9 +388,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       selection,
     });
 
-    if (this.props.onFocus) {
-      this.props.onFocus(event);
-    }
+    this.props.onFocus?.(event);
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -379,9 +399,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       focused: false,
     });
 
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
+    this.props.onBlur?.(event);
   };
 
   private refInput = (element: Nullable<Input>) => {

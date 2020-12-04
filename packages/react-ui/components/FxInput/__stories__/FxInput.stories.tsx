@@ -4,7 +4,7 @@ import { CSFStory } from 'creevey';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
-import { InputType } from '../../Input';
+import { InputProps } from '../../Input';
 
 export default { title: 'FxInput' };
 
@@ -50,7 +50,7 @@ WithWidthStory.story = {
 };
 
 interface TestFxInputProps {
-  type?: 'currency' | InputType;
+  type?: 'currency' | InputProps['type'];
   autoFocus?: boolean;
   borderless?: boolean;
   fractionDigits?: number;

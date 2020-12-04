@@ -21,3 +21,27 @@ export function filterProps<
   }
   return ret;
 }
+
+export function extractProps<
+  Props extends Record<string, any>,
+  WantedKeys extends Record<string, any>,
+  WantedKeysThatExist extends Extract<keyof WantedKeys, keyof Props>,
+  ExtractedProps extends Pick<Props, WantedKeysThatExist>,
+  RestProps extends Omit<Props, WantedKeysThatExist>
+>(props: Props, keys: WantedKeys): [ExtractedProps, RestProps] {
+  const extractedProps = {} as ExtractedProps;
+  const restProps = {} as RestProps;
+
+  for (const key in props) {
+    const prop = props[key];
+    if (Object.prototype.hasOwnProperty.call(keys, key)) {
+      // @ts-ignore
+      extractedProps[key] = prop;
+    } else {
+      // @ts-ignore
+      restProps[key] = prop;
+    }
+  }
+
+  return [extractedProps, restProps];
+}

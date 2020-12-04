@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from '../Button';
 import { Group } from '../Group';
-import { Input, InputProps, InputType } from '../Input';
+import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
@@ -22,6 +22,7 @@ export type FxInputProps = Override<
     onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
     /** Значение */
     value?: React.ReactText;
+    defaultValue?: React.ReactText;
     /** ref Input'а */
     refInput?: (element: CurrencyInput | Input | null) => void;
     /** Убрать лишние нули после запятой */
@@ -49,8 +50,32 @@ export class FxInput extends React.Component<FxInputProps> {
   private getProps = createPropsGetter(FxInput.defaultProps);
 
   public render(): JSX.Element {
-    const { type, onRestore, auto, ...rest } = this.props;
+    const {
+      // business props
+      onValueChange,
+      value,
+      defaultValue,
+      refInput,
+      type,
+      onRestore,
+      auto,
+
+      // CurrencyInput props
+      hideTrailingZeros,
+      fractionDigits,
+      signed,
+      integerDigits,
+      onSubmit,
+
+      // wrapper props
+      width,
+      ...rest
+    } = this.props;
+
+    const [extractedInputProps, restProps] = Input.extractProps(rest);
+
     const inputProps: Partial<CurrencyInputProps> = {
+      ...extractedInputProps,
       align: 'right',
     };
 
@@ -67,25 +92,30 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group width={this.props.width}>
+      <Group width={this.props.width} {...restProps}>
         {button}
         {this.getProps().type === 'currency' ? (
           <CurrencyInput
             {...inputProps}
-            {...rest}
+            hideTrailingZeros={hideTrailingZeros}
+            fractionDigits={fractionDigits}
+            signed={signed}
+            integerDigits={integerDigits}
+            onSubmit={onSubmit}
             width={'100%'}
             ref={this.refInput}
             value={this.props.value as CurrencyInputProps['value']}
+            defaultValue={defaultValue as CurrencyInputProps['value']}
             onValueChange={this.props.onValueChange as CurrencyInputProps['onValueChange']}
           />
         ) : (
           <Input
             {...inputProps}
-            {...rest}
             width={'100%'}
             ref={this.refInput}
-            type={this.props.type as InputType}
+            type={this.props.type}
             value={this.props.value as InputProps['value']}
+            defaultValue={defaultValue as InputProps['value']}
             onValueChange={this.props.onValueChange as InputProps['onValueChange']}
           />
         )}

@@ -104,7 +104,7 @@ describe('<Autocomplete />', () => {
       placeholder: 'OOO',
       rightIcon: <OkIcon />,
       size: 'medium' as AutocompleteProps['size'],
-      title: 'string',
+      // title: 'string',
       type: 'text' as AutocompleteProps['type'],
       value: 'hel',
       warning: true,
@@ -115,9 +115,9 @@ describe('<Autocomplete />', () => {
       onKeyPress: () => undefined,
       onKeyUp: () => undefined,
       onPaste: () => undefined,
-      onMouseEnter: () => undefined,
-      onMouseLeave: () => undefined,
-      onMouseOver: () => undefined,
+      // onMouseEnter: () => undefined,
+      // onMouseLeave: () => undefined,
+      // onMouseOver: () => undefined,
     };
 
     const wrapper = mount<Autocomplete>(<Autocomplete {...props} onValueChange={() => undefined} source={[]} />);

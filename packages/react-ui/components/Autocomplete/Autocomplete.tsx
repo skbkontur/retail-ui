@@ -29,7 +29,7 @@ function renderItem(item: any) {
 }
 
 export type AutocompleteProps = Override<
-  InputProps,
+  InputProps<HTMLSpanElement>,
   {
     /** Функция отрисовки элемента меню */
     renderItem: (item: string) => React.ReactNode;
@@ -51,8 +51,6 @@ export type AutocompleteProps = Override<
     onValueChange: (value: string) => void;
     /** onBlur */
     onBlur?: () => void;
-    /** Размер инпута */
-    size: InputProps['size'];
     /** value */
     value: string;
   }
@@ -154,33 +152,43 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
   public renderMain() {
     const {
+      // business props
       onValueChange,
-      onKeyDown,
-      onFocus,
-      onBlur,
       renderItem: _renderItem,
       disablePortal,
       hasShadow,
       menuAlign,
       menuMaxHeight,
+      menuWidth,
       preventWindowScroll,
       source,
+      onBlur,
       width = this.theme.inputWidth,
+      // wrapper props
+      style,
       ...rest
     } = this.props;
 
+    const [extractedInputProps, restProps] = Input.extractProps(rest);
+
     const inputProps = {
-      ...rest,
+      ...extractedInputProps,
       width: '100%',
       onValueChange: this.handleValueChange,
-      onKeyDown: this.handleKeyDown,
-      onFocus: this.handleFocus,
+      onKeyDown: this.handleInputKeyDown,
+      onFocus: this.handleInputFocus,
       ref: this.refInput,
+    };
+
+    const wrapperProps = {
+      ...restProps,
+      style: { display: 'inline-block', width, ...style },
+      ref: this.refRootSpan,
     };
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
+        <span {...wrapperProps}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
@@ -235,15 +243,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     this.fireChange(value);
   };
 
-  private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+  private handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     if (this.focused) {
       return;
     }
 
     this.focused = true;
-    if (this.props.onFocus) {
-      this.props.onFocus(event);
-    }
+    this.props.onFocus?.(event);
   };
 
   private handleBlur = () => {
@@ -259,9 +265,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       this.input.blur();
     }
 
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
+    this.props.onBlur?.();
   };
 
   private handleClickOutside = (e: Event) => {
@@ -269,10 +273,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     this.handleBlur();
   };
 
-  private handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (this.props.onKeyDown) {
-      this.props.onKeyDown(e);
-    }
+  private handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    this.props.onKeyDown?.(e);
     switch (true) {
       case isKeyEscape(e):
         e.preventDefault();
