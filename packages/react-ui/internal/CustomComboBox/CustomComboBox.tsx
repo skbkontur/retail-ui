@@ -105,6 +105,8 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     } else if (this.inputLikeText) {
       this.inputLikeText.focus();
     }
+
+    this.handleFocus();
   };
 
   /**
