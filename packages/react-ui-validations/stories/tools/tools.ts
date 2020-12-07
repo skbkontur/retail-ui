@@ -3,7 +3,11 @@ import React from 'react';
 import { Nullable } from '../../typings/Types';
 import { ValidationContainer, ValidationInfo } from '../../src';
 
-export const validateValue = (value: string, condition: boolean, message: React.ReactNode): Nullable<ValidationInfo> => {
+export const validateValue = (
+  value: string,
+  condition = true,
+  message: React.ReactNode = ``,
+): Nullable<ValidationInfo> => {
   if (value === '') {
     return { message: 'Должно быть не пусто', type: 'submit' };
   }
@@ -20,5 +24,5 @@ export const submit = (container: ValidationContainer | null): Promise<void> | v
 };
 
 export const delay = (time: number) => {
-  return new Promise(resolve => setTimeout(resolve, time));
+  return new Promise((resolve) => setTimeout(resolve, time));
 };

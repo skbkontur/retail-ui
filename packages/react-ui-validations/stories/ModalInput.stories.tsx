@@ -7,7 +7,7 @@ import { CSFStory } from 'creevey';
 
 import { text, ValidationContainer, ValidationWrapper } from '../src';
 
-import { validateValue } from './tools/tools';
+import { delay, validateValue } from './tools/tools';
 
 export default { title: `ModalWithSingleInput` };
 
@@ -57,13 +57,59 @@ export const ModalInputStory: CSFStory<JSX.Element> = () => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => container && container.submit()} use="primary">
-            Кнопка
-          </Button>
+          <span id="button-wrapper">
+            <Button onClick={() => container && container.submit()} use="primary">
+              Кнопка
+            </Button>
+          </span>
         </Modal.Footer>
       </Modal>
     </ValidationContainer>
   );
+};
+
+ModalInputStory.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async ['not valid']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#button-wrapper button' }))
+            .perform();
+          await delay(1000);
+          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
+        },
+        async ['valid']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#button-wrapper button' }))
+            .perform();
+          await delay(1100);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'label' }))
+            .sendKeys(`test test`)
+            .perform();
+          await delay(1100);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#button-wrapper button' }))
+            .perform();
+          await delay(1100);
+          await this.expect(await this.takeScreenshot()).to.matchImage('valid');
+        },
+      },
+    },
+  },
 };
 
 export const SmallModalInputStory: CSFStory<JSX.Element> = () => {
@@ -132,27 +178,68 @@ export const SmallModalInputStory: CSFStory<JSX.Element> = () => {
                 )}
                 renderMessage={text('bottom')}
               >
-                <Input data-tid="SingleInput" value={value} onValueChange={setValue} />
+                <span id="input-wrapper">
+                  <Input data-tid="SingleInput" value={value} onValueChange={setValue} />
+                </span>
               </ValidationWrapper>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              onClick={() => {
-                if (container) {
-                  container.submit();
-                }
-                if (outerContainer) {
-                  outerContainer.submit();
-                }
-              }}
-              use="primary"
-            >
-              Кнопка
-            </Button>
+            <div id="button-wrapper">
+              <Button
+                onClick={() => {
+                  if (container) {
+                    container.submit();
+                  }
+                  if (outerContainer) {
+                    outerContainer.submit();
+                  }
+                }}
+                use="primary"
+              >
+                Кнопка
+              </Button>
+            </div>
           </Modal.Footer>
         </ValidationContainer>
       </Modal>
     </ValidationContainer>
   );
+};
+
+SmallModalInputStory.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async ['not valid']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#button-wrapper button' }))
+            .perform();
+          await delay(1000);
+          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
+        },
+        async ['valid']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#input-wrapper label' }))
+            .sendKeys(`test test`)
+            .perform();
+          await delay(1100);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#button-wrapper button' }))
+            .perform();
+          await delay(1100);
+          await this.expect(await this.takeScreenshot()).to.matchImage('valid');
+        },
+      },
+    },
+  },
 };

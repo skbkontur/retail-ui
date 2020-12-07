@@ -6,6 +6,8 @@ import { CSFStory } from 'creevey';
 import { tooltip, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
+import { delay } from './tools/tools';
+
 async function getItems(query: string) {
   return ['aaa', 'bbb'].filter((s) => s.includes(query));
 }
@@ -18,7 +20,7 @@ export const TokenInputStory: CSFStory<JSX.Element> = () => {
   const [, refContainer] = React.useState<ValidationContainer | null>(null);
 
   const validate = (): Nullable<ValidationInfo> => {
-    if (checked) {
+    if (!checked) {
       return { message: 'Поле обязательно', type: 'immediate' };
     }
     return null;
@@ -42,3 +44,46 @@ export const TokenInputStory: CSFStory<JSX.Element> = () => {
     </div>
   );
 };
+
+TokenInputStory.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async ['not valid']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }) })
+            .perform();
+          await delay(1000);
+          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
+        },
+        async ['not valid 2']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            }).click(this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }) })
+            .perform();
+          await delay(1000);
+          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
+        },
+      }
+    }
+  }
+}

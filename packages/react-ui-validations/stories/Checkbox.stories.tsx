@@ -1,8 +1,7 @@
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
-import { CreeveyStory } from 'creevey';
-import { Story } from '@storybook/react';
+import { CSFStory } from 'creevey';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
@@ -13,7 +12,7 @@ export default {
   title: 'Checkbox',
 };
 
-export const CheckboxStoryComponent: Story & CreeveyStory = () => {
+export const CheckboxStoryComponent: CSFStory<JSX.Element> = () => {
   const [checked, update] = React.useState<boolean>(false);
 
   let container: ValidationContainer | null = null;
@@ -42,37 +41,39 @@ export const CheckboxStoryComponent: Story & CreeveyStory = () => {
   );
 };
 
-CheckboxStoryComponent.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+CheckboxStoryComponent.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(1000);
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+        async checked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'span' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('checked');
+        },
       },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-      async checked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'span' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('checked');
-      }
     },
   },
 };
