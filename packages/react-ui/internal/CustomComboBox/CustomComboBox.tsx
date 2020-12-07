@@ -102,8 +102,8 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     if (this.input) {
       this.input.focus();
-    } else {
-      this.setState({ editing: true });
+    } else if (this.inputLikeText) {
+      this.inputLikeText.focus();
     }
   };
 
@@ -285,9 +285,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public componentDidUpdate(prevProps: CustomComboBoxProps<T>, prevState: CustomComboBoxState<T>) {
     if (prevState.editing && !this.state.editing) {
       this.handleBlur();
-    }
-    if (this.state.editing) {
-      this.input?.focus();
     }
     this.dispatch({ type: 'DidUpdate', prevProps, prevState });
   }
