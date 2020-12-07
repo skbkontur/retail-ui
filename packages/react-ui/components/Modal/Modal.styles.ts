@@ -107,6 +107,7 @@ const styles = {
         width: ${iconSize}px;
         height: ${iconSize}px;
         padding: ${paddingTop}px ${paddingTop}px ${paddingBottom}px ${paddingBottom}px;
+        box-sizing: content-box;
       }
     `;
   },

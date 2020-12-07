@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { Input } from '../../components/Input';
+import { Input, InputIconType } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
@@ -22,6 +22,7 @@ export interface CustomComboBoxProps<T> {
   maxLength?: number;
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
+  leftIcon?: InputIconType;
   searchOnFocus?: boolean;
   onValueChange?: (value: T) => void;
   onInputValueChange?: (value: string) => Nullable<string> | void;
@@ -235,6 +236,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
+      leftIcon: this.props.leftIcon,
 
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,

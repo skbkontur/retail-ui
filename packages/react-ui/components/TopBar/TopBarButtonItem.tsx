@@ -3,13 +3,13 @@ import React from 'react';
 import { IconProps } from '../../internal/icons/20px';
 
 import { TopBarItem, TopBarItemProps } from './TopBarItem';
-import { jsStyles } from "./TopBar.styles";
+import { jsStyles } from './TopBar.styles';
 
 export interface TopBarButtonItemProps extends TopBarItemProps {
   active?: boolean;
   children?: React.ReactNode;
   className?: string;
-  icon?: IconProps['name'];
+  icon?: IconProps['name'] | React.ReactElement;
   iconOnly?: boolean;
   minWidth?: string | number;
   onClick?: () => void;

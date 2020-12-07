@@ -5,7 +5,7 @@ import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 
 export type CurrencyLabelProps = {
   /**
-   * Количество отображаемых знаков после запятой
+   * Минимальное количество отображаемых знаков после запятой
    * @default 2
    */
   fractionDigits: number;
