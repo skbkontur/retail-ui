@@ -246,13 +246,13 @@ packages/
 
 [Storybook](https://storybook.js.org/) позволяет описывать и просматривать все имеющиеся компоненты в различных состояниях, а также взаимодействовать с ними. Он используется для ручного и скриншотного тестирования.
 
-Запускается командой `yarn workspace @skbkontur/react-ui storybook:test` или `yarn workspace @skbkontur/react-ui storybook:flat` в плоском варианте.
+Запускается командой `yarn workspace @skbkontur/react-ui storybook` или `yarn workspace @skbkontur/react-ui storybook:flat` в плоском варианте.
 
 #### Создание story
 
 Все story находятся в файлах `__stories__/[ComponentName].stories.tsx`, в директориях своих компонентов. Просто добавьте новое состояние и оно появится в storybook:
 
-```
+```javascript
 export const ButtonWithError = () => <Button error>Error</Button>;
 ```
 
@@ -271,7 +271,7 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 1. Создать или выбрать готовую [story](#создание-story)
 2. Добавить сценарий в параметры story
 
-```
+```javascript
 ButtonWithError.story = {
   parameters: {
     creevey: {
