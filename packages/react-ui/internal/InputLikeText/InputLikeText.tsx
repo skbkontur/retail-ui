@@ -6,7 +6,7 @@ import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11 } from '../../lib/utils';
 import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
-import { InputProps, InputIconType, InputState } from '../../components/Input';
+import { InputProps, InputIconType, InputState, Input } from '../../components/Input';
 import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -28,7 +28,7 @@ export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps = { size: 'small' };
+  public static defaultProps = { size: 'small', tabIndex: 0 };
 
   public state = { blinking: false, focused: false };
 
@@ -93,6 +93,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public componentDidMount() {
     if (this.node) {
+      if (this.props.autoFocus) {
+        this.node.focus();
+      }
+
       MouseDrag.listen(this.node)
         .onMouseDragStart(this.handleMouseDragStart)
         .onMouseDragEnd(this.handleMouseDragEnd);
@@ -141,8 +145,28 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       value,
       onMouseDragStart,
       onMouseDragEnd,
+      onFocus,
+      onBlur,
+      onCopy,
+      onCut,
+      onPaste,
+      onKeyDown,
+      onKeyPress,
+      onKeyUp,
       ...rest
     } = this.props;
+
+    const [nativeProps, restProps] = Input.extractNativeProps(rest);
+
+    const inputLikeTextProps = {
+      ...restProps,
+      onCopy,
+      onCut,
+      onPaste,
+      onKeyDown,
+      onKeyPress,
+      onKeyUp,
+    };
 
     const { focused, blinking } = this.state;
 
@@ -165,20 +189,21 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const wrapperClass = cn(jsInputStyles.wrapper(), {
       [jsStyles.userSelectContain()]: focused,
     });
+    console.log(nativeProps.autoFocus);
 
     return (
       <span
-        {...rest}
+        {...inputLikeTextProps}
         className={className}
         style={{ width, textAlign: align }}
-        tabIndex={disabled ? undefined : 0}
+        tabIndex={disabled ? undefined : tabIndex}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         ref={this.innerRef}
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
       >
-        <input type="hidden" value={value} />
+        <input {...nativeProps} type="hidden" value={value} />
         {leftSide}
         <span className={wrapperClass}>
           <span data-tid="InputLikeText__input" className={cn(jsStyles.input(), jsInputStyles.input(this.theme))}>
@@ -348,6 +373,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    console.log('focus');
+
     if (this.props.disabled) {
       if (isIE11) {
         selectNodeContents(document.body, 0, 0);

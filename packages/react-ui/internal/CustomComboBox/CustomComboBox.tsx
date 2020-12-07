@@ -1,55 +1,18 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { Input, InputIconType } from '../../components/Input';
+import { Input } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
-import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
+import { ComboBoxProps } from '../../components/ComboBox';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> {
-  align?: 'left' | 'center' | 'right';
-  autoFocus?: boolean;
-  borderless?: boolean;
-  disablePortal?: boolean;
-  disabled?: boolean;
-  error?: boolean;
-  maxLength?: number;
-  menuAlign?: 'left' | 'right';
-  drawArrow?: boolean;
-  leftIcon?: InputIconType;
-  searchOnFocus?: boolean;
-  onValueChange?: (value: T) => void;
-  onInputValueChange?: (value: string) => Nullable<string> | void;
-  onUnexpectedInput?: (value: string) => void | null | T;
-  onFocus?: () => void;
-  onBlur?: () => void;
-  onMouseEnter?: (e: React.MouseEvent) => void;
-  onMouseOver?: (e: React.MouseEvent) => void;
-  onMouseLeave?: (e: React.MouseEvent) => void;
-  onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
-  placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
-  totalCount?: number;
-  value?: Nullable<T>;
-  warning?: boolean;
-  width?: string | number;
-  maxMenuHeight?: number | string;
-  renderNotFound?: () => React.ReactNode;
-  renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  renderValue: (value: T) => React.ReactNode;
-  renderAddButton?: (query?: string) => React.ReactNode;
-  valueToString: (value: T) => string;
-  itemToValue: (item: T) => string | number;
-  getItems: (query: string) => Promise<T[]>;
-}
-
+export type CustomComboBoxProps<T> = ComboBoxProps<T>;
 export interface CustomComboBoxState<T> {
   editing: boolean;
   loading: boolean;
@@ -212,27 +175,12 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
   public render() {
     const viewProps = {
-      align: this.props.align,
-      borderless: this.props.borderless,
-      disabled: this.props.disabled,
-      disablePortal: this.props.disablePortal,
+      ...this.props,
       editing: this.state.editing,
-      error: this.props.error,
       items: this.state.items,
       loading: this.state.loading,
-      menuAlign: this.props.menuAlign,
       opened: this.state.opened,
-      drawArrow: this.props.drawArrow,
-      placeholder: this.props.placeholder,
-      size: this.props.size,
       textValue: this.state.textValue,
-      totalCount: this.props.totalCount,
-      value: this.props.value,
-      warning: this.props.warning,
-      width: this.props.width,
-      maxLength: this.props.maxLength,
-      maxMenuHeight: this.props.maxMenuHeight,
-      leftIcon: this.props.leftIcon,
 
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
@@ -240,20 +188,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onFocusOutside: this.handleBlur,
       onInputBlur: this.handleInputBlur,
       onInputValueChange: (value: string) => this.dispatch({ type: 'TextChange', value }),
-      onInputFocus: this.handleFocus,
       onInputClick: this.handleInputClick,
-      onInputKeyDown: (event: React.KeyboardEvent) => {
+      onInputKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => {
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
       },
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseOver: this.props.onMouseOver,
-      onMouseLeave: this.props.onMouseLeave,
-      renderItem: this.props.renderItem,
-      renderNotFound: this.props.renderNotFound,
-      renderValue: this.props.renderValue,
-      renderTotalCount: this.props.renderTotalCount,
-      renderAddButton: this.props.renderAddButton,
       repeatRequest: this.state.repeatRequest,
       requestStatus: this.state.requestStatus,
 
@@ -273,9 +212,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
   public componentDidMount() {
     this.dispatch({ type: 'Mount' });
-    if (this.props.autoFocus) {
-      this.focus();
-    }
+    // if (this.props.autoFocus) {
+    //   this.focus();
+    // }
   }
 
   public componentDidUpdate(prevProps: CustomComboBoxProps<T>, prevState: CustomComboBoxState<T>) {

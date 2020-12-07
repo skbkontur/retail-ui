@@ -12,7 +12,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 export type CustomComboBoxAction<T> =
   | { type: 'ValueChange'; value: T; keepFocus: boolean }
   | { type: 'TextChange'; value: string }
-  | { type: 'KeyPress'; event: React.KeyboardEvent }
+  | { type: 'KeyPress'; event: React.KeyboardEvent<HTMLInputElement> }
   | {
       type: 'DidUpdate';
       prevProps: CustomComboBoxProps<T>;
@@ -56,7 +56,7 @@ interface EffectFactory {
   InputFocus: Effect;
   HighlightMenuItem: Effect;
   SelectMenuItem: (event: React.KeyboardEvent<HTMLElement>) => Effect;
-  InputKeyDown: (event: React.KeyboardEvent<HTMLElement>) => Effect;
+  InputKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => Effect;
   MoveMenuHighlight: (direction: 'up' | 'down') => Effect;
   ResetHighlightedMenuItem: Effect;
   Reflow: Effect;
@@ -255,7 +255,7 @@ export function reducer<T>(
       return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
     }
     case 'KeyPress': {
-      const e = action.event as React.KeyboardEvent<HTMLElement>;
+      const e = action.event;
       const effects = [];
       let nextState = state;
 

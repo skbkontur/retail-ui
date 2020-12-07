@@ -209,7 +209,8 @@ describe('ComboBox', () => {
     const onFocus = jest.fn();
     const wrapper = mount<ComboBox<any>>(<ComboBox onFocus={onFocus} getItems={() => Promise.resolve([])} />);
 
-    wrapper.find('[tabIndex=0]').simulate('focus');
+    console.log(wrapper.debug());
+    wrapper.find('input').simulate('focus');
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
@@ -1133,7 +1134,7 @@ describe('ComboBox', () => {
     it('render custom locale', async () => {
       const customText = 'custom notFound';
       wrapper = mount(
-        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } }}}>
+        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } } }}>
           <ComboBox getItems={search} />
         </LocaleContext.Provider>,
       );
@@ -1151,7 +1152,7 @@ describe('ComboBox', () => {
       );
       const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
       await focus();
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);
