@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { DropdownContainer } from '../DropdownContainer';
-import { Input } from '../../components/Input';
+import { Input, InputIconType } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -37,6 +37,7 @@ interface ComboBoxViewProps<T> {
   width?: string | number;
   maxLength?: number;
   maxMenuHeight?: number | string;
+  leftIcon?: InputIconType;
 
   onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
@@ -197,6 +198,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       value,
       warning,
       refInputLikeText,
+      leftIcon,
     } = this.props;
 
     const rightIcon = this.getRightIcon();
@@ -213,6 +215,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onValueChange={onInputValueChange}
           onFocus={onInputFocus}
           onClick={onInputClick}
+          leftIcon={leftIcon}
           rightIcon={rightIcon}
           value={textValue || ''}
           onKeyDown={onInputKeyDown}
@@ -231,6 +234,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         borderless={borderless}
         error={error}
         onFocus={onFocus}
+        leftIcon={leftIcon}
         rightIcon={rightIcon}
         disabled={disabled}
         warning={warning}

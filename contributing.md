@@ -99,7 +99,7 @@
 
 Для начала необходимо иметь установленными следующие инструменты:
 
-- [Node.js](https://nodejs.org/) (рекомендуется v12.6.0)
+- [Node.js](https://nodejs.org/)
 - [Yarn](https://yarnpkg.com)
 - [Git](https://git-scm.com/)
 - [Git LFS](https://git-lfs.github.com)
