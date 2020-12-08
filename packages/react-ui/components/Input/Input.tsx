@@ -15,7 +15,20 @@ import { jsStyles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text';
+export type InputType =
+  | 'text'
+  | 'color'
+  | 'date'
+  | 'email'
+  | 'month'
+  | 'number'
+  | 'password'
+  | 'range'
+  | 'search'
+  | 'tel'
+  | 'time'
+  | 'url'
+  | 'week';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export type InputProps = Override<
@@ -90,6 +103,9 @@ export type InputProps = Override<
      * @param value значение инпута.
      */
     onUnexpectedInput?: (value: string) => void;
+
+    'data-tid'?: string;
+    'data-testid'?: string;
   }
 >;
 
@@ -108,8 +124,10 @@ export class Input extends React.Component<InputProps, InputState> {
 
   public static defaultProps: {
     size: InputSize;
+    type: InputType;
   } = {
     size: 'small',
+    type: 'text',
   };
 
   public state: InputState = {
@@ -256,7 +274,6 @@ export class Input extends React.Component<InputProps, InputState> {
       borderless,
       value,
       align,
-      type,
       mask,
       maskChar,
       alwaysShowMask,
@@ -270,13 +287,15 @@ export class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
+      'data-tid': datatid,
+      'data-testid': datatestid,
       ...rest
     } = this.props;
 
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
+      className: cn(className, jsStyles.root(this.theme), this.getSizeClassName(), {
         [jsStyles.borderless()]: !!borderless,
         [jsStyles.focus(this.theme)]: focused,
         [jsStyles.blink(this.theme)]: !!blinking,
@@ -287,10 +306,12 @@ export class Input extends React.Component<InputProps, InputState> {
         [jsStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
         [jsStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
       }),
-      style: { width },
+      style: { width, ...style },
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
+      'data-tid': datatid,
+      'data-testid': datatestid,
     };
 
     const inputProps = {
@@ -304,14 +325,14 @@ export class Input extends React.Component<InputProps, InputState> {
       onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
-      type: 'text',
+      // type: 'text',
       placeholder: !this.isMaskVisible && !polyfillPlaceholder ? placeholder : undefined,
       disabled,
     };
 
-    if (type === 'password') {
-      inputProps.type = type;
-    }
+    // if (type === 'password') {
+    //   inputProps.type = type;
+    // }
 
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
