@@ -26,7 +26,7 @@ export const TokenInputStory: CSFStory<JSX.Element> = () => {
     return null;
   };
   return (
-    <div style={{ padding: '10px' }}>
+    <div style={{ padding: '20px 300px 60px 20px' }}>
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('right middle')}>
           <TokenInput

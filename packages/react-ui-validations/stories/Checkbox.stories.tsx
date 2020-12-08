@@ -26,7 +26,7 @@ export const CheckboxStoryComponent: CSFStory<JSX.Element> = () => {
     return null;
   };
   return (
-    <div style={{ padding: '20px 20px' }}>
+    <div style={{ padding: '20px 20px', width: 300}}>
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validateSex()}>
           <Checkbox checked={checked} onValueChange={update}>
@@ -45,10 +45,10 @@ CheckboxStoryComponent.story = {
   parameters: {
     creevey: {
       tests: {
-        async idle() {
+        async valid() {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
         },
-        async clicked() {
+        async ["not valid"]() {
           await this.browser
             .actions({
               bridge: true,
@@ -57,21 +57,6 @@ CheckboxStoryComponent.story = {
             .perform();
           await delay(1000);
           await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-        },
-        async checked() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'span' }))
-            .perform();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('checked');
         },
       },
     },

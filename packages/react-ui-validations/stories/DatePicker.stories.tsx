@@ -6,6 +6,8 @@ import { CSFStory } from 'creevey';
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
+import { delay } from './tools/tools';
+
 export default { title: `DatePicker` };
 
 export const DatePickerStory: CSFStory<JSX.Element> = () => {
@@ -19,7 +21,7 @@ export const DatePickerStory: CSFStory<JSX.Element> = () => {
   };
 
   return (
-    <div style={{ padding: '20px 20px' }}>
+    <div style={{ padding: '20px 20px', width: 400, height: 400 }}>
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validateValue()}>
           <DatePicker value={value as any} onValueChange={setValue} />
@@ -36,32 +38,15 @@ DatePickerStory.story = {
   parameters: {
     creevey: {
       tests: {
-        async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        },
-        async clicked() {
+        async ["not valid"]() {
           await this.browser
             .actions({
               bridge: true,
             })
             .click(this.browser.findElement({ css: 'button' }))
             .perform();
+          await delay(1000);
           await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-        },
-        async checked() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-            .perform();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('checked');
         },
       },
     },

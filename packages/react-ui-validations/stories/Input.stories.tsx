@@ -64,18 +64,6 @@ Example1.story = {
           const element = await this.browser.findElement({ css: '#small-input-wrapper' });
           await this.expect(await element.takeScreenshot()).to.matchImage('notValid');
         },
-        async ['valid']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'input' }))
-            .sendKeys('Test Test')
-            .sendKeys(this.keys.TAB)
-            .perform();
-          const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-          await this.expect(await element.takeScreenshot()).to.matchImage('valid');
-        },
       },
     },
   },
@@ -121,18 +109,6 @@ Example2.story = {
             .perform();
           const element = await this.browser.findElement({ css: '#small-input-wrapper' });
           await this.expect(await element.takeScreenshot()).to.matchImage('notValid');
-        },
-        async ['valid']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'input' }))
-            .sendKeys('Test Test')
-            .sendKeys(this.keys.TAB)
-            .perform();
-          const element = await this.browser.findElement({ css: '#small-input-wrapper' });
-          await this.expect(await element.takeScreenshot()).to.matchImage('valid');
         },
       },
     },
@@ -188,39 +164,6 @@ Example3.story = {
             .perform();
           await delay(1000);
           await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
-        },
-        async ['not valid after click middle button']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#button button' }))
-            .perform();
-          await delay(1500);
-          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
-        },
-        async ['not valid after click bottom button']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#button-bottom button' }))
-            .perform();
-          await delay(2000);
-          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
-        },
-        async ['valid']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#button button' }))
-            .click(this.browser.findElement({ css: 'input' }))
-            .sendKeys('test test')
-            .click(this.browser.findElement({ css: '#button button' }))
-            .perform();
-          await delay(1000);
-          await this.expect(await this.takeScreenshot()).to.matchImage('valid');
         },
       },
     },
@@ -307,25 +250,6 @@ Example4.story = {
           await delay(1000);
           await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
         },
-        async ['valid']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            // .click(this.browser.findElement({ css: '#button-top button' }))
-            .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
-            .sendKeys('Test Test')
-            .perform();
-          await delay(1000);
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#button-top button' }))
-            .perform();
-          await delay(1000);
-          await this.expect(await this.takeScreenshot()).to.matchImage('valid');
-        },
       },
     },
   },
@@ -348,7 +272,7 @@ export const Example5: CSFStory<JSX.Element> = () => {
           <Input value={value} onValueChange={setValue} />
         </ValidationWrapper>
         <div style={{ height: 1000, backgroundColor: 'eee' }} />
-        <Button onClick={() => container && container.submit()}>Отправить</Button>
+        <Button data-tid="Button" onClick={() => container && container.submit()}>Отправить</Button>
       </div>
     </ValidationContainer>
   );
@@ -360,16 +284,6 @@ Example5.story = {
     creevey: {
       tests: {
         async ['not valid']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await delay(1000);
-          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
-        },
-        async ['not valid 2']() {
           await this.browser
             .actions({
               bridge: true,
@@ -392,10 +306,11 @@ Example5.story = {
             })
             .click(this.browser.findElement({ css: 'input' }))
             .sendKeys(`test`)
-            .click(this.browser.findElement({ css: 'button' }))
+            .move({origin: this.browser.findElement({ css: '[data-tid="Button"]' })})
+            .click(this.browser.findElement({ css: '[data-tid="Button"]' }))
             .perform();
           await delay(1000);
-          await this.expect(await this.takeScreenshot()).to.matchImage('valid');
+          await this.expect(await this.takeScreenshot()).to.matchImage('not valid 2');
         },
       },
     },
@@ -460,7 +375,7 @@ export const Example7: CSFStory<JSX.Element> = () => {
   const [container, refContainer] = React.useState<ValidationContainer | null>(null);
   return (
     <ValidationContainer ref={refContainer}>
-      <div style={{ padding: 50, height: 200, position: 'relative' }}>
+      <div style={{ padding: 50, height: 200, width: 500, position: 'relative' }}>
         <div id="input-wrapper-1" style={{ position: 'absolute', top: 100 }}>
           <ValidationWrapper
             validationInfo={validateValue(
@@ -528,20 +443,6 @@ Example7.story = {
           await delay(1000);
           await this.expect(await this.takeScreenshot()).to.matchImage('notValid3');
         },
-        async ['valid']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#input-wrapper-1 input' }))
-            .sendKeys(`test test`)
-            .click(this.browser.findElement({ css: '#input-wrapper-2 input' }))
-            .sendKeys(`test test`)
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await delay(1000);
-          await this.expect(await this.takeScreenshot()).to.matchImage('valid');
-        },
       },
     },
   },
@@ -554,7 +455,7 @@ export const Example8: CSFStory<JSX.Element> = () => {
   const [container, refContainer] = React.useState<ValidationContainer | null>(null);
   return (
     <ValidationContainer ref={refContainer}>
-      <div>
+      <div style={{width: 500}}>
         <div id="input-wrapper-1" style={{ padding: 20 }}>
           <ValidationWrapper
             validationInfo={validateValue(
@@ -608,22 +509,6 @@ Example8.story = {
             .perform();
           await delay(1000);
           await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
-        },
-        async ['valid']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#input-wrapper-1 input' }))
-            .sendKeys(`test test`)
-            .click(this.browser.findElement({ css: '#input-wrapper-2 input' }))
-            .sendKeys(`test test`)
-            .click(this.browser.findElement({ css: '#input-wrapper-3 input' }))
-            .sendKeys(`test test`)
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await delay(1000);
-          await this.expect(await this.takeScreenshot()).to.matchImage('valid');
         },
       },
     },
