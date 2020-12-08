@@ -16,5 +16,7 @@ create(RelativeId("Validations"), BuildType({
     vcs {
         root(DslContext.settingsRoot)
     }
+    
+    disableSettings("VCS_TRIGGER")
 }))
 
