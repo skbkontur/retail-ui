@@ -1185,14 +1185,6 @@ export class DefaultTheme {
   public static get textareaDisabledBorderColor() {
     return this.borderColorGrayLight;
   }
-  public static textareaCounterColor = '#808080';
-  public static textareaCounterBackground = 'rgba(255, 255, 255, 0.9)';
-  public static get textareaCounterErrorColor() {
-    return this.errorText;
-  }
-  public static get textareaCounterDefaultHelpColor() {
-    return this.blue;
-  }
   //#endregion
   //#region Radio
   public static radioBulletSize = '8px';

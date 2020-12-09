@@ -1,46 +1,55 @@
-import React, { CSSProperties, FC, ReactNode, useContext } from 'react';
+import React, { FC, SyntheticEvent, useContext } from 'react';
+import { HelpDot } from '@skbkontur/react-icons';
 import cn from 'classnames';
 
-import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isFunction } from '../../lib/utils';
+import { Tooltip } from '../Tooltip';
 
+import { TextareaProps } from './Textarea';
 import { jsStyles } from './Textarea.styles';
-import { TextareaCounterHelp } from './TextareaCounterHelp';
 
 type TextareaCounterProps = {
-  value: Nullable<string | string[] | number>;
-  textareaWidth: number;
-  textareaHeight: number;
+  value: TextareaProps['value'];
+  width: number;
+  height: number;
   length: number;
-  counterHelp?: ReactNode | string;
+  help: TextareaProps['counterHelp'];
+  onCloseHelp: () => void;
 };
 
-export const TextareaCounter: FC<TextareaCounterProps> = props => {
-  const { textareaWidth, length, value, counterHelp, textareaHeight } = props;
+const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
+export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, length, value, help, onCloseHelp }) => {
   const theme = useContext(ThemeContext);
-
-  const textareaValue: number = value ? value.toString().length : 0;
-  const counterValue: number = length - textareaValue;
-
-  const isError = counterValue < 0;
-  const counterStyle: CSSProperties = {
-    right: parseInt(theme.textareaPaddingX, 10),
-    bottom: parseInt(theme.textareaBorderWidth, 10),
-  };
+  const textareaValue = value ? value.toString().length : 0;
+  const counterValue = length - textareaValue;
+  const counterHelp = isFunction(help) ? (
+    help()
+  ) : (
+    <Tooltip pos={'right bottom'} trigger={'click'} render={() => help} onCloseRequest={onCloseHelp}>
+      <HelpDot onMouseDown={handleHelpMouseDown} color={theme.linkColor} />
+    </Tooltip>
+  );
 
   return (
-    <div className={jsStyles.counterContainer()} style={{ width: textareaWidth, height: textareaHeight }}>
+    <div className={jsStyles.counterContainer()} style={{ width, height }}>
       <span
-        className={cn({
-          [jsStyles.counter(theme)]: true,
-          [jsStyles.counterError(theme)]: isError,
+        className={cn(jsStyles.counter(theme), {
+          [jsStyles.counterError(theme)]: counterValue < 0,
         })}
-        style={counterStyle}
       >
-        <span>{counterValue}</span>
-        {!!counterHelp && <TextareaCounterHelp counterHelp={counterHelp} />}
+        {counterValue}
+        {help && <span className={jsStyles.counterHelp()}>{counterHelp}</span>}
       </span>
     </div>
   );
+};
+
+export const calcTextareaWidth = (node: HTMLTextAreaElement): number => {
+  const { clientWidth, offsetWidth } = node;
+  const borderRightWidth = parseFloat(getComputedStyle(node).getPropertyValue('border-right-width'));
+  const scrollWidth = offsetWidth - clientWidth - borderRightWidth;
+
+  return offsetWidth - scrollWidth;
 };

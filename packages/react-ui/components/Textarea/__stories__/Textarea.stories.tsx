@@ -341,7 +341,7 @@ TextareaWithCounters.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name~="TextareaCounterHelp"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="Tooltip"] span' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelpOpened');
         },

@@ -1,3 +1,4 @@
+import { fade } from '../../lib/styles/ColorFunctions';
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -119,8 +120,8 @@ const styles = {
   counterContainer() {
     return css`
       position: absolute;
-      top: 0
-    `
+      top: 0;
+    `;
   },
 
   counter(t: Theme) {
@@ -128,20 +129,18 @@ const styles = {
       position: absolute;
       z-index: 3;
       text-align: right;
-      background: ${t.textareaCounterBackground};
-      color: ${t.textareaCounterColor};
-      line-height: 26px;
-      padding: 0 2px;
+      background: ${fade(t.textareaBg, 0.9)};
+      color: ${t.gray};
       border-radius: 2px;
-      right: 0;
+      margin-bottom: 6px;
+      right: ${t.textareaPaddingX};
+      bottom: ${t.textareaBorderWidth};
     `;
   },
 
   counterError(t: Theme) {
     return css`
-      ${cssName(styles.counter(t))}& {
-        color: ${t.textareaCounterErrorColor}
-      }
+      color: ${t.errorText} !important;
     `;
   },
 
