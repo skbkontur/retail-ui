@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useContext } from 'react';
+import React, { FC, SyntheticEvent, useContext, useCallback } from 'react';
 import cn from 'classnames';
 
 import { HelpDotIcon } from '../../internal/icons/16px';
@@ -22,12 +22,13 @@ const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
 export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, length, value, help, onCloseHelp }) => {
   const theme = useContext(ThemeContext);
+  const renderTooltipContent = useCallback(() => help, [help]);
   const textareaValue = value ? value.toString().length : 0;
   const counterValue = length - textareaValue;
   const counterHelp = isFunction(help) ? (
     help()
   ) : (
-    <Tooltip pos={'right bottom'} trigger={'click'} render={() => help} onCloseClick={onCloseHelp}>
+    <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
       <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
     </Tooltip>
   );
