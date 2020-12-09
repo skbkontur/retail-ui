@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.4](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.3...react-ui-testing@3.1.4) (2020-12-03)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
 ## [3.1.3](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.2...react-ui-testing@3.1.3) (2020-09-16)
 
 **Note:** Version bump only for package react-ui-testing

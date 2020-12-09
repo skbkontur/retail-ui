@@ -279,6 +279,9 @@ Simple.story = {
   },
 };
 
+export const WithAutoFocus: CSFStory<JSX.Element> = () => <DateInput autoFocus />;
+WithAutoFocus.story = { name: 'with autoFocus' };
+
 export const Formatting = () => <DateInputFormatting />;
 Formatting.story = { name: 'formatting', parameters: { creevey: { skip: [true] } } };
 

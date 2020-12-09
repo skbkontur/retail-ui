@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
@@ -40,6 +43,7 @@ export interface TooltipMenuProps {
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
 export class TooltipMenu extends React.Component<TooltipMenuProps> {
+  private theme!: Theme;
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
 
   public static defaultProps = {
@@ -54,6 +58,29 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupPinOffset: '15px',
+                  popupMargin: '10px',
+                },
+                this.theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
     if (!this.props.caption) {
       return null;
     }
@@ -67,8 +94,6 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
         footer={this.props.footer}
         positions={this.props.positions}
         popupHasPin={true}
-        popupMargin={10}
-        popupPinOffset={15}
         disableAnimations={this.props.disableAnimations}
       >
         {this.props.children}

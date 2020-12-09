@@ -2,6 +2,7 @@ import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupPosition, PopupProps } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
@@ -13,9 +14,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { jsStyles } from './Tooltip.styles';
-
-const POPUP_MARGIN = 15;
-const POPUP_PIN_OFFSET = 17;
 
 const Positions: PopupPosition[] = [
   'right bottom',
@@ -218,7 +216,19 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupPinOffset: '17px',
+                  popupMargin: '15px',
+                },
+                theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -302,10 +312,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         anchorElement={anchorElement}
         hasPin
         hasShadow
-        margin={POPUP_MARGIN}
         maxWidth="none"
         opened={this.state.opened}
-        pinOffset={POPUP_PIN_OFFSET}
         disableAnimations={this.props.disableAnimations}
         positions={this.getPositions()}
         ignoreHover={this.props.trigger === 'hoverAnchor'}

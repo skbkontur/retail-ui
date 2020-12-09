@@ -56,11 +56,11 @@ const styles = {
       }
 
       &:-moz-placeholder {
-        color: inherit; // Need to be discussed
+        color: ${t.textareaPlaceholderColor};
       }
 
       &::-moz-placeholder {
-        color: inherit;
+        color: ${t.textareaPlaceholderColor};
       }
     `;
   },

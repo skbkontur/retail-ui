@@ -1,26 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { jsStyles } from './icon.styles';
+import { Warning, Ok, Gear, User, Wait, Clear, Money, HelpCircle, Kebab } from './svg';
 
 const MAP = {
-  circle: '\ue001',
-  baseline: '\ue003',
-  warning: '\ue005',
-  ok: '\ue006',
-  gear: '\ue018',
-  user: '\ue020',
-  wait: '\ue021',
-  clear: '\ue030',
-  grid: '\ue03e',
-  money: '\ue046',
-  'help-circle': '\ue055',
-  kebab: '\ue0c9',
+  warning: Warning,
+  ok: Ok,
+  gear: Gear,
+  user: User,
+  wait: Wait,
+  clear: Clear,
+  money: Money,
+  'help-circle': HelpCircle,
+  kebab: Kebab,
 };
 
 export interface IconProps {
   name: keyof typeof MAP;
-  color: React.CSSProperties['color'];
+  color?: React.CSSProperties['color'];
 }
 
 export class Icon extends React.Component<IconProps> {
@@ -40,13 +37,7 @@ export class Icon extends React.Component<IconProps> {
   }
 
   public render() {
-    const style = {
-      color: this.props.color,
-    };
-    return (
-      <span className={jsStyles.root()} style={style}>
-        {MAP[this.props.name]}
-      </span>
-    );
+    const { name, color } = this.props;
+    return React.createElement(MAP[name], { color });
   }
 }

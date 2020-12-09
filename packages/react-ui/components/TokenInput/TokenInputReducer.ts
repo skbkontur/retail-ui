@@ -7,6 +7,7 @@ export interface TokenInputAction {
 
 export const TokenActions = {
   SET_INPUT_VALUE_WIDTH: 'SET_INPUT_VALUE_WIDTH',
+  SET_INPUT_VALUE_HEIGHT: 'SET_INPUT_VALUE_HEIGHT',
   UPDATE_QUERY: 'UPDATE_QUERY',
   SET_FOCUS_IN: 'SET_FOCUS_IN',
   SET_PREVENT_BLUR: 'SET_PREVENT_BLUR',
@@ -17,6 +18,10 @@ export const TokenActions = {
   SET_LOADING: 'SET_LOADING',
   CLEAR_INPUT: 'CLEAR_INPUT',
   RESET: 'RESET',
+  SET_EDITING_TOKEN_INDEX: 'SET_EDITING_TOKEN_INDEX',
+  REMOVE_EDITING_TOKEN_INDEX: 'REMOVE_EDITING_TOKEN_INDEX',
+  SET_TEMPORARY_QUERY: 'SET_TEMPORARY_QUERY',
+  REMOVE_TEMPORARY_QUERY: 'REMOVE_TEMPORARY_QUERY',
 };
 
 export type TokenInputActionType = keyof typeof TokenActions;
@@ -29,6 +34,9 @@ export function tokenInputReducer<T = string>(
   switch (action.type) {
     case TokenActions.SET_INPUT_VALUE_WIDTH: {
       return { inputValueWidth: payload };
+    }
+    case TokenActions.SET_INPUT_VALUE_HEIGHT: {
+      return { inputValueHeight: payload };
     }
     case TokenActions.UPDATE_QUERY: {
       return { inputValue: payload };
@@ -67,7 +75,18 @@ export function tokenInputReducer<T = string>(
     case TokenActions.RESET: {
       return DefaultState;
     }
-
+    case TokenActions.SET_EDITING_TOKEN_INDEX: {
+      return { editingTokenIndex: payload };
+    }
+    case TokenActions.REMOVE_EDITING_TOKEN_INDEX: {
+      return { editingTokenIndex: -1 };
+    }
+    case TokenActions.SET_TEMPORARY_QUERY: {
+      return { reservedInputValue: payload };
+    }
+    case TokenActions.REMOVE_TEMPORARY_QUERY: {
+      return { reservedInputValue: undefined };
+    }
     default:
       return state;
   }
