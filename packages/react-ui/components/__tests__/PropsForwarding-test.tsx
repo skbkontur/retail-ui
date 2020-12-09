@@ -6,6 +6,7 @@ import { FxInput } from '../FxInput';
 import { CurrencyInput } from '../CurrencyInput';
 import { PasswordInput } from '../PasswordInput';
 import { Autocomplete } from '../Autocomplete';
+import { DateInput } from '../DateInput';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { isFunction } from '../../lib/utils';
 
@@ -98,6 +99,7 @@ describe.each<[string, () => ReactWrapper]>([
   ['PasswordInput', () => mount(<PasswordInput />)],
   ['Autocomplete', () => mount(<Autocomplete value="" onValueChange={jest.fn()} />)],
   ['InputLikeText', () => mount(<InputLikeText />)],
+  ['DateInput', () => mount(<DateInput />)],
 ])('%s', (title, render) => {
   beforeAll(() => {
     // mock for InputLikeText's handleBlur
@@ -123,7 +125,7 @@ describe.each<[string, () => ReactWrapper]>([
       'aria-labelledby': '',
     };
 
-    if (title === 'InputLikeText') {
+    if (title === 'InputLikeText' || title === 'DateInput') {
       delete props.tabIndex;
     }
 
@@ -155,7 +157,7 @@ describe.each<[string, () => ReactWrapper]>([
   describe('calls passed handlers', () => {
     const getTargetSelector = (eventName: string, title: string) => {
       switch (true) {
-        case title === 'InputLikeText':
+        case title === 'InputLikeText' || title === 'DateInput':
           return 'span[tabIndex=0]';
         case eventName === 'onMouseEnter':
         case eventName === 'onMouseLeave':

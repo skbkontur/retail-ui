@@ -15,7 +15,6 @@ import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
 
 export interface InputLikeTextProps extends InputProps<HTMLElement> {
-  children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;

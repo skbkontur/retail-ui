@@ -6,7 +6,7 @@ import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/cons
 import { InternalDateComponentType } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
-import { InputLikeText } from '../../internal/InputLikeText';
+import { InputLikeText, InputLikeTextProps } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
@@ -24,12 +24,7 @@ export interface DateInputState {
   dragged: boolean;
 }
 
-export interface DateInputProps {
-  autoFocus?: boolean;
-  value: string;
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
+export interface DateInputProps extends InputLikeTextProps {
   /**
    * Минимальная дата.
    * @default '01.01.1900'
@@ -44,22 +39,13 @@ export interface DateInputProps {
    * Ширина поля
    * @default 125
    */
-  width: string | number;
   withIcon?: boolean;
-  /**
-   * Размер поля
-   * @default 'small'
-   */
-  size: 'small' | 'large' | 'medium';
-  onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
-  onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   /**
    * Вызывается при изменении `value`
    *
    * @param value - строка в формате `dd.mm.yyyy`.
    */
   onValueChange?: (value: string) => void;
-  onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -177,15 +163,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const fragments = focused || valueFormatted !== '' ? this.iDateMediator.getFragments() : [];
+    const { minDate, maxDate, withIcon, onValueChange, ...rest } = this.props;
 
     return (
       <InputLikeText
-        width={this.props.width}
+        {...rest}
         ref={this.inputLikeTextRef}
-        size={this.props.size}
-        disabled={this.props.disabled}
-        error={this.props.error}
-        warning={this.props.warning}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onKeyDown={this.handleKeyDown}
@@ -254,13 +237,14 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     }
   };
 
-  private handleMouseDownCapture = (e: React.MouseEvent<HTMLSpanElement>) => {
+  private handleMouseDownCapture = (e: React.MouseEvent<HTMLElement>) => {
     const isFragment = this.dateFragmentsView ? this.dateFragmentsView.isFragment(e.target) : false;
     if (this.state.focused && !isFragment) {
       e.preventDefault();
     }
     this.isMouseFocus = !this.state.focused;
     this.isMouseDown = isFragment;
+    this.props.onMouseDownCapture?.(e);
   };
 
   private handleSelectDateComponent = (type: InternalDateComponentType) => {
@@ -271,11 +255,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     this.isMouseDown = false;
   };
 
-  private handleMouseDragStart = () => {
+  private handleMouseDragStart = (e: MouseEvent) => {
     this.setState({ dragged: true, selected: null });
+    this.props.onMouseDragStart?.(e);
   };
 
-  private handleMouseDragEnd = () => {
+  private handleMouseDragEnd = (e: MouseEvent) => {
     const selection = getSelection();
     if (
       selection &&
@@ -284,6 +269,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     ) {
       this.selectDateComponent(InternalDateComponentType.All);
     }
+    this.props.onMouseDragStart?.(e);
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -301,10 +287,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.iDateMediator.paste(pasted);
       this.updateValue();
     }
+    this.props.onPaste?.(e);
   };
 
-  private handleDoubleClick = () => {
+  private handleDoubleClick = (e: React.MouseEvent<HTMLElement>) => {
     this.selectDateComponent(InternalDateComponentType.All);
+    this.props.onDoubleClickCapture?.(e);
   };
 
   private inputLikeTextRef = (el: InputLikeText | null) => {
