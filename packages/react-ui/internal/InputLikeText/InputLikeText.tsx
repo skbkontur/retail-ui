@@ -14,11 +14,9 @@ import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
 
-export interface InputLikeTextProps extends InputProps {
+export interface InputLikeTextProps extends InputProps<HTMLElement> {
   children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
-  onFocus?: React.FocusEventHandler<HTMLElement>;
-  onBlur?: React.FocusEventHandler<HTMLElement>;
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;
 }
@@ -28,7 +26,7 @@ export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps = { size: 'small' };
+  public static defaultProps = { size: 'small', tabIndex: 0 };
 
   public state = { blinking: false, focused: false };
 
@@ -133,7 +131,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       error,
       warning,
       onValueChange,
-      disabled,
       prefix,
       suffix,
       leftIcon,
@@ -141,15 +138,43 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       value,
       onMouseDragStart,
       onMouseDragEnd,
+      size,
+      onFocus,
+      onBlur,
+      onMouseDown,
+      onKeyDown,
+      className,
+      style,
       ...rest
     } = this.props;
+
+    const {
+      autoFocus,
+      disabled,
+      id,
+      title,
+      autoComplete,
+      form,
+      formAction,
+      formEncType,
+      formMethod,
+      formNoValidate,
+      formTarget,
+      inputMode,
+      name,
+      readOnly,
+      required,
+      'aria-label': label,
+      'aria-labelledby': labelledby,
+      ...restProps
+    } = rest;
 
     const { focused, blinking } = this.state;
 
     const leftSide = this.renderLeftSide();
     const rightSide = this.renderRightSide();
 
-    const className = cn(jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+    const labelClass = cn(jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.borderless()]: !!borderless,
       [jsStyles.withoutLeftSide()]: !leftSide,
       [jsInputStyles.focus(this.theme)]: focused,
@@ -166,19 +191,47 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsStyles.userSelectContain()]: focused,
     });
 
+    const rootProps = {
+      ...restProps,
+      className: cn(className, labelClass),
+      style: {
+        width,
+        textAlign: align,
+        ...style,
+      },
+      onKeyDown: this.handleKeyDown,
+      onMouseDown: this.handleMouseDown,
+      tabIndex: disabled ? undefined : tabIndex,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+
+      ref: this.innerRef,
+    };
+
+    const inputProps = {
+      autoFocus,
+      disabled,
+      id,
+      title,
+      autoComplete,
+      form,
+      formAction,
+      formEncType,
+      formMethod,
+      formNoValidate,
+      formTarget,
+      inputMode,
+      name,
+      readOnly,
+      required,
+      'aria-label': label,
+      'aria-labelledby': labelledby,
+      value,
+    };
+
     return (
-      <span
-        {...rest}
-        className={className}
-        style={{ width, textAlign: align }}
-        tabIndex={disabled ? undefined : 0}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        ref={this.innerRef}
-        onKeyDown={this.handleKeyDown}
-        onMouseDown={this.handleMouseDown}
-      >
-        <input type="hidden" value={value} />
+      <span {...rootProps}>
+        <input {...inputProps} type="hidden" />
         {leftSide}
         <span className={wrapperClass}>
           <span data-tid="InputLikeText__input" className={cn(jsStyles.input(), jsInputStyles.input(this.theme))}>
@@ -299,6 +352,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
     this.frozen = true;
+    this.props.onMouseDown?.(e);
   };
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -321,7 +375,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     if (this.props.onKeyDown) {
-      this.props.onKeyDown(e as React.KeyboardEvent<HTMLInputElement>);
+      this.props.onKeyDown(e);
     }
   };
 

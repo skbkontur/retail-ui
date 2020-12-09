@@ -31,8 +31,8 @@ export type InputType =
   | 'week';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
-export type InputProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
+export type InputProps<T = HTMLInputElement> = Override<
+  React.InputHTMLAttributes<T>,
   {
     /**
      * Иконка слева

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
 import { Input } from '../Input';
@@ -6,6 +6,7 @@ import { FxInput } from '../FxInput';
 import { CurrencyInput } from '../CurrencyInput';
 import { PasswordInput } from '../PasswordInput';
 import { Autocomplete } from '../Autocomplete';
+import { InputLikeText } from '../../internal/InputLikeText';
 import { isFunction } from '../../lib/utils';
 
 const EVENTS_LIST = [
@@ -96,16 +97,18 @@ describe.each<[string, () => ReactWrapper]>([
   ['CurrncyInput', () => mount(<CurrencyInput onValueChange={jest.fn()} />)],
   ['PasswordInput', () => mount(<PasswordInput />)],
   ['Autocomplete', () => mount(<Autocomplete value="" onValueChange={jest.fn()} />)],
+  ['InputLikeText', () => mount(<InputLikeText />)],
 ])('%s', (title, render) => {
+  beforeAll(() => {
+    // mock for InputLikeText's handleBlur
+    window.getSelection = () => null;
+  });
   it('passes props to input', () => {
-    const props = {
+    const props: InputHTMLAttributes<HTMLInputElement> = {
       autoFocus: true,
       disabled: true,
       id: 'someId',
-      // maxLength: 10,
-      // placeholder: 'somePlaceholder',
       title: 'someTitle',
-      // autoComplete: '',
       form: '',
       formAction: '',
       formEncType: '',
@@ -113,33 +116,20 @@ describe.each<[string, () => ReactWrapper]>([
       formNoValidate: true,
       formTarget: '',
       tabIndex: 0,
-      // inputMode: 'text' as InputProps['inputMode'],
-      // list: '',
-      // max: '',
-      // min: '',
-      // minLength: 0,
-      // multiple: true,
       name: '',
-      // pattern: '',
       readOnly: true,
       required: true,
-      // step: '',
-      // type: 'text' as InputProps['type'],
-
-      // defaultValue: '',
-
       'aria-label': '',
       'aria-labelledby': '',
     };
 
-    const wrapper = render().setProps(props);
-    const inputProps = wrapper.find('input').props();
-
-    for (const prop in props) {
-      if (props[prop as keyof typeof props]) {
-        expect(inputProps[prop as keyof typeof props]).toBe(props[prop as keyof typeof props]);
-      }
+    if (title === 'InputLikeText') {
+      delete props.tabIndex;
     }
+
+    const wrapper = render().setProps(props);
+
+    expect(wrapper.find('input').props()).toMatchObject(props);
   });
 
   it('passes props to wrapper', () => {
@@ -163,11 +153,13 @@ describe.each<[string, () => ReactWrapper]>([
   });
 
   describe('calls passed handlers', () => {
-    const getTargetSelector = (eventName: string) => {
-      switch (eventName) {
-        case 'onMouseEnter':
-        case 'onMouseLeave':
-        case 'onMouseOver':
+    const getTargetSelector = (eventName: string, title: string) => {
+      switch (true) {
+        case title === 'InputLikeText':
+          return 'span[tabIndex=0]';
+        case eventName === 'onMouseEnter':
+        case eventName === 'onMouseLeave':
+        case eventName === 'onMouseOver':
           return 'Input > label';
         default:
           return 'input';
@@ -176,7 +168,7 @@ describe.each<[string, () => ReactWrapper]>([
     it.each(EVENTS_LIST)('%s', eventName => {
       const userHandler = jest.fn();
       const wrapper = render().setProps({ [eventName]: userHandler });
-      const targetHandler = wrapper.find(getTargetSelector(eventName)).prop(eventName);
+      const targetHandler = wrapper.find(getTargetSelector(eventName, title)).prop(eventName);
 
       if (isFunction(targetHandler)) {
         targetHandler(createEvent(getEventType(eventName)));
