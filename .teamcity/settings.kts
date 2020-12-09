@@ -688,3 +688,45 @@ object Validations_Publish : BuildType({
 
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
 })
+
+object Validations_ScreenshotTests : BuildType({
+  name = "Screenshot tests"
+
+  artifactRules = "packages/react-ui-validations/.creevey/report => report.zip"
+
+  vcs {
+    root(DslContext.settingsRoot)
+  }
+
+  steps {
+    step {
+//      name = "Install"
+//      id = "RUNNER_1"
+//      type = "jonnyzzz.yarn"
+//      param("yarn_commands", "install")
+      script {
+        scriptContent = "echo 'Hello world!'"
+      }
+    }
+//    step {
+//      name = "Build Storybook"
+//      id = "RUNNER_2"
+//      type = "jonnyzzz.yarn"
+//      param("yarn_commands", "workspace @skbkontur/react-ui storybook:build")
+//    }
+//    script {
+//      name = "Start"
+//      id = "RUNNER_3"
+//      scriptContent = """
+//                start /b yarn workspace @skbkontur/react-ui storybook:serve
+//                ping 127.0.0.1 -n 11
+//            """.trimIndent()
+//    }
+//    step {
+//      name = "Test UI"
+//      id = "RUNNER_4"
+//      type = "jonnyzzz.yarn"
+//      param("yarn_commands", "workspace @skbkontur/react-ui creevey")
+//    }
+  }
+})
