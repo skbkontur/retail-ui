@@ -27,7 +27,7 @@ export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, lengt
   const counterHelp = isFunction(help) ? (
     help()
   ) : (
-    <Tooltip pos={'right bottom'} trigger={'click'} render={() => help} onCloseRequest={onCloseHelp}>
+    <Tooltip pos={'right bottom'} trigger={'click'} render={() => help} onCloseClick={onCloseHelp}>
       <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
     </Tooltip>
   );
