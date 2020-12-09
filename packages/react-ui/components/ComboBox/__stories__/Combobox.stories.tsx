@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
+import SearchIcon from '@skbkontur/react-icons/Search';
 import { CSFStory } from 'creevey';
 
 import { ComboBox, ComboBoxProps } from '../ComboBox';
@@ -1043,3 +1044,13 @@ class ComboBoxWithExternalValue extends React.Component {
     return null;
   };
 }
+
+export const WithLeftIcon = () => (
+  <Gapped vertical>
+    <SimpleCombobox leftIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="small" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="medium" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="large" drawArrow={false} />
+  </Gapped>
+);
+WithLeftIcon.story = { name: 'with left icon' };

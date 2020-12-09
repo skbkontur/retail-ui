@@ -48,14 +48,8 @@ const tokenColors = {
     getItems={getItems}
     selectedItems={state.selectedItems}
     onValueChange={itemsNew => setState({ selectedItems: itemsNew })}
-    renderToken={(item, { isActive, onClick, onRemove }) => (
-      <Token
-        key={item.toString()}
-        colors={tokenColors[item] || tokenColors.default}
-        isActive={isActive}
-        onClick={onClick}
-        onRemove={onRemove}
-      >
+    renderToken={(item, tokenProps) => (
+      <Token key={item.toString()} colors={tokenColors[item] || tokenColors.default} {...tokenProps}>
         {item}
       </Token>
     )}
