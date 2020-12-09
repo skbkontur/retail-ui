@@ -59,63 +59,29 @@ describe('<Input />', () => {
     expect(wrapper.find(`.${jsStyles.borderless()}`)).toHaveLength(1);
   });
 
-  it('passes props to input', () => {
+  it('passes specific props to input', () => {
     const props = {
-      autoFocus: true,
-      disabled: true,
-      id: 'someId',
       maxLength: 10,
       placeholder: 'somePlaceholder',
-      title: 'someTitle',
-
-      // accept: true,
-      // alt: true,
       autoComplete: '',
-      // capture: true,
-      // checked: true,
-      // defaultChecked: true,
-      defaultValue: '',
-      form: '',
-      formAction: '',
-      formEncType: '',
-      formMethod: '',
-      formNoValidate: true,
-      formTarget: '',
-      // height: true,
-      inputMode: 'text' as InputProps['inputMode'],
-      // hidden: true,
+
+      inputMode: 'tel' as InputProps['inputMode'],
       list: '',
-      max: '',
-      min: '',
-      minLength: 0,
+      max: 10,
+      min: 5,
+      minLength: 5,
       multiple: true,
-      name: '',
       pattern: '',
-      readOnly: true,
-      required: true,
-      // src: true,
-      step: '',
-      type: 'text' as InputProps['type'],
-      value: '',
 
-      onCopy: () => undefined,
-      onClick: () => undefined,
-      onMouseUp: () => undefined,
-      onMouseDown: () => undefined,
-      onCut: () => undefined,
-      onInput: () => undefined,
-      onKeyUp: () => undefined,
-      onPaste: () => undefined,
+      step: 2,
+      type: 'search' as InputProps['type'],
+
+      defaultValue: '',
     };
-    const inputProps = render({ ...props, value: 'hello' })
-      .find('input')
-      .props();
 
-    for (const prop in props) {
-      if (props[prop as keyof typeof props]) {
-        expect(inputProps[prop as keyof typeof props]).toBe(props[prop as keyof typeof props]);
-      }
-    }
+    const wrapper = render(props);
+
+    expect(wrapper.find('input').props()).toMatchObject(props);
   });
 
   it('passes onMouse* props to label', () => {
