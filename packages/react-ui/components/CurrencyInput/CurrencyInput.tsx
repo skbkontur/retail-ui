@@ -123,7 +123,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = this.props;
     const placeholder =
       this.props.placeholder == null
-        ? CurrencyHelper.format(0, {fractionDigits, hideTrailingZeros})
+        ? CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros })
         : this.props.placeholder;
 
     return (
@@ -138,9 +138,6 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
         onPaste={this.handlePaste}
         onCopy={this.handleCopy}
         onCut={this.handleCut}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
         ref={this.refInput}
         placeholder={this.state.focused ? '' : placeholder}
       />
@@ -176,6 +173,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     const selection = getInputSelection(event.target);
     const normilized = CurrencyInputHelper.normalizeSelection(this.state.formatted, selection);
     this.setState({ selection: normilized });
+    this.props.onMouseUp?.(event);
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -328,6 +326,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     const selection = this.getSelection(event.target);
     this.inputValue(selection.start, selection.end, data);
     event.preventDefault();
+    this.props.onPaste?.(event);
   };
 
   private handleCopy = (event: React.ClipboardEvent<HTMLInputElement>) => {
@@ -338,6 +337,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       event.clipboardData.setData('text', data);
     }
     event.preventDefault();
+    this.props.onCopy?.(event);
   };
 
   private handleCut = (event: React.ClipboardEvent<HTMLInputElement>) => {
@@ -349,6 +349,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       this.inputValue(selection.start, selection.end, '');
     }
     event.preventDefault();
+    this.props.onCut?.(event);
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
