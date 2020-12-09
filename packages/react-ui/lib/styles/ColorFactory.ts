@@ -15,7 +15,10 @@ const HSLA_REGEX = /hsla\(\s*(\d{1,3})\s*,\s*(0|0\.\d+|1|1\.0+|\d{1,3}(?:(?:\.\d
 const HEX_REGEX = /^#([0-9a-f]{3}|[0-9a-f]{6})$/;
 
 export class ColorFactory {
-  public static create(input: string) {
+  public static create(input: string, doNotCache?: boolean) {
+    if (doNotCache) {
+      return this.instantiate(input);
+    }
     if (!this.cache[input]) {
       this.cache[input] = this.instantiate(input);
     }
