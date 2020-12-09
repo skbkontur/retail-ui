@@ -9,7 +9,7 @@ import { isButton } from '../Button';
 
 import { jsStyles } from './Group.styles';
 
-export interface GroupProps {
+export interface GroupProps extends React.HTMLAttributes<HTMLSpanElement> {
   width?: React.CSSProperties['width'];
 }
 
@@ -26,8 +26,14 @@ export class Group extends React.Component<GroupProps> {
   };
 
   public render() {
-    const style: React.CSSProperties = {
-      width: this.props.width,
+    const { className, style, width, ...rest } = this.props;
+
+    const wrapperProps = {
+      ...rest,
+      style: {
+        width,
+        ...style,
+      },
     };
 
     let first: Nullable<React.ReactElement<any>> = null;
@@ -41,7 +47,7 @@ export class Group extends React.Component<GroupProps> {
     });
 
     return (
-      <span className={jsStyles.root()} style={style}>
+      <span className={cn(className, jsStyles.root())} {...wrapperProps}>
         {React.Children.map(this.props.children, child => {
           if (!child || !React.isValidElement<GroupChildProps>(child)) {
             return null;
