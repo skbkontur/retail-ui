@@ -166,6 +166,10 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       preventWindowScroll,
       source,
       width = this.theme.inputWidth,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
       ...rest
     } = this.props;
 
@@ -178,9 +182,20 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refInput,
     };
 
+    const wrapperProps = {
+      className,
+      style: {
+        display: 'inline-block',
+        width,
+        ...style,
+      },
+      'data-tid': datatid,
+      'data-testid': datatestid,
+    };
+
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
+        <span ref={this.refRootSpan} {...wrapperProps}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>

@@ -4,6 +4,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import { Input } from '../Input';
 import { FxInput } from '../FxInput';
 import { CurrencyInput } from '../CurrencyInput';
+import { Autocomplete } from '../Autocomplete';
 import { isFunction } from '../../lib/utils';
 
 const EVENTS_LIST = [
@@ -81,10 +82,18 @@ const getEventType = (eventName: string): string => {
   return eventName.toLowerCase().replace('capture', '');
 };
 
+const clickOutside = () => {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
+
+  document.body.dispatchEvent(event);
+};
+
 describe.each<[string, () => ReactWrapper]>([
   ['Input', () => mount(<Input />)],
   ['FxInput', () => mount(<FxInput onValueChange={jest.fn()} />)],
   ['CurrncyInput', () => mount(<CurrencyInput onValueChange={jest.fn()} />)],
+  ['Autocomplete', () => mount(<Autocomplete value="" onValueChange={jest.fn()} />)],
 ])('%s', (title, render) => {
   it('passes props to input', () => {
     const props = {
@@ -170,6 +179,13 @@ describe.each<[string, () => ReactWrapper]>([
       if (isFunction(targetHandler)) {
         targetHandler(createEvent(getEventType(eventName)));
       }
+
+      if (title === 'Autocomplete' && eventName == 'onBlur') {
+        //@ts-ignore
+        wrapper.find('input').prop('onFocus')?.();
+        clickOutside();
+      }
+
       expect(userHandler).toHaveBeenCalled();
     });
   });
