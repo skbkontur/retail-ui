@@ -49,9 +49,26 @@ export class FxInput extends React.Component<FxInputProps> {
   private getProps = createPropsGetter(FxInput.defaultProps);
 
   public render(): JSX.Element {
-    const { type, onRestore, auto, ...rest } = this.props;
+    const {
+      type,
+      onRestore,
+      auto,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+      ...rest
+    } = this.props;
+
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
+    };
+
+    const wrapperProps = {
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
     };
 
     let button = null;
@@ -67,7 +84,7 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group width={this.props.width}>
+      <Group width={this.props.width} {...wrapperProps}>
         {button}
         {this.getProps().type === 'currency' ? (
           <CurrencyInput
