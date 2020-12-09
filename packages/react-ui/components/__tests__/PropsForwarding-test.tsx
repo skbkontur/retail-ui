@@ -4,6 +4,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import { Input } from '../Input';
 import { FxInput } from '../FxInput';
 import { CurrencyInput } from '../CurrencyInput';
+import { PasswordInput } from '../PasswordInput';
 import { Autocomplete } from '../Autocomplete';
 import { isFunction } from '../../lib/utils';
 
@@ -64,8 +65,8 @@ const createEvent = (type: string, target = document.createElement('input')): Ev
     currentTarget: { value: target },
   });
 
-  // needed for CurrecyInput's handlePaste
-  if (type === 'onpaste') {
+  if (event.type === 'onpaste') {
+    // needed for CurrecyInput's handlePaste
     Object.defineProperties(event, {
       clipboardData: {
         value: {
@@ -93,6 +94,7 @@ describe.each<[string, () => ReactWrapper]>([
   ['Input', () => mount(<Input />)],
   ['FxInput', () => mount(<FxInput onValueChange={jest.fn()} />)],
   ['CurrncyInput', () => mount(<CurrencyInput onValueChange={jest.fn()} />)],
+  ['PasswordInput', () => mount(<PasswordInput />)],
   ['Autocomplete', () => mount(<Autocomplete value="" onValueChange={jest.fn()} />)],
 ])('%s', (title, render) => {
   it('passes props to input', () => {

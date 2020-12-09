@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
@@ -57,7 +58,23 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   }
 
   public render() {
-    return <div className={jsStyles.root()}>{this.renderInput()}</div>;
+    const {
+      detectCapsLock,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+      ...inputProps
+    } = this.props;
+
+    const wrapperProps = {
+      className: cn(className, jsStyles.root()),
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+    };
+
+    return <div {...wrapperProps}>{this.renderInput(inputProps)}</div>;
   }
 
   /**
@@ -148,8 +165,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     this.input = element;
   };
 
-  private renderInput() {
-    const { detectCapsLock, ...props } = this.props;
+  private renderInput(props: InputProps) {
     const inputProps = {
       ...props,
       onKeyDown: this.handleKeydown,
