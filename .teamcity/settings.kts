@@ -702,15 +702,18 @@ object Validations_ScreenshotTests : BuildType({
   }
 
   steps {
-    step {
+    script {
+      scriptContent = "echo 'Hello world!'"
+    }
+//    step {
 //      name = "Install"
 //      id = "RUNNER_1"
 //      type = "jonnyzzz.yarn"
 //      param("yarn_commands", "install")
-      script {
-        scriptContent = "echo 'Hello world!'"
-      }
-    }
+//      script {
+//        scriptContent = "echo 'Hello world!'"
+//      }
+//    }
 //    step {
 //      name = "Build Storybook"
 //      id = "RUNNER_2"
