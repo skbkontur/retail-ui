@@ -14,6 +14,7 @@ import { InputLikeText } from '../../internal/InputLikeText';
 import { isFunction } from '../../lib/utils';
 import { Button, ButtonProps } from '../Button';
 import { Checkbox } from '../Checkbox';
+import { Radio } from '../Radio';
 
 const EVENTS_LIST = [
   // Clipboard Events
@@ -288,6 +289,55 @@ describe('Button', () => {
       const userHandler = jest.fn();
       const wrapper = render().setProps({ [eventName]: userHandler });
       const targetHandler = wrapper.find('button').prop(eventName);
+
+      if (isFunction(targetHandler)) {
+        targetHandler(createEvent(getEventType(eventName)));
+      }
+
+      expect(userHandler).toHaveBeenCalled();
+    });
+  });
+});
+
+describe('Radio', () => {
+  const render = () => mount(<Radio value="">Radio</Radio>);
+
+  it('passes props to input', () => {
+    const props = {
+      autoFocus: true,
+      disabled: true,
+      id: 'someId',
+      title: 'someTitle',
+      form: '',
+      formAction: '',
+      formEncType: '',
+      formMethod: '',
+      formNoValidate: true,
+      formTarget: '',
+      tabIndex: 0,
+      name: '',
+      readOnly: true,
+      required: true,
+      'aria-label': '',
+      'aria-labelledby': '',
+    };
+
+    const wrapper = render().setProps(props);
+
+    expect(wrapper.find('input').props()).toMatchObject(props);
+  });
+
+  it('passes props to wrapper', wrapperPropsTest(render));
+
+  describe('calls passed handlers', () => {
+    it.each(EVENTS_LIST)('%s', eventName => {
+      const userHandler = jest.fn();
+      const wrapper = render().setProps({ [eventName]: userHandler });
+      let selector = 'input';
+      if (eventName === 'onMouseEnter' || eventName === 'onMouseLeave' || eventName === 'onMouseOver') {
+        selector = 'Radio > label';
+      }
+      const targetHandler = wrapper.find(selector).prop(eventName);
 
       if (isFunction(targetHandler)) {
         targetHandler(createEvent(getEventType(eventName)));

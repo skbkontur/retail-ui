@@ -9,7 +9,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { jsStyles } from './Radio.styles';
 
 export type RadioProps<T> = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
+  Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>,
   {
     /** Состояние ошибки */
     error?: boolean;
@@ -30,6 +30,8 @@ export type RadioProps<T> = Override<
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     /** Значение */
     value: T;
+    'data-tid'?: string;
+    'data-testid'?: string;
   }
 >;
 
@@ -95,6 +97,8 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       className,
       style,
 
+      'data-tid': datatid,
+      'data-testid': datatestid,
       ...rest
     } = this.props;
 
@@ -117,17 +121,19 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       type: 'radio',
       className: jsStyles.input(),
       disabled,
-      tabIndex: this.props.tabIndex,
       value,
       ref: this.inputEl,
       onChange: this.handleChange,
     };
 
     const labelProps = {
-      className: jsStyles.root(this.theme),
+      className: cn(className, jsStyles.root(this.theme)),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
     };
 
     if (this._isInRadioGroup()) {
