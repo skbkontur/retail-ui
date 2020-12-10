@@ -91,7 +91,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       repeatRequest,
       requestStatus,
       totalCount,
-      size,
       width,
       className,
       style,
@@ -116,11 +115,11 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       spinner: 6,
       arrow: 15,
     };
-    if (size === 'medium') {
+    if (this.props.size === 'medium') {
       topOffsets.spinner += 4;
       topOffsets.arrow += 4;
     }
-    if (size === 'large') {
+    if (this.props.size === 'large') {
       topOffsets.spinner += 6;
       topOffsets.arrow += 6;
     }
