@@ -7,6 +7,7 @@ import { CurrencyInput } from '../CurrencyInput';
 import { PasswordInput } from '../PasswordInput';
 import { Autocomplete } from '../Autocomplete';
 import { DateInput } from '../DateInput';
+import { DatePicker } from '../DatePicker';
 import { ComboBox } from '../ComboBox';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { isFunction } from '../../lib/utils';
@@ -102,6 +103,7 @@ describe.each<[string, () => ReactWrapper]>([
   ['Autocomplete', () => mount(<Autocomplete value="" onValueChange={jest.fn()} />)],
   ['InputLikeText', () => mount(<InputLikeText />)],
   ['DateInput', () => mount(<DateInput />)],
+  ['DatePicker', () => mount(<DatePicker onValueChange={jest.fn()} />)],
   ['ComboBox', () => mount(<ComboBox getItems={() => Promise.resolve([])} />)],
   [
     'ComboBoxInFocus',
@@ -137,7 +139,7 @@ describe.each<[string, () => ReactWrapper]>([
       'aria-labelledby': '',
     };
 
-    if (title === 'InputLikeText' || title === 'DateInput' || title === 'ComboBox') {
+    if (title === 'InputLikeText' || title === 'DateInput' || title === 'DatePicker' || title === 'ComboBox') {
       delete props.tabIndex;
     }
 
@@ -174,8 +176,13 @@ describe.each<[string, () => ReactWrapper]>([
         case eventName === 'onMouseEnter':
         case eventName === 'onMouseLeave':
         case eventName === 'onMouseOver':
-          return title.startsWith('ComboBox') ? 'RenderLayer > span' : 'Input > label';
+          return title.startsWith('ComboBox')
+            ? 'RenderLayer > span'
+            : title === 'DatePicker'
+            ? 'DatePicker > label'
+            : 'Input > label';
         case title === 'ComboBox':
+        case title === 'DatePicker':
           return 'span[tabIndex=0]';
         default:
           return 'input';
@@ -196,7 +203,10 @@ describe.each<[string, () => ReactWrapper]>([
         clickOutside();
       }
 
-      if (title === 'ComboBoxInFocus' && eventName === 'onFocus') {
+      if (
+        (title === 'ComboBoxInFocus' && eventName === 'onFocus') ||
+        (title === 'DatePicker' && eventName === 'onBlur')
+      ) {
         expect(userHandler).not.toHaveBeenCalled();
       } else {
         expect(userHandler).toHaveBeenCalled();

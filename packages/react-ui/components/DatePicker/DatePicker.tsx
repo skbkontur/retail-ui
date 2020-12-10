@@ -1,64 +1,48 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import cn from 'classnames';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../internal/Calendar';
-import { DateInput } from '../DateInput';
+import { DateInput, DateInputProps } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
-import { filterProps } from '../../lib/filterProps';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
 
-const INPUT_PASS_PROPS = {
-  autoFocus: true,
-  disabled: true,
-  warning: true,
-  error: true,
-  size: true,
-  onKeyDown: true,
-};
+export type DatePickerProps<T> = Override<
+  DateInputProps,
+  {
+    enableTodayLink?: boolean;
+    minDate: T;
+    maxDate: T;
+    menuAlign?: 'left' | 'right';
+    value?: T | null;
+    onBlur?: () => void;
+    /**
+     * Вызывается при изменении `value`
+     *
+     * @param value - строка в формате `dd.mm.yyyy`.
+     */
+    onValueChange: (value: T) => void;
+    onFocus?: () => void;
 
-export interface DatePickerProps<T> {
-  autoFocus?: boolean;
-  disabled?: boolean;
-  enableTodayLink?: boolean;
-  error?: boolean;
-  minDate: T;
-  maxDate: T;
-  menuAlign?: 'left' | 'right';
-  size?: 'small' | 'medium' | 'large';
-  value?: T | null;
-  warning?: boolean;
-  width: number | string;
-  onBlur?: () => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
-  onValueChange: (value: T) => void;
-  onFocus?: () => void;
-  onKeyDown?: (e: React.KeyboardEvent<any>) => void;
-  onMouseEnter?: (e: React.MouseEvent<any>) => void;
-  onMouseLeave?: (e: React.MouseEvent<any>) => void;
-  onMouseOver?: (e: React.MouseEvent<any>) => void;
-
-  /**
-   * Функция для определения праздничных дней
-   * @default (_day, isWeekend) => isWeekend
-   * @param {T} day - строка в формате `dd.mm.yyyy`
-   * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
-   *
-   * @returns {boolean} `true` для выходного или `false` для рабочего дня
-   */
-  isHoliday: (day: T, isWeekend: boolean) => boolean;
-}
+    /**
+     * Функция для определения праздничных дней
+     * @default (_day, isWeekend) => isWeekend
+     * @param {T} day - строка в формате `dd.mm.yyyy`
+     * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
+     *
+     * @returns {boolean} `true` для выходного или `false` для рабочего дня
+     */
+    isHoliday: (day: T, isWeekend: boolean) => boolean;
+  }
+>;
 
 export interface DatePickerState {
   opened: boolean;
@@ -160,9 +144,9 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
 
   public componentDidMount() {
-    if (this.props.autoFocus) {
-      this.focus();
-    }
+    // if (this.props.autoFocus) {
+    //   this.focus();
+    // }
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: DatePickerProps<DatePickerValue>) {
@@ -208,43 +192,59 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   }
 
   public render(): JSX.Element {
+    const {
+      menuAlign,
+      enableTodayLink,
+      isHoliday,
+      width,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      ...inputProps
+    } = this.props;
+
     let picker = null;
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={menuAlign}>
           <Picker
             value={date}
             minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
             maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
             onPick={this.handlePick}
             onSelect={this.handleSelect}
-            enableTodayLink={this.props.enableTodayLink}
+            enableTodayLink={enableTodayLink}
             isHoliday={this.isHoliday}
           />
         </DropdownContainer>
       );
     }
 
+    const wrapperProps = {
+      className: cn(className, jsStyles.root()),
+      style: { width, ...style },
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+    };
+
     return (
-      <label
-        className={jsStyles.root()}
-        style={{ width: this.props.width }}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
-      >
+      <label {...wrapperProps}>
         <DateInput
-          {...filterProps(this.props, INPUT_PASS_PROPS)}
+          {...inputProps}
           ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
           withIcon
-          minDate={this.props.minDate}
-          maxDate={this.props.maxDate}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
-          onValueChange={this.props.onValueChange}
         />
         {picker}
       </label>
