@@ -24,6 +24,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
+import { Override } from '../../typings/utility-types';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { jsStyles } from './TokenInput.styles';
@@ -37,52 +38,55 @@ export enum TokenInputType {
   Combined,
 }
 
-export interface TokenInputProps<T> {
-  selectedItems: T[];
-  onValueChange: (items: T[]) => void;
-  onMouseEnter: MouseEventHandler<HTMLDivElement>;
-  onMouseLeave: MouseEventHandler<HTMLDivElement>;
-  onFocus: FocusEventHandler<HTMLTextAreaElement>;
-  onBlur: FocusEventHandler<HTMLTextAreaElement>;
-  autoFocus?: boolean;
-  type?: TokenInputType;
+export type TokenInputProps<T> = Override<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  {
+    selectedItems: T[];
+    onValueChange: (items: T[]) => void;
+    onMouseEnter: MouseEventHandler<HTMLDivElement>;
+    onMouseLeave: MouseEventHandler<HTMLDivElement>;
+    onMouseOver: MouseEventHandler<HTMLDivElement>;
+    onFocus: FocusEventHandler<HTMLTextAreaElement>;
+    onBlur: FocusEventHandler<HTMLTextAreaElement>;
+    type?: TokenInputType;
 
-  /**
-   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
-   * По умолчанию ожидаются строки.
-   *
-   * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `renderItem`, `valueToString`
-   */
-  getItems?: (query: string) => Promise<T[]>;
-  hideMenuIfEmptyInputValue?: boolean;
-  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
-  renderValue: (item: T) => React.ReactNode;
-  /**
-   * Функция должна возвращать строковое представление токена
-   * @default item => item
-   */
-  valueToString: (item: T) => string;
-  renderNotFound?: () => React.ReactNode;
-  valueToItem: (item: string) => T;
-  toKey: (item: T) => string | number | undefined;
-  placeholder?: string;
-  delimiters: string[];
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
-  width?: string | number;
-  maxMenuHeight?: number | string;
-  renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
-  /**
-   * Вызывается при изменении текста в поле ввода,
-   */
-  onInputValueChange?: (value: string) => void;
-  /**
-   * Функция отрисовки кнопки добавления в выпадающем списке
-   */
-  renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
-}
+    /**
+     * Функция поиска элементов, должна возвращать Promise с массивом элементов.
+     * По умолчанию ожидаются строки.
+     *
+     * Элементы могут быть любого типа. В этом случае необходимо определить
+     * свойства `renderItem`, `valueToString`
+     */
+    getItems?: (query: string) => Promise<T[]>;
+    hideMenuIfEmptyInputValue?: boolean;
+    renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
+    renderValue: (item: T) => React.ReactNode;
+    /**
+     * Функция должна возвращать строковое представление токена
+     * @default item => item
+     */
+    valueToString: (item: T) => string;
+    renderNotFound?: () => React.ReactNode;
+    valueToItem: (item: string) => T;
+    toKey: (item: T) => string | number | undefined;
+    delimiters: string[];
+    error?: boolean;
+    warning?: boolean;
+    width?: string | number;
+    maxMenuHeight?: number | string;
+    renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
+    /**
+     * Вызывается при изменении текста в поле ввода,
+     */
+    onInputValueChange?: (value: string) => void;
+    /**
+     * Функция отрисовки кнопки добавления в выпадающем списке
+     */
+    renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
+    'data-tid'?: string;
+    'data-testid'?: string;
+  }
+>;
 
 export interface TokenInputState<T> {
   autocompleteItems?: T[];
@@ -162,9 +166,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   public componentDidMount() {
     this.updateInputTextWidth();
     document.addEventListener('copy', this.handleCopy);
-    if (this.props.autoFocus) {
-      this.focusInput();
-    }
+    // if (this.props.autoFocus) {
+    //   this.focusInput();
+    // }
   }
 
   public componentDidUpdate(prevProps: TokenInputProps<T>, prevState: TokenInputState<T>) {
@@ -206,18 +210,31 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
 
     const {
+      toKey,
+      valueToItem,
+      valueToString,
+      renderValue,
+      renderAddButton,
+      getItems,
+      onValueChange,
+      onInputValueChange,
       selectedItems,
       width,
       maxMenuHeight,
       error,
       warning,
-      disabled,
       placeholder,
       renderItem,
       renderNotFound,
       hideMenuIfEmptyInputValue,
       onMouseEnter,
       onMouseLeave,
+      onMouseOver,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+      ...textareaProps
     } = this.props;
 
     const {
@@ -255,14 +272,25 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [jsStyles.labelFocused(theme)]: !!inFocus,
       [jsStyles.error(theme)]: !!error,
       [jsStyles.warning(theme)]: !!warning,
-      [jsStyles.labelDisabled(theme)]: !!disabled,
+      [jsStyles.labelDisabled(theme)]: !!this.props.disabled,
     });
     const inputClassName = cn(jsStyles.input(theme), {
-      [jsStyles.inputDisabled(theme)]: !!disabled,
+      [jsStyles.inputDisabled(theme)]: !!this.props.disabled,
       [jsStyles.inputEditing(theme)]: this.isEditingMode,
     });
+
+    const wrapperProps = {
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+    };
+
     return (
-      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <div {...wrapperProps}>
         <label
           ref={this.wrapperRef}
           style={{ width }}
@@ -280,12 +308,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           />
           {this.renderTokensStart()}
           <textarea
+            {...textareaProps}
             ref={this.inputRef}
             value={inputValue}
             style={inputInlineStyles}
             autoComplete="off"
             spellCheck={false}
-            disabled={disabled}
             className={inputClassName}
             placeholder={selectedItems.length > 0 ? undefined : placeholder}
             onFocus={this.handleInputFocus}
@@ -457,8 +485,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     event.clipboardData.setData('text/plain', tokens.join(this.props.delimiters[0]));
   };
 
-  private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
+  private handleInputPaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
     if (this.type === TokenInputType.WithReference || !event.clipboardData) {
+      console.log(this.type, event.clipboardData);
+
       return;
     }
     let paste = event.clipboardData.getData('text');
@@ -479,6 +509,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
       this.tryGetItems();
     }
+    this.props.onPaste?.(event);
   };
 
   private tryGetItems = async (query = '') => {
@@ -526,6 +557,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     } else {
       this.handleWrapperKeyDown(event);
     }
+    this.props.onKeyDown?.(event);
   };
 
   private handleInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -772,6 +804,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.props.onInputValueChange) {
       this.props.onInputValueChange(query);
     }
+    this.props.onChange?.(event);
   };
 
   private highlightMenuItem = () => {

@@ -9,6 +9,7 @@ import { Autocomplete } from '../Autocomplete';
 import { DateInput } from '../DateInput';
 import { DatePicker } from '../DatePicker';
 import { ComboBox } from '../ComboBox';
+import { TokenInput, TokenInputType } from '../TokenInput';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { isFunction } from '../../lib/utils';
 
@@ -114,6 +115,13 @@ describe.each<[string, () => ReactWrapper]>([
       return wrapper;
     },
   ],
+  [
+    'TokenInput',
+    () =>
+      mount(
+        <TokenInput type={TokenInputType.Combined} onValueChange={jest.fn()} getItems={() => Promise.resolve([])} />,
+      ),
+  ],
 ])('%s', (title, render) => {
   beforeAll(() => {
     // mock for InputLikeText's handleBlur
@@ -145,7 +153,13 @@ describe.each<[string, () => ReactWrapper]>([
 
     const wrapper = render().setProps(props);
 
-    expect(wrapper.find('input').props()).toMatchObject(props);
+    let selector = 'input';
+
+    if (title === 'TokenInput') {
+      selector = 'textarea';
+    }
+
+    expect(wrapper.find(selector).props()).toMatchObject(props);
   });
 
   it('passes props to wrapper', () => {
@@ -180,10 +194,14 @@ describe.each<[string, () => ReactWrapper]>([
             ? 'RenderLayer > span'
             : title === 'DatePicker'
             ? 'DatePicker > label'
+            : title === 'TokenInput'
+            ? 'TokenInput > div'
             : 'Input > label';
         case title === 'ComboBox':
         case title === 'DatePicker':
           return 'span[tabIndex=0]';
+        case title === 'TokenInput':
+          return 'textarea';
         default:
           return 'input';
       }
