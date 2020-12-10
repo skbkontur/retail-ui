@@ -7,6 +7,7 @@ import { CurrencyInput } from '../CurrencyInput';
 import { PasswordInput } from '../PasswordInput';
 import { Autocomplete } from '../Autocomplete';
 import { DateInput } from '../DateInput';
+import { ComboBox } from '../ComboBox';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { isFunction } from '../../lib/utils';
 
@@ -65,6 +66,7 @@ const createEvent = (type: string, target = document.createElement('input')): Ev
   Object.defineProperties(event, {
     target: { value: target },
     currentTarget: { value: target },
+    persist: { value: () => void 0 },
   });
 
   if (event.type === 'onpaste') {
@@ -100,6 +102,16 @@ describe.each<[string, () => ReactWrapper]>([
   ['Autocomplete', () => mount(<Autocomplete value="" onValueChange={jest.fn()} />)],
   ['InputLikeText', () => mount(<InputLikeText />)],
   ['DateInput', () => mount(<DateInput />)],
+  ['ComboBox', () => mount(<ComboBox getItems={() => Promise.resolve([])} />)],
+  [
+    'ComboBoxInFocus',
+    () => {
+      const wrapper = mount(<ComboBox getItems={() => Promise.resolve([])} />);
+      // @ts-ignore
+      wrapper.find('ComboBoxView').prop('onFocus')();
+      return wrapper;
+    },
+  ],
 ])('%s', (title, render) => {
   beforeAll(() => {
     // mock for InputLikeText's handleBlur
@@ -125,7 +137,7 @@ describe.each<[string, () => ReactWrapper]>([
       'aria-labelledby': '',
     };
 
-    if (title === 'InputLikeText' || title === 'DateInput') {
+    if (title === 'InputLikeText' || title === 'DateInput' || title === 'ComboBox') {
       delete props.tabIndex;
     }
 
@@ -162,7 +174,9 @@ describe.each<[string, () => ReactWrapper]>([
         case eventName === 'onMouseEnter':
         case eventName === 'onMouseLeave':
         case eventName === 'onMouseOver':
-          return 'Input > label';
+          return title.startsWith('ComboBox') ? 'RenderLayer > span' : 'Input > label';
+        case title === 'ComboBox':
+          return 'span[tabIndex=0]';
         default:
           return 'input';
       }
@@ -182,7 +196,11 @@ describe.each<[string, () => ReactWrapper]>([
         clickOutside();
       }
 
-      expect(userHandler).toHaveBeenCalled();
+      if (title === 'ComboBoxInFocus' && eventName === 'onFocus') {
+        expect(userHandler).not.toHaveBeenCalled();
+      } else {
+        expect(userHandler).toHaveBeenCalled();
+      }
     });
   });
 });

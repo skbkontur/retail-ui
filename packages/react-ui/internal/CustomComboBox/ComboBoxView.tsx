@@ -1,11 +1,11 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import cn from 'classnames';
 
 import { DropdownContainer } from '../DropdownContainer';
-import { Input, InputIconType } from '../../components/Input';
+import { Input, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
-import { MenuItemState } from '../../components/MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
@@ -14,48 +14,22 @@ import { ArrowTriangleDownIcon } from '../icons/16px';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { jsStyles } from './CustomComboBox.styles';
+import { CustomComboBoxProps } from './CustomComboBox';
 
-interface ComboBoxViewProps<T> {
-  align?: 'left' | 'center' | 'right';
-  autoFocus?: boolean;
-  borderless?: boolean;
-  disablePortal?: boolean;
-  disabled?: boolean;
+export interface ComboBoxViewProps<T>
+  extends Omit<CustomComboBoxProps<T>, 'getItems' | 'itemToValue' | 'valueToString'> {
   editing?: boolean;
-  error?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
-  menuAlign?: 'left' | 'right';
   opened?: boolean;
-  drawArrow?: boolean;
-  placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
   textValue?: string;
-  totalCount?: number;
-  value?: Nullable<T>;
-  warning?: boolean;
-  width?: string | number;
-  maxLength?: number;
-  maxMenuHeight?: number | string;
-  leftIcon?: InputIconType;
-
-  onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
-  onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
   onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
-  onInputClick?: () => void;
-  onInputKeyDown?: (e: React.KeyboardEvent) => void;
-  onMouseEnter?: (e: React.MouseEvent) => void;
-  onMouseOver?: (e: React.MouseEvent) => void;
-  onMouseLeave?: (e: React.MouseEvent) => void;
-  renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
-  renderNotFound?: () => React.ReactNode;
-  renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  renderValue?: (item: T) => React.ReactNode;
-  renderAddButton: (query?: string) => React.ReactNode;
+  onInputClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
+  onInputKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
@@ -101,6 +75,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     const {
       items,
       loading,
+      disablePortal,
       menuAlign,
       onClickOutside,
       onFocusOutside,
@@ -118,9 +93,24 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       totalCount,
       size,
       width,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+      ...rest
     } = this.props;
 
-    const input = this.renderInput();
+    const wrapperProps = {
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      className: cn(className, jsStyles.root()),
+      style: { width, ...style },
+      'data-tid': datatid,
+      'data-testid': datatestid,
+    };
+
+    const input = this.renderInput(rest);
 
     const topOffsets = {
       spinner: 6,
@@ -137,20 +127,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     return (
       <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
-        <span
-          style={{ width }}
-          className={jsStyles.root()}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onMouseOver={onMouseOver}
-        >
+        <span {...wrapperProps}>
           {input}
           {opened && (
             <DropdownContainer
               align={menuAlign}
               getParent={() => findDOMNode(this)}
               offsetY={1}
-              disablePortal={this.props.disablePortal}
+              disablePortal={disablePortal}
             >
               <ComboBoxMenu
                 items={items}
@@ -175,74 +159,55 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   }
 
   private renderAddButton = (): React.ReactNode => {
-    return this.props.renderAddButton(this.props.textValue);
+    return this.props.renderAddButton?.(this.props.textValue);
   };
 
-  private renderInput(): React.ReactNode {
+  private renderInput(props: Partial<ComboBoxViewProps<T>>): React.ReactNode {
     const {
-      align,
-      borderless,
-      disabled,
+      onValueChange,
       editing,
-      error,
       onFocus,
       onInputBlur,
       onInputValueChange,
       onInputFocus,
       onInputClick,
       onInputKeyDown,
-      placeholder,
       renderValue,
-      size,
+      renderAddButton,
       textValue,
       value,
-      warning,
+      searchOnFocus,
+      drawArrow,
+      refInput,
       refInputLikeText,
-      leftIcon,
-    } = this.props;
+      ...rest
+    } = props;
 
     const rightIcon = this.getRightIcon();
+
+    const inputProps: InputProps = {
+      ...rest,
+      rightIcon,
+      width: '100%',
+    };
 
     if (editing) {
       return (
         <Input
-          align={align}
-          borderless={borderless}
-          disabled={disabled}
-          error={error}
-          maxLength={this.props.maxLength}
+          {...inputProps}
           onBlur={onInputBlur}
           onValueChange={onInputValueChange}
           onFocus={onInputFocus}
           onClick={onInputClick}
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
           value={textValue || ''}
           onKeyDown={onInputKeyDown}
-          placeholder={placeholder}
-          width="100%"
-          size={size}
           ref={this.refInput}
-          warning={warning}
         />
       );
     }
 
     return (
-      <InputLikeText
-        align={align}
-        borderless={borderless}
-        error={error}
-        onFocus={onFocus}
-        leftIcon={leftIcon}
-        rightIcon={rightIcon}
-        disabled={disabled}
-        warning={warning}
-        placeholder={placeholder}
-        size={size}
-        width="100%"
-        ref={refInputLikeText}
-      >
+      <InputLikeText {...inputProps} onFocus={onFocus} ref={refInputLikeText}>
         {value ? renderValue!(value) : null}
       </InputLikeText>
     );

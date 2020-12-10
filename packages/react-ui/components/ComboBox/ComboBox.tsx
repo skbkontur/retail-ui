@@ -1,155 +1,130 @@
 import React from 'react';
 
 import { CustomComboBox } from '../../internal/CustomComboBox';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
-import { InputIconType } from '../Input';
+import { InputProps } from '../Input';
 
-export interface ComboBoxProps<T> {
-  align?: 'left' | 'center' | 'right';
-  /**
-   * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
-   * @default true
-   */
-  searchOnFocus?: boolean;
-  /**
-   * Рисует справа иконку в виде стрелки
-   * @default true
-   */
-  drawArrow?: boolean;
+export type ComboBoxProps<T> = Override<
+  InputProps,
+  {
+    /**
+     * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
+     * @default true
+     */
+    searchOnFocus?: boolean;
+    /**
+     * Рисует справа иконку в виде стрелки
+     * @default true
+     */
+    drawArrow?: boolean;
 
-  autoFocus?: boolean;
+    /**
+     * Не использовать Portal для рендеринга меню.
+     * См. https://github.com/skbkontur/retail-ui/issues/15
+     * @default false
+     */
+    disablePortal?: boolean;
 
-  borderless?: boolean;
+    /**
+     * Функция поиска элементов, должна возвращать Promise с массивом элементов.
+     * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
+     *
+     * Элементы могут быть любого типа. В этом случае необходимо определить
+     * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
+     */
+    getItems: (query: string) => Promise<T[]>;
 
-  /**
-   * Не использовать Portal для рендеринга меню.
-   * См. https://github.com/skbkontur/retail-ui/issues/15
-   * @default false
-   */
-  disablePortal?: boolean;
+    /**
+     * Необходим для сравнения полученных результатов с `value`
+     * @default item => item.label
+     */
+    itemToValue: (item: T) => string | number;
 
-  disabled?: boolean;
+    menuAlign?: 'left' | 'right';
 
-  error?: boolean;
+    onBlur?: () => void;
 
-  leftIcon?: InputIconType;
+    /** Вызывается при изменении `value` */
+    onValueChange?: (value: T) => void;
 
-  /**
-   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
-   * По умолчанию ожидаются объекты с типом `{ value: string, label: string }`.
-   *
-   * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `itemToValue`, `renderValue`, `renderItem`, `valueToString`
-   */
-  getItems: (query: string) => Promise<T[]>;
+    onFocus?: () => void;
 
-  /**
-   * Необходим для сравнения полученных результатов с `value`
-   * @default item => item.label
-   */
-  itemToValue: (item: T) => string | number;
+    /**
+     * Вызывается при изменении текста в поле ввода,
+     * если результатом функции будет строка,
+     * то она станет следующим состояним полем ввода
+     */
+    onInputValueChange?: (value: string) => Nullable<string> | void;
 
-  maxLength?: number;
+    /**
+     * Функция для обработки ситуации, когда была введена
+     * строка в инпут и был потерян фокус с элемента.
+     *
+     * Если при потере фокуса в выпадающем списке будет только один
+     * элемент и  результат `renderValue` с этим элементом будет
+     * совпадать со значение в текстовом поле, то
+     * сработает onValueChange со значением данного элемента
+     *
+     * Сама функция также может вернуть значение,
+     * неравное `undefined`,
+     * с которым будет вызван onValueChange.
+     */
+    onUnexpectedInput?: (value: string) => void | null | T;
 
-  menuAlign?: 'left' | 'right';
+    /**
+     * Функция отрисовки элементов результата поиска.
+     * Не применяется если элемент является функцией или React-элементом
+     * @default item => item.label
+     */
+    renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
 
-  onBlur?: () => void;
+    /**
+     * Функция для отрисовки сообщения о пустом результате поиска
+     * Если есть renderAddButton - не работает
+     */
+    renderNotFound?: () => React.ReactNode;
 
-  /** Вызывается при изменении `value` */
-  onValueChange?: (value: T) => void;
+    /**
+     * Функция отображающаяя сообщение об общем количестве элементов
+     */
+    renderTotalCount?: (found: number, total: number) => React.ReactNode;
 
-  onFocus?: () => void;
+    /**
+     * Функция отрисовки выбранного значения
+     * @default item => item.label
+     */
+    renderValue: (item: T) => React.ReactNode;
 
-  /**
-   * Вызывается при изменении текста в поле ввода,
-   * если результатом функции будет строка,
-   * то она станет следующим состояним полем ввода
-   */
-  onInputValueChange?: (value: string) => Nullable<string> | void;
+    /**
+     * Функция отрисовки кнопки добавления в выпадающем списке
+     */
+    renderAddButton?: (query?: string) => React.ReactNode;
 
-  /**
-   * Функция для обработки ситуации, когда была введена
-   * строка в инпут и был потерян фокус с элемента.
-   *
-   * Если при потере фокуса в выпадающем списке будет только один
-   * элемент и  результат `renderValue` с этим элементом будет
-   * совпадать со значение в текстовом поле, то
-   * сработает onValueChange со значением данного элемента
-   *
-   * Сама функция также может вернуть значение,
-   * неравное `undefined`,
-   * с которым будет вызван onValueChange.
-   */
-  onUnexpectedInput?: (value: string) => void | null | T;
+    /**
+     * Общее количество элементов.
+     * Необходим для работы `renderTotalCount`
+     */
+    totalCount?: number;
 
-  placeholder?: string;
+    /**
+     * Выбранное значение
+     * Ожидается, что `value` того же типа что и элементы в массиве,
+     * возвращаемом в `getItems`
+     */
+    value?: Nullable<T>;
 
-  /**
-   * Функция отрисовки элементов результата поиска.
-   * Не применяется если элемент является функцией или React-элементом
-   * @default item => item.label
-   */
-  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+    /**
+     * Необходим для преобразования `value` в строку при фокусировке
+     * @default item => item.label
+     */
+    valueToString: (item: T) => string;
 
-  /**
-   * Функция для отрисовки сообщения о пустом результате поиска
-   * Если есть renderAddButton - не работает
-   */
-  renderNotFound?: () => React.ReactNode;
+    maxMenuHeight?: number | string;
 
-  /**
-   * Функция отображающаяя сообщение об общем количестве элементов
-   */
-  renderTotalCount?: (found: number, total: number) => React.ReactNode;
-
-  /**
-   * Функция отрисовки выбранного значения
-   * @default item => item.label
-   */
-  renderValue: (item: T) => React.ReactNode;
-
-  /**
-   * Функция отрисовки кнопки добавления в выпадающем списке
-   */
-  renderAddButton?: (query?: string) => React.ReactNode;
-
-  /**
-   * Общее количество элементов.
-   * Необходим для работы `renderTotalCount`
-   */
-  totalCount?: number;
-
-  /**
-   * Выбранное значение
-   * Ожидается, что `value` того же типа что и элементы в массиве,
-   * возвращаемом в `getItems`
-   */
-  value?: Nullable<T>;
-
-  /**
-   * Необходим для преобразования `value` в строку при фокусировке
-   * @default item => item.label
-   */
-  valueToString: (item: T) => string;
-
-  size?: 'small' | 'medium' | 'large';
-
-  warning?: boolean;
-
-  width?: string | number;
-
-  maxMenuHeight?: number | string;
-
-  onMouseEnter?: (e: React.MouseEvent) => void;
-
-  onMouseOver?: (e: React.MouseEvent) => void;
-
-  onMouseLeave?: (e: React.MouseEvent) => void;
-
-  onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
-}
-
+    onInputKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  }
+>;
 export interface ComboBoxItem {
   value: string;
   label: string;
