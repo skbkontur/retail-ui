@@ -12,7 +12,7 @@ import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
 import { jsStyles } from './Checkbox.styles';
 
 export type CheckboxProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
+  Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>,
   {
     /** Контент `label` */
     children?: React.ReactNode;
@@ -28,10 +28,10 @@ export type CheckboxProps = Override<
     onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
     /** Вызывается при изменении `value` */
     onValueChange?: (value: boolean) => void;
-    /** onBlur */
-    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     /** Состояние частичного выделения */
     initialIndeterminate?: boolean;
+    'data-tid'?: string;
+    'data-testid'?: string;
   }
 >;
 
@@ -142,8 +142,9 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onValueChange,
       style,
       className,
-      type,
       initialIndeterminate,
+      'data-tid': datatid,
+      'data-testid': datatestid,
       ...rest
     } = props;
     const isIndeterminate = this.state.indeterminate;
@@ -158,6 +159,16 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       [jsStyles.warning(this.theme)]: Boolean(props.warning),
       [jsStyles.error(this.theme)]: Boolean(props.error),
     });
+
+    const wrapperProps = {
+      className: cn(className, rootClass),
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+    };
 
     const inputProps = {
       ...rest,
@@ -190,7 +201,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
 
     return (
-      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
+      <label {...wrapperProps}>
         <input {...inputProps} />
         {box}
         {caption}
@@ -198,7 +209,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
   }
 
-  private handleFocus = (e: React.FocusEvent<any>) => {
+  private handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -207,6 +218,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           this.setState({ focusedByTab: true });
         }
       });
+      this.props.onFocus?.(e);
     }
   };
 
