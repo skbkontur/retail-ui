@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
 import { Input } from '../Input';
@@ -12,6 +12,7 @@ import { ComboBox } from '../ComboBox';
 import { TokenInput, TokenInputType } from '../TokenInput';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { isFunction } from '../../lib/utils';
+import { Button, ButtonProps } from '../Button';
 
 const EVENTS_LIST = [
   // Clipboard Events
@@ -94,6 +95,26 @@ const clickOutside = () => {
   event.initEvent('mousedown', true, true);
 
   document.body.dispatchEvent(event);
+};
+
+const wrapperPropsTest = (render: () => ReactWrapper) => () => {
+  const props = {
+    'data-tid': 'data-tid',
+    'data-testid': 'data-testid',
+    className: 'my-classname',
+    style: {
+      width: '100%',
+      color: 'red',
+    },
+  };
+  const wrapperNode = render()
+    .setProps(props)
+    .getDOMNode();
+
+  expect(wrapperNode.getAttribute('data-tid')).toBe(props['data-tid']);
+  expect(wrapperNode.getAttribute('data-testid')).toBe(props['data-testid']);
+  expect(wrapperNode.classList.contains(props.className)).toBe(true);
+  expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
 };
 
 describe.each<[string, () => ReactWrapper]>([
@@ -229,6 +250,49 @@ describe.each<[string, () => ReactWrapper]>([
       } else {
         expect(userHandler).toHaveBeenCalled();
       }
+    });
+  });
+});
+
+describe('Button', () => {
+  const render = () => mount(<Button>Button</Button>);
+
+  it('passes props to button', () => {
+    const props = {
+      autoFocus: true,
+      disabled: true,
+      id: 'someId',
+      title: 'someTitle',
+      form: '',
+      formAction: '',
+      formEncType: '',
+      formMethod: '',
+      formNoValidate: true,
+      formTarget: '',
+      tabIndex: 1,
+      name: '',
+      'aria-label': '',
+      'aria-labelledby': '',
+    };
+
+    const wrapper = render().setProps(props);
+
+    expect(wrapper.find('button').props()).toMatchObject(props);
+  });
+
+  it('passes props to wrapper', wrapperPropsTest(render));
+
+  describe('calls passed handlers', () => {
+    it.each(EVENTS_LIST)('%s', eventName => {
+      const userHandler = jest.fn();
+      const wrapper = render().setProps({ [eventName]: userHandler });
+      const targetHandler = wrapper.find('button').prop(eventName);
+
+      if (isFunction(targetHandler)) {
+        targetHandler(createEvent(getEventType(eventName)));
+      }
+
+      expect(userHandler).toHaveBeenCalled();
     });
   });
 });

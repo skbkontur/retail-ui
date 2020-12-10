@@ -13,7 +13,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -35,18 +35,12 @@ export interface ButtonProps {
    */
   arrow?: boolean | 'left';
 
-  autoFocus?: boolean;
-
   borderless?: boolean;
 
   checked?: boolean;
 
-  children?: React.ReactNode;
-
   /** @ignore */
   corners?: number;
-
-  disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
@@ -63,20 +57,6 @@ export interface ButtonProps {
   loading?: boolean;
 
   narrow?: boolean;
-
-  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-
-  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
 
   /** `type ButtonSize = "small" | "medium" | "large"` */
   size?: ButtonSize;
@@ -97,6 +77,8 @@ export interface ButtonProps {
   warning?: boolean;
 
   width?: number | string;
+  'data-tid'?: string;
+  'data-testid'?: string;
 }
 
 export interface ButtonState {
@@ -157,29 +139,54 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderMain() {
-    const { corners = 0 } = this.props;
+    const {
+      corners = 0,
+      _noPadding,
+      _noRightPadding,
+      use,
+      size,
+      error,
+      warning,
+      active,
+      narrow,
+      borderless,
+      visuallyFocused,
+      checked,
+      loading,
+      align,
+      tabIndex,
+      width,
+      icon,
+      disableFocus,
+      arrow,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+      ...rest
+    } = this.props;
     const sizeClass = this.getSizeClassName();
 
-    const isError = !!this.props.error;
-    const isWarning = !!this.props.warning;
+    const isError = !!error;
+    const isWarning = !!warning;
     const rootProps = {
+      ...rest,
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
-      type: this.props.type,
       className: cn({
         [jsStyles.root(this.theme)]: true,
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
-        [jsStyles.active(this.theme)]: !!this.props.active,
+        [jsStyles.active(this.theme)]: !!active,
         [jsStyles.validationRoot(this.theme)]: isError || isWarning,
-        [jsStyles.narrow()]: !!this.props.narrow,
-        [jsStyles.noPadding()]: !!this.props._noPadding,
-        [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
+        [jsStyles.narrow()]: !!narrow,
+        [jsStyles.noPadding()]: !!_noPadding,
+        [jsStyles.noRightPadding()]: !!_noRightPadding,
         [sizeClass]: true,
-        [jsStyles.borderless(this.theme)]: !!this.props.borderless,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.checked(this.theme)]: !!this.props.checked,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
+        [jsStyles.borderless(this.theme)]: !!borderless,
+        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!visuallyFocused,
+        [jsStyles.checked(this.theme)]: !!checked,
+        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!loading,
         [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
       }),
       style: {
@@ -187,89 +194,87 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
         borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
         borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
-        textAlign: this.props.align,
+        textAlign: align,
       },
-      disabled: this.props.disabled || this.props.loading,
-      onClick: this.props.onClick,
+      disabled: this.props.disabled || loading,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: this.props.onKeyDown,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
-      tabIndex: this.props.disableFocus ? -1 : 0,
+      tabIndex: disableFocus ? -1 : tabIndex,
     };
 
     const wrapProps = {
-      className: cn({
+      className: cn(className, {
         [jsStyles.wrap(this.theme)]: true,
-        [jsStyles.wrapArrow()]: this.props.arrow === true,
-        [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
+        [jsStyles.wrapArrow()]: arrow === true,
+        [jsStyles.wrapArrowLeft()]: arrow === 'left',
       }),
       style: {
         width: this.props.width,
+        ...style,
       },
+      'data-tid': datatid,
+      'data-testid': datatestid,
     };
 
-    let error = null;
-    if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
-    } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+    let validationNode = null;
+    if (isError) {
+      validationNode = <div className={jsStyles.error(this.theme)} />;
+    } else if (isWarning) {
+      validationNode = <div className={jsStyles.warning(this.theme)} />;
     }
 
-    let loading = null;
-    if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+    let loadingNode = null;
+    if (loading) {
+      loadingNode = <div className={jsStyles.loading()} />;
     }
 
-    let icon = this.props.icon;
-    if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+    let iconNode = icon;
+    if (icon) {
+      iconNode = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{icon}</span>;
     }
 
-    let arrow = null;
-    if (this.props.arrow) {
-      arrow = (
+    let arrowNode = null;
+    if (arrow) {
+      arrowNode = (
         <div
           className={cn({
             [jsStyles.arrowWarning(this.theme)]: isWarning,
             [jsStyles.arrowError(this.theme)]: isError,
             [jsStyles.arrow()]: true,
-            [jsStyles.arrowLeft(this.theme)]: this.props.arrow === 'left',
+            [jsStyles.arrowLeft(this.theme)]: arrow === 'left',
           })}
         />
       );
     }
 
     // Force disable all props and features, that cannot be use with Link
-    if (this.props.use === 'link') {
+    if (use === 'link') {
       rootProps.className = cn({
         [jsStyles.root(this.theme)]: true,
         [sizeClass]: true,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!visuallyFocused,
         [jsStyles.link(this.theme)]: true,
         [jsStyles.disabled(this.theme)]: !!this.props.disabled,
       });
       Object.assign(wrapProps, {
-        className: cn(jsStyles.wrap(this.theme), {
-          [jsStyles.wrapLink(this.theme)]: this.props.use === 'link',
+        className: cn(className, jsStyles.wrap(this.theme), {
+          [jsStyles.wrapLink(this.theme)]: use === 'link',
         }),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      loading = null;
-      arrow = null;
+      loadingNode = null;
+      arrowNode = null;
     }
 
     return (
       <span {...wrapProps}>
-        <button ref={this._ref} {...rootProps}>
-          {error}
-          {loading}
-          {arrow}
+        <button {...rootProps} ref={this._ref}>
+          {validationNode}
+          {loadingNode}
+          {arrowNode}
           <div className={jsStyles.caption()}>
-            {icon}
+            {iconNode}
             {this.props.children}
           </div>
         </button>
