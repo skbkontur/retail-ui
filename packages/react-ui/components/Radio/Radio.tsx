@@ -128,9 +128,9 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
 
     const labelProps = {
       className: cn(className, jsStyles.root(this.theme)),
-      onMouseOver: this.handleMouseOver,
-      onMouseEnter: this.handleMouseEnter,
-      onMouseLeave: this.handleMouseLeave,
+      onMouseOver,
+      onMouseEnter,
+      onMouseLeave,
       style,
       'data-tid': datatid,
       'data-testid': datatestid,
@@ -173,17 +173,5 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     }
 
     this.props.onChange?.(e);
-  };
-
-  private handleMouseOver: React.MouseEventHandler<HTMLLabelElement> = e => {
-    this.props.onMouseOver?.(e);
-  };
-
-  private handleMouseEnter: React.MouseEventHandler<HTMLLabelElement> = e => {
-    this.props.onMouseEnter?.(e);
-  };
-
-  private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = e => {
-    this.props.onMouseLeave?.(e);
   };
 }

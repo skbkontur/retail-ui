@@ -6,30 +6,30 @@ import cn from 'classnames';
 import { getRandomID } from '../../lib/utils';
 import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
 
 import { jsStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 
-export interface RadioGroupProps<T = string | number> {
-  defaultValue?: T;
-  value?: T;
-  items?: T[] | [T, React.ReactNode][];
-  name?: string;
-  disabled?: boolean;
-  warning?: boolean;
-  error?: boolean;
-  inline?: boolean;
-  width?: React.CSSProperties['width'];
-  renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
-  /** Вызывается при изменении `value` */
-  onValueChange?: (value: T) => void;
-  onBlur?: (event: FocusEvent) => void;
-  onMouseLeave?: () => any;
-  onMouseOver?: () => any;
-  onMouseEnter?: () => any;
-}
+export type RadioGroupProps<T = string | number> = Override<
+  React.HTMLAttributes<HTMLElement>,
+  {
+    defaultValue?: T;
+    value?: T;
+    items?: T[] | [T, React.ReactNode][];
+    name?: string;
+    disabled?: boolean;
+    warning?: boolean;
+    error?: boolean;
+    inline?: boolean;
+    width?: React.CSSProperties['width'];
+    renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
+    /** Вызывается при изменении `value` */
+    onValueChange?: (value: T) => void;
+    onBlur?: (event: FocusEvent) => void;
+  }
+>;
 
 export interface RadioGroupState<T> {
   activeItem?: T;
@@ -167,19 +167,36 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   public render() {
-    const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
-    const style = {
-      width: width != null ? width : 'auto',
-    };
-    const handlers = {
-      onMouseOver,
-      onMouseEnter,
-      onMouseLeave,
+    const {
+      width,
+      onBlur,
+      style,
+      className,
+      onValueChange,
+      defaultValue,
+      value,
+      items,
+      name,
+      disabled,
+      warning,
+      error,
+      inline,
+      renderItem,
+      ...rest
+    } = this.props;
+
+    const wrapperProps = {
+      ...rest,
+      className: cn(className, jsStyles.root()),
+      style: {
+        width: width != null ? width : 'auto',
+        ...style,
+      },
     };
 
     return (
       <FocusTrap onBlur={onBlur}>
-        <span ref={this.ref} style={style} className={jsStyles.root()} {...handlers}>
+        <span {...wrapperProps} ref={this.ref}>
           {this.renderChildren()}
         </span>
       </FocusTrap>

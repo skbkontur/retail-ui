@@ -15,6 +15,7 @@ import { isFunction } from '../../lib/utils';
 import { Button, ButtonProps } from '../Button';
 import { Checkbox } from '../Checkbox';
 import { Radio } from '../Radio';
+import { RadioGroup } from '../RadioGroup';
 
 const EVENTS_LIST = [
   // Clipboard Events
@@ -395,4 +396,9 @@ describe('Checkbox', () => {
       expect(userHandler).toHaveBeenCalled();
     });
   });
+});
+
+describe('RadioGroup', () => {
+  const render = () => mount(<RadioGroup items={['one']} />);
+  it('passes props to wrapper', wrapperPropsTest(render));
 });
