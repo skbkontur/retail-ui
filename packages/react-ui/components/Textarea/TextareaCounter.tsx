@@ -1,7 +1,7 @@
 import React, { FC, SyntheticEvent, useContext } from 'react';
-import { HelpDot } from '@skbkontur/react-icons';
 import cn from 'classnames';
 
+import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
@@ -28,7 +28,7 @@ export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, lengt
     help()
   ) : (
     <Tooltip pos={'right bottom'} trigger={'click'} render={() => help} onCloseRequest={onCloseHelp}>
-      <HelpDot onMouseDown={handleHelpMouseDown} color={theme.linkColor} />
+      <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.linkColor} />
     </Tooltip>
   );
 
