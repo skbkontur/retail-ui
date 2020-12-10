@@ -46,7 +46,7 @@ export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, lengt
   );
 };
 
-export const calcTextareaWidth = (node: HTMLTextAreaElement): number => {
+export const calcCounterContainerWidth = (node: HTMLTextAreaElement): number => {
   const { clientWidth, offsetWidth } = node;
   const borderRightWidth = parseFloat(getComputedStyle(node).getPropertyValue('border-right-width'));
   const scrollWidth = offsetWidth - clientWidth - borderRightWidth;

@@ -14,7 +14,7 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
-import { TextareaCounter, calcTextareaWidth } from './TextareaCounter';
+import { TextareaCounter, calcCounterContainerWidth } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
 
@@ -160,7 +160,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   private resizeTextarea = () => {
     if (this.node) {
-      const calcWidth = calcTextareaWidth(this.node);
+      const calcWidth = calcCounterContainerWidth(this.node);
       const height = this.node.offsetHeight;
       if (calcWidth === this.state.calcWidth && height === this.state.height) {
         return;
