@@ -5,29 +5,33 @@ import cn from 'classnames';
 import { tabListener } from '../../lib/events/tabListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { Override } from '../../typings/utility-types';
 
 import { jsStyles } from './Toggle.styles';
 
-export interface ToggleProps {
-  children?: React.ReactNode;
-  /**
-   * Положение children справа или слева от переключателя
-   * @default 'right'
-   */
-  captionPosition: 'left' | 'right';
-  checked?: boolean;
-  defaultChecked?: boolean;
-  disabled?: boolean;
-  onValueChange?: (value: boolean) => void;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  warning?: boolean;
-  error?: boolean;
-  loading?: boolean;
-  autoFocus?: boolean;
-  onFocus?: React.FocusEventHandler<HTMLInputElement>;
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  color?: React.CSSProperties['color'];
-}
+export type ToggleProps = Override<
+  Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>,
+  {
+    children?: React.ReactNode;
+    /**
+     * Положение children справа или слева от переключателя
+     * @default 'right'
+     */
+    captionPosition: 'left' | 'right';
+    checked?: boolean;
+    defaultChecked?: boolean;
+    onValueChange?: (value: boolean) => void;
+    warning?: boolean;
+    error?: boolean;
+    loading?: boolean;
+    color?: React.CSSProperties['color'];
+    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+    'data-tid'?: string;
+    'data-testid'?: string;
+  }
+>;
 
 export interface ToggleState {
   checked?: boolean;
@@ -61,14 +65,13 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     this.state = {
       focusByTab: false,
-      checked: props.defaultChecked,
+      checked: !!props.defaultChecked,
     };
   }
 
   public componentDidMount() {
     if (this.props.autoFocus) {
       tabListener.isTabPressed = true;
-      this.focus();
     }
   }
 
@@ -94,7 +97,24 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, captionPosition, warning, error, loading, color } = this.props;
+    const {
+      children,
+      captionPosition,
+      warning,
+      error,
+      loading,
+      color,
+      defaultChecked,
+      onValueChange,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      className,
+      style,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+      ...inputProps
+    } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
@@ -118,18 +138,29 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       caption = <span className={captionClass}>{children}</span>;
     }
 
+    const wrapperProps = {
+      className: cn(className, labelClassNames),
+      style,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      'data-tid': datatid,
+      'data-testid': datatestid,
+    };
+
     return (
-      <label className={labelClassNames}>
+      <label {...wrapperProps}>
         <span className={jsStyles.wrapper(this.theme)}>
           <input
+            {...inputProps}
             type="checkbox"
             checked={checked}
+            disabled={disabled}
             onChange={this.handleChange}
             className={jsStyles.input(this.theme)}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
             ref={this.inputRef}
-            disabled={disabled}
           />
           <div
             className={containerClassNames}
@@ -180,9 +211,12 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       this.props.onFocus(event);
     }
 
-    if (tabListener.isTabPressed) {
-      this.setState({ focusByTab: true });
-    }
+    // async check makes autoFocus work
+    setTimeout(() => {
+      if (tabListener.isTabPressed) {
+        this.setState({ focusByTab: true });
+      }
+    }, 0);
   };
 
   private handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
