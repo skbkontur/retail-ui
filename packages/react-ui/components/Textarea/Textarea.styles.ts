@@ -1,4 +1,3 @@
-import { fade } from '../../lib/styles/ColorFunctions';
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -129,8 +128,8 @@ const styles = {
       position: absolute;
       z-index: 3;
       text-align: right;
-      background: ${fade(t.textareaBg, 0.9)};
-      color: ${t.gray};
+      background: ${t.textareaCounterBg};
+      color: ${t.textareaCounterColor};
       border-radius: 2px;
       margin-bottom: 6px;
       right: ${t.textareaPaddingX};
@@ -140,7 +139,7 @@ const styles = {
 
   counterError(t: Theme) {
     return css`
-      color: ${t.errorText} !important;
+      color: ${t.textareaCounterErrorColor} !important;
     `;
   },
 
