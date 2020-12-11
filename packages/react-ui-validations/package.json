@@ -27,7 +27,7 @@
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
     "fix:eslint": "yarn lint:eslint --fix",
     "test": "jest",
-    "creevey": "creevey -c .creevey/config.ts",
+    "creevey": "creevey -c .creevey/config.js",
     "creevey:ui": "yarn creevey --ui",
     "test:watch": "jest --watch",
     "screenshot:ui": "start-server-and-test storybook 8081 creevey:ui",
