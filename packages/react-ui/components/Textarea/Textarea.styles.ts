@@ -116,10 +116,12 @@ const styles = {
     `;
   },
 
-  counterContainer() {
+  counterContainer(t: Theme) {
     return css`
       position: absolute;
       top: 0;
+      border: ${t.textareaBorderWidth} solid transparent;
+      box-sizing: content-box;
     `;
   },
 
@@ -131,9 +133,8 @@ const styles = {
       background: ${t.textareaCounterBg};
       color: ${t.textareaCounterColor};
       border-radius: 2px;
-      margin-bottom: 6px;
       right: ${t.textareaPaddingX};
-      bottom: ${t.textareaBorderWidth};
+      bottom: ${t.textareaPaddingY};
     `;
   },
 

@@ -14,7 +14,7 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
-import { TextareaCounter, calcCounterContainerWidth } from './TextareaCounter';
+import { TextareaCounter } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
 
@@ -79,7 +79,7 @@ export interface TextareaState {
   polyfillPlaceholder: boolean;
   rows: number | string;
   isCounterVisible: boolean;
-  calcWidth: number;
+  width: number;
   height: number;
 }
 
@@ -154,18 +154,17 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     polyfillPlaceholder,
     rows: 1,
     isCounterVisible: false,
-    calcWidth: 0,
+    width: 0,
     height: 0,
   };
 
   private resizeTextarea = () => {
     if (this.node) {
-      const calcWidth = calcCounterContainerWidth(this.node);
-      const height = this.node.offsetHeight;
-      if (calcWidth === this.state.calcWidth && height === this.state.height) {
-        return;
+      const { width, height } = this.state;
+      const { clientWidth, clientHeight } = this.node;
+      if (clientWidth !== width || clientHeight !== height) {
+        this.setState({ width: clientWidth, height: clientHeight });
       }
-      this.setState({ calcWidth, height });
     }
   };
 
@@ -277,7 +276,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       ...textareaProps
     } = this.props;
 
-    const { isCounterVisible, calcWidth, height } = this.state;
+    const { isCounterVisible } = this.state;
 
     const rootProps = {
       style: {
@@ -314,8 +313,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const counter = showLengthCounter && isCounterVisible && (
       <TextareaCounter
-        width={calcWidth}
-        height={height}
+        width={this.state.width}
+        height={this.state.height}
         help={counterHelp}
         value={textareaProps.value}
         length={textareaProps.maxLength ?? lengthCounter ?? 0}

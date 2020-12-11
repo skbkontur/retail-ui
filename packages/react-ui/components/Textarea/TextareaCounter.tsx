@@ -34,7 +34,7 @@ export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, lengt
   );
 
   return (
-    <div className={jsStyles.counterContainer()} style={{ width, height }}>
+    <div className={jsStyles.counterContainer(theme)} style={{ width, height }}>
       <span
         className={cn(jsStyles.counter(theme), {
           [jsStyles.counterError(theme)]: counterValue < 0,
@@ -45,12 +45,4 @@ export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, lengt
       </span>
     </div>
   );
-};
-
-export const calcCounterContainerWidth = (node: HTMLTextAreaElement): number => {
-  const { clientWidth, offsetWidth } = node;
-  const borderRightWidth = parseFloat(getComputedStyle(node).getPropertyValue('border-right-width'));
-  const scrollWidth = offsetWidth - clientWidth - borderRightWidth;
-
-  return offsetWidth - scrollWidth;
 };
