@@ -712,13 +712,13 @@ object Validations_ScreenshotTests : BuildType({
       name = "Build Storybook"
       id = "RUNNER_2"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace @skbkontur/react-ui-validations storybook:build")
+      param("yarn_commands", "workspace react-ui-validations storybook:build")
     }
     step {
       name = "Test UI"
       id = "RUNNER_3"
       type = "jonnyzzz.yarn"
-      param("yarn_commands", "workspace @skbkontur/react-ui-validations screenshot:serve")
+      param("yarn_commands", "workspace react-ui-validations screenshot:serve")
     }
   }
 })
