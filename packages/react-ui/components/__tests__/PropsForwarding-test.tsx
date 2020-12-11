@@ -400,7 +400,7 @@ describe('Checkbox', () => {
 });
 
 describe('RadioGroup', () => {
-  const render = () => mount(<RadioGroup items={['one']} />);
+  const render = () => mount(<RadioGroup<string> items={['one']} />);
   it('passes props to wrapper', wrapperPropsTest(render));
 });
 

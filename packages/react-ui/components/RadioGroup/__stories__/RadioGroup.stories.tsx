@@ -149,14 +149,16 @@ export const MultipleGroups = () => (
 );
 MultipleGroups.story = { name: 'multiple groups', parameters: { creevey: { skip: [true] } } };
 
-export const UncontrolledWithDefaultValue = () => <RadioGroup items={['One', 'Two', 'Three']} defaultValue="One" />;
+export const UncontrolledWithDefaultValue = () => (
+  <RadioGroup<string> items={['One', 'Two', 'Three']} defaultValue="One" />
+);
 UncontrolledWithDefaultValue.story = {
   name: 'uncontrolled with defaultValue',
   parameters: { creevey: { skip: [true] } },
 };
 
 export const UncontrolledWithChildrenAndDefaultValue = () => (
-  <RadioGroup defaultValue="One">
+  <RadioGroup<string> defaultValue="One">
     <Gapped gap={10} vertical>
       <Radio value="One">First element</Radio>
       <Radio value="Two">Second element</Radio>
@@ -170,7 +172,7 @@ UncontrolledWithChildrenAndDefaultValue.story = {
 };
 
 export const UncontrolledWithChildrenAndDifferentItemStates = () => (
-  <RadioGroup defaultValue="One">
+  <RadioGroup<string> defaultValue="One">
     <Gapped gap={10} vertical>
       <Radio value="One">First element</Radio>
       <Radio disabled value="Two">
@@ -191,7 +193,7 @@ UncontrolledWithChildrenAndDifferentItemStates.story = {
 };
 
 export const DisabledUncontrolledWithChildren = () => (
-  <RadioGroup defaultValue="One" disabled>
+  <RadioGroup<string> defaultValue="One" disabled>
     <Gapped gap={10} vertical>
       <Radio value="One">First element</Radio>
       <Radio value="Two">Second element</Radio>
@@ -205,7 +207,7 @@ DisabledUncontrolledWithChildren.story = {
 };
 
 export const ErrorUncontrolledWithChildren = () => (
-  <RadioGroup defaultValue="One" error>
+  <RadioGroup<string> defaultValue="One" error>
     <Gapped gap={10} vertical>
       <Radio value="One">First element</Radio>
       <Radio value="Two">Second element</Radio>
@@ -219,7 +221,7 @@ ErrorUncontrolledWithChildren.story = {
 };
 
 export const WarningUncontrolledWithChildren = () => (
-  <RadioGroup defaultValue="One" warning>
+  <RadioGroup<string> defaultValue="One" warning>
     <Gapped gap={10} vertical>
       <Radio value="One">First element</Radio>
       <Radio value="Two">Second element</Radio>
@@ -233,18 +235,18 @@ WarningUncontrolledWithChildren.story = {
 };
 
 export const NestedUncontrolledGroupsWithChildren = () => (
-  <RadioGroup defaultValue="One">
+  <RadioGroup<string> defaultValue="One">
     <Gapped gap={10} vertical>
       <Radio value="One">First element</Radio>
       <Radio value="Two" disabled>
         Second element
       </Radio>
       <Radio value="Three">Third element</Radio>
-      <RadioGroup defaultValue="One">
+      <RadioGroup<string> defaultValue="One">
         <Gapped gap={10} vertical>
           <Radio value="One">First element</Radio>
           <Radio value="Two">Second element</Radio>
-          <RadioGroup defaultValue="One">
+          <RadioGroup<string> defaultValue="One">
             <Gapped gap={10} vertical>
               <Radio value="One">First element</Radio>
               <Radio value="Two" disabled>
@@ -267,7 +269,7 @@ NestedUncontrolledGroupsWithChildren.story = {
 };
 
 export const Disabled = () => (
-  <RadioGroup defaultValue="One" disabled>
+  <RadioGroup<string> defaultValue="One" disabled>
     <Gapped gap={10} vertical>
       <Radio value="One">First element</Radio>
       <Radio value="Two">Second element</Radio>
