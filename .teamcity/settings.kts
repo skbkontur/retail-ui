@@ -714,7 +714,7 @@ object Validations_ScreenshotTests : BuildType({
       type = "jonnyzzz.yarn"
       param("yarn_commands", "workspace @skbkontur/react-ui-validations storybook:build")
     }
-    script {
+    step {
       name = "Test UI"
       id = "RUNNER_3"
       type = "jonnyzzz.yarn"
