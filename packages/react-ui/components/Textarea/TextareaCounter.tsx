@@ -34,12 +34,12 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   const reflow = () => {
     if (textarea) {
       const { clientWidth, clientHeight } = textarea;
-        if (width !== clientWidth) {
-          setWidth(clientWidth);
-        }
-        if (height !== clientHeight) {
-          setHeight(clientHeight);
-        }
+      if (width !== clientWidth) {
+        setWidth(clientWidth);
+      }
+      if (height !== clientHeight) {
+        setHeight(clientHeight);
+      }
     }
   };
   useEffect(reflow, [textarea]);
@@ -54,6 +54,10 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
       <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
     </Tooltip>
   );
+
+  if (!width || !height) {
+    return null;
+  }
 
   return (
     <div className={jsStyles.counterContainer(theme)} style={{ width, height }}>

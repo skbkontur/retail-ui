@@ -430,6 +430,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.onCut) {
       this.props.onCut(event);
     }
+
+    this.reflowCounter();
   };
 
   private handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
@@ -440,6 +442,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.onPaste) {
       this.props.onPaste(event);
     }
+
+    this.reflowCounter();
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
