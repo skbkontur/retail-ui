@@ -207,7 +207,14 @@ ComboBoxDependentStory.story = {
             })
             .click(this.browser.findElement({ css: 'button' }))
             .perform();
-          await delay(2000);
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: '[data-tid="ComboboxA"]' }) })
+            .perform();
+          await delay(1500);
           await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
         },
         async ['not valid 2']() {
@@ -271,6 +278,13 @@ ComboBoxDependentStory.story = {
             .click(this.browser.findElement({ css: 'button' }))
             .perform();
           await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-tid="ComboboxB"]' }))
+            .perform();
+          await delay(1500);
           await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
         },
       },

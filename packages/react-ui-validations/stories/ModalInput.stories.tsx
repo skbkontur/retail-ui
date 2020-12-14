@@ -122,88 +122,92 @@ export const SmallModalInputStory: CSFStory<JSX.Element> = () => {
   }, []);
 
   return (
-    <ValidationContainer ref={refOuterContainer}>
-      <div>
-        <h1>
-          <Center>Header</Center>
-        </h1>
-        <div
-          style={{
-            height: 3000,
-            width: 3000,
-            background: `repeating-linear-gradient(
+      <ValidationContainer ref={refOuterContainer}>
+        <div>
+          <h1>
+            <Center>Header</Center>
+          </h1>
+          <div
+            style={{
+              height: 3000,
+              width: 3000,
+              background: `repeating-linear-gradient(
                               45deg,
                               #606dbc,
                               #606dbc 10px,
                               #465298 10px,
                               #465298 20px
                             )`,
-          }}
-        />
+            }}
+          />
 
-        <ValidationWrapper
-          data-tid="ValidationWrapper"
-          validationInfo={validateValue(value, value.split(' ').length !== 2, 'Значение должно состоять из двух слов')}
-          renderMessage={text('bottom')}
-        >
-          <Input data-tid="SingleInput" value={value} onValueChange={setValue} />
-        </ValidationWrapper>
-        <h2>
-          <Center>Footer</Center>
-        </h2>
-      </div>
+          <ValidationWrapper
+            data-tid="ValidationWrapper"
+            validationInfo={validateValue(
+              value,
+              value.split(' ').length !== 2,
+              'Значение должно состоять из двух слов',
+            )}
+            renderMessage={text('bottom')}
+          >
+            <Input data-tid="SingleInput" value={value} onValueChange={setValue} />
+          </ValidationWrapper>
+          <h2>
+            <Center>Footer</Center>
+          </h2>
+        </div>
 
-      <Modal>
-        <ValidationContainer scrollOffset={115} ref={refContainer}>
-          <Modal.Header>Заголовок</Modal.Header>
-          <Modal.Body>
-            <div style={{ padding: 10 }}>
-              <div
-                data-tid="ClickArea"
-                style={{
-                  textAlign: 'center',
-                  marginBottom: 10,
-                  padding: 10,
-                  border: '1px solid #ddd',
-                }}
-              >
-                Click here
+        <Modal>
+          <ValidationContainer scrollOffset={115} ref={refContainer}>
+            <Modal.Header>Заголовок</Modal.Header>
+            <Modal.Body>
+              <div style={{ padding: 10 }}>
+                <div
+                  data-tid="ClickArea"
+                  style={{
+                    textAlign: 'center',
+                    marginBottom: 10,
+                    padding: 10,
+                    border: '1px solid #ddd',
+                  }}
+                >
+                  Click here
+                </div>
+                <ValidationWrapper
+                  data-tid="ValidationWrapper"
+                  validationInfo={validateValue(
+                    value,
+                    value.split(' ').length !== 2,
+                    'Значение должно состоять из двух слов',
+                  )}
+                  renderMessage={text('bottom')}
+                >
+                  <span id="input-wrapper">
+                    <Input data-tid="SingleInput" value={value} onValueChange={setValue} />
+                  </span>
+                </ValidationWrapper>
               </div>
-              <ValidationWrapper
-                data-tid="ValidationWrapper"
-                validationInfo={validateValue(
-                  value,
-                  value.split(' ').length !== 2,
-                  'Значение должно состоять из двух слов',
-                )}
-                renderMessage={text('bottom')}
-              >
-                <span id="input-wrapper">
-                  <Input data-tid="SingleInput" value={value} onValueChange={setValue} />
-                </span>
-              </ValidationWrapper>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <div id="button-wrapper">
-              <Button
-                onClick={() => {
-                  if (container) {
-                    container.submit();
-                  }
-                  if (outerContainer) {
-                    outerContainer.submit();
-                  }
-                }}
-                use="primary"
-              >
-                Кнопка
-              </Button>
-            </div>
-          </Modal.Footer>
-        </ValidationContainer>
-      </Modal>
-    </ValidationContainer>
+            </Modal.Body>
+            <Modal.Footer>
+              <div id="button-wrapper">
+                <Button
+                  onClick={() => {
+                    if (container) {
+                      container.submit();
+                    }
+                    if (outerContainer) {
+                      outerContainer.submit();
+                    }
+                  }}
+                  use="primary"
+                >
+                  Кнопка
+                </Button>
+              </div>
+            </Modal.Footer>
+          </ValidationContainer>
+        </Modal>
+      </ValidationContainer>
   );
 };
 

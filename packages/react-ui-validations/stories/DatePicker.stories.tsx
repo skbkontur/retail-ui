@@ -45,7 +45,7 @@ DatePickerStory.story = {
             })
             .click(this.browser.findElement({ css: 'button' }))
             .perform();
-          await delay(1000);
+          await delay(2000);
           await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
         },
       },

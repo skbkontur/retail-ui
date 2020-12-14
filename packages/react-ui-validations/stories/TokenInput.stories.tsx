@@ -30,6 +30,7 @@ export const TokenInputStory: CSFStory<JSX.Element> = () => {
       <ValidationContainer ref={refContainer}>
         <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('right middle')}>
           <TokenInput
+            data-tid="TokenInput"
             getItems={getItems}
             selectedItems={selectedItems}
             onValueChange={setSelectedItems}
@@ -71,7 +72,7 @@ TokenInputStory.story = {
           await this.browser
             .actions({
               bridge: true,
-            }).click(this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }))
+            }).click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
             .perform();
           await delay(1000);
           await this.browser

@@ -61,6 +61,7 @@ Example1.story = {
             .sendKeys('Test')
             .sendKeys(this.keys.TAB)
             .perform();
+          await delay(1000)
           const element = await this.browser.findElement({ css: '#small-input-wrapper' });
           await this.expect(await element.takeScreenshot()).to.matchImage('notValid');
         },
@@ -307,6 +308,12 @@ Example5.story = {
             .click(this.browser.findElement({ css: 'input' }))
             .sendKeys(`test`)
             .move({origin: this.browser.findElement({ css: '[data-tid="Button"]' })})
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
             .click(this.browser.findElement({ css: '[data-tid="Button"]' }))
             .perform();
           await delay(1000);
