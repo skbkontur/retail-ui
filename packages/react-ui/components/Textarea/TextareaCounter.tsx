@@ -31,19 +31,17 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   const [height, setHeight] = useState(0);
   useImperativeHandle(
     ref,
-    () => {
-      return {
-        reflow: node => {
-          const { clientWidth, clientHeight } = node;
-          if (width !== clientWidth) {
-            setWidth(clientWidth);
-          }
-          if (height !== clientHeight) {
-            setHeight(clientHeight);
-          }
-        },
-      };
-    },
+    () => ({
+      reflow: textareaNode => {
+        const { clientWidth, clientHeight } = textareaNode;
+        if (width !== clientWidth) {
+          setWidth(clientWidth);
+        }
+        if (height !== clientHeight) {
+          setHeight(clientHeight);
+        }
+      },
+    }),
     [ref],
   );
   const renderTooltipContent = useCallback(() => help, [help]);
