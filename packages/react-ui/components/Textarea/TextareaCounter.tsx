@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useContext, useCallback } from 'react';
+import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
 import cn from 'classnames';
 
 import { HelpDotIcon } from '../../internal/icons/16px';
@@ -9,19 +9,43 @@ import { Tooltip } from '../Tooltip';
 import { TextareaProps } from './Textarea';
 import { jsStyles } from './Textarea.styles';
 
-type TextareaCounterProps = {
+export type TextareaCounterProps = {
   value: TextareaProps['value'];
-  width: number;
-  height: number;
   length: number;
   help: TextareaProps['counterHelp'];
   onCloseHelp: () => void;
 };
 
+export interface TextareaCounterRef {
+  reflow: (node: HTMLElement) => void;
+}
+
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
-export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, length, value, help, onCloseHelp }) => {
+export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TeaxtareaCounter(
+  { length, value, help, onCloseHelp },
+  ref,
+) {
   const theme = useContext(ThemeContext);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        reflow: node => {
+          const { clientWidth, clientHeight } = node;
+          if (width !== clientWidth) {
+            setWidth(clientWidth);
+          }
+          if (height !== clientHeight) {
+            setHeight(clientHeight);
+          }
+        },
+      };
+    },
+    [ref],
+  );
   const renderTooltipContent = useCallback(() => help, [help]);
   const textareaValue = value ? value.toString().length : 0;
   const counterValue = length - textareaValue;
@@ -45,4 +69,4 @@ export const TextareaCounter: FC<TextareaCounterProps> = ({ width, height, lengt
       </span>
     </div>
   );
-};
+});

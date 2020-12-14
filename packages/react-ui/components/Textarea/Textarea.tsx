@@ -14,7 +14,7 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
-import { TextareaCounter } from './TextareaCounter';
+import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
 
@@ -79,8 +79,6 @@ export interface TextareaState {
   polyfillPlaceholder: boolean;
   rows: number | string;
   isCounterVisible: boolean;
-  width: number;
-  height: number;
 }
 
 /**
@@ -154,25 +152,19 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     polyfillPlaceholder,
     rows: 1,
     isCounterVisible: false,
-    width: 0,
-    height: 0,
   };
-
-  private resizeTextarea = () => {
-    if (this.node) {
-      const { width, height } = this.state;
-      const { clientWidth, clientHeight } = this.node;
-      if (clientWidth !== width || clientHeight !== height) {
-        this.setState({ width: clientWidth, height: clientHeight });
-      }
+  private reflowCounter = () => {
+    if (this.node && this.counter) {
+      this.counter.reflow(this.node);
     }
   };
 
   private theme!: Theme;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
+  private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = new MutationObserver(this.resizeTextarea);
+  private textareaObserver = new MutationObserver(this.reflowCounter);
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -182,7 +174,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     if (this.node && this.props.showLengthCounter) {
       this.textareaObserver.observe(this.node, { attributes: true });
-      this.resizeTextarea();
     }
   }
 
@@ -313,12 +304,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const counter = showLengthCounter && isCounterVisible && (
       <TextareaCounter
-        width={this.state.width}
-        height={this.state.height}
         help={counterHelp}
         value={textareaProps.value}
         length={textareaProps.maxLength ?? lengthCounter ?? 0}
         onCloseHelp={this.handleCloseCounterHelp}
+        ref={this.refCounter}
       />
     );
 
@@ -330,7 +320,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       >
         <label {...rootProps} className={jsStyles.root(this.theme)}>
           {placeholderPolyfill}
-          <ResizeDetector onResize={this.resizeTextarea}>
+          <ResizeDetector onResize={this.reflowCounter}>
             <textarea
               {...textareaProps}
               className={textareaClassNames}
@@ -389,7 +379,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.props.onChange(e);
     }
 
-    this.resizeTextarea();
+    this.reflowCounter();
   };
 
   private ref = (element: HTMLTextAreaElement) => {
@@ -398,6 +388,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   private refFake = (element: HTMLTextAreaElement) => {
     this.fakeNode = element;
+  };
+
+  private refCounter = (ref: TextareaCounterRef | null) => {
+    this.counter = ref;
+    if (ref) {
+      this.reflowCounter();
+    }
   };
 
   private autoResize = throttle(() => {
