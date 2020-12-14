@@ -154,8 +154,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     isCounterVisible: false,
   };
   private reflowCounter = () => {
-    if (this.node && this.counter) {
-      this.counter.reflow(this.node);
+    if (this.counter) {
+      this.counter.reflow();
     }
   };
 
@@ -304,6 +304,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const counter = showLengthCounter && isCounterVisible && (
       <TextareaCounter
+        textarea={this.node}
         help={counterHelp}
         value={textareaProps.value}
         length={textareaProps.maxLength ?? lengthCounter ?? 0}
@@ -392,9 +393,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   private refCounter = (ref: TextareaCounterRef | null) => {
     this.counter = ref;
-    if (ref) {
-      this.reflowCounter();
-    }
   };
 
   private autoResize = throttle(() => {
