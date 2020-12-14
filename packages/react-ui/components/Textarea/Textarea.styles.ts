@@ -147,6 +147,7 @@ const styles = {
   counterHelp() {
     return css`
       margin-left: 4px;
+      cursor: pointer;
     `;
   },
 };
