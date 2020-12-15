@@ -153,15 +153,15 @@ const styles = {
     return css`
       font-size: 22px;
       line-height: 30px;
-      padding: 24px 110px 11px 30px;
+      padding: 24px 35px 11px 30px;
       overflow-wrap: break-word;
       word-wrap: break-word;
     `;
   },
 
-  headerWithoutClose() {
+  headerWithClose() {
     return css`
-      padding-right: 35px !important;
+      padding-right: 110px !important;
     `;
   },
 
