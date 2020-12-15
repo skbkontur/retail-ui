@@ -117,7 +117,7 @@ export const fade = (colorString: string, alpha: number) => {
   const key = buildCacheKey('fade', colorString, alpha);
 
   if (ColorFunctionsCache[key] === undefined) {
-    const color = ColorFactory.create(colorString, true);
+    const color = ColorFactory.create(colorString);
     color.alpha = alpha;
     ColorFunctionsCache[key] = color.toColorString(color.type === 'hex' ? 'rgba' : color.type);
   }
