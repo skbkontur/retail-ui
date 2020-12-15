@@ -5,7 +5,6 @@ import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
-import { Nullable } from '../../typings/utility-types';
 
 import { TextareaProps } from './Textarea';
 import { jsStyles } from './Textarea.styles';
@@ -15,7 +14,7 @@ export type TextareaCounterProps = {
   length: number;
   help: TextareaProps['counterHelp'];
   onCloseHelp: () => void;
-  textarea: Nullable<HTMLTextAreaElement>;
+  textarea: HTMLTextAreaElement;
 };
 
 export interface TextareaCounterRef {
@@ -24,22 +23,20 @@ export interface TextareaCounterRef {
 
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
-export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TeaxtareaCounter(
+export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TextareaCounter(
   { length, value, help, onCloseHelp, textarea },
   ref,
 ) {
   const theme = useContext(ThemeContext);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(textarea.clientWidth);
+  const [height, setHeight] = useState(textarea.clientHeight);
   const reflow = () => {
-    if (textarea) {
-      const { clientWidth, clientHeight } = textarea;
-      if (width !== clientWidth) {
-        setWidth(clientWidth);
-      }
-      if (height !== clientHeight) {
-        setHeight(clientHeight);
-      }
+    const { clientWidth, clientHeight } = textarea;
+    if (width !== clientWidth) {
+      setWidth(clientWidth);
+    }
+    if (height !== clientHeight) {
+      setHeight(clientHeight);
     }
   };
   useEffect(reflow, [textarea]);
@@ -54,10 +51,6 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
       <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
     </Tooltip>
   );
-
-  if (!width || !height) {
-    return null;
-  }
 
   return (
     <div className={jsStyles.counterContainer(theme)} style={{ width, height }}>

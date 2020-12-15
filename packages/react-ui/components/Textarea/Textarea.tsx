@@ -311,7 +311,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
-    const counter = showLengthCounter && isCounterVisible && (
+    const counter = showLengthCounter && isCounterVisible && this.node && (
       <TextareaCounter
         textarea={this.node}
         help={counterHelp}
