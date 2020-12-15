@@ -159,6 +159,12 @@ const styles = {
     `;
   },
 
+  headerWithoutClose() {
+    return css`
+      padding-right: 35px !important;
+    `;
+  },
+
   body() {
     return css`
       padding: 0 35px 25px 30px;
