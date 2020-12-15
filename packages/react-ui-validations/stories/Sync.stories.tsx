@@ -1,16 +1,14 @@
 import React from 'react';
 import { CSFStory } from 'creevey';
 
-import { LostfocusDependentValidation } from './SyncStories/LostfocusDependentValidation';
-import { LostfocusDynamicValidation } from './SyncStories/LostfocusDynamicValidation';
+import { LostfocusDependentValidation as LostfocusDependentValidationStory } from './SyncStories/LostfocusDependentValidation';
+import { LostfocusDynamicValidation as LostfocusDynamicValidationStory } from './SyncStories/LostfocusDynamicValidation';
 import { SingleInputPage } from './SyncStories/SingleInputPage';
 import { delay } from './tools/tools';
 
 export default { title: `Sync` };
 
-export const ImmediateValidation: CSFStory<JSX.Element> = () => (
-  <SingleInputPage validationType={'immediate'} />
-);
+export const ImmediateValidation: CSFStory<JSX.Element> = () => <SingleInputPage validationType={'immediate'} />;
 
 ImmediateValidation.story = {
   parameters: {
@@ -58,9 +56,7 @@ SubmitValidation.story = {
   },
 };
 
-export const LostfocusValidation: CSFStory<JSX.Element> = () => (
-  <SingleInputPage validationType={'lostfocus'} />
-);
+export const LostfocusValidation: CSFStory<JSX.Element> = () => <SingleInputPage validationType={'lostfocus'} />;
 
 LostfocusValidation.story = {
   parameters: {
@@ -83,9 +79,9 @@ LostfocusValidation.story = {
   },
 };
 
-export const LostfocusDependentValidationStory: CSFStory<JSX.Element> = () => <LostfocusDependentValidation />;
+export const LostfocusDependentValidation: CSFStory<JSX.Element> = () => <LostfocusDependentValidationStory />;
 
-LostfocusDependentValidationStory.story = {
+LostfocusDependentValidation.story = {
   parameters: {
     creevey: {
       tests: {
@@ -108,9 +104,9 @@ LostfocusDependentValidationStory.story = {
   },
 };
 
-export const LostfocusDynamicValidationStory: CSFStory<JSX.Element> = () => <LostfocusDynamicValidation />;
+export const LostfocusDynamicValidation: CSFStory<JSX.Element> = () => <LostfocusDynamicValidationStory />;
 
-LostfocusDynamicValidationStory.story = {
+LostfocusDynamicValidation.story = {
   parameters: {
     creevey: {
       tests: {
