@@ -140,4 +140,9 @@ export class ColorObject implements ColorObjectType {
         return this.toHEXString();
     }
   }
+
+  public clone() {
+    const { rgb, alpha, type } = this;
+    return new ColorObject(rgb, alpha, type);
+  }
 }
