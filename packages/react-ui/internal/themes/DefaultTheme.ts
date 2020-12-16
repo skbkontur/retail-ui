@@ -1241,6 +1241,9 @@ export class DefaultTheme {
   public static radioBorderWidthCompensation = '0px';
   public static radioMarginY = '2px';
   //#endregion
+  //#region RadioGroup
+  public static radioGroupLegacyItemGap = '10px';
+  //#endregion
   //#region Tabs
   public static get tabFontSize() {
     return '18px';
