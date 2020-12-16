@@ -116,11 +116,13 @@ const styles = {
     `;
   },
 
-  counterContainer() {
+  counterContainer(t: Theme) {
     return css`
       position: absolute;
-      top: 0
-    `
+      top: 0;
+      border: ${t.textareaBorderWidth} solid transparent;
+      box-sizing: content-box;
+    `;
   },
 
   counter(t: Theme) {
@@ -128,26 +130,24 @@ const styles = {
       position: absolute;
       z-index: 3;
       text-align: right;
-      background: ${t.textareaCounterBackground};
+      background: ${t.textareaCounterBg};
       color: ${t.textareaCounterColor};
-      line-height: 26px;
-      padding: 0 2px;
       border-radius: 2px;
-      right: 0;
+      right: ${t.textareaPaddingX};
+      bottom: ${t.textareaPaddingY};
     `;
   },
 
   counterError(t: Theme) {
     return css`
-      ${cssName(styles.counter(t))}& {
-        color: ${t.textareaCounterErrorColor}
-      }
+      color: ${t.textareaCounterErrorColor} !important;
     `;
   },
 
   counterHelp() {
     return css`
       margin-left: 4px;
+      cursor: pointer;
     `;
   },
 };

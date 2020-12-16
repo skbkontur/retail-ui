@@ -1,46 +1,67 @@
-import React, { CSSProperties, FC, ReactNode, useContext } from 'react';
+import React, { SyntheticEvent, useEffect, useContext, useCallback, useImperativeHandle, useState } from 'react';
 import cn from 'classnames';
 
-import { Nullable } from '../../typings/utility-types';
+import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isFunction } from '../../lib/utils';
+import { Tooltip } from '../Tooltip';
 
+import { TextareaProps } from './Textarea';
 import { jsStyles } from './Textarea.styles';
-import { TextareaCounterHelp } from './TextareaCounterHelp';
 
-type TextareaCounterProps = {
-  value: Nullable<string | string[] | number>;
-  textareaWidth: number;
-  textareaHeight: number;
+export type TextareaCounterProps = {
+  value: TextareaProps['value'];
   length: number;
-  counterHelp?: ReactNode | string;
+  help: TextareaProps['counterHelp'];
+  onCloseHelp: () => void;
+  textarea: HTMLTextAreaElement;
 };
 
-export const TextareaCounter: FC<TextareaCounterProps> = props => {
-  const { textareaWidth, length, value, counterHelp, textareaHeight } = props;
+export interface TextareaCounterRef {
+  reflow: () => void;
+}
 
+const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
+
+export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TextareaCounter(
+  { length, value, help, onCloseHelp, textarea },
+  ref,
+) {
   const theme = useContext(ThemeContext);
-
-  const textareaValue: number = value ? value.toString().length : 0;
-  const counterValue: number = length - textareaValue;
-
-  const isError = counterValue < 0;
-  const counterStyle: CSSProperties = {
-    right: parseInt(theme.textareaPaddingX, 10),
-    bottom: parseInt(theme.textareaBorderWidth, 10),
+  const [width, setWidth] = useState(textarea.clientWidth);
+  const [height, setHeight] = useState(textarea.clientHeight);
+  const reflow = () => {
+    const { clientWidth, clientHeight } = textarea;
+    if (width !== clientWidth) {
+      setWidth(clientWidth);
+    }
+    if (height !== clientHeight) {
+      setHeight(clientHeight);
+    }
   };
+  useEffect(reflow, [textarea]);
+  useImperativeHandle(ref, () => ({ reflow }), [ref]);
+  const renderTooltipContent = useCallback(() => help, [help]);
+  const textareaValue = value ? value.toString().length : 0;
+  const counterValue = length - textareaValue;
+  const counterHelp = isFunction(help) ? (
+    help()
+  ) : (
+    <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
+      <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
+    </Tooltip>
+  );
 
   return (
-    <div className={jsStyles.counterContainer()} style={{ width: textareaWidth, height: textareaHeight }}>
+    <div className={jsStyles.counterContainer(theme)} style={{ width, height }}>
       <span
-        className={cn({
-          [jsStyles.counter(theme)]: true,
-          [jsStyles.counterError(theme)]: isError,
+        className={cn(jsStyles.counter(theme), {
+          [jsStyles.counterError(theme)]: counterValue < 0,
         })}
-        style={counterStyle}
       >
-        <span>{counterValue}</span>
-        {!!counterHelp && <TextareaCounterHelp counterHelp={counterHelp} />}
+        {counterValue}
+        {help && <span className={jsStyles.counterHelp()}>{counterHelp}</span>}
       </span>
     </div>
   );
-};
+});

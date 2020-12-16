@@ -1185,13 +1185,17 @@ export class DefaultTheme {
   public static get textareaDisabledBorderColor() {
     return this.borderColorGrayLight;
   }
-  public static textareaCounterColor = '#808080';
-  public static textareaCounterBackground = 'rgba(255, 255, 255, 0.9)';
+  public static get textareaCounterColor() {
+    return this.gray;
+  }
+  public static get textareaCounterBg() {
+    return ColorFunctions.fade(this.textareaBg, 0.9);
+  }
   public static get textareaCounterErrorColor() {
     return this.errorText;
   }
-  public static get textareaCounterDefaultHelpColor() {
-    return this.blue;
+  public static get textareaCounterHelpIconColor() {
+    return this.linkColor;
   }
   //#endregion
   //#region Radio
