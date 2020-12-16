@@ -753,3 +753,17 @@ ModalBodyWithoutPadding.story = {
   name: 'Modal with no-padding',
   parameters: { creevey: { captureElement: null } },
 };
+
+export const AlignCenterAndNoClose = () => (
+  <Modal width={250} noClose>
+    <Modal.Header>
+      <div style={{ textAlign: 'center' }}>Header</div>
+    </Modal.Header>
+    <Modal.Body>
+      <div style={{ textAlign: 'center' }}>
+        <p>Loooooooong content content content</p>
+      </div>
+    </Modal.Body>
+  </Modal>
+);
+AlignCenterAndNoClose.story = { parameters: { creevey: { captureElement: null } } };
