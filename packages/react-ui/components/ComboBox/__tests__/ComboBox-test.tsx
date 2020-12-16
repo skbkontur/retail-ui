@@ -35,14 +35,14 @@ describe('ComboBox', () => {
 
   it('focuses on focus call', () => {
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
 
   it('fetches item when focused', () => {
     const search = jest.fn(() => Promise.resolve([]));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     expect(search).toBeCalledWith('');
   });
 
@@ -50,7 +50,7 @@ describe('ComboBox', () => {
     const search = jest.fn(() => Promise.resolve([]));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'world' } });
 
@@ -63,7 +63,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(['one', 'two']));
     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
 
     await promise;
 
@@ -77,7 +77,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
 
     await promise;
 
@@ -97,7 +97,7 @@ describe('ComboBox', () => {
     const wrapper = mount<ComboBox<string>>(
       <ComboBox getItems={search} onValueChange={onValueChange} renderItem={x => x} />,
     );
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -117,7 +117,7 @@ describe('ComboBox', () => {
     const wrapper = mount<ComboBox<string>>(
       <ComboBox getItems={search} onValueChange={onValueChange} renderItem={x => x} value={'one'} />,
     );
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -130,7 +130,7 @@ describe('ComboBox', () => {
   it('retries request on Enter if rejected', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -146,7 +146,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.reject());
     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -169,7 +169,7 @@ describe('ComboBox', () => {
     const onUnexpectedInput = jest.fn();
     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'one' } });
 
@@ -193,7 +193,7 @@ describe('ComboBox', () => {
     );
 
     while (values.length) {
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       await delay(0);
       wrapper.find('input').simulate('change', { target: { value: values.pop() } });
@@ -225,7 +225,7 @@ describe('ComboBox', () => {
     });
 
     it('calls onBlur on click outside when menu is open', async () => {
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
 
       await promise;
       wrapper.update();
@@ -239,7 +239,7 @@ describe('ComboBox', () => {
     });
 
     it('calls onBlur on input blur when menu is closed', () => {
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
@@ -256,7 +256,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -273,7 +273,7 @@ describe('ComboBox', () => {
     const onValueChange = jest.fn();
     const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} onValueChange={onValueChange} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -298,7 +298,7 @@ describe('ComboBox', () => {
 
     const wrapper = mount<ComboBox<React.ReactNode>>(<ComboBox getItems={search} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
 
     await promise;
     wrapper.update();
@@ -312,7 +312,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve([]));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} maxLength={2} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -334,7 +334,7 @@ describe('ComboBox', () => {
       <ComboBox onUnexpectedInput={() => null} getItems={() => Promise.resolve([])} />,
     );
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
     await delay(0);
     wrapper.find('input').simulate('change', { target: { value: 'foo' } });
@@ -349,7 +349,7 @@ describe('ComboBox', () => {
     const [search] = searchFactory(delay(500).then(() => []));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await delay(300);
     wrapper.update();
 
@@ -379,7 +379,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
 
     await promise;
 
@@ -394,7 +394,7 @@ describe('ComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} value={'one'} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
 
     await promise;
 
@@ -410,19 +410,19 @@ describe('ComboBox', () => {
       { value: 2, label: 'two' },
     ];
     const check = (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
 
       wrapper.instance().blur();
       wrapper.setProps({ value: VALUES[1] });
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[1].label);
 
       wrapper.instance().blur();
       wrapper.setProps({ value: null });
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe('');
     };
@@ -448,14 +448,14 @@ describe('ComboBox', () => {
   describe('keep edited input text when value changes', () => {
     const value = { value: 1, label: 'one' };
     const check = (wrapper: any) => {
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
       clickOutside();
       wrapper.setProps({ value: null });
 
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe('two');
     };
@@ -480,7 +480,7 @@ describe('ComboBox', () => {
       <ComboBox getItems={getItems} value={value} drawArrow={false} searchOnFocus={false} />,
     );
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await delay(0);
     wrapper.update();
 
@@ -491,7 +491,7 @@ describe('ComboBox', () => {
   it('reset', () => {
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'foo' } });
 
@@ -528,7 +528,7 @@ describe('ComboBox', () => {
       <ComboBox onValueChange={changeHandler} getItems={getItems} />,
     );
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'Two' } });
 
@@ -611,7 +611,7 @@ describe('ComboBox', () => {
       wrapper = mount<ComboBox<string>>(
         <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
       );
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
 
       await promise;
       wrapper.update();
@@ -676,7 +676,7 @@ describe('ComboBox', () => {
       beforeEach(async () => {
         [getItems, promise] = searchFactory(Promise.resolve([VALUE]));
         wrapper = mount<ComboBox<typeof VALUE>>(<ComboBox getItems={getItems} value={VALUE} />);
-        wrapper.instance().focus();
+        wrapper.find(ComboBoxView).prop('onFocus')?.();
         await promise;
         getItems.mockClear();
       });
@@ -706,7 +706,7 @@ describe('ComboBox', () => {
         wrapper = mount<ComboBox<typeof VALUE>>(
           <ComboBox drawArrow={false} searchOnFocus={false} getItems={getItems} value={VALUE} />,
         );
-        wrapper.instance().focus();
+        wrapper.find(ComboBoxView).prop('onFocus')?.();
         getItems.mockClear();
       });
 
@@ -1027,7 +1027,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn(async () => (await delay(500), Promise.resolve(items)));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
 
       await delay(300);
 
@@ -1044,7 +1044,7 @@ describe('ComboBox', () => {
         opened: false,
       });
 
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
 
       await delay(300);
 
@@ -1058,7 +1058,7 @@ describe('ComboBox', () => {
       const getItems = jest.fn(async () => (await delay(500), Promise.resolve(items)));
       const wrapper = mount<ComboBox<string>>(<ComboBox getItems={getItems} />);
 
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
 
       await delay(600);
 
@@ -1075,7 +1075,7 @@ describe('ComboBox', () => {
         opened: false,
       });
 
-      wrapper.instance().focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
 
       await delay(300);
 
@@ -1094,7 +1094,7 @@ describe('ComboBox', () => {
       [search, promise] = searchFactory(Promise.resolve(null));
     });
     const focus = async (): Promise<void> => {
-      (wrapper.find(ComboBox).instance() as ComboBox<any>).focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       await promise;
       wrapper.update();
     };
