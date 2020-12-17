@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.10.0...@skbkontur/react-ui@2.11.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* **ComboBox:** add an explicit call to focus on the Input ([89c71c3](https://github.com/skbkontur/retail-ui/commit/89c71c3cff0b5b88c79d3c24abd1edbaf84533b2)), closes [#1862](https://github.com/skbkontur/retail-ui/issues/1862)
+* **Modal.Header:** fix right padding with noClose ([50115db](https://github.com/skbkontur/retail-ui/commit/50115db98f4bf2ca70398b20504ce7ef04d71510))
+* **RadioGroup:** fix gaps between radios for 8px theme ([ef95117](https://github.com/skbkontur/retail-ui/commit/ef9511755a8869d75c52633148f5ef8d90ddad2b))
+* **ScrollContainer:** properly handle scroll's state change ([e61d825](https://github.com/skbkontur/retail-ui/commit/e61d825dcac36460fa56a7cb33907c277f32b78f))
+
+
+### Features
+
+* **Textarea:** add chars counter ([5580592](https://github.com/skbkontur/retail-ui/commit/558059275c6a563b5f9348570b7193b400ec3c00)), closes [#2208](https://github.com/skbkontur/retail-ui/issues/2208)
+
+
+
+
+
 # [2.10.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.9.0...@skbkontur/react-ui@2.10.0) (2020-12-03)
 
 

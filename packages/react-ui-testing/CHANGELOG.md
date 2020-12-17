@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.4...react-ui-testing@3.2.0) (2020-12-17)
+
+
+### Features
+
+* **Textarea:** add chars counter ([5580592](https://github.com/skbkontur/retail-ui/commit/558059275c6a563b5f9348570b7193b400ec3c00)), closes [#2208](https://github.com/skbkontur/retail-ui/issues/2208)
+
+
+
+
+
 ## [3.1.4](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.3...react-ui-testing@3.1.4) (2020-12-03)
 
 **Note:** Version bump only for package react-ui-testing
