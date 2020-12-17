@@ -28,7 +28,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 x =>
                     {
                         var inputElement = GetInputElement(x);
-                        inputElement.Clear();
+                        Clear();
                         inputElement.SendKeys(text);
                     },
                 $"InputText({text})");
@@ -50,7 +50,13 @@ namespace SKBKontur.SeleniumTesting.Controls
                 x =>
                     {
                         var inputElement = GetInputElement(x);
-                        inputElement.Clear();
+                        inputElement.SendKeys(Keys.End);
+                        var length = inputElement.GetAttribute("value").Length;
+                        while(length > 0)
+                        {
+                            inputElement.SendKeys(Keys.Backspace);
+                            length--;
+                        }
                     },
                 "Clear");
         }

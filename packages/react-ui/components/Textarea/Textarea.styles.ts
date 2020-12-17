@@ -115,6 +115,41 @@ const styles = {
       z-index: 3;
     `;
   },
+
+  counterContainer(t: Theme) {
+    return css`
+      position: absolute;
+      top: 0;
+      border: ${t.textareaBorderWidth} solid transparent;
+      box-sizing: content-box;
+    `;
+  },
+
+  counter(t: Theme) {
+    return css`
+      position: absolute;
+      z-index: 3;
+      text-align: right;
+      background: ${t.textareaCounterBg};
+      color: ${t.textareaCounterColor};
+      border-radius: 2px;
+      right: ${t.textareaPaddingX};
+      bottom: ${t.textareaPaddingY};
+    `;
+  },
+
+  counterError(t: Theme) {
+    return css`
+      color: ${t.textareaCounterErrorColor} !important;
+    `;
+  },
+
+  counterHelp() {
+    return css`
+      margin-left: 4px;
+      cursor: pointer;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);
