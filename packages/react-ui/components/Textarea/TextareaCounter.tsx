@@ -32,12 +32,8 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   const [height, setHeight] = useState(textarea.clientHeight);
   const reflow = () => {
     const { clientWidth, clientHeight } = textarea;
-    if (width !== clientWidth) {
-      setWidth(clientWidth);
-    }
-    if (height !== clientHeight) {
-      setHeight(clientHeight);
-    }
+    setWidth(clientWidth);
+    setHeight(clientHeight);
   };
   useEffect(reflow, [textarea]);
   useImperativeHandle(ref, () => ({ reflow }), [ref]);
