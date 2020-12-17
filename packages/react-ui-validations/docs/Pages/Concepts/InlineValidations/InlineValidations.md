@@ -29,7 +29,7 @@
       />
     </Form.Line>
 
-Реализацию можно посмотреть в [исходном коде документации](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/docs/Concepts/InlineValidations)
+Реализацию можно посмотреть в [исходном коде документации](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/docs/Pages/Concepts/InlineValidations)
 
 ### Пример
 
