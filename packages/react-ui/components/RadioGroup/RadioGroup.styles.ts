@@ -1,4 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   root() {
@@ -9,10 +10,10 @@ const styles = {
     `;
   },
 
-  item() {
+  item(t: Theme) {
     return css`
       display: table;
-      margin-top: 10px;
+      margin-top: ${t.radioGroupLegacyItemGap};
       width: 100%;
     `;
   },
