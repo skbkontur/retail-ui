@@ -225,7 +225,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      icon = (
+        <span className={cn(jsStyles.icon(), this.getSizeIconClassName(), this.getIconNoPaddingClassName())}>
+          {this.props.icon}
+        </span>
+      );
     }
 
     let arrow = null;
@@ -294,6 +298,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         });
     }
   }
+
   private getSizeIconClassName() {
     switch (this.props.size) {
       case 'large':
@@ -304,6 +309,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       default:
         return jsStyles.iconSmall(this.theme);
     }
+  }
+
+  private getIconNoPaddingClassName() {
+    return this.props.children ? undefined : jsStyles.noRightPadding();
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
