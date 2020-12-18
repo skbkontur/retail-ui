@@ -226,7 +226,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     let icon = this.props.icon;
     if (this.props.icon) {
       icon = (
-        <span className={cn(jsStyles.icon(), this.getSizeIconClassName(), this.getIconNoPaddingClassName())}>
+        <span
+          className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
+            [jsStyles.iconNoRightPadding()]: !this.props.children,
+          })}
+        >
           {this.props.icon}
         </span>
       );
@@ -309,10 +313,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       default:
         return jsStyles.iconSmall(this.theme);
     }
-  }
-
-  private getIconNoPaddingClassName() {
-    return this.props.children ? undefined : jsStyles.noRightPadding();
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
