@@ -52,6 +52,7 @@ SimpleExample.story = {
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
             .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
+            .pause(500)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
         },
