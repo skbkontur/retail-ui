@@ -674,6 +674,7 @@ RenderInFirstAvailablePosition.story = {
           await this.browser
             .actions({ bridge: true })
             .click(this.browser.findElement({ css: '[type="button"]' }))
+            .pause(500)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('render in available position');
         },
@@ -1104,6 +1105,7 @@ TooltipWithManualControl.story = {
               bridge: true,
             })
             .click(btns[0])
+            .pause(500)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('call show');
         },
@@ -1115,6 +1117,7 @@ TooltipWithManualControl.story = {
             })
             .click(btns[0])
             .click(btns[1])
+            .pause(500)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('call hide after show');
         },
