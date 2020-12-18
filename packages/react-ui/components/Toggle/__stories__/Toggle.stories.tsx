@@ -217,6 +217,7 @@ Plain.story = {
               origin: this.browser.findElement({ css: 'label' }),
             })
             .press()
+            .pause(500)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
           await this.browser
