@@ -25,6 +25,7 @@ export interface ScrollContainerProps {
    */
   scrollBehaviour?: ScrollBehaviour;
   onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
 export interface ScrollContainerState {
@@ -193,6 +194,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this.reflow();
+    this.props.onScroll?.(event);
     if (this.props.preventWindowScroll) {
       event.preventDefault();
       return;
