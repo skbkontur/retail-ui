@@ -5,6 +5,7 @@ import { isIE11, isEdge } from '../../lib/utils';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Spinner } from '../Spinner';
 
 import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
@@ -220,12 +221,16 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let loading = null;
     if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+      loading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
     }
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      icon = (
+        <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>
+          {loading ? this.getLoadingSpinner() : this.props.icon}
+        </span>
+      );
     }
 
     let arrow = null;
@@ -249,7 +254,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [sizeClass]: true,
         [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsStyles.link(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled,
+        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
       });
       Object.assign(wrapProps, {
         className: cn(jsStyles.wrap(this.theme), {
@@ -258,7 +263,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      loading = null;
       arrow = null;
     }
 
@@ -266,32 +270,34 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       <span {...wrapProps}>
         <button ref={this._ref} {...rootProps}>
           {error}
-          {loading}
+          {!icon && loading}
           {arrow}
           <div className={jsStyles.caption()}>
             {icon}
-            {this.props.children}
+            {loading && !icon ? this.getHiddenChildren() : this.props.children}
           </div>
         </button>
       </span>
     );
   }
 
+  private getHiddenChildren() {
+    return <span className={jsStyles.visibilityHidden()}>{this.props.children}</span>;
+  }
+
+  private getLoadingSpinner() {
+    return <Spinner caption={null} dimmed type="mini" />;
+  }
+
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cn(jsStyles.sizeLarge(this.theme), {
-          [jsStyles.sizeLargeLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeLarge(this.theme));
       case 'medium':
-        return cn(jsStyles.sizeMedium(this.theme), {
-          [jsStyles.sizeMediumLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeMedium(this.theme));
       case 'small':
       default:
-        return cn(jsStyles.sizeSmall(this.theme), {
-          [jsStyles.sizeSmallLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeSmall(this.theme));
     }
   }
   private getSizeIconClassName() {

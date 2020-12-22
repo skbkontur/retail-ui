@@ -1,4 +1,4 @@
-import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
@@ -8,18 +8,7 @@ import {
   buttonActiveMixin,
   buttonSizeMixin,
   buttonArrowMixin,
-  buttonLoadingArrowMixin,
 } from './Button.mixins';
-
-const btn_loading_arrow = keyframes`
-0% {
-  transform: translateX(50px) rotate(-44.3deg);
-}
-
-100% {
-  transform: translateX(21px) translateY(30px) rotate(-44.3deg);
-}
-`;
 
 const styles = {
   root(t: Theme) {
@@ -159,54 +148,6 @@ const styles = {
         t.btnLargeArrowRight,
         t.btnLargeArrowLength,
         t.btnLargeArrowTransform,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
-    `;
-  },
-
-  sizeSmallLoading(t: Theme) {
-    return css`
-      ${buttonLoadingArrowMixin(
-        t.btnSmallArrowTop,
-        t.btnSmallArrowTop,
-        '-207px',
-        '441%',
-        t.btnSmallArrowBg,
-        t.btnSmallArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
-    `;
-  },
-
-  sizeMediumLoading(t: Theme) {
-    return css`
-      ${buttonLoadingArrowMixin(
-        '0',
-        '0',
-        t.btnMediumArrowLeftLoadingLeft,
-        '441%',
-        t.btnMediumArrowBg,
-        t.btnMediumArrowLeftLoadingDelay,
-        btn_loading_arrow,
-        cssName(styles.arrow()),
-        cssName(styles.arrowLeft(t)),
-      )};
-    `;
-  },
-
-  sizeLargeLoading(t: Theme) {
-    return css`
-      ${buttonLoadingArrowMixin(
-        '-32px',
-        '-36px',
-        ' -198px',
-        '700%',
-        t.btnLargeArrowBg,
-        t.btnLargeArrowLeftLoadingDelay,
-        btn_loading_arrow,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};
@@ -763,15 +704,6 @@ const styles = {
   },
 
   loading() {
-    const btn_loading = keyframes`
-    0% {
-      transform: translateX(0) rotateY(180deg);
-    }
-
-    100% {
-      transform: translateX(-30px) rotateY(180deg);
-    }
-  `;
     return css`
       position: absolute;
       top: 0;
@@ -779,21 +711,15 @@ const styles = {
       left: 0;
       right: 0;
       border-radius: inherit;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+  },
 
-      &::before {
-        content: '';
-        height: 100%;
-        position: absolute;
-        opacity: 0.2;
-        background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
-        background-size: 30px 100%;
-        top: 0;
-        left: 0;
-        right: -30px;
-        animation: ${btn_loading} 1s linear infinite;
-        transform: rotateY(180deg);
-      }
+  visibilityHidden() {
+    return css`
+      visibility: hidden;
     `;
   },
 };
