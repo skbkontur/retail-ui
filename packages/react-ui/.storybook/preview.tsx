@@ -2,7 +2,6 @@ import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { addDecorator, addParameters } from '@storybook/react';
-import { withCreevey } from 'creevey';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
@@ -35,7 +34,6 @@ addParameters({
     ],
   },
 });
-addDecorator(withCreevey());
 
 addDecorator(story => (
   <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
