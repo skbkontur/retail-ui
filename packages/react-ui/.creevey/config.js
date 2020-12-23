@@ -13,6 +13,7 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       limit: 2,
+      platformName: 'linux',
     },
     // chrome8px: {
     //   browserName: 'chrome',
@@ -23,6 +24,7 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6062',
+      platformName: 'linux',
     },
     // chromeFlat8px: {
     //   browserName: 'chrome',
