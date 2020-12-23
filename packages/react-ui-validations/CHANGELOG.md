@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.3.2...react-ui-validations@1.4.0) (2020-12-23)
+
+
+### Features
+
+* ssr support ([#2103](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2103)) ([506a7f6](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/506a7f63337cc4ca2567581495959b1656fedd18))
+
+
+
+
+
 ## [1.3.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.3.1...react-ui-validations@1.3.2) (2020-12-17)
 
 **Note:** Version bump only for package react-ui-validations
