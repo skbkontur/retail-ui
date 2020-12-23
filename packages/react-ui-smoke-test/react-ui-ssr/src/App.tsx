@@ -108,6 +108,7 @@ export const App = () => {
         </MenuItem>
       </Kebab>
       <Link>Enabled</Link>
+      <Link href="http://tech.skbkontur.ru/react-ui/">with href</Link>
       <Loader />
       <MenuItem
         href="http://tech.skbkontur.ru/react-ui/"
