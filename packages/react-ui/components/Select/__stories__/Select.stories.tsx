@@ -141,62 +141,57 @@ const selectTests: CreeveyStoryParams['tests'] = {
 };
 
 export const Simple: CSFStory<JSX.Element> = () => <Select items={['one', 'two', 'three']} />;
-Simple.story = {
-  parameters: {
-    creevey: {
-      captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
-      tests: selectTests,
-    },
+Simple.parameters = {
+  creevey: {
+    captureElement: '.dropdown-test-container',
+    skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+    tests: selectTests,
   },
 };
 
 export const ComplexValues = () => <SelectWrapper />;
-ComplexValues.story = { name: 'Complex values', parameters: { creevey: { skip: [true] } } };
+ComplexValues.storyName = 'Complex values';
+ComplexValues.parameters = { creevey: { skip: [true] } };
 
 export const ItemsWithCommentsStory = () => <ItemsWithComments />;
-ItemsWithCommentsStory.story = { name: 'Items with comments', parameters: { creevey: { skip: [true] } } };
+ItemsWithCommentsStory.storyName = 'Items with comments';
+ItemsWithCommentsStory.parameters = { creevey: { skip: [true] } };
 
 export const WithNull = () => <SelectWithNull />;
-WithNull.story = { name: 'With null', parameters: { creevey: { skip: [true] } } };
+WithNull.storyName = 'With null';
+WithNull.parameters = { creevey: { skip: [true] } };
 
 export const UseLink: CSFStory<JSX.Element> = () => <Select use="link" items={['one', 'two', 'three']} />;
-UseLink.story = {
-  name: 'use link',
-  parameters: {
-    creevey: {
-      captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
-      tests: selectTests,
-    },
+UseLink.storyName = 'use link';
+UseLink.parameters = {
+  creevey: {
+    captureElement: '.dropdown-test-container',
+    skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+    tests: selectTests,
   },
 };
 
 export const UseLinkWithIcon: CSFStory<JSX.Element> = () => (
   <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />
 );
-UseLinkWithIcon.story = {
-  name: 'use link with icon',
-  parameters: {
-    creevey: {
-      captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
-      tests: selectTests,
-    },
+UseLinkWithIcon.storyName = 'use link with icon';
+UseLinkWithIcon.parameters = {
+  creevey: {
+    captureElement: '.dropdown-test-container',
+    skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+    tests: selectTests,
   },
 };
 
 export const WithTextOverflow: CSFStory<JSX.Element> = () => (
   <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
 );
-WithTextOverflow.story = {
-  name: 'with text overflow',
-  parameters: {
-    creevey: {
-      captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
-      tests: selectTests,
-    },
+WithTextOverflow.storyName = 'with text overflow';
+WithTextOverflow.parameters = {
+  creevey: {
+    captureElement: '.dropdown-test-container',
+    skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+    tests: selectTests,
   },
 };
 
@@ -232,7 +227,8 @@ export const ExternalFocus = () => {
 
   return <Sample />;
 };
-ExternalFocus.story = { name: 'external focus', parameters: { creevey: { skip: [true] } } };
+ExternalFocus.storyName = 'external focus';
+ExternalFocus.parameters = { creevey: { skip: [true] } };
 
 export const UsingOnKeyDown: CSFStory<JSX.Element> = () => {
   class Sample extends React.Component {
@@ -275,24 +271,22 @@ export const UsingOnKeyDown: CSFStory<JSX.Element> = () => {
 
   return <Sample />;
 };
-UsingOnKeyDown.story = {
-  name: 'using onKeyDown',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['press Enter']() {
-          const element = await this.browser.findElement({ css: '.dropdown-test-container' });
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.TAB)
-            .sendKeys(this.keys.ENTER)
-            .sendKeys(this.keys.ARROW_DOWN)
-            .sendKeys(this.keys.ENTER)
-            .perform();
-          await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
-        },
+UsingOnKeyDown.storyName = 'using onKeyDown';
+UsingOnKeyDown.parameters = {
+  creevey: {
+    tests: {
+      async ['press Enter']() {
+        const element = await this.browser.findElement({ css: '.dropdown-test-container' });
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.TAB)
+          .sendKeys(this.keys.ENTER)
+          .sendKeys(this.keys.ARROW_DOWN)
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
       },
     },
   },
@@ -324,38 +318,36 @@ export const WithSearchAndVariousWidth: CSFStory<JSX.Element> = () => {
     </div>
   );
 };
-WithSearchAndVariousWidth.story = {
-  name: 'with search',
-  parameters: {
-    creevey: {
-      captureElement: '#test-element',
-      tests: {
-        async ['and various width']() {
-          const root = await this.browser.findElement({ css: '[data-tid="root"]' });
+WithSearchAndVariousWidth.storyName = 'with search';
+WithSearchAndVariousWidth.parameters = {
+  creevey: {
+    captureElement: '#test-element',
+    tests: {
+      async ['and various width']() {
+        const root = await this.browser.findElement({ css: '[data-tid="root"]' });
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(await this.browser.findElement({ css: '[data-tid="w100px"]' }))
-            .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(await this.browser.findElement({ css: '[data-tid="w100px"]' }))
+          .perform();
 
-          const w100px = await root.takeScreenshot();
+        const w100px = await root.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(await this.browser.findElement({ css: '[data-tid="w300px"]' }))
-            .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(await this.browser.findElement({ css: '[data-tid="w300px"]' }))
+          .perform();
 
-          const w300px = await root.takeScreenshot();
+        const w300px = await root.takeScreenshot();
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(await this.browser.findElement({ css: '[data-tid="w100prc"]' }))
-            .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(await this.browser.findElement({ css: '[data-tid="w100prc"]' }))
+          .perform();
 
-          const w100prc = await root.takeScreenshot();
+        const w100prc = await root.takeScreenshot();
 
-          await this.expect({ w100px, w300px, w100prc }).to.matchImages();
-        },
+        await this.expect({ w100px, w300px, w100prc }).to.matchImages();
       },
     },
   },

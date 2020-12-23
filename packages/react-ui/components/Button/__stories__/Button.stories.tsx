@@ -21,7 +21,7 @@ const buttonTests: CreeveyStoryParams['tests'] = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: await this.browser.findElement({ css: 'button' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');
@@ -32,7 +32,7 @@ const buttonTests: CreeveyStoryParams['tests'] = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: await this.browser.findElement({ css: 'button' }),
       })
       .press()
       .perform();
@@ -102,13 +102,11 @@ const combinationTest: CreeveyStoryParams['tests'] = {
 };
 
 export const Playground: CSFStory<JSX.Element> = () => <Button>Hello</Button>;
-Playground.story = {
-  name: 'playground',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+Playground.storyName = 'playground';
+Playground.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
@@ -124,16 +122,14 @@ export const DifferentContent = () => (
     </Button>
   </Gapped>
 );
-DifferentContent.story = { name: 'different content' };
+DifferentContent.storyName = 'different content';
 
 export const UseLink: CSFStory<JSX.Element> = () => <Button use="link">Use Link</Button>;
-UseLink.story = {
-  name: 'use link',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+UseLink.storyName = 'use link';
+UseLink.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
@@ -142,13 +138,11 @@ export const UseLinkWithIcon: CSFStory<JSX.Element> = () => (
     With Icon
   </Button>
 );
-UseLinkWithIcon.story = {
-  name: 'use link with icon',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+UseLinkWithIcon.storyName = 'use link with icon';
+UseLinkWithIcon.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
@@ -161,13 +155,11 @@ export const MultilineTextWithLinkButton: CSFStory<JSX.Element> = () => (
     <i>Leela</i>
   </div>
 );
-MultilineTextWithLinkButton.story = {
-  name: 'multiline text with link button',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+MultilineTextWithLinkButton.storyName = 'multiline text with link button';
+MultilineTextWithLinkButton.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
@@ -182,16 +174,14 @@ export const WithError: CSFStory<JSX.Element> = () => (
     </Button>
   </Gapped>
 );
-WithError.story = {
-  name: 'with error',
-  parameters: {
-    creevey: {
-      skip: [
-        { in: ['ie11', 'ie11Flat'], tests: 'hover' },
-        { in: 'chrome', tests: ['pressed', 'clicked'] },
-      ],
-      tests: buttonTests,
-    },
+WithError.storyName = 'with error';
+WithError.parameters = {
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie11Flat'], tests: 'hover' },
+      { in: 'chrome', tests: ['pressed', 'clicked'] },
+    ],
+    tests: buttonTests,
   },
 };
 
@@ -200,16 +190,14 @@ export const ArrowWithError: CSFStory<JSX.Element> = () => (
     Arrow
   </Button>
 );
-ArrowWithError.story = {
-  name: 'arrow with error',
-  parameters: {
-    creevey: {
-      skip: [
-        { in: ['ie11', 'ie11Flat'], tests: 'hover' },
-        { in: 'chrome', tests: ['pressed', 'clicked'] },
-      ],
-      tests: buttonTests,
-    },
+ArrowWithError.storyName = 'arrow with error';
+ArrowWithError.parameters = {
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie11Flat'], tests: 'hover' },
+      { in: 'chrome', tests: ['pressed', 'clicked'] },
+    ],
+    tests: buttonTests,
   },
 };
 
@@ -242,7 +230,7 @@ export const TextStylesReset = () => (
     </Gapped>
   </div>
 );
-TextStylesReset.story = { name: 'text styles reset' };
+TextStylesReset.storyName = 'text styles reset';
 
 export const DifferentAligns = () => (
   <ComponentTable
@@ -252,7 +240,7 @@ export const DifferentAligns = () => (
     presetProps={{ width: 200, children: 'Button' }}
   />
 );
-DifferentAligns.story = { name: 'different aligns' };
+DifferentAligns.storyName = 'different aligns';
 
 export const DefaultCombinations: CSFStory<JSX.Element> = () => (
   <ComponentCombinator
@@ -261,12 +249,10 @@ export const DefaultCombinations: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-DefaultCombinations.story = {
-  name: 'default combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+DefaultCombinations.storyName = 'default combinations';
+DefaultCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -277,12 +263,10 @@ export const CombinationsWithWarning: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CombinationsWithWarning.story = {
-  name: 'combinations with warning',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CombinationsWithWarning.storyName = 'combinations with warning';
+CombinationsWithWarning.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -293,12 +277,10 @@ export const CombinationsWithError: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CombinationsWithError.story = {
-  name: 'combinations with error',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CombinationsWithError.storyName = 'combinations with error';
+CombinationsWithError.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -309,12 +291,10 @@ export const CombinationsWithFocus: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CombinationsWithFocus.story = {
-  name: 'combinations with focus',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CombinationsWithFocus.storyName = 'combinations with focus';
+CombinationsWithFocus.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -325,12 +305,10 @@ export const LoadingCombinations: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-LoadingCombinations.story = {
-  name: 'loading combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+LoadingCombinations.storyName = 'loading combinations';
+LoadingCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -341,12 +319,10 @@ export const DisabledCombinations: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-DisabledCombinations.story = {
-  name: 'disabled combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+DisabledCombinations.storyName = 'disabled combinations';
+DisabledCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -357,12 +333,10 @@ export const ActiveCombinations: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-ActiveCombinations.story = {
-  name: 'active combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+ActiveCombinations.storyName = 'active combinations';
+ActiveCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -373,12 +347,10 @@ export const CheckedCombinations: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CheckedCombinations.story = {
-  name: 'checked combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CheckedCombinations.storyName = 'checked combinations';
+CheckedCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -389,12 +361,10 @@ export const CheckedDisabledCombinations: CSFStory<JSX.Element> = () => (
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CheckedDisabledCombinations.story = {
-  name: 'checked disabled combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CheckedDisabledCombinations.storyName = 'checked disabled combinations';
+CheckedDisabledCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 

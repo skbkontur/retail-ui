@@ -65,10 +65,10 @@ class TestNotifier extends React.Component<any, any> {
 export default { title: 'Toast', parameters: { creevey: { skip: [true] } } };
 
 export const SimpleNotifiacation = () => <TestNotifier />;
-SimpleNotifiacation.story = { name: 'simple notifiacation' };
+SimpleNotifiacation.storyName = 'simple notifiacation';
 
 export const ComplexNotifiacation = () => <TestNotifier complex />;
-ComplexNotifiacation.story = { name: 'complex notifiacation' };
+ComplexNotifiacation.storyName = 'complex notifiacation';
 
 export const StaticMethod = () => <Button onClick={() => Toast.push('Static method call')}>Show static</Button>;
-StaticMethod.story = { name: 'static method' };
+StaticMethod.storyName = 'static method';

@@ -175,40 +175,39 @@ export const Validations = () => {
     </Gapped>
   );
 };
-Validations.story = { name: 'validations', parameters: { creevey: { skip: [true] } } };
+Validations.storyName = 'validations';
+Validations.parameters = { creevey: { skip: [true] } };
 
 export const EmptyWithReference: CSFStory<JSX.Element> = () => {
   return <Wrapper getItems={getItems} />;
 };
-EmptyWithReference.story = {
-  name: 'empty with reference',
-  parameters: {
-    creevey: {
-      captureElement: '.tokens-test-container',
-      tests: {
-        async idle() {
-          await delay(100);
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        },
-        async clicked() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-        },
-        async withMenu() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-            .sendKeys('a')
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
-        },
+EmptyWithReference.storyName = 'empty with reference';
+EmptyWithReference.parameters = {
+  creevey: {
+    captureElement: '.tokens-test-container',
+    tests: {
+      async idle() {
+        await delay(100);
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+      },
+      async withMenu() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('a')
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
       },
     },
   },
@@ -217,31 +216,31 @@ EmptyWithReference.story = {
 export const ColoredEmptyWithReference = () => {
   return <ColoredWrapper getItems={getItems} />;
 };
-ColoredEmptyWithReference.story = { name: 'colored empty with reference', parameters: { creevey: { skip: [true] } } };
+ColoredEmptyWithReference.storyName = 'colored empty with reference';
+ColoredEmptyWithReference.parameters = { creevey: { skip: [true] } };
 
 export const EmptyWithoutReference = () => {
   return <Wrapper type={TokenInputType.WithoutReference} />;
 };
-EmptyWithoutReference.story = { name: 'empty without reference', parameters: { creevey: { skip: [true] } } };
+EmptyWithoutReference.storyName = 'empty without reference';
+EmptyWithoutReference.parameters = { creevey: { skip: [true] } };
 
 export const EmptyCombined: CSFStory = () => {
   return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-EmptyCombined.story = {
-  name: 'empty combined',
-  parameters: {
-    creevey: {
-      tests: {
-        async selectFirst() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-            .sendKeys('a')
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage();
-        },
+EmptyCombined.storyName = 'empty combined';
+EmptyCombined.parameters = {
+  creevey: {
+    tests: {
+      async selectFirst() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('a')
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
   },
@@ -250,84 +249,84 @@ EmptyCombined.story = {
 export const WithReferenceFilled = () => {
   return <FilledWrapper getItems={getItems} />;
 };
-WithReferenceFilled.story = { name: '[with reference] filled', parameters: { creevey: { skip: [true] } } };
+WithReferenceFilled.storyName = '[with reference] filled';
+WithReferenceFilled.parameters = { creevey: { skip: [true] } };
 
 export const WithoutReferenceFilled = () => {
   return <FilledWrapper type={TokenInputType.WithoutReference} getItems={getItems} />;
 };
-WithoutReferenceFilled.story = { name: '[without reference] filled', parameters: { creevey: { skip: [true] } } };
+WithoutReferenceFilled.storyName = '[without reference] filled';
+WithoutReferenceFilled.parameters = { creevey: { skip: [true] } };
 
 export const CombinedFilled: CSFStory = () => {
   return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
-CombinedFilled.story = {
-  name: '[combined] filled',
-  parameters: {
-    creevey: {
-      tests: {
-        async selectAndType() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-            .perform();
-          const selected = await this.takeScreenshot();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys('a')
-            .perform();
-          const typed = await this.takeScreenshot();
+CombinedFilled.storyName = '[combined] filled';
+CombinedFilled.parameters = {
+  creevey: {
+    tests: {
+      async selectAndType() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .perform();
+        const selected = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys('a')
+          .perform();
+        const typed = await this.takeScreenshot();
 
-          await this.expect({ selected, typed }).to.matchImages();
-        },
-        async editToken() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-            .perform();
-          const doubleClickOnToken = await this.takeScreenshot();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
-            .perform();
-          const clickOnMenuItem = await this.takeScreenshot();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.ENTER)
-            .perform();
-          const enterOnActiveToken = await this.takeScreenshot();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys('EDITED')
-            .perform();
-          const editToken = await this.takeScreenshot();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.ENTER)
-            .perform();
-          const enterAfterEdit = await this.takeScreenshot();
+        await this.expect({ selected, typed }).to.matchImages();
+      },
+      async editToken() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .perform();
+        const doubleClickOnToken = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+          .perform();
+        const clickOnMenuItem = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        const enterOnActiveToken = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys('EDITED')
+          .perform();
+        const editToken = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        const enterAfterEdit = await this.takeScreenshot();
 
-          await this.expect({
-            doubleClickOnToken,
-            clickOnMenuItem,
-            enterOnActiveToken,
-            editToken,
-            enterAfterEdit,
-          }).to.matchImages();
-        },
+        await this.expect({
+          doubleClickOnToken,
+          clickOnMenuItem,
+          enterOnActiveToken,
+          editToken,
+          enterAfterEdit,
+        }).to.matchImages();
       },
     },
   },
@@ -341,14 +340,16 @@ export const WithLongItem1 = () => {
     />
   );
 };
-WithLongItem1.story = { name: 'with long item 1', parameters: { creevey: { skip: [true] } } };
+WithLongItem1.storyName = 'with long item 1';
+WithLongItem1.parameters = { creevey: { skip: [true] } };
 
 export const WithLongItem2 = () => {
   return (
     <Wrapper getItems={getItems} selectedItems={['qewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiop']} />
   );
 };
-WithLongItem2.story = { name: 'with long item 2', parameters: { creevey: { skip: [true] } } };
+WithLongItem2.storyName = 'with long item 2';
+WithLongItem2.parameters = { creevey: { skip: [true] } };
 
 export const MultipleTokens = () => {
   return (
@@ -358,12 +359,14 @@ export const MultipleTokens = () => {
     </Gapped>
   );
 };
-MultipleTokens.story = { name: 'multiple tokens', parameters: { creevey: { skip: [true] } } };
+MultipleTokens.storyName = 'multiple tokens';
+MultipleTokens.parameters = { creevey: { skip: [true] } };
 
 export const CombinedGenericToken = () => {
   return <WrapperCustomModel />;
 };
-CombinedGenericToken.story = { name: 'combined generic token', parameters: { creevey: { skip: [true] } } };
+CombinedGenericToken.storyName = 'combined generic token';
+CombinedGenericToken.parameters = { creevey: { skip: [true] } };
 
 export const WidthToken = () => {
   return (
@@ -374,7 +377,8 @@ export const WidthToken = () => {
     </Gapped>
   );
 };
-WidthToken.story = { name: 'width token', parameters: { creevey: { skip: [true] } } };
+WidthToken.storyName = 'width token';
+WidthToken.parameters = { creevey: { skip: [true] } };
 
 export const WithAutofocus = () => {
   return (
@@ -383,7 +387,8 @@ export const WithAutofocus = () => {
     </Gapped>
   );
 };
-WithAutofocus.story = { name: 'with autofocus', parameters: { creevey: { skip: [true] } } };
+WithAutofocus.storyName = 'with autofocus';
+WithAutofocus.parameters = { creevey: { skip: [true] } };
 
 export const UseRenderToken = () => (
   <Gapped gap={10}>
@@ -397,7 +402,8 @@ export const UseRenderToken = () => (
     />
   </Gapped>
 );
-UseRenderToken.story = { name: 'use renderToken', parameters: { creevey: { skip: [true] } } };
+UseRenderToken.storyName = 'use renderToken';
+UseRenderToken.parameters = { creevey: { skip: [true] } };
 
 export const IdenticalAlignmentWithOtherControls = () => (
   <Gapped gap={10} vertical>
@@ -405,10 +411,8 @@ export const IdenticalAlignmentWithOtherControls = () => (
     <Input value={'value'} width={'100%'} size={'medium'} />
   </Gapped>
 );
-IdenticalAlignmentWithOtherControls.story = {
-  name: 'identical alignment with other controls',
-  parameters: { creevey: { skip: [true] } },
-};
+IdenticalAlignmentWithOtherControls.storyName = 'identical alignment with other controls';
+IdenticalAlignmentWithOtherControls.parameters = { creevey: { skip: [true] } };
 
 export const Disabled = () => {
   return (
@@ -418,7 +422,7 @@ export const Disabled = () => {
     </Gapped>
   );
 };
-Disabled.story = { name: 'disabled' };
+Disabled.storyName = 'disabled';
 
 export const CustomAddButton: CSFStory<JSX.Element> = () => {
   return (
@@ -429,21 +433,19 @@ export const CustomAddButton: CSFStory<JSX.Element> = () => {
     />
   );
 };
-CustomAddButton.story = {
-  name: 'custom add button',
-  parameters: {
-    creevey: {
-      tests: {
-        async addButton() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-            .sendKeys('zzz')
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage();
-        },
+CustomAddButton.storyName = 'custom add button';
+CustomAddButton.parameters = {
+  creevey: {
+    tests: {
+      async addButton() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('zzz')
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
   },
