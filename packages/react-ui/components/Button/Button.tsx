@@ -225,7 +225,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      icon = (
+        <span
+          className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
+            [jsStyles.iconNoRightPadding()]: !this.props.children,
+          })}
+        >
+          {this.props.icon}
+        </span>
+      );
     }
 
     let arrow = null;
@@ -294,6 +302,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         });
     }
   }
+
   private getSizeIconClassName() {
     switch (this.props.size) {
       case 'large':

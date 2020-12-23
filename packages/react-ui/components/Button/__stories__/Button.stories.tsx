@@ -115,7 +115,10 @@ Playground.story = {
 export const DifferentContent = () => (
   <Gapped vertical>
     <Button icon={<OkIcon />}>text with icon</Button>
+    <span>icon as children</span>
     <Button>{<OkIcon />}</Button>
+    <span>icon as prop and without children</span>
+    <Button icon={<OkIcon />} />
     <Button icon={<OkIcon />} use={'primary'}>
       icon with long text and color
     </Button>

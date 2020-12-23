@@ -691,6 +691,12 @@ const styles = {
     `;
   },
 
+  iconNoRightPadding() {
+    return css`
+      padding-right: 0 !important;
+    `;
+  },
+
   wrapLink(t: Theme) {
     return css`
       ${styles.wrap(t)};
