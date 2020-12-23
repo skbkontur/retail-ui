@@ -134,6 +134,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       const checked = this.props.value === this.context.activeItem;
       inputProps.checked = checked;
       inputProps.name = this.context.name;
+      inputProps.suppressHydrationWarning = true;
       radioClassNames = cn(radioClassNames, checked && jsStyles.checked(this.theme));
     }
 

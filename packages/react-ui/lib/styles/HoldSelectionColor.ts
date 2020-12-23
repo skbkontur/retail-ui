@@ -1,5 +1,5 @@
 import { injectGlobal } from '../theming/Emotion';
-import { isChrome } from '../utils';
+import { isChrome } from '../client';
 
 // This is for screenshot tests
 const Highlight = isChrome ? '#3390ff' : '#3399ff';

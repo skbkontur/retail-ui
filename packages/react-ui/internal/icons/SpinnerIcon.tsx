@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { isIE11 } from '../../lib/utils';
+import { isIE11 } from '../../lib/client';
 import {
   SpinnerFallbackAnimationRunner,
   createOffsetAnimation,

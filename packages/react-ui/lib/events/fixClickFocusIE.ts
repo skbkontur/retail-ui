@@ -1,5 +1,5 @@
 import { getClosestFocusableElement } from '../dom/getFocusableElements';
-import { isIE11, isEdge } from '../utils';
+import { isIE11, isEdge } from '../client';
 
 export const fixClickFocusIE = (e: Event) => {
   if (isIE11 || isEdge) {

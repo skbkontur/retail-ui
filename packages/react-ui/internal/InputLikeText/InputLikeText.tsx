@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
-import { isEdge, isIE11 } from '../../lib/utils';
+import { isEdge, isIE11 } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
 import { InputProps, InputIconType, InputState } from '../../components/Input';

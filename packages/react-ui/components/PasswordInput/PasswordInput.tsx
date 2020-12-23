@@ -6,7 +6,7 @@ import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardE
 import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
-import { isIE11 } from '../../lib/utils';
+import { isIE11 } from '../../lib/client';
 
 import { jsStyles } from './PasswordInput.styles';
 
