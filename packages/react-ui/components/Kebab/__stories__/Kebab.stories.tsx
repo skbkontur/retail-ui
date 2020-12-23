@@ -102,33 +102,30 @@ export default {
 };
 
 export const Small: CSFStory<JSX.Element> = () => <SomethingWithKebab size="small" />;
-Small.story = {
-  name: '14px',
-  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
-};
+Small.storyName = '14px';
+Small.parameters = { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } };
 
 export const Medium: CSFStory<JSX.Element> = () => <SomethingWithKebab size="medium" />;
-Medium.story = {
-  name: '18px',
-  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
-};
+Medium.storyName = '18px';
+Medium.parameters = { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } };
 
 export const Large: CSFStory<JSX.Element> = () => <SomethingWithKebab size="large" />;
-Large.story = {
-  name: '20px',
-  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
-};
+Large.storyName = '20px';
+Large.parameters = { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } };
 
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
-LargeDisabled.story = { name: '20px-disabled', parameters: { creevey: { skip: [true] } } };
+LargeDisabled.storyName = '20px-disabled';
+LargeDisabled.parameters = { creevey: { skip: [true] } };
 
 export const WithFixedMenuHeight = () => (
   <SomethingWithKebab size="large" menuMaxHeight={'200px'} items={manyItemsList} />
 );
-WithFixedMenuHeight.story = { name: 'With fixed menu height', parameters: { creevey: { skip: [true] } } };
+WithFixedMenuHeight.storyName = 'With fixed menu height';
+WithFixedMenuHeight.parameters = { creevey: { skip: [true] } };
 
 export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size="small" />;
-KebabWithoutAnimations.story = { name: 'Kebab without animations', parameters: { creevey: { skip: [true] } } };
+KebabWithoutAnimations.storyName = 'Kebab without animations';
+KebabWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
 class SomethingWithKebab extends Component<{
   size: 'small' | 'medium' | 'large';

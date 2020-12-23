@@ -47,37 +47,36 @@ class Component extends React.Component<ComponentProps> {
 export default { title: 'PasswordInput' };
 
 export const Plain: CSFStory<JSX.Element> = () => <Component />;
-Plain.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async Plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-        },
-        async ['With typed password']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[type="password"]' }))
-            .sendKeys('Test...')
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('With typed password');
-        },
-        async ['With visible password']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[type="password"]' }))
-            .sendKeys('Test...')
-            .click(this.browser.findElement({ css: '[data-tid="PasswordInputEyeIcon"]' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('With visible password');
-        },
+Plain.parameters = {
+  creevey: {
+    tests: {
+      async Plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async ['With typed password']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[type="password"]' }))
+          .sendKeys('Test...')
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('With typed password');
+      },
+      async ['With visible password']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[type="password"]' }))
+          .sendKeys('Test...')
+          .click(this.browser.findElement({ css: '[data-tid="PasswordInputEyeIcon"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('With visible password');
       },
     },
   },
 };
+
 export const CapsLockLabel = () => <Component capsLockEnabled />;
-CapsLockLabel.story = { name: 'CapsLock label' };
+CapsLockLabel.storyName = 'CapsLock label';

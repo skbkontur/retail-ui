@@ -65,7 +65,7 @@ export const TopBarOld = () => (
     ]}
   />
 );
-TopBarOld.story = { name: 'TopBar Old' };
+TopBarOld.storyName = 'TopBar Old';
 
 export const TopBarNew = () => (
   <TopBar>
@@ -91,7 +91,7 @@ export const TopBarNew = () => (
     </End>
   </TopBar>
 );
-TopBarNew.story = { name: 'TopBar New' };
+TopBarNew.storyName = 'TopBar New';
 
 export const TopBarNoShadow = () => (
   <TopBar noShadow={true}>
@@ -117,10 +117,11 @@ export const TopBarNoShadow = () => (
     </End>
   </TopBar>
 );
-TopBarNoShadow.story = { name: 'TopBar noShadow' };
+TopBarNoShadow.storyName = 'TopBar noShadow';
 
 export const TopBarDropdownControlled = () => <TopBarDropdownWithButton />;
-TopBarDropdownControlled.story = { name: 'TopBar.Dropdown Controlled', parameters: { creevey: { skip: [true] } } };
+TopBarDropdownControlled.storyName = 'TopBar.Dropdown Controlled';
+TopBarDropdownControlled.parameters = { creevey: { skip: [true] } };
 
 export const TopBarWithIcons = () => (
   <TopBar>

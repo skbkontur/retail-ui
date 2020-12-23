@@ -6,11 +6,11 @@ import { ToastView as Toast } from '../ToastView';
 export default { title: 'ToastView', parameters: { creevey: { captureElement: "[data-tid='ToastView__root']" } } };
 
 export const SimpleToast = () => <Toast>Changes saved</Toast>;
-SimpleToast.story = { name: 'simple toast' };
+SimpleToast.storyName = 'simple toast';
 
 export const WithAction = () => (
   <Toast action={{ label: 'Cancel', handler: action('action') }} onClose={action('close')}>
     Changes saved
   </Toast>
 );
-WithAction.story = { name: 'with action' };
+WithAction.storyName = 'with action';

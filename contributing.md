@@ -272,8 +272,7 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 2. Добавить сценарий в параметры story
 
 ```javascript
-ButtonWithError.story = {
-  parameters: {
+ButtonWithError.parameters = {
     creevey: {
       tests: {
         async idle() {
@@ -281,8 +280,7 @@ ButtonWithError.story = {
         }
       },
     },
-  },
-};
+  };
 ```
 
 3. Через [gui](#запуск) запустить добавленный тест
