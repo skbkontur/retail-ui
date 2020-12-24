@@ -1,37 +1,36 @@
+import { globalThat } from '../../../lib/SSRSafe';
 import { incrementZIndex, removeZIndex } from '../ZIndexStorage';
 
-const setZIndexes = (indexes: number[]) => (window.__RetailUiZIndexes = indexes);
+const setZIndexes = (indexes: number[]) => (globalThat.__RetailUiZIndexes = indexes);
 
-beforeAll(() => ((global as any).window = (global as any).window || {}));
 beforeEach(() => setZIndexes([]));
-afterAll(() => delete (global as any).window);
 
 describe('removeZIndex', () => {
   it('should remove value if value exists', () => {
     setZIndexes([1, 2, 3]);
     removeZIndex(3);
 
-    expect(window.__RetailUiZIndexes).toEqual([1, 2]);
+    expect(globalThat.__RetailUiZIndexes).toEqual([1, 2]);
   });
 
   it('should not change array if value does not exist', () => {
     setZIndexes([1, 2, 3]);
     removeZIndex(4);
 
-    expect(window.__RetailUiZIndexes).toEqual([1, 2, 3]);
+    expect(globalThat.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
   it('should removes just first value', () => {
     setZIndexes([1, 2, 2, 3]);
     removeZIndex(2);
 
-    expect(window.__RetailUiZIndexes).toEqual([1, 2, 3]);
+    expect(globalThat.__RetailUiZIndexes).toEqual([1, 2, 3]);
   });
 
   it('should not change empty array', () => {
     removeZIndex(2);
 
-    expect(window.__RetailUiZIndexes).toEqual([]);
+    expect(globalThat.__RetailUiZIndexes).toEqual([]);
   });
 });
 
@@ -105,7 +104,7 @@ describe('incrementZindex', () => {
       const result = incrementZIndex(priority, delta);
 
       expect(result).toBe(expected.result);
-      expect(window.__RetailUiZIndexes).toEqual(expected.storage);
+      expect(globalThat.__RetailUiZIndexes).toEqual(expected.storage);
     });
   });
 });
