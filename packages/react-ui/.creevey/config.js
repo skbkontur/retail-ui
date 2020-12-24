@@ -1,11 +1,27 @@
 const path = require('path');
 
+const getLanIP = () => {
+  const nets = require('os').networkInterfaces();
+
+  for (const name of Object.keys(nets)) {
+    for (const net of nets[name]) {
+      if (net.family === 'IPv4' && !net.internal && net.address.startsWith('10.')) {
+        return net.address;
+      }
+    }
+  }
+
+  throw Error('Creevey Config: Cant resolve LAN IP');
+};
+
+const LAN_IP = getLanIP();
+
 const config = {
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
   gridUrl: 'http://screen:shot@grid.testkontur.ru/wd/hub',
-  storybookUrl: 'http://localhost:6060',
+  storybookUrl: `http://${LAN_IP}:6060`,
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
   browsers: {
@@ -13,7 +29,6 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       limit: 2,
-      version: '70',
     },
     // chrome8px: {
     //   browserName: 'chrome',
@@ -23,8 +38,7 @@ const config = {
     chromeFlat: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
-      storybookUrl: 'http://localhost:6062',
-      version: '70',
+      storybookUrl: `http://${LAN_IP}:6062`,
     },
     // chromeFlat8px: {
     //   browserName: 'chrome',
@@ -34,7 +48,6 @@ const config = {
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      version: '61',
     },
     // firefox8px: {
     //   browserName: 'firefox',
@@ -44,8 +57,7 @@ const config = {
     firefoxFlat: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      storybookUrl: 'http://localhost:6062',
-      version: '61',
+      storybookUrl: `http://${LAN_IP}:6062`,
     },
     // firefoxFlat8px: {
     //   browserName: 'firefox',
@@ -74,7 +86,7 @@ const config = {
     ie11Flat: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      storybookUrl: 'http://localhost:6062',
+      storybookUrl: `http://${LAN_IP}:6062`,
     },
     // ie11Flat8px: {
     //   browserName: 'internet explorer',
