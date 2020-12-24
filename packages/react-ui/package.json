@@ -115,7 +115,7 @@
     "chalk": "3.0.0",
     "copyfiles": "^2.2.0",
     "core-js": "^3.4.8",
-    "creevey": "0.6.2",
+    "creevey": "0.7.12",
     "cross-env": "^6.0.3",
     "css-loader": "3.4.0",
     "dts-css-modules-loader": "1.0.1",
