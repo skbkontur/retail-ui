@@ -6510,10 +6510,10 @@ create-react-context@0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@0.7.11:
-  version "0.7.11"
-  resolved "https://registry.npmjs.org/creevey/-/creevey-0.7.11.tgz#38142c697bf6ddaacb9bd3fede6fc3e39bb0fcaf"
-  integrity sha512-eJoBIWM/yqqsmf9rpbX65THdZo+3CspMPcbqAnTWgFRTkOEk6k6WGuCm4tmxZfKJp2Cmvd6twHPgjHXh3gp7hw==
+creevey@0.7.12:
+  version "0.7.12"
+  resolved "https://registry.npmjs.org/creevey/-/creevey-0.7.12.tgz#d6a62d1b48587e1ea0ea80e16982c2ec7e7908cb"
+  integrity sha512-mIc2B/9bsKywWPMBhQBIeiPya7M+YLw3zxDVR52GccNVl2wbBZwyywjGlqWAk1kOz5Y+t4mVZIOatzk9xfqVVg==
   dependencies:
     "@babel/generator" "^7.12.11"
     "@babel/parser" "^7.12.11"
