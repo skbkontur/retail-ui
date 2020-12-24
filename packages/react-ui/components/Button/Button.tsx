@@ -279,7 +279,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           {arrow}
           <div className={jsStyles.caption()}>
             {icon}
-            <span className={cn({ [jsStyles.visibilityHidden()]: loading && !icon })}>{this.props.children}</span>
+            <span className={cn({ [jsStyles.visibilityHidden()]: loading })}>{this.props.children}</span>
           </div>
         </button>
       </span>
