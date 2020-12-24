@@ -177,9 +177,6 @@ const styles = {
         display: inline;
         transform: none !important;
       }
-      ${cssName(styles.icon())} {
-        padding-right: ${t.btnLinkIconMarginRight};
-      }
       ${cssName(styles.warning(t))} ,
       ${cssName(styles.error(t))}  {
         box-shadow: none;
@@ -635,6 +632,12 @@ const styles = {
   iconNoRightPadding() {
     return css`
       padding-right: 0 !important;
+    `;
+  },
+
+  iconLink(t: Theme) {
+    return css`
+      padding-right: ${t.btnLinkIconMarginRight} !important;
     `;
   },
 

@@ -220,7 +220,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     let loading = null;
-    if (this.props.loading) {
+    if (this.props.loading && !this.props.icon) {
       loading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
     }
 
@@ -230,9 +230,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         <span
           className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
             [jsStyles.iconNoRightPadding()]: !this.props.children,
+            [jsStyles.iconLink(this.theme)]: this.props.use === 'link',
           })}
         >
-          {loading ? this.getLoadingSpinner() : this.props.icon}
+          {this.props.loading ? this.getLoadingSpinner() : this.props.icon}
         </span>
       );
     }
@@ -274,19 +275,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       <span {...wrapProps}>
         <button ref={this._ref} {...rootProps}>
           {error}
-          {!icon && loading}
+          {loading}
           {arrow}
           <div className={jsStyles.caption()}>
             {icon}
-            {loading && !icon ? this.getHiddenChildren() : this.props.children}
+            <span className={cn({ [jsStyles.visibilityHidden()]: loading && !icon })}>{this.props.children}</span>
           </div>
         </button>
       </span>
     );
-  }
-
-  private getHiddenChildren() {
-    return <span className={jsStyles.visibilityHidden()}>{this.props.children}</span>;
   }
 
   private getLoadingSpinner() {
