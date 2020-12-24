@@ -9,23 +9,23 @@ const config = {
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
   browsers: {
-    // chrome: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   limit: 2,
-    //   platformName: 'linux',
-    // },
+    chrome: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      limit: 2,
+      platformName: 'linux',
+    },
     // chrome8px: {
     //   browserName: 'chrome',
     //   viewport: { width: 1024, height: 720 },
     //   storybookUrl: 'http://localhost:6061',
     // },
-    // chromeFlat: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   storybookUrl: 'http://localhost:6062',
-    //   platformName: 'linux',
-    // },
+    chromeFlat: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      storybookUrl: 'http://localhost:6062',
+      platformName: 'linux',
+    },
     // chromeFlat8px: {
     //   browserName: 'chrome',
     //   viewport: { width: 1024, height: 720 },
