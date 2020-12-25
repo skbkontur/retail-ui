@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import cn from 'classnames';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -10,7 +11,8 @@ import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
-import { filterProps } from '../../lib/filterProps';
+import { filterProps, extractCommonProps } from '../../lib/filterProps';
+import { CommonProps } from '../../typings/common';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
@@ -24,7 +26,7 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
-export interface DatePickerProps<T> {
+export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -35,7 +37,7 @@ export interface DatePickerProps<T> {
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
   warning?: boolean;
-  width: number | string;
+  width?: number | string;
   onBlur?: () => void;
   /**
    * Вызывается при изменении `value`
@@ -65,6 +67,8 @@ export interface DatePickerState {
 }
 
 type DatePickerValue = string;
+
+const DEFAULT_WIDTH = 120;
 
 export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
@@ -100,7 +104,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
     warning: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 
     onBlur: PropTypes.func,
 
@@ -120,7 +124,6 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   };
 
   public static defaultProps = {
-    width: 120,
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
@@ -226,16 +229,24 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
       );
     }
 
+    const [{ className, style, ...commonProps }, restProps] = extractCommonProps(this.props);
+
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root()),
+      style: {
+        ...style,
+        width: this.props.width ?? (style?.width || DEFAULT_WIDTH),
+      },
+      onMouseEnter: this.props.onMouseEnter,
+      onMouseLeave: this.props.onMouseLeave,
+      onMouseOver: this.props.onMouseOver,
+    };
+
     return (
-      <label
-        className={jsStyles.root()}
-        style={{ width: this.props.width }}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
-      >
+      <label {...wrapperProps}>
         <DateInput
-          {...filterProps(this.props, INPUT_PASS_PROPS)}
+          {...filterProps(restProps, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
