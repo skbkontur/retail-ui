@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.11.0...@skbkontur/react-ui@2.12.0) (2020-12-23)
+
+
+### Features
+
+* ssr support ([#2103](https://github.com/skbkontur/retail-ui/issues/2103)) ([506a7f6](https://github.com/skbkontur/retail-ui/commit/506a7f63337cc4ca2567581495959b1656fedd18))
+
+
+
+
+
 # [2.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.10.0...@skbkontur/react-ui@2.11.0) (2020-12-17)
 
 

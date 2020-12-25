@@ -3,7 +3,7 @@ import React from 'react';
 import raf from 'raf';
 import cn from 'classnames';
 
-import { isIE11, isEdge } from '../../lib/utils';
+import { isIE11, isEdge } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
@@ -415,12 +415,21 @@ export class Input extends React.Component<InputProps, InputState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return { [jsStyles.sizeLarge(this.theme)]: true, [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge };
+        return {
+          [jsStyles.sizeLarge(this.theme)]: true,
+          [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
+        };
       case 'medium':
-        return { [jsStyles.sizeMedium(this.theme)]: true, [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge };
+        return {
+          [jsStyles.sizeMedium(this.theme)]: true,
+          [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
+        };
       case 'small':
       default:
-        return { [jsStyles.sizeSmall(this.theme)]: true, [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge };
+        return {
+          [jsStyles.sizeSmall(this.theme)]: true,
+          [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
+        };
     }
   }
 

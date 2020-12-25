@@ -1,4 +1,4 @@
-import { isMac } from '../../utils';
+import { isMac } from '../../client';
 
 import { extractCode } from './extractCode';
 import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
