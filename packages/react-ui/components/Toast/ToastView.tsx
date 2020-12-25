@@ -1,14 +1,17 @@
 import React from 'react';
 import { func, shape, string } from 'prop-types';
+import cn from 'classnames';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './ToastView.styles';
 
-export interface ToastViewProps {
+export interface ToastViewProps extends CommonProps {
   /**
    * Toast content
    */
@@ -55,8 +58,8 @@ export class ToastView extends React.Component<ToastViewProps> {
   }
 
   private renderMain() {
-    const { children, action, onClose, ...rest } = this.props;
-
+    const [{ className, ...commonProps }, restProps] = extractCommonProps(this.props);
+    const { children, action, onClose, ...rest } = restProps;
     const link = action ? (
       <span className={jsStyles.link(this.theme)} onClick={action.handler}>
         {action.label}
@@ -71,8 +74,13 @@ export class ToastView extends React.Component<ToastViewProps> {
       </span>
     ) : null;
 
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.wrapper()),
+    };
+
     return (
-      <ZIndex priority="Toast" className={jsStyles.wrapper()}>
+      <ZIndex priority="Toast" {...wrapperProps}>
         <div data-tid="ToastView__root" className={jsStyles.root(this.theme)} {...rest}>
           <span>{children}</span>
           {link}
