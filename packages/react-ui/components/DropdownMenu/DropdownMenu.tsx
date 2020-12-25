@@ -6,8 +6,10 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { PopupPosition } from '../../internal/Popup';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
-export interface DropdownMenuProps {
+export interface DropdownMenuProps extends CommonProps {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -83,8 +85,10 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     if (!this.props.caption) {
       return null;
     }
+    const [commonProps] = extractCommonProps(this.props);
     return (
       <PopupMenu
+        {...commonProps}
         ref={this.refPopupMenu}
         caption={this.props.caption}
         menuMaxHeight={this.props.menuMaxHeight}
