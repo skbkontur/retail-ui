@@ -12,6 +12,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isBrowser } from '../../lib/client';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
@@ -19,71 +21,73 @@ import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
 
-export type TextareaProps = Override<
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  {
-    /** Ошибка */
-    error?: boolean;
-    /** Предупреждение */
-    warning?: boolean;
-    /** Не активное состояние */
-    disabled?: boolean;
+export interface TextareaProps
+  extends CommonProps,
+    Override<
+      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+      {
+        /** Ошибка */
+        error?: boolean;
+        /** Предупреждение */
+        warning?: boolean;
+        /** Не активное состояние */
+        disabled?: boolean;
 
-    /**
-     * Атоматический ресайз
-     * в зависимости от содержимого
-     */
-    autoResize?: boolean;
-    /**
-     * Число строк
-     */
-    rows: number;
-    /**
-     * Максимальное число строк при
-     * автоматическом ресайзе
-     */
-    maxRows: string | number;
+        /**
+         * Атоматический ресайз
+         * в зависимости от содержимого
+         */
+        autoResize?: boolean;
+        /**
+         * Число строк
+         */
+        rows: number;
+        /**
+         * Максимальное число строк при
+         * автоматическом ресайзе
+         */
+        maxRows: string | number;
 
-    /**
-     * Стандартный ресайз
-     * Попадает в `style`
-     */
-    resize?: React.CSSProperties['resize'];
+        /**
+         * Стандартный ресайз
+         * Попадает в `style`
+         */
+        resize?: React.CSSProperties['resize'];
 
-    /**
-     * Ширина
-     */
-    width?: React.CSSProperties['width'];
+        /**
+         * Ширина
+         */
+        width?: React.CSSProperties['width'];
 
-    /**
-     * Вызывается при изменении `value`
-     */
-    onValueChange?: (value: string) => void;
+        /**
+         * Вызывается при изменении `value`
+         */
+        onValueChange?: (value: string) => void;
 
-    /** Выделение значения при фокусе */
-    selectAllOnFocus?: boolean;
+        /** Выделение значения при фокусе */
+        selectAllOnFocus?: boolean;
 
-    /** Показывать счетчик символов */
-    showLengthCounter?: boolean;
+        /** Показывать счетчик символов */
+        showLengthCounter?: boolean;
 
-    /** Допустимое количество символов в поле. Отображается в счетчике.
-     * Если не указано, равно `maxLength`
-     */
-    lengthCounter?: number;
+        /** Допустимое количество символов в поле. Отображается в счетчике.
+         * Если не указано, равно `maxLength`
+         */
+        lengthCounter?: number;
 
-    /** Подсказка к счетчику символов.
-     *
-     * По умолчанию - тултип с содежимым из пропа, если передан`ReactNode`.
-     *
-     * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
-     *
-     * ```
-     * counterHelp={() => <Tooltip render={...}><HelpIcon /></Tooltip>}
-     * ```
-     * */
-    counterHelp?: ReactNode | (() => ReactNode);
-  }
->;
+        /** Подсказка к счетчику символов.
+         *
+         * По умолчанию - тултип с содежимым из пропа, если передан`ReactNode`.
+         *
+         * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
+         *
+         * ```
+         * counterHelp={() => <Tooltip render={...}><HelpIcon /></Tooltip>}
+         * ```
+         * */
+        counterHelp?: ReactNode | (() => ReactNode);
+      }
+    > {}
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
@@ -256,8 +260,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private renderMain() {
+    const [{ className, style, ...commonProps }, restProps] = extractCommonProps(this.props);
     const {
-      width = DEFAULT_WIDTH,
+      width,
       error,
       warning,
       autoResize,
@@ -267,21 +272,22 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       maxRows,
       onFocus,
       selectAllOnFocus,
-      className,
-      style,
       placeholder,
       onValueChange,
       showLengthCounter,
       lengthCounter,
       counterHelp,
       ...textareaProps
-    } = this.props;
+    } = restProps;
 
     const { isCounterVisible } = this.state;
 
-    const rootProps = {
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root(this.theme)),
       style: {
-        width,
+        ...style,
+        width: width ?? (style?.width || DEFAULT_WIDTH),
       },
     };
 
@@ -329,7 +335,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={isCounterVisible}
       >
-        <label {...rootProps} className={jsStyles.root(this.theme)}>
+        <label {...wrapperProps}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea
