@@ -4,8 +4,9 @@ import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
+import { CommonProps } from '../../typings/common';
 
-export interface ComboBoxProps<T> {
+export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   /**
    * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода

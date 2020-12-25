@@ -1,5 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import cn from 'classnames';
 
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType } from '../../components/Input';
@@ -10,12 +11,14 @@ import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDownIcon } from '../icons/16px';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { jsStyles } from './CustomComboBox.styles';
 
-interface ComboBoxViewProps<T> {
+interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -62,7 +65,7 @@ interface ComboBoxViewProps<T> {
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
-
+const DEFAULT_WIDTH = 250;
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
@@ -79,7 +82,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       /**/
     },
     size: 'small',
-    width: 250 as string | number,
   };
 
   private input: Nullable<Input>;
@@ -98,6 +100,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   }
 
   public render() {
+    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
     const {
       items,
       loading,
@@ -120,6 +123,18 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       width,
     } = this.props;
 
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root()),
+      style: {
+        ...style,
+        width: width ?? (style?.width || DEFAULT_WIDTH),
+      },
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+    };
+
     const input = this.renderInput();
 
     const topOffsets = {
@@ -137,13 +152,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     return (
       <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
-        <span
-          style={{ width }}
-          className={jsStyles.root()}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onMouseOver={onMouseOver}
-        >
+        <span {...wrapperProps}>
           {input}
           {opened && (
             <DropdownContainer
