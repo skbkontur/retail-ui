@@ -6,12 +6,13 @@ import cn from 'classnames';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
 
 import { jsStyles } from './MenuItem.styles';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
-export interface MenuItemProps {
+export interface MenuItemProps extends CommonProps {
   /** @ignore */
   _enableIconPadding?: boolean;
 
@@ -104,7 +105,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       iconElement = <div className={jsStyles.icon()}>{icon}</div>;
     }
 
-    const className = cn({
+    const className = cn(this.props.className, {
       [jsStyles.root()]: true,
       [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
