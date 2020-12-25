@@ -5,6 +5,8 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './ScrollContainer.styles';
 
@@ -15,7 +17,7 @@ export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
 export type ScrollBehaviour = 'auto' | 'smooth';
 
-export interface ScrollContainerProps {
+export interface ScrollContainerProps extends CommonProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
@@ -107,6 +109,15 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       );
     }
 
+    const [{ className, ...commonProps }] = extractCommonProps(props);
+
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root()),
+      onMouseMove: this.handleMouseMove,
+      onMouseLeave: this.handleMouseLeave,
+    };
+
     const innerStyle: React.CSSProperties = {
       // hide vertical scrollbar with a little extra space
       marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
@@ -117,7 +128,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     };
 
     return (
-      <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+      <div {...wrapperProps}>
         {scroll}
         <div
           data-tid="ScrollContainer__inner"
