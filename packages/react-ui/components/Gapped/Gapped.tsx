@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export interface GappedProps {
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
+
+export interface GappedProps extends CommonProps {
   /**
    * Расстояние между элементами в пикселях
    * @default 10
@@ -56,13 +59,14 @@ export class Gapped extends React.Component<GappedProps> {
   };
 
   public render() {
+    const [commonProps] = extractCommonProps(this.props);
     if (this.props.vertical) {
-      return this.renderVertical();
+      return this.renderVertical(commonProps);
     }
-    return this.renderHorizontal();
+    return this.renderHorizontal(commonProps);
   }
 
-  private renderVertical() {
+  private renderVertical(commonProps: CommonProps) {
     const subsequentItemStyle: React.CSSProperties = {
       paddingTop: this.props.gap,
     };
@@ -78,21 +82,24 @@ export class Gapped extends React.Component<GappedProps> {
       return <div style={style}>{child}</div>;
     });
 
-    return <div>{children}</div>;
+    return <div {...commonProps}>{children}</div>;
   }
 
-  private renderHorizontal() {
+  private renderHorizontal(commonProps: CommonProps) {
     const { gap, children, verticalAlign, wrap } = this.props;
     const itemStyle: React.CSSProperties = {
       display: 'inline-block',
       verticalAlign,
       ...(wrap ? { marginLeft: gap, marginTop: gap } : {}),
     };
-    const rootStyle: React.CSSProperties = wrap ? { paddingTop: 1 } : {};
+    commonProps.style = {
+      ...(wrap ? { paddingTop: 1 } : {}),
+      ...commonProps.style,
+    };
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <div style={rootStyle}>
+      <div {...commonProps}>
         <div style={contStyle}>
           {React.Children.toArray(children).map((child, index) => {
             const marginLeft = index === 0 ? undefined : gap;
