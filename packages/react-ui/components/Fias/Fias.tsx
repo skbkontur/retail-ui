@@ -9,6 +9,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { EditIcon } from '../../internal/icons/16px';
 import { LocaleContext } from '../../lib/locale';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { FiasLocale, FiasLocaleHelper } from './locale';
 import {
@@ -26,7 +28,7 @@ import { FiasAddress } from './models/FiasAddress';
 import { FiasLogger } from './logger/FiasLogger';
 import { jsStyles } from './Fias.styles';
 
-export interface FiasProps {
+export interface FiasProps extends CommonProps {
   /**
    * Значение адреса. См. формат в примерах
    */
@@ -246,9 +248,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         </span>
       ) : null;
 
+    const [commonProps] = extractCommonProps(this.props);
+
     return (
       <LocaleContext.Provider value={{ locale: { Fias: this.state.locale } }}>
-        <div>
+        <div {...commonProps}>
           {showAddressText && <span>{address.getFullText(this.isFieldVisible(FiasExtraFields.postalcode))}</span>}
           {!this.props.readonly && (
             <div>
