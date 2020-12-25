@@ -5,6 +5,8 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles, jsTokenColors } from './Token.styles';
 
@@ -15,7 +17,7 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export interface TokenProps {
+export interface TokenProps extends CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
   error?: boolean;
@@ -48,6 +50,7 @@ export class Token extends React.Component<TokenProps> {
   }
 
   private renderMain() {
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
     const {
       children,
       isActive,
@@ -80,13 +83,14 @@ export class Token extends React.Component<TokenProps> {
       activeTokenClassName = jsTokenColors[activeClassName](theme, validation);
     }
 
-    const tokenClassNames = cn(jsStyles.token(this.theme), tokenClassName, {
+    const tokenClassNames = cn(className, jsStyles.token(this.theme), tokenClassName, {
       [activeTokenClassName]: !!isActive,
       [jsStyles.disabled(theme)]: !!disabled,
     });
 
     return (
       <div
+        {...commonProps}
         className={tokenClassNames}
         onClick={onClick}
         onDoubleClick={onDoubleClick}
