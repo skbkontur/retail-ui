@@ -1,3 +1,5 @@
+import { CommonProps } from '../typings/common';
+
 export type Filter<T, U> = T extends U ? T : never;
 
 export type True<T> = { [K in keyof T]: T[K] extends true ? K : never }[keyof T];
@@ -21,3 +23,36 @@ export function filterProps<
   }
   return ret;
 }
+
+const isCommonProp = (name: string) => {
+  switch (name) {
+    case 'className':
+    case 'style':
+      return true;
+    default:
+      return false;
+  }
+};
+
+const isDataProp = (name: string) => {
+  return name.indexOf('data-') === 0;
+};
+
+export const extractCommonProps = <Props extends CommonProps, RestProps extends Omit<Props, keyof CommonProps>>(
+  props: Props,
+): [CommonProps, RestProps] => {
+  const common = {} as CommonProps;
+  const rest = {} as RestProps;
+
+  for (const key in props) {
+    if (isCommonProp(key) || isDataProp(key)) {
+      // @ts-ignore
+      common[key] = props[key];
+    } else {
+      // @ts-ignore
+      rest[key] = props[key];
+    }
+  }
+
+  return [common, rest];
+};
