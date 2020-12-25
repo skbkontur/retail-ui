@@ -10,6 +10,7 @@ import { InputProps, InputIconType, InputState } from '../../components/Input';
 import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -122,6 +123,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   private renderMain() {
+    const [{ className, style, ...commonProps }, restProps] = extractCommonProps(this.props);
     const {
       innerRef,
       tabIndex,
@@ -130,6 +132,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       borderless,
       width,
       children,
+      size,
       error,
       warning,
       onValueChange,
@@ -142,25 +145,34 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragStart,
       onMouseDragEnd,
       ...rest
-    } = this.props;
+    } = restProps;
 
     const { focused, blinking } = this.state;
 
     const leftSide = this.renderLeftSide();
     const rightSide = this.renderRightSide();
 
-    const className = cn(jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
-      [jsInputStyles.borderless()]: !!borderless,
-      [jsStyles.withoutLeftSide()]: !leftSide,
-      [jsInputStyles.focus(this.theme)]: focused,
-      [jsInputStyles.blink(this.theme)]: blinking,
-      [jsInputStyles.warning(this.theme)]: !!warning,
-      [jsInputStyles.error(this.theme)]: !!error,
-      [jsInputStyles.disabled(this.theme)]: !!disabled,
-      [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-      [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
-      [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
-    });
+    const wrapperProps = {
+      ...commonProps,
+      ...rest,
+      className: cn(className, jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+        [jsInputStyles.borderless()]: !!borderless,
+        [jsStyles.withoutLeftSide()]: !leftSide,
+        [jsInputStyles.focus(this.theme)]: focused,
+        [jsInputStyles.blink(this.theme)]: blinking,
+        [jsInputStyles.warning(this.theme)]: !!warning,
+        [jsInputStyles.error(this.theme)]: !!error,
+        [jsInputStyles.disabled(this.theme)]: !!disabled,
+        [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
+        [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
+        [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
+      }),
+      style: {
+        textAlign: align,
+        ...style,
+        width: width ?? style?.width,
+      },
+    };
 
     const wrapperClass = cn(jsInputStyles.wrapper(), {
       [jsStyles.userSelectContain()]: focused,
@@ -168,9 +180,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     return (
       <span
-        {...rest}
-        className={className}
-        style={{ width, textAlign: align }}
+        {...wrapperProps}
         tabIndex={disabled ? undefined : 0}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
