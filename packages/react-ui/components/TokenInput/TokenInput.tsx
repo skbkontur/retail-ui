@@ -24,6 +24,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { jsStyles } from './TokenInput.styles';
@@ -37,7 +39,7 @@ export enum TokenInputType {
   Combined,
 }
 
-export interface TokenInputProps<T> {
+export interface TokenInputProps<T> extends CommonProps {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
   onMouseEnter: MouseEventHandler<HTMLDivElement>;
@@ -261,8 +263,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [jsStyles.inputDisabled(theme)]: !!disabled,
       [jsStyles.inputEditing(theme)]: this.isEditingMode,
     });
+
+    const [commonProps] = extractCommonProps(this.props);
+
     return (
-      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} {...commonProps}>
         <label
           ref={this.wrapperRef}
           style={{ width }}
