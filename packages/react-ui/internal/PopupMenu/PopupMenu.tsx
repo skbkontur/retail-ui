@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 
 import {
   isKeyArrowVertical,
@@ -11,6 +12,8 @@ import { InternalMenu } from '../InternalMenu';
 import { Popup, PopupPosition } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
@@ -23,7 +26,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps {
+export interface PopupMenuProps extends CommonProps {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -86,13 +89,18 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private menu: Nullable<InternalMenu> = null;
 
   public render() {
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.container()),
+    };
     return (
       <RenderLayer
         onClickOutside={this.hideMenuWithoutFocusing}
         onFocusOutside={this.hideMenuWithoutFocusing}
         active={this.state.menuVisible}
       >
-        <div className={jsStyles.container()}>
+        <div {...wrapperProps}>
           {this.renderCaption()}
           {this.captionWrapper && this.props.children && (
             <Popup
