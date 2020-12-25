@@ -8,13 +8,15 @@ import { Button, ButtonSize } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 
 export type SwitcherSize = ButtonSize;
 
-export interface SwitcherProps {
+export interface SwitcherProps extends CommonProps {
   /**
    * Список строк или список элементов типа `{ label: string, value: string }`
    */
@@ -85,6 +87,8 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
+    const [commonProps] = extractCommonProps(this.props);
+
     const inputProps = {
       type: 'checkbox',
       onKeyDown: this.handleKey,
@@ -96,7 +100,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     const lableClassName = cn(jsStyles.label(), this.getLabelSizeClassName());
 
     return (
-      <div>
+      <div {...commonProps}>
         {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
         <div className={jsStyles.wrap()}>
           <input {...inputProps} />
