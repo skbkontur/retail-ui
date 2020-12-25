@@ -10,6 +10,8 @@ import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
@@ -24,7 +26,7 @@ export interface DateInputState {
   dragged: boolean;
 }
 
-export interface DateInputProps {
+export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
   value: string;
   error?: boolean;
@@ -44,7 +46,7 @@ export interface DateInputProps {
    * Ширина поля
    * @default 125
    */
-  width: string | number;
+  width?: string | number;
   withIcon?: boolean;
   /**
    * Размер поля
@@ -62,6 +64,8 @@ export interface DateInputProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
+const DEFAULT_WIDTH = 125;
+
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
@@ -71,7 +75,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     size: 'small',
-    width: 125,
   };
 
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
@@ -177,10 +180,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const fragments = focused || valueFormatted !== '' ? this.iDateMediator.getFragments() : [];
+    const [commonProps] = extractCommonProps(this.props);
+    const width = this.props.width ?? (this.props.style?.width || DEFAULT_WIDTH);
 
     return (
       <InputLikeText
-        width={this.props.width}
+        {...commonProps}
+        width={width}
         ref={this.inputLikeTextRef}
         size={this.props.size}
         disabled={this.props.disabled}
