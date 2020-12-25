@@ -9,10 +9,12 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Loader.styles';
 
-export interface LoaderProps {
+export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
   /**
    * Флаг переключения состояния лоадера
@@ -135,10 +137,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { active, type, caption, className } = this.props;
-
+    const { active, type, caption } = this.props;
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
     return (
-      <div style={{ position: 'relative' }} className={cn(jsStyles.loader(), className)}>
+      <div className={cn(className, jsStyles.loader())} {...commonProps}>
         <ZIndex
           priority={'Loader'}
           applyZIndex={this.props.active}
