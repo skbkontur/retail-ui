@@ -5,11 +5,13 @@ import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
 
-export interface ModalFooterProps {
+export interface ModalFooterProps extends CommonProps {
   /**
    * Включает серый цвет в футере
    */
@@ -44,8 +46,14 @@ function ModalFooter(props: ModalFooterProps) {
     </div>
   );
 
+  const [{ className, ...commonProps }] = extractCommonProps(props);
+  const wrapperProps = {
+    ...commonProps,
+    className: cn(className, jsStyles.footerWrapper()),
+  };
+
   return (
-    <ZIndex style={{ position: 'relative' }} priority={'ModalFooter'}>
+    <ZIndex priority={'ModalFooter'} {...wrapperProps}>
       <ModalContext.Consumer>
         {({ horizontalScroll }) => {
           if (sticky) {

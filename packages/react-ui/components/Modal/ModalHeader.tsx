@@ -4,12 +4,14 @@ import cn from 'classnames';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
 import { CloseProps, ModalContext } from './ModalContext';
 
-export interface ModalHeaderProps {
+export interface ModalHeaderProps extends CommonProps {
   sticky?: boolean;
   children?: ReactNode;
 }
@@ -18,7 +20,8 @@ export interface ModalHeaderProps {
  *
  * @visibleName Modal.Header
  */
-function ModalHeader({ sticky = true, children }: ModalHeaderProps) {
+function ModalHeader(props: ModalHeaderProps) {
+  const { sticky = true, children } = props;
   const theme = useContext(ThemeContext);
 
   const renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => {
@@ -37,8 +40,14 @@ function ModalHeader({ sticky = true, children }: ModalHeaderProps) {
     );
   };
 
+  const [{ className, ...commonProps }] = extractCommonProps(props);
+  const wrapperProps = {
+    ...commonProps,
+    className: cn(className, jsStyles.headerWrapper()),
+  };
+
   return (
-    <ZIndex style={{ position: 'relative' }} priority={'ModalHeader'}>
+    <ZIndex priority={'ModalHeader'} {...wrapperProps}>
       <ModalContext.Consumer>
         {({ close, additionalPadding }) => {
           if (sticky) {

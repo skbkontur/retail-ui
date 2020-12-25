@@ -2,11 +2,13 @@ import React from 'react';
 import cn from 'classnames';
 
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { ModalContext } from './ModalContext';
 import { jsStyles } from './Modal.styles';
 
-export interface ModalBodyProps {
+export interface ModalBodyProps extends CommonProps {
   /**
    * убирает отступы
    */
@@ -24,13 +26,15 @@ export class ModalBody extends React.Component<ModalBodyProps> {
 
   public render(): JSX.Element {
     const { noPadding } = this.props;
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
           <ZIndex
+            {...commonProps}
             priority={'ModalBody'}
             createStackingContext
-            className={cn({
+            className={cn(className, {
               [jsStyles.body()]: true,
               [jsStyles.bodyWithoutHeader()]: !hasHeader,
               [jsStyles.bodyAddPadding()]: additionalPadding,

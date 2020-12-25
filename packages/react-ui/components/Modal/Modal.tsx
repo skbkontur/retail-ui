@@ -13,6 +13,8 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -24,7 +26,7 @@ import { jsStyles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
-export interface ModalProps {
+export interface ModalProps extends CommonProps {
   /**
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
@@ -202,9 +204,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       containerStyle.width = 'auto';
     }
 
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root()),
+    };
+
     return (
       <RenderContainer>
-        <ZIndex priority={'Modal'} className={jsStyles.root()}>
+        <ZIndex priority={'Modal'} {...wrapperProps}>
           <HideBodyVerticalScroll />
           {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
           <div
