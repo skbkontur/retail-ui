@@ -8,13 +8,15 @@ import { Popup, PopupPosition } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Hint.styles';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
 
-export interface HintProps {
+export interface HintProps extends CommonProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
@@ -122,8 +124,10 @@ export class Hint extends React.Component<HintProps, HintState> {
   }
 
   public renderMain() {
+    const [commonProps] = extractCommonProps(this.props);
     return (
       <Popup
+        {...commonProps}
         hasPin
         opened={this.state.opened}
         anchorElement={this.props.children}
