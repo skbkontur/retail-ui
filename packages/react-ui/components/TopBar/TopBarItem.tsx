@@ -4,10 +4,11 @@ import cn from 'classnames';
 
 import { Icon, IconProps } from '../../internal/icons/20px';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { CommonProps } from '../../typings/common';
 
 import { jsStyles } from './TopBar.styles';
 
-export interface TopBarItemProps {
+export interface TopBarItemProps extends CommonProps {
   _onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
   _onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
   active?: boolean;
@@ -40,7 +41,7 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
   private getProps = createPropsGetter(TopBarItem.defaultProps);
 
   public render() {
-    const { active, children, _onClick, _onKeyDown, iconOnly, icon, minWidth, use, ...rest } = this.props;
+    const { active, children, _onClick, _onKeyDown, iconOnly, icon, minWidth, use, style, ...rest } = this.props;
 
     const className: string = this.getProps().className;
 
@@ -58,8 +59,19 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
     });
     const iconNode = typeof icon === 'string' ? <Icon name={icon} /> : icon;
 
+    const wrapperProps = {
+      ...rest,
+      className: classes,
+      style: {
+        ...style,
+        minWidth: minWidth ?? style?.width,
+      },
+      onClick: _onClick,
+      onKeyDown: _onKeyDown,
+    };
+
     return (
-      <div {...rest} className={classes} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
+      <div {...wrapperProps}>
         {icon && <span className={iconClasses}>{iconNode}</span>}
         {icon && iconOnly ? null : children}
       </div>

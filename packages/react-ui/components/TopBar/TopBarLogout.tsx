@@ -1,17 +1,19 @@
 import React from 'react';
 
 import { locale } from '../../lib/locale/decorators';
+import { CommonProps } from '../../typings/common';
 
 import { TopBarButtonItem, TopBarButtonItemProps } from './TopBarButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 
+export interface TopBarLogoutProps extends CommonProps, TopBarButtonItemProps {}
 /**
  * Кнопка выхода
  *
  * @visibleName TopBar.Logout
  */
 @locale('TopBar', TopBarLocaleHelper)
-export class TopBarLogout extends React.Component<TopBarButtonItemProps> {
+export class TopBarLogout extends React.Component<TopBarLogoutProps> {
   public static __KONTUR_REACT_UI__ = 'TopBarLogout';
 
   public static defaultProps = TopBarButtonItem.defaultProps;

@@ -2,11 +2,12 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
+import { CommonProps } from '../../typings/common';
 
 import { TopBarDropdown } from './TopBarDropdown';
-import { jsStyles } from "./TopBar.styles";
+import { jsStyles } from './TopBar.styles';
 
-export interface TopBarOrganizationsProps {
+export interface TopBarOrganizationsProps extends CommonProps {
   caption: React.ReactNode;
   comment?: Nullable<string>;
 }

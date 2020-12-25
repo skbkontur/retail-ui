@@ -5,10 +5,11 @@ import { Nullable } from '../../typings/utility-types';
 import { IconProps } from '../../internal/icons/20px';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu';
+import { CommonProps } from '../../typings/common';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 
-export interface TopBarDropdownProps extends Omit<DropdownMenuProps, 'caption' | 'disableAnimations'> {
+export interface TopBarDropdownProps extends CommonProps, Omit<DropdownMenuProps, 'caption' | 'disableAnimations'> {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
   use: 'danger' | 'pay' | 'default';

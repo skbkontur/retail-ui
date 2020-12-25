@@ -6,6 +6,8 @@ import cn from 'classnames';
 import { Logotype } from '../Logotype';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 import { TopBarDivider } from './TopBarDivider';
@@ -18,7 +20,7 @@ import { TopBarStart } from './TopBarStart';
 import { TopBarLogout } from './TopBarLogout';
 import { jsStyles } from './TopBar.styles';
 
-export interface TopBarProps {
+export interface TopBarProps extends CommonProps {
   children?: React.ReactNode;
   color?: string;
   cabinetUrl?: string;
@@ -172,6 +174,16 @@ export class TopBar extends React.Component<TopBarProps> {
       onLogout,
       rightItems = TopBar.defaultProps.rightItems,
     } = this.props;
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
+
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, {
+        [jsStyles.root(this.theme)]: true,
+        [jsStyles.noShadow()]: !!noShadow,
+        [jsStyles.noMargin()]: !!noMargin,
+      }),
+    };
 
     const _rightItems: Array<React.ReactElement<any>> = [...rightItems];
 
@@ -192,13 +204,7 @@ export class TopBar extends React.Component<TopBarProps> {
     };
 
     return (
-      <div
-        className={cn({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.noShadow()]: !!noShadow,
-          [jsStyles.noMargin()]: !!noMargin,
-        })}
-      >
+      <div {...wrapperProps}>
         <div className={jsStyles.center()} style={{ maxWidth }}>
           <div className={jsStyles.containerWrap()}>
             {children ? (
