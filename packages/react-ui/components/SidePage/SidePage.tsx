@@ -12,6 +12,8 @@ import { RenderLayer } from '../../internal/RenderLayer';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -20,7 +22,7 @@ import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { jsStyles } from './SidePage.styles';
 
-export interface SidePageProps {
+export interface SidePageProps extends CommonProps {
   /**
    * Добавить блокирующий фон, когда сайдпейдж открыт
    */
@@ -127,10 +129,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderMain() {
     const { blockBackground, disableAnimations } = this.props;
-
+    const [commonProps] = extractCommonProps(this.props);
     return (
       <RenderContainer>
-        <div>
+        <div {...commonProps}>
           {blockBackground && this.renderShadow()}
           <CSSTransition
             in

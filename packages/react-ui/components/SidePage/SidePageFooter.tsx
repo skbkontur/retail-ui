@@ -4,11 +4,13 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
-export interface SidePageFooterProps {
+export interface SidePageFooterProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   /**
    * Включает серый цвет в футере
@@ -66,8 +68,17 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   };
 
   private renderMain() {
+    const [{ style, ...commonProps }] = extractCommonProps(this.props);
+    const wrapperProps = {
+      ...commonProps,
+      style: {
+        height: this.getContentHeight(),
+        ...style,
+      },
+      ref: this.refWrapper,
+    };
     return (
-      <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
+      <div {...wrapperProps}>
         <SidePageContext.Consumer>
           {({ getWidth }) => (
             <div
