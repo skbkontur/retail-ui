@@ -7,12 +7,14 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
-export interface StickyProps {
+export interface StickyProps extends CommonProps {
   side: 'top' | 'bottom';
   /**
    * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
@@ -110,8 +112,10 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       children = children(fixed);
     }
 
+    const [commonProps] = extractCommonProps(this.props);
+
     return (
-      <div ref={this.refWrapper}>
+      <div {...commonProps} ref={this.refWrapper}>
         <ZIndex
           priority="Sticky"
           applyZIndex={fixed}
