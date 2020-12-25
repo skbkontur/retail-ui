@@ -8,27 +8,30 @@ import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
+import { CommonProps } from '../../typings/common';
 
 import { jsStyles } from './Link.styles';
 
-export type LinkProps = Override<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  {
-    /** Неактивное состояние */
-    disabled?: boolean;
-    /** href */
-    href?: string;
-    /** Иконка */
-    icon?: React.ReactElement<any>;
-    /** Тип */
-    use?: 'default' | 'success' | 'danger' | 'grayed';
-    _button?: boolean;
-    _buttonOpened?: boolean;
-    tabIndex?: number;
-    /** onClick */
-    onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
-  }
->;
+export interface LinkProps
+  extends CommonProps,
+    Override<
+      React.AnchorHTMLAttributes<HTMLAnchorElement>,
+      {
+        /** Неактивное состояние */
+        disabled?: boolean;
+        /** href */
+        href?: string;
+        /** Иконка */
+        icon?: React.ReactElement<any>;
+        /** Тип */
+        use?: 'default' | 'success' | 'danger' | 'grayed';
+        _button?: boolean;
+        _buttonOpened?: boolean;
+        tabIndex?: number;
+        /** onClick */
+        onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
+      }
+    > {}
 
 export interface LinkState {
   focusedByTab: boolean;
@@ -77,18 +80,10 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain() {
-    const {
-      disabled,
-      href,
-      icon,
-      use,
-      _button,
-      _buttonOpened,
-      className,
-      style,
-      rel: relOrigin,
-      ...rest
-    } = this.getProps<LinkProps, Link>();
+    const { disabled, href, icon, use, _button, _buttonOpened, className, rel: relOrigin, ...rest } = this.getProps<
+      LinkProps,
+      Link
+    >();
 
     let iconElement = null;
     if (icon) {
@@ -106,7 +101,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     const props = {
-      className: cn({
+      className: cn(className, {
         [jsStyles.root(this.theme)]: true,
         [jsStyles.disabled(this.theme)]: !!disabled,
         [jsStyles.button(this.theme)]: !!_button,
