@@ -13,10 +13,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../../internal/icons/16px';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Kebab.styles';
 
-export interface KebabProps {
+export interface KebabProps extends CommonProps {
   disabled?: boolean;
   /**
    * Функция вызываемая при закрытии выпадашки
@@ -109,9 +111,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderMain() {
     const { disabled, positions } = this.props;
-
+    const [commonProps] = extractCommonProps(this.props);
     return (
       <PopupMenu
+        {...commonProps}
         popupHasPin
         positions={positions}
         onChangeMenuState={this.handleChangeMenuState}
