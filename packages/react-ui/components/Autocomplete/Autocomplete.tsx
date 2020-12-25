@@ -13,7 +13,8 @@ import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
     return Promise.resolve([]);
@@ -28,35 +29,37 @@ function renderItem(item: any) {
   return item;
 }
 
-export type AutocompleteProps = Override<
-  InputProps,
-  {
-    /** Функция отрисовки элемента меню */
-    renderItem: (item: string) => React.ReactNode;
-    /** Промис, резолвящий элементы меню */
-    source?: string[] | ((patter: string) => Promise<string[]>);
-    /** Отключает использование портала */
-    disablePortal: boolean;
-    /** Отрисовка тени у выпадающего меню */
-    hasShadow: boolean;
-    /** Выравнивание выпадающего меню */
-    menuAlign: 'left' | 'right';
-    /** Максимальная высота меню */
-    menuMaxHeight: number | string;
-    /** Ширина меню */
-    menuWidth?: number | string;
-    /** Отключить скролл окна, когда меню открыто */
-    preventWindowScroll: boolean;
-    /** Вызывается при изменении `value` */
-    onValueChange: (value: string) => void;
-    /** onBlur */
-    onBlur?: () => void;
-    /** Размер инпута */
-    size: InputProps['size'];
-    /** value */
-    value: string;
-  }
->;
+export interface AutocompleteProps
+  extends CommonProps,
+    Override<
+      InputProps,
+      {
+        /** Функция отрисовки элемента меню */
+        renderItem: (item: string) => React.ReactNode;
+        /** Промис, резолвящий элементы меню */
+        source?: string[] | ((patter: string) => Promise<string[]>);
+        /** Отключает использование портала */
+        disablePortal: boolean;
+        /** Отрисовка тени у выпадающего меню */
+        hasShadow: boolean;
+        /** Выравнивание выпадающего меню */
+        menuAlign: 'left' | 'right';
+        /** Максимальная высота меню */
+        menuMaxHeight: number | string;
+        /** Ширина меню */
+        menuWidth?: number | string;
+        /** Отключить скролл окна, когда меню открыто */
+        preventWindowScroll: boolean;
+        /** Вызывается при изменении `value` */
+        onValueChange: (value: string) => void;
+        /** onBlur */
+        onBlur?: () => void;
+        /** Размер инпута */
+        size: InputProps['size'];
+        /** value */
+        value: string;
+      }
+    > {}
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -153,6 +156,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
   public renderMain() {
+    const [{ style, ...commonProps }, restProps] = extractCommonProps(this.props);
     const {
       onValueChange,
       onKeyDown,
@@ -165,9 +169,19 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuMaxHeight,
       preventWindowScroll,
       source,
-      width = this.theme.inputWidth,
+      width,
       ...rest
-    } = this.props;
+    } = restProps;
+
+    const wrapperProps = {
+      ...commonProps,
+      style: {
+        display: 'inline-block',
+        ...style,
+        width: width ?? (style?.width || this.theme.inputWidth),
+      },
+      ref: this.refRootSpan,
+    };
 
     const inputProps = {
       ...rest,
@@ -180,7 +194,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
+        <span {...wrapperProps}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
