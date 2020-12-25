@@ -2,26 +2,29 @@ import React from 'react';
 import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
+import { CommonProps } from '../../typings/common';
 
 import { jsStyles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
-export type CenterProps = Override<
-  React.HTMLAttributes<HTMLDivElement>,
-  {
-    /**
-     * Горизонтальное выравнивание контента.
-     */
-    align?: HorizontalAlign;
+export interface CenterProps
+  extends CommonProps,
+    Override<
+      React.HTMLAttributes<HTMLDivElement>,
+      {
+        /**
+         * Горизонтальное выравнивание контента.
+         */
+        align?: HorizontalAlign;
 
-    /**
-     * **Используй с осторожностью!**
-     * Дополнительные стили
-     */
-    style?: React.CSSProperties;
-  }
->;
+        /**
+         * **Используй с осторожностью!**
+         * Дополнительные стили
+         */
+        style?: React.CSSProperties;
+      }
+    > {}
 
 /**
  * Контейнер для вертикального центрирования. В компонент можно передавать
@@ -35,11 +38,11 @@ export class Center extends React.Component<CenterProps> {
   };
 
   public render(): JSX.Element {
-    const { align, children, ...rest } = this.props;
+    const { align, children, className, ...rest } = this.props;
 
     return (
       <div
-        className={cn({
+        className={cn(className, {
           [jsStyles.root()]: true,
           [jsStyles.rootAlignLeft()]: align === 'left',
           [jsStyles.rootAlignRight()]: align === 'right',
