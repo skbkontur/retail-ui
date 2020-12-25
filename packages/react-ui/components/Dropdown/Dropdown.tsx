@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';
 import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonSize, ButtonUse } from '../Button';
+import { CommonProps } from '../../typings/common';
+import { filterProps, extractCommonProps } from '../../lib/filterProps';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -30,7 +31,7 @@ const PASS_PROPS = {
   diadocLinkIcon: true, // @deprecated TODO remove in 3.0.
 };
 
-export interface DropdownProps {
+export interface DropdownProps extends CommonProps {
   /**
    * Подпись на кнопке.
    */
@@ -163,10 +164,12 @@ export class Dropdown extends React.Component<DropdownProps> {
   private _select: Nullable<DropdownSelectType>;
 
   public render() {
+    const [commonProps] = extractCommonProps(this.props);
     const items = React.Children.map(this.props.children, item => item);
 
     return (
       <Select<React.ReactNode, React.ReactNode>
+        {...commonProps}
         ref={this._refSelect}
         {...filterProps(this.props, PASS_PROPS)}
         value={this.props.caption}
