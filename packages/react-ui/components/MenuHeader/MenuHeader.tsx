@@ -2,10 +2,11 @@ import React, { ReactNode, useContext } from 'react';
 import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { CommonProps } from '../../typings/common';
 
 import { jsStyles } from './MenuHeader.styles';
 
-export interface MenuHeaderProps {
+export interface MenuHeaderProps extends CommonProps {
   _enableIconPadding?: boolean;
   children: ReactNode;
 }
@@ -13,12 +14,13 @@ export interface MenuHeaderProps {
 /**
  * Заголовок в меню.
  */
-function MenuHeader({ _enableIconPadding = false, children }: MenuHeaderProps) {
+function MenuHeader({ _enableIconPadding = false, children, className, ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);
 
   return (
     <div
-      className={cn({
+      {...rest}
+      className={cn(className, {
         [jsStyles.root()]: true,
         [jsStyles.withLeftPadding(theme)]: _enableIconPadding,
       })}
