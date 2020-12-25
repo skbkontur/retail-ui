@@ -5,7 +5,8 @@ import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxProps } from '../Form/FiasComboBox';
 import { FiasAddressResponse, FiasAPIProvider, FiasFields, FiasSearchOptions } from '../types';
 import { locale } from '../../../lib/locale/decorators';
-import { filterProps } from '../../../lib/filterProps';
+import { CommonProps } from '../../../typings/common';
+import { filterProps, extractCommonProps } from '../../../lib/filterProps';
 
 import { FiasAddress } from '..';
 
@@ -34,11 +35,13 @@ const COMBOBOX_PASS_PROPS = {
   onMouseLeave: true,
 };
 
-export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
+export interface FiasSearchProps extends CommonProps, Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
   api: FiasAPIProvider;
   address?: FiasAddress;
   onValueChange?: (address: FiasAddress) => void;
 }
+
+const DEFAULT_WIDTH = '100%';
 
 /**
  * @deprecated Контур-специфичный компонент, будет удален в 3.0.0, перенесен в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
@@ -49,7 +52,6 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   public static __KONTUR_REACT_UI__ = 'FiasSearch';
 
   public static defaultProps = {
-    width: '100%',
     limit: 5,
     drawArrow: false,
     searchOnFocus: false,
@@ -66,9 +68,13 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   }
 
   public render() {
-    const restComboBoxProps = filterProps(this.props, COMBOBOX_PASS_PROPS);
+    const [commonProps, restProps] = extractCommonProps(this.props);
+    const restComboBoxProps = filterProps(restProps, COMBOBOX_PASS_PROPS);
+    const width = this.props.width ?? (this.props.style?.width || DEFAULT_WIDTH);
     return (
       <FiasComboBox
+        {...commonProps}
+        {...restComboBoxProps}
         getItems={this.getItems}
         value={this.props.address}
         renderItem={this.renderItem}
@@ -77,7 +83,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         onValueChange={this.onValueChange}
         onUnexpectedInput={this.onUnexpectedInput}
         renderNotFound={this.renderNotFound}
-        {...restComboBoxProps}
+        width={width}
       />
     );
   }
