@@ -28,4 +28,12 @@ describe('FxInput', () => {
 
     expect(document.activeElement).toBe(document.body);
   });
+
+  it('applies width from prop', () => {
+    const width = '99px';
+    const wrapper = render();
+    wrapper.setProps({ width });
+
+    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
+  });
 });
