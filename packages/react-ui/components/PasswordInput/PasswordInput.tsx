@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
@@ -7,6 +8,7 @@ import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/client';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './PasswordInput.styles';
 
@@ -57,7 +59,12 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   }
 
   public render() {
-    return <div className={jsStyles.root()}>{this.renderInput()}</div>;
+    const [{ className, ...commonProps }, restProps] = extractCommonProps(this.props);
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root()),
+    };
+    return <div {...wrapperProps}>{this.renderInput(restProps)}</div>;
   }
 
   /**
@@ -148,10 +155,10 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     this.input = element;
   };
 
-  private renderInput() {
-    const { detectCapsLock, ...props } = this.props;
+  private renderInput(props: PasswordInputProps) {
+    const { detectCapsLock, ...rest } = props;
     const inputProps = {
-      ...props,
+      ...rest,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
