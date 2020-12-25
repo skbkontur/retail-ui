@@ -5,6 +5,8 @@ import { isIE11, isEdge } from '../../lib/client';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
@@ -13,7 +15,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps {
+export interface ButtonProps extends CommonProps {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -200,14 +202,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       tabIndex: this.props.disableFocus ? -1 : 0,
     };
 
+    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
+
     const wrapProps = {
-      className: cn({
+      ...commonProps,
+      className: cn(className, {
         [jsStyles.wrap(this.theme)]: true,
         [jsStyles.wrapArrow()]: this.props.arrow === true,
         [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
       }),
       style: {
-        width: this.props.width,
+        ...style,
+        width: this.props.width ?? style?.width,
       },
     };
 
