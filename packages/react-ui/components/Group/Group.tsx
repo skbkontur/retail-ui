@@ -6,10 +6,12 @@ import { isIE11, isEdge } from '../../lib/client';
 import { Corners } from '../Button/Corners';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Group.styles';
 
-export interface GroupProps {
+export interface GroupProps extends CommonProps {
   width?: React.CSSProperties['width'];
 }
 
@@ -26,8 +28,15 @@ export class Group extends React.Component<GroupProps> {
   };
 
   public render() {
-    const style: React.CSSProperties = {
-      width: this.props.width,
+    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
+
+    const wrapProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root()),
+      style: {
+        ...style,
+        width: this.props.width ?? style?.width,
+      },
     };
 
     let first: Nullable<React.ReactElement<any>> = null;
@@ -41,7 +50,7 @@ export class Group extends React.Component<GroupProps> {
     });
 
     return (
-      <span className={jsStyles.root()} style={style}>
+      <span {...wrapProps}>
         {React.Children.map(this.props.children, child => {
           if (!child || !React.isValidElement<GroupChildProps>(child)) {
             return null;
