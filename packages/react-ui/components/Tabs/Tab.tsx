@@ -9,6 +9,8 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { jsStyles } from './Tab.styles';
@@ -21,7 +23,7 @@ export interface TabIndicators {
   disabled: boolean;
 }
 
-export interface TabProps {
+export interface TabProps extends CommonProps {
   /**
    * Tab content
    */
@@ -190,7 +192,6 @@ export class Tab extends React.Component<TabProps, TabState> {
       primary,
       component: Component = Tab.defaultProps.component,
       href,
-      style,
     } = this.props;
 
     let isActive = false;
@@ -202,18 +203,24 @@ export class Tab extends React.Component<TabProps, TabState> {
       isVertical = this.context.vertical;
     }
 
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, {
+        [jsStyles.root(this.theme)]: true,
+        [jsStyles.vertical(this.theme)]: !!isVertical,
+        [jsStyles.primary(this.theme)]: !!primary,
+        [jsStyles.success(this.theme)]: !!success,
+        [jsStyles.warning(this.theme)]: !!warning,
+        [jsStyles.error(this.theme)]: !!error,
+        [jsStyles.active(this.theme)]: !!isActive,
+        [jsStyles.disabled(this.theme)]: !!disabled,
+      }),
+    };
+
     return (
       <Component
-        className={cn({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.vertical(this.theme)]: !!isVertical,
-          [jsStyles.primary(this.theme)]: !!primary,
-          [jsStyles.success(this.theme)]: !!success,
-          [jsStyles.warning(this.theme)]: !!warning,
-          [jsStyles.error(this.theme)]: !!error,
-          [jsStyles.active(this.theme)]: !!isActive,
-          [jsStyles.disabled(this.theme)]: !!disabled,
-        })}
+        {...wrapperProps}
         onBlur={this.handleBlur}
         onClick={this.switchTab}
         onMouseDown={this.handleMouseDown}
@@ -222,7 +229,6 @@ export class Tab extends React.Component<TabProps, TabState> {
         tabIndex={disabled ? -1 : 0}
         ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
         href={href}
-        style={style}
       >
         {children}
         {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} />}

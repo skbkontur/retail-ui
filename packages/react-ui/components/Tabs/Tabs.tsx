@@ -5,13 +5,15 @@ import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { Indicator } from './Indicator';
 import { jsStyles } from './Tabs.styles';
 import { TabsContext } from './TabsContext';
 import { Tab } from './Tab';
 
-export interface TabsProps {
+export interface TabsProps extends CommonProps {
   /**
    * Tab component should be child of Tabs component
    */
@@ -86,13 +88,24 @@ export class Tabs extends React.Component<TabsProps> {
 
   public render(): JSX.Element {
     const { vertical, value, width, children, indicatorClassName } = this.props;
+    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
+    const wrapperProps = {
+      ...commonProps,
+      style: {
+        ...style,
+        width: width ?? style?.width,
+      },
+    };
 
     return (
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
           return (
-            <div className={cn(jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))} style={{ width }}>
+            <div
+              {...wrapperProps}
+              className={cn(className, jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))}
+            >
               <TabsContext.Provider
                 value={{
                   vertical,
