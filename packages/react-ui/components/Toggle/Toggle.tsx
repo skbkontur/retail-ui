@@ -5,10 +5,12 @@ import cn from 'classnames';
 import { tabListener } from '../../lib/events/tabListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Toggle.styles';
 
-export interface ToggleProps {
+export interface ToggleProps extends CommonProps {
   children?: React.ReactNode;
   /**
    * Положение children справа или слева от переключателя
@@ -97,6 +99,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const { children, captionPosition, warning, error, loading, color } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
+    const [{ className, ...commonProps }] = extractCommonProps(this.props);
 
     const containerClassNames = cn(jsStyles.container(this.theme), {
       [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
@@ -105,10 +108,13 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       [jsStyles.isError(this.theme)]: !color && !!error,
     });
 
-    const labelClassNames = cn(jsStyles.root(this.theme), {
-      [jsStyles.rootLeft()]: captionPosition === 'left',
-      [jsStyles.disabled(this.theme)]: !!disabled,
-    });
+    const wrapperProps = {
+      ...commonProps,
+      className: cn(className, jsStyles.root(this.theme), {
+        [jsStyles.rootLeft()]: captionPosition === 'left',
+        [jsStyles.disabled(this.theme)]: !!disabled,
+      }),
+    };
 
     let caption = null;
     if (children) {
@@ -119,7 +125,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <label className={labelClassNames}>
+      <label {...wrapperProps}>
         <span className={jsStyles.wrapper(this.theme)}>
           <input
             type="checkbox"
