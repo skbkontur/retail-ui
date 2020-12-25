@@ -5,33 +5,37 @@ import cn from 'classnames';
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Radio.styles';
 
-export type RadioProps<T> = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    /** Состояние ошибки */
-    error?: boolean;
-    /** Состояние Предупреждения */
-    warning?: boolean;
-    /** Состояние фокуса */
-    focused?: boolean;
-    /** Состояние нажатия */
-    pressed?: boolean;
-    /** Состояние hover */
-    hovered?: boolean;
-    /** Состояние active */
-    active?: boolean;
-    /** Вызывается при изменении `value` */
-    onValueChange?: (value: T) => void;
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Значение */
-    value: T;
-  }
->;
+export interface RadioProps<T>
+  extends CommonProps,
+    Override<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      {
+        /** Состояние ошибки */
+        error?: boolean;
+        /** Состояние Предупреждения */
+        warning?: boolean;
+        /** Состояние фокуса */
+        focused?: boolean;
+        /** Состояние нажатия */
+        pressed?: boolean;
+        /** Состояние hover */
+        hovered?: boolean;
+        /** Состояние active */
+        active?: boolean;
+        /** Вызывается при изменении `value` */
+        onValueChange?: (value: T) => void;
+        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+        /** Значение */
+        value: T;
+      }
+    > {}
 
 export class Radio<T> extends React.Component<RadioProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Radio';
@@ -78,6 +82,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   }
 
   public renderMain() {
+    const [{ className, ...commonProps }, restProps] = extractCommonProps(this.props);
     const {
       active,
       children,
@@ -91,12 +96,8 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       onMouseEnter,
       onMouseLeave,
       onValueChange,
-
-      className,
-      style,
-
       ...rest
-    } = this.props;
+    } = restProps;
 
     let radioClassNames = cn({
       [jsStyles.radio(this.theme)]: true,
@@ -124,7 +125,8 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     };
 
     const labelProps = {
-      className: jsStyles.root(this.theme),
+      ...commonProps,
+      className: cn(className, jsStyles.root(this.theme)),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
