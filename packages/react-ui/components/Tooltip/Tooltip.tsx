@@ -12,6 +12,8 @@ import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonProps } from '../../typings/common';
+import { extractCommonProps } from '../../lib/filterProps';
 
 import { jsStyles } from './Tooltip.styles';
 
@@ -48,7 +50,7 @@ export type TooltipTrigger =
   /** Управление через публичные функции show и hide */
   | 'manual';
 
-export interface TooltipProps {
+export interface TooltipProps extends CommonProps {
   /**
    * Относительно какого элемента позиционировать тултип
    */
@@ -307,8 +309,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     popupProps: Partial<PopupProps>,
     content: JSX.Element | null,
   ) {
+    const [commonProps] = extractCommonProps(this.props);
     return (
       <Popup
+        {...commonProps}
         anchorElement={anchorElement}
         hasPin
         hasShadow
