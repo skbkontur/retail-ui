@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-import { isIE11, isEdge } from '../../lib/utils';
+import { isIE11, isEdge } from '../../lib/client';
 import { Corners } from '../Button/Corners';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';

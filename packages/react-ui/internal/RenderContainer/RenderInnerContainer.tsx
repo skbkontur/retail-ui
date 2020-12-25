@@ -10,28 +10,54 @@ interface RenderInnerContainerProps extends RenderContainerProps {
   rootId: string;
 }
 
-export function Portal(props: PortalProps) {
-  return <noscript data-render-container-id={props.rt_rootID} />;
-}
+// Заглушка нужна для корректной гидрации порталов после SSR,
+// которую реакт сам пока не поддерживает.
+// @see https://github.com/facebook/react/issues/13097
+// А также для вставки актуального render-container-id на клиенте.
+//
+// Дело в том, что во время гидрации, структура HTML на сервере
+// и на клиенте должна совпадать, иначе возможны артефакты.
+// Алгоритм там примерно такой. Клиент во время гидрации идет
+// по этим двум деревьям и сравнивает узлы. Элементы разных типов
+// он подменяет на свои. А те, что совпадают, он оставляет как есть
+// вместе со всеми атрибутами, навесив только обработчики событий.
+//
+// Поэтому, для портала, который рендерится только на клиенте,
+// нужно использовать серверную заглушку, чтобы при гидрации
+// он не испортил какой-то другой элемент. Null не подходит,
+// т.к. на сервере он тоже не рендерится.
+// А элемент с render-container-id нужно отрендерить с нуля.
+
+const SSRPlaceholder = () => <script data-id="ssr-placeholder" />;
+
+export const Portal: React.FunctionComponent<PortalProps> = ({ container, rt_rootID, children }) => {
+  // container exists only in browser
+  return (
+    <React.Fragment>
+      {container ? ReactDOM.createPortal(children, container) : <SSRPlaceholder />}
+      {container ? <noscript data-render-container-id={rt_rootID} /> : <SSRPlaceholder />}
+    </React.Fragment>
+  );
+};
 
 export class RenderInnerContainer extends React.Component<RenderInnerContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
 
   public render() {
-    if (this.props.children) {
-      if (!this.props.domContainer) {
-        throw Error('There is no "this.domContainer"');
-      }
+    const { anchor, children, domContainer, rootId } = this.props;
+    let inner = anchor;
 
-      return (
+    if (children) {
+      inner = (
         <React.Fragment>
-          {this.props.anchor}
-          {ReactDOM.createPortal(this.props.children, this.props.domContainer)}
-          <Portal key="portal-ref" rt_rootID={this.props.rootId} />
+          {anchor}
+          <Portal key="portal-ref" rt_rootID={rootId} container={domContainer}>
+            {children}
+          </Portal>
         </React.Fragment>
       );
     }
 
-    return this.props.anchor;
+    return inner;
   }
 }
