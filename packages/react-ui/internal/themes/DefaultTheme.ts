@@ -296,7 +296,6 @@ export class DefaultTheme {
   public static btnCheckedDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.37)';
   public static btnCheckedDisabledShadowArrow = '1px 0 0 0 #a0a0a0';
   public static btnCheckedDisabledShadowArrowLeft = '-1px 0 0 0 #a0a0a0';
-  public static btnArrowBorderRadius = '2px 2px 2px 16px';
   public static btnSmallBorderRadius = '1px'; // todo: deprecated
   public static btnBorderRadius = '2px'; // todo: deprecated
   public static get btnBorderRadiusSmall() {
@@ -324,25 +323,10 @@ export class DefaultTheme {
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';
-  public static btnSmallArrowLength = '18px';
-  public static btnSmallArrowRight = '-8.8px';
-  public static btnSmallArrowLeft = '-8px';
-  public static btnSmallArrowBorderRadius = '2px 2px 2px 16px';
-  public static btnMediumArrowTop = '9px';
-  public static btnMediumArrowLength = '20.2px';
-  public static btnMediumArrowLeft = '-9.8px';
-  public static btnMediumArrowTransform = 'rotate(53deg) skewX(24deg) skewY(8deg)';
   public static btnDeprecatedSizeMediumFontSize = '16px';
   public static btnDeprecatedSizeMediumPaddingShift = '1';
-  public static btnLargeArrowTop = '10.2px';
-  public static btnLargeArrowLength = '22.2px';
-  public static btnLargeArrowLeft = '-10px';
-  public static btnLargeArrowRight = '-10.8px';
-  public static btnLargeArrowTransform = 'rotate(53deg) skewX(25deg) skewY(10deg)';
-  public static btnLargeArrowBg = 'linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0)';
   public static btnDefaultBgArrowStart = '#fff';
   public static btnDefaultBgArrowEnd = '#ebebeb';
-  public static btnDefaultCheckedShadowArrow = 'none';
   public static btnDefaultCheckedBorder = 'none';
   public static get btnDefaultTextColor() {
     return this.textColorDefault;
@@ -485,8 +469,6 @@ export class DefaultTheme {
   public static btnPayActiveShadowArrowLeft =
     '-1px 0 0 0 rgba(210, 144, 0, 0.7), -0.5px -0.3px 0 -1px rgba(0, 0, 0, 0.44)';
   public static btnDeprecatedSizeMediumPaddingShiftIe = '1';
-  public static btnSmallArrowTop = '7px';
-  public static btnMediumArrowRight = '-10px';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
     return this.fontSizeSmall;

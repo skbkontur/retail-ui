@@ -84,10 +84,6 @@ const styles = {
         cssName(styles.link(t)),
         cssName(styles.fallback(t)),
       )};
-
-      ${cssName(styles.arrow())} {
-        border-radius: ${t.btnSmallArrowBorderRadius};
-      }
     `;
   },
 
@@ -571,7 +567,6 @@ const styles = {
       box-shadow: ${t.btnCheckedShadow} !important;
       background: ${t.btnCheckedBg} !important;
       color: ${t.btnCheckedTextColor} !important;
-      border: ${t.btnDefaultCheckedBorder} !important;
 
       &:not(${cssName(styles.link(t))}) {
         ${cssName(styles.caption())} {
@@ -756,6 +751,7 @@ const styles = {
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 10;
     `;
   },
 
