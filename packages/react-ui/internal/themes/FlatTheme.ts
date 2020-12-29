@@ -116,7 +116,8 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnMediumArrowBg = 'linear-gradient(-56deg, transparent 48%, #ccc 0, #ccc 70%, transparent 0)';
   public static btnMediumArrowLeftLoadingDelay = '0.45s';
   public static btnDeprecatedSizeMediumPaddingShiftIe = '2';
-  public static btnLargeArrowLeft = '-10.8px';
+  public static btnLargeArrowLeft = '-11px';
+  public static btnLargeArrowRight = '-11px';
   public static btnLargeArrowTransform = 'rotate(53deg) skewX(26deg) skewY(10deg)';
   public static btnFontSizeMedium = '16px';
   public static get btnCheckedShadowArrow() {

@@ -101,10 +101,11 @@ const styles = {
 
       ${buttonArrowMixin(
         t.btnSmallArrowTop,
+        t.btnSmallLeftArrowTop,
         t.btnSmallArrowLeft,
         t.btnSmallArrowRight,
         t.btnSmallArrowLength,
-        'rotate(53deg) skewX(24deg) skewY(10deg)',
+        t.btnSmallArrowTransform,
         cssName(styles.arrow()),
         cssName(styles.arrowLeft(t)),
       )};
@@ -128,6 +129,7 @@ const styles = {
 
       ${buttonArrowMixin(
         t.btnMediumArrowTop,
+        t.btnMediumLeftArrowTop,
         t.btnMediumArrowLeft,
         t.btnMediumArrowRight,
         t.btnMediumArrowLength,
@@ -155,6 +157,7 @@ const styles = {
 
       ${buttonArrowMixin(
         t.btnLargeArrowTop,
+        t.btnLargeLeftArrowTop,
         t.btnLargeArrowLeft,
         t.btnLargeArrowRight,
         t.btnLargeArrowLength,

@@ -154,6 +154,7 @@ export const buttonSizeMixin = (
 
 export const buttonArrowMixin = (
   top: string,
+  leftArrowTop: string,
   left: string,
   right: string,
   size: string,
@@ -172,8 +173,9 @@ export const buttonArrowMixin = (
     }
 
     ${selectorArrowLeft} {
+      top: ${leftArrowTop};
       left: ${left};
-      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
+      transform: rotate(233deg) skewX(24deg) skewY(8deg) !important;
     }
   `;
 };

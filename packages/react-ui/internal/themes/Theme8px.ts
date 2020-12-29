@@ -80,15 +80,20 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';
-  public static btnSmallArrowTop = '7px';
+  public static btnSmallArrowTop = '8px';
+  public static btnSmallLeftArrowTop = '7px';
+  public static btnSmallArrowTransform = 'rotate(56deg) skewX(25deg) skewY(9deg)';
   public static btnSmallArrowRight = '-8px';
+  public static btnSmallArrowLeft = '-8px';
 
   public static btnSmallArrowLength = '16px';
-  public static btnMediumArrowTop = '8px';
-  public static btnMediumArrowLength = '21.2px';
-  public static btnMediumArrowRight = '-11px';
-  public static btnLargeArrowLength = '25px';
+  public static btnMediumArrowTop = '9px';
+  public static btnMediumArrowLength = '20.2px';
+  public static btnMediumArrowRight = '-10px';
+  public static btnLargeArrowTop = '11px';
+  public static btnLargeArrowLength = '24px';
   public static btnLargeArrowLeft = '-12px';
+  public static btnLargeLeftArrowTop = '11px';
   public static btnLargeArrowRight = '-12px';
 
   //#endregion
