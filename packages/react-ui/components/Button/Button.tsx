@@ -241,10 +241,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={cn({
-            [jsStyles.arrowWarning(this.theme)]: isWarning,
-            [jsStyles.arrowError(this.theme)]: isError,
             [jsStyles.arrow()]: true,
-            [jsStyles.arrowLeft(this.theme)]: this.props.arrow === 'left',
+            [jsStyles.arrowLeft()]: this.props.arrow === 'left',
+            [jsStyles.arrowWarning(this.theme)]: isWarning,
+            [jsStyles.arrowWarningLeft(this.theme)]: isWarning && this.props.arrow === 'left',
+            [jsStyles.arrowError(this.theme)]: isError,
+            [jsStyles.arrowErrorLeft(this.theme)]: isError && this.props.arrow === 'left',
           })}
         />
       );
@@ -288,18 +290,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cn(jsStyles.sizeLarge(this.theme), {
-          [jsStyles.sizeLargeLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeLarge(this.theme));
       case 'medium':
-        return cn(jsStyles.sizeMedium(this.theme), {
-          [jsStyles.sizeMediumLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeMedium(this.theme));
       case 'small':
       default:
-        return cn(jsStyles.sizeSmall(this.theme), {
-          [jsStyles.sizeSmallLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeSmall(this.theme));
     }
   }
 

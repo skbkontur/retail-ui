@@ -418,7 +418,7 @@ const sizeStates = getProps('size', ['small', 'medium', 'large']);
 
 const arrowStates = getProps('arrow', [true, 'left']);
 
-const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'link']);
+const useStates = getProps('use', ['default', 'primary', 'success', 'danger', 'pay', 'link']);
 
 const widthStates = getProps('width', [100, 'auto']);
 
