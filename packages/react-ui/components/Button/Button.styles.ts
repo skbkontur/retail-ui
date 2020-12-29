@@ -1,4 +1,4 @@
-import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
@@ -147,9 +147,6 @@ const styles = {
       ${cssName(styles.caption())} {
         display: inline;
         transform: none !important;
-      }
-      ${cssName(styles.icon())} {
-        padding-right: ${t.btnLinkIconMarginRight};
       }
       ${cssName(styles.warning(t))} ,
       ${cssName(styles.error(t))}  {
@@ -680,6 +677,12 @@ const styles = {
     `;
   },
 
+  iconLink(t: Theme) {
+    return css`
+      padding-right: ${t.btnLinkIconMarginRight} !important;
+    `;
+  },
+
   wrapLink(t: Theme) {
     return css`
       ${styles.wrap(t)};
@@ -743,15 +746,6 @@ const styles = {
   },
 
   loading() {
-    const btn_loading = keyframes`
-    0% {
-      transform: translateX(0) rotateY(180deg);
-    }
-
-    100% {
-      transform: translateX(-30px) rotateY(180deg);
-    }
-  `;
     return css`
       position: absolute;
       top: 0;
@@ -759,21 +753,15 @@ const styles = {
       left: 0;
       right: 0;
       border-radius: inherit;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+  },
 
-      &::before {
-        content: '';
-        height: 100%;
-        position: absolute;
-        opacity: 0.2;
-        background: linear-gradient(-110deg, #ccc 30%, transparent 0, transparent 60%, #ccc 0);
-        background-size: 30px 100%;
-        top: 0;
-        left: 0;
-        right: -30px;
-        animation: ${btn_loading} 1s linear infinite;
-        transform: rotateY(180deg);
-      }
+  visibilityHidden() {
+    return css`
+      visibility: hidden;
     `;
   },
 };

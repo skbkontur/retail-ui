@@ -5,6 +5,7 @@ import { isIE11, isEdge } from '../../lib/utils';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Spinner } from '../Spinner';
 
 import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
@@ -219,8 +220,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     let loading = null;
-    if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+    if (this.props.loading && !this.props.icon) {
+      loading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
     }
 
     let icon = this.props.icon;
@@ -229,9 +230,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         <span
           className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
             [jsStyles.iconNoRightPadding()]: !this.props.children,
+            [jsStyles.iconLink(this.theme)]: this.props.use === 'link',
           })}
         >
-          {this.props.icon}
+          {this.props.loading ? this.getLoadingSpinner() : this.props.icon}
         </span>
       );
     }
@@ -259,7 +261,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [sizeClass]: true,
         [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsStyles.link(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled,
+        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
       });
       Object.assign(wrapProps, {
         className: cn(jsStyles.wrap(this.theme), {
@@ -268,7 +270,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      loading = null;
       arrow = null;
     }
 
@@ -280,11 +281,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           {arrow}
           <div className={jsStyles.caption()}>
             {icon}
-            {this.props.children}
+            <span className={cn({ [jsStyles.visibilityHidden()]: loading })}>{this.props.children}</span>
           </div>
         </button>
       </span>
     );
+  }
+
+  private getLoadingSpinner() {
+    return <Spinner caption={null} dimmed type="mini" />;
   }
 
   private getSizeClassName() {

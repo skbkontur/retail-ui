@@ -331,7 +331,6 @@ export class DefaultTheme {
   public static btnMediumArrowTop = '9px';
   public static btnMediumArrowLength = '20.2px';
   public static btnMediumArrowLeft = '-9.8px';
-  public static btnMediumArrowLeftLoadingLeft = '-208px';
   public static btnMediumArrowTransform = 'rotate(53deg) skewX(24deg) skewY(8deg)';
   public static btnDeprecatedSizeMediumFontSize = '16px';
   public static btnDeprecatedSizeMediumPaddingShift = '1';
@@ -487,12 +486,7 @@ export class DefaultTheme {
     '-1px 0 0 0 rgba(210, 144, 0, 0.7), -0.5px -0.3px 0 -1px rgba(0, 0, 0, 0.44)';
   public static btnDeprecatedSizeMediumPaddingShiftIe = '1';
   public static btnSmallArrowTop = '7px';
-  public static btnSmallArrowLeftLoadingDelay = '0.23s';
-  public static btnSmallArrowBg = 'linear-gradient(-54deg, transparent 48%, #ccc 0, #ccc 72%, transparent 0)';
   public static btnMediumArrowRight = '-10px';
-  public static btnMediumArrowBg = 'linear-gradient(-58deg, transparent 47.5%, #ccc 0, #ccc 70.5%, transparent 0)';
-  public static btnMediumArrowLeftLoadingDelay = '0.2s';
-  public static btnLargeArrowLeftLoadingDelay = '0s';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
     return this.fontSizeSmall;
