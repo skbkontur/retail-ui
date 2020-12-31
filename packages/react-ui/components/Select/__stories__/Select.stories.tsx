@@ -309,7 +309,7 @@ export const WithSearchAndVariousWidth: CSFStory<JSX.Element> = () => {
   };
 
   return (
-    <div data-tid="root" style={{ width: 500, height: 400 }}>
+    <div data-tid="root" style={{ width: 500, height: 250 }}>
       <Button data-tid="w100px" onClick={() => changeWidth('100px')}>
         100px
       </Button>
@@ -331,38 +331,39 @@ WithSearchAndVariousWidth.story = {
       captureElement: '#test-element',
       tests: {
         async ['search']() {
-          const select = this.browser.findElement({ css: '[data-comp-name~="Select"]' });
+          const root = await this.browser.findElement({ css: '[data-tid="root"]' });
+          const select = () => this.browser.findElement({ css: '[data-comp-name~="Select"]' });
 
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(select)
+            .click(select())
             .perform();
 
-          const s1plainSearch = await this.takeScreenshot();
+          const plainSearch = await root.takeScreenshot();
 
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(select)
+            .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
             .sendKeys('test')
             .perform();
 
-          const s2fullFieldSearch = await this.takeScreenshot();
+          const fullFieldSearch = await root.takeScreenshot();
 
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(select)
-            .click(select)
+            .click(select())
+            .click(select())
             .perform();
 
-          const s3emptySearch = await this.takeScreenshot();
+          const emptySearch = await root.takeScreenshot();
 
-          await this.expect({ s1plainSearch, s2fullFieldSearch, s3emptySearch }).to.matchImages();
+          await this.expect({ plainSearch, fullFieldSearch, emptySearch }).to.matchImages();
         },
 
         async ['and various width']() {
