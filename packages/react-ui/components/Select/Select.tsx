@@ -185,9 +185,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
 
-  public static static = (
-    element: React.ReactElement | (() => React.ReactElement),
-  ) => {
+  public static static = (element: React.ReactElement | (() => React.ReactElement)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.static(element) expects element to be a valid react element.',
@@ -246,7 +244,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    */
   public close = () => {
     if (this.state.opened) {
-      this.setState({ opened: false });
+      this.setState({ opened: false, ...(this.state.searchPattern && { searchPattern: '' }) });
 
       if (this.props.onClose) {
         this.props.onClose();
