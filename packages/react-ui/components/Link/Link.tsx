@@ -8,6 +8,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
+import { Spinner } from '../Spinner';
 
 import { jsStyles } from './Link.styles';
 
@@ -25,6 +26,8 @@ export type LinkProps = Override<
     _button?: boolean;
     _buttonOpened?: boolean;
     tabIndex?: number;
+    /** Состояние загрузки */
+    loading?: boolean;
     /** onClick */
     onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
   }
@@ -82,6 +85,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       href,
       icon,
       use,
+      loading,
       _button,
       _buttonOpened,
       className,
@@ -90,9 +94,14 @@ export class Link extends React.Component<LinkProps, LinkState> {
       ...rest
     } = this.getProps<LinkProps, Link>();
 
+    let isLoading = null;
+    if (loading && !icon) {
+      isLoading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
+    }
+
     let iconElement = null;
     if (icon) {
-      iconElement = <span className={jsStyles.icon(this.theme)}>{icon}</span>;
+      iconElement = <span className={jsStyles.icon(this.theme)}>{loading ? this.getLoadingSpinner() : icon}</span>;
     }
 
     let arrow = null;
@@ -108,7 +117,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const props = {
       className: cn({
         [jsStyles.root(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!disabled,
+        [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
         [jsStyles.button(this.theme)]: !!_button,
         [jsStyles.buttonOpened()]: !!_buttonOpened,
         [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
@@ -131,7 +140,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     return (
       <a {...rest} {...props}>
         {iconElement}
-        {this.props.children}
+        {isLoading}
+        <span className={cn({ [jsStyles.lowOpacity()]: !!loading && !icon })}>{this.props.children}</span>
         {arrow}
       </a>
     );
@@ -162,4 +172,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick(event);
     }
   };
+
+  private getLoadingSpinner() {
+    return <Spinner caption={null} dimmed type="mini" />;
+  }
 }
