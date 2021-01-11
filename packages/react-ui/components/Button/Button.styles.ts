@@ -305,7 +305,7 @@ const styles = {
         content: '';
         display: block;
         width: 100%;
-        height: 50%;
+        height: calc(50% + 0.25px);
         position: absolute;
         left: 0;
         background: inherit;
