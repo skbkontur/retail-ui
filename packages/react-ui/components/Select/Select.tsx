@@ -244,7 +244,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    */
   public close = () => {
     if (this.state.opened) {
-      this.setState({ opened: false, ...(this.state.searchPattern && { searchPattern: '' }) });
+      this.setState({ opened: false, searchPattern: '' });
 
       if (this.props.onClose) {
         this.props.onClose();
