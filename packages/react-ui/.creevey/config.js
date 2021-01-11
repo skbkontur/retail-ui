@@ -13,7 +13,7 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       limit: 2,
-      version: '70',
+      platformName: 'linux',
     },
     // chrome8px: {
     //   browserName: 'chrome',
@@ -24,7 +24,7 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6062',
-      version: '70',
+      platformName: 'linux',
     },
     // chromeFlat8px: {
     //   browserName: 'chrome',
@@ -34,7 +34,6 @@ const config = {
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      version: '61',
     },
     // firefox8px: {
     //   browserName: 'firefox',
@@ -45,7 +44,6 @@ const config = {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6062',
-      version: '61',
     },
     // firefoxFlat8px: {
     //   browserName: 'firefox',

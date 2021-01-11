@@ -649,10 +649,10 @@ DynamicTriggersStory.story = {
             })
             .click(this.browser.findElement({ css: '#hover_focus' }))
             .click(this.browser.findElement({ css: '[type="button"]' }))
+            .pause(100)
             .sendKeys(this.keys.TAB)
             .click(this.browser.findElement({ css: 'body' }))
             .perform();
-          await delay(500);
           await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - blur');
         },
       },
@@ -1025,7 +1025,7 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
     const triggers: TooltipTrigger[] = ['hover', 'click', 'focus', 'opened', 'closed', 'hoverAnchor', 'hover&focus'];
     return (
       <div>
-        <div>
+        <div style={{ marginBottom: 5 }}>
           {triggers.map(trigger => (
             <button
               id={trigger.replace('&', '_')}
