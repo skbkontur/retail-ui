@@ -3,7 +3,7 @@ import { CSFStory } from 'creevey';
 
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
-import {Gapped} from "../../Gapped";
+import { Gapped } from '../../Gapped';
 
 interface AutoresizableTextareaState {
   value: string | null;
