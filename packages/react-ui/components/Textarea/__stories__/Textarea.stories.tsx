@@ -3,6 +3,7 @@ import { CSFStory } from 'creevey';
 
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
 
 interface AutoresizableTextareaState {
   value: string | null;
@@ -161,6 +162,13 @@ AutoresizableTextareaStory.story = { name: 'Autoresizable textarea' };
 
 export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
 TextareaWithCustomWidth.story = { name: 'Textarea with custom width' };
+
+export const TextareaInsideGapped = () => (
+  <Gapped gap={10}>
+    <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />
+  </Gapped>
+);
+TextareaInsideGapped.story = { name: 'Textarea inside Gapped' };
 
 export const SelectAllByProp: CSFStory<JSX.Element> = () => (
   <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />
