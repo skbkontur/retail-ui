@@ -307,6 +307,7 @@ TextareaWithCounters.story = {
   name: 'Textarea with length counter',
   parameters: {
     creevey: {
+      skip: [{ in: ['firefox', 'firefoxFlat'], reason: 'flacky scrollbars height' }],
       tests: {
         async Plain() {
           await this.expect(await this.takeScreenshot()).to.matchImage('Plain');

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.12.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.12.0...@skbkontur/react-ui@2.12.1) (2020-12-25)
+
+
+### Bug Fixes
+
+* **ScrollContainer:** add onScroll prop & dont block window scroll if inner scroll isnt active ([#2252](https://github.com/skbkontur/retail-ui/issues/2252)) ([df069ab](https://github.com/skbkontur/retail-ui/commit/df069ab0cee3cedd322c5a29b04887ab2ca1cf97))
+
+
+
+
+
 # [2.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.11.0...@skbkontur/react-ui@2.12.0) (2020-12-23)
 
 
