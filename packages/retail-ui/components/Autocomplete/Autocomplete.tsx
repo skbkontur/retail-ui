@@ -144,8 +144,10 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
       onFocus: this.handleFocus,
       ref: this.refInput,
     };
+    const active = this.state.items !== null;
+
     return (
-      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
+      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={active}>
         <span style={{ display: 'inline-block' }}>
           <Input {...inputProps} />
           {this.renderMenu()}
