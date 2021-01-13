@@ -96,8 +96,6 @@ export const buttonHoverMixin = (
 
 export const buttonActiveMixin = (
   btnBackground: string,
-  arrowBackground: string,
-  arrowLeftBackground: string,
   btnShadow: string,
   arrowShadow: string,
   arrowLeftShadow: string,
@@ -114,7 +112,7 @@ export const buttonActiveMixin = (
       ${selectorArrow} {
         &:before,
         &:after {
-          background: ${arrowBackground};
+          background: inherit;
           box-shadow: ${arrowShadow};
         }
       }
@@ -122,7 +120,7 @@ export const buttonActiveMixin = (
       ${selectorArrowLeft} {
         &:before,
         &:after {
-          background: ${arrowLeftBackground};
+          background: inherit;
           box-shadow: ${arrowLeftShadow};
         }
       }

@@ -299,6 +299,7 @@ const styles = {
   arrow() {
     return css`
       background: inherit;
+      border-radius: inherit;
 
       &:before,
       &:after {
@@ -310,7 +311,7 @@ const styles = {
         left: 0;
         background: inherit;
         background-size: 200% 200%;
-        border-radius: 1px;
+        border-radius: inherit;
         z-index: 0;
       }
 
@@ -319,6 +320,7 @@ const styles = {
         transform: skewX(30deg);
         transform-origin: top;
         background-position-y: top;
+        border-bottom-right-radius: 1px;
       }
 
       &:after {
@@ -326,6 +328,7 @@ const styles = {
         transform: skewX(-30deg);
         transform-origin: bottom;
         background-position-y: bottom;
+        border-top-right-radius: 1px;
       }
     `;
   },
@@ -334,10 +337,12 @@ const styles = {
     return css`
       &:before {
         transform: skewX(-30deg) !important;
+        border-bottom-left-radius: 1px;
       }
 
       &:after {
         transform: skewX(30deg) !important;
+        border-top-left-radius: 1px;
       }
     `;
   },
@@ -372,8 +377,6 @@ const styles = {
         )};
 
         ${buttonActiveMixin(
-          t.btnDefaultActiveBg,
-          t.btnDefaultActiveBg,
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
           t.btnDefaultActiveShadowArrow,
@@ -417,8 +420,6 @@ const styles = {
 
         ${buttonActiveMixin(
           t.btnPrimaryActiveBg,
-          t.btnPrimaryActiveBg,
-          t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
           t.btnPrimaryActiveShadowArrow,
           t.btnPrimaryActiveShadowArrowLeft,
@@ -460,8 +461,6 @@ const styles = {
         )};
 
         ${buttonActiveMixin(
-          t.btnSuccessActiveBg,
-          t.btnSuccessActiveBg,
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
           t.btnSuccessActiveShadowArrow,
@@ -505,8 +504,6 @@ const styles = {
 
         ${buttonActiveMixin(
           t.btnDangerActiveBg,
-          t.btnDangerActiveBg,
-          t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
           t.btnDangerActiveShadowArrow,
           t.btnDangerActiveShadowArrowLeft,
@@ -548,8 +545,6 @@ const styles = {
         )};
 
         ${buttonActiveMixin(
-          t.btnPayActiveBg,
-          t.btnPayActiveBg,
           t.btnPayActiveBg,
           t.btnPayActiveShadow,
           t.btnPayActiveShadowArrow,

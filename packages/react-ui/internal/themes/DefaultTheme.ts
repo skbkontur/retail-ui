@@ -325,8 +325,6 @@ export class DefaultTheme {
   public static btnDefaultBgEnd = '#ebebeb';
   public static btnDeprecatedSizeMediumFontSize = '16px';
   public static btnDeprecatedSizeMediumPaddingShift = '1';
-  public static btnDefaultBgArrowStart = '#fff';
-  public static btnDefaultBgArrowEnd = '#ebebeb';
   public static btnDefaultCheckedBorder = 'none';
   public static get btnDefaultTextColor() {
     return this.textColorDefault;
@@ -360,8 +358,6 @@ export class DefaultTheme {
   public static btnSuccessBorder = 'none';
   public static btnSuccessBgStart = '#4ba91d';
   public static btnSuccessBgEnd = '#37910b';
-  public static btnSuccessBgArrowStart = '#4ba91d';
-  public static btnSuccessBgArrowEnd = '#37910b';
   public static btnSuccessTextColor = '#fff';
   public static get btnSuccessShadow() {
     return `0 0 0 ${this.btnBorderWidth}  rgba(25, 103, 6, 0.7), 0 ${this.btnBorderWidth}  0 0 rgba(21, 80, 7, 0.5)`;
@@ -388,8 +384,6 @@ export class DefaultTheme {
   public static btnPrimaryBorder = 'none';
   public static btnPrimaryBgStart = '#2899ea';
   public static btnPrimaryBgEnd = '#167ac1';
-  public static btnPrimaryBgArrowStart = '#2899ea';
-  public static btnPrimaryBgArrowEnd = '#167ac1';
   public static btnPrimaryTextColor = '#fff';
   public static get btnPrimaryShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(14, 81, 129, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(7, 37, 80, 0.5)`;
@@ -416,8 +410,6 @@ export class DefaultTheme {
   public static btnDangerBorder = 'none';
   public static btnDangerBgStart = '#ec5438';
   public static btnDangerBgEnd = '#d44327';
-  public static btnDangerBgArrowStart = '#ec5438';
-  public static btnDangerBgArrowEnd = '#d44327';
   public static btnDangerTextColor = '#fff';
   public static get btnDangerShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(173, 15, 0, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.4)`;
@@ -444,8 +436,6 @@ export class DefaultTheme {
   public static btnPayBorder = 'none';
   public static btnPayBgStart = '#ffd54b';
   public static btnPayBgEnd = '#ffbb39';
-  public static btnPayBgArrowStart = '#ffd54b';
-  public static btnPayBgArrowEnd = '#ffbb39';
   public static get btnPayShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(238, 169, 34, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(77, 16, 0, 0.56)`;
   }

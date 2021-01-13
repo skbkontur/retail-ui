@@ -26,9 +26,8 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnDisabledShadowColor() {
     return this.bgDisabled;
   }
-  public static btnDefaultBgArrowEnd = '#fff';
   public static btnDefaultHoverBg = '#f2f2f2';
-  public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static btnDefaultHoverBorderColor = '#d9d9d9';
   public static btnDefaultActiveBg = '#e5e5e5';
   public static btnDefaultActiveBorderColor = '#cccccc';
   public static get btnDefaultBorder() {
@@ -51,8 +50,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnPrimaryBgStart = '#1d85d0';
   public static btnPrimaryBgEnd = '#1d85d0';
-  public static btnPrimaryBgArrowStart = '#1d85d0';
-  public static btnPrimaryBgArrowEnd = '#1d85d0';
   public static btnPrimaryHoverBgStart = '#1b7dc3';
   public static btnPrimaryHoverBgEnd = '#1b7dc3';
   public static btnPrimaryShadow = 'none';
@@ -66,8 +63,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnSuccessBgStart = '#419d14';
   public static btnSuccessBgEnd = '#419d14';
-  public static btnSuccessBgArrowStart = '#419d14';
-  public static btnSuccessBgArrowEnd = '#419d14';
   public static btnSuccessHoverBgStart = '#3c9312';
   public static btnSuccessHoverBgEnd = '#3c9312';
   public static btnSuccessShadow = 'none';
@@ -82,8 +77,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnDangerBgStart = '#d9472b';
   public static btnDangerBgEnd = '#d9472b';
-  public static btnDangerBgArrowStart = '#d9472b';
-  public static btnDangerBgArrowEnd = '#d9472b';
   public static btnDangerHoverBgStart = '#cc4228';
   public static btnDangerHoverBgEnd = '#cc4228';
   public static btnDangerShadow = 'none';
@@ -98,8 +91,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnPayBgStart = '#ffca43';
   public static btnPayBgEnd = '#ffca43';
-  public static btnPayBgArrowStart = '#ffca43';
-  public static btnPayBgArrowEnd = '#ffca43';
   public static btnPayHoverBgStart = '#f0be3f';
   public static btnPayHoverBgEnd = '#f0be3f';
   public static btnPayShadow = 'none';
