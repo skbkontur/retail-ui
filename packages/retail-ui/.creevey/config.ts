@@ -1,4 +1,5 @@
-const path = require('path');
+import path from 'path';
+import { CreeveyConfig } from 'creevey';
 
 const flatComponents = [
   'Button',
@@ -13,7 +14,7 @@ const flatComponents = [
 ];
 const flatRegex = new RegExp(`(\\/|\\\\)(${flatComponents.join('|')})\\.ts$`);
 
-const config = {
+const config: CreeveyConfig = {
   testDir: path.join(__dirname, 'tests'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
@@ -27,32 +28,31 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       limit: 2,
-      platformName: 'linux',
+      version: '70',
     },
     chromeFlat: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       testRegex: flatRegex,
       storybookUrl: 'http://localhost:6061',
-      platformName: 'linux',
+      version: '70',
     },
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
+      version: '61',
     },
     firefoxFlat: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       testRegex: flatRegex,
       storybookUrl: 'http://localhost:6061',
-      platformName: 'linux',
+      version: '61',
     },
     ie11: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       limit: 2,
-      platformName: 'windows',
       // NOTE Enable after switch new separate pool for IE to allow test hover
       // 'se:ieOptions': {
       //   enablePersistentHover: true,
@@ -68,7 +68,6 @@ const config = {
       viewport: { width: 1024, height: 720 },
       testRegex: flatRegex,
       storybookUrl: 'http://localhost:6061',
-      platformName: 'windows',
     },
   },
 };
