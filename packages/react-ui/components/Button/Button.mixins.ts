@@ -27,12 +27,10 @@ export const buttonUseMixin = (
   btnBackgroundEnd: string,
   shadow: string,
   shadowArrow: string,
-  shadowArrowLeft: string,
   color: string,
   border: string,
   selectorChecked: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
 ) => {
   return css`
     background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
@@ -48,13 +46,6 @@ export const buttonUseMixin = (
         box-shadow: ${shadowArrow};
       }
     }
-
-    &:not(${selectorChecked}) ${selectorArrowLeft} {
-      &:before,
-      &:after {
-        box-shadow: ${shadowArrowLeft};
-      }
-    }
   `;
 };
 
@@ -64,10 +55,8 @@ export const buttonHoverMixin = (
   btnBackgroundEnd: string,
   btnShadow: string,
   arrowShadow: string,
-  arrowLeftShadow: string,
   btnBorder: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
 ) => {
   return css`
     &:hover {
@@ -83,13 +72,6 @@ export const buttonHoverMixin = (
           box-shadow: ${arrowShadow};
         }
       }
-
-      ${selectorArrowLeft} {
-        &:before,
-        &:after {
-          box-shadow: ${arrowLeftShadow};
-        }
-      }
     }
   `;
 };
@@ -98,10 +80,8 @@ export const buttonActiveMixin = (
   btnBackground: string,
   btnShadow: string,
   arrowShadow: string,
-  arrowLeftShadow: string,
   selectorActive: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
 ) => {
   return css`
     &:active,
@@ -114,14 +94,6 @@ export const buttonActiveMixin = (
         &:after {
           background: inherit;
           box-shadow: ${arrowShadow};
-        }
-      }
-
-      ${selectorArrowLeft} {
-        &:before,
-        &:after {
-          background: inherit;
-          box-shadow: ${arrowLeftShadow};
         }
       }
     }
@@ -164,20 +136,6 @@ export const arrowFocusMixin = (t: Theme, borderColor: string) => {
     &:after {
       box-shadow: inset -${t.btnBorderWidth} -${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
         ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
-    }
-  `;
-};
-
-export const arrowLeftFocusMixin = (t: Theme, borderColor: string) => {
-  return css`
-    &:before {
-      box-shadow: inset ${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-        -${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
-    }
-
-    &:after {
-      box-shadow: inset ${t.btnBorderWidth} -${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-        -${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
     }
   `;
 };

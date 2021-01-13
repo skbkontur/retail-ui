@@ -292,10 +292,8 @@ export class DefaultTheme {
   }
   public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.6)';
-  public static btnCheckedShadowArrowLeft = '-1px 0 0 0 rgba(0, 0, 0, 0.6)';
   public static btnCheckedDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.37)';
   public static btnCheckedDisabledShadowArrow = '1px 0 0 0 #a0a0a0';
-  public static btnCheckedDisabledShadowArrowLeft = '-1px 0 0 0 #a0a0a0';
   public static btnSmallBorderRadius = '1px'; // todo: deprecated
   public static btnBorderRadius = '2px'; // todo: deprecated
   public static get btnBorderRadiusSmall() {
@@ -337,20 +335,17 @@ export class DefaultTheme {
     return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
   public static btnDefaultShadowArrow = '1.2px 0 0 0 rgba(0, 0, 0, 0.15)';
-  public static btnDefaultShadowArrowLeft = '-1px 0 0 0 rgba(0, 0, 0, 0.15)';
   public static btnDefaultHoverBgStart = '#f2f2f2';
   public static btnDefaultHoverBgEnd = '#dfdfdf';
   public static get btnDefaultHoverShadow() {
     return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2)`;
   }
   public static btnDefaultHoverShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.25)';
-  public static btnDefaultHoverShadowArrowLeft = '-1px 0 0 0 rgba(0, 0, 0, 0.25)';
   public static btnDefaultActiveBg = '#e1e1e1';
   public static get btnDefaultActiveShadow() {
     return `0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.1), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
   }
   public static btnDefaultActiveShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.25)';
-  public static btnDefaultActiveShadowArrowLeft = '-1px 0 0 0 rgba(0,0,0,0.25)';
   public static btnSuccessBg = '#419d14';
   public static btnSuccessHoverBg = 'none';
   public static btnSuccessHoverBorderColor = 'transparent';
@@ -363,20 +358,17 @@ export class DefaultTheme {
     return `0 0 0 ${this.btnBorderWidth}  rgba(25, 103, 6, 0.7), 0 ${this.btnBorderWidth}  0 0 rgba(21, 80, 7, 0.5)`;
   }
   public static btnSuccessShadowArrow = '1px 0 0 0 rgba(25, 103, 6, 0.7), 0.5px 0 0 0 rgba(25, 103, 6, 0.5)';
-  public static btnSuccessShadowArrowLeft = '-1px 0 0 0 rgba(25, 103, 6, 0.7), -0.5px 0 0 0 rgba(25, 103, 6, 0.5)';
   public static btnSuccessHoverBgStart = '#3b8d13';
   public static btnSuccessHoverBgEnd = '#317e0b';
   public static get btnSuccessHoverShadow() {
     return `0 0 0 ${this.btnBorderWidth}  rgba(7, 73, 1, 0.7), 0 ${this.btnBorderWidth}  0 0 rgba(16, 70, 4, 0.3)`;
   }
   public static btnSuccessHoverShadowArrow = '1px 0 0 0 rgba(7, 73, 1, 0.7), 0.5px 0 0 0 rgba(7, 73, 1, 0.4)';
-  public static btnSuccessHoverShadowArrowLeft = '-1px 0 0 0 rgba(7, 73, 1, 0.7), -0.5px 0 0 0 rgba(7, 73, 1, 0.4)';
   public static btnSuccessActiveBg = '#35840e';
   public static get btnSuccessActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(4, 63, 0, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
   }
   public static btnSuccessActiveShadowArrow = '1px 0 0 0 rgba(4, 63, 0, 0.75)';
-  public static btnSuccessActiveShadowArrowLeft = '-1px 0 0 0 rgba(4, 63, 0, 0.75)';
   public static btnPrimaryBg = '#1e8dd4';
   public static btnPrimaryHoverBg = 'none';
   public static btnPrimaryHoverBorderColor = 'transparent';
@@ -389,20 +381,17 @@ export class DefaultTheme {
     return `0 0 0 ${this.btnBorderWidth} rgba(14, 81, 129, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(7, 37, 80, 0.5)`;
   }
   public static btnPrimaryShadowArrow = '1px 0 0 0 rgba(14, 81, 129, 0.7), 0.5px 0 0 0 rgba(14, 81, 129, 0.5)';
-  public static btnPrimaryShadowArrowLeft = '-1px 0 0 0 rgba(14, 81, 129, 0.9), -0.5px 0 0 0 rgba(14, 81, 129, 0.5)';
   public static btnPrimaryHoverBgStart = '#0087d5';
   public static btnPrimaryHoverBgEnd = '#167ac1';
   public static get btnPrimaryHoverShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(5, 60, 99, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(7, 37, 80, 0.3)`;
   }
   public static btnPrimaryHoverShadowArrow = '1px 0 0 0 rgba(5, 60, 99, 0.9)';
-  public static btnPrimaryHoverShadowArrowLeft = '-1px 0 0 0 rgba(5, 60, 99, 0.9)';
   public static btnPrimaryActiveBg = '#0079c3';
   public static get btnPrimaryActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(10, 63, 99, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)`;
   }
   public static btnPrimaryActiveShadowArrow = '1px 0 0 0 rgba(10, 63, 99, 0.9)';
-  public static btnPrimaryActiveShadowArrowLeft = '-1px 0 0 0 rgba(10, 63, 99, 0.9)';
   public static btnDangerBg = '#e14c30';
   public static btnDangerHoverBg = 'none';
   public static btnDangerHoverBorderColor = 'transparent';
@@ -415,20 +404,17 @@ export class DefaultTheme {
     return `0 0 0 ${this.btnBorderWidth} rgba(173, 15, 0, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.4)`;
   }
   public static btnDangerShadowArrow = `1px 0 0 0 rgba(173, 15, 0, 0.8),  0.5px 0 0 0 rgba(173, 15, 0, 0.3)`;
-  public static btnDangerShadowArrowLeft = '-1px 0 0 0 rgba(173, 15, 0, 0.8), -0.5px 0 0 0 rgba(173, 15, 0, 0.3)';
   public static btnDangerHoverBgStart = '#d44227';
   public static btnDangerHoverBgEnd = '#c73013';
   public static get btnDangerHoverShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(145, 0, 0, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4)`;
   }
   public static btnDangerHoverShadowArrow = '1px 0 0 0 rgba(145, 0, 0, 0.9)';
-  public static btnDangerHoverShadowArrowLeft = '-1px 0 0 0 rgba(145, 0, 0, 0.9)';
   public static btnDangerActiveBg = '#cd381b';
   public static get btnDangerActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(108, 7, 7, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
   }
   public static btnDangerActiveShadowArrow = '1px 0 0 0 rgba(108, 7, 7, 0.7)';
-  public static btnDangerActiveShadowArrowLeft = '-1px 0 0 0 rgba(108, 7, 7, 0.7)';
   public static btnPayBg = '#ffc943';
   public static btnPayHoverBg = 'none';
   public static btnPayHoverBorderColor = 'transparent';
@@ -443,21 +429,17 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static btnPayShadowArrow = '1px 0 0 0 rgba(238, 169, 34, 0.5), 0.5px 0 0 0 rgba(77, 16, 0, 0.5)';
-  public static btnPayShadowArrowLeft = '-1px 0 0 0 rgba(238, 169, 34, 0.5), -0.5px 0 0 0 rgba(77, 16, 0, 0.5)';
   public static btnPayHoverBgStart = '#ffbd3a';
   public static btnPayHoverBgEnd = '#f8a91d';
   public static get btnPayHoverShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(227, 142, 8, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(93, 20, 3, 0.4)`;
   }
   public static btnPayHoverShadowArrow = '1px 0 0 0 rgba(227, 142, 8, 0.5), 1px 0 0 0 rgba(93, 20, 3, 0.4)';
-  public static btnPayHoverShadowArrowLeft = '-1px 0 0 0 rgba(227, 142, 8, 0.5), -0.5px 0 0 0 rgba(93, 20, 3, 0.4)';
   public static btnPayActiveBg = '#fbb028';
   public static get btnPayActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(210, 144, 0, 0.7), 0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)`;
   }
   public static btnPayActiveShadowArrow = '1px 0 0 0 rgba(210, 144, 0, 0.7), 0.5px 0 0 0 rgba(0, 0, 0, 0.44)';
-  public static btnPayActiveShadowArrowLeft =
-    '-1px 0 0 0 rgba(210, 144, 0, 0.7), -0.5px -0.3px 0 -1px rgba(0, 0, 0, 0.44)';
   public static btnDeprecatedSizeMediumPaddingShiftIe = '1';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
@@ -498,9 +480,6 @@ export class DefaultTheme {
   }
   public static get btnDisabledShadowArrow() {
     return `1px 0 0 0 ${this.btnDisabledShadowColor}`;
-  }
-  public static get btnDisabledShadowArrowLeft() {
-    return `-1px 0 0 0 ${this.btnDisabledShadowColor}`;
   }
   public static get btnTextColorDefault() {
     return this.textColorDefault;

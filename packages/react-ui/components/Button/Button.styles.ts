@@ -2,14 +2,7 @@ import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 
-import {
-  buttonUseMixin,
-  buttonHoverMixin,
-  buttonActiveMixin,
-  buttonSizeMixin,
-  arrowFocusMixin,
-  arrowLeftFocusMixin,
-} from './Button.mixins';
+import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin, arrowFocusMixin } from './Button.mixins';
 
 const styles = {
   root(t: Theme) {
@@ -182,21 +175,6 @@ const styles = {
               box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
               border-color: transparent;
             }
-            ${cssName(styles.arrow())} {
-              ${arrowFocusMixin(t, t.btnBorderColorFocus)}
-
-              &${cssName(styles.arrowWarning(t))} { ${arrowFocusMixin(t, t.btnBorderColorWarning)} }
-
-              &${cssName(styles.arrowError(t))} { ${arrowFocusMixin(t, t.btnBorderColorError)} }
-            }
-
-            ${cssName(styles.arrowLeft())} {
-              ${arrowLeftFocusMixin(t, t.btnBorderColorFocus)}
-
-              &${cssName(styles.arrowWarning(t))} { ${arrowLeftFocusMixin(t, t.btnBorderColorWarning)} }
-
-              &${cssName(styles.arrowError(t))} { ${arrowLeftFocusMixin(t, t.btnBorderColorError)} }
-          }
         }
       }
     `;
@@ -218,13 +196,6 @@ const styles = {
             &:before,
             &:after {
               box-shadow: ${t.btnDisabledShadowArrow} !important;
-            }
-          }
-
-          ${cssName(styles.arrowLeft())} {
-            &:before,
-            &:after {
-              box-shadow: ${t.btnDisabledShadowArrowLeft} !important;
             }
           }
         }
@@ -269,11 +240,14 @@ const styles = {
     `;
   },
 
-  arrowWarningLeft(t: Theme) {
+  arrowWarningLeft() {
     return css`
-      &:before,
+      &:before {
+        transform: skewX(-30deg) scaleX(-1) !important;
+      }
+
       &:after {
-        box-shadow: -${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorWarning} !important;
+        transform: skewX(30deg) scaleX(-1) !important;
       }
     `;
   },
@@ -284,6 +258,16 @@ const styles = {
       &:after {
         box-shadow: ${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorError} !important;
       }
+    `;
+  },
+
+  arrowFocus(t: Theme) {
+    return css`
+      ${arrowFocusMixin(t, t.btnBorderColorFocus)}
+
+      &${cssName(styles.arrowWarning(t))} { ${arrowFocusMixin(t, t.btnBorderColorWarning)} }
+
+      &${cssName(styles.arrowError(t))} { ${arrowFocusMixin(t, t.btnBorderColorError)} }
     `;
   },
 
@@ -336,13 +320,11 @@ const styles = {
   arrowLeft() {
     return css`
       &:before {
-        transform: skewX(-30deg) !important;
-        border-bottom-left-radius: 1px;
+        transform: skewX(-30deg) scaleX(-1) !important;
       }
 
       &:after {
-        transform: skewX(30deg) !important;
-        border-top-left-radius: 1px;
+        transform: skewX(30deg) scaleX(-1) !important;
       }
     `;
   },
@@ -356,12 +338,10 @@ const styles = {
           t.btnDefaultBgEnd,
           t.btnDefaultShadow,
           t.btnDefaultShadowArrow,
-          t.btnDefaultShadowArrowLeft,
           t.btnDefaultTextColor,
           t.btnDefaultBorder,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonHoverMixin(
@@ -370,20 +350,16 @@ const styles = {
           t.btnDefaultHoverBgEnd,
           t.btnDefaultHoverShadow,
           t.btnDefaultHoverShadowArrow,
-          t.btnDefaultHoverShadowArrowLeft,
           t.btnDefaultHoverBorderColor,
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonActiveMixin(
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
           t.btnDefaultActiveShadowArrow,
-          t.btnDefaultActiveShadowArrowLeft,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
       }
     `;
@@ -398,12 +374,10 @@ const styles = {
           t.btnPrimaryBgEnd,
           t.btnPrimaryShadow,
           t.btnPrimaryShadowArrow,
-          t.btnPrimaryShadowArrowLeft,
           t.btnPrimaryTextColor,
           t.btnPrimaryBorder,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonHoverMixin(
@@ -412,20 +386,16 @@ const styles = {
           t.btnPrimaryHoverBgEnd,
           t.btnPrimaryHoverShadow,
           t.btnPrimaryHoverShadowArrow,
-          t.btnPrimaryHoverShadowArrowLeft,
           t.btnPrimaryHoverBorderColor,
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonActiveMixin(
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
           t.btnPrimaryActiveShadowArrow,
-          t.btnPrimaryActiveShadowArrowLeft,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
       }
     `;
@@ -440,12 +410,10 @@ const styles = {
           t.btnSuccessBgEnd,
           t.btnSuccessShadow,
           t.btnSuccessShadowArrow,
-          t.btnSuccessShadowArrowLeft,
           t.btnSuccessTextColor,
           t.btnSuccessBorder,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonHoverMixin(
@@ -454,20 +422,16 @@ const styles = {
           t.btnSuccessHoverBgEnd,
           t.btnSuccessHoverShadow,
           t.btnSuccessHoverShadowArrow,
-          t.btnSuccessHoverShadowArrowLeft,
           t.btnSuccessHoverBorderColor,
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonActiveMixin(
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
           t.btnSuccessActiveShadowArrow,
-          t.btnSuccessActiveShadowArrowLeft,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
       }
     `;
@@ -482,12 +446,10 @@ const styles = {
           t.btnDangerBgEnd,
           t.btnDangerShadow,
           t.btnDangerShadowArrow,
-          t.btnDangerShadowArrowLeft,
           t.btnDangerTextColor,
           t.btnDangerBorder,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonHoverMixin(
@@ -496,20 +458,16 @@ const styles = {
           t.btnDangerHoverBgEnd,
           t.btnDangerHoverShadow,
           t.btnDangerHoverShadowArrow,
-          t.btnDangerHoverShadowArrowLeft,
           t.btnDangerHoverBorderColor,
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonActiveMixin(
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
           t.btnDangerActiveShadowArrow,
-          t.btnDangerActiveShadowArrowLeft,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
       }
     `;
@@ -524,12 +482,10 @@ const styles = {
           t.btnPayBgEnd,
           t.btnPayShadow,
           t.btnPayShadowArrow,
-          t.btnPayShadowArrowLeft,
           t.btnPayTextColor,
           t.btnPayBorder,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonHoverMixin(
@@ -538,20 +494,16 @@ const styles = {
           t.btnPayHoverBgEnd,
           t.btnPayHoverShadow,
           t.btnPayHoverShadowArrow,
-          t.btnPayHoverShadowArrowLeft,
           t.btnPayHoverBorderColor,
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
 
         ${buttonActiveMixin(
           t.btnPayActiveBg,
           t.btnPayActiveShadow,
           t.btnPayActiveShadowArrow,
-          t.btnPayActiveShadowArrowLeft,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          cssName(styles.arrowLeft()),
         )};
       }
     `;
@@ -582,14 +534,6 @@ const styles = {
             box-shadow: ${t.btnCheckedDisabledShadowArrow} !important;
           }
         }
-
-        ${cssName(styles.arrowLeft())} {
-          &:before,
-          &:after {
-            background: ${t.btnCheckedDisabledBg} !important;
-            box-shadow: ${t.btnCheckedDisabledShadowArrowLeft} !important;
-          }
-        }
       }
 
       &,
@@ -599,14 +543,6 @@ const styles = {
           &:after {
             background: ${t.btnCheckedBg} !important;
             box-shadow: ${t.btnCheckedShadowArrow} !important;
-          }
-        }
-
-        ${cssName(styles.arrowLeft())} {
-          &:before,
-          &:after {
-            background: ${t.btnCheckedBg} !important;
-            box-shadow: ${t.btnCheckedShadowArrowLeft} !important;
           }
         }
       }
