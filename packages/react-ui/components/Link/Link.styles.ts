@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins';
@@ -104,6 +104,27 @@ const styles = {
       align-items: center;
       justify-content: center;
       visibility: visible !important;
+    `;
+  },
+
+  loadingAnimate() {
+    const underlineAnimation = keyframes`
+      0% { background-position-x: 0% ; }
+      100% { background-position-x: 140%; }
+    `;
+
+    return css`
+      &:before {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 1.5px;
+        background: linear-gradient(to right, #30724c 0%, #d6e3f3 50%, #30724c 60%, #d6e3f3 100%);
+        background-size: 400% 400%;
+        animation: ${underlineAnimation} 2s linear infinite reverse;
+      }
     `;
   },
 
