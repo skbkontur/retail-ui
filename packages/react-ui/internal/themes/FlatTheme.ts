@@ -29,7 +29,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
     return this.bgDisabled;
   }
   public static btnDefaultHoverBg = '#f2f2f2';
-  public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static btnDefaultHoverBorderColor = '#d9d9d9';
   public static btnDefaultActiveBg = '#e5e5e5';
   public static btnDefaultActiveBorderColor = '#cccccc';
   public static get btnDefaultBorder() {
