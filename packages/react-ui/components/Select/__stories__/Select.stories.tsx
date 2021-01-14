@@ -332,13 +332,13 @@ WithSearchAndVariousWidth.story = {
       tests: {
         async ['search']() {
           const root = await this.browser.findElement({ css: '[data-tid="root"]' });
-          const select = () => this.browser.findElement({ css: '[data-comp-name~="Select"]' });
+          const select = await this.browser.findElement({ css: '[data-comp-name~="Select"]' });
 
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(select())
+            .click(select)
             .perform();
 
           const plainSearch = await root.takeScreenshot();
@@ -357,8 +357,8 @@ WithSearchAndVariousWidth.story = {
             .actions({
               bridge: true,
             })
-            .click(select())
-            .click(select())
+            .click(select)
+            .click(select)
             .perform();
 
           const emptySearch = await root.takeScreenshot();
