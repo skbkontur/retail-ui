@@ -274,6 +274,7 @@ export class DefaultTheme {
     return `-${2 * borderWidth}px`;
   }
   public static arrowActiveShadowGradient = 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%)';
+  public static arrowCheckedShadowGradient = 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 15%)';
   public static btnLinkBorderRadius = '1px';
   public static get btnFocusShadowWidth() {
     return this.btnOutlineWidth;

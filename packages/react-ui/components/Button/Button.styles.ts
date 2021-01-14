@@ -549,6 +549,10 @@ const styles = {
             background: ${t.btnCheckedBg} !important;
             box-shadow: ${t.btnCheckedShadowArrow} !important;
           }
+
+          &:before {
+            background-image: ${t.arrowCheckedShadowGradient} !important;
+          }
         }
       }
     `;

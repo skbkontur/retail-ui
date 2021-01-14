@@ -98,7 +98,7 @@ export const buttonActiveMixin = (
         }
 
         &:before {
-          background-image: ${arrowActiveShadowGradient};
+          background-image: ${arrowActiveShadowGradient} !important;
         }
       }
     }
