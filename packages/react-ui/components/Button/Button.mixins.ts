@@ -82,6 +82,7 @@ export const buttonActiveMixin = (
   arrowShadow: string,
   selectorActive: string,
   selectorArrow: string,
+  arrowActiveShadowGradient: string,
 ) => {
   return css`
     &:active,
@@ -94,6 +95,10 @@ export const buttonActiveMixin = (
         &:after {
           background: inherit;
           box-shadow: ${arrowShadow};
+        }
+
+        &:before {
+          background-image: ${arrowActiveShadowGradient};
         }
       }
     }

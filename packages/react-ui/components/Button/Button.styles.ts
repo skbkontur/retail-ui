@@ -360,6 +360,7 @@ const styles = {
           t.btnDefaultActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
+          t.arrowActiveShadowGradient,
         )};
       }
     `;
@@ -396,6 +397,7 @@ const styles = {
           t.btnPrimaryActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
+          t.arrowActiveShadowGradient,
         )};
       }
     `;
@@ -432,6 +434,7 @@ const styles = {
           t.btnSuccessActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
+          t.arrowActiveShadowGradient,
         )};
       }
     `;
@@ -468,6 +471,7 @@ const styles = {
           t.btnDangerActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
+          t.arrowActiveShadowGradient,
         )};
       }
     `;
@@ -504,6 +508,7 @@ const styles = {
           t.btnPayActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
+          t.arrowActiveShadowGradient,
         )};
       }
     `;
