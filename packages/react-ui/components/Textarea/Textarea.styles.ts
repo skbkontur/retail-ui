@@ -33,6 +33,7 @@ const styles = {
       vertical-align: middle;
       width: 100%;
       border-radius: ${t.textareaBorderRadius};
+      white-space: pre-wrap;
 
       &:focus {
         border-color: ${t.textareaBorderColorFocus};
