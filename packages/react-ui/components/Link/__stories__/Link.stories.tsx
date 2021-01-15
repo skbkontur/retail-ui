@@ -50,14 +50,14 @@ WithOnClick.story = { name: 'With onClick', parameters: { creevey: { skip: [true
 export const Loading: CSFStory<JSX.Element> = () => (
   <Gapped vertical>
     <Link loading>Simple loading </Link>
-    <div style={{ width: '300px', border: '1px solid lightgrey' }}>
+    <div style={{ width: '300px', border: '1px solid lightgrey', padding: '5px' }}>
       {'Some long text '}
-      <Link loading>simple loading </Link>
+      <Link loading>loading link </Link>
       and end of line
     </div>
-    <div style={{ width: '150px', border: '1px solid lightgrey' }}>
+    <div style={{ width: '150px', border: '1px solid lightgrey', padding: '5px' }}>
       {'Some long text '}
-      <Link loading>simple loading </Link>
+      <Link loading>loading link </Link>
       and end of line
     </div>
     <Link loading icon={<OkIcon />}>

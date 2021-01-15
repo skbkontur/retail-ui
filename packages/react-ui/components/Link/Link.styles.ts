@@ -93,25 +93,6 @@ const styles = {
       margin-right: ${t.linkIconMarginRight};
     `;
   },
-
-  loading() {
-    return css`
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-radius: inherit;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      visibility: visible !important;
-    `;
-  },
-
-  lowOpacity() {
-    return css`
-      opacity: 0.3;
-    `;
-  },
 };
 
 export const jsStyles = memoizeStyle(styles);

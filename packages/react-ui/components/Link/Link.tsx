@@ -94,11 +94,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
       ...rest
     } = this.getProps<LinkProps, Link>();
 
-    let isLoading = null;
-    if (loading && !icon) {
-      isLoading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
-    }
-
     let iconElement = null;
     if (icon) {
       iconElement = <span className={jsStyles.icon(this.theme)}>{loading ? this.getLoadingSpinner() : icon}</span>;
@@ -140,8 +135,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     return (
       <a {...rest} {...props}>
         {iconElement}
-        {isLoading}
-        <span className={cn({ [jsStyles.lowOpacity()]: !!loading && !icon })}>{this.props.children}</span>
+        {this.props.children}
         {arrow}
       </a>
     );
