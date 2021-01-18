@@ -1,5 +1,4 @@
-import { Theme } from 'react-ui/lib/theming/Theme';
-
+import { Theme } from '../../lib/theming/Theme';
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 

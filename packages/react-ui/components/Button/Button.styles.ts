@@ -240,18 +240,6 @@ const styles = {
     `;
   },
 
-  arrowWarningLeft() {
-    return css`
-      &:before {
-        transform: skewX(-30deg) scaleX(-1) !important;
-      }
-
-      &:after {
-        transform: skewX(30deg) scaleX(-1) !important;
-      }
-    `;
-  },
-
   arrowError(t: Theme) {
     return css`
       &:before,
@@ -268,15 +256,6 @@ const styles = {
       &${cssName(styles.arrowWarning(t))} { ${arrowFocusMixin(t, t.btnBorderColorWarning)} }
 
       &${cssName(styles.arrowError(t))} { ${arrowFocusMixin(t, t.btnBorderColorError)} }
-    `;
-  },
-
-  arrowErrorLeft(t: Theme) {
-    return css`
-      &:before,
-      &:after {
-        box-shadow: -${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorError} !important;
-      }
     `;
   },
 
@@ -519,6 +498,7 @@ const styles = {
       box-shadow: ${t.btnCheckedShadow} !important;
       background: ${t.btnCheckedBg} !important;
       color: ${t.btnCheckedTextColor} !important;
+      border: ${t.btnDefaultCheckedBorder} !important;
 
       &:not(${cssName(styles.link(t))}) {
         ${cssName(styles.caption())} {
