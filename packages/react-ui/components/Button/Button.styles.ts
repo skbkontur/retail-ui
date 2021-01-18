@@ -263,6 +263,11 @@ const styles = {
     return css`
       background: inherit;
       border-radius: inherit;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
 
       &:before,
       &:after {
@@ -298,13 +303,7 @@ const styles = {
 
   arrowLeft() {
     return css`
-      &:before {
-        transform: skewX(-30deg) scaleX(-1) !important;
-      }
-
-      &:after {
-        transform: skewX(30deg) scaleX(-1) !important;
-      }
+      transform: scaleX(-1);
     `;
   },
 
