@@ -65,4 +65,4 @@ export const Loading: CSFStory<JSX.Element> = () => (
     </Link>
   </Gapped>
 );
-Simple.story = { parameters: { creevey: { tests: linkTests } } };
+Loading.story = { parameters: { creevey: { tests: linkTests } } };
