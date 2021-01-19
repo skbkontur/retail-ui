@@ -338,7 +338,7 @@ const styles = {
           t.btnDefaultActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          t.arrowActiveShadowGradient,
+          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -375,7 +375,7 @@ const styles = {
           t.btnPrimaryActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          t.arrowActiveShadowGradient,
+          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -412,7 +412,7 @@ const styles = {
           t.btnSuccessActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          t.arrowActiveShadowGradient,
+          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -449,7 +449,7 @@ const styles = {
           t.btnDangerActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          t.arrowActiveShadowGradient,
+          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -486,7 +486,7 @@ const styles = {
           t.btnPayActiveShadowArrow,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
-          t.arrowActiveShadowGradient,
+          t.btnArrowBgImageActive,
         )};
       }
     `;
@@ -530,7 +530,7 @@ const styles = {
           }
 
           &:before {
-            background-image: ${t.arrowCheckedShadowGradient} !important;
+            background-image: ${t.btnArrowBgImageChecked} !important;
           }
         }
       }
