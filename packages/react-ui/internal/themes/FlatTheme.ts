@@ -23,6 +23,8 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnCheckedShadow = 'none';
   public static btnDisabledShadow = 'none';
   public static btnCheckedDisabledShadow = 'none';
+  public static btnArrowBgImageActive = 'none';
+  public static btnArrowBgImageChecked = 'none';
   public static arrowActiveShadowGradient = 'none';
   public static arrowCheckedShadowGradient = 'none';
   public static get btnDisabledShadowColor() {
