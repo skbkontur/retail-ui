@@ -1,5 +1,5 @@
 import { SelectLocale } from '../types';
 
 export const componentsLocales: SelectLocale = {
-  placeholder: 'nothing selected',
+  placeholder: 'Nothing selected',
 };

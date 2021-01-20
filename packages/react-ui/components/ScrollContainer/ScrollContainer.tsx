@@ -25,6 +25,7 @@ export interface ScrollContainerProps {
    */
   scrollBehaviour?: ScrollBehaviour;
   onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
 export interface ScrollContainerState {
@@ -33,7 +34,7 @@ export interface ScrollContainerState {
   scrolling: boolean;
   scrollSize: number;
   scrollPos: number;
-  scrollState: string;
+  scrollState: ScrollContainerScrollState;
 }
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
@@ -193,6 +194,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this.reflow();
+    this.props.onScroll?.(event);
     if (this.props.preventWindowScroll) {
       event.preventDefault();
       return;
@@ -215,40 +217,31 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       return;
     }
 
+    let scrollSize = 0;
+    let scrollPos = 0;
+    let scrollState = this.state.scrollState;
+
     if (scrollActive) {
-      let scrollSize = (containerHeight / contentHeight) * containerHeight;
+      scrollSize = Math.max((containerHeight / contentHeight) * containerHeight, MIN_SCROLL_SIZE);
+      scrollPos = (scrollTop / (contentHeight - containerHeight)) * (containerHeight - scrollSize);
+    }
 
-      if (scrollSize < MIN_SCROLL_SIZE) {
-        scrollSize = MIN_SCROLL_SIZE;
+    if (
+      this.state.scrollActive !== scrollActive ||
+      this.state.scrollSize !== scrollSize ||
+      this.state.scrollPos !== scrollPos
+    ) {
+      scrollState = this.getImmediateScrollState();
+
+      if (scrollState !== this.state.scrollState) {
+        this.props.onScrollStateChange?.(scrollState);
       }
 
-      const scrollPos = (scrollTop / (contentHeight - containerHeight)) * (containerHeight - scrollSize);
-
-      if (this.state.scrollSize !== scrollSize || this.state.scrollPos !== scrollPos) {
-        const { scrollState } = this.state;
-        const updatedScrollState = this.getImmediateScrollState();
-        const scrollParamsToUpdate = {
-          scrollActive: true,
-          scrollSize,
-          scrollPos,
-          scrollState,
-        };
-
-        if (updatedScrollState !== this.state.scrollState) {
-          scrollParamsToUpdate.scrollState = updatedScrollState;
-
-          if (this.props.onScrollStateChange) {
-            this.props.onScrollStateChange(updatedScrollState);
-          }
-        }
-
-        this.setState(scrollParamsToUpdate);
-      }
-    } else {
       this.setState({
-        scrollActive: false,
-        scrollSize: 0,
-        scrollPos: 0,
+        scrollActive,
+        scrollSize,
+        scrollPos,
+        scrollState,
       });
     }
   };
@@ -318,13 +311,15 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       return;
     }
 
-    if (event.deltaY > 0 && this.inner.scrollHeight <= this.inner.scrollTop + this.inner.offsetHeight) {
-      event.preventDefault();
-      return false;
-    }
-    if (event.deltaY < 0 && this.inner.scrollTop <= 0) {
-      event.preventDefault();
-      return false;
+    if (this.state.scrollActive) {
+      if (event.deltaY > 0 && this.inner.scrollHeight <= this.inner.scrollTop + this.inner.offsetHeight) {
+        event.preventDefault();
+        return false;
+      }
+      if (event.deltaY < 0 && this.inner.scrollTop <= 0) {
+        event.preventDefault();
+        return false;
+      }
     }
   };
 
