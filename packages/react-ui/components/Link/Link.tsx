@@ -96,7 +96,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     let iconElement = null;
     if (icon) {
-      iconElement = <span className={jsStyles.icon(this.theme)}>{loading ? this.getLoadingSpinner() : icon}</span>;
+      iconElement = (
+        <span className={jsStyles.icon(this.theme)}>
+          {loading ? <Spinner caption={null} dimmed type="mini" /> : icon}
+        </span>
+      );
     }
 
     let arrow = null;
@@ -166,8 +170,4 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick(event);
     }
   };
-
-  private getLoadingSpinner() {
-    return <Spinner caption={null} dimmed type="mini" />;
-  }
 }
