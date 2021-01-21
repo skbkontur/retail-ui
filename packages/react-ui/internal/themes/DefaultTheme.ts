@@ -267,11 +267,7 @@ export class DefaultTheme {
   //#endregion
   //#region Button
   public static get btnWrapPadding() {
-    return this.btnBorderWidth;
-  }
-  public static get btnHeightShift() {
-    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
-    return `-${2 * borderWidth}px`;
+    return '0px';
   }
   public static btnArrowBgImageActive =
     'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%), linear-gradient(-95deg, rgba(0,0,0,0.1) 0%, transparent 4%)';
@@ -289,9 +285,8 @@ export class DefaultTheme {
   public static btnCheckedDisabledColor = 'rgba(255, 255, 255, 0.7)';
   public static btnCheckedHoverBorderColor = 'transparent';
   public static btnCheckedTextColor = '#fff';
-  public static btnCheckedDisabledBorderColor = 'transparent';
-
-  public static get btnCheckedShadow() {
+  public static btnCheckedDisabledBorderColor = 'none';
+  public static get btnCheckedShadow () {
     return `0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)`;
   }
   public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
@@ -332,24 +327,18 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static btnDefaultHoverBg = 'none';
-  public static btnDefaultHoverBorderColor = 'transparent';
-  public static btnDefaultActiveBorderColor = 'none';
-  public static btnDefaultBorder = 'none';
-  public static get btnDefaultShadow() {
-    return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.15)`;
-  }
   public static btnDefaultShadowArrow = '1.2px 0 0 0 rgba(0, 0, 0, 0.15)';
   public static btnDefaultHoverBgStart = '#f2f2f2';
   public static btnDefaultHoverBgEnd = '#dfdfdf';
-  public static get btnDefaultHoverShadow() {
-    return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2)`;
-  }
   public static btnDefaultHoverShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.2)';
   public static btnDefaultActiveBg = '#e1e1e1';
-  public static get btnDefaultActiveShadow() {
-    return `0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.1), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
-  }
   public static btnDefaultActiveShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.2)';
+  public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.35)';
+  public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2)';
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.3)';
+  public static btnDefaultShadow = 'none';
+  public static btnDefaultHoverShadow = 'none';
+  public static btnDefaultActiveShadow =  'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnSuccessBg = '#419d14';
   public static btnSuccessHoverBg = 'none';
   public static btnSuccessHoverBorderColor = 'transparent';
@@ -369,6 +358,7 @@ export class DefaultTheme {
   }
   public static btnSuccessHoverShadowArrow = '1px 0 0 0 rgba(7, 73, 1, 0.7)';
   public static btnSuccessActiveBg = '#35840e';
+  public static btnSuccessActiveBorderColor = 'none';
   public static get btnSuccessActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(4, 63, 0, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
   }
@@ -392,6 +382,7 @@ export class DefaultTheme {
   }
   public static btnPrimaryHoverShadowArrow = '1px 0 0 0 rgba(5, 60, 99, 0.7)';
   public static btnPrimaryActiveBg = '#0079c3';
+  public static btnPrimaryActiveBorderColor = 'none';
   public static get btnPrimaryActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(10, 63, 99, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)`;
   }
@@ -415,6 +406,7 @@ export class DefaultTheme {
   }
   public static btnDangerHoverShadowArrow = '1px 0 0 0 rgba(145, 0, 0, 0.7)';
   public static btnDangerActiveBg = '#cd381b';
+  public static btnDangerActiveBorderColor ='none';
   public static get btnDangerActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(108, 7, 7, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
   }
@@ -440,6 +432,7 @@ export class DefaultTheme {
   }
   public static btnPayHoverShadowArrow = '1px 0 0 0 rgba(227, 142, 8, 0.7)';
   public static btnPayActiveBg = '#fbb028';
+  public static btnPayActiveBorderColor = 'none';
   public static get btnPayActiveShadow() {
     return `0 0 0 ${this.btnBorderWidth} rgba(210, 144, 0, 0.7), 0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)`;
   }

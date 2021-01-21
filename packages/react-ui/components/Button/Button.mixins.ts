@@ -27,7 +27,7 @@ export const buttonUseMixin = (
   shadow: string,
   shadowArrow: string,
   color: string,
-  border: string,
+  borderColor: string,
   selectorChecked: string,
   selectorArrow: string,
 ) => {
@@ -37,7 +37,7 @@ export const buttonUseMixin = (
       : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
     color: ${color};
     box-shadow: ${shadow};
-    border: ${border};
+    border-color: ${borderColor};
 
     &:not(${selectorChecked}) ${selectorArrow} {
       &:before,
@@ -54,7 +54,7 @@ export const buttonHoverMixin = (
   btnBackgroundEnd: string,
   btnShadow: string,
   arrowShadow: string,
-  btnBorder: string,
+  borderColor: string,
   selectorArrow: string,
 ) => {
   return css`
@@ -63,7 +63,7 @@ export const buttonHoverMixin = (
         ? btnBackground
         : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
       box-shadow: ${btnShadow};
-      border-color: ${btnBorder};
+      border-color: ${borderColor};
 
       ${selectorArrow} {
         &:before,
@@ -79,6 +79,7 @@ export const buttonActiveMixin = (
   btnBackground: string,
   btnShadow: string,
   arrowShadow: string,
+  borderColor: string,
   selectorActive: string,
   selectorArrow: string,
   arrowActiveShadowGradient: string,
@@ -88,6 +89,7 @@ export const buttonActiveMixin = (
     &${selectorActive} {
       background: ${btnBackground};
       box-shadow: ${btnShadow};
+      border-color: ${borderColor};
 
       ${selectorArrow} {
         &:before,
@@ -107,7 +109,6 @@ export const buttonActiveMixin = (
 export const buttonSizeMixin = (
   fontSize: string,
   height: string, // todo: remove, in IE broke screenshots without height
-  heightShift: string, // todo: remove, in IE broke screenshots without height
   lineHeight: string,
   paddingX: string,
   paddingY: string,
@@ -119,7 +120,7 @@ export const buttonSizeMixin = (
 
     &:not(${selectorLink}) {
       box-sizing: border-box;
-      height: ${shift(height, heightShift)};
+      height: ${height};
       padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
       line-height: ${lineHeight};
 

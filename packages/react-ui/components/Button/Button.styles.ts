@@ -10,7 +10,7 @@ const styles = {
       ${resetButton()};
       ${resetText()};
 
-      background-clip: border-box;
+      background-clip: padding-box !important;
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;
@@ -19,6 +19,7 @@ const styles = {
       position: relative;
       text-align: center;
       width: 100%;
+      border: ${t.btnBorderWidth} solid transparent;
 
       &::-moz-focus-inner {
         border: 0;
@@ -70,7 +71,6 @@ const styles = {
       ${buttonSizeMixin(
         t.btnFontSizeSmall,
         t.btnHeightSmall,
-        t.btnHeightShift,
         t.btnLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
@@ -87,7 +87,6 @@ const styles = {
       ${buttonSizeMixin(
         t.btnFontSizeMedium,
         t.btnHeightMedium,
-        t.btnHeightShift,
         t.btnLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
@@ -104,7 +103,6 @@ const styles = {
       ${buttonSizeMixin(
         t.btnFontSizeLarge,
         t.btnHeightLarge,
-        t.btnHeightShift,
         t.btnLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
@@ -317,7 +315,7 @@ const styles = {
           t.btnDefaultShadow,
           t.btnDefaultShadowArrow,
           t.btnDefaultTextColor,
-          t.btnDefaultBorder,
+          t.btnDefaultBorderColor,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
         )};
@@ -336,6 +334,7 @@ const styles = {
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
           t.btnDefaultActiveShadowArrow,
+          t.btnDefaultActiveBorderColor,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
           t.btnArrowBgImageActive,
@@ -373,6 +372,7 @@ const styles = {
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
           t.btnPrimaryActiveShadowArrow,
+          t.btnPrimaryActiveBorderColor,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
           t.btnArrowBgImageActive,
@@ -410,6 +410,7 @@ const styles = {
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
           t.btnSuccessActiveShadowArrow,
+          t.btnSuccessActiveBorderColor,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
           t.btnArrowBgImageActive,
@@ -447,6 +448,7 @@ const styles = {
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
           t.btnDangerActiveShadowArrow,
+          t.btnDangerActiveBorderColor,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
           t.btnArrowBgImageActive,
@@ -484,6 +486,7 @@ const styles = {
           t.btnPayActiveBg,
           t.btnPayActiveShadow,
           t.btnPayActiveShadowArrow,
+          t.btnPayActiveBorderColor,
           cssName(styles.active(t)),
           cssName(styles.arrow()),
           t.btnArrowBgImageActive,
