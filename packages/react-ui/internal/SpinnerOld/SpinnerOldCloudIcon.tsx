@@ -7,7 +7,7 @@ import {
   createColorAnimation,
 } from '../../components/Spinner/SpinnerFallbackAnimation';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { isIE11 } from '../../lib/utils';
+import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 const CLOUD_SVG_PATH = `M32.0297086,9.1495774 L31.5978628,8.5870774 C29.3570968,

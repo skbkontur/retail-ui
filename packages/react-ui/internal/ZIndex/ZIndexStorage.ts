@@ -1,3 +1,5 @@
+import { globalThat } from '../../lib/SSRSafe';
+
 export type LayerComponentName = keyof typeof componentPriorities;
 
 const componentPriorities = {
@@ -15,7 +17,7 @@ const componentPriorities = {
 };
 const priorityStep = 1000;
 
-const getZIndexes = (): number[] => window.__RetailUiZIndexes || (window.__RetailUiZIndexes = [0]);
+const getZIndexes = (): number[] => globalThat.__RetailUiZIndexes || (globalThat.__RetailUiZIndexes = [0]);
 const getIndexPriority = (zIndex: number) => Math.trunc(zIndex / priorityStep);
 const getMaxAllowedValue = (priority: number): number => (priority + 1) * priorityStep - 1;
 

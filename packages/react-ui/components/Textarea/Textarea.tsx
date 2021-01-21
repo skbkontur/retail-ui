@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
+import { isBrowser } from '../../lib/client';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
@@ -173,7 +174,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
-  private textareaObserver = new MutationObserver(this.reflowCounter);
+  private textareaObserver = isBrowser ? new MutationObserver(this.reflowCounter) : null;
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -181,7 +182,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.layoutEvents = LayoutEvents.addListener(this.autoResize);
     }
 
-    if (this.node && this.props.showLengthCounter) {
+    if (this.node && this.props.showLengthCounter && this.textareaObserver) {
       this.textareaObserver.observe(this.node, { attributes: true });
     }
   }
@@ -190,7 +191,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
-    if (this.props.showLengthCounter) {
+    if (this.props.showLengthCounter && this.textareaObserver) {
       this.textareaObserver.disconnect();
     }
   }

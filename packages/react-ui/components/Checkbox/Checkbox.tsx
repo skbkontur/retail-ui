@@ -7,7 +7,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
-import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
+import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 
 import { jsStyles } from './Checkbox.styles';
 

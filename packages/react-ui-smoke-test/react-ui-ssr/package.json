@@ -1,0 +1,34 @@
+{
+  "name": "react-ui-ssr-test",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "private": true,
+  "scripts": {
+    "server": "run-s clean server:*",
+    "server:build": "cross-env NODE_ENV=development webpack --config webpack.server.js",
+    "server:render": "node dist/SSR.js",
+    "client": "cross-env NODE_ENV=development webpack-dev-server --config webpack.client.js",
+    "clean": "git clean -fdxqe node_modules"
+  },
+  "peerDependencies": {
+    "react": ">=16.9",
+    "react-dom": ">=16.9"
+  },
+  "devDependencies": {
+    "@emotion/core": "^10.0.35",
+    "@types/node": "^14.6.0",
+    "@types/react-dom": "^16.9.8",
+    "babel-loader": "^8.1.0",
+    "core-js": "^3.6.5",
+    "create-emotion-server": "^10.0.27",
+    "cross-env": "^7.0.2",
+    "css-loader": "^4.2.2",
+    "npm-run-all": "^4.1.5",
+    "null-loader": "^4.0.0",
+    "string-replace-loader": "^2.3.0",
+    "style-loader": "^1.2.1",
+    "typescript": "^4.0.2",
+    "webpack": "^4.44.2",
+    "webpack-dev-server": "^3.11.0"
+  }
+}

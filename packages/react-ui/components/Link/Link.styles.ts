@@ -7,6 +7,7 @@ const styles = {
   root(t: Theme) {
     return css`
       ${linkMixin(t.linkHoverTextDecoration)};
+      position: relative;
     `;
   },
 
