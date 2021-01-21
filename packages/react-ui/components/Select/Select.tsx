@@ -140,7 +140,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
 
 export interface SelectState<TValue> {
   opened: boolean;
-  searchPattern?: string;
+  searchPattern: string;
   value: Nullable<TValue>;
 }
 
@@ -197,6 +197,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public state: SelectState<TValue> = {
     opened: false,
     value: this.props.defaultValue,
+    searchPattern: '',
   };
 
   private theme!: Theme;
@@ -245,7 +246,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    */
   public close = () => {
     if (this.state.opened) {
-      this.setState({ opened: false });
+      this.setState({ opened: false, searchPattern: '' });
 
       if (this.props.onClose) {
         this.props.onClose();

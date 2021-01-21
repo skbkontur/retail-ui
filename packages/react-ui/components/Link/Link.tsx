@@ -8,30 +8,30 @@ import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
-import { CommonProps } from '../../typings/common';
+import { Spinner } from '../Spinner';
 
 import { jsStyles } from './Link.styles';
 
-export interface LinkProps
-  extends CommonProps,
-    Override<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      {
-        /** Неактивное состояние */
-        disabled?: boolean;
-        /** href */
-        href?: string;
-        /** Иконка */
-        icon?: React.ReactElement<any>;
-        /** Тип */
-        use?: 'default' | 'success' | 'danger' | 'grayed';
-        _button?: boolean;
-        _buttonOpened?: boolean;
-        tabIndex?: number;
-        /** onClick */
-        onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
-      }
-    > {}
+export type LinkProps = Override<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  {
+    /** Неактивное состояние */
+    disabled?: boolean;
+    /** href */
+    href?: string;
+    /** Иконка */
+    icon?: React.ReactElement<any>;
+    /** Тип */
+    use?: 'default' | 'success' | 'danger' | 'grayed';
+    _button?: boolean;
+    _buttonOpened?: boolean;
+    tabIndex?: number;
+    /** Состояние загрузки */
+    loading?: boolean;
+    /** onClick */
+    onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
+  }
+>;
 
 export interface LinkState {
   focusedByTab: boolean;
@@ -80,14 +80,27 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain() {
-    const { disabled, href, icon, use, _button, _buttonOpened, className, rel: relOrigin, ...rest } = this.getProps<
-      LinkProps,
-      Link
-    >();
+    const {
+      disabled,
+      href,
+      icon,
+      use,
+      loading,
+      _button,
+      _buttonOpened,
+      className,
+      style,
+      rel: relOrigin,
+      ...rest
+    } = this.getProps<LinkProps, Link>();
 
     let iconElement = null;
     if (icon) {
-      iconElement = <span className={jsStyles.icon(this.theme)}>{icon}</span>;
+      iconElement = (
+        <span className={jsStyles.icon(this.theme)}>
+          {loading ? <Spinner caption={null} dimmed type="mini" /> : icon}
+        </span>
+      );
     }
 
     let arrow = null;
@@ -103,7 +116,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const props = {
       className: cn(className, {
         [jsStyles.root(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!disabled,
+        [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
         [jsStyles.button(this.theme)]: !!_button,
         [jsStyles.buttonOpened()]: !!_buttonOpened,
         [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
