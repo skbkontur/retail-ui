@@ -3,21 +3,9 @@ import { mount, ReactWrapper } from 'enzyme';
 
 import * as ReactUI from '../../index';
 
-function isClassComponent(component: any) {
-  return typeof component === 'function' && !!component.prototype.isReactComponent;
-}
-
-function isFunctionComponent(component: any) {
-  return typeof component === 'function' && Object.prototype.hasOwnProperty.call(component, '__KONTUR_REACT_UI__');
-}
-
-function isReactComponent(component: any) {
-  return isClassComponent(component) || isFunctionComponent(component);
-}
-
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
   return (
-    isReactComponent((ReactUI as any)[name]) &&
+    isPublicComponent((ReactUI as any)[name]) &&
     !['LocaleProvider', 'LocaleConsumer', 'ThemeProvider', 'ThemeConsumer'].includes(name)
   );
 });
@@ -46,22 +34,40 @@ const DEFAULT_PROPS = {
   TopBarDropdown: { label: 'label' },
   TopBarUser: { userName: 'name' },
   TopBarOrganizations: { caption: 'caption' },
-  Toast: { manual: true, opened: true },
+  Hint: { text: 'Hint', manual: true, opened: true, children: <i /> },
+  Tooltip: { trigger: 'opened', render: () => 'Tooltip', children: <i /> },
+  Toast: { children: <i /> },
+  Tab: { id: 'tab' },
 };
 
-const isTestableComponent = (name: string) => !['Tab', 'Toast', 'Hint', 'Tooltip'].includes(name);
+// allows rendering Tab not only inside Tabs
+jest.mock('invariant', () => (...args: any[]) => {
+  if (args[1] !== 'Tab should be placed inside Tabs component') {
+    jest.requireActual('invariant')(...args);
+  }
+});
 
 describe('Props Forwarding', () => {
   describe('Common Props', () => {
     const getTestDOMNode = (compName: string, wrapper: ReactWrapper) => {
       switch (compName) {
+        case 'Hint':
+        case 'Tooltip':
+          return wrapper
+            .find('Portal')
+            .last()
+            .getDOMNode();
+        case 'Toast':
+          (wrapper as ReactWrapper<{}, {}, ReactUI.Toast>).instance().push('Tast');
+          wrapper.update();
+          return wrapper.find('ToastView').getDOMNode();
         default:
           return wrapper.getDOMNode();
       }
     };
 
     it.each<[string, ReactWrapper]>(
-      PUBLIC_COMPONENTS.filter(isTestableComponent).map(name => {
+      PUBLIC_COMPONENTS.map(name => {
         const component = (ReactUI as any)[name];
         const props: any = (DEFAULT_PROPS as any)[name] || {};
         return [name, mount(React.createElement(component, props))];
@@ -87,3 +93,11 @@ describe('Props Forwarding', () => {
     });
   });
 });
+
+export function isPublicComponent(component: any) {
+  // it's either ClassComponent or FunctionalComponent with Kontur's mark
+  return (
+    typeof component === 'function' &&
+    (component.prototype.isReactComponent || Object.prototype.hasOwnProperty.call(component, '__KONTUR_REACT_UI__'))
+  );
+}
