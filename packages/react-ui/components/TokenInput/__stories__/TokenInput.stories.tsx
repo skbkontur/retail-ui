@@ -1,5 +1,5 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
+import { StoryFn, useState } from '@storybook/addons';
 import { CSFStory } from 'creevey';
 
 import { Gapped } from '../../Gapped';
@@ -443,6 +443,137 @@ CustomAddButton.story = {
             .sendKeys('zzz')
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
+
+export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
+  const [isValid, setIsValid] = useState(true);
+  const [selectedItems, setSelectedItems] = useState([] as string[]);
+  const [alertItemMessage, setAlertItemMessage] = useState('');
+
+  const resetValidation = () => {
+    setAlertItemMessage(``);
+    setIsValid(true);
+  };
+
+  const handleUnexpectedInput = async (value: string) => {
+    if (value !== '' && selectedItems.length === 0) {
+      setAlertItemMessage(`Выберите хотя бы один токен`);
+      setIsValid(false);
+      return null;
+    }
+    if (value !== '') {
+      const items = await getItems(value);
+      if (items.length === 0) {
+        setAlertItemMessage(`Значение '${value}' является невалидным`);
+        setIsValid(false);
+        return null;
+      }
+    }
+  };
+
+  return (
+    <>
+      <TokenInput
+        type={TokenInputType.Combined}
+        getItems={getItems}
+        onValueChange={items => {
+          resetValidation();
+          setSelectedItems(items);
+        }}
+        selectedItems={selectedItems}
+        onUnexpectedInput={handleUnexpectedInput}
+        error={!isValid}
+      />
+      {alertItemMessage && <div>{alertItemMessage}</div>}
+    </>
+  );
+};
+OnUnexpectedInputValidation.story = {
+  name: 'validate with onUnexpectedInput',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['token select']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('zzz')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withNotSelectedToken = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys('aaa')
+            .sendKeys(this.keys.ENTER)
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('bbb')
+            .sendKeys(this.keys.ENTER)
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withSelectedTokens = await this.takeScreenshot();
+
+          await this.expect({ withNotSelectedToken, withSelectedTokens }).to.matchImages();
+        },
+        async ['token edit']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('aaa')
+            .sendKeys(this.keys.ENTER)
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('bbb')
+            .sendKeys(this.keys.ENTER)
+            .perform();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys('zzz')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withNotEditedToken = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys('EDITED')
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ENTER)
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withEditedToken = await this.takeScreenshot();
+
+          await this.expect({ withNotEditedToken, withEditedToken }).to.matchImages();
         },
       },
     },

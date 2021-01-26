@@ -82,6 +82,23 @@ export interface TokenInputProps<T> {
    * Функция отрисовки кнопки добавления в выпадающем списке
    */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
+  /**
+   * Функция для обработки ситуации, когда была введена
+   * строка в инпут и был потерян фокус с элемента.
+   *
+   * Функция срабатывает с аргументом инпута строки.
+   *
+   * Когда произойдет срабатывание функции:
+   *
+   * - Если при потере фокуса есть список элементов (автокомплит) и
+   * значение в текстовом поле НЕ будет совпадать
+   * с результатом `renderValue` какого-нибудь элемента
+   * (в противном случае сработает onValueChange со значением данного элемента)
+   *
+   * - При редактировании токена (если оно не было завершено)
+   *
+   */
+  onUnexpectedInput?: (value: string) => void;
 }
 
 export interface TokenInputState<T> {
@@ -399,9 +416,19 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleInputBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
     const isBlurToMenu = this.isBlurToMenu(event);
-    if (!isBlurToMenu && this.isEditingMode) {
-      this.finishTokenEdit();
+
+    if (!isBlurToMenu) {
+      const { inputValue } = this.state;
+      const { onUnexpectedInput } = this.props;
+      const item = this.checkAutocompleteForCorrectItem();
+
+      if (item && !this.isEditingMode) {
+        this.selectItem(item);
+      } else if (onUnexpectedInput) {
+        onUnexpectedInput(inputValue);
+      }
     }
+
     if (isBlurToMenu || this.state.preventBlur) {
       event.preventDefault();
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
@@ -757,9 +784,21 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
+  private checkAutocompleteForCorrectItem = () => {
+    const { inputValue, autocompleteItems } = this.state;
+    const { valueToString } = this.props;
+    if (autocompleteItems && autocompleteItems.length > 0) {
+      return autocompleteItems.find(item => {
+        return valueToString(item) === inputValue;
+      });
+    }
+    return false;
+  };
+
   private handleChangeInputValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     let query = event.target.value.trimLeft();
+
     if (query.endsWith(' ')) {
       query = query.trimRight() + ' ';
     }
