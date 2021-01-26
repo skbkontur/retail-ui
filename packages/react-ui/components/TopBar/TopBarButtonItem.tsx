@@ -1,8 +1,7 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { IconProps } from '../../internal/icons/20px';
-import { CommonProps } from '../../typings/common';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { TopBarItem, TopBarItemProps } from './TopBarItem';
 import { jsStyles } from './TopBar.styles';
@@ -28,11 +27,13 @@ export class TopBarButtonItem extends React.Component<TopBarButtonItemProps> {
     use: 'default',
   };
   public render() {
-    const { onClick, children, onKeyDown, className, ...rest } = this.props;
+    const { onClick, children, onKeyDown, ...rest } = this.props;
     return (
-      <TopBarItem {...rest} className={cn(className, jsStyles.button())} _onKeyDown={onKeyDown} _onClick={onClick}>
-        {children}
-      </TopBarItem>
+      <CommonWrapper {...this.props}>
+        <TopBarItem {...rest} className={jsStyles.button()} _onKeyDown={onKeyDown} _onClick={onClick}>
+          {children}
+        </TopBarItem>
+      </CommonWrapper>
     );
   }
 }

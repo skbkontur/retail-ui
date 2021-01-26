@@ -8,8 +8,8 @@ import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+
 export interface FxInputProps
   extends CommonProps,
     Override<
@@ -32,8 +32,6 @@ export interface FxInputProps
       }
     > {}
 
-const DEFAULT_WIDTH = 250;
-
 /** Принимает все свойства `Input`'a */
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
@@ -44,6 +42,7 @@ export class FxInput extends React.Component<FxInputProps> {
   };
 
   public static defaultProps = {
+    width: 250,
     type: 'text',
     value: '',
   };
@@ -52,15 +51,12 @@ export class FxInput extends React.Component<FxInputProps> {
 
   private getProps = createPropsGetter(FxInput.defaultProps);
 
-  public render(): JSX.Element {
-    const [commonProps, restProps] = extractCommonProps(this.props);
-    const { type, onRestore, auto, width, ...rest } = restProps;
+  public render() {
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
 
-    const groupProps = {
-      ...commonProps,
-      width: width ?? (this.props.style?.width || DEFAULT_WIDTH),
-    };
-
+  public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
+    const { type, onRestore, auto, ...rest } = props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };
@@ -78,7 +74,7 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group {...groupProps}>
+      <Group width={this.props.width}>
         {button}
         {this.getProps().type === 'currency' ? (
           <CurrencyInput
@@ -102,7 +98,7 @@ export class FxInput extends React.Component<FxInputProps> {
         )}
       </Group>
     );
-  }
+  };
 
   /**
    * @public

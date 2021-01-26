@@ -5,8 +5,7 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles, jsTokenColors } from './Token.styles';
 
@@ -50,7 +49,6 @@ export class Token extends React.Component<TokenProps> {
   }
 
   private renderMain() {
-    const [{ className, ...commonProps }] = extractCommonProps(this.props);
     const {
       children,
       isActive,
@@ -83,27 +81,28 @@ export class Token extends React.Component<TokenProps> {
       activeTokenClassName = jsTokenColors[activeClassName](theme, validation);
     }
 
-    const tokenClassNames = cn(className, jsStyles.token(this.theme), tokenClassName, {
+    const tokenClassNames = cn(jsStyles.token(this.theme), tokenClassName, {
       [activeTokenClassName]: !!isActive,
       [jsStyles.disabled(theme)]: !!disabled,
     });
 
     return (
-      <div
-        {...commonProps}
-        className={tokenClassNames}
-        onClick={onClick}
-        onDoubleClick={onDoubleClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      >
-        <span className={jsStyles.text(this.theme)}>{children}</span>
-        <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick}>
-          <CrossIcon />
-        </span>
-      </div>
+      <CommonWrapper {...this.props}>
+        <div
+          className={tokenClassNames}
+          onClick={onClick}
+          onDoubleClick={onDoubleClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        >
+          <span className={jsStyles.text(this.theme)}>{children}</span>
+          <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick}>
+            <CrossIcon />
+          </span>
+        </div>
+      </CommonWrapper>
     );
   }
 

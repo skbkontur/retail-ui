@@ -2,8 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { ModalContext } from './ModalContext';
 import { jsStyles } from './Modal.styles';
@@ -26,23 +25,23 @@ export class ModalBody extends React.Component<ModalBodyProps> {
 
   public render(): JSX.Element {
     const { noPadding } = this.props;
-    const [{ className, ...commonProps }] = extractCommonProps(this.props);
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
-          <ZIndex
-            {...commonProps}
-            priority={'ModalBody'}
-            createStackingContext
-            className={cn(className, {
-              [jsStyles.body()]: true,
-              [jsStyles.bodyWithoutHeader()]: !hasHeader,
-              [jsStyles.bodyAddPadding()]: additionalPadding,
-              [jsStyles.bodyWithoutPadding()]: noPadding,
-            })}
-          >
-            {this.props.children}
-          </ZIndex>
+          <CommonWrapper {...this.props}>
+            <ZIndex
+              priority={'ModalBody'}
+              createStackingContext
+              className={cn({
+                [jsStyles.body()]: true,
+                [jsStyles.bodyWithoutHeader()]: !hasHeader,
+                [jsStyles.bodyAddPadding()]: additionalPadding,
+                [jsStyles.bodyWithoutPadding()]: noPadding,
+              })}
+            >
+              {this.props.children}
+            </ZIndex>
+          </CommonWrapper>
         )}
       </ModalContext.Consumer>
     );

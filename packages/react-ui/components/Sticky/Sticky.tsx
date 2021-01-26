@@ -7,8 +7,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Sticky.styles';
 
@@ -112,24 +111,24 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       children = children(fixed);
     }
 
-    const [commonProps] = extractCommonProps(this.props);
-
     return (
-      <div {...commonProps} ref={this.refWrapper}>
-        <ZIndex
-          priority="Sticky"
-          applyZIndex={fixed}
-          className={cn(jsStyles.inner(), {
-            [jsStyles.fixed()]: fixed && !stopped,
-            [jsStyles.stopped()]: stopped,
-          })}
-          style={innerStyle}
-          wrapperRef={this.refInner}
-        >
-          <div className={jsStyles.container()}>{children}</div>
-        </ZIndex>
-        {fixed && !stopped ? <div style={{ width, height }} /> : null}
-      </div>
+      <CommonWrapper {...this.props}>
+        <div ref={this.refWrapper}>
+          <ZIndex
+            priority="Sticky"
+            applyZIndex={fixed}
+            className={cn(jsStyles.inner(), {
+              [jsStyles.fixed()]: fixed && !stopped,
+              [jsStyles.stopped()]: stopped,
+            })}
+            style={innerStyle}
+            wrapperRef={this.refInner}
+          >
+            <div className={jsStyles.container()}>{children}</div>
+          </ZIndex>
+          {fixed && !stopped ? <div style={{ width, height }} /> : null}
+        </div>
+      </CommonWrapper>
     );
   }
 

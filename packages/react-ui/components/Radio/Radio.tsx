@@ -5,8 +5,7 @@ import cn from 'classnames';
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Radio.styles';
 
@@ -61,7 +60,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
@@ -81,11 +80,9 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     this.inputEl.current?.blur();
   }
 
-  public renderMain() {
-    const [{ className, ...commonProps }, restProps] = extractCommonProps(this.props);
+  public renderMain = (props: CommonWrapperRestProps<RadioProps<T>>) => {
     const {
       active,
-      children,
       disabled = this.context.disabled,
       warning = this.context.warning,
       error = this.context.error,
@@ -97,7 +94,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       onMouseLeave,
       onValueChange,
       ...rest
-    } = restProps;
+    } = props;
 
     let radioClassNames = cn({
       [jsStyles.radio(this.theme)]: true,
@@ -125,8 +122,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     };
 
     const labelProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root(this.theme)),
+      className: jsStyles.root(this.theme),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
@@ -149,7 +145,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
         {this.props.children && this.renderLabel()}
       </label>
     );
-  }
+  };
 
   private _isInRadioGroup = () => Boolean(this.context.name);
 

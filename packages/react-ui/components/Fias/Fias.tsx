@@ -9,8 +9,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { EditIcon } from '../../internal/icons/16px';
 import { LocaleContext } from '../../lib/locale';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { FiasLocale, FiasLocaleHelper } from './locale';
 import {
@@ -224,7 +223,11 @@ export class Fias extends React.Component<FiasProps, FiasState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <LocaleContext.Provider value={{ locale: { Fias: this.state.locale } }}>
+              <CommonWrapper {...this.props}>{this.renderMain()}</CommonWrapper>
+            </LocaleContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -248,23 +251,19 @@ export class Fias extends React.Component<FiasProps, FiasState> {
         </span>
       ) : null;
 
-    const [commonProps] = extractCommonProps(this.props);
-
     return (
-      <LocaleContext.Provider value={{ locale: { Fias: this.state.locale } }}>
-        <div {...commonProps}>
-          {showAddressText && <span>{address.getFullText(this.isFieldVisible(FiasExtraFields.postalcode))}</span>}
-          {!this.props.readonly && (
-            <div>
-              <Link icon={icon} onClick={this.handleOpen}>
-                {linkText}
-              </Link>
-            </div>
-          )}
-          {validation}
-          {opened && this.renderModal()}
-        </div>
-      </LocaleContext.Provider>
+      <div>
+        {showAddressText && <span>{address.getFullText(this.isFieldVisible(FiasExtraFields.postalcode))}</span>}
+        {!this.props.readonly && (
+          <div>
+            <Link icon={icon} onClick={this.handleOpen}>
+              {linkText}
+            </Link>
+          </div>
+        )}
+        {validation}
+        {opened && this.renderModal()}
+      </div>
     );
   }
 

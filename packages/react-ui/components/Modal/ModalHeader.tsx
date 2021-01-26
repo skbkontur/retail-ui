@@ -4,8 +4,7 @@ import cn from 'classnames';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
@@ -40,24 +39,20 @@ function ModalHeader(props: ModalHeaderProps) {
     );
   };
 
-  const [{ className, ...commonProps }] = extractCommonProps(props);
-  const wrapperProps = {
-    ...commonProps,
-    className: cn(className, jsStyles.headerWrapper()),
-  };
-
   return (
-    <ZIndex priority={'ModalHeader'} {...wrapperProps}>
-      <ModalContext.Consumer>
-        {({ close, additionalPadding }) => {
-          if (sticky) {
-            return <Sticky side="top">{renderContent(close, additionalPadding)}</Sticky>;
-          }
+    <CommonWrapper {...props}>
+      <ZIndex priority={'ModalHeader'} className={jsStyles.headerWrapper()}>
+        <ModalContext.Consumer>
+          {({ close, additionalPadding }) => {
+            if (sticky) {
+              return <Sticky side="top">{renderContent(close, additionalPadding)}</Sticky>;
+            }
 
-          return renderContent(close, additionalPadding)();
-        }}
-      </ModalContext.Consumer>
-    </ZIndex>
+            return renderContent(close, additionalPadding)();
+          }}
+        </ModalContext.Consumer>
+      </ZIndex>
+    </CommonWrapper>
   );
 }
 

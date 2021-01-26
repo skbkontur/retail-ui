@@ -12,8 +12,7 @@ import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Tooltip.styles';
 
@@ -309,24 +308,24 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     popupProps: Partial<PopupProps>,
     content: JSX.Element | null,
   ) {
-    const [commonProps] = extractCommonProps(this.props);
     return (
-      <Popup
-        {...commonProps}
-        anchorElement={anchorElement}
-        hasPin
-        hasShadow
-        maxWidth="none"
-        opened={this.state.opened}
-        disableAnimations={this.props.disableAnimations}
-        positions={this.getPositions()}
-        ignoreHover={this.props.trigger === 'hoverAnchor'}
-        onOpen={this.props.onOpen}
-        onClose={this.props.onClose}
-        {...popupProps}
-      >
-        {content}
-      </Popup>
+      <CommonWrapper {...this.props}>
+        <Popup
+          anchorElement={anchorElement}
+          hasPin
+          hasShadow
+          maxWidth="none"
+          opened={this.state.opened}
+          disableAnimations={this.props.disableAnimations}
+          positions={this.getPositions()}
+          ignoreHover={this.props.trigger === 'hoverAnchor'}
+          onOpen={this.props.onOpen}
+          onClose={this.props.onClose}
+          {...popupProps}
+        >
+          {content}
+        </Popup>
+      </CommonWrapper>
     );
   }
 

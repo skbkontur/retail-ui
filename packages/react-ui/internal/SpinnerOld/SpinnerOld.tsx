@@ -6,8 +6,7 @@ import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../icons/SpinnerIcon';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { SpinnerOldCloudIcon } from './SpinnerOldCloudIcon';
 import { jsStyles } from './SpinnerOld.styles';
@@ -83,17 +82,14 @@ export class SpinnerOld extends React.Component<SpinnerOldProps> {
 
   private renderMain() {
     const { type, caption = this.locale.loading } = this.props;
-    const [{ className, ...commonProps }] = extractCommonProps(this.props);
 
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.spinner()),
-    };
     return (
-      <div {...wrapperProps}>
-        <span className={jsStyles.inner()}>{this.renderSpinnerOld(type)}</span>
-        {caption && this.renderCaption(type, caption)}
-      </div>
+      <CommonWrapper {...this.props}>
+        <div className={jsStyles.spinner()}>
+          <span className={jsStyles.inner()}>{this.renderSpinnerOld(type)}</span>
+          {caption && this.renderCaption(type, caption)}
+        </div>
+      </CommonWrapper>
     );
   }
 

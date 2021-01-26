@@ -4,7 +4,7 @@ import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
-import { CommonProps } from '../../typings/common';
+import { CommonProps } from '../../internal/CommonWrapper';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';

@@ -5,8 +5,7 @@ import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
@@ -46,28 +45,24 @@ function ModalFooter(props: ModalFooterProps) {
     </div>
   );
 
-  const [{ className, ...commonProps }] = extractCommonProps(props);
-  const wrapperProps = {
-    ...commonProps,
-    className: cn(className, jsStyles.footerWrapper()),
-  };
-
   return (
-    <ZIndex priority={'ModalFooter'} {...wrapperProps}>
-      <ModalContext.Consumer>
-        {({ horizontalScroll }) => {
-          if (sticky) {
-            return (
-              <Sticky side="bottom" offset={horizontalScroll ? scrollbarWidth : 0}>
-                {renderContent}
-              </Sticky>
-            );
-          }
+    <CommonWrapper {...props}>
+      <ZIndex priority={'ModalFooter'} className={jsStyles.footerWrapper()}>
+        <ModalContext.Consumer>
+          {({ horizontalScroll }) => {
+            if (sticky) {
+              return (
+                <Sticky side="bottom" offset={horizontalScroll ? scrollbarWidth : 0}>
+                  {renderContent}
+                </Sticky>
+              );
+            }
 
-          return renderContent();
-        }}
-      </ModalContext.Consumer>
-    </ZIndex>
+            return renderContent();
+          }}
+        </ModalContext.Consumer>
+      </ZIndex>
+    </CommonWrapper>
   );
 }
 

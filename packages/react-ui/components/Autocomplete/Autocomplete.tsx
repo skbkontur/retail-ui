@@ -13,8 +13,8 @@ import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
     return Promise.resolve([]);
@@ -150,13 +150,16 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
+              <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>
+            </RenderLayer>
+          );
         }}
       </ThemeContext.Consumer>
     );
   }
-  public renderMain() {
-    const [{ style, ...commonProps }, restProps] = extractCommonProps(this.props);
+  public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>) => {
     const {
       onValueChange,
       onKeyDown,
@@ -169,19 +172,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       menuMaxHeight,
       preventWindowScroll,
       source,
-      width,
+      width = this.theme.inputWidth,
       ...rest
-    } = restProps;
-
-    const wrapperProps = {
-      ...commonProps,
-      style: {
-        display: 'inline-block',
-        ...style,
-        width: width ?? (style?.width || this.theme.inputWidth),
-      },
-      ref: this.refRootSpan,
-    };
+    } = props;
 
     const inputProps = {
       ...rest,
@@ -193,14 +186,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     };
 
     return (
-      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
-        <span {...wrapperProps}>
-          <Input {...inputProps} />
-          {this.renderMenu()}
-        </span>
-      </RenderLayer>
+      <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
+        <Input {...inputProps} />
+        {this.renderMenu()}
+      </span>
     );
-  }
+  };
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;

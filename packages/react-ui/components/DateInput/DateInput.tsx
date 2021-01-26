@@ -10,8 +10,7 @@ import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
@@ -64,8 +63,6 @@ export interface DateInputProps extends CommonProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
-const DEFAULT_WIDTH = 125;
-
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
@@ -75,6 +72,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     size: 'small',
+    width: 125,
   };
 
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
@@ -180,37 +178,36 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const fragments = focused || valueFormatted !== '' ? this.iDateMediator.getFragments() : [];
-    const [commonProps] = extractCommonProps(this.props);
-    const width = this.props.width ?? (this.props.style?.width || DEFAULT_WIDTH);
 
     return (
-      <InputLikeText
-        {...commonProps}
-        width={width}
-        ref={this.inputLikeTextRef}
-        size={this.props.size}
-        disabled={this.props.disabled}
-        error={this.props.error}
-        warning={this.props.warning}
-        onBlur={this.handleBlur}
-        onFocus={this.handleFocus}
-        onKeyDown={this.handleKeyDown}
-        onMouseDownCapture={this.handleMouseDownCapture}
-        onPaste={this.handlePaste}
-        rightIcon={this.renderIcon()}
-        onDoubleClickCapture={this.handleDoubleClick}
-        onMouseDragStart={this.handleMouseDragStart}
-        onMouseDragEnd={this.handleMouseDragEnd}
-        value={this.iDateMediator.getInternalString()}
-      >
-        <DateFragmentsView
-          ref={this.dateFragmentsViewRef}
-          fragments={fragments}
-          onSelectDateComponent={this.handleSelectDateComponent}
-          selected={selected}
-          inputMode={inputMode}
-        />
-      </InputLikeText>
+      <CommonWrapper {...this.props}>
+        <InputLikeText
+          width={this.props.width}
+          ref={this.inputLikeTextRef}
+          size={this.props.size}
+          disabled={this.props.disabled}
+          error={this.props.error}
+          warning={this.props.warning}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          onKeyDown={this.handleKeyDown}
+          onMouseDownCapture={this.handleMouseDownCapture}
+          onPaste={this.handlePaste}
+          rightIcon={this.renderIcon()}
+          onDoubleClickCapture={this.handleDoubleClick}
+          onMouseDragStart={this.handleMouseDragStart}
+          onMouseDragEnd={this.handleMouseDragEnd}
+          value={this.iDateMediator.getInternalString()}
+        >
+          <DateFragmentsView
+            ref={this.dateFragmentsViewRef}
+            fragments={fragments}
+            onSelectDateComponent={this.handleSelectDateComponent}
+            selected={selected}
+            inputMode={inputMode}
+          />
+        </InputLikeText>
+      </CommonWrapper>
     );
   }
 

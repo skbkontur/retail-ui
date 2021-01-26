@@ -8,8 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Checkbox.styles';
 
@@ -87,7 +86,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
@@ -134,11 +133,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  private renderMain() {
-    const [{ className, ...commonProps }, restProps] = extractCommonProps(this.props);
-    const props = this.props;
+  private renderMain = (props: CommonWrapperRestProps<CheckboxProps>) => {
     const {
-      children,
       error,
       warning,
       onMouseEnter,
@@ -148,10 +144,10 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       type,
       initialIndeterminate,
       ...rest
-    } = restProps;
+    } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const rootClass = cn(className, {
+    const rootClass = cn({
       [jsStyles.root(this.theme)]: true,
       [jsStyles.rootFallback()]: isIE11 || isEdge,
       [jsStyles.disabled(this.theme)]: Boolean(props.disabled),
@@ -161,14 +157,6 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       [jsStyles.warning(this.theme)]: Boolean(props.warning),
       [jsStyles.error(this.theme)]: Boolean(props.error),
     });
-
-    const wrapperProps = {
-      ...commonProps,
-      className: rootClass,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-    };
 
     const inputProps = {
       ...rest,
@@ -181,12 +169,12 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     };
 
     let caption = null;
-    if (children) {
+    if (this.props.children) {
       const captionClass = cn({
         [jsStyles.caption(this.theme)]: true,
         [jsStyles.captionIE11()]: isIE11 || isEdge,
       });
-      caption = <span className={captionClass}>{children}</span>;
+      caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
     const iconClass = cn({
@@ -201,13 +189,13 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
 
     return (
-      <label {...wrapperProps}>
+      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
         <input {...inputProps} />
         {box}
         {caption}
       </label>
     );
-  }
+  };
 
   private handleFocus = (e: React.FocusEvent<any>) => {
     if (!this.props.disabled) {

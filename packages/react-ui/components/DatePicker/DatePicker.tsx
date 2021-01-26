@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import cn from 'classnames';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -11,8 +10,8 @@ import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
-import { filterProps, extractCommonProps } from '../../lib/filterProps';
-import { CommonProps } from '../../typings/common';
+import { filterProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
@@ -37,7 +36,7 @@ export interface DatePickerProps<T> extends CommonProps {
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
   warning?: boolean;
-  width?: number | string;
+  width: number | string;
   onBlur?: () => void;
   /**
    * Вызывается при изменении `value`
@@ -67,8 +66,6 @@ export interface DatePickerState {
 }
 
 type DatePickerValue = string;
-
-const DEFAULT_WIDTH = 120;
 
 export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
@@ -104,7 +101,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
     warning: PropTypes.bool,
 
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 
     onBlur: PropTypes.func,
 
@@ -124,6 +121,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   };
 
   public static defaultProps = {
+    width: 120,
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
@@ -210,7 +208,11 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     this.setState({ opened: false });
   }
 
-  public render(): JSX.Element {
+  public render() {
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
@@ -229,24 +231,16 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
       );
     }
 
-    const [{ className, style, ...commonProps }, restProps] = extractCommonProps(this.props);
-
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root()),
-      style: {
-        ...style,
-        width: this.props.width ?? (style?.width || DEFAULT_WIDTH),
-      },
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
-    };
-
     return (
-      <label {...wrapperProps}>
+      <label
+        className={jsStyles.root()}
+        style={{ width: this.props.width }}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseOver={this.props.onMouseOver}
+      >
         <DateInput
-          {...filterProps(restProps, INPUT_PASS_PROPS)}
+          {...filterProps(props, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
@@ -260,7 +254,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
         {picker}
       </label>
     );
-  }
+  };
 
   private getInputRef = (ref: DateInput | null) => {
     this.input = ref;

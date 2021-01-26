@@ -12,8 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isBrowser } from '../../lib/client';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
@@ -211,7 +210,15 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <RenderLayer
+              onFocusOutside={this.handleCloseCounterHelp}
+              onClickOutside={this.handleCloseCounterHelp}
+              active={this.state.isCounterVisible}
+            >
+              <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>
+            </RenderLayer>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -259,10 +266,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
-  private renderMain() {
-    const [{ className, style, ...commonProps }, restProps] = extractCommonProps(this.props);
+  private renderMain = (props: CommonWrapperRestProps<TextareaProps>) => {
     const {
-      width,
+      width = DEFAULT_WIDTH,
       error,
       warning,
       autoResize,
@@ -278,16 +284,13 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       lengthCounter,
       counterHelp,
       ...textareaProps
-    } = restProps;
+    } = props;
 
     const { isCounterVisible } = this.state;
 
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root(this.theme)),
+    const rootProps = {
       style: {
-        ...style,
-        width: width ?? (style?.width || DEFAULT_WIDTH),
+        width,
       },
     };
 
@@ -330,33 +333,29 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     );
 
     return (
-      <RenderLayer
-        onFocusOutside={this.handleCloseCounterHelp}
-        onClickOutside={this.handleCloseCounterHelp}
-        active={isCounterVisible}
-      >
-        <label {...wrapperProps}>
-          {placeholderPolyfill}
-          <ResizeDetector onResize={this.reflowCounter}>
-            <textarea
-              {...textareaProps}
-              className={textareaClassNames}
-              style={textareaStyle}
-              placeholder={!placeholderPolyfill ? placeholder : undefined}
-              ref={this.ref}
-              onChange={this.handleChange}
-              onCut={this.handleCut}
-              onPaste={this.handlePaste}
-              onFocus={this.handleFocus}
-              onKeyDown={this.handleKeyDown}
-            />
-          </ResizeDetector>
-          {fakeTextarea}
-          {counter}
-        </label>
-      </RenderLayer>
+      <label {...rootProps} className={jsStyles.root(this.theme)}>
+        {placeholderPolyfill}
+        <ResizeDetector onResize={this.reflowCounter}>
+          <textarea
+            {...textareaProps}
+            className={textareaClassNames}
+            style={textareaStyle}
+            placeholder={!placeholderPolyfill ? placeholder : undefined}
+            ref={this.ref}
+            onChange={this.handleChange}
+            onCut={this.handleCut}
+            onPaste={this.handlePaste}
+            onFocus={this.handleFocus}
+            onKeyDown={this.handleKeyDown}
+          >
+            {this.props.children}
+          </textarea>
+        </ResizeDetector>
+        {fakeTextarea}
+        {counter}
+      </label>
     );
-  }
+  };
 
   private handleCloseCounterHelp = () => this.setState({ isCounterVisible: false });
 

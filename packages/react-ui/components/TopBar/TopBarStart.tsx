@@ -1,7 +1,6 @@
 import React from 'react';
-import cn from 'classnames';
 
-import { CommonProps } from '../../typings/common';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './TopBar.styles';
 
@@ -13,9 +12,9 @@ export type TopBarStartProps = CommonProps;
  * @visibleName TopBar.Start
  */
 
-export const TopBarStart: React.FC<TopBarStartProps> = ({ className, children, ...rest }) => (
-  <div className={cn(className, jsStyles.startItems())} {...rest}>
-    {children}
-  </div>
+export const TopBarStart: React.FC<TopBarStartProps> = ({ children, ...rest }) => (
+  <CommonWrapper {...rest}>
+    <div className={jsStyles.startItems()}>{children}</div>
+  </CommonWrapper>
 );
 (TopBarStart as any).__KONTUR_REACT_UI__ = 'TopBarStart';

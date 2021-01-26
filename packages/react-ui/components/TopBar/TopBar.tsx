@@ -6,8 +6,7 @@ import cn from 'classnames';
 import { Logotype } from '../Logotype';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 import { TopBarDivider } from './TopBarDivider';
@@ -174,16 +173,6 @@ export class TopBar extends React.Component<TopBarProps> {
       onLogout,
       rightItems = TopBar.defaultProps.rightItems,
     } = this.props;
-    const [{ className, ...commonProps }] = extractCommonProps(this.props);
-
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, {
-        [jsStyles.root(this.theme)]: true,
-        [jsStyles.noShadow()]: !!noShadow,
-        [jsStyles.noMargin()]: !!noMargin,
-      }),
-    };
 
     const _rightItems: Array<React.ReactElement<any>> = [...rightItems];
 
@@ -204,25 +193,33 @@ export class TopBar extends React.Component<TopBarProps> {
     };
 
     return (
-      <div {...wrapperProps}>
-        <div className={jsStyles.center()} style={{ maxWidth }}>
-          <div className={jsStyles.containerWrap()}>
-            {children ? (
-              <div className={jsStyles.container()}>{children}</div>
-            ) : (
-              <div className={jsStyles.container()}>
-                <div className={jsStyles.startItems()}>
-                  <TopBarItem>
-                    <Logotype {...logoProps} />
-                  </TopBarItem>
-                  {this._renderItems(leftItems)}
+      <CommonWrapper {...this.props}>
+        <div
+          className={cn({
+            [jsStyles.root(this.theme)]: true,
+            [jsStyles.noShadow()]: !!noShadow,
+            [jsStyles.noMargin()]: !!noMargin,
+          })}
+        >
+          <div className={jsStyles.center()} style={{ maxWidth }}>
+            <div className={jsStyles.containerWrap()}>
+              {children ? (
+                <div className={jsStyles.container()}>{children}</div>
+              ) : (
+                <div className={jsStyles.container()}>
+                  <div className={jsStyles.startItems()}>
+                    <TopBarItem>
+                      <Logotype {...logoProps} />
+                    </TopBarItem>
+                    {this._renderItems(leftItems)}
+                  </div>
+                  <div className={jsStyles.endItems()}>{this._renderItems(_rightItems)}</div>
                 </div>
-                <div className={jsStyles.endItems()}>{this._renderItems(_rightItems)}</div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </CommonWrapper>
     );
   }
 

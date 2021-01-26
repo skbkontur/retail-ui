@@ -6,8 +6,7 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';
@@ -78,11 +77,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderMain() {
     const { isReadyToFix } = this.state;
-    const [commonProps] = extractCommonProps(this.props);
     return (
-      <div ref={this.wrapperRef} {...commonProps}>
-        {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
-      </div>
+      <CommonWrapper {...this.props}>
+        <div ref={this.wrapperRef}>
+          {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
+        </div>
+      </CommonWrapper>
     );
   }
 

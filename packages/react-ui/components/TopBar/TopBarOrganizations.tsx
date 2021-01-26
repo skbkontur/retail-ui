@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
-import { CommonProps } from '../../typings/common';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { TopBarDropdown } from './TopBarDropdown';
 import { jsStyles } from './TopBar.styles';
@@ -72,9 +72,11 @@ export class TopBarOrganizations extends React.Component<TopBarOrganizationsProp
     );
 
     return (
-      <TopBarDropdown {...this.props} label={title} minWidth={this.state.minWidth}>
-        {this.props.children}
-      </TopBarDropdown>
+      <CommonWrapper {...this.props}>
+        <TopBarDropdown {...this.props} label={title} minWidth={this.state.minWidth}>
+          {this.props.children}
+        </TopBarDropdown>
+      </CommonWrapper>
     );
   }
 

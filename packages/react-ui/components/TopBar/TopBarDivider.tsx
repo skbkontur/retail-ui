@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonProps } from '../../typings/common';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './TopBar.styles';
 
@@ -13,8 +12,12 @@ export type TopBarDividerProps = CommonProps;
  *
  * @visibleName TopBar.Divider
  */
-export function TopBarDivider({ className, ...rest }: TopBarDividerProps) {
+export function TopBarDivider(props: TopBarDividerProps) {
   const theme = useContext(ThemeContext);
-  return <span className={cn(className, jsStyles.divider(theme))} {...rest} />;
+  return (
+    <CommonWrapper {...props}>
+      <span className={jsStyles.divider(theme)} />
+    </CommonWrapper>
+  );
 }
 TopBarDivider.__KONTUR_REACT_UI__ = 'TopBarDivider';

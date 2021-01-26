@@ -10,8 +10,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Input.styles';
 
@@ -206,7 +205,7 @@ export class Input extends React.Component<InputProps, InputState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
@@ -244,8 +243,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private renderMain() {
-    const [{ className, style, ...commonProps }, restProps] = extractCommonProps(this.props);
+  private renderMain = (props: CommonWrapperRestProps<InputProps>) => {
     const {
       onMouseEnter,
       onMouseLeave,
@@ -274,13 +272,12 @@ export class Input extends React.Component<InputProps, InputState> {
       suffix,
       formatChars,
       ...rest
-    } = restProps;
+    } = props;
 
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root(this.theme), this.getSizeClassName(), {
+      className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
         [jsStyles.borderless()]: !!borderless,
         [jsStyles.focus(this.theme)]: focused,
         [jsStyles.blink(this.theme)]: !!blinking,
@@ -291,7 +288,7 @@ export class Input extends React.Component<InputProps, InputState> {
         [jsStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
         [jsStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
       }),
-      style: { ...style, width: width ?? style?.width },
+      style: { width },
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
@@ -335,7 +332,7 @@ export class Input extends React.Component<InputProps, InputState> {
         </span>
       </label>
     );
-  }
+  };
 
   private renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & {

@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';
 import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonSize, ButtonUse } from '../Button';
-import { CommonProps } from '../../typings/common';
-import { filterProps, extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -164,21 +164,23 @@ export class Dropdown extends React.Component<DropdownProps> {
   private _select: Nullable<DropdownSelectType>;
 
   public render() {
-    const [commonProps] = extractCommonProps(this.props);
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = ({ caption, icon, ...props }: CommonWrapperRestProps<DropdownProps>) => {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
       <Select<React.ReactNode, React.ReactNode>
-        {...commonProps}
         ref={this._refSelect}
-        {...filterProps(this.props, PASS_PROPS)}
-        value={this.props.caption}
+        {...filterProps(props, PASS_PROPS)}
+        value={caption}
         items={items}
-        _icon={this.props.icon}
+        _icon={icon}
         renderValue={renderValue}
       />
     );
-  }
+  };
 
   /**
    * @public

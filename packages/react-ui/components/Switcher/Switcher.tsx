@@ -8,8 +8,7 @@ import { Button, ButtonSize } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -87,8 +86,6 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
-    const [commonProps] = extractCommonProps(this.props);
-
     const inputProps = {
       type: 'checkbox',
       onKeyDown: this.handleKey,
@@ -100,15 +97,17 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     const lableClassName = cn(jsStyles.label(), this.getLabelSizeClassName());
 
     return (
-      <div {...commonProps}>
-        {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
-        <div className={jsStyles.wrap()}>
-          <input {...inputProps} />
-          <div className={listClassName}>
-            <Group>{this._renderItems()}</Group>
+      <CommonWrapper {...this.props}>
+        <div>
+          {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
+          <div className={jsStyles.wrap()}>
+            <input {...inputProps} />
+            <div className={listClassName}>
+              <Group>{this._renderItems()}</Group>
+            </div>
           </div>
         </div>
-      </div>
+      </CommonWrapper>
     );
   }
 

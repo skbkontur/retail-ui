@@ -1,6 +1,5 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import cn from 'classnames';
 
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType } from '../../components/Input';
@@ -11,8 +10,7 @@ import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDownIcon } from '../icons/16px';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -65,7 +63,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
-const DEFAULT_WIDTH = 250;
+
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
@@ -82,6 +80,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       /**/
     },
     size: 'small',
+    width: 250,
   };
 
   private input: Nullable<Input>;
@@ -100,7 +99,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   }
 
   public render() {
-    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
     const {
       items,
       loading,
@@ -123,18 +121,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       width,
     } = this.props;
 
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root()),
-      style: {
-        ...style,
-        width: width ?? (style?.width || DEFAULT_WIDTH),
-      },
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-    };
-
     const input = this.renderInput();
 
     const topOffsets = {
@@ -152,33 +138,41 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     return (
       <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
-        <span {...wrapperProps}>
-          {input}
-          {opened && (
-            <DropdownContainer
-              align={menuAlign}
-              getParent={() => findDOMNode(this)}
-              offsetY={1}
-              disablePortal={this.props.disablePortal}
-            >
-              <ComboBoxMenu
-                items={items}
-                loading={loading}
-                maxMenuHeight={maxMenuHeight}
-                onValueChange={this.handleItemSelect}
-                opened={opened}
-                refMenu={refMenu}
-                renderTotalCount={renderTotalCount}
-                renderItem={renderItem!}
-                renderNotFound={renderNotFound}
-                renderAddButton={this.renderAddButton}
-                repeatRequest={repeatRequest}
-                requestStatus={requestStatus}
-                totalCount={totalCount}
-              />
-            </DropdownContainer>
-          )}
-        </span>
+        <CommonWrapper {...this.props}>
+          <span
+            style={{ width }}
+            className={jsStyles.root()}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onMouseOver={onMouseOver}
+          >
+            {input}
+            {opened && (
+              <DropdownContainer
+                align={menuAlign}
+                getParent={() => findDOMNode(this)}
+                offsetY={1}
+                disablePortal={this.props.disablePortal}
+              >
+                <ComboBoxMenu
+                  items={items}
+                  loading={loading}
+                  maxMenuHeight={maxMenuHeight}
+                  onValueChange={this.handleItemSelect}
+                  opened={opened}
+                  refMenu={refMenu}
+                  renderTotalCount={renderTotalCount}
+                  renderItem={renderItem!}
+                  renderNotFound={renderNotFound}
+                  renderAddButton={this.renderAddButton}
+                  repeatRequest={repeatRequest}
+                  requestStatus={requestStatus}
+                  totalCount={totalCount}
+                />
+              </DropdownContainer>
+            )}
+          </span>
+        </CommonWrapper>
       </RenderLayer>
     );
   }

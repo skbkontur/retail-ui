@@ -11,8 +11,7 @@ import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -136,20 +135,22 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   }
 
   private renderMain() {
-    const [{ className, ...commonProps }] = extractCommonProps(this.props);
-
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.paging()),
-      tabIndex: 0,
-      onKeyDown: this.props.useGlobalListener ? undefined : this.handleKeyDown,
-      onFocus: this.handleFocus,
-      onBlur: this.handleBlur,
-      onMouseDown: this.handleMouseDown,
-      ref: this.refContainer,
-    };
-
-    return <span {...wrapperProps}>{this.getItems().map(this.renderItem)}</span>;
+    return (
+      <CommonWrapper {...this.props}>
+        <span
+          tabIndex={0}
+          data-tid={this.props['data-tid']}
+          className={jsStyles.paging()}
+          onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onMouseDown={this.handleMouseDown}
+          ref={this.refContainer}
+        >
+          {this.getItems().map(this.renderItem)}
+        </span>
+      </CommonWrapper>
+    );
   }
 
   private renderItem = (item: ItemType, index: number) => {

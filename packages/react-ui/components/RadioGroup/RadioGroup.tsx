@@ -10,8 +10,7 @@ import { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -184,26 +183,24 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   public renderMain() {
-    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
     const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
-
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root()),
-      style: {
-        ...style,
-        width: width ?? (style?.width || 'auto'),
-      },
+    const style = {
+      width: width != null ? width : 'auto',
+    };
+    const handlers = {
       onMouseOver,
       onMouseEnter,
       onMouseLeave,
-      ref: this.ref,
     };
 
     return (
-      <FocusTrap onBlur={onBlur}>
-        <span {...wrapperProps}>{this.renderChildren()}</span>
-      </FocusTrap>
+      <CommonWrapper {...this.props}>
+        <FocusTrap onBlur={onBlur}>
+          <span ref={this.ref} style={style} className={jsStyles.root()} {...handlers}>
+            {this.renderChildren()}
+          </span>
+        </FocusTrap>
+      </CommonWrapper>
     );
   }
 

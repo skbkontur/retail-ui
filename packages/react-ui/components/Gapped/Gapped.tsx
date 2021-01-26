@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -59,14 +58,14 @@ export class Gapped extends React.Component<GappedProps> {
   };
 
   public render() {
-    const [commonProps] = extractCommonProps(this.props);
-    if (this.props.vertical) {
-      return this.renderVertical(commonProps);
-    }
-    return this.renderHorizontal(commonProps);
+    return (
+      <CommonWrapper {...this.props}>
+        {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
+      </CommonWrapper>
+    );
   }
 
-  private renderVertical(commonProps: CommonProps) {
+  private renderVertical() {
     const subsequentItemStyle: React.CSSProperties = {
       paddingTop: this.props.gap,
     };
@@ -82,24 +81,21 @@ export class Gapped extends React.Component<GappedProps> {
       return <div style={style}>{child}</div>;
     });
 
-    return <div {...commonProps}>{children}</div>;
+    return <div>{children}</div>;
   }
 
-  private renderHorizontal(commonProps: CommonProps) {
+  private renderHorizontal() {
     const { gap, children, verticalAlign, wrap } = this.props;
     const itemStyle: React.CSSProperties = {
       display: 'inline-block',
       verticalAlign,
       ...(wrap ? { marginLeft: gap, marginTop: gap } : {}),
     };
-    commonProps.style = {
-      ...(wrap ? { paddingTop: 1 } : {}),
-      ...commonProps.style,
-    };
+    const rootStyle: React.CSSProperties = wrap ? { paddingTop: 1 } : {};
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <div {...commonProps}>
+      <div style={rootStyle}>
         <div style={contStyle}>
           {React.Children.toArray(children).map((child, index) => {
             const marginLeft = index === 0 ? undefined : gap;

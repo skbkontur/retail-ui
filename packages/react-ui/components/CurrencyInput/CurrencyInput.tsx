@@ -4,7 +4,7 @@ import warning from 'warning';
 
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
-import { CommonProps } from '../../typings/common';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -122,7 +122,11 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = this.props;
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {
+    const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
     const placeholder =
       this.props.placeholder == null
         ? CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros })
@@ -147,7 +151,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
         placeholder={this.state.focused ? '' : placeholder}
       />
     );
-  }
+  };
 
   /**
    * @public

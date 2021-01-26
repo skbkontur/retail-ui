@@ -5,8 +5,7 @@ import { isIE11, isEdge } from '../../lib/client';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
@@ -202,18 +201,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       tabIndex: this.props.disableFocus ? -1 : 0,
     };
 
-    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
-
     const wrapProps = {
-      ...commonProps,
-      className: cn(className, {
+      className: cn({
         [jsStyles.wrap(this.theme)]: true,
         [jsStyles.wrapArrow()]: this.props.arrow === true,
         [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
       }),
       style: {
-        ...style,
-        width: this.props.width ?? style?.width,
+        width: this.props.width,
       },
     };
 
@@ -269,17 +264,19 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     return (
-      <span {...wrapProps}>
-        <button ref={this._ref} {...rootProps}>
-          {error}
-          {loading}
-          {arrow}
-          <div className={jsStyles.caption()}>
-            {icon}
-            {this.props.children}
-          </div>
-        </button>
-      </span>
+      <CommonWrapper {...this.props}>
+        <span {...wrapProps}>
+          <button ref={this._ref} {...rootProps}>
+            {error}
+            {loading}
+            {arrow}
+            <div className={jsStyles.caption()}>
+              {icon}
+              {this.props.children}
+            </div>
+          </button>
+        </span>
+      </CommonWrapper>
     );
   }
 

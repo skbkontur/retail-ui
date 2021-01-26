@@ -5,8 +5,7 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './ScrollContainer.styles';
 
@@ -110,15 +109,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       );
     }
 
-    const [{ className, ...commonProps }] = extractCommonProps(props);
-
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root()),
-      onMouseMove: this.handleMouseMove,
-      onMouseLeave: this.handleMouseLeave,
-    };
-
     const innerStyle: React.CSSProperties = {
       // hide vertical scrollbar with a little extra space
       marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
@@ -129,18 +119,20 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     };
 
     return (
-      <div {...wrapperProps}>
-        {scroll}
-        <div
-          data-tid="ScrollContainer__inner"
-          className={jsStyles.inner()}
-          style={innerStyle}
-          ref={this.refInner}
-          onScroll={this.handleNativeScroll}
-        >
-          {props.children}
+      <CommonWrapper {...this.props}>
+        <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+          {scroll}
+          <div
+            data-tid="ScrollContainer__inner"
+            className={jsStyles.inner()}
+            style={innerStyle}
+            ref={this.refInner}
+            onScroll={this.handleNativeScroll}
+          >
+            {props.children}
+          </div>
         </div>
-      </div>
+      </CommonWrapper>
     );
   }
 

@@ -6,8 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { PopupPosition } from '../../internal/Popup';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 export interface DropdownMenuProps extends CommonProps {
   /** Максимальная высота меню */
@@ -85,23 +84,23 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     if (!this.props.caption) {
       return null;
     }
-    const [commonProps] = extractCommonProps(this.props);
     return (
-      <PopupMenu
-        {...commonProps}
-        ref={this.refPopupMenu}
-        caption={this.props.caption}
-        menuMaxHeight={this.props.menuMaxHeight}
-        menuWidth={this.props.menuWidth}
-        onChangeMenuState={this.handleChangeMenuState}
-        popupHasPin={false}
-        positions={this.props.positions}
-        disableAnimations={this.props.disableAnimations}
-        header={this.props.header}
-        footer={this.props.footer}
-      >
-        {this.props.children}
-      </PopupMenu>
+      <CommonWrapper {...this.props}>
+        <PopupMenu
+          ref={this.refPopupMenu}
+          caption={this.props.caption}
+          menuMaxHeight={this.props.menuMaxHeight}
+          menuWidth={this.props.menuWidth}
+          onChangeMenuState={this.handleChangeMenuState}
+          popupHasPin={false}
+          positions={this.props.positions}
+          disableAnimations={this.props.disableAnimations}
+          header={this.props.header}
+          footer={this.props.footer}
+        >
+          {this.props.children}
+        </PopupMenu>
+      </CommonWrapper>
     );
   }
 

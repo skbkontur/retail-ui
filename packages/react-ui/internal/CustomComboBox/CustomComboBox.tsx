@@ -7,8 +7,7 @@ import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -217,10 +216,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public render() {
-    const [commonProps] = extractCommonProps(this.props);
-
     const viewProps = {
-      ...commonProps,
       align: this.props.align,
       borderless: this.props.borderless,
       disabled: this.props.disabled,
@@ -277,7 +273,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       },
     };
 
-    return <ComboBoxView {...viewProps} />;
+    return (
+      <CommonWrapper {...this.props}>
+        <ComboBoxView {...viewProps} />
+      </CommonWrapper>
+    );
   }
 
   public componentDidMount() {

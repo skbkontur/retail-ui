@@ -24,8 +24,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { jsStyles } from './TokenInput.styles';
@@ -264,59 +263,59 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [jsStyles.inputEditing(theme)]: this.isEditingMode,
     });
 
-    const [commonProps] = extractCommonProps(this.props);
-
     return (
-      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} {...commonProps}>
-        <label
-          ref={this.wrapperRef}
-          style={{ width }}
-          className={labelClassName}
-          onMouseDown={this.handleWrapperMouseDown}
-          onMouseUp={this.handleWrapperMouseUp}
-        >
-          <TextWidthHelper
-            ref={this.textHelperRef}
-            classHelp={cn(jsStyles.helperText(theme), {
-              [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
-            })}
-            text={inputValue}
-            theme={this.theme}
-          />
-          {this.renderTokensStart()}
-          <textarea
-            ref={this.inputRef}
-            value={inputValue}
-            style={inputInlineStyles}
-            autoComplete="off"
-            spellCheck={false}
-            disabled={disabled}
-            className={inputClassName}
-            placeholder={selectedItems.length > 0 ? undefined : placeholder}
-            onFocus={this.handleInputFocus}
-            onBlur={this.handleInputBlur}
-            onChange={this.handleChangeInputValue}
-            onKeyDown={this.handleKeyDown}
-            onPaste={this.handleInputPaste}
-          />
-          {showMenu && (
-            <TokenInputMenu
-              ref={this.tokensInputMenuRef}
-              items={autocompleteItems}
-              loading={loading}
-              opened={showMenu}
-              maxMenuHeight={maxMenuHeight}
-              anchorElement={this.input!}
-              renderNotFound={renderNotFound}
-              renderItem={renderItem}
-              onValueChange={this.selectItem}
-              renderAddButton={this.renderAddButton}
+      <CommonWrapper {...this.props}>
+        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+          <label
+            ref={this.wrapperRef}
+            style={{ width }}
+            className={labelClassName}
+            onMouseDown={this.handleWrapperMouseDown}
+            onMouseUp={this.handleWrapperMouseUp}
+          >
+            <TextWidthHelper
+              ref={this.textHelperRef}
+              classHelp={cn(jsStyles.helperText(theme), {
+                [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
+              })}
+              text={inputValue}
+              theme={this.theme}
             />
-          )}
-          {this.renderTokensEnd()}
-          {this.isEditingMode ? <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span> : null}
-        </label>
-      </div>
+            {this.renderTokensStart()}
+            <textarea
+              ref={this.inputRef}
+              value={inputValue}
+              style={inputInlineStyles}
+              autoComplete="off"
+              spellCheck={false}
+              disabled={disabled}
+              className={inputClassName}
+              placeholder={selectedItems.length > 0 ? undefined : placeholder}
+              onFocus={this.handleInputFocus}
+              onBlur={this.handleInputBlur}
+              onChange={this.handleChangeInputValue}
+              onKeyDown={this.handleKeyDown}
+              onPaste={this.handleInputPaste}
+            />
+            {showMenu && (
+              <TokenInputMenu
+                ref={this.tokensInputMenuRef}
+                items={autocompleteItems}
+                loading={loading}
+                opened={showMenu}
+                maxMenuHeight={maxMenuHeight}
+                anchorElement={this.input!}
+                renderNotFound={renderNotFound}
+                renderItem={renderItem}
+                onValueChange={this.selectItem}
+                renderAddButton={this.renderAddButton}
+              />
+            )}
+            {this.renderTokensEnd()}
+            {this.isEditingMode ? <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+          </label>
+        </div>
+      </CommonWrapper>
     );
   }
 

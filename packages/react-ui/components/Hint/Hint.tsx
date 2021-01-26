@@ -8,8 +8,7 @@ import { Popup, PopupPosition } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Hint.styles';
 
@@ -124,23 +123,23 @@ export class Hint extends React.Component<HintProps, HintState> {
   }
 
   public renderMain() {
-    const [commonProps] = extractCommonProps(this.props);
     return (
-      <Popup
-        {...commonProps}
-        hasPin
-        opened={this.state.opened}
-        anchorElement={this.props.children}
-        positions={this.getPositions()}
-        backgroundColor={HINT_BACKGROUND_COLOR}
-        borderColor={HINT_BORDER_COLOR}
-        disableAnimations={this.props.disableAnimations}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        useWrapper={this.props.useWrapper}
-      >
-        {this.renderContent()}
-      </Popup>
+      <CommonWrapper {...this.props}>
+        <Popup
+          hasPin
+          opened={this.state.opened}
+          anchorElement={this.props.children}
+          positions={this.getPositions()}
+          backgroundColor={HINT_BACKGROUND_COLOR}
+          borderColor={HINT_BORDER_COLOR}
+          disableAnimations={this.props.disableAnimations}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          useWrapper={this.props.useWrapper}
+        >
+          {this.renderContent()}
+        </Popup>
+      </CommonWrapper>
     );
   }
 

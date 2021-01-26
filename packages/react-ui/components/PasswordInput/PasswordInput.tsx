@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
@@ -8,13 +7,13 @@ import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/client';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './PasswordInput.styles';
 
-export type PasswordInputProps = {
+export interface PasswordInputProps extends CommonProps, InputProps {
   detectCapsLock?: boolean;
-} & InputProps;
+}
 
 export interface PasswordInputState {
   visible: boolean;
@@ -59,12 +58,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   }
 
   public render() {
-    const [{ className, ...commonProps }, restProps] = extractCommonProps(this.props);
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root()),
-    };
-    return <div {...wrapperProps}>{this.renderInput(restProps)}</div>;
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   /**
@@ -155,7 +149,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     this.input = element;
   };
 
-  private renderInput(props: PasswordInputProps) {
+  private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
     const { detectCapsLock, ...rest } = props;
     const inputProps = {
       ...rest,
@@ -163,6 +157,10 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
     };
-    return <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />;
-  }
+    return (
+      <div className={jsStyles.root()}>
+        <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
+      </div>
+    );
+  };
 }

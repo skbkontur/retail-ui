@@ -1,8 +1,6 @@
 import React from 'react';
-import cn from 'classnames';
 
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -26,11 +24,10 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
   }
 
   public render() {
-    const [{ className, ...commonProps }] = extractCommonProps(this.props);
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.body()),
-    };
-    return <div {...wrapperProps}>{this.props.children}</div>;
+    return (
+      <CommonWrapper {...this.props}>
+        <div className={jsStyles.body()}>{this.props.children}</div>
+      </CommonWrapper>
+    );
   }
 }

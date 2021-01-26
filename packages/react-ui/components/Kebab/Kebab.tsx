@@ -13,8 +13,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../../internal/icons/16px';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Kebab.styles';
 
@@ -111,18 +110,18 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderMain() {
     const { disabled, positions } = this.props;
-    const [commonProps] = extractCommonProps(this.props);
     return (
-      <PopupMenu
-        {...commonProps}
-        popupHasPin
-        positions={positions}
-        onChangeMenuState={this.handleChangeMenuState}
-        caption={this.renderCaption}
-        disableAnimations={this.props.disableAnimations}
-      >
-        {!disabled && this.props.children}
-      </PopupMenu>
+      <CommonWrapper {...this.props}>
+        <PopupMenu
+          popupHasPin
+          positions={positions}
+          onChangeMenuState={this.handleChangeMenuState}
+          caption={this.renderCaption}
+          disableAnimations={this.props.disableAnimations}
+        >
+          {!disabled && this.props.children}
+        </PopupMenu>
+      </CommonWrapper>
     );
   }
 

@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { IconProps } from '../../internal/icons/20px';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu';
-import { CommonProps } from '../../typings/common';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 
@@ -35,9 +35,11 @@ export class TopBarDropdown extends React.Component<TopBarDropdownProps> {
 
   public render() {
     return (
-      <DropdownMenu {...this.props} ref={this.refDropdownMenu} caption={this.renderButton}>
-        {this.props.children}
-      </DropdownMenu>
+      <CommonWrapper {...this.props}>
+        <DropdownMenu {...this.props} ref={this.refDropdownMenu} caption={this.renderButton}>
+          {this.props.children}
+        </DropdownMenu>
+      </CommonWrapper>
     );
   }
 

@@ -8,8 +8,7 @@ import { MenuItemProps } from '../MenuItem';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPosition } from '../../internal/Popup';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
@@ -87,22 +86,21 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
       return null;
     }
 
-    const [commonProps] = extractCommonProps(this.props);
-
     return (
-      <PopupMenu
-        {...commonProps}
-        menuMaxHeight={this.props.menuMaxHeight}
-        menuWidth={this.props.menuWidth}
-        caption={this.props.caption}
-        header={this.props.header}
-        footer={this.props.footer}
-        positions={this.props.positions}
-        popupHasPin={true}
-        disableAnimations={this.props.disableAnimations}
-      >
-        {this.props.children}
-      </PopupMenu>
+      <CommonWrapper {...this.props}>
+        <PopupMenu
+          menuMaxHeight={this.props.menuMaxHeight}
+          menuWidth={this.props.menuWidth}
+          caption={this.props.caption}
+          header={this.props.header}
+          footer={this.props.footer}
+          positions={this.props.positions}
+          popupHasPin={true}
+          disableAnimations={this.props.disableAnimations}
+        >
+          {this.props.children}
+        </PopupMenu>
+      </CommonWrapper>
     );
   }
 }

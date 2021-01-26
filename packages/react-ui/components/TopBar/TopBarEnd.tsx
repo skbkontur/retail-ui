@@ -1,7 +1,6 @@
 import React from 'react';
-import cn from 'classnames';
 
-import { CommonProps } from '../../typings/common';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './TopBar.styles';
 
@@ -13,9 +12,9 @@ export type TopBarEndProps = CommonProps;
  * @visibleName TopBar.End
  */
 
-export const TopBarEnd: React.FC<TopBarEndProps> = ({ className, children, ...rest }) => (
-  <div className={cn(className, jsStyles.endItems())} {...rest}>
-    {children}
-  </div>
+export const TopBarEnd: React.FC<TopBarEndProps> = ({ children, ...rest }) => (
+  <CommonWrapper {...rest}>
+    <div className={jsStyles.endItems()}>{children}</div>
+  </CommonWrapper>
 );
 (TopBarEnd as any).__KONTUR_REACT_UI__ = 'TopBarEnd';

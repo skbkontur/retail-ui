@@ -2,15 +2,14 @@ import React from 'react';
 
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
-import { CommonProps } from '../../typings/common';
-import { extractCommonProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 export interface CurrencyLabelProps extends CommonProps {
   /**
    * Минимальное количество отображаемых знаков после запятой
    * @default 2
    */
-  fractionDigits?: number;
+  fractionDigits: number;
   value: number;
   currencySymbol?: React.ReactNode;
 }
@@ -20,14 +19,15 @@ export const defaultProps = {
 };
 
 export const CurrencyLabel = (props: CurrencyLabelProps): JSX.Element => {
-  const [commonProps] = extractCommonProps(props);
   const { value, fractionDigits, currencySymbol } = props;
   return (
-    <span {...commonProps}>
-      {CurrencyHelper.format(value, { fractionDigits })}
-      {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
-      {currencySymbol}
-    </span>
+    <CommonWrapper {...props}>
+      <span>
+        {CurrencyHelper.format(value, { fractionDigits })}
+        {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
+        {currencySymbol}
+      </span>
+    </CommonWrapper>
   );
 };
 

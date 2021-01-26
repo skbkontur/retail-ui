@@ -17,6 +17,7 @@ import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
 import { DropdownContainer } from '../../internal/DropdownContainer';
+import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Link } from '../Link';
 import { Menu } from '../../internal/Menu';
@@ -28,8 +29,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps } from '../../typings/common';
-import { filterProps, extractCommonProps } from '../../lib/filterProps';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -274,26 +274,21 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onKeyDown: this.handleKey,
     };
 
-    const [{ className, style, ...commonProps }] = extractCommonProps(this.props);
-
-    const wrapperProps = {
-      ...commonProps,
-      className: cn(className, jsStyles.root(this.theme)),
-      style: {
-        ...style,
-        width: this.props.width ?? style?.width,
-        maxWidth: this.props.maxWidth ?? style?.maxWidth,
-      },
+    const style = {
+      width: this.props.width,
+      maxWidth: this.props.maxWidth || undefined,
     };
 
     const button = this.getButton(buttonParams);
 
     return (
       <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-        <span {...wrapperProps}>
-          {button}
-          {!this.props.disabled && this.state.opened && this.renderMenu()}
-        </span>
+        <CommonWrapper {...this.props}>
+          <span className={jsStyles.root(this.theme)} style={style}>
+            {button}
+            {!this.props.disabled && this.state.opened && this.renderMenu()}
+          </span>
+        </CommonWrapper>
       </RenderLayer>
     );
   }
