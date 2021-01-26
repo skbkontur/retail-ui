@@ -6,7 +6,7 @@ import { isFunction } from '../../lib/utils';
 export interface CommonProps {
   className?: React.HTMLAttributes<HTMLElement>['className'];
   style?: React.HTMLAttributes<HTMLElement>['style'];
-  /** На равне с data-tid транслируются любые data-атрибуты */
+  /** На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент. */
   'data-tid'?: string;
 }
 

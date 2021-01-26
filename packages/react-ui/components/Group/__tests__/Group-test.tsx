@@ -83,4 +83,11 @@ describe('Group', () => {
         .prop('style').width,
     ).toBe('100px');
   });
+
+  it('applies width from prop', () => {
+    const width = '99px';
+    const wrapper = mount(<Group width={width} />);
+
+    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
+  });
 });

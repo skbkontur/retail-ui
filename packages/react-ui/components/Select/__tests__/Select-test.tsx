@@ -94,6 +94,15 @@ describe('Select', () => {
     expect(wrapper.find(MenuItem)).toHaveLength(1);
   });
 
+  it('applies width from prop', () => {
+    const width = '99px';
+    const maxWidth = '1000px';
+    const wrapper = mount(<Select width={width} maxWidth={maxWidth} />);
+
+    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
+    expect(getComputedStyle(wrapper.getDOMNode()).maxWidth).toBe(maxWidth);
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       const wrapper = mount(<Select />);

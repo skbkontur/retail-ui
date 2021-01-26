@@ -10,11 +10,12 @@ import { InputProps, InputIconType, InputState } from '../../components/Input';
 import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
 
-export interface InputLikeTextProps extends InputProps {
+export interface InputLikeTextProps extends CommonProps, InputProps {
   children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
   onFocus?: React.FocusEventHandler<HTMLElement>;
@@ -115,13 +116,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain() {
+  private renderMain = (props: CommonWrapperRestProps<InputLikeTextProps>) => {
     const {
       innerRef,
       tabIndex,
@@ -129,7 +130,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       align,
       borderless,
       width,
-      children,
+      size,
       error,
       warning,
       onValueChange,
@@ -142,7 +143,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       onMouseDragStart,
       onMouseDragEnd,
       ...rest
-    } = this.props;
+    } = props;
 
     const { focused, blinking } = this.state;
 
@@ -182,7 +183,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {leftSide}
         <span className={wrapperClass}>
           <span data-tid="InputLikeText__input" className={cn(jsStyles.input(), jsInputStyles.input(this.theme))}>
-            {children}
+            {this.props.children}
           </span>
           {this.renderPlaceholder()}
         </span>
@@ -190,7 +191,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {isIE11 && focused && <HiddenInput nodeRef={this.hiddenInputRef} />}
       </span>
     );
-  }
+  };
 
   private getIconClassname(right = false) {
     switch (this.props.size) {

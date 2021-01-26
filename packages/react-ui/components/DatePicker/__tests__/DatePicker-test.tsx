@@ -119,6 +119,14 @@ describe('DatePicker', () => {
     });
     expect(datePicker.find(DropdownContainer)).toHaveLength(1);
   });
+  it('applies width from prop', () => {
+    const width = '99px';
+    const wrapper = renderDatePicker({
+      width,
+    });
+
+    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
+  });
 
   describe('Locale', () => {
     const getTextLoading = (wrapper: ReactWrapper<any>): string => {

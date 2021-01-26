@@ -34,4 +34,11 @@ describe('Button', () => {
 
     expect(onClick.mock.calls.length).toBe(1);
   });
+
+  it('applies width from prop', () => {
+    const width = '99px';
+    const wrapper = mount(<Button width={width} />);
+
+    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
+  });
 });

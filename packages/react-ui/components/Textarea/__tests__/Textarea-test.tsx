@@ -56,4 +56,11 @@ describe('Textarea', () => {
 
     expect(document.activeElement).toBe(wrapper.find('textarea').instance());
   });
+
+  it('applies width from prop', () => {
+    const width = '99px';
+    const wrapper = mount(<Textarea width={width} />);
+
+    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
+  });
 });
