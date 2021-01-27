@@ -353,7 +353,7 @@ const styles = {
           t.btnPrimaryShadow,
           t.btnPrimaryShadowArrow,
           t.btnPrimaryTextColor,
-          t.btnPrimaryBorder,
+          t.btnPrimaryBorderColor,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
         )};
@@ -391,7 +391,7 @@ const styles = {
           t.btnSuccessShadow,
           t.btnSuccessShadowArrow,
           t.btnSuccessTextColor,
-          t.btnSuccessBorder,
+          t.btnSuccessBorderColor,
           cssName(styles.checked(t)),
           cssName(styles.arrow()),
         )};

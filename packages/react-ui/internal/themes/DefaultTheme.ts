@@ -293,8 +293,8 @@ export class DefaultTheme {
   public static btnCheckedShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.6)';
   public static btnCheckedDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.37)';
   public static btnCheckedDisabledShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.37)';
-  public static btnSmallBorderRadius = '1px'; // todo: deprecated
-  public static btnBorderRadius = '2px'; // todo: deprecated
+  public static btnSmallBorderRadius = '2px'; // todo: deprecated
+  public static btnBorderRadius = '3px'; // todo: deprecated
   public static get btnBorderRadiusSmall() {
     return this.btnSmallBorderRadius;
   }
@@ -343,14 +343,12 @@ export class DefaultTheme {
   public static btnSuccessHoverBg = 'none';
   public static btnSuccessHoverBorderColor = 'transparent';
   public static btnSuccessDisabledBg = 'none';
-  public static btnSuccessBorder = 'none';
+  public static btnSuccessBorderColor = 'rgba(25, 103, 6, 0.7) rgba(25, 103, 6, 0.7) rgba(116, 159, 106, 1)';
   public static btnSuccessBgStart = '#4ba91d';
   public static btnSuccessBgEnd = '#37910b';
   public static btnSuccessTextColor = '#fff';
-  public static get btnSuccessShadow() {
-    return `0 0 0 ${this.btnBorderWidth}  rgba(25, 103, 6, 0.7), 0 ${this.btnBorderWidth}  0 0 rgba(21, 80, 7, 0.5)`;
-  }
   public static btnSuccessShadowArrow = '1px 0 0 0 rgba(25, 103, 6, 0.7)';
+  public static btnSuccessShadow = 'none';
   public static btnSuccessHoverBgStart = '#3b8d13';
   public static btnSuccessHoverBgEnd = '#317e0b';
   public static get btnSuccessHoverShadow() {
@@ -365,78 +363,60 @@ export class DefaultTheme {
   public static btnSuccessActiveShadowArrow = '1px 0 0 0 rgba(4, 63, 0, 0.75)';
   public static btnPrimaryBg = '#1e8dd4';
   public static btnPrimaryHoverBg = 'none';
-  public static btnPrimaryHoverBorderColor = 'transparent';
+  public static btnPrimaryHoverBorderColor = 'rgba(5, 60, 99, 0.7) rgba(5, 60, 99, 0.7) rgba(6, 46, 88, 0.85)';
   public static btnPrimaryDisabledBg = 'none';
-  public static btnPrimaryBorder = 'none';
+  public static btnPrimaryBorderColor = 'rgba(14, 81, 129, 0.7) rgba(14, 81, 129, 0.7) rgba(10, 55, 100, 0.85)';
   public static btnPrimaryBgStart = '#2899ea';
   public static btnPrimaryBgEnd = '#167ac1';
   public static btnPrimaryTextColor = '#fff';
-  public static get btnPrimaryShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(14, 81, 129, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(7, 37, 80, 0.5)`;
-  }
   public static btnPrimaryShadowArrow = '1px 0 0 0 rgba(14, 81, 129, 0.7)';
   public static btnPrimaryHoverBgStart = '#0087d5';
   public static btnPrimaryHoverBgEnd = '#167ac1';
-  public static get btnPrimaryHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(5, 60, 99, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(7, 37, 80, 0.3)`;
-  }
   public static btnPrimaryHoverShadowArrow = '1px 0 0 0 rgba(5, 60, 99, 0.7)';
   public static btnPrimaryActiveBg = '#0079c3';
-  public static btnPrimaryActiveBorderColor = 'none';
-  public static get btnPrimaryActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(10, 63, 99, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)`;
-  }
   public static btnPrimaryActiveShadowArrow = '1px 0 0 0 rgba(10, 63, 99, 0.75)';
+  public static btnPrimaryShadow = 'none';
+  public static btnPrimaryHoverShadow = 'none';
+  public static btnPrimaryActiveBorderColor = 'rgba(9, 53, 97, 0.875) rgba(10, 63, 99, 0.75) rgba(10, 63, 99, 0.75) ';
+  public static btnPrimaryActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)';
   public static btnDangerBg = '#e14c30';
   public static btnDangerHoverBg = 'none';
-  public static btnDangerHoverBorderColor = 'transparent';
+  public static btnDangerHoverBorderColor = 'rgba(145, 0, 0, 0.7) rgba(145, 0, 0, 0.7) rgba(118, 1, 1, 0.82)';
   public static btnDangerDisabledBg = 'none';
-  public static btnDangerBorder = 'none';
+  public static btnDangerBorder = 'rgba(173, 15, 0, 0.7) rgba(173, 15, 0, 0.7) rgba(89, 8, 0, 0.82)';
   public static btnDangerBgStart = '#ec5438';
   public static btnDangerBgEnd = '#d44327';
   public static btnDangerTextColor = '#fff';
-  public static get btnDangerShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(173, 15, 0, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.4)`;
-  }
   public static btnDangerShadowArrow = `1px 0 0 0 rgba(173, 15, 0, 0.7)`;
   public static btnDangerHoverBgStart = '#d44227';
   public static btnDangerHoverBgEnd = '#c73013';
-  public static get btnDangerHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(145, 0, 0, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4)`;
-  }
   public static btnDangerHoverShadowArrow = '1px 0 0 0 rgba(145, 0, 0, 0.7)';
   public static btnDangerActiveBg = '#cd381b';
-  public static btnDangerActiveBorderColor ='none';
-  public static get btnDangerActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(108, 7, 7, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
-  }
   public static btnDangerActiveShadowArrow = '1px 0 0 0 rgba(108, 7, 7, 0.75)';
+  public static btnDangerShadow = 'none';
+  public static btnDangerHoverShadow = 'none';
+  public static btnDangerActiveBorderColor ='rgba(100, 5, 5, 0.85) rgba(108, 7, 7, 0.75) rgba(108, 7, 7, 0.75)';
+  public static btnDangerActiveShadow= 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnPayBg = '#ffc943';
   public static btnPayHoverBg = 'none';
-  public static btnPayHoverBorderColor = 'transparent';
+  public static btnPayHoverBorderColor = 'rgba(227, 142, 8, 0.7) rgba(227, 142, 8, 0.7) rgba(162,82,6,0.82)';
   public static btnPayDisabledBg = 'none';
-  public static btnPayBorder = 'none';
+  public static btnPayBorder = 'rgba(238, 169, 34, 0.7) rgba(238, 169, 34, 0.7) rgba(134, 70, 12, 0.868)';
   public static btnPayBgStart = '#ffd54b';
   public static btnPayBgEnd = '#ffbb39';
-  public static get btnPayShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(238, 169, 34, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(77, 16, 0, 0.56)`;
-  }
+  public static btnPayShadow = 'none';
   public static get btnPayTextColor() {
     return this.textColorDefault;
   }
   public static btnPayShadowArrow = '1px 0 0 0 rgba(238, 169, 34, 0.7)';
   public static btnPayHoverBgStart = '#ffbd3a';
   public static btnPayHoverBgEnd = '#f8a91d';
-  public static get btnPayHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(227, 142, 8, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(93, 20, 3, 0.4)`;
-  }
   public static btnPayHoverShadowArrow = '1px 0 0 0 rgba(227, 142, 8, 0.7)';
   public static btnPayActiveBg = '#fbb028';
-  public static btnPayActiveBorderColor = 'none';
-  public static get btnPayActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(210, 144, 0, 0.7), 0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)`;
-  }
   public static btnPayActiveShadowArrow = '1px 0 0 0 rgba(210, 144, 0, 0.7)';
+  public static btnPayHoverShadow = 'none';
+  public static btnPayActiveBorderColor = 'rgba(99, 68, 0, 0.832) rgba(210, 144, 0, 0.7) rgba(210, 144, 0, 0.7)';
+  public static btnPayActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)';
   public static btnDeprecatedSizeMediumPaddingShiftIe = '1';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
