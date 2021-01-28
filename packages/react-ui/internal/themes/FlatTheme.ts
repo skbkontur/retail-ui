@@ -22,10 +22,14 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedShadow = 'none';
   public static btnDisabledShadow = 'none';
+  public static btnCheckedDisabledShadow = 'none';
+  public static btnArrowBgImageActive = 'none';
+  public static btnArrowBgImageChecked = 'none';
+  public static arrowActiveShadowGradient = 'none';
+  public static arrowCheckedShadowGradient = 'none';
   public static get btnDisabledShadowColor() {
     return this.bgDisabled;
   }
-  public static btnDefaultBgArrowEnd = '#fff';
   public static btnDefaultHoverBg = '#f2f2f2';
   public static btnDefaultHoverBorderColor = '#d9d9d9';
   public static btnDefaultActiveBg = '#e5e5e5';
@@ -34,7 +38,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
     return `${this.btnBorderWidth} solid rgba(0, 0, 0, 0.15)`;
   }
   public static btnDefaultShadow = 'none';
-  public static btnDefaultShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.15)';
+  public static btnDefaultShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.15)';
   public static btnDefaultBg = '#fff';
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
@@ -50,8 +54,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnPrimaryBgStart = '#1d85d0';
   public static btnPrimaryBgEnd = '#1d85d0';
-  public static btnPrimaryBgArrowStart = '#1d85d0';
-  public static btnPrimaryBgArrowEnd = '#1d85d0';
   public static btnPrimaryHoverBgStart = '#1b7dc3';
   public static btnPrimaryHoverBgEnd = '#1b7dc3';
   public static btnPrimaryShadow = 'none';
@@ -65,8 +67,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnSuccessBgStart = '#419d14';
   public static btnSuccessBgEnd = '#419d14';
-  public static btnSuccessBgArrowStart = '#419d14';
-  public static btnSuccessBgArrowEnd = '#419d14';
   public static btnSuccessHoverBgStart = '#3c9312';
   public static btnSuccessHoverBgEnd = '#3c9312';
   public static btnSuccessShadow = 'none';
@@ -81,8 +81,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnDangerBgStart = '#d9472b';
   public static btnDangerBgEnd = '#d9472b';
-  public static btnDangerBgArrowStart = '#d9472b';
-  public static btnDangerBgArrowEnd = '#d9472b';
   public static btnDangerHoverBgStart = '#cc4228';
   public static btnDangerHoverBgEnd = '#cc4228';
   public static btnDangerShadow = 'none';
@@ -97,33 +95,15 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnPayBgStart = '#ffca43';
   public static btnPayBgEnd = '#ffca43';
-  public static btnPayBgArrowStart = '#ffca43';
-  public static btnPayBgArrowEnd = '#ffca43';
   public static btnPayHoverBgStart = '#f0be3f';
   public static btnPayHoverBgEnd = '#f0be3f';
   public static btnPayShadow = 'none';
   public static btnPayHoverShadow = 'none';
   public static btnPayActiveShadow = 'none';
-  public static btnSmallArrowLength = '17px';
-  public static btnSmallArrowTop = '7.5px';
-  public static btnSmallArrowRight = '-8px';
-  public static btnSmallArrowLeft = '-8.2px';
-  public static btnSmallArrowBorderRadius = '2px 2px 4px 16px';
-  public static btnSmallArrowBg = 'linear-gradient(-53deg, transparent 48%, #ccc 0, #ccc 72%, transparent 0)';
-  public static btnMediumArrowLeft = '-10px';
-  public static btnMediumArrowLeftLoadingLeft = '-207px';
-  public static btnMediumArrowTransform = 'rotate(53deg) skewX(25deg) skewY(8deg)';
-  public static btnMediumArrowBg = 'linear-gradient(-56deg, transparent 48%, #ccc 0, #ccc 70%, transparent 0)';
-  public static btnMediumArrowLeftLoadingDelay = '0.45s';
   public static btnDeprecatedSizeMediumPaddingShiftIe = '2';
-  public static btnLargeArrowLeft = '-10.8px';
-  public static btnLargeArrowTransform = 'rotate(53deg) skewX(26deg) skewY(10deg)';
   public static btnFontSizeMedium = '16px';
   public static get btnCheckedShadowArrow() {
-    return `0 0 0 1px ${this.btnCheckedBg}`;
-  }
-  public static get btnCheckedShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnCheckedBg}`;
+    return `1px 0 0 0 ${this.btnCheckedBg}`;
   }
   public static get btnFocusBorder() {
     return `${this.btnBorderWidth} solid ${this.borderColorFocus}`;
@@ -131,98 +111,50 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnCheckedHoverBorderColor() {
     return this.btnCheckedBg;
   }
-  public static get btnDefaultShadowArrowLeft() {
-    return this.btnDefaultShadowArrow;
-  }
   public static get btnDefaultCheckedBorder() {
     return `${this.btnBorderWidth} solid transparent`;
   }
-  public static get btnDefaultCheckedShadowArrow() {
-    return `1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px ${this.btnCheckedBg}`;
-  }
   public static get btnDefaultHoverShadowArrow() {
-    return `1px -1px 0 0 ${this.btnDefaultHoverBorderColor}, 1px -1px 0 0 ${this.btnDefaultHoverBg}`;
-  }
-  public static get btnDefaultHoverShadowArrowLeft() {
-    return `1px -1px 0 0 ${this.btnDefaultHoverBorderColor}, 1px -1px 0 0 ${this.btnDefaultHoverBg}`;
+    return `1px 0 0 0 ${this.btnDefaultHoverBorderColor}`;
   }
   public static get btnDefaultActiveShadowArrow() {
-    return `1px -1px 0 0 ${this.btnDefaultActiveBorderColor}, 1px -1px 0 0 ${this.btnDefaultActiveBg}`;
-  }
-  public static get btnDefaultActiveShadowArrowLeft() {
-    return `1px -1px 0 0 ${this.btnDefaultActiveBorderColor}, 1px -1px 0 0 ${this.btnDefaultActiveBg}`;
+    return `1px 0 0 0 ${this.btnDefaultActiveBorderColor}`;
   }
   public static get btnPrimaryShadowArrow() {
-    return `0 0 0 1px ${this.btnPrimaryDisabledBg}`;
-  }
-  public static get btnPrimaryShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPrimaryDisabledBg}`;
+    return `1px 0 0 0 ${this.btnPrimaryDisabledBg}`;
   }
   public static get btnPrimaryHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnPrimaryHoverBg}`;
-  }
-  public static get btnPrimaryHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPrimaryHoverBg}`;
+    return `1px 0 0 0 ${this.btnPrimaryHoverBg}`;
   }
   public static get btnPrimaryActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnPrimaryActiveBg}`;
-  }
-  public static get btnPrimaryActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPrimaryActiveBg}`;
+    return `1px 0 0 0 ${this.btnPrimaryActiveBg}`;
   }
   public static get btnSuccessShadowArrow() {
-    return `0 0 0 1px ${this.btnSuccessDisabledBg}`;
-  }
-  public static get btnSuccessShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnSuccessDisabledBg}`;
+    return `1px 0 0 0 ${this.btnSuccessDisabledBg}`;
   }
   public static get btnSuccessHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnSuccessHoverBg}`;
-  }
-  public static get btnSuccessHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnSuccessHoverBg}`;
+    return `1px 0 0 0 ${this.btnSuccessHoverBg}`;
   }
   public static get btnSuccessActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnSuccessActiveBg}`;
-  }
-  public static get btnSuccessActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnSuccessActiveBg}`;
+    return `1px 0 0 0 ${this.btnSuccessActiveBg}`;
   }
   public static get btnDangerShadowArrow() {
-    return `0 0 0 1px ${this.btnDangerDisabledBg}`;
-  }
-  public static get btnDangerShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnDangerDisabledBg}`;
+    return `1px 0 0 0 ${this.btnDangerDisabledBg}`;
   }
   public static get btnDangerHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnDangerHoverBg}`;
-  }
-  public static get btnDangerHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnDangerHoverBg}`;
+    return `1px 0 0 0 ${this.btnDangerHoverBg}`;
   }
   public static get btnDangerActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnDangerActiveBg}`;
-  }
-  public static get btnDangerActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnDangerActiveBg}`;
+    return `1px 0 0 0 ${this.btnDangerActiveBg}`;
   }
   public static get btnPayShadowArrow() {
-    return `0 0 0 1px ${this.btnPayDisabledBg}`;
-  }
-  public static get btnPayShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPayDisabledBg}`;
+    return `1px 0 0 0 ${this.btnPayDisabledBg}`;
   }
   public static get btnPayHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnPayHoverBg}`;
-  }
-  public static get btnPayHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPayHoverBg}`;
+    return `1px 0 0 0 ${this.btnPayHoverBg}`;
   }
   public static get btnPayActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnPayActiveBg}`;
-  }
-  public static get btnPayActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPayActiveBg}`;
+    return `1px 0 0 0 ${this.btnPayActiveBg}`;
   }
   //#endregion
   //#region Select

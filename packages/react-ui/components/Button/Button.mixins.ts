@@ -1,3 +1,4 @@
+import { Theme } from '../../lib/theming/Theme';
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
@@ -23,16 +24,12 @@ export const buttonUseMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
   btnBackgroundEnd: string,
-  arrowBackgroundStart: string,
-  arrowBackgroundEnd: string,
   shadow: string,
   shadowArrow: string,
-  shadowArrowLeft: string,
   color: string,
   border: string,
   selectorChecked: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
 ) => {
   return css`
     background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
@@ -43,17 +40,10 @@ export const buttonUseMixin = (
     border: ${border};
 
     &:not(${selectorChecked}) ${selectorArrow} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrow};
-    }
-
-    &:not(${selectorChecked}) ${selectorArrowLeft} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrowLeft};
+      &:before,
+      &:after {
+        box-shadow: ${shadowArrow};
+      }
     }
   `;
 };
@@ -62,14 +52,10 @@ export const buttonHoverMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
   btnBackgroundEnd: string,
-  arrowBackgroundStart: string,
-  arrowBackgroundEnd: string,
   btnShadow: string,
   arrowShadow: string,
-  arrowLeftShadow: string,
   btnBorder: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
 ) => {
   return css`
     &:hover {
@@ -80,17 +66,10 @@ export const buttonHoverMixin = (
       border-color: ${btnBorder};
 
       ${selectorArrow} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowShadow};
-      }
-
-      ${selectorArrowLeft} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowLeftShadow};
+        &:before,
+        &:after {
+          box-shadow: ${arrowShadow};
+        }
       }
     }
   `;
@@ -98,14 +77,11 @@ export const buttonHoverMixin = (
 
 export const buttonActiveMixin = (
   btnBackground: string,
-  arrowBackground: string,
-  arrowLeftBackground: string,
   btnShadow: string,
   arrowShadow: string,
-  arrowLeftShadow: string,
   selectorActive: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  arrowActiveShadowGradient: string,
 ) => {
   return css`
     &:active,
@@ -114,13 +90,15 @@ export const buttonActiveMixin = (
       box-shadow: ${btnShadow};
 
       ${selectorArrow} {
-        background: ${arrowBackground};
-        box-shadow: ${arrowShadow};
-      }
+        &:before,
+        &:after {
+          background: inherit;
+          box-shadow: ${arrowShadow};
+        }
 
-      ${selectorArrowLeft} {
-        background: ${arrowLeftBackground};
-        box-shadow: ${arrowLeftShadow};
+        &:before {
+          background-image: ${arrowActiveShadowGradient} !important;
+        }
       }
     }
   `;
@@ -152,28 +130,16 @@ export const buttonSizeMixin = (
   `;
 };
 
-export const buttonArrowMixin = (
-  top: string,
-  left: string,
-  right: string,
-  size: string,
-  transform: string,
-  selectorArrow: string,
-  selectorArrowLeft: string,
-) => {
+export const arrowFocusMixin = (t: Theme, borderColor: string) => {
   return css`
-    ${selectorArrow} {
-      top: ${top};
-      right: ${right};
-      height: ${size};
-      width: ${size};
-      transform: ${transform};
-      overflow: hidden;
+    &:before {
+      box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+        ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
     }
 
-    ${selectorArrowLeft} {
-      left: ${left};
-      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
+    &:after {
+      box-shadow: inset -${t.btnBorderWidth} -${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+        ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
     }
   `;
 };
