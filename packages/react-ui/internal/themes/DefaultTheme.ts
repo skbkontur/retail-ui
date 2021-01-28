@@ -341,9 +341,9 @@ export class DefaultTheme {
   public static btnDefaultActiveShadow =  'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnSuccessBg = '#419d14';
   public static btnSuccessHoverBg = 'none';
-  public static btnSuccessHoverBorderColor = 'transparent';
+  public static btnSuccessHoverBorderColor = 'rgba(7, 73, 1, 0.7) rgba(7, 73, 1, 0.7) rgba(10, 72, 2, 0.79)';
   public static btnSuccessDisabledBg = 'none';
-  public static btnSuccessBorderColor = 'rgba(25, 103, 6, 0.7) rgba(25, 103, 6, 0.7) rgba(116, 159, 106, 1)';
+  public static btnSuccessBorderColor = 'rgba(25, 103, 6, 0.7) rgba(25, 103, 6, 0.7) rgba(23, 89, 7, 0.85)';
   public static btnSuccessBgStart = '#4ba91d';
   public static btnSuccessBgEnd = '#37910b';
   public static btnSuccessTextColor = '#fff';
@@ -351,16 +351,12 @@ export class DefaultTheme {
   public static btnSuccessShadow = 'none';
   public static btnSuccessHoverBgStart = '#3b8d13';
   public static btnSuccessHoverBgEnd = '#317e0b';
-  public static get btnSuccessHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth}  rgba(7, 73, 1, 0.7), 0 ${this.btnBorderWidth}  0 0 rgba(16, 70, 4, 0.3)`;
-  }
   public static btnSuccessHoverShadowArrow = '1px 0 0 0 rgba(7, 73, 1, 0.7)';
   public static btnSuccessActiveBg = '#35840e';
-  public static btnSuccessActiveBorderColor = 'none';
-  public static get btnSuccessActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(4, 63, 0, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
-  }
   public static btnSuccessActiveShadowArrow = '1px 0 0 0 rgba(4, 63, 0, 0.75)';
+  public static btnSuccessHoverShadow = 'none';
+  public static btnSuccessActiveBorderColor = 'rgba(7, 42, 3, 0.9) rgba(4, 63, 0, 0.75) rgba(4, 63, 0, 0.75)';
+  public static btnSuccessActiveShadow ='inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnPrimaryBg = '#1e8dd4';
   public static btnPrimaryHoverBg = 'none';
   public static btnPrimaryHoverBorderColor = 'rgba(5, 60, 99, 0.7) rgba(5, 60, 99, 0.7) rgba(6, 46, 88, 0.85)';
