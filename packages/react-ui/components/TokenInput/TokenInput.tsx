@@ -88,17 +88,26 @@ export interface TokenInputProps<T> {
    *
    * Функция срабатывает с аргументом инпута строки.
    *
+   * Сама функция также может вернуть значение,
+   * неравное `undefined`,
+   * с которым будет вызван `onValueChange`.
+   * Если возвращаемое значение будет равно `null`, то
+   * сработает очистка текущего значения инпута.
+   *
    * Когда произойдет срабатывание функции:
    *
-   * - Если при потере фокуса есть список элементов (автокомплит) и
-   * значение в текстовом поле НЕ будет совпадать
-   * с результатом `renderValue` какого-нибудь элемента
+   * - Если при потере фокуса есть список элементов (автокомплит)
+   * с длиной больше одного
+   *
+   * - Если при потере фокуса есть список элементов (автокомплит)
+   * с одним элементом и значение в текстовом поле НЕ совпадает
+   * с результатом `renderValue` элемента
    * (в противном случае сработает onValueChange со значением данного элемента)
    *
    * - При редактировании токена (если оно не было завершено)
    *
    */
-  onUnexpectedInput?: (value: string) => void;
+  onUnexpectedInput?: (value: string) => void | null | undefined | T;
 }
 
 export interface TokenInputState<T> {
@@ -425,7 +434,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       if (item && !this.isEditingMode) {
         this.selectItem(item);
       } else if (onUnexpectedInput) {
-        onUnexpectedInput(inputValue);
+        const item = onUnexpectedInput(inputValue);
+        if (item !== undefined) {
+          if (item === null) {
+            this.clearInput();
+          } else {
+            this.selectItem(item);
+          }
+        }
       }
     }
 
@@ -716,6 +732,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
+  private clearInput = () => {
+    this.dispatch({ type: 'CLEAR_INPUT' });
+  };
+
   private handleRemoveToken = (item: T) => {
     this.props.onValueChange(this.props.selectedItems.filter(_ => !isEqual(_, item)));
     const filteredActiveTokens = this.state.activeTokens.filter(_ => !isEqual(_, item));
@@ -788,9 +808,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const { inputValue, autocompleteItems } = this.state;
     const { valueToString } = this.props;
     if (autocompleteItems && autocompleteItems.length > 0) {
-      return autocompleteItems.find(item => {
-        return valueToString(item) === inputValue;
-      });
+      return (
+        autocompleteItems.length === 1 &&
+        autocompleteItems.find(item => {
+          return valueToString(item) === inputValue;
+        })
+      );
     }
     return false;
   };

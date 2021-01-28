@@ -28,6 +28,13 @@ async function getItems(query: string) {
   return ['aaa', 'bbb'].filter(s => s.includes(query));
 }
 
+async function getExtendedItems(query: string) {
+  if (!isTestEnv) {
+    await delay(400);
+  }
+  return ['aaa', 'bbb', 'aaaccc', 'bbbttt'].filter(s => s.includes(query));
+}
+
 const getGenericItems: () => TokenModel[] = () => [
   { id: '111', value: 'aaa' },
   { id: '222', value: 'bbb' },
@@ -459,27 +466,35 @@ export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
     setIsValid(true);
   };
 
-  const handleUnexpectedInput = async (value: string) => {
+  const handleUnexpectedInput = (value: string) => {
     if (value !== '' && selectedItems.length === 0) {
       setAlertItemMessage(`Выберите хотя бы один токен`);
+      setIsValid(false);
+      return undefined;
+    }
+    if (value === 'clear') {
+      setAlertItemMessage(`Значение '${value}' является невалидным и было очищено`);
       setIsValid(false);
       return null;
     }
     if (value !== '') {
-      const items = await getItems(value);
-      if (items.length === 0) {
+      let foundItems = [] as string[];
+      getItems(value).then(items => (foundItems = items));
+
+      if (foundItems.length === 0) {
         setAlertItemMessage(`Значение '${value}' является невалидным`);
         setIsValid(false);
-        return null;
+        return undefined;
       }
     }
+    return undefined;
   };
 
   return (
     <>
       <TokenInput
         type={TokenInputType.Combined}
-        getItems={getItems}
+        getItems={getExtendedItems}
         onValueChange={items => {
           resetValidation();
           setSelectedItems(items);
@@ -503,12 +518,45 @@ OnUnexpectedInputValidation.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-            .sendKeys('zzz')
+            .sendKeys('aaa')
             .move({ x: 0, y: 0 })
             .click()
             .perform();
 
           const withNotSelectedToken = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys('aaaccc')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withAutoSelectedTokens = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('clear')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const clearedOnNullReturn = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .clear();
 
           await this.browser
             .actions({
@@ -529,7 +577,12 @@ OnUnexpectedInputValidation.story = {
 
           const withSelectedTokens = await this.takeScreenshot();
 
-          await this.expect({ withNotSelectedToken, withSelectedTokens }).to.matchImages();
+          await this.expect({
+            withNotSelectedToken,
+            withAutoSelectedTokens,
+            clearedOnNullReturn,
+            withSelectedTokens,
+          }).to.matchImages();
         },
         async ['token edit']() {
           await this.browser
@@ -564,6 +617,18 @@ OnUnexpectedInputValidation.story = {
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys('clear')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withClearedToken = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
             .sendKeys('EDITED')
             .sendKeys(this.keys.ARROW_DOWN)
             .sendKeys(this.keys.ENTER)
@@ -573,7 +638,7 @@ OnUnexpectedInputValidation.story = {
 
           const withEditedToken = await this.takeScreenshot();
 
-          await this.expect({ withNotEditedToken, withEditedToken }).to.matchImages();
+          await this.expect({ withNotEditedToken, withClearedToken, withEditedToken }).to.matchImages();
         },
       },
     },
