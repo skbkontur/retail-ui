@@ -427,22 +427,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const isBlurToMenu = this.isBlurToMenu(event);
 
     if (!isBlurToMenu) {
-      const { inputValue } = this.state;
-      const { onUnexpectedInput } = this.props;
-      const item = this.checkAutocompleteForCorrectItem();
-
-      if (item && !this.isEditingMode) {
-        this.selectItem(item);
-      } else if (onUnexpectedInput) {
-        const item = onUnexpectedInput(inputValue);
-        if (item !== undefined) {
-          if (item === null) {
-            this.clearInput();
-          } else {
-            this.selectItem(item);
-          }
-        }
-      }
+      this.checkForUnexpectedInput();
     }
 
     if (isBlurToMenu || this.state.preventBlur) {
@@ -804,18 +789,34 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
-  private checkAutocompleteForCorrectItem = () => {
+  private checkForUnexpectedInput = () => {
     const { inputValue, autocompleteItems } = this.state;
-    const { valueToString } = this.props;
-    if (autocompleteItems && autocompleteItems.length > 0) {
-      return (
-        autocompleteItems.length === 1 &&
-        autocompleteItems.find(item => {
-          return valueToString(item) === inputValue;
-        })
-      );
+    const { onUnexpectedInput, valueToString } = this.props;
+    let item: undefined | T = undefined;
+
+    // чекаем автокомплит на совпадение с введеным значением в инпут
+    if (autocompleteItems && autocompleteItems.length === 1) {
+      item = autocompleteItems.find(item => {
+        return valueToString(item) === inputValue;
+      });
     }
-    return false;
+
+    if (item && !this.isEditingMode) {
+      this.selectItem(item);
+    } else if (onUnexpectedInput) {
+      // чекаем не возвращает ли что-нибудь обработчик
+      const returnedValue = onUnexpectedInput(inputValue);
+
+      if (returnedValue === undefined) {
+        return null;
+      }
+
+      if (returnedValue === null) {
+        this.clearInput();
+      } else {
+        this.selectItem(returnedValue);
+      }
+    }
   };
 
   private handleChangeInputValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
