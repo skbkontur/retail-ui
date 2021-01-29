@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import warning from 'warning';
 import cn from 'classnames';
 
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
-import { SpinnerOld } from '../../internal/SpinnerOld';
 
 import { jsStyles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -28,12 +26,6 @@ export interface SpinnerProps {
    * @default normal
    */
   type: SpinnerType;
-  /**
-   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере - исчезнет в 3.0 поведение пересено в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
-   *
-   * @default false
-   */
-  cloud?: boolean;
 }
 
 /**
@@ -62,12 +54,6 @@ export class Spinner extends React.Component<SpinnerProps> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(types)),
-    /**
-     * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
-     *
-     * @default false - исчезнет в 3.0
-     */
-    cloud: PropTypes.bool,
   };
 
   public static defaultProps: SpinnerProps = {
@@ -80,7 +66,6 @@ export class Spinner extends React.Component<SpinnerProps> {
 
   constructor(props: SpinnerProps) {
     super(props);
-    warning(!this.props.cloud, 'cloud is deprecated, will removed in 3.0. ');
   }
 
   public render() {
@@ -88,14 +73,10 @@ export class Spinner extends React.Component<SpinnerProps> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return !this.props.cloud ? this.renderMain() : this.renderSpinnerOld();
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
-  }
-
-  private renderSpinnerOld() {
-    return <SpinnerOld {...this.props} />;
   }
 
   private renderMain() {
