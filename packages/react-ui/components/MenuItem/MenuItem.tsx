@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import warning from 'warning';
 import cn from 'classnames';
 
 import { isFunction } from '../../lib/utils';
@@ -15,8 +14,6 @@ export interface MenuItemProps {
   /** @ignore */
   _enableIconPadding?: boolean;
 
-  /** @deprecated @ignore */
-  alkoLink?: boolean;
   comment?: React.ReactNode;
   disabled?: boolean;
   icon?: React.ReactElement<any>;
@@ -81,7 +78,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private renderMain() {
     const {
-      alkoLink,
       link,
       comment,
       icon,
@@ -95,8 +91,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...rest
     } = this.props;
 
-    warning(alkoLink === undefined, "[MenuItem]: Prop 'alkoLink' was deprecated please use 'link' instead");
-
     const hover = state === 'hover' && !this.props.disabled;
 
     let iconElement = null;
@@ -109,7 +103,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
       [jsStyles.selected(this.theme)]: state === 'selected',
-      [jsStyles.link(this.theme)]: !!link || !!alkoLink,
+      [jsStyles.link(this.theme)]: !!link,
       [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
       [jsStyles.disabled(this.theme)]: !!this.props.disabled,
     });
