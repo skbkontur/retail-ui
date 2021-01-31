@@ -192,7 +192,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         className={classes}
         onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
-        pageNumber={'forward' as 'forward'}
+        pageNumber={'forward' as const}
       >
         {caption || forward}
         <span className={jsStyles.forwardIcon()}>

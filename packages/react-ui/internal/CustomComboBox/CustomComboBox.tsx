@@ -85,7 +85,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
-  public loaderShowDelay: Nullable<Promise<never>>;
+  public loaderShowDelay: Nullable<Promise<void>>;
   private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
 
@@ -140,7 +140,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     const expectingId = (this.requestId += 1);
 
     if (!this.loaderShowDelay) {
-      this.loaderShowDelay = new Promise(resolve => {
+      this.loaderShowDelay = new Promise<void>(resolve => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
           setTimeout(resolve, LOADER_SHOW_TIME);

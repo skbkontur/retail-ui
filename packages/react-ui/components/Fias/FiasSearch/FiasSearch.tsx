@@ -6,7 +6,6 @@ import { FiasComboBox, FiasComboBoxProps } from '../Form/FiasComboBox';
 import { FiasAddressResponse, FiasAPIProvider, FiasFields, FiasSearchOptions } from '../types';
 import { locale } from '../../../lib/locale/decorators';
 import { filterProps } from '../../../lib/filterProps';
-
 import { FiasAddress } from '..';
 
 const COMBOBOX_PASS_PROPS = {
