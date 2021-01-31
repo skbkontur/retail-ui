@@ -7,7 +7,6 @@ import { FiasAddressResponse, FiasAPIProvider, FiasFields, FiasSearchOptions } f
 import { locale } from '../../../lib/locale/decorators';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../../internal/CommonWrapper';
 import { filterProps } from '../../../lib/filterProps';
-
 import { FiasAddress } from '..';
 
 const COMBOBOX_PASS_PROPS = {

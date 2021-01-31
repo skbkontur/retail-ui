@@ -7,9 +7,9 @@ import { Menu } from '../../../../internal/Menu';
 import { FiasAddress } from '../../models/FiasAddress';
 import { ComboBoxView } from '../../../../internal/CustomComboBox/ComboBoxView';
 
-function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<T>] {
-  let searchCalled: () => void;
-  const searchPromise = new Promise<T>(resolve => (searchCalled = async () => (await delay(0), resolve())));
+function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<void>] {
+  let searchCalled: () => Promise<void>;
+  const searchPromise = new Promise<void>(resolve => (searchCalled = async () => (await delay(0), resolve())));
   const search = jest.fn(() => (searchCalled(), promise));
 
   return [search, searchPromise];
