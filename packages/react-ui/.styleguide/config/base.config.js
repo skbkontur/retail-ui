@@ -212,7 +212,6 @@ module.exports = {
   pagePerSection: true,
   styles,
   title: 'React UI',
-  require: ['babel-polyfill'],
   resolver: require('react-docgen').resolver.findAllComponentDefinitions,
   propsParser: (path, ...rest) => {
     if (/\.tsx$/.test(path)) {
