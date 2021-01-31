@@ -5,14 +5,14 @@
   ],
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@skbkontur/eslint-config": "*",
-    "commitizen": "^4.0.3",
-    "cz-conventional-changelog": "^3.0.2",
-    "env-cmd": "^10.0.1",
-    "husky": "^3.1.0",
-    "lerna": "^3.19.0"
+    "commitizen": "^4.2.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "env-cmd": "^10.1.0",
+    "husky": "^4.3.8",
+    "lerna": "^3.22.1"
   },
   "scripts": {
     "commit": "git-cz",
