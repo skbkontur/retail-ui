@@ -285,13 +285,11 @@ export class DefaultTheme {
   public static btnCheckedDisabledColor = 'rgba(255, 255, 255, 0.7)';
   public static btnCheckedHoverBorderColor = 'transparent';
   public static btnCheckedTextColor = '#fff';
-  public static btnCheckedDisabledBorderColor = 'none';
-  public static get btnCheckedShadow () {
-    return `0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)`;
-  }
+  public static btnCheckedDisabledBorderColor = 'rgba(161,161,161,1)';
+  public static btnCheckedShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
   public static btnCheckedShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.6)';
-  public static btnCheckedDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.37)';
+  public static btnCheckedDisabledShadow = 'none';
   public static btnCheckedDisabledShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.37)';
   public static btnSmallBorderRadius = '2px'; // todo: deprecated
   public static btnBorderRadius = '3px'; // todo: deprecated
@@ -322,7 +320,7 @@ export class DefaultTheme {
   public static btnDefaultBgEnd = '#ebebeb';
   public static btnDeprecatedSizeMediumFontSize = '16px';
   public static btnDeprecatedSizeMediumPaddingShift = '1';
-  public static btnDefaultCheckedBorder = 'none';
+  public static btnDefaultCheckedBorderColor = 'rgba(102,102,102,1)';
   public static get btnDefaultTextColor() {
     return this.textColorDefault;
   }

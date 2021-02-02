@@ -500,7 +500,7 @@ const styles = {
       box-shadow: ${t.btnCheckedShadow} !important;
       background: ${t.btnCheckedBg} !important;
       color: ${t.btnCheckedTextColor} !important;
-      border: ${t.btnDefaultCheckedBorder} !important;
+      border-color: ${t.btnDefaultCheckedBorderColor} !important;
 
       &:not(${cssName(styles.link(t))}) {
         ${cssName(styles.caption())} {
