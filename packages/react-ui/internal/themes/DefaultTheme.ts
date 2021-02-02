@@ -277,7 +277,7 @@ export class DefaultTheme {
   public static get btnFocusShadowWidth() {
     return this.btnOutlineWidth;
   }
-  public static btnFocusBorder = 'none';
+  public static btnFocusBorder = '2px solid transparent';
   public static btnDisabledTextColor = '#a0a0a0';
   public static btnDisabledBorderColor = 'transparent';
   public static btnCheckedBg = '#737373';
