@@ -275,9 +275,10 @@ export class DefaultTheme {
     'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%), linear-gradient(-95deg, rgba(0,0,0,0.1) 0%, transparent 4%)';
   public static btnLinkBorderRadius = '1px';
   public static get btnFocusShadowWidth() {
-    return this.btnOutlineWidth;
+    const outlineWidth = parseInt(this.btnOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    return `${outlineWidth - borderWidth}px`;
   }
-  public static btnFocusBorder = '2px solid transparent';
   public static btnDisabledTextColor = '#a0a0a0';
   public static btnDisabledBorderColor = 'transparent';
   public static btnCheckedBg = '#737373';

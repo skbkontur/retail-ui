@@ -160,13 +160,14 @@ const styles = {
         }
 
         &:not(${cssName(styles.disabled(t))}):not(${cssName(styles.link(t))}) {
-          border: ${t.btnFocusBorder};
 
           &,
           &:hover,
           &:active,
           ${cssName(styles.active(t))} {
-            box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
+            box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${
+      t.btnBorderColorFocus
+    };
             border-color: ${t.btnBorderColorFocus};
 
             &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {

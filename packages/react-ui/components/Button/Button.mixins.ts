@@ -133,6 +133,8 @@ export const buttonSizeMixin = (
 
 export const arrowFocusMixin = (t: Theme, borderColor: string) => {
   return css`
+    box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
+
     &:before {
       box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
         ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;

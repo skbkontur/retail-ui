@@ -14,11 +14,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnWrapPadding = '0';
   public static btnLinkBorderRadius = '2px';
   public static btnBorderRadiusSmall = '2px';
-  public static get btnFocusShadowWidth() {
-    const borderFocus = parseInt(this.btnOutlineWidth, 10) || 0;
-    const border = parseInt(this.btnBorderWidth, 10) || 0;
-    return `${borderFocus - border}px`;
-  }
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedShadow = 'none';
   public static btnDisabledShadow = 'none';
