@@ -378,7 +378,7 @@ export class DefaultTheme {
   public static btnDangerHoverBg = 'none';
   public static btnDangerHoverBorderColor = 'rgba(145, 0, 0, 0.7) rgba(145, 0, 0, 0.7) rgba(118, 1, 1, 0.82)';
   public static btnDangerDisabledBg = 'none';
-  public static btnDangerBorder = 'rgba(173, 15, 0, 0.7) rgba(173, 15, 0, 0.7) rgba(89, 8, 0, 0.82)';
+  public static btnDangerBorderColor = 'rgba(173, 15, 0, 0.7) rgba(173, 15, 0, 0.7) rgba(89, 8, 0, 0.82)';
   public static btnDangerBgStart = '#ec5438';
   public static btnDangerBgEnd = '#d44327';
   public static btnDangerTextColor = '#fff';
@@ -396,7 +396,7 @@ export class DefaultTheme {
   public static btnPayHoverBg = 'none';
   public static btnPayHoverBorderColor = 'rgba(227, 142, 8, 0.7) rgba(227, 142, 8, 0.7) rgba(162,82,6,0.82)';
   public static btnPayDisabledBg = 'none';
-  public static btnPayBorder = 'rgba(238, 169, 34, 0.7) rgba(238, 169, 34, 0.7) rgba(134, 70, 12, 0.868)';
+  public static btnPayBorderColor = 'rgba(238, 169, 34, 0.7) rgba(238, 169, 34, 0.7) rgba(134, 70, 12, 0.868)';
   public static btnPayBgStart = '#ffd54b';
   public static btnPayBgEnd = '#ffbb39';
   public static btnPayShadow = 'none';

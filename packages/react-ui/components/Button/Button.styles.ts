@@ -432,7 +432,7 @@ const styles = {
           t.btnDangerShadow,
           t.btnDangerShadowArrow,
           t.btnDangerTextColor,
-          t.btnDangerBorder,
+          t.btnDangerBorderColor,
           cssName(styles.checked(t)),
           cssName(styles.arrow(t)),
         )};
@@ -470,7 +470,7 @@ const styles = {
           t.btnPayShadow,
           t.btnPayShadowArrow,
           t.btnPayTextColor,
-          t.btnPayBorder,
+          t.btnPayBorderColor,
           cssName(styles.checked(t)),
           cssName(styles.arrow(t)),
         )};
