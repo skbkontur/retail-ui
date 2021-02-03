@@ -243,7 +243,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={cn({
-            [jsStyles.arrow()]: true,
+            [jsStyles.arrow(this.theme)]: true,
             [jsStyles.arrowWarning(this.theme)]: isWarning,
             [jsStyles.arrowError(this.theme)]: isError,
             [jsStyles.arrowFocus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
