@@ -213,6 +213,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
       { children: 'Primary', use: 'primary' },
       { children: 'Danger', use: 'danger' },
       { children: 'Pay', use: 'pay' },
+      {children: 'Success', use: 'success'},
       { children: 'Disabled', disabled: true },
       { children: 'Back', arrow: 'left', size: 'medium', width: 110 },
       { children: 'Forward', arrow: true, size: 'medium', use: 'primary', width: 110 },
