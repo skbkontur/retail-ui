@@ -161,41 +161,41 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static selectFontSizeMedium = '16px';
   //#endregion
   //#region Checkbox
-  public static chbBg = 'none';
-  public static chbIndeterminateBg = '#fff';
-  public static get chbShadowDisabled() {
+  public static checkboxBg = 'none';
+  public static checkboxIndeterminateBg = '#fff';
+  public static get checkboxShadowDisabled() {
     return `0 0 0 ${this.checkboxBorderWidth} #f2f2f2`;
   }
-  public static get chbShadowActive() {
+  public static get checkboxShadowActive() {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
   }
-  public static get chbShadowHover() {
+  public static get checkboxShadowHover() {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
   }
-  public static chbCheckedColor = '#fff';
-  public static get chbCheckedShadow() {
+  public static checkboxCheckedColor = '#fff';
+  public static get checkboxCheckedShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} #1768a3`;
   }
-  public static get chbCheckedHoverShadow() {
+  public static get checkboxCheckedHoverShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} #175590`;
   }
-  public static get chbCheckedActiveShadow() {
+  public static get checkboxCheckedActiveShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} #175590`;
   }
-  public static get chbHoverBg() {
+  public static get checkboxHoverBg() {
     return this.btnDefaultHoverBg;
   }
-  public static get chbCheckedBg() {
+  public static get checkboxCheckedBg() {
     return this.borderColorFocus;
   }
-  public static get chbBoxIndeterminateBg() {
-    return this.chbCheckedBg;
+  public static get checkboxBoxIndeterminateBg() {
+    return this.checkboxCheckedBg;
   }
-  public static get chbCheckedHoverBg() {
-    return ColorFunctions.darken(this.chbCheckedBg, '5%');
+  public static get checkboxCheckedHoverBg() {
+    return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
-  public static get chbCheckedActiveBg() {
-    return ColorFunctions.darken(this.chbCheckedBg, '15%');
+  public static get checkboxCheckedActiveBg() {
+    return ColorFunctions.darken(this.checkboxCheckedBg, '15%');
   }
   //#endregion
   //#region Input
@@ -236,19 +236,19 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioDisabledShadow = 'none';
   public static radioLabelDisplay = 'inline-block';
   public static get radioHoverBg() {
-    return this.chbHoverBg;
+    return this.checkboxHoverBg;
   }
   public static get radioActiveBg() {
-    return this.chbActiveBg;
+    return this.checkboxActiveBg;
   }
   public static get radioFocusShadow() {
     return `inset 0 0 0 1px ${this.outlineColorFocus}`;
   }
   public static get radioCheckedBgColor() {
-    return this.chbCheckedBg;
+    return this.checkboxCheckedBg;
   }
   public static get radioCheckedHoverBgColor() {
-    return ColorFunctions.darken(this.chbCheckedBg, '5%');
+    return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
   public static switcherButtonDisabledBorderColor: 'rgba(0, 0, 0, 0.15)';
 
