@@ -67,29 +67,28 @@ const buttonTests: CreeveyStoryParams['tests'] = {
 const combinationTest: CreeveyStoryParams['tests'] = {
   async simple() {
     const nextPageButton = () => this.browser.findElement({ css: '#next-page' });
-    const element = () => this.browser.findElement({ css: '[data-comp-name~="ComponentTable"]' });
 
-    const page1 = await element().takeScreenshot();
+    const page1 = await this.takeScreenshot();
     await this.browser
       .actions({ bridge: true })
       .click(nextPageButton())
       .perform();
-    const page2 = await element().takeScreenshot();
+    const page2 = await this.takeScreenshot();
     await this.browser
       .actions({ bridge: true })
       .click(nextPageButton())
       .perform();
-    const page3 = await element().takeScreenshot();
+    const page3 = await this.takeScreenshot();
     await this.browser
       .actions({ bridge: true })
       .click(nextPageButton())
       .perform();
-    const page4 = await element().takeScreenshot();
+    const page4 = await this.takeScreenshot();
     await this.browser
       .actions({ bridge: true })
       .click(nextPageButton())
       .perform();
-    const page5 = await element().takeScreenshot();
+    const page5 = await this.takeScreenshot();
 
     await this.expect({
       ['page - 1']: page1,
@@ -268,6 +267,7 @@ DefaultCombinations.story = {
   name: 'default combinations',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -284,6 +284,7 @@ CombinationsWithWarning.story = {
   name: 'combinations with warning',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -300,6 +301,7 @@ CombinationsWithError.story = {
   name: 'combinations with error',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -316,6 +318,7 @@ CombinationsWithFocus.story = {
   name: 'combinations with focus',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -332,6 +335,7 @@ LoadingCombinations.story = {
   name: 'loading combinations',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -348,6 +352,7 @@ DisabledCombinations.story = {
   name: 'disabled combinations',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -364,6 +369,7 @@ ActiveCombinations.story = {
   name: 'active combinations',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -380,6 +386,7 @@ CheckedCombinations.story = {
   name: 'checked combinations',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
@@ -396,6 +403,7 @@ CheckedDisabledCombinations.story = {
   name: 'checked disabled combinations',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="ComponentTable"]',
       tests: combinationTest,
     },
   },
