@@ -43,11 +43,4 @@ describe('Dropdown', () => {
 
     expect(React.isValidElement(select.prop<React.ReactChild[]>('items')[0])).toBeTruthy();
   });
-
-  it('applies width from prop', () => {
-    const width = '99px';
-    const wrapper = mount(<Dropdown caption="" width={width} />);
-
-    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
-  });
 });

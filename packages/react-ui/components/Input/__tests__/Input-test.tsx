@@ -116,14 +116,6 @@ describe('<Input />', () => {
     expect(inputStyles && inputStyles.textAlign).toBe('center');
   });
 
-  it('applies width prop on label', () => {
-    const inputStyles = render({ width: '300px', value: 'hello' })
-      .find('label')
-      .prop('style');
-
-    expect(inputStyles && inputStyles.width).toBe('300px');
-  });
-
   it('renders MaskedInput on mask prop', () => {
     const wrapper = render({ value: '', mask: '999' });
     expect(wrapper.find(MaskedInput)).toHaveLength(1);
@@ -248,12 +240,5 @@ describe('<Input />', () => {
     typeSymbol();
 
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-  });
-
-  it('applies width from prop', () => {
-    const width = '99px';
-    const wrapper = mount(<Input width={width} />);
-
-    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
   });
 });

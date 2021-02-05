@@ -1157,11 +1157,4 @@ describe('ComboBox', () => {
       expect(wrapper.find(MenuItem).text()).toBe(expected);
     });
   });
-
-  it('applies width from prop', () => {
-    const width = '99px';
-    const wrapper = mount(<ComboBox getItems={() => Promise.resolve([])} width={width} />);
-
-    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
-  });
 });

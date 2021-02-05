@@ -311,11 +311,4 @@ describe('<RadioGroup />', () => {
     expect(onRadioBlur).toHaveBeenCalledTimes(2);
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
-
-  it('applies width from prop', () => {
-    const width = '99px';
-    const wrapper = mount(<RadioGroup items={[]} width={width} />);
-
-    expect(getComputedStyle(wrapper.getDOMNode()).width).toBe(width);
-  });
 });

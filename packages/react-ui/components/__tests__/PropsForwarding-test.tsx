@@ -92,6 +92,47 @@ describe('Props Forwarding', () => {
       expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
     });
   });
+
+  describe('"width" Prop', () => {
+    const getTestDOMNode = (compName: string, wrapper: ReactWrapper) => {
+      switch (compName) {
+        case 'Modal':
+          return wrapper.find('[data-tid~="modal-content"] > div').getDOMNode();
+        case 'SidePage':
+          return wrapper.find('div[data-tid~="SidePage__root"]').getDOMNode();
+        case 'TokenInput':
+          return wrapper.find('label').getDOMNode();
+        default:
+          return wrapper.getDOMNode();
+      }
+    };
+
+    it.each<keyof typeof ReactUI>([
+      'Button',
+      'ComboBox',
+      'DateInput',
+      'DatePicker',
+      'Dropdown',
+      'FxInput',
+      'Group',
+      'Input',
+      'RadioGroup',
+      'Select',
+      'Textarea',
+      'Modal',
+      'SidePage',
+      'Tabs',
+      'TokenInput',
+    ])('%s', compName => {
+      const width = '99px';
+      const component = (ReactUI as any)[compName];
+      const props = { ...(DEFAULT_PROPS as any)[compName], width };
+      const wrapper = mount(React.createElement(component, props));
+      const testDOMNode = getTestDOMNode(compName, wrapper);
+
+      expect(getComputedStyle(testDOMNode).width).toBe(width);
+    });
+  });
 });
 
 export function isPublicComponent(component: any) {
