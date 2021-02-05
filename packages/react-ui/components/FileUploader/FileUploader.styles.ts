@@ -5,11 +5,13 @@ const styles = {
     return css`
       display: inline-flex;
       align-items: center;
+      justify-content: space-between;
       border: 1px dashed rgba(0, 0, 0, 0.37);
       box-sizing: padding-box;
       border-radius: 1px;
       outline: none;
       height: 32px;
+      width: 362px;
       cursor: pointer;
       padding: 0 6px;
 

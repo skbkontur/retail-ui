@@ -5,7 +5,7 @@ import UploadIcon from '@skbkontur/react-icons/Upload';
 import { Link } from '../Link';
 import { Gapped } from '../Gapped';
 import cn from 'classnames';
-import { ReadedFileType, readFiles } from './fileUtils';
+import { IFileWithBase64, ReadedFileType, readFiles } from './fileUtils';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализация
@@ -15,7 +15,7 @@ export interface FileUploaderProps {
   multiple?: boolean;
   // TODO изучить как можно прикрутить валидацию
   accept?: string;
-  onChange?: (files: ReadedFileType[]) => void;
+  onChange?: (files: IFileWithBase64[]) => void;
   // onRemove?: (file: UploadFile<T>) => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
   id?: string;
@@ -31,6 +31,7 @@ export const FileUploader = (props: FileUploaderProps) => {
   const enterCounter = useRef<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
+  const [files, setFiles] = useState<IFileWithBase64[]>([]);
 
   const handleClick = useCallback(() => {
     inputRef.current?.click();
@@ -58,7 +59,6 @@ export const FileUploader = (props: FileUploaderProps) => {
     }
   }, []);
 
-
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
 
@@ -67,6 +67,7 @@ export const FileUploader = (props: FileUploaderProps) => {
     if (!readedFiles.length) return;
     // validate
 
+    setFiles(readedFiles);
     onChange && onChange(readedFiles);
   }, [onChange]);
 
@@ -106,22 +107,29 @@ export const FileUploader = (props: FileUploaderProps) => {
     [jsStyles.dragOver()]: isDraggable
   })
 
+  const hasOneFile = files.length === 1;
+  const withoutList = !multiple;
+
+  const linkText = withoutList && hasOneFile ? "Выбран файл" : "Выберите файл";
+  const buttonText = withoutList && hasOneFile && files[0].file.name;
+
   return (
     <div
       className={rootClassNames}
-      onClick={handleClick}
       tabIndex={0}
-      
       ref={rootRef}
     >
-      <Gapped gap={5}>
-        <div>
-          <Link className={jsStyles.link()} tabIndex={-1}>
-            Выберите файл
-          </Link>&nbsp;или перетащите сюда
-        </div>
-        <UploadIcon color="#808080"/>
-      </Gapped>
+      <div>
+        <Link
+          className={jsStyles.link()}
+          tabIndex={-1}
+          onClick={handleClick}
+        >
+          {linkText}
+        </Link>
+        &nbsp;{buttonText || "или перетащите сюда"}
+      </div>
+      <UploadIcon color="#808080"/>
       <input
         ref={inputRef}
         // FIXME @mozalov: разрулить конфликт
