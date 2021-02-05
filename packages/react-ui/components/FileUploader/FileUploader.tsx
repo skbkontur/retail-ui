@@ -111,6 +111,7 @@ export const FileUploader = (props: FileUploaderProps) => {
       className={rootClassNames}
       onClick={handleClick}
       tabIndex={0}
+      
       ref={rootRef}
     >
       <Gapped gap={5}>
