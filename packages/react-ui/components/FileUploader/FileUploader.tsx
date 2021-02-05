@@ -5,6 +5,7 @@ import UploadIcon from '@skbkontur/react-icons/Upload';
 import { Link } from '../Link';
 import { Gapped } from '../Gapped';
 import cn from 'classnames';
+import { ReadedFileType, readFiles } from './fileUtils';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализация
@@ -14,7 +15,7 @@ export interface FileUploaderProps {
   multiple?: boolean;
   // TODO изучить как можно прикрутить валидацию
   accept?: string;
-  // onChange?: (info: UploadChangeParam) => void;
+  onChange?: (files: ReadedFileType[]) => void;
   // onRemove?: (file: UploadFile<T>) => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
   id?: string;
@@ -24,7 +25,7 @@ export interface FileUploaderProps {
 }
 
 export const FileUploader = (props: FileUploaderProps) => {
-  const {name, multiple, accept} = props;
+  const {name, multiple, accept, onChange} = props;
 
   const rootRef = useRef<HTMLDivElement>(null);
   const enterCounter = useRef<number>(0);
@@ -57,15 +58,31 @@ export const FileUploader = (props: FileUploaderProps) => {
     }
   }, []);
 
+
+  const handleChange = useCallback(async (files: FileList | null) => {
+    if (!files) return;
+
+    const readedFiles = await readFiles(Array.from(files));
+
+    if (!readedFiles.length) return;
+    // validate
+
+    onChange && onChange(readedFiles);
+  }, [onChange]);
+
   const handleDrop = useCallback(event => {
     preventDefault(event);
     setIsDraggable(false);
     enterCounter.current = 0;
-    if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
-      console.log({files: event.dataTransfer.files.length});
-      event.dataTransfer.clearData();
+
+    const {dataTransfer} = event;
+    const {files} = dataTransfer;
+
+    if (files?.length > 0) {
+      handleChange(files);
+      dataTransfer.clearData();
     }
-  }, [preventDefault]);
+  }, [preventDefault, handleChange]);
 
   useEffect(() => {
     rootRef.current?.addEventListener("dragenter", handleDragEnter);
@@ -81,9 +98,9 @@ export const FileUploader = (props: FileUploaderProps) => {
     };
   }, []);
 
-  const handleChange = useCallback(() => {
-
-  }, []);
+  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    handleChange(event.target.files);
+  }, [handleChange]);
 
   const rootClassNames = cn(jsStyles.root(), {
     [jsStyles.dragOver()]: isDraggable
@@ -113,7 +130,7 @@ export const FileUploader = (props: FileUploaderProps) => {
         type="file"
         name={name}
         multiple={multiple}
-        onChange={handleChange}
+        onChange={handleInputChange}
         accept={accept}
       />
     </div>
