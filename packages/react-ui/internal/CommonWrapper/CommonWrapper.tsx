@@ -35,25 +35,24 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
   }
 }
 
-type PartialRecord<T> = Partial<Record<keyof T, T[keyof T]>>;
-
 const extractCommonProps = <P extends CommonProps>(props: P): [CommonProps, NotCommonProps<P>] => {
-  const common: PartialRecord<CommonProps> = {};
-  const rest: PartialRecord<NotCommonProps<P>> = {};
+  const common = {} as CommonProps;
+  const rest = {} as NotCommonProps<P>;
 
   for (const key in props) {
     if (isCommonProp(key)) {
+      // @ts-ignore
       common[key] = props[key];
     } else {
-      const notCommonKey = (key as unknown) as keyof NotCommonProps<P>;
-      rest[notCommonKey] = props[notCommonKey];
+      // @ts-ignore
+      rest[key] = props[key];
     }
   }
 
-  return [common as CommonProps, rest as NotCommonProps<P>];
+  return [common, rest];
 };
 
-const isCommonProp = (name: string): name is keyof CommonProps => {
+const isCommonProp = (name: string) => {
   switch (true) {
     case name == 'className':
     case name == 'style':
