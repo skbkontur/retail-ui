@@ -3,9 +3,9 @@ import { jsStyles } from './FileUploader.styles';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import { Link } from '../Link';
-import { Gapped } from '../Gapped';
 import cn from 'classnames';
-import { IFileWithBase64, ReadedFileType, readFiles } from './fileUtils';
+import { IFileWithBase64, readFiles } from './fileUtils';
+import { ReadFileList } from './ReadFileList/ReadFileList';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализация
@@ -25,7 +25,7 @@ export interface FileUploaderProps {
 }
 
 export const FileUploader = (props: FileUploaderProps) => {
-  const {name, multiple, accept, onChange} = props;
+  const {name, multiple = false, accept, onChange} = props;
 
   const rootRef = useRef<HTMLDivElement>(null);
   const enterCounter = useRef<number>(0);
@@ -103,45 +103,48 @@ export const FileUploader = (props: FileUploaderProps) => {
     handleChange(event.target.files);
   }, [handleChange]);
 
-  const rootClassNames = cn(jsStyles.root(), {
+  const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable
   })
 
   const hasOneFile = files.length === 1;
-  const withoutList = !multiple;
 
-  const linkText = withoutList && hasOneFile ? "Выбран файл" : "Выберите файл";
-  const buttonText = withoutList && hasOneFile && files[0].file.name;
+  console.log({files});
+  const linkText = !multiple && hasOneFile ? "Выбран файл" : "Выберите файл";
+  const buttonText = !multiple && hasOneFile && files[0].name;
 
   return (
-    <div
-      className={rootClassNames}
-      tabIndex={0}
-      ref={rootRef}
-    >
-      <div>
-        <Link
-          className={jsStyles.link()}
-          tabIndex={-1}
-          onClick={handleClick}
-        >
-          {linkText}
-        </Link>
-        &nbsp;{buttonText || "или перетащите сюда"}
+    <div>
+      {multiple && !!files.length && <ReadFileList files={files} />}
+      <div
+        className={uploadButtonClassNames}
+        tabIndex={0}
+        ref={rootRef}
+      >
+        <div>
+          <Link
+            className={jsStyles.link()}
+            tabIndex={-1}
+            onClick={handleClick}
+          >
+            {linkText}
+          </Link>
+          &nbsp;{buttonText || "или перетащите сюда"}
+        </div>
+        <UploadIcon color="#808080"/>
+        <input
+          ref={inputRef}
+          // FIXME @mozalov: разрулить конфликт
+          // @ts-ignore
+          onClick={stopPropagation}
+          className={jsStyles.fileInput()}
+          type="file"
+          name={name}
+          multiple={multiple}
+          onChange={handleInputChange}
+          accept={accept}
+        />
       </div>
-      <UploadIcon color="#808080"/>
-      <input
-        ref={inputRef}
-        // FIXME @mozalov: разрулить конфликт
-        // @ts-ignore
-        onClick={stopPropagation}
-        className={jsStyles.fileInput()}
-        type="file"
-        name={name}
-        multiple={multiple}
-        onChange={handleInputChange}
-        accept={accept}
-      />
     </div>
   );
 };

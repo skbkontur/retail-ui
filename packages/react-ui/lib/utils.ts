@@ -69,3 +69,17 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 
   return false;
 };
+
+const KB = 1024;
+const UNITS = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+export const formatBytes = (bytes: number, decimals: number = 2) => {
+  if (bytes === 0) return '0 Bytes';
+
+  decimals = decimals < 0 ? 0 : decimals;
+
+  const i = Math.floor(Math.log2(bytes) / Math.log2(KB));
+  const formattedBytes = parseFloat((bytes / Math.pow(KB, i)).toFixed(decimals));
+
+  return `${formattedBytes} ${UNITS[i]}`;
+};

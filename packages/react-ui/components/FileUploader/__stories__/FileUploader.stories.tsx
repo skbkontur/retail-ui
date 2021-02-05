@@ -5,6 +5,10 @@ export default {
   title: 'FileUploader'
 };
 
-export const AttachFileUploader = () => (
+export const SingleFileUploader = () => (
   <FileUploader />
+);
+
+export const MultipleFileUploader = () => (
+  <FileUploader multiple />
 );
