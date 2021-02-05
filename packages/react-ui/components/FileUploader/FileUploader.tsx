@@ -36,10 +36,10 @@ export const FileUploader = (props: FileUploaderProps) => {
   }, []);
 
   return (
-    <div className={jsStyles.root()} onClick={handleClick}>
+    <div className={jsStyles.root()} onClick={handleClick} tabIndex={0}>
       <Gapped gap={5}>
         <div>
-          <Link className={jsStyles.link()}>
+          <Link className={jsStyles.link()} tabIndex={-1}>
             Выберите файл
           </Link>&nbsp;или перетащите сюда
         </div>
