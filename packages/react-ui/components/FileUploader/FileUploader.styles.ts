@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 const styles = {
-  root() {
+  uploadButton() {
     return css`
       display: inline-flex;
       align-items: center;
