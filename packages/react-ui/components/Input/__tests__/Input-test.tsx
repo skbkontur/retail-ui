@@ -1,12 +1,12 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import MaskedInput from 'react-input-mask';
 
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { Input, InputProps } from '../Input';
 import { jsStyles } from '../Input.styles';
+import { enzymeMountWithAttach } from '../../../lib/utils';
 
-const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
+const render = (props: InputProps) => enzymeMountWithAttach<Input, InputProps>(React.createElement(Input, props));
 
 describe('<Input />', () => {
   it('renders', () => {

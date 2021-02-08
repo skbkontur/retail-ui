@@ -8,7 +8,7 @@ import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText } from '../../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
 import { Menu } from '../../../internal/Menu';
-import { delay } from '../../../lib/utils';
+import { delay, enzymeMountWithAttach } from '../../../lib/utils';
 import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
@@ -34,7 +34,7 @@ describe('ComboBox', () => {
   });
 
   it('focuses on focus call', () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
+    const wrapper = enzymeMountWithAttach<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
@@ -144,7 +144,7 @@ describe('ComboBox', () => {
 
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
+    const wrapper = enzymeMountWithAttach<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
@@ -608,7 +608,7 @@ describe('ComboBox', () => {
 
     beforeEach(async () => {
       [search, promise] = searchFactory(Promise.resolve(ITEMS));
-      wrapper = mount<ComboBox<string>>(
+      wrapper = enzymeMountWithAttach<ComboBox<string>>(
         <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
       );
       wrapper.find(ComboBoxView).prop('onFocus')?.();
@@ -1133,7 +1133,7 @@ describe('ComboBox', () => {
     it('render custom locale', async () => {
       const customText = 'custom notFound';
       wrapper = mount(
-        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } }}}>
+        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } } }}>
           <ComboBox getItems={search} />
         </LocaleContext.Provider>,
       );
@@ -1151,7 +1151,7 @@ describe('ComboBox', () => {
       );
       const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
       await focus();
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);

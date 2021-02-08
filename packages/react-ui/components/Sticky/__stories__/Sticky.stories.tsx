@@ -1,5 +1,5 @@
+import { StoryFn } from '@storybook/addons';
 import React from 'react';
-import { DecoratorFn } from '@storybook/react';
 import { CSFStory } from 'creevey';
 
 import { Sticky } from '../Sticky';
@@ -107,7 +107,7 @@ function StickyWithWideContainer() {
   );
 }
 
-const withThinContainer: DecoratorFn = story => <div style={{ width: 200 }}>{story()}</div>;
+const withThinContainer = (story: StoryFn<JSX.Element>) => <div style={{ width: 200 }}>{story()}</div>;
 
 export default { title: 'Sticky' };
 

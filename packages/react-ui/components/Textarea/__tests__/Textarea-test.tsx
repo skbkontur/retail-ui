@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { Textarea } from '../Textarea';
+import { enzymeMountWithAttach } from '../../../lib/utils';
 
 describe('Textarea', () => {
   afterEach(() => {
@@ -17,7 +18,7 @@ describe('Textarea', () => {
   });
 
   it('setSelectionRange works', () => {
-    const wrapper = mount<Textarea>(<Textarea value={'text here'} />);
+    const wrapper = enzymeMountWithAttach<Textarea>(<Textarea value={'text here'} />);
     const SELECTION_START = 0;
     const SELECTION_END = 4;
 
@@ -29,7 +30,7 @@ describe('Textarea', () => {
 
   it('selectAll works by method', () => {
     const VALUE = 'Text for test';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} />);
+    const wrapper = enzymeMountWithAttach<Textarea>(<Textarea value={VALUE} />);
 
     wrapper.instance().selectAll();
 
@@ -39,7 +40,7 @@ describe('Textarea', () => {
 
   it('selectAllOnFocus prop works', () => {
     const VALUE = 'selectAllOnFocus prop works';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} selectAllOnFocus />);
+    const wrapper = enzymeMountWithAttach<Textarea>(<Textarea value={VALUE} selectAllOnFocus />);
 
     wrapper.find('textarea').simulate('focus');
 
@@ -48,7 +49,7 @@ describe('Textarea', () => {
   });
 
   it('manual focus', () => {
-    const wrapper = mount<Textarea>(<Textarea />);
+    const wrapper = enzymeMountWithAttach<Textarea>(<Textarea />);
 
     expect(document.activeElement).toBeInstanceOf(HTMLBodyElement);
 

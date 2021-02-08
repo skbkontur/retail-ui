@@ -6,7 +6,7 @@
 
 Условный файл `server.js` будет выглядеть примерно так:
 
-```typescript
+```jsx harmony
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { CacheProvider } from '@emotion/core';
@@ -41,7 +41,7 @@ function getPageHTML({ html, css, ids }: EmotionCritical) {
 
 `client.js`
 
-```typescript
+```jsx harmony static
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CacheProvider } from '@emotion/core';

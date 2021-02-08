@@ -1,4 +1,5 @@
 import { ReactComponentLike } from 'prop-types';
+import { mount } from 'enzyme';
 
 import { isBrowser } from './client';
 
@@ -15,7 +16,7 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export const emptyHandler = () => {
+export const emptyHandler: () => void = () => {
   /* noop */
 };
 
@@ -23,7 +24,7 @@ export class CancelationError extends Error {
   public code = 'CancelationError';
 }
 
-export function taskWithDelay(task: () => void, ms: number) {
+export function taskWithDelay(task: () => void, ms: number): () => void {
   let cancelationToken: () => void = () => null;
 
   new Promise((resolve, reject) => {
@@ -55,4 +56,12 @@ export const getRandomID = (): string =>
 
 export const isExternalLink = (link: string): boolean => {
   return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
+};
+
+// Use it, if you need document.activeElement
+export const enzymeMountWithAttach: typeof mount = (...args: any[]) => {
+  return mount(args[0], {
+    attachTo: document.getElementById('enzymeContainer'),
+    ...args[1],
+  });
 };
