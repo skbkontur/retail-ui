@@ -8,7 +8,7 @@ import { Button, ButtonSize } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -75,18 +75,25 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = getSwitcherTheme(theme);
-          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
+          return (
+            <ThemeContext.Provider value={this.theme}>
+              <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>
+            </ThemeContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain() {
+  private renderMain = (props: CommonWrapperRestProps<SwitcherProps>) => {
+    const { value, items, onValueChange, label, error, size, ...rest } = props;
+
     const listClassName = cn({
       [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
     const inputProps = {
+      ...rest,
       type: 'checkbox',
       onKeyDown: this.handleKey,
       onFocus: this._handleFocus,
@@ -97,19 +104,17 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     const lableClassName = cn(jsStyles.label(), this.getLabelSizeClassName());
 
     return (
-      <CommonWrapper {...this.props}>
-        <div>
-          {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
-          <div className={jsStyles.wrap()}>
-            <input {...inputProps} />
-            <div className={listClassName}>
-              <Group>{this._renderItems()}</Group>
-            </div>
+      <div>
+        {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
+        <div className={jsStyles.wrap()}>
+          <input {...inputProps} />
+          <div className={listClassName}>
+            <Group>{this._renderItems()}</Group>
           </div>
         </div>
-      </CommonWrapper>
+      </div>
     );
-  }
+  };
 
   private selectItem = (value: string) => {
     if (this.props.onValueChange) {

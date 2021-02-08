@@ -7,13 +7,12 @@ import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> extends CommonProps {
+export interface CustomComboBoxProps<T> {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -216,28 +215,16 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public render() {
+    const { getItems, itemToValue, valueToString, searchOnFocus, onUnexpectedInput, ...rest } = this.props;
+
     const viewProps = {
-      align: this.props.align,
-      borderless: this.props.borderless,
-      disabled: this.props.disabled,
-      disablePortal: this.props.disablePortal,
+      ...rest,
+
       editing: this.state.editing,
-      error: this.props.error,
       items: this.state.items,
       loading: this.state.loading,
-      menuAlign: this.props.menuAlign,
       opened: this.state.opened,
-      drawArrow: this.props.drawArrow,
-      placeholder: this.props.placeholder,
-      size: this.props.size,
       textValue: this.state.textValue,
-      totalCount: this.props.totalCount,
-      value: this.props.value,
-      warning: this.props.warning,
-      width: this.props.width,
-      maxLength: this.props.maxLength,
-      maxMenuHeight: this.props.maxMenuHeight,
-      leftIcon: this.props.leftIcon,
 
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
@@ -251,14 +238,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
         event.persist();
         this.dispatch({ type: 'KeyPress', event });
       },
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseOver: this.props.onMouseOver,
-      onMouseLeave: this.props.onMouseLeave,
-      renderItem: this.props.renderItem,
-      renderNotFound: this.props.renderNotFound,
-      renderValue: this.props.renderValue,
-      renderTotalCount: this.props.renderTotalCount,
-      renderAddButton: this.props.renderAddButton,
       repeatRequest: this.state.repeatRequest,
       requestStatus: this.state.requestStatus,
 
@@ -273,11 +252,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       },
     };
 
-    return (
-      <CommonWrapper {...this.props}>
-        <ComboBoxView {...viewProps} />
-      </CommonWrapper>
-    );
+    return <ComboBoxView {...viewProps} />;
   }
 
   public componentDidMount() {
