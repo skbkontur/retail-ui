@@ -16,7 +16,7 @@ import { jsStyles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text';
+export type InputType = React.InputHTMLAttributes<HTMLInputElement>['type'];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export interface InputProps
@@ -109,10 +109,9 @@ export interface InputState {
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
-  public static defaultProps: {
-    size: InputSize;
-  } = {
+  public static defaultProps: InputProps = {
     size: 'small',
+    type: 'text',
   };
 
   public state: InputState = {
@@ -259,7 +258,6 @@ export class Input extends React.Component<InputProps, InputState> {
       borderless,
       value,
       align,
-      type,
       mask,
       maskChar,
       alwaysShowMask,
@@ -305,14 +303,9 @@ export class Input extends React.Component<InputProps, InputState> {
       onBlur: this.handleBlur,
       style: { textAlign: align },
       ref: this.refInput,
-      type: 'text',
       placeholder: !this.isMaskVisible && !polyfillPlaceholder ? placeholder : undefined,
       disabled,
     };
-
-    if (type === 'password') {
-      inputProps.type = type;
-    }
 
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 

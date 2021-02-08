@@ -10,7 +10,7 @@ import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDownIcon } from '../icons/16px';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -99,6 +99,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   }
 
   public render() {
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<ComboBoxViewProps<T>>) => {
     const {
       items,
       loading,
@@ -117,135 +121,126 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       repeatRequest,
       requestStatus,
       totalCount,
-      size,
       width,
-    } = this.props;
+    } = props;
 
-    const input = this.renderInput();
+    const input = this.renderInput(props);
 
     const topOffsets = {
       spinner: 6,
       arrow: 15,
     };
-    if (size === 'medium') {
+    if (props.size === 'medium') {
       topOffsets.spinner += 4;
       topOffsets.arrow += 4;
     }
-    if (size === 'large') {
+    if (props.size === 'large') {
       topOffsets.spinner += 6;
       topOffsets.arrow += 6;
     }
 
     return (
-      <CommonWrapper {...this.props}>
-        <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
-          <span
-            style={{ width }}
-            className={jsStyles.root()}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            onMouseOver={onMouseOver}
-          >
-            {input}
-            {opened && (
-              <DropdownContainer
-                align={menuAlign}
-                getParent={() => findDOMNode(this)}
-                offsetY={1}
-                disablePortal={this.props.disablePortal}
-              >
-                <ComboBoxMenu
-                  items={items}
-                  loading={loading}
-                  maxMenuHeight={maxMenuHeight}
-                  onValueChange={this.handleItemSelect}
-                  opened={opened}
-                  refMenu={refMenu}
-                  renderTotalCount={renderTotalCount}
-                  renderItem={renderItem!}
-                  renderNotFound={renderNotFound}
-                  renderAddButton={this.renderAddButton}
-                  repeatRequest={repeatRequest}
-                  requestStatus={requestStatus}
-                  totalCount={totalCount}
-                />
-              </DropdownContainer>
-            )}
-          </span>
-        </RenderLayer>
-      </CommonWrapper>
+      <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
+        <span
+          style={{ width }}
+          className={jsStyles.root()}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseOver={onMouseOver}
+        >
+          {input}
+          {opened && (
+            <DropdownContainer
+              align={menuAlign}
+              getParent={() => findDOMNode(this)}
+              offsetY={1}
+              disablePortal={this.props.disablePortal}
+            >
+              <ComboBoxMenu
+                items={items}
+                loading={loading}
+                maxMenuHeight={maxMenuHeight}
+                onValueChange={this.handleItemSelect}
+                opened={opened}
+                refMenu={refMenu}
+                renderTotalCount={renderTotalCount}
+                renderItem={renderItem!}
+                renderNotFound={renderNotFound}
+                renderAddButton={this.renderAddButton}
+                repeatRequest={repeatRequest}
+                requestStatus={requestStatus}
+                totalCount={totalCount}
+              />
+            </DropdownContainer>
+          )}
+        </span>
+      </RenderLayer>
     );
-  }
+  };
 
   private renderAddButton = (): React.ReactNode => {
     return this.props.renderAddButton(this.props.textValue);
   };
 
-  private renderInput(): React.ReactNode {
+  private renderInput(props: CommonWrapperRestProps<ComboBoxViewProps<T>>): React.ReactNode {
     const {
-      align,
-      borderless,
-      disabled,
       editing,
-      error,
       onFocus,
       onInputBlur,
       onInputValueChange,
       onInputFocus,
       onInputClick,
       onInputKeyDown,
-      placeholder,
+      onValueChange,
       renderValue,
-      size,
       textValue,
       value,
-      warning,
       refInputLikeText,
-      leftIcon,
-    } = this.props;
+      renderAddButton,
+      items,
+      loading,
+      menuAlign,
+      onClickOutside,
+      onFocusOutside,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      opened,
+      refMenu,
+      maxMenuHeight,
+      renderTotalCount,
+      renderItem,
+      renderNotFound,
+      repeatRequest,
+      requestStatus,
+      totalCount,
+      disablePortal,
+      drawArrow,
+      refInput,
+      ...rest
+    } = props;
 
     const rightIcon = this.getRightIcon();
 
     if (editing) {
       return (
         <Input
-          align={align}
-          borderless={borderless}
-          disabled={disabled}
-          error={error}
-          maxLength={this.props.maxLength}
+          {...rest}
           onBlur={onInputBlur}
           onValueChange={onInputValueChange}
           onFocus={onInputFocus}
           onClick={onInputClick}
-          leftIcon={leftIcon}
-          rightIcon={rightIcon}
           value={textValue || ''}
           onKeyDown={onInputKeyDown}
-          placeholder={placeholder}
           width="100%"
-          size={size}
           ref={this.refInput}
-          warning={warning}
+          rightIcon={rightIcon}
         />
       );
     }
 
     return (
-      <InputLikeText
-        align={align}
-        borderless={borderless}
-        error={error}
-        onFocus={onFocus}
-        leftIcon={leftIcon}
-        rightIcon={rightIcon}
-        disabled={disabled}
-        warning={warning}
-        placeholder={placeholder}
-        size={size}
-        width="100%"
-        ref={refInputLikeText}
-      >
+      <InputLikeText {...rest} onFocus={onFocus} width="100%" ref={refInputLikeText} rightIcon={rightIcon}>
         {value ? renderValue!(value) : null}
       </InputLikeText>
     );

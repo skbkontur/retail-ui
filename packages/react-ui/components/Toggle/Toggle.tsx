@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { tabListener } from '../../lib/events/tabListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Toggle.styles';
 
@@ -88,14 +88,27 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain() {
-    const { children, captionPosition, warning, error, loading, color } = this.props;
+  private renderMain = (props: CommonWrapperRestProps<ToggleProps>) => {
+    const {
+      captionPosition,
+      warning,
+      error,
+      loading,
+      color,
+      onChange,
+      defaultChecked,
+      onValueChange,
+      onFocus,
+      onBlur,
+      ...rest
+    } = props;
+
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
@@ -112,11 +125,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     });
 
     let caption = null;
-    if (children) {
+    if (this.props.children) {
       const captionClass = cn(jsStyles.caption(this.theme), {
         [jsStyles.captionLeft(this.theme)]: captionPosition === 'left',
       });
-      caption = <span className={captionClass}>{children}</span>;
+      caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
     return (
@@ -124,6 +137,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
         <label className={labelClassNames}>
           <span className={jsStyles.wrapper(this.theme)}>
             <input
+              {...rest}
               type="checkbox"
               checked={checked}
               onChange={this.handleChange}
@@ -156,7 +170,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
         </label>
       </CommonWrapper>
     );
-  }
+  };
 
   private inputRef = (element: HTMLInputElement) => {
     this.input = element;

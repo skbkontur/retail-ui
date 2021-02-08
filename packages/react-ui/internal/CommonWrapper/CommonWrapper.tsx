@@ -35,7 +35,7 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
   }
 }
 
-const extractCommonProps = <P extends CommonProps>(props: P): [CommonProps, NotCommonProps<P>] => {
+export const extractCommonProps = <P extends CommonProps>(props: P): [CommonProps, NotCommonProps<P>] => {
   const common = {} as CommonProps;
   const rest = {} as NotCommonProps<P>;
 
