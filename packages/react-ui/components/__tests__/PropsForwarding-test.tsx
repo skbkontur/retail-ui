@@ -10,6 +10,8 @@ const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
   );
 });
 
+// some components have required props
+// so we need this in order to create them dynamically
 const DEFAULT_PROPS = {
   Autocomplete: { value: '', onValueChange: jest.fn() },
   FxInput: { onValueChange: jest.fn() },
@@ -38,14 +40,23 @@ const DEFAULT_PROPS = {
   Tooltip: { trigger: 'opened', render: () => 'Tooltip', children: <i /> },
   Toast: { children: <i /> },
   Tab: { id: 'tab' },
+  // prevents Input from switching into controlled mode while setting test props
+  Input: { value: 'value' },
 };
 
 // allows rendering Tab not only inside Tabs
+// by mocking throwing module
 jest.mock('invariant', () => (...args: any[]) => {
   if (args[1] !== 'Tab should be placed inside Tabs component') {
     jest.requireActual('invariant')(...args);
   }
 });
+
+const createWrapper = <T extends {}>(compName: string) => {
+  const component = (ReactUI as any)[compName];
+  const props: any = (DEFAULT_PROPS as any)[compName] || {};
+  return mount<T>(React.createElement(component, props));
+};
 
 describe('Props Forwarding', () => {
   describe('Common Props', () => {
@@ -66,13 +77,9 @@ describe('Props Forwarding', () => {
       }
     };
 
-    it.each<[string, ReactWrapper]>(
-      PUBLIC_COMPONENTS.map(name => {
-        const component = (ReactUI as any)[name];
-        const props: any = (DEFAULT_PROPS as any)[name] || {};
-        return [name, mount(React.createElement(component, props))];
-      }),
-    )('%s', (compName, wrapper) => {
+    it.each<[string, ReactWrapper]>(PUBLIC_COMPONENTS.map(name => [name, createWrapper(name)]))(
+      '%s',
+      (compName, wrapper) => {
       const props = {
         'data-tid': 'my-data-tid',
         'data-testid': 'my-data-testid',
