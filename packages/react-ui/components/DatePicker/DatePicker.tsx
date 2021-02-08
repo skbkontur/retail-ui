@@ -10,20 +10,10 @@ import { Nullable } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
-import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
-
-const INPUT_PASS_PROPS = {
-  autoFocus: true,
-  disabled: true,
-  warning: true,
-  error: true,
-  size: true,
-  onKeyDown: true,
-};
 
 export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
@@ -213,18 +203,33 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   }
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
+    const {
+      width,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      enableTodayLink,
+      isHoliday,
+      menuAlign,
+      minDate,
+      maxDate,
+      value,
+      onValueChange,
+      ...rest
+    } = props;
+
     let picker = null;
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={menuAlign}>
           <Picker
             value={date}
             minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
             maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
             onPick={this.handlePick}
             onSelect={this.handleSelect}
-            enableTodayLink={this.props.enableTodayLink}
+            enableTodayLink={enableTodayLink}
             isHoliday={this.isHoliday}
           />
         </DropdownContainer>
@@ -234,22 +239,22 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     return (
       <label
         className={jsStyles.root()}
-        style={{ width: this.props.width }}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
+        style={{ width }}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseOver={onMouseOver}
       >
         <DateInput
-          {...filterProps(props, INPUT_PASS_PROPS)}
+          {...rest}
           ref={this.getInputRef}
-          value={this.props.value || ''}
+          value={value || ''}
           width="100%"
           withIcon
-          minDate={this.props.minDate}
-          maxDate={this.props.maxDate}
+          minDate={minDate}
+          maxDate={maxDate}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
-          onValueChange={this.props.onValueChange}
+          onValueChange={onValueChange}
         />
         {picker}
       </label>

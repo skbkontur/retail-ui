@@ -209,7 +209,7 @@ describe('ComboBox', () => {
     const onFocus = jest.fn();
     const wrapper = mount<ComboBox<any>>(<ComboBox onFocus={onFocus} getItems={() => Promise.resolve([])} />);
 
-    wrapper.find('[tabIndex=0]').simulate('focus');
+    wrapper.find('span[tabIndex=0]').simulate('focus');
 
     expect(onFocus).toHaveBeenCalledTimes(1);
   });

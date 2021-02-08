@@ -6,7 +6,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
@@ -99,6 +99,7 @@ export interface ButtonProps extends CommonProps {
   warning?: boolean;
 
   width?: number | string;
+  tabIndex?: number;
 }
 
 export interface ButtonState {
@@ -152,36 +153,62 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain() {
-    const { corners = 0 } = this.props;
+  private renderMain = (props: CommonWrapperRestProps<ButtonProps>) => {
+    const {
+      onFocus,
+      onBlur,
+      size,
+      error,
+      use,
+      visuallyFocused,
+      warning,
+      width,
+      narrow,
+      loading,
+      icon,
+      disableFocus,
+      focused,
+      corners = 0,
+      checked,
+      disabled,
+      borderless,
+      arrow,
+      align,
+      _noPadding,
+      _noRightPadding,
+      active,
+      tabIndex,
+      ...rest
+    } = props;
     const sizeClass = this.getSizeClassName();
 
-    const isError = !!this.props.error;
-    const isWarning = !!this.props.warning;
+    const isError = !!error;
+    const isWarning = !!warning;
     const rootProps = {
+      ...rest,
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
       className: cn({
         [jsStyles.root(this.theme)]: true,
-        [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
-        [jsStyles.active(this.theme)]: !!this.props.active,
+        [(jsStyles[use!] && jsStyles[use!](this.theme)) || jsStyles.default(this.theme)]: true,
+        [jsStyles.active(this.theme)]: !!active,
         [jsStyles.validationRoot(this.theme)]: isError || isWarning,
-        [jsStyles.narrow()]: !!this.props.narrow,
-        [jsStyles.noPadding()]: !!this.props._noPadding,
-        [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
+        [jsStyles.narrow()]: !!narrow,
+        [jsStyles.noPadding()]: !!_noPadding,
+        [jsStyles.noRightPadding()]: !!_noRightPadding,
         [sizeClass]: true,
-        [jsStyles.borderless(this.theme)]: !!this.props.borderless,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.checked(this.theme)]: !!this.props.checked,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
+        [jsStyles.borderless(this.theme)]: !!borderless,
+        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!visuallyFocused,
+        [jsStyles.checked(this.theme)]: !!checked,
+        [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
         [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
       }),
       style: {
@@ -189,106 +216,99 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
         borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
         borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
-        textAlign: this.props.align,
+        textAlign: align,
       },
-      disabled: this.props.disabled || this.props.loading,
-      onClick: this.props.onClick,
+      disabled: disabled || loading,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: this.props.onKeyDown,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
-      tabIndex: this.props.disableFocus ? -1 : 0,
+      tabIndex: disableFocus ? -1 : tabIndex,
     };
 
     const wrapProps = {
       className: cn({
         [jsStyles.wrap(this.theme)]: true,
-        [jsStyles.wrapArrow()]: this.props.arrow === true,
-        [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
+        [jsStyles.wrapArrow()]: arrow === true,
+        [jsStyles.wrapArrowLeft()]: arrow === 'left',
       }),
       style: {
-        width: this.props.width,
+        width,
       },
     };
 
-    let error = null;
-    if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
-    } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+    let errorNode = null;
+    if (error) {
+      errorNode = <div className={jsStyles.error(this.theme)} />;
+    } else if (warning) {
+      errorNode = <div className={jsStyles.warning(this.theme)} />;
     }
 
-    let loading = null;
-    if (this.props.loading && !this.props.icon) {
-      loading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
+    let loadingNode = null;
+    if (loading && !icon) {
+      loadingNode = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
     }
 
-    let icon = this.props.icon;
-    if (this.props.icon) {
-      icon = (
+    let iconNode = icon;
+    if (icon) {
+      iconNode = (
         <span
           className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
             [jsStyles.iconNoRightPadding()]: !this.props.children,
-            [jsStyles.iconLink(this.theme)]: this.props.use === 'link',
+            [jsStyles.iconLink(this.theme)]: use === 'link',
           })}
         >
-          {this.props.loading ? this.getLoadingSpinner() : this.props.icon}
+          {loading ? this.getLoadingSpinner() : icon}
         </span>
       );
     }
 
-    let arrow = null;
-    if (this.props.arrow) {
-      arrow = (
+    let arrowNode = null;
+    if (arrow) {
+      arrowNode = (
         <div
           className={cn({
             [jsStyles.arrow()]: true,
             [jsStyles.arrowWarning(this.theme)]: isWarning,
             [jsStyles.arrowError(this.theme)]: isError,
-            [jsStyles.arrowFocus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-            [jsStyles.arrowLeft()]: this.props.arrow === 'left',
+            [jsStyles.arrowFocus(this.theme)]: this.state.focusedByTab || !!visuallyFocused,
+            [jsStyles.arrowLeft()]: arrow === 'left',
           })}
         />
       );
     }
 
     // Force disable all props and features, that cannot be use with Link
-    if (this.props.use === 'link') {
+    if (use === 'link') {
       rootProps.className = cn({
         [jsStyles.root(this.theme)]: true,
         [sizeClass]: true,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!visuallyFocused,
         [jsStyles.link(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
+        [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
       });
       Object.assign(wrapProps, {
         className: cn(jsStyles.wrap(this.theme), {
-          [jsStyles.wrapLink(this.theme)]: this.props.use === 'link',
+          [jsStyles.wrapLink(this.theme)]: use === 'link',
         }),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      arrow = null;
+      arrowNode = null;
     }
 
     return (
-      <CommonWrapper {...this.props}>
-        <span {...wrapProps}>
-          <button ref={this._ref} {...rootProps}>
-            {error}
-            {loading}
-            {arrow}
-            <div className={jsStyles.caption()}>
-              {icon}
-              <span className={cn({ [jsStyles.visibilityHidden()]: loading })}>{this.props.children}</span>
-            </div>
-          </button>
-        </span>
-      </CommonWrapper>
+      <span {...wrapProps}>
+        <button ref={this._ref} {...rootProps}>
+          {errorNode}
+          {loadingNode}
+          {arrowNode}
+          <div className={jsStyles.caption()}>
+            {iconNode}
+            <span className={cn({ [jsStyles.visibilityHidden()]: loadingNode })}>{this.props.children}</span>
+          </div>
+        </button>
+      </span>
     );
-  }
+  };
 
   private getLoadingSpinner() {
     return <Spinner caption={null} dimmed type="mini" />;

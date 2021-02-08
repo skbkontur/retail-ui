@@ -17,7 +17,6 @@ import { locale } from '../../lib/locale/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
 import { DropdownContainer } from '../../internal/DropdownContainer';
-import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Link } from '../Link';
 import { Menu } from '../../internal/Menu';
@@ -29,7 +28,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, extractCommonProps } from '../../internal/CommonWrapper';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -44,18 +43,6 @@ export interface ButtonParams {
   opened: boolean;
   isPlaceholder: boolean;
 }
-
-const PASS_BUTTON_PROPS = {
-  disabled: true,
-  error: true,
-  use: true,
-  size: true,
-  warning: true,
-
-  onMouseEnter: true,
-  onMouseLeave: true,
-  onMouseOver: true,
-};
 
 export interface SelectProps<TValue, TItem> extends CommonProps {
   /** @ignore */
@@ -316,8 +303,34 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       return this.renderLinkButton(params);
     }
 
+    const [, notCommonProps] = extractCommonProps(this.props);
+    const {
+      filterItem,
+      children,
+      items,
+      maxMenuHeight,
+      disablePortal,
+      diadocLinkIcon,
+      defaultValue,
+      areValuesEqual,
+      _renderButton,
+      _icon,
+      maxWidth,
+      menuAlign,
+      onClose,
+      onOpen,
+      onValueChange,
+      placeholder,
+      renderItem,
+      renderValue,
+      search,
+      value,
+      width,
+      ...rest
+    } = notCommonProps;
+
     const buttonProps: ButtonProps = {
-      ...filterProps(this.props, PASS_BUTTON_PROPS),
+      ...rest,
       align: 'left' as React.CSSProperties['textAlign'],
       disabled: this.props.disabled,
       width: '100%',

@@ -29,7 +29,7 @@ export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps = { size: 'small' };
+  public static defaultProps = { size: 'small', tabIndex: 0 };
 
   public state = { blinking: false, focused: false };
 
@@ -142,6 +142,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       value,
       onMouseDragStart,
       onMouseDragEnd,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+
       ...rest
     } = props;
 
@@ -157,7 +161,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
-      [jsInputStyles.disabled(this.theme)]: !!disabled,
+      [jsInputStyles.disabled(this.theme)]: !!props.disabled,
       [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
       [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
       [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
@@ -167,19 +171,23 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsStyles.userSelectContain()]: focused,
     });
 
+    // TODO: use label with real input instead of <span tabIndex /> (related #1679)
     return (
       <span
         {...rest}
         className={className}
         style={{ width, textAlign: align }}
-        tabIndex={disabled ? undefined : 0}
+        tabIndex={disabled ? undefined : tabIndex}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         ref={this.innerRef}
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseOver={onMouseOver}
       >
-        <input type="hidden" value={value} />
+        <input {...rest} type="hidden" value={value} tabIndex={tabIndex} disabled={disabled} readOnly />
         {leftSide}
         <span className={wrapperClass}>
           <span data-tid="InputLikeText__input" className={cn(jsStyles.input(), jsInputStyles.input(this.theme))}>
