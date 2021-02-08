@@ -13,8 +13,8 @@ const styles = {
 
   name() {
     return css`
-      max-width: 100%;
       flex: 1 1 100%;
+      overflow: hidden;
     `;
   },
 
@@ -29,6 +29,7 @@ const styles = {
     return css`
       margin-left: 23px;
       flex: 1 0 auto;
+      cursor: pointer;
     `;
   }
 };
