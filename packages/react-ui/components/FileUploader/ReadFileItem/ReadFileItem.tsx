@@ -40,7 +40,12 @@ export const ReadFileItem = (props: ReadFileItemProps) => {
     }
   }, [fileNameSpanRef.current, textHelperRef.current]);
 
+  // FIXME @mozalov: почитать про XSS
   const truncatedFileName = useMemo(() => {
+    if (!fileNameWidth && !fileNameSpanWidth) {
+      return null;
+    }
+    
     if (fileNameWidth <= fileNameSpanWidth) {
       return name;
     }
