@@ -29,15 +29,24 @@ const styles = {
     `;
   },
 
+  content() {
+    return css`
+      display: flex;
+      width: 100%;
+    `;
+  },
+
   fileInput() {
     return css`
       display: none;
     `;
   },
 
-  link() {
+  afterLinkText() {
     return css`
-      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      flex: 1 1 auto;
     `;
   }
 };

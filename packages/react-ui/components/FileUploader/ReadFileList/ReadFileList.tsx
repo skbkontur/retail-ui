@@ -1,5 +1,6 @@
 import React from 'react';
 import { IFileWithBase64 } from '../fileUtils';
+import { ReadFile } from '../ReadFile/ReadFile';
 import { ReadFileItem } from '../ReadFileItem/ReadFileItem';
 
 interface FileListProps {
@@ -11,7 +12,9 @@ export const ReadFileList = (props: FileListProps) => {
 
   return (
     <div>
-      {files.map(file => <ReadFileItem key={file.base64 as string} file={file} />)}
+      {files.map(file => <ReadFileItem key={file.base64 as string}>
+        <ReadFile file={file} showSize />
+      </ReadFileItem>)}
     </div>
   );
 };
