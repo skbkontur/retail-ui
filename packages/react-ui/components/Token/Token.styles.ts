@@ -126,11 +126,6 @@ export const jsTokenColors = [
       return css`
         background-color: ${t.tokenDisabledBg};
         box-shadow: ${t.tokenShadowDisabled}};
-
-        & ${cssName(jsStyles.removeIcon(t))} {
-          fill: ${t.tokenTextColorDisabled};
-          opacity: 1;
-        }
       `;
     },
     defaultDisabledWarning(t: Theme) {
