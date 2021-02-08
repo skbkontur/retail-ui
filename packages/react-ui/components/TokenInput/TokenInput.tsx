@@ -84,28 +84,20 @@ export interface TokenInputProps<T> {
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
   /**
    * Функция для обработки ситуации, когда была введена
-   * строка в инпут и был потерян фокус с элемента.
+   * строка в инпут и был потерян фокус с компонента
    *
-   * Функция срабатывает с аргументом инпута строки.
+   * Функция срабатывает с аргументом инпута строки
+   *
+   * Если при потере фокуса в выпадающем списке будет только один
+   * элемент и  результат `valueToString` с этим элементом будет
+   * совпадать со значение в текстовом поле, то
+   * сработает `onValueChange` со значением данного элемента
    *
    * Сама функция также может вернуть значение,
-   * неравное `undefined`,
-   * с которым будет вызван `onValueChange`.
-   * Если возвращаемое значение будет равно `null`, то
-   * сработает очистка текущего значения инпута.
-   *
-   * Когда произойдет срабатывание функции:
-   *
-   * - Если при потере фокуса есть список элементов (автокомплит)
-   * с длиной больше одного
-   *
-   * - Если при потере фокуса есть список элементов (автокомплит)
-   * с одним элементом и значение в текстовом поле НЕ совпадает
-   * с результатом `renderValue` элемента
-   * (в противном случае сработает onValueChange со значением данного элемента)
-   *
-   * - При редактировании токена (если оно не было завершено)
-   *
+   * неравное `undefined`, с которым будет вызван `onValueChange`.
+   * Если возвращаемое значение будет равно `null`,
+   * то сработает очистка текущего значения инпута,
+   * а в режиме редактирования токен будет удален
    */
   onUnexpectedInput?: (value: string) => void | null | undefined | T;
 }
@@ -119,6 +111,7 @@ export interface TokenInputState<T> {
   inFocus?: boolean;
   inputValue: string;
   reservedInputValue: string | undefined;
+  lastInputValue: string;
   inputValueWidth: number;
   inputValueHeight: number;
   preventBlur?: boolean;
@@ -128,6 +121,7 @@ export interface TokenInputState<T> {
 export const DefaultState = {
   inputValue: '',
   reservedInputValue: undefined,
+  lastInputValue: '',
   autocompleteItems: undefined,
   activeTokens: [],
   editingTokenIndex: -1,
@@ -206,8 +200,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
       LayoutEvents.emit();
     }
-    if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible && !this.isEditingMode) {
-      this.tryGetItems(this.state.inputValue);
+    if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
+      this.tryGetItems();
     }
   }
 
@@ -427,7 +421,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const isBlurToMenu = this.isBlurToMenu(event);
 
     if (!isBlurToMenu) {
-      this.checkForUnexpectedInput();
+      this.handleOutsideBlur();
     }
 
     if (isBlurToMenu || this.state.preventBlur) {
@@ -440,15 +434,74 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     } else {
       this.dispatch({ type: 'BLUR' });
     }
+
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
   };
 
+  private handleOutsideBlur = () => {
+    const { inputValue, autocompleteItems } = this.state;
+    const { valueToString } = this.props;
+
+    if (inputValue === '') {
+      // если стерли содержимое токена в режиме редактирования, то удаляем токен
+      if (this.isEditingMode) {
+        this.finishTokenEdit();
+      }
+      return;
+    }
+
+    // если не изменилось значение токена при редактировании
+    if (this.isEditingMode && !this.isTokenValueChanged) {
+      this.finishTokenEdit(true);
+      return;
+    }
+
+    // чекаем автокомплит на совпадение с введеным значением в инпут
+    if (autocompleteItems && autocompleteItems.length === 1) {
+      const item = autocompleteItems[0];
+
+      if (valueToString(item) === inputValue) {
+        this.isEditingMode ? this.finishTokenEdit(true) : this.selectItem(item);
+
+        return;
+      }
+    }
+
+    if (this.isInputChanged) this.checkForUnexpectedInput();
+  };
+
+  private get isInputChanged() {
+    if (this.isEditingMode) {
+      return this.isTokenValueChanged;
+    }
+
+    return this.isInputValueChanged;
+  }
+
+  private get isInputValueChanged() {
+    const { inputValue } = this.state;
+
+    return inputValue !== '';
+  }
+
+  private get isTokenValueChanged() {
+    const { inputValue, editingTokenIndex } = this.state;
+    const { selectedItems, valueToString } = this.props;
+
+    if (this.isEditingMode) {
+      return valueToString(selectedItems[editingTokenIndex]) !== inputValue;
+    }
+
+    return false;
+  }
+
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
     if (this.menuRef) {
       const menu = findDOMNode(this.menuRef) as HTMLElement | null;
       const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
+
       if (menu && menu.contains(relatedTarget)) {
         return true;
       }
@@ -715,6 +768,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.tryGetItems();
       }
     }
+
+    this.dispatch({ type: 'RESET_LAST_QUERY' });
   };
 
   private clearInput = () => {
@@ -760,8 +815,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.tryGetItems();
   };
 
-  private finishTokenEdit = () => {
-    const { editingTokenIndex, inputValue, reservedInputValue } = this.state;
+  private finishTokenEdit = (removeActiveTokens?: boolean) => {
+    const { editingTokenIndex, inputValue, reservedInputValue, activeTokens } = this.state;
     const { selectedItems, valueToItem } = this.props;
     const editedItem = valueToItem(inputValue);
     const newItems = selectedItems.concat([]);
@@ -780,8 +835,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'CLEAR_INPUT' });
     }
 
-    if (newItems.length === selectedItems.length) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
+    if (removeActiveTokens) {
+      if (activeTokens.length > 0) {
+        this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
+      }
+
+      return;
+    }
+
+    if (newItems.length === 0) {
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex - 1]] });
     } else if (editingTokenIndex > 0) {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex - 1]] });
     } else if (newItems.length > 0) {
@@ -789,31 +852,32 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
   };
 
-  private checkForUnexpectedInput = () => {
-    const { inputValue, autocompleteItems } = this.state;
-    const { onUnexpectedInput, valueToString } = this.props;
-    let item: undefined | T = undefined;
-
-    // чекаем автокомплит на совпадение с введеным значением в инпут
-    if (autocompleteItems && autocompleteItems.length === 1) {
-      item = autocompleteItems.find(item => {
-        return valueToString(item) === inputValue;
-      });
+  private removeCurrentlyEditedToken = () => {
+    if (this.isEditingMode) {
+      this.dispatch({ type: 'CLEAR_INPUT' });
+      process.nextTick(() => this.finishTokenEdit(true));
     }
+  };
 
-    if (item && !this.isEditingMode) {
-      this.selectItem(item);
-    } else if (onUnexpectedInput) {
+  private checkForUnexpectedInput = () => {
+    const { inputValue } = this.state;
+    const { onUnexpectedInput } = this.props;
+
+    if (onUnexpectedInput) {
       // чекаем не возвращает ли что-нибудь обработчик
       const returnedValue = onUnexpectedInput(inputValue);
 
       if (returnedValue === undefined) {
-        return null;
+        return;
       }
 
       if (returnedValue === null) {
-        this.clearInput();
-      } else {
+        this.isEditingMode ? this.removeCurrentlyEditedToken() : this.clearInput();
+
+        return;
+      }
+
+      if (returnedValue) {
         this.selectItem(returnedValue);
       }
     }
@@ -869,13 +933,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // TODO useCallback
     const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
       event.stopPropagation();
-      this.handleRemoveToken(item);
+      if (!this.isEditingMode) {
+        this.handleRemoveToken(item);
+      }
     };
 
     // TODO useCallback
     const handleTokenClick: React.MouseEventHandler<HTMLDivElement> = event => {
       event.stopPropagation();
-      this.handleTokenClick(event, item);
+      if (!this.isEditingMode) {
+        this.handleTokenClick(event, item);
+      }
     };
 
     const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = event => {

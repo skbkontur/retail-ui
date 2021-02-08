@@ -462,7 +462,7 @@ export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
   const [alertItemMessage, setAlertItemMessage] = useState('');
 
   const resetValidation = () => {
-    setAlertItemMessage(``);
+    setAlertItemMessage('');
     setIsValid(true);
   };
 
@@ -472,20 +472,13 @@ export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
       setIsValid(false);
       return undefined;
     }
-    if (value === 'clear') {
-      setAlertItemMessage(`Значение '${value}' является невалидным и было очищено`);
-      setIsValid(false);
+    if (value === 'clear' || value === 'clearzzz') {
+      setAlertItemMessage('Значение "clear" возвращает null и инпут был очищен');
       return null;
     }
     if (value !== '') {
-      let foundItems = [] as string[];
-      getItems(value).then(items => (foundItems = items));
-
-      if (foundItems.length === 0) {
-        setAlertItemMessage(`Значение '${value}' является невалидным`);
-        setIsValid(false);
-        return undefined;
-      }
+      setAlertItemMessage(`Значение '${value}' является невалидным`);
+      setIsValid(false);
     }
     return undefined;
   };
@@ -496,8 +489,15 @@ export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
         type={TokenInputType.Combined}
         getItems={getExtendedItems}
         onValueChange={items => {
-          resetValidation();
           setSelectedItems(items);
+        }}
+        onFocus={() => {
+          resetValidation();
+        }}
+        onInputValueChange={value => {
+          if (value === '') {
+            resetValidation();
+          }
         }}
         selectedItems={selectedItems}
         onUnexpectedInput={handleUnexpectedInput}
@@ -507,6 +507,7 @@ export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
     </>
   );
 };
+
 OnUnexpectedInputValidation.story = {
   name: 'validate with onUnexpectedInput',
   parameters: {
@@ -613,7 +614,7 @@ OnUnexpectedInputValidation.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
@@ -622,13 +623,13 @@ OnUnexpectedInputValidation.story = {
             .click()
             .perform();
 
-          const withClearedToken = await this.takeScreenshot();
+          const withRemovedToken = await this.takeScreenshot();
 
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
             .sendKeys('EDITED')
             .sendKeys(this.keys.ARROW_DOWN)
             .sendKeys(this.keys.ENTER)
@@ -638,7 +639,7 @@ OnUnexpectedInputValidation.story = {
 
           const withEditedToken = await this.takeScreenshot();
 
-          await this.expect({ withNotEditedToken, withClearedToken, withEditedToken }).to.matchImages();
+          await this.expect({ withNotEditedToken, withRemovedToken, withEditedToken }).to.matchImages();
         },
       },
     },

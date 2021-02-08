@@ -22,6 +22,8 @@ export const TokenActions = {
   REMOVE_EDITING_TOKEN_INDEX: 'REMOVE_EDITING_TOKEN_INDEX',
   SET_TEMPORARY_QUERY: 'SET_TEMPORARY_QUERY',
   REMOVE_TEMPORARY_QUERY: 'REMOVE_TEMPORARY_QUERY',
+  SET_LAST_QUERY: 'SET_LAST_QUERY',
+  RESET_LAST_QUERY: 'RESET_LAST_QUERY',
 };
 
 export type TokenInputActionType = keyof typeof TokenActions;
@@ -86,6 +88,12 @@ export function tokenInputReducer<T = string>(
     }
     case TokenActions.REMOVE_TEMPORARY_QUERY: {
       return { reservedInputValue: undefined };
+    }
+    case TokenActions.SET_LAST_QUERY: {
+      return { lastInputValue: payload };
+    }
+    case TokenActions.RESET_LAST_QUERY: {
+      return { lastInputValue: '' };
     }
     default:
       return state;
