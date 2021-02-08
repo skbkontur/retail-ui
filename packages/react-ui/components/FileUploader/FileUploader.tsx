@@ -8,7 +8,8 @@ import { IFileWithBase64, readFiles } from './fileUtils';
 import { ReadFileList } from './ReadFileList/ReadFileList';
 
 // FIXME @mozalov: написать комменты для каждого пропса
-// FIXME @mozalov: локализация
+// FIXME @mozalov: локализаци
+// FIXME @mozalov: тема
 
 export interface FileUploaderProps {
   name?: string;
@@ -25,7 +26,7 @@ export interface FileUploaderProps {
 }
 
 export const FileUploader = (props: FileUploaderProps) => {
-  const {name, multiple = false, accept, onChange} = props;
+  const {name, accept, onChange, multiple = false} = props;
 
   const rootRef = useRef<HTMLDivElement>(null);
   const enterCounter = useRef<number>(0);
@@ -62,13 +63,13 @@ export const FileUploader = (props: FileUploaderProps) => {
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
 
-    const readedFiles = await readFiles(Array.from(files));
+    const filesWithBase64 = await readFiles(Array.from(files));
 
-    if (!readedFiles.length) return;
+    if (!filesWithBase64.length) return;
     // validate
 
-    setFiles(readedFiles);
-    onChange && onChange(readedFiles);
+    setFiles(filesWithBase64);
+    onChange && onChange(filesWithBase64);
   }, [onChange]);
 
   const handleDrop = useCallback(event => {
