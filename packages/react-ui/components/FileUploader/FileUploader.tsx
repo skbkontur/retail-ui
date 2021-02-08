@@ -6,6 +6,7 @@ import { Link } from '../Link';
 import cn from 'classnames';
 import { IFileWithBase64, readFiles } from './fileUtils';
 import { ReadFileList } from './ReadFileList/ReadFileList';
+import { ReadFile } from './ReadFile/ReadFile';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализаци
@@ -111,8 +112,8 @@ export const FileUploader = (props: FileUploaderProps) => {
   const hasOneFile = files.length === 1;
 
   console.log({files});
-  const linkText = !multiple && hasOneFile ? "Выбран файл" : "Выберите файл";
-  const buttonText = !multiple && hasOneFile && files[0].name;
+
+  const hasOneFileForSingle = !multiple && hasOneFile;
 
   return (
     <div>
@@ -121,18 +122,19 @@ export const FileUploader = (props: FileUploaderProps) => {
         className={uploadButtonClassNames}
         tabIndex={0}
         ref={rootRef}
+        onClick={handleClick}
       >
-        <div>
-          <Link
-            className={jsStyles.link()}
-            tabIndex={-1}
-            onClick={handleClick}
-          >
-            {linkText}
+        <div className={jsStyles.content()}>
+          <Link tabIndex={-1}>
+            {hasOneFileForSingle ? "Выбран файл" : "Выберите файл"}
           </Link>
-          &nbsp;{buttonText || "или перетащите сюда"}
+          &nbsp;
+          <div className={jsStyles.afterLinkText()}>
+            {hasOneFileForSingle
+              ? <ReadFile file={files[0]} />
+              : <>или перетащите сюда <UploadIcon color="#808080"/></>}
+          </div>
         </div>
-        <UploadIcon color="#808080"/>
         <input
           ref={inputRef}
           // FIXME @mozalov: разрулить конфликт
