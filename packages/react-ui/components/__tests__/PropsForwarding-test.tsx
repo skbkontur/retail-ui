@@ -80,23 +80,126 @@ describe('Props Forwarding', () => {
     it.each<[string, ReactWrapper]>(PUBLIC_COMPONENTS.map(name => [name, createWrapper(name)]))(
       '%s',
       (compName, wrapper) => {
-      const props = {
-        'data-tid': 'my-data-tid',
-        'data-testid': 'my-data-testid',
-        className: 'my-classname',
-        style: {
-          width: '95.5%',
-          color: 'red',
-        },
+        const props = {
+          'data-tid': 'my-data-tid',
+          'data-testid': 'my-data-testid',
+          className: 'my-classname',
+          style: {
+            width: '95.5%',
+            color: 'red',
+          },
+        };
+        wrapper.setProps(props);
+
+        const wrapperNode = getTestDOMNode(compName, wrapper);
+
+        expect(wrapperNode.getAttribute('data-tid')).toBe(props['data-tid']);
+        expect(wrapperNode.getAttribute('data-testid')).toBe(props['data-testid']);
+        expect(wrapperNode.classList.contains(props.className)).toBe(true);
+        expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
+      },
+    );
+  });
+
+  describe("Form Element's Props", () => {
+    const getTestWrapper = (compName: string, wrapper: ReactWrapper) => {
+      switch (compName) {
+        case 'TokenInput':
+        case 'Textarea':
+          return wrapper.find('textarea');
+        case 'Button':
+        case 'Select':
+          return wrapper.find('button');
+        default:
+          return wrapper.find('input');
+      }
+    };
+
+    it.each<string>([
+      'Input',
+      'FxInput',
+      'CurrencyInput',
+      'PasswordInput',
+      'Autocomplete',
+      'DateInput',
+      'DatePicker',
+      'ComboBox',
+      'TokenInput',
+      'Checkbox',
+      'Radio',
+      'Switcher',
+      'Toggle',
+      'Select',
+      'Button',
+    ])('%s', compName => {
+      const props: React.InputHTMLAttributes<HTMLInputElement> = {
+        // global attributes
+        id: 'my-id',
+        title: 'my-title',
+        tabIndex: 15,
+        inputMode: 'email',
+        spellCheck: false,
+
+        // form elements
+        autoComplete: 'my-autocomplete',
+        autoFocus: true,
+        disabled: true,
+        form: 'my-form',
+        formAction: '//example.com',
+        formEncType: 'text/plain',
+        formMethod: 'post',
+        formNoValidate: true,
+        formTarget: '_self',
+        name: 'my-name',
+
+        // accessibility
+        'aria-label': '',
+        'aria-labelledby': '',
       };
+      const wrapper = createWrapper(compName);
       wrapper.setProps(props);
 
-      const wrapperNode = getTestDOMNode(compName, wrapper);
+      const testWrapper = getTestWrapper(compName, wrapper);
 
-      expect(wrapperNode.getAttribute('data-tid')).toBe(props['data-tid']);
-      expect(wrapperNode.getAttribute('data-testid')).toBe(props['data-testid']);
-      expect(wrapperNode.classList.contains(props.className)).toBe(true);
-      expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
+      expect(testWrapper.props()).toMatchObject(props);
+    });
+  });
+
+  describe("Input's Specific Props", () => {
+    it.each<string>([
+      'Input',
+      'FxInput',
+      'Autocomplete',
+      'ComboBox',
+      // 'TokenInput', // uses <textarea /> instead of <input />
+    ])('%s', compName => {
+      const props: React.InputHTMLAttributes<HTMLInputElement> = {
+        accept: 'my-accept', //	          file
+        capture: 'my-capture', //	        file
+        list: 'my-list', //	              almost all
+        max: 15, //	                      numeric
+        maxLength: 15, //	                password, search, tel, text, url
+        min: 15, //	                      numeric
+        minLength: 15, //	                password, search, tel, text, url
+        multiple: true, //	              email, file
+        pattern: '*', //	                password, text, tel
+        placeholder: 'my-placeholder', //	password, search, tel, text, url
+        readOnly: true, //	              almost all
+        step: '15', //	                  numeric
+        type: 'my-type', //               all
+        required: true, //                all
+      };
+      const wrapper = createWrapper(compName);
+
+      if (compName === 'ComboBox') {
+        // ComboBox renders <InputLikeText />
+        // instead of <input /> while not it focus
+        wrapper.find('span[tabIndex]').simulate('focus');
+      }
+
+      wrapper.setProps(props);
+
+      expect(wrapper.find('input').props()).toMatchObject(props);
     });
   });
 
