@@ -5,15 +5,16 @@ import { ReadFileItem } from '../ReadFileItem/ReadFileItem';
 
 interface FileListProps {
   files: IFileWithBase64[];
+  onDelete: (index: number) => void;
 }
 
 export const ReadFileList = (props: FileListProps) => {
-  const {files} = props;
+  const {files, onDelete} = props;
 
   return (
     <div>
-      {files.map(file => <ReadFileItem key={file.base64 as string}>
-        <ReadFile file={file} showSize />
+      {files.map((file, index) => <ReadFileItem key={file.base64 as string}>
+        <ReadFile file={file} index={index} onDelete={onDelete} showSize />
       </ReadFileItem>)}
     </div>
   );

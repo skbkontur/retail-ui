@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IFileWithBase64 } from '../fileUtils';
 import { jsStyles } from './ReadFile.styles';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
@@ -8,7 +8,10 @@ import { truncate } from '../../../lib/stringUtils';
 
 interface ReadFileProps {
   file: IFileWithBase64;
+  index: number;
   showSize?: boolean;
+
+  onDelete: (index: number) => void;
 }
 
 interface ReadFileState {
@@ -17,7 +20,7 @@ interface ReadFileState {
 }
 
 export const ReadFile = (props: ReadFileProps) => {
-  const {file, showSize} = props;
+  const {file, onDelete, index, showSize} = props;
   const {name, size} = file;
 
   const textHelperRef = useRef<TextWidthHelper>(null);
@@ -57,13 +60,17 @@ export const ReadFile = (props: ReadFileProps) => {
     return truncate(name, maxCharsCountInSpan);
   }, [name, fileNameSpanWidth, fileNameWidth])
 
+  const handleDelete = useCallback(() => {
+    onDelete(index);
+  }, [index, onDelete])
+
   return (
     <div className={jsStyles.root()}>
       <TextWidthHelper ref={textHelperRef} text={name} />
       <span ref={fileNameSpanRef} className={jsStyles.name()}>{truncatedFileName}</span>
       {!!showSize && <span className={jsStyles.size()}>{formattedSize}</span>}
       <div className={jsStyles.icon()}>
-        <DeleteIcon color="#808080" />
+        <DeleteIcon color="#808080" onClick={handleDelete} />
       </div>
     </div>
   );

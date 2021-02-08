@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { jsStyles } from './FileUploader.styles';
-import { stopPropagation } from '../../lib/events/stopPropagation';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import { Link } from '../Link';
 import cn from 'classnames';
@@ -11,6 +10,9 @@ import { ReadFile } from './ReadFile/ReadFile';
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализаци
 // FIXME @mozalov: тема
+// FIXME @mozalov: обработать клавиши
+
+const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
 export interface FileUploaderProps {
   name?: string;
@@ -105,19 +107,21 @@ export const FileUploader = (props: FileUploaderProps) => {
     handleChange(event.target.files);
   }, [handleChange]);
 
+  const handleDeleteFile = useCallback((removeIndex: number) => {
+    setFiles(files.filter((_, fileIndex) => removeIndex !== fileIndex));
+  }, [files]);
+
+
   const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable
-  })
+  });
 
   const hasOneFile = files.length === 1;
-
-  console.log({files});
-
   const hasOneFileForSingle = !multiple && hasOneFile;
 
   return (
     <div>
-      {multiple && !!files.length && <ReadFileList files={files} />}
+      {multiple && !!files.length && <ReadFileList files={files} onDelete={handleDeleteFile} />}
       <div
         className={uploadButtonClassNames}
         tabIndex={0}
@@ -129,16 +133,14 @@ export const FileUploader = (props: FileUploaderProps) => {
             {hasOneFileForSingle ? "Выбран файл" : "Выберите файл"}
           </Link>
           &nbsp;
-          <div className={jsStyles.afterLinkText()}>
+          <div className={jsStyles.afterLinkText()} onClick={stopPropagation}>
             {hasOneFileForSingle
-              ? <ReadFile file={files[0]} />
+              ? <ReadFile index={0} file={files[0]} onDelete={handleDeleteFile} />
               : <>или перетащите сюда <UploadIcon color="#808080"/></>}
           </div>
         </div>
         <input
           ref={inputRef}
-          // FIXME @mozalov: разрулить конфликт
-          // @ts-ignore
           onClick={stopPropagation}
           className={jsStyles.fileInput()}
           type="file"
