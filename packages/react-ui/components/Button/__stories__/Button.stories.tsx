@@ -257,6 +257,15 @@ export const DifferentAligns = () => (
 );
 DifferentAligns.story = { name: 'different aligns' };
 
+export const differentWidths: CSFStory<JSX.Element> = () => (
+  <ComponentCombinator
+    Component={Button}
+    presetProps={{ children: 'long-long-long text' }}
+    combinations={[widthStates, [{props:{use: 'link'}}, {props: {use: 'default'}}]]}
+  />
+);
+differentWidths.story = {name: 'different widths'};
+
 export const DefaultCombinations: CSFStory<JSX.Element> = () => (
   <ComponentCombinator
     Component={Button}
@@ -418,11 +427,11 @@ const sizeStates = getProps('size', ['small', 'medium', 'large']);
 
 const arrowStates = getProps('arrow', [true, 'left']);
 
-const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'success', 'link']);
+const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'success']);
 
 const widthStates = getProps('width', [100, 'auto']);
 
-const visualStates = [{ narrow: true }, { borderless: true }].map(x => ({ props: x }));
+const visualStates = [{ narrow: true }, { borderless: true }, {use: 'link' as ButtonState['use']}].map(x => ({ props: x }));
 
 const contentStates = [
   { icon: <SearchIcon /> },
