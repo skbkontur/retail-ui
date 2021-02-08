@@ -68,7 +68,7 @@ export const ReadFile = (props: ReadFileProps) => {
     <div className={jsStyles.root()}>
       <TextWidthHelper ref={textHelperRef} text={name} />
       <span ref={fileNameSpanRef} className={jsStyles.name()}>{truncatedFileName}</span>
-      {!!showSize && <span className={jsStyles.size()}>{formattedSize}</span>}
+      {!!showSize && formattedSize && <span className={jsStyles.size()}>{formattedSize}</span>}
       <div className={jsStyles.icon()}>
         <DeleteIcon color="#808080" onClick={handleDelete} />
       </div>

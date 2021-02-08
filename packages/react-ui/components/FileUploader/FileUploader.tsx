@@ -11,6 +11,8 @@ import { ReadFile } from './ReadFile/ReadFile';
 // FIXME @mozalov: локализаци
 // FIXME @mozalov: тема
 // FIXME @mozalov: обработать клавиши
+// FIXME @mozalov: анимация
+// FIXME @mozalov: иконки
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
