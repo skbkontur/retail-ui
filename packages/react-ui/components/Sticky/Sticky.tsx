@@ -26,7 +26,6 @@ export interface StickyProps extends CommonProps {
 
 export interface StickyState {
   fixed: boolean;
-  deltaHeight: number;
   height?: number;
   width?: number;
   left?: number;
@@ -57,7 +56,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
   public state: StickyState = {
     fixed: false,
-    deltaHeight: 0,
     stopped: false,
     relativeTop: 0,
   };
@@ -93,13 +91,12 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   public render() {
     let { children } = this.props;
     const { side, offset } = this.props;
-    const { fixed, stopped, relativeTop, deltaHeight, width, height, left } = this.state;
+    const { fixed, stopped, relativeTop, width, height, left } = this.state;
     const innerStyle: React.CSSProperties = {};
 
     if (fixed) {
       if (stopped) {
         innerStyle.top = relativeTop;
-        innerStyle[side === 'top' ? 'marginTop' : 'marginBottom'] = deltaHeight;
       } else {
         innerStyle.width = width;
         innerStyle[side] = offset;
@@ -150,7 +147,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     const { top, bottom, left } = this.wrapper.getBoundingClientRect();
     const { width, height } = this.inner.getBoundingClientRect();
     const { offset, getStop, side } = this.props;
-    const { fixed: prevFixed, height: prevHeight = height } = this.state;
+    const { fixed: prevFixed } = this.state;
     const fixed = side === 'top' ? top < offset : bottom > windowHeight - offset;
 
     this.setState({ fixed, left });
@@ -162,7 +159,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     if (fixed) {
       const stop = getStop && getStop();
       if (stop) {
-        const deltaHeight = prevHeight - height;
         const stopRect = stop.getBoundingClientRect();
         const outerHeight = height + offset;
         let stopped = false;
@@ -176,7 +172,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
           relativeTop = stopRect.bottom - top;
         }
 
-        this.setState({ relativeTop, deltaHeight, stopped });
+        this.setState({ relativeTop, stopped });
       }
     }
   };
