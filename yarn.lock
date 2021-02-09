@@ -6946,11 +6946,6 @@ create-ecdh@^4.0.0:
     bn.js "^4.1.0"
     elliptic "^6.5.3"
 
-create-emotion@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.npmjs.org/create-emotion/-/create-emotion-11.0.0.tgz#d5567f7823a31fcf9ad3bdc4a3fbffb2f9edc946"
-  integrity sha512-/d8K+hAWU180lRYBR9Bx9MSWbbzCROuKBgD963i+1dP+ivHmhwWs0sS2ijImudEpvsrCcEoh0VP/z1P++yG6+w==
-
 create-hash@^1.1.0, create-hash@^1.1.2, create-hash@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"

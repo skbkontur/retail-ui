@@ -8,7 +8,7 @@ import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText } from '../../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
 import { Menu } from '../../../internal/Menu';
-import { delay, enzymeMountWithAttach } from '../../../lib/utils';
+import { delay } from '../../../lib/utils';
 import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
@@ -34,7 +34,9 @@ describe('ComboBox', () => {
   });
 
   it('focuses on focus call', () => {
-    const wrapper = enzymeMountWithAttach<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />, {
+      attachTo: document.getElementById('enzymeContainer'),
+    });
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
@@ -144,9 +146,11 @@ describe('ComboBox', () => {
 
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const wrapper = enzymeMountWithAttach<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />, {
+      attachTo: document.getElementById('enzymeContainer'),
+    });
 
-    wrapper.find(ComboBoxView).prop('onFocus')?.();
+    wrapper.instance().focus();
     await promise;
     wrapper.update();
 
@@ -167,7 +171,9 @@ describe('ComboBox', () => {
   it('calls onUnexpectedInput on click outside', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     const onUnexpectedInput = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />, {
+      attachTo: document.getElementById('enzymeContainer'),
+    });
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
@@ -608,8 +614,9 @@ describe('ComboBox', () => {
 
     beforeEach(async () => {
       [search, promise] = searchFactory(Promise.resolve(ITEMS));
-      wrapper = enzymeMountWithAttach<ComboBox<string>>(
+      wrapper = mount<ComboBox<string>>(
         <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
+        { attachTo: document.getElementById('enzymeContainer') },
       );
       wrapper.find(ComboBoxView).prop('onFocus')?.();
 

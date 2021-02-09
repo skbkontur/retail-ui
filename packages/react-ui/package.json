@@ -58,7 +58,6 @@
   "dependencies": {
     "@babel/runtime": "7.12.5",
     "classnames": "^2.2.6",
-    "create-emotion": "^10.0.14",
     "csstype": "2.6.7",
     "eventemitter3": "^4.0.7",
     "invariant": "2.2.4",
@@ -116,7 +115,6 @@
     "chalk": "4.1.0",
     "copyfiles": "^2.4.1",
     "core-js": "^3.8.3",
-    "create-emotion": "^11.0.0",
     "creevey": "0.6.2",
     "cross-env": "^7.0.3",
     "css-loader": "5.0.1",

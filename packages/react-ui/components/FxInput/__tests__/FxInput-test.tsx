@@ -1,7 +1,7 @@
 import React from 'react';
+import { mount } from 'enzyme';
 
 import { FxInput, FxInputProps } from '../FxInput';
-import { enzymeMountWithAttach } from '../../../lib/utils';
 
 const render = (
   props: FxInputProps = {
@@ -9,7 +9,7 @@ const render = (
       /**/
     },
   },
-) => enzymeMountWithAttach<FxInput, FxInputProps>(<FxInput {...props} />);
+) => mount<FxInput, FxInputProps>(<FxInput {...props} />, { attachTo: document.getElementById('enzymeContainer') });
 
 describe('FxInput', () => {
   it('render without crash', () => {
