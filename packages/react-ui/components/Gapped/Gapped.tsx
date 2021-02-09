@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export interface GappedProps {
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+
+export interface GappedProps extends CommonProps {
   /**
    * Расстояние между элементами в пикселях
    * @default 10
@@ -56,10 +58,11 @@ export class Gapped extends React.Component<GappedProps> {
   };
 
   public render() {
-    if (this.props.vertical) {
-      return this.renderVertical();
-    }
-    return this.renderHorizontal();
+    return (
+      <CommonWrapper {...this.props}>
+        {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
+      </CommonWrapper>
+    );
   }
 
   private renderVertical() {

@@ -13,6 +13,7 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -24,7 +25,7 @@ import { jsStyles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
-export interface ModalProps {
+export interface ModalProps extends CommonProps {
   /**
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
@@ -203,42 +204,44 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     return (
-      <RenderContainer>
-        <ZIndex priority={'Modal'} className={jsStyles.root()}>
-          <HideBodyVerticalScroll />
-          {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
-          <div
-            ref={this.refContainer}
-            className={jsStyles.container()}
-            onMouseDown={this.handleContainerMouseDown}
-            onMouseUp={this.handleContainerMouseUp}
-            onClick={this.handleContainerClick}
-            data-tid="modal-container"
-          >
+      <CommonWrapper {...this.props}>
+        <RenderContainer>
+          <ZIndex priority={'Modal'} className={jsStyles.root()}>
+            <HideBodyVerticalScroll />
+            {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
             <div
-              className={cn({
-                [jsStyles.centerContainer(this.theme)]: true,
-                [jsStyles.alignTop(this.theme)]: Boolean(this.props.alignTop),
-              })}
-              style={containerStyle}
-              data-tid="modal-content"
+              ref={this.refContainer}
+              className={jsStyles.container()}
+              onMouseDown={this.handleContainerMouseDown}
+              onMouseUp={this.handleContainerMouseUp}
+              onClick={this.handleContainerClick}
+              data-tid="modal-container"
             >
-              <div className={jsStyles.window(this.theme)} style={style}>
-                <ResizeDetector onResize={this.handleResize}>
-                  <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
-                    {!hasHeader && !this.props.noClose ? (
-                      <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
-                        <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
-                      </ZIndex>
-                    ) : null}
-                    <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
-                  </FocusLock>
-                </ResizeDetector>
+              <div
+                className={cn({
+                  [jsStyles.centerContainer(this.theme)]: true,
+                  [jsStyles.alignTop(this.theme)]: Boolean(this.props.alignTop),
+                })}
+                style={containerStyle}
+                data-tid="modal-content"
+              >
+                <div className={jsStyles.window(this.theme)} style={style}>
+                  <ResizeDetector onResize={this.handleResize}>
+                    <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
+                      {!hasHeader && !this.props.noClose ? (
+                        <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper()}>
+                          <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
+                        </ZIndex>
+                      ) : null}
+                      <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
+                    </FocusLock>
+                  </ResizeDetector>
+                </div>
               </div>
             </div>
-          </div>
-        </ZIndex>
-      </RenderContainer>
+          </ZIndex>
+        </RenderContainer>
+      </CommonWrapper>
     );
   }
 

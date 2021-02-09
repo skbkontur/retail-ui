@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.13.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.12.1...@skbkontur/react-ui@2.13.0) (2021-01-27)
+
+
+### Bug Fixes
+
+* **Select:** fix typo in placeholder ([#2275](https://github.com/skbkontur/retail-ui/issues/2275)) ([bf1beb8](https://github.com/skbkontur/retail-ui/commit/bf1beb8288dd0376f43edf487c96267ef19e723a))
+* **Select:** reset search query on close ([#2265](https://github.com/skbkontur/retail-ui/issues/2265)) ([c168c50](https://github.com/skbkontur/retail-ui/commit/c168c508c97cfdb8c52267695e664d7b8fcff200)), closes [#2264](https://github.com/skbkontur/retail-ui/issues/2264)
+* **Textarea:** fix line breaks inside Gapped in IE; add story ([2cec37c](https://github.com/skbkontur/retail-ui/commit/2cec37cccb9c0b3c02e0436d28cbd4d361f07e6d))
+
+
+### Features
+
+* **Link:** new loading state ([#2271](https://github.com/skbkontur/retail-ui/issues/2271)) ([f494fd8](https://github.com/skbkontur/retail-ui/commit/f494fd844b50eeed0cbf60a1da27e213976c143f))
+
+
+
+
+
 ## [2.12.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.12.0...@skbkontur/react-ui@2.12.1) (2020-12-25)
 
 

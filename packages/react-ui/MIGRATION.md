@@ -86,6 +86,8 @@ const [name, setName] = useState('');
 
 Компоненты использующие фирменный стиль или api сервисов Контура с выпуском 2.0 переезжают в отдельный приватный [репозиторий](https://git.skbkontur.ru/ui/ui-parking) и пакет [@skbkontur/react-ui-addons](https://nexus.kontur.host/#browse/browse:kontur-npm:%40skbkontur%2Freact-ui-addons) в приватном npm-репозитории `nexus`.
 
+_UPDATE: начиная с версии 1.5.0 @skbkontur/react-ui-addons переехал в [npm](https://www.npmjs.com/package/@skbkontur/react-ui-addons)._
+
 Чтобы начать использовать пакет `@skbkontur/react-ui-addons` из `nexus` необходимо:
 
 1. Создать в корне проекта файл `.npmrc` со следующим содержимым:
