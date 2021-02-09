@@ -650,6 +650,7 @@ const styles = {
         &:hover,
         &:active {
           box-shadow: none !important;
+          border-color: transparent;
         }
       }
     `;
