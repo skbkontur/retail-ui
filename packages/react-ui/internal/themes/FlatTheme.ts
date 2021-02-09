@@ -29,7 +29,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDefaultHoverBorderColor = '#d9d9d9';
   public static btnDefaultActiveBg = '#e5e5e5';
   public static btnDefaultActiveBorderColor = '#cccccc';
-  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15) !important';
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static btnDefaultShadow = 'none';
   public static btnDefaultShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.15)';
   public static btnDefaultBg = '#fff';
@@ -43,7 +43,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryActiveBg = '#1974b6';
   public static btnPrimaryActiveBorderColor = '#1974b6';
   public static btnPrimaryDisabledBg = '#1d85d0';
-  public static btnPrimaryBorderColor = '#1d85d0 !important';
+  public static btnPrimaryBorderColor = '#1d85d0';
   public static btnPrimaryBgStart = '#1d85d0';
   public static btnPrimaryBgEnd = '#1d85d0';
   public static btnPrimaryHoverBgStart = '#1b7dc3';
@@ -70,7 +70,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDangerActiveBg = '#be3e25';
   public static btnDangerActiveBorderColor = '#be3e25';
   public static btnDangerDisabledBg = '#d9472b';
-  public static btnDangerBorderColor = '#d9472b !important';
+  public static btnDangerBorderColor = '#d9472b';
   public static btnDangerBgStart = '#d9472b';
   public static btnDangerBgEnd = '#d9472b';
   public static btnDangerHoverBgStart = '#cc4228';
@@ -84,7 +84,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnPayActiveBg = '#e0b13a';
   public static btnPayActiveBorderColor = '#e0b13a';
   public static btnPayDisabledBg = '#ffca43';
-  public static btnPayBorderColor = '#ffca43 !important';
+  public static btnPayBorderColor = '#ffca43';
   public static btnPayBgStart = '#ffca43';
   public static btnPayBgEnd = '#ffca43';
   public static btnPayHoverBgStart = '#f0be3f';
