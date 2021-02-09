@@ -5,10 +5,11 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './ToastView.styles';
 
-export interface ToastViewProps {
+export interface ToastViewProps extends CommonProps {
   /**
    * Toast content
    */
@@ -72,13 +73,15 @@ export class ToastView extends React.Component<ToastViewProps> {
     ) : null;
 
     return (
-      <ZIndex priority="Toast" className={jsStyles.wrapper()}>
-        <div data-tid="ToastView__root" className={jsStyles.root(this.theme)} {...rest}>
-          <span>{children}</span>
-          {link}
-          {close}
-        </div>
-      </ZIndex>
+      <CommonWrapper {...this.props}>
+        <ZIndex priority="Toast" className={jsStyles.wrapper()}>
+          <div data-tid="ToastView__root" className={jsStyles.root(this.theme)} {...rest}>
+            <span>{children}</span>
+            {link}
+            {close}
+          </div>
+        </ZIndex>
+      </CommonWrapper>
     );
   }
 }

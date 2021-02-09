@@ -6,6 +6,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
@@ -14,7 +15,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps {
+export interface ButtonProps extends CommonProps {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -273,17 +274,19 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     return (
-      <span {...wrapProps}>
-        <button ref={this._ref} {...rootProps}>
-          {error}
-          {loading}
-          {arrow}
-          <div className={jsStyles.caption()}>
-            {icon}
-            <span className={cn({ [jsStyles.visibilityHidden()]: loading })}>{this.props.children}</span>
-          </div>
-        </button>
-      </span>
+      <CommonWrapper {...this.props}>
+        <span {...wrapProps}>
+          <button ref={this._ref} {...rootProps}>
+            {error}
+            {loading}
+            {arrow}
+            <div className={jsStyles.caption()}>
+              {icon}
+              <span className={cn({ [jsStyles.visibilityHidden()]: loading })}>{this.props.children}</span>
+            </div>
+          </button>
+        </span>
+      </CommonWrapper>
     );
   }
 

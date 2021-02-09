@@ -7,12 +7,13 @@ import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> {
+export interface CustomComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -272,7 +273,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       },
     };
 
-    return <ComboBoxView {...viewProps} />;
+    return (
+      <CommonWrapper {...this.props}>
+        <ComboBoxView {...viewProps} />
+      </CommonWrapper>
+    );
   }
 
   public componentDidMount() {

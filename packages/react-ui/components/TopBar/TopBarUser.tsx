@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
 import { TopBarDropdown } from './TopBarDropdown';
 
-export interface TopBarUserProps {
+export interface TopBarUserProps extends CommonProps {
   userName: string;
   cabinetUrl?: string;
 }
@@ -36,22 +37,24 @@ export class TopBarUser extends React.Component<TopBarUserProps> {
 
   private readonly locale!: TopBarLocale;
 
-  public render(): JSX.Element {
+  public render() {
     const { userName, cabinetUrl } = this.props;
     const { cabinetSettings, cabinetCertificates, cabinetServices } = this.locale;
 
     return (
-      <TopBarDropdown icon={'user'} label={userName}>
-        <MenuItem loose href={cabinetUrl} target="_blank">
-          {cabinetSettings}
-        </MenuItem>
-        <MenuItem loose href={`${cabinetUrl}/certificates`} target="_blank">
-          {cabinetCertificates}
-        </MenuItem>
-        <MenuItem loose href={`${cabinetUrl}/services`} target="_blank">
-          {cabinetServices}
-        </MenuItem>
-      </TopBarDropdown>
+      <CommonWrapper {...this.props}>
+        <TopBarDropdown icon={'user'} label={userName}>
+          <MenuItem loose href={cabinetUrl} target="_blank">
+            {cabinetSettings}
+          </MenuItem>
+          <MenuItem loose href={`${cabinetUrl}/certificates`} target="_blank">
+            {cabinetCertificates}
+          </MenuItem>
+          <MenuItem loose href={`${cabinetUrl}/services`} target="_blank">
+            {cabinetServices}
+          </MenuItem>
+        </TopBarDropdown>
+      </CommonWrapper>
     );
   }
 }

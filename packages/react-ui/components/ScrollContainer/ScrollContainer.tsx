@@ -5,6 +5,7 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './ScrollContainer.styles';
 
@@ -15,7 +16,7 @@ export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
 export type ScrollBehaviour = 'auto' | 'smooth';
 
-export interface ScrollContainerProps {
+export interface ScrollContainerProps extends CommonProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   preventWindowScroll?: boolean;
@@ -118,18 +119,20 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     };
 
     return (
-      <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
-        {scroll}
-        <div
-          data-tid="ScrollContainer__inner"
-          className={jsStyles.inner()}
-          style={innerStyle}
-          ref={this.refInner}
-          onScroll={this.handleNativeScroll}
-        >
-          {props.children}
+      <CommonWrapper {...this.props}>
+        <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+          {scroll}
+          <div
+            data-tid="ScrollContainer__inner"
+            className={jsStyles.inner()}
+            style={innerStyle}
+            ref={this.refInner}
+            onScroll={this.handleNativeScroll}
+          >
+            {props.children}
+          </div>
         </div>
-      </div>
+      </CommonWrapper>
     );
   }
 
