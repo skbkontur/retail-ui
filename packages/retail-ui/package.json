@@ -106,7 +106,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "8.0.6",
     "core-js": "^3.2.1",
-    "creevey": "0.2.4-2",
+    "creevey": "0.2.4-3",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "enzyme": "^3.10.0",
