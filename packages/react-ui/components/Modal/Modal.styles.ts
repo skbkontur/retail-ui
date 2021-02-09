@@ -149,6 +149,12 @@ const styles = {
     `;
   },
 
+  headerWrapper() {
+    return css`
+      position: relative;
+    `;
+  },
+
   header() {
     return css`
       font-size: 22px;
@@ -168,6 +174,12 @@ const styles = {
   body() {
     return css`
       padding: 0 35px 25px 30px;
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      position: relative;
     `;
   },
 

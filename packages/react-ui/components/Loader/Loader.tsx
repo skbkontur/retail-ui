@@ -9,10 +9,11 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Loader.styles';
 
-export interface LoaderProps {
+export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
   /**
    * Флаг переключения состояния лоадера
@@ -135,30 +136,32 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { active, type, caption, className } = this.props;
+    const { active, type, caption } = this.props;
 
     return (
-      <div style={{ position: 'relative' }} className={cn(jsStyles.loader(), className)}>
-        <ZIndex
-          priority={'Loader'}
-          applyZIndex={this.props.active}
-          coverChildren={this.props.active}
-          style={{ height: '100%' }}
-        >
-          {this.props.children}
-        </ZIndex>
-        {active && (
+      <CommonWrapper {...this.props}>
+        <div className={jsStyles.loader()}>
           <ZIndex
-            wrapperRef={this.wrapperRef}
             priority={'Loader'}
-            className={cn({
-              [jsStyles.active(this.theme)]: active,
-            })}
+            applyZIndex={this.props.active}
+            coverChildren={this.props.active}
+            style={{ height: '100%' }}
           >
-            {this.renderSpinner(type, caption)}
+            {this.props.children}
           </ZIndex>
-        )}
-      </div>
+          {active && (
+            <ZIndex
+              wrapperRef={this.wrapperRef}
+              priority={'Loader'}
+              className={cn({
+                [jsStyles.active(this.theme)]: active,
+              })}
+            >
+              {this.renderSpinner(type, caption)}
+            </ZIndex>
+          )}
+        </div>
+      </CommonWrapper>
     );
   }
 

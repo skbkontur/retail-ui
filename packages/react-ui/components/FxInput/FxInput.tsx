@@ -8,26 +8,29 @@ import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
-export type FxInputProps = Override<
-  CurrencyInputProps,
-  {
-    /** Авто-режим */
-    auto?: boolean;
-    /** Тип инпута */
-    type?: 'currency' | InputProps['type'];
-    /** onRestore */
-    onRestore?: () => void;
-    /** onValueChange */
-    onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
-    /** Значение */
-    value?: React.ReactText;
-    /** ref Input'а */
-    refInput?: (element: CurrencyInput | Input | null) => void;
-    /** Убрать лишние нули после запятой */
-    hideTrailingZeros?: boolean;
-  }
->;
+export interface FxInputProps
+  extends CommonProps,
+    Override<
+      CurrencyInputProps,
+      {
+        /** Авто-режим */
+        auto?: boolean;
+        /** Тип инпута */
+        type?: 'currency' | InputProps['type'];
+        /** onRestore */
+        onRestore?: () => void;
+        /** onValueChange */
+        onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
+        /** Значение */
+        value?: React.ReactText;
+        /** ref Input'а */
+        refInput?: (element: CurrencyInput | Input | null) => void;
+        /** Убрать лишние нули после запятой */
+        hideTrailingZeros?: boolean;
+      }
+    > {}
 
 /** Принимает все свойства `Input`'a */
 export class FxInput extends React.Component<FxInputProps> {
@@ -48,8 +51,12 @@ export class FxInput extends React.Component<FxInputProps> {
 
   private getProps = createPropsGetter(FxInput.defaultProps);
 
-  public render(): JSX.Element {
-    const { type, onRestore, auto, ...rest } = this.props;
+  public render() {
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
+    const { type, onRestore, auto, ...rest } = props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };
@@ -91,7 +98,7 @@ export class FxInput extends React.Component<FxInputProps> {
         )}
       </Group>
     );
-  }
+  };
 
   /**
    * @public

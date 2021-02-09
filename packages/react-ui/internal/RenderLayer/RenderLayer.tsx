@@ -2,8 +2,9 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 
-export interface RenderLayerProps {
+export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
@@ -53,8 +54,8 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     }
   }
 
-  public render(): JSX.Element {
-    return React.Children.only(this.props.children);
+  public render() {
+    return <CommonWrapper {...this.props}>{React.Children.only(this.props.children)}</CommonWrapper>;
   }
 
   private attachListeners() {

@@ -17,6 +17,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -72,7 +73,7 @@ export interface PopupHandlerProps {
   onClose?: () => void;
 }
 
-export interface PopupProps extends PopupHandlerProps {
+export interface PopupProps extends CommonProps, PopupHandlerProps {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
@@ -350,38 +351,40 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         onExited={this.resetLocation}
       >
         {(state: string) => (
-          <ZIndex
-            ref={this.refPopupElement}
-            priority={'Popup'}
-            className={cn({
-              [jsStyles.popup(this.theme)]: true,
-              [jsStyles.shadow(this.theme)]: hasShadow,
-              [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
-              [jsStyles.popupIgnoreHover()]: ignoreHover,
-              ...(disableAnimations
-                ? {}
-                : {
-                    [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
-                    [jsStyles.transitionEnter()]: state === 'entering',
-                    [jsStyles.transitionEnterActive()]: state === 'entered',
-                    [jsStyles.transitionExit()]: state === 'exiting',
-                  }),
-            })}
-            style={rootStyle}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
-          >
-            <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
-              <div
-                className={jsStyles.contentInner(this.theme)}
-                style={{ backgroundColor }}
-                data-tid={'PopupContentInner'}
-              >
-                {children}
+          <CommonWrapper {...this.props}>
+            <ZIndex
+              ref={this.refPopupElement}
+              priority={'Popup'}
+              className={cn({
+                [jsStyles.popup(this.theme)]: true,
+                [jsStyles.shadow(this.theme)]: hasShadow,
+                [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
+                [jsStyles.popupIgnoreHover()]: ignoreHover,
+                ...(disableAnimations
+                  ? {}
+                  : {
+                      [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
+                      [jsStyles.transitionEnter()]: state === 'entering',
+                      [jsStyles.transitionEnterActive()]: state === 'entered',
+                      [jsStyles.transitionExit()]: state === 'exiting',
+                    }),
+              })}
+              style={rootStyle}
+              onMouseEnter={this.handleMouseEnter}
+              onMouseLeave={this.handleMouseLeave}
+            >
+              <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
+                <div
+                  className={jsStyles.contentInner(this.theme)}
+                  style={{ backgroundColor }}
+                  data-tid={'PopupContentInner'}
+                >
+                  {children}
+                </div>
               </div>
-            </div>
-            {this.renderPin(location.position)}
-          </ZIndex>
+              {this.renderPin(location.position)}
+            </ZIndex>
+          </CommonWrapper>
         )}
       </Transition>
     );

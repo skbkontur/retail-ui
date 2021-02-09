@@ -55,7 +55,7 @@ SimpleDropdown.story = {
               bridge: true,
             })
             .move({
-              origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }),
+              origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
             })
             .perform();
           await this.expect(await element.takeScreenshot()).to.matchImage('MenuItem hover');
@@ -72,7 +72,7 @@ SimpleDropdown.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
             .perform();
           await this.expect(await element.takeScreenshot()).to.matchImage('selected item');
         },
