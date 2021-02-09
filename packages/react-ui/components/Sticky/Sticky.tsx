@@ -26,7 +26,6 @@ export interface StickyProps extends CommonProps {
 
 export interface StickyState {
   fixed: boolean;
-  deltaHeight: number;
   height?: number;
   width?: number;
   left?: number;
@@ -57,7 +56,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
   public state: StickyState = {
     fixed: false,
-    deltaHeight: 0,
     stopped: false,
     relativeTop: 0,
   };
@@ -93,13 +91,12 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   public render() {
     let { children } = this.props;
     const { side, offset } = this.props;
-    const { fixed, stopped, relativeTop, deltaHeight, width, height, left } = this.state;
+    const { fixed, stopped, relativeTop, width, height, left } = this.state;
     const innerStyle: React.CSSProperties = {};
 
     if (fixed) {
       if (stopped) {
         innerStyle.top = relativeTop;
-        innerStyle[side === 'top' ? 'marginTop' : 'marginBottom'] = deltaHeight;
       } else {
         innerStyle.width = width;
         innerStyle[side] = offset;
