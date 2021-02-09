@@ -261,10 +261,10 @@ export const differentWidths: CSFStory<JSX.Element> = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'long-long-long text' }}
-    combinations={[widthStates, [{props:{use: 'link'}}, {props: {use: 'default'}}]]}
+    combinations={[widthStates, [{ props: { use: 'link' } }, { props: { use: 'default' } }]]}
   />
 );
-differentWidths.story = {name: 'different widths'};
+differentWidths.story = { name: 'different widths' };
 
 export const DefaultCombinations: CSFStory<JSX.Element> = () => (
   <ComponentCombinator
@@ -431,7 +431,9 @@ const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'succe
 
 const widthStates = getProps('width', [100, 'auto']);
 
-const visualStates = [{ narrow: true }, { borderless: true }, {use: 'link' as ButtonState['use']}].map(x => ({ props: x }));
+const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as ButtonState['use'] }].map(x => ({
+  props: x,
+}));
 
 const contentStates = [
   { icon: <SearchIcon /> },
