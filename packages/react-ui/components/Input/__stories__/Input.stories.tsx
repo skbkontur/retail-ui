@@ -490,6 +490,7 @@ SelectAllByProp.story = {
             .actions({
               bridge: true,
             })
+            .move({ origin: this.browser.findElement({ css: 'label' }), x: 1, y: 1 })
             .click(this.browser.findElement({ css: 'label' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('Focused');

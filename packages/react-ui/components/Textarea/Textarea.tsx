@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
+import raf from 'raf';
 import cn from 'classnames';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -11,7 +12,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isBrowser } from '../../lib/client';
+import { isBrowser, isIE11 } from '../../lib/client';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
@@ -169,6 +170,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
+  private selectAllId: number | null = null;
   private theme!: Theme;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
@@ -194,6 +196,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.showLengthCounter && this.textareaObserver) {
       this.textareaObserver.disconnect();
     }
+    this.cancelDelayedSelectAll();
   }
 
   public componentDidUpdate(prevProps: TextareaProps) {
@@ -252,6 +255,15 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public selectAll = () => {
     if (this.node) {
       this.setSelectionRange(0, this.node.value.length);
+    }
+  };
+
+  private delaySelectAll = (): number => (this.selectAllId = raf(this.selectAll));
+
+  private cancelDelayedSelectAll = (): void => {
+    if (this.selectAllId) {
+      raf.cancel(this.selectAllId);
+      this.selectAllId = null;
     }
   };
 
@@ -460,7 +472,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.setState({ isCounterVisible: true });
 
     if (this.props.selectAllOnFocus) {
-      this.selectAll();
+      this.node && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 
     if (this.props.onFocus) {
