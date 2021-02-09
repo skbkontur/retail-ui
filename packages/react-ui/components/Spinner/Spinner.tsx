@@ -8,6 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { SpinnerOld } from '../../internal/SpinnerOld';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -20,7 +21,7 @@ const types: Record<SpinnerType, SpinnerType> = {
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
-export interface SpinnerProps {
+export interface SpinnerProps extends CommonProps {
   caption?: React.ReactNode;
   dimmed?: boolean;
   /**
@@ -102,10 +103,12 @@ export class Spinner extends React.Component<SpinnerProps> {
     const { type, caption = this.locale.loading, dimmed } = this.props;
 
     return (
-      <div className={jsStyles.spinner()}>
-        <span className={jsStyles.inner()}>{this.renderSpinner(type, dimmed)}</span>
-        {caption && this.renderCaption(type, caption)}
-      </div>
+      <CommonWrapper {...this.props}>
+        <div className={jsStyles.spinner()}>
+          <span className={jsStyles.inner()}>{this.renderSpinner(type, dimmed)}</span>
+          {caption && this.renderCaption(type, caption)}
+        </div>
+      </CommonWrapper>
     );
   }
 

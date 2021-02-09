@@ -10,12 +10,13 @@ import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDownIcon } from '../icons/16px';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { jsStyles } from './CustomComboBox.styles';
 
-interface ComboBoxViewProps<T> {
+interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -79,7 +80,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       /**/
     },
     size: 'small',
-    width: 250 as string | number,
+    width: 250,
   };
 
   private input: Nullable<Input>;
@@ -136,41 +137,43 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     return (
-      <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
-        <span
-          style={{ width }}
-          className={jsStyles.root()}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          onMouseOver={onMouseOver}
-        >
-          {input}
-          {opened && (
-            <DropdownContainer
-              align={menuAlign}
-              getParent={() => findDOMNode(this)}
-              offsetY={1}
-              disablePortal={this.props.disablePortal}
-            >
-              <ComboBoxMenu
-                items={items}
-                loading={loading}
-                maxMenuHeight={maxMenuHeight}
-                onValueChange={this.handleItemSelect}
-                opened={opened}
-                refMenu={refMenu}
-                renderTotalCount={renderTotalCount}
-                renderItem={renderItem!}
-                renderNotFound={renderNotFound}
-                renderAddButton={this.renderAddButton}
-                repeatRequest={repeatRequest}
-                requestStatus={requestStatus}
-                totalCount={totalCount}
-              />
-            </DropdownContainer>
-          )}
-        </span>
-      </RenderLayer>
+      <CommonWrapper {...this.props}>
+        <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
+          <span
+            style={{ width }}
+            className={jsStyles.root()}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onMouseOver={onMouseOver}
+          >
+            {input}
+            {opened && (
+              <DropdownContainer
+                align={menuAlign}
+                getParent={() => findDOMNode(this)}
+                offsetY={1}
+                disablePortal={this.props.disablePortal}
+              >
+                <ComboBoxMenu
+                  items={items}
+                  loading={loading}
+                  maxMenuHeight={maxMenuHeight}
+                  onValueChange={this.handleItemSelect}
+                  opened={opened}
+                  refMenu={refMenu}
+                  renderTotalCount={renderTotalCount}
+                  renderItem={renderItem!}
+                  renderNotFound={renderNotFound}
+                  renderAddButton={this.renderAddButton}
+                  repeatRequest={repeatRequest}
+                  requestStatus={requestStatus}
+                  totalCount={totalCount}
+                />
+              </DropdownContainer>
+            )}
+          </span>
+        </RenderLayer>
+      </CommonWrapper>
     );
   }
 

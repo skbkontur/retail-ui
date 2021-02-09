@@ -54,7 +54,7 @@ InputLikeText.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
         },

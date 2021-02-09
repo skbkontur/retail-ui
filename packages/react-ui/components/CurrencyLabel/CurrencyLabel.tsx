@@ -2,8 +2,9 @@ import React from 'react';
 
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
-export type CurrencyLabelProps = {
+export interface CurrencyLabelProps extends CommonProps {
   /**
    * Минимальное количество отображаемых знаков после запятой
    * @default 2
@@ -11,26 +12,31 @@ export type CurrencyLabelProps = {
   fractionDigits: number;
   value: number;
   currencySymbol?: React.ReactNode;
-} & typeof defaultProps;
+}
 
 export const defaultProps = {
   fractionDigits: 2,
 };
 
-export const CurrencyLabel = ({ value, fractionDigits, currencySymbol }: CurrencyLabelProps): JSX.Element => (
-  <span>
-    {CurrencyHelper.format(value, { fractionDigits })}
-    {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
-    {currencySymbol}
-  </span>
-);
+export const CurrencyLabel = (props: CurrencyLabelProps): JSX.Element => {
+  const { value, fractionDigits, currencySymbol } = props;
+  return (
+    <CommonWrapper {...props}>
+      <span>
+        {CurrencyHelper.format(value, { fractionDigits })}
+        {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
+        {currencySymbol}
+      </span>
+    </CommonWrapper>
+  );
+};
 
 CurrencyLabel.__KONTUR_REACT_UI__ = 'CurrencyLabel';
 
 CurrencyLabel.defaultProps = defaultProps;
 
 CurrencyLabel.propTypes = {
-  fractionDigits: (props: CurrencyLabelProps) => {
+  fractionDigits: (props: CurrencyLabelProps & typeof defaultProps) => {
     if (props.fractionDigits > MAX_SAFE_DIGITS) {
       return new Error(
         `[CurrencyLabel]: Prop 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +

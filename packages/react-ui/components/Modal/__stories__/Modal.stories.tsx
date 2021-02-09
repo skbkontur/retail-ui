@@ -588,7 +588,7 @@ ModalWithVariableHeightOfContent.story = {
             .perform();
           await this.browser
             .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '#modal-inner [data-comp-name="Toggle"]' }))
+            .click(this.browser.findElement({ css: '#modal-inner [data-comp-name~="Toggle"]' }))
             .pause(500)
             .perform();
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('toggle content height');
