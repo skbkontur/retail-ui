@@ -150,7 +150,7 @@ describe('ComboBox', () => {
       attachTo: document.getElementById('enzymeContainer'),
     });
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
