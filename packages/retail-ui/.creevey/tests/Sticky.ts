@@ -24,8 +24,7 @@ describe('Sticky', function() {
         // @ts-ignore
         stickyStop.scrollIntoView();
         // tslint:enable
-      });
-      await this.browser.executeScript(function() {
+
         // tslint:disable
         var stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
         // @ts-ignore
@@ -65,8 +64,7 @@ describe('Sticky', function() {
         // @ts-ignore
         stickyStop.scrollIntoView(false);
         // tslint:enable
-      });
-      await this.browser.executeScript(function() {
+
         // tslint:disable
         var stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
         // @ts-ignore

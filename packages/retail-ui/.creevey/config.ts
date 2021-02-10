@@ -28,12 +28,14 @@ const config: CreeveyConfig = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       limit: 2,
+      platformName: 'linux',
     },
     chromeFlat: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       testRegex: flatRegex,
       storybookUrl: 'http://localhost:6061',
+      platformName: 'linux',
     },
     firefox: {
       browserName: 'firefox',
