@@ -38,8 +38,7 @@ export const buttonUseMixin = (
     border-color: ${borderColor};
 
     &:not(${selectorChecked}) ${selectorArrow} {
-      &:before,
-      &:after {
+      [data-arrow-helper] {
         box-shadow: ${shadowArrow};
       }
     }
@@ -88,14 +87,13 @@ export const buttonActiveMixin = (
       border-color: ${borderColor};
 
       ${selectorArrow} {
-        &:before,
-        &:after {
+        [data-arrow-helper] {
           background: inherit;
           box-shadow: ${arrowShadow};
-        }
 
-        &:before {
-          background-image: ${arrowActiveShadowGradient} !important;
+          &:first-child {
+            background-image: ${arrowActiveShadowGradient} !important;
+          }
         }
       }
     }
@@ -131,14 +129,24 @@ export const arrowFocusMixin = (t: Theme, borderColor: string) => {
   return css`
     box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
 
-    &:before {
-      box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-        ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
-    }
+    [data-arrow-helper] {
+      &:first-child {
+        box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+          ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
+      }
 
-    &:after {
-      box-shadow: inset -${t.btnBorderWidth} -${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-        ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
+      &:last-child {
+        box-shadow: inset -${t.btnBorderWidth} -${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
+          ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
+      }
+
+      // don't hide inner outline
+      &:before {
+        top: ${t.btnBorderWidth};
+        right: ${t.btnBorderWidth};
+        bottom: ${t.btnBorderWidth};
+        left: ${t.btnBorderWidth};
+      }
     }
   `;
 };

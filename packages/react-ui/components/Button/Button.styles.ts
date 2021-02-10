@@ -192,9 +192,12 @@ const styles = {
           box-shadow: ${t.btnDisabledShadow} !important;
 
           ${cssName(styles.arrow(t))} {
-            &:before,
-            &:after {
+            [data-arrow-helper] {
               box-shadow: ${t.btnDisabledShadowArrow} !important;
+
+              &:before {
+                display: none;
+              }
             }
           }
         }
@@ -232,8 +235,7 @@ const styles = {
 
   arrowWarning(t: Theme) {
     return css`
-      &:before,
-      &:after {
+      [data-arrow-helper] {
         box-shadow: ${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorWarning} !important;
       }
     `;
@@ -241,8 +243,7 @@ const styles = {
 
   arrowError(t: Theme) {
     return css`
-      &:before,
-      &:after {
+      [data-arrow-helper] {
         box-shadow: ${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorError} !important;
       }
     `;
@@ -268,36 +269,53 @@ const styles = {
       left: 0;
       right: 0;
 
-      &:before,
-      &:after {
-        content: '';
+      [data-arrow-helper] {
         display: block;
         width: 100%;
-        height: calc(50% + 0.25px);
+        height: 50%;
         position: absolute;
         left: 0;
         background: inherit;
         background-size: 200% 200%;
         border-radius: inherit;
-        z-index: 0;
-      }
 
-      &:before {
-        top: -${t.btnBorderWidth};
-        transform: skewX(30deg);
-        transform-origin: top;
-        background-position-y: top;
-        border-bottom-right-radius: 1px;
-        border-top: ${t.btnBorderWidth} solid transparent;
-      }
+        &:first-child {
+          top: -${t.btnBorderWidth};
+          transform: skewX(30deg);
+          transform-origin: top;
+          background-position-y: top;
+          border-bottom-right-radius: 1px;
+          border-top: ${t.btnBorderWidth} solid transparent;
 
-      &:after {
-        bottom: -${t.btnBorderWidth};
-        transform: skewX(-30deg);
-        transform-origin: bottom;
-        background-position-y: bottom;
-        border-top-right-radius: 1px;
-        border-bottom: ${t.btnBorderWidth} solid transparent;
+          // fix line in the middle
+          // of the button in FF
+          &:before {
+            bottom: -1px;
+          }
+        }
+
+        &:last-child {
+          bottom: -${t.btnBorderWidth};
+          transform: skewX(-30deg);
+          transform-origin: bottom;
+          background-position-y: bottom;
+          border-top-right-radius: 1px;
+          border-bottom: ${t.btnBorderWidth} solid transparent;
+        }
+
+        // fix ugly arrow edge
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: inherit;
+          border-radius: inherit;
+          transform: translateX(0.4px);
+        }
       }
     `;
   },
@@ -508,8 +526,7 @@ const styles = {
         border-color: ${t.btnCheckedDisabledBorderColor} !important;
 
         ${cssName(styles.arrow(t))} {
-          &:before,
-          &:after {
+          [data-arrow-helper] {
             background: ${t.btnCheckedDisabledBg} !important;
             box-shadow: ${t.btnCheckedDisabledShadowArrow} !important;
           }
@@ -519,14 +536,13 @@ const styles = {
       &,
       &:not(${cssName(styles.focus(t))}) {
         ${cssName(styles.arrow(t))} {
-          &:before,
-          &:after {
+          [data-arrow-helper] {
             background: ${t.btnCheckedBg} !important;
             box-shadow: ${t.btnCheckedShadowArrow} !important;
-          }
 
-          &:before {
-            background-image: ${t.btnArrowBgImageChecked} !important;
+            &:first-child {
+              background-image: ${t.btnArrowBgImageChecked} !important;
+            }
           }
         }
       }
