@@ -3,6 +3,7 @@ import { CSFStory } from 'creevey';
 
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
+import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
 
 import { LoaderAndButton } from './LoaderAndButton';
 
@@ -264,3 +265,42 @@ export const ActivateLoaderAfterMountOnLargeContent = () => {
 };
 export const OldSpinner = () => <LoaderOld />;
 OldSpinner.story = { name: 'Old spinner' };
+
+export const WithCustomComponent = () => {
+  const getTestComponent = () => {
+    return (
+      <div style={{ display: 'inline-block', textAlign: 'center' }}>
+        <EyeOpenedIcon color={'blue'} size={25} />
+        <span style={{ display: 'block', color: 'red' }}>Загрузка</span>
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      <Loader active component={getTestComponent()}>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam rerum nisi error nesciunt at sunt, cum
+        reprehenderit sapiente quia recusandae! Distinctio incidunt ratione a alias officiis voluptatum quae et optio.
+        <br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat adipisci qui tempore ratione sed,
+        impedit saepe? Non, iste soluta? Quos voluptatem temporibus rerum explicabo molestias pariatur repudiandae,
+        dicta officia.
+        <br />
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet reprehenderit quia, facere error aspernatur
+        ipsa unde amet nemo impedit totam saepe consequatur? Illo ea qui omnis incidunt laboriosam sit fugiat.
+      </Loader>
+      <div style={{ height: '15px' }} />
+      <Loader active component={'Загрузка'}>
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam rerum nisi error nesciunt at sunt, cum
+        reprehenderit sapiente quia recusandae! Distinctio incidunt ratione a alias officiis voluptatum quae et optio.
+        <br />
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat adipisci qui tempore ratione sed,
+        impedit saepe? Non, iste soluta? Quos voluptatem temporibus rerum explicabo molestias pariatur repudiandae,
+        dicta officia.
+        <br />
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet reprehenderit quia, facere error aspernatur
+        ipsa unde amet nemo impedit totam saepe consequatur? Illo ea qui omnis incidunt laboriosam sit fugiat.
+      </Loader>
+    </div>
+  );
+};
