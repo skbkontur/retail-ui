@@ -120,6 +120,7 @@ const styles = {
       border-radius: ${t.btnLinkBorderRadius} !important;
       border: none;
       box-shadow: none;
+      white-space: nowrap;
       color: ${t.btnLinkColor} !important;
       display: inline;
       line-height: inherit !important;
