@@ -2,6 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { isIE11 } from '../../lib/client';
 
 export interface RenderLayerProps {
   children: JSX.Element;
@@ -58,7 +59,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private attachListeners() {
-    this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
+    this.focusOutsideListenerToken = isIE11 ? listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside) : null;
     window.addEventListener('blur', this.handleFocusOutside);
     document.addEventListener(
       'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
@@ -84,6 +85,8 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private handleFocusOutside = (event: Event) => {
+    console.log('handleFocusOutside', event);
+
     if (this.props.onFocusOutside) {
       this.props.onFocusOutside(event);
     }

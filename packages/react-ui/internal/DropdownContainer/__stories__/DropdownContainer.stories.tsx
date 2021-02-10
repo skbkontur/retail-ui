@@ -22,13 +22,21 @@ VariousAlignsPortalsItemsAndScrollsStory.story = {
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
         },
         async ['short Items scroll']() {
-          await this.browser.executeScript(function() {
+          await this.browser.executeScript(function () {
             // @ts-ignore
             const innerScroll: Element = window.document.querySelector('#inner-scroll');
             innerScroll.scrollTop = innerScroll.scrollHeight;
             innerScroll.scrollLeft = innerScroll.scrollWidth;
+            window.document.body.style.pointerEvents = 'none';
           });
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: this.browser.findElement({ css: 'body' }), x: 0, y: 0 })
+            .perform();
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
+          await this.browser.executeScript(function () {
+            window.document.body.style.pointerEvents = 'all';
+          });
         },
         async ['long Items']() {
           await this.browser
@@ -42,7 +50,7 @@ VariousAlignsPortalsItemsAndScrollsStory.story = {
             .actions({ bridge: true })
             .click(this.browser.findElement({ css: '#buttons button' }))
             .perform();
-          await this.browser.executeScript(function() {
+          await this.browser.executeScript(function () {
             // @ts-ignore
             const innerScroll: Element = window.document.querySelector('#inner-scroll');
             innerScroll.scrollTop = innerScroll.scrollHeight;
@@ -68,9 +76,9 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
     shown: { [id: string]: boolean };
     long: boolean;
   } = {
-    shown: {},
-    long: false,
-  };
+      shown: {},
+      long: false,
+    };
 
   public componentDidMount(): void {
     Object.keys(this.dropdowns).forEach(dropdown => this.toggle(dropdown, true));
