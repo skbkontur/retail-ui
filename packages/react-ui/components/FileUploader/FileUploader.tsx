@@ -10,14 +10,14 @@ import { FileAttacherBase, FileAttacherBaseProps } from '../../internal/FileAtta
 // FIXME @mozalov: подумать как делать abort запроса по крестику
 // FIXME @mozalov: добавить типы ошибок
 
-export interface RequestArgs {
-  file: IReadFile;
-  onSuccess: () => void;
-  onError: (error: object) => void;
-}
+export type RequestFunction = (
+  file: IReadFile,
+  onSuccess: () => void,
+  onError: (error: object) => void,
+) => void;
 
 export interface FileUploaderProps extends FileAttacherBaseProps {
-  request: (args: RequestArgs) => void;
+  request: RequestFunction;
 }
 
 export const FileUploader = withReadFileListProvider((props: FileUploaderProps) => {
@@ -39,12 +39,7 @@ export const FileUploader = withReadFileListProvider((props: FileUploaderProps) 
   const upload = useCallback((file: IReadFile) => {
     const {id} = file;
     handleStart(id);
-
-    request({
-      file,
-      onSuccess: () => handleSuccess(id),
-      onError: () => handleError(id)
-    });
+    request(file, () => handleSuccess(id), () => handleError(id));
   }, [request, handleSuccess, handleError, handleStart])
 
   const handleChange = useCallback((files: IReadFile[]) => {

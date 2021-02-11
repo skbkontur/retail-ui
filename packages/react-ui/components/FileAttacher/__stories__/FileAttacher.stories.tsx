@@ -2,13 +2,13 @@ import React from 'react';
 import { FileAttacher } from '../FileAttacher';
 
 export default {
-  title: 'FileUploader'
+  title: 'FileAttacher'
 };
 
-export const SingleFileUploader = () => (
+export const SingleFileAttacher = () => (
   <FileAttacher />
 );
 
-export const MultipleFileUploader = () => (
+export const MultipleFileAttacher = () => (
   <FileAttacher multiple />
 );

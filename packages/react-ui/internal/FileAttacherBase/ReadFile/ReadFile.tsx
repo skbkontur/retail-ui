@@ -2,13 +2,13 @@ import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, 
 import { IReadFile } from '../../../lib/fileUtils';
 import { jsStyles } from './ReadFile.styles';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
-import SpinnerIcon from '@skbkontur/react-icons/Spinner';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
 import { ReadFileItemStatus, ReadFileListContext } from '../ReadFileList/ReadFileListContext';
+import { Spinner } from '../../../components/Spinner';
 
 interface ReadFileProps {
   file: IReadFile;
@@ -74,7 +74,7 @@ export const ReadFile = (props: ReadFileProps) => {
   const icon: ReactNode = useMemo(() => {
     switch (fileStatus) {
       case ReadFileItemStatus.Loading:
-        return <SpinnerIcon />;
+        return <Spinner type="mini" dimmed caption="" />;
       case ReadFileItemStatus.Error:
         return <ErrorIcon />;
       case ReadFileItemStatus.Success:
