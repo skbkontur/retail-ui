@@ -25,9 +25,9 @@ setFilter(fiber => {
 });
 
 export const decorators: BaseDecorators<JSX.Element> = [
-  (story) => (
+  story => (
     <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      <story />
+      {story()}
     </div>
   ),
   story => {
@@ -68,4 +68,8 @@ export const parameters: Parameters & { creevey: CreeveyStoryParams } = {
 
 if (isTestEnv) {
   import('../lib/styles/HoldSelectionColor');
+}
+
+if (isTestEnv) {
+  import('@skbkontur/react-props2attrs');
 }
