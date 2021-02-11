@@ -1,15 +1,18 @@
 import React from 'react';
-import { IFileWithBase64 } from '../fileUtils';
+import { IReadFile } from '../../../lib/fileUtils';
 import { ReadFile } from '../ReadFile/ReadFile';
 import { ReadFileItem } from '../ReadFileItem/ReadFileItem';
 
 interface FileListProps {
-  files: IFileWithBase64[];
+  files: IReadFile[];
   onDelete: (index: number) => void;
 }
 
 export const ReadFileList = (props: FileListProps) => {
   const {files, onDelete} = props;
+
+  // FIXME @mozalov: возможно избыточный компонент
+  // FIXME @mozalov: возможно стоит избавиться от ReadFileItem
 
   return (
     <div>
