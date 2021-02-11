@@ -29,10 +29,6 @@ VariousAlignsPortalsItemsAndScrollsStory.story = {
             innerScroll.scrollLeft = innerScroll.scrollWidth;
             window.document.body.style.pointerEvents = 'none';
           });
-          await this.browser
-            .actions({ bridge: true })
-            .move({ origin: this.browser.findElement({ css: 'body' }), x: 0, y: 0 })
-            .perform();
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
           await this.browser.executeScript(function () {
             window.document.body.style.pointerEvents = 'all';
