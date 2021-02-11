@@ -1,6 +1,9 @@
+import { getGuid } from './guidUtils';
+
 export type ReadFileType = string | ArrayBuffer | null;
 
-export interface IFileWithBase64 extends File {
+export interface IReadFile extends File {
+  id: number;
   base64: ReadFileType;
 }
 
@@ -13,11 +16,11 @@ export const readFile = (file: File): Promise<ReadFileType> => (
   })
 );
 
-export const readFiles = (files: File[]): Promise<Array<IFileWithBase64>> => {
+export const readFiles = (files: File[]): Promise<Array<IReadFile>> => {
   const filesPromises = files.map(file => readFile(file));
 
   return Promise.all(filesPromises)
     .then(readFiles => (
-      readFiles.map((base64, index) => Object.assign(files[index], {base64}))
+      readFiles.map((base64, index) => Object.assign(files[index], {id: getGuid(), base64}))
     ));
 };

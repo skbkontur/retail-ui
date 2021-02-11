@@ -1,14 +1,14 @@
 import React from 'react';
-import { FileUploader } from '../FileUploader';
+import { FileAttacherBase } from '../FileAttacherBase';
 
 export default {
   title: 'FileUploader'
 };
 
 export const SingleFileUploader = () => (
-  <FileUploader />
+  <FileAttacherBase />
 );
 
 export const MultipleFileUploader = () => (
-  <FileUploader multiple />
+  <FileAttacherBase multiple />
 );

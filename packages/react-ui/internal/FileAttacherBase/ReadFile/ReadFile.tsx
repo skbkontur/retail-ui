@@ -1,13 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IFileWithBase64 } from '../fileUtils';
+import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { IReadFile } from '../../../lib/fileUtils';
 import { jsStyles } from './ReadFile.styles';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
+import SpinnerIcon from '@skbkontur/react-icons/Spinner';
+import ErrorIcon from '@skbkontur/react-icons/Error';
+import OkIcon from '@skbkontur/react-icons/Ok';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
+import { ReadFileItemStatus, ReadFileListContext } from '../ReadFileList/ReadFileListContext';
 
 interface ReadFileProps {
-  file: IFileWithBase64;
+  file: IReadFile;
   index: number;
   showSize?: boolean;
 
@@ -25,6 +29,7 @@ export const ReadFile = (props: ReadFileProps) => {
 
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameSpanRef = useRef<HTMLSpanElement>(null);
+  const {getFileStatus} = useContext(ReadFileListContext);
 
   const [state, setState] = useState<ReadFileState>({
     fileNameWidth: 0,
@@ -58,11 +63,26 @@ export const ReadFile = (props: ReadFileProps) => {
     const maxCharsCountInSpan = Math.ceil(fileNameSpanWidth / charWidth);
 
     return truncate(name, maxCharsCountInSpan);
-  }, [name, fileNameSpanWidth, fileNameWidth])
+  }, [name, fileNameSpanWidth, fileNameWidth]);
 
   const handleDelete = useCallback(() => {
     onDelete(index);
-  }, [index, onDelete])
+  }, [index, onDelete]);
+
+  const fileStatus = useMemo(() => getFileStatus(file.id), [getFileStatus, file.id]);
+
+  const icon: ReactNode = useMemo(() => {
+    switch (fileStatus) {
+      case ReadFileItemStatus.Loading:
+        return <SpinnerIcon />;
+      case ReadFileItemStatus.Error:
+        return <ErrorIcon />;
+      case ReadFileItemStatus.Success:
+        return <OkIcon />;
+      default:
+        return <DeleteIcon color="#808080" onClick={handleDelete} />;
+    }
+  }, [fileStatus]);
 
   return (
     <div className={jsStyles.root()}>
@@ -70,7 +90,7 @@ export const ReadFile = (props: ReadFileProps) => {
       <span ref={fileNameSpanRef} className={jsStyles.name()}>{truncatedFileName}</span>
       {!!showSize && formattedSize && <span className={jsStyles.size()}>{formattedSize}</span>}
       <div className={jsStyles.icon()}>
-        <DeleteIcon color="#808080" onClick={handleDelete} />
+        {icon}
       </div>
     </div>
   );
