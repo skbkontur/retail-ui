@@ -1,5 +1,6 @@
-import { ValidationNode } from './Types';
 import { ValidationInfo } from '../ValidationWrapper';
+
+import { ValidationNode } from './Types';
 import { ValidationReader } from './ValidationReader';
 import { PathTokensCache } from './PathHelper';
 

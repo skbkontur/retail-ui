@@ -1,3 +1,0 @@
-/* @flow */
-declare export var selectNodeContents: (node: HTMLElement) => void;
-declare export var removeAllSelections: () => void;

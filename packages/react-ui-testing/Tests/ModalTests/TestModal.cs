@@ -9,7 +9,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
         public TestModal(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-            Header = this.Find<Label>().By("Header");
+            Header = this.Find<Label>().By("ModalHeader");
         }
 
         public Label Content { get; private set; }

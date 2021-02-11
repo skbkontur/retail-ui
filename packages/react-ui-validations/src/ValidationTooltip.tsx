@@ -1,5 +1,6 @@
-import * as React from 'react';
-import ReactUiDetection, { Tooltip } from './ReactUiDetection';
+import React from 'react';
+
+import { ReactUiDetection, Tooltip } from './ReactUiDetection';
 
 export type TooltipPosition =
   | 'top left'
@@ -22,11 +23,11 @@ export interface ValidationTooltipProps {
   render?: () => React.ReactNode;
 }
 
-export default class ValidationTooltip extends React.Component<ValidationTooltipProps> {
+export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public render() {
     const onlyChild = React.Children.only(this.props.children);
-    const radioChild = onlyChild && onlyChild.props ? onlyChild.props.children : null;
-    if (ReactUiDetection.isRadioGroup(radioChild)) {
+    const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
+    if (ReactUiDetection.isRadioGroup(child) || ReactUiDetection.isTokenInput(child)) {
       return (
         <Tooltip
           useWrapper={false}
@@ -34,7 +35,7 @@ export default class ValidationTooltip extends React.Component<ValidationTooltip
           render={this.props.error && this.props.render}
           trigger={'hover&focus'}
         >
-          {radioChild}
+          {child}
         </Tooltip>
       );
     }

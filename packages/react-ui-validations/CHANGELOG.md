@@ -3,6 +3,89 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.3.2...react-ui-validations@1.4.0) (2020-12-23)
+
+
+### Features
+
+* ssr support ([#2103](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2103)) ([506a7f6](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/506a7f63337cc4ca2567581495959b1656fedd18))
+
+
+
+
+
+## [1.3.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.3.1...react-ui-validations@1.3.2) (2020-12-17)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.3.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.3.0...react-ui-validations@1.3.1) (2020-12-03)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+# [1.3.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.2.0...react-ui-validations@1.3.0) (2020-10-13)
+
+
+### Bug Fixes
+
+* **validations:** give up dynamic require, fix codesandbox compatibility ([6e00f39](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/6e00f392c5d86756cbe9a83094dbc274261d1584)), closes [#2151](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2151) [#2039](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2039)
+
+
+### Features
+
+* **validations:** optimize ReactUiDetection, inc min react-ui to 0.53.7 ([df4deaa](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/df4deaad013db5ad8aac09aa99dd3326b93d17b2)), closes [#2150](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2150)
+
+
+
+
+
+
+# [1.2.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.5...react-ui-validations@1.2.0) (2020-08-07)
+
+
+### Features
+
+* **ValidationContainer:** added new prop disableSmoothScroll ([ecf75fd](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/ecf75fdabd2c0dc15cc293d74b1fde28a72d4e81))
+* **ValidationContainer:** disable smooth scroll in test env ([8a7825c](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/8a7825c2cf16cc804a0dcd3bd63c35ecc36e74c3))
+
+
+
+
+
+## [1.1.5](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.4...react-ui-validations@1.1.5) (2020-04-29)
+
+
+### Bug Fixes
+
+* **tokeninput:** tooltip position of validation ([f9aa9b4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/f9aa9b4cc7c7e8eac0f8cc6cb48e38291b7b0346))
+
+
+
+
+
+## [1.1.4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.3...react-ui-validations@1.1.4) (2020-04-07)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.1.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.2...react-ui-validations@1.1.3) (2020-03-24)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
 ## [1.1.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.1.1...react-ui-validations@1.1.2) (2020-03-11)
 
 

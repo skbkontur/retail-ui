@@ -1,15 +1,16 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
-import Gapped from 'retail-ui/components/Gapped';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+
 import {
-  ValidationContainer,
-  ValidationWrapper,
-  ValidationInfo,
   ValidationBehaviour,
+  ValidationContainer,
+  ValidationInfo,
+  ValidationWrapper,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface State {
   immediate: string;
@@ -38,7 +39,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={immediate}
-                onChange={(_, value) => this.handleChange({ immediate: value })}
+                onValueChange={value => this.handleChange({ immediate: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -48,7 +49,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={lostfocus}
-                onChange={(_, value) => this.handleChange({ lostfocus: value })}
+                onValueChange={value => this.handleChange({ lostfocus: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -58,7 +59,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={submit}
-                onChange={(_, value) => this.handleChange({ submit: value })}
+                onValueChange={value => this.handleChange({ submit: value })}
               />
             </ValidationWrapper>
           </Form.Line>

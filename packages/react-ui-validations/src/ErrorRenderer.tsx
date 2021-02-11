@@ -1,5 +1,6 @@
-import * as React from 'react';
-import ValidationTooltip, { TooltipPosition } from './ValidationTooltip';
+import React from 'react';
+
+import { TooltipPosition, ValidationTooltip } from './ValidationTooltip';
 import { RenderErrorMessage } from './ValidationWrapperInternal';
 
 export function tooltip(pos: TooltipPosition): RenderErrorMessage {
@@ -8,7 +9,6 @@ export function tooltip(pos: TooltipPosition): RenderErrorMessage {
       <ValidationTooltip
         pos={pos}
         error={hasError}
-        // tslint:disable-next-line:jsx-no-lambda
         render={() => {
           if (!validation || !validation.message) {
             return null;

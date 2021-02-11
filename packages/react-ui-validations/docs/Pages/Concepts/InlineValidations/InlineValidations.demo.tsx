@@ -1,9 +1,11 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+
 import { ValidationContainer } from '../../../../src';
-import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 import { Nullable } from '../../../../typings/Types';
+
+import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';
 
 export interface ContactInfo {
   name: string;
@@ -35,7 +37,7 @@ export default class InlineValidationsDemo extends React.Component<{}, State> {
             <Input
               required
               value={data.name}
-              onChange={(_, value) => this.handleChange({ name: value })}
+              onValueChange={value => this.handleChange({ name: value })}
             />
           </Form.Line>
 
@@ -44,7 +46,7 @@ export default class InlineValidationsDemo extends React.Component<{}, State> {
               required
               email
               value={data.email}
-              onChange={(_, value) => this.handleChange({ email: value })}
+              onValueChange={value => this.handleChange({ email: value })}
             />
           </Form.Line>
 
@@ -53,7 +55,7 @@ export default class InlineValidationsDemo extends React.Component<{}, State> {
               required
               validations={[lessThanDate(new Date('2010-01-01'))]}
               value={data.born}
-              onChange={(_, value) => this.handleChange({ born: value })}
+              onValueChange={value => this.handleChange({ born: value })}
             />
           </Form.Line>
 

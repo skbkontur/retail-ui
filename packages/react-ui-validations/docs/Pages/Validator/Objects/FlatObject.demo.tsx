@@ -1,20 +1,16 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
+import { createValidator, ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface ContactInfo {
   name: string;
   email: string;
 }
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<ContactInfo>(b => {
   b.prop(
     x => x.name,
@@ -30,8 +26,6 @@ const validate = createValidator<ContactInfo>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   contactInfo: ContactInfo;
@@ -58,7 +52,7 @@ export default class FlatObjectDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Любое'}
                 value={contactInfo.name}
-                onChange={(_, name) => this.handleChange({ name })}
+                onValueChange={name => this.handleChange({ name })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -68,13 +62,15 @@ export default class FlatObjectDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={contactInfo.email}
-                onChange={(_, email) => this.handleChange({ email })}
+                onValueChange={email => this.handleChange({ email })}
               />
             </ValidationWrapper>
           </Form.Line>
 
           <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>

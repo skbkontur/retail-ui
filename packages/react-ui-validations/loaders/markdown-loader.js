@@ -24,19 +24,21 @@ class Renderer {
     switch (type) {
       case 'markdown':
         return this.renderContent(content);
-      case 'header':
+      case 'header': {
         const { level } = attrs;
         return `<Header level={${level}}>` + this.renderContent(content) + '</Header>';
+      }
       case 'para':
         return '<p>' + this.renderContent(content) + '</p>';
-      case 'code_block':
-        let code = content[0];
+      case 'code_block': {
+        const code = content[0];
         if (code && code.startsWith('!!DemoWithCode!!')) {
           const path = './' + code.replace('!!DemoWithCode!!', '') + '.demo.tsx';
-          return `<Demo demo={require('${path}').default} source={require('!raw-loader!${path}')} />`;
+          return `<Demo demo={require('${path}').default} source={require('!raw-loader!${path}').default} />`;
         }
         return `<SourceCode source={\`${code}\`}/>`;
-      case 'link':
+      }
+      case 'link': {
         let result = '<Link';
         if (attrs.alt) {
           result += ' alt={`' + attrs.alt + '`}';
@@ -47,6 +49,7 @@ class Renderer {
         result += '>';
         result += this.renderContent(content) + '</Link>';
         return result;
+      }
       case 'img':
         return '<img alt={`' + attrs.alt + '`} src={`' + attrs.href + '`} />';
       case 'bulletlist':
@@ -79,11 +82,11 @@ module.exports = function(content) {
   }
 
   return `
-import * as React from 'react';
+import React from 'react';
 import Helmet from 'react-helmet';
-import Link from 'retail-ui/components/Link';
+import { Link } from '@skbkontur/react-ui/components/Link';
 import styled from 'styled-components';
-import SourceCode from 'SourceCode';
+import { SourceCode } from 'SourceCode';
 import Demo from 'Demo';
 
 const InlineCode = styled.span\`

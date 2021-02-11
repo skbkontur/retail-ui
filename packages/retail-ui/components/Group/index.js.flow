@@ -1,2 +1,0 @@
-/* @flow */
-export { default, GroupProps, GroupChildProps } from './Group';

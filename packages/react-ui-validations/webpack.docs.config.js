@@ -1,4 +1,5 @@
 const path = require('path');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
@@ -24,10 +25,21 @@ function createConfig(publicPath, output) {
         {
           test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
-          loader: 'ts-loader',
-          options: {
-            transpileOnly: true,
-          },
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+              },
+            },
+            {
+              loader: 'string-replace-loader',
+              options: {
+                search: /__REACT_UI_PACKAGE__/g,
+                replace: '@skbkontur/react-ui',
+              },
+            },
+          ],
         },
         {
           test: /\.md$/,
@@ -45,7 +57,10 @@ function createConfig(publicPath, output) {
             {
               loader: 'css-loader',
               options: {
-                localIdentName: '[name]-[local]-[hash:base64:4]',
+                modules: {
+                  mode: 'global',
+                  localIdentName: '[name]-[local]-[hash:base64:4]',
+                },
               },
             },
             'less-loader',
@@ -70,7 +85,6 @@ function createConfig(publicPath, output) {
       new webpack.DefinePlugin({
         'process.env.libraryVersion': JSON.stringify(libraryVersion),
         'process.env.libraryVersionEscaped': JSON.stringify(libraryVersion.replace('-', '--')),
-        REACT_UI_PACKAGE: JSON.stringify('retail-ui'),
       }),
     ],
     devServer: {

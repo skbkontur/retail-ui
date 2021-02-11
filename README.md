@@ -1,24 +1,24 @@
-# Единый репозиторий react-ui и react-ui-validations
+# Экосистема React UI
+
+## Проекты
+
+- [Контур.Гайды](https://guides.kontur.ru/). Требования к дизайну интерфейсов Контура
+- [React UI](https://github.com/skbkontur/retail-ui). Библиотека общих компонентов
+- [UI Parking](https://git.skbkontur.ru/ui/ui-parking). Коллекция переиспользуемых решений, не вошедших в общую библиотеку
 
 ## Пакеты
 
-- **retail-ui:** библиотека компонентов ([readme](packages/retail-ui/README.md), [changelog](packages/retail-ui/CHANGELOG.md), [roadmap](packages/retail-ui/ROADMAP.md))
-- **react-ui-validations** - библиотека валидации ([readme](packages/react-ui-validations/README.md))
-- **react-ui-selenium** - пакет для скриншотных тестов библиотеки компонентов
-- **react-ui-codemodes** - коллекция кодмод для разных целей и задач
+| Имя                               |                                                                                                                                       | Описание                                                          | Документация                                                                                         | Репозиторий                                                                                         |
+| :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------- |
+| `@skbkontur/react-ui`             | [![npm](https://img.shields.io/npm/v/@skbkontur/react-ui)](https://www.npmjs.com/package/@skbkontur/react-ui)                         | Библиотека компонентов                                            | [tech.skbkontur.ru](https://tech.skbkontur.ru/react-ui/)                                             | [github.com](https://github.com/skbkontur/retail-ui)                                                |
+| `@skbkontur/react-ui-validations` | [![npm](https://img.shields.io/npm/v/@skbkontur/react-ui-validations)](https://www.npmjs.com/package/@skbkontur/react-ui-validations) | Библиотека валидаций                                              | [tech.skbkontur.ru](http://tech.skbkontur.ru/react-ui-validations/)                                  | [github.com](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui-validations/)     |
+| `@skbkontur/react-icons`          | [![npm](https://img.shields.io/npm/v/@skbkontur/react-icons)](https://www.npmjs.com/package/@skbkontur/react-icons)                   | Набор иконок ([поиск](https://guides.kontur.ru/resources/icons/)) | [pages.kontur.host](http://ui.gitlab-pages.kontur.host/docs/#/react-icons)                           | [git.skbkontur.ru](https://git.skbkontur.ru/ui/ui-parking/-/tree/master/packages%2Freact-icons)     |
+| `react-ui-codemod`                | [![npm](https://img.shields.io/npm/v/react-ui-codemod)](https://www.npmjs.com/package/react-ui-codemod)                               | Коллекция кодмодов                                                | [github.com](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui-codemod/README.md) | [github.com](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui-codemod/)         |
+| `@skbkontur/react-ui-addons`      | [![npm](https://img.shields.io/npm/v/@skbkontur/react-ui-addons)](https://www.npmjs.com/package/@skbkontur/react-ui-addons)           | Специфичные компоненты                                            | [pages.kontur.host](http://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons)                       | [git.skbkontur.ru](https://git.skbkontur.ru/ui/ui-parking/-/tree/master/packages%2Freact-ui-addons) |
 
-## Установка и запуск
+### Устаревшие пакеты
 
-Для управления репозиторием и пакетами используется **[lernajs](https://lernajs.io/)** (используется для публикации **retail-ui** в npm) и **[yarn workspace](https://yarnpkg.com/lang/en/docs/workspaces/)**.
-
-Установка зависимостей для всех пакетов:
-
-```sh
-$ yarn
-```
-
-Пример запуска **storybook** в retail-ui:
-
-```sh
-$ yarn workspace retail-ui storybook
-```
+| Имя                    |                                                                                                                 | Описание                                 | Документация                                                        | Репозиторий                                                                                     |
+| :--------------------- | :-------------------------------------------------------------------------------------------------------------- | :--------------------------------------- | :------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------- |
+| `retail-ui`            | [![npm](https://img.shields.io/npm/v/retail-ui)](https://www.npmjs.com/package/retail-ui)                       | Библиотека react-ui c less-кастомизацией | [tech.skbkontur.ru](https://tech.skbkontur.ru/react-ui/1.11.1/)     | [github.com](https://github.com/skbkontur/retail-ui/tree/retail-ui%401.11.1)                    |
+| `react-ui-validations` | [![npm](https://img.shields.io/npm/v/react-ui-validations)](https://www.npmjs.com/package/react-ui-validations) | Библиотека валидаций для `retail-ui`     | [tech.skbkontur.ru](http://tech.skbkontur.ru/react-ui-validations/) | [github.com](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui-validations/) |

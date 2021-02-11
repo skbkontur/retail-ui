@@ -1,4 +1,0 @@
-/* @flow */
-import type { Place, PlaceDescription } from './Types';
-
-declare export function placeName(region: PlaceDescription, _for?: ?Place): string;

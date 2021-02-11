@@ -1,5 +1,6 @@
 import React from 'react';
-import Input from 'retail-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
 import { CaseSuite, Case } from '../Case';
 
 export default class InputTextPage extends React.Component {
@@ -14,9 +15,9 @@ export default class InputTextPage extends React.Component {
       <CaseSuite title="Списки">
         <Case title="Hardcoded-список инпутов без tid-ов">
           <Case.Body data-tid="InputWithoutTidList">
-            <Input value={this.state.input1} onChange={(e, value) => this.setState({ input1: value })} />
-            <Input value={this.state.input2} onChange={(e, value) => this.setState({ input2: value })} />
-            <Input value={this.state.input3} onChange={(e, value) => this.setState({ input3: value })} />
+            <Input value={this.state.input1} onValueChange={value => this.setState({ input1: value })} />
+            <Input value={this.state.input2} onValueChange={value => this.setState({ input2: value })} />
+            <Input value={this.state.input3} onValueChange={value => this.setState({ input3: value })} />
           </Case.Body>
         </Case>
         <Case title="Список составных read-only элементов ">

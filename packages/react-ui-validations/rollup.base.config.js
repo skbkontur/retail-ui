@@ -19,7 +19,7 @@ export function buildConfig(outputDir, reactUiPackageName) {
       resolve(),
       commonjs(),
       replace({
-        REACT_UI_PACKAGE: JSON.stringify(reactUiPackageName),
+        __REACT_UI_PACKAGE__: reactUiPackageName,
       }),
     ],
     external: ['lodash.isequal', 'react-dom', 'react', 'prop-types', 'warning'],

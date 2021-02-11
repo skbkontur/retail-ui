@@ -1,2 +1,0 @@
-/* @flow */
-export { default, HintProps, HintState } from './Hint';

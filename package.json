@@ -1,20 +1,22 @@
 {
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/@skbkontur/*"
   ],
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^7.5.2",
-    "@commitlint/config-conventional": "^7.5.0",
-    "commitizen": "^3.0.5",
-    "cz-conventional-changelog": "^2.1.0",
-    "env-cmd": "^8.0.2",
-    "husky": "^1.3.1",
-    "lerna": "^3.11.1"
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@skbkontur/eslint-config": "*",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.0.2",
+    "env-cmd": "^10.0.1",
+    "husky": "^3.1.0",
+    "lerna": "^3.19.0"
   },
   "scripts": {
     "commit": "git-cz",
-    "release": "env-cmd .env lerna version"
+    "release": "env-cmd lerna version"
   },
   "jest": {
     "projects": [

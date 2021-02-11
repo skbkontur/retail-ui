@@ -1,4 +1,0 @@
-/* @flow */
-import FxInput from './FxInput.js';
-
-export default FxInput;

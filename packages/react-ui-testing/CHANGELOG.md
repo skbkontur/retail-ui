@@ -3,6 +3,99 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.4...react-ui-testing@3.2.0) (2020-12-17)
+
+
+### Features
+
+* **Textarea:** add chars counter ([5580592](https://github.com/skbkontur/retail-ui/commit/558059275c6a563b5f9348570b7193b400ec3c00)), closes [#2208](https://github.com/skbkontur/retail-ui/issues/2208)
+
+
+
+
+
+## [3.1.4](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.3...react-ui-testing@3.1.4) (2020-12-03)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
+## [3.1.3](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.2...react-ui-testing@3.1.3) (2020-09-16)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
+## [3.1.2](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.1...react-ui-testing@3.1.2) (2020-08-31)
+
+
+### Bug Fixes
+
+* **ComboBox, SeleniumTesting:** fix combobox methods stability ([44ca706](https://github.com/skbkontur/retail-ui/commit/44ca706231ef1ca8f1487eba5e2a59751ef94790))
+
+
+
+
+
+## [3.1.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.1.0...react-ui-testing@3.1.1) (2020-08-07)
+
+
+### Bug Fixes
+
+* **react-ui-testing:** target netstandard2.0; update deps ([4187596](https://github.com/skbkontur/retail-ui/commit/4187596dc3d514f35df59d356175dedcdf2f809a))
+
+
+
+
+
+# [3.1.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.0.1...react-ui-testing@3.1.0) (2020-06-09)
+
+
+### Features
+
+* **react-ui-testing:** add not found to test wrap ([2a3a4f5](https://github.com/skbkontur/retail-ui/commit/2a3a4f5db3a13c303e8a75141efa9116e98dbf18))
+
+
+
+
+
+## [3.0.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.0.0...react-ui-testing@3.0.1) (2020-05-27)
+
+
+### Bug Fixes
+
+* **[combobox]:** fix DebounsedSearch bug and several bugs in test wrap ([507c189](https://github.com/skbkontur/retail-ui/commit/507c189c91a3ecdbfcf965fc41ee6a712c81bd51)), closes [#2031](https://github.com/skbkontur/retail-ui/issues/2031)
+
+
+
+
+
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@2.2.7...react-ui-testing@3.0.0) (2020-03-24)
+
+
+### Bug Fixes
+
+* **react-selenuim-testing:** correct work with react@>=16.5 [#1816](https://github.com/skbkontur/retail-ui/issues/1816) ([b7bd5fb](https://github.com/skbkontur/retail-ui/commit/b7bd5fba1e06dd7d4fef3e057fac90e1357708fb))
+
+
+### Code Refactoring
+
+* **Modal:** rename Header/Footer/Body classes ([c373982](https://github.com/skbkontur/retail-ui/commit/c3739827c93e83b5080fbd177711ab7d0f2e0f6f)), closes [#1883](https://github.com/skbkontur/retail-ui/issues/1883)
+
+
+### BREAKING CHANGES
+
+* **Modal:** Header/Footer/Body classes and props inside Modal have been renamed, e.g.: Header
+-> ModalHeader, HeaderProps -> ModalHeaderProps, etc.
+
+
+
+
+
 ## [2.2.7](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@2.2.6...react-ui-testing@2.2.7) (2020-02-06)
 
 

@@ -1,24 +1,22 @@
-declare const REACT_UI_PACKAGE: string;
-
 declare function require(name: string): any;
 
-function localInteropDefault(obj: any): any {
-  return obj && obj.__esModule ? obj.default : obj;
-}
+const defaultOrNamed = (module: any, component: string) =>
+  module && module.__esModule && module.default ? module.default : module[component];
 
-// todo think about DatePicker & DatePickerOld
-const DatePicker = localInteropDefault(require(REACT_UI_PACKAGE + '/components/DatePicker'));
-const RadioGroup = localInteropDefault(require(REACT_UI_PACKAGE + '/components/RadioGroup'));
-const Tooltip = localInteropDefault(require(REACT_UI_PACKAGE + '/components/Tooltip'));
+const Tooltip = defaultOrNamed(require('__REACT_UI_PACKAGE__/components/Tooltip'), 'Tooltip');
 
 export { Tooltip };
 
-export default class ReactUiDetection {
+export class ReactUiDetection {
   public static isDatePicker(childrenArray: any): boolean {
-    return childrenArray != null && childrenArray.type === DatePicker;
+    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'DatePicker';
   }
 
   public static isRadioGroup(childrenArray: any): boolean {
-    return childrenArray != null && childrenArray.type === RadioGroup;
+    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'RadioGroup';
+  }
+
+  public static isTokenInput(childrenArray: any): boolean {
+    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'TokenInput';
   }
 }

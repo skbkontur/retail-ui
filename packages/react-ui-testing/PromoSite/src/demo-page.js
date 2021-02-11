@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import React from 'react';
 import ReactDom from 'react-dom';
 import DemoPage from './components/DemoPage/DemoPage';
 

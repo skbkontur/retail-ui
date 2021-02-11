@@ -1,7 +1,0 @@
-/* @flow */
-import type { APIResult } from '../types';
-
-declare export class APIResultFactory {
-  static success: <Data>(data: Data) => APIResult<Data>,
-  static fail: <Data>(message?: string) => APIResult<Data>,
-}

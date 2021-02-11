@@ -15,10 +15,21 @@ module.exports = async ({ config, mode }) => {
     {
       test: /\.(ts|tsx)$/,
       exclude: /node_moduels/,
-      loader: 'ts-loader',
-      options: {
-        transpileOnly: true,
-      },
+      use: [
+        {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
+        },
+        {
+          loader: 'string-replace-loader',
+          options: {
+            search: /__REACT_UI_PACKAGE__/g,
+            replace: '@skbkontur/react-ui',
+          },
+        },
+      ],
     },
     {
       test: /\.(css|less)$/,
@@ -27,7 +38,10 @@ module.exports = async ({ config, mode }) => {
         {
           loader: 'css-loader',
           options: {
-            localIdentName: '[name]-[local]-[hash:base64:4]',
+            modules: {
+              mode: 'global',
+              localIdentName: '[name]-[local]-[hash:base64:4]',
+            },
           },
         },
         'less-loader',
@@ -42,7 +56,6 @@ module.exports = async ({ config, mode }) => {
   config.plugins.push(
     new webpack.DefinePlugin({
       'process.env.enableReactTesting': JSON.stringify(true),
-      REACT_UI_PACKAGE: JSON.stringify('retail-ui'),
     }),
   );
 

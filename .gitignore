@@ -1,7 +1,6 @@
 .env
 .idea
 .DS_Store
-.npmrc
 *.code-workspace
 
 node_modules
@@ -11,3 +10,4 @@ npm-debug.log
 lerna-debug.log
 
 browsers/
+/packages/@skbkontur/react-ui/

@@ -1,15 +1,16 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
-import Group from 'retail-ui/components/Group';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
+import { Group } from '@skbkontur/react-ui/components/Group';
+
 import {
-  ValidationContainer,
-  ValidationWrapper,
   createValidator,
   text,
+  ValidationContainer,
+  ValidationWrapper,
 } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import { Form } from '../../../Common/Form';
 
 interface State {
   values: string[];
@@ -21,7 +22,6 @@ const getDuplicatesFor = (items: string[], index: number): number[] => {
     .filter(x => x != null) as number[];
 };
 
-/* tslint:disable:no-shadowed-variable */
 const validate = createValidator<string[]>((b, a) => {
   b.array(
     x => x,
@@ -33,8 +33,6 @@ const validate = createValidator<string[]>((b, a) => {
     },
   );
 });
-/* tslint:enable:no-shadowed-variable */
-
 export default class ArrayExampleDemo extends React.Component<{}, State> {
   public state: State = {
     values: [''],
@@ -67,7 +65,7 @@ export default class ArrayExampleDemo extends React.Component<{}, State> {
                   <Input
                     placeholder={'Только цифры'}
                     value={value}
-                    onChange={(_, v) => this.handleChange(v, i)}
+                    onValueChange={v => this.handleChange(v, i)}
                   />
                 </ValidationWrapper>
               </Group>

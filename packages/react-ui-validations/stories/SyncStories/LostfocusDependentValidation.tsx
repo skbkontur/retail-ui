@@ -1,10 +1,9 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Gapped from 'retail-ui/components/Gapped';
-import Input from 'retail-ui/components/Input';
-import { text, ValidationInfo } from '../../src';
-import ValidationContainer from '../../src/ValidationContainer';
-import ValidationWrapper from '../../src/ValidationWrapper';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
+import { Input } from '@skbkontur/react-ui/components/Input';
+
+import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
@@ -15,7 +14,7 @@ interface LostfocusDependentValidationState {
   validation: ValidationState;
 }
 
-export default class LostfocusDependentValidation extends React.Component<{}, LostfocusDependentValidationState> {
+export class LostfocusDependentValidation extends React.Component<{}, LostfocusDependentValidationState> {
   public state: LostfocusDependentValidationState = {
     sending: false,
     valueA: '',
@@ -68,7 +67,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
                 <Input
                   data-tid={'InputA'}
                   value={this.state.valueA}
-                  onChange={(_, value) => this.setState({ valueA: value })}
+                  onValueChange={value => this.setState({ valueA: value })}
                 />
               </ValidationWrapper>
             </Gapped>
@@ -78,7 +77,7 @@ export default class LostfocusDependentValidation extends React.Component<{}, Lo
                 <Input
                   data-tid={'InputB'}
                   value={this.state.valueB}
-                  onChange={(_, value) => this.setState({ valueB: value })}
+                  onValueChange={value => this.setState({ valueB: value })}
                 />
               </ValidationWrapper>
             </Gapped>

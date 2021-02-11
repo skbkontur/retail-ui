@@ -1,5 +1,6 @@
-const shell = require('shelljs');
 const fs = require('fs');
+
+const shell = require('shelljs');
 
 shell.cd(__dirname);
 shell.cd('..');

@@ -2,7 +2,7 @@ import GuidesExample from './GuidesExample/GuidesExample.md';
 import ArrayExample from './ArrayExample/ArrayExample.md';
 import Editors from './Editors/Editors.md';
 
-export default {
+export const Examples = {
   caption: 'Примеры',
   items: [
     {

@@ -1,11 +1,14 @@
-import * as React from 'react';
+import React from 'react';
+
 import { Nullable } from '../typings/Types';
+
 import { tooltip } from './ErrorRenderer';
-import ValidationWrapperInternal, {
+import {
   RenderErrorMessage,
   Validation,
   ValidationBehaviour,
   ValidationLevel,
+  ValidationWrapperInternal,
 } from './ValidationWrapperInternal';
 
 export interface ValidationInfo {
@@ -15,12 +18,12 @@ export interface ValidationInfo {
 }
 
 export interface ValidationWrapperProps {
-  children: React.ReactElement<any>;
+  children?: React.ReactElement<any>;
   validationInfo: Nullable<ValidationInfo>;
   renderMessage?: Nullable<RenderErrorMessage>;
 }
 
-export default class ValidationWrapper extends React.Component<ValidationWrapperProps> {
+export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationWrapper';
 
   public render() {

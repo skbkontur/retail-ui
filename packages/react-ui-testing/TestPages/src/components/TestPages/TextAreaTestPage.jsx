@@ -1,5 +1,6 @@
 import React from 'react';
-import Textarea from 'retail-ui/components/Textarea';
+import { Textarea } from '@skbkontur/react-ui/components/Textarea';
+
 import { CaseSuite, Case } from '../Case';
 
 export default class TextareaTestPage extends React.Component {
@@ -15,7 +16,7 @@ export default class TextareaTestPage extends React.Component {
             <Textarea
               data-tid="SimpleTextarea"
               value={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>

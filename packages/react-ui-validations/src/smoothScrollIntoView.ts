@@ -1,7 +1,9 @@
 import { Nullable, Omit } from '../typings/Types';
-import { ScrollOffset } from './ValidationContainer';
 
-export default async function smoothScrollIntoView(element: HTMLElement, scrollOffset: ScrollOffset): Promise<void> {
+import { ScrollOffset } from './ValidationContainer';
+import { isBrowser } from './client';
+
+export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: ScrollOffset): Promise<void> {
   const scrollableParent = findScrollableParent(element);
   const parentRects = scrollableParent.getBoundingClientRect();
   const clientRects = element.getBoundingClientRect();
@@ -102,12 +104,16 @@ function step(context: StepContent) {
 
 const ScrollTime = 468;
 
-const scrollWindow =
-  typeof window.scroll === 'function'
+const scrollWindow = isBrowser
+  ? typeof window.scroll === 'function'
     ? (_: any, x: number, y: number) => window.scroll(x, y)
-    : (_: any, x: number, y: number) => window.scrollTo(x, y);
+    : (_: any, x: number, y: number) => window.scrollTo(x, y)
+  : () => undefined;
 
-const now = window.performance && window.performance.now ? window.performance.now.bind(window.performance) : Date.now;
+const now =
+  isBrowser && window.performance && window.performance.now
+    ? window.performance.now.bind(window.performance)
+    : Date.now;
 
 function scrollElement(element: Element, x: number, y: number) {
   element.scrollLeft = x;

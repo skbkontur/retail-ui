@@ -7,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
         [JsonProperty("react")]
         public string React { get; set; }
 
-        [JsonProperty("retail-ui")]
-        public string RetailUI { get; set; }
+        [JsonProperty("@skbkontur/react-ui")]
+        public string ReactUI { get; set; }
     }
 }

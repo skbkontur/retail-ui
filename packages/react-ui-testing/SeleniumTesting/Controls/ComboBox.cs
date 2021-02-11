@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using JetBrains.Annotations;
 using Kontur.Selone.Properties;
 using OpenQA.Selenium;
-
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Internals.Selectors;
 
@@ -21,38 +19,44 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
 
+        public Label NotFound => new Label(GetItemsContainer(), new UniversalSelector("##ComboBoxMenu__notFound"));
+
         [Obsolete]
         public string Text { get { return GetValueFromElement(x => x.Text); } }
 
-        public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> z) where T : ControlBase
+        public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> itemCreator) where T : ControlBase
         {
-            return GetReactProp<bool>("disablePortal") ?
-                       new ControlListBase<T>(this, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z) :
-                       new ControlListBase<T>(portal, new UniversalSelector("Menu"), new UniversalSelector("MenuItem"), z);
+            var itemsContainer = GetItemsContainer();
+            return new ControlListBase<T>(itemsContainer, new UniversalSelector("##ComboBoxMenu__items"), new UniversalSelector("##ComboBoxMenu__item"), itemCreator);
         }
 
         public void InputTextAndSelectSingle(string inputText, Timings timings = null)
         {
-            Click();
             InputText(inputText);
-            GetItemsAs((x, y) => new Label(x, y)).Count.Wait().That(x => x.AssertEqualTo(1), timings);
-            var result = GetItemsAs((x, y) => new Label(x, y)).First();
-            if(result != null)
+            DoWithItems((x, y) => new Label(x, y), items =>
             {
-                SelectByIndex(0);
-            }
+                items.Count.Wait().That(x => x.AssertEqualTo(1), timings);
+                var result = items.First();
+                result?.Click();
+            });
+        }
+
+        public void DoWithItems<T>(Func<ISearchContainer, ISelector, T> itemCreator, Action<ControlListBase<T>> action, Timings timings = null) where T : ControlBase
+        {
+            var collection = GetItemsAs(itemCreator);
+            collection.IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
+            action(collection);
         }
 
         public void InputTextAndSelectFirst(string inputText, Timings timings = null)
         {
-            Click();
             InputText(inputText);
-            GetItemsAs((x, y) => new Label(x, y)).Count.Wait().That(x => x.AssertGreaterThan(0), timings);
-            var result = GetItemsAs((x, y) => new Label(x, y)).First();
-            if(result != null)
+            DoWithItems((x, y) => new Label(x, y), items =>
             {
-                SelectByIndex(0);
-            }
+                items.Count.Wait().That(x => x.AssertGreaterThan(0), timings);
+                var result = items.First();
+                result?.Click();
+            }, timings);
         }
 
         public void InputText([NotNull] string text)
@@ -128,6 +132,11 @@ namespace SKBKontur.SeleniumTesting.Controls
             var items = renderContainer.FindElements(By.CssSelector("[data-comp-name~='MenuItem']"));
             var item = items.ElementAt(index);
             item.Click();
+        }
+
+        public ISearchContainer GetItemsContainer()
+        {
+            return GetReactProp<bool>("disablePortal") ? (ISearchContainer) this : portal;
         }
 
         protected Portal portal;

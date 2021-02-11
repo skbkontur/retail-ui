@@ -1,1 +1,1 @@
-packages/retail-ui/.creevey/images/**/*.png filter=lfs diff=lfs merge=lfs -text
+packages/react-ui/.creevey/images/**/*.png filter=lfs diff=lfs merge=lfs -text

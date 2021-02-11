@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Line = styled.div`
@@ -54,7 +54,7 @@ interface FormProps {
   children?: React.ReactNode;
 }
 
-export default class Form extends React.Component<FormProps> {
+export class Form extends React.Component<FormProps> {
   public static Line: typeof FormLine = FormLine;
   public static LineBreak: typeof FormLineBreak = FormLineBreak;
   public static ActionsBar: typeof ActionsBar = ActionsBar;

@@ -1,8 +1,6 @@
 import { createValidator } from '../src/Validations';
 import { Nullable } from '../typings/Types';
 
-/* tslint:disable:no-shadowed-variable */
-
 describe('Validator', () => {
   it('root invalid', () => {
     const validate = createValidator<string>(b => {

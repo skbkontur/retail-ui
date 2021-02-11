@@ -1,7 +1,8 @@
-import { ValidationNode } from './Types';
-import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationInfo } from '../ValidationWrapper';
 import { ExtractItem, Nullable } from '../../typings/Types';
+
+import { ValidationNode } from './Types';
+import { LambdaPath, PathTokensCache } from './PathHelper';
 
 export class ValidationReader<T> {
   constructor(private readonly node: Nullable<ValidationNode<T>>, private readonly tokens: PathTokensCache) {}

@@ -1,7 +1,8 @@
 import React from 'react';
-import Kebab from 'retail-ui/components/Kebab';
-import MenuItem from 'retail-ui/components/MenuItem';
-import { CaseSuite, Case } from '../Case';
+import { Kebab } from '@skbkontur/react-ui/components/Kebab';
+import { MenuItem } from '@skbkontur/react-ui/components/MenuItem';
+
+import { Case, CaseSuite } from '../Case';
 
 export default class KebabTestPage extends React.Component {
   state = {

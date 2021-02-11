@@ -1,7 +1,0 @@
-/* @flow */
-import type { CalendarDateShape } from '../Calendar';
-import type { DateShape } from './DateShape';
-
-declare export function formatDate(props: CalendarDateShape): string;
-
-declare export function parseDateString(value: string): DateShape;

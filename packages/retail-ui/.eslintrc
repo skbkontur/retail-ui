@@ -1,5 +1,0 @@
-parser: babel-eslint
-root: true
-
-extends:
-  - ./scripts/eslint/.eslintrc

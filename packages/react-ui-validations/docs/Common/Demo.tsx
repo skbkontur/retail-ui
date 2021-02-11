@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Button from 'retail-ui/components/Button';
-import Gapped from 'retail-ui/components/Gapped';
-import SourceCode from './SourceCode';
+import { Button, Gapped } from '@skbkontur/react-ui';
+
+import { SourceCode } from './SourceCode';
 
 interface DemoProps {
   demo: React.ComponentClass<any>;

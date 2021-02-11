@@ -15,11 +15,18 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
             try
             {
-                Search(new BySelector(By.CssSelector("[data-comp-name~='Header'] div > button"))).Click();
+                Search(new BySelector(By.CssSelector("[data-comp-name~='ModalHeader'] div > button"))).Click();
             }
             catch (NoSuchElementException)
             {
-                Search(new BySelector(By.LinkText("×"))).Click();
+                try
+                {
+                    Search(new BySelector(By.CssSelector("[data-comp-name~='Header'] div > button"))).Click();
+                }
+                catch (NoSuchElementException)
+                {
+                    Search(new BySelector(By.LinkText("×"))).Click();
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 import React from 'react';
-import Radio from 'retail-ui/components/Radio';
-import { CaseSuite, Case } from '../Case';
+import { Radio } from '@skbkontur/react-ui/components/Radio';
+
+import { Case, CaseSuite } from '../Case';
 
 export default class RadioTestPage extends React.Component {
   state = {
@@ -15,7 +16,7 @@ export default class RadioTestPage extends React.Component {
             <Radio
               data-tid="SimpleRadio"
               value={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>

@@ -3,7 +3,7 @@ global.ReactSeleniumTesting = {
     error: [/.*/],
     warning: [/.*/],
     disabled: [/.*/],
-    disablePortal: ['ComboBoxRenderer'],
+    disablePortal: ['CustomComboBox'],
     checked: [/.*/],
     items: ['RadioGroup'],
     value: [/.*/],

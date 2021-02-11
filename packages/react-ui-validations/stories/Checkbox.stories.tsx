@@ -1,9 +1,10 @@
 import { storiesOf } from '@storybook/react';
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
+
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
-import Checkbox from 'retail-ui/components/Checkbox/Checkbox';
 
 storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
 
@@ -33,7 +34,7 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
           <ValidationWrapper validationInfo={this.validateSex()}>
             <Checkbox
               checked={this.state.checked ? this.state.checked : false}
-              onChange={(_, v) => this.setState({ checked: v })}
+              onValueChange={v => this.setState({ checked: v })}
             >
               Checkbox
             </Checkbox>

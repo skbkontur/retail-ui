@@ -1,7 +1,7 @@
 {
-  "name": "retail-ui-test-pages",
+  "name": "react-ui-test-pages",
   "version": "0.0.1",
-  "description": "Test pages for retail-ui controls",
+  "description": "Test pages for @skbkontur/react-ui controls",
   "private": true,
   "scripts": {
     "postinstall": "node install.js",

@@ -1,6 +1,7 @@
 import React from 'react';
-import DatePicker from 'retail-ui/components/DatePicker';
-import { CaseSuite, Case } from '../Case';
+import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+
+import { Case, CaseSuite } from '../Case';
 
 export default class DatePickerTestPage extends React.Component {
   state = {
@@ -16,7 +17,7 @@ export default class DatePickerTestPage extends React.Component {
             <DatePicker
               data-tid="SimpleDatePicker"
               value={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>
@@ -25,7 +26,7 @@ export default class DatePickerTestPage extends React.Component {
             <DatePicker
               data-tid="FilledDatePicker"
               value={this.state.date1}
-              onChange={(e, value) => this.setState({ date1: value })}
+              onValueChange={value => this.setState({ date1: value })}
             />
           </Case.Body>
         </Case>
@@ -34,7 +35,7 @@ export default class DatePickerTestPage extends React.Component {
             <DatePicker
               data-tid="DisabledDatePicker"
               value={this.state.date2}
-              onChange={(e, value) => this.setState({ date2: value })}
+              onValueChange={value => this.setState({ date2: value })}
               disabled={true}
             />
           </Case.Body>

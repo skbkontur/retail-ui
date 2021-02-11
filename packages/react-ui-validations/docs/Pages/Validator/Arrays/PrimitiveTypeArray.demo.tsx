@@ -1,15 +1,11 @@
-import * as React from 'react';
-import Button from 'retail-ui/components/Button';
-import Input from 'retail-ui/components/Input';
-import {
-  ValidationContainer,
-  ValidationWrapper,
-  createValidator,
-} from '../../../../src';
-import { Nullable } from '../../../../typings/Types';
-import Form from '../../../Common/Form';
+import React from 'react';
+import { Button } from '@skbkontur/react-ui/components/Button';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
-/* tslint:disable:no-shadowed-variable */
+import { ValidationContainer, ValidationWrapper, createValidator } from '../../../../src';
+import { Nullable } from '../../../../typings/Types';
+import { Form } from '../../../Common/Form';
+
 const validate = createValidator<string[]>(b => {
   b.array(
     x => x,
@@ -19,8 +15,6 @@ const validate = createValidator<string[]>(b => {
     },
   );
 });
-
-/* tslint:enable:no-shadowed-variable */
 
 interface State {
   emails: string[];
@@ -44,14 +38,16 @@ export default class PrimitiveTypeArrayDemo extends React.Component<{}, State> {
                 <Input
                   placeholder={'xxx@xxx.xx'}
                   value={email}
-                  onChange={(_, value) => this.handleEmailChange(value, i)}
+                  onValueChange={value => this.handleEmailChange(value, i)}
                 />
               </ValidationWrapper>
             </Form.Line>
           ))}
 
           <Form.ActionsBar>
-            <Button use={'primary'} onClick={this.handleSubmit}>Submit</Button>
+            <Button use={'primary'} onClick={this.handleSubmit}>
+              Submit
+            </Button>
           </Form.ActionsBar>
         </Form>
       </ValidationContainer>

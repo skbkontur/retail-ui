@@ -11,7 +11,7 @@
       "url": "http://localhost:6060",
       "webRoot": "${workspaceFolder}",
       "sourceMapPathOverrides": {
-        "webpack:///./*": "${webRoot}/packages/retail-ui/*"
+        "webpack:///./*": "${webRoot}/packages/react-ui/*"
       },
       "sourceMaps": true
     },
@@ -23,7 +23,7 @@
       "runtimeArgs": ["--node-arg", "--inspect=9229"],
       "args": ["creevey", "--ui"],
       "autoAttachChildProcesses": true,
-      "cwd": "${workspaceFolder}/packages/retail-ui",
+      "cwd": "${workspaceFolder}/packages/react-ui",
       "sourceMaps": true,
       "port": 9229
     }

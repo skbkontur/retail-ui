@@ -1,0 +1,20 @@
+{
+  "name": "cra-template-react-ui",
+  "version": "0.0.1",
+  "keywords": [
+    "react",
+    "create-react-app",
+    "template",
+    "typescript"
+  ],
+  "description": "The Create React App template with components for smoke test.",
+  "main": "template.json",
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.0"
+  },
+  "files": [
+    "template",
+    "template.json"
+  ]
+}

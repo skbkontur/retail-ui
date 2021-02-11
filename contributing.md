@@ -18,8 +18,8 @@
     - [Code Style](#code-style)
 - [Тесты](#тесты)
   - [Unit-тесты](#unit-тесты)
-  - [Скриншотные тесты](#скриншотные-тесты)
   - [Storybook](#storybook)
+  - [Скриншотные тесты](#скриншотные-тесты)
 - [Документация](#документация)
 - [Pull Request](#pull-request)
 - [Помощь](#помощь)
@@ -32,16 +32,18 @@
   - [Контролы](http://tech.skbkontur.ru/react-ui/)
   - [Валидации](http://tech.skbkontur.ru/react-ui-validations/)
 - NPM-пакеты:
-  - [retail-ui](https://npmjs.com/package/retail-ui)
+  - [retail-ui](https://npmjs.com/package/retail-ui) (больше не поддерживается, используйте `@skbkontur/react-ui`)
   - [@skbkontur/react-ui](https://www.npmjs.com/package/@skbkontur/react-ui)
   - [react-ui-validations](https://www.npmjs.com/package/react-ui-validations)
   - [@skbkontur/react-ui-validations](https://www.npmjs.com/package/@skbkontur/react-ui-validations)
+  - [@skbkontur/react-icons](https://www.npmjs.com/package/@skbkontur/react-icons)
+  - [react-ui-codemod](https://www.npmjs.com/package/react-ui-codemod)
 - [Контур.Гайды](https://guides.kontur.ru/)
 
 ### Технологии
 
-- JS: React, TypeScript, Flow (только [libdef](https://flow.org/en/docs/libdefs/) и в старых компонентах);
-- CSS: LESS и CSS-in-JS;
+- JS: React, TypeScript;
+- CSS: CSS-in-JS;
 - Сборка: Babel;
 - CI: TeamCity;
 
@@ -51,7 +53,7 @@
 
 ### Планы
 
-Наши планы по развитию описаны в [Roadmap](packages/retail-ui/ROADMAP.md).
+Наши планы по развитию описаны в [Roadmap](packages/react-ui/ROADMAP.md).
 
 ## Краткая инструкция
 
@@ -65,12 +67,13 @@
 
 Команды, доступные в проектах:
 
-- `yarn workspace retail-ui <command>` - контролы
+- `yarn workspace @skbkontur/react-ui <command>` - контролы
   - `test` — unit-тесты `Jest` + `Enzyme`
-  - `test:ui` — скриншотные тесты `Creevey`
-  - `lint` — `tsc --noEmit` + `tslint` + `eslint` + `stylelint` + `flow --check`
+  - `creevey:ui` — скриншотные тесты `Creevey`
+  - `lint` — `tsc --noEmit` + `eslint` + `stylelint`
   - `build` — сборка библиотеки
   - `storybook` — Storybook
+  - `storybook:test` — Storybook со стилями для тестов
   - `storybook:flat` — Storybook c flat-темой
   - `styleguide` — Styleguidist server
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
@@ -103,7 +106,7 @@
 
 ### Репозиторий
 
-Вся разработка ведется на [GitHub](https://github.com/skbkontur/retail-ui). Монорепозиторий на базе [lerna](https://github.com/lerna/lerna) помимо самой [библиотеки контролов](https://github.com/skbkontur/retail-ui/tree/master/packages/retail-ui) содержит также [библиотеку валидаций](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations) и инструменты тестирования.
+Вся разработка ведется на [GitHub](https://github.com/skbkontur/retail-ui). Монорепозиторий на базе [lerna](https://github.com/lerna/lerna) помимо самой [библиотеки контролов](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui) содержит также [библиотеку валидаций](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations) и инструменты тестирования.
 
 Права на запись в репозиторий имеет ограниченный круг разработчиков. Информацию о том, как стать одним из них, вы найдете разделе [помощь](#помощь). А пока можно сделать [Fork](https://guides.github.com/activities/forking/) и работать через него.
 
@@ -186,7 +189,7 @@ Closes #1439
 
 Также, для составления правильного сообщения коммита можно воспользоваться интерактивной командой `yarn commit`.
 
-**Важно!** Все коммиты типа `feat` и `fix` попадают в [changelog](https://github.com/skbkontur/retail-ui/blob/master/packages/retail-ui/CHANGELOG.md). Поэтому, желательно, чтобы их краткое описание являлось информативным для широкого круга пользователей. По этой же причине, не стоит создавать более одного коммита этих типов на одну решенную задачу, иначе все они попадут в changelog. Для дополнительных коммитов, которые неизбежно возникают в процессе, можно использовать тип `refactor`, `chore` или любой другой из вышеописанных, который подойдет лучше.
+**Важно!** Все коммиты типа `feat` и `fix` попадают в [changelog](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/CHANGELOG.md). Поэтому, желательно, чтобы их краткое описание являлось информативным для широкого круга пользователей. По этой же причине, не стоит создавать более одного коммита этих типов на одну решенную задачу, иначе все они попадут в changelog. Для дополнительных коммитов, которые неизбежно возникают в процессе, можно использовать тип `refactor`, `chore` или любой другой из вышеописанных, который подойдет лучше.
 
 ### Кодовая база
 
@@ -196,7 +199,7 @@ Closes #1439
 packages/
 ├── ...
 ├── react-ui-validations/
-└── retail-ui/
+└── react-ui/
     ├── .creevey/
     ├── .storybook/
     ├── .styleguide/
@@ -207,31 +210,29 @@ packages/
             ├── __stories__/
             ├── __tests__/
             ├── Button.tsx
-            ├── Button.less
             ├── Button.styles.ts
             ├── ...
             └── README.md
 ```
 
-| Директория / Файл                              | Описание                                 |
-| ---------------------------------------------- | ---------------------------------------- |
-| `react-ui-validations/`                        | Библиотека валидаций                     |
-| `retail-ui/`                                   | Библиотека контролов                     |
-| `retail-ui/.creevey/`                          | [Скриншотные тесты](#скриншотные-тесты)  |
-| `retail-ui/.storybook/`                        | Конфиг Storybook                         |
-| `retail-ui/.styleguide/`                       | Конфиг React Styleguidist                |
-| `retail-ui/components/`                        | Компоненты контролов                     |
-| `retail-ui/components/Button`                  | Компонент кнопки                         |
-| `retail-ui/components/Button/__stories__/`     | [Stories](#создание-story) для Storybook |
-| `retail-ui/components/Button/__tests__/`       | [Unit-тесты](#unit-тесты)                |
-| `retail-ui/components/Button/Button.tsx`       | Код компонента                           |
-| `retail-ui/components/Button/Button.less`      | Основные стили                           |
-| `retail-ui/components/Button/Button.styles.ts` | Кастомизируемые стили                    |
-| `retail-ui/components/Button/README.md`        | [Документация](#документация)            |
+| Директория / Файл                             | Описание                                 |
+| --------------------------------------------- | ---------------------------------------- |
+| `react-ui-validations/`                       | Библиотека валидаций                     |
+| `react-ui/`                                   | Библиотека контролов                     |
+| `react-ui/.creevey/`                          | [Скриншотные тесты](#скриншотные-тесты)  |
+| `react-ui/.storybook/`                        | Конфиг Storybook                         |
+| `react-ui/.styleguide/`                       | Конфиг React Styleguidist                |
+| `react-ui/components/`                        | Компоненты контролов                     |
+| `react-ui/components/Button`                  | Компонент кнопки                         |
+| `react-ui/components/Button/__stories__/`     | [Stories](#создание-story) для Storybook |
+| `react-ui/components/Button/__tests__/`       | [Unit-тесты](#unit-тесты)                |
+| `react-ui/components/Button/Button.tsx`       | Код компонента                        |
+| `react-ui/components/Button/Button.styles.ts` | Кастомизируемые стили                    |
+| `react-ui/components/Button/README.md`        | [Документация](#документация)            |
 
 #### Code style
 
-Для контроля над стилем и форматированием кода в проекте используются [editorconfig](https://editorconfig.org/), [tslint](https://palantir.github.io/tslint/), [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/) и [Prettier](https://prettier.io/). По возможности, рекомендуем установить соответсвующие плагины в свою IDE, чтобы получать от нее предупреждения в режиме реального времени. Но запускать линтеры можно и вручную, с помощью команды `yarn workspace retail-ui lint`. Советуем делать это перед каждым коммитом или пользоваться командой `yarn commit`. PR, не прошедший проверку линтеров, не может быть принят.
+Для контроля над стилем и форматированием кода в проекте используются [editorconfig](https://editorconfig.org/), [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/) и [Prettier](https://prettier.io/). По возможности, рекомендуем установить соответсвующие плагины в свою IDE, чтобы получать от нее предупреждения в режиме реального времени. Но запускать линтеры можно и вручную, с помощью команды `yarn workspace @skbkontur/react-ui lint`. Советуем делать это перед каждым коммитом или пользоваться командой `yarn commit`. PR, не прошедший проверку линтеров, не может быть принят.
 
 ## Тесты
 
@@ -239,7 +240,21 @@ packages/
 
 ### Unit-тесты
 
-Для unit-тестирования используются [Jest](https://jestjs.io/) и [Enzyme](https://airbnb.io/enzyme/). Тесты находятся в поддиректориях `__tests__` внутри почти каждого компонента. Для их запуска служит команда `yarn workspace retail-ui test`. Её тоже желательно выполнять перед отправкой своих изменений, чтобы убетится в том, что они не сломали существующие сценарии.
+Для unit-тестирования используются [Jest](https://jestjs.io/) и [Enzyme](https://airbnb.io/enzyme/). Тесты находятся в поддиректориях `__tests__` внутри почти каждого компонента. Для их запуска служит команда `yarn workspace @skbkontur/react-ui test`. Её тоже желательно выполнять перед отправкой своих изменений, чтобы убетится в том, что они не сломали существующие сценарии.
+
+### Storybook
+
+[Storybook](https://storybook.js.org/) позволяет описывать и просматривать все имеющиеся компоненты в различных состояниях, а также взаимодействовать с ними. Он используется для ручного и скриншотного тестирования.
+
+Запускается командой `yarn workspace @skbkontur/react-ui storybook` или `yarn workspace @skbkontur/react-ui storybook:flat` в плоском варианте.
+
+#### Создание story
+
+Все story находятся в файлах `__stories__/[ComponentName].stories.tsx`, в директориях своих компонентов. Просто добавьте новое состояние и оно появится в storybook:
+
+```javascript
+export const ButtonWithError = () => <Button error>Error</Button>;
+```
 
 ### Скриншотные тесты
 
@@ -247,43 +262,33 @@ packages/
 
 #### Запуск
 
-`yarn workspace retail-ui storybook:test` - запуск storybook со стилями для тестов  
-`yarn workspace retail-ui creevey:ui` - запуск creevey с web-интерфейсом
+`yarn workspace @skbkontur/react-ui storybook:test` - запуск storybook со стилями для тестов
+
+`yarn workspace @skbkontur/react-ui creevey:ui` - запуск creevey с web-интерфейсом
 
 #### Создание скриншотного теста
 
 1. Создать или выбрать готовую [story](#создание-story)
-2. Добавить новый сценарий в `packages/retail-ui/.creevey/tests/[ComponentName].ts`, например (где `Button` и `playground`, это `kind` и `story` в `Storybook` соответственно):
+2. Добавить сценарий в параметры story
 
-```
-describe('Button', function() {
-  describe('playground', function() {
-    it('idle', async function() {
-      const element = await this.browser.findElement(By.css('#test-element'));
-      await expect(await element.takeScreenshot()).to.matchImage('idle');
-    });
-  });
-});
+```javascript
+ButtonWithError.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        }
+      },
+    },
+  },
+};
 ```
 
 3. Через [gui](#запуск) запустить добавленный тест
-4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace retail-ui test:ui --update`
+4. Принять новые скриншоты в интерфейсе или с помощью команды `yarn workspace @skbkontur/react-ui creevey --update`
 
 Существующие тесты обновляются тем же образом (шаги 3 и 4).
-
-### Storybook
-
-[Storybook](https://storybook.js.org/) позволяет описывать и просматривать все имеющиеся компоненты в различных состояниях, а также взаимодействовать с ними. Он используется для ручного и скриншотного тестирования.
-
-Запускается командой `yarn workspace retail-ui storybook` или `yarn workspace retail-ui storybook:flat` в плоском варианте.
-
-#### Создание story
-
-Все story находятся в файлах `__stories__/[ComponentName].stories.tsx`, в директориях своих компонентов. Просто добавьте новое состояние и оно появится в storybook:
-
-```
-.add('with width', () => <Button width="300px">Hello</Button>)
-```
 
 # Документация
 
@@ -292,10 +297,10 @@ describe('Button', function() {
 Собранная документация всегда доступна на [витрине](http://tech.skbkontur.ru/react-ui/). А локально она запускается так:
 
 ```
-yarn workspace retail-ui styleguide
+yarn workspace @skbkontur/react-ui styleguide
 ```
 
-Для того, чтобы новый компонент появился в документации, его нужно поместить в отдельную одноименную директорию внутри `packages/retail-ui/components` и сопроводить файлом `README.md`:
+Для того, чтобы новый компонент появился в документации, его нужно поместить в отдельную одноименную директорию внутри `packages/react-ui/components` и сопроводить файлом `README.md`:
 
 ```
 components/
@@ -312,7 +317,7 @@ components/
 
 По любым возникающим вопросам можно обращаться в [telegram-чат](https://t.me/react_ui) поддержки или напрямую пользователям:
 
-- [Владимир Дзех](https://github.com/dzekh) - дизайн, гайды;
-- [Дмитрий Лазарев](https://github.com/wKich) - общие вопросы, права, ключи доступа;
-- [Егор Погадаев](https://github.com/zhzz) - общие вопросы;
-- [Максим Пахомов](https://github.com/lossir) - общие вопросы;
+- [Владимир Дзех](https://github.com/dzekh) — дизайн, гайды;
+- [Егор Погадаев](https://github.com/zhzz) — общие вопросы, права, ключи доступа;
+- [Максим Пахомов](https://github.com/lossir) — общие вопросы;
+- [Михаил Кесельман](https://github.com/rustho) — общие вопросы;

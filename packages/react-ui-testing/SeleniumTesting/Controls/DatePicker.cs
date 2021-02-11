@@ -50,24 +50,8 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         private static IStrategy GetStrategy(IWebElement container)
         {
-            try
-            {
-                var input = container.FindElement(By.CssSelector("input"));
-                return new OldInputStrategy(input);
-            }
-            catch
-            {
-                try
-                {
-                    var span = container.FindElement(By.CssSelector("label>span"));
-                    return new SpanInputStrategy(span);
-                }
-                catch
-                {
-                    var span = container.FindElement(By.CssSelector("[data-comp-name='InputLikeText']"));
-                    return new SpanInputStrategy(span);
-                }
-            }
+            var span = container.FindElement(By.CssSelector("label>span"));
+            return new SpanInputStrategy(span);
         }
 
         public IProp<string> Value => ValueFromElement(x => GetStrategy(x).Value);

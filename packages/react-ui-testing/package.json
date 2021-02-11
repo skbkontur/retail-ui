@@ -1,13 +1,13 @@
 {
   "name": "react-ui-testing",
   "private": true,
-  "version": "2.2.7",
+  "version": "3.2.0",
   "description": "React selenium testing",
   "main": "react-selenium-testing.js",
   "scripts": {
     "postinstall": "yarn --cwd ./TestPages install",
-    "build": "dotnet build -c ReleaseCore",
-    "test": "dotnet test ./Tests/Tests.csproj -c ReleaseCore -v detailed",
+    "build": "dotnet build --configuration Release",
+    "test": "dotnet test ./Tests/Tests.csproj --configuration Release --verbosity detailed --framework netcoreapp3.1",
     "start": "yarn --cwd ./TestPages start"
   },
   "author": "",

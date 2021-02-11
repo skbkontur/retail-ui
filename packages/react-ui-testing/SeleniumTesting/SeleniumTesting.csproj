@@ -12,30 +12,24 @@
     <PackageLicenseUrl>https://github.com/skbkontur/react-ui-testing/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/skbkontur/react-ui-testing</PackageProjectUrl>
     <RepositoryUrl>https://github.com/skbkontur/react-ui-testing</RepositoryUrl>
-    <Configurations>Debug;Release;DebugCore;ReleaseCore</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugCore|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
-    <OutputPath>bin\Debug\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseCore|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
-    <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <OutputPath>..\Output</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="10.0.0" />
-    <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.1" />
-    <PackageReference Include="Kontur.Selone" Version="0.0.4" />
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
+    <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.2-alpha" />
+    <PackageReference Include="Kontur.Selone" Version="0.0.6-alpha" />
     <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
   </ItemGroup>
 </Project>

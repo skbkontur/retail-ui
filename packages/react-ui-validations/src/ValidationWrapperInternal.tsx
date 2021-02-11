@@ -1,13 +1,16 @@
 import * as PropTypes from 'prop-types';
-import * as React from 'react';
+import React from 'react';
 import * as ReactDom from 'react-dom';
 import warning from 'warning';
+
 import { Nullable } from '../typings/Types';
-import smoothScrollIntoView from './smoothScrollIntoView';
+
+import { isBrowser } from './client';
+import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 
-if (typeof HTMLElement === 'undefined') {
+if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
   w.HTMLElement = w.Element;
 }
@@ -43,7 +46,7 @@ interface Point {
   y: number;
 }
 
-export default class ValidationWrapperInternal extends React.Component<
+export class ValidationWrapperInternal extends React.Component<
   ValidationWrapperInternalProps,
   ValidationWrapperInternalState
 > {
@@ -57,10 +60,10 @@ export default class ValidationWrapperInternal extends React.Component<
     validationContext: IValidationContext;
   };
 
-  public isChanging: boolean = false;
+  public isChanging = false;
   private child: any; // todo type
 
-  public componentWillMount() {
+  public UNSAFE_componentWillMount() {
     this.applyValidation(this.props.validation);
   }
 
@@ -81,14 +84,17 @@ export default class ValidationWrapperInternal extends React.Component<
     }
   }
 
-  public componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
+  public UNSAFE_componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
     this.applyValidation(nextProps.validation);
   }
 
   public async focus(): Promise<void> {
     const htmlElement = ReactDom.findDOMNode(this);
     if (htmlElement instanceof HTMLElement) {
-      await smoothScrollIntoView(htmlElement, this.context.validationContext.getSettings().scrollOffset);
+      const { disableSmoothScroll, scrollOffset } = this.context.validationContext.getSettings();
+      if (!disableSmoothScroll) {
+        await smoothScrollIntoView(htmlElement, scrollOffset);
+      }
       if (this.child && typeof this.child.focus === 'function') {
         this.child.focus();
       }
@@ -108,7 +114,7 @@ export default class ValidationWrapperInternal extends React.Component<
             if (typeof child.ref === 'function') {
               child.ref(x);
             }
-            if (child.ref.hasOwnProperty('current')) {
+            if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
               child.ref.current = x;
             }
           }
@@ -126,6 +132,12 @@ export default class ValidationWrapperInternal extends React.Component<
           this.isChanging = true;
           if (children.props && children.props.onChange) {
             children.props.onChange(...args);
+          }
+        },
+        onValueChange: (...args: any[]) => {
+          this.isChanging = true;
+          if (children.props && children.props.onValueChange) {
+            children.props.onValueChange(...args);
           }
         },
       })

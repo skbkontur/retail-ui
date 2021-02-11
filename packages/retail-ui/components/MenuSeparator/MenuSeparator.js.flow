@@ -1,7 +1,0 @@
-/* @flow */
-
-type Props = {||};
-
-declare class MenuSeparator extends React$Component<Props> {}
-
-export default MenuSeparator;

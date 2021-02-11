@@ -1,6 +1,0 @@
-/* @flow */
-import type { CloseProps } from './ModalContext';
-
-declare var Close: (props: CloseProps) => React$Node;
-
-export default Close;

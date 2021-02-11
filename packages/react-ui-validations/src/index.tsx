@@ -1,9 +1,9 @@
 import { text, tooltip } from './ErrorRenderer';
-import ValidationContainer, { ValidationContainerProps } from './ValidationContainer';
-import ValidationContext, { ValidationContextProps } from './ValidationContext';
-import ValidationTooltip, { TooltipPosition, ValidationTooltipProps } from './ValidationTooltip';
+import { ValidationContainer, ValidationContainerProps } from './ValidationContainer';
+import { ValidationContext, ValidationContextProps } from './ValidationContext';
+import { TooltipPosition, ValidationTooltip, ValidationTooltipProps } from './ValidationTooltip';
 import { RenderErrorMessage, Validation, ValidationBehaviour } from './ValidationWrapperInternal';
-import ValidationWrapper, { ValidationInfo, ValidationWrapperProps } from './ValidationWrapper';
+import { ValidationWrapper, ValidationInfo, ValidationWrapperProps } from './ValidationWrapper';
 
 export {
   ValidationContainer,

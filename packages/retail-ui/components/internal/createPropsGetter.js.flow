@@ -1,8 +1,0 @@
-/* @flow */
-
-declare export function createPropsGetter<DP: {}>(
-  defaultProps: DP,
-): <P: {}>() => {|
-  ...$Exact<DP>,
-  ...$Exact<P>,
-|};

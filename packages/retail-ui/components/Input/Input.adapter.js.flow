@@ -1,9 +1,0 @@
-/* @flow */
-import Input from './Input.js';
-
-export type InputAdapter = {|
-  getValue(inst: Input): string | void,
-  setValue(inst: Input, value: string): void,
-|};
-
-export default Input;

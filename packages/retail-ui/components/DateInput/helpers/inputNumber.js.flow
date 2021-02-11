@@ -1,4 +1,0 @@
-/* @flow */
-import type { DateInputState } from '../DateInput';
-
-declare export var inputNumber: (key: string) => (state: DateInputState) => DateInputState;

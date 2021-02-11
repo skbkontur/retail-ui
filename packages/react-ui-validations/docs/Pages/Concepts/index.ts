@@ -1,6 +1,6 @@
 import InlineValidations from './InlineValidations/InlineValidations.md';
 
-export default {
+export const Concepts = {
   caption: 'Концепции',
   items: [
     {

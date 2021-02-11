@@ -14,5 +14,12 @@
     "noUnusedLocals": true,
     "skipLibCheck": true
   },
-  "exclude": ["node_modules", "**/node_modules/*", "**/styleguide", "**/build"]
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*",
+    "**/styleguide",
+    "**/build",
+    "**/cra-template-react-ui",
+    "**/test-app"
+  ]
 }

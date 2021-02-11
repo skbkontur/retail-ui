@@ -1,6 +1,7 @@
 import React from 'react';
-import RadioGroup from 'retail-ui/components/RadioGroup';
-import { CaseSuite, Case } from '../Case';
+import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
+
+import { Case, CaseSuite } from '../Case';
 
 export default class RadioGroupTestPage extends React.Component {
   state = {
@@ -16,7 +17,7 @@ export default class RadioGroupTestPage extends React.Component {
               data-tid="SimpleRadioGroup"
               items={['item1', 'item2']}
               value={this.state.value}
-              onChange={(e, value) => this.setState({ value: value })}
+              onValueChange={value => this.setState({ value: value })}
             />
           </Case.Body>
         </Case>

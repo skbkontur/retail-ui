@@ -1,7 +1,0 @@
-/* @flow */
-
-declare class Item extends React$Component<{|
-  children?: React$Node,
-|}> {}
-
-export default Item;

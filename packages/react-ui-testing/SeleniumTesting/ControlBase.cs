@@ -144,7 +144,7 @@ namespace SKBKontur.SeleniumTesting
             else
             {
                 result.AppendLine($"  не смогли дождаться присутсвия элемента (время ожидания: {(int)timeout.TotalMilliseconds}ms), т.к. было получено исключение:");
-                result.AppendLine(exception.ToString());
+                result.AppendLine(exception?.ToString() ?? "exception is null");
             }
             return result.ToString();
         }

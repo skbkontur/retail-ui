@@ -1,6 +1,0 @@
-/* @flow */
-
-declare export function getTextAreaHeight(node: HTMLTextAreaElement, minRows: number, maxRows: number): {|
-  height: number,
-  exceededMaxHeight: boolean,
-|};

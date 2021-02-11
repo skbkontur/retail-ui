@@ -1,6 +1,7 @@
 import React from 'react';
-import Paging from 'retail-ui/components/Paging';
-import { CaseSuite, Case } from '../Case';
+import { Paging } from '@skbkontur/react-ui/components/Paging';
+
+import { Case, CaseSuite } from '../Case';
 
 export default class PagingTestPage extends React.Component {
   state = {

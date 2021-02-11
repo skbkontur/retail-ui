@@ -1,9 +1,0 @@
-/* @flow */
-
-export type InputEventHandler<E: Element> = (event: SyntheticInputEvent<E>) => void;
-
-export type FocusEventHandler<E: Element> = (event: SyntheticFocusEvent<E>) => void;
-
-export type MouseEventHandler<E: Element> = (event: SyntheticMouseEvent<E>) => void;
-
-export type KeyboardEventHandler<E: Element> = (event: SyntheticKeyboardEvent<E>) => void;
