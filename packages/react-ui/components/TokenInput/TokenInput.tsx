@@ -111,7 +111,6 @@ export interface TokenInputState<T> {
   inFocus?: boolean;
   inputValue: string;
   reservedInputValue: string | undefined;
-  lastInputValue: string;
   inputValueWidth: number;
   inputValueHeight: number;
   preventBlur?: boolean;
@@ -121,7 +120,6 @@ export interface TokenInputState<T> {
 export const DefaultState = {
   inputValue: '',
   reservedInputValue: undefined,
-  lastInputValue: '',
   autocompleteItems: undefined,
   activeTokens: [],
   editingTokenIndex: -1,
@@ -201,7 +199,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       LayoutEvents.emit();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
-      this.tryGetItems();
+      this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
     }
   }
 
@@ -768,12 +766,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.tryGetItems();
       }
     }
-
-    this.dispatch({ type: 'RESET_LAST_QUERY' });
-  };
-
-  private clearInput = () => {
-    this.dispatch({ type: 'CLEAR_INPUT' });
   };
 
   private handleRemoveToken = (item: T) => {
@@ -843,19 +835,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
 
-    if (newItems.length === 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex - 1]] });
+    if (newItems.length === selectedItems.length) {
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
     } else if (editingTokenIndex > 0) {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex - 1]] });
     } else if (newItems.length > 0) {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[0]] });
-    }
-  };
-
-  private removeCurrentlyEditedToken = () => {
-    if (this.isEditingMode) {
-      this.dispatch({ type: 'CLEAR_INPUT' });
-      process.nextTick(() => this.finishTokenEdit(true));
     }
   };
 
@@ -872,7 +857,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
 
       if (returnedValue === null) {
-        this.isEditingMode ? this.removeCurrentlyEditedToken() : this.clearInput();
+        this.dispatch({ type: 'CLEAR_INPUT' }, () => {
+          if (this.isEditingMode) {
+            this.finishTokenEdit(true);
+          }
+        });
 
         return;
       }
