@@ -200,51 +200,51 @@ class SimpleChildrenLines extends React.Component<any, any> {
 export default { title: 'Toggle' };
 
 export const Plain: CSFStory<JSX.Element> = () => <Simple />;
-Plain.story = {
-  name: 'plain',
-  parameters: {
-    creevey: {
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async pressed() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .move({
-              origin: this.browser.findElement({ css: 'label' }),
-            })
-            .press()
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .release()
-            .perform();
-        },
-        async clicked() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'label' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-        },
+Plain.storyName = 'plain';
+
+Plain.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async pressed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: 'label' }),
+          })
+          .press()
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .release()
+          .perform();
+      },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },
   },
 };
 
 export const Uncontrolled = () => <Toggle onValueChange={action('toggle')} />;
-Uncontrolled.story = { name: 'uncontrolled', parameters: { creevey: { skip: [true] } } };
+Uncontrolled.storyName = 'uncontrolled';
+Uncontrolled.parameters = { creevey: { skip: [true] } };
 
 export const PlaygroundStory = () => <Playground />;
-PlaygroundStory.story = { name: 'playground' };
+PlaygroundStory.storyName = 'playground';
 
 export const DisabledWithTooltip: CSFStory<JSX.Element> = () => (
   <div style={{ padding: '50px' }}>
@@ -253,68 +253,65 @@ export const DisabledWithTooltip: CSFStory<JSX.Element> = () => (
     </Tooltip>
   </div>
 );
-DisabledWithTooltip.story = {
-  name: 'disabled with Tooltip',
-  parameters: {
-    creevey: {
-      tests: {
-        async pressed() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .move({
-              origin: this.browser.findElement({ css: 'label' }),
-            })
-            .press()
-            .perform();
-          await delay(100);
-          await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+DisabledWithTooltip.storyName = 'disabled with Tooltip';
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .release()
-            .perform();
-        },
+DisabledWithTooltip.parameters = {
+  creevey: {
+    tests: {
+      async pressed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: 'label' }),
+          })
+          .press()
+          .perform();
+        await delay(100);
+        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .release()
+          .perform();
       },
     },
   },
 };
 
 export const WithChildren: CSFStory<JSX.Element> = () => <SimpleChildren />;
-WithChildren.story = {
-  name: 'with children',
-  parameters: {
-    creevey: {
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
+WithChildren.storyName = 'with children';
+
+WithChildren.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
     },
   },
 };
 
 export const WithLongDescription: CSFStory<JSX.Element> = () => <SimpleChildrenLines />;
-WithLongDescription.story = {
-  name: 'with long description',
-  parameters: {
-    creevey: {
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async clicked() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'label' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-        },
+WithLongDescription.storyName = 'with long description';
+
+WithLongDescription.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },
   },

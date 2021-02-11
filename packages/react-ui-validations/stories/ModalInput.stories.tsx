@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Center } from '@skbkontur/react-ui/components/Center';
@@ -8,9 +7,13 @@ import { Modal } from '@skbkontur/react-ui/components/Modal';
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('ModalWithSingleInput', module)
-  .add('Example1', () => <ModalInputStory />)
-  .add('Example2', () => <SmallModalInputStory />);
+export default { title: 'ModalWithSingleInput' };
+
+export const Example1 = () => <ModalInputStory />;
+Example1.storyName = 'Example1';
+
+export const Example2 = () => <SmallModalInputStory />;
+Example2.storyName = 'Example2';
 
 interface ModalInputStoryState {
   value: string;

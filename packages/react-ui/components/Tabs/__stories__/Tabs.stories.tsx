@@ -363,80 +363,81 @@ const tabsTests: CreeveyStoryParams['tests'] = {
 };
 
 export const Simple: CSFStory<JSX.Element> = () => <UncTabs />;
-Simple.story = {
-  name: 'simple',
-  parameters: {
-    creevey: {
-      skip: [{ in: 'ie11', tests: 'hovered' }],
-      tests: {
-        ...tabsTests,
-        async ['move focus forward']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
-            .perform();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.ARROW_RIGHT)
-            .pause(500)
-            .sendKeys(this.keys.ARROW_DOWN)
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('move focus forward');
-        },
-        async ['move focus backward']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
-            .perform();
-          await delay(1000);
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.ARROW_LEFT)
-            .perform();
-          await delay(1000);
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.ARROW_UP)
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('move focus backward');
-        },
-        async ['reset focus after click']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
-            .perform();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys(this.keys.ARROW_RIGHT)
-            .pause(500)
-            .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('reset focus after click');
-        },
+Simple.storyName = 'simple';
+
+Simple.parameters = {
+  creevey: {
+    skip: [{ in: 'ie11', tests: 'hovered' }],
+    tests: {
+      ...tabsTests,
+      async ['move focus forward']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ARROW_RIGHT)
+          .pause(500)
+          .sendKeys(this.keys.ARROW_DOWN)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('move focus forward');
+      },
+      async ['move focus backward']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
+          .perform();
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ARROW_LEFT)
+          .perform();
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ARROW_UP)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('move focus backward');
+      },
+      async ['reset focus after click']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ARROW_RIGHT)
+          .pause(500)
+          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('reset focus after click');
       },
     },
   },
 };
 
 export const First = () => <RouterTabs value="first" />;
-First.story = { name: 'first', parameters: { creevey: { skip: [true] } } };
+First.storyName = 'first';
+First.parameters = { creevey: { skip: [true] } };
 
 export const Another = () => <RouterTabs value="another" />;
-Another.story = { name: 'another', parameters: { creevey: { skip: [true] } } };
+Another.storyName = 'another';
+Another.parameters = { creevey: { skip: [true] } };
 
 export const HrefsFirst = () => (
   <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
@@ -444,7 +445,8 @@ export const HrefsFirst = () => (
     <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
   </Tabs>
 );
-HrefsFirst.story = { name: 'hrefs first', parameters: { creevey: { skip: [true] } } };
+HrefsFirst.storyName = 'hrefs first';
+HrefsFirst.parameters = { creevey: { skip: [true] } };
 
 export const HrefsSecond = () => (
   <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
@@ -452,31 +454,29 @@ export const HrefsSecond = () => (
     <Tab href="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">Hrefs second</Tab>
   </Tabs>
 );
-HrefsSecond.story = { name: 'hrefs second', parameters: { creevey: { skip: [true] } } };
+HrefsSecond.storyName = 'hrefs second';
+HrefsSecond.parameters = { creevey: { skip: [true] } };
 
 export const Vertical: CSFStory<JSX.Element> = () => <UncTabs vertical />;
-Vertical.story = {
-  name: 'vertical',
-  parameters: { creevey: { skip: [{ in: 'ie11', tests: 'hovered' }], tests: tabsTests } },
-};
+Vertical.storyName = 'vertical';
+Vertical.parameters = { creevey: { skip: [{ in: 'ie11', tests: 'hovered' }], tests: tabsTests } };
 
 export const WithComponent = () => <TabsWithMyLink />;
-WithComponent.story = { name: 'with component', parameters: { creevey: { skip: [true] } } };
+WithComponent.storyName = 'with component';
+WithComponent.parameters = { creevey: { skip: [true] } };
 
 export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
-WithUnexpectedTabSizeChange.story = {
-  name: 'with unexpected tab size change',
-  parameters: { creevey: { skip: [true] } },
-};
+WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
+WithUnexpectedTabSizeChange.parameters = { creevey: { skip: [true] } };
 
 export const WithDisabledTab: CSFStory<JSX.Element> = () => <DisabledTab />;
-WithDisabledTab.story = {
-  name: 'with disabled tab',
-  parameters: { creevey: { skip: [{ in: 'ie11', tests: 'hovered' }], tests: tabsTests } },
-};
+WithDisabledTab.storyName = 'with disabled tab';
+WithDisabledTab.parameters = { creevey: { skip: [{ in: 'ie11', tests: 'hovered' }], tests: tabsTests } };
 
 export const TabsInModalStory = () => <TabsInModal />;
-TabsInModalStory.story = { name: 'tabs in modal', parameters: { creevey: { skip: [true] } } };
+TabsInModalStory.storyName = 'tabs in modal';
+TabsInModalStory.parameters = { creevey: { skip: [true] } };
 
 export const HoverTable = () => <TabsTable />;
-HoverTable.story = { name: 'hover table', parameters: { creevey: { skip: [true] } } };
+HoverTable.storyName = 'hover table';
+HoverTable.parameters = { creevey: { skip: [true] } };

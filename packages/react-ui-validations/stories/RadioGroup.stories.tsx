@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
@@ -7,9 +6,13 @@ import { Radio } from '@skbkontur/react-ui/components/Radio';
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('RadioGroup', module)
-  .add('Example1', () => <RadioGroupStory />)
-  .add('RadioGroup with children', () => <RadioGroupChildrenStory />);
+export default { title: 'RadioGroup' };
+
+export const Example1 = () => <RadioGroupStory />;
+Example1.storyName = 'Example1';
+
+export const RadioGroupWithChildren = () => <RadioGroupChildrenStory />;
+RadioGroupWithChildren.storyName = 'RadioGroup with children';
 
 type Sex = 'male' | 'female';
 

@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Input } from '@skbkontur/react-ui/components/Input';
 
@@ -79,6 +78,7 @@ class Example1 extends React.Component<{}, Example1State> {
   }
 }
 
-storiesOf('DependentInputs', module).add('Example1', () => {
-  return <Example1 />;
-});
+export default { title: 'DependentInputs' };
+
+export const StoryExample1 = () => <Example1 />;
+StoryExample1.storyName = 'Example1';

@@ -1,4 +1,3 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
@@ -399,28 +398,28 @@ class Example7 extends React.Component<{}, Example7State> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-storiesOf('Input', module)
-  .add('#1', () => {
-    return <Example1 />;
-  })
-  .add('#2 ReactElement в сообщении', () => {
-    return <Example2 />;
-  })
-  .add('#3 Промотка сообщении', () => {
-    return <Example3 />;
-  })
-  .add('#4 Зависимые поля', () => {
-    return <Example4 />;
-  })
-  .add('#5 Промотка внутри котейнера', () => {
-    return <Example5 />;
-  })
-  .add('#6 Выбор первого контра для валидации', () => {
-    return <Example6 />;
-  })
-  .add('#7 Три невалидных поля по сабмиту', () => {
-    return <Example7 />;
-  })
-  .add('#8 Промотка с фиксированной плашкой снизу', () => {
-    return <Example8 />;
-  });
+export default { title: 'Input' };
+
+export const story1 = () => <Example1 />;
+story1.storyName = '#1';
+
+export const story2 = () => <Example2 />;
+story2.storyName = '#2 ReactElement в сообщении';
+
+export const story3 = () => <Example3 />;
+story3.storyName = '#3 Промотка сообщении';
+
+export const story4 = () => <Example4 />;
+story4.storyName = '#4 Зависимые поля';
+
+export const story5 = () => <Example5 />;
+story5.storyName = '#5 Промотка внутри котейнера';
+
+export const story6 = () => <Example6 />;
+story6.storyName = '#6 Выбор первого контра для валидации';
+
+export const story7 = () => <Example7 />;
+story7.storyName = '#7 Три невалидных поля по сабмиту';
+
+export const story8 = () => <Example8 />;
+story8.storyName = '#8 Промотка с фиксированной плашкой снизу';

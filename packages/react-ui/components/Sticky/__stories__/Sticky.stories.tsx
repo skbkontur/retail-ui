@@ -112,112 +112,107 @@ const withThinContainer: DecoratorFn = story => <div style={{ width: 200 }}>{sto
 export default { title: 'Sticky' };
 
 export const WideContainer: CSFStory<JSX.Element> = () => <StickyWithWideContainer />;
-WideContainer.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async fixed() {
-          await this.browser.executeScript(function() {
-            const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
-            const nonStickyText = window.document.querySelector('[data-tid="nonStickyText"]');
-            // @ts-ignore
-            const scrollXOffset = nonStickyText.getBoundingClientRect().width / 2;
-            // @ts-ignore
-            const scrollYOffset = stickyContent.getBoundingClientRect().height / 2;
 
-            window.scrollTo(scrollXOffset, scrollYOffset);
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
-        },
+WideContainer.parameters = {
+  creevey: {
+    tests: {
+      async fixed() {
+        await this.browser.executeScript(function() {
+          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
+          const nonStickyText = window.document.querySelector('[data-tid="nonStickyText"]');
+          // @ts-ignore
+          const scrollXOffset = nonStickyText.getBoundingClientRect().width / 2;
+          // @ts-ignore
+          const scrollYOffset = stickyContent.getBoundingClientRect().height / 2;
+
+          window.scrollTo(scrollXOffset, scrollYOffset);
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
       },
     },
   },
 };
 
 export const Top: CSFStory<JSX.Element> = () => <SampleTop />;
-Top.story = {
-  decorators: [withThinContainer],
-  parameters: {
-    creevey: {
-      tests: {
-        async top() {
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
-        },
-        async fixed() {
-          await this.browser.executeScript(function() {
-            const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
-            // @ts-ignore
-            const scrollOffset = stickyStop.getBoundingClientRect().top - window.innerHeight / 2;
+Top.decorators = [withThinContainer];
 
-            window.scrollTo(0, scrollOffset);
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
-        },
-        async stoped() {
-          await this.browser.executeScript(function() {
-            const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
-            // @ts-ignore
-            stickyStop.scrollIntoView();
-          });
-          await this.browser.executeScript(function() {
-            const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
-            // @ts-ignore
-            const scrollOffset = pageYOffset - stickyContent.getBoundingClientRect().height / 2;
+Top.parameters = {
+  creevey: {
+    tests: {
+      async top() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
+      },
+      async fixed() {
+        await this.browser.executeScript(function() {
+          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
+          // @ts-ignore
+          const scrollOffset = stickyStop.getBoundingClientRect().top - window.innerHeight / 2;
 
-            window.scrollTo(0, scrollOffset);
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('stoped');
-        },
+          window.scrollTo(0, scrollOffset);
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
+      },
+      async stoped() {
+        await this.browser.executeScript(function() {
+          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
+          // @ts-ignore
+          stickyStop.scrollIntoView();
+        });
+        await this.browser.executeScript(function() {
+          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
+          // @ts-ignore
+          const scrollOffset = pageYOffset - stickyContent.getBoundingClientRect().height / 2;
+
+          window.scrollTo(0, scrollOffset);
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('stoped');
       },
     },
   },
 };
 
 export const Bottom: CSFStory<JSX.Element> = () => <SampleBottom />;
-Bottom.story = {
-  decorators: [withThinContainer],
-  parameters: {
-    creevey: {
-      tests: {
-        async bottom() {
-          await this.browser.executeScript(function() {
-            window.scrollTo(0, 9999);
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
-        },
-        async fixed() {
-          await this.browser.executeScript(function() {
-            const sticky = window.document.querySelector('[data-comp-name~="Sticky"]');
-            // @ts-ignore
-            const scrollOffset = sticky.getBoundingClientRect().top - window.innerHeight;
+Bottom.decorators = [withThinContainer];
 
-            window.scrollTo(0, scrollOffset);
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
-        },
-        async stoped() {
-          await this.browser.executeScript(function() {
-            const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
-            // @ts-ignore
-            stickyStop.scrollIntoView(false);
-          });
-          await this.browser.executeScript(function() {
-            const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
-            // @ts-ignore
-            const scrollOffset = pageYOffset + stickyContent.getBoundingClientRect().height / 2;
+Bottom.parameters = {
+  creevey: {
+    tests: {
+      async bottom() {
+        await this.browser.executeScript(function() {
+          window.scrollTo(0, 9999);
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
+      },
+      async fixed() {
+        await this.browser.executeScript(function() {
+          const sticky = window.document.querySelector('[data-comp-name~="Sticky"]');
+          // @ts-ignore
+          const scrollOffset = sticky.getBoundingClientRect().top - window.innerHeight;
 
-            window.scrollTo(0, scrollOffset);
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
-        },
+          window.scrollTo(0, scrollOffset);
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
+      },
+      async stoped() {
+        await this.browser.executeScript(function() {
+          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
+          // @ts-ignore
+          stickyStop.scrollIntoView(false);
+        });
+        await this.browser.executeScript(function() {
+          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
+          // @ts-ignore
+          const scrollOffset = pageYOffset + stickyContent.getBoundingClientRect().height / 2;
+
+          window.scrollTo(0, scrollOffset);
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
       },
     },
   },
 };
 
 export const FlexContainer = () => <SampleFlex />;
-FlexContainer.story = {
-  name: 'Flex container',
-  parameters: { creevey: { captureElement: null } },
-  decorators: [withThinContainer],
-};
+FlexContainer.storyName = 'Flex container';
+FlexContainer.parameters = { creevey: { captureElement: null } };
+FlexContainer.decorators = [withThinContainer];

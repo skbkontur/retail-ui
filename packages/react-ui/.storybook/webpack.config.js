@@ -8,6 +8,10 @@ module.exports = async ({ config, mode }) => {
 
   config.entry.unshift('core-js/stable');
 
+  if (isTestEnv) {
+    config.entry.unshift('@skbkontur/react-props2attrs');
+  }
+
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   config.module.rules = [
