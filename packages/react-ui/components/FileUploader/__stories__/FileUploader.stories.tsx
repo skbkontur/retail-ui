@@ -3,7 +3,12 @@ import { FileUploader, RequestFunction } from '../FileUploader';
 import { IReadFile } from '../../../lib/fileUtils';
 
 export default {
-  title: 'FileUploader'
+  title: 'FileUploader',
+  decorators: [
+    (storyFn: () => JSX.Element) => (
+      <div style={{ padding: '10px' }}>{storyFn()}</div>
+    ),
+  ],
 };
 
 const successRequest: RequestFunction = (file: IReadFile, onSuccess, onError) => {

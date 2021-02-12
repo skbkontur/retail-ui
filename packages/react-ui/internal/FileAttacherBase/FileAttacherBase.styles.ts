@@ -14,18 +14,22 @@ const styles = {
       width: 362px;
       cursor: pointer;
       padding: 0 12px 0 7px;
+      transition: box-shadow 0.3s ease;
 
       &:focus {
-        border: 2px solid #1D85D0;
+        border: 1px solid #1D85D0;
+        box-shadow: 0px 0px 0px 1px #1D85D0;
       }
     `;
   },
 
   dragOver() {
     return css`
-      border: 4px solid #2DA4F9;
+      border: 1px solid #2DA4F9;
       border-radius: 2px;
-      box-shadow: 0px 0px 1px 4px rgba(45,164,249,0.35);
+      box-shadow:
+        0px 0px 0px 3px #2DA4F9,
+        0px 0px 0px 8px rgba(45,164,249,0.35);
     `;
   },
 
