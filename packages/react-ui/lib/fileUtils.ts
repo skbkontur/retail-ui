@@ -3,7 +3,7 @@ import { getGuid } from './guidUtils';
 export type ReadFileType = string | ArrayBuffer | null;
 
 export interface IReadFile extends File {
-  id: number;
+  id: string;
   base64: ReadFileType;
 }
 

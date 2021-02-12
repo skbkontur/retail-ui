@@ -16,7 +16,7 @@ export const ReadFileList = (props: FileListProps) => {
 
   return (
     <div>
-      {files.map((file, index) => <ReadFileItem key={file.base64 as string}>
+      {files.map((file, index) => <ReadFileItem key={file.id}>
         <ReadFile file={file} index={index} onDelete={onDelete} showSize />
       </ReadFileItem>)}
     </div>

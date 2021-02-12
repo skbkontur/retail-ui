@@ -17,10 +17,6 @@ import { Link } from '../../components/Link';
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
-export interface FileAttacherBaseInternalProps {
-
-}
-
 export interface FileAttacherBaseProps {
   name?: string;
   multiple?: boolean;
@@ -76,7 +72,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     if (!filesWithBase64.length) return;
     // validate
 
-    setFiles(filesWithBase64);
+    setFiles(state => [...state, ...filesWithBase64]);
     onChange && onChange(filesWithBase64);
   }, [onChange]);
 
