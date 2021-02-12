@@ -250,7 +250,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             [jsStyles.arrowFocus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
             [jsStyles.arrowLeft()]: this.props.arrow === 'left',
           })}
-        />
+        >
+          <div data-arrow-helper />
+          <div data-arrow-helper />
+        </div>
       );
     }
 
