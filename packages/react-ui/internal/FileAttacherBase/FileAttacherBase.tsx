@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import { jsStyles } from './FileAttacherBase.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import cn from 'classnames';
@@ -14,6 +14,7 @@ import { UploadFileList } from './UploadFileList/UploadFileList';
 import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
 import { UploadFilesContext } from './UploadFilesContext';
+import { useDrop } from './FileAttacherBaseHooks';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализаци
@@ -42,37 +43,11 @@ export interface FileAttacherBaseProps {
 export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const {name, onChange, allowedFileTypes = [], multiple = false} = props;
 
-  const rootRef = useRef<HTMLDivElement>(null);
-  const enterCounter = useRef<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isDraggable, setIsDraggable] = useState<boolean>(false);
-
   const {files, setFiles} = useContext(UploadFilesContext);
 
   const handleClick = useCallback(() => {
     inputRef.current?.click();
-  }, []);
-
-  const preventDefault = useCallback(event => {
-    event.preventDefault();
-    event.stopPropagation();
-  }, []);
-
-  const handleDragOver = useCallback(event => {
-    event.preventDefault();
-  }, []);
-
-  const handleDragEnter = useCallback(event => {
-    preventDefault(event);
-    enterCounter.current++;
-    setIsDraggable(true);
-  }, [preventDefault]);
-
-  const handleDragLeave = useCallback(event => {
-    enterCounter.current--;
-    if (enterCounter.current === 0) {
-      setIsDraggable(false);
-    }
   }, []);
 
   const fileTypeValidate = useCallback(({ type }: File): boolean => {
@@ -99,9 +74,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     // TODO @mozalov: вынести в хелпер
     let uploadFiles = Array.from(files)
       .map(file => {
-        console.log({fileBeforeValidate: file});
         const validationResult = validate(file);
-        console.log({getUploadFile: getUploadFile(file)});
         return {
           ...getUploadFile(file),
           status: !validationResult ? UploadFileStatus.Default : UploadFileStatus.Error,
@@ -109,11 +82,8 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
         };
       });
 
-    console.log("After validate");
     const validFiles = uploadFiles.filter(file => file.status !== UploadFileStatus.Error);
     const fileUrls = await readFiles(validFiles.map(file => file.originalFile));
-
-    console.log("After read");
 
     uploadFiles = uploadFiles.map(file => {
       const fileIndex = validFiles.indexOf(file);
@@ -126,17 +96,11 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
 
     if (!uploadFiles.length) return;
 
-    console.log("Before set in state", uploadFiles);
-
     setFiles(uploadFiles);
     onChange && onChange(uploadFiles);
   }, [onChange, validate, setFiles]);
 
   const handleDrop = useCallback(event => {
-    preventDefault(event);
-    setIsDraggable(false);
-    enterCounter.current = 0;
-
     const {dataTransfer} = event;
     const {files} = dataTransfer;
 
@@ -144,21 +108,9 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
       handleChange(files);
       dataTransfer.clearData();
     }
-  }, [preventDefault, handleChange]);
+  }, [handleChange]);
 
-  useEffect(() => {
-    rootRef.current?.addEventListener("dragenter", handleDragEnter);
-    rootRef.current?.addEventListener("dragleave", handleDragLeave);
-    rootRef.current?.addEventListener("drop", handleDrop);
-    rootRef.current?.addEventListener("dragover", handleDragOver);
-
-    return () => {
-      rootRef.current?.removeEventListener("dragenter", handleDragEnter);
-      rootRef.current?.removeEventListener("dragleave", handleDragLeave);
-      rootRef.current?.removeEventListener("drop", handleDrop);
-      rootRef.current?.removeEventListener("dragover", handleDragOver);
-    };
-  }, []);
+  const {isDraggable, ref: droppableRef} = useDrop({onDrop: handleDrop});
 
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(event.target.files);
@@ -177,7 +129,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
       <div
         className={uploadButtonClassNames}
         tabIndex={0}
-        ref={rootRef}
+        ref={droppableRef}
         onClick={handleClick}
       >
         <div className={jsStyles.content()}>
