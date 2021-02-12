@@ -6,12 +6,32 @@ export default {
   title: 'FileUploader'
 };
 
-const request: RequestFunction = (file: IReadFile, onSuccess, onError) => {};
+const successRequest: RequestFunction = (file: IReadFile, onSuccess, onError) => {
+  setTimeout(() => {
+    onSuccess();
+  }, 2000)
+};
 
 export const SingleFileUploader = () => (
-  <FileUploader request={request} />
+  <FileUploader request={successRequest} />
 );
 
 export const MultipleFileUploader = () => (
-  <FileUploader multiple request={request} />
+  <FileUploader multiple request={successRequest} />
+);
+
+const loadingRequest: RequestFunction = (file: IReadFile, onSuccess, onError) => {};
+
+export const MultipleFileUploaderWithLoading = () => (
+  <FileUploader multiple request={loadingRequest} />
+);
+
+const errorRequest: RequestFunction = (file: IReadFile, onSuccess, onError) => {
+  setTimeout(() => {
+    onError(new Error());
+  }, 2000)
+};
+
+export const MultipleFileUploaderWithError = () => (
+  <FileUploader multiple request={errorRequest} />
 );

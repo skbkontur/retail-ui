@@ -13,7 +13,7 @@ const styles = {
       height: 32px;
       width: 362px;
       cursor: pointer;
-      padding: 0 6px;
+      padding: 0 12px 0 7px;
 
       &:focus {
         border: 2px solid #1D85D0;
