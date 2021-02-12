@@ -1,19 +1,29 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { jsStyles } from './FileAttacherBase.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import cn from 'classnames';
-import { IReadFile, readFiles } from '../../lib/fileUtils';
-import { ReadFileList } from './ReadFileList/ReadFileList';
-import { ReadFile } from './ReadFile/ReadFile';
+import {
+  getUploadFile,
+  isAllowedFileType,
+  IUploadFile,
+  readFiles,
+  UploadFileError,
+  UploadFileStatus,
+} from '../../lib/fileUtils';
+import { UploadFileList } from './UploadFileList/UploadFileList';
+import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
+import { UploadFilesContext } from './UploadFilesContext';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализаци
 // FIXME @mozalov: тема
 // FIXME @mozalov: обработать клавиши
-// FIXME @mozalov: анимация
 // FIXME @mozalov: иконки
 // FIXME @mozalov: ховеры
+// FIXME @mozalov: валидация
+// FIXME @mozalov: максимальное количество файлов и размер
+// FIXME @mozalov: вынести абстракцию ValidationResult
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
@@ -21,8 +31,8 @@ export interface FileAttacherBaseProps {
   name?: string;
   multiple?: boolean;
   // TODO изучить как можно прикрутить валидацию
-  accept?: string;
-  onChange?: (files: IReadFile[]) => void;
+  allowedFileTypes?: string[];
+  onChange?: (files: IUploadFile[]) => void;
   // onRemove?: (file: UploadFile<T>) => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
   id?: string;
@@ -30,13 +40,14 @@ export interface FileAttacherBaseProps {
 }
 
 export const FileAttacherBase = (props: FileAttacherBaseProps) => {
-  const {name, accept, onChange, multiple = false} = props;
+  const {name, onChange, allowedFileTypes = [], multiple = false} = props;
 
   const rootRef = useRef<HTMLDivElement>(null);
   const enterCounter = useRef<number>(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
-  const [files, setFiles] = useState<IReadFile[]>([]);
+
+  const {files, setFiles} = useContext(UploadFilesContext);
 
   const handleClick = useCallback(() => {
     inputRef.current?.click();
@@ -64,17 +75,62 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     }
   }, []);
 
+  const fileTypeValidate = useCallback(({ type }: File): boolean => {
+    if (!allowedFileTypes.length) {
+      return true;
+    }
+
+    if (!type) {
+      return false;
+    }
+
+    return isAllowedFileType(type, allowedFileTypes);
+  }, [allowedFileTypes]);
+
+  const validate = (file: File): UploadFileError | undefined => {
+    if (!fileTypeValidate(file)) {
+      return UploadFileError.FileTypeError;
+    }
+  };
+
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
 
-    const filesWithBase64 = await readFiles(Array.from(files));
+    // TODO @mozalov: вынести в хелпер
+    let uploadFiles = Array.from(files)
+      .map(file => {
+        console.log({fileBeforeValidate: file});
+        const validationResult = validate(file);
+        console.log({getUploadFile: getUploadFile(file)});
+        return {
+          ...getUploadFile(file),
+          status: !validationResult ? UploadFileStatus.Default : UploadFileStatus.Error,
+          error: validationResult,
+        };
+      });
 
-    if (!filesWithBase64.length) return;
-    // validate
+    console.log("After validate");
+    const validFiles = uploadFiles.filter(file => file.status !== UploadFileStatus.Error);
+    const fileUrls = await readFiles(validFiles.map(file => file.originalFile));
 
-    setFiles(state => [...state, ...filesWithBase64]);
-    onChange && onChange(filesWithBase64);
-  }, [onChange]);
+    console.log("After read");
+
+    uploadFiles = uploadFiles.map(file => {
+      const fileIndex = validFiles.indexOf(file);
+      if (fileIndex > -1) {
+        return {...file, url: fileUrls[fileIndex]};
+      }
+
+      return file;
+    });
+
+    if (!uploadFiles.length) return;
+
+    console.log("Before set in state", uploadFiles);
+
+    setFiles(uploadFiles);
+    onChange && onChange(uploadFiles);
+  }, [onChange, validate, setFiles]);
 
   const handleDrop = useCallback(event => {
     preventDefault(event);
@@ -108,10 +164,6 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     handleChange(event.target.files);
   }, [handleChange]);
 
-  const handleDeleteFile = useCallback((removeIndex: number) => {
-    setFiles(files.filter((_, fileIndex) => removeIndex !== fileIndex));
-  }, [files]);
-
   const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable
   });
@@ -121,7 +173,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
 
   return (
     <div>
-      {multiple && !!files.length && <ReadFileList files={files} onDelete={handleDeleteFile} />}
+      {multiple && !!files.length && <UploadFileList />}
       <div
         className={uploadButtonClassNames}
         tabIndex={0}
@@ -135,7 +187,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
           &nbsp;
           <div className={jsStyles.afterLinkText()} onClick={stopPropagation}>
             {hasOneFileForSingle
-              ? <ReadFile index={0} file={files[0]} onDelete={handleDeleteFile} />
+              ? <UploadFile file={files[0]} />
               : <>или перетащите сюда <UploadIcon color="#808080"/></>}
           </div>
         </div>
@@ -147,7 +199,6 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
           name={name}
           multiple={multiple}
           onChange={handleInputChange}
-          accept={accept}
         />
       </div>
     </div>

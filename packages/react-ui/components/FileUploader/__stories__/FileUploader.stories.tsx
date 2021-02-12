@@ -1,6 +1,6 @@
 import React from 'react';
 import { FileUploader, RequestFunction } from '../FileUploader';
-import { IReadFile } from '../../../lib/fileUtils';
+import { IUploadFile } from '../../../lib/fileUtils';
 
 export default {
   title: 'FileUploader',
@@ -11,7 +11,7 @@ export default {
   ],
 };
 
-const successRequest: RequestFunction = (file: IReadFile, onSuccess, onError) => {
+const successRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {
   setTimeout(() => {
     onSuccess();
   }, 2000)
@@ -25,13 +25,13 @@ export const MultipleFileUploader = () => (
   <FileUploader multiple request={successRequest} />
 );
 
-const loadingRequest: RequestFunction = (file: IReadFile, onSuccess, onError) => {};
+const loadingRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {};
 
 export const MultipleFileUploaderWithLoading = () => (
   <FileUploader multiple request={loadingRequest} />
 );
 
-const errorRequest: RequestFunction = (file: IReadFile, onSuccess, onError) => {
+const errorRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {
   setTimeout(() => {
     onError(new Error());
   }, 2000)
