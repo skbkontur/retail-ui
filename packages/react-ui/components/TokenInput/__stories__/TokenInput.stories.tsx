@@ -603,6 +603,18 @@ OnUnexpectedInputValidation.story = {
               bridge: true,
             })
             .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys('aaa')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withSameValue = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
             .sendKeys('zzz')
             .move({ x: 0, y: 0 })
             .click()
@@ -639,7 +651,7 @@ OnUnexpectedInputValidation.story = {
 
           const withEditedToken = await this.takeScreenshot();
 
-          await this.expect({ withNotEditedToken, withRemovedToken, withEditedToken }).to.matchImages();
+          await this.expect({ withSameValue, withNotEditedToken, withRemovedToken, withEditedToken }).to.matchImages();
         },
       },
     },
