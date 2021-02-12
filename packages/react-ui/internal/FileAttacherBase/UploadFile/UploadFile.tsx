@@ -1,21 +1,18 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { IReadFile } from '../../../lib/fileUtils';
-import { jsStyles } from './ReadFile.styles';
+import { IUploadFile, UploadFileStatus } from '../../../lib/fileUtils';
+import { jsStyles } from './UploadFile.styles';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
-import { ReadFileItemStatus, ReadFileListContext } from '../ReadFileList/ReadFileListContext';
 import { Spinner } from '../../../components/Spinner';
+import { UploadFilesContext } from '../UploadFilesContext';
 
 interface ReadFileProps {
-  file: IReadFile;
-  index: number;
+  file: IUploadFile;
   showSize?: boolean;
-
-  onDelete: (index: number) => void;
 }
 
 interface ReadFileState {
@@ -23,13 +20,14 @@ interface ReadFileState {
   fileNameSpanWidth: number;
 }
 
-export const ReadFile = (props: ReadFileProps) => {
-  const {file, onDelete, index, showSize} = props;
-  const {name, size} = file;
+export const UploadFile = (props: ReadFileProps) => {
+  const {file, showSize} = props;
+  const {id, originalFile, status} = file;
+  const {name, size} = originalFile;
 
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameSpanRef = useRef<HTMLSpanElement>(null);
-  const {getFileStatus} = useContext(ReadFileListContext);
+  const {removeFile} = useContext(UploadFilesContext);
 
   const [state, setState] = useState<ReadFileState>({
     fileNameWidth: 0,
@@ -65,24 +63,22 @@ export const ReadFile = (props: ReadFileProps) => {
     return truncate(name, maxCharsCountInSpan);
   }, [name, fileNameSpanWidth, fileNameWidth]);
 
-  const handleDelete = useCallback(() => {
-    onDelete(index);
-  }, [index, onDelete]);
-
-  const fileStatus = useMemo(() => getFileStatus(file.id), [getFileStatus, file.id]);
+  const handleRemove = useCallback(() => {
+    removeFile(id);
+  }, [removeFile, id]);
 
   const icon: ReactNode = useMemo(() => {
-    switch (fileStatus) {
-      case ReadFileItemStatus.Loading:
+    switch (status) {
+      case UploadFileStatus.Loading:
         return <Spinner type="mini" dimmed caption="" />;
-      case ReadFileItemStatus.Error:
+      case UploadFileStatus.Error:
         return <ErrorIcon />;
-      case ReadFileItemStatus.Success:
+      case UploadFileStatus.Success:
         return <OkIcon />;
       default:
-        return <DeleteIcon color="#808080" onClick={handleDelete} />;
+        return <DeleteIcon color="#808080" onClick={handleRemove} />;
     }
-  }, [fileStatus]);
+  }, [status]);
 
   return (
     <div className={jsStyles.root()}>
@@ -96,4 +92,4 @@ export const ReadFile = (props: ReadFileProps) => {
   );
 };
 
-ReadFile.displayName = "ReadFile";
+UploadFile.displayName = "UploadFile";

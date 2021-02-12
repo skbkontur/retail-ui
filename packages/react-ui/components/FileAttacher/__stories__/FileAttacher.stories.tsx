@@ -12,3 +12,7 @@ export const SingleFileAttacher = () => (
 export const MultipleFileAttacher = () => (
   <FileAttacher multiple />
 );
+
+export const FileAttacherWithPngFileType = () => (
+  <FileAttacher multiple allowedFileTypes={['image/png']} />
+);

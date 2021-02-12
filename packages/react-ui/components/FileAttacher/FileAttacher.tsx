@@ -1,14 +1,14 @@
 import React from 'react';
 import { FileAttacherBase, FileAttacherBaseProps } from '../../internal/FileAttacherBase';
 import {
-  withReadFileListProvider,
-} from '../../internal/FileAttacherBase/ReadFileList/ReadFileListProvider';
+  withUploadFilesProvider,
+} from '../../internal/FileAttacherBase/UploadFilesProvider';
 
 
 export interface FileAttacherProps extends FileAttacherBaseProps {
 }
 
-export const FileAttacher = withReadFileListProvider((props: FileAttacherProps) => {
+export const FileAttacher = withUploadFilesProvider((props: FileAttacherProps) => {
   return (
       <FileAttacherBase {...props} />
   );
