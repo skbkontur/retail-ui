@@ -35,7 +35,42 @@ const commonTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-export const Simple: CSFStory<JSX.Element> = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
+const extendedTests = (name:string, str: string) => ({
+  async [name]() {
+    const element = await this.browser.findElement({ css: '#test-element' });
+    const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+
+    await this.browser
+      .actions({ bridge: true })
+      .click(input)
+      .perform();
+
+    await this.browser
+      .actions({ bridge: true })
+      .sendKeys(str)
+      .perform();
+
+    const typed = await element.takeScreenshot();
+
+    await this.browser
+      .actions({ bridge: true })
+      .sendKeys(this.keys.ARROW_DOWN)
+      .perform();
+
+    const highlighted = await element.takeScreenshot();
+
+    await this.browser
+      .actions({ bridge: true })
+      .sendKeys(this.keys.ENTER)
+      .perform();
+
+    const selected = await element.takeScreenshot();
+
+    await this.expect({ typed, highlighted, selected }).to.matchImages();
+  },
+});
+
+export const Simple: CSFStory<JSX.Element> = () => <UncontrolledAutocomplete source={['One', 'Two', 'first value', 'next first']} />;
 Simple.story = {
   name: 'simple',
   parameters: {
@@ -54,7 +89,90 @@ Simple.story = {
 
           await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
         },
-        ...commonTests,
+        //Пропадание выпадашки после ввода неподходящего значения
+        async wrongTyped() {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('f')
+            .perform();
+
+            const typed = await element.takeScreenshot();
+
+            await this.browser
+              .actions({ bridge: true })
+              .sendKeys('x')
+              .perform();
+
+            const typedWrong = await element.takeScreenshot();
+
+            await this.expect({ typed, typedWrong }).to.matchImages();
+        },
+        //Сохранение введенного текста после потери фокуса
+        async saveTextOnBlur() {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('first')
+            .perform();
+
+          const typed = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(this.keys.TAB)
+            .perform();
+
+          const noFocus = await element.takeScreenshot();
+
+          await this.expect({ typed, noFocus }).to.matchImages();
+        },
+        //Нажатие Enter при невыбранном элементе
+        async enterWhenNoSelectedItem() {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const input = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(input)
+            .perform();
+
+          const empty = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('first')
+            .perform();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+
+          const selected = await element.takeScreenshot();
+
+          await this.expect({ empty, selected }).to.matchImages();
+        },
+        //Поиск и выбор значения по двум словам
+        ...extendedTests('several words', 'first value'),
+        //Поиск и выбор значения по подстроке
+        ...extendedTests('not first symbol', 'rst'),
+        //Регистронезависимость и удаление лишних пробелов
+        ...extendedTests('with upper case and spaces', '    ONE'),
       },
     },
   },
@@ -114,7 +232,53 @@ WithFixedMenuSize.story = {
     },
   },
 };
+//Появление скролла при большом кол-ве элементов + его расширение при наведении
+export const AutocompleteWithScroll: CSFStory<JSX.Element> = () => {
+  const items = [];
+  for (let i = 0; i < 20; i++) {
+    items.push(`Abba ${i}`);
+  }
+  return (
+    <div style={{ padding: '4px 200px 200px 4px' }}>
+      <UncontrolledAutocomplete source={items} />
+    </div>
+  );
+};
+AutocompleteWithScroll.story = {
+  name: 'with scroll',
+  parameters: {
+    creevey: {
+      tests: {
+        async scrollBarShouldBeVisible() {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const autocomplete = await this.browser.findElement({ css: '[data-comp-name~=Autocomplete]' });
 
+          await this.browser
+            .actions({ bridge: true })
+            .click(autocomplete)
+            .perform();
+
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys('Abba')
+            .perform();
+
+          const typed = await element.takeScreenshot();
+
+          const scrollBar = await this.browser.findElement({ className: 'react-ui-ejkfzu' });
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: scrollBar })
+            .perform(); //Hover не работает на IE11
+          const scrollBarOnHover = await element.takeScreenshot();
+
+          await this.expect({typed, scrollBarOnHover }).to.matchImages();
+        },
+      },
+    },
+  },
+};
 export const WithOnBlurOnFocusHandlers = () => <WithBlurFocusHandlersExample />;
 WithOnBlurOnFocusHandlers.story = {
   name: 'with onBlur/onFocus handlers',
@@ -217,6 +381,34 @@ WithZeroWidth.story = {
   parameters: {
     creevey: {
       tests: commonTests,
+    },
+  },
+};
+// Выравнивание по правому краю
+export const WithRightTextAlignment: CSFStory<JSX.Element> = () => (
+  <UncontrolledAutocomplete
+    align={'right'}
+    source={['text', 'two', 'three']}
+  />
+);
+WithRightTextAlignment.story = {
+  parameters: {
+    creevey: {
+      tests: extendedTests('with right alignment', 'text'),
+    },
+  },
+};
+//Выравнивание по центру
+export const WithCenterTextAlignment: CSFStory<JSX.Element> = () => (
+  <UncontrolledAutocomplete
+  align={'center'}
+  source={['text', 'two', 'three']}
+/>
+);
+WithCenterTextAlignment.story = {
+  parameters: {
+    creevey: {
+      tests: extendedTests('with center alignment', 'text'),
     },
   },
 };
