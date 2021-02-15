@@ -13,35 +13,34 @@ export const useDrop = (props: IUseDropProps): IUseDropResult => {
   const {onDrop} = props;
 
   const droppableRef = useRef<HTMLDivElement>(null);
-  const enterCounter = useRef<number>(0);
+  const overRef = useRef<boolean>(false);
+  const timerId = useRef<NodeJS.Timeout>();
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
+
+  const clearTimer = useCallback(() => {
+    timerId.current && clearTimeout(timerId.current);
+  }, []);
 
   const handleDragOver = useCallback(event => {
     event.preventDefault();
-  }, []);
+    setIsDraggable(true);
+
+    clearTimer();
+    timerId.current = setTimeout(() => {
+      overRef.current = false;
+      setIsDraggable(false);
+    }, 200);
+  }, [clearTimer]);
 
   const preventDefault = useCallback(event => {
     event.preventDefault();
     event.stopPropagation();
   }, []);
 
-  const handleDragEnter = useCallback(event => {
-    preventDefault(event);
-    enterCounter.current++;
-    setIsDraggable(true);
-  }, [preventDefault]);
-
-  const handleDragLeave = useCallback(event => {
-    enterCounter.current--;
-    if (enterCounter.current === 0) {
-      setIsDraggable(false);
-    }
-  }, []);
-
   const handleDrop = useCallback((event: Event) => {
     preventDefault(event);
     setIsDraggable(false);
-    enterCounter.current = 0;
+    overRef.current = false;
 
     onDrop(event);
   }, [preventDefault, onDrop]);
@@ -51,16 +50,16 @@ export const useDrop = (props: IUseDropProps): IUseDropResult => {
 
     if (!ref) return;
 
-    ref.addEventListener("dragenter", handleDragEnter);
-    ref.addEventListener("dragleave", handleDragLeave);
-    ref.addEventListener("drop", handleDrop);
+    ref.addEventListener("dragenter", preventDefault);
+    ref.addEventListener("dragleave", preventDefault);
     ref.addEventListener("dragover", handleDragOver);
+    ref.addEventListener("drop", handleDrop);
 
     return () => {
-      ref.removeEventListener("dragenter", handleDragEnter);
-      ref.removeEventListener("dragleave", handleDragLeave);
-      ref.removeEventListener("drop", handleDrop);
+      ref.removeEventListener("dragenter", preventDefault);
+      ref.removeEventListener("dragleave", preventDefault);
       ref.removeEventListener("dragover", handleDragOver);
+      ref.removeEventListener("drop", handleDrop);
     };
   }, []);
 
