@@ -111,13 +111,21 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   }, [handleChange]);
 
   const {isDraggable, ref: droppableRef} = useDrop({onDrop: handleDrop});
+  const {isDraggable: isWindowDraggable, ref: windowRef} = useDrop({onDrop: handleDrop});
+
+  console.log({isDraggable});
+  console.log({isWindowDraggable});
+
+  // @ts-ignore
+  windowRef.current = window.document;
 
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(event.target.files);
   }, [handleChange]);
 
   const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
-    [jsStyles.dragOver()]: isDraggable
+    [jsStyles.dragOver()]: isDraggable,
+    [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable
   });
 
   const hasOneFile = files.length === 1;

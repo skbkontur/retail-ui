@@ -1,11 +1,8 @@
 import React, { useCallback, useContext } from 'react';
 import { withUploadFilesProvider } from '../../internal/FileAttacherBase/UploadFilesProvider';
-import {
-  UploadFileStatus,
-  UploadFilesContextProps,
-} from '../../internal/FileAttacherBase/UploadFilesContext';
-import { IUploadFile } from '../../lib/fileUtils';
+import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 import { FileAttacherBase, FileAttacherBaseProps } from '../../internal/FileAttacherBase';
+import { UploadFilesContext } from '../../internal/FileAttacherBase/UploadFilesContext';
 
 // FIXME @mozalov: подумать как делать abort запроса по крестику
 // FIXME @mozalov: добавить типы ошибок
@@ -22,18 +19,18 @@ export interface FileUploaderProps extends FileAttacherBaseProps {
 
 export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) => {
   const {request} = props;
-  const {setFileStatus} = useContext(ReadFileListContext);
+  const {setFileStatus} = useContext(UploadFilesContext);
 
-  const handleStart = useCallback((fileId: number) => {
-    setFileStatus(fileId, ReadFileItemStatus.Loading);
+  const handleStart = useCallback((fileId: string) => {
+    setFileStatus(fileId, UploadFileStatus.Loading);
   }, []);
 
-  const handleSuccess = useCallback((fileId: number) => {
-    setFileStatus(fileId, ReadFileItemStatus.Success);
+  const handleSuccess = useCallback((fileId: string) => {
+    setFileStatus(fileId, UploadFileStatus.Success);
   }, []);
 
-  const handleError = useCallback((fileId: number) => {
-    setFileStatus(fileId, ReadFileItemStatus.Error);
+  const handleError = useCallback((fileId: string) => {
+    setFileStatus(fileId, UploadFileStatus.Error);
   }, []);
 
   const upload = useCallback((file: IUploadFile) => {

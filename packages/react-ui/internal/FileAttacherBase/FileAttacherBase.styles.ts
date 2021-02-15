@@ -1,6 +1,26 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 
 const styles = {
+  pulse() {
+    return keyframes`
+        0% {
+          box-shadow:
+            0px 0px 0px 0px #2DA4F9,
+            0px 0px 0px 1px rgba(45,164,249,0.7);
+        }
+        95% {
+          box-shadow:
+            0px 0px 0px 0px #2DA4F9,
+            0px 0px 0px 10px rgba(45,164,249,0);
+        }
+        100% {
+          box-shadow:
+            0px 0px 0px 0px #2DA4F9,
+            0px 0px 0px 1px rgba(45,164,249,0);
+        }
+      `;
+  },
+
   uploadButton() {
     return css`
       display: inline-flex;
@@ -25,11 +45,18 @@ const styles = {
 
   dragOver() {
     return css`
+      animation: none;
       border: 1px solid #2DA4F9;
       border-radius: 2px;
       box-shadow:
-        0px 0px 0px 3px #2DA4F9,
-        0px 0px 0px 8px rgba(45,164,249,0.35);
+          0px 0px 0px 3px #2DA4F9,
+          0px 0px 0px 8px rgba(45,164,249,0.35);
+    `;
+  },
+
+  windowDragOver() {
+    return css`
+      animation: ${styles.pulse()} 1.5s infinite;
     `;
   },
 
