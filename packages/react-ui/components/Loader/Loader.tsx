@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import cn from 'classnames';
+import debounce from 'lodash.debounce';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -46,7 +47,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static defaultProps: Partial<LoaderProps> = {
     type: Spinner.Types.normal,
     active: false,
-    component: undefined,
   };
 
   public static propTypes = {
@@ -91,7 +91,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private theme!: Theme;
   private containerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLSpanElement>;
-  private spinnerHeight?: number;
   private layoutEvents: Nullable<{ remove: () => void }>;
 
   constructor(props: LoaderProps) {
@@ -111,17 +110,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public componentDidMount() {
-    if (this.spinnerNode) {
-      const element = this.spinnerNode.children[0] || this.spinnerNode;
-      this.spinnerHeight = element.getBoundingClientRect().height;
-    }
-
     this.checkSpinnerPosition();
-    this.layoutEvents = LayoutEvents.addListener(this.checkSpinnerPosition);
+    this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
-    if (this.props.active && !prevProps.active) {
+    if ((this.props.active && !prevProps.active) || this.isComponentChanged(prevProps)) {
       this.checkSpinnerPosition();
     }
   }
@@ -186,10 +180,19 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           this.spinnerNode = element;
         }}
       >
-        {component ? component : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
+        {component ? this.getComponent(component) : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
       </span>
     );
   }
+
+  private isComponentChanged = (prevProps: Readonly<LoaderProps>) => {
+    const { children } = this.props;
+    return prevProps.children && prevProps.children !== children;
+  };
+
+  private getComponent = (component: React.ReactNode) => {
+    return <div style={{ display: 'inline-block', textAlign: 'center' }}>{component}</div>;
+  };
 
   private checkSpinnerPosition = () => {
     if (!this.containerNode) {
@@ -218,6 +221,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       return;
     }
 
+    console.count('checkSpinnerPosition');
+
     const spinnerStyle = {
       top: 30,
       right: 0,
@@ -240,8 +245,13 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
-    if (this.spinnerHeight && spinnerStyle.bottom >= windowHeight - this.spinnerHeight) {
-      delete spinnerStyle.top;
+    if (this.spinnerNode) {
+      const element = this.spinnerNode.children[0];
+      const spinnerHeight = element.getBoundingClientRect().height;
+
+      if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
+        delete spinnerStyle.top;
+      }
     }
 
     // ПО ГОРИЗОНТАЛИ

@@ -1,15 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CSFStory } from 'creevey';
 
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
 import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
+import { delay } from '../../../lib/utils';
 
 import { LoaderAndButton } from './LoaderAndButton';
 
 const loaderClass = css`
   height: 100%;
 `;
+
+const TestComponentWithResizeOnTimeout = () => {
+  const [iconSize, setIconSize] = useState<number>(20);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIconSize(40);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <>
+      <EyeOpenedIcon color={'blue'} size={iconSize} />
+      <span style={{ display: 'block', color: 'red' }}>Загрузка</span>
+    </>
+  );
+};
 
 const wrapperStyle = {
   width: '800px',
@@ -266,7 +285,7 @@ export const ActivateLoaderAfterMountOnLargeContent = () => {
 export const OldSpinner = () => <LoaderOld />;
 OldSpinner.story = { name: 'Old spinner' };
 
-export const WithCustomComponent = () => {
+export const WithCustomComponent: CSFStory = () => {
   const getTestComponent = () => {
     return (
       <div style={{ display: 'inline-block', textAlign: 'center' }}>
@@ -276,31 +295,48 @@ export const WithCustomComponent = () => {
     );
   };
 
+  const getTestText = () => (
+    <>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam rerum nisi error nesciunt at sunt, cum
+      reprehenderit sapiente quia recusandae! Distinctio incidunt ratione a alias officiis voluptatum quae et optio.
+      <br />
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat adipisci qui tempore ratione sed,
+      impedit saepe? Non, iste soluta? Quos voluptatem temporibus rerum explicabo molestias pariatur repudiandae, dicta
+      officia.
+      <br />
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet reprehenderit quia, facere error aspernatur ipsa
+      unde amet nemo impedit totam saepe consequatur? Illo ea qui omnis incidunt laboriosam sit fugiat.
+    </>
+  );
+
   return (
     <div>
       <Loader active component={getTestComponent()}>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam rerum nisi error nesciunt at sunt, cum
-        reprehenderit sapiente quia recusandae! Distinctio incidunt ratione a alias officiis voluptatum quae et optio.
-        <br />
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat adipisci qui tempore ratione sed,
-        impedit saepe? Non, iste soluta? Quos voluptatem temporibus rerum explicabo molestias pariatur repudiandae,
-        dicta officia.
-        <br />
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet reprehenderit quia, facere error aspernatur
-        ipsa unde amet nemo impedit totam saepe consequatur? Illo ea qui omnis incidunt laboriosam sit fugiat.
+        {getTestText()}
       </Loader>
       <div style={{ height: '15px' }} />
       <Loader active component={'Загрузка'}>
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam rerum nisi error nesciunt at sunt, cum
-        reprehenderit sapiente quia recusandae! Distinctio incidunt ratione a alias officiis voluptatum quae et optio.
-        <br />
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat adipisci qui tempore ratione sed,
-        impedit saepe? Non, iste soluta? Quos voluptatem temporibus rerum explicabo molestias pariatur repudiandae,
-        dicta officia.
-        <br />
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet reprehenderit quia, facere error aspernatur
-        ipsa unde amet nemo impedit totam saepe consequatur? Illo ea qui omnis incidunt laboriosam sit fugiat.
+        {getTestText()}
+      </Loader>
+      <div style={{ height: '15px' }} />
+      <Loader active component={<TestComponentWithResizeOnTimeout />}>
+        {getTestText()}
       </Loader>
     </div>
   );
+};
+
+WithCustomComponent.story = {
+  name: 'With custom components',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['Wait for resize of spinner']() {
+          await delay(1500);
+
+          await this.expect(await this.takeScreenshot()).to.matchImage('With resized spinner');
+        },
+      },
+    },
+  },
 };
