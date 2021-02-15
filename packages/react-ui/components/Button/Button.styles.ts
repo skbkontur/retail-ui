@@ -282,13 +282,11 @@ const styles = {
         background-clip: padding-box;
 
         &:first-child {
-          top: -${t.btnBorderWidth};
+          top: 0;
           transform: skewX(30deg);
           transform-origin: top;
           background-position-y: top;
           border-bottom-right-radius: 1px;
-          border-top: ${t.btnBorderWidth} solid transparent;
-
 
           // fix line in the middle
           // of the button in FF
@@ -298,12 +296,11 @@ const styles = {
         }
 
         &:last-child {
-          bottom: -${t.btnBorderWidth};
+          bottom: 0;
           transform: skewX(-30deg);
           transform-origin: bottom;
           background-position-y: bottom;
           border-top-right-radius: 1px;
-          border-bottom: ${t.btnBorderWidth} solid transparent;
         }
 
         // fix ugly arrow edge
