@@ -280,7 +280,7 @@ export class DefaultTheme {
     return `${outlineWidth - borderWidth}px`;
   }
   public static btnDisabledTextColor = '#a0a0a0';
-  public static btnDisabledBorderColor = 'transparent';
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static btnCheckedBg = '#737373';
   public static btnCheckedDisabledBg = '#a0a0a0';
   public static btnCheckedDisabledColor = 'rgba(255, 255, 255, 0.7)';
@@ -447,9 +447,7 @@ export class DefaultTheme {
   public static get btnDisabledShadowColor() {
     return this.borderColorGrayLight;
   }
-  public static get btnDisabledShadow() {
-    return `0 0 0 ${this.btnBorderWidth} ${this.btnDisabledShadowColor}`;
-  }
+  public static btnDisabledShadow = 'none';
   public static get btnDisabledShadowArrow() {
     return `1px 0 0 0 ${this.btnDisabledShadowColor}`;
   }

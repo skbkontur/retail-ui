@@ -190,7 +190,7 @@ const styles = {
         &:not(${cssName(styles.link(t))}) {
           background: ${t.btnDisabledBg} !important;
           color: ${t.btnDisabledTextColor} !important;
-          box-shadow: ${t.btnDisabledShadow} !important;
+          box-shadow: none;
 
           ${cssName(styles.arrow(t))} {
             [data-arrow-helper] {
@@ -279,6 +279,7 @@ const styles = {
         background: inherit;
         background-size: 200% 200%;
         border-radius: inherit;
+        background-clip: padding-box;
 
         &:first-child {
           top: -${t.btnBorderWidth};
@@ -287,6 +288,7 @@ const styles = {
           background-position-y: top;
           border-bottom-right-radius: 1px;
           border-top: ${t.btnBorderWidth} solid transparent;
+
 
           // fix line in the middle
           // of the button in FF
