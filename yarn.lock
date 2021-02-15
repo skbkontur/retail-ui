@@ -4149,7 +4149,14 @@
   dependencies:
     "@skbkontur/react-sorge" "0.1.0"
 
-"@skbkontur/react-sorge@0.1.0":
+"@skbkontur/react-props2attrs@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.npmjs.org/@skbkontur/react-props2attrs/-/react-props2attrs-0.1.2.tgz#ea6b9339d748ec1d7264bfb01da2ec62ec4ad180"
+  integrity sha512-horspnjV6xFUuxKD9noX+t1tF6HI23AR7+4blh4s7mHATWko3AtUBobXCK2CnJbZC2lofRE2kaKUK9i6EIZiAA==
+  dependencies:
+    "@skbkontur/react-sorge" "0.1.0"
+
+"@skbkontur/react-sorge@0.1.0", "@skbkontur/react-sorge@^0.1.0":
   version "0.1.0"
   resolved "https://registry.npmjs.org/@skbkontur/react-sorge/-/react-sorge-0.1.0.tgz#14215d1f49068644fa5d59f5f2bac32a2c1b05ea"
   integrity sha512-a6AoE/Eg26vM494iNbR3VOpzXXa8O/qRYTS2V7qlkW0xUJako9FwySF1FG9m1+eIYqYUsYQrnHozPq99kBIy1g==

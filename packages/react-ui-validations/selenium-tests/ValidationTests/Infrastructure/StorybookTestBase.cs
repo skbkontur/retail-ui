@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 using NUnit.Framework;
@@ -7,14 +7,16 @@ namespace SKBKontur.ValidationTests.Infrastructure
 {
     public abstract class StorybookTestBase : TestBase
     {
+        public string url = "dd11";
+
         [SetUp]
         public void SetUp()
         {
             var match = storybookNamespacePattern.Match(GetType().FullName);
             var kind = match.Groups["Kind"].ToString();
-            var story = match.Groups["Story"].ToString();
+            var story = this.url;//match.Groups["Story"].ToString();
             var port = 8081;
-            var uri = new Uri($"http://localhost:{port}/iframe.html?path=/story/{CreateStoryId(kind, story)}");
+            var uri = new Uri($"http://localhost:{port}/iframe.html?id={CreateStoryId(kind, story)}&viewMode=story");
             GetWebDriver().Navigate().GoToUrl(uri);
         }
 

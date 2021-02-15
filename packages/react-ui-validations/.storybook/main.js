@@ -5,7 +5,7 @@ module.exports = {
   webpackFinal: config => {
     config.resolve.extensions.unshift('.ts', '.tsx');
 
-    config.entry.push('react-ui-testing/react-selenium-testing');
+    config.entry.unshift(require.resolve('@skbkontur/react-props2attrs'));
 
     config.module.rules.push({
       test: /\.(ts|tsx)$/,

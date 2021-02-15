@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using OpenQA.Selenium.Remote;
 
@@ -11,6 +11,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 {
     public class LostfocusDynamicValidation : StorybookTestBase
     {
+        public LostfocusDynamicValidation()
+        {
+          this.url = "lostfocus-dynamic-validation";
+        }
+
         [Test]
         public void TestValidationDoesNotDisappear()
         {

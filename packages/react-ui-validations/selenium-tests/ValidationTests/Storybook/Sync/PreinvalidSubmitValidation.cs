@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using SKBKontur.ValidationTests.Controls;
 using SKBKontur.ValidationTests.Infrastructure;
@@ -7,6 +7,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 {
     public class PreinvalidSubmitValidation : StorybookTestBase
     {
+        public PreinvalidSubmitValidation()
+        {
+          this.url = "preinvalid-submit-validation";
+        }
+
         [Test]
         public void TestValidByDefault()
         {

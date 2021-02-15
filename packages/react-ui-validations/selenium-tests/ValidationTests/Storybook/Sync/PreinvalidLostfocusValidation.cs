@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using OpenQA.Selenium;
 
@@ -9,6 +9,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
 {
     public class PreinvalidLostfocusValidation : StorybookTestBase
     {
+        public PreinvalidLostfocusValidation()
+        {
+          this.url = "preinvalid-lostfocus-validation";
+        }
+
         [Test]
         public void TestInvalidByDefault()
         {
