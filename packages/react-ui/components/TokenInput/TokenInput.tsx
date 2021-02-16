@@ -827,14 +827,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'CLEAR_INPUT' });
     }
 
-    if (newItems.length < selectedItems.length) {
-      return;
-    } else if (newItems.length === selectedItems.length) {
+    if (newItems.length === selectedItems.length) {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
-    } else if (editingTokenIndex > 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex - 1]] });
-    } else if (newItems.length > 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[0]] });
     }
   };
 
