@@ -91,28 +91,31 @@ Plain.story = {
     creevey: {
       skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
       tests: {
-        async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        },
-        async hovered() {
+        async states() {
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const checkbox = await this.browser.findElement({ css: '[data-comp-name~=Checkbox]' });
+
+          const idle = await element.takeScreenshot();
+
           await this.browser
-            .actions({
-              bridge: true,
-            })
-            .move({
-              origin: this.browser.findElement({ css: 'span' }),
-            })
+            .actions({ bridge: true })
+            .move({ origin: checkbox })
             .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-        },
-        async clicked() {
+          const hover = await element.takeScreenshot();
+
           await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'span' }))
+            .actions({ bridge: true })
+            .click(checkbox)
             .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+          const checked = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(checkbox)
+            .perform();
+          const unChecked = await element.takeScreenshot();
+
+          await this.expect({idle, hover, checked, unChecked}).to.matchImages();
         },
         async tabPress() {
           await this.browser
@@ -153,6 +156,36 @@ Plain.story = {
             .sendKeys(this.keys.SPACE)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('spacePress');
+        },
+        async spacePressAfterClick() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#test-element' }))
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(this.keys.SPACE)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('spacePressAfterClick');
+        },
+        async doubleSpacePressAfterClick() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#test-element' }))
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(this.keys.SPACE)
+            .perform();
+          await this.browser
+            .actions({ bridge: true })
+            .sendKeys(this.keys.SPACE)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('doubleSpacePress');
         },
       },
     },
@@ -304,9 +337,7 @@ Highlighted.story = {
         },
         async tabPress() {
           await this.browser
-            .actions({
-              bridge: true,
-            })
+            .actions({bridge: true })
             .sendKeys(this.keys.TAB)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
@@ -315,3 +346,132 @@ Highlighted.story = {
     },
   },
 };
+
+export const withActionsOnLabel: CSFStory<JSX.Element> = () => (
+  <Checkbox>
+    <div data-tid="text">CheckboxWithText</div>
+  </Checkbox>
+);
+
+withActionsOnLabel.story = {
+  parameters: {
+    name: 'with actions on label',
+    creevey: {
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async hoverOnLabel() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: label,
+            })
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('hoverOnLabel');
+        },
+        async pressOnLabel() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: label,
+            })
+            .press(0)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('pressOnLabel');
+        },
+        async stayHovered() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(label)
+            .move({
+              origin: label,
+            })
+            .perform();
+          const hoverWhenChecked = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: label,
+            })
+            .click(label)
+            .perform();
+            const hoverWhenUnChecked = await this.takeScreenshot();
+          await this.expect({hoverWhenChecked, hoverWhenUnChecked}).to.matchImages();
+        },
+        async pressWhenChecked() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(label)
+            .move({
+              origin: label,
+            })
+            .press()
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('pressWhenChecked');
+        },
+        async unhoveredWhenUncheckAfterMoveOver() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: label,
+            })
+            .click(label)
+            .click(label)
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('unhoveredWhenUncheckAfterMoveOver');
+        },
+        async stayUncheckedAfterDragAndDrop() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: label,
+            })
+            .press(0)
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .release(0)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('stayUncheckedAfterDragAndDrop');
+        },
+        async stayCheckedAfterDragAndDrop() {
+          const label = await this.browser.findElement({ css: '[data-tid~=text]' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({
+              origin: label,
+            })
+            .click(label)
+            .press(0)
+            .move({ origin: this.browser.findElement({ css: 'body' }) })
+            .release(0)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('stayCheckedAfterDragAndDrop');
+        },
+      },
+    },
+  },
+}
