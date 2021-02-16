@@ -14,7 +14,8 @@ module.exports = {
     },
   },
   webpackFinal: config => {
-    config.entry.unshift(require.resolve('@skbkontur/react-props2attrs'));
+    const { entry } = config;
+    config.entry = [entry.shift(), require.resolve('@skbkontur/react-props2attrs'), ...entry];
 
     config.module.rules = [
       {
