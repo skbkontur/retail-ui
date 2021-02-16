@@ -7,14 +7,14 @@ namespace SKBKontur.ValidationTests.Infrastructure
 {
     public abstract class StorybookTestBase : TestBase
     {
-        public string url = "dd11";
+        public string url = "no-name";
 
         [SetUp]
         public void SetUp()
         {
             var match = storybookNamespacePattern.Match(GetType().FullName);
             var kind = match.Groups["Kind"].ToString();
-            var story = this.url;//match.Groups["Story"].ToString();
+            var story = this.url;
             var port = 8081;
             var uri = new Uri($"http://localhost:{port}/iframe.html?id={CreateStoryId(kind, story)}&viewMode=story");
             GetWebDriver().Navigate().GoToUrl(uri);
