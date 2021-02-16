@@ -90,7 +90,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private theme!: Theme;
   private containerNode: Nullable<HTMLDivElement>;
-  private spinnerNode: Nullable<HTMLSpanElement>;
+  private spinnerNode: Nullable<HTMLDivElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
 
   constructor(props: LoaderProps) {
@@ -176,22 +176,22 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       <span
         className={this.state.isStickySpinner ? jsStyles.spinnerContainerSticky() : jsStyles.spinnerContainerCenter()}
         style={this.state.spinnerStyle}
-        ref={element => {
-          this.spinnerNode = element;
-        }}
       >
-        {component ? this.getComponent(component) : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
+        <div
+          className={jsStyles.spinnerComponentWrapper()}
+          ref={element => {
+            this.spinnerNode = element;
+          }}
+        >
+          {component ? component : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
+        </div>
       </span>
     );
   }
 
   private isComponentChanged = (prevProps: Readonly<LoaderProps>) => {
-    const { children } = this.props;
-    return prevProps.children && prevProps.children !== children;
-  };
-
-  private getComponent = (component: React.ReactNode) => {
-    return <div style={{ display: 'inline-block', textAlign: 'center' }}>{component}</div>;
+    const { component } = this.props;
+    return component && prevProps.component !== component;
   };
 
   private checkSpinnerPosition = () => {
@@ -221,8 +221,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       return;
     }
 
-    console.count('checkSpinnerPosition');
-
     const spinnerStyle = {
       top: 30,
       right: 0,
@@ -246,8 +244,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
     if (this.spinnerNode) {
-      const element = this.spinnerNode.children[0];
-      const spinnerHeight = element.getBoundingClientRect().height;
+      const spinnerHeight = this.spinnerNode.getBoundingClientRect().height;
 
       if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
         delete spinnerStyle.top;
