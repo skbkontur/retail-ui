@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CSFStory } from 'creevey';
 
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
 import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
-import { delay } from '../../../lib/utils';
 
 import { LoaderAndButton } from './LoaderAndButton';
 
 const loaderClass = css`
   height: 100%;
 `;
-
-const TestComponentWithResizeOnTimeout = () => {
-  const [iconSize, setIconSize] = useState<number>(20);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIconSize(40);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <>
-      <EyeOpenedIcon color={'blue'} size={iconSize} />
-      <span style={{ display: 'block', color: 'red' }}>Загрузка</span>
-    </>
-  );
-};
 
 const wrapperStyle = {
   width: '800px',
@@ -319,24 +300,9 @@ export const WithCustomComponent: CSFStory = () => {
         {getTestText()}
       </Loader>
       <div style={{ height: '15px' }} />
-      <Loader active component={<TestComponentWithResizeOnTimeout />}>
+      <Loader active component={null}>
         {getTestText()}
       </Loader>
     </div>
   );
-};
-
-WithCustomComponent.story = {
-  name: 'With custom components',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['Wait for resize of spinner']() {
-          await delay(1500);
-
-          await this.expect(await this.takeScreenshot()).to.matchImage('With resized spinner');
-        },
-      },
-    },
-  },
 };

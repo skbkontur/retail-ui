@@ -115,7 +115,9 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
-    if ((this.props.active && !prevProps.active) || this.isComponentChanged(prevProps)) {
+    const { component, active } = this.props;
+
+    if ((active && !prevProps.active) || prevProps.component !== component) {
       this.checkSpinnerPosition();
     }
   }
@@ -183,16 +185,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             this.spinnerNode = element;
           }}
         >
-          {component ? component : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
+          {component !== undefined ? component : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
         </div>
       </span>
     );
   }
-
-  private isComponentChanged = (prevProps: Readonly<LoaderProps>) => {
-    const { component } = this.props;
-    return component && prevProps.component !== component;
-  };
 
   private checkSpinnerPosition = () => {
     if (!this.containerNode) {
