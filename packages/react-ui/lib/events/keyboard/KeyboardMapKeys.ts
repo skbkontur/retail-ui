@@ -3,8 +3,8 @@ import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
 export type Location = number;
 export type KeyCode = number;
 
-export const STANDARD = KeyboardEvent.DOM_KEY_LOCATION_STANDARD;
-const NUMPAD = KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
+const STANDARD = 0; //KeyboardEvent.DOM_KEY_LOCATION_STANDARD;
+const NUMPAD = 3; //KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
 
 export const KeyboardMapKeys: { [code in Codes]: Array<[KeyCode, Location]> } = {
   [Codes.Unidentified]: [[0, 0]],
@@ -25,7 +25,10 @@ export const KeyboardMapKeys: { [code in Codes]: Array<[KeyCode, Location]> } = 
   [Codes.KeyC]: [[67, STANDARD]],
   [Codes.KeyV]: [[86, STANDARD]],
   [Codes.KeyX]: [[88, STANDARD]],
-  [Codes.NumpadDecimal]: [[110, NUMPAD], [46, NUMPAD]],
+  [Codes.NumpadDecimal]: [
+    [110, NUMPAD],
+    [46, NUMPAD],
+  ],
   [Codes.NumpadSubtract]: [[109, NUMPAD]],
   [Codes.NumpadDivide]: [[111, NUMPAD]],
   [Codes.Comma]: [[188, STANDARD]],

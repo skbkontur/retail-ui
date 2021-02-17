@@ -1,5 +1,7 @@
 import { ReactComponentLike } from 'prop-types';
 
+import { isBrowser } from './client';
+
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
   ? string extends keyof P
@@ -10,21 +12,6 @@ export type Defaultize<P, D> = P extends any
   : never;
 
 export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
-
-// NOTE Some checks are used from https://github.com/arasatasaygin/is.js
-const platform = ((navigator && navigator.platform) || '').toLowerCase();
-const userAgent = ((navigator && navigator.userAgent) || '').toLowerCase();
-const vendor = ((navigator && navigator.vendor) || '').toLowerCase();
-
-export const isMac = platform.includes("mac");
-export const isWindows = platform.includes("win");
-
-export const isSafari = /version\/(\d+).+?safari/.test(userAgent);
-export const isFirefox = /(?:firefox|fxios)\/(\d+)/.test(userAgent);
-export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
-export const isChrome = vendor.includes("google inc") && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
-export const isEdge = userAgent.includes("edge/");
-export const isIE11 = userAgent.includes("trident/");
 
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -66,19 +53,6 @@ export const getRandomID = (): string =>
     .toString(16)
     .slice(2);
 
-export const hasSvgAnimationSupport = (() => {
-  if (document.createElementNS) {
-    const namespaceURI = 'http://www.w3.org/2000/svg';
-    const element = document.createElementNS(namespaceURI, 'animate');
-
-    if (element) {
-      return element.toString().includes("SVGAnimate");
-    }
-  }
-
-  return false;
-})();
-
 export const isExternalLink = (link: string): boolean => {
-  return (new RegExp(`^(https?:)?//(?!${window.location.host})\\S+`, 'gi')).test(link)
-}
+  return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
+};

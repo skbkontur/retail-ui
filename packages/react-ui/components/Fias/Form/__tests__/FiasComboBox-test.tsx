@@ -5,6 +5,7 @@ import { FiasComboBox } from '../FiasComboBox';
 import { delay } from '../../../../lib/utils';
 import { Menu } from '../../../../internal/Menu';
 import { FiasAddress } from '../../models/FiasAddress';
+import { ComboBoxView } from '../../../../internal/CustomComboBox/ComboBoxView';
 
 function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<T>] {
   let searchCalled: () => void;
@@ -42,8 +43,7 @@ describe('FiasComboBox', () => {
     beforeEach(async () => {
       wrapper.unmount();
       wrapper.mount();
-      // @ts-ignore: private and nullable property
-      wrapper.instance().combobox.focus();
+      wrapper.find(ComboBoxView).prop('onFocus')?.();
       await promise;
       wrapper.update();
     });

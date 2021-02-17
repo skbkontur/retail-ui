@@ -25,9 +25,7 @@ describe('React-ui smoke test', () => {
 
   const reactUIPackagePath = runOnTeamcity ? getPackagePathOnTeamcity() : path.join(tempDirectory, 'react-ui.tgz');
 
-  beforeEach(() => {
-    console.error = jest.fn(globalConsoleError);
-
+  beforeAll(() => {
     if (!runOnTeamcity) {
       if (!fs.existsSync(tempDirectory)) {
         fs.mkdirSync(tempDirectory);
@@ -35,6 +33,10 @@ describe('React-ui smoke test', () => {
       buildReactUI(reactUIPackagePath);
     }
   }, BUILD_REACTUI_TIMEOUT);
+
+  beforeEach(() => {
+    console.error = jest.fn(globalConsoleError);
+  });
 
   afterEach(() => {
     console.error = globalConsoleError;
@@ -55,6 +57,11 @@ describe('React-ui smoke test', () => {
     },
     TIMEOUT,
   );
+
+  it('Render all controls and validations on server side (SSR)', async () => {
+    execSync(`yarn install && yarn server`, { stdio: 'inherit', cwd: path.join(__dirname, 'react-ui-ssr') });
+    expect(console.error).not.toBeCalled();
+  });
 });
 
 function buildReactUI(reactUIPackagePath: string) {
