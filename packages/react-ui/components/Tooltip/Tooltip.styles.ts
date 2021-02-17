@@ -10,8 +10,8 @@ const styles = {
       line-height: 0;
       padding: ${t.tooltipCloseBtnPadding};
       position: absolute;
-      right: ${t.tooltipCloseBtnPadding};
-      top: ${t.tooltipCloseBtnPadding};
+      right: 0;
+      top: 0;
       width: 8px;
       box-sizing: content-box;
 

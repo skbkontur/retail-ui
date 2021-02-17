@@ -665,7 +665,7 @@ export class DefaultTheme {
   //#region Tooltip
   public static tooltipPaddingY = '15px';
   public static tooltipPaddingX = '20px';
-  public static tooltipCloseBtnPadding = '4px';
+  public static tooltipCloseBtnPadding = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static get tooltipBorder() {
