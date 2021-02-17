@@ -201,14 +201,31 @@ export default { title: 'Toggle' };
 
 export const Plain: CSFStory<JSX.Element> = () => <Simple />;
 Plain.story = {
-  name: 'plain',
   parameters: {
     creevey: {
       tests: {
         async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async pressed() {
+          const plain = await this.takeScreenshot();
+
+          //hover
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: '[data-comp-name~=Toggle]' }) })
+            .perform();
+          const hover = await this.takeScreenshot();
+
+          //focused
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.TAB)
+            .perform();
+          const focused = await this.takeScreenshot();
+
+          //pressed
           await this.browser
             .actions({
               bridge: true,
@@ -218,30 +235,90 @@ Plain.story = {
             })
             .press()
             .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .release()
-            .perform();
-        },
-        async clicked() {
+          const pressed = await this.takeScreenshot();
+
           await this.browser
             .actions({
               bridge: true,
             })
             .click(this.browser.findElement({ css: 'label' }))
             .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+          const clicked = await this.takeScreenshot();
+          // 5. сравниваем результаты
+          await this.expect({
+            plain,
+            hover,
+            focused,
+            pressed,
+            clicked,
+          }).to.matchImages();
         },
       },
     },
   },
 };
+export const Uncontrolled: CSFStory<JSX.Element> = () => <Toggle onValueChange={action('toggle')} />;
+Uncontrolled.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async hover() {
+          // 1. находим элемент для скриншота
+          const element = await this.browser.findElement({ css: '#test-element' });
+          const root = await this.browser.findElement({ css: '#root' });
+          // находим кнопку
+          const toggle = await this.browser.findElement({ css: '[data-comp-name*=Toggle]' });
+          const toggle_checkbox = await this.browser.findElement({ css: '[data-prop-type*=checkbox]' });
 
-export const Uncontrolled = () => <Toggle onValueChange={action('toggle')} />;
-Uncontrolled.story = { name: 'uncontrolled', parameters: { creevey: { skip: [true] } } };
+          // 2. делаем скриншот "по умолчанию"
+          const idle = await element.takeScreenshot();
+
+          // 3. наводим указатель мыши
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: toggle })
+            .perform();
+
+          // 4. делаем скриншот "при наведении"
+          const hover = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(toggle_checkbox)
+            .perform();
+
+          // делаем скриншот "при чеке"
+          const checkOn = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .move({ origin: root })
+            .perform();
+
+          // делаем скриншот "без ховера"
+          const hoverOff = await element.takeScreenshot();
+
+          await this.browser
+            .actions({ bridge: true })
+            .click(toggle_checkbox)
+            .perform();
+
+          // делаем скриншот "при анчеке"
+          const checkOff = await element.takeScreenshot();
+
+          // 5. сравниваем результаты
+          await this.expect({
+            idle,
+            hover,
+            checkOn,
+            hoverOff,
+            checkOff,
+          }).to.matchImages();
+        },
+      },
+    },
+  },
+};
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.story = { name: 'playground' };
