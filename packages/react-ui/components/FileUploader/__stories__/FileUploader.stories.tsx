@@ -18,17 +18,17 @@ const successRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) 
 };
 
 export const SingleFileUploader = () => (
-  <FileUploader request={successRequest} />
+  <FileUploader maxFilesCount={1} request={successRequest} />
 );
 
 export const MultipleFileUploader = () => (
-  <FileUploader multiple request={successRequest} />
+  <FileUploader request={successRequest} />
 );
 
 const loadingRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {};
 
 export const MultipleFileUploaderWithLoading = () => (
-  <FileUploader multiple request={loadingRequest} />
+  <FileUploader request={loadingRequest} />
 );
 
 const errorRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {
@@ -38,5 +38,5 @@ const errorRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) =>
 };
 
 export const MultipleFileUploaderWithError = () => (
-  <FileUploader multiple request={errorRequest} />
+  <FileUploader maxFilesCount={2} request={errorRequest} />
 );

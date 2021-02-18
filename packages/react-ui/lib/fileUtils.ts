@@ -1,15 +1,15 @@
 import { getGuid } from './guidUtils';
+import { ValidationResult } from '../internal/FileAttacherBase/ValidationResult';
 
 export type UploadFileDataUrl = string | ArrayBuffer | null;
 
 export enum UploadFileStatus {
   Default = 'Default',
   Loading = 'Loading',
-  Success = 'Success',
-  Error = 'Error'
+  Uploaded = 'Uploaded',
 }
 
-export enum UploadFileError {
+export enum UploadFileValidationError {
   SizeError = 'SizeError',
   FileTypeError = 'FileTypeError',
   UnknownError = 'UnknownError'
@@ -18,9 +18,10 @@ export enum UploadFileError {
 export interface IUploadFile {
   id: string;
   originalFile: File;
+  status: UploadFileStatus;
+  validationResult: ValidationResult<UploadFileValidationError>;
+
   url?: UploadFileDataUrl;
-  status?: UploadFileStatus;
-  error?: UploadFileError;
 }
 
 export const readFile = (file: File): Promise<UploadFileDataUrl> => (
@@ -42,7 +43,9 @@ export const readFiles = (files: File[]): Promise<Array<UploadFileDataUrl>> => {
 export const getUploadFile = (file: File): IUploadFile => {
   return {
     id: getGuid(),
-    originalFile: file
+    originalFile: file,
+    status: UploadFileStatus.Default,
+    validationResult: ValidationResult.ok()
   };
 };
 
