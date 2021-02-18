@@ -444,12 +444,9 @@ export class DefaultTheme {
   public static get btnDisabledBg() {
     return this.bgDisabled;
   }
-  public static get btnDisabledShadowColor() {
-    return this.borderColorGrayLight;
-  }
   public static btnDisabledShadow = 'none';
   public static get btnDisabledShadowArrow() {
-    return `1px 0 0 0 ${this.btnDisabledShadowColor}`;
+    return `1px 0 0 0 ${this.btnDisabledBorderColor}`;
   }
   public static get btnTextColorDefault() {
     return this.textColorDefault;
