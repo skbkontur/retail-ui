@@ -1,5 +1,5 @@
-import BabyIcon from '@skbkontur/react-icons/Baby';
 import React from 'react';
+import { Baby as BabyIcon, Dot12, Ok } from '@skbkontur/react-icons';
 
 import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../Button';
@@ -7,6 +7,7 @@ import { Logotype } from '../../Logotype';
 import { MenuItem } from '../../MenuItem';
 import { TopBar } from '../TopBar';
 import { TopBarDropdown } from '../TopBarDropdown';
+import { TopBarUser } from '../TopBarUser';
 
 const Item = TopBar.Item;
 const Start = TopBar.Start;
@@ -120,3 +121,25 @@ TopBarNoShadow.story = { name: 'TopBar noShadow' };
 
 export const TopBarDropdownControlled = () => <TopBarDropdownWithButton />;
 TopBarDropdownControlled.story = { name: 'TopBar.Dropdown Controlled', parameters: { creevey: { skip: [true] } } };
+
+export const TopBarWithIcons = () => (
+  <TopBar>
+    <TopBar.Start>
+      <TopBar.Item icon="warning" />
+      <TopBar.Item icon="ok" />
+      <TopBar.Item icon="gear" />
+      <TopBar.Item icon="user" />
+      <TopBar.Item icon="wait" />
+      <TopBar.Item icon="clear" />
+      <TopBar.Item icon="money" />
+      <TopBar.Item icon="help-circle" />
+      <TopBar.Item icon="kebab" />
+      <TopBar.Item icon={<Dot12 size="17.5px" />}>Hello</TopBar.Item>
+      <TopBar.Item icon={<Ok size="17.5px" />} />
+    </TopBar.Start>
+    <TopBar.End>
+      <TopBarDropdown icon="gear" label="Dropdown" />
+      <TopBarUser userName="User" />
+    </TopBar.End>
+  </TopBar>
+);

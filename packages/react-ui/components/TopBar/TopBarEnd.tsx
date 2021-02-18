@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { jsStyles } from "./TopBar.styles";
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+
+import { jsStyles } from './TopBar.styles';
+
+export type TopBarEndProps = CommonProps;
 
 /**
  * Контейнер для смещения к концу
@@ -8,5 +12,9 @@ import { jsStyles } from "./TopBar.styles";
  * @visibleName TopBar.End
  */
 
-export const TopBarEnd: React.SFC = ({ children }) => <div className={jsStyles.endItems()}>{children}</div>;
+export const TopBarEnd: React.FC<TopBarEndProps> = ({ children, ...rest }) => (
+  <CommonWrapper {...rest}>
+    <div className={jsStyles.endItems()}>{children}</div>
+  </CommonWrapper>
+);
 (TopBarEnd as any).__KONTUR_REACT_UI__ = 'TopBarEnd';

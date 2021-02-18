@@ -1,18 +1,19 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { Input } from '../../components/Input';
+import { Input, InputIconType } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> {
+export interface CustomComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -22,6 +23,7 @@ export interface CustomComboBoxProps<T> {
   maxLength?: number;
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
+  leftIcon?: InputIconType;
   searchOnFocus?: boolean;
   onValueChange?: (value: T) => void;
   onInputValueChange?: (value: string) => Nullable<string> | void;
@@ -99,7 +101,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       return;
     }
 
-    this.handleFocus();
+    if (this.input) {
+      this.input.focus();
+    } else if (this.inputLikeText) {
+      this.inputLikeText.focus();
+    }
   };
 
   /**
@@ -231,6 +237,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       width: this.props.width,
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
+      leftIcon: this.props.leftIcon,
 
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
@@ -266,7 +273,11 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       },
     };
 
-    return <ComboBoxView {...viewProps} />;
+    return (
+      <CommonWrapper {...this.props}>
+        <ComboBoxView {...viewProps} />
+      </CommonWrapper>
+    );
   }
 
   public componentDidMount() {

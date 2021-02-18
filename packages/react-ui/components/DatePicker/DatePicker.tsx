@@ -11,6 +11,7 @@ import { CalendarDateShape } from '../../internal/Calendar';
 import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
@@ -24,7 +25,7 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
-export interface DatePickerProps<T> {
+export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -207,7 +208,11 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     this.setState({ opened: false });
   }
 
-  public render(): JSX.Element {
+  public render() {
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
@@ -235,7 +240,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
         onMouseOver={this.props.onMouseOver}
       >
         <DateInput
-          {...filterProps(this.props, INPUT_PASS_PROPS)}
+          {...filterProps(props, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
@@ -249,7 +254,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
         {picker}
       </label>
     );
-  }
+  };
 
   private getInputRef = (ref: DateInput | null) => {
     this.input = ref;

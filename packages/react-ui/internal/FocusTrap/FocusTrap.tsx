@@ -1,9 +1,10 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 
-export interface FocusTrapProps {
+export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
   onBlur?: (event: FocusEvent) => void;
 }
@@ -23,16 +24,20 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
 
   public render() {
     const { children, onBlur } = this.props;
-    return React.cloneElement(React.Children.only(children), {
-      onFocus: (...args: any[]) => {
-        if (onBlur) {
-          this.attachListeners();
-        }
-        if (children.props && children.props.onFocus) {
-          children.props.onFocus(...args);
-        }
-      },
-    });
+    return (
+      <CommonWrapper {...this.props}>
+        {React.cloneElement(React.Children.only(children), {
+          onFocus: (...args: any[]) => {
+            if (onBlur) {
+              this.attachListeners();
+            }
+            if (children.props && children.props.onFocus) {
+              children.props.onFocus(...args);
+            }
+          },
+        })}
+      </CommonWrapper>
+    );
   }
 
   private onClickOutside = (e: Event) => {

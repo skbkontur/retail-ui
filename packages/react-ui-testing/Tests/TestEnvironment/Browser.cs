@@ -71,7 +71,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 var wdHub = "http://screen:shot@grid.testkontur.ru/wd/hub";
                 ChromeOptions options = new ChromeOptions();
 
-                options.AddAdditionalCapability(CapabilityType.Platform, "Windows 10", true);
+                options.AddAdditionalCapability(CapabilityType.Platform, "windows", true);
                 options.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name, true);
                 options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
                 options.AddAdditionalCapability("maxDuration", 10800, true);

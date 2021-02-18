@@ -7,33 +7,36 @@ import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
-import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
+import { isEdge, isFirefox, isIE11 } from '../../lib/client';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Checkbox.styles';
 
-export type CheckboxProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    /** Контент `label` */
-    children?: React.ReactNode;
-    /** Состояние ошибки */
-    error?: boolean;
-    /** Состояние Предупреждения */
-    warning?: boolean;
-    /** Вызывается на label */
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается при изменении `value` */
-    onValueChange?: (value: boolean) => void;
-    /** onBlur */
-    onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-    /** Состояние частичного выделения */
-    initialIndeterminate?: boolean;
-  }
->;
+export interface CheckboxProps
+  extends CommonProps,
+    Override<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      {
+        /** Контент `label` */
+        children?: React.ReactNode;
+        /** Состояние ошибки */
+        error?: boolean;
+        /** Состояние Предупреждения */
+        warning?: boolean;
+        /** Вызывается на label */
+        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+        /** Вызывается на label */
+        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+        /** Вызывается на label */
+        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+        /** Вызывается при изменении `value` */
+        onValueChange?: (value: boolean) => void;
+        /** onBlur */
+        onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+        /** Состояние частичного выделения */
+        initialIndeterminate?: boolean;
+      }
+    > {}
 
 export interface CheckboxState {
   focusedByTab: boolean;
@@ -83,7 +86,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
@@ -130,18 +133,14 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  private renderMain() {
-    const props = this.props;
+  private renderMain = (props: CommonWrapperRestProps<CheckboxProps>) => {
     const {
-      children,
       error,
       warning,
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
       onValueChange,
-      style,
-      className,
       type,
       initialIndeterminate,
       ...rest
@@ -170,12 +169,12 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     };
 
     let caption = null;
-    if (children) {
+    if (this.props.children) {
       const captionClass = cn({
         [jsStyles.caption(this.theme)]: true,
         [jsStyles.captionIE11()]: isIE11 || isEdge,
       });
-      caption = <span className={captionClass}>{children}</span>;
+      caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
     const iconClass = cn({
@@ -196,7 +195,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
         {caption}
       </label>
     );
-  }
+  };
 
   private handleFocus = (e: React.FocusEvent<any>) => {
     if (!this.props.disabled) {
