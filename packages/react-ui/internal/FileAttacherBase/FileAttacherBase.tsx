@@ -7,14 +7,14 @@ import {
   isAllowedFileType,
   IUploadFile,
   readFiles,
-  UploadFileError,
-  UploadFileStatus,
+  UploadFileValidationError,
 } from '../../lib/fileUtils';
 import { UploadFileList } from './UploadFileList/UploadFileList';
 import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
 import { UploadFilesContext } from './UploadFilesContext';
 import { useDrop } from './FileAttacherBaseHooks';
+import { ValidationResult, ValidationResultType } from './ValidationResult';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализаци
@@ -30,21 +30,25 @@ const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
 export interface FileAttacherBaseProps {
   name?: string;
-  multiple?: boolean;
   // TODO изучить как можно прикрутить валидацию
   allowedFileTypes?: string[];
-  onChange?: (files: IUploadFile[]) => void;
+  onChange?: (files: IUploadFile[], error?: ValidationResult<FileAttacherBaseValidationError>) => void;
   // onRemove?: (file: UploadFile<T>) => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
   id?: string;
-  maxCount?: number;
+  maxFilesCount?: number;
+}
+
+export enum FileAttacherBaseValidationError {
+  MaxFilesError = 'MaxFilesError'
 }
 
 export const FileAttacherBase = (props: FileAttacherBaseProps) => {
-  const {name, onChange, allowedFileTypes = [], multiple = false} = props;
+  const {name, onChange, allowedFileTypes = [], maxFilesCount} = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
   const {files, setFiles} = useContext(UploadFilesContext);
+  const validationResultRef = useRef<ValidationResult<FileAttacherBaseProps>>();
 
   const handleClick = useCallback(() => {
     inputRef.current?.click();
@@ -62,11 +66,21 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     return isAllowedFileType(type, allowedFileTypes);
   }, [allowedFileTypes]);
 
-  const validate = (file: File): UploadFileError | undefined => {
+  // FIXME @mozalov: вероятно стоит заиспользовать react-ui-validation
+  // TODO @mozalov: мб перенести в отдельно в контекст
+  const fileValidate = useCallback((file: File): ValidationResult<UploadFileValidationError> => {
     if (!fileTypeValidate(file)) {
-      return UploadFileError.FileTypeError;
+      return ValidationResult.error(UploadFileValidationError.FileTypeError);
     }
-  };
+    return ValidationResult.ok();
+  }, [fileTypeValidate]);
+
+  const controlValidate = useCallback((newFiles: IUploadFile[]): ValidationResult<FileAttacherBaseValidationError> => {
+    if (maxFilesCount && newFiles.length + files.length > maxFilesCount) {
+      return ValidationResult.error(FileAttacherBaseValidationError.MaxFilesError);
+    }
+    return ValidationResult.ok();
+  }, [maxFilesCount, files]);
 
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
@@ -74,15 +88,14 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     // TODO @mozalov: вынести в хелпер
     let uploadFiles = Array.from(files)
       .map(file => {
-        const validationResult = validate(file);
+        const validationResult = fileValidate(file);
         return {
           ...getUploadFile(file),
-          status: !validationResult ? UploadFileStatus.Default : UploadFileStatus.Error,
-          error: validationResult,
+          validationResult
         };
       });
 
-    const validFiles = uploadFiles.filter(file => file.status !== UploadFileStatus.Error);
+    const validFiles = uploadFiles.filter(file => file.validationResult.type !== ValidationResultType.Error);
     const fileUrls = await readFiles(validFiles.map(file => file.originalFile));
 
     uploadFiles = uploadFiles.map(file => {
@@ -96,9 +109,15 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
 
     if (!uploadFiles.length) return;
 
+    const controlValidationResult = controlValidate(uploadFiles);
+
+    const validationResult = ValidationResult.mostCritical(controlValidationResult, ...uploadFiles.map(file => file.validationResult));
+
+    validationResultRef.current = validationResult;
     setFiles(uploadFiles);
-    onChange && onChange(uploadFiles);
-  }, [onChange, validate, setFiles]);
+
+    onChange && onChange(uploadFiles, validationResult);
+  }, [onChange, fileValidate, setFiles, controlValidate]);
 
   const handleDrop = useCallback(event => {
     const {dataTransfer} = event;
@@ -125,8 +144,11 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
 
   const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable,
-    [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable
+    [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable,
+    [jsStyles.error()]: validationResultRef.current?.error === FileAttacherBaseValidationError.MaxFilesError,
   });
+
+  const multiple = !maxFilesCount || maxFilesCount !== 1;
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = !multiple && hasOneFile;

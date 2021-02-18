@@ -26,11 +26,11 @@ export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) =
   }, []);
 
   const handleSuccess = useCallback((fileId: string) => {
-    setFileStatus(fileId, UploadFileStatus.Success);
+    setFileStatus(fileId, UploadFileStatus.Uploaded);
   }, []);
 
   const handleError = useCallback((fileId: string) => {
-    setFileStatus(fileId, UploadFileStatus.Error);
+    setFileStatus(fileId, UploadFileStatus.Default);
   }, []);
 
   const upload = useCallback((file: IUploadFile) => {

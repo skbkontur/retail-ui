@@ -9,6 +9,7 @@ import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelp
 import { truncate } from '../../../lib/stringUtils';
 import { Spinner } from '../../../components/Spinner';
 import { UploadFilesContext } from '../UploadFilesContext';
+import { ValidationResultType } from '../ValidationResult';
 
 interface ReadFileProps {
   file: IUploadFile;
@@ -22,7 +23,7 @@ interface ReadFileState {
 
 export const UploadFile = (props: ReadFileProps) => {
   const {file, showSize} = props;
-  const {id, originalFile, status} = file;
+  const {id, originalFile, status, validationResult} = file;
   const {name, size} = originalFile;
 
   const textHelperRef = useRef<TextWidthHelper>(null);
@@ -71,11 +72,12 @@ export const UploadFile = (props: ReadFileProps) => {
     switch (status) {
       case UploadFileStatus.Loading:
         return <Spinner type="mini" dimmed caption="" />;
-      case UploadFileStatus.Error:
-        return <ErrorIcon />;
-      case UploadFileStatus.Success:
+      case UploadFileStatus.Uploaded:
         return <OkIcon />;
       default:
+        if (validationResult.type === ValidationResultType.Error) {
+          return <ErrorIcon />;
+        }
         return <DeleteIcon color="#808080" onClick={handleRemove} />;
     }
   }, [status]);

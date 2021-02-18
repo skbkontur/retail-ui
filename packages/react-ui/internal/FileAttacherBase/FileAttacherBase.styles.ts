@@ -75,9 +75,15 @@ const styles = {
 
   afterLinkText() {
     return css`
-      display: flex;
-      justify-content: space-between;
-      flex: 1 1 auto;
+        border: 1px solid #1D85D0;
+        box-shadow: 0px 0px 0px 1px #1D85D0;
+    `;
+  },
+
+  error() {
+    return css`
+        border: 1px solid #D70C17;
+        box-shadow: 0px 0px 0px 1px #D70C17;
     `;
   }
 };
