@@ -782,8 +782,12 @@ export class DefaultTheme {
   public static get menuItemFontSize() {
     return this.fontSizeSmall;
   }
-  public static menuItemPaddingX = '7px 8px'; //hack for don't crash screenshots
-  public static menuItemPaddingY = '6px 18px '; //hack for don't crash screenshots
+  public static menuItemPaddingX = '8px';
+  public static get menuItemPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+  public static menuItemLegacyPaddingX = '10px';
+  public static menuItemLegacyPaddingY = '1px';
   public static get menuItemTextColorInvert() {
     return this.textColorInvert;
   }
@@ -799,9 +803,10 @@ export class DefaultTheme {
   public static menuHeaderColor = '#a0a0a0';
   public static menuHeaderLineHeight = '18px';
   public static menuHeaderFontSize = '12px';
-  public static menuHeaderPaddingX = '18px';
-  public static menuHeaderPaddingTop = '6px ';
-  public static menuHeaderPaddingBottom = '7px 8px'; //hack for don't crash screenshots
+  public static menuHeaderPaddingX = '8px';
+  public static menuHeaderPaddingTop = '6px';
+  public static menuHeaderPaddingBottom = '7px';
+  public static menuHeaderLegacyPaddingRight = '10px';
   //menuSeparator
   public static menuSeparatorBorderColor = '#e6e6e6';
   public static menuSeparatorMarginY = '5px';

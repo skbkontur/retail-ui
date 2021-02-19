@@ -4,6 +4,12 @@ import { resetButton } from '../../lib/styles/Mixins';
 
 const styles = {
   root(t: Theme) {
+    const legacyPaddingX = parseFloat(t.menuItemLegacyPaddingX);
+    const legacyPaddingY = parseFloat(t.menuItemLegacyPaddingY);
+
+    const paddingX = legacyPaddingX !== 0 ? `${parseFloat(t.menuItemPaddingX) + legacyPaddingX}px` : t.menuItemPaddingX;
+    const paddingY = legacyPaddingY !== 0 ? `${parseFloat(t.menuItemPaddingY) + legacyPaddingY}px` : t.menuItemPaddingY;
+
     return css`
       ${resetButton()};
 
@@ -11,7 +17,7 @@ const styles = {
       display: block;
       line-height: ${t.menuItemLineHeight};
       font-size: ${t.menuItemFontSize};
-      padding: ${t.menuItemPaddingY} ${t.menuItemPaddingX};
+      padding: ${t.menuItemPaddingY} ${paddingX} ${paddingY} ${t.menuItemPaddingX};
       position: relative;
       text-decoration: none;
 
@@ -20,10 +26,11 @@ const styles = {
       }
     `;
   },
+
   hover(t: Theme) {
     // Color with !important in purpose to override `a:hover`
     return css`
-      background: ${t.menuItemHoverBg};
+      background: ${t.menuItemHoverBg} !important;
       color: ${t.menuItemTextColorInvert} !important;
     `;
   },
@@ -51,9 +58,7 @@ const styles = {
   },
   withIcon(t: Theme) {
     return css`
-      & {
-        padding-left: ${t.menuItemPaddingForIcon};
-      }
+      padding-left: ${t.menuItemPaddingForIcon} !important;
     `;
   },
   comment(t: Theme) {

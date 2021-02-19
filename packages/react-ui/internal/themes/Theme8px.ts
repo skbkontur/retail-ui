@@ -462,16 +462,15 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get menuItemLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static menuItemPaddingX = '8px';
-  public static get menuItemPaddingY() {
-    return this.controlPaddingYSmall;
-  }
-  public static menuItemPaddingForIcon = '36px';
+  public static menuItemPaddingForIcon = '28px';
+  public static menuItemLegacyPaddingX = '0px';
+  public static menuItemLegacyPaddingY = '0px';
   public static menuHeaderLineHeight = '16px';
   public static menuHeaderPaddingX = '8px';
-  public static menuHeaderPaddingTopY = '12px ';
-  public static menuHeaderPaddingBottomY = '6px';
-  public static menuSeparatorPadding = '2px';
+  public static menuHeaderPaddingTop = '12px';
+  public static menuHeaderPaddingBottom = '4px';
+  public static menuHeaderLegacyPaddingRight = '0px';
+  public static menuSeparatorMarginY = '2px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
 }

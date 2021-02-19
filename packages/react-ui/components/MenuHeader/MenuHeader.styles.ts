@@ -3,11 +3,15 @@ import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   root(t: Theme) {
+    const legacyPaddingRight = parseFloat(t.menuHeaderLegacyPaddingRight);
+    const paddingRight =
+      legacyPaddingRight !== 0 ? `${parseFloat(t.menuHeaderPaddingX) + legacyPaddingRight}px` : t.menuHeaderPaddingX;
+
     return css`
       color: ${t.menuHeaderColor};
       cursor: default;
       font-size: ${t.menuHeaderFontSize};
-      padding: ${t.menuHeaderPaddingTop} ${t.menuHeaderPaddingX} ${t.menuHeaderPaddingBottom};
+      padding: ${t.menuHeaderPaddingTop} ${paddingRight} ${t.menuHeaderPaddingBottom} ${t.menuHeaderPaddingX};
     `;
   },
 
