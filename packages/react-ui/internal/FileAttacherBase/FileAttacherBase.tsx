@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
 import { jsStyles } from './FileAttacherBase.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import cn from 'classnames';
@@ -15,6 +15,7 @@ import { Link } from '../../components/Link';
 import { UploadFilesContext } from './UploadFilesContext';
 import { useDrop } from './FileAttacherBaseHooks';
 import { ValidationResult, ValidationResultType } from './ValidationResult';
+import { Tooltip } from '../../components/Tooltip';
 
 // FIXME @mozalov: написать комменты для каждого пропса
 // FIXME @mozalov: локализаци
@@ -47,8 +48,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const {name, onChange, allowedFileTypes = [], maxFilesCount} = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const {files, setFiles} = useContext(UploadFilesContext);
-  const validationResultRef = useRef<ValidationResult<FileAttacherBaseProps>>();
+  const {files, setFiles, validationResult} = useContext(UploadFilesContext);
 
   const handleClick = useCallback(() => {
     inputRef.current?.click();
@@ -66,21 +66,13 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     return isAllowedFileType(type, allowedFileTypes);
   }, [allowedFileTypes]);
 
-  // FIXME @mozalov: вероятно стоит заиспользовать react-ui-validation
-  // TODO @mozalov: мб перенести в отдельно в контекст
+  // TODO @mozalov: подумать как унести из компонента
   const fileValidate = useCallback((file: File): ValidationResult<UploadFileValidationError> => {
     if (!fileTypeValidate(file)) {
       return ValidationResult.error(UploadFileValidationError.FileTypeError);
     }
     return ValidationResult.ok();
   }, [fileTypeValidate]);
-
-  const controlValidate = useCallback((newFiles: IUploadFile[]): ValidationResult<FileAttacherBaseValidationError> => {
-    if (maxFilesCount && newFiles.length + files.length > maxFilesCount) {
-      return ValidationResult.error(FileAttacherBaseValidationError.MaxFilesError);
-    }
-    return ValidationResult.ok();
-  }, [maxFilesCount, files]);
 
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
@@ -109,15 +101,11 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
 
     if (!uploadFiles.length) return;
 
-    const controlValidationResult = controlValidate(uploadFiles);
-
-    const validationResult = ValidationResult.mostCritical(controlValidationResult, ...uploadFiles.map(file => file.validationResult));
-
-    validationResultRef.current = validationResult;
     setFiles(uploadFiles);
 
-    onChange && onChange(uploadFiles, validationResult);
-  }, [onChange, fileValidate, setFiles, controlValidate]);
+    // FIXME @mozalov: вероятно стоит передавать в onChange только валидные файлы
+    onChange && onChange(uploadFiles);
+  }, [onChange, fileValidate, setFiles]);
 
   const handleDrop = useCallback(event => {
     const {dataTransfer} = event;
@@ -132,9 +120,6 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const {isDraggable, ref: droppableRef} = useDrop({onDrop: handleDrop});
   const {isDraggable: isWindowDraggable, ref: windowRef} = useDrop({onDrop: handleDrop});
 
-  console.log({isDraggable});
-  console.log({isWindowDraggable});
-
   // @ts-ignore
   windowRef.current = window.document;
 
@@ -142,10 +127,20 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     handleChange(event.target.files);
   }, [handleChange]);
 
+  const hasControlError = useMemo(() => (
+    validationResult?.error === FileAttacherBaseValidationError.MaxFilesError
+  ), [validationResult]);
+
+  useEffect(() => {
+    if(hasControlError) {
+      inputRef.current?.blur();
+    }
+  }, [hasControlError]);
+
   const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable,
     [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable,
-    [jsStyles.error()]: validationResultRef.current?.error === FileAttacherBaseValidationError.MaxFilesError,
+    [jsStyles.error()]: hasControlError,
   });
 
   const multiple = !maxFilesCount || maxFilesCount !== 1;
@@ -153,36 +148,45 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = !multiple && hasOneFile;
 
+  const renderTooltipContent = useCallback((): ReactNode => {
+    if (validationResult?.error === FileAttacherBaseValidationError.MaxFilesError) {
+      return 'Можно отправить не больше двух файлов';
+    }
+    return null;
+  }, [validationResult]);
+
   return (
     <div>
       {multiple && !!files.length && <UploadFileList />}
-      <div
-        className={uploadButtonClassNames}
-        tabIndex={0}
-        ref={droppableRef}
-        onClick={handleClick}
-      >
-        <div className={jsStyles.content()}>
-          <Link tabIndex={-1}>
-            {hasOneFileForSingle ? "Выбран файл" : "Выберите файл"}
-          </Link>
-          &nbsp;
-          <div className={jsStyles.afterLinkText()} onClick={stopPropagation}>
-            {hasOneFileForSingle
-              ? <UploadFile file={files[0]} />
-              : <>или перетащите сюда <UploadIcon color="#808080"/></>}
+      <Tooltip pos="right middle" render={renderTooltipContent}>
+        <div
+          className={uploadButtonClassNames}
+          tabIndex={0}
+          ref={droppableRef}
+          onClick={handleClick}
+        >
+          <div className={jsStyles.content()}>
+            <Link tabIndex={-1}>
+              {hasOneFileForSingle ? "Выбран файл" : "Выберите файл"}
+            </Link>
+            &nbsp;
+            <div className={jsStyles.afterLinkText()} onClick={stopPropagation}>
+              {hasOneFileForSingle
+                ? <UploadFile file={files[0]} />
+                : <>или перетащите сюда <UploadIcon color="#808080"/></>}
+            </div>
           </div>
+          <input
+            ref={inputRef}
+            onClick={stopPropagation}
+            className={jsStyles.fileInput()}
+            type="file"
+            name={name}
+            multiple={multiple}
+            onChange={handleInputChange}
+          />
         </div>
-        <input
-          ref={inputRef}
-          onClick={stopPropagation}
-          className={jsStyles.fileInput()}
-          type="file"
-          name={name}
-          multiple={multiple}
-          onChange={handleInputChange}
-        />
-      </div>
+      </Tooltip>
     </div>
   );
 };
