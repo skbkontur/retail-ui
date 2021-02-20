@@ -18,7 +18,7 @@ export interface FileUploaderProps extends FileAttacherBaseProps {
 }
 
 export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) => {
-  const {request} = props;
+  const {request, controlError} = props;
   const {setFileStatus} = useContext(UploadFilesContext);
 
   const handleStart = useCallback((fileId: string) => {
@@ -40,8 +40,8 @@ export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) =
   }, [request, handleSuccess, handleError, handleStart])
 
   const handleChange = useCallback((files: IUploadFile[]) => {
-    files.forEach(file => upload(file));
-  }, [upload]);
+    !controlError && files.forEach(file => upload(file));
+  }, [upload, controlError]);
 
   return (
     <FileAttacherBase

@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef } from 'react';
+import React, { ReactNode, useCallback, useContext, useRef } from 'react';
 import { jsStyles } from './FileAttacherBase.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import cn from 'classnames';
@@ -33,22 +33,20 @@ export interface FileAttacherBaseProps {
   name?: string;
   // TODO изучить как можно прикрутить валидацию
   allowedFileTypes?: string[];
-  onChange?: (files: IUploadFile[], error?: ValidationResult<FileAttacherBaseValidationError>) => void;
-  // onRemove?: (file: UploadFile<T>) => void | boolean | Promise<void | boolean>;
+  onChange?: (files: IUploadFile[]) => void;
   disabled?: boolean;
   id?: string;
-  maxFilesCount?: number;
-}
+  multiple?: boolean;
 
-export enum FileAttacherBaseValidationError {
-  MaxFilesError = 'MaxFilesError'
+  controlError?: boolean;
+  controlErrorText?: string;
 }
 
 export const FileAttacherBase = (props: FileAttacherBaseProps) => {
-  const {name, onChange, allowedFileTypes = [], maxFilesCount} = props;
+  const {name, onChange, allowedFileTypes = [], multiple = false, controlErrorText, controlError} = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const {files, setFiles, validationResult} = useContext(UploadFilesContext);
+  const {files, setFiles} = useContext(UploadFilesContext);
 
   const handleClick = useCallback(() => {
     inputRef.current?.click();
@@ -102,9 +100,6 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     if (!uploadFiles.length) return;
 
     setFiles(uploadFiles);
-
-    // FIXME @mozalov: вероятно стоит передавать в onChange только валидные файлы
-    onChange && onChange(uploadFiles);
   }, [onChange, fileValidate, setFiles]);
 
   const handleDrop = useCallback(event => {
@@ -127,33 +122,18 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     handleChange(event.target.files);
   }, [handleChange]);
 
-  const hasControlError = useMemo(() => (
-    validationResult?.error === FileAttacherBaseValidationError.MaxFilesError
-  ), [validationResult]);
-
-  useEffect(() => {
-    if(hasControlError) {
-      inputRef.current?.blur();
-    }
-  }, [hasControlError]);
-
   const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable,
     [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable,
-    [jsStyles.error()]: hasControlError,
+    [jsStyles.error()]: controlError,
   });
-
-  const multiple = !maxFilesCount || maxFilesCount !== 1;
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = !multiple && hasOneFile;
 
   const renderTooltipContent = useCallback((): ReactNode => {
-    if (validationResult?.error === FileAttacherBaseValidationError.MaxFilesError) {
-      return 'Можно отправить не больше двух файлов';
-    }
-    return null;
-  }, [validationResult]);
+    return (controlError && controlErrorText) || null;
+  }, [controlError, controlErrorText]);
 
   return (
     <div>

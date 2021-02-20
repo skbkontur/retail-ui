@@ -18,17 +18,17 @@ const successRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) 
 };
 
 export const SingleFileUploader = () => (
-  <FileUploader maxFilesCount={1} request={successRequest} />
+  <FileUploader request={successRequest} />
 );
 
 export const MultipleFileUploader = () => (
-  <FileUploader request={successRequest} />
+  <FileUploader multiple request={successRequest} />
 );
 
 const loadingRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {};
 
 export const MultipleFileUploaderWithLoading = () => (
-  <FileUploader request={loadingRequest} />
+  <FileUploader multiple request={loadingRequest} />
 );
 
 const errorRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {
@@ -37,6 +37,10 @@ const errorRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) =>
   }, 2000)
 };
 
-export const MultipleFileUploaderWithError = () => (
-  <FileUploader maxFilesCount={2} request={errorRequest} />
+export const MultipleFileUploaderWithErrorRequest = () => (
+  <FileUploader multiple request={errorRequest} />
+);
+
+export const MultipleFileUploaderWithControlError = () => (
+  <FileUploader multiple controlError controlErrorText={"Файлов должно быть меньше 2"} request={loadingRequest} />
 );
