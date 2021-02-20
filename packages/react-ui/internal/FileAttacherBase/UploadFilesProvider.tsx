@@ -2,14 +2,12 @@ import React, { ComponentType, PropsWithChildren, useCallback, useState } from '
 import { useContextValue } from '../../hooks/useContextValue';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 import { UploadFilesContext } from './UploadFilesContext';
-import { FileAttacherBaseProps, FileAttacherBaseValidationError } from './FileAttacherBase';
-import { ValidationResult } from './ValidationResult';
+import { FileAttacherBaseProps } from './FileAttacherBase';
 
 export const UploadFilesProvider = (props: PropsWithChildren<FileAttacherBaseProps>) => {
-  const {children, maxFilesCount} = props;
+  const {children, onChange} = props;
 
   const [files, setFiles] = useState<IUploadFile[]>([]);
-  const [validationResult, setValidationResult] = useState<ValidationResult<FileAttacherBaseValidationError>>(ValidationResult.ok());
 
   const setFileStatus = useCallback((fileId: string, status: UploadFileStatus) => {
     setFiles(state => {
@@ -23,22 +21,11 @@ export const UploadFilesProvider = (props: PropsWithChildren<FileAttacherBasePro
     });
   }, []);
 
-  const controlValidate = useCallback((newFiles: IUploadFile[]): ValidationResult<FileAttacherBaseValidationError> => {
-    if (maxFilesCount && newFiles.length + files.length > maxFilesCount) {
-      return ValidationResult.error(FileAttacherBaseValidationError.MaxFilesError);
-    }
-    return ValidationResult.ok();
-  }, [maxFilesCount, files]);
-
-  const validate = useCallback((files: IUploadFile[]) => {
-    const controlValidationResult = controlValidate(files);
-    setValidationResult(controlValidationResult);
-  }, [controlValidate]);
-
   const externalSetFiles = useCallback((files: IUploadFile[]) => {
     setFiles(state => {
       const newFiles = [...state, ...files];
-      validate(newFiles);
+      // FIXME @mozalov: вероятно стоит передавать в onChange только валидные файлы
+      onChange && onChange(newFiles);
       return newFiles;
     });
   }, [])
@@ -46,18 +33,18 @@ export const UploadFilesProvider = (props: PropsWithChildren<FileAttacherBasePro
   const removeFile = useCallback((fileId: string) => {
     setFiles(state => {
       const newFiles = state.filter(file => file.id !== fileId);
-      validate(newFiles);
+      // FIXME @mozalov: вероятно стоит передавать в onChange только валидные файлы
+      onChange && onChange(newFiles);
       return newFiles;
     });
-  }, [validate]);
+  }, []);
 
   return (
     <UploadFilesContext.Provider value={useContextValue({
       setFileStatus,
       files,
       setFiles: externalSetFiles,
-      removeFile,
-      validationResult
+      removeFile
     })}>
       {children}
     </UploadFilesContext.Provider>

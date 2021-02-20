@@ -83,8 +83,8 @@ const styles = {
 
   error() {
     return css`
-      border: 1px solid #D70C17;
-      box-shadow: 0px 0px 0px 1px #D70C17;
+      border: 1px solid #D70C17 !important;
+      box-shadow: 0px 0px 0px 1px #D70C17 !important;
     `;
   }
 };
