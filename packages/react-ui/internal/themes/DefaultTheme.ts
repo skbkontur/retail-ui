@@ -676,6 +676,9 @@ export class DefaultTheme {
   }
   public static tooltipPinOffset = '17px';
   public static tooltipMargin = '15px';
+  public static get tooltipPinSize() {
+    return this.popupPinSize;
+  }
   //#endregion
   //#region Modal
   public static modalBackBg = '#333';

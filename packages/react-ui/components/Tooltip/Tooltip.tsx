@@ -225,6 +225,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
                   popupMargin: theme.tooltipMargin,
                   popupBorder: theme.tooltipBorder,
                   popupBorderRadius: theme.tooltipBorderRadius,
+                  popupPinSize: theme.tooltipPinSize,
                 },
                 theme,
               )}
