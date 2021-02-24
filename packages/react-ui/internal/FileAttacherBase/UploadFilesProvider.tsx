@@ -3,27 +3,37 @@ import { useContextValue } from '../../hooks/useContextValue';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 import { UploadFilesContext } from './UploadFilesContext';
 import { FileAttacherBaseProps } from './FileAttacherBase';
+import { defaultFileValidate } from './FileValidators';
+import { ValidationResult } from './ValidationResult';
 
 export const UploadFilesProvider = (props: PropsWithChildren<FileAttacherBaseProps>) => {
-  const {children, onChange} = props;
+  const {children, onChange, allowedFileTypes = [], fileValidate = defaultFileValidate} = props;
 
   const [files, setFiles] = useState<IUploadFile[]>([]);
 
   const setFileStatus = useCallback((fileId: string, status: UploadFileStatus) => {
-    setFiles(state => {
-      const fileIndex = state.findIndex(file => file.id === fileId);
-      if (fileIndex === -1) return state;
+    setFiles(files => {
+      const fileIndex = files.findIndex(file => file.id === fileId);
+      if (fileIndex === -1) return files;
 
-      const newState = [...state];
-      newState[fileIndex] = {...state[fileIndex], status};
+      const newFiles = [...files];
+      const file = files[fileIndex];
+      newFiles[fileIndex] = {
+        ...file,
+        status,
+        validationResult: status === UploadFileStatus.Error
+          ? ValidationResult.error('Файл не удалось загрузить на сервер, повторите попытку позже')
+          : file.validationResult
+      };
 
-      return newState;
+      return newFiles;
     });
   }, []);
 
   const externalSetFiles = useCallback((files: IUploadFile[]) => {
     setFiles(state => {
       const newFiles = [...state, ...files];
+      const validationResult = fileValidate(newFiles, allowedFileTypes);
       // FIXME @mozalov: вероятно стоит передавать в onChange только валидные файлы
       onChange && onChange(newFiles);
       return newFiles;
