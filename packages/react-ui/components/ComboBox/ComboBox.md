@@ -409,7 +409,7 @@ class ComboboxExample extends React.Component {
 <ComboboxExample />;
 ```
 
-#### Локали по умолчанию (см. `LocaleProvider`)
+#### Локали по умолчанию
 
 ```typescript
 interface ComboBoxLocale {

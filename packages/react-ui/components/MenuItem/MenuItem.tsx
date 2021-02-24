@@ -43,8 +43,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {
-    alkoLink: PropTypes.bool,
-
     comment: PropTypes.node,
 
     disabled: PropTypes.bool,
