@@ -1,41 +1,18 @@
-export enum ValidationResultType {
-  Ok,
-  Error
-}
+// FIXME @mozalov: заменить на объект из react-ui-validations
+export class ValidationResult {
+  readonly isValid: boolean;
+  readonly message?: string;
 
-export class ValidationResult<TValidationError> {
-  readonly error?: TValidationError;
-  readonly type: ValidationResultType;
-
-  constructor(type: ValidationResultType, error?: TValidationError) {
-    this.type = type;
-    this.error = error;
+  constructor(isValid: boolean, message?: string) {
+    this.isValid = isValid;
+    this.message = message;
   }
 
-  compareTo(validationResult: ValidationResult<TValidationError>): number {
-    if (this.type < validationResult.type)
-      return -1;
-    if (this.type > validationResult.type)
-      return 1;
-    return 0;
+  static error(message: string): ValidationResult {
+    return new ValidationResult(false, message);
   }
 
-  static error<TValidationError>(error: TValidationError): ValidationResult<TValidationError> {
-    return new ValidationResult(ValidationResultType.Error, error);
-  }
-
-  static ok<TValidationError>(): ValidationResult<TValidationError> {
-    return new ValidationResult(ValidationResultType.Ok);
-  }
-
-  static mostCritical<TValidationError>(...results: Array<ValidationResult<any>>): ValidationResult<any> {
-    let maxResult = ValidationResult.ok();
-    for (const currentResult of results) {
-      if (maxResult.compareTo(currentResult) < 0) {
-        maxResult = currentResult;
-      }
-    }
-
-    return maxResult as ValidationResult<TValidationError>;
+  static ok(): ValidationResult {
+    return new ValidationResult(true);
   }
 }

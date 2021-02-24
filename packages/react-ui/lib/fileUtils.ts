@@ -4,9 +4,10 @@ import { ValidationResult } from '../internal/FileAttacherBase/ValidationResult'
 export type UploadFileDataUrl = string | ArrayBuffer | null;
 
 export enum UploadFileStatus {
-  Default = 'Default',
+  Attached = 'Attached',
   Loading = 'Loading',
   Uploaded = 'Uploaded',
+  Error = 'Error'
 }
 
 export enum UploadFileValidationError {
@@ -44,7 +45,7 @@ export const getUploadFile = (file: File): IUploadFile => {
   return {
     id: getGuid(),
     originalFile: file,
-    status: UploadFileStatus.Default,
+    status: UploadFileStatus.Attached,
     validationResult: ValidationResult.ok()
   };
 };
