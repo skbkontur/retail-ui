@@ -467,12 +467,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   //#endregion
   //#region Kebab
-  public static get kebabPinOffset() {
-    return this.popupPinOffset;
-  }
-  public static get kebabMargin() {
-    return '8px';
-  }
+  public static kebabPinOffset = '24px';
+  public static kebabMargin = '4px';
   //#endregion
 }
 

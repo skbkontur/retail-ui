@@ -66,6 +66,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
                 {
                   popupPinOffset: theme.tooltipMenuPinOffset,
                   popupMargin: theme.tooltipMenuMargin,
+                  popupPinSize: theme.tooltipMenuPinSize,
                 },
                 theme,
               )}

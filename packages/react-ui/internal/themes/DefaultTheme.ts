@@ -669,9 +669,15 @@ export class DefaultTheme {
   //#region TooltipMenu
   public static tooltipMenuPinOffset = '15px';
   public static tooltipMenuMargin = '10px';
+  public static get tooltipMenuPinSize() {
+    return this.popupPinSize;
+  }
   //#endregion
   //#region Kebab
   public static kebabPinOffset = '15px';
+  public static get kebabPinSize() {
+    return this.popupPinSize;
+  }
   public static kebabMargin = '5px';
   public static kebabBackground = 'transparent';
   public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
