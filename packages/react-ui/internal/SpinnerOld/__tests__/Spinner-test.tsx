@@ -3,10 +3,10 @@ import React from 'react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { SpinnerLocaleHelper } from '../locale';
-import { SpinnerOldIcon, SPINNER_CLOUD_SIZE } from '../../icons/SpinnerOldIcon';
+import { SpinnerIcon } from '../../icons/SpinnerIcon';
+import { SpinnerOldCloudIcon, SPINNER_CLOUD_SIZE } from '../SpinnerOldCloudIcon';
 import { SpinnerOld } from '../SpinnerOld';
 import { jsStyles } from '../SpinnerOld.styles';
-import { SpinnerOldFallback } from '../SpinnerOldFallback';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
@@ -14,10 +14,6 @@ const render = (props = {}) => mount(<SpinnerOld {...props} />);
 
 describe('SpinnerOld', () => {
   describe('SVG animation', () => {
-    beforeEach(() => {
-      require('../../../lib/utils').__setSvgAnimationSupport(true);
-    });
-
     it('renders default SpinnerOld', () => {
       render();
     });
@@ -47,7 +43,7 @@ describe('SpinnerOld', () => {
 
     it('should render mini SpinnerOld', () => {
       const component = render({ type: 'mini' });
-      const circle = component.find(SpinnerOldIcon);
+      const circle = component.find(SpinnerIcon);
       const captionRight = component.find(`.${jsStyles.caption(DEFAULT_THEME as any)}`);
 
       expect(circle).toHaveLength(1);
@@ -56,52 +52,12 @@ describe('SpinnerOld', () => {
 
     it('should render big SpinnerOld', () => {
       const component = render({ type: 'big' });
-      const cloud = component.find('svg');
-      const { width, height } = cloud.props();
+      const cloud = component.find(SpinnerOldCloudIcon);
+      const { width, height } = cloud.find('svg').props();
 
+      expect(cloud).toHaveLength(1);
       expect(width).toEqual(SPINNER_CLOUD_SIZE.width * 2);
       expect(height).toEqual(SPINNER_CLOUD_SIZE.height * 2);
-    });
-  });
-
-  describe('Fallback animation', () => {
-    beforeEach(() => {
-      require('../../../lib/utils').__setSvgAnimationSupport(false);
-    });
-
-    it('renders default SpinnerOld', () => {
-      expect(render).not.toThrow();
-    });
-
-    it('renders correct size of default SpinnerOld', () => {
-      const component = render();
-      const cloudStyle = component
-        .find(SpinnerOldFallback)
-        .find('span')
-        .prop('style');
-
-      expect(cloudStyle).toMatchObject({
-        width: SPINNER_CLOUD_SIZE.width,
-        height: SPINNER_CLOUD_SIZE.height,
-        top: 0,
-      });
-    });
-
-    it('renders correct top position of mini SpinnerOld', () => {
-      const type = 'mini';
-      const component = render({ type });
-      const cloudStyle = component
-        .find(SpinnerOldFallback)
-        .find('span')
-        .prop('style');
-
-      expect(cloudStyle).toMatchObject({
-        width: 16,
-        height: 16,
-        marginBottom: -3,
-        marginLeft: -1,
-        marginRight: -1,
-      });
     });
   });
 

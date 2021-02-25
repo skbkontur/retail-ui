@@ -1,3 +1,5 @@
+import { canUseDOM } from '../client';
+
 enum MouseDragEventType {
   Start = 'mousedragstart',
   Move = 'mousedragmove',
@@ -5,7 +7,7 @@ enum MouseDragEventType {
   Leave = 'mousedragleave',
 }
 
-type MouseDragEvent = MouseEvent
+type MouseDragEvent = MouseEvent;
 
 type HandlerNative<E = MouseEvent> = (e: E) => void;
 type Handler = (e: MouseDragEvent) => void;
@@ -16,7 +18,9 @@ const items: Map<HTMLElement, MouseDrag> = new Map();
 
 const documentHandleMouseUp: HandlerNative = e => items.forEach(mouseDrag => mouseDrag.handleMouseUp(e));
 
-document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
+if (canUseDOM) {
+  document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
+}
 
 /**
  * ## Класс для отслеживания эффекта перетаскивания мышкой

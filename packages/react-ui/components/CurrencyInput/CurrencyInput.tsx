@@ -4,35 +4,37 @@ import warning from 'warning';
 
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
 import { CurrencyHelper } from './CurrencyHelper';
 import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
-
-export type CurrencyInputProps = Override<
-  InputProps,
-  {
-    /** Значение */
-    value: Nullable<number>;
-    /** Убрать лишние нули после запятой */
-    hideTrailingZeros: boolean;
-    /** Кол-во цифр после зяпятой */
-    fractionDigits?: Nullable<number>;
-    /** Отрицательные значения */
-    signed?: boolean;
-    /**
-     * Допустимое кол-во цифр целой части.
-     * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
-     */
-    integerDigits?: Nullable<number>;
-    /** Вызывается при изменении `value` */
-    onValueChange: (value: Nullable<number>) => void;
-    /** onSubmit */
-    onSubmit?: () => void;
-  }
->;
+export interface CurrencyInputProps
+  extends CommonProps,
+    Override<
+      InputProps,
+      {
+        /** Значение */
+        value: Nullable<number>;
+        /** Убрать лишние нули после запятой */
+        hideTrailingZeros: boolean;
+        /** Кол-во цифр после зяпятой */
+        fractionDigits?: Nullable<number>;
+        /** Отрицательные значения */
+        signed?: boolean;
+        /**
+         * Допустимое кол-во цифр целой части.
+         * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
+         */
+        integerDigits?: Nullable<number>;
+        /** Вызывается при изменении `value` */
+        onValueChange: (value: Nullable<number>) => void;
+        /** onSubmit */
+        onSubmit?: () => void;
+      }
+    > {}
 
 export interface CurrencyInputState {
   formatted: string;
@@ -120,10 +122,14 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   }
 
   public render() {
-    const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = this.props;
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {
+    const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
     const placeholder =
       this.props.placeholder == null
-        ? CurrencyHelper.format(0, {fractionDigits, hideTrailingZeros})
+        ? CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros })
         : this.props.placeholder;
 
     return (
@@ -145,7 +151,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
         placeholder={this.state.focused ? '' : placeholder}
       />
     );
-  }
+  };
 
   /**
    * @public

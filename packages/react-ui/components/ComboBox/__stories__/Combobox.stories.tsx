@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
+import SearchIcon from '@skbkontur/react-icons/Search';
 import { CSFStory } from 'creevey';
 
 import { ComboBox, ComboBoxProps } from '../ComboBox';
@@ -36,7 +37,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('opened');
         },
@@ -45,14 +46,14 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
               bridge: true,
             })
             .move({
-              origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }),
+              origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]:nth-of-type(4)' }),
             })
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
@@ -62,13 +63,13 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
               bridge: true,
             })
-            .move({ origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }) })
+            .move({ origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]:nth-of-type(4)' }) })
             .perform();
           await this.browser
             .actions({
@@ -84,7 +85,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
@@ -100,7 +101,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
@@ -122,7 +123,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
@@ -141,7 +142,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="Input"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('opened again');
         },
@@ -150,7 +151,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
@@ -166,7 +167,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
@@ -183,7 +184,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
@@ -201,7 +202,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .sendKeys('Second')
             .pause(500)
             .perform();
@@ -225,7 +226,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .sendKeys('Second')
             .pause(500)
             .perform();
@@ -240,7 +241,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('selected_2');
         },
@@ -270,7 +271,7 @@ OpenToTop.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.expect(await element.takeScreenshot()).to.matchImage('opened');
         },
@@ -280,14 +281,14 @@ OpenToTop.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
               bridge: true,
             })
             .move({
-              origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }),
+              origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]:nth-of-type(4)' }),
             })
             .perform();
           await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -298,14 +299,14 @@ OpenToTop.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.browser
             .actions({
               bridge: true,
             })
             .move({
-              origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]:nth-of-type(4)' }),
+              origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]:nth-of-type(4)' }),
             })
             .perform();
           await this.browser
@@ -337,7 +338,7 @@ AlwaysReject.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: '[data-comp-name="InputLikeText"]' }))
+            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('opened');
         },
@@ -486,7 +487,7 @@ ToogleError.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: "[data-comp-name='Toggle']" }))
+            .click(this.browser.findElement({ css: "[data-comp-name~='Toggle']" }))
             .pause(200)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('with error');
@@ -496,14 +497,14 @@ ToogleError.story = {
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: "[data-comp-name='Toggle']" }))
+            .click(this.browser.findElement({ css: "[data-comp-name~='Toggle']" }))
             .pause(200)
             .perform();
           await this.browser
             .actions({
               bridge: true,
             })
-            .click(this.browser.findElement({ css: "[data-comp-name='Toggle']" }))
+            .click(this.browser.findElement({ css: "[data-comp-name~='Toggle']" }))
             .pause(200)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('plain again');
@@ -1043,3 +1044,13 @@ class ComboBoxWithExternalValue extends React.Component {
     return null;
   };
 }
+
+export const WithLeftIcon = () => (
+  <Gapped vertical>
+    <SimpleCombobox leftIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="small" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="medium" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchIcon />} size="large" drawArrow={false} />
+  </Gapped>
+);
+WithLeftIcon.story = { name: 'with left icon' };

@@ -29,6 +29,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -56,7 +57,7 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true,
 };
 
-export interface SelectProps<TValue, TItem> {
+export interface SelectProps<TValue, TItem> extends CommonProps {
   /** @ignore */
   _icon?: React.ReactElement<any>;
   /** @ignore */
@@ -139,7 +140,7 @@ export interface SelectProps<TValue, TItem> {
 
 export interface SelectState<TValue> {
   opened: boolean;
-  searchPattern?: string;
+  searchPattern: string;
   value: Nullable<TValue>;
 }
 
@@ -185,9 +186,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
 
-  public static static = (
-    element: React.ReactElement | (() => React.ReactElement),
-  ) => {
+  public static static = (element: React.ReactElement | (() => React.ReactElement)) => {
     invariant(
       React.isValidElement(element) || typeof element === 'function',
       'Select.static(element) expects element to be a valid react element.',
@@ -198,6 +197,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public state: SelectState<TValue> = {
     opened: false,
     value: this.props.defaultValue,
+    searchPattern: '',
   };
 
   private theme!: Theme;
@@ -246,7 +246,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    */
   public close = () => {
     if (this.state.opened) {
-      this.setState({ opened: false });
+      this.setState({ opened: false, searchPattern: '' });
 
       if (this.props.onClose) {
         this.props.onClose();
@@ -282,12 +282,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const button = this.getButton(buttonParams);
 
     return (
-      <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-        <span className={jsStyles.root(this.theme)} style={style}>
-          {button}
-          {!this.props.disabled && this.state.opened && this.renderMenu()}
-        </span>
-      </RenderLayer>
+      <CommonWrapper {...this.props}>
+        <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+          <span className={jsStyles.root(this.theme)} style={style}>
+            {button}
+            {!this.props.disabled && this.state.opened && this.renderMenu()}
+          </span>
+        </RenderLayer>
+      </CommonWrapper>
     );
   }
 

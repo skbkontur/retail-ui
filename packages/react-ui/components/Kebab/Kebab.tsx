@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
-import { Icon as Icon20 } from '../../internal/icons/20px';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { tabListener } from '../../lib/events/tabListener';
 import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
@@ -14,10 +13,11 @@ import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../../internal/icons/16px';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Kebab.styles';
 
-export interface KebabProps {
+export interface KebabProps extends CommonProps {
   disabled?: boolean;
   /**
    * Функция вызываемая при закрытии выпадашки
@@ -110,17 +110,18 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderMain() {
     const { disabled, positions } = this.props;
-
     return (
-      <PopupMenu
-        popupHasPin
-        positions={positions}
-        onChangeMenuState={this.handleChangeMenuState}
-        caption={this.renderCaption}
-        disableAnimations={this.props.disableAnimations}
-      >
-        {!disabled && this.props.children}
-      </PopupMenu>
+      <CommonWrapper {...this.props}>
+        <PopupMenu
+          popupHasPin
+          positions={positions}
+          onChangeMenuState={this.handleChangeMenuState}
+          caption={this.renderCaption}
+          disableAnimations={this.props.disableAnimations}
+        >
+          {!disabled && this.props.children}
+        </PopupMenu>
+      </CommonWrapper>
     );
   }
 
@@ -222,7 +223,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       case 'large':
         return (
           <div className={jsStyles.iconlarge(this.theme)}>
-            <Icon20 name="kebab" color="#757575" />
+            <MenuKebabIcon size="20px" color="#757575" style={{ verticalAlign: -2 }} />
           </div>
         );
       default:

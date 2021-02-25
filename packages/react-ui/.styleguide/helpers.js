@@ -83,6 +83,7 @@ const getCommonSections = () => {
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
     { name: 'Migration', content: path.join(__dirname, '../MIGRATION.md'), exampleMode: 'expand' },
     { name: 'LocaleContext', content: path.join(__dirname, '../lib/locale/LOCALECONTEXT.md') },
+    { name: 'SSR', content: path.join(__dirname, '../SSR.md') },
     {
       name: 'Customization',
       sectionDepth: 1,

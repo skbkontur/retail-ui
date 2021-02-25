@@ -9,6 +9,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { jsStyles } from './Tab.styles';
@@ -21,7 +22,7 @@ export interface TabIndicators {
   disabled: boolean;
 }
 
-export interface TabProps {
+export interface TabProps extends CommonProps {
   /**
    * Tab content
    */
@@ -190,7 +191,6 @@ export class Tab extends React.Component<TabProps, TabState> {
       primary,
       component: Component = Tab.defaultProps.component,
       href,
-      style,
     } = this.props;
 
     let isActive = false;
@@ -203,30 +203,31 @@ export class Tab extends React.Component<TabProps, TabState> {
     }
 
     return (
-      <Component
-        className={cn({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.vertical(this.theme)]: !!isVertical,
-          [jsStyles.primary(this.theme)]: !!primary,
-          [jsStyles.success(this.theme)]: !!success,
-          [jsStyles.warning(this.theme)]: !!warning,
-          [jsStyles.error(this.theme)]: !!error,
-          [jsStyles.active(this.theme)]: !!isActive,
-          [jsStyles.disabled(this.theme)]: !!disabled,
-        })}
-        onBlur={this.handleBlur}
-        onClick={this.switchTab}
-        onMouseDown={this.handleMouseDown}
-        onFocus={this.handleFocus}
-        onKeyDown={this.handleKeyDown}
-        tabIndex={disabled ? -1 : 0}
-        ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
-        href={href}
-        style={style}
-      >
-        {children}
-        {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} />}
-      </Component>
+      <CommonWrapper {...this.props}>
+        <Component
+          className={cn({
+            [jsStyles.root(this.theme)]: true,
+            [jsStyles.vertical(this.theme)]: !!isVertical,
+            [jsStyles.primary(this.theme)]: !!primary,
+            [jsStyles.success(this.theme)]: !!success,
+            [jsStyles.warning(this.theme)]: !!warning,
+            [jsStyles.error(this.theme)]: !!error,
+            [jsStyles.active(this.theme)]: !!isActive,
+            [jsStyles.disabled(this.theme)]: !!disabled,
+          })}
+          onBlur={this.handleBlur}
+          onClick={this.switchTab}
+          onMouseDown={this.handleMouseDown}
+          onFocus={this.handleFocus}
+          onKeyDown={this.handleKeyDown}
+          tabIndex={disabled ? -1 : 0}
+          ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
+          href={href}
+        >
+          {children}
+          {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} />}
+        </Component>
+      </CommonWrapper>
     );
   }
 

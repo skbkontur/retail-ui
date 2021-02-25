@@ -280,7 +280,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static toggleBgActive = '#e5e5e5';
   //#endregion
   //#region Textarea
-  public static textareaBg = 'white';
+  public static textareaBg = '#fff';
   public static textareaColor = 'inherit';
   public static textareaShadow = 'none';
   public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.15)';

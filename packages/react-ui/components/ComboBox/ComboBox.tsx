@@ -3,8 +3,10 @@ import React from 'react';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
+import { InputIconType } from '../Input';
+import { CommonProps } from '../../internal/CommonWrapper';
 
-export interface ComboBoxProps<T> {
+export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   /**
    * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
@@ -31,6 +33,8 @@ export interface ComboBoxProps<T> {
   disabled?: boolean;
 
   error?: boolean;
+
+  leftIcon?: InputIconType;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.

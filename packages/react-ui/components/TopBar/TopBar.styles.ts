@@ -72,6 +72,8 @@ const styles = {
 
   icon() {
     return css`
+      color: #666;
+      line-height: normal;
       margin-right: 4px;
     `;
   },
