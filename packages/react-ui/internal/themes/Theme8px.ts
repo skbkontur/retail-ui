@@ -462,12 +462,11 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get tooltipMenuPinOffset() {
     return this.popupPinOffset;
   }
-  public static get tooltipMenuMargin() {
-    return this.popupMargin;
-  }
   //#endregion
   //#region Kebab
-  public static kebabPinOffset = '24px';
+  public static get kebabPinOffset() {
+    return this.popupPinOffset;
+  }
   public static kebabMargin = '4px';
   //#endregion
 }

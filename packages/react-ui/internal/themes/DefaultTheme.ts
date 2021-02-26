@@ -668,7 +668,9 @@ export class DefaultTheme {
   //#endregion
   //#region TooltipMenu
   public static tooltipMenuPinOffset = '15px';
-  public static tooltipMenuMargin = '10px';
+  public static get tooltipMenuMargin() {
+    return this.popupMargin;
+  }
   public static get tooltipMenuPinSize() {
     return this.popupPinSize;
   }
