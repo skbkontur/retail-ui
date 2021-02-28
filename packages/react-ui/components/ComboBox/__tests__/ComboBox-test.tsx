@@ -34,7 +34,9 @@ describe('ComboBox', () => {
   });
 
   it('focuses on focus call', () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />, {
+      attachTo: document.getElementById('enzymeContainer'),
+    });
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
@@ -144,9 +146,11 @@ describe('ComboBox', () => {
 
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />, {
+      attachTo: document.getElementById('enzymeContainer'),
+    });
 
-    wrapper.find(ComboBoxView).prop('onFocus')?.();
+    wrapper.instance().focus();
     await promise;
     wrapper.update();
 
@@ -167,7 +171,9 @@ describe('ComboBox', () => {
   it('calls onUnexpectedInput on click outside', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     const onUnexpectedInput = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />, {
+      attachTo: document.getElementById('enzymeContainer'),
+    });
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
@@ -610,6 +616,7 @@ describe('ComboBox', () => {
       [search, promise] = searchFactory(Promise.resolve(ITEMS));
       wrapper = mount<ComboBox<string>>(
         <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
+        { attachTo: document.getElementById('enzymeContainer') },
       );
       wrapper.find(ComboBoxView).prop('onFocus')?.();
 

@@ -9,7 +9,7 @@ const render = (
       /**/
     },
   },
-) => mount<FxInput, FxInputProps>(<FxInput {...props} />);
+) => mount<FxInput, FxInputProps>(<FxInput {...props} />, { attachTo: document.getElementById('enzymeContainer') });
 
 describe('FxInput', () => {
   it('render without crash', () => {
