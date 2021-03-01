@@ -333,6 +333,33 @@ CombinedFilled.story = {
   },
 };
 
+export const CombinedWithTextNextToInputs: CSFStory = () => {
+  return (
+    <div className="container" style={{ width: 800, height: 100, padding: 10 }}>
+      <Gapped>
+        <span>Lorem</span>
+        <Wrapper getItems={getItems} selectedItems={["ipsum dolor"]} />
+        <span>dolor sit</span>
+        <Input value="test" />
+        <span>some text</span>
+      </Gapped>
+    </div>
+  )
+};
+CombinedWithTextNextToInputs.story = {
+  name: 'with text next to inputs',
+  parameters: {
+    creevey: {
+      captureElement: ".container",
+      tests: {
+        async filledWithText() {
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        }
+      }
+    }
+  }
+}
+
 export const WithLongItem1 = () => {
   return (
     <Wrapper
