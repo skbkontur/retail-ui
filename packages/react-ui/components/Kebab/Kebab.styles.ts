@@ -74,7 +74,7 @@ const styles = {
   iconlarge(t: Theme) {
     return css`
       ${cssName(styles.kebab(t))} & {
-        margin-top: -5px;
+        margin-top: -4px;
         margin-left: 0.5px;
       }
     `;
