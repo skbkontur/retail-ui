@@ -11,6 +11,7 @@ import { InternalMenu } from '../InternalMenu';
 import { Popup, PopupPosition } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
@@ -23,7 +24,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps {
+export interface PopupMenuProps extends CommonProps {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -87,43 +88,45 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   public render() {
     return (
-      <RenderLayer
-        onClickOutside={this.hideMenuWithoutFocusing}
-        onFocusOutside={this.hideMenuWithoutFocusing}
-        active={this.state.menuVisible}
-      >
-        <div className={jsStyles.container()}>
-          {this.renderCaption()}
-          {this.captionWrapper && this.props.children && (
-            <Popup
-              anchorElement={this.captionWrapper}
-              opened={this.state.menuVisible}
-              hasShadow
-              margin={this.props.popupMargin}
-              hasPin={this.props.popupHasPin}
-              pinOffset={this.props.popupPinOffset}
-              positions={this.getPositions()}
-              disableAnimations={this.props.disableAnimations}
-              onOpen={this.handleOpen}
-            >
-              <InternalMenu
-                hasShadow={false}
-                maxHeight={this.props.menuMaxHeight || 'none'}
-                onKeyDown={this.handleKeyDown}
-                width={this.props.menuWidth || 'auto'}
-                onItemClick={this.handleItemSelection}
-                cyclicSelection={false}
-                ref={this.refInternalMenu}
-                initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
-                header={this.props.header}
-                footer={this.props.footer}
+      <CommonWrapper {...this.props}>
+        <RenderLayer
+          onClickOutside={this.hideMenuWithoutFocusing}
+          onFocusOutside={this.hideMenuWithoutFocusing}
+          active={this.state.menuVisible}
+        >
+          <div className={jsStyles.container()}>
+            {this.renderCaption()}
+            {this.captionWrapper && this.props.children && (
+              <Popup
+                anchorElement={this.captionWrapper}
+                opened={this.state.menuVisible}
+                hasShadow
+                margin={this.props.popupMargin}
+                hasPin={this.props.popupHasPin}
+                pinOffset={this.props.popupPinOffset}
+                positions={this.getPositions()}
+                disableAnimations={this.props.disableAnimations}
+                onOpen={this.handleOpen}
               >
-                {this.props.children}
-              </InternalMenu>
-            </Popup>
-          )}
-        </div>
-      </RenderLayer>
+                <InternalMenu
+                  hasShadow={false}
+                  maxHeight={this.props.menuMaxHeight || 'none'}
+                  onKeyDown={this.handleKeyDown}
+                  width={this.props.menuWidth || 'auto'}
+                  onItemClick={this.handleItemSelection}
+                  cyclicSelection={false}
+                  ref={this.refInternalMenu}
+                  initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
+                  header={this.props.header}
+                  footer={this.props.footer}
+                >
+                  {this.props.children}
+                </InternalMenu>
+              </Popup>
+            )}
+          </div>
+        </RenderLayer>
+      </CommonWrapper>
     );
   }
 

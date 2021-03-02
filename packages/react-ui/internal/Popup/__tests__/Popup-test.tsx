@@ -7,6 +7,7 @@ import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
+import { CommonWrapper } from '../../CommonWrapper';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 
@@ -121,7 +122,9 @@ describe('properly renders opened/closed states ', () => {
     RenderInnerContainer,
     Portal,
     'Portal',
+    CommonWrapper,
     Transition,
+    CommonWrapper,
     ZIndex,
     `div`,
     'div[data-tid="PopupContent"]',

@@ -5,6 +5,7 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles, jsTokenColors } from './Token.styles';
 
@@ -15,7 +16,7 @@ export interface TokenColors {
   active?: TokenColorName;
 }
 
-export interface TokenProps {
+export interface TokenProps extends CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
   error?: boolean;
@@ -86,20 +87,22 @@ export class Token extends React.Component<TokenProps> {
     });
 
     return (
-      <div
-        className={tokenClassNames}
-        onClick={onClick}
-        onDoubleClick={onDoubleClick}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      >
-        <span className={jsStyles.text(this.theme)}>{children}</span>
-        <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick}>
-          <CrossIcon />
-        </span>
-      </div>
+      <CommonWrapper {...this.props}>
+        <div
+          className={tokenClassNames}
+          onClick={onClick}
+          onDoubleClick={onDoubleClick}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        >
+          <span className={jsStyles.text(this.theme)}>{children}</span>
+          <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick}>
+            <CrossIcon />
+          </span>
+        </div>
+      </CommonWrapper>
     );
   }
 
