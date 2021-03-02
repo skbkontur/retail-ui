@@ -776,8 +776,20 @@ export class DefaultTheme {
   public static get menuItemHoverBg() {
     return this.dropdownMenuHoverBg;
   }
-  public static menuItemPaddingForIcon = '36px';
-  public static menuItemPaddingIcon = '5px';
+  // left: ${parseInt(t.menuItemPaddingForIcon) - 16 - parseInt(t.menuItemPaddingIcon)}px;
+  // Можно сделать переменную menuItemPaddingForIcon вычисляемой на основе menuItemPaddingX и предложенных menuItemIconWidth и menuItemIconGap.
+  // Видимо еще понадобится menuItemIconLegacyMargin для воспроизведения дополнительного отступа слева в старой теме.
+  // public static menuItemPaddingForIcon = '36px';
+  public static menuItemIconWidth = '16px';
+  public static menuItemIconGap = '5px';
+  public static menuItemIconLegacyMargin = '7px';
+  public static get menuItemPaddingForIcon() {
+    return `${parseInt(this.menuItemPaddingX) +
+      parseInt(this.menuItemIconWidth) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)}px`;
+  }
+  // public static menuItemPaddingIcon = '5px';
   public static menuItemLineHeight = '18px';
   public static get menuItemFontSize() {
     return this.fontSizeSmall;

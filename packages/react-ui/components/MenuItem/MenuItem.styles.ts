@@ -75,9 +75,10 @@ const styles = {
   },
   icon(t: Theme) {
     return css`
+      width: ${t.menuItemIconWidth};
       display: inline-block;
       position: absolute;
-      left: ${parseInt(t.menuItemPaddingForIcon) - 16 - parseInt(t.menuItemPaddingIcon)}px;
+      left: ${parseInt(t.menuItemPaddingForIcon) - parseInt(t.menuItemIconWidth) - parseInt(t.menuItemIconGap)}px;
       top: ${t.menuItemPaddingY};
     `;
   },
