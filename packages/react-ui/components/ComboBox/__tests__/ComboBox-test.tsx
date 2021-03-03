@@ -650,7 +650,7 @@ describe('ComboBox', () => {
 
     it('Enter on item', async () => {
       wrapper
-        .find('input')
+        .find('label')
         .simulate('keydown', { key: 'ArrowDown' })
         .simulate('keydown', { key: 'Enter' });
 
