@@ -8,7 +8,7 @@ let initialState = {};
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface SelectLocale {
   placeholder?: React.ReactNode;
 }

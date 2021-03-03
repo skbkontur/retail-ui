@@ -260,7 +260,7 @@ class DatePickerFormatting extends React.Component {
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface DatePickerLocale {
   today?: string;
   months?: string[];

@@ -59,7 +59,7 @@ const tokenColors = {
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface TokenInputLocale {
   addButtonComment?: string;
   addButtonTitle?: string;

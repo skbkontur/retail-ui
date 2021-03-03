@@ -67,7 +67,7 @@ const handleValueChange = value => setState({ value });
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface FiasLocale {
   searchNotFound: string;
 }

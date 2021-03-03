@@ -411,7 +411,7 @@ class ComboboxExample extends React.Component {
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface ComboBoxLocale {
   notFound?: string;
   errorNetworkButton?: string;

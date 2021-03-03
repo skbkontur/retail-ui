@@ -87,7 +87,7 @@ let contentStyle = {
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface TopBarLocale {
   logout?: string;
   cabinetSettings?: string;

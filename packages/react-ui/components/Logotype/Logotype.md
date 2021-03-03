@@ -15,7 +15,7 @@ import { Gapped } from '@skbkontur/react-ui';
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface LogotypeLocale {
   suffix?: string;
   prefix?: string;

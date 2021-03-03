@@ -185,7 +185,7 @@ let handleValueChange = value =>
 
 Формат данных:
 
-```typescript
+```typescript static
 enum Fields {
   region = 'region',
   district = 'district',
@@ -304,7 +304,7 @@ const value: FiasValue = {
 
 #### Локали по умолчанию (см. `LocaleProvider`)
 
-```typescript
+```typescript static
 interface FiasLocale {
   modalTitle: string;
   modalButtonOk: string;
