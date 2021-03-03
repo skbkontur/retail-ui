@@ -5,6 +5,7 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
+import { Gapped } from '../../Gapped';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
@@ -154,6 +155,68 @@ WithFixedMenuHeight.parameters = { creevey: { skip: [true] } };
 export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size="small" />;
 KebabWithoutAnimations.storyName = 'Kebab without animations';
 KebabWithoutAnimations.parameters = { creevey: { skip: [true] } };
+
+export const ProgrammaticFocus: CSFStory = () => {
+  const kebab = React.useRef<Kebab | null>(null);
+
+  const focus = () => kebab.current?.focus();
+  const blur = () => kebab.current?.blur();
+
+  return (
+    <div style={{ width: 200, textAlign: 'center' }}>
+      <Gapped>
+        <button data-tid="focus-button" onClick={focus}>
+          Focus
+        </button>
+        <button data-tid="blur-button" onClick={blur}>
+          Blur
+        </button>
+        <Kebab size="small" ref={kebab} />
+      </Gapped>
+    </div>
+  );
+};
+
+ProgrammaticFocus.story = {
+  name: 'Kebab with programmatic focus',
+  parameters: {
+    creevey: {
+      tests: {
+        async focusedByFocusMethod() {
+          const focusButton = await this.browser.findElement({ css: '[data-tid="focus-button"]' });
+          const beforeFocus = await this.takeScreenshot();
+
+          await this.browser
+            .actions()
+            .click(focusButton)
+            .perform();
+
+          const afterFocus = await this.takeScreenshot();
+
+          await this.expect({ beforeFocus, afterFocus }).to.matchImages();
+        },
+        async removeFocusByBlurMethod() {
+          const focusButton = await this.browser.findElement({ css: '[data-tid="focus-button"]' });
+          const blurButton = await this.browser.findElement({ css: '[data-tid="blur-button"]' });
+
+          await this.browser
+            .actions()
+            .click(focusButton)
+            .perform();
+          const beforeBlur = await this.takeScreenshot();
+
+          await this.browser
+            .actions()
+            .click(blurButton)
+            .perform();
+          const afterBlur = await this.takeScreenshot();
+
+          await this.expect({ beforeBlur, afterBlur }).to.matchImages();
+        },
+      },
+    },
+  },
+};
 
 class SomethingWithKebab extends Component<{
   size: 'small' | 'medium' | 'large';
