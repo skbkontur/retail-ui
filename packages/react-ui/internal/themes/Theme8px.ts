@@ -463,10 +463,12 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlLineHeightSmall;
   }
   public static menuItemIconLegacyMargin = '0px';
+  public static menuItemIconLegacyShift = '0px';
   public static menuItemLegacyPaddingX = '0px';
   public static menuItemLegacyPaddingY = '0px';
   public static menuHeaderLineHeight = '16px';
   public static menuHeaderPaddingX = '8px';
+  public static menuPaddingY = '4px';
   public static menuHeaderPaddingTop = '12px';
   public static menuHeaderPaddingBottom = '4px';
   public static menuHeaderLegacyPaddingRight = '0px';

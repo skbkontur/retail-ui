@@ -776,20 +776,16 @@ export class DefaultTheme {
   public static get menuItemHoverBg() {
     return this.dropdownMenuHoverBg;
   }
-  // left: ${parseInt(t.menuItemPaddingForIcon) - 16 - parseInt(t.menuItemPaddingIcon)}px;
-  // Можно сделать переменную menuItemPaddingForIcon вычисляемой на основе menuItemPaddingX и предложенных menuItemIconWidth и menuItemIconGap.
-  // Видимо еще понадобится menuItemIconLegacyMargin для воспроизведения дополнительного отступа слева в старой теме.
-  // public static menuItemPaddingForIcon = '36px';
   public static menuItemIconWidth = '16px';
   public static menuItemIconGap = '5px';
   public static menuItemIconLegacyMargin = '7px';
+  public static menuItemIconLegacyShift = '-1px';
   public static get menuItemPaddingForIcon() {
     return `${parseInt(this.menuItemPaddingX) +
       parseInt(this.menuItemIconWidth) +
       parseInt(this.menuItemIconGap) +
       parseInt(this.menuItemIconLegacyMargin)}px`;
   }
-  // public static menuItemPaddingIcon = '5px';
   public static menuItemLineHeight = '18px';
   public static get menuItemFontSize() {
     return this.fontSizeSmall;
@@ -800,10 +796,10 @@ export class DefaultTheme {
   }
   public static menuItemLegacyPaddingX = '10px';
   public static menuItemLegacyPaddingY = '1px';
-  public static get menuItemTextColorInvert() {
+  public static get menuItemHoverColor() {
     return this.textColorInvert;
   }
-  public static get menuItemTextColorDisabled() {
+  public static get menuItemDisabledColor() {
     return this.textColorDisabled;
   }
   public static get menuItemLinkColor() {
@@ -815,7 +811,9 @@ export class DefaultTheme {
   public static menuHeaderColor = '#a0a0a0';
   public static menuHeaderLineHeight = '18px';
   public static menuHeaderFontSize = '12px';
-  public static menuHeaderPaddingX = '8px';
+  public static get menuHeaderPaddingX() {
+    return this.menuItemPaddingX;
+  }
   public static menuHeaderPaddingTop = '6px';
   public static menuHeaderPaddingBottom = '7px';
   public static menuHeaderLegacyPaddingRight = '10px';

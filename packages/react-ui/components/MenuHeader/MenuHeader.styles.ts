@@ -11,6 +11,7 @@ const styles = {
       color: ${t.menuHeaderColor};
       cursor: default;
       font-size: ${t.menuHeaderFontSize};
+      line-height: ${t.menuHeaderLineHeight};
       padding: ${t.menuHeaderPaddingTop} ${paddingRight} ${t.menuHeaderPaddingBottom} ${t.menuHeaderPaddingX};
     `;
   },

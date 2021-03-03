@@ -31,7 +31,7 @@ const styles = {
     // Color with !important in purpose to override `a:hover`
     return css`
       background: ${t.menuItemHoverBg} !important;
-      color: ${t.menuItemTextColorInvert} !important;
+      color: ${t.menuItemHoverColor} !important;
     `;
   },
   selected(t: Theme) {
@@ -42,7 +42,7 @@ const styles = {
   disabled(t: Theme) {
     return css`
       background: transparent;
-      color: ${t.menuItemTextColorDisabled};
+      color: ${t.menuItemDisabledColor} !important;
       cursor: default;
     `;
   },
@@ -80,6 +80,7 @@ const styles = {
       position: absolute;
       left: ${parseInt(t.menuItemPaddingForIcon) - parseInt(t.menuItemIconWidth) - parseInt(t.menuItemIconGap)}px;
       top: ${t.menuItemPaddingY};
+      transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
 };
