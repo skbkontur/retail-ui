@@ -435,10 +435,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
-    }
-
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
+      this.props.onBlur?.(event);
     }
   };
 
