@@ -5,7 +5,7 @@ import { tabbable, isFocusable, FocusableElement } from 'tabbable';
  * или на всей странице
  * @param {Element|Document|null} [parent=document] - Родительский элемент,
  * внутри которого осуществляется поиск.
- * @return {FocusableElement []} - Массив найденных элементов
+ * @return {FocusableElement[]} - Массив найденных элементов
  */
 
 export const getFocusableElements = (parent: Element | Document | null = document): FocusableElement[] => {
