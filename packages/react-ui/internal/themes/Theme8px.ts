@@ -419,6 +419,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return `calc(${this.radioSize} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
   }
   public static radioVerticalAlign = 'top';
+  //#region RadioGroup
+  public static radioGroupLegacyItemGap = '0px';
+  //#endregion
   //#endregion
   //#region Switcher
   public static get switcherOutlineWidth() {

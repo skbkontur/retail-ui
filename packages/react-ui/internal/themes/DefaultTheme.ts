@@ -1196,6 +1196,18 @@ export class DefaultTheme {
   public static get textareaDisabledBorderColor() {
     return this.borderColorGrayLight;
   }
+  public static get textareaCounterColor() {
+    return this.gray;
+  }
+  public static get textareaCounterBg() {
+    return ColorFunctions.fade(this.textareaBg, 0.9);
+  }
+  public static get textareaCounterErrorColor() {
+    return this.errorText;
+  }
+  public static get textareaCounterHelpIconColor() {
+    return this.linkColor;
+  }
   //#endregion
   //#region Radio
   public static radioBulletSize = '8px';
@@ -1251,6 +1263,9 @@ export class DefaultTheme {
   public static radioLabelDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
   public static radioMarginY = '2px';
+  //#endregion
+  //#region RadioGroup
+  public static radioGroupLegacyItemGap = '10px';
   //#endregion
   //#region Tabs
   public static get tabFontSize() {

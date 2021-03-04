@@ -6,6 +6,7 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';
@@ -16,7 +17,7 @@ const FONT_FAMILY_CORRECTION = 1;
 const CLOSE_ELEMENT_OFFSET = REGULAR_HEADER_PADDING_TOP - FIXED_HEADER_PADDING_TOP - FONT_FAMILY_CORRECTION;
 const FIXED_HEADER_HEIGHT = 50;
 
-export interface SidePageHeaderProps {
+export interface SidePageHeaderProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
 
@@ -77,9 +78,11 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private renderMain() {
     const { isReadyToFix } = this.state;
     return (
-      <div ref={this.wrapperRef}>
-        {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
-      </div>
+      <CommonWrapper {...this.props}>
+        <div ref={this.wrapperRef}>
+          {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
+        </div>
+      </CommonWrapper>
     );
   }
 

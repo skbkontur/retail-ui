@@ -6,10 +6,12 @@ import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/ke
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
-import { emptyHandler, isIE11 } from '../../lib/utils';
+import { emptyHandler } from '../../lib/utils';
+import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -27,7 +29,7 @@ interface ItemComponentProps {
   tabIndex: number;
 }
 
-export interface PagingProps {
+export interface PagingProps extends CommonProps {
   activePage: number;
   /**
    * Компонент обертки по умолчанию
@@ -72,6 +74,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
       </span>
     ),
     useGlobalListener: false,
+    ['data-tid']: 'Paging__root',
   };
 
   public static propTypes = {};
@@ -133,18 +136,20 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
   private renderMain() {
     return (
-      <span
-        tabIndex={0}
-        data-tid="Paging__root"
-        className={jsStyles.paging()}
-        onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onMouseDown={this.handleMouseDown}
-        ref={this.refContainer}
-      >
-        {this.getItems().map(this.renderItem)}
-      </span>
+      <CommonWrapper {...this.props}>
+        <span
+          tabIndex={0}
+          data-tid={this.props['data-tid']}
+          className={jsStyles.paging()}
+          onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onMouseDown={this.handleMouseDown}
+          ref={this.refContainer}
+        >
+          {this.getItems().map(this.renderItem)}
+        </span>
+      </CommonWrapper>
     );
   }
 

@@ -107,6 +107,7 @@ const styles = {
         width: ${iconSize}px;
         height: ${iconSize}px;
         padding: ${paddingTop}px ${paddingTop}px ${paddingBottom}px ${paddingBottom}px;
+        box-sizing: content-box;
       }
     `;
   },
@@ -148,19 +149,37 @@ const styles = {
     `;
   },
 
+  headerWrapper() {
+    return css`
+      position: relative;
+    `;
+  },
+
   header() {
     return css`
       font-size: 22px;
       line-height: 30px;
-      padding: 24px 110px 11px 30px;
+      padding: 24px 35px 11px 30px;
       overflow-wrap: break-word;
       word-wrap: break-word;
+    `;
+  },
+
+  headerWithClose() {
+    return css`
+      padding-right: 110px !important;
     `;
   },
 
   body() {
     return css`
       padding: 0 35px 25px 30px;
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      position: relative;
     `;
   },
 
