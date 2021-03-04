@@ -41,6 +41,7 @@ export class DefaultTheme {
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.15)';
   public static placeholderColor = '#a0a0a0';
+  public static placeholderDisabledColor = '#808080';
   public static outlineColorFocus = '#fff';
   public static placeholderColorLight = '#cdcdcd';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
@@ -120,7 +121,7 @@ export class DefaultTheme {
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
   public static get tokenTextColorDisabled() {
-    return this.textColorDisabled;
+    return this.inputTextColorDisabled;
   }
   public static get tokenFontSize() {
     return this.fontSizeSmall;
@@ -282,7 +283,7 @@ export class DefaultTheme {
     return this.btnOutlineWidth;
   }
   public static btnFocusBorder = 'none';
-  public static btnDisabledTextColor = '#a0a0a0';
+  public static btnDisabledTextColor = '#808080';
   public static btnDisabledBorderColor = 'transparent';
   public static btnCheckedBg = '#737373';
   public static btnCheckedDisabledBg = '#a0a0a0';
@@ -533,8 +534,12 @@ export class DefaultTheme {
   //#endregion
   //#region Select
   public static sltPlaceholderColor = '#a0a0a0';
+  public static sltPlaceholderDisabledColor = '#808080';
   public static get selectPlaceholderColor() {
     return this.sltPlaceholderColor;
+  }
+  public static get selectPlaceholderColorDisabled() {
+    return this.sltPlaceholderDisabledColor;
   }
   public static selectBorderWidth = '1px';
   public static get selectOutlineWidth() {
@@ -762,9 +767,7 @@ export class DefaultTheme {
   //#endregion
   //#region Input
   public static inputTextColor = 'none';
-  public static get inputTextColorDisabled() {
-    return this.textColorDisabled;
-  }
+  public static inputTextColorDisabled = '#808080';
   public static inputShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
@@ -855,6 +858,9 @@ export class DefaultTheme {
   }
   public static get inputPlaceholderColor() {
     return this.placeholderColor;
+  }
+  public static get inputPlaceholderDisabledColor() {
+    return this.placeholderDisabledColor;
   }
   public static get inputPlaceholderColorLight() {
     return this.placeholderColorLight;
@@ -1059,7 +1065,7 @@ export class DefaultTheme {
     return this.black;
   }
   public static get textareaTextColorDisabled() {
-    return this.textColorDisabled;
+    return this.inputTextColorDisabled;
   }
   public static get textareaPlaceholderColorLight() {
     return this.placeholderColorLight;

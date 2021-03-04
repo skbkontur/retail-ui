@@ -239,6 +239,8 @@ export const darkTheme = ThemeFactory.create({
   inputColor: '#fff',
   inputTextColor: '#fff',
   inputBg: '#333',
+  inputTextColorDisabled: '#a0a0a0',
+  inputPlaceholderDisabledColor: '#aaa',
   specificityLevel: '0',
   textareaBg: 'none',
   textareaColor: 'inherit',

@@ -106,6 +106,9 @@ const styles = {
       ${cssName(styles.focus(t))} & {
         color: ${t.inputPlaceholderColorLight};
       }
+      ${cssName(styles.disabled(t))} & {
+        color: ${t.inputPlaceholderDisabledColor};
+      }
     `;
   },
 
@@ -192,13 +195,13 @@ const styles = {
         -webkit-text-fill-color: ${t.inputTextColorDisabled};
       }
       ${cssName(styles.input(t))}:-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderDisabledColor};
       }
       ${cssName(styles.input(t))}::-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderDisabledColor};
       }
       ${cssName(styles.input(t))}::placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderDisabledColor};
       }
     `;
   },
@@ -301,9 +304,21 @@ const styles = {
     `;
   },
 
+  disabledPrefix(t: Theme) {
+    return css`
+      color: ${t.inputPlaceholderDisabledColor};
+    `;
+  },
+
   suffix(t: Theme) {
     return css`
       color: ${t.inputPlaceholderColor};
+    `;
+  },
+
+  disabledSuffix(t: Theme) {
+    return css`
+      color: ${t.inputPlaceholderDisabledColor};
     `;
   },
 

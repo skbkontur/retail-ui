@@ -338,6 +338,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         [jsStyles.label()]: this.props.use !== 'link',
         [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
+        [jsStyles.placeholderTextDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
       }),
       style: {
         paddingRight: this.getLabelPaddingRight(),

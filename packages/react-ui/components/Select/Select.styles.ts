@@ -23,6 +23,12 @@ const styles = {
     `;
   },
 
+  placeholderTextDisabled(t: Theme) {
+    return css`
+      color: ${t.selectPlaceholderColorDisabled} !important;
+    `;
+  },
+
   arrow(t: Theme) {
     return css`
       border: 4px solid transparent;
