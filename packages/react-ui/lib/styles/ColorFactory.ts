@@ -17,7 +17,7 @@ const HEX_REGEX = /^#([0-9a-f]{3}|[0-9a-f]{6})$/;
 export class ColorFactory {
   public static create(input: string) {
     if (!this.cache[input]) {
-      this.cache[input] = this.instantiate(input);
+      this.cache[input] = Object.freeze(this.instantiate(input));
     }
 
     return this.cache[input];

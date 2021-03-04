@@ -14,10 +14,10 @@ interface SelectLocale {
 }
 
 const ru_RU = {
-  placeholder: 'ничего не выбрано',
+  placeholder: 'Ничего не выбрано',
 };
 
 const en_GB = {
-  placeholder: 'nothing selected',
+  placeholder: 'Nothing selected',
 };
 ```

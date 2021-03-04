@@ -2,26 +2,29 @@ import React from 'react';
 import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
-export type CenterProps = Override<
-  React.HTMLAttributes<HTMLDivElement>,
-  {
-    /**
-     * Горизонтальное выравнивание контента.
-     */
-    align?: HorizontalAlign;
+export interface CenterProps
+  extends CommonProps,
+    Override<
+      React.HTMLAttributes<HTMLDivElement>,
+      {
+        /**
+         * Горизонтальное выравнивание контента.
+         */
+        align?: HorizontalAlign;
 
-    /**
-     * **Используй с осторожностью!**
-     * Дополнительные стили
-     */
-    style?: React.CSSProperties;
-  }
->;
+        /**
+         * **Используй с осторожностью!**
+         * Дополнительные стили
+         */
+        style?: React.CSSProperties;
+      }
+    > {}
 
 /**
  * Контейнер для вертикального центрирования. В компонент можно передавать
@@ -34,21 +37,23 @@ export class Center extends React.Component<CenterProps> {
     align: 'center',
   };
 
-  public render(): JSX.Element {
+  public render() {
     const { align, children, ...rest } = this.props;
 
     return (
-      <div
-        className={cn({
-          [jsStyles.root()]: true,
-          [jsStyles.rootAlignLeft()]: align === 'left',
-          [jsStyles.rootAlignRight()]: align === 'right',
-        })}
-        {...rest}
-      >
-        <span className={jsStyles.spring()} />
-        <span className={jsStyles.container()}>{children}</span>
-      </div>
+      <CommonWrapper {...this.props}>
+        <div
+          className={cn({
+            [jsStyles.root()]: true,
+            [jsStyles.rootAlignLeft()]: align === 'left',
+            [jsStyles.rootAlignRight()]: align === 'right',
+          })}
+          {...rest}
+        >
+          <span className={jsStyles.spring()} />
+          <span className={jsStyles.container()}>{children}</span>
+        </div>
+      </CommonWrapper>
     );
   }
 }

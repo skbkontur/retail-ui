@@ -13,7 +13,7 @@ const styles = {
       font-size: ${t.tokenFontSize};
       margin: ${t.tokenMarginY} ${t.tokenMarginX};
       min-width: 0;
-      word-break: break-word;
+      word-break: break-all;
       user-select: none;
 
       &:hover {

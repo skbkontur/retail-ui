@@ -7,12 +7,13 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
-export interface StickyProps {
+export interface StickyProps extends CommonProps {
   side: 'top' | 'bottom';
   /**
    * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
@@ -111,21 +112,23 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     return (
-      <div ref={this.refWrapper}>
-        <ZIndex
-          priority="Sticky"
-          applyZIndex={fixed}
-          className={cn(jsStyles.inner(), {
-            [jsStyles.fixed()]: fixed && !stopped,
-            [jsStyles.stopped()]: stopped,
-          })}
-          style={innerStyle}
-          wrapperRef={this.refInner}
-        >
-          <div className={jsStyles.container()}>{children}</div>
-        </ZIndex>
-        {fixed && !stopped ? <div style={{ width, height }} /> : null}
-      </div>
+      <CommonWrapper {...this.props}>
+        <div ref={this.refWrapper} className={jsStyles.wrapper()}>
+          <ZIndex
+            priority="Sticky"
+            applyZIndex={fixed}
+            className={cn(jsStyles.inner(), {
+              [jsStyles.fixed()]: fixed && !stopped,
+              [jsStyles.stopped()]: stopped,
+            })}
+            style={innerStyle}
+            wrapperRef={this.refInner}
+          >
+            <div className={jsStyles.container()}>{children}</div>
+          </ZIndex>
+          {fixed && !stopped ? <div style={{ width, height }} /> : null}
+        </div>
+      </CommonWrapper>
     );
   }
 
@@ -167,7 +170,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
         if (side === 'top') {
           stopped = stopRect.top - outerHeight < 0;
-          relativeTop = stopRect.top - height - top;
+          relativeTop = stopRect.top - prevHeight - top;
         } else {
           stopped = stopRect.bottom + outerHeight > windowHeight;
           relativeTop = stopRect.bottom - top;

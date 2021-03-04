@@ -279,6 +279,9 @@ Simple.story = {
   },
 };
 
+export const WithAutoFocus: CSFStory<JSX.Element> = () => <DateInput autoFocus />;
+WithAutoFocus.story = { name: 'with autoFocus' };
+
 export const Formatting = () => <DateInputFormatting />;
 Formatting.story = { name: 'formatting', parameters: { creevey: { skip: [true] } } };
 
@@ -340,6 +343,7 @@ BlurAlwaysAfterChange.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: 'body' }))
+            .pause(500)
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
         },

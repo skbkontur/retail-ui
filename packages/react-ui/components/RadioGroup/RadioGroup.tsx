@@ -8,11 +8,14 @@ import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 
-export interface RadioGroupProps<T = string | number> {
+export interface RadioGroupProps<T = string | number> extends CommonProps {
   defaultValue?: T;
   value?: T;
   items?: T[] | [T, React.ReactNode][];
@@ -143,6 +146,8 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static Prevent = Prevent;
 
+  private theme!: Theme;
+
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
@@ -167,6 +172,17 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
     const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
     const style = {
       width: width != null ? width : 'auto',
@@ -178,11 +194,13 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <FocusTrap onBlur={onBlur}>
-        <span ref={this.ref} style={style} className={jsStyles.root()} {...handlers}>
-          {this.renderChildren()}
-        </span>
-      </FocusTrap>
+      <CommonWrapper {...this.props}>
+        <FocusTrap onBlur={onBlur}>
+          <span ref={this.ref} style={style} className={jsStyles.root()} {...handlers}>
+            {this.renderChildren()}
+          </span>
+        </FocusTrap>
+      </CommonWrapper>
     );
   }
 
@@ -232,7 +250,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     const itemProps = {
       key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
       className: cn({
-        [jsStyles.item()]: true,
+        [jsStyles.item(this.theme)]: true,
         [jsStyles.itemFirst()]: index === 0,
         [jsStyles.itemInline()]: !!this.props.inline,
       }),

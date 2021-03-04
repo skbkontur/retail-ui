@@ -41,14 +41,14 @@ export class ComponentCombinator<
     for (let j = 0; j < sizes.length - 1; j++) {
       pages.push({
         offsetX: row,
-        offsetY: (row += sizes[j]),
+        offsetY: row += sizes[j],
       });
     }
 
     const pageOffsets = pages[page];
     return (
       <div>
-        <div id="paginator">
+        <div id="paginator" style={{ marginBottom: 5 }}>
           <button disabled={page === 0} id="prev-page" onClick={this.prevPage}>
             Prev
           </button>{' '}
