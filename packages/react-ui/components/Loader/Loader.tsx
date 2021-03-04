@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import cn from 'classnames';
+import debounce from 'lodash.debounce';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -21,6 +22,10 @@ export interface LoaderProps extends CommonProps {
    */
   active: boolean;
   caption?: SpinnerProps['caption'];
+  /**
+   * Компонент заменяющий спиннер.
+   */
+  component?: React.ReactNode;
   className?: string;
   type?: 'mini' | 'normal' | 'big';
   /**
@@ -42,7 +47,7 @@ export interface LoaderState {
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<LoaderProps> = {
     type: Spinner.Types.normal,
     active: false,
   };
@@ -59,6 +64,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * @default  "Загрузка"
      */
     caption: Spinner.propTypes.caption,
+
+    component: PropTypes.node,
 
     /**
      * Класс для обертки
@@ -83,8 +90,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private theme!: Theme;
   private containerNode: Nullable<HTMLDivElement>;
-  private spinnerNode: Nullable<HTMLSpanElement>;
-  private spinnerHeight?: number;
+  private spinnerNode: Nullable<HTMLDivElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
 
   constructor(props: LoaderProps) {
@@ -104,16 +110,14 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public componentDidMount() {
-    if (this.spinnerNode) {
-      this.spinnerHeight = this.spinnerNode.children[0].getBoundingClientRect().height;
-    }
-
     this.checkSpinnerPosition();
-    this.layoutEvents = LayoutEvents.addListener(this.checkSpinnerPosition);
+    this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
-    if (this.props.active && !prevProps.active) {
+    const { component, active } = this.props;
+
+    if ((active && !prevProps.active) || prevProps.component !== component) {
       this.checkSpinnerPosition();
     }
   }
@@ -136,7 +140,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { active, type, caption } = this.props;
+    const { active, type, caption, component } = this.props;
 
     return (
       <CommonWrapper {...this.props}>
@@ -157,7 +161,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
                 [jsStyles.active(this.theme)]: active,
               })}
             >
-              {this.renderSpinner(type, caption)}
+              {this.renderSpinner(type, caption, component)}
             </ZIndex>
           )}
         </div>
@@ -169,16 +173,20 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.containerNode = element;
   };
 
-  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode) {
+  private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
         className={this.state.isStickySpinner ? jsStyles.spinnerContainerSticky() : jsStyles.spinnerContainerCenter()}
         style={this.state.spinnerStyle}
-        ref={element => {
-          this.spinnerNode = element;
-        }}
       >
-        <Spinner type={type} caption={caption} cloud={this.props.cloud} />
+        <div
+          className={jsStyles.spinnerComponentWrapper()}
+          ref={element => {
+            this.spinnerNode = element;
+          }}
+        >
+          {component !== undefined ? component : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
+        </div>
       </span>
     );
   }
@@ -232,8 +240,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
-    if (this.spinnerHeight && spinnerStyle.bottom >= windowHeight - this.spinnerHeight) {
-      delete spinnerStyle.top;
+    if (this.spinnerNode) {
+      const spinnerHeight = this.spinnerNode.getBoundingClientRect().height;
+
+      if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
+        delete spinnerStyle.top;
+      }
     }
 
     // ПО ГОРИЗОНТАЛИ
