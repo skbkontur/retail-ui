@@ -22,6 +22,9 @@ export interface LoaderProps extends CommonProps {
    */
   active: boolean;
   caption?: SpinnerProps['caption'];
+  /**
+   * Компонент заменяющий спиннер.
+   */
   component?: React.ReactNode;
   className?: string;
   type?: 'mini' | 'normal' | 'big';
@@ -62,9 +65,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      */
     caption: Spinner.propTypes.caption,
 
-    /**
-     * Компонент заменяющий спиннер.
-     */
     component: PropTypes.node,
 
     /**

@@ -276,32 +276,20 @@ export const WithCustomComponent: CSFStory = () => {
     );
   };
 
-  const getTestText = () => (
-    <>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam rerum nisi error nesciunt at sunt, cum
-      reprehenderit sapiente quia recusandae! Distinctio incidunt ratione a alias officiis voluptatum quae et optio.
-      <br />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam placeat adipisci qui tempore ratione sed,
-      impedit saepe? Non, iste soluta? Quos voluptatem temporibus rerum explicabo molestias pariatur repudiandae, dicta
-      officia.
-      <br />
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eveniet reprehenderit quia, facere error aspernatur ipsa
-      unde amet nemo impedit totam saepe consequatur? Illo ea qui omnis incidunt laboriosam sit fugiat.
-    </>
-  );
+  const testText = 'Lorem ipsum dolor sit '.repeat(40);
 
   return (
     <div>
       <Loader active component={getTestComponent()}>
-        {getTestText()}
+        {testText}
       </Loader>
       <div style={{ height: '15px' }} />
       <Loader active component={'Загрузка'}>
-        {getTestText()}
+        {testText}
       </Loader>
       <div style={{ height: '15px' }} />
       <Loader active component={null}>
-        {getTestText()}
+        {testText}
       </Loader>
     </div>
   );
