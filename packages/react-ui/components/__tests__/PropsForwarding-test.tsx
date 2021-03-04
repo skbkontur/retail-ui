@@ -52,9 +52,9 @@ jest.mock('invariant', () => (...args: any[]) => {
   }
 });
 
-const createWrapper = <T extends {}>(compName: string) => {
+const createWrapper = <T extends {}>(compName: string, initProps: object = {}) => {
   const component = (ReactUI as any)[compName];
-  const props: any = (DEFAULT_PROPS as any)[compName] || {};
+  const props = { ...(DEFAULT_PROPS as any)[compName], ...initProps };
   return mount<T>(React.createElement(component, props));
 };
 
@@ -156,8 +156,7 @@ describe('Props Forwarding', () => {
         'aria-label': '',
         'aria-labelledby': '',
       };
-      const wrapper = createWrapper(compName);
-      wrapper.setProps(props);
+      const wrapper = createWrapper(compName, props);
 
       const testWrapper = getTestWrapper(compName, wrapper);
 
@@ -186,18 +185,16 @@ describe('Props Forwarding', () => {
         placeholder: 'my-placeholder', //	password, search, tel, text, url
         readOnly: true, //	              almost all
         step: '15', //	                  numeric
-        type: 'my-type', //               all
+        type: 'tel', //                   all
         required: true, //                all
       };
-      const wrapper = createWrapper(compName);
+      const wrapper = createWrapper(compName, props);
 
       if (compName === 'ComboBox') {
         // ComboBox renders <InputLikeText />
         // instead of <input /> while not it focus
         wrapper.find('span[tabIndex]').simulate('focus');
       }
-
-      wrapper.setProps(props);
 
       expect(wrapper.find('input').props()).toMatchObject(props);
     });
@@ -235,9 +232,7 @@ describe('Props Forwarding', () => {
       'TokenInput',
     ])('%s', compName => {
       const width = '99px';
-      const component = (ReactUI as any)[compName];
-      const props = { ...(DEFAULT_PROPS as any)[compName], width };
-      const wrapper = mount(React.createElement(component, props));
+      const wrapper = createWrapper(compName, { width });
       const testDOMNode = getTestDOMNode(compName, wrapper);
 
       expect(getComputedStyle(testDOMNode).width).toBe(width);
