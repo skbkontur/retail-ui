@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.14.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.13.0...@skbkontur/react-ui@2.14.0) (2021-03-05)
+
+
+### Bug Fixes
+
+* **Sticky:** avoid margins collapsing ([a39f3fc](https://github.com/skbkontur/retail-ui/commit/a39f3fcd24e2ffb2f163d86c6dbda4320f681f79))
+* **TokenInput:** don't call onBlur until focus is really lost ([7a6c856](https://github.com/skbkontur/retail-ui/commit/7a6c8563dd991d63511fe06561ee61a62d804c5e))
+
+
+### Features
+
+* **Loader:** add component prop ([40ea9b2](https://github.com/skbkontur/retail-ui/commit/40ea9b2b6e050927e503763e7ec33436dfa704df))
+* forward common props (className, style, data-*) ([#2257](https://github.com/skbkontur/retail-ui/issues/2257)) ([626ac07](https://github.com/skbkontur/retail-ui/commit/626ac07178e4d2139b03e6a6cb3e04a8e69475de))
+* **TokenInput:** onUnexpectedInput prop added ([cba1d76](https://github.com/skbkontur/retail-ui/commit/cba1d769a37620b25061b1e60541b67cf4fbb701))
+
+
+
+
+
 # [2.13.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.12.1...@skbkontur/react-ui@2.13.0) (2021-01-27)
 
 
