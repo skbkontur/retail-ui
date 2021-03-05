@@ -12,10 +12,9 @@ import { jsStyles } from './Button.styles';
 import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
-export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps extends CommonProps {
+export interface ButtonProps extends CommonProps, React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -37,8 +36,6 @@ export interface ButtonProps extends CommonProps {
    */
   arrow?: boolean | 'left';
 
-  autoFocus?: boolean;
-
   borderless?: boolean;
 
   checked?: boolean;
@@ -48,7 +45,7 @@ export interface ButtonProps extends CommonProps {
   /** @ignore */
   corners?: number;
 
-  disabled?: boolean;
+  // disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
@@ -66,25 +63,11 @@ export interface ButtonProps extends CommonProps {
 
   narrow?: boolean;
 
-  onBlur?: React.FocusEventHandler<HTMLButtonElement>;
-
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onFocus?: React.FocusEventHandler<HTMLButtonElement>;
-
-  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-
-  onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
-
-  onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
-
   /** `type ButtonSize = "small" | "medium" | "large"` */
   size?: ButtonSize;
 
   /** `type ButtonType = "button" | "submit" | "reset"` */
-  type?: ButtonType;
+  // type?: ButtonType;
 
   /**
    * Вариант использования. Влияет на цвет кнопки.
@@ -99,7 +82,6 @@ export interface ButtonProps extends CommonProps {
   warning?: boolean;
 
   width?: number | string;
-  tabIndex?: number;
 }
 
 export interface ButtonState {
