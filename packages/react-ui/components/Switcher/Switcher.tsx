@@ -33,6 +33,8 @@ export interface SwitcherProps extends CommonProps {
   size?: SwitcherSize;
 
   disabled?: boolean;
+  name?: string;
+  form?: string;
 }
 
 export interface SwitcherState {
@@ -86,7 +88,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<SwitcherProps>) => {
-    const { value, items, onValueChange, label, error, size, ...rest } = props;
+    const { items, onValueChange, label, error, size, ...rest } = props;
 
     const listClassName = cn({
       [jsStyles.error(this.theme)]: !!this.props.error,
@@ -99,6 +101,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
       className: jsStyles.input(),
+      checked: this.isChecked(),
     };
 
     const lableClassName = cn(jsStyles.label(), this.getLabelSizeClassName());
@@ -107,7 +110,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       <div>
         {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
         <div className={jsStyles.wrap()}>
-          <input {...inputProps} />
+          <input {...inputProps} onChange={this.handleChange} />
           <div className={listClassName}>
             <Group>{this._renderItems()}</Group>
           </div>
@@ -131,6 +134,11 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       const { value } = this._extractPropsFromItem(item);
       return value;
     });
+  };
+
+  private isChecked = (): boolean => {
+    const { value } = this.props;
+    return value !== undefined && this._extractValuesFromItems().includes(value);
   };
 
   private move = (step: number) => {
@@ -175,6 +183,10 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       e.preventDefault();
       this.move(isKeyArrowLeft(e) ? -1 : 1);
     }
+  };
+
+  private handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.onChange?.(e);
   };
 
   private _handleFocus = () => {
