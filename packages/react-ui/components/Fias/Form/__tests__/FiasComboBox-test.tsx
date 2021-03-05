@@ -34,7 +34,7 @@ describe('FiasComboBox', () => {
     const [search, promise] = searchFactory(Promise.resolve(items));
     const wrapper = mount<FiasComboBox>(<FiasComboBox getItems={search} renderItem={address => address.getText()} />);
     const setSearchQuery = async (searchQuery: string) => {
-      wrapper.find('input').simulate('change', { target: { value: searchQuery } });
+      wrapper.find('input:not([readOnly])').simulate('change', { target: { value: searchQuery } });
       await promise;
       await delay(0);
       wrapper.update();

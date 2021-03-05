@@ -52,7 +52,7 @@ describe('ComboBox', () => {
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
-    wrapper.find('input').simulate('change', { target: { value: 'world' } });
+    wrapper.find('input:not([readOnly])').simulate('change', { target: { value: 'world' } });
 
     expect(search).toBeCalled();
     expect(search).toHaveBeenCalledTimes(2);
@@ -121,7 +121,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+    wrapper.find('input:not([readOnly])').simulate('keydown', { key: 'Enter' });
 
     expect(onValueChange).toBeCalledWith('one');
     expect(onValueChange).toHaveBeenCalledTimes(1);
@@ -134,7 +134,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    wrapper.find('input').simulate('keydown', { key: 'Enter' });
+    wrapper.find('input:not([readOnly])').simulate('keydown', { key: 'Enter' });
 
     await delay(0);
 
@@ -150,7 +150,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    const inputNode = wrapper.find('input').getDOMNode() as HTMLElement;
+    const inputNode = wrapper.find('input:not([readOnly])').getDOMNode() as HTMLElement;
 
     inputNode.blur(); // simulate blur from real click
     wrapper
@@ -171,7 +171,7 @@ describe('ComboBox', () => {
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
-    wrapper.find('input').simulate('change', { target: { value: 'one' } });
+    wrapper.find('input:not([readOnly])').simulate('change', { target: { value: 'one' } });
 
     await promise;
 
@@ -196,7 +196,7 @@ describe('ComboBox', () => {
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       await delay(0);
-      wrapper.find('input').simulate('change', { target: { value: values.pop() } });
+      wrapper.find('input:not([readOnly])').simulate('change', { target: { value: values.pop() } });
       clickOutside();
     }
 
@@ -245,7 +245,7 @@ describe('ComboBox', () => {
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         opened: false,
       });
-      wrapper.find('input').simulate('blur');
+      wrapper.find('input:not([readOnly])').simulate('blur');
 
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
@@ -316,7 +316,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    const input = wrapper.find('input');
+    const input = wrapper.find('input:not([readOnly])');
     expect(input.prop('maxLength')).toBe(2);
   });
 
@@ -337,7 +337,7 @@ describe('ComboBox', () => {
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
     await delay(0);
-    wrapper.find('input').simulate('change', { target: { value: 'foo' } });
+    wrapper.find('input:not([readOnly])').simulate('change', { target: { value: 'foo' } });
 
     clickOutside();
     wrapper.update();
@@ -412,19 +412,19 @@ describe('ComboBox', () => {
     const check = (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
-      expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
+      expect(wrapper.find('input:not([readOnly])').prop('value')).toBe(VALUES[0].label);
 
       wrapper.instance().blur();
       wrapper.setProps({ value: VALUES[1] });
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
-      expect(wrapper.find('input').prop('value')).toBe(VALUES[1].label);
+      expect(wrapper.find('input:not([readOnly])').prop('value')).toBe(VALUES[1].label);
 
       wrapper.instance().blur();
       wrapper.setProps({ value: null });
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
-      expect(wrapper.find('input').prop('value')).toBe('');
+      expect(wrapper.find('input:not([readOnly])').prop('value')).toBe('');
     };
 
     it('in default mode', () => {
@@ -450,14 +450,14 @@ describe('ComboBox', () => {
     const check = (wrapper: any) => {
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
-      wrapper.find('input').simulate('change', { target: { value: 'two' } });
+      wrapper.find('input:not([readOnly])').simulate('change', { target: { value: 'two' } });
 
       clickOutside();
       wrapper.setProps({ value: null });
 
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
-      expect(wrapper.find('input').prop('value')).toBe('two');
+      expect(wrapper.find('input:not([readOnly])').prop('value')).toBe('two');
     };
 
     it('in default mode', () => {
@@ -493,9 +493,9 @@ describe('ComboBox', () => {
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
-    wrapper.find('input').simulate('change', { target: { value: 'foo' } });
+    wrapper.find('input:not([readOnly])').simulate('change', { target: { value: 'foo' } });
 
-    expect(wrapper.find('input').prop('value')).toBe('foo');
+    expect(wrapper.find('input:not([readOnly])').prop('value')).toBe('foo');
 
     clickOutside();
     wrapper.instance().reset();
@@ -530,7 +530,7 @@ describe('ComboBox', () => {
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
-    wrapper.find('input').simulate('change', { target: { value: 'Two' } });
+    wrapper.find('input:not([readOnly])').simulate('change', { target: { value: 'Two' } });
 
     await delay(300);
 
@@ -621,7 +621,7 @@ describe('ComboBox', () => {
     });
 
     it('click on item', async () => {
-      const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+      const inputNode = wrapper.find('input:not([readOnly])').getDOMNode() as HTMLInputElement;
 
       inputNode.blur(); // simulate blur from real click
 
@@ -643,14 +643,14 @@ describe('ComboBox', () => {
 
     it('Enter on item', async () => {
       wrapper
-        .find('input')
+        .find('input:not([readOnly])')
         .simulate('keydown', { key: 'ArrowDown' })
         .simulate('keydown', { key: 'Enter' });
 
       await delay(0);
       wrapper.update();
 
-      const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
+      const inputNode = wrapper.find('input:not([readOnly])').getDOMNode() as HTMLInputElement;
 
       expect(inputNode).toBeTruthy();
       expect(inputNode).toBe(document.activeElement); // input has focus
@@ -666,7 +666,7 @@ describe('ComboBox', () => {
     type TComboBoxWrapper = ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
     const clickOnInput = (comboboxWrapper: TComboBoxWrapper) => {
       comboboxWrapper.update();
-      comboboxWrapper.find('input').simulate('click');
+      comboboxWrapper.find('input:not([readOnly])').simulate('click');
     };
     let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
     let promise: Promise<{}>;

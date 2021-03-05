@@ -17,10 +17,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { jsStyles } from './CustomComboBox.styles';
 
 interface ComboBoxViewProps<T>
-  extends Omit<
-    CustomComboBoxProps<T>,
-    'getItems' | 'itemToValue' | 'valueToString' | 'searchOnFocus' | 'onUnexpectedInput'
-  > {
+  extends Omit<CustomComboBoxProps<T>, 'getItems' | 'valueToString' | 'searchOnFocus' | 'onUnexpectedInput'> {
   editing?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
@@ -42,6 +39,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
   public static defaultProps = {
+    // TODO: use defaultProps from ComboBox
+    itemToValue: (item: any) => item.value,
     renderItem: (item: any) => item,
     renderValue: (item: any) => item,
     renderAddButton: () => null,
@@ -191,32 +190,54 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       disablePortal,
       drawArrow,
       refInput,
+      itemToValue,
+      name,
+      form,
+      disabled,
       ...rest
     } = props;
 
     const rightIcon = this.getRightIcon();
 
-    if (editing) {
-      return (
-        <Input
-          {...rest}
-          onBlur={onInputBlur}
-          onValueChange={onInputValueChange}
-          onFocus={onInputFocus}
-          onClick={onInputClick}
-          value={textValue || ''}
-          onKeyDown={onInputKeyDown}
-          width="100%"
-          ref={this.refInput}
-          rightIcon={rightIcon}
-        />
-      );
-    }
+    const hiddenInputProps = {
+      name,
+      form,
+      disabled,
+      value: this.getValueAsString(),
+    };
 
-    return (
-      <InputLikeText {...rest} onFocus={onFocus} width="100%" ref={refInputLikeText} rightIcon={rightIcon}>
+    const input = editing ? (
+      <Input
+        {...rest}
+        onBlur={onInputBlur}
+        onValueChange={onInputValueChange}
+        onFocus={onInputFocus}
+        onClick={onInputClick}
+        value={textValue || ''}
+        onKeyDown={onInputKeyDown}
+        width="100%"
+        ref={this.refInput}
+        rightIcon={rightIcon}
+        disabled={disabled}
+      />
+    ) : (
+      <InputLikeText
+        {...rest}
+        onFocus={onFocus}
+        width="100%"
+        ref={refInputLikeText}
+        rightIcon={rightIcon}
+        disabled={disabled}
+      >
         {value ? renderValue!(value) : null}
       </InputLikeText>
+    );
+
+    return (
+      <>
+        {input}
+        <input {...hiddenInputProps} type="hidden" readOnly />
+      </>
     );
   }
 
@@ -255,5 +276,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     return null;
+  };
+
+  private getValueAsString = (): string => {
+    const { value, itemToValue } = this.props;
+    return value !== undefined && value !== null ? String(itemToValue(value)) : '';
   };
 }
