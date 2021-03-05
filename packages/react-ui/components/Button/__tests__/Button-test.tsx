@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { Button, ButtonType } from '../Button';
+import { Button, ButtonProps } from '../Button';
 
 describe('Button', () => {
   it('has correct label', () => {
@@ -19,7 +19,7 @@ describe('Button', () => {
     expect(onClick.mock.calls.length).toBe(1);
   });
 
-  (['submit', 'button', 'reset'] as ButtonType[]).forEach(type => {
+  (['submit', 'button', 'reset'] as ButtonProps['type'][]).forEach(type => {
     it(`sets type ${type} when type=${type} specified`, () => {
       const wrapper = mount(<Button type={type} />);
       expect(wrapper.find('button').prop('type')).toBe(type);
