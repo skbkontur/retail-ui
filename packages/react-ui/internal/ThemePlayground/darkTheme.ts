@@ -62,7 +62,7 @@ export const darkTheme = ThemeFactory.create({
   radioBgImage: 'linear-gradient(#fdfdfd, #ededed) !important',
   radioHoverBg: 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%) !important',
   radioDisabledShadow: '0 0 0 1px rgba(0, 0, 0, 0.15) !important',
-  checkboxTextColorDisabled: '#000',
+  checkboxIndeterminateBg: '#000',
   checkboxShadowDisabled: 'rgba(255, 255, 255, .5)',
   textColorDefault: '#fff',
   textColorInvert: '#fff',
