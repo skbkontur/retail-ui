@@ -2,61 +2,35 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import { DropdownContainer } from '../DropdownContainer';
-import { Input, InputIconType } from '../../components/Input';
+import { Input } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
-import { MenuItemState } from '../../components/MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowTriangleDownIcon } from '../icons/16px';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
+import { CustomComboBoxProps } from './CustomComboBox';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { jsStyles } from './CustomComboBox.styles';
 
-interface ComboBoxViewProps<T> extends CommonProps {
-  align?: 'left' | 'center' | 'right';
-  autoFocus?: boolean;
-  borderless?: boolean;
-  disablePortal?: boolean;
-  disabled?: boolean;
+interface ComboBoxViewProps<T>
+  extends Omit<
+    CustomComboBoxProps<T>,
+    'getItems' | 'itemToValue' | 'valueToString' | 'searchOnFocus' | 'onUnexpectedInput'
+  > {
   editing?: boolean;
-  error?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
-  menuAlign?: 'left' | 'right';
   opened?: boolean;
-  drawArrow?: boolean;
-  placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
   textValue?: string;
-  totalCount?: number;
-  value?: Nullable<T>;
-  warning?: boolean;
-  width?: string | number;
-  maxLength?: number;
-  maxMenuHeight?: number | string;
-  leftIcon?: InputIconType;
-
-  onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
-  onFocus?: () => void;
   onFocusOutside?: () => void;
   onInputBlur?: () => void;
-  onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
   onInputClick?: () => void;
-  onInputKeyDown?: (e: React.KeyboardEvent) => void;
-  onMouseEnter?: (e: React.MouseEvent) => void;
-  onMouseOver?: (e: React.MouseEvent) => void;
-  onMouseLeave?: (e: React.MouseEvent) => void;
-  renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
-  renderNotFound?: () => React.ReactNode;
-  renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  renderValue?: (item: T) => React.ReactNode;
-  renderAddButton: (query?: string) => React.ReactNode;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
@@ -179,7 +153,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private renderAddButton = (): React.ReactNode => {
-    return this.props.renderAddButton(this.props.textValue);
+    return this.props.renderAddButton?.(this.props.textValue);
   };
 
   private renderInput(props: CommonWrapperRestProps<ComboBoxViewProps<T>>): React.ReactNode {
