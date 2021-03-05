@@ -179,7 +179,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   public render() {
-    const { getItems, itemToValue, valueToString, searchOnFocus, onUnexpectedInput, ...rest } = this.props;
+    const { getItems, valueToString, searchOnFocus, onUnexpectedInput, ...rest } = this.props;
 
     const viewProps = {
       ...rest,

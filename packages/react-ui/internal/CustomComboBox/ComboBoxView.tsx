@@ -17,10 +17,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { jsStyles } from './CustomComboBox.styles';
 
 interface ComboBoxViewProps<T>
-  extends Omit<
-    CustomComboBoxProps<T>,
-    'getItems' | 'itemToValue' | 'valueToString' | 'searchOnFocus' | 'onUnexpectedInput'
-  > {
+  extends Omit<CustomComboBoxProps<T>, 'getItems' | 'valueToString' | 'searchOnFocus' | 'onUnexpectedInput'> {
   editing?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
@@ -191,6 +188,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       disablePortal,
       drawArrow,
       refInput,
+      itemToValue,
       ...rest
     } = props;
 
@@ -214,7 +212,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     return (
-      <InputLikeText {...rest} onFocus={onFocus} width="100%" ref={refInputLikeText} rightIcon={rightIcon}>
+      <InputLikeText
+        {...rest}
+        value={this.getValueAsString()}
+        onFocus={onFocus}
+        width="100%"
+        ref={refInputLikeText}
+        rightIcon={rightIcon}
+      >
         {value ? renderValue!(value) : null}
       </InputLikeText>
     );
@@ -255,5 +260,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     return null;
+  };
+
+  private getValueAsString = (): string => {
+    const { value, itemToValue } = this.props;
+    return value !== undefined && value !== null ? String(itemToValue(value)) : '';
   };
 }
