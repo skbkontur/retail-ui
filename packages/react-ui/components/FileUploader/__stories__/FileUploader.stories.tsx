@@ -42,5 +42,5 @@ export const MultipleFileUploaderWithErrorRequest = () => (
 );
 
 export const MultipleFileUploaderWithControlError = () => (
-  <FileUploader multiple controlError controlErrorText={"Файлов должно быть меньше 2"} request={loadingRequest} />
+  <FileUploader multiple controlError={"Файлов должно быть меньше 2"} request={loadingRequest} />
 );

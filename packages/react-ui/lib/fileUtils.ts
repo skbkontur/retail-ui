@@ -1,7 +1,7 @@
 import { getGuid } from './guidUtils';
 import { ValidationResult } from '../internal/FileAttacherBase/ValidationResult';
 
-export type UploadFileDataUrl = string | ArrayBuffer | null;
+export type UploadFileInBase64 = string | ArrayBuffer | null;
 
 export enum UploadFileStatus {
   Attached = 'Attached',
@@ -20,33 +20,36 @@ export interface IUploadFile {
   id: string;
   originalFile: File;
   status: UploadFileStatus;
-  validationResult: ValidationResult<UploadFileValidationError>;
+  validationResult: ValidationResult;
 
-  url?: UploadFileDataUrl;
+  fileInBase64: UploadFileInBase64;
 }
 
-export const readFile = (file: File): Promise<UploadFileDataUrl> => (
+export const readFile = (file: File): Promise<UploadFileInBase64> => (
   new Promise((resolve, reject): void => {
     const fileReader = new FileReader();
-    console.log({file});
     fileReader.onload = () => resolve(fileReader.result);
     fileReader.onerror = reject;
     fileReader.readAsDataURL(file);
   })
 );
 
-export const readFiles = (files: File[]): Promise<Array<UploadFileDataUrl>> => {
-  const filesPromises = files.map(file => readFile(file));
+export const readFiles = (files: File[]): Promise<Array<IUploadFile>> => {
+  const filesPromises = files.map(async file => {
+    const fileInBase64 = await readFile(file).catch(console.error) || null;
+    return getUploadFile(file, fileInBase64);
+  });
 
   return Promise.all(filesPromises);
 };
 
-export const getUploadFile = (file: File): IUploadFile => {
+export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): IUploadFile => {
   return {
     id: getGuid(),
     originalFile: file,
     status: UploadFileStatus.Attached,
-    validationResult: ValidationResult.ok()
+    validationResult: ValidationResult.ok(),
+    fileInBase64: fileInBase64
   };
 };
 

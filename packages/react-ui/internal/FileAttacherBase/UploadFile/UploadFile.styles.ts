@@ -3,8 +3,20 @@ import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 const styles = {
   root() {
     return css`
+      width: 100%;
+    `;
+  },
+
+  content() {
+    return css`
       display: flex;
       width: 100%;
+    `;
+  },
+
+  error() {
+    return css`
+      color: #D70C17;
     `;
   },
 
