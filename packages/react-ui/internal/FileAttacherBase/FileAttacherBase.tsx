@@ -3,7 +3,6 @@ import { jsStyles } from './FileAttacherBase.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import cn from 'classnames';
 import {
-  getUploadFile,
   IUploadFile,
   readFiles,
 } from '../../lib/fileUtils';
@@ -12,7 +11,6 @@ import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
 import { UploadFilesContext } from './UploadFilesContext';
 import { useDrop } from './FileAttacherBaseHooks';
-import { ValidationResult } from './ValidationResult';
 import { Tooltip } from '../../components/Tooltip';
 
 // FIXME @mozalov: написать комменты для каждого пропса
@@ -27,27 +25,36 @@ import { Tooltip } from '../../components/Tooltip';
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
+export type FileError = {
+  fileId: string;
+  message: string;
+};
+
 export interface FileAttacherBaseProps {
   name?: string;
   // TODO изучить как можно прикрутить валидацию
   allowedFileTypes?: string[];
-  onChange?: (files: IUploadFile[]) => void;
   disabled?: boolean;
   id?: string;
   multiple?: boolean;
 
+  onChange?: (files: IUploadFile[]) => void;
   controlError?: ReactNode;
 
-  // TODO @mozalov: мб стоит поменять на массив пропсов fileError по fileId?
-  fileValidate?: (file: IUploadFile, allowedFileTypes: string[]) => ValidationResult;
+  onSelect?: (files: IUploadFile[]) => void;
+  onReadError?: (files: IUploadFile[]) => void;
+
+  // TODO @mozalov: только для аттача и внутреннего компонента
+  fileError?: FileError[];
 }
 
 export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const {
     name,
-    onChange,
     multiple = false,
-    controlError
+    controlError,
+    onSelect,
+    onReadError
   } = props;
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,16 +67,16 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
 
-    let uploadFiles = Array.from(files).map(file => getUploadFile(file));
-    // TODO @mozalov: мб валидировать до чтения?
-    const fileUrls = await readFiles(uploadFiles.map(file => file.originalFile));
+    const uploadFiles = await readFiles(Array.from(files));
 
-    if (!uploadFiles.length) return;
+    const selectedFiles = uploadFiles.filter(v => !!v.fileInBase64);
+    const readErrorFiles = uploadFiles.filter(v => !v.fileInBase64);
 
-    uploadFiles.map((file, index) => ({...file, url: fileUrls[index]}));
+    onSelect && onSelect(selectedFiles);
+    onReadError && onReadError(readErrorFiles);
 
     setFiles(uploadFiles);
-  }, [onChange, setFiles]);
+  }, [onReadError, onSelect, setFiles]);
 
   const handleDrop = useCallback(event => {
     const {dataTransfer} = event;

@@ -9,7 +9,8 @@ import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelp
 import { truncate } from '../../../lib/stringUtils';
 import { Spinner } from '../../../components/Spinner';
 import { UploadFilesContext } from '../UploadFilesContext';
-import { ValidationResultType } from '../ValidationResult';
+import { Tooltip } from '../../../components/Tooltip';
+import cn from 'classnames';
 
 interface ReadFileProps {
   file: IUploadFile;
@@ -68,6 +69,8 @@ export const UploadFile = (props: ReadFileProps) => {
     removeFile(id);
   }, [removeFile, id]);
 
+  const { isValid, message } = validationResult;
+
   const icon: ReactNode = useMemo(() => {
     switch (status) {
       case UploadFileStatus.Loading:
@@ -75,21 +78,34 @@ export const UploadFile = (props: ReadFileProps) => {
       case UploadFileStatus.Uploaded:
         return <OkIcon />;
       default:
-        if (validationResult.type === ValidationResultType.Error) {
+        if (!isValid) {
           return <ErrorIcon />;
         }
         return <DeleteIcon color="#808080" onClick={handleRemove} />;
     }
-  }, [status]);
+  }, [status, isValid, handleRemove]);
+
+
+  const renderTooltipContent = useCallback((): ReactNode => {
+    return isValid ? null : message;
+  }, [isValid, message]);
+
+  const contentClassNames = useMemo(() => cn(jsStyles.content(), {
+    [jsStyles.error()]: !isValid
+  }), [isValid]);
 
   return (
     <div className={jsStyles.root()}>
-      <TextWidthHelper ref={textHelperRef} text={name} />
-      <span ref={fileNameSpanRef} className={jsStyles.name()}>{truncatedFileName}</span>
-      {!!showSize && formattedSize && <span className={jsStyles.size()}>{formattedSize}</span>}
-      <div className={jsStyles.icon()}>
-        {icon}
-      </div>
+      <Tooltip pos="right middle" render={renderTooltipContent}>
+        <div className={contentClassNames}>
+            <TextWidthHelper ref={textHelperRef} text={name} />
+            <span ref={fileNameSpanRef} className={jsStyles.name()}>{truncatedFileName}</span>
+            {!!showSize && formattedSize && <span className={jsStyles.size()}>{formattedSize}</span>}
+            <div className={jsStyles.icon()}>
+              {icon}
+            </div>
+          </div>
+      </Tooltip>
     </div>
   );
 };
