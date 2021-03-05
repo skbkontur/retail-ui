@@ -465,11 +465,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get toastLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static toastPaddingY = '10px';
+  public static toastPaddingY = '8px';
   public static toastPaddingX = '16px';
-  public static toastBorderRadius = '2px';
   public static toastTop = '24px';
   public static toastCloseBtnPadding = '16px';
+  public static toastCloseBtnLegacyPaddingY = '0px';
+  public static toastCloseBtnLegacyPaddingX = '0px';
+  public static toastLinkButtonLegacyRightMargin = '0px';
   //#endregion
 }
 

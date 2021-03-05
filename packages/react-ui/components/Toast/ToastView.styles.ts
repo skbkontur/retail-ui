@@ -34,24 +34,26 @@ const styles = {
     return css`
       display: flex;
       position: absolute;
-      top: ${t.toastCloseBtnPadding};
-      right: ${t.toastCloseBtnPadding};
+      top: ${parseInt(t.toastCloseBtnPadding) - parseInt(t.toastCloseBtnLegacyPaddingY)}px;
+      right: ${parseInt(t.toastCloseBtnPadding) - parseInt(t.toastCloseBtnLegacyPaddingX)}px;
     `;
   },
 
   link(t: Theme) {
-    const halfPaddingX = `${Math.round(parseInt(t.toastPaddingX) / 2)}px`;
-    const linkPaddingRight = parseInt(halfPaddingX) + parseInt(t.toastCloseBtnPadding) + 8;
+    const leftMargin = `${parseInt(t.toastPaddingX)}px`;
+    const marginRight = `${Math.round(
+      parseInt(t.toastPaddingX) * 1.5 + parseInt(t.toastCloseSize) - parseInt(t.toastLinkButtonLegacyRightMargin),
+    )}px`;
+    const paddingBottom = `${parseInt(t.toastPaddingY) + parseInt(t.fontFamilyCompensationBaseline)}px`;
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
-      margin: -${t.toastPaddingY} ${linkPaddingRight}px -${parseInt(t.toastPaddingY) +
-          parseInt(t.fontFamilyCompensationBaseline)}px
-        ${halfPaddingX};
-      padding: ${t.toastPaddingY} ${halfPaddingX}
-        ${parseInt(t.toastPaddingY) + parseInt(t.fontFamilyCompensationBaseline)}px;
+
+      margin: -${t.toastPaddingY} ${marginRight} -${paddingBottom} ${leftMargin};
+
+      padding: ${t.toastPaddingY} 0 ${paddingBottom} 0;
 
       &:hover {
         text-decoration: underline;
@@ -64,12 +66,12 @@ const styles = {
       color: ${t.toastCloseColor};
       cursor: pointer;
       display: inline-block;
-      height: 8px;
+      height: ${t.toastCloseSize};
       line-height: 0;
-      margin: -12px -8px;
-      padding: 12px 8px;
+      margin: -${t.toastCloseExtraAreaPadding};
+      padding: ${t.toastCloseExtraAreaPadding};
       text-align: center;
-      width: 8px;
+      width: ${t.toastCloseSize};
 
       &:hover {
         color: ${t.toastCloseHoverColor};
