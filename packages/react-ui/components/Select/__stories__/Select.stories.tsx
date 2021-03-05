@@ -151,6 +151,22 @@ Simple.story = {
   },
 };
 
+export const UsingDefaultValue: CSFStory<JSX.Element> = () => (
+  <Select width="150px" items={['oneoneone', 'twotwotwo', 'threethree']} defaultValue={'threethree'} />
+);
+UsingDefaultValue.story = {
+  parameters: {
+    creevey: {
+      captureElement: '.dropdown-test-container',
+      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      tests: selectTests,
+    },
+  },
+};
+export const Disabled: CSFStory<JSX.Element> = () => (
+  <Select width="150px" items={['oneoneone', 'twotwotwo', 'threethree']} disabled />
+);
+
 export const ComplexValues = () => <SelectWrapper />;
 ComplexValues.story = { name: 'Complex values', parameters: { creevey: { skip: [true] } } };
 

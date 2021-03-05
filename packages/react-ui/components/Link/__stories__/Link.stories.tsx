@@ -7,19 +7,34 @@ import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
 
 const linkTests: CreeveyStoryParams['tests'] = {
-  async idle() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
-  async hover() {
+  async ['idle, hover, pressed and released']() {
+    const element = await this.browser.findElement({ css: '#test-element' });
+    const link = await this.browser.findElement({ css: '[data-comp-name~=Link]' });
+
+    const idle = await element.takeScreenshot();
+
     await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'a' }),
-      })
+      .actions({ bridge: true })
+      .move({ origin: link })
       .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+
+    const hover = await element.takeScreenshot();
+
+    await this.browser
+      .actions({ bridge: true })
+      .press()
+      .perform();
+
+    const pressed = await element.takeScreenshot();
+
+    await this.browser
+      .actions({ bridge: true })
+      .release()
+      .perform();
+
+    const released = await element.takeScreenshot();
+
+    await this.expect({ idle, hover, pressed, released }).to.matchImages();
   },
 };
 
@@ -44,9 +59,46 @@ Grayed.story = { parameters: { creevey: { tests: linkTests } } };
 export const Disabled: CSFStory<JSX.Element> = () => <Link disabled>Simple link</Link>;
 Disabled.story = { parameters: { creevey: { tests: linkTests } } };
 
-export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
-WithOnClick.story = { name: 'With onClick', parameters: { creevey: { skip: [true] } } };
+export const WithSpaces: CSFStory<JSX.Element> = () => <Link>Link with spaces</Link>;
+WithSpaces.story = { parameters: { creevey: { tests: linkTests } } };
 
+export const Success: CSFStory<JSX.Element> = () => <Link use="success">Link with spaces</Link>;
+
+Success.story = { parameters: { creevey: { tests: linkTests } } };
+
+// export const WithOnClick: CSFStory<JSX.Element> = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
+// WithOnClick.story = {
+//   name: 'With onClick',
+//   parameters: {
+//     creevey: {
+//       tests: {
+//         async hover() {
+//           const element = await this.browser.findElement({ css: '#test-element' });
+//           const link = await this.browser.findElement({ css: '[data-comp-name*=Link]' });
+//           const idle = await element.takeScreenshot();
+
+//           await this.browser
+//             .actions({ bridge: true })
+//             .move({ origin: link })
+//             .perform();
+
+//           const hover = await element.takeScreenshot();
+
+//           await this.browser
+//             .actions({ bridge: true })
+//             .click(link)
+//             .perform();
+
+//           const toast_element = await this.browser.findElement({ css: '[data-tid=StaticToast]' });
+
+//           const toast = await toast_element.takeScreenshot();
+
+//           await this.expect({ idle, hover, toast }).to.matchImages();
+//         },
+//       },
+//     },
+//   },
+// };
 export const Loading: CSFStory<JSX.Element> = () => (
   <Gapped vertical>
     <Link loading>Simple loading </Link>
