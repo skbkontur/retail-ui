@@ -809,7 +809,7 @@ export class DefaultTheme {
   public static menuItemCommentColorHover = '#fff';
   //menuHeader
   public static menuHeaderColor = '#a0a0a0';
-  public static menuHeaderLineHeight = '18px';
+  public static menuHeaderLineHeight = 'inherit';
   public static menuHeaderFontSize = '12px';
   public static get menuHeaderPaddingX() {
     return this.menuItemPaddingX;

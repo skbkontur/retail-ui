@@ -466,6 +466,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static menuItemIconLegacyShift = '0px';
   public static menuItemLegacyPaddingX = '0px';
   public static menuItemLegacyPaddingY = '0px';
+  public static menuItemIconGap = '4px';
   public static menuHeaderLineHeight = '16px';
   public static menuHeaderPaddingX = '8px';
   public static menuPaddingY = '4px';

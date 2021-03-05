@@ -41,9 +41,9 @@ const styles = {
   },
   disabled(t: Theme) {
     return css`
-      background: transparent;
+      background: transparent !important;
       color: ${t.menuItemDisabledColor} !important;
-      cursor: default;
+      cursor: default !important;
     `;
   },
   link(t: Theme) {
@@ -78,7 +78,7 @@ const styles = {
       width: ${t.menuItemIconWidth};
       display: inline-block;
       position: absolute;
-      left: ${parseInt(t.menuItemPaddingForIcon) - parseInt(t.menuItemIconWidth) - parseInt(t.menuItemIconGap)}px;
+      left: ${parseInt(t.menuItemPaddingX) + parseInt(t.menuItemIconLegacyMargin)}px;
       top: ${t.menuItemPaddingY};
       transform: translateY(${t.menuItemIconLegacyShift});
     `;
