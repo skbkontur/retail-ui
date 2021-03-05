@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { Input, InputIconType } from '../../components/Input';
+import { Input } from '../../components/Input';
+import { ComboBoxProps } from '../../components/ComboBox';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
-import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 
@@ -12,43 +12,7 @@ import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
 
-export interface CustomComboBoxProps<T> {
-  align?: 'left' | 'center' | 'right';
-  autoFocus?: boolean;
-  borderless?: boolean;
-  disablePortal?: boolean;
-  disabled?: boolean;
-  error?: boolean;
-  maxLength?: number;
-  menuAlign?: 'left' | 'right';
-  drawArrow?: boolean;
-  leftIcon?: InputIconType;
-  searchOnFocus?: boolean;
-  onValueChange?: (value: T) => void;
-  onInputValueChange?: (value: string) => Nullable<string> | void;
-  onUnexpectedInput?: (value: string) => void | null | T;
-  onFocus?: () => void;
-  onBlur?: () => void;
-  onMouseEnter?: (e: React.MouseEvent) => void;
-  onMouseOver?: (e: React.MouseEvent) => void;
-  onMouseLeave?: (e: React.MouseEvent) => void;
-  onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
-  placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
-  totalCount?: number;
-  value?: Nullable<T>;
-  warning?: boolean;
-  width?: string | number;
-  maxMenuHeight?: number | string;
-  renderNotFound?: () => React.ReactNode;
-  renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  renderValue: (value: T) => React.ReactNode;
-  renderAddButton?: (query?: string) => React.ReactNode;
-  valueToString: (value: T) => string;
-  itemToValue: (item: T) => string | number;
-  getItems: (query: string) => Promise<T[]>;
-}
+export type CustomComboBoxProps<T> = ComboBoxProps<T>;
 
 export interface CustomComboBoxState<T> {
   editing: boolean;
