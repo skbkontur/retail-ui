@@ -113,6 +113,10 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
    */
   areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
   /**
+   * Функция конвертации `value` в строку для передачи в нативный элемент формы
+   */
+  valueToString?: (value: TValue) => string;
+  /**
    * Показывать строку поиска в списке.
    */
   search?: boolean;
@@ -123,6 +127,8 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   size?: ButtonSize;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
+  name?: string;
+  form?: string;
 }
 
 export interface SelectState<TValue> {
@@ -141,7 +147,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public static propTypes = {
     areValuesEqual: PropTypes.func,
-    defaultValue: PropTypes.any,
     disablePortal: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
@@ -153,7 +158,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     renderItem: PropTypes.func,
     renderValue: PropTypes.func,
     search: PropTypes.bool,
-    value: PropTypes.any,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onValueChange: PropTypes.func,
     onMouseEnter: PropTypes.func,
@@ -166,6 +170,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     renderValue,
     renderItem,
     areValuesEqual,
+    valueToString,
     filterItem,
     use: 'default',
   };
@@ -268,12 +273,20 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const button = this.getButton(buttonParams);
 
+    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+      name: this.props.name,
+      disabled: this.props.disabled,
+      form: this.props.form,
+      value: this.getValueAsString(),
+    };
+
     return (
       <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
           <span className={jsStyles.root(this.theme)} style={style}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}
+            <input {...inputProps} type="hidden" />
           </span>
         </RenderLayer>
       </CommonWrapper>
@@ -313,6 +326,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       diadocLinkIcon,
       defaultValue,
       areValuesEqual,
+      valueToString,
       _renderButton,
       _icon,
       maxWidth,
@@ -324,6 +338,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       renderItem,
       renderValue,
       search,
+      name,
       value,
       width,
       ...rest
@@ -553,6 +568,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return this.state.value;
   }
 
+  private getValueAsString() {
+    const value = this.getValue();
+    if (value === null || value === undefined) {
+      return '';
+    }
+    return this.getProps().valueToString(value);
+  }
+
   private mapItems(fn: (value: TValue, item: TItem, index: number, comment?: string) => React.ReactNode) {
     const { items } = this.props;
     if (!items) {
@@ -622,6 +645,10 @@ function renderItem(value: any, item: any) {
 
 function areValuesEqual(value1: any, value2: any) {
   return value1 === value2;
+}
+
+function valueToString(value: any): string {
+  return String(value);
 }
 
 function normalizeEntry(entry: any) {
