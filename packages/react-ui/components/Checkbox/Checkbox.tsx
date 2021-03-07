@@ -41,6 +41,7 @@ export interface CheckboxProps
 export interface CheckboxState {
   focusedByTab: boolean;
   indeterminate: boolean;
+  uncontrolledChecked?: boolean;
 }
 
 /**
@@ -64,6 +65,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public state = {
     focusedByTab: false,
     indeterminate: this.props.initialIndeterminate || false,
+    uncontrolledChecked: this.props.defaultChecked,
   };
 
   private theme!: Theme;
@@ -151,7 +153,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       [jsStyles.root(this.theme)]: true,
       [jsStyles.rootFallback()]: isIE11 || isEdge,
       [jsStyles.disabled(this.theme)]: Boolean(props.disabled),
-      [jsStyles.checked(this.theme)]: Boolean(props.checked),
+      [jsStyles.checked(this.theme)]: this.isChecked(),
       [jsStyles.indeterminate(this.theme)]: isIndeterminate,
       [jsStyles.focus(this.theme)]: this.state.focusedByTab,
       [jsStyles.warning(this.theme)]: Boolean(props.warning),
@@ -178,7 +180,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
 
     const iconClass = cn({
-      [jsStyles.iconUnchecked()]: !props.checked && !isIndeterminate,
+      [jsStyles.iconUnchecked()]: !this.isChecked() && !isIndeterminate,
       [jsStyles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
@@ -225,5 +227,17 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.resetIndeterminate();
 
     this.props.onChange?.(event);
+
+    if (this.isUncontrolled()) {
+      this.setState({ uncontrolledChecked: checked });
+    }
+  };
+
+  private isUncontrolled = (): boolean => {
+    return this.props.checked === undefined;
+  };
+
+  private isChecked = (): boolean => {
+    return (this.isUncontrolled() ? this.state.uncontrolledChecked : this.props.checked) || false;
   };
 }
