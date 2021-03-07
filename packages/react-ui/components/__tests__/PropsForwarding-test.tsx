@@ -12,15 +12,16 @@ const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
 
 // some components have required props
 // so we need this in order to create them dynamically
+// also we pass values to inputs to check their forwarding
 const DEFAULT_PROPS = {
-  Autocomplete: { value: '', onValueChange: jest.fn() },
-  FxInput: { onValueChange: jest.fn() },
-  CurrencyInput: { onValueChange: jest.fn() },
+  Autocomplete: { value: 'value', onValueChange: jest.fn() },
+  FxInput: { value: 'value', onValueChange: jest.fn() },
+  CurrencyInput: { value: 0, onValueChange: jest.fn() },
   CurrencyLabel: { value: '' },
-  DatePicker: { onValueChange: jest.fn() },
-  ComboBox: { getItems: () => Promise.resolve([]) },
+  DatePicker: { value: '00.00.0000', onValueChange: jest.fn() },
+  ComboBox: { value: { label: 'value', value: 0 }, getItems: () => Promise.resolve([]) },
   TokenInput: { type: ReactUI.TokenInputType.Combined, getItems: () => Promise.resolve([]), onValueChange: jest.fn() },
-  Radio: { value: '' },
+  Radio: { value: 'value' },
   RadioGroup: { items: [] },
   Dropdown: { caption: 'caption' },
   DropdownMenu: { caption: 'caption' },
@@ -30,7 +31,7 @@ const DEFAULT_PROPS = {
   MenuHeader: { children: '' },
   Paging: { activePage: 0, onPageChange: jest.fn(), pagesCount: 0 },
   Sticky: { side: 'top' },
-  Switcher: { items: [] },
+  Switcher: { value: 'value', items: [] },
   Tabs: { value: '' },
   TooltipMenu: { caption: 'caption' },
   TopBarDropdown: { label: 'label' },
@@ -40,8 +41,12 @@ const DEFAULT_PROPS = {
   Tooltip: { trigger: 'opened', render: () => 'Tooltip', children: <i /> },
   Toast: { children: <i /> },
   Tab: { id: 'tab' },
-  // prevents Input from switching into controlled mode while setting test props
   Input: { value: 'value' },
+  Toggle: { value: 'value' },
+  Checkbox: { value: 'value' },
+  PasswordInput: { value: 'value' },
+  Select: { value: 'value' },
+  Button: { value: 'value' },
 };
 
 // allows rendering Tab not only inside Tabs
@@ -129,38 +134,31 @@ describe('Props Forwarding', () => {
       'Radio',
       'Switcher',
       'Toggle',
-      'Select',
+      // 'Select',
       'Button',
     ])('%s', compName => {
       const props: React.InputHTMLAttributes<HTMLInputElement> = {
         // global attributes
         id: 'my-id',
-        title: 'my-title',
         tabIndex: 15,
-        inputMode: 'email',
-        spellCheck: false,
 
         // form elements
         autoComplete: 'my-autocomplete',
         autoFocus: true,
         disabled: true,
-        form: 'my-form',
-        formAction: '//example.com',
-        formEncType: 'text/plain',
-        formMethod: 'post',
-        formNoValidate: true,
-        formTarget: '_self',
         name: 'my-name',
+        form: 'my-form',
 
         // accessibility
-        'aria-label': '',
-        'aria-labelledby': '',
+        'aria-label': 'label',
+        'aria-labelledby': 'element',
       };
       const wrapper = createWrapper(compName, props);
 
       const testWrapper = getTestWrapper(compName, wrapper);
 
       expect(testWrapper.props()).toMatchObject(props);
+      expect(testWrapper.prop('value')).toBeDefined();
     });
   });
 
