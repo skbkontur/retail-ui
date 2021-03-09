@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -6,29 +6,28 @@ import { tabListener } from '../../lib/events/tabListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { Override } from '../../typings/utility-types';
 
 import { jsStyles } from './Toggle.styles';
 
-export interface ToggleProps extends CommonProps {
-  children?: React.ReactNode;
-  /**
-   * Положение children справа или слева от переключателя
-   * @default 'right'
-   */
-  captionPosition: 'left' | 'right';
-  checked?: boolean;
-  defaultChecked?: boolean;
-  disabled?: boolean;
-  onValueChange?: (value: boolean) => void;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  warning?: boolean;
-  error?: boolean;
-  loading?: boolean;
-  autoFocus?: boolean;
-  onFocus?: React.FocusEventHandler<HTMLInputElement>;
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  color?: React.CSSProperties['color'];
-}
+export interface ToggleProps
+  extends CommonProps,
+    Override<
+      InputHTMLAttributes<HTMLInputElement>,
+      {
+        children?: React.ReactNode;
+        /**
+         * Положение children справа или слева от переключателя
+         * @default 'right'
+         */
+        captionPosition: 'left' | 'right';
+        onValueChange?: (value: boolean) => void;
+        warning?: boolean;
+        error?: boolean;
+        loading?: boolean;
+        color?: React.CSSProperties['color'];
+      }
+    > {}
 
 export interface ToggleState {
   checked?: boolean;
