@@ -1133,7 +1133,7 @@ describe('ComboBox', () => {
     it('render custom locale', async () => {
       const customText = 'custom notFound';
       wrapper = mount(
-        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } }}}>
+        <LocaleContext.Provider value={{ locale: { ComboBox: { notFound: customText } } }}>
           <ComboBox getItems={search} />
         </LocaleContext.Provider>,
       );
@@ -1151,7 +1151,7 @@ describe('ComboBox', () => {
       );
       const expected = CustomComboBoxLocaleHelper.get(LangCodes.en_GB).notFound;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
       await focus();
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);

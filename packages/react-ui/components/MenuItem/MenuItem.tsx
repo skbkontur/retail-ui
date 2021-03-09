@@ -5,12 +5,13 @@ import cn from 'classnames';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './MenuItem.styles';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
-export interface MenuItemProps {
+export interface MenuItemProps extends CommonProps {
   /** @ignore */
   _enableIconPadding?: boolean;
 
@@ -68,26 +69,25 @@ export class MenuItem extends React.Component<MenuItemProps> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain() {
+  private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
     const {
       link,
       comment,
       icon,
       loose,
       state,
-      children,
       _enableIconPadding,
       component,
       onMouseEnter,
       onMouseLeave,
       ...rest
-    } = this.props;
+    } = props;
 
     const hover = state === 'hover' && !this.props.disabled;
 
@@ -105,6 +105,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
       [jsStyles.disabled(this.theme)]: !!this.props.disabled,
     });
+
+    const { children } = this.props;
 
     let content = children;
     if (isFunction(children)) {
@@ -137,7 +139,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         )}
       </Component>
     );
-  }
+  };
 
   // https://github.com/facebook/react/issues/10109
   // Mouseenter event not triggered when cursor moves from disabled button

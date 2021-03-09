@@ -8,6 +8,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonSize, ButtonUse } from '../Button';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -28,7 +29,7 @@ const PASS_PROPS = {
   onMouseOver: true,
 };
 
-export interface DropdownProps {
+export interface DropdownProps extends CommonProps {
   /**
    * Подпись на кнопке.
    */
@@ -161,19 +162,23 @@ export class Dropdown extends React.Component<DropdownProps> {
   private _select: Nullable<DropdownSelectType>;
 
   public render() {
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = ({ caption, icon, ...props }: CommonWrapperRestProps<DropdownProps>) => {
     const items = React.Children.map(this.props.children, item => item);
 
     return (
       <Select<React.ReactNode, React.ReactNode>
         ref={this._refSelect}
-        {...filterProps(this.props, PASS_PROPS)}
-        value={this.props.caption}
+        {...filterProps(props, PASS_PROPS)}
+        value={caption}
         items={items}
-        _icon={this.props.icon}
+        _icon={icon}
         renderValue={renderValue}
       />
     );
-  }
+  };
 
   /**
    * @public

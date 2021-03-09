@@ -107,17 +107,15 @@ describe('Pager', () => {
   it('handles left key', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
-    const root = wrapper.find(`[data-tid='Paging__root']`);
-    root.simulate('keydown', { key: 'ArrowLeft' });
-    root.simulate('keydown', { key: 'Enter' });
+    wrapper.simulate('keydown', { key: 'ArrowLeft' });
+    wrapper.simulate('keydown', { key: 'Enter' });
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
 
   it('handles ctrl + left keys', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
-    const root = wrapper.find(`[data-tid='Paging__root']`);
-    root.simulate('keydown', { key: 'ArrowLeft', ctrlKey: true });
+    wrapper.simulate('keydown', { key: 'ArrowLeft', ctrlKey: true });
     expect(onPageChange).toHaveBeenCalledWith(1);
   });
 
@@ -161,7 +159,9 @@ describe('Pager', () => {
     });
 
     it('render default locale', () => {
-      wrapper = mount(<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>);
+      wrapper = mount(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>,
+      );
       const expectedText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
 
       expect(getForwardText()).toBe(expectedText);
@@ -170,19 +170,25 @@ describe('Pager', () => {
     it('render custom locale', () => {
       const customPlaceholder = 'custom forward';
       wrapper = mount(
-        <LocaleContext.Provider value={{
-          locale:{  Paging: { forward: customPlaceholder } }
-        }}>{PagingContext()}</LocaleContext.Provider>,
+        <LocaleContext.Provider
+          value={{
+            locale: { Paging: { forward: customPlaceholder } },
+          }}
+        >
+          {PagingContext()}
+        </LocaleContext.Provider>,
       );
 
       expect(getForwardText()).toBe(customPlaceholder);
     });
 
     it('updates when langCode changes', () => {
-      wrapper = mount(<LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>);
+      wrapper = mount(
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>,
+      );
       const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
 
-      wrapper.setProps({ value: { langCode: LangCodes.ru_RU }});
+      wrapper.setProps({ value: { langCode: LangCodes.ru_RU } });
 
       expect(getForwardText()).toBe(expectedText);
     });

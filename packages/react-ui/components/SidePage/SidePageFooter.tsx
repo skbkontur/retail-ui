@@ -4,11 +4,12 @@ import cn from 'classnames';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
-export interface SidePageFooterProps {
+export interface SidePageFooterProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   /**
    * Включает серый цвет в футере
@@ -67,28 +68,30 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   private renderMain() {
     return (
-      <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
-        <SidePageContext.Consumer>
-          {({ getWidth }) => (
-            <div
-              className={jsStyles.footer()}
-              style={{
-                width: getWidth(),
-              }}
-            >
+      <CommonWrapper {...this.props}>
+        <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
+          <SidePageContext.Consumer>
+            {({ getWidth }) => (
               <div
-                className={cn(jsStyles.footerContent(), {
-                  [jsStyles.panel(this.theme)]: !!this.props.panel,
-                  [jsStyles.footerFixed(this.theme)]: this.state.fixed,
-                })}
-                ref={this.refContent}
+                className={jsStyles.footer()}
+                style={{
+                  width: getWidth(),
+                }}
               >
-                {this.props.children}
+                <div
+                  className={cn(jsStyles.footerContent(), {
+                    [jsStyles.panel(this.theme)]: !!this.props.panel,
+                    [jsStyles.footerFixed(this.theme)]: this.state.fixed,
+                  })}
+                  ref={this.refContent}
+                >
+                  {this.props.children}
+                </div>
               </div>
-            </div>
-          )}
-        </SidePageContext.Consumer>
-      </div>
+            )}
+          </SidePageContext.Consumer>
+        </div>
+      </CommonWrapper>
     );
   }
 

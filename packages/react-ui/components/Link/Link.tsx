@@ -2,36 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Link.styles';
 
-export type LinkProps = Override<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  {
-    /** Неактивное состояние */
-    disabled?: boolean;
-    /** href */
-    href?: string;
-    /** Иконка */
-    icon?: React.ReactElement<any>;
-    /** Тип */
-    use?: 'default' | 'success' | 'danger' | 'grayed';
-    _button?: boolean;
-    _buttonOpened?: boolean;
-    tabIndex?: number;
-    /** Состояние загрузки */
-    loading?: boolean;
-    /** onClick */
-    onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
-  }
->;
+export interface LinkProps
+  extends CommonProps,
+    Override<
+      React.AnchorHTMLAttributes<HTMLAnchorElement>,
+      {
+        /** Неактивное состояние */
+        disabled?: boolean;
+        /** href */
+        href?: string;
+        /** Иконка */
+        icon?: React.ReactElement<any>;
+        /** Тип */
+        use?: 'default' | 'success' | 'danger' | 'grayed';
+        _button?: boolean;
+        _buttonOpened?: boolean;
+        tabIndex?: number;
+        /** Состояние загрузки */
+        loading?: boolean;
+        /** onClick */
+        onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
+      }
+    > {}
 
 export interface LinkState {
   focusedByTab: boolean;
@@ -66,33 +68,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private theme!: Theme;
-  private getProps = createPropsGetter(Link.defaultProps);
-
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain() {
-    const {
-      disabled,
-      href,
-      icon,
-      use,
-      loading,
-      _button,
-      _buttonOpened,
-      className,
-      style,
-      rel: relOrigin,
-      ...rest
-    } = this.getProps<LinkProps, Link>();
+  private renderMain = (props: CommonWrapperRestProps<LinkProps>) => {
+    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
 
     let iconElement = null;
     if (icon) {
@@ -113,7 +101,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
-    const props = {
+    const linkProps = {
       className: cn({
         [jsStyles.root(this.theme)]: true,
         [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
@@ -137,13 +125,13 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      <a {...rest} {...props}>
+      <a {...rest} {...linkProps}>
         {iconElement}
         {this.props.children}
         {arrow}
       </a>
     );
-  }
+  };
 
   private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {
     if (!this.props.disabled) {

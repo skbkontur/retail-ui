@@ -2,11 +2,12 @@ import React from 'react';
 import cn from 'classnames';
 
 import { ZIndex } from '../../internal/ZIndex';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { ModalContext } from './ModalContext';
 import { jsStyles } from './Modal.styles';
 
-export interface ModalBodyProps {
+export interface ModalBodyProps extends CommonProps {
   /**
    * убирает отступы
    */
@@ -27,18 +28,20 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
-          <ZIndex
-            priority={'ModalBody'}
-            createStackingContext
-            className={cn({
-              [jsStyles.body()]: true,
-              [jsStyles.bodyWithoutHeader()]: !hasHeader,
-              [jsStyles.bodyAddPadding()]: additionalPadding,
-              [jsStyles.bodyWithoutPadding()]: noPadding,
-            })}
-          >
-            {this.props.children}
-          </ZIndex>
+          <CommonWrapper {...this.props}>
+            <ZIndex
+              priority={'ModalBody'}
+              createStackingContext
+              className={cn({
+                [jsStyles.body()]: true,
+                [jsStyles.bodyWithoutHeader()]: !hasHeader,
+                [jsStyles.bodyAddPadding()]: additionalPadding,
+                [jsStyles.bodyWithoutPadding()]: noPadding,
+              })}
+            >
+              {this.props.children}
+            </ZIndex>
+          </CommonWrapper>
         )}
       </ModalContext.Consumer>
     );
