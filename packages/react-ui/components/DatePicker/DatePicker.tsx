@@ -6,50 +6,48 @@ import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
 import { MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateOrder, InternalDateSeparator, InternalDateValidateCheck } from '../../lib/date/types';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { CalendarDateShape } from '../../internal/Calendar';
-import { DateInput } from '../DateInput';
+import { DateInput, DateInputProps } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
 
-export interface DatePickerProps<T> extends CommonProps {
-  autoFocus?: boolean;
-  disabled?: boolean;
-  enableTodayLink?: boolean;
-  error?: boolean;
-  minDate: T;
-  maxDate: T;
-  menuAlign?: 'left' | 'right';
-  size?: 'small' | 'medium' | 'large';
-  value?: T | null;
-  warning?: boolean;
-  width: number | string;
-  onBlur?: () => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
-  onValueChange: (value: T) => void;
-  onFocus?: () => void;
-  onKeyDown?: (e: React.KeyboardEvent<any>) => void;
-  onMouseEnter?: (e: React.MouseEvent<any>) => void;
-  onMouseLeave?: (e: React.MouseEvent<any>) => void;
-  onMouseOver?: (e: React.MouseEvent<any>) => void;
+export interface DatePickerProps<T>
+  extends CommonProps,
+    Override<
+      DateInputProps,
+      {
+        enableTodayLink?: boolean;
+        minDate: T;
+        maxDate: T;
+        menuAlign?: 'left' | 'right';
+        value?: T | null;
+        onBlur?: () => void;
+        /**
+         * Вызывается при изменении `value`
+         *
+         * @param value - строка в формате `dd.mm.yyyy`.
+         */
+        onValueChange: (value: T) => void;
+        onFocus?: () => void;
+        onMouseEnter?: (e: React.MouseEvent<HTMLLabelElement>) => void;
+        onMouseLeave?: (e: React.MouseEvent<HTMLLabelElement>) => void;
+        onMouseOver?: (e: React.MouseEvent<HTMLLabelElement>) => void;
 
-  /**
-   * Функция для определения праздничных дней
-   * @default (_day, isWeekend) => isWeekend
-   * @param {T} day - строка в формате `dd.mm.yyyy`
-   * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
-   *
-   * @returns {boolean} `true` для выходного или `false` для рабочего дня
-   */
-  isHoliday: (day: T, isWeekend: boolean) => boolean;
-}
+        /**
+         * Функция для определения праздничных дней
+         * @default (_day, isWeekend) => isWeekend
+         * @param {T} day - строка в формате `dd.mm.yyyy`
+         * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
+         *
+         * @returns {boolean} `true` для выходного или `false` для рабочего дня
+         */
+        isHoliday: (day: T, isWeekend: boolean) => boolean;
+      }
+    > {}
 
 export interface DatePickerState {
   opened: boolean;
