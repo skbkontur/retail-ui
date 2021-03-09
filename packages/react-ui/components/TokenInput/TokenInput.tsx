@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
+import React, { ChangeEvent, FocusEvent, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
 import cn from 'classnames';
@@ -25,6 +25,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { Override } from '../../typings/utility-types';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { jsStyles } from './TokenInput.styles';
@@ -38,14 +39,15 @@ export enum TokenInputType {
   Combined,
 }
 
-export interface TokenInputProps<T> extends CommonProps {
+export interface TokenInputProps<T>
+  extends CommonProps,
+    Override<
+      Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'value' | 'defaultValue'>,
+      {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
   onMouseEnter: MouseEventHandler<HTMLDivElement>;
   onMouseLeave: MouseEventHandler<HTMLDivElement>;
-  onFocus: FocusEventHandler<HTMLTextAreaElement>;
-  onBlur: FocusEventHandler<HTMLTextAreaElement>;
-  autoFocus?: boolean;
   type?: TokenInputType;
 
   /**
@@ -67,11 +69,9 @@ export interface TokenInputProps<T> extends CommonProps {
   renderNotFound?: () => React.ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
-  placeholder?: string;
   delimiters: string[];
   error?: boolean;
   warning?: boolean;
-  disabled?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
@@ -84,6 +84,7 @@ export interface TokenInputProps<T> extends CommonProps {
    */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
 }
+    > {}
 
 export interface TokenInputState<T> {
   autocompleteItems?: T[];
