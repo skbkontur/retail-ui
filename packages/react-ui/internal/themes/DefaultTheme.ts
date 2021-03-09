@@ -852,10 +852,8 @@ export class DefaultTheme {
     return this.blinkColor;
   }
   //#endregion
-  //#region Checkbox chb
-  public static checkboxBorderWidthCompensation = '0px';
-  //#endregion
   //#region Checkbox
+  public static checkboxBorderWidthCompensation = '0px';
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
