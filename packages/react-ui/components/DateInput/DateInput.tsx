@@ -6,11 +6,13 @@ import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/cons
 import { InternalDateComponentType } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
+import { InputProps } from '../Input';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { Override } from '../../typings/utility-types';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
@@ -25,43 +27,43 @@ export interface DateInputState {
   dragged: boolean;
 }
 
-export interface DateInputProps extends CommonProps {
-  autoFocus?: boolean;
-  value: string;
-  error?: boolean;
-  warning?: boolean;
-  disabled?: boolean;
-  /**
-   * Минимальная дата.
-   * @default '01.01.1900'
-   */
-  minDate: string;
-  /**
-   * Максимальная дата
-   * @default '31.12.2099'
-   */
-  maxDate: string;
-  /**
-   * Ширина поля
-   * @default 125
-   */
-  width?: string | number;
-  withIcon?: boolean;
-  /**
-   * Размер поля
-   * @default 'small'
-   */
-  size: 'small' | 'large' | 'medium';
-  onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
-  onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
-  /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
-   */
-  onValueChange?: (value: string) => void;
-  onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
-}
+export interface DateInputProps
+  extends CommonProps,
+    Override<
+      InputProps,
+      {
+        value: string;
+        /**
+         * Минимальная дата.
+         * @default '01.01.1900'
+         */
+        minDate: string;
+        /**
+         * Максимальная дата
+         * @default '31.12.2099'
+         */
+        maxDate: string;
+        /**
+         * Ширина поля
+         * @default 125
+         */
+        width?: string | number;
+        withIcon?: boolean;
+        /**
+         * Размер поля
+         * @default 'small'
+         */
+        onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
+        onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
+        /**
+         * Вызывается при изменении `value`
+         *
+         * @param value - строка в формате `dd.mm.yyyy`.
+         */
+        onValueChange?: (value: string) => void;
+        onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
+      }
+    > {}
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
