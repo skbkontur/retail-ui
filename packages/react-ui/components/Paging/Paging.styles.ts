@@ -1,3 +1,4 @@
+import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -13,7 +14,8 @@ const styles = {
     return css`
       color: ${t.pagingDotsColor};
       display: inline-block;
-      font-size: 16px;
+      font-size: ${t.pagingFontSize};
+      line-height: ${t.pagingLineHeight};
       padding: 6px 10px 0;
     `;
   },
@@ -23,10 +25,12 @@ const styles = {
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: inline-block;
-      font-size: 16px;
-      margin: 4px 0 2px 10px;
+      font-size: ${t.pagingFontSize};
+      line-height: ${t.pagingLineHeight};
+      margin-top: ${t.pagingPageForwardLinkMarginTop};
+      margin-left: ${t.pagingPageForwardLinkMarginLeft};
       outline: none;
-      padding-right: 22px;
+      padding-right: ${t.pagingPageForwardLinkPaddingRight};
       position: relative;
       text-decoration: none;
       user-select: none;
@@ -68,14 +72,17 @@ const styles = {
 
   pageLink(t: Theme) {
     return css`
-      border-radius: 16px;
+      border-radius: ${t.pagingFontSize};
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: block;
-      font-size: 16px;
+      font-size: ${t.pagingFontSize};
+      line-height: ${t.pagingLineHeight};
       margin: 2px 1px;
       outline: none;
-      padding: 2px 10px 5px;
+      min-width: ${t.pagingPageLinkMinWidth};
+      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX}
+        ${is8pxTheme(t) ? t.pagingPageLinkPaddingY : t.pagingPageLinkLegacyPaddingY};
       text-decoration: none;
 
       &:not(${cssName(styles.active())}):hover {
@@ -118,7 +125,8 @@ const styles = {
     return css`
       display: inline-block;
       margin: 0 -20px;
-      font-size: 11px;
+      font-size: ${t.pagingPageLinkHintFontSize};
+      line-height: ${t.pagingPageLinkHintLineHeight};
 
       ${cssName(styles.pageLinkWrapper())} & {
         color: ${t.pagingPageLinkHintColor};

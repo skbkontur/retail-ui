@@ -200,7 +200,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
       >
         {caption || forward}
         <span className={jsStyles.forwardIcon()}>
-          <ArrowChevronRightIcon size="18px" />
+          <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
         </span>
       </Component>
     );

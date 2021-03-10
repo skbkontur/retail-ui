@@ -422,6 +422,20 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
+  //#region Paging
+  public static get pagingFontSize() {
+    return this.fontSizeMedium;
+  }
+  public static pagingPageLinkMinWidth = '0.75em';
+  public static pagingPageLinkPaddingX = '0.5em';
+  public static pagingPageLinkPaddingY = '0';
+  public static pagingPageLinkLegacyPaddingY = '0';
+  public static pagingPageForwardLinkMarginTop = '2px';
+  public static get pagingLineHeight() {
+    return `${parseFloat(this.pagingPageLinkMinWidth) + parseFloat(this.pagingPageLinkPaddingX) * 2}em`;
+  }
+  public static pagingPageLinkHintFontSize = '12px';
+  public static pagingPageLinkHintLineHeight = '16px';
   //#endregion
   //#region Switcher
   public static get switcherOutlineWidth() {
