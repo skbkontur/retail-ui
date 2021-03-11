@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { Group } from '../Group';
 import { Button, ButtonSize } from '../Button';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -15,27 +15,28 @@ import { getSwitcherTheme } from './switcherTheme';
 
 export type SwitcherSize = ButtonSize;
 
-export interface SwitcherProps extends CommonProps {
-  /**
-   * Список строк или список элементов типа `{ label: string, value: string }`
-   */
-  items: Array<string | SwitcherItem>;
+export interface SwitcherProps
+  extends CommonProps,
+    Override<
+      InputHTMLAttributes<HTMLInputElement>,
+      {
+        /**
+         * Список строк или список элементов типа `{ label: string, value: string }`
+         */
+        items: Array<string | SwitcherItem>;
 
-  value?: string;
+        value?: string;
 
-  onValueChange?: (value: string) => void;
+        onValueChange?: (value: string) => void;
 
-  label?: string;
+        label?: string;
 
-  error?: boolean;
+        error?: boolean;
 
-  /** Размер */
-  size?: SwitcherSize;
-
-  disabled?: boolean;
-  name?: string;
-  form?: string;
-}
+        /** Размер */
+        size?: SwitcherSize;
+      }
+    > {}
 
 export interface SwitcherState {
   focusedIndex: Nullable<number>;
