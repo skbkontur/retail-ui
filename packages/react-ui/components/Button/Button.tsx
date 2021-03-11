@@ -45,8 +45,6 @@ export interface ButtonProps extends CommonProps, React.ButtonHTMLAttributes<HTM
   /** @ignore */
   corners?: number;
 
-  // disabled?: boolean;
-
   /** @ignore */
   disableFocus?: boolean;
 
@@ -65,9 +63,6 @@ export interface ButtonProps extends CommonProps, React.ButtonHTMLAttributes<HTM
 
   /** `type ButtonSize = "small" | "medium" | "large"` */
   size?: ButtonSize;
-
-  /** `type ButtonType = "button" | "submit" | "reset"` */
-  // type?: ButtonType;
 
   /**
    * Вариант использования. Влияет на цвет кнопки.
