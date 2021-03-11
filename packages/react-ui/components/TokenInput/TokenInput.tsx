@@ -44,46 +44,46 @@ export interface TokenInputProps<T>
     Override<
       Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'value' | 'defaultValue'>,
       {
-  selectedItems: T[];
-  onValueChange: (items: T[]) => void;
-  onMouseEnter: MouseEventHandler<HTMLDivElement>;
-  onMouseLeave: MouseEventHandler<HTMLDivElement>;
-  type?: TokenInputType;
+        selectedItems: T[];
+        onValueChange: (items: T[]) => void;
+        onMouseEnter: MouseEventHandler<HTMLDivElement>;
+        onMouseLeave: MouseEventHandler<HTMLDivElement>;
+        type?: TokenInputType;
 
-  /**
-   * Функция поиска элементов, должна возвращать Promise с массивом элементов.
-   * По умолчанию ожидаются строки.
-   *
-   * Элементы могут быть любого типа. В этом случае необходимо определить
-   * свойства `renderItem`, `valueToString`
-   */
-  getItems?: (query: string) => Promise<T[]>;
-  hideMenuIfEmptyInputValue?: boolean;
-  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
-  renderValue: (item: T) => React.ReactNode;
-  /**
-   * Функция должна возвращать строковое представление токена
-   * @default item => item
-   */
-  valueToString: (item: T) => string;
-  renderNotFound?: () => React.ReactNode;
-  valueToItem: (item: string) => T;
-  toKey: (item: T) => string | number | undefined;
-  delimiters: string[];
-  error?: boolean;
-  warning?: boolean;
-  width?: string | number;
-  maxMenuHeight?: number | string;
-  renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
-  /**
-   * Вызывается при изменении текста в поле ввода,
-   */
-  onInputValueChange?: (value: string) => void;
-  /**
-   * Функция отрисовки кнопки добавления в выпадающем списке
-   */
-  renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
-}
+        /**
+         * Функция поиска элементов, должна возвращать Promise с массивом элементов.
+         * По умолчанию ожидаются строки.
+         *
+         * Элементы могут быть любого типа. В этом случае необходимо определить
+         * свойства `renderItem`, `valueToString`
+         */
+        getItems?: (query: string) => Promise<T[]>;
+        hideMenuIfEmptyInputValue?: boolean;
+        renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
+        renderValue: (item: T) => React.ReactNode;
+        /**
+         * Функция должна возвращать строковое представление токена
+         * @default item => item
+         */
+        valueToString: (item: T) => string;
+        renderNotFound?: () => React.ReactNode;
+        valueToItem: (item: string) => T;
+        toKey: (item: T) => string | number | undefined;
+        delimiters: string[];
+        error?: boolean;
+        warning?: boolean;
+        width?: string | number;
+        maxMenuHeight?: number | string;
+        renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
+        /**
+         * Вызывается при изменении текста в поле ввода,
+         */
+        onInputValueChange?: (value: string) => void;
+        /**
+         * Функция отрисовки кнопки добавления в выпадающем списке
+         */
+        renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
+      }
     > {}
 
 export interface TokenInputState<T> {
@@ -233,6 +233,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       delimiters,
       renderAddButton,
       type,
+      name,
+      form,
       ...rest
     } = props;
 
@@ -278,6 +280,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       [jsStyles.inputEditing(theme)]: this.isEditingMode,
     });
 
+    const hiddenInputProps = {
+      disabled,
+      name,
+      form,
+      value: this.joinItems(selectedItems),
+    };
+
     return (
       <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
         <label
@@ -297,11 +306,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           />
           {this.renderTokensStart()}
           <textarea
+            autoComplete="off"
             {...rest}
             ref={this.inputRef}
             value={inputValue}
             style={inputInlineStyles}
-            // autoComplete="off"
             spellCheck={false}
             disabled={disabled}
             className={inputClassName}
@@ -328,6 +337,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           )}
           {this.renderTokensEnd()}
           {this.isEditingMode ? <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+          <input {...hiddenInputProps} type="hidden" readOnly />
         </label>
       </div>
     );
@@ -470,9 +480,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const tokens = this.state.activeTokens
       .map(token => this.props.selectedItems.indexOf(token))
       .sort()
-      .map(index => this.props.selectedItems[index])
-      .map(item => this.props.valueToString(item));
-    event.clipboardData.setData('text/plain', tokens.join(this.props.delimiters[0]));
+      .map(index => this.props.selectedItems[index]);
+    event.clipboardData.setData('text/plain', this.joinItems(tokens));
   };
 
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
@@ -865,5 +874,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         {addButtonTitle} {value}
       </MenuItem>
     );
+  };
+
+  private joinItems = (items: T[]): string => {
+    const { valueToString, delimiters } = this.props;
+    return items.map(valueToString).join(delimiters[0]);
   };
 }
