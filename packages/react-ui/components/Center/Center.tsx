@@ -43,12 +43,12 @@ export class Center extends React.Component<CenterProps> {
     return (
       <CommonWrapper {...this.props}>
         <div
+          {...rest}
           className={cn({
             [jsStyles.root()]: true,
             [jsStyles.rootAlignLeft()]: align === 'left',
             [jsStyles.rootAlignRight()]: align === 'right',
           })}
-          {...rest}
         >
           <span className={jsStyles.spring()} />
           <span className={jsStyles.container()}>{children}</span>

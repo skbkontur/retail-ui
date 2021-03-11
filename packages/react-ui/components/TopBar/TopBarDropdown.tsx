@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { IconProps } from '../../internal/icons/20px';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 
@@ -34,14 +34,16 @@ export class TopBarDropdown extends React.Component<TopBarDropdownProps> {
   private dropdownMenu: Nullable<DropdownMenu> = null;
 
   public render() {
-    return (
-      <CommonWrapper {...this.props}>
-        <DropdownMenu {...this.props} ref={this.refDropdownMenu} caption={this.renderButton}>
-          {this.props.children}
-        </DropdownMenu>
-      </CommonWrapper>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
+
+  private renderMain = (props: CommonWrapperRestProps<TopBarDropdownProps>) => {
+    return (
+      <DropdownMenu {...props} ref={this.refDropdownMenu} caption={this.renderButton}>
+        {this.props.children}
+      </DropdownMenu>
+    );
+  };
 
   public open = (): void => {
     if (this.dropdownMenu) {
