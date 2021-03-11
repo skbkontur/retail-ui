@@ -3,6 +3,7 @@ import { mount, ReactWrapper } from 'enzyme';
 
 import * as ReactUI from '../../index';
 
+// all components that are available for import from the react-ui
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
   return (
     isPublicComponent((ReactUI as any)[name]) &&
@@ -12,15 +13,21 @@ const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
 
 // some components have required props
 // so we need this in order to create them dynamically
+// also we pass values to inputs to check their forwarding
 const DEFAULT_PROPS = {
-  Autocomplete: { value: '', onValueChange: jest.fn() },
-  FxInput: { onValueChange: jest.fn() },
-  CurrencyInput: { onValueChange: jest.fn() },
+  Autocomplete: { value: 'value', onValueChange: jest.fn() },
+  FxInput: { value: 'value', onValueChange: jest.fn() },
+  CurrencyInput: { value: 0, onValueChange: jest.fn() },
   CurrencyLabel: { value: '' },
-  DatePicker: { onValueChange: jest.fn() },
-  ComboBox: { getItems: () => Promise.resolve([]) },
-  TokenInput: { type: ReactUI.TokenInputType.Combined, getItems: () => Promise.resolve([]), onValueChange: jest.fn() },
-  Radio: { value: '' },
+  DatePicker: { value: '00.00.0000', onValueChange: jest.fn() },
+  ComboBox: { value: { label: 'value', value: 0 }, getItems: () => Promise.resolve([]) },
+  TokenInput: {
+    type: ReactUI.TokenInputType.Combined,
+    getItems: () => Promise.resolve([]),
+    onValueChange: jest.fn(),
+    selectedItems: ['one', 'two'],
+  },
+  Radio: { value: 'value' },
   RadioGroup: { items: [] },
   Dropdown: { caption: 'caption' },
   DropdownMenu: { caption: 'caption' },
@@ -30,7 +37,7 @@ const DEFAULT_PROPS = {
   MenuHeader: { children: '' },
   Paging: { activePage: 0, onPageChange: jest.fn(), pagesCount: 0 },
   Sticky: { side: 'top' },
-  Switcher: { items: [] },
+  Switcher: { value: 'value', items: [] },
   Tabs: { value: '' },
   TooltipMenu: { caption: 'caption' },
   TopBarDropdown: { label: 'label' },
@@ -40,8 +47,13 @@ const DEFAULT_PROPS = {
   Tooltip: { trigger: 'opened', render: () => 'Tooltip', children: <i /> },
   Toast: { children: <i /> },
   Tab: { id: 'tab' },
-  // prevents Input from switching into controlled mode while setting test props
   Input: { value: 'value' },
+  Toggle: { value: 'value' },
+  Checkbox: { value: 'value' },
+  PasswordInput: { value: 'value' },
+  Select: { value: 'value' },
+  Button: { value: 'value' },
+  Textarea: { value: 'value' },
 };
 
 // allows rendering Tab not only inside Tabs
@@ -52,13 +64,15 @@ jest.mock('invariant', () => (...args: any[]) => {
   }
 });
 
-const createWrapper = <T extends {}>(compName: string, initProps: object = {}) => {
+const createWrapper = <T extends React.Component>(compName: string, initProps: object = {}) => {
   const component = (ReactUI as any)[compName];
   const props = { ...(DEFAULT_PROPS as any)[compName], ...initProps };
-  return mount<T>(React.createElement(component, props));
+  return mount<T, {}, {}>(React.createElement(component, props));
 };
 
 describe('Props Forwarding', () => {
+  // check that className, style and data-* are being forwarding
+  // correctly into all public components
   describe('Common Props', () => {
     const getTestDOMNode = (compName: string, wrapper: ReactWrapper) => {
       switch (compName) {
@@ -101,21 +115,35 @@ describe('Props Forwarding', () => {
     );
   });
 
+  // check props that are relevant for form elements
   describe("Form Element's Props", () => {
     const getTestWrapper = (compName: string, wrapper: ReactWrapper) => {
       switch (compName) {
-        case 'TokenInput':
-        case 'Textarea':
-          return wrapper.find('textarea');
         case 'Button':
-        case 'Select':
           return wrapper.find('button');
         default:
           return wrapper.find('input');
       }
     };
+    const getProps = (): React.InputHTMLAttributes<HTMLInputElement> => ({
+      // global attributes
+      id: 'my-id',
+      tabIndex: 15,
+      inputMode: 'email',
 
-    it.each<string>([
+      // form elements
+      autoComplete: 'my-autocomplete',
+      autoFocus: true,
+      disabled: true,
+      name: 'my-name',
+      form: 'my-form',
+
+      // accessibility
+      'aria-label': 'label',
+      'aria-labelledby': 'element',
+    });
+
+    it.each<keyof typeof ReactUI>([
       'Input',
       'FxInput',
       'CurrencyInput',
@@ -123,83 +151,131 @@ describe('Props Forwarding', () => {
       'Autocomplete',
       'DateInput',
       'DatePicker',
-      'ComboBox',
-      'TokenInput',
       'Checkbox',
       'Radio',
       'Switcher',
       'Toggle',
-      'Select',
       'Button',
     ])('%s', compName => {
-      const props: React.InputHTMLAttributes<HTMLInputElement> = {
-        // global attributes
-        id: 'my-id',
-        title: 'my-title',
-        tabIndex: 15,
-        inputMode: 'email',
-        spellCheck: false,
-
-        // form elements
-        autoComplete: 'my-autocomplete',
-        autoFocus: true,
-        disabled: true,
-        form: 'my-form',
-        formAction: '//example.com',
-        formEncType: 'text/plain',
-        formMethod: 'post',
-        formNoValidate: true,
-        formTarget: '_self',
-        name: 'my-name',
-
-        // accessibility
-        'aria-label': '',
-        'aria-labelledby': '',
-      };
+      const props = getProps();
       const wrapper = createWrapper(compName, props);
-
       const testWrapper = getTestWrapper(compName, wrapper);
 
       expect(testWrapper.props()).toMatchObject(props);
+      expect(testWrapper.prop('value')).toBeDefined();
+    });
+
+    it('Select', () => {
+      // Select contains separated Button and <input />.
+      // Button makes his look and process user's interactions.
+      // <input /> stores his value and operates with forms.
+
+      const props = getProps();
+
+      const wrapper = createWrapper('Select', props);
+      const input = wrapper.find('input');
+      const button = wrapper.find('button');
+
+      const { name, form, disabled } = props;
+      const inputProps = { name, form, disabled };
+
+      const buttonProps = getProps();
+      delete buttonProps.form;
+      delete buttonProps.name;
+
+      expect(button.props()).toMatchObject(buttonProps);
+      expect(input.props()).toMatchObject(inputProps);
+      expect(input.prop('value')).toBeDefined();
+    });
+
+    it('ComboBox', () => {
+      // Note: the autoFocus prop is set in true in test props
+
+      const props = getProps();
+      const wrapper = createWrapper('ComboBox', props);
+
+      const textInput = wrapper.find('input:not([readOnly])');
+      const valueInput = wrapper.find('input[readOnly]');
+
+      const { name, form, disabled } = props;
+      const valueInputProps = { name, form, disabled };
+
+      const textInputProps = getProps();
+      delete textInputProps.form;
+      delete textInputProps.name;
+
+      expect(textInput.props()).toMatchObject(textInputProps);
+      expect(valueInput.props()).toMatchObject(valueInputProps);
+      expect(valueInput.prop('value')).toBeDefined();
+    });
+
+    it('TokenInput', () => {
+      // TokenInput contains textarea to input text and separate
+      // hidden input that stores his value and operates with forms
+
+      const props = getProps();
+      const wrapper = createWrapper('TokenInput', props);
+      const textarea = wrapper.find('textarea');
+      const input = wrapper.find('input[readOnly]');
+
+      const { name, form, disabled } = props;
+      const inputProps = { name, form, disabled };
+
+      const textareaProps = getProps();
+      delete textareaProps.form;
+      delete textareaProps.name;
+
+      expect(textarea.props()).toMatchObject(textareaProps);
+      expect(input.props()).toMatchObject(inputProps);
+      expect(input.prop('value')).toBeDefined();
     });
   });
 
+  // check props that are input-specific only
   describe("Input's Specific Props", () => {
-    it.each<string>([
+    it.each<keyof typeof ReactUI>([
       'Input',
       'FxInput',
       'Autocomplete',
       'ComboBox',
-      // 'TokenInput', // uses <textarea /> instead of <input />
+      // 'TokenInput', // could be here but it uses <textarea /> instead of <input />
     ])('%s', compName => {
       const props: React.InputHTMLAttributes<HTMLInputElement> = {
-        accept: 'my-accept', //	          file
-        capture: 'my-capture', //	        file
-        list: 'my-list', //	              almost all
-        max: 15, //	                      numeric
-        maxLength: 15, //	                password, search, tel, text, url
-        min: 15, //	                      numeric
-        minLength: 15, //	                password, search, tel, text, url
-        multiple: true, //	              email, file
-        pattern: '*', //	                password, text, tel
-        placeholder: 'my-placeholder', //	password, search, tel, text, url
-        readOnly: true, //	              almost all
-        step: '15', //	                  numeric
-        type: 'tel', //                   all
-        required: true, //                all
+        list: 'my-list',
+        max: 15,
+        maxLength: 15,
+        min: 15,
+        minLength: 15,
+        multiple: true,
+        pattern: '*',
+        placeholder: 'my-placeholder',
+        readOnly: true,
+        step: '15',
+        type: 'tel',
+        required: true,
       };
       const wrapper = createWrapper(compName, props);
 
       if (compName === 'ComboBox') {
-        // ComboBox renders <InputLikeText />
-        // instead of <input /> while not it focus
-        wrapper.find('span[tabIndex]').simulate('focus');
-      }
+        // ComboBox renders <InputLikeText /> while not in focus
+        // and the real <input /> otherwise.
+        // Also it has a separate hidden input to store the value.
+        // Here we need the visible one.
 
-      expect(wrapper.find('input').props()).toMatchObject(props);
+        wrapper.find('span[tabIndex]').simulate('focus');
+        expect(
+          wrapper
+            .find('input')
+            .not('[type="hidden"]')
+            .props(),
+        ).toMatchObject(props);
+      } else {
+        expect(wrapper.find('input').props()).toMatchObject(props);
+      }
     });
   });
 
+  // check that the width prop still works
   describe('"width" Prop', () => {
     const getTestDOMNode = (compName: string, wrapper: ReactWrapper) => {
       switch (compName) {
