@@ -118,7 +118,7 @@ const selectTests: CreeveyStoryParams['tests'] = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }),
+        origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('MenuItem hover');
@@ -134,7 +134,7 @@ const selectTests: CreeveyStoryParams['tests'] = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: '[data-comp-name="MenuItem"]' }))
+      .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('selected item');
   },
@@ -330,6 +330,42 @@ WithSearchAndVariousWidth.story = {
     creevey: {
       captureElement: '#test-element',
       tests: {
+        async ['search']() {
+          const root = await this.browser.findElement({ css: '[data-tid="root"]' });
+          const select = await this.browser.findElement({ css: '[data-comp-name~="Select"]' });
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(select)
+            .perform();
+
+          const plainSearch = await root.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
+            .sendKeys('test')
+            .perform();
+
+          const fullFieldSearch = await root.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(select)
+            .click(select)
+            .perform();
+
+          const emptySearch = await root.takeScreenshot();
+
+          await this.expect({ plainSearch, fullFieldSearch, emptySearch }).to.matchImages();
+        },
+
         async ['and various width']() {
           const root = await this.browser.findElement({ css: '[data-tid="root"]' });
 

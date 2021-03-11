@@ -1,19 +1,21 @@
 import React from 'react';
 import cn from 'classnames';
 
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { Theme } from '../../lib/theming/Theme';
 import { Popup, PopupPosition } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Hint.styles';
 
 const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
-const POPUP_MARGIN = 15;
-const PIN_OFFSET = 8;
 
-export interface HintProps {
+export interface HintProps extends CommonProps {
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
@@ -78,6 +80,7 @@ export class Hint extends React.Component<HintProps, HintState> {
   };
 
   private timer: Nullable<number> = null;
+  private theme!: Theme;
 
   public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
@@ -98,22 +101,45 @@ export class Hint extends React.Component<HintProps, HintState> {
 
   public render() {
     return (
-      <Popup
-        hasPin
-        margin={POPUP_MARGIN}
-        opened={this.state.opened}
-        anchorElement={this.props.children}
-        positions={this.getPositions()}
-        backgroundColor={HINT_BACKGROUND_COLOR}
-        borderColor={HINT_BORDER_COLOR}
-        disableAnimations={this.props.disableAnimations}
-        pinOffset={PIN_OFFSET}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        useWrapper={this.props.useWrapper}
-      >
-        {this.renderContent()}
-      </Popup>
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupPinOffset: '8px',
+                  popupMargin: '15px',
+                },
+                this.theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
+    return (
+      <CommonWrapper {...this.props}>
+        <Popup
+          hasPin
+          opened={this.state.opened}
+          anchorElement={this.props.children}
+          positions={this.getPositions()}
+          backgroundColor={HINT_BACKGROUND_COLOR}
+          borderColor={HINT_BORDER_COLOR}
+          disableAnimations={this.props.disableAnimations}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+          useWrapper={this.props.useWrapper}
+        >
+          {this.renderContent()}
+        </Popup>
+      </CommonWrapper>
     );
   }
 

@@ -10,6 +10,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CloudIcon } from '../../internal/icons/CloudIcon';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Logotype.styles';
 import { ProductWidget } from './ProductWidget';
@@ -25,7 +26,7 @@ interface LogotypePropLocale {
   prefix: string;
 }
 
-export interface LogotypeProps {
+export interface LogotypeProps extends CommonProps {
   /**
    * Цвет логотипа в rgb, rgba, hex
    */
@@ -155,27 +156,34 @@ export class Logotype extends React.Component<LogotypeProps> {
     };
 
     return (
-      <div id="spwDropdown" className={dropdownClassName}>
-        <span ref={this.refLogoWrapper} className={jsStyles.widgetWrapper()}>
-          <Component href={href} tabIndex="-1" className={jsStyles.root(this.theme)} style={{ fontSize: `${size}px` }}>
-            <span style={{ color: textColor }}>{propLocale.prefix}</span>
-            <span className={jsStyles.cloud()} style={cloudStyle}>
-              <CloudIcon />
-            </span>
-            <span style={{ color: textColor }}>
-              {propLocale.suffix}
-              {suffix && '.'}
-            </span>
-            {suffix && <span style={{ color }}>{suffix}</span>}
-          </Component>
-          {withWidget && <span className={jsStyles.divider(this.theme)} />}
-        </span>
-        {withWidget && (
-          <button className={jsStyles.button()} onClick={onArrowClick}>
-            <ArrowChevronDownIcon color="#aaa" size={20} />
-          </button>
-        )}
-      </div>
+      <CommonWrapper {...this.props}>
+        <div id="spwDropdown" className={dropdownClassName}>
+          <span ref={this.refLogoWrapper} className={jsStyles.widgetWrapper()}>
+            <Component
+              href={href}
+              tabIndex="-1"
+              className={jsStyles.root(this.theme)}
+              style={{ fontSize: `${size}px` }}
+            >
+              <span style={{ color: textColor }}>{propLocale.prefix}</span>
+              <span className={jsStyles.cloud()} style={cloudStyle}>
+                <CloudIcon />
+              </span>
+              <span style={{ color: textColor }}>
+                {propLocale.suffix}
+                {suffix && '.'}
+              </span>
+              {suffix && <span style={{ color }}>{suffix}</span>}
+            </Component>
+            {withWidget && <span className={jsStyles.divider(this.theme)} />}
+          </span>
+          {withWidget && (
+            <button className={jsStyles.button()} onClick={onArrowClick}>
+              <ArrowChevronDownIcon color="#aaa" size={20} />
+            </button>
+          )}
+        </div>
+      </CommonWrapper>
     );
   }
 

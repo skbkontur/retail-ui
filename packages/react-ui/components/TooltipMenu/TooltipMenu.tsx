@@ -1,14 +1,18 @@
 import React from 'react';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPosition } from '../../internal/Popup';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
-export interface TooltipMenuProps {
+export interface TooltipMenuProps extends CommonProps {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -40,6 +44,7 @@ export interface TooltipMenuProps {
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
 export class TooltipMenu extends React.Component<TooltipMenuProps> {
+  private theme!: Theme;
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
 
   public static defaultProps = {
@@ -54,25 +59,48 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupPinOffset: '15px',
+                  popupMargin: '10px',
+                },
+                this.theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
     if (!this.props.caption) {
       return null;
     }
 
     return (
-      <PopupMenu
-        menuMaxHeight={this.props.menuMaxHeight}
-        menuWidth={this.props.menuWidth}
-        caption={this.props.caption}
-        header={this.props.header}
-        footer={this.props.footer}
-        positions={this.props.positions}
-        popupHasPin={true}
-        popupMargin={10}
-        popupPinOffset={15}
-        disableAnimations={this.props.disableAnimations}
-      >
-        {this.props.children}
-      </PopupMenu>
+      <CommonWrapper {...this.props}>
+        <PopupMenu
+          menuMaxHeight={this.props.menuMaxHeight}
+          menuWidth={this.props.menuWidth}
+          caption={this.props.caption}
+          header={this.props.header}
+          footer={this.props.footer}
+          positions={this.props.positions}
+          popupHasPin={true}
+          disableAnimations={this.props.disableAnimations}
+        >
+          {this.props.children}
+        </PopupMenu>
+      </CommonWrapper>
     );
   }
 }

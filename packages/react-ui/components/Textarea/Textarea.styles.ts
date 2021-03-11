@@ -33,6 +33,7 @@ const styles = {
       vertical-align: middle;
       width: 100%;
       border-radius: ${t.textareaBorderRadius};
+      white-space: pre-wrap;
 
       &:focus {
         border-color: ${t.textareaBorderColorFocus};
@@ -56,11 +57,11 @@ const styles = {
       }
 
       &:-moz-placeholder {
-        color: inherit; // Need to be discussed
+        color: ${t.textareaPlaceholderColor};
       }
 
       &::-moz-placeholder {
-        color: inherit;
+        color: ${t.textareaPlaceholderColor};
       }
     `;
   },
@@ -113,6 +114,41 @@ const styles = {
       top: 9px;
       user-select: none;
       z-index: 3;
+    `;
+  },
+
+  counterContainer(t: Theme) {
+    return css`
+      position: absolute;
+      top: 0;
+      border: ${t.textareaBorderWidth} solid transparent;
+      box-sizing: content-box;
+    `;
+  },
+
+  counter(t: Theme) {
+    return css`
+      position: absolute;
+      z-index: 3;
+      text-align: right;
+      background: ${t.textareaCounterBg};
+      color: ${t.textareaCounterColor};
+      border-radius: 2px;
+      right: ${t.textareaPaddingX};
+      bottom: ${t.textareaPaddingY};
+    `;
+  },
+
+  counterError(t: Theme) {
+    return css`
+      color: ${t.textareaCounterErrorColor} !important;
+    `;
+  },
+
+  counterHelp() {
+    return css`
+      margin-left: 4px;
+      cursor: pointer;
     `;
   },
 };

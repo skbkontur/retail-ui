@@ -2,6 +2,7 @@ import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupPosition, PopupProps } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
@@ -11,11 +12,9 @@ import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Tooltip.styles';
-
-const POPUP_MARGIN = 15;
-const POPUP_PIN_OFFSET = 17;
 
 const Positions: PopupPosition[] = [
   'right bottom',
@@ -50,7 +49,7 @@ export type TooltipTrigger =
   /** Управление через публичные функции show и hide */
   | 'manual';
 
-export interface TooltipProps {
+export interface TooltipProps extends CommonProps {
   /**
    * Относительно какого элемента позиционировать тултип
    */
@@ -218,7 +217,19 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  popupPinOffset: '17px',
+                  popupMargin: '15px',
+                },
+                theme,
+              )}
+            >
+              {this.renderMain()}
+            </ThemeContext.Provider>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -298,23 +309,23 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     content: JSX.Element | null,
   ) {
     return (
-      <Popup
-        anchorElement={anchorElement}
-        hasPin
-        hasShadow
-        margin={POPUP_MARGIN}
-        maxWidth="none"
-        opened={this.state.opened}
-        pinOffset={POPUP_PIN_OFFSET}
-        disableAnimations={this.props.disableAnimations}
-        positions={this.getPositions()}
-        ignoreHover={this.props.trigger === 'hoverAnchor'}
-        onOpen={this.props.onOpen}
-        onClose={this.props.onClose}
-        {...popupProps}
-      >
-        {content}
-      </Popup>
+      <CommonWrapper {...this.props}>
+        <Popup
+          anchorElement={anchorElement}
+          hasPin
+          hasShadow
+          maxWidth="none"
+          opened={this.state.opened}
+          disableAnimations={this.props.disableAnimations}
+          positions={this.getPositions()}
+          ignoreHover={this.props.trigger === 'hoverAnchor'}
+          onOpen={this.props.onOpen}
+          onClose={this.props.onClose}
+          {...popupProps}
+        >
+          {content}
+        </Popup>
+      </CommonWrapper>
     );
   }
 

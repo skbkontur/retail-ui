@@ -250,7 +250,16 @@ export class DefaultTheme {
   public static get tokenInputFontSize() {
     return this.inputFontSizeSmall;
   }
-  public static tokenInputLineHeight = '28px';
+  public static tokenInputLineHeight = '22px';
+
+  public static tokenInputInputPaddingLeft = '5px';
+
+  public static get tokenInputInputPaddingRight() {
+    const paddingX = parseInt(this.tokenPaddingX, 10) || 0;
+    const removeIconMarginX = parseInt(this.tokenRemoveIconGap, 10) || 0;
+    const removeIconSizeX = parseInt(this.tokenInputFontSize, 10) || 0;
+    return `${paddingX + removeIconSizeX + removeIconMarginX}px`;
+  }
   //#endregion
   //#region Loader
   public static loaderBg = 'rgba(255, 255, 255, 0.8)';
@@ -819,6 +828,9 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
+  public static popupPinOffset = '16px';
+  public static popupMargin = '10px';
+  public static popupPinSize = '8px';
   //#endregion
   //#region Input
   public static inputTextColor = 'none';
@@ -1187,6 +1199,18 @@ export class DefaultTheme {
   public static get textareaDisabledBorderColor() {
     return this.borderColorGrayLight;
   }
+  public static get textareaCounterColor() {
+    return this.gray;
+  }
+  public static get textareaCounterBg() {
+    return ColorFunctions.fade(this.textareaBg, 0.9);
+  }
+  public static get textareaCounterErrorColor() {
+    return this.errorText;
+  }
+  public static get textareaCounterHelpIconColor() {
+    return this.linkColor;
+  }
   //#endregion
   //#region Radio
   public static radioBulletSize = '8px';
@@ -1242,6 +1266,9 @@ export class DefaultTheme {
   public static radioLabelDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
   public static radioMarginY = '2px';
+  //#endregion
+  //#region RadioGroup
+  public static radioGroupLegacyItemGap = '10px';
   //#endregion
   //#region Tabs
   public static get tabFontSize() {

@@ -5,6 +5,7 @@ import { FiasLocale, FiasLocaleHelper } from '../locale';
 import { FiasComboBox, FiasComboBoxProps } from '../Form/FiasComboBox';
 import { FiasAddressResponse, FiasAPIProvider, FiasFields, FiasSearchOptions } from '../types';
 import { locale } from '../../../lib/locale/decorators';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../../internal/CommonWrapper';
 import { filterProps } from '../../../lib/filterProps';
 
 import { FiasAddress } from '..';
@@ -34,7 +35,7 @@ const COMBOBOX_PASS_PROPS = {
   onMouseLeave: true,
 };
 
-export interface FiasSearchProps extends Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
+export interface FiasSearchProps extends CommonProps, Pick<FiasComboBoxProps, keyof typeof COMBOBOX_PASS_PROPS> {
   api: FiasAPIProvider;
   address?: FiasAddress;
   onValueChange?: (address: FiasAddress) => void;
@@ -66,7 +67,11 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
   }
 
   public render() {
-    const restComboBoxProps = filterProps(this.props, COMBOBOX_PASS_PROPS);
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<FiasSearchProps>) => {
+    const restComboBoxProps = filterProps(props, COMBOBOX_PASS_PROPS);
     return (
       <FiasComboBox
         getItems={this.getItems}
@@ -80,7 +85,7 @@ export class FiasSearch extends React.Component<FiasSearchProps> {
         {...restComboBoxProps}
       />
     );
-  }
+  };
 
   private renderItem = (address: FiasAddress): string => {
     return address.getText();

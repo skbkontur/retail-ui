@@ -108,6 +108,7 @@ const styles = {
         width: ${iconSize}px;
         height: ${iconSize}px;
         padding: ${padding}px ${padding}px ${paddingBottom}px ${padding}px;
+        box-sizing: content-box;
       }
     `;
   },
@@ -156,6 +157,12 @@ const styles = {
     `;
   },
 
+  headerWrapper() {
+    return css`
+      position: relative;
+    `;
+  },
+
   header(t: Theme) {
     const iconSize = 14;
     const rightPadding = parseInt(t.modalCloseBtnPadding) * 2 + iconSize;
@@ -174,9 +181,21 @@ const styles = {
     `;
   },
 
+  headerWithClose() {
+    return css`
+      padding-right: 110px !important;
+    `;
+  },
+
   footer(t: Theme) {
     return css`
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      position: relative;
     `;
   },
 

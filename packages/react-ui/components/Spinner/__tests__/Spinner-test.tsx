@@ -6,16 +6,11 @@ import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SpinnerLocaleHelper } from '../locale';
 import { sizes } from '../../../internal/icons/SpinnerIcon';
 import { Spinner } from '../Spinner';
-import { SpinnerFallback } from '../SpinnerFallback';
 
 const render = (props = {}) => mount(<Spinner {...props} />);
 
 describe('Spinner', () => {
   describe('SVG animation', () => {
-    beforeEach(() => {
-      require('../../../lib/utils').__setSvgAnimationSupport(true);
-    });
-
     it('renders default Spinner', () => {
       render();
     });
@@ -36,46 +31,6 @@ describe('Spinner', () => {
 
       expect(width).toEqual(sizes.big.size);
       expect(height).toEqual(sizes.big.size);
-    });
-  });
-
-  describe('Fallback animation', () => {
-    beforeEach(() => {
-      require('../../../lib/utils').__setSvgAnimationSupport(false);
-    });
-
-    it('renders default Spinner', () => {
-      expect(render).not.toThrow();
-    });
-
-    it('renders correct size of default Spinner', () => {
-      const component = render();
-      const spinnerStyle = component
-        .find(SpinnerFallback)
-        .find('span')
-        .prop('style');
-
-      expect(spinnerStyle).toMatchObject({
-        width: sizes.normal.size,
-        height: sizes.normal.size,
-      });
-    });
-
-    it('renders correct top position of mini Spinner', () => {
-      const type = 'mini';
-      const component = render({ type });
-      const cloudStyle = component
-        .find(SpinnerFallback)
-        .find('span')
-        .prop('style');
-
-      expect(cloudStyle).toMatchObject({
-        width: sizes.mini.size,
-        height: sizes.mini.size,
-        marginBottom: -3,
-        marginLeft: -1,
-        marginRight: -1,
-      });
     });
   });
 
