@@ -299,7 +299,7 @@ UsingOnKeyDown.story = {
 };
 
 export const WithSearchAndVariousWidth: CSFStory<JSX.Element> = () => {
-  let selectElem: Select | null = null;
+  let selectElem: Select<string, string> | null = null;
   const [width, setWidth] = useState();
   const changeWidth = (w: string) => {
     setWidth(w);
@@ -320,7 +320,7 @@ export const WithSearchAndVariousWidth: CSFStory<JSX.Element> = () => {
         100%
       </Button>
       <br />
-      <Select ref={ref => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+      <Select<string, string> ref={ref => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
     </div>
   );
 };

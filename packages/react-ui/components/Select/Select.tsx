@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { SelectHTMLAttributes } from 'react';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import warning from 'warning';
@@ -24,7 +23,7 @@ import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Nullable } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -44,92 +43,94 @@ export interface ButtonParams {
   isPlaceholder: boolean;
 }
 
-export interface SelectProps<TValue, TItem> extends CommonProps {
-  /** @ignore */
-  _icon?: React.ReactElement<any>;
-  /** @ignore */
-  _renderButton?: (params: ButtonParams) => React.ReactNode;
-  defaultValue?: TValue;
-  /** @deprecated @ignore */
-  diadocLinkIcon?: React.ReactElement<any>;
-  /**
-   * Отключает использование портала
-   */
-  disablePortal?: boolean;
-  disabled?: boolean;
-  /**
-   * Визуально показать наличие ошибки.
-   */
-  error?: boolean;
-  filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
-  /**
-   * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
-   * `Array`, `Map`, `Immutable.Map`.
-   *
-   * Элементы воспринимаются следующим образом: если элемент — это массив, то
-   * первый элемент является значением, второй — отображается в списке,
-   * а третий – комментарий;
-   * если элемент не является массивом, то он используется и для отображения,
-   * и для значения.
-   *
-   * Для вставки разделителя можно использовать `Select.SEP`.
-   *
-   * Вставить невыделяемый элемент со своей разметкой можно так:
-   * ```
-   * <Select ...
-   *   items={[Select.static(() => <div>My Element</div>)]}
-   * />
-   * ```
-   *
-   * Чтобы добавить стандартный отступ для статического элемента:
-   * ```
-   * <Select.Item>My Element</Select.Item>
-   * ```
-   */
-  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
-  maxMenuHeight?: number;
-  maxWidth?: React.CSSProperties['maxWidth'];
-  menuAlign?: 'left' | 'right';
-  menuWidth?: React.CSSProperties['width'];
-  onValueChange?: (value: TValue) => void;
-  onClose?: () => void;
-  onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
-  onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
-  onOpen?: () => void;
-  placeholder?: React.ReactNode;
-  /**
-   * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
-   * *item*.
-   */
-  renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-   */
-  renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для сравнения `value` с элементом из `items`
-   */
-  areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
-  /**
-   * Функция конвертации `value` в строку для передачи в нативный элемент формы
-   */
-  valueToString?: (value: TValue) => string;
-  /**
-   * Показывать строку поиска в списке.
-   */
-  search?: boolean;
-  value?: TValue;
-  width?: number | string;
-  warning?: boolean;
-  use?: ButtonUse;
-  size?: ButtonSize;
-  onFocus?: React.FocusEventHandler<HTMLElement>;
-  onBlur?: React.FocusEventHandler<HTMLElement>;
-  name?: string;
-  form?: string;
-}
+export interface SelectProps<TValue, TItem>
+  extends CommonProps,
+    Override<
+      Omit<SelectHTMLAttributes<HTMLButtonElement>, 'multiple'>,
+      {
+        /** @ignore */
+        _icon?: React.ReactElement<any>;
+        /** @ignore */
+        _renderButton?: (params: ButtonParams) => React.ReactNode;
+        defaultValue?: TValue;
+        /** @deprecated @ignore */
+        diadocLinkIcon?: React.ReactElement<any>;
+        /**
+         * Отключает использование портала
+         */
+        disablePortal?: boolean;
+        /**
+         * Визуально показать наличие ошибки.
+         */
+        error?: boolean;
+        filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
+        /**
+         * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
+         * `Array`, `Map`, `Immutable.Map`.
+         *
+         * Элементы воспринимаются следующим образом: если элемент — это массив, то
+         * первый элемент является значением, второй — отображается в списке,
+         * а третий – комментарий;
+         * если элемент не является массивом, то он используется и для отображения,
+         * и для значения.
+         *
+         * Для вставки разделителя можно использовать `Select.SEP`.
+         *
+         * Вставить невыделяемый элемент со своей разметкой можно так:
+         * ```
+         * <Select ...
+         *   items={[Select.static(() => <div>My Element</div>)]}
+         * />
+         * ```
+         *
+         * Чтобы добавить стандартный отступ для статического элемента:
+         * ```
+         * <Select.Item>My Element</Select.Item>
+         * ```
+         */
+        items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
+        maxMenuHeight?: number;
+        maxWidth?: React.CSSProperties['maxWidth'];
+        menuAlign?: 'left' | 'right';
+        menuWidth?: React.CSSProperties['width'];
+        onValueChange?: (value: TValue) => void;
+        onClose?: () => void;
+        onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
+        onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
+        onMouseOver?: (e: React.MouseEvent<HTMLElement>) => void;
+        onKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+        onOpen?: () => void;
+        placeholder?: React.ReactNode;
+        /**
+         * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
+         * *item*.
+         */
+        renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
+        /**
+         * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
+         */
+        renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
+        /**
+         * Функция для сравнения `value` с элементом из `items`
+         */
+        areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
+        /**
+         * Функция конвертации `value` в строку для передачи в нативный элемент формы
+         */
+        valueToString?: (value: TValue) => string;
+        /**
+         * Показывать строку поиска в списке.
+         */
+        search?: boolean;
+        value?: TValue;
+        width?: number | string;
+        warning?: boolean;
+        use?: ButtonUse;
+        size?: ButtonSize;
+        onFocus?: React.FocusEventHandler<HTMLElement>;
+        onBlur?: React.FocusEventHandler<HTMLElement>;
+      }
+    > {}
 
 export interface SelectState<TValue> {
   opened: boolean;
@@ -144,27 +145,6 @@ interface FocusableReactElement extends React.ReactElement<any> {
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
-
-  public static propTypes = {
-    areValuesEqual: PropTypes.func,
-    disablePortal: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    filterItem: PropTypes.func,
-    items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-    maxMenuHeight: PropTypes.number,
-    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    placeholder: PropTypes.node,
-    renderItem: PropTypes.func,
-    renderValue: PropTypes.func,
-    search: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onValueChange: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onKeyDown: PropTypes.func,
-  };
 
   public static defaultProps = {
     renderValue,
