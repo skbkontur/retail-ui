@@ -1,5 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import { CreeveyStoryParams } from 'creevey';
+import { StoryFn } from '@storybook/addons';
 
 import { Toast } from '../Toast';
 import { Button } from '../../Button';
@@ -17,8 +19,10 @@ class TestNotifier extends React.Component<any, any> {
     return (
       <div>
         <Toast ref={el => (this.notifier = el)} onClose={action('close')} onPush={action('push')} />
-        <Button onClick={this.showNotification}>Show notification</Button>
-        <Button onClick={() => this.setState({ modal: true })}>Show Modal</Button>
+        <button data-tid="show-toast" onClick={this.showNotification}>
+          Show Toast
+        </button>
+        <button onClick={() => this.setState({ modal: true })}>Show Modal</button>
         {this.state.modal && this.renderModal()}
       </div>
     );
@@ -62,13 +66,50 @@ class TestNotifier extends React.Component<any, any> {
   }
 }
 
-export default { title: 'Toast', parameters: { creevey: { skip: [true] } } };
+export default {
+  title: 'Toast',
+  decorators: [
+    (story: StoryFn<JSX.Element>) => (
+      <div
+        // make some space for Toast
+        style={{
+          padding: '30px 0',
+        }}
+      >
+        {story()}
+      </div>
+    ),
+  ],
+  parameters: {
+    creevey: {
+      captureElement: 'body',
+      tests: {
+        async toastShown() {
+          const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
 
-export const SimpleNotifiacation = () => <TestNotifier />;
-SimpleNotifiacation.story = { name: 'simple notifiacation' };
+          await this.browser
+            .actions({ bridge: true })
+            .click(showToast)
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
 
-export const ComplexNotifiacation = () => <TestNotifier complex />;
-ComplexNotifiacation.story = { name: 'complex notifiacation' };
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    } as CreeveyStoryParams,
+  },
+};
 
-export const StaticMethod = () => <Button onClick={() => Toast.push('Static method call')}>Show static</Button>;
+export const SimpleNotification = () => <TestNotifier />;
+SimpleNotification.story = { name: 'simple notification' };
+
+export const ComplexNotification = () => <TestNotifier complex />;
+ComplexNotification.story = { name: 'complex notification' };
+
+export const StaticMethod = () => (
+  <button data-tid="show-toast" onClick={() => Toast.push('Static method call')}>
+    Show static
+  </button>
+);
 StaticMethod.story = { name: 'static method' };
