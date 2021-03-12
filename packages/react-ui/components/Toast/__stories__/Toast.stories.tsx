@@ -4,67 +4,30 @@ import { CreeveyStoryParams } from 'creevey';
 import { StoryFn } from '@storybook/addons';
 
 import { Toast } from '../Toast';
-import { Button } from '../../Button';
-import { Modal } from '../../Modal';
-import { Nullable } from '../../../typings/utility-types';
 
-class TestNotifier extends React.Component<any, any> {
-  public state = {
-    modal: false,
-  };
-
-  private notifier: Nullable<Toast>;
-
-  public render() {
-    return (
-      <div>
-        <Toast ref={el => (this.notifier = el)} onClose={action('close')} onPush={action('push')} />
-        <button data-tid="show-toast" onClick={this.showNotification}>
-          Show Toast
-        </button>
-        <button onClick={() => this.setState({ modal: true })}>Show Modal</button>
-        {this.state.modal && this.renderModal()}
-      </div>
-    );
-  }
-
-  private showNotification = () => {
-    if (this.props.complex) {
-      this.showComplexNotification();
-    } else {
-      this.showSimpleNotification();
+const TestNotifier = ({ complex }: { complex?: boolean }) => {
+  const toastRef = React.useRef<Toast>(null);
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      complex
+        ? toast.push('Successfully saved', {
+            label: 'Cancel',
+            handler: action('cancel_save'),
+          })
+        : toast.push('Successfully saved');
     }
   };
 
-  private showSimpleNotification() {
-    if (this.notifier) {
-      this.notifier.push('Successfully saved');
-    }
-  }
-
-  private showComplexNotification() {
-    if (this.notifier) {
-      this.notifier.push('Successfully saved', {
-        label: 'Cancel',
-        handler: action('cancel_save'),
-      });
-    }
-  }
-
-  private renderModal() {
-    return (
-      <Modal>
-        <Modal.Header>Modalka</Modal.Header>
-        <Modal.Body>
-          <Button onClick={this.showNotification}>Show notification</Button>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => this.setState({ modal: false })}>Close Modal</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
+  return (
+    <div>
+      <Toast ref={toastRef} onClose={action('close')} onPush={action('push')} />
+      <button data-tid="show-toast" onClick={showNotification}>
+        Show Toast
+      </button>
+    </div>
+  );
+};
 
 export default {
   title: 'Toast',
