@@ -35,3 +35,18 @@ const onChange = e => console.log(e.target.value);
   <Input onChange={onChange} type="color" placeholder="color" />
 </Gapped>;
 ```
+
+Нативная валидация:
+
+```jsx harmony
+import { Gapped, Button } from '@skbkontur/react-ui';
+
+const onSubmit = e => e.preventDefault();
+
+<form onSubmit={onSubmit}>
+  <Gapped vertical>
+    <Input name="email" type="email" placeholder="email" required />
+    <Button type="submit">Submit</Button>
+  </Gapped>
+</form>;
+```
