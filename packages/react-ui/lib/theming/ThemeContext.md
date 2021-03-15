@@ -63,7 +63,7 @@ import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/Show
 import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
-const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' });
+const myTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' });
 
 <ThemeContext.Provider value={myTheme}>
   <ShowcaseGroup title="My Theme" />
@@ -76,7 +76,7 @@ const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' });
 import { ThemeFactory } from '@skbkontur/react-ui';
 import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
-const myFlatTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' }, FLAT_THEME);
+const myFlatTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' }, FLAT_THEME);
 ```
 
 ### Использование темы в своих компонентах

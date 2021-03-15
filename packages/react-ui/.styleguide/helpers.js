@@ -16,14 +16,13 @@ const excludedComponents = [
   'ThemeProvider',
   'ThemeShowcase',
   'Locale',
-  'LocaleProvider',
   'Playground',
   'ModalContext',
   'ModalClose',
   'SidePageContext',
 ];
 
-const sectionComponents = ['Modal', 'TopBar', 'SidePage'];
+const sectionComponents = ['Modal', 'SidePage'];
 
 const findComponentsInSection = (dirPath, name) => {
   const reg = new RegExp(`${name}[a-zA-Z]*\.tsx`);

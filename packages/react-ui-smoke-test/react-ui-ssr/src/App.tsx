@@ -10,9 +10,6 @@ import {
   DatePicker,
   Dropdown,
   DropdownMenu,
-  Fias,
-  FiasAPI,
-  FiasSearch,
   FxInput,
   Gapped,
   Group,
@@ -23,9 +20,6 @@ import {
   Link,
   Loader,
   LocaleContext,
-  LocaleConsumer,
-  LocaleProvider,
-  Logotype,
   MenuHeader,
   MenuItem,
   MenuSeparator,
@@ -41,7 +35,6 @@ import {
   Switcher,
   Tabs,
   Textarea,
-  ThemeProvider,
   ThemeFactory,
   ThemeContext,
   Toast,
@@ -51,7 +44,6 @@ import {
   TokenInputType,
   Tooltip,
   TooltipMenu,
-  TopBar,
 } from '@skbkontur/react-ui';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
@@ -135,7 +127,6 @@ export const App = () => {
         <SidePage.Footer panel />
       </SidePage>
       <Spinner type="big" caption="big" />
-      <Spinner cloud />
       <Sticky side="top" getStop={() => null}>
         {_ => 'Small loan of a million dollars'}
       </Sticky>
@@ -154,36 +145,12 @@ export const App = () => {
       <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
         <MenuHeader>Заголовок меню</MenuHeader>
       </TooltipMenu>
-      <LocaleProvider langCode={LangCodes.en_GB}>
-        <TokenInput type={TokenInputType.Combined} getItems={_ => Promise.resolve(['First'])} />
-        <LocaleConsumer>{locale => locale.langCode}</LocaleConsumer>
-        <LocaleContext.Consumer>{locale => locale.langCode}</LocaleContext.Consumer>
-      </LocaleProvider>
       <LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
         <LocaleContext.Consumer>{locale => locale.langCode}</LocaleContext.Consumer>
       </LocaleContext.Provider>
-      <ThemeProvider value={FLAT_THEME}>
-        <Input />
-      </ThemeProvider>
       <ThemeContext.Provider value={ThemeFactory.create(FLAT_THEME)}>
         <ThemeContext.Consumer>{theme => theme.btnFontSizeMedium}</ThemeContext.Consumer>
       </ThemeContext.Provider>
-      <Fias baseUrl={'https://api.kontur.ru/fias/v1/'} value={{}} onValueChange={() => ({})} />
-      <FiasSearch api={new FiasAPI('https://api.kontur.ru/fias/v1/')} />
-      <Logotype suffix="экстерн" color="#F15600" />
-      <TopBar>
-        <TopBar.Start>
-          <TopBar.ItemStatic>
-            <Logotype suffix="ui" withWidget />
-          </TopBar.ItemStatic>
-          <TopBar.Item>s</TopBar.Item>
-        </TopBar.Start>
-        <TopBar.End>
-          <TopBar.User userName="Alexander The Great" />
-          <TopBar.Divider />
-          <TopBar.Logout onClick={() => alert('Logout!')} />
-        </TopBar.End>
-      </TopBar>
       <ValidationContainer scrollOffset={{ top: 100 }}>
         <ValidationWrapper validationInfo={{ type: 'immediate', message: 'Bad' }}>
           <Input />
