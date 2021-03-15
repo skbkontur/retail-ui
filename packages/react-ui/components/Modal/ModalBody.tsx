@@ -50,7 +50,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
               className={cn({
                 [jsStyles.body(this.theme)]: true,
                 [jsStyles.bodyWithoutHeader(this.theme)]: !hasHeader,
-                [jsStyles.bodyAddPadding(this.theme)]: additionalPadding,
+                [jsStyles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
                 [jsStyles.bodyWithoutPadding()]: noPadding,
               })}
             >

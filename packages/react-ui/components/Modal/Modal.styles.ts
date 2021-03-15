@@ -79,12 +79,11 @@ const styles = {
   },
 
   close(t: Theme) {
-    const iconSize = 14;
     const margin = 0;
     const padding = parseInt(t.modalCloseBtnPadding);
     const paddingBottom = 20;
-    const blockSizeX = iconSize + padding * 2;
-    const blockSizeY = iconSize + padding + paddingBottom;
+    const blockSizeX = parseInt(t.modalCloseIconSize) + padding * 2;
+    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       ${resetButton()};
       position: absolute;
@@ -105,8 +104,8 @@ const styles = {
       }
 
       & > svg {
-        width: ${iconSize}px;
-        height: ${iconSize}px;
+        width: ${t.modalCloseIconSize};
+        height: ${t.modalCloseIconSize};
         padding: ${padding}px ${padding}px ${paddingBottom}px ${padding}px;
         box-sizing: content-box;
       }
@@ -114,11 +113,10 @@ const styles = {
   },
 
   closeWrapper(t: Theme) {
-    const iconSize = 14;
     const padding = parseInt(t.modalCloseBtnPadding);
     const paddingBottom = 20;
-    const blockSizeX = iconSize + padding * 2;
-    const blockSizeY = iconSize + padding + paddingBottom;
+    const blockSizeX = parseInt(t.modalCloseIconSize) + padding * 2;
+    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       position: relative;
       float: right;
@@ -138,8 +136,7 @@ const styles = {
   },
 
   closeOutline(t: Theme) {
-    const iconSize = 14;
-    const padding = parseInt(t.modalCloseBtnPadding) - iconSize / 2 - 2;
+    const padding = parseInt(t.modalCloseBtnPadding) - parseInt(t.modalCloseIconSize) / 2 - 2;
     return css`
       ${cssName(styles.close(t))} & {
         display: none;
@@ -151,8 +148,8 @@ const styles = {
         display: block;
         top: ${padding}px;
         right: ${padding}px;
-        width: ${iconSize * 2}px;
-        height: ${iconSize * 2}px;
+        width: ${parseInt(t.modalCloseIconSize) * 2}px;
+        height: ${parseInt(t.modalCloseIconSize) * 2}px;
       }
     `;
   },
@@ -164,12 +161,10 @@ const styles = {
   },
 
   header(t: Theme) {
-    const iconSize = 14;
-    const rightPadding = parseInt(t.modalCloseBtnPadding) * 2 + iconSize;
     return css`
       font-size: ${t.modalHeaderFontSize};
       line-height: ${t.modalHeaderLineHeight};
-      padding: ${t.modalPaddingTop} ${rightPadding}px ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
+      padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
     `;
@@ -181,9 +176,11 @@ const styles = {
     `;
   },
 
-  headerWithClose() {
+  headerWithClose(t: Theme) {
+    const rightPadding = parseInt(t.modalCloseBtnPadding) * 2 + parseInt(t.modalCloseIconSize);
+
     return css`
-      padding-right: 110px !important;
+      padding-right: ${rightPadding}px;
     `;
   },
 
@@ -267,7 +264,7 @@ const styles = {
     `;
   },
 
-  bodyAddPadding(t: Theme) {
+  bodyAddPaddingForPanel(t: Theme) {
     return css`
       padding-bottom: ${t.modalPaddingBottom};
     `;
