@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.14.0...@skbkontur/react-ui@2.14.1) (2021-03-15)
+
+
+### Bug Fixes
+
+* **Toast,Center:** fix className forwarding ([#2313](https://github.com/skbkontur/retail-ui/issues/2313)) ([d643cc2](https://github.com/skbkontur/retail-ui/commit/d643cc2a52a9c3d11b5662e297dff8016ee92983)), closes [#2312](https://github.com/skbkontur/retail-ui/issues/2312)
+
+
+
+
+
 # [2.14.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.13.0...@skbkontur/react-ui@2.14.0) (2021-03-05)
 
 
