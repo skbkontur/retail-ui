@@ -42,6 +42,7 @@ export interface AutocompleteProps extends InputProps {
 export interface AutocomplpeteState {
   items: Nullable<string[]>;
   selected: number;
+  focused: boolean;
 }
 
 /**
@@ -88,13 +89,13 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
   public state: AutocomplpeteState = {
     items: null,
     selected: -1,
+    focused: false,
   };
 
   private opened: boolean = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
 
-  private focused: boolean = false;
   private requestId: number = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
@@ -122,6 +123,8 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
   }
 
   public render() {
+    const { focused } = this.state;
+
     const {
       onChange,
       onKeyDown,
@@ -144,8 +147,9 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
       onFocus: this.handleFocus,
       ref: this.refInput,
     };
+
     return (
-      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside}>
+      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span style={{ display: 'inline-block' }}>
           <Input {...inputProps} />
           {this.renderMenu()}
@@ -198,24 +202,24 @@ class Autocomplete extends React.Component<AutocompleteProps, AutocomplpeteState
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-    if (this.focused) {
+    if (this.state.focused) {
       return;
     }
 
-    this.focused = true;
+    this.setState({ focused: true });
+
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
   };
 
   private handleBlur = () => {
-    if (!this.focused) {
+    if (!this.state.focused) {
       return;
     }
 
-    this.focused = false;
     this.opened = false;
-    this.setState({ items: null });
+    this.setState({ items: null, focused: false });
 
     if (this.input) {
       this.input.blur();
