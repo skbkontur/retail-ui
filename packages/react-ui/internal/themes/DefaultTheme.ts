@@ -673,6 +673,8 @@ export class DefaultTheme {
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = '#333';
   public static modalCloseBtnPadding = '35px';
+  public static modalCloseBtnLeftPadding = '20px';
+  public static modalCloseBtnBottomPadding = '20px';
   public static modalCloseIconSize = '14px';
   public static modalFixedHeaderBg = '#fff';
   public static modalFixedHeaderShadow = '0 1px 10px #000000';

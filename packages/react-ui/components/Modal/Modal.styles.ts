@@ -81,8 +81,8 @@ const styles = {
   close(t: Theme) {
     const margin = 0;
     const padding = parseInt(t.modalCloseBtnPadding);
-    const paddingBottom = 20;
-    const blockSizeX = parseInt(t.modalCloseIconSize) + padding * 2;
+    const paddingBottom = parseInt(t.modalCloseBtnBottomPadding);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseBtnLeftPadding);
     const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       ${resetButton()};
@@ -106,7 +106,7 @@ const styles = {
       & > svg {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
-        padding: ${padding}px ${padding}px ${paddingBottom}px ${padding}px;
+        padding: ${padding}px ${padding}px ${paddingBottom}px ${t.modalCloseBtnLeftPadding};
         box-sizing: content-box;
       }
     `;
@@ -114,8 +114,8 @@ const styles = {
 
   closeWrapper(t: Theme) {
     const padding = parseInt(t.modalCloseBtnPadding);
-    const paddingBottom = 20;
-    const blockSizeX = parseInt(t.modalCloseIconSize) + padding * 2;
+    const paddingBottom = parseInt(t.modalCloseBtnBottomPadding);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseBtnLeftPadding);
     const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       position: relative;
@@ -177,7 +177,8 @@ const styles = {
   },
 
   headerWithClose(t: Theme) {
-    const rightPadding = parseInt(t.modalCloseBtnPadding) * 2 + parseInt(t.modalCloseIconSize);
+    const rightPadding =
+      parseInt(t.modalCloseBtnPadding) + parseInt(t.modalCloseBtnLeftPadding) + parseInt(t.modalCloseIconSize);
 
     return css`
       padding-right: ${rightPadding}px;
