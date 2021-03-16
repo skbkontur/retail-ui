@@ -231,7 +231,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           this.setState({ focusedByTab: true });
         }
       });
-        this.props.onFocus?.();
+      this.props.onFocus?.();
     }
   };
 

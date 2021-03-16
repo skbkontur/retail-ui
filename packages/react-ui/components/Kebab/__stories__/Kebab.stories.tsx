@@ -181,6 +181,7 @@ ProgrammaticFocus.story = {
   name: 'Kebab with programmatic focus',
   parameters: {
     creevey: {
+      captureElement: '[data-comp-name~="Kebab"]',
       tests: {
         async callFocusThenBlur() {
           const focusButton = await this.browser.findElement({ css: '[data-tid="focus-button"]' });
@@ -190,15 +191,16 @@ ProgrammaticFocus.story = {
             .actions()
             .click(focusButton)
             .perform();
-          const afterFocus = await this.takeScreenshot();
+          const focus = await this.takeScreenshot();
 
           await this.browser
             .actions()
             .click(blurButton)
             .perform();
-          const afterBlur = await this.takeScreenshot();
 
-          await this.expect({ afterFocus, afterBlur }).to.matchImages();
+          const blur = await this.takeScreenshot();
+
+          await this.expect({ focus, blur }).to.matchImages();
         },
       },
     },
