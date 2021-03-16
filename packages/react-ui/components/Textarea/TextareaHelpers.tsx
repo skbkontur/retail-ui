@@ -1,4 +1,4 @@
-export function getTextAreaHeight(params: IGetTextAreaHeightParams) {
+export function getTextAreaHeight(params: GetTextAreaHeightParams) {
   const { node, minRows, maxRows, extraRow } = params;
   const style: CSSStyleDeclaration = getComputedStyle(node);
   const borderTop = style.borderTopWidth ? parseInt(style.borderTopWidth, 10) : 0;
@@ -15,7 +15,7 @@ export function getTextAreaHeight(params: IGetTextAreaHeightParams) {
   };
 }
 
-interface IGetTextAreaHeightParams {
+interface GetTextAreaHeightParams {
   node: HTMLTextAreaElement;
   minRows: number;
   maxRows: number;
