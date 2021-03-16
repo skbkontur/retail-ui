@@ -11,11 +11,13 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isIE11, isEdge } from '../../lib/utils';
+import { isFunction } from '../../lib/utils';
+import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonProps, CommonWrapper } from '../CommonWrapper';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -71,7 +73,7 @@ export interface PopupHandlerProps {
   onClose?: () => void;
 }
 
-export interface PopupProps extends PopupHandlerProps {
+export interface PopupProps extends CommonProps, PopupHandlerProps {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
@@ -240,7 +242,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { anchorElement, useWrapper } = this.props;
 
     let child: Nullable<React.ReactNode> = null;
-    if (anchorElement instanceof HTMLElement) {
+    if (isHTMLElement(anchorElement)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
       child = useWrapper ? <span>{anchorElement}</span> : anchorElement;
@@ -267,7 +269,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return null;
     }
     const element = findDOMNode(instance);
-    return element instanceof HTMLElement ? element : null;
+    return isHTMLElement(element) ? element : null;
   }
 
   private updateAnchorElement(element: HTMLElement | null) {
@@ -281,7 +283,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private addEventListeners(element: Nullable<HTMLElement>) {
-    if (element && element instanceof HTMLElement) {
+    if (element && isHTMLElement(element)) {
       element.addEventListener('mouseenter', this.handleMouseEnter);
       element.addEventListener('mouseleave', this.handleMouseLeave);
       element.addEventListener('click', this.handleClick);
@@ -291,7 +293,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private removeEventListeners(element: Nullable<HTMLElement>) {
-    if (element && element instanceof HTMLElement) {
+    if (element && isHTMLElement(element)) {
       element.removeEventListener('mouseenter', this.handleMouseEnter);
       element.removeEventListener('mouseleave', this.handleMouseLeave);
       element.removeEventListener('click', this.handleClick);
@@ -349,38 +351,40 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         onExited={this.resetLocation}
       >
         {(state: string) => (
-          <ZIndex
-            ref={this.refPopupElement}
-            priority={'Popup'}
-            className={cn({
-              [jsStyles.popup(this.theme)]: true,
-              [jsStyles.shadow(this.theme)]: hasShadow,
-              [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
-              [jsStyles.popupIgnoreHover()]: ignoreHover,
-              ...(disableAnimations
-                ? {}
-                : {
-                    [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
-                    [jsStyles.transitionEnter()]: state === 'entering',
-                    [jsStyles.transitionEnterActive()]: state === 'entered',
-                    [jsStyles.transitionExit()]: state === 'exiting',
-                  }),
-            })}
-            style={rootStyle}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
-          >
-            <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
-              <div
-                className={jsStyles.contentInner(this.theme)}
-                style={{ backgroundColor }}
-                data-tid={'PopupContentInner'}
-              >
-                {children}
+          <CommonWrapper {...this.props}>
+            <ZIndex
+              ref={this.refPopupElement}
+              priority={'Popup'}
+              className={cn({
+                [jsStyles.popup(this.theme)]: true,
+                [jsStyles.shadow(this.theme)]: hasShadow,
+                [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
+                [jsStyles.popupIgnoreHover()]: ignoreHover,
+                ...(disableAnimations
+                  ? {}
+                  : {
+                      [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
+                      [jsStyles.transitionEnter()]: state === 'entering',
+                      [jsStyles.transitionEnterActive()]: state === 'entered',
+                      [jsStyles.transitionExit()]: state === 'exiting',
+                    }),
+              })}
+              style={rootStyle}
+              onMouseEnter={this.handleMouseEnter}
+              onMouseLeave={this.handleMouseLeave}
+            >
+              <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
+                <div
+                  className={jsStyles.contentInner(this.theme)}
+                  style={{ backgroundColor }}
+                  data-tid={'PopupContentInner'}
+                >
+                  {children}
+                </div>
               </div>
-            </div>
-            {this.renderPin(location.position)}
-          </ZIndex>
+              {this.renderPin(location.position)}
+            </ZIndex>
+          </CommonWrapper>
         )}
       </Transition>
     );
@@ -481,11 +485,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorElement = this.anchorElement;
 
     warning(
-      anchorElement && anchorElement instanceof HTMLElement,
+      anchorElement && isHTMLElement(anchorElement),
       'Anchor element is not defined or not instance of HTMLElement',
     );
 
-    if (!(anchorElement && anchorElement instanceof HTMLElement)) {
+    if (!(anchorElement && isHTMLElement(anchorElement))) {
       return location;
     }
 

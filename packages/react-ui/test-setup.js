@@ -13,11 +13,22 @@ jest.mock('lodash.debounce', () =>
     return fn;
   }),
 );
-jest.mock('./lib/utils', () => {
-  const utils = jest.requireActual('./lib/utils');
-  utils.__setSvgAnimationSupport = flag => (utils.hasSvgAnimationSupport = flag);
-  return utils;
-});
+
+/**
+ * Mock MutationObserver for jsdom < 13.2
+ * @see https://github.com/jsdom/jsdom/pull/2398
+ *
+ * TODO: remove when Jest >= 25.1.0
+ * @see https://github.com/facebook/jest/blob/master/CHANGELOG.md#2510
+ */
+global.MutationObserver = class {
+  disconnect() {
+    /**/
+  }
+  observe(element, initObject) {
+    /**/
+  }
+};
 
 /**
  * Since React v15.5, there's a warning printed if you access `React.createClass` or `React.PropTypes`

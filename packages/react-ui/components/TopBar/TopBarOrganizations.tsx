@@ -2,11 +2,12 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { TopBarDropdown } from './TopBarDropdown';
-import { jsStyles } from "./TopBar.styles";
+import { jsStyles } from './TopBar.styles';
 
-export interface TopBarOrganizationsProps {
+export interface TopBarOrganizationsProps extends CommonProps {
   caption: React.ReactNode;
   comment?: Nullable<string>;
 }
@@ -43,7 +44,11 @@ export class TopBarOrganizations extends React.Component<TopBarOrganizationsProp
   }
 
   public render() {
-    const { caption, comment } = this.props;
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  private renderMain = (props: CommonWrapperRestProps<TopBarOrganizationsProps>) => {
+    const { caption, comment, ...rest } = props;
 
     const title = (
       <div>
@@ -71,11 +76,11 @@ export class TopBarOrganizations extends React.Component<TopBarOrganizationsProp
     );
 
     return (
-      <TopBarDropdown {...this.props} label={title} minWidth={this.state.minWidth}>
+      <TopBarDropdown {...rest} label={title} minWidth={this.state.minWidth}>
         {this.props.children}
       </TopBarDropdown>
     );
-  }
+  };
 
   private _getCaptionRef = (element: HTMLSpanElement) => {
     this._caption = element;

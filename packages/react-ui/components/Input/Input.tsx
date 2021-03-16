@@ -3,13 +3,14 @@ import React from 'react';
 import raf from 'raf';
 import cn from 'classnames';
 
-import { isIE11, isEdge } from '../../lib/utils';
+import { isIE11, isEdge } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Input.styles';
 
@@ -18,80 +19,82 @@ export type InputAlign = 'left' | 'center' | 'right';
 export type InputType = 'password' | 'text';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
-export type InputProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    /**
-     * Иконка слева
-     * Если `ReactNode` применяются дефолтные стили для иконки
-     * Если `() => ReactNode` применяются только стили для позиционирование
-     */
-    leftIcon?: InputIconType;
-    /**
-     * Иконка справа
-     * Если `ReactNode` применяются дефолтные стили для иконки
-     * Если `() => ReactNode` применяются только стили для позиционирование
-     */
-    rightIcon?: InputIconType;
-    /** Состояние ошибки */
-    error?: boolean;
-    /** Состояние предупреждения */
-    warning?: boolean;
-    /** Режим прозрачной рамки */
-    borderless?: boolean;
-    /** Выравнивание текста */
-    align?: InputAlign;
-    /** Паттерн маски */
-    mask?: Nullable<string>;
-    /** Символ маски */
-    maskChar?: Nullable<string>;
-    /**
-     * Словарь символов-регулярок для задания маски
-     * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-     */
-    formatChars?: Record<string, string>;
-    /** Показывать символы маски */
-    alwaysShowMask?: boolean;
-    /** Размер */
-    size?: InputSize;
-    /** onValueChange */
-    onValueChange?: (value: string) => void;
-    /** Вызывается на label */
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Тип */
-    type?: InputType;
-    /** Значение */
-    value?: string;
-    capture?: boolean;
+export interface InputProps
+  extends CommonProps,
+    Override<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      {
+        /**
+         * Иконка слева
+         * Если `ReactNode` применяются дефолтные стили для иконки
+         * Если `() => ReactNode` применяются только стили для позиционирование
+         */
+        leftIcon?: InputIconType;
+        /**
+         * Иконка справа
+         * Если `ReactNode` применяются дефолтные стили для иконки
+         * Если `() => ReactNode` применяются только стили для позиционирование
+         */
+        rightIcon?: InputIconType;
+        /** Состояние ошибки */
+        error?: boolean;
+        /** Состояние предупреждения */
+        warning?: boolean;
+        /** Режим прозрачной рамки */
+        borderless?: boolean;
+        /** Выравнивание текста */
+        align?: InputAlign;
+        /** Паттерн маски */
+        mask?: Nullable<string>;
+        /** Символ маски */
+        maskChar?: Nullable<string>;
+        /**
+         * Словарь символов-регулярок для задания маски
+         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
+         */
+        formatChars?: Record<string, string>;
+        /** Показывать символы маски */
+        alwaysShowMask?: boolean;
+        /** Размер */
+        size?: InputSize;
+        /** onValueChange */
+        onValueChange?: (value: string) => void;
+        /** Вызывается на label */
+        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+        /** Вызывается на label */
+        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+        /** Вызывается на label */
+        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+        /** Тип */
+        type?: InputType;
+        /** Значение */
+        value?: string;
+        capture?: boolean;
 
-    /**
-     * Префикс
-     * `ReactNode` перед значением, но после иконки
-     */
-    prefix?: React.ReactNode;
-    /**
-     * Суффикс
-     * `ReactNode` после значения, но перед правой иконкой
-     */
-    suffix?: React.ReactNode;
-    /** Выделять введенное значение при фокусе */
-    selectAllOnFocus?: boolean;
-    /**
-     * Обработчик неправильного ввода.
-     * По-умолчанию, инпут вспыхивает синим.
-     * Если передан - вызывается переданный обработчик,
-     * в таком случае вспыхивание можно вызвать
-     * публичным методом инстанса `blink()`.
-     *
-     * @param value значение инпута.
-     */
-    onUnexpectedInput?: (value: string) => void;
-  }
->;
+        /**
+         * Префикс
+         * `ReactNode` перед значением, но после иконки
+         */
+        prefix?: React.ReactNode;
+        /**
+         * Суффикс
+         * `ReactNode` после значения, но перед правой иконкой
+         */
+        suffix?: React.ReactNode;
+        /** Выделять введенное значение при фокусе */
+        selectAllOnFocus?: boolean;
+        /**
+         * Обработчик неправильного ввода.
+         * По-умолчанию, инпут вспыхивает синим.
+         * Если передан - вызывается переданный обработчик,
+         * в таком случае вспыхивание можно вызвать
+         * публичным методом инстанса `blink()`.
+         *
+         * @param value значение инпута.
+         */
+        onUnexpectedInput?: (value: string) => void;
+      }
+    > {}
 
 export interface InputState {
   blinking: boolean;
@@ -202,7 +205,7 @@ export class Input extends React.Component<InputProps, InputState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
@@ -240,7 +243,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   };
 
-  private renderMain() {
+  private renderMain = (props: CommonWrapperRestProps<InputProps>) => {
     const {
       onMouseEnter,
       onMouseLeave,
@@ -260,8 +263,6 @@ export class Input extends React.Component<InputProps, InputState> {
       mask,
       maskChar,
       alwaysShowMask,
-      style,
-      className,
       size,
       placeholder,
       selectAllOnFocus,
@@ -271,7 +272,7 @@ export class Input extends React.Component<InputProps, InputState> {
       suffix,
       formatChars,
       ...rest
-    } = this.props;
+    } = props;
 
     const { blinking, focused } = this.state;
 
@@ -331,7 +332,7 @@ export class Input extends React.Component<InputProps, InputState> {
         </span>
       </label>
     );
-  }
+  };
 
   private renderMaskedInput(
     inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
@@ -415,12 +416,21 @@ export class Input extends React.Component<InputProps, InputState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return { [jsStyles.sizeLarge(this.theme)]: true, [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge };
+        return {
+          [jsStyles.sizeLarge(this.theme)]: true,
+          [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
+        };
       case 'medium':
-        return { [jsStyles.sizeMedium(this.theme)]: true, [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge };
+        return {
+          [jsStyles.sizeMedium(this.theme)]: true,
+          [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
+        };
       case 'small':
       default:
-        return { [jsStyles.sizeSmall(this.theme)]: true, [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge };
+        return {
+          [jsStyles.sizeSmall(this.theme)]: true,
+          [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
+        };
     }
   }
 

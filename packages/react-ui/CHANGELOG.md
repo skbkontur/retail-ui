@@ -3,6 +3,128 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.14.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.14.0...@skbkontur/react-ui@2.14.1) (2021-03-15)
+
+
+### Bug Fixes
+
+* **Toast,Center:** fix className forwarding ([#2313](https://github.com/skbkontur/retail-ui/issues/2313)) ([d643cc2](https://github.com/skbkontur/retail-ui/commit/d643cc2a52a9c3d11b5662e297dff8016ee92983)), closes [#2312](https://github.com/skbkontur/retail-ui/issues/2312)
+
+
+
+
+
+# [2.14.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.13.0...@skbkontur/react-ui@2.14.0) (2021-03-05)
+
+
+### Bug Fixes
+
+* **Sticky:** avoid margins collapsing ([a39f3fc](https://github.com/skbkontur/retail-ui/commit/a39f3fcd24e2ffb2f163d86c6dbda4320f681f79))
+* **TokenInput:** don't call onBlur until focus is really lost ([7a6c856](https://github.com/skbkontur/retail-ui/commit/7a6c8563dd991d63511fe06561ee61a62d804c5e))
+
+
+### Features
+
+* **Loader:** add component prop ([40ea9b2](https://github.com/skbkontur/retail-ui/commit/40ea9b2b6e050927e503763e7ec33436dfa704df))
+* forward common props (className, style, data-*) ([#2257](https://github.com/skbkontur/retail-ui/issues/2257)) ([626ac07](https://github.com/skbkontur/retail-ui/commit/626ac07178e4d2139b03e6a6cb3e04a8e69475de))
+* **TokenInput:** onUnexpectedInput prop added ([cba1d76](https://github.com/skbkontur/retail-ui/commit/cba1d769a37620b25061b1e60541b67cf4fbb701))
+
+
+
+
+
+# [2.13.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.12.1...@skbkontur/react-ui@2.13.0) (2021-01-27)
+
+
+### Bug Fixes
+
+* **Select:** fix typo in placeholder ([#2275](https://github.com/skbkontur/retail-ui/issues/2275)) ([bf1beb8](https://github.com/skbkontur/retail-ui/commit/bf1beb8288dd0376f43edf487c96267ef19e723a))
+* **Select:** reset search query on close ([#2265](https://github.com/skbkontur/retail-ui/issues/2265)) ([c168c50](https://github.com/skbkontur/retail-ui/commit/c168c508c97cfdb8c52267695e664d7b8fcff200)), closes [#2264](https://github.com/skbkontur/retail-ui/issues/2264)
+* **Textarea:** fix line breaks inside Gapped in IE; add story ([2cec37c](https://github.com/skbkontur/retail-ui/commit/2cec37cccb9c0b3c02e0436d28cbd4d361f07e6d))
+
+
+### Features
+
+* **Link:** new loading state ([#2271](https://github.com/skbkontur/retail-ui/issues/2271)) ([f494fd8](https://github.com/skbkontur/retail-ui/commit/f494fd844b50eeed0cbf60a1da27e213976c143f))
+
+
+
+
+
+## [2.12.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.12.0...@skbkontur/react-ui@2.12.1) (2020-12-25)
+
+
+### Bug Fixes
+
+* **ScrollContainer:** add onScroll prop & dont block window scroll if inner scroll isnt active ([#2252](https://github.com/skbkontur/retail-ui/issues/2252)) ([df069ab](https://github.com/skbkontur/retail-ui/commit/df069ab0cee3cedd322c5a29b04887ab2ca1cf97))
+
+
+
+
+
+# [2.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.11.0...@skbkontur/react-ui@2.12.0) (2020-12-23)
+
+
+### Features
+
+* ssr support ([#2103](https://github.com/skbkontur/retail-ui/issues/2103)) ([506a7f6](https://github.com/skbkontur/retail-ui/commit/506a7f63337cc4ca2567581495959b1656fedd18))
+
+
+
+
+
+# [2.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.10.0...@skbkontur/react-ui@2.11.0) (2020-12-17)
+
+
+### Bug Fixes
+
+* **ComboBox:** add an explicit call to focus on the Input ([89c71c3](https://github.com/skbkontur/retail-ui/commit/89c71c3cff0b5b88c79d3c24abd1edbaf84533b2)), closes [#1862](https://github.com/skbkontur/retail-ui/issues/1862)
+* **Modal.Header:** fix right padding with noClose ([50115db](https://github.com/skbkontur/retail-ui/commit/50115db98f4bf2ca70398b20504ce7ef04d71510))
+* **RadioGroup:** fix gaps between radios for 8px theme ([ef95117](https://github.com/skbkontur/retail-ui/commit/ef9511755a8869d75c52633148f5ef8d90ddad2b))
+* **ScrollContainer:** properly handle scroll's state change ([e61d825](https://github.com/skbkontur/retail-ui/commit/e61d825dcac36460fa56a7cb33907c277f32b78f))
+
+
+### Features
+
+* **Textarea:** add chars counter ([5580592](https://github.com/skbkontur/retail-ui/commit/558059275c6a563b5f9348570b7193b400ec3c00)), closes [#2208](https://github.com/skbkontur/retail-ui/issues/2208)
+
+
+
+
+
+# [2.10.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.9.0...@skbkontur/react-ui@2.10.0) (2020-12-03)
+
+
+### Bug Fixes
+
+* **Icon20px,TopBar:** replace iconic font with svg icons ([67981e1](https://github.com/skbkontur/retail-ui/commit/67981e125a4e5fc93eb4f5e03c0ebcdfb638b6ed)), closes [#2223](https://github.com/skbkontur/retail-ui/issues/2223)
+* **Input:** fix disabled color in Safari ([5b35688](https://github.com/skbkontur/retail-ui/commit/5b356880aea96fbe716eaf3cb8d0cedf72f51542))
+* **Kebab:** use svg icon for large size ([c3d5b13](https://github.com/skbkontur/retail-ui/commit/c3d5b138ddcf1da45f487616fa940f7ac2d7e921)), closes [#2223](https://github.com/skbkontur/retail-ui/issues/2223)
+* **Modal:** fix cross's box-sizing ([e734022](https://github.com/skbkontur/retail-ui/commit/e7340220f6bfabaed5c5b74fd094767a47c8c4e0))
+* **Spinner,SpinnerOld:** remake fallback animation using SVG  ([#2203](https://github.com/skbkontur/retail-ui/issues/2203)) ([fe32192](https://github.com/skbkontur/retail-ui/commit/fe321928785a464dd2c631266ab18ae508436caf)), closes [#2182](https://github.com/skbkontur/retail-ui/issues/2182)
+* **Textarea:** correct onCut and onPaste handlers ([ee04b65](https://github.com/skbkontur/retail-ui/commit/ee04b65f6b0421df06f08014de6a226c428cb49c))
+
+
+### Features
+
+* **ComboBox:** add leftIcon prop ([d7a4904](https://github.com/skbkontur/retail-ui/commit/d7a49047717a2a5acefdc2136e3edccc0a56a703))
+* **TopBarItem:** accept ReactElement as icon ([4fa4609](https://github.com/skbkontur/retail-ui/commit/4fa460994a0e1043cddfbb1f485cb761b801f3e2))
+
+
+
+
+
+# [2.9.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.8.0...@skbkontur/react-ui@2.9.0) (2020-11-19)
+
+
+### Features
+
+* **TokenInput:** ability to edit tokens ([#2189](https://github.com/skbkontur/retail-ui/issues/2189)) ([7ae8ea6](https://github.com/skbkontur/retail-ui/commit/7ae8ea6f1625600f3935ccd15b0fa797813f4f7b)), closes [#2112](https://github.com/skbkontur/retail-ui/issues/2112)
+
+
+
+
+
 # [2.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.7.0...@skbkontur/react-ui@2.8.0) (2020-11-09)
 
 

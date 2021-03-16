@@ -4,8 +4,9 @@ import { ComboBox, ComboBoxProps } from '../../ComboBox';
 import { FiasAddress } from '../models/FiasAddress';
 import { reactGetTextContent } from '../../../lib/reactGetTextContent';
 import { escapeRegExpSpecChars } from '../../../lib/utils';
+import { CommonProps } from '../../../internal/CommonWrapper';
 
-export interface FiasComboBoxProps extends ComboBoxProps<FiasAddress> {
+export interface FiasComboBoxProps extends CommonProps, ComboBoxProps<FiasAddress> {
   limit?: number;
 }
 

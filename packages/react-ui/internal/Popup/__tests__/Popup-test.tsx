@@ -7,7 +7,8 @@ import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
-import { RenderInnerContainer } from '../../RenderContainer/RenderInnerContainer';
+import { CommonWrapper } from '../../CommonWrapper';
+import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
@@ -119,8 +120,11 @@ describe('properly renders opened/closed states ', () => {
   const openedPopupTree: ReactComponentLike[] = [
     RenderContainer,
     RenderInnerContainer,
+    Portal,
     'Portal',
+    CommonWrapper,
     Transition,
+    CommonWrapper,
     ZIndex,
     `div`,
     'div[data-tid="PopupContent"]',
