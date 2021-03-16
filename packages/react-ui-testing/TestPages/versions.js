@@ -10,6 +10,13 @@ const versionsInfo = [
       'react-dom': '16.9.0',
     },
   },
+  {
+    react: '17.0.1',
+    '@skbkontur/react-ui': [reactUiLocalVersionStub],
+    dependencies: {
+      'react-dom': '17.0.1',
+    },
+  },
 ];
 
 const getDefaultVersions = function() {
