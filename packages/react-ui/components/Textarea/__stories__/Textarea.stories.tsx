@@ -360,7 +360,7 @@ TextareaWithCounters.story = {
 };
 
 export const TextareaWithSingleRow: CSFStory<JSX.Element> = () => {
-  return <Textarea width={400} autoResize spellCheck={false} rows={1} extraRow={false} disableAnimation />;
+  return <Textarea width={400} autoResize spellCheck={false} rows={1} extraRow={false} />;
 };
 TextareaWithSingleRow.story = {
   name: 'Textarea with single row',

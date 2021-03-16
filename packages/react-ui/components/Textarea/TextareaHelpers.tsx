@@ -8,10 +8,11 @@ export function getTextAreaHeight(params: GetTextAreaHeightParams) {
   const paddingBottom = style.paddingBottom ? parseInt(style.paddingBottom, 10) : 0;
   const minHeight = borderTop + borderBottom + paddingTop + paddingBottom + lineHeight * minRows;
   const maxHeight = borderTop + borderBottom + paddingTop + paddingBottom + lineHeight * maxRows;
-  const expectedHeight = node.scrollHeight + borderTop + borderBottom + (extraRow ? lineHeight : 0);
+  const extraRowHeight = extraRow ? lineHeight : 0;
+  const expectedHeight = node.scrollHeight + borderTop + borderBottom + extraRowHeight;
   return {
     height: Math.min(Math.max(expectedHeight, minHeight), maxHeight),
-    exceededMaxHeight: expectedHeight > maxHeight + lineHeight,
+    exceededMaxHeight: expectedHeight > maxHeight + extraRowHeight,
   };
 }
 

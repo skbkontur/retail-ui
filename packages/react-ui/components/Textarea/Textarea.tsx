@@ -17,6 +17,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
+import {isTestEnv} from "../../lib/currentEnvironment";
 
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
@@ -93,7 +94,7 @@ export interface TextareaProps
         extraRow?: boolean;
 
         /** Отключать анимацию при авто-ресайзе */
-        disableAnimation?: boolean;
+        disableAnimations?: boolean;
       }
     > {}
 
@@ -120,7 +121,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     autoResize: PropTypes.bool,
     extraRow: PropTypes.bool,
-    disableAnimation: PropTypes.bool,
+    disableAnimations: PropTypes.bool,
     maxRows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     resize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -171,6 +172,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     rows: 3,
     maxRows: 15,
     extraRow: true,
+    disableAnimations: isTestEnv,
   };
 
   public state = {
@@ -193,7 +195,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private get autoResizeThrottleWait() {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
     // Поэтому выставляем таймаут троттла в ноль. Подробности - https://github.com/skbkontur/retail-ui/issues/2120
-    return this.props.disableAnimation ? 0 : AUTORESIZE_THROTTLE_DEFAULT_WAIT;
+    return this.props.disableAnimations ? 0 : AUTORESIZE_THROTTLE_DEFAULT_WAIT;
   }
 
   public componentDidMount() {
@@ -217,7 +219,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public componentDidUpdate(prevProps: TextareaProps) {
-    if (this.props.disableAnimation !== prevProps.disableAnimation) {
+    if (this.props.disableAnimations !== prevProps.disableAnimations) {
       this.autoResize.cancel();
       this.autoResize = throttle(this.autoResizeHandler, this.autoResizeThrottleWait);
     }
@@ -297,7 +299,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       lengthCounter,
       counterHelp,
       extraRow,
-      disableAnimation,
+      disableAnimations,
       ...textareaProps
     } = props;
 
@@ -313,7 +315,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       [jsStyles.textarea(this.theme)]: true,
       [jsStyles.error(this.theme)]: !!error,
       [jsStyles.warning(this.theme)]: !!warning,
-      [jsStyles.disableAnimation()]: disableAnimation,
+      [jsStyles.disableAnimation()]: disableAnimations ?? !extraRow,
     });
 
     const textareaStyle = {
