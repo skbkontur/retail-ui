@@ -17,16 +17,19 @@ describe('Kebab', () => {
     const wrapper = mount(<Kebab onFocus={onFocus} />);
 
     wrapper.find(MenuKebabIcon).simulate('focus');
+
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
   it('calls onBlur callback', () => {
     const onBlur = jest.fn();
     const wrapper = mount(<Kebab onBlur={onBlur} />);
+
     wrapper
       .find(MenuKebabIcon)
       .simulate('focus')
       .simulate('blur');
+
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
@@ -34,23 +37,18 @@ describe('Kebab', () => {
     const onBlur = jest.fn();
     const wrapper = mount(<Kebab onBlur={onBlur} />);
 
-    wrapper
-      .find(MenuKebabIcon)
-      .simulate('focus')
-      .simulate('click');
+    wrapper.find(MenuKebabIcon).simulate('click');
+
     expect(onBlur).not.toHaveBeenCalled();
   });
 
   it('calls onBlur callback after click outside', () => {
-    const onFocus = jest.fn();
     const onBlur = jest.fn();
-    const wrapper = mount(<Kebab onBlur={onBlur} onFocus={onFocus} />);
+    const wrapper = mount(<Kebab onBlur={onBlur} />);
 
-    wrapper
-      .find(MenuKebabIcon)
-      .simulate('focus')
-      .simulate('click');
+    wrapper.find(MenuKebabIcon).simulate('click');
     clickOutside();
+
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 });
