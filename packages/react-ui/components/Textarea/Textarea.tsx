@@ -218,6 +218,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public componentDidUpdate(prevProps: TextareaProps) {
     if (this.props.disableAnimation !== prevProps.disableAnimation) {
+      this.autoResize.cancel();
       this.autoResize = throttle(this.autoResizeHandler, this.autoResizeThrottleWait);
     }
     if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
