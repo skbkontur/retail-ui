@@ -239,14 +239,16 @@ class DatePickerFormatting extends React.Component {
             onValueChange={separator => this.setState({ separator })}
           />
         </div>
-        <LocaleContext.Provider value={{
-          langCode: LangCodes.ru_RU,
-          locale: {
-            DatePicker: {
-              separator: DateSeparator[this.state.separator],
-              order: this.state.order,
+        <LocaleContext.Provider
+          value={{
+            langCode: LangCodes.ru_RU,
+            locale: {
+              DatePicker: {
+                separator: DateSeparator[this.state.separator],
+                order: this.state.order,
+              },
             },
-          }}}
+          }}
         >
           <DatePicker onValueChange={value => this.setState({ value })} value={this.state.value} />
         </LocaleContext.Provider>
@@ -258,7 +260,7 @@ class DatePickerFormatting extends React.Component {
 <DatePickerFormatting />;
 ```
 
-#### Локали по умолчанию (см. `LocaleProvider`)
+#### Локали по умолчанию
 
 ```typescript
 interface DatePickerLocale {

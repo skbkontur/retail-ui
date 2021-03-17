@@ -23,12 +23,9 @@ interface LocaleControls {
   Spinner?: SpinnerLocale;
   TokenInput?: TokenInputLocale;
   ComboBox?: ComboBoxLocale;
-  TopBar?: TopBarLocale;
   Select?: SelectLocale;
   Paging?: PagingLocale;
-  Logotype?: LogotypeLocale;
   DatePicker?: DatePickerLocale;
-  Fias?: FiasLocale;
 }
 ```
 
@@ -99,7 +96,7 @@ import { LangCodes, LocaleContext } from '@skbkontur/react-ui';
 const languages = {
   [LangCodes.ru_RU]: 'Русский',
   [LangCodes.en_GB]: 'English',
-}
+};
 
 function LocalizedByHook() {
   const { langCode } = useContext(LocaleContext);
@@ -108,7 +105,7 @@ function LocalizedByHook() {
 
 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <LocalizedByHook />
-</LocaleContext.Provider>
+</LocaleContext.Provider>;
 ```
 
 ### Обзор всех доступных контролов
@@ -118,15 +115,12 @@ import {
   ComboBox,
   DateInput,
   DatePicker,
-  Fias,
   Gapped,
   LocaleContext,
-  Logotype,
   Paging,
   Select,
   Spinner,
   TokenInput,
-  TopBar,
   LangCodes,
 } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
@@ -143,13 +137,10 @@ const LocalizationControlNames = {
   ComboBox: 'ComboBox',
   Spinner: 'Spinner',
   TokenInput: 'TokenInput',
-  TopBar: 'TopBar',
   Select: 'Select',
   Paging: 'Paging',
-  Logotype: 'Logotype',
   DatePicker: 'DatePicker',
   DateInput: 'DateInput',
-  Fias: 'Fias',
 };
 
 class LocalizationControls extends React.Component {
@@ -210,33 +201,11 @@ class LocalizationControls extends React.Component {
       case LocalizationControlNames.DateInput:
         return <DateInput value="30.12.2012" />;
 
-      case LocalizationControlNames.TopBar:
-        return (
-          <TopBar>
-            <TopBar.Start>
-              <TopBar.ItemStatic>
-                <Logotype suffix="ui" withWidget />
-              </TopBar.ItemStatic>
-            </TopBar.Start>
-            <TopBar.End>
-              <TopBar.User userName="Alexander The Great" />
-              <TopBar.Divider />
-              <TopBar.Logout onClick={() => alert('Logout!')} />
-            </TopBar.End>
-          </TopBar>
-        );
-
-      case LocalizationControlNames.Logotype:
-        return <Logotype />;
-
       case LocalizationControlNames.Select:
         return <Select />;
 
       case LocalizationControlNames.Paging:
         return <Paging activePage={1} pagesCount={12} onPageChange={value => value} />;
-
-      case LocalizationControlNames.Fias:
-        return <Fias />;
     }
     return null;
   }

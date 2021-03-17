@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import warning from 'warning';
 import cn from 'classnames';
 
 import {
@@ -19,7 +18,6 @@ import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
-import { Link } from '../Link';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
@@ -63,8 +61,6 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
-  /** @deprecated @ignore */
-  diadocLinkIcon?: React.ReactElement<any>;
   /**
    * Отключает использование портала
    */
@@ -311,11 +307,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private renderDefaultButton(params: ButtonParams) {
-    if (this.props.diadocLinkIcon) {
-      warning(false, `diadocLinkIcon has been deprecated`);
-      return this.renderLinkButton(params);
-    }
-
     const buttonProps: ButtonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
       align: 'left' as React.CSSProperties['textAlign'],
@@ -391,20 +382,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
     const selectPadding = parseFloat(getSelectPadding()) || 0;
     return this.props.use === 'link' ? 10 : 1 + (this.props._icon ? selectPadding : 0);
-  }
-
-  private renderLinkButton(params: ButtonParams): React.ReactNode {
-    const linkProps = {
-      disabled: params.disabled,
-      icon: this.props.diadocLinkIcon,
-      _button: true,
-      _buttonOpened: params.opened,
-
-      onClick: params.onClick,
-      onKeyDown: params.onKeyDown,
-    };
-
-    return <Link {...linkProps}>{params.label}</Link>;
   }
 
   private renderMenu(): React.ReactNode {
