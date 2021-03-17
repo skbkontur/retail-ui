@@ -1,8 +1,16 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+const getVerticalPaddingsWithCompensation = (theme: Theme) => {
+  const { toastPaddingY, fontFamilyCompensationBaseline } = theme;
+  const paddingY = parseInt(toastPaddingY);
+  const compensation = parseInt(fontFamilyCompensationBaseline);
+  return [`${paddingY - compensation}px`, `${paddingY + compensation}px`];
+};
+
 const styles = {
   root(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
       background: ${t.toastBg};
       border-radius: ${t.toastBorderRadius};
@@ -12,8 +20,7 @@ const styles = {
       font-size: ${t.toastFontSize};
       line-height: ${t.toastLineHeight};
       opacity: 1;
-      padding: ${t.toastPaddingY} ${t.toastPaddingX}
-        ${parseInt(t.toastPaddingY) + parseInt(t.fontFamilyCompensationBaseline)}px;
+      padding: ${paddingTop} ${t.toastPaddingX} ${paddingBottom};
       position: relative;
       top: ${t.toastTop};
     `;
@@ -40,20 +47,20 @@ const styles = {
   },
 
   link(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     const leftMargin = `${parseInt(t.toastPaddingX)}px`;
     const marginRight = `${Math.round(
       parseInt(t.toastPaddingX) * 1.5 + parseInt(t.toastCloseSize) - parseInt(t.toastLinkButtonLegacyRightMargin),
     )}px`;
-    const paddingBottom = `${parseInt(t.toastPaddingY) + parseInt(t.fontFamilyCompensationBaseline)}px`;
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
 
-      margin: -${t.toastPaddingY} ${marginRight} -${paddingBottom} ${leftMargin};
+      margin: -${paddingTop} ${marginRight} -${paddingBottom} ${leftMargin};
 
-      padding: ${t.toastPaddingY} 0 ${paddingBottom} 0;
+      padding: ${paddingTop} 0 ${paddingBottom} 0;
 
       &:hover {
         text-decoration: underline;
