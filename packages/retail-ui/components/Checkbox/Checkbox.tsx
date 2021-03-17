@@ -31,6 +31,8 @@ export type CheckboxProps = Override<
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     /** Состояние частичного выделения */
     initialIndeterminate?: boolean;
+    /** Вызывается при изменении `value` */
+    onValueChange?: (value: boolean) => void;
   }
 >;
 
@@ -55,6 +57,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onMouseOver: PropTypes.func,
+    onValueChange: PropTypes.func,
   };
 
   public state = {
@@ -143,6 +146,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onMouseLeave,
       onMouseOver,
       onChange,
+      onValueChange,
       style,
       className,
       type,
@@ -224,6 +228,9 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
+    if (this.props.onValueChange) {
+      this.props.onValueChange(checked);
+    }
     if (this.props.onChange) {
       this.props.onChange(event, checked);
     }
