@@ -152,7 +152,7 @@ const styles = {
     `;
   },
 
-  disableAnimation() {
+  disableAnimations() {
     return css`
       transition: none;
     `;

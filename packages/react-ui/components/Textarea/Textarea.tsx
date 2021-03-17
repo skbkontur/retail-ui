@@ -88,13 +88,13 @@ export interface TextareaProps
          * */
         counterHelp?: ReactNode | (() => ReactNode);
 
-        /** Добавлять дополнительную строку.
-         *  По умолчанию - true
+        /** Добавлять дополнительную свободкую строку при авто-ресайзе.
+         * @see https://guides.kontur.ru/components/textarea/#04
          * */
         extraRow: boolean;
 
         /** Отключать анимацию при авто-ресайзе.
-         * Автоматически отключается когда в`extraRow` передан `false`.
+         * Автоматически отключается когда в `extraRow` передан `false`.
          */
         disableAnimations: boolean;
       }
@@ -320,7 +320,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       [jsStyles.textarea(this.theme)]: true,
       [jsStyles.error(this.theme)]: !!error,
       [jsStyles.warning(this.theme)]: !!warning,
-      [jsStyles.disableAnimation()]: this.isAnimationsDisabled(),
+      [jsStyles.disableAnimations()]: this.isAnimationsDisabled(),
     });
 
     const textareaStyle = {
