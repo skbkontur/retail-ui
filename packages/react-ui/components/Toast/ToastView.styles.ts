@@ -16,7 +16,7 @@ const styles = {
       border-radius: ${t.toastBorderRadius};
       border: ${t.toastBorder};
       color: ${t.toastColor};
-      display: inline-block;
+      display: inline-flex;
       font-size: ${t.toastFontSize};
       line-height: ${t.toastLineHeight};
       opacity: 1;
@@ -38,27 +38,25 @@ const styles = {
   },
 
   closeWrapper(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
       display: flex;
-      position: absolute;
-      top: 0;
-      right: 0;
+      margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} -${t.toastClosePadding};
     `;
   },
 
   link(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
-    const leftMargin = `${parseInt(t.toastPaddingX) - parseInt(t.toastLinkLegacyMarginLeft)}px`;
-    const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5 + parseInt(t.toastLinkLegacyMarginRight))}px`;
+    const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5)}px`;
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
 
-      margin: -${paddingTop} ${marginRight} -${paddingBottom} ${leftMargin};
+      margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
 
-      padding: ${paddingTop} 0 ${paddingBottom} 0;
+      padding: ${paddingTop} 0 ${paddingBottom};
 
       &:hover {
         text-decoration: underline;
@@ -74,7 +72,6 @@ const styles = {
       height: ${t.toastCloseSize};
       line-height: 0;
       padding: ${t.toastClosePadding};
-      padding-right: ${parseInt(t.toastClosePadding) - parseInt(t.toastCloseLegacyShift)}px;
       text-align: center;
       width: ${t.toastCloseSize};
 
