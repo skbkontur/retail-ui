@@ -88,7 +88,7 @@ export interface TextareaProps
          * */
         counterHelp?: ReactNode | (() => ReactNode);
 
-        /** Добавлять дополнительную свободкую строку при авто-ресайзе.
+        /** Добавлять дополнительную свободную строку при авто-ресайзе.
          * @see https://guides.kontur.ru/components/textarea/#04
          * */
         extraRow: boolean;
