@@ -13,6 +13,9 @@ const styles = {
     return css`
       color: ${t.selectPlaceholderColor};
       text-overflow: ellipsis;
+      &:disabled {
+        color: ${t.selectPlaceholderDisabledColor} !important;
+      }
     `;
   },
 
@@ -20,12 +23,6 @@ const styles = {
     return css`
       color: inherit;
       opacity: 0.7;
-    `;
-  },
-
-  placeholderTextDisabled(t: Theme) {
-    return css`
-      color: ${t.selectPlaceholderColorDisabled} !important;
     `;
   },
 

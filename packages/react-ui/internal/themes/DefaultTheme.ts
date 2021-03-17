@@ -120,9 +120,7 @@ export class DefaultTheme {
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
-  public static get tokenTextColorDisabled() {
-    return this.inputTextColorDisabled;
-  }
+  public static tokenTextColorDisabled = '#808080';
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
@@ -949,9 +947,7 @@ export class DefaultTheme {
   public static get textareaColor() {
     return this.black;
   }
-  public static get textareaTextColorDisabled() {
-    return this.inputTextColorDisabled;
-  }
+  public static textareaTextColorDisabled = '#808080';
   public static get textareaPlaceholderColorLight() {
     return this.placeholderColorLight;
   }
