@@ -4,7 +4,7 @@ import { CSFStory } from 'creevey';
 import { ThemeContextPlayground } from '../ThemeContextPlayground';
 import { delay } from '../../../lib/utils';
 
-export default { title: 'ThemeProvider' };
+export default { title: 'ThemePlayground' };
 
 export const Playground: CSFStory<JSX.Element> = () => <ThemeContextPlayground />;
 Playground.story = {
