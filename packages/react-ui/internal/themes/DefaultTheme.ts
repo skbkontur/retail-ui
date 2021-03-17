@@ -762,14 +762,13 @@ export class DefaultTheme {
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';
-  public static toastCloseBtnPadding = '16px';
-  public static toastCloseBtnLegacyPaddingY = '-1px';
-  public static toastCloseBtnLegacyPaddingX = '6px';
-  public static toastLinkButtonLegacyRightMargin = '8px';
+  public static toastClosePadding = '16px';
+  public static toastCloseLegacyShift = '4px';
+  public static toastLinkLegacyMarginLeft = '6px';
+  public static toastLinkLegacyMarginRight = '4px';
   public static toastCloseColor = '#a0a0a0';
   public static toastCloseHoverColor = 'white';
   public static toastCloseSize = '8px';
-  public static toastCloseExtraAreaPadding = '8px';
   //#endregion
   //#region TopBar
   public static tbBg = '#fff';

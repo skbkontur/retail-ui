@@ -41,17 +41,15 @@ const styles = {
     return css`
       display: flex;
       position: absolute;
-      top: ${parseInt(t.toastCloseBtnPadding) - parseInt(t.toastCloseBtnLegacyPaddingY)}px;
-      right: ${parseInt(t.toastCloseBtnPadding) - parseInt(t.toastCloseBtnLegacyPaddingX)}px;
+      top: 0;
+      right: 0;
     `;
   },
 
   link(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
-    const leftMargin = `${parseInt(t.toastPaddingX)}px`;
-    const marginRight = `${Math.round(
-      parseInt(t.toastPaddingX) * 1.5 + parseInt(t.toastCloseSize) - parseInt(t.toastLinkButtonLegacyRightMargin),
-    )}px`;
+    const leftMargin = `${parseInt(t.toastPaddingX) - parseInt(t.toastLinkLegacyMarginLeft)}px`;
+    const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5 + parseInt(t.toastLinkLegacyMarginRight))}px`;
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
@@ -75,8 +73,8 @@ const styles = {
       display: inline-block;
       height: ${t.toastCloseSize};
       line-height: 0;
-      margin: -${t.toastCloseExtraAreaPadding};
-      padding: ${t.toastCloseExtraAreaPadding};
+      padding: ${t.toastClosePadding};
+      padding-right: ${parseInt(t.toastClosePadding) - parseInt(t.toastCloseLegacyShift)}px;
       text-align: center;
       width: ${t.toastCloseSize};
 

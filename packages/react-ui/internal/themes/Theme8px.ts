@@ -465,13 +465,13 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get toastLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static toastPaddingY = '8px';
+  public static toastPaddingY = '10px';
   public static toastPaddingX = '16px';
   public static toastTop = '24px';
-  public static toastCloseBtnPadding = '16px';
-  public static toastCloseBtnLegacyPaddingY = '0px';
-  public static toastCloseBtnLegacyPaddingX = '0px';
-  public static toastLinkButtonLegacyRightMargin = '0px';
+  public static toastClosePadding = '16px';
+  public static toastCloseLegacyShift = '0px';
+  public static toastLinkLegacyMarginLeft = '0px';
+  public static toastLinkLegacyMarginRight = '8px';
   //#endregion
 }
 
