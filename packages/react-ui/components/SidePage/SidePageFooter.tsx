@@ -25,6 +25,7 @@ export interface SidePageFooterProps extends CommonProps {
 
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
+  public static __SIDEPAGE_FOOTER__ = true;
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;

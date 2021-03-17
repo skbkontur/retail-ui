@@ -464,7 +464,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePagePaddingRight = '36px';
   public static sidePagePaddingTop = '24px';
   public static sidePagePaddingBottom = '32px';
-  public static sidePageFooterPaddingTop = '0px';
   public static sidePageBodyPaddingBottom = '24px';
   public static get sidePageBgDefault() {
     return this.bgDefault;
@@ -480,8 +479,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFixedLineHeight = '28px';
   public static sidePageHeaderFixedPadding = '10px';
   public static sidePageCloseBtnPadding = '36px';
-  public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
+  public static sidePageCloseBtnLeftPadding = '20px';
   //#endregion
 }
 

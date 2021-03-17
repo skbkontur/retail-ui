@@ -36,6 +36,18 @@ const styles = {
     `;
   },
 
+  bodyWithoutHeader(t: Theme) {
+    return css`
+      padding-top: ${t.sidePagePaddingTop} !important;
+    `;
+  },
+
+  bodyWithoutFooter(t: Theme) {
+    return css`
+      padding-bottom: ${t.sidePagePaddingBottom} !important;
+    `;
+  },
+
   container(t: Theme) {
     return css`
       background: ${t.sidePageBgDefault};
@@ -61,8 +73,8 @@ const styles = {
       font-size: ${t.sidePageHeaderFontSize};
       line-height: ${t.sidePageHeaderLineHeight};
       padding: ${t.sidePagePaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
-      position: relative;
       width: 100%;
+      position: relative;
     `;
   },
 
@@ -77,8 +89,8 @@ const styles = {
   },
 
   title(t: Theme) {
-    const paddingClose = 50;
-    const paddingRight = parseInt(t.sidePagePaddingRight) + paddingClose;
+    const paddingRight =
+      parseInt(t.sidePageCloseBtnPadding) + parseInt(t.sidePageCloseBtnLeftPadding) + parseInt(t.sidePageCloseIconSize);
     return css`
       padding-left: ${t.sidePagePaddingLeft};
       padding-right: ${paddingRight}px;
@@ -135,11 +147,9 @@ const styles = {
       right: ${t.sidePageCloseBtnPadding};
       text-align: center;
       text-decoration: none;
-      width: 24px;
-
-      ${cssName(styles.fixed())}& {
-        line-height: 24px;
-      }
+      width: ${t.sidePageCloseIconSize};
+      padding: ${t.sidePageCloseBtnExtraClickArea};
+      margin: -${t.sidePageCloseBtnExtraClickArea};
 
       &:hover {
         color: ${t.sidePageCloseButtonHoverColor};
@@ -156,19 +166,18 @@ const styles = {
     `;
   },
 
-  closeIcon() {
-    const iconSize = 12;
+  closeIcon(t: Theme) {
     return css`
       display: inline-block;
-      height: ${iconSize}px;
-      width: ${iconSize}px;
+      height: ${t.sidePageCloseIconSize};
+      width: ${t.sidePageCloseIconSize};
       line-height: 0;
     `;
   },
 
-  fixed() {
+  fixed(t: Theme) {
     return css`
-      line-height: 24px;
+      line-height: ${t.sidePageHeaderFixedLineHeight};
     `;
   },
 
@@ -182,7 +191,7 @@ const styles = {
 
   footerContent(t: Theme) {
     return css`
-      padding: ${t.sidePageFooterPaddingTop} ${t.sidePagePaddingRight} ${t.sidePagePaddingBottom}
+      padding: ${t.sidePageFooterPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPaddingBottom}
         ${t.sidePagePaddingLeft};
     `;
   },

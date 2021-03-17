@@ -690,6 +690,7 @@ export class DefaultTheme {
   public static sidePagePaddingTop = '25px';
   public static sidePagePaddingBottom = '20px';
   public static sidePageFooterPaddingTop = '20px';
+  public static sidePageFooterPaddingBottom = '20px';
   public static sidePageBodyPaddingBottom = '0px';
   public static get sidePageBgDefault() {
     return this.bgDefault;
@@ -704,9 +705,13 @@ export class DefaultTheme {
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '24px';
   public static sidePageHeaderFixedPadding = '13px';
-  public static sidePageCloseBtnPadding = '30px';
+  public static sidePageCloseBtnPadding = '36px';
+  public static sidePageCloseBtnLeftPadding = '37px';
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
+  public static sidePageCloseIconSize = '12px';
+  public static sidePageCloseBtnExtraClickArea = '0px';
+
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';

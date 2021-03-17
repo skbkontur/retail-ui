@@ -16,10 +16,11 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
-import { SidePageContext } from './SidePageContext';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { jsStyles } from './SidePage.styles';
+import { isFooter, isHeader } from './helpers';
 
 export interface SidePageProps extends CommonProps {
   /**
@@ -128,6 +129,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderMain() {
     const { blockBackground, disableAnimations } = this.props;
+
     return (
       <CommonWrapper {...this.props}>
         <RenderContainer>
@@ -174,14 +176,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             style={this.getSidebarStyle()}
           >
             <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
-              <SidePageContext.Provider
-                value={{
-                  requestClose: this.requestClose,
-                  getWidth: this.getWidth,
-                  updateLayout: this.updateLayout,
-                  footerRef: this.footerRef,
-                }}
-              >
+              <SidePageContext.Provider value={this.getSidePageContextProps()}>
                 {this.props.children}
               </SidePageContext.Provider>
             </div>
@@ -190,6 +185,31 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       </ZIndex>
     );
   }
+
+  private getSidePageContextProps = (): SidePageContextType => {
+    let hasHeader = false;
+    let hasFooter = false;
+
+    React.Children.toArray(this.props.children).forEach(child => {
+      if (isHeader(child)) {
+        hasHeader = true;
+      }
+      if (isFooter(child)) {
+        hasFooter = true;
+      }
+    });
+
+    const sidePageContextProps: SidePageContextType = {
+      hasHeader,
+      hasFooter,
+      requestClose: this.requestClose,
+      getWidth: this.getWidth,
+      updateLayout: this.updateLayout,
+      footerRef: this.footerRef,
+    };
+
+    return sidePageContextProps;
+  };
 
   private getWidth = () => {
     if (!this.layoutRef) {

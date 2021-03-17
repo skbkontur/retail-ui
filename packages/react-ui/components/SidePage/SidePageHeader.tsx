@@ -11,12 +11,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';
 
-const REGULAR_HEADER_PADDING_TOP = 25;
-const FIXED_HEADER_PADDING_TOP = 13;
 const FONT_FAMILY_CORRECTION = 1;
-const CLOSE_ELEMENT_OFFSET = REGULAR_HEADER_PADDING_TOP - FIXED_HEADER_PADDING_TOP - FONT_FAMILY_CORRECTION;
-const FIXED_HEADER_HEIGHT = 50;
-
 export interface SidePageHeaderProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
@@ -32,6 +27,7 @@ export interface SidePageHeaderState {
  */
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
+  public static __SIDEPAGE_HEADER__ = true;
 
   public state = {
     isReadyToFix: false,
@@ -40,6 +36,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private theme!: Theme;
   private wrapper: HTMLElement | null = null;
   private lastRegularHeight = 0;
+  private FIXED_HEADER_HEIGHT = 0;
 
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
@@ -69,6 +66,9 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
+          this.FIXED_HEADER_HEIGHT =
+            parseInt(theme.sidePageHeaderFixedLineHeight) + parseInt(theme.sidePageHeaderFixedPadding) * 2;
+
           return this.renderMain();
         }}
       </ThemeContext.Consumer>
@@ -102,12 +102,16 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       {({ requestClose }) => (
         <a
           className={cn(jsStyles.close(this.theme), {
-            [jsStyles.fixed()]: fixed,
+            [jsStyles.fixed(this.theme)]: fixed,
           })}
           onClick={requestClose}
           data-tid="SidePage__close"
         >
-          <span className={jsStyles.closeIcon()}>
+          <span
+            className={cn(jsStyles.closeIcon(this.theme), {
+              [jsStyles.fixed(this.theme)]: fixed,
+            })}
+          >
             <CrossIcon />
           </span>
         </a>
@@ -115,16 +119,22 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     </SidePageContext.Consumer>
   );
 
-  private renderClose = () => (
-    <Sticky side="top" offset={CLOSE_ELEMENT_OFFSET}>
-      {this.renderCloseContent}
-    </Sticky>
-  );
+  private renderClose = () => {
+    const stickyOffset =
+      parseInt(this.theme.sidePagePaddingTop) -
+      parseInt(this.theme.sidePageHeaderFixedPadding) -
+      FONT_FAMILY_CORRECTION;
+    return (
+      <Sticky side="top" offset={stickyOffset}>
+        {this.renderCloseContent}
+      </Sticky>
+    );
+  };
 
   private updateReadyToFix = () => {
     if (this.wrapper) {
       const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
-      const isReadyToFix = this.regularHeight + wrapperScrolledUp <= FIXED_HEADER_HEIGHT;
+      const isReadyToFix = this.regularHeight + wrapperScrolledUp <= this.FIXED_HEADER_HEIGHT;
       this.setState(state => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
     }
   };
