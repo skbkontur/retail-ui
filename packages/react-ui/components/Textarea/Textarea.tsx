@@ -91,12 +91,12 @@ export interface TextareaProps
         /** Добавлять дополнительную строку.
          *  По умолчанию - true
          * */
-        extraRow?: boolean;
+        extraRow: boolean;
 
         /** Отключать анимацию при авто-ресайзе.
          * Автоматически отключается когда в`extraRow` передан `false`.
          */
-        disableAnimations?: boolean;
+        disableAnimations: boolean;
       }
     > {}
 
@@ -460,7 +460,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       node: fakeNode,
       minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
       maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-      extraRow: extraRow ?? false,
+      extraRow,
     });
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
