@@ -115,8 +115,9 @@ const styles = {
   closeWrapper(t: Theme) {
     const padding = parseInt(t.modalCloseBtnPadding);
     const paddingBottom = parseInt(t.modalCloseBtnBottomPadding);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseBtnLeftPadding);
-    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
+    const legacyGap = parseInt(t.modalCloseWrapperLegacyGap);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseBtnLeftPadding) + legacyGap;
+    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom + legacyGap;
     return css`
       position: relative;
       float: right;
@@ -178,7 +179,10 @@ const styles = {
 
   headerWithClose(t: Theme) {
     const rightPadding =
-      parseInt(t.modalCloseBtnPadding) + parseInt(t.modalCloseBtnLeftPadding) + parseInt(t.modalCloseIconSize);
+      parseInt(t.modalCloseBtnPadding) +
+      parseInt(t.modalCloseBtnLeftPadding) +
+      parseInt(t.modalCloseIconSize) +
+      parseInt(t.modalCloseLegacyGap);
 
     return css`
       padding-right: ${rightPadding}px;

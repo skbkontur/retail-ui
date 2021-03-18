@@ -676,12 +676,14 @@ export class DefaultTheme {
   public static modalCloseBtnLeftPadding = '20px';
   public static modalCloseBtnBottomPadding = '20px';
   public static modalCloseIconSize = '14px';
+  public static modalCloseLegacyGap = '41px';
+  public static modalCloseWrapperLegacyGap = '7px';
   public static modalFixedHeaderBg = '#fff';
   public static modalFixedHeaderShadow = '0 1px 10px #000000';
   public static modalFixedFooterShadow = '0 -1px 10px #000000';
   public static modalFooterBg = '#e9e9e9';
   public static modalAdaptiveThreshold = '425px';
-  public static modalPaddingTop = '24px';
+  public static modalPaddingTop = '30px';
   public static modalPaddingLeft = '30px';
   public static modalPaddingRight = '35px';
   public static modalHeaderFontSize = '22px';
