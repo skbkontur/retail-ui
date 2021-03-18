@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.14.1...@skbkontur/react-ui@2.15.0) (2021-03-18)
+
+
+### Bug Fixes
+
+* **Autocomplete:** use prop `active` from `RenderLayer` ([031940a](https://github.com/skbkontur/retail-ui/commit/031940ad30cbe84547741313017bfe04de52cfc3))
+* **Checkbox:** fix indeterminate state in IE11/Edge ([ff62f26](https://github.com/skbkontur/retail-ui/commit/ff62f2655e45ce20e1b151cdb08e570ab5d3c40d))
+
+
+### Features
+
+* **Textarea:** add `disableAnimation` and `extraRow` props  ([#2317](https://github.com/skbkontur/retail-ui/issues/2317)) ([8351a7d](https://github.com/skbkontur/retail-ui/commit/8351a7d9cca38d4bb064829a516ac03b9a360d72)), closes [#2120](https://github.com/skbkontur/retail-ui/issues/2120)
+
+
+
+
+
+## [2.14.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.14.0...@skbkontur/react-ui@2.14.1) (2021-03-15)
+
+
+### Bug Fixes
+
+* **Toast,Center:** fix className forwarding ([#2313](https://github.com/skbkontur/retail-ui/issues/2313)) ([d643cc2](https://github.com/skbkontur/retail-ui/commit/d643cc2a52a9c3d11b5662e297dff8016ee92983)), closes [#2312](https://github.com/skbkontur/retail-ui/issues/2312)
+
+
+
+
+
+# [2.14.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.13.0...@skbkontur/react-ui@2.14.0) (2021-03-05)
+
+
+### Bug Fixes
+
+* **Sticky:** avoid margins collapsing ([a39f3fc](https://github.com/skbkontur/retail-ui/commit/a39f3fcd24e2ffb2f163d86c6dbda4320f681f79))
+* **TokenInput:** don't call onBlur until focus is really lost ([7a6c856](https://github.com/skbkontur/retail-ui/commit/7a6c8563dd991d63511fe06561ee61a62d804c5e))
+
+
+### Features
+
+* **Loader:** add component prop ([40ea9b2](https://github.com/skbkontur/retail-ui/commit/40ea9b2b6e050927e503763e7ec33436dfa704df))
+* forward common props (className, style, data-*) ([#2257](https://github.com/skbkontur/retail-ui/issues/2257)) ([626ac07](https://github.com/skbkontur/retail-ui/commit/626ac07178e4d2139b03e6a6cb3e04a8e69475de))
+* **TokenInput:** onUnexpectedInput prop added ([cba1d76](https://github.com/skbkontur/retail-ui/commit/cba1d769a37620b25061b1e60541b67cf4fbb701))
+
+
+
+
+
 # [2.13.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.12.1...@skbkontur/react-ui@2.13.0) (2021-01-27)
 
 
