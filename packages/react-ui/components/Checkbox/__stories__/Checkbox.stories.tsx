@@ -274,6 +274,16 @@ Indeterminate.story = {
             .perform();
           await this.expect(await element.takeScreenshot()).to.matchImage('tabPress');
         },
+        async clicked() {
+          const element = await this.browser.findElement({ css: '#screenshot-capture' });
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'label' }))
+            .perform();
+          await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
+        },
       },
     },
   },
