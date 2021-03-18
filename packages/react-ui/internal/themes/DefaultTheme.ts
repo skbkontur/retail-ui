@@ -660,6 +660,26 @@ export class DefaultTheme {
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   //#endregion
+  //#region TooltipMenu
+  public static tooltipMenuPinOffset = '15px';
+  public static get tooltipMenuMargin() {
+    return this.popupMargin;
+  }
+  public static get tooltipMenuPinSize() {
+    return this.popupPinSize;
+  }
+  //#endregion
+  //#region Kebab
+  public static kebabPinOffset = '15px';
+  public static get kebabPinSize() {
+    return this.popupPinSize;
+  }
+  public static kebabMargin = '5px';
+  public static kebabBackground = 'transparent';
+  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
+  public static kebabBorderRadius = '50%';
+  public static kebabBorder = '2px solid transparent';
+  //#endregion
   //#region Modal
   public static modalBackBg = '#333';
   public static modalBackOpacity = '0.6';

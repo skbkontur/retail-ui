@@ -476,6 +476,17 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static menuSeparatorMarginY = '2px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
+  //#region TooltipMenu
+  public static get tooltipMenuPinOffset() {
+    return this.popupPinOffset;
+  }
+  //#endregion
+  //#region Kebab
+  public static get kebabPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static kebabMargin = '4px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
