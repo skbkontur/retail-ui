@@ -80,9 +80,9 @@ const styles = {
 
   close(t: Theme) {
     const margin = 0;
-    const padding = parseInt(t.modalCloseBtnPadding);
-    const paddingBottom = parseInt(t.modalCloseBtnBottomPadding);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseBtnLeftPadding);
+    const padding = parseInt(t.modalCloseButtonPadding);
+    const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseButtonLeftPadding);
     const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       ${resetButton()};
@@ -106,17 +106,17 @@ const styles = {
       & > svg {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
-        padding: ${padding}px ${padding}px ${paddingBottom}px ${t.modalCloseBtnLeftPadding};
+        padding: ${padding}px ${padding}px ${paddingBottom}px ${t.modalCloseButtonLeftPadding};
         box-sizing: content-box;
       }
     `;
   },
 
   closeWrapper(t: Theme) {
-    const padding = parseInt(t.modalCloseBtnPadding);
-    const paddingBottom = parseInt(t.modalCloseBtnBottomPadding);
+    const padding = parseInt(t.modalCloseButtonPadding);
+    const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
     const legacyGap = parseInt(t.modalCloseWrapperLegacyGap);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseBtnLeftPadding) + legacyGap;
+    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseButtonLeftPadding) + legacyGap;
     const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom + legacyGap;
     return css`
       position: relative;
@@ -137,7 +137,7 @@ const styles = {
   },
 
   closeOutline(t: Theme) {
-    const padding = parseInt(t.modalCloseBtnPadding) - parseInt(t.modalCloseIconSize) / 2 - 2;
+    const padding = parseInt(t.modalCloseButtonPadding) - parseInt(t.modalCloseIconSize) / 2 - 2;
     return css`
       ${cssName(styles.close(t))} & {
         display: none;
@@ -179,8 +179,8 @@ const styles = {
 
   headerWithClose(t: Theme) {
     const rightPadding =
-      parseInt(t.modalCloseBtnPadding) +
-      parseInt(t.modalCloseBtnLeftPadding) +
+      parseInt(t.modalCloseButtonPadding) +
+      parseInt(t.modalCloseButtonLeftPadding) +
       parseInt(t.modalCloseIconSize) +
       parseInt(t.modalCloseLegacyGap);
 

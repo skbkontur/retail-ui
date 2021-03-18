@@ -459,7 +459,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
   //#region Modal
-  public static modalCloseBtnPadding = '36px';
+  public static modalCloseButtonPadding = '36px';
   public static modalCloseLegacyGap = '0px';
   public static modalCloseWrapperLegacyGap = '0px';
   public static modalPaddingTop = '24px';
