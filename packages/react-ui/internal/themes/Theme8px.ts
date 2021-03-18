@@ -458,6 +458,24 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
+  //#region Menu
+  public static get menuItemLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static menuItemIconLegacyMargin = '0px';
+  public static menuItemIconLegacyShift = '0px';
+  public static menuItemLegacyPaddingX = '0px';
+  public static menuItemLegacyPaddingY = '0px';
+  public static menuItemIconGap = '4px';
+  public static menuHeaderLineHeight = '16px';
+  public static menuHeaderPaddingX = '8px';
+  public static menuPaddingY = '4px';
+  public static menuHeaderPaddingTop = '12px';
+  public static menuHeaderPaddingBottom = '4px';
+  public static menuHeaderLegacyPaddingRight = '0px';
+  public static menuSeparatorMarginY = '2px';
+  public static menuSeparatorBorderWidth = '1px';
+  //#endregion
   //#region TooltipMenu
   public static get tooltipMenuPinOffset() {
     return this.popupPinOffset;

@@ -1,13 +1,20 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 const styles = {
   root(t: Theme) {
     return css`
-      background: ${t.bgDefault};
+      background: ${t.menuBgDefault};
       box-sizing: content-box;
       overflow: auto;
-      padding: 5px 0;
+      padding: ${is8pxTheme(t) ? 0 : t.menuPaddingY} 0;
+    `;
+  },
+
+  scrollContainer(t: Theme) {
+    return css`
+      padding: ${is8pxTheme(t) ? t.menuPaddingY : 0} 0;
     `;
   },
 
