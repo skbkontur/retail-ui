@@ -211,7 +211,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         <div style={wrapperStyle} className={jsStyles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
-            .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month))
+            .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
             .map(this.renderMonth, this)}
         </div>
       </div>

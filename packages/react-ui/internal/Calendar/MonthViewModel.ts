@@ -1,17 +1,14 @@
-import { Theme } from 'react-ui/lib/theming/Theme';
-
 import { memo } from '../../lib/memo';
 import { DefaultTheme } from '../themes/DefaultTheme';
+import { Theme } from '../../lib/theming/Theme';
 
 import { themeConfig } from './config';
 import { DayCellViewModel } from './DayCellViewModel';
 
 export class MonthViewModel {
-  public static create = memo(
-    (month: number, year: number, theme: Theme = DefaultTheme): MonthViewModel => {
-      return new MonthViewModel(month, year, theme);
-    },
-  );
+  public static create = (month: number, year: number, theme: Theme = DefaultTheme): MonthViewModel => {
+    return new MonthViewModel(month, year, theme);
+  };
 
   public readonly daysCount: number;
 
@@ -31,7 +28,11 @@ export class MonthViewModel {
   // FIXME: shouldbe readonly
   public isFirstInYear: boolean;
 
+  private theme: Theme;
+
   private constructor(month: number, year: number, theme: Theme) {
+    this.theme = theme;
+
     if (month < 0) {
       year -= Math.ceil(-month / 12);
       month = 12 + (month % 12);
@@ -46,7 +47,7 @@ export class MonthViewModel {
     this.offset = offset;
     this.month = month;
     this.year = year;
-    this.height = getMonthHeight(daysCount, offset, theme);
+    this.height = this.getMonthHeight(daysCount, offset);
     this.isLastInYear = month === 11;
     this.isFirstInYear = month === 0;
     this.days = Array.from({ length: daysCount }, (_, i) => {
@@ -54,14 +55,14 @@ export class MonthViewModel {
       return DayCellViewModel.create(i + 1, month, year, isWeekend);
     });
   }
-}
 
-const getMonthHeight = memo(
-  (daysCount: number, offset: number, theme: Theme) =>
-    Math.ceil((daysCount + offset) / 7) * themeConfig(theme).DAY_HEIGHT +
-    themeConfig(theme).MONTH_TITLE_OFFSET_HEIGHT +
-    themeConfig(theme).MONTH_BOTTOM_MARGIN,
-);
+  getMonthHeight = memo(
+    (daysCount: number, offset: number) =>
+      Math.ceil((daysCount + offset) / 7) * themeConfig(this.theme).DAY_HEIGHT +
+      themeConfig(this.theme).MONTH_TITLE_OFFSET_HEIGHT +
+      themeConfig(this.theme).MONTH_BOTTOM_MARGIN,
+  );
+}
 
 const getMonthsDays = memo((month: number, year: number) => new Date(year, month + 1, 0).getDate());
 

@@ -459,11 +459,11 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
   //#region Calendar
-  public static calendarDayHeight = ' 20px';
+  public static calendarDayHeight = '20px';
   public static calendarDayMarginRight = '12px';
   public static calendarDayMarginBottom = '10px';
   public static calendarPaddingX = '24px';
-  public static calendarMonthBottomMargin = '24px';
+  public static calendarMonthBottomMargin = '12px';
   //#endregion
 }
 

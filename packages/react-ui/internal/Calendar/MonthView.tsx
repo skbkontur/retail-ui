@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { jsStyles } from './MonthView.styles';
-import { config } from './config';
+import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 
 interface MonthViewProps {
@@ -47,13 +47,13 @@ export function MonthView(props: MonthViewProps) {
 
   const isTopNegative = top <= 0;
   const isHeaderSticky = isTopNegative && height >= -top;
-  const headerTop = isHeaderSticky ? Math.min(-top, height - config.MONTH_TITLE_HEIGHT) : 0;
-  const alpha = isHeaderSticky ? (height + top - config.MONTH_TITLE_HEIGHT) / 10 : 1;
+  const headerTop = isHeaderSticky ? Math.min(-top, height - themeConfig(theme).MONTH_TITLE_HEIGHT) : 0;
+  const alpha = isHeaderSticky ? (height + top - themeConfig(theme).MONTH_TITLE_HEIGHT) / 10 : 1;
   const borderBottomColor = ColorFunctions.fade(theme.calendarMonthTitleBorderBottomColor, alpha);
   const isYearVisible = isFirstInYear || isHeaderSticky;
   const yearTop = isHeaderSticky && !isLastInYear ? -headerTop - top : 0;
-  const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - config.MONTH_TITLE_HEIGHT;
-  const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + config.MONTH_TITLE_HEIGHT);
+  const monthSelectDisabled = top > 40 || headerTop < 0 || headerTop >= height - themeConfig(theme).MONTH_TITLE_HEIGHT;
+  const yearSelectDisabled = top > 40 || (isLastInYear && top < -height + themeConfig(theme).MONTH_TITLE_HEIGHT);
 
   const getMinMonth = (value: number) => {
     let min = 0;
@@ -80,7 +80,7 @@ export function MonthView(props: MonthViewProps) {
   return (
     <div data-tid="MonthView__month" className={jsStyles.month(theme)} style={{ top }} key={month + '-' + year}>
       <div
-        style={{ lineHeight: `${config.MONTH_TITLE_HEIGHT}px`, top: headerTop, borderBottomColor }}
+        style={{ lineHeight: `${themeConfig(theme).MONTH_TITLE_HEIGHT}px`, top: headerTop, borderBottomColor }}
         className={cn({
           [jsStyles.monthTitle(theme)]: true,
           [jsStyles.headerSticky(theme)]: isHeaderSticky,

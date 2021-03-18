@@ -1,4 +1,6 @@
-import { config } from './config';
+import { Theme } from '../../lib/theming/Theme';
+
+import { themeConfig } from './config';
 import { MonthViewModel } from './MonthViewModel';
 import { CalendarProps, CalendarState } from './Calendar';
 
@@ -53,8 +55,8 @@ export const applyDelta = (deltaY: number) => (
   return calculateScrollPosition(months, scrollPosition, deltaY);
 };
 
-export const isMonthVisible = (top: number, month: MonthViewModel) => {
-  return top < config.WRAPPER_HEIGHT && top > -month.height;
+export const isMonthVisible = (top: number, month: MonthViewModel, theme: Theme) => {
+  return top < themeConfig(theme).WRAPPER_HEIGHT && top > -month.height;
 };
 
 export const getMonthsHeight = (months: MonthViewModel[]) => months.reduce((a, b) => a + b.height, 0);

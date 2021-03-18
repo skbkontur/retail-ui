@@ -702,14 +702,13 @@ export class DefaultTheme {
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
   }
-  public static calendarDayHeight = ' 30px';
+  public static calendarDayHeight = '30px';
   public static calendarDayMarginRight = '0';
   public static calendarDayMarginBottom = '0';
   public static calendarPaddingX = '15px';
   public static calendarMonthTitleHeight = ' 40px';
-  public static calendarMonthTitleOffsetHeight = ' 51px';
   public static calendarWrapperHeight = ' 330px';
-  public static calendarMonthBottomMargin = ' 10px';
+  public static calendarMonthBottomMargin = '10px';
   public static calendarMaxMonthsToAppendOnScroll = ' 5px';
   //#endregion
   //#region DatePicker
