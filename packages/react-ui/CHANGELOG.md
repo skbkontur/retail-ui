@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.15.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.14.1...@skbkontur/react-ui@2.15.0) (2021-03-18)
+
+
+### Bug Fixes
+
+* **Autocomplete:** use prop `active` from `RenderLayer` ([031940a](https://github.com/skbkontur/retail-ui/commit/031940ad30cbe84547741313017bfe04de52cfc3))
+* **Checkbox:** fix indeterminate state in IE11/Edge ([ff62f26](https://github.com/skbkontur/retail-ui/commit/ff62f2655e45ce20e1b151cdb08e570ab5d3c40d))
+
+
+### Features
+
+* **Textarea:** add `disableAnimation` and `extraRow` props  ([#2317](https://github.com/skbkontur/retail-ui/issues/2317)) ([8351a7d](https://github.com/skbkontur/retail-ui/commit/8351a7d9cca38d4bb064829a516ac03b9a360d72)), closes [#2120](https://github.com/skbkontur/retail-ui/issues/2120)
+
+
+
+
+
 ## [2.14.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.14.0...@skbkontur/react-ui@2.14.1) (2021-03-15)
 
 
