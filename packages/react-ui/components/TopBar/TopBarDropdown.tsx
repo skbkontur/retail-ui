@@ -5,10 +5,11 @@ import { Nullable } from '../../typings/utility-types';
 import { IconProps } from '../../internal/icons/20px';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { PopupMenuCaptionProps } from '../../internal/PopupMenu';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { TopBarButtonItem } from './TopBarButtonItem';
 
-export interface TopBarDropdownProps extends Omit<DropdownMenuProps, 'caption' | 'disableAnimations'> {
+export interface TopBarDropdownProps extends CommonProps, Omit<DropdownMenuProps, 'caption' | 'disableAnimations'> {
   icon?: IconProps['name'];
   minWidth?: string | number | null;
   use: 'danger' | 'pay' | 'default';
@@ -33,12 +34,16 @@ export class TopBarDropdown extends React.Component<TopBarDropdownProps> {
   private dropdownMenu: Nullable<DropdownMenu> = null;
 
   public render() {
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  private renderMain = (props: CommonWrapperRestProps<TopBarDropdownProps>) => {
     return (
-      <DropdownMenu {...this.props} ref={this.refDropdownMenu} caption={this.renderButton}>
+      <DropdownMenu {...props} ref={this.refDropdownMenu} caption={this.renderButton}>
         {this.props.children}
       </DropdownMenu>
     );
-  }
+  };
 
   public open = (): void => {
     if (this.dropdownMenu) {

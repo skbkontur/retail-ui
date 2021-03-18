@@ -3,6 +3,8 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { jsStyles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
@@ -19,7 +21,7 @@ export interface ToastState {
   id: number;
 }
 
-export interface ToastProps {
+export interface ToastProps extends CommonProps {
   onPush?: (notification: string, action?: Action) => void;
   onClose?: (notification: string, action?: Action) => void;
 }
@@ -122,8 +124,12 @@ export class Toast extends React.Component<ToastProps, ToastState> {
           enter: 200,
           exit: 150,
         }}
+        enter={!isTestEnv}
+        exit={!isTestEnv}
       >
-        <ToastView ref={this._refToast} {...toastProps} />
+        <CommonWrapper {...this.props}>
+          <ToastView ref={this._refToast} {...toastProps} />
+        </CommonWrapper>
       </CSSTransition>
     );
   }

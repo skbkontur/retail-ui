@@ -588,7 +588,7 @@ ModalWithVariableHeightOfContent.story = {
             .perform();
           await this.browser
             .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '#modal-inner [data-comp-name="Toggle"]' }))
+            .click(this.browser.findElement({ css: '#modal-inner [data-comp-name~="Toggle"]' }))
             .pause(500)
             .perform();
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('toggle content height');
@@ -753,3 +753,17 @@ ModalBodyWithoutPadding.story = {
   name: 'Modal with no-padding',
   parameters: { creevey: { captureElement: null } },
 };
+
+export const AlignCenterAndNoClose = () => (
+  <Modal width={250} noClose>
+    <Modal.Header>
+      <div style={{ textAlign: 'center' }}>Header</div>
+    </Modal.Header>
+    <Modal.Body>
+      <div style={{ textAlign: 'center' }}>
+        <p>Loooooooong content content content</p>
+      </div>
+    </Modal.Body>
+  </Modal>
+);
+AlignCenterAndNoClose.story = { parameters: { creevey: { captureElement: null } } };

@@ -4,6 +4,7 @@ import { CreeveyStoryParams, CSFStory } from 'creevey';
 
 import { Link } from '../Link';
 import { Toast } from '../../Toast';
+import { Gapped } from '../../Gapped';
 
 const linkTests: CreeveyStoryParams['tests'] = {
   async idle() {
@@ -45,3 +46,23 @@ Disabled.story = { parameters: { creevey: { tests: linkTests } } };
 
 export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
 WithOnClick.story = { name: 'With onClick', parameters: { creevey: { skip: [true] } } };
+
+export const Loading: CSFStory<JSX.Element> = () => (
+  <Gapped vertical>
+    <Link loading>Simple loading </Link>
+    <div style={{ width: '300px', border: '1px solid lightgrey', padding: '5px' }}>
+      {'Some long text '}
+      <Link loading>loading link </Link>
+      and end of line
+    </div>
+    <div style={{ width: '150px', border: '1px solid lightgrey', padding: '5px' }}>
+      {'Some long text '}
+      <Link loading>loading link </Link>
+      and end of line
+    </div>
+    <Link loading icon={<OkIcon />}>
+      Loading link with icon
+    </Link>
+  </Gapped>
+);
+Loading.story = { parameters: { creevey: { tests: linkTests } } };

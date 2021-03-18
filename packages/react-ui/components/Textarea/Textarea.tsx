@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import cn from 'classnames';
@@ -9,61 +9,101 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { RenderLayer } from '../../internal/RenderLayer';
+import { ResizeDetector } from '../../internal/ResizeDetector';
+import { isBrowser } from '../../lib/client';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
+import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
+const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
-export type TextareaProps = Override<
-  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-  {
-    /** Ошибка */
-    error?: boolean;
-    /** Предупреждение */
-    warning?: boolean;
-    /** Не активное состояние */
-    disabled?: boolean;
+export interface TextareaProps
+  extends CommonProps,
+    Override<
+      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+      {
+        /** Ошибка */
+        error?: boolean;
+        /** Предупреждение */
+        warning?: boolean;
+        /** Не активное состояние */
+        disabled?: boolean;
 
-    /**
-     * Атоматический ресайз
-     * в зависимости от содержимого
-     */
-    autoResize?: boolean;
-    /**
-     * Число строк
-     */
-    rows: number;
-    /**
-     * Максимальное число строк при
-     * автоматическом ресайзе
-     */
-    maxRows: string | number;
+        /**
+         * Атоматический ресайз
+         * в зависимости от содержимого
+         */
+        autoResize?: boolean;
+        /**
+         * Число строк
+         */
+        rows: number;
+        /**
+         * Максимальное число строк при
+         * автоматическом ресайзе
+         */
+        maxRows: string | number;
 
-    /**
-     * Стандартный ресайз
-     * Попадает в `style`
-     */
-    resize?: React.CSSProperties['resize'];
+        /**
+         * Стандартный ресайз
+         * Попадает в `style`
+         */
+        resize?: React.CSSProperties['resize'];
 
-    /**
-     * Ширина
-     */
-    width?: React.CSSProperties['width'];
+        /**
+         * Ширина
+         */
+        width?: React.CSSProperties['width'];
 
-    /**
-     * Вызывается при изменении `value`
-     */
-    onValueChange?: (value: string) => void;
+        /**
+         * Вызывается при изменении `value`
+         */
+        onValueChange?: (value: string) => void;
 
-    /** Выделение значения при фокусе */
-    selectAllOnFocus?: boolean;
-  }
->;
+        /** Выделение значения при фокусе */
+        selectAllOnFocus?: boolean;
+
+        /** Показывать счетчик символов */
+        showLengthCounter?: boolean;
+
+        /** Допустимое количество символов в поле. Отображается в счетчике.
+         * Если не указано, равно `maxLength`
+         */
+        lengthCounter?: number;
+
+        /** Подсказка к счетчику символов.
+         *
+         * По умолчанию - тултип с содежимым из пропа, если передан`ReactNode`.
+         *
+         * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
+         *
+         * ```
+         * counterHelp={() => <Tooltip render={...}><HelpIcon /></Tooltip>}
+         * ```
+         * */
+        counterHelp?: ReactNode | (() => ReactNode);
+
+        /** Добавлять дополнительную свободную строку при авто-ресайзе.
+         * @see https://guides.kontur.ru/components/textarea/#04
+         * */
+        extraRow: boolean;
+
+        /** Отключать анимацию при авто-ресайзе.
+         * Автоматически отключается когда в `extraRow` передан `false`.
+         */
+        disableAnimations: boolean;
+      }
+    > {}
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
   rows: number | string;
+  isCounterVisible: boolean;
 }
 
 /**
@@ -82,6 +122,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     disabled: PropTypes.bool,
 
     autoResize: PropTypes.bool,
+    extraRow: PropTypes.bool,
+    disableAnimations: PropTypes.bool,
     maxRows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     resize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -131,22 +173,44 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static defaultProps = {
     rows: 3,
     maxRows: 15,
+    extraRow: true,
+    disableAnimations: isTestEnv,
   };
 
   public state = {
     polyfillPlaceholder,
     rows: 1,
+    isCounterVisible: false,
+  };
+  private reflowCounter = () => {
+    if (this.counter) {
+      this.counter.reflow();
+    }
   };
 
   private theme!: Theme;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
+  private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
+  private textareaObserver = isBrowser ? new MutationObserver(this.reflowCounter) : null;
+  private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
+    // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
+    // Поэтому выставляем таймаут троттла в ноль. Подробности - https://github.com/skbkontur/retail-ui/issues/2120
+    return this.isAnimationsDisabled(props) ? 0 : AUTORESIZE_THROTTLE_DEFAULT_WAIT;
+  }
+  private isAnimationsDisabled({ disableAnimations, extraRow }: TextareaProps = this.props): boolean {
+    return disableAnimations || !extraRow;
+  }
 
   public componentDidMount() {
     if (this.props.autoResize) {
       this.autoResize();
       this.layoutEvents = LayoutEvents.addListener(this.autoResize);
+    }
+
+    if (this.node && this.props.showLengthCounter && this.textareaObserver) {
+      this.textareaObserver.observe(this.node, { attributes: true });
     }
   }
 
@@ -154,9 +218,16 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
+    if (this.props.showLengthCounter && this.textareaObserver) {
+      this.textareaObserver.disconnect();
+    }
   }
 
   public componentDidUpdate(prevProps: TextareaProps) {
+    if (this.getAutoResizeThrottleWait() !== this.getAutoResizeThrottleWait(prevProps)) {
+      this.autoResize.cancel();
+      this.autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
+    }
     if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
       this.autoResize();
     }
@@ -167,7 +238,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       <ThemeContext.Consumer>
         {theme => {
           this.theme = theme;
-          return this.renderMain();
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
@@ -215,7 +286,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
-  private renderMain() {
+  private renderMain = (props: CommonWrapperRestProps<TextareaProps>) => {
     const {
       width = DEFAULT_WIDTH,
       error,
@@ -227,12 +298,17 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       maxRows,
       onFocus,
       selectAllOnFocus,
-      className,
-      style,
       placeholder,
       onValueChange,
+      showLengthCounter,
+      lengthCounter,
+      counterHelp,
+      extraRow,
+      disableAnimations,
       ...textareaProps
-    } = this.props;
+    } = props;
+
+    const { isCounterVisible } = this.state;
 
     const rootProps = {
       style: {
@@ -244,9 +320,10 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       [jsStyles.textarea(this.theme)]: true,
       [jsStyles.error(this.theme)]: !!error,
       [jsStyles.warning(this.theme)]: !!warning,
+      [jsStyles.disableAnimations()]: this.isAnimationsDisabled(),
     });
 
-    const textAreaStyle = {
+    const textareaStyle = {
       resize: autoResize ? 'none' : resize,
     };
 
@@ -267,25 +344,49 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
     }
 
-    return (
-      <label {...rootProps} className={jsStyles.root(this.theme)}>
-        {placeholderPolyfill}
-        <textarea
-          {...textareaProps}
-          className={textareaClassNames}
-          style={textAreaStyle}
-          placeholder={!placeholderPolyfill ? placeholder : undefined}
-          ref={this.ref}
-          onChange={this.handleChange}
-          onCut={this.handleCut}
-          onPaste={this.handlePaste}
-          onFocus={this.handleFocus}
-          onKeyDown={this.handleKeyDown}
-        />
-        {fakeTextarea}
-      </label>
+    const counter = showLengthCounter && isCounterVisible && this.node && (
+      <TextareaCounter
+        textarea={this.node}
+        help={counterHelp}
+        value={textareaProps.value}
+        length={textareaProps.maxLength ?? lengthCounter ?? 0}
+        onCloseHelp={this.handleCloseCounterHelp}
+        ref={this.refCounter}
+      />
     );
-  }
+
+    return (
+      <RenderLayer
+        onFocusOutside={this.handleCloseCounterHelp}
+        onClickOutside={this.handleCloseCounterHelp}
+        active={this.state.isCounterVisible}
+      >
+        <label {...rootProps} className={jsStyles.root(this.theme)}>
+          {placeholderPolyfill}
+          <ResizeDetector onResize={this.reflowCounter}>
+            <textarea
+              {...textareaProps}
+              className={textareaClassNames}
+              style={textareaStyle}
+              placeholder={!placeholderPolyfill ? placeholder : undefined}
+              ref={this.ref}
+              onChange={this.handleChange}
+              onCut={this.handleCut}
+              onPaste={this.handlePaste}
+              onFocus={this.handleFocus}
+              onKeyDown={this.handleKeyDown}
+            >
+              {this.props.children}
+            </textarea>
+          </ResizeDetector>
+          {fakeTextarea}
+          {counter}
+        </label>
+      </RenderLayer>
+    );
+  };
+
+  private handleCloseCounterHelp = () => this.setState({ isCounterVisible: false });
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // Edge bug: textarea maxlength doesn't work after new line
@@ -322,6 +423,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.onChange) {
       this.props.onChange(e);
     }
+
+    this.reflowCounter();
   };
 
   private ref = (element: HTMLTextAreaElement) => {
@@ -332,7 +435,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.fakeNode = element;
   };
 
-  private autoResize = throttle(() => {
+  private refCounter = (ref: TextareaCounterRef | null) => {
+    this.counter = ref;
+  };
+
+  private autoResizeHandler = () => {
     const fakeNode = this.fakeNode;
     if (!fakeNode) {
       return;
@@ -345,31 +452,24 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeNode.value = node.value;
     }
 
-    const { rows, maxRows } = this.props;
+    const { rows, maxRows, extraRow } = this.props;
     if (rows === undefined || maxRows === undefined) {
       return;
     }
-    const { height, exceededMaxHeight } = getTextAreaHeight(
-      fakeNode,
-      typeof rows === 'number' ? rows : parseInt(rows, 10),
-      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-    );
+    const { height, exceededMaxHeight } = getTextAreaHeight({
+      node: fakeNode,
+      minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
+      maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
+      extraRow,
+    });
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
-  }, 100);
-
-  private handleCut = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
-    if (this.props.autoResize) {
-      this.autoResize();
-    }
-
-    if (this.props.onPaste) {
-      this.props.onPaste(event);
-    }
   };
 
-  private handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+  private autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
+
+  private handleCut = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
     if (this.props.autoResize) {
       this.autoResize();
     }
@@ -377,9 +477,25 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.onCut) {
       this.props.onCut(event);
     }
+
+    this.reflowCounter();
+  };
+
+  private handlePaste = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    if (this.props.autoResize) {
+      this.autoResize();
+    }
+
+    if (this.props.onPaste) {
+      this.props.onPaste(event);
+    }
+
+    this.reflowCounter();
   };
 
   private handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+    this.setState({ isCounterVisible: true });
+
     if (this.props.selectAllOnFocus) {
       this.selectAll();
     }

@@ -3,6 +3,7 @@ import { CSFStory } from 'creevey';
 
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
 
 interface AutoresizableTextareaState {
   value: string | null;
@@ -162,6 +163,13 @@ AutoresizableTextareaStory.story = { name: 'Autoresizable textarea' };
 export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
 TextareaWithCustomWidth.story = { name: 'Textarea with custom width' };
 
+export const TextareaInsideGapped = () => (
+  <Gapped gap={10}>
+    <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />
+  </Gapped>
+);
+TextareaInsideGapped.story = { name: 'Textarea inside Gapped' };
+
 export const SelectAllByProp: CSFStory<JSX.Element> = () => (
   <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />
 );
@@ -232,4 +240,137 @@ SelectAllByButton.story = {
       },
     },
   },
+};
+
+export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
+  const blockStyle = {
+    padding: 5,
+    width: '100%',
+  };
+
+  const headingStyle = {
+    padding: 5,
+  };
+
+  return (
+    <div style={{ width: 550 }}>
+      <div style={headingStyle}>Plain</div>
+      <div id="CounterPlain" style={blockStyle}>
+        <Textarea
+          value={TEXT_SAMPLE.split('').join(' ')}
+          width={400}
+          lengthCounter={700}
+          showLengthCounter={true}
+          spellCheck={false}
+        />
+      </div>
+
+      <div style={headingStyle}>Autoresize</div>
+      <div id="CounterAutoresizeTextarea" style={blockStyle}>
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          lengthCounter={50}
+          autoResize={true}
+          showLengthCounter={true}
+          spellCheck={false}
+        />
+      </div>
+
+      <div style={headingStyle}>Disabled</div>
+      <div id="CounterDisabled" style={blockStyle}>
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          maxLength={50}
+          disabled={true}
+          showLengthCounter={true}
+          spellCheck={false}
+        />
+      </div>
+
+      <div style={headingStyle}>With help</div>
+      <div id="CounterWithHelp" style={blockStyle}>
+        <Textarea
+          value={TEXT_SAMPLE}
+          width={400}
+          maxLength={50}
+          showLengthCounter={true}
+          counterHelp={'test'}
+          spellCheck={false}
+        />
+      </div>
+    </div>
+  );
+};
+TextareaWithCounters.story = {
+  name: 'Textarea with length counter',
+  parameters: {
+    creevey: {
+      skip: [{ in: ['firefox', 'firefoxFlat'], reason: 'flacky scrollbars height' }],
+      tests: {
+        async Plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+        },
+        async Focus() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#CounterPlain textarea' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
+        },
+        async FocusAutoresize() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#CounterAutoresizeTextarea textarea' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('FocusAutoresize');
+        },
+        async FocusWithHelpClosed() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelp');
+        },
+        async FocusWithHelpOpened() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
+            .perform();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Tooltip"] span' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelpOpened');
+        },
+      },
+    },
+  },
+};
+
+export const TextareaWithSingleRow: CSFStory<JSX.Element> = () => {
+  return <Textarea width={400} autoResize spellCheck={false} rows={1} extraRow={false} />;
+};
+TextareaWithSingleRow.story = {
+  name: 'Textarea with single row',
+};
+
+export const TextareaWithDisabledExtraRow: CSFStory<JSX.Element> = () => {
+  const value =
+    'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse. sit amet, consectetur adipisicing elit. Modi enim voluptatum esse';
+  return <Textarea width={400} autoResize spellCheck={false} extraRow={false} value={value} />;
+};
+TextareaWithDisabledExtraRow.story = {
+  name: 'Textarea with disabled extra row',
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { canUseDOM, isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 
@@ -17,7 +18,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   constructor(props: RenderContainerProps) {
     super(props);
 
-    if (props.children) {
+    if (isBrowser && props.children) {
       this.mountContainer();
     }
   }
@@ -40,11 +41,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   private createContainer() {
-    if (!document || !document.body) {
-      throw Error('There is no "body" in "document"');
-    }
-
-    if (!this.domContainer) {
+    if (canUseDOM) {
       const domContainer = document.createElement('div');
       domContainer.setAttribute('class', 'react-ui');
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
