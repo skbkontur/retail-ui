@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { Icon, IconProps } from '../../internal/icons/20px';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './TopBar.styles';
 
@@ -38,7 +38,11 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
   };
 
   public render() {
-    const { active, children, _onClick, _onKeyDown, iconOnly, icon, minWidth, use, ...rest } = this.props;
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  private renderMain = (props: CommonWrapperRestProps<TopBarItemProps>) => {
+    const { active, _onClick, _onKeyDown, iconOnly, icon, minWidth, use, ...rest } = props;
 
     const classes = cn({
       [jsStyles.item()]: true,
@@ -54,12 +58,10 @@ export class TopBarItem extends React.Component<TopBarItemProps> {
     const iconNode = typeof icon === 'string' ? <Icon name={icon} /> : icon;
 
     return (
-      <CommonWrapper {...this.props}>
-        <div {...rest} className={classes} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
-          {icon && <span className={iconClasses}>{iconNode}</span>}
-          {icon && iconOnly ? null : children}
-        </div>
-      </CommonWrapper>
+      <div {...rest} className={classes} onClick={_onClick} onKeyDown={_onKeyDown} style={{ minWidth }}>
+        {icon && <span className={iconClasses}>{iconNode}</span>}
+        {icon && iconOnly ? null : this.props.children}
+      </div>
     );
-  }
+  };
 }

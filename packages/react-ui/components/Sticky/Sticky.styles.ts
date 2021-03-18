@@ -1,9 +1,15 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 const styles = {
+  wrapper() {
+    return css`
+      display: flex;
+    `;
+  },
   inner() {
     return css`
       display: flex;
+      width: 100%;
     `;
   },
 
