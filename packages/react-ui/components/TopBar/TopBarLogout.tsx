@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { locale } from '../../lib/locale/decorators';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { TopBarButtonItem, TopBarButtonItemProps } from './TopBarButtonItem';
 import { TopBarLocale, TopBarLocaleHelper } from './locale';
@@ -20,10 +20,10 @@ export class TopBarLogout extends React.Component<TopBarLogoutProps> {
   private readonly locale!: TopBarLocale;
 
   public render() {
-    return (
-      <CommonWrapper {...this.props}>
-        <TopBarButtonItem {...this.props}>{this.props.children || this.locale.logout}</TopBarButtonItem>
-      </CommonWrapper>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
+
+  private renderMain = (props: CommonWrapperRestProps<TopBarLogoutProps>) => {
+    return <TopBarButtonItem {...props}>{this.props.children || this.locale.logout}</TopBarButtonItem>;
+  };
 }
