@@ -3,6 +3,7 @@ import { exposeGetters, markAsFullTheme } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
+  public static fontFamilyCompensationBaseline = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#1e79be';
@@ -760,11 +761,22 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static toastLineHeight = '20px';
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '20px';
+  public static toastBorderRadius = '2px';
+  public static toastBorder = 'none';
+  public static toastTop = '20px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';
+  public static toastClosePadding = '16px';
   public static toastCloseColor = '#a0a0a0';
   public static toastCloseHoverColor = 'white';
+  public static toastCloseSize = '8px';
   //#endregion
   //#region TopBar
   public static tbBg = '#fff';
