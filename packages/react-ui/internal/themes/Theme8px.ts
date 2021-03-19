@@ -458,6 +458,27 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
+  //#region Modal
+  public static modalCloseButtonPadding = '36px';
+  public static modalCloseIconSize = '12px';
+
+  public static modalCloseLegacyGap = '0px';
+  public static modalCloseWrapperLegacyGap = '0px';
+  public static modalCloseButtonLegacyShift = '0px';
+  public static modalPaddingTop = '24px';
+
+  public static modalPaddingLeft = '32px';
+  public static modalPaddingRight = '36px';
+  public static modalHeaderFontSize = '24px';
+  public static modalHeaderLineHeight = '32px';
+  public static modalHeaderPaddingBottom = '16px';
+  public static get modalFixedHeaderPaddingBottom() {
+    return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
+  }
+  public static modalBodyPaddingBottom = '24px';
+  public static modalFooterPaddingBottom = '32px';
+  public static modalPaddingBottom = '40px';
+  //#endregion
   //#region Toast
   public static get toastFontSize() {
     return this.fontSizeSmall;
