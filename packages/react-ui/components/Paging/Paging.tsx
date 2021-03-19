@@ -199,7 +199,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         pageNumber={'forward' as 'forward'}
       >
         {caption || forward}
-        <span className={jsStyles.forwardIcon()}>
+        <span className={jsStyles.forwardIcon(this.theme)}>
           <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
         </span>
       </Component>
@@ -256,7 +256,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
       );
     }
 
-    return <div className={jsStyles.pageLinkHintPlaceHolder()} />;
+    return <div className={jsStyles.pageLinkHintPlaceHolder(this.theme)} />;
   };
 
   private handleMouseDown = () => {

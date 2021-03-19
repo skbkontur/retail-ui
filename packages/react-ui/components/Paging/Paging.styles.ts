@@ -16,7 +16,7 @@ const styles = {
       display: inline-block;
       font-size: ${t.pagingFontSize};
       line-height: ${t.pagingLineHeight};
-      padding: 6px 10px 0;
+      padding: ${t.pagingDotsPadding};
     `;
   },
 
@@ -44,10 +44,11 @@ const styles = {
     `;
   },
 
-  forwardIcon() {
+  forwardIcon(t: Theme) {
     return css`
       vertical-align: -2px;
       position: absolute;
+      margin-top: ${t.pagingForwardIconMarginTop};
       right: 0;
     `;
   },
@@ -72,7 +73,7 @@ const styles = {
 
   pageLink(t: Theme) {
     return css`
-      border-radius: ${t.pagingFontSize};
+      border-radius: 50%;
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: block;
@@ -115,9 +116,10 @@ const styles = {
     `;
   },
 
-  pageLinkHintPlaceHolder() {
+  pageLinkHintPlaceHolder(t: Theme) {
     return css`
-      height: 15px;
+      height: ${t.pagingPageLinkHintLineHeight};
+      line-height: ${t.pagingPageLinkHintLineHeight};
     `;
   },
 

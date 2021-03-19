@@ -427,15 +427,27 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.fontSizeMedium;
   }
   public static pagingPageLinkMinWidth = '0.75em';
-  public static pagingPageLinkPaddingX = '0.5em';
-  public static pagingPageLinkPaddingY = '0';
+  public static get pagingPageLinkPaddingX() {
+    return `${Math.round(parseInt(this.pagingLineHeight) * 0.45456)}px`;
+  }
+  public static get pagingPageLinkPaddingY() {
+    return `${Math.round(parseInt(this.pagingLineHeight) * 0.2273)}px`;
+  }
   public static pagingPageLinkLegacyPaddingY = '0';
-  public static pagingPageForwardLinkMarginTop = '2px';
+  public static get pagingPageForwardLinkMarginTop() {
+    return `${Math.round(parseInt(this.pagingLineHeight) * 0.28125)}px`;
+  }
   public static get pagingLineHeight() {
-    return `${parseFloat(this.pagingPageLinkMinWidth) + parseFloat(this.pagingPageLinkPaddingX) * 2}em`;
+    return this.controlLineHeightMedium;
   }
   public static pagingPageLinkHintFontSize = '12px';
   public static pagingPageLinkHintLineHeight = '16px';
+  public static get pagingForwardIconSize() {
+    return this.pagingFontSize;
+  }
+  public static pagingForwardIconMarginTop = '1px';
+  public static pagingPageForwardLinkPaddingRight = '1.375em';
+  public static pagingDotsPadding = '0.375em 0.625em 0';
   //#endregion
   //#region Switcher
   public static get switcherOutlineWidth() {
