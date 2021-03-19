@@ -134,6 +134,8 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
+    await delay(100);
+
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
     await delay(0);

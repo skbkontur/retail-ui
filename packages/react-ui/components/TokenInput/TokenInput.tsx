@@ -431,7 +431,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
       this.input!.focus();
       // в firefox не работает без второго focus
-      process.nextTick(() => this.input!.focus());
+      requestAnimationFrame(() => this.input!.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -664,7 +664,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    process.nextTick(() => this.input!.focus());
+    requestAnimationFrame(() => this.input!.focus());
   };
 
   private selectInputText = () => {

@@ -192,7 +192,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      process.nextTick(() => {
+      requestAnimationFrame(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
