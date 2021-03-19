@@ -31,6 +31,8 @@ export interface CheckboxProps
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
         /** Вызывается при изменении `value` */
         onValueChange?: (value: boolean) => void;
+        /** onFocus */
+        onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
         /** onBlur */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
         /** Состояние частичного выделения */
@@ -55,6 +57,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     error: PropTypes.bool,
     warning: PropTypes.bool,
     onValueChange: PropTypes.func,
+    onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
@@ -198,7 +201,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
   };
 
-  private handleFocus = (e: React.FocusEvent<any>) => {
+  private handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -207,6 +210,9 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           this.setState({ focusedByTab: true });
         }
       });
+      if (!this.props.checked) {
+        this.props.onFocus?.(e);
+      }
     }
   };
 
