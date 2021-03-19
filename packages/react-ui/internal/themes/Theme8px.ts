@@ -460,6 +460,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region Modal
   public static modalCloseButtonPadding = '36px';
+  public static modalCloseIconSize = '12px';
+
   public static modalCloseLegacyGap = '0px';
   public static modalCloseWrapperLegacyGap = '0px';
   public static modalCloseButtonLegacyShift = '0px';
