@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { TopBarDropdown } from './TopBarDropdown';
 import { jsStyles } from './TopBar.styles';
@@ -44,7 +44,11 @@ export class TopBarOrganizations extends React.Component<TopBarOrganizationsProp
   }
 
   public render() {
-    const { caption, comment } = this.props;
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+
+  private renderMain = (props: CommonWrapperRestProps<TopBarOrganizationsProps>) => {
+    const { caption, comment, ...rest } = props;
 
     const title = (
       <div>
@@ -72,13 +76,11 @@ export class TopBarOrganizations extends React.Component<TopBarOrganizationsProp
     );
 
     return (
-      <CommonWrapper {...this.props}>
-        <TopBarDropdown {...this.props} label={title} minWidth={this.state.minWidth}>
-          {this.props.children}
-        </TopBarDropdown>
-      </CommonWrapper>
+      <TopBarDropdown {...rest} label={title} minWidth={this.state.minWidth}>
+        {this.props.children}
+      </TopBarDropdown>
     );
-  }
+  };
 
   private _getCaptionRef = (element: HTMLSpanElement) => {
     this._caption = element;

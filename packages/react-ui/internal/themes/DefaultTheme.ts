@@ -3,6 +3,7 @@ import { exposeGetters, markAsFullTheme } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
+  public static fontFamilyCompensationBaseline = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#1e79be';
@@ -110,12 +111,6 @@ export class DefaultTheme {
   }
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
-  //#endregion
-  //#region Dropdown
-  public static dropdownMenuSelectedBg = '#f1f1f1';
-  public static get dropdownMenuHoverBg() {
-    return this.bgActive;
-  }
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
@@ -666,6 +661,26 @@ export class DefaultTheme {
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   //#endregion
+  //#region TooltipMenu
+  public static tooltipMenuPinOffset = '15px';
+  public static get tooltipMenuMargin() {
+    return this.popupMargin;
+  }
+  public static get tooltipMenuPinSize() {
+    return this.popupPinSize;
+  }
+  //#endregion
+  //#region Kebab
+  public static kebabPinOffset = '15px';
+  public static get kebabPinSize() {
+    return this.popupPinSize;
+  }
+  public static kebabMargin = '5px';
+  public static kebabBackground = 'transparent';
+  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
+  public static kebabBorderRadius = '50%';
+  public static kebabBorder = '2px solid transparent';
+  //#endregion
   //#region Modal
   public static modalBackBg = '#333';
   public static modalBackOpacity = '0.6';
@@ -765,15 +780,23 @@ export class DefaultTheme {
     return this.linkDisabledColor;
   }
   //#endregion
-  //#region Menu
-  public static menuSeparatorBorderColor = '#e6e6e6';
-  //#endregion
   //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static toastLineHeight = '20px';
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '20px';
+  public static toastBorderRadius = '2px';
+  public static toastBorder = 'none';
+  public static toastTop = '20px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';
+  public static toastClosePadding = '16px';
   public static toastCloseColor = '#a0a0a0';
   public static toastCloseHoverColor = 'white';
+  public static toastCloseSize = '8px';
   //#endregion
   //#region TopBar
   public static tbBg = '#fff';
@@ -784,10 +807,72 @@ export class DefaultTheme {
   public static logoColor = '#000';
   public static logoHoverColor = '#000';
   //#endregion
+  //#region Dropdown
+  public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
+  public static get dropdownMenuHoverBg() //deprecated
+  {
+    return this.bgActive;
+  }
+  //#endregion
   //#region Menu
-  public static menuItemPaddingForIcon = '36px';
+  public static get menuBgDefault() {
+    return this.bgDefault;
+  }
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
+  public static menuPaddingY = '5px';
+  // menuItem
+  public static get menuItemSelectedBg() {
+    return this.dropdownMenuSelectedBg;
+  }
+  public static get menuItemHoverBg() {
+    return this.dropdownMenuHoverBg;
+  }
+  public static menuItemIconWidth = '16px';
+  public static menuItemIconGap = '5px';
+  public static menuItemIconLegacyMargin = '7px';
+  public static menuItemIconLegacyShift = '-1px';
+  public static get menuItemPaddingForIcon() {
+    return `${parseInt(this.menuItemPaddingX) +
+      parseInt(this.menuItemIconWidth) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)}px`;
+  }
+  public static menuItemLineHeight = '18px';
+  public static get menuItemFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static menuItemPaddingX = '8px';
+  public static get menuItemPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+  public static menuItemLegacyPaddingX = '10px';
+  public static menuItemLegacyPaddingY = '1px';
+  public static get menuItemHoverColor() {
+    return this.textColorInvert;
+  }
+  public static get menuItemDisabledColor() {
+    return this.textColorDisabled;
+  }
+  public static get menuItemLinkColor() {
+    return this.linkColor;
+  }
+  public static menuItemCommentColor = '#a0a0a0';
+  public static menuItemCommentColorHover = '#fff';
+  //menuHeader
+  public static menuHeaderColor = '#a0a0a0';
+  public static menuHeaderLineHeight = 'inherit';
+  public static menuHeaderFontSize = '12px';
+  public static get menuHeaderPaddingX() {
+    return this.menuItemPaddingX;
+  }
+  public static menuHeaderPaddingTop = '6px';
+  public static menuHeaderPaddingBottom = '7px';
+  public static menuHeaderLegacyPaddingRight = '10px';
+  //menuSeparator
+  public static menuSeparatorBorderColor = '#e6e6e6';
+  public static menuSeparatorMarginY = '5px';
+  public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
   public static toggleHandleActiveWidthIncrement = '4px';

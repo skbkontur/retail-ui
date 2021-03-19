@@ -479,6 +479,47 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static modalFooterPaddingBottom = '32px';
   public static modalPaddingBottom = '40px';
   //#endregion
+  //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toastLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '16px';
+  public static toastTop = '24px';
+  public static toastClosePadding = '16px';
+  //#endregion
+  //#region Menu
+  public static get menuItemLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static menuItemIconLegacyMargin = '0px';
+  public static menuItemIconLegacyShift = '0px';
+  public static menuItemLegacyPaddingX = '0px';
+  public static menuItemLegacyPaddingY = '0px';
+  public static menuItemIconGap = '4px';
+  public static menuHeaderLineHeight = '16px';
+  public static menuHeaderPaddingX = '8px';
+  public static menuPaddingY = '4px';
+  public static menuHeaderPaddingTop = '12px';
+  public static menuHeaderPaddingBottom = '4px';
+  public static menuHeaderLegacyPaddingRight = '0px';
+  public static menuSeparatorMarginY = '2px';
+  public static menuSeparatorBorderWidth = '1px';
+  //#endregion
+  //#region TooltipMenu
+  public static get tooltipMenuPinOffset() {
+    return this.popupPinOffset;
+  }
+  //#endregion
+  //#region Kebab
+  public static get kebabPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static kebabMargin = '4px';
+  //#endregion
 }
 
 export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
