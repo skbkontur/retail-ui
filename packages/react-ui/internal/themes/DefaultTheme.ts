@@ -673,10 +673,10 @@ export class DefaultTheme {
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = '#333';
   public static modalCloseButtonPadding = '35px';
-  public static modalCloseButtonLeftPadding = '20px';
+  public static modalCloseButtonLegacyShift = '15px';
   public static modalCloseButtonBottomPadding = '20px';
   public static modalCloseIconSize = '14px';
-  public static modalCloseLegacyGap = '41px';
+  public static modalCloseLegacyGap = '26px';
   public static modalCloseWrapperLegacyGap = '7px';
   public static modalFixedHeaderBg = '#fff';
   public static modalFixedHeaderShadow = '0 1px 10px #000000';

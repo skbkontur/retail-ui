@@ -82,7 +82,7 @@ const styles = {
     const margin = 0;
     const padding = parseInt(t.modalCloseButtonPadding);
     const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseButtonLeftPadding);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding;
     const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       ${resetButton()};
@@ -106,7 +106,7 @@ const styles = {
       & > svg {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
-        padding: ${padding}px ${padding}px ${paddingBottom}px ${t.modalCloseButtonLeftPadding};
+        padding: ${padding}px ${padding}px ${paddingBottom}px;
         box-sizing: content-box;
       }
     `;
@@ -116,13 +116,22 @@ const styles = {
     const padding = parseInt(t.modalCloseButtonPadding);
     const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
     const legacyGap = parseInt(t.modalCloseWrapperLegacyGap);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + padding + parseInt(t.modalCloseButtonLeftPadding) + legacyGap;
+    const legacyShift = parseInt(t.modalCloseButtonLegacyShift);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding - legacyShift;
     const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom + legacyGap;
     return css`
       position: relative;
       float: right;
-      width: ${blockSizeX}px;
+      width: ${blockSizeX + legacyGap}px;
       height: ${blockSizeY}px;
+
+      & ${cssName(styles.close(t))} {
+        width: ${blockSizeX}px;
+
+        svg {
+          padding-left: ${padding - legacyShift}px;
+        }
+      }
     `;
   },
 
@@ -179,10 +188,7 @@ const styles = {
 
   headerWithClose(t: Theme) {
     const rightPadding =
-      parseInt(t.modalCloseButtonPadding) +
-      parseInt(t.modalCloseButtonLeftPadding) +
-      parseInt(t.modalCloseIconSize) +
-      parseInt(t.modalCloseLegacyGap);
+      2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseLegacyGap);
 
     return css`
       padding-right: ${rightPadding}px;
