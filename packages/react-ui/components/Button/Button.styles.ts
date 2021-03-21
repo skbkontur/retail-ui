@@ -365,6 +365,7 @@ const styles = {
           t.btnDefaultShadowArrow,
           t.btnDefaultTextColor,
           t.btnDefaultBorderColor,
+          t.btnDefaultBorderBottomColor,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -375,6 +376,7 @@ const styles = {
           t.btnDefaultHoverBgEnd,
           t.btnDefaultHoverShadowArrow,
           t.btnDefaultHoverBorderColor,
+          t.btnDefaultHoverBorderBottomColor,
           cssName(styles.arrowHelper()),
         )};
 
@@ -383,6 +385,7 @@ const styles = {
           t.btnDefaultActiveShadow,
           t.btnDefaultActiveShadowArrow,
           t.btnDefaultActiveBorderColor,
+          t.btnDefaultActiveBorderTopColor,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -402,6 +405,7 @@ const styles = {
           t.btnPrimaryShadowArrow,
           t.btnPrimaryTextColor,
           t.btnPrimaryBorderColor,
+          t.btnPrimaryBorderBottomColor,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -412,6 +416,7 @@ const styles = {
           t.btnPrimaryHoverBgEnd,
           t.btnPrimaryHoverShadowArrow,
           t.btnPrimaryHoverBorderColor,
+          t.btnPrimaryHoverBorderBottomColor,
           cssName(styles.arrowHelper()),
         )};
 
@@ -420,6 +425,7 @@ const styles = {
           t.btnPrimaryActiveShadow,
           t.btnPrimaryActiveShadowArrow,
           t.btnPrimaryActiveBorderColor,
+          t.btnPrimaryActiveBorderTopColor,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -439,6 +445,7 @@ const styles = {
           t.btnSuccessShadowArrow,
           t.btnSuccessTextColor,
           t.btnSuccessBorderColor,
+          t.btnSuccessBorderBottomColor,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -449,6 +456,7 @@ const styles = {
           t.btnSuccessHoverBgEnd,
           t.btnSuccessHoverShadowArrow,
           t.btnSuccessHoverBorderColor,
+          t.btnSuccessHoverBorderBottomColor,
           cssName(styles.arrowHelper()),
         )};
 
@@ -457,6 +465,7 @@ const styles = {
           t.btnSuccessActiveShadow,
           t.btnSuccessActiveShadowArrow,
           t.btnSuccessActiveBorderColor,
+          t.btnSuccessActiveBorderTopColor,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -476,6 +485,7 @@ const styles = {
           t.btnDangerShadowArrow,
           t.btnDangerTextColor,
           t.btnDangerBorderColor,
+          t.btnDangerBorderBottomColor,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -486,6 +496,7 @@ const styles = {
           t.btnDangerHoverBgEnd,
           t.btnDangerHoverShadowArrow,
           t.btnDangerHoverBorderColor,
+          t.btnDangerHoverBorderBottomColor,
           cssName(styles.arrowHelper()),
         )};
 
@@ -494,6 +505,7 @@ const styles = {
           t.btnDangerActiveShadow,
           t.btnDangerActiveShadowArrow,
           t.btnDangerActiveBorderColor,
+          t.btnDangerActiveBorderTopColor,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -513,6 +525,7 @@ const styles = {
           t.btnPayShadowArrow,
           t.btnPayTextColor,
           t.btnPayBorderColor,
+          t.btnPayBorderBottomColor,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -523,6 +536,7 @@ const styles = {
           t.btnPayHoverBgEnd,
           t.btnPayHoverShadowArrow,
           t.btnPayHoverBorderColor,
+          t.btnPayHoverBorderBottomColor,
           cssName(styles.arrowHelper()),
         )};
 
@@ -531,6 +545,7 @@ const styles = {
           t.btnPayActiveShadow,
           t.btnPayActiveShadowArrow,
           t.btnPayActiveBorderColor,
+          t.btnPayActiveBorderTopColor,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),

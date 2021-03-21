@@ -26,6 +26,7 @@ export const buttonUseMixin = (
   shadowArrow: string,
   color: string,
   borderColor: string,
+  borderBottomColor: string,
   selectorChecked: string,
   selectorArrow: string,
 ) => {
@@ -35,6 +36,7 @@ export const buttonUseMixin = (
       : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
     color: ${color};
     border-color: ${borderColor};
+    border-bottom-color: ${borderBottomColor};
 
     &:not(${selectorChecked}) ${selectorArrow} {
       box-shadow: ${shadowArrow};
@@ -48,6 +50,7 @@ export const buttonHoverMixin = (
   btnBackgroundEnd: string,
   arrowShadow: string,
   borderColor: string,
+  borderBottomColor: string,
   selectorArrow: string,
 ) => {
   return css`
@@ -56,6 +59,7 @@ export const buttonHoverMixin = (
         ? btnBackground
         : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
       border-color: ${borderColor};
+      border-bottom-color: ${borderBottomColor};
 
       ${selectorArrow} {
         box-shadow: ${arrowShadow};
@@ -69,6 +73,7 @@ export const buttonActiveMixin = (
   btnShadow: string,
   arrowShadow: string,
   borderColor: string,
+  borderTopColor: string,
   selectorActive: string,
   selectorArrow: string,
   selectorArrowTop: string,
@@ -80,6 +85,7 @@ export const buttonActiveMixin = (
       background: ${btnBackground};
       box-shadow: ${btnShadow};
       border-color: ${borderColor};
+      border-top-color: ${borderTopColor};
 
       ${selectorArrow} {
         box-shadow: ${arrowShadow};
