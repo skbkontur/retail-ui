@@ -30,10 +30,10 @@ export const buttonUseMixin = (
   selectorChecked: string,
   selectorArrow: string,
 ) => {
+  const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
-    background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
-      ? btnBackground
-      : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
+    background-color: ${hasGradient ? `initial` : btnBackground};
+    background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     color: ${color};
     border-color: ${borderColor};
     border-bottom-color: ${borderBottomColor};
@@ -53,11 +53,11 @@ export const buttonHoverMixin = (
   borderWidth: string,
   selectorArrow: string,
 ) => {
+  const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
     &:hover {
-      background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
-        ? btnBackground
-        : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
+      background-color: ${hasGradient ? `initial` : btnBackground};
+      background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
       border-color: ${borderColor};
       border-bottom-color: ${borderBottomColor};
 
@@ -82,7 +82,8 @@ export const buttonActiveMixin = (
   return css`
     &:active,
     &${selectorActive} {
-      background: ${btnBackground};
+      background-image: none;
+      background-color: ${btnBackground};
       box-shadow: ${btnShadow};
       border-color: ${borderColor};
       border-top-color: ${borderTopColor};

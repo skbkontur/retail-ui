@@ -145,7 +145,7 @@ const styles = {
         bottom: -2px !important;
       }
       ${cssName(styles.error(t))}  {
-        background: ${t.btnErrorSecondary} !important;
+        background-color: ${t.btnErrorSecondary} !important;
       }
     `;
   },
@@ -189,7 +189,8 @@ const styles = {
         border-color: ${t.btnDisabledBorderColor} !important;
 
         &:not(${cssName(styles.link(t))}) {
-          background: ${t.btnDisabledBg} !important;
+          background-image: none !important;
+          background-color: ${t.btnDisabledBg} !important;
           color: ${t.btnDisabledTextColor} !important;
           box-shadow: none;
 
@@ -558,8 +559,9 @@ const styles = {
 
   checked(t: Theme) {
     return css`
+      background-image: none !important;
       box-shadow: ${t.btnCheckedShadow} !important;
-      background: ${t.btnCheckedBg} !important;
+      background-color: ${t.btnCheckedBg} !important;
       color: ${t.btnCheckedTextColor} !important;
       border-color: ${t.btnDefaultCheckedBorderColor} !important;
 
@@ -571,7 +573,7 @@ const styles = {
 
       &:not(${cssName(styles.link(t))})${cssName(styles.disabled(t))} {
         box-shadow: ${t.btnCheckedDisabledShadow} !important;
-        background: ${t.btnCheckedDisabledBg} !important;
+        background-color: ${t.btnCheckedDisabledBg} !important;
         color: ${t.btnCheckedDisabledColor} !important;
         border-color: ${t.btnCheckedDisabledBorderColor} !important;
 
