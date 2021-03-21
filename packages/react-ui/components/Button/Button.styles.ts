@@ -1,6 +1,7 @@
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
+import { isFirefox } from '../../lib/client';
 
 import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin, arrowFocusMixin } from './Button.mixins';
 
@@ -324,7 +325,7 @@ const styles = {
         right: 0;
         background: inherit;
         border-radius: inherit;
-        transform: translateX(0.4px);
+        transform: translateX(${isFirefox ? `0.2px` : `0.3px`});
       }
     `;
   },
