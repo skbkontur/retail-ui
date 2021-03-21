@@ -193,7 +193,7 @@ const styles = {
           box-shadow: none;
 
           ${cssName(styles.arrowHelper())} {
-            box-shadow: ${t.btnDisabledShadowArrow} !important;
+            box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor} !important;
           }
         }
 
@@ -362,10 +362,10 @@ const styles = {
           t.btnDefaultBg,
           t.btnDefaultBgStart,
           t.btnDefaultBgEnd,
-          t.btnDefaultShadowArrow,
           t.btnDefaultTextColor,
           t.btnDefaultBorderColor,
           t.btnDefaultBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -374,18 +374,18 @@ const styles = {
           t.btnDefaultHoverBg,
           t.btnDefaultHoverBgStart,
           t.btnDefaultHoverBgEnd,
-          t.btnDefaultHoverShadowArrow,
           t.btnDefaultHoverBorderColor,
           t.btnDefaultHoverBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
-          t.btnDefaultActiveShadowArrow,
           t.btnDefaultActiveBorderColor,
           t.btnDefaultActiveBorderTopColor,
+          t.btnBorderWidth,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -402,10 +402,10 @@ const styles = {
           t.btnPrimaryBg,
           t.btnPrimaryBgStart,
           t.btnPrimaryBgEnd,
-          t.btnPrimaryShadowArrow,
           t.btnPrimaryTextColor,
           t.btnPrimaryBorderColor,
           t.btnPrimaryBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -414,18 +414,18 @@ const styles = {
           t.btnPrimaryHoverBg,
           t.btnPrimaryHoverBgStart,
           t.btnPrimaryHoverBgEnd,
-          t.btnPrimaryHoverShadowArrow,
           t.btnPrimaryHoverBorderColor,
           t.btnPrimaryHoverBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
-          t.btnPrimaryActiveShadowArrow,
           t.btnPrimaryActiveBorderColor,
           t.btnPrimaryActiveBorderTopColor,
+          t.btnBorderWidth,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -442,10 +442,10 @@ const styles = {
           t.btnSuccessBg,
           t.btnSuccessBgStart,
           t.btnSuccessBgEnd,
-          t.btnSuccessShadowArrow,
           t.btnSuccessTextColor,
           t.btnSuccessBorderColor,
           t.btnSuccessBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -454,18 +454,18 @@ const styles = {
           t.btnSuccessHoverBg,
           t.btnSuccessHoverBgStart,
           t.btnSuccessHoverBgEnd,
-          t.btnSuccessHoverShadowArrow,
           t.btnSuccessHoverBorderColor,
           t.btnSuccessHoverBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
-          t.btnSuccessActiveShadowArrow,
           t.btnSuccessActiveBorderColor,
           t.btnSuccessActiveBorderTopColor,
+          t.btnBorderWidth,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -482,10 +482,10 @@ const styles = {
           t.btnDangerBg,
           t.btnDangerBgStart,
           t.btnDangerBgEnd,
-          t.btnDangerShadowArrow,
           t.btnDangerTextColor,
           t.btnDangerBorderColor,
           t.btnDangerBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -494,18 +494,18 @@ const styles = {
           t.btnDangerHoverBg,
           t.btnDangerHoverBgStart,
           t.btnDangerHoverBgEnd,
-          t.btnDangerHoverShadowArrow,
           t.btnDangerHoverBorderColor,
           t.btnDangerHoverBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
-          t.btnDangerActiveShadowArrow,
           t.btnDangerActiveBorderColor,
           t.btnDangerActiveBorderTopColor,
+          t.btnBorderWidth,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -522,10 +522,10 @@ const styles = {
           t.btnPayBg,
           t.btnPayBgStart,
           t.btnPayBgEnd,
-          t.btnPayShadowArrow,
           t.btnPayTextColor,
           t.btnPayBorderColor,
           t.btnPayBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.checked(t)),
           cssName(styles.arrowHelper()),
         )};
@@ -534,18 +534,18 @@ const styles = {
           t.btnPayHoverBg,
           t.btnPayHoverBgStart,
           t.btnPayHoverBgEnd,
-          t.btnPayHoverShadowArrow,
           t.btnPayHoverBorderColor,
           t.btnPayHoverBorderBottomColor,
+          t.btnBorderWidth,
           cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
           t.btnPayActiveBg,
           t.btnPayActiveShadow,
-          t.btnPayActiveShadowArrow,
           t.btnPayActiveBorderColor,
           t.btnPayActiveBorderTopColor,
+          t.btnBorderWidth,
           cssName(styles.active(t)),
           cssName(styles.arrowHelper()),
           cssName(styles.arrowHelperTop()),
@@ -575,7 +575,7 @@ const styles = {
         border-color: ${t.btnCheckedDisabledBorderColor} !important;
 
         ${cssName(styles.arrowHelper())} {
-          box-shadow: ${t.btnCheckedDisabledShadowArrow} !important;
+          box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnCheckedDisabledBorderColor} !important;
 
           &${cssName(styles.arrowHelperTop())} {
             background-image: none !important;
@@ -586,7 +586,7 @@ const styles = {
       &,
       &:not(${cssName(styles.focus(t))}) {
         ${cssName(styles.arrowHelper())} {
-          box-shadow: ${t.btnCheckedShadowArrow} !important;
+          box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor} !important;
 
           &${cssName(styles.arrowHelperTop())} {
             background-image: ${t.btnArrowBgImageChecked} !important;

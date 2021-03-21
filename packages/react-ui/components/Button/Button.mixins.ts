@@ -23,10 +23,10 @@ export const buttonUseMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
   btnBackgroundEnd: string,
-  shadowArrow: string,
   color: string,
   borderColor: string,
   borderBottomColor: string,
+  borderWidth: string,
   selectorChecked: string,
   selectorArrow: string,
 ) => {
@@ -39,7 +39,7 @@ export const buttonUseMixin = (
     border-bottom-color: ${borderBottomColor};
 
     &:not(${selectorChecked}) ${selectorArrow} {
-      box-shadow: ${shadowArrow};
+      box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
   `;
 };
@@ -48,9 +48,9 @@ export const buttonHoverMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
   btnBackgroundEnd: string,
-  arrowShadow: string,
   borderColor: string,
   borderBottomColor: string,
+  borderWidth: string,
   selectorArrow: string,
 ) => {
   return css`
@@ -62,7 +62,7 @@ export const buttonHoverMixin = (
       border-bottom-color: ${borderBottomColor};
 
       ${selectorArrow} {
-        box-shadow: ${arrowShadow};
+        box-shadow: ${borderWidth} 0 0 ${borderColor};
       }
     }
   `;
@@ -71,9 +71,9 @@ export const buttonHoverMixin = (
 export const buttonActiveMixin = (
   btnBackground: string,
   btnShadow: string,
-  arrowShadow: string,
   borderColor: string,
   borderTopColor: string,
+  borderWidth: string,
   selectorActive: string,
   selectorArrow: string,
   selectorArrowTop: string,
@@ -88,7 +88,7 @@ export const buttonActiveMixin = (
       border-top-color: ${borderTopColor};
 
       ${selectorArrow} {
-        box-shadow: ${arrowShadow};
+        box-shadow: ${borderWidth} 0 0 ${borderColor};
 
         &${selectorArrowTop} {
           background-image: ${arrowActiveShadowGradient} !important;
