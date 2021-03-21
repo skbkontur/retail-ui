@@ -79,7 +79,6 @@ export const darkTheme = ThemeFactory.create({
   btnDisabledBg: 'rgba(255, 255, 255, 0.05)',
   btnCheckedBg: '#737373',
   btnCheckedTextColor: '#fff',
-  btnCheckedShadowColorArrow: 'rgba(0, 0, 0, 0.3)',
   btnDefaultBg: '#333333',
   btnDefaultHoverBg: '#333333',
   btnDefaultBgStart: 'none',

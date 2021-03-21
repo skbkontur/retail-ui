@@ -618,7 +618,6 @@ const styles = {
 
   wrap(t: Theme) {
     return css`
-      padding: ${t.btnWrapPadding};
       box-sizing: border-box;
       display: inline-block;
     `;

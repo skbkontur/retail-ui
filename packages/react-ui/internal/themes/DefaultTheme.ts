@@ -266,9 +266,6 @@ export class DefaultTheme {
   public static loaderOpacity = '0.8';
   //#endregion
   //#region Button
-  public static get btnWrapPadding() {
-    return '0px';
-  }
   public static btnArrowBgImageActive =
     'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%), linear-gradient(-95deg, rgba(0,0,0,0.1) 0%, transparent 4%)';
   public static btnArrowBgImageChecked =
@@ -284,11 +281,9 @@ export class DefaultTheme {
   public static btnCheckedBg = '#737373';
   public static btnCheckedDisabledBg = '#a0a0a0';
   public static btnCheckedDisabledColor = 'rgba(255, 255, 255, 0.7)';
-  public static btnCheckedHoverBorderColor = 'transparent';
   public static btnCheckedTextColor = '#fff';
   public static btnCheckedDisabledBorderColor = 'rgba(161,161,161,1)';
   public static btnCheckedShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)';
-  public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
   public static btnCheckedDisabledShadow = 'none';
   public static btnSmallBorderRadius = '2px'; // todo: deprecated
   public static btnBorderRadius = '3px'; // todo: deprecated
@@ -317,8 +312,6 @@ export class DefaultTheme {
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';
-  public static btnDeprecatedSizeMediumFontSize = '16px';
-  public static btnDeprecatedSizeMediumPaddingShift = '1';
   public static btnDefaultCheckedBorderColor = 'rgba(102,102,102,1)';
   public static get btnDefaultTextColor() {
     return this.textColorDefault;
@@ -333,24 +326,19 @@ export class DefaultTheme {
   public static btnDefaultActiveBorderTopColor = 'rgba(0, 0, 0, 0.35)';
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static btnDefaultBorderBottomColor = 'rgba(0, 0, 0, 0.28)';
-  public static btnDefaultShadow = 'none';
-  public static btnDefaultHoverShadow = 'none';
   public static btnDefaultActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnSuccessBg = '#419d14';
   public static btnSuccessHoverBg = 'none';
   public static btnSuccessHoverBorderColor = 'rgba(8, 73, 2, 0.7)';
   public static btnSuccessHoverBorderBottomColor = 'rgba(8, 73, 2, 0.9)';
-  public static btnSuccessDisabledBg = 'none';
   public static btnSuccessBorderColor = 'rgba(26, 103, 6, 0.7)';
   public static btnSuccessBorderBottomColor = 'rgba(23, 89, 7, 0.9)';
   public static btnSuccessBgStart = '#4ba91d';
   public static btnSuccessBgEnd = '#37910b';
   public static btnSuccessTextColor = '#fff';
-  public static btnSuccessShadow = 'none';
   public static btnSuccessHoverBgStart = '#3b8d13';
   public static btnSuccessHoverBgEnd = '#317e0b';
   public static btnSuccessActiveBg = '#35840e';
-  public static btnSuccessHoverShadow = 'none';
   public static btnSuccessActiveBorderColor = 'rgba(8, 73, 2, 0.7)';
   public static btnSuccessActiveBorderTopColor = 'rgba(8, 73, 2, 0.9)';
   public static btnSuccessActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
@@ -358,7 +346,6 @@ export class DefaultTheme {
   public static btnPrimaryHoverBg = 'none';
   public static btnPrimaryHoverBorderColor = 'rgba(5, 61, 100, 0.7)';
   public static btnPrimaryHoverBorderBottomColor = 'rgba(5, 61, 100, 0.9)';
-  public static btnPrimaryDisabledBg = 'none';
   public static btnPrimaryBorderColor = 'rgba(15,82,129,0.7)';
   public static btnPrimaryBorderBottomColor = 'rgba(15,82,129,0.9)';
   public static btnPrimaryBgStart = '#2899ea';
@@ -367,8 +354,6 @@ export class DefaultTheme {
   public static btnPrimaryHoverBgStart = '#0087d5';
   public static btnPrimaryHoverBgEnd = '#167ac1';
   public static btnPrimaryActiveBg = '#0079c3';
-  public static btnPrimaryShadow = 'none';
-  public static btnPrimaryHoverShadow = 'none';
   public static btnPrimaryActiveBorderColor = 'rgba(5, 61, 100, 0.7) ';
   public static btnPrimaryActiveBorderTopColor = 'rgba(5, 61, 100, 0.9)';
   public static btnPrimaryActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)';
@@ -376,7 +361,6 @@ export class DefaultTheme {
   public static btnDangerHoverBg = 'none';
   public static btnDangerHoverBorderColor = 'rgba(145, 0, 0, 0.7)';
   public static btnDangerHoverBorderBottomColor = 'rgba(145, 0, 0, 0.95)';
-  public static btnDangerDisabledBg = 'none';
   public static btnDangerBorderColor = 'rgba(173,16,0,0.7)';
   public static btnDangerBorderBottomColor = 'rgba(173,16,0,0.9)';
   public static btnDangerBgStart = '#ec5438';
@@ -385,8 +369,6 @@ export class DefaultTheme {
   public static btnDangerHoverBgStart = '#d44227';
   public static btnDangerHoverBgEnd = '#c73013';
   public static btnDangerActiveBg = '#cd381b';
-  public static btnDangerShadow = 'none';
-  public static btnDangerHoverShadow = 'none';
   public static btnDangerActiveBorderColor = 'rgba(145, 0, 0, 0.7)';
   public static btnDangerActiveBorderTopColor = 'rgba(145, 0, 0, 0.95)';
   public static btnDangerActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
@@ -394,23 +376,19 @@ export class DefaultTheme {
   public static btnPayHoverBg = 'none';
   public static btnPayHoverBorderColor = 'rgba(227, 142, 8, 0.7)';
   public static btnPayHoverBorderBottomColor = 'rgba(227, 142, 8, 0.95)';
-  public static btnPayDisabledBg = 'none';
   public static btnPayBorderColor = 'rgba(238, 169, 35, 0.7)';
   public static btnPayBorderBottomColor = 'rgba(217, 144, 3, 0.9)';
   public static btnPayBgStart = '#ffd54b';
   public static btnPayBgEnd = '#ffbb39';
-  public static btnPayShadow = 'none';
   public static get btnPayTextColor() {
     return this.textColorDefault;
   }
   public static btnPayHoverBgStart = '#ffbd3a';
   public static btnPayHoverBgEnd = '#f8a91d';
   public static btnPayActiveBg = '#fbb028';
-  public static btnPayHoverShadow = 'none';
   public static btnPayActiveBorderColor = 'rgba(227, 142, 8, 0.7)';
   public static btnPayActiveBorderTopColor = 'rgba(227, 142, 8, 0.95)';
   public static btnPayActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)';
-  public static btnDeprecatedSizeMediumPaddingShiftIe = '1';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
     return this.fontSizeSmall;
@@ -442,10 +420,6 @@ export class DefaultTheme {
   public static get btnDisabledBg() {
     return this.bgDisabled;
   }
-  public static btnDisabledShadow = 'none';
-  public static get btnTextColorDefault() {
-    return this.textColorDefault;
-  }
   public static get btnBorderColorWarning() {
     return this.borderColorWarning;
   }
@@ -469,9 +443,6 @@ export class DefaultTheme {
   }
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
-  }
-  public static get btnLinkActiveColor() {
-    return this.linkActiveColor;
   }
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
