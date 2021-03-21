@@ -13,9 +13,14 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnHeightShift = '0';
   public static btnLinkBorderRadius = '2px';
   public static btnBorderRadiusSmall = '2px';
+  public static btnBorderRadiusMedium = '2px';
+  public static btnBorderRadiusLarge = '2px';
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedShadow = 'none';
   public static btnCheckedDisabledShadow = 'none';
+  public static get btnCheckedDisabledBorderColor() {
+    return this.btnCheckedDisabledBg;
+  }
   public static btnArrowBgImageActive = 'none';
   public static btnArrowBgImageChecked = 'none';
   public static arrowActiveShadowGradient = 'none';
@@ -29,7 +34,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
     return this.btnDefaultHoverBorderColor;
   }
   public static btnDefaultActiveBg = '#e5e5e5';
-  public static btnDefaultActiveBorderColor = '#cccccc';
+  public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static get btnDefaultActiveBorderTopColor() {
     return this.btnDefaultActiveBorderColor;
   }
@@ -125,8 +130,8 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get btnFocusBorder() {
     return `${this.btnBorderWidth} solid ${this.borderColorFocus}`;
   }
-  public static get btnDefaultCheckedBorder() {
-    return `${this.btnBorderWidth} solid transparent`;
+  public static get btnDefaultCheckedBorderColor() {
+    return this.btnCheckedBg;
   }
   //#endregion
   //#region Select

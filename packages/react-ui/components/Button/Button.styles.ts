@@ -117,7 +117,7 @@ const styles = {
     return css`
       background: none;
       border-radius: ${t.btnLinkBorderRadius} !important;
-      border: none;
+      border: none !important;
       box-shadow: none;
       white-space: nowrap;
       color: ${t.btnLinkColor} !important;

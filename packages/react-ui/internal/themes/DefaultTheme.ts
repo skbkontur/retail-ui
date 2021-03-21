@@ -331,7 +331,7 @@ export class DefaultTheme {
   public static btnSuccessHoverBg = 'none';
   public static btnSuccessHoverBorderColor = 'rgba(8, 73, 2, 0.7)';
   public static btnSuccessHoverBorderBottomColor = 'rgba(8, 73, 2, 0.9)';
-  public static btnSuccessBorderColor = 'rgba(26, 103, 6, 0.7)';
+  public static btnSuccessBorderColor = 'rgba(25, 103, 6, 0.7)';
   public static btnSuccessBorderBottomColor = 'rgba(23, 89, 7, 0.9)';
   public static btnSuccessBgStart = '#4ba91d';
   public static btnSuccessBgEnd = '#37910b';
@@ -346,8 +346,8 @@ export class DefaultTheme {
   public static btnPrimaryHoverBg = 'none';
   public static btnPrimaryHoverBorderColor = 'rgba(5, 61, 100, 0.7)';
   public static btnPrimaryHoverBorderBottomColor = 'rgba(5, 61, 100, 0.9)';
-  public static btnPrimaryBorderColor = 'rgba(15,82,129,0.7)';
-  public static btnPrimaryBorderBottomColor = 'rgba(15,82,129,0.9)';
+  public static btnPrimaryBorderColor = 'rgba(14, 81, 129, 0.7)';
+  public static btnPrimaryBorderBottomColor = 'rgba(14, 81, 129, 0.9)';
   public static btnPrimaryBgStart = '#2899ea';
   public static btnPrimaryBgEnd = '#167ac1';
   public static btnPrimaryTextColor = '#fff';
@@ -361,8 +361,8 @@ export class DefaultTheme {
   public static btnDangerHoverBg = 'none';
   public static btnDangerHoverBorderColor = 'rgba(145, 0, 0, 0.7)';
   public static btnDangerHoverBorderBottomColor = 'rgba(145, 0, 0, 0.95)';
-  public static btnDangerBorderColor = 'rgba(173,16,0,0.7)';
-  public static btnDangerBorderBottomColor = 'rgba(173,16,0,0.9)';
+  public static btnDangerBorderColor = 'rgba(173,15,0,0.7)';
+  public static btnDangerBorderBottomColor = 'rgba(173,15,0,0.9)';
   public static btnDangerBgStart = '#ec5438';
   public static btnDangerBgEnd = '#d44327';
   public static btnDangerTextColor = '#fff';
@@ -376,7 +376,7 @@ export class DefaultTheme {
   public static btnPayHoverBg = 'none';
   public static btnPayHoverBorderColor = 'rgba(227, 142, 8, 0.7)';
   public static btnPayHoverBorderBottomColor = 'rgba(227, 142, 8, 0.95)';
-  public static btnPayBorderColor = 'rgba(238, 169, 35, 0.7)';
+  public static btnPayBorderColor = 'rgba(238, 169, 34, 0.7)';
   public static btnPayBorderBottomColor = 'rgba(217, 144, 3, 0.9)';
   public static btnPayBgStart = '#ffd54b';
   public static btnPayBgEnd = '#ffbb39';
