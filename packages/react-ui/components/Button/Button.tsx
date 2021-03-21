@@ -244,15 +244,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={cn({
-            [jsStyles.arrow(this.theme)]: true,
+            [jsStyles.arrow()]: true,
             [jsStyles.arrowWarning(this.theme)]: isWarning,
             [jsStyles.arrowError(this.theme)]: isError,
             [jsStyles.arrowFocus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
             [jsStyles.arrowLeft()]: this.props.arrow === 'left',
           })}
         >
-          <div data-arrow-helper />
-          <div data-arrow-helper />
+          <div className={cn(jsStyles.arrowHelper(), jsStyles.arrowHelperTop())} />
+          <div className={cn(jsStyles.arrowHelper(), jsStyles.arrowHelperBottom())} />
         </div>
       );
     }

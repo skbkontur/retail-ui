@@ -31,7 +31,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDefaultActiveBorderColor = '#cccccc';
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static btnDefaultShadow = 'none';
-  public static btnDefaultShadowArrow = '1px 0 0 0 rgba(0, 0, 0, 0.15)';
+  public static btnDefaultShadowArrow = '1.2px 0 0 0 rgba(0, 0, 0, 0.15)';
   public static btnDefaultBg = '#fff';
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';

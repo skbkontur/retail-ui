@@ -192,14 +192,8 @@ const styles = {
           color: ${t.btnDisabledTextColor} !important;
           box-shadow: none;
 
-          ${cssName(styles.arrow(t))} {
-            [data-arrow-helper] {
-              box-shadow: ${t.btnDisabledShadowArrow} !important;
-
-              &:before {
-                display: none;
-              }
-            }
+          ${cssName(styles.arrowHelper())} {
+            box-shadow: ${t.btnDisabledShadowArrow} !important;
           }
         }
 
@@ -236,7 +230,7 @@ const styles = {
 
   arrowWarning(t: Theme) {
     return css`
-      [data-arrow-helper] {
+      ${cssName(styles.arrowHelper())} {
         box-shadow: ${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorWarning} !important;
       }
     `;
@@ -244,7 +238,7 @@ const styles = {
 
   arrowError(t: Theme) {
     return css`
-      [data-arrow-helper] {
+      ${cssName(styles.arrowHelper())} {
         box-shadow: ${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorError} !important;
       }
     `;
@@ -252,15 +246,45 @@ const styles = {
 
   arrowFocus(t: Theme) {
     return css`
-      ${arrowFocusMixin(t, t.btnBorderColorFocus)}
+      ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
+        box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
 
-      &${cssName(styles.arrowWarning(t))} { ${arrowFocusMixin(t, t.btnBorderColorWarning)} }
+        ${arrowFocusMixin(
+          t.btnBorderWidth,
+          t.btnBorderColorFocus,
+          t.btnOutlineWidth,
+          t.btnOutlineColorFocus,
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
+          cssName(styles.arrowHelperBottom()),
+        )}
 
-      &${cssName(styles.arrowError(t))} { ${arrowFocusMixin(t, t.btnBorderColorError)} }
+        &${cssName(styles.arrowWarning(t))} {
+          ${arrowFocusMixin(
+            t.btnBorderWidth,
+            t.btnBorderColorWarning,
+            t.btnOutlineWidth,
+            t.btnOutlineColorFocus,
+            cssName(styles.arrowHelper()),
+            cssName(styles.arrowHelperTop()),
+            cssName(styles.arrowHelperBottom()),
+          )} }
+
+        &${cssName(styles.arrowError(t))} {
+          ${arrowFocusMixin(
+            t.btnBorderWidth,
+            t.btnBorderColorError,
+            t.btnOutlineWidth,
+            t.btnOutlineColorFocus,
+            cssName(styles.arrowHelper()),
+            cssName(styles.arrowHelperTop()),
+            cssName(styles.arrowHelperBottom()),
+          )} }
+      }
     `;
   },
 
-  arrow(t: Theme) {
+  arrow() {
     return css`
       background: inherit;
       border-radius: inherit;
@@ -269,60 +293,65 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-
-      [data-arrow-helper] {
-        display: block;
-        width: 100%;
-        height: 50%;
-        position: absolute;
-        left: 0;
-        background: inherit;
-        background-size: 200% 200%;
-        border-radius: inherit;
-        background-clip: padding-box;
-
-        &:first-child {
-          top: 0;
-          transform: skewX(30deg);
-          transform-origin: top;
-          background-position-y: top;
-          border-bottom-right-radius: 1px;
-
-          // fix line in the middle
-          // of the button in FF
-          &:before {
-            bottom: -1px;
-          }
-        }
-
-        &:last-child {
-          bottom: 0;
-          transform: skewX(-30deg);
-          transform-origin: bottom;
-          background-position-y: bottom;
-          border-top-right-radius: 1px;
-        }
-
-        // fix ugly arrow edge
-        &:before {
-          content: '';
-          display: block;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: inherit;
-          border-radius: inherit;
-          transform: translateX(0.4px);
-        }
-      }
     `;
   },
 
   arrowLeft() {
     return css`
       transform: scaleX(-1);
+    `;
+  },
+
+  arrowHelper() {
+    return css`
+      width: 100%;
+      height: 50%;
+      position: absolute;
+      left: 0;
+      background: inherit;
+      background-size: 200% 200%;
+      border-radius: inherit;
+      background-clip: padding-box;
+
+      // fix ugly arrow edge
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: inherit;
+        border-radius: inherit;
+        transform: translateX(0.4px);
+      }
+    `;
+  },
+
+  arrowHelperTop() {
+    return css`
+      top: 0;
+      transform: skewX(30deg);
+      transform-origin: top;
+      background-position-y: top;
+      border-bottom-right-radius: 1px;
+
+      // fix ugly line in the
+      // middle of the button
+      &:before {
+        bottom: -1px;
+      }
+    `;
+  },
+
+  arrowHelperBottom() {
+    return css`
+      bottom: 0;
+      transform: skewX(-30deg);
+      transform-origin: bottom;
+      background-position-y: bottom;
+      border-top-right-radius: 1px;
     `;
   },
 
@@ -337,7 +366,7 @@ const styles = {
           t.btnDefaultTextColor,
           t.btnDefaultBorderColor,
           cssName(styles.checked(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonHoverMixin(
@@ -346,7 +375,7 @@ const styles = {
           t.btnDefaultHoverBgEnd,
           t.btnDefaultHoverShadowArrow,
           t.btnDefaultHoverBorderColor,
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
@@ -355,7 +384,8 @@ const styles = {
           t.btnDefaultActiveShadowArrow,
           t.btnDefaultActiveBorderColor,
           cssName(styles.active(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
           t.btnArrowBgImageActive,
         )};
       }
@@ -373,7 +403,7 @@ const styles = {
           t.btnPrimaryTextColor,
           t.btnPrimaryBorderColor,
           cssName(styles.checked(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonHoverMixin(
@@ -382,7 +412,7 @@ const styles = {
           t.btnPrimaryHoverBgEnd,
           t.btnPrimaryHoverShadowArrow,
           t.btnPrimaryHoverBorderColor,
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
@@ -391,7 +421,8 @@ const styles = {
           t.btnPrimaryActiveShadowArrow,
           t.btnPrimaryActiveBorderColor,
           cssName(styles.active(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
           t.btnArrowBgImageActive,
         )};
       }
@@ -409,7 +440,7 @@ const styles = {
           t.btnSuccessTextColor,
           t.btnSuccessBorderColor,
           cssName(styles.checked(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonHoverMixin(
@@ -418,7 +449,7 @@ const styles = {
           t.btnSuccessHoverBgEnd,
           t.btnSuccessHoverShadowArrow,
           t.btnSuccessHoverBorderColor,
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
@@ -427,7 +458,8 @@ const styles = {
           t.btnSuccessActiveShadowArrow,
           t.btnSuccessActiveBorderColor,
           cssName(styles.active(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
           t.btnArrowBgImageActive,
         )};
       }
@@ -445,7 +477,7 @@ const styles = {
           t.btnDangerTextColor,
           t.btnDangerBorderColor,
           cssName(styles.checked(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonHoverMixin(
@@ -454,7 +486,7 @@ const styles = {
           t.btnDangerHoverBgEnd,
           t.btnDangerHoverShadowArrow,
           t.btnDangerHoverBorderColor,
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
@@ -463,7 +495,8 @@ const styles = {
           t.btnDangerActiveShadowArrow,
           t.btnDangerActiveBorderColor,
           cssName(styles.active(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
           t.btnArrowBgImageActive,
         )};
       }
@@ -481,7 +514,7 @@ const styles = {
           t.btnPayTextColor,
           t.btnPayBorderColor,
           cssName(styles.checked(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonHoverMixin(
@@ -490,7 +523,7 @@ const styles = {
           t.btnPayHoverBgEnd,
           t.btnPayHoverShadowArrow,
           t.btnPayHoverBorderColor,
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
         )};
 
         ${buttonActiveMixin(
@@ -499,7 +532,8 @@ const styles = {
           t.btnPayActiveShadowArrow,
           t.btnPayActiveBorderColor,
           cssName(styles.active(t)),
-          cssName(styles.arrow(t)),
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
           t.btnArrowBgImageActive,
         )};
       }
@@ -525,24 +559,22 @@ const styles = {
         color: ${t.btnCheckedDisabledColor} !important;
         border-color: ${t.btnCheckedDisabledBorderColor} !important;
 
-        ${cssName(styles.arrow(t))} {
-          [data-arrow-helper] {
-            background: ${t.btnCheckedDisabledBg} !important;
-            box-shadow: ${t.btnCheckedDisabledShadowArrow} !important;
+        ${cssName(styles.arrowHelper())} {
+          box-shadow: ${t.btnCheckedDisabledShadowArrow} !important;
+
+          &${cssName(styles.arrowHelperTop())} {
+            background-image: none !important;
           }
         }
       }
 
       &,
       &:not(${cssName(styles.focus(t))}) {
-        ${cssName(styles.arrow(t))} {
-          [data-arrow-helper] {
-            background: ${t.btnCheckedBg} !important;
-            box-shadow: ${t.btnCheckedShadowArrow} !important;
+        ${cssName(styles.arrowHelper())} {
+          box-shadow: ${t.btnCheckedShadowArrow} !important;
 
-            &:first-child {
-              background-image: ${t.btnArrowBgImageChecked} !important;
-            }
+          &${cssName(styles.arrowHelperTop())} {
+            background-image: ${t.btnArrowBgImageChecked} !important;
           }
         }
       }

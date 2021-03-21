@@ -1,4 +1,3 @@
-import { Theme } from '../../lib/theming/Theme';
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
@@ -38,9 +37,7 @@ export const buttonUseMixin = (
     border-color: ${borderColor};
 
     &:not(${selectorChecked}) ${selectorArrow} {
-      [data-arrow-helper] {
-        box-shadow: ${shadowArrow};
-      }
+      box-shadow: ${shadowArrow};
     }
   `;
 };
@@ -61,10 +58,7 @@ export const buttonHoverMixin = (
       border-color: ${borderColor};
 
       ${selectorArrow} {
-        &:before,
-        &:after {
-          box-shadow: ${arrowShadow};
-        }
+        box-shadow: ${arrowShadow};
       }
     }
   `;
@@ -77,6 +71,7 @@ export const buttonActiveMixin = (
   borderColor: string,
   selectorActive: string,
   selectorArrow: string,
+  selectorArrowTop: string,
   arrowActiveShadowGradient: string,
 ) => {
   return css`
@@ -87,13 +82,10 @@ export const buttonActiveMixin = (
       border-color: ${borderColor};
 
       ${selectorArrow} {
-        [data-arrow-helper] {
-          background: inherit;
-          box-shadow: ${arrowShadow};
+        box-shadow: ${arrowShadow};
 
-          &:first-child {
-            background-image: ${arrowActiveShadowGradient} !important;
-          }
+        &${selectorArrowTop} {
+          background-image: ${arrowActiveShadowGradient} !important;
         }
       }
     }
@@ -125,27 +117,34 @@ export const buttonSizeMixin = (
   `;
 };
 
-export const arrowFocusMixin = (t: Theme, borderColor: string) => {
+export const arrowFocusMixin = (
+  borderWidth: string,
+  borderColor: string,
+  outlineWidth: string,
+  outlineColorFocus: string,
+  selectorArrow: string,
+  selectorArrowTop: string,
+  selectorArrowBottom: string,
+) => {
   return css`
-    box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
-
-    [data-arrow-helper] {
-      &:first-child {
-        box-shadow: inset -${t.btnBorderWidth} ${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-          ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
+    ${selectorArrow} {
+      &${selectorArrowTop} {
+        box-shadow: inset -${borderWidth} ${borderWidth} 0 0 ${outlineColorFocus}, ${outlineWidth} 0 0 0 ${borderColor} !important;
       }
 
-      &:last-child {
-        box-shadow: inset -${t.btnBorderWidth} -${t.btnBorderWidth} 0 0 ${t.btnOutlineColorFocus},
-          ${t.btnOutlineWidth} 0 0 0 ${borderColor} !important;
+      &${selectorArrowBottom} {
+        box-shadow: inset -${borderWidth} -${borderWidth} 0 0 ${outlineColorFocus}, ${outlineWidth} 0 0 0 ${borderColor} !important;
       }
 
       // don't hide inner outline
+      // and keep the middle-line fix
       &:before {
-        top: ${t.btnBorderWidth};
-        right: ${t.btnBorderWidth};
-        bottom: ${t.btnBorderWidth};
-        left: ${t.btnBorderWidth};
+        top: ${borderWidth};
+        right: ${borderWidth};
+        left: ${borderWidth};
+      }
+      &${selectorArrowBottom}:before {
+        bottom: ${borderWidth};
       }
     }
   `;

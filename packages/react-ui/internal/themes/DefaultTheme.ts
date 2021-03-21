@@ -337,7 +337,7 @@ export class DefaultTheme {
   public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.28)';
   public static btnDefaultShadow = 'none';
   public static btnDefaultHoverShadow = 'none';
-  public static btnDefaultActiveShadow =  'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
+  public static btnDefaultActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnSuccessBg = '#419d14';
   public static btnSuccessHoverBg = 'none';
   public static btnSuccessHoverBorderColor = 'rgba(8, 73, 2, 0.7) rgba(8, 73, 2, 0.7) rgba(8, 73, 2, 0.9)';
@@ -355,7 +355,7 @@ export class DefaultTheme {
   public static btnSuccessActiveShadowArrow = '1px 0 0 0 rgba(4, 63, 0, 0.75)';
   public static btnSuccessHoverShadow = 'none';
   public static btnSuccessActiveBorderColor = 'rgba(8, 73, 2, 0.9) rgba(8, 73, 2, 0.7) rgba(8, 73, 2, 0.7)';
-  public static btnSuccessActiveShadow ='inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
+  public static btnSuccessActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnPrimaryBg = '#1e8dd4';
   public static btnPrimaryHoverBg = 'none';
   public static btnPrimaryHoverBorderColor = 'rgba(5, 61, 100, 0.7) rgba(5, 61, 100, 0.7) rgba(5, 61, 100, 0.9)';
@@ -390,8 +390,8 @@ export class DefaultTheme {
   public static btnDangerActiveShadowArrow = '1px 0 0 0 rgba(108, 7, 7, 0.75)';
   public static btnDangerShadow = 'none';
   public static btnDangerHoverShadow = 'none';
-  public static btnDangerActiveBorderColor ='rgba(145, 0, 0, 0.95) rgba(145, 0, 0, 0.7) rgba(145, 0, 0, 0.7)';
-  public static btnDangerActiveShadow= 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
+  public static btnDangerActiveBorderColor = 'rgba(145, 0, 0, 0.95) rgba(145, 0, 0, 0.7) rgba(145, 0, 0, 0.7)';
+  public static btnDangerActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnPayBg = '#ffc943';
   public static btnPayHoverBg = 'none';
   public static btnPayHoverBorderColor = 'rgba(227, 142, 8, 0.7) rgba(227, 142, 8, 0.7) rgba(227, 142, 8, 0.95)';
