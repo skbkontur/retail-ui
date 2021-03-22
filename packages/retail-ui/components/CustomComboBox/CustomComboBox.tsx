@@ -315,13 +315,11 @@ class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, Cust
 
   private getState = () => this.state;
 
-  private handleChange = (value: T, event: React.SyntheticEvent) => {
-    const eventType = event.type;
-
+  private handleChange = (value: T) => {
     this.dispatch({
       type: 'ValueChange',
       value,
-      keepFocus: eventType === 'click',
+      keepFocus: true,
     });
   };
 
