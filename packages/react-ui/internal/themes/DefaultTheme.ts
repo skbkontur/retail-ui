@@ -768,11 +768,27 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Paging
+  public static pagingFontSize = '16px';
+  public static pagingForwardIconSize = '18px';
+  public static pagingForwardIconMarginTop = '0px';
+  public static pagingPageLinkPaddingX = '10px';
+  public static pagingPageLinkPaddingY = '2px';
+  public static pagingPageLinkLegacyPaddingY = '5px';
+  public static pagingPageLinkMinWidth = 'initial';
+  public static pagingPageForwardLinkMarginTop = '4px';
+  public static pagingPageForwardLinkMarginLeft = '10px';
+  public static pagingPageForwardLinkPaddingRight = '22px';
+  public static pagingLineHeight = 'initial';
   public static pagingDotsColor = 'gray';
+  public static pagingDotsPadding = '6px 10px 0';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
   public static pagingPageLinkActiveColor = 'black';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
   public static pagingPageLinkHintColor = '#bbb';
+  public static pagingPageLinkHintFontSize = '11px';
+  public static pagingPageLinkHintLineHeight = '15px';
+  public static pagingPageLinkBorderRadius = '16px';
+  public static pagingPageLinkMargin = '2px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
   }

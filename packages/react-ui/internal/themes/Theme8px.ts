@@ -422,6 +422,26 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
+  //#region Paging
+  public static get pagingFontSize() {
+    return this.fontSizeMedium;
+  }
+  public static pagingPageLinkLegacyPaddingY = '0';
+  public static pagingPageForwardLinkMarginTop = '0.35em';
+  public static pagingLineHeight = '1.375em';
+  public static pagingPageLinkPaddingX = '0.625em';
+  public static pagingPageLinkPaddingY = '0.3125em';
+  public static pagingPageLinkMinWidth = '0.75em';
+  public static pagingPageLinkHintFontSize = '12px';
+  public static pagingPageLinkHintLineHeight = '16px';
+  public static pagingPageLinkBorderRadius = '50%';
+  public static pagingPageLinkMargin = '0px 1px';
+  public static get pagingForwardIconSize() {
+    return this.pagingFontSize;
+  }
+  public static pagingForwardIconMarginTop = '1px';
+  public static pagingPageForwardLinkPaddingRight = '1.375em';
+  public static pagingDotsPadding = '0.375em 0.625em 0';
   //#endregion
   //#region Switcher
   public static get switcherOutlineWidth() {
