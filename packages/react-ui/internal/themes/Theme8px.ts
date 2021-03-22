@@ -426,22 +426,16 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get pagingFontSize() {
     return this.fontSizeMedium;
   }
-  public static pagingPageLinkMinWidth = '0.75em';
-  public static get pagingPageLinkPaddingX() {
-    return `${Math.round(parseInt(this.pagingLineHeight) * 0.45456)}px`;
-  }
-  public static get pagingPageLinkPaddingY() {
-    return `${Math.round(parseInt(this.pagingLineHeight) * 0.2273)}px`;
-  }
   public static pagingPageLinkLegacyPaddingY = '0';
-  public static get pagingPageForwardLinkMarginTop() {
-    return `${Math.round(parseInt(this.pagingLineHeight) * 0.28125)}px`;
-  }
-  public static get pagingLineHeight() {
-    return this.controlLineHeightMedium;
-  }
+  public static pagingPageForwardLinkMarginTop = '0.35em';
+  public static pagingLineHeight = '1.375em';
+  public static pagingPageLinkPaddingX = '0.625em';
+  public static pagingPageLinkPaddingY = '0.3125em';
+  public static pagingPageLinkMinWidth = '0.75em';
   public static pagingPageLinkHintFontSize = '12px';
   public static pagingPageLinkHintLineHeight = '16px';
+  public static pagingPageLinkBorderRadius = '50%';
+  public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardIconSize() {
     return this.pagingFontSize;
   }

@@ -73,13 +73,13 @@ const styles = {
 
   pageLink(t: Theme) {
     return css`
-      border-radius: 50%;
+      border-radius: ${t.pagingPageLinkBorderRadius};
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: block;
       font-size: ${t.pagingFontSize};
       line-height: ${t.pagingLineHeight};
-      margin: 2px 1px;
+      margin: ${t.pagingPageLinkMargin};
       outline: none;
       min-width: ${t.pagingPageLinkMinWidth};
       padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX}
