@@ -77,7 +77,7 @@ export const buttonActiveMixin = (
   selectorActive: string,
   selectorArrow: string,
   selectorArrowTop: string,
-  arrowActiveShadowGradient: string,
+  arrowBgImage: string,
 ) => {
   return css`
     &:active,
@@ -92,7 +92,7 @@ export const buttonActiveMixin = (
         box-shadow: ${borderWidth} 0 0 ${borderColor};
 
         &${selectorArrowTop} {
-          background-image: ${arrowActiveShadowGradient} !important;
+          background-image: ${arrowBgImage} !important;
         }
       }
     }

@@ -10,7 +10,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static borderColorFocus = '#1d85d0';
   //#endregion
   //#region Button
-  public static btnHeightShift = '0';
   public static btnLinkBorderRadius = '2px';
   public static btnBorderRadiusSmall = '2px';
   public static btnBorderRadiusMedium = '2px';
@@ -23,8 +22,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnArrowBgImageActive = 'none';
   public static btnArrowBgImageChecked = 'none';
-  public static arrowActiveShadowGradient = 'none';
-  public static arrowCheckedShadowGradient = 'none';
   public static get btnDisabledBorderColor() {
     return this.bgDisabled;
   }
@@ -127,9 +124,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnPayActiveShadow = 'none';
   public static btnFontSizeMedium = '16px';
-  public static get btnFocusBorder() {
-    return `${this.btnBorderWidth} solid ${this.borderColorFocus}`;
-  }
   public static get btnDefaultCheckedBorderColor() {
     return this.btnCheckedBg;
   }
