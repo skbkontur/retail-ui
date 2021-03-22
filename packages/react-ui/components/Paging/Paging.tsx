@@ -140,7 +140,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         <span
           tabIndex={0}
           data-tid={this.props['data-tid']}
-          className={jsStyles.paging()}
+          className={jsStyles.paging(this.theme)}
           onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}

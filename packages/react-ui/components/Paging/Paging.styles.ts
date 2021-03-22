@@ -3,10 +3,12 @@ import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  paging() {
+  paging(t: Theme) {
     return css`
       user-select: none;
       outline: 0;
+      font-size: ${t.pagingFontSize};
+      line-height: ${t.pagingLineHeight};
     `;
   },
 
@@ -14,8 +16,6 @@ const styles = {
     return css`
       color: ${t.pagingDotsColor};
       display: inline-block;
-      font-size: ${t.pagingFontSize};
-      line-height: ${t.pagingLineHeight};
       padding: ${t.pagingDotsPadding};
     `;
   },
@@ -25,8 +25,6 @@ const styles = {
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: inline-block;
-      font-size: ${t.pagingFontSize};
-      line-height: ${t.pagingLineHeight};
       margin-top: ${t.pagingPageForwardLinkMarginTop};
       margin-left: ${t.pagingPageForwardLinkMarginLeft};
       outline: none;
@@ -63,8 +61,8 @@ const styles = {
 
   pageLinkWrapper() {
     return css`
-      display: inline-block;
-      font-size: 0;
+      display: inline-flex;
+      flex-flow: column nowrap;
       text-align: center;
       user-select: none;
       vertical-align: top;
@@ -77,8 +75,6 @@ const styles = {
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: block;
-      font-size: ${t.pagingFontSize};
-      line-height: ${t.pagingLineHeight};
       margin: ${t.pagingPageLinkMargin};
       outline: none;
       min-width: ${t.pagingPageLinkMinWidth};
