@@ -65,7 +65,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   public static propTypes = {};
 
-  private span: Nullable<HTMLSpanElement>;
+  private spanEl = React.createRef<HTMLSpanElement>();
 
   public static defaultProps = {
     onOpen: () => undefined,
@@ -87,14 +87,14 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
    */
   public focus() {
     tabListener.isTabPressed = true;
-    this.span?.focus();
+    this.spanEl.current?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    this.span?.blur();
+    this.spanEl.current?.blur();
   }
 
   private theme!: Theme;
@@ -184,7 +184,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           [styles.disabled()]: disabled,
           [styles.focused(this.theme)]: this.state.focusedByTab,
         })}
-        ref={this.spanRef}
+        ref={this.spanEl}
       >
         {this.renderIcon()}
       </span>
@@ -215,7 +215,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         if (this.state.opened) {
           this.props.onOpen();
         } else {
-          this.props.onBlur?.();
+          !restoreFocus && this.props.onBlur?.();
           this.props.onClose();
         }
       },
@@ -231,7 +231,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           this.setState({ focusedByTab: true });
         }
       });
-      this.props.onFocus?.();
+      !this.state.opened && this.props.onFocus?.();
     }
   };
 
@@ -242,10 +242,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     if (!this.state.opened) {
       this.props.onBlur?.();
     }
-  };
-
-  private spanRef = (ref: HTMLSpanElement | null) => {
-    this.span = ref;
   };
 
   private renderIcon() {
