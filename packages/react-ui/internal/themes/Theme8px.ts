@@ -461,12 +461,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Tooltip
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
-  public static get tooltipPinOffset() {
-    return this.popupPinOffset;
-  }
-  public static get tooltipMargin() {
-    return this.popupMargin;
-  }
+  public static tooltipMargin = '16px';
+  public static tooltipPinOffset = '0px';
+  public static tooltipPinHorizontalEdgesOffset = '16px';
+  public static tooltipPinVerticalEdgesOffset = '20px';
   //#endregion
 }
 

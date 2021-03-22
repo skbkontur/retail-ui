@@ -423,6 +423,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           popupPosition={position}
           size={pinSize || parseInt(this.theme.popupPinSize)}
           offset={pinOffset || parseInt(this.theme.popupPinOffset)}
+          verticalEdgesOffset={parseInt(this.theme.popupPinVerticalEdgesOffset)}
+          horizontalEdgesOffset={parseInt(this.theme.popupPinHorizontalEdgesOffset)}
           borderWidth={hasShadow ? 1 : 0}
           backgroundColor={backgroundColor || this.theme.popupBackground}
           borderColor={borderColor || pinBorder}
@@ -529,12 +531,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const anchorSize = /top|bottom/.test(position.direction) ? anchorRect.width : anchorRect.height;
 
-    const { pinSize, pinOffset } = this.props;
+    const { pinSize } = this.props;
+
     return Math.max(
       0,
-      (pinOffset || parseInt(this.theme.popupPinOffset)) +
-        (pinSize || parseInt(this.theme.popupPinSize)) -
-        anchorSize / 2,
+      this.getPinOffset(position.align) + (pinSize || parseInt(this.theme.popupPinSize)) - anchorSize / 2,
     );
   }
 
@@ -542,6 +543,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const margin = this.props.margin || parseInt(this.theme.popupMargin);
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
+
+    console.log(popupOffset);
 
     switch (position.direction) {
       case 'top':
@@ -566,6 +569,24 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         };
       default:
         throw new Error(`Unexpected direction '${position.direction}'`);
+    }
+  }
+
+  private getPinOffset(align: string) {
+    const { pinOffset } = this.props;
+
+    switch (align) {
+      case 'top':
+      case 'bottom':
+        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinVerticalEdgesOffset);
+      case 'left':
+      case 'right':
+        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinHorizontalEdgesOffset);
+      case 'center':
+      case 'middle':
+        return 0;
+      default:
+        throw new Error(`Unexpected align '${align}'`);
     }
   }
 
