@@ -19,6 +19,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<FileAttacherBasePro
 
       const newFiles = [...files];
       const file = files[fileIndex];
+
       newFiles[fileIndex] = {
         ...file,
         validationResult: ValidationResult.error(message)
@@ -76,7 +77,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<FileAttacherBasePro
   );
 };
 
-UploadFilesProvider.displayName = "UploadFilesProvider";
+UploadFilesProvider.displayName = 'UploadFilesProvider';
 
 export const withUploadFilesProvider = <TProps extends FileAttacherBaseProps>(WrappedComponent: ComponentType<TProps>) => (props: TProps) => (
   <UploadFilesProvider {...props}>

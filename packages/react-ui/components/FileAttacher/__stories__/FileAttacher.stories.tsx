@@ -13,6 +13,10 @@ export const MultipleFileAttacher = () => (
   <FileAttacher multiple />
 );
 
-export const FileAttacherWithPngFileType = () => (
-  <FileAttacher multiple allowedFileTypes={['image/png']} />
+export const SingleFileAttacherWithErrorControl = () => (
+  <FileAttacher controlError={'Выберите файл'} />
+);
+
+export const MultipleFileAttacherWithErrorControl = () => (
+  <FileAttacher multiple controlError={'Выберите файл'} />
 );
