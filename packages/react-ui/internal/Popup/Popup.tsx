@@ -405,7 +405,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private renderPin(position: string): React.ReactNode {
+  private renderPin(positionName: string): React.ReactNode {
     /**
      * Box-shadow does not appear under the pin. Borders are used instead.
      * In non-ie browsers drop-shadow filter is used. It is applying
@@ -414,17 +414,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
-    const { pinSize, hasShadow, backgroundColor, borderColor, pinOffset } = this.props;
+    const { pinSize, hasShadow, backgroundColor, borderColor } = this.props;
+    const position = PopupHelper.getPositionObject(positionName);
 
     return (
       this.props.hasPin && (
         <PopupPin
           popupElement={this.lastPopupElement}
-          popupPosition={position}
+          popupPosition={positionName}
           size={pinSize || parseInt(this.theme.popupPinSize)}
-          offset={pinOffset || parseInt(this.theme.popupPinOffset)}
-          verticalEdgesOffset={parseInt(this.theme.popupPinVerticalEdgesOffset)}
-          horizontalEdgesOffset={parseInt(this.theme.popupPinHorizontalEdgesOffset)}
+          offset={this.getPinOffset(position.align)}
           borderWidth={hasShadow ? 1 : 0}
           backgroundColor={backgroundColor || this.theme.popupBackground}
           borderColor={borderColor || pinBorder}
@@ -544,8 +543,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
-    console.log(popupOffset);
-
     switch (position.direction) {
       case 'top':
         return {
@@ -578,10 +575,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     switch (align) {
       case 'top':
       case 'bottom':
-        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinVerticalEdgesOffset);
+        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinOffsetY);
       case 'left':
       case 'right':
-        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinHorizontalEdgesOffset);
+        return pinOffset || parseInt(this.theme.popupPinOffset) || parseInt(this.theme.popupPinOffsetX);
       case 'center':
       case 'middle':
         return 0;

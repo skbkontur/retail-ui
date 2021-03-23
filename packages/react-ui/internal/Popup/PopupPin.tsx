@@ -20,8 +20,6 @@ interface Props {
   borderColor: string;
   borderWidth: number;
   offset: number;
-  horizontalEdgesOffset?: number;
-  verticalEdgesOffset?: number;
   popupElement: Nullable<HTMLElement>;
   popupPosition: string;
   size: number;
@@ -250,30 +248,26 @@ export class PopupPin extends React.Component<Props> {
   }
 
   private getPinTopCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
-    const currentPinOffset = pinOffset || this.props.verticalEdgesOffset || 0;
-
     switch (align) {
       case 'top':
-        return currentPinOffset;
+        return pinOffset;
       case 'middle':
         return popupRect.height / 2 - pinHeight;
       case 'bottom':
-        return popupRect.height - currentPinOffset - 2 * pinHeight;
+        return popupRect.height - pinOffset - 2 * pinHeight;
       default:
         throw new Error(`Unexpected align '${align}'`);
     }
   }
 
   private getPinLeftCoordinate(popupRect: Rect, align: string, pinHeight: number, pinOffset: number) {
-    const currentPinOffset = pinOffset || this.props.horizontalEdgesOffset || 0;
-
     switch (align) {
       case 'left':
-        return currentPinOffset;
+        return pinOffset;
       case 'center':
         return popupRect.width / 2 - pinHeight;
       case 'right':
-        return popupRect.width - currentPinOffset - 2 * pinHeight;
+        return popupRect.width - pinOffset - 2 * pinHeight;
       default:
         throw new Error(`Unexpected align '${align}'`);
     }

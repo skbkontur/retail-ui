@@ -674,13 +674,13 @@ export class DefaultTheme {
   public static get tooltipBorderRadius() {
     return this.popupBorderRadius;
   }
-  public static tooltipPinOffset = '0px';
+  public static tooltipPinOffset = '0px'; // deprecated
+  public static tooltipPinOffsetX = '17px';
+  public static tooltipPinOffsetY = '17px';
   public static tooltipMargin = '15px';
   public static get tooltipPinSize() {
     return this.popupPinSize;
   }
-  public static tooltipPinHorizontalEdgesOffset = '17px';
-  public static tooltipPinVerticalEdgesOffset = '17px';
   //#endregion
   //#region Modal
   public static modalBackBg = '#333';
@@ -830,10 +830,9 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
-  // DEPRECATED VARIABLE NEED TO REMOVE IN THE FUTURE
-  public static popupPinOffset = '0';
-  public static popupPinHorizontalEdgesOffset = '16px';
-  public static popupPinVerticalEdgesOffset = '16px';
+  public static popupPinOffset = '0'; // deprecated
+  public static popupPinOffsetX = '16px';
+  public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
   //#endregion

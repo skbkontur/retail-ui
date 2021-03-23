@@ -462,9 +462,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
   public static tooltipMargin = '16px';
-  public static tooltipPinOffset = '0px';
-  public static tooltipPinHorizontalEdgesOffset = '16px';
-  public static tooltipPinVerticalEdgesOffset = '20px';
+  public static tooltipPinOffset = '0px'; // deprecated
+  public static tooltipPinOffsetX = '16px';
+  public static tooltipPinOffsetY = '20px';
   //#endregion
 }
 
