@@ -147,4 +147,4 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   );
 };
 
-FileAttacherBase.displayName = "FileAttacherBase";
+FileAttacherBase.displayName = 'FileAttacherBase';

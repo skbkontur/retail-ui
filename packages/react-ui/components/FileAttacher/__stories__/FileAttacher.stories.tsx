@@ -13,10 +13,6 @@ export const MultipleFileAttacher = () => (
   <FileAttacher multiple />
 );
 
-export const SingleFileAttacherWithErrorControl = () => (
+export const FileAttacherWithErrorControl = () => (
   <FileAttacher controlError={'Выберите файл'} />
-);
-
-export const MultipleFileAttacherWithErrorControl = () => (
-  <FileAttacher multiple controlError={'Выберите файл'} />
 );
