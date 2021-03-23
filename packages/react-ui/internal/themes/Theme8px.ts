@@ -461,7 +461,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Hint
   public static hintBorder = 'none';
   public static hintBorderRadius = '2px';
-  public static hintMargin = '8px';
+  public static hintMargin = '16px';
   //#endregion
 }
 
