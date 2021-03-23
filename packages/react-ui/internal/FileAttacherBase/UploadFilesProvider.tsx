@@ -1,33 +1,21 @@
-import React, { ComponentType, PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import React, { ComponentType, PropsWithChildren, useCallback, useState } from 'react';
 import { useContextValue } from '../../hooks/useContextValue';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 import { UploadFilesContext } from './UploadFilesContext';
-import { FileAttacherBaseProps } from './FileAttacherBase';
+import { FileAttacherBaseProps, FileError } from './FileAttacherBase';
 import { ValidationResult } from './ValidationResult';
 
-// FIXME @mozalov: вынести валидацию вне файла
+interface IUploadFilesProviderProps {
+  // FIXME @mozalov: а нужно ли оно?
+  onChange?: (files: IUploadFile[]) => void;
+  fileError?: FileError[];
+}
+// FIXME @mozalov: вынести валидацию вне файла или нет? (возможна нужна для того, чтобы вне контрола понимали состояние валидности)
 
-export const UploadFilesProvider = (props: PropsWithChildren<FileAttacherBaseProps>) => {
+export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProviderProps>) => {
   const {children, onChange, fileError = []} = props;
 
   const [files, setFiles] = useState<IUploadFile[]>([]);
-
-  useEffect(() => {
-    fileError.forEach(({fileId, message}) => {
-      const fileIndex = files.findIndex(file => file.id === fileId);
-      if (fileIndex === -1) return;
-
-      const newFiles = [...files];
-      const file = files[fileIndex];
-
-      newFiles[fileIndex] = {
-        ...file,
-        validationResult: ValidationResult.error(message)
-      };
-
-      setFiles(newFiles);
-    });
-  }, [fileError]);
 
   const setFileStatus = useCallback((fileId: string, status: UploadFileStatus) => {
     setFiles(files => {

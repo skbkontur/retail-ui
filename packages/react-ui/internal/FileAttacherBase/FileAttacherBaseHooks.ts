@@ -1,4 +1,7 @@
-import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { FileError } from './FileAttacherBase';
+import { ValidationResult } from './ValidationResult';
+import { UploadFilesContext } from './UploadFilesContext';
 
 interface IUseDropProps {
   onDrop: (event: Event) => void;
@@ -64,4 +67,25 @@ export const useDrop = (props: IUseDropProps): IUseDropResult => {
   }, []);
 
   return {isDraggable, ref: droppableRef};
+};
+
+export const useValidationSetter = (fileErrors: FileError[]) => {
+  const {setFiles, files} = useContext(UploadFilesContext);
+
+  useEffect(() => {
+    fileErrors.forEach(({fileId, message}) => {
+      const fileIndex = files.findIndex(file => file.id === fileId);
+      if (fileIndex === -1) return;
+
+      const newFiles = [...files];
+      const file = files[fileIndex];
+
+      newFiles[fileIndex] = {
+        ...file,
+        validationResult: ValidationResult.error(message)
+      };
+
+      setFiles(newFiles);
+    });
+  }, [fileErrors]);
 };
