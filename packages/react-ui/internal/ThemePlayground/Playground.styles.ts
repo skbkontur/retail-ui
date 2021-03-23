@@ -124,7 +124,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  content() {
+  tooltipContent() {
     return css`
       width: 210px;
     `;
