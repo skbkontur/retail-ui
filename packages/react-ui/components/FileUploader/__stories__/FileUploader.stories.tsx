@@ -44,3 +44,8 @@ export const MultipleFileUploaderWithErrorRequest = () => (
 export const MultipleFileUploaderWithControlError = () => (
   <FileUploader multiple controlError={"Файлов должно быть меньше 2"} request={loadingRequest} />
 );
+
+export const MultipleFileUploaderWithFileError = () => (
+  <FileUploader multiple request={successRequest} fileValidation={() => Promise.resolve("Формат файла неверный")} />
+);
+

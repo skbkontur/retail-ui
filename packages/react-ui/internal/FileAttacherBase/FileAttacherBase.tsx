@@ -38,14 +38,12 @@ export interface FileAttacherBaseProps {
   id?: string;
   multiple?: boolean;
 
+  // FIXME @mozalov: а нужно ли оно?
   onChange?: (files: IUploadFile[]) => void;
   controlError?: ReactNode;
 
   onSelect?: (files: IUploadFile[]) => void;
   onReadError?: (files: IUploadFile[]) => void;
-
-  // TODO @mozalov: только для аттача и внутреннего компонента
-  fileError?: FileError[];
 }
 
 export const FileAttacherBase = (props: FileAttacherBaseProps) => {
@@ -73,6 +71,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     const readErrorFiles = uploadFiles.filter(v => !v.fileInBase64);
 
     onSelect && onSelect(selectedFiles);
+    // FIXME @mozalov: обработать onReadError в провайдере, чтобы файлы попали в state files
     onReadError && onReadError(readErrorFiles);
 
     setFiles(uploadFiles);
