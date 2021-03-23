@@ -478,6 +478,11 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
+  //#region Hint
+  public static hintBorder = 'none';
+  public static hintBorderRadius = '2px';
+  public static hintMargin = '16px';
+  //#endregion
   //#region Modal
   public static modalCloseButtonPadding = '36px';
   public static modalCloseIconSize = '12px';

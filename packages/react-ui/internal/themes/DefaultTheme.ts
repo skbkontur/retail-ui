@@ -796,6 +796,29 @@ export class DefaultTheme {
     return this.linkDisabledColor;
   }
   //#endregion
+  //#region Hint
+  public static get hintColor() {
+    return this.textColorInvert;
+  }
+  public static get hintFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get hintLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static hintMaxWidth = '200px';
+  public static hintPaddingY = '6px';
+  public static hintPaddingX = '8px';
+  public static hintTextAlign = 'center';
+  public static get hintBorder() {
+    return this.popupBorder;
+  }
+  public static get hintBorderRadius() {
+    return this.popupBorderRadius;
+  }
+  public static hintPinOffset = '8px';
+  public static hintMargin = '15px';
+  //#endregion
   //#region Toast
   public static get toastFontSize() {
     return this.fontSizeSmall;
