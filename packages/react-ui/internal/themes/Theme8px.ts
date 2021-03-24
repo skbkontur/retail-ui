@@ -422,6 +422,26 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
+  //#region Paging
+  public static get pagingFontSize() {
+    return this.fontSizeMedium;
+  }
+  public static pagingPageLinkLegacyPaddingY = '0';
+  public static pagingPageForwardLinkMarginTop = '0.35em';
+  public static pagingLineHeight = '1.375em';
+  public static pagingPageLinkPaddingX = '0.625em';
+  public static pagingPageLinkPaddingY = '0.3125em';
+  public static pagingPageLinkMinWidth = '0.75em';
+  public static pagingPageLinkHintFontSize = '12px';
+  public static pagingPageLinkHintLineHeight = '16px';
+  public static pagingPageLinkBorderRadius = '50%';
+  public static pagingPageLinkMargin = '0px 1px';
+  public static get pagingForwardIconSize() {
+    return this.pagingFontSize;
+  }
+  public static pagingForwardIconMarginTop = '1px';
+  public static pagingPageForwardLinkPaddingRight = '1.375em';
+  public static pagingDotsPadding = '0.375em 0.625em 0';
   //#endregion
   //#region Switcher
   public static get switcherOutlineWidth() {
@@ -465,6 +485,73 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tooltipPinOffset = '0px'; // deprecated
   public static tooltipPinOffsetX = '16px';
   public static tooltipPinOffsetY = '18px';
+  //#endregion
+  //#region Hint
+  public static hintBorder = 'none';
+  public static hintBorderRadius = '2px';
+  public static hintMargin = '16px';
+  //#endregion
+  //#region Modal
+  public static modalCloseButtonPadding = '36px';
+  public static modalCloseIconSize = '12px';
+
+  public static modalCloseLegacyGap = '0px';
+  public static modalCloseWrapperLegacyGap = '0px';
+  public static modalCloseButtonLegacyShift = '0px';
+  public static modalPaddingTop = '24px';
+
+  public static modalPaddingLeft = '32px';
+  public static modalPaddingRight = '36px';
+  public static modalHeaderFontSize = '24px';
+  public static modalHeaderLineHeight = '32px';
+  public static modalHeaderPaddingBottom = '16px';
+  public static get modalFixedHeaderPaddingBottom() {
+    return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
+  }
+  public static modalBodyPaddingBottom = '24px';
+  public static modalFooterPaddingBottom = '32px';
+  public static modalPaddingBottom = '40px';
+  //#endregion
+  //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toastLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '16px';
+  public static toastTop = '24px';
+  public static toastClosePadding = '16px';
+  //#endregion
+  //#region Menu
+  public static get menuItemLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static menuItemIconLegacyMargin = '0px';
+  public static menuItemIconLegacyShift = '0px';
+  public static menuItemLegacyPaddingX = '0px';
+  public static menuItemLegacyPaddingY = '0px';
+  public static menuItemIconGap = '4px';
+  public static menuHeaderLineHeight = '16px';
+  public static menuHeaderPaddingX = '8px';
+  public static menuPaddingY = '4px';
+  public static menuHeaderPaddingTop = '12px';
+  public static menuHeaderPaddingBottom = '4px';
+  public static menuHeaderLegacyPaddingRight = '0px';
+  public static menuSeparatorMarginY = '2px';
+  public static menuSeparatorBorderWidth = '1px';
+  //#endregion
+  //#region TooltipMenu
+  public static get tooltipMenuPinOffset() {
+    return this.popupPinOffset;
+  }
+  //#endregion
+  //#region Kebab
+  public static get kebabPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static kebabMargin = '4px';
   //#endregion
 }
 

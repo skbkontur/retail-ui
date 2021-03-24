@@ -79,18 +79,18 @@ const styles = {
   },
 
   close(t: Theme) {
-    const iconSize = 14;
     const margin = 0;
-    const paddingTop = 35;
-    const paddingBottom = 20;
-    const blockSize = iconSize + paddingTop + paddingBottom;
+    const padding = parseInt(t.modalCloseButtonPadding);
+    const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding;
+    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       ${resetButton()};
       position: absolute;
       right: ${margin}px;
       top: ${margin}px;
-      width: ${blockSize}px;
-      height: ${blockSize}px;
+      width: ${blockSizeX}px;
+      height: ${blockSizeY}px;
       background: none;
       background: transparent;
       cursor: pointer;
@@ -104,20 +104,34 @@ const styles = {
       }
 
       & > svg {
-        width: ${iconSize}px;
-        height: ${iconSize}px;
-        padding: ${paddingTop}px ${paddingTop}px ${paddingBottom}px ${paddingBottom}px;
+        width: ${t.modalCloseIconSize};
+        height: ${t.modalCloseIconSize};
+        padding: ${padding}px ${padding}px ${paddingBottom}px;
         box-sizing: content-box;
       }
     `;
   },
 
-  closeWrapper() {
+  closeWrapper(t: Theme) {
+    const padding = parseInt(t.modalCloseButtonPadding);
+    const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
+    const legacyGap = parseInt(t.modalCloseWrapperLegacyGap);
+    const legacyShift = parseInt(t.modalCloseButtonLegacyShift);
+    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding - legacyShift;
+    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom + legacyGap;
     return css`
       position: relative;
       float: right;
-      width: 76px;
-      height: 76px;
+      width: ${blockSizeX + legacyGap}px;
+      height: ${blockSizeY}px;
+
+      & ${cssName(styles.close(t))} {
+        width: ${blockSizeX}px;
+
+        svg {
+          padding-left: ${padding - legacyShift}px;
+        }
+      }
     `;
   },
 
@@ -132,6 +146,7 @@ const styles = {
   },
 
   closeOutline(t: Theme) {
+    const padding = parseInt(t.modalCloseButtonPadding) - parseInt(t.modalCloseIconSize) / 2 - 2;
     return css`
       ${cssName(styles.close(t))} & {
         display: none;
@@ -141,10 +156,10 @@ const styles = {
         border: 2px solid ${t.borderColorFocus};
         position: absolute;
         display: block;
-        top: 27px;
-        right: 27px;
-        width: 26px;
-        height: 26px;
+        top: ${padding}px;
+        right: ${padding}px;
+        width: ${parseInt(t.modalCloseIconSize) * 2}px;
+        height: ${parseInt(t.modalCloseIconSize) * 2}px;
       }
     `;
   },
@@ -155,25 +170,34 @@ const styles = {
     `;
   },
 
-  header() {
+  header(t: Theme) {
     return css`
-      font-size: 22px;
-      line-height: 30px;
-      padding: 24px 35px 11px 30px;
+      font-size: ${t.modalHeaderFontSize};
+      line-height: ${t.modalHeaderLineHeight};
+      padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
     `;
   },
 
-  headerWithClose() {
+  body(t: Theme) {
     return css`
-      padding-right: 110px !important;
+      padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
     `;
   },
 
-  body() {
+  headerWithClose(t: Theme) {
+    const rightPadding =
+      2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseLegacyGap);
+
     return css`
-      padding: 0 35px 25px 30px;
+      padding-right: ${rightPadding}px;
+    `;
+  },
+
+  footer(t: Theme) {
+    return css`
+      padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
     `;
   },
 
@@ -183,18 +207,12 @@ const styles = {
     `;
   },
 
-  footer() {
-    return css`
-      padding: 0 35px 30px 30px;
-    `;
-  },
-
   panel(t: Theme) {
     return css`
-      ${cssName(styles.footer())}& {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        background: ${t.modalFooterBg};
+      ${cssName(styles.footer(t))}& {
+        padding-top: ${t.modalFooterPanelPaddingTop} !important;
+        padding-bottom: ${t.modalFooterPanelPaddingBottom} !important;
+        background: ${t.modalFooterBg} !important;
       }
     `;
   },
@@ -202,6 +220,7 @@ const styles = {
   fixedHeader(t: Theme) {
     return css`
       margin-bottom: 10px;
+      padding-bottom: ${t.modalFixedHeaderPaddingBottom};
       background: ${t.modalFixedHeaderBg};
 
       &:after {
@@ -219,9 +238,11 @@ const styles = {
 
   fixedFooter(t: Theme) {
     return css`
-      padding-top: 20px;
-      margin-top: 10px;
-      background: ${t.modalFixedHeaderBg};
+      ${cssName(styles.footer(t))}& {
+        padding-top: 20px;
+        margin-top: 10px;
+        background: ${t.modalFixedHeaderBg};
+      }
 
       &:before {
         top: 11px;
@@ -242,9 +263,9 @@ const styles = {
     `;
   },
 
-  bodyWithoutHeader() {
+  bodyWithoutHeader(t: Theme) {
     return css`
-      padding-top: 30px;
+      padding-top: ${t.modalPaddingTop} !important;
     `;
   },
 
@@ -254,9 +275,9 @@ const styles = {
     `;
   },
 
-  bodyAddPadding() {
+  bodyAddPaddingForPanel(t: Theme) {
     return css`
-      padding-bottom: 30px;
+      padding-bottom: ${t.modalPaddingBottom};
     `;
   },
 };
