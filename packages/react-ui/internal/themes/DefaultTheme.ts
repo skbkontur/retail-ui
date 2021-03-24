@@ -658,8 +658,24 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Tooltip
+  public static tooltipPaddingY = '15px';
+  public static tooltipPaddingX = '20px';
+  public static tooltipCloseBtnPadding = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
+  public static get tooltipBorder() {
+    return this.popupBorder;
+  }
+  public static get tooltipBorderRadius() {
+    return this.popupBorderRadius;
+  }
+  public static tooltipPinOffset = '0px'; // deprecated
+  public static tooltipPinOffsetX = '17px';
+  public static tooltipPinOffsetY = '17px';
+  public static tooltipMargin = '15px';
+  public static get tooltipPinSize() {
+    return this.popupPinSize;
+  }
   //#endregion
   //#region TooltipMenu
   public static tooltipMenuPinOffset = '15px';
@@ -958,7 +974,9 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
-  public static popupPinOffset = '16px';
+  public static popupPinOffset = '0'; // deprecated
+  public static popupPinOffsetX = '16px';
+  public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
   //#endregion

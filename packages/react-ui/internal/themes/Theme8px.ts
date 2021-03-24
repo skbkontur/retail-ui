@@ -478,6 +478,14 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
+  //#region Tooltip
+  public static tooltipPaddingY = '16px';
+  public static tooltipPaddingX = '16px';
+  public static tooltipMargin = '16px';
+  public static tooltipPinOffset = '0px'; // deprecated
+  public static tooltipPinOffsetX = '16px';
+  public static tooltipPinOffsetY = '18px';
+  //#endregion
   //#region Hint
   public static hintBorder = 'none';
   public static hintBorderRadius = '2px';
