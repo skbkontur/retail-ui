@@ -464,7 +464,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tooltipMargin = '16px';
   public static tooltipPinOffset = '0px'; // deprecated
   public static tooltipPinOffsetX = '16px';
-  public static tooltipPinOffsetY = '20px';
+  public static tooltipPinOffsetY = '18px';
   //#endregion
 }
 
