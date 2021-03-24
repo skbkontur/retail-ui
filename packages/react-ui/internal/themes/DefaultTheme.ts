@@ -702,16 +702,17 @@ export class DefaultTheme {
   public static sidePageHeaderFontSize = '22px';
   public static sidePageHeaderLineHeight = '30px';
   public static sidePageHeaderPaddingBottom = '25px';
+  public static sidePageHeaderPaddingTop = '25px';
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '24px';
-  public static sidePageHeaderFixedPadding = '13px';
-  public static sidePageCloseBtnPadding = '36px';
-  public static sidePageCloseBtnLeftPadding = '37px';
+  public static sidePageHeaderFixedPaddingY = '13px';
+  public static sidePageHeaderStickyOffset = '11px';
+  public static sidePageCloseButtonPadding = '36px';
+  public static sidePageCloseButtonLeftPadding = '37px';
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
-  public static sidePageCloseBtnExtraClickArea = '0px';
-
+  public static sidePageCloseButtonClickArea = '6px';
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';

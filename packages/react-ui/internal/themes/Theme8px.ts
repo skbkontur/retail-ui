@@ -475,12 +475,15 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
+  public static sidePageHeaderPaddingTop = '24px';
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '28px';
-  public static sidePageHeaderFixedPadding = '10px';
-  public static sidePageCloseBtnPadding = '36px';
+  public static sidePageHeaderFixedPaddingY = '10px';
+  public static sidePageHeaderStickyOffset = '7px';
   public static sidePageFooterPanelPaddingBottom = '20px';
-  public static sidePageCloseBtnLeftPadding = '20px';
+  public static sidePageCloseButtonPadding = '36px';
+  public static sidePageCloseButtonLeftPadding = '20px';
+  public static sidePageCloseButtonClickArea = '10px';
   //#endregion
 }
 

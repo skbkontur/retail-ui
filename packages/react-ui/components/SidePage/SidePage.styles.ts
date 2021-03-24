@@ -1,3 +1,4 @@
+import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -38,13 +39,13 @@ const styles = {
 
   bodyWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${t.sidePagePaddingTop} !important;
+      padding-top: ${is8pxTheme(t) ? t.sidePagePaddingTop : 0} !important;
     `;
   },
 
   bodyWithoutFooter(t: Theme) {
     return css`
-      padding-bottom: ${t.sidePagePaddingBottom} !important;
+      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0} !important;
     `;
   },
 
@@ -72,7 +73,7 @@ const styles = {
     return css`
       font-size: ${t.sidePageHeaderFontSize};
       line-height: ${t.sidePageHeaderLineHeight};
-      padding: ${t.sidePagePaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
+      padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       width: 100%;
       position: relative;
     `;
@@ -84,13 +85,15 @@ const styles = {
       box-shadow: 0 1px ${t.sidePageBorderColor};
       font-size: ${t.sidePageHeaderFixedFontSize};
       line-height: ${t.sidePageHeaderFixedLineHeight};
-      padding: ${t.sidePageHeaderFixedPadding} 0;
+      padding: ${t.sidePageHeaderFixedPaddingY} 0;
     `;
   },
 
   title(t: Theme) {
     const paddingRight =
-      parseInt(t.sidePageCloseBtnPadding) + parseInt(t.sidePageCloseBtnLeftPadding) + parseInt(t.sidePageCloseIconSize);
+      parseInt(t.sidePageCloseButtonPadding) +
+      parseInt(t.sidePageCloseButtonLeftPadding) +
+      parseInt(t.sidePageCloseIconSize);
     return css`
       padding-left: ${t.sidePagePaddingLeft};
       padding-right: ${paddingRight}px;
@@ -144,12 +147,12 @@ const styles = {
       color: ${t.sidePageCloseButtonColor};
       cursor: pointer;
       position: absolute;
-      right: ${t.sidePageCloseBtnPadding};
+      right: ${t.sidePageCloseButtonPadding};
       text-align: center;
       text-decoration: none;
       width: ${t.sidePageCloseIconSize};
-      padding: ${t.sidePageCloseBtnExtraClickArea};
-      margin: -${t.sidePageCloseBtnExtraClickArea};
+      padding: ${t.sidePageCloseButtonClickArea};
+      margin: -${t.sidePageCloseButtonClickArea};
 
       &:hover {
         color: ${t.sidePageCloseButtonHoverColor};

@@ -32,6 +32,9 @@ interface SampleProps {
   ignoreBackgroundClick?: boolean;
   blockBackground?: boolean;
   withContent?: boolean;
+  withLongBody?: boolean;
+  withoutFooter?: boolean;
+  withoutHeader?: boolean;
 }
 
 interface SampleState {
@@ -55,10 +58,12 @@ class Sample extends React.Component<SampleProps, SampleState> {
       ignoreBackgroundClick={this.props.ignoreBackgroundClick}
       blockBackground={this.props.blockBackground}
     >
-      <SidePage.Header>
-        Title
-        {this.props.total && this.props.total > 1 && ` ${this.props.current} / ${this.props.total}`}
-      </SidePage.Header>
+      {!this.props.withoutHeader && (
+        <SidePage.Header>
+          Title
+          {this.props.total && this.props.total > 1 && ` ${this.props.current} / ${this.props.total}`}
+        </SidePage.Header>
+      )}
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
           {this.props.total && this.props.current && this.props.total > this.props.current && (
@@ -79,18 +84,35 @@ class Sample extends React.Component<SampleProps, SampleState> {
           </div>
           {this.props.children}
           {this.props.withContent && (
-            <div>
+            <div
+              style={
+                this.props.withLongBody
+                  ? {
+                      background: `repeating-linear-gradient(
+                                60deg,
+                                #fafafa,
+                                #fafafa 20px,
+                                #dfdede 20px,
+                                #dfdede 40px
+                              )`,
+                      height: 2000,
+                    }
+                  : undefined
+              }
+            >
               {textSample}
               {textSample}
             </div>
           )}
         </div>
       </SidePage.Body>
-      <SidePage.Footer panel={this.state.panel}>
-        <Button size="large" onClick={this.close}>
-          Close
-        </Button>
-      </SidePage.Footer>
+      {!this.props.withoutFooter && (
+        <SidePage.Footer panel={this.state.panel}>
+          <Button size="large" onClick={this.close}>
+            Close
+          </Button>
+        </SidePage.Footer>
+      )}
     </SidePage>
   );
 
@@ -606,6 +628,54 @@ Simple.story = {
             .click(this.browser.findElement({ css: 'button' }))
             .perform();
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
+        },
+      },
+    },
+  },
+};
+
+export const BodyWithoutFooter: CSFStory<JSX.Element> = () => <Sample withoutFooter withContent withLongBody />;
+BodyWithoutFooter.story = {
+  name: 'Body without Footer',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['scroll to bottom']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await this.browser.executeScript(function() {
+            const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+            // @ts-ignore
+            sidepageContainer.scrollTop = 3000;
+          });
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom');
+        },
+      },
+    },
+  },
+};
+
+export const BodyWithoutHeader: CSFStory<JSX.Element> = () => <Sample withoutHeader withContent withLongBody />;
+BodyWithoutHeader.story = {
+  name: 'Body without Header',
+  parameters: {
+    creevey: {
+      tests: {
+        async ['open side-page without header']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: 'button' }))
+            .perform();
+          await delay(100);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page without header');
         },
       },
     },

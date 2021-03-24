@@ -18,7 +18,6 @@ export interface SidePageBodyProps extends CommonProps {
  */
 export class SidePageBody extends React.Component<SidePageBodyProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageBody';
-  public static __SIDEPAGE_BODY__ = true;
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
