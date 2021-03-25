@@ -172,7 +172,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
             data-tid="SidePage__container"
-            className={cn(jsStyles.container(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
+            className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
             <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
@@ -189,6 +189,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private getSidePageContextProps = (): SidePageContextType => {
     let hasHeader = false;
     let hasFooter = false;
+    let hasPanel = false;
 
     React.Children.toArray(this.props.children).forEach(child => {
       if (isHeader(child)) {
@@ -196,12 +197,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       }
       if (isFooter(child)) {
         hasFooter = true;
+        if (child.props.panel) {
+          hasPanel = true;
+        }
       }
     });
 
     const sidePageContextProps: SidePageContextType = {
       hasHeader,
       hasFooter,
+      hasPanel,
       requestClose: this.requestClose,
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,

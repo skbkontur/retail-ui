@@ -58,17 +58,14 @@ export const isExternalLink = (link: string): boolean => {
   return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
 };
 
-/**
- * Specific check for component type by its instance
- */
-export const isReactUIComponent = (componentName: string, component: React.ReactNode | React.Component) => {
-  if (component && component.constructor) {
-    const { constructor } = component;
+export const isReactUIComponent = (componentName: string, node: React.ReactNode): boolean => {
+  if (React.isValidElement(node)) {
     return (
-      Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
+      Object.prototype.hasOwnProperty.call(node.type, '__KONTUR_REACT_UI__') &&
       // @ts-ignore
-      constructor.__KONTUR_REACT_UI__ === componentName
+      node.type.__KONTUR_REACT_UI__ === componentName
     );
   }
+
   return false;
 };

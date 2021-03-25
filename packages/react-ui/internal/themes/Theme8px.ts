@@ -483,7 +483,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePagePaddingLeft = '32px';
   public static sidePagePaddingRight = '36px';
   public static sidePagePaddingTop = '24px';
-  public static sidePagePaddingBottom = '32px';
+  public static sidePagePaddingBottom = '40px';
   public static sidePageBodyPaddingBottom = '24px';
   public static get sidePageBgDefault() {
     return this.bgDefault;
@@ -501,8 +501,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFixedPaddingY = '10px';
   public static sidePageHeaderStickyOffset = '7px';
   public static sidePageFooterPanelPaddingBottom = '20px';
+  public static sidePageFooterPaddingTop = '24px';
+  public static sidePageFooterPaddingBottom = '32px';
   public static sidePageCloseButtonPadding = '36px';
-  public static sidePageCloseButtonLeftPadding = '20px';
+  public static sidePageCloseButtonLegacyPaddingLeft = '36px';
   public static sidePageCloseButtonClickArea = '10px';
   //#endregion
   //#region Tooltip
