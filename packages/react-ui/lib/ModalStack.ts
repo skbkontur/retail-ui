@@ -3,7 +3,6 @@ import EventEmitter from 'eventemitter3';
 
 import { SidePageProps } from '../components/SidePage';
 import { ModalProps } from '../components/Modal';
-import { isReactUIComponent } from '../lib/utils';
 
 interface StackInfo {
   emitter: EventEmitter;
@@ -93,9 +92,21 @@ export class ModalStack {
 }
 
 const isSidePage = (component: React.Component): component is React.Component<SidePageProps> => {
-  return isReactUIComponent('SidePage', component);
+  return isReactUIInstance('SidePage', component);
 };
 
 const isModal = (component: React.Component): component is React.Component<ModalProps> => {
-  return isReactUIComponent('Modal', component);
+  return isReactUIInstance('Modal', component);
+};
+
+/**
+ * Specific check for component type by its instance
+ */
+const isReactUIInstance = (componentName: string, instance: React.Component) => {
+  const { constructor } = instance;
+  return (
+    Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
+    // @ts-ignore
+    constructor.__KONTUR_REACT_UI__ === componentName
+  );
 };

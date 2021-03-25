@@ -58,7 +58,10 @@ export const isExternalLink = (link: string): boolean => {
   return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
 };
 
-export const isReactUIComponent = (componentName: string, node: React.ReactNode): boolean => {
+/**
+ * Check if the given ReactNode is an element of the specified ReactUI component
+ */
+export const isReactUINode = (componentName: string, node: React.ReactNode): boolean => {
   if (React.isValidElement(node)) {
     return (
       Object.prototype.hasOwnProperty.call(node.type, '__KONTUR_REACT_UI__') &&
