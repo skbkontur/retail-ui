@@ -130,7 +130,7 @@ const styles = {
 
   shadow(t: Theme) {
     return css`
-      ${cssName(styles.container(t))}& {
+      ${cssName(styles.wrapper(t))}& {
         box-shadow: ${t.sidePageContainerShadow};
       }
     `;
@@ -141,7 +141,7 @@ const styles = {
       left: 0;
       right: auto;
 
-      & ${cssName(styles.container(t))} {
+      & ${cssName(styles.wrapper(t))} {
         float: left;
       }
     `;
