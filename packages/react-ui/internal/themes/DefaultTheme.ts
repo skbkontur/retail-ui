@@ -742,7 +742,6 @@ export class DefaultTheme {
   public static sidePagePaddingBottom = '20px';
   public static sidePageFooterPaddingTop = '20px';
   public static sidePageFooterPaddingBottom = '20px';
-  public static sidePageBodyPaddingBottom = '0px';
   public static get sidePageBgDefault() {
     return this.bgDefault;
   }

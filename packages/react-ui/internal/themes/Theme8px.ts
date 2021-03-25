@@ -484,7 +484,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePagePaddingRight = '36px';
   public static sidePagePaddingTop = '24px';
   public static sidePagePaddingBottom = '40px';
-  public static sidePageBodyPaddingBottom = '24px';
   public static get sidePageBgDefault() {
     return this.bgDefault;
   }
