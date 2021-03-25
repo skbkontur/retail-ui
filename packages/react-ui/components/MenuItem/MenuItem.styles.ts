@@ -3,14 +3,21 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
 const styles = {
-  root() {
+  root(t: Theme) {
+    const legacyPaddingX = parseFloat(t.menuItemLegacyPaddingX);
+    const legacyPaddingY = parseFloat(t.menuItemLegacyPaddingY);
+
+    const paddingX = legacyPaddingX !== 0 ? `${parseFloat(t.menuItemPaddingX) + legacyPaddingX}px` : t.menuItemPaddingX;
+    const paddingY = legacyPaddingY !== 0 ? `${parseFloat(t.menuItemPaddingY) + legacyPaddingY}px` : t.menuItemPaddingY;
+
     return css`
       ${resetButton()};
 
       cursor: pointer;
       display: block;
-      line-height: 18px;
-      padding: 6px 18px 7px 8px;
+      line-height: ${t.menuItemLineHeight};
+      font-size: ${t.menuItemFontSize};
+      padding: ${t.menuItemPaddingY} ${paddingX} ${paddingY} ${t.menuItemPaddingX};
       position: relative;
       text-decoration: none;
 
@@ -19,28 +26,29 @@ const styles = {
       }
     `;
   },
+
   hover(t: Theme) {
     // Color with !important in purpose to override `a:hover`
     return css`
-      background: ${t.dropdownMenuHoverBg};
-      color: ${t.textColorInvert} !important;
+      background: ${t.menuItemHoverBg} !important;
+      color: ${t.menuItemHoverColor} !important;
     `;
   },
   selected(t: Theme) {
     return css`
-      background: ${t.dropdownMenuSelectedBg};
+      background: ${t.menuItemSelectedBg};
     `;
   },
   disabled(t: Theme) {
     return css`
-      background: transparent;
-      color: ${t.textColorDisabled};
-      cursor: default;
+      background: transparent !important;
+      color: ${t.menuItemDisabledColor} !important;
+      cursor: default !important;
     `;
   },
   link(t: Theme) {
     return css`
-      color: ${t.linkColor};
+      color: ${t.menuItemLinkColor};
     `;
   },
   loose() {
@@ -50,29 +58,29 @@ const styles = {
   },
   withIcon(t: Theme) {
     return css`
-      & {
-        padding-left: ${t.menuItemPaddingForIcon};
-      }
+      padding-left: ${t.menuItemPaddingForIcon} !important;
     `;
   },
-  comment() {
+  comment(t: Theme) {
     return css`
-      color: #a0a0a0;
+      color: ${t.menuItemCommentColor};
       white-space: normal;
     `;
   },
-  commentHover() {
+  commentHover(t: Theme) {
     return css`
-      color: #fff;
+      color: ${t.menuItemCommentColorHover};
       opacity: 0.6;
     `;
   },
-  icon() {
+  icon(t: Theme) {
     return css`
+      width: ${t.menuItemIconWidth};
       display: inline-block;
       position: absolute;
-      left: 15px;
-      top: 5px;
+      left: ${parseInt(t.menuItemPaddingX) + parseInt(t.menuItemIconLegacyMargin)}px;
+      top: ${t.menuItemPaddingY};
+      transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
 };

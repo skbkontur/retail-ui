@@ -13,12 +13,14 @@ import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
+const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
 export interface TextareaProps
   extends CommonProps,
@@ -85,6 +87,16 @@ export interface TextareaProps
          * ```
          * */
         counterHelp?: ReactNode | (() => ReactNode);
+
+        /** Добавлять дополнительную свободную строку при авто-ресайзе.
+         * @see https://guides.kontur.ru/components/textarea/#04
+         * */
+        extraRow: boolean;
+
+        /** Отключать анимацию при авто-ресайзе.
+         * Автоматически отключается когда в `extraRow` передан `false`.
+         */
+        disableAnimations: boolean;
       }
     > {}
 
@@ -110,6 +122,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     disabled: PropTypes.bool,
 
     autoResize: PropTypes.bool,
+    extraRow: PropTypes.bool,
+    disableAnimations: PropTypes.bool,
     maxRows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     resize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -159,6 +173,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static defaultProps = {
     rows: 3,
     maxRows: 15,
+    extraRow: true,
+    disableAnimations: isTestEnv,
   };
 
   public state = {
@@ -178,6 +194,14 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
   private textareaObserver = isBrowser ? new MutationObserver(this.reflowCounter) : null;
+  private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
+    // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
+    // Поэтому выставляем таймаут троттла в ноль. Подробности - https://github.com/skbkontur/retail-ui/issues/2120
+    return this.isAnimationsDisabled(props) ? 0 : AUTORESIZE_THROTTLE_DEFAULT_WAIT;
+  }
+  private isAnimationsDisabled({ disableAnimations, extraRow }: TextareaProps = this.props): boolean {
+    return disableAnimations || !extraRow;
+  }
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -200,6 +224,10 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public componentDidUpdate(prevProps: TextareaProps) {
+    if (this.getAutoResizeThrottleWait() !== this.getAutoResizeThrottleWait(prevProps)) {
+      this.autoResize.cancel();
+      this.autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
+    }
     if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
       this.autoResize();
     }
@@ -275,6 +303,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       showLengthCounter,
       lengthCounter,
       counterHelp,
+      extraRow,
+      disableAnimations,
       ...textareaProps
     } = props;
 
@@ -290,6 +320,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       [jsStyles.textarea(this.theme)]: true,
       [jsStyles.error(this.theme)]: !!error,
       [jsStyles.warning(this.theme)]: !!warning,
+      [jsStyles.disableAnimations()]: this.isAnimationsDisabled(),
     });
 
     const textareaStyle = {
@@ -408,7 +439,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.counter = ref;
   };
 
-  private autoResize = throttle(() => {
+  private autoResizeHandler = () => {
     const fakeNode = this.fakeNode;
     if (!fakeNode) {
       return;
@@ -421,19 +452,22 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeNode.value = node.value;
     }
 
-    const { rows, maxRows } = this.props;
+    const { rows, maxRows, extraRow } = this.props;
     if (rows === undefined || maxRows === undefined) {
       return;
     }
-    const { height, exceededMaxHeight } = getTextAreaHeight(
-      fakeNode,
-      typeof rows === 'number' ? rows : parseInt(rows, 10),
-      typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-    );
+    const { height, exceededMaxHeight } = getTextAreaHeight({
+      node: fakeNode,
+      minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
+      maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
+      extraRow,
+    });
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
     fakeNode.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';
-  }, 100);
+  };
+
+  private autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
 
   private handleCut = (event: React.ClipboardEvent<HTMLTextAreaElement>) => {
     if (this.props.autoResize) {

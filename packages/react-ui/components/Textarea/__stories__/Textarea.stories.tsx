@@ -358,3 +358,19 @@ TextareaWithCounters.story = {
     },
   },
 };
+
+export const TextareaWithSingleRow: CSFStory<JSX.Element> = () => {
+  return <Textarea width={400} autoResize spellCheck={false} rows={1} extraRow={false} />;
+};
+TextareaWithSingleRow.story = {
+  name: 'Textarea with single row',
+};
+
+export const TextareaWithDisabledExtraRow: CSFStory<JSX.Element> = () => {
+  const value =
+    'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse. sit amet, consectetur adipisicing elit. Modi enim voluptatum esse';
+  return <Textarea width={400} autoResize spellCheck={false} extraRow={false} value={value} />;
+};
+TextareaWithDisabledExtraRow.story = {
+  name: 'Textarea with disabled extra row',
+};
