@@ -697,19 +697,21 @@ export class DefaultTheme {
   public static calendarCellTodayBorder = '1px solid #8b8b8b';
   public static calendarCellSelectedBgColor = '#e9e9e9';
   public static calendarCellSelectedFontColor = 'inherit';
+  public static calendarCellSize = '30px';
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
   }
-  public static calendarDayHeight = '30px';
-  public static calendarDayMarginRight = '0';
-  public static calendarDayMarginBottom = '0';
   public static calendarPaddingX = '15px';
-  public static calendarMonthTitleHeight = ' 40px';
+  public static calendarMonthTitleLineHeight = '24px';
+  public static calendarMonthTitlePaddingTop = '8px';
+  public static calendarMonthTitlePaddingBottom = '8px';
+  public static calendarMonthTitleMarginX = '0';
+  public static calendarMonthTitleMarginBottom = '10px';
   public static calendarWrapperHeight = ' 330px';
-  public static calendarMonthBottomMargin = '10px';
-  public static calendarMaxMonthsToAppendOnScroll = ' 5px';
+  public static calendarMonthMarginBottom = '10px';
+  public static calendarMaxMonthsToAppendOnScroll = '5';
   //#endregion
   //#region DatePicker
   public static dateSelectLineHeight = '24px';
@@ -737,6 +739,10 @@ export class DefaultTheme {
   public static pickerTodayWrapperBgColor = 'white';
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
+  public static pickerTodayWrapperFontSize = '14px';
+  public static pickerTodayWrapperLineHeight = 'normal';
+  public static pickerTodayWrapperPaddingTop = '7px';
+  public static pickerTodayWrapperPaddingBottom = '8px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {

@@ -2,43 +2,50 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  headerMonth() {
+  headerMonth(t: Theme) {
     return css`
       display: inline-block;
+      line-height: ${t.calendarMonthTitleLineHeight};
+      padding: ${t.calendarMonthTitlePaddingTop} 0 ${t.calendarMonthTitlePaddingBottom};
     `;
   },
 
-  headerYear() {
+  headerYear(t: Theme) {
     return css`
       display: inline-block;
       position: absolute;
       right: 0;
+      line-height: ${t.calendarMonthTitleLineHeight};
+      padding: ${t.calendarMonthTitlePaddingTop} 0 ${t.calendarMonthTitlePaddingBottom};
     `;
   },
 
   month(t: Theme) {
-    const width = parseInt(t.calendarDayHeight) * 7 + parseInt(t.calendarDayMarginRight) * 7;
+    const width = parseInt(t.calendarCellSize) * 7;
     return css`
       position: absolute;
       width: ${width}px;
+    `;
+  },
+
+  header(t: Theme) {
+    return css`
+      position: relative;
     `;
   },
 
   headerSticky(t: Theme) {
     return css`
       background-color: ${t.calendarMonthHeaderStickedBgColor};
-      z-index: 1;
+      z-index: 2;
     `;
   },
 
   monthTitle(t: Theme) {
-    const width = parseInt(t.calendarDayHeight) * 7 + parseInt(t.calendarDayMarginRight) * 6;
     return css`
       border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
       font-weight: ${t.dateSelectFontWeight};
-      margin-bottom: 10px;
-      position: relative;
-      width: ${width}px;
+      margin: 0 ${t.calendarMonthTitleMarginX} ${t.calendarMonthTitleMarginBottom};
     `;
   },
 };

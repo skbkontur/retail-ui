@@ -26,6 +26,8 @@ interface MonthProps {
 }
 
 export class Month extends React.Component<MonthProps> {
+  private theme!: Theme;
+
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
 
@@ -53,11 +55,22 @@ export class Month extends React.Component<MonthProps> {
   }
 
   public render() {
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return this.renderMain();
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMain() {
     const { month, maxDate, minDate, top } = this.props;
     return (
       <MonthView
         firstDayOffset={month.offset}
-        height={month.height}
+        height={month.getHeight(this.theme)}
         isFirstInYear={month.isFirstInYear}
         isLastInYear={month.isLastInYear}
         maxDate={maxDate}
@@ -166,8 +179,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
       <div>
         <div
           style={{
-            width:
-              this.props.offset * (themeConfig(this.theme).DAY_HEIGHT + parseInt(this.theme.calendarDayMarginRight)),
+            width: this.props.offset * themeConfig(this.theme).DAY_SIZE,
             display: 'inline-block',
           }}
         />

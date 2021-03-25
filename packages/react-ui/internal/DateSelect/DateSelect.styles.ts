@@ -15,15 +15,15 @@ const styles = {
       text-align: left;
 
       &:hover {
-        color: ${t.dateSelectLinkColor};
+        color: ${t.dateSelectLinkColor} !important;
       }
     `;
   },
 
   disabled() {
     return css`
-      color: inherit;
-      cursor: default;
+      color: inherit !important;
+      cursor: default !important;
     `;
   },
 
@@ -91,7 +91,7 @@ const styles = {
       color: ${t.dateSelectTextColorDefault};
       cursor: pointer;
       height: 24px;
-      line-height: ${t.dateSelectLineHeight};
+      line-height: 24px;
       padding-left: 10px;
       user-select: none;
       white-space: nowrap;
@@ -100,22 +100,22 @@ const styles = {
 
   menuItemSelected(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgSelected};
-      color: ${t.dateSelectMenuItemFontSelected};
+      background: ${t.dateSelectMenuItemBgSelected} !important;
+      color: ${t.dateSelectMenuItemFontSelected} !important;
     `;
   },
 
   menuItemActive(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgActive};
-      color: ${t.dateSelectMenuItemFontActive};
+      background: ${t.dateSelectMenuItemBgActive} !important;
+      color: ${t.dateSelectMenuItemFontActive} !important;
     `;
   },
 
   menuItemDisabled(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgDisabled};
-      color: ${t.dateSelectTextColorDisabled};
+      background: ${t.dateSelectMenuItemBgDisabled} !important;
+      color: ${t.dateSelectTextColorDisabled} !important;
       pointer-events: none;
     `;
   },

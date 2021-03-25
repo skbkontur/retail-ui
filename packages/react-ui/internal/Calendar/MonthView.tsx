@@ -80,38 +80,40 @@ export function MonthView(props: MonthViewProps) {
   return (
     <div data-tid="MonthView__month" className={jsStyles.month(theme)} style={{ top }} key={month + '-' + year}>
       <div
-        style={{ lineHeight: `${themeConfig(theme).MONTH_TITLE_HEIGHT}px`, top: headerTop, borderBottomColor }}
+        style={{ top: headerTop }}
         className={cn({
-          [jsStyles.monthTitle(theme)]: true,
+          [jsStyles.header(theme)]: true,
           [jsStyles.headerSticky(theme)]: isHeaderSticky,
         })}
       >
-        <div data-tid="MonthView__headerMonth" className={jsStyles.headerMonth()}>
-          <DateSelect
-            disabled={monthSelectDisabled}
-            width={85}
-            type="month"
-            value={month}
-            onValueChange={onMonthSelect}
-            ref={!monthSelectDisabled ? monthSelectRef : undefined}
-            minValue={getMinMonth(year)}
-            maxValue={getMaxMonth(year)}
-          />
-        </div>
-        {isYearVisible && (
-          <div data-tid="MonthView__headerYear" className={jsStyles.headerYear()} style={{ top: yearTop }}>
+        <div style={{ borderBottomColor }} className={jsStyles.monthTitle(theme)}>
+          <div data-tid="MonthView__headerMonth" className={jsStyles.headerMonth(theme)}>
             <DateSelect
-              disabled={yearSelectDisabled}
-              width={50}
-              type="year"
-              value={year}
-              minValue={minDate ? minDate.year : undefined}
-              maxValue={maxDate ? maxDate.year : undefined}
-              onValueChange={onYearSelect}
-              ref={!yearSelectDisabled ? yearSelectRef : undefined}
+              disabled={monthSelectDisabled}
+              width={85}
+              type="month"
+              value={month}
+              onValueChange={onMonthSelect}
+              ref={!monthSelectDisabled ? monthSelectRef : undefined}
+              minValue={getMinMonth(year)}
+              maxValue={getMaxMonth(year)}
             />
           </div>
-        )}
+          {isYearVisible && (
+            <div data-tid="MonthView__headerYear" className={jsStyles.headerYear(theme)} style={{ top: yearTop }}>
+              <DateSelect
+                disabled={yearSelectDisabled}
+                width={50}
+                type="year"
+                value={year}
+                minValue={minDate ? minDate.year : undefined}
+                maxValue={maxDate ? maxDate.year : undefined}
+                onValueChange={onYearSelect}
+                ref={!yearSelectDisabled ? yearSelectRef : undefined}
+              />
+            </div>
+          )}
+        </div>
       </div>
       {children}
     </div>

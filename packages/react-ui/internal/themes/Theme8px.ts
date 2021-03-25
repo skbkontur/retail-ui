@@ -459,11 +459,20 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXLarge = '15px';
   //#endregion
   //#region Calendar
-  public static calendarDayHeight = '20px';
-  public static calendarDayMarginRight = '12px';
-  public static calendarDayMarginBottom = '10px';
-  public static calendarPaddingX = '24px';
-  public static calendarMonthBottomMargin = '12px';
+  public static calendarCellSize = '32px';
+  public static calendarPaddingX = '18px';
+  public static calendarMonthTitleMarginBottom = '6px';
+  public static calendarMonthTitleLineHeight = '20px';
+  public static calendarMonthTitlePaddingTop = '12px';
+  public static calendarMonthTitlePaddingBottom = '8px';
+  public static calendarMonthTitleMarginX = '6px';
+  public static calendarMonthMarginBottom = '6px';
+  //#endregion
+  //#region DatePicker
+  public static dateSelectLineHeight = '20px';
+  public static pickerTodayWrapperLineHeight = '20px';
+  public static pickerTodayWrapperPaddingTop = '6px';
+  public static pickerTodayWrapperPaddingBottom = '6px';
   //#endregion
 }
 

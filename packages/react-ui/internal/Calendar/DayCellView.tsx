@@ -26,17 +26,8 @@ export function DayCellView(props: DayCellViewProps) {
     onDateClick?.({ date, month, year });
   };
 
-  const cellStyle = {
-    width: theme.calendarDayHeight,
-    height: theme.calendarDayHeight,
-    margin: ` 0 ${theme.calendarDayMarginRight} ${theme.calendarDayMarginBottom} 0`,
-    lineHeight: parseInt(theme.calendarDayHeight) - 2 + 'px',
-    borderRadius: parseInt(theme.calendarDayHeight) / 2,
-  };
-
   return (
     <button
-      style={cellStyle}
       tabIndex={-1}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
       className={cn({
