@@ -35,7 +35,7 @@ namespace SKBKontur.SeleniumTesting.Controls
                 {
                     var items = GetReactProp<JsonArray>("items");
                     var index = items.ToList().FindIndex(x => ElementMatchToValue(id, x));
-                    element.FindElements(By.CssSelector($"[data-comp-name='{"Radio"}']")).ElementAt(index).Click();
+                    element.FindElements(By.CssSelector($"[data-comp-name~='{"Radio"}']")).ElementAt(index).Click();
                 }, $"SelectItemById({id})");
         }
 
