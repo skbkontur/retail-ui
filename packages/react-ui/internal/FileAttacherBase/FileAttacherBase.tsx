@@ -64,11 +64,11 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     const selectedFiles = uploadFiles.filter(v => !!v.fileInBase64);
     const readErrorFiles = uploadFiles.filter(v => !v.fileInBase64);
 
-    onSelect && onSelect(selectedFiles);
-    onReadError && onReadError(readErrorFiles);
-
     // TODO @mozalov: подумать над тем, чтобы setFiles делать только в одном месте, в UploadFilesProvider
     setFiles(selectedFiles);
+
+    onSelect && onSelect(selectedFiles);
+    onReadError && onReadError(readErrorFiles);
   }, [onReadError, onSelect, setFiles]);
 
   const handleDrop = useCallback(event => {
