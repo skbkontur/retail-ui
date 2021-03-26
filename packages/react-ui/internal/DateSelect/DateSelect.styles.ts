@@ -100,8 +100,8 @@ const styles = {
 
   menuItemSelected(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgSelected} !important;
-      color: ${t.dateSelectMenuItemFontSelected} !important;
+      background: ${t.dateSelectMenuItemBgSelected};
+      color: ${t.dateSelectMenuItemFontSelected};
     `;
   },
 
