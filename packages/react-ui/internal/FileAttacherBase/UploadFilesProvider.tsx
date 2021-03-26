@@ -2,37 +2,54 @@ import React, { ComponentType, PropsWithChildren, useCallback, useState } from '
 import { useContextValue } from '../../hooks/useContextValue';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 import { UploadFilesContext } from './UploadFilesContext';
-import { FileAttacherBaseProps, FileError } from './FileAttacherBase';
+import { FileAttacherBaseProps } from './FileAttacherBase';
 import { ValidationResult } from './ValidationResult';
 
+// TODO @mozalov: разобраться с пересечениями пропсов
 interface IUploadFilesProviderProps {
-  // FIXME @mozalov: а нужно ли оно?
   onChange?: (files: IUploadFile[]) => void;
-  fileError?: FileError[];
+
+  onRemove?: (fileId: string) => void;
 }
+
+const updateFile = (
+  files: IUploadFile[],
+  fileId: string,
+  getFileUpdatedProps: (file: IUploadFile) => Partial<IUploadFile>
+): IUploadFile[] => {
+  const fileIndex = files.findIndex(file => file.id === fileId);
+  if (fileIndex === -1) return files;
+
+  const newFiles = [...files];
+  const file = files[fileIndex];
+
+  const updatedProps = getFileUpdatedProps(file);
+
+  newFiles[fileIndex] = {
+    ...file,
+    ...updatedProps
+  };
+
+  return newFiles;
+};
+
 // FIXME @mozalov: вынести валидацию вне файла или нет? (возможна нужна для того, чтобы вне контрола понимали состояние валидности)
 
 export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProviderProps>) => {
-  const {children, onChange, fileError = []} = props;
+  const {children, onChange, onRemove} = props;
 
+  // в files попадат только те, что попали в onSelect
   const [files, setFiles] = useState<IUploadFile[]>([]);
 
   const setFileStatus = useCallback((fileId: string, status: UploadFileStatus) => {
     setFiles(files => {
-      const fileIndex = files.findIndex(file => file.id === fileId);
-      if (fileIndex === -1) return files;
-
-      const newFiles = [...files];
-      const file = files[fileIndex];
-      newFiles[fileIndex] = {
-        ...file,
-        status,
-        validationResult: status === UploadFileStatus.Error
-          ? ValidationResult.error('Файл не удалось загрузить на сервер, повторите попытку позже')
-          : file.validationResult
-      };
-
-      return newFiles;
+      return updateFile(files, fileId, file => {
+        return {
+          validationResult: status === UploadFileStatus.Error
+            ? ValidationResult.error('Файл не удалось загрузить на сервер, повторите попытку позже')
+            : file.validationResult
+        };
+      });
     });
   }, []);
 
@@ -42,14 +59,19 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
       onChange && onChange(newFiles);
       return newFiles;
     });
-  }, [])
+  }, [onChange])
 
   const removeFile = useCallback((fileId: string) => {
+    onRemove && onRemove(fileId);
     setFiles(state => {
       const newFiles = state.filter(file => file.id !== fileId);
       onChange && onChange(newFiles);
       return newFiles;
     });
+  }, [onChange, onRemove]);
+
+  const setFileValidationResult = useCallback((fileId: string, validationResult: ValidationResult) => {
+    setFiles(files => updateFile(files, fileId, () => ({validationResult})));
   }, []);
 
   return (
@@ -58,7 +80,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
       files,
       setFiles: externalSetFiles,
       removeFile,
-      fileError
+      setFileValidationResult
     })}>
       {children}
     </UploadFilesContext.Provider>

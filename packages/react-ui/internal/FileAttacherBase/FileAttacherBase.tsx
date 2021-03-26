@@ -2,10 +2,7 @@ import React, { ReactNode, useCallback, useContext, useRef } from 'react';
 import { jsStyles } from './FileAttacherBase.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import cn from 'classnames';
-import {
-  IUploadFile,
-  readFiles,
-} from '../../lib/fileUtils';
+import { IUploadFile, readFiles } from '../../lib/fileUtils';
 import { UploadFileList } from './UploadFileList/UploadFileList';
 import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
@@ -32,17 +29,14 @@ export type FileError = {
 
 export interface FileAttacherBaseProps {
   name?: string;
-  // TODO изучить как можно прикрутить валидацию
-  allowedFileTypes?: string[];
   disabled?: boolean;
   id?: string;
   multiple?: boolean;
-
-  // FIXME @mozalov: а нужно ли оно?
-  onChange?: (files: IUploadFile[]) => void;
   controlError?: ReactNode;
 
+  onChange?: (files: IUploadFile[]) => void;
   onSelect?: (files: IUploadFile[]) => void;
+  onRemove?: (fileId: string) => void;
   onReadError?: (files: IUploadFile[]) => void;
 }
 
@@ -71,10 +65,10 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     const readErrorFiles = uploadFiles.filter(v => !v.fileInBase64);
 
     onSelect && onSelect(selectedFiles);
-    // FIXME @mozalov: обработать onReadError в провайдере, чтобы файлы попали в state files
     onReadError && onReadError(readErrorFiles);
 
-    setFiles(uploadFiles);
+    // TODO @mozalov: подумать над тем, чтобы setFiles делать только в одном месте, в UploadFilesProvider
+    setFiles(selectedFiles);
   }, [onReadError, onSelect, setFiles]);
 
   const handleDrop = useCallback(event => {

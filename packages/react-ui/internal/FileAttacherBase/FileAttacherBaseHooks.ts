@@ -69,23 +69,12 @@ export const useDrop = (props: IUseDropProps): IUseDropResult => {
   return {isDraggable, ref: droppableRef};
 };
 
-export const useValidationSetter = (fileErrors: FileError[]) => {
-  const {setFiles, files} = useContext(UploadFilesContext);
+export const useValidationSetter = (fileErrors: FileError[] = []) => {
+  const {setFileValidationResult} = useContext(UploadFilesContext);
 
   useEffect(() => {
     fileErrors.forEach(({fileId, message}) => {
-      const fileIndex = files.findIndex(file => file.id === fileId);
-      if (fileIndex === -1) return;
-
-      const newFiles = [...files];
-      const file = files[fileIndex];
-
-      newFiles[fileIndex] = {
-        ...file,
-        validationResult: ValidationResult.error(message)
-      };
-
-      setFiles(newFiles);
+      setFileValidationResult(fileId, ValidationResult.error(message));
     });
   }, [fileErrors]);
 };
