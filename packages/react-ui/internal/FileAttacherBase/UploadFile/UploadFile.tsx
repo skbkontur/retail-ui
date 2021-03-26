@@ -27,6 +27,7 @@ export const UploadFile = (props: ReadFileProps) => {
   const {id, originalFile, status, validationResult} = file;
   const {name, size} = originalFile;
 
+  const [hovered, setHovered] = useState<boolean>(false);
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameSpanRef = useRef<HTMLSpanElement>(null);
   const {removeFile} = useContext(UploadFilesContext);
@@ -72,6 +73,12 @@ export const UploadFile = (props: ReadFileProps) => {
   const { isValid, message } = validationResult;
 
   const icon: ReactNode = useMemo(() => {
+    const deleteIcon = <DeleteIcon color="#808080" onClick={handleRemove} />;
+
+    if (hovered) {
+      return deleteIcon;
+    }
+
     switch (status) {
       case UploadFileStatus.Loading:
         return <Spinner type="mini" dimmed caption="" />;
@@ -81,9 +88,9 @@ export const UploadFile = (props: ReadFileProps) => {
         if (!isValid) {
           return <ErrorIcon />;
         }
-        return <DeleteIcon color="#808080" onClick={handleRemove} />;
+        return deleteIcon;
     }
-  }, [status, isValid, handleRemove]);
+  }, [hovered, status, isValid, handleRemove]);
 
 
   const renderTooltipContent = useCallback((): ReactNode => {
@@ -94,8 +101,16 @@ export const UploadFile = (props: ReadFileProps) => {
     [jsStyles.error()]: !isValid
   }), [isValid]);
 
+  const handleMouseEnter = useCallback(() => {
+    setHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setHovered(false);
+  }, []);
+
   return (
-    <div className={jsStyles.root()}>
+    <div className={jsStyles.root()} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Tooltip pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
             <TextWidthHelper ref={textHelperRef} text={name} />
