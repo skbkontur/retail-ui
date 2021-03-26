@@ -777,20 +777,52 @@ export class DefaultTheme {
   public static calendarCellTodayBorder = '1px solid #8b8b8b';
   public static calendarCellSelectedBgColor = '#e9e9e9';
   public static calendarCellSelectedFontColor = 'inherit';
+  public static calendarCellSize = '30px';
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
   }
+  public static calendarPaddingX = '15px';
+  public static calendarMonthTitleLineHeight = '24px';
+  public static calendarMonthTitlePaddingTop = '8px';
+  public static calendarMonthTitlePaddingBottom = '8px';
+  public static calendarMonthTitleMarginX = '0';
+  public static calendarMonthTitleMarginBottom = '10px';
+  public static calendarWrapperHeight = ' 330px';
+  public static calendarMonthMarginBottom = '10px';
+  public static calendarMaxMonthsToAppendOnScroll = '5';
   //#endregion
   //#region DatePicker
+  public static dateSelectLineHeight = '24px';
+  public static dateSelectFontSize = '14px';
+  public static dateSelectFontWeight = 'bold';
   public static dateSelectMenuItemBgSelected = '#ececec';
+  public static get dateSelectTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get dateSelectTextColorDefault() {
+    return this.textColorDefault;
+  }
+  public static get dateSelectLinkColor() {
+    return this.linkColor;
+  }
+  public static get dateSelectPopupBoxShadow() {
+    return this.popupBoxShadow;
+  }
+  public static get dateSelectTextColorInvert() {
+    return this.textColorInvert;
+  }
   public static datePickerOpenBtnColor = '#333';
   public static pickerBg = '#fff';
   public static pickerShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';
   public static pickerTodayWrapperBgColor = 'white';
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
+  public static pickerTodayWrapperFontSize = '14px';
+  public static pickerTodayWrapperLineHeight = 'normal';
+  public static pickerTodayWrapperPaddingTop = '7px';
+  public static pickerTodayWrapperPaddingBottom = '8px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
