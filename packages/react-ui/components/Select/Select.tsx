@@ -28,6 +28,7 @@ import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -342,8 +343,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         <span {...labelProps}>
           <span className={jsStyles.labelText()}>{params.label}</span>
         </span>
-        <div className={jsStyles.arrowWrap()} style={{ right: this.getLegacyArrowShift() }}>
-          <div className={cn(jsStyles.arrow(this.theme), useIsCustom && jsStyles.customUseArrow())} />
+
+        <div className={jsStyles.arrowWrap(this.theme)} style={{ right: this.getLegacyArrowShift() }}>
+          <ArrowChevronDownIcon />
         </div>
       </Button>
     );

@@ -23,31 +23,13 @@ const styles = {
     `;
   },
 
-  arrow(t: Theme) {
-    return css`
-      border: 4px solid transparent;
-      border-bottom-width: 0;
-      border-top-color: ${t.selectMenuArrowColor};
-
-      display: inline-block;
-      margin-bottom: 3px;
-      vertical-align: middle;
-    `;
-  },
-
-  arrowWrap() {
+  arrowWrap(t: Theme) {
     return css`
       position: absolute;
       top: 0;
       bottom: 0;
       right: 0;
-
-      &::before {
-        content: '';
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-      }
+      color: ${t.selectMenuArrowColor};
     `;
   },
 
