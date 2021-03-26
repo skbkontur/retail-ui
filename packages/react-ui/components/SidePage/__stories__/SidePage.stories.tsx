@@ -653,7 +653,7 @@ BodyWithoutFooter.story = {
             // @ts-ignore
             sidepageContainer.scrollTop = 3000;
           });
-          await delay(100);
+          await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom');
         },
       },
